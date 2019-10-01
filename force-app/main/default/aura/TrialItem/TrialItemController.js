@@ -31,7 +31,11 @@
             form.show();
         } else {
             component.find('mainSpinner').hide();
-            window.open(trial.ctp.Link_to_ePR_Campaign__c);
+            let urlEpr = trial.ctp.Link_to_ePR_Campaign__c;
+            if (!urlEpr.match('https?:\/\/')) {
+                urlEpr = 'http://' + urlEpr;
+            }
+            window.open(urlEpr);
         }
     },
 

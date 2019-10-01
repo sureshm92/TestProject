@@ -46,6 +46,7 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                         Participant_Contact__r.Language__c,
                         Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
                         Participant_Contact__r.Resource_Notifications__c,
+                        Participant_Contact__r.userCommunityMode__c,
                         Participant_Status__c
                 FROM Participant_Enrollment__c
                 WHERE Clinical_Trial_Profile__c IN:resStudyByCtp.keySet()
@@ -64,7 +65,7 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
             for (Res_study__c res : resStudyByCtp.get(pe.Clinical_Trial_Profile__c)) {
                 for (Contact contact : peContacts) {
                     Boolean isDelegate = pe.Participant_Contact__c != contact.Id;
-                    if (StudyResourceVisibilityService.isResourceVisibleForPE(res, pe, isDelegate)) {
+                    if (StudyResourceVisibilityService.isResourceVisibleForPE(res, pe, contact.userCommunityMode__c, isDelegate)) {
                         if (needNotify(contact, res.Resource__c)) {
                             contactToNotify.add(contact);
 

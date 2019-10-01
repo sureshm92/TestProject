@@ -72,7 +72,7 @@ public without sharing class RRChangePasswordController {
                 FROM User WHERE Id =: userId
         ];
         contact = userVal.Contact;
-        notEnrollNow = !(contact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP) && contact.userCommunityMode__c == CommunityService.USER_MODE_HCP);
+        notEnrollNow = !((contact.userCommunytyType__c == null || contact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)) && contact.userCommunityMode__c == CommunityService.USER_MODE_HCP);
 
         Contact cont = [
                 SELECT Id, Account.Name, Account.Phone, Account.BillingStreet,
@@ -161,6 +161,25 @@ public without sharing class RRChangePasswordController {
                         Fax = contact.Fax,
                         OwnerId = contact.OwnerId
                 );
+            }
+
+            List<HCP_Enrollment__c> hcpEnrollments = [SELECT Id,
+                                                             HCP_Contact__c,
+                                                             Status__c
+                                                      FROM HCP_Enrollment__c
+                                                      WHERE HCP_Contact__c = :contact.Id AND
+                                                            Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION];
+            for (HCP_Enrollment__c hcpe : hcpEnrollments) {
+                hcpe.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+            }
+            if (!hcpEnrollments.isEmpty()) {
+                update hcpEnrollments;
+            }
+            for (HCP_Enrollment__c hcpe : hcpEnrollments) {
+                hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+            }
+            if (!hcpEnrollments.isEmpty()) {
+                update hcpEnrollments;
             }
         }
     }

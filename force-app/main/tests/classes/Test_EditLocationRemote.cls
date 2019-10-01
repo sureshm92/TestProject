@@ -37,45 +37,21 @@ private class Test_EditLocationRemote {
 
     @IsTest
     static void upsertAccountTest() {
+        TestData.loadTestData();
+        TestData testData = new TestData();
+
         Test.startTest();
-        Clinical_Trial_Profile__c study = new Clinical_Trial_Profile__c(
-                Protocol_ID__c = 'tt123456789',
-                Override_Recruitment_Status__c = 'Actively Enrolling',
-                NCT_Number__c = 'NCT00000001',
-                Link_to_Pre_screening__c = 'some link',
-                Study_Title__c = 'Some Title',
-                Study_Code_Name__c = 'Some Code Name',
-                Suppress_Participant_Emails__c = false,
-                Synch_with_TMDH__c = true,
-                Include_in_RP_trial_search__c = true
-        );
-        insert study;
-        Account studySiteAccount = new Account(Name = 'studySiteAccount', BillingCountryCode = 'US', BillingCity = 'New York', BillingStreet = '170 William St', BillingStateCode = 'NY');
-        insert studySiteAccount;
-        Contact piContact = new Contact(
-                FirstName = 'PI',
-                LastName = 'PI',
-                Email = 'pi@emil.com',
-                AccountId = studySiteAccount.Id
-        );
-        insert piContact;
-        Study_Site__c studySite = new Study_Site__c(
-                Principal_Investigator__c = piContact.Id,
-                Clinical_Trial_Profile__c = study.Id,
-                Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED,
-                Site__c = studySiteAccount.Id,
-                Study_Site_Type__c = 'Traditional',
-                Suppress_Participant_Emails__c = false
-        );
-        insert studySite;
+        Study_Site__c studySite = [SELECT Id FROM Study_Site__c LIMIT 1];
         Account testAccount = new Account(Name = 'testAccount', BillingCountryCode = 'US', BillingCity = 'New York', BillingStreet = '170 William St', BillingStateCode = 'NY');
-        Account testAcc = Action_EditLocationRemote.upsertAccount(JSON.serialize(testAccount),studySite.Id);
-        System.assertNotEquals(null, testAcc.Id);
-        Account testSubAcc = Action_EditLocationRemote.upsertAccount(JSON.serialize(testAcc),studySite.Id);
-        System.assertNotEquals(null, testSubAcc.ParentId);
-        testSubAcc.Name = 'subAccount';
-        Account updatedSubAccount = Action_EditLocationRemote.upsertAccount(JSON.serialize(testSubAcc),studySite.Id);
-        System.assertEquals('subAccount', updatedSubAccount.Name);
+        System.runAs(testData.piUser) {
+            Account testAcc = Action_EditLocationRemote.upsertAccount(JSON.serialize(testAccount), studySite.Id);
+            System.assertNotEquals(null, testAcc.Id);
+            Account testSubAcc = Action_EditLocationRemote.upsertAccount(JSON.serialize(testAcc),studySite.Id);
+            System.assertNotEquals(null, testSubAcc.ParentId);
+            testSubAcc.Name = 'subAccount';
+            Account updatedSubAccount = Action_EditLocationRemote.upsertAccount(JSON.serialize(testSubAcc),studySite.Id);
+            System.assertEquals('subAccount', updatedSubAccount.Name);
+        }
         Test.stopTest();
     }
 }

@@ -205,13 +205,15 @@ public without sharing class ManualCreationPanelRemote {
         Reminder_Schedule__c rs = rsList.isEmpty() ? null : rsList.get(0);
 
         List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
+        Id communityId = CommunityService.getCommunityId(null);
         for (Participant_Enrollment__c pe : filter.getContactsWithPE().values()) {
             newInvitations.add(SurveyService.getInstance().generateInvitation(
                     survey,
                     rs,
                     wrapper.daysToExpire,
                     wrapper.expireOnAlumni,
-                    pe.Id
+                    pe.Id,
+                    communityId
             ));
         }
 

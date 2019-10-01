@@ -51,6 +51,17 @@ global without sharing class ReferHealthcareProviderRemote {
                     hp.lastName = contacts[0].LastName;
                 }
                 hp.email = contacts[0].Email;
+                List<Healthcare_Provider__c> isDuplicate = [
+                        SELECT Id
+                        FROM Healthcare_Provider__c
+                        WHERE Participant_Enrollment__c = :peId
+                        AND Email__c = :email
+                ];
+                if (!isDuplicate.isEmpty()) {
+                    hp.isDuplicate = true;
+                } else{
+                    hp.isDuplicate = false;
+                }
 
                 /*Healthcare_Provider__c newHP = new Healthcare_Provider__c();
                 newHP.Participant_Enrollment__c = peId;
@@ -93,10 +104,12 @@ global without sharing class ReferHealthcareProviderRemote {
     }
 
     public static String createHCPinPlatform(String studySiteId, String firstName, String lastName, String email, String phone, Contact piContact) {
+        Boolean isNewUser = false;
+
         Study_Site__c studySite = [SELECT Id, Site__c, Site__r.BillingCountry FROM Study_Site__c WHERE Id = :studySiteId];
         List<Contact> cntList =
             [SELECT Id, userCommunityMode__c, userCommunytyType__c, MailingCountry, MailingCity,
-                    MailingPostalCode, MailingState, MailingStreet
+                    MailingPostalCode, MailingState, MailingStreet, AccountId
              FROM Contact
              WHERE Email = :email OR
                    Email = :email.toLowerCase() LIMIT 1];
@@ -121,6 +134,7 @@ global without sharing class ReferHealthcareProviderRemote {
         List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id> { cntList[0].Id });
 
         if (usrs.isEmpty()) {
+            isNewUser = true;
             ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id> { cntList[0].Id });
         }
         if (cntList[0].userCommunytyType__c == null) {
@@ -134,13 +148,19 @@ global without sharing class ReferHealthcareProviderRemote {
 
         HCP_Enrollment__c hcpe = new HCP_Enrollment__c(
                 HCP_Contact__c = cntList[0].Id,
-                Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT,
+                HCP_Account__c = cntList[0].AccountId,
+                Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION,
                 Study_Site__c = (String.isBlank(studySiteId) ? null : studySiteId)
         );
+        if (!isNewUser) {
+            hcpe.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+        }
         insert hcpe;
 
-        hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
-        update hcpe; 
+        if (!isNewUser) {
+            hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+            update hcpe;
+        }
 
         return hcpe.Id;
     }
@@ -154,6 +174,7 @@ global without sharing class ReferHealthcareProviderRemote {
         @AuraEnabled public String email { get; set; }
         @AuraEnabled public String firstName { get; set; }
         @AuraEnabled public String lastName { get; set; }
+        @AuraEnabled public Boolean isDuplicate { get; set; }
     }
 
 }
