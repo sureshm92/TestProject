@@ -270,7 +270,7 @@ public without sharing class ParametersDataProvider {
             parameters.put('PIName', getFullContactName(cnt));
             parameters.put('PILanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_HCP){
-            if (cnt.OwnerId.getSobjectType() == User.getSObjectType() && cnt.Owner.ContactId != null) {
+            if (cnt.Owner.ContactId != null) {
                 Contact piContact = [SELECT Id, Salutation, Name, FirstName, LastName FROM Contact WHERE Id = :cnt.Owner.ContactId];
                 parameters.put('PIName', getFullContactName(piContact));
             }

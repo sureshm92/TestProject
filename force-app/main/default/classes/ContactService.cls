@@ -98,7 +98,8 @@ public without sharing class ContactService {
             if(resStudyForCtpList != null){
                 for(Res_study__c resStudy : resStudyForCtpList){
                     Boolean isDelegate = pe.Participant__r.Contact__c != CommunityService.getUserContact().Id;
-                    if(StudyResourceVisibilityService.isResourceVisibleForPE(resStudy, pe, isDelegate)){
+                    if(StudyResourceVisibilityService.isResourceVisibleForPE(
+                            resStudy, pe, CommunityService.USER_MODE_PARTICIPANT, isDelegate)){
                         resources.add(new ResourceService.ResourceWrapper(resStudy.Resource__r, translatedItemsMap.get(resStudy.Resource__c)));
                     }
                 }
