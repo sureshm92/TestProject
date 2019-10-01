@@ -40,12 +40,12 @@ public with sharing class TrialSearchWhereClauseFactory {
     public WhereClause getInstance(List<Id> taIds, Boolean isEnrolling, Boolean isNotYetEnrolling, Set<Id> userQCareSSIds) {
         WhereClause idFilteredClause = new IdFilteredWhereClause(taIds);
         WhereClause enrolledIdFilteredClause = this.getEnrollingExtendedWhereClause(idFilteredClause, isEnrolling, isNotYetEnrolling);
-        if (!userQCareSSIds.isEmpty()) {
+        if (userQCareSSIds != null && !userQCareSSIds.isEmpty()) {
             WhereClause qCareEnrolledidFilteredClause = new QCareWhereClauseDecorator(enrolledIdFilteredClause, userQCareSSIds);
             return qCareEnrolledidFilteredClause;
-        } else {
-            return enrolledIdFilteredClause;
         }
+
+        return enrolledIdFilteredClause;
     }
 
     private WhereClause getEnrollingExtendedWhereClause(WhereClause clause, Boolean isEnrolling, Boolean isNotYetEnrolling) {
@@ -72,7 +72,7 @@ public with sharing class TrialSearchWhereClauseFactory {
         }
 
         public virtual String getWhereClause() {
-            return clause.getWhereClause();
+            return clause != null ? clause.getWhereClause() : '';
         }
     }
 

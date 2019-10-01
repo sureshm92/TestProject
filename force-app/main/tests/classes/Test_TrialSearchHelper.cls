@@ -5,41 +5,80 @@
 @IsTest
 private class Test_TrialSearchHelper {
 
+    @TestSetup
+    static void setup() {
+        TestDataFactory.createInitData();
+    }
+
     @IsTest
-    static void getInitTrialSearchContainer_Test() {
-        User usr = makePortalUser();
-        System.runAs(usr) {
-            Participant__c participant = new Participant__c();
+    static void isCtpEnrolling_Test() {
+        Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType(), new Map<String, Object>{
+                'Override_Recruitment_Status__c' => TrialSearchWhereClauseFactory.ACTIVELY_ENROLLING
+        });
+        TrialSearchHelper helper = new TrialSearchHelper();
+        System.assert(helper.isCtpEnrolling(ctp));
+
+        ctp.Override_Recruitment_Status__c = null;
+        ctp.Recruitment_Status__c = TrialSearchWhereClauseFactory.OPEN_TO_ENROLLMENT;
+        System.assert(helper.isCtpEnrolling(ctp));
+    }
+
+    @IsTest
+    static void getFilteredTherapeuticAreas_test() {
+
+        Id coiRecTypeId = Schema.SObjectType.Therapeutic_Area__c.getRecordTypeInfosByDeveloperName().get('Condition_of_Interests').getRecordTypeId();
+        List<Therapeutic_Area__c> cois = new List<Therapeutic_Area__c>{
+                (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType(), new Map<String, Object> {
+                        'Name' => 'coi1',
+                        'RecordTypeId' => coiRecTypeId
+                }),
+                (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType(), new Map<String, Object> {
+                        'Name' => 'coi2',
+                        'RecordTypeId' => coiRecTypeId
+                })
+        };
+        insert cois;
+
+        List<Therapeutic_Area__c> filteredCois = new TrialSearchHelper().getFilteredTherapeuticAreas('coi', new List<Id>{cois[0].Id});
+        System.assertEquals(1, filteredCois.size());
+        System.assertEquals(cois[1].Id, filteredCois[0].Id);
+    }
+
+    @IsTest
+    static void getInitTrialSearchContainer_test() {
+        Therapeutic_Area__c ta = [SELECT Id, Name FROM Therapeutic_Area__c LIMIT 1];
+        Therapeutic_Area__c coi = (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType(), new Map<String, Object> {
+            'Name' => 'coi1',
+            'Therapeutic_Area__c' => ta.Id,
+            'RecordTypeId' => Schema.SObjectType.Therapeutic_Area__c.getRecordTypeInfosByDeveloperName().get('Condition_of_Interests').getRecordTypeId()
+        });
+        insert coi;
+        Participant__c participant = [SELECT Id, Contact__c FROM Participant__c LIMIT 1];
+        Therapeutic_Area_Patient__c tap = (Therapeutic_Area_Patient__c) TestDataFactory.getSObject(Therapeutic_Area_Patient__c.getSObjectType(), new Map<String, Object> {
+            'Condition_Of_Interest_Order__c' => 1,
+            'Therapeutic_Area__c' => coi.Id,
+            'Participant__c' => participant.Id
+        });
+        insert tap;
+        User usr = [SELECT Id FROM User WHERE ContactId = :participant.Contact__c];
+        TrialSearchContainerRemote.TrialSearchContainer container;
+        Test.startTest();
+        System.runAs(usr){
+            container = new TrialSearchHelper().getInitTrialSearchContainer();
         }
+        Test.stopTest();
+
+        System.assertEquals(1, container.trialTDOs.size());
     }
 
 
-    private static User makePortalUser() {
-        Account acc = new Account (
-                Name = 'newAcc1'
-        );
-        insert acc;
-        Contact cont = new Contact (
-                AccountId = acc.Id,
-                LastName = 'portalTestUser1',
-                RRCookiesAllowedCookie__c = false,
-                RRLanguageAllowedCookie__c = true
-        );
-        insert cont;
-
-        Profile profile = [SELECT Id FROM Profile WHERE Name = :CommunityService.COMMUNITY_USER_PROFILE_NAME];
-        return new User(
-                ProfileId = profile.Id,
-                Username = 'asdfghjkl@test.unittest',
-                Email = 'pb@f.com',
-                EmailEncodingKey = 'UTF-8',
-                LocaleSidKey = 'en_US',
-                LanguageLocaleKey = 'en_US',
-                TimeZoneSidKey = 'America/Los_Angeles',
-                Alias = 'nuser',
-                LastName = 'lastname',
-                ContactId = cont.Id
-        );
+    private static List<Trial_Notification__c> selectTrialNotifications() {
+        return [
+                SELECT Id
+                , Contact__c
+                , Clinical_Trial_Profile__c
+                FROM Trial_Notification__c
+        ];
     }
 
 }
