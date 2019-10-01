@@ -1695,6 +1695,15 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Please login and check Visits data become available.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_By_PI_RP1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body By PI RP1</shortDescription>
+        <value>You have been invited to track a patient&#39;s progress in the IQVIA Referral Hub by ##PIName, at the patient&#39;s request. If you are not already a Referring Provider in the system , this will also make it possible for you to find other clinical research studies that are available and refer patients to nearby study sites.
+
+            Please take a moment to log in to the Referral Hub, access &quot;My Studies,&quot; review your patient&#39;s study, and access My Patients to see details about the patient who requested that you have visibility to their study status.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Case</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1766,9 +1775,9 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial PI PT HCP</shortDescription>
-        <value>You have been invited to track a patient's progress in the IQVIA Referral Hub by ##PIName, at the patient's request. The first step is for you to enroll in the IQVIA Referral Hub.
+        <value>You have been invited to track a patient&#39;s progress in the IQVIA Referral Hub by ##PIName, at the patient&#39;s request. The first step is for you to enroll in the IQVIA Referral Hub.
 
-            Once enrolled, access "My Studies" to review your patient's study and access "My Patients" to see details about the patient who requested that you have visibility to their study status. You can also search for other studies that are available and refer patients to nearby and virtual study sites.
+            Once enrolled, access &quot;My Studies&quot; to review your patient&#39;s study and access &quot;My Patients&quot; to see details about the patient who requested that you have visibility to their study status. You can also search for other studies that are available and refer patients to nearby and virtual study sites.
 
             If you believe you have received this invitation in error, please notify support@cp.clincialresearch.com.
 
@@ -2073,15 +2082,6 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <value>A new clinical research study has been added to your account on the IQVIA Referral Hub: ##StudyTitle
 
             Please take a moment to log in to the Referral Hub, access &quot;My Studies,&quot; and review and accept this study. You will then be able to easily connect with study sites and begin referring patients to this study through Referral Hub.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_By_PI_RP1</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body By PI RP1</shortDescription>
-        <value>You have been invited to track a patient's progress in the IQVIA Referral Hub by ##PIName, at the patient's request. If you are not already a Referring Provider in the system , this will also make it possible for you to find other clinical research studies that are available and refer patients to nearby study sites.
-
-            Please take a moment to log in to the Referral Hub, access "My Studies," review your patient's study, and access My Patients to see details about the patient who requested that you have visibility to their study status.</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP11</fullName>
@@ -3274,6 +3274,13 @@ Sincerely,
         <protected>false</protected>
         <shortDescription>Haemoglobin Description</shortDescription>
         <value>Hemoglobin is a protein that contains iron. Hemoglobin can be found in all red blood cells and it is what makes your red blood cells look red. Its main responsibility is to carry oxygen through the body. A hemoglobin test measures the amount of hemoglobin that is present in your blood sample. Hemoglobin is measured to check your general health and to check for conditions that influence your hemoglobin level.</value>
+    </labels>
+    <labels>
+        <fullName>HealCare_Provider_Already_Connected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealCare Provider Already Connected</shortDescription>
+        <value>This RP was successfully connected to the participant</value>
     </labels>
     <labels>
         <fullName>HealCare_Provider_Message</fullName>
@@ -5085,18 +5092,18 @@ View study documents and other resources including articles and videos related t
         <value>Suffix</value>
     </labels>
     <labels>
-        <fullName>PG_AS_F_Username</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG AS F Username</shortDescription>
-        <value>Username</value>
-    </labels>
-    <labels>
         <fullName>PG_AS_F_Title</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG_AS_F_Title</shortDescription>
         <value>Title</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Username</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F Username</shortDescription>
+        <value>Username</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Zip_Postal_Code</fullName>
