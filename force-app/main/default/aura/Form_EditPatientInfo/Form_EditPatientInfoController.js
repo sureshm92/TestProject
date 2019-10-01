@@ -26,6 +26,7 @@
             screeningIdRequired = isFinalUpdate || screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1;
             component.set('v.visitPlanDisabled', pe.Id && screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1);
         }
+        let isVisitPlanNotRequired = !component.get('v.visitPlanRequired') || !screeningIdRequired;
         component.set('v.screeningRequired', screeningIdRequired);
         if (updateMode && !isFinalUpdate && dataStamp) {
             var oldPE = JSON.parse(dataStamp);
@@ -57,7 +58,7 @@
                 participant.Mailing_Zip_Postal_Code__c !== '' &&
                 pe &&
                 pe.Participant_Status__c &&
-                pe.Visit_Plan__c &&
+                (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
                 component.find('emailInput').get('v.validity').valid &&
                 pe.Screening_ID__c &&
                 (!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
@@ -77,6 +78,7 @@
                 component.find('emailInput').get('v.validity').valid &&
                 (!isEnrollmentSuccess || (isEnrollmentSuccess && pe.Screening_ID__c)) &&
                 (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)) &&
+                (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
                 pe.Referred_By__c;
         }
         component.set('v.isValid', isValid);

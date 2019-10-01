@@ -18,7 +18,6 @@
             var params = event.getParam('arguments');
             var pe = JSON.parse(JSON.stringify(params.pe));
             component.set('v.actions',JSON.parse(JSON.stringify(params.actions)));
-            component.set('v.participant', pe.Participant__r);
             component.set('v.popUpTitle', pe.Participant__r.Full_Name__c + ' ' + $A.get('$Label.c.PE_Info_PopUp_Title') + ' ' + pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c);
             component.set('v.pathItems', JSON.parse(JSON.stringify(params.pathItems)));
             component.set('v.rootComponent', params.rootComponent);
@@ -31,7 +30,6 @@
                 returnValue = JSON.parse(returnValue);
                 component.set('v.statusSteps', returnValue.steps);
                 component.set('v.formData.visitPlansLVList', returnValue.visitPlanLVList);
-                component.set('v.pe', returnValue.enrollment);
                 component.set('v.isFinalUpdate', false);
                 component.set('v.initialized', true);
                 setTimeout($A.getCallback(function () {
@@ -41,6 +39,7 @@
                     component.find('spinner').hide();
                     component.set('v.anchor', params.anchorScroll);
                     component.set('v.pe', returnValue.enrollment);
+                    component.set('v.participant', pe.Participant__r);
                     formComponent.checkFields();
                     document.getElementById(params.anchorScroll).scrollIntoView({
                         behavior: 'smooth',

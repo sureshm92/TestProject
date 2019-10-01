@@ -14,6 +14,7 @@
     <aura:attribute name="isValid" type="Boolean" default="false" access="public"/>
     <aura:attribute name="isFinalUpdate" type="Boolean" default="false"/>
     <aura:attribute name="isRefreshView" type="Boolean" default="false"/>
+    <aura:attribute name="visitPlanRequired" type="Boolean" default="false"/>
 
     <!-- private attributes: -->
     <aura:attribute name="screeningRequired" type="Boolean" default="false" access="private"/>
@@ -158,17 +159,18 @@
                     <div class="label">{!$Label.c.MRN_Internal_Id}</div>
                     <lightning:input type="text" value="{!v.pe.MRN_Id__c}" onblur="{!c.doCheckFields}"/>
                 </div>
-                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label">
-                        <aura:if isTrue="{!v.screeningRequired}">
-                            <abbr title="required" class="slds-required">*</abbr>
-                        </aura:if>{!$Label.c.FD_PE_Field_Arm_Cohort}
+                <aura:if isTrue="{!v.visitPlanRequired}">
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                        <div class="label">
+                            <aura:if isTrue="{!v.screeningRequired}">
+                                <abbr title="required" class="slds-required">*</abbr>
+                            </aura:if>{!$Label.c.FD_PE_Field_Arm_Cohort}
+                        </div>
+                        <c:rrSelect options="{!v.formData.visitPlansLVList}" disabled="{!v.visitPlanDisabled}"
+                                    value="{!v.pe.Visit_Plan__c}" placeholder="{!$Label.c.PG_AC_Select}" required="{!v.screeningRequired}"
+                                    useSentenceFont="false" onchange="{!c.doCheckFields}"/>
                     </div>
-                    <c:rrSelect options="{!v.formData.visitPlansLVList}" disabled="{!v.visitPlanDisabled}"
-                                value="{!v.pe.Visit_Plan__c}" placeholder="{!$Label.c.PG_AC_Select}" required="{!v.screeningRequired}"
-                                useSentenceFont="false" onchange="{!c.doCheckFields}"/>
-                </div>
-
+                </aura:if>
             </div>
         </div>
     </div>
