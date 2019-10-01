@@ -224,7 +224,7 @@ public without sharing class ManualCreationPanelRemote {
             Map<Id, String> invitationsVisible = new Map<Id, String>();
             for (SurveyInvitation inv : newInvitations) invitationsVisible.put(inv.Id, wrapper.neededResponse);
 
-            Batch_CreateSurveyTasks.launch(invitationsVisible);
+            TaskService.getInstance().createSurveyTasks(invitationsVisible);
         }
 
         return isFound;
