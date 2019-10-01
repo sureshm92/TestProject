@@ -42,11 +42,13 @@
                     component.set('v.healthCareProvider.First_Name__c', returnValue.firstName);
                     component.set('v.healthCareProvider.Last_Name__c', returnValue.lastName);
                     component.set('v.providerFound', true);
+                    component.set('v.isDuplicate',returnValue.isDuplicate);
                     if(returnValue.firstName && returnValue.lastName){
                         component.set('v.isValid', true);
                     }
                     component.find('spinner').hide();
                 } else {
+                    component.set('v.isDuplicate',returnValue.isDuplicate);
                     component.find('spinner').hide();
                 }
             });
