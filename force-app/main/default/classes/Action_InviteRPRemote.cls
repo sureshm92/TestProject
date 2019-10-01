@@ -13,10 +13,10 @@ public without sharing class Action_InviteRPRemote {
             if (studySitesNotDelegate != null && !studySitesNotDelegate.isEmpty()) {
                 Set<Id> studyIds = new Set<Id>();
                 for (Study_Site__c site : studySitesNotDelegate) {
-                    if (!studyIds.contains(site.Clinical_Trial_Profile__c) && StudySiteService.STATUS_GROUP_ACCEPTED.contains(site.Override_PI_Referral_Status__c)) {
-                        SiteWrapper sw = new SiteWrapper(site.Clinical_Trial_Profile__r.Study_Code_Name__c, site.Id, site.Clinical_Trial_Profile__r.Protocol_ID__c);
+                    if (!studyIds.contains(site.Id) && StudySiteService.STATUS_GROUP_ACCEPTED.contains(site.Override_PI_Referral_Status__c)) {
+                        SiteWrapper sw = new SiteWrapper(site.Clinical_Trial_Profile__r.Study_Code_Name__c, site.Id, site.Clinical_Trial_Profile__r.Protocol_ID__c, site.Name);
                         inviteDetail.studySitesForInvitation.add(sw);
-                        studyIds.add(site.Clinical_Trial_Profile__c);
+                        studyIds.add(site.Id);
                     }
                 }
             }
@@ -66,7 +66,7 @@ public without sharing class Action_InviteRPRemote {
             if (invitationQueues.size() > 0) {
                 l.OwnerId = invitationQueues[0].Id;
             }
-            if (!isConvertNeed) {
+            if (!isConvertNeed || String.isEmpty(studySiteId)) {
                 l.setOptions(dmlOpts);
                 insert l;
             } else {
@@ -85,13 +85,15 @@ public without sharing class Action_InviteRPRemote {
         public String Id;
         public Boolean selected;
         public String protocolId;
+        public String studySiteName;
         public SiteWrapper(String StudyName, String Id){
             this.StudyName = StudyName;
             this.Id = Id;
             this.selected = false;
         }
-        public SiteWrapper(String StudyName, String Id, String protocolId){
+        public SiteWrapper(String StudyName, String Id, String protocolId, String studySiteName){
             this.StudyName = StudyName;
+            this.studySiteName = studySiteName;
             this.Id = Id;
             this.selected = false;
             this.protocolId = protocolId;
