@@ -26,7 +26,6 @@ public with sharing class CTPSendNotificationService {
                 this.relatedNotifications = new List<Trial_Notification__c>();
             } else {
                 String query = 'SELECT Id FROM Trial_Notification__c WHERE Clinical_Trial_Profile__c IN (\'' + String.join(ctpIds, '\',\'') + '\')';
-                System.debug(query);
                 relatedNotifications = proxy.query(query);
             }
         }

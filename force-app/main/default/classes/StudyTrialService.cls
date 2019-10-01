@@ -360,8 +360,13 @@ public without sharing class StudyTrialService {
         if(delegateId != null && delegateId != ''){
             contactId = delegateId;
         }
+        List<String> peId = ParticipantEnrollmentService.getHealthcareProviderPE();
+        String healthCareProviderfilter = '';
+        if(peId!=null){
+            healthCareProviderfilter = ' OR (' +'Id IN (\'' + String.join(peId, '\',\'') + '\') '+ ') ';
+        }
         String query = 'SELECT Id, Clinical_Trial_Profile__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN :trialIds AND ' + '(' +
-                '   HCP__r.HCP_Contact__c = \'' + contactId + '\'' +
+                '   HCP__r.HCP_Contact__c = \'' + contactId + '\'' + healthCareProviderfilter +
 //                delegatesFilter +
                 ') ';
         for (Participant_Enrollment__c pe : Database.query(query)) {
