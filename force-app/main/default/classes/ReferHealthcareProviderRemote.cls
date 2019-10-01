@@ -109,7 +109,7 @@ global without sharing class ReferHealthcareProviderRemote {
         Study_Site__c studySite = [SELECT Id, Site__c, Site__r.BillingCountry FROM Study_Site__c WHERE Id = :studySiteId];
         List<Contact> cntList =
             [SELECT Id, userCommunityMode__c, userCommunytyType__c, MailingCountry, MailingCity,
-                    MailingPostalCode, MailingState, MailingStreet
+                    MailingPostalCode, MailingState, MailingStreet, AccountId
              FROM Contact
              WHERE Email = :email OR
                    Email = :email.toLowerCase() LIMIT 1];
