@@ -23,7 +23,7 @@ public with sharing class TrialItemRemote {
             TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
             helper.createTrialNotification(ctpId);
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            AuraHelper.throwException(e);
         }
     }
 
