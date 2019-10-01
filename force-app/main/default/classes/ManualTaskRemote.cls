@@ -4,7 +4,7 @@
 
 public with sharing class ManualTaskRemote {
 
-    public static Integer createTasks(Task newTask, ManualTaskFilter filter) {
+    public static Boolean createTasks(Task newTask, ManualTaskFilter filter) {
         try {
             Map<Id, Participant_Enrollment__c> contactsWithPE = filter.getContactsWithPE();
             List<User> users = [
@@ -30,9 +30,9 @@ public with sharing class ManualTaskRemote {
             }
             insert tasks;
 
-            return users.size();//For toast after onclick
+            return !contactsWithPE.values().isEmpty();
         } catch (Exception e) {
-            return (Integer) AuraHelper.throwException(e);
+            return (Boolean) AuraHelper.throwException(e);
         }
     }
 

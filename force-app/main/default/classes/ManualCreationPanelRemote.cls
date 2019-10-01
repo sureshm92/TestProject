@@ -49,24 +49,23 @@ public without sharing class ManualCreationPanelRemote {
     }
 
     @AuraEnabled
-    public static Integer createTasks(String taskPanelWrapper, String adHocWrapper, String filter, String activeTab) {
+    public static Boolean createTasks(String taskPanelWrapper, String adHocWrapper, String filter, String activeTab) {
         try {
-            Integer taskCreated = 0;
-
             ManualTaskFilter manFilter = (ManualTaskFilter) JSON.deserialize(filter, ManualTaskFilter.class);
 
+            Boolean isFound = false;
             if (activeTab.equals('task')) {
                 ManualTaskRemote.TaskPanelWrapper taskWrapper =
                         (ManualTaskRemote.TaskPanelWrapper) JSON.deserialize(taskPanelWrapper, ManualTaskRemote.TaskPanelWrapper.class);
-                taskCreated = ManualTaskRemote.createTasks(taskWrapper.task, manFilter);
+                isFound = ManualTaskRemote.createTasks(taskWrapper.task, manFilter);
             } else if (activeTab.equals('adHoc')) {
                 AdHocWrapper adHWrapper = (AdHocWrapper) JSON.deserialize(adHocWrapper, AdHocWrapper.class);
-                taskCreated = createInvitationAndTask(adHWrapper, manFilter);
+                isFound = createInvitationAndTask(adHWrapper, manFilter);
             }
 
-            return taskCreated;
+            return isFound;
         } catch (Exception e) {
-            return (Integer) AuraHelper.throwException(e);
+            return (Boolean) AuraHelper.throwException(e);
         }
     }
 
@@ -199,7 +198,7 @@ public without sharing class ManualCreationPanelRemote {
 
     //Inner logic:------------------------------------------------------------------------------------------------------
     @TestVisible
-    private static Integer createInvitationAndTask(AdHocWrapper wrapper, ManualTaskFilter filter) {
+    private static Boolean createInvitationAndTask(AdHocWrapper wrapper, ManualTaskFilter filter) {
         Survey survey = [SELECT Id, Name FROM Survey WHERE Id =: wrapper.selectedSurvey];
         List<Reminder_Schedule__c> rsList = [SELECT Id FROM Reminder_Schedule__c WHERE Id =: wrapper.selectedRS];
         Reminder_Schedule__c rs = rsList.isEmpty() ? null : rsList.get(0);
@@ -217,16 +216,17 @@ public without sharing class ManualCreationPanelRemote {
             ));
         }
 
-        Integer count = 0;
+        Boolean isFound = false;
         if (!newInvitations.isEmpty()) {
             insert newInvitations;
+            isFound = !newInvitations.isEmpty();
 
             Map<Id, String> invitationsVisible = new Map<Id, String>();
             for (SurveyInvitation inv : newInvitations) invitationsVisible.put(inv.Id, wrapper.neededResponse);
 
-            count = TaskService.getInstance().createSurveyTasks(invitationsVisible);
+            Batch_CreateSurveyTasks.launch(invitationsVisible);
         }
 
-        return count;
+        return isFound;
     }
 }
