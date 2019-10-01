@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-@IsTest(IsParallel=true)
+@IsTest
 public class Test_PatientDelegateService {
 
     // Define test objects: --------------------------------------------------------------------------------------------
@@ -120,7 +120,6 @@ public class Test_PatientDelegateService {
     static void resetDelegateTest() {
         refreshTestData();
 
-        DatabaseService.setMock(new DatabaseServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
 
         Test.startTest();

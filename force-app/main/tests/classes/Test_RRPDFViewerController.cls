@@ -20,8 +20,7 @@ public class Test_RRPDFViewerController {
 
     @IsTest
     public static void initData_Positive_Test() {
-
-        List<Resource__c> resources = [SELECT Id FROM Resource__c];
+        List<Resource__c> resources = [SELECT Id, Title__c FROM Resource__c];
         System.assertEquals(1, resources.size());
         List<ContentVersion> versions = [SELECT Id, Title, VersionData FROM ContentVersion];
         System.assertEquals(1, versions.size());
@@ -34,8 +33,8 @@ public class Test_RRPDFViewerController {
         Test.startTest();
         controller.initData();
         Test.stopTest();
-
-        System.assertEquals(versions[0].Title, controller.fileName);
+        
+        System.assertEquals(resources[0].Title__c, controller.fileName);
         System.assertEquals(EncodingUtil.base64Encode(versions[0].VersionData), controller.pdfBlobDataInBase64StringFormat);
         System.assertEquals(true, controller.executeJS);
     }
