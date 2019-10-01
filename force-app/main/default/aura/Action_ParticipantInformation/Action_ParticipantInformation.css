@@ -151,6 +151,10 @@
     position: relative;
 }
 
+.THIS .form-content{
+    min-height: 400px;
+}
+
 @media all and (min-width: 1024px) {
     .THIS #p-modal .p-container.large {
         width: 1000px;
