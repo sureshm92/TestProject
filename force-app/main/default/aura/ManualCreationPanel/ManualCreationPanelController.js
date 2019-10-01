@@ -47,11 +47,11 @@
             'adHocWrapper': JSON.stringify(component.get('v.adHocWrapper')),
             'filter': JSON.stringify(component.get('v.filter')),
             'activeTab': component.get('v.selectedTab')
-        }, function (found) {
-            if (found)
+        }, function (tasks) {
+            if (tasks > 0)
                 communityService.showSuccessToast(
                     'Success!',
-                    'Tasks have been created for relevant users!'
+                    'Task successfully created for ' + tasks + ' users.'
                 );
             else
                 communityService.showWarningToast(
