@@ -1,7 +1,7 @@
 /**
  * Created by Denis Shpilevsky
  */
-@isTest 
+@IsTest
 private class Test_IntegrationReferralTrigger {
 
 	@TestSetup
@@ -94,6 +94,7 @@ private class Test_IntegrationReferralTrigger {
         insert studyTranslation;
     
         Study_Site__c studySite = new Study_Site__c(
+                Primary_Key_ePR__c = 'tt123456789__',
                 Principal_Investigator__c = piContact.Id,
                 Clinical_Trial_Profile__c = study.Id,
                 Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
@@ -116,10 +117,11 @@ private class Test_IntegrationReferralTrigger {
         
 	}
 	
-	@isTest
+	@IsTest
 	private static void testNewAndAdditionalParticipant() {
         Test.startTest();
-        System.debug([SELECT id, Primary_Key_ePR__c FROM Study_Site__c]);
+        Study_Site__c studySite = [SELECT Id, Primary_Key_ePR__c FROM Study_Site__c];
+        System.debug('>>> ' + studySite.Primary_Key_ePR__c);
         Integration_Patient_Referral__c testRecord = new Integration_Patient_Referral__c(
             firstName__c = 'FirstName',
             lastName__c = 'LastName',
@@ -129,12 +131,12 @@ private class Test_IntegrationReferralTrigger {
             siteSelected__c = '_',
             Address_State__c = 'New York',
             referralID__c = '453453',
-            Address_ZipCode__c = '34545', 
-            Address_Country__c = 'US', 
-            Language_Preference__c = 'en_US', 
-            Referred_Date__c = '2019-10-02T10:00:00-05:00', 
-            Data_Source__c = 'Company', 
-            acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00', 
+            Address_ZipCode__c = '34545',
+            Address_Country__c = 'US',
+            Language_Preference__c = 'en_US',
+            Referred_Date__c = '2019-10-02T10:00:00-05:00',
+            Data_Source__c = 'Company',
+            acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00',
             Referral_Sent_to_PI__c = 'Referral Sent to PI'
         );
         insert testRecord;
@@ -158,10 +160,10 @@ private class Test_IntegrationReferralTrigger {
             Referral_Sent_to_PI__c = 'Referral Sent to PI'
         );
         insert testRecord2;
-        System.assertEquals([SELECT id FROM Participant__c].size(), 1);
+        System.assertEquals([SELECT Id FROM Participant__c].size(), 1);
     }
 
-    @isTest
+    @IsTest
     private static void testIncorrectData() {
         Test.startTest();
         Integration_Patient_Referral__c testRecord = new Integration_Patient_Referral__c();
@@ -169,10 +171,10 @@ private class Test_IntegrationReferralTrigger {
             insert testRecord;
         }catch(Exception e){}
         Test.stopTest();
-        System.assertEquals([SELECT id FROM Participant__c].size(), 0);
+        System.assertEquals([SELECT Id FROM Participant__c].size(), 0);
     }
 
-    @isTest
+    @IsTest
     private static void testNewAndAdditionalParticipantBirthData() {
         Test.startTest();
         Integration_Patient_Referral__c testRecord = new Integration_Patient_Referral__c(
@@ -215,10 +217,10 @@ private class Test_IntegrationReferralTrigger {
             Referral_Sent_to_PI__c = 'Referral Sent to PI'
         );
         insert testRecord2;
-        System.assertEquals([SELECT id FROM Participant__c].size(), 1);
+        System.assertEquals([SELECT Id FROM Participant__c].size(), 1);
     }
 
-    @isTest
+    @IsTest
     private static void testDuplicateContact() {
         Test.startTest();
         Integration_Patient_Referral__c testRecord = new Integration_Patient_Referral__c(
@@ -241,6 +243,6 @@ private class Test_IntegrationReferralTrigger {
         );
         insert testRecord;
         Test.stopTest();
-        System.assertEquals([SELECT id FROM Participant__c].size(), 1);
+        System.assertEquals([SELECT Id FROM Participant__c].size(), 1);
     }
 }
