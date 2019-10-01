@@ -28,7 +28,7 @@ public without sharing class ConditionOfInterestRemote {
     public static List<Therapeutic_Area_Patient__c> upsertListCoi(List<Therapeutic_Area_Patient__c> cois) {
         try {
             if (!cois.isEmpty()) {
-                upsert cois;
+                ((DatabaseProxy)(ClassFactory.newInstance(DatabaseProxy.class))).upsertRecords(cois, true);
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);

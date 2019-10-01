@@ -96,7 +96,8 @@ public without sharing class ParticipantService {
                         Mailing_Zip_Postal_Code__c,
                         Contact__c,
                         Conditions__c,
-                        Contact__r.Visit_Results_Opt_In__c
+                        Contact__r.Visit_Results_Opt_In__c,
+                        Marketing_Flag__c
                 FROM Participant__c
                 WHERE Contact__c = :sourceId OR Id = :sourceId
         ];
@@ -112,11 +113,11 @@ public without sharing class ParticipantService {
 
     @TestVisible
     private Boolean showVisits() {
-        if (participantState.ctp != null && participantState.ctp.Visit_Plan__c != null) {
-            List<Visit__c> visitsList = (List<Visit__c>) DatabaseService.query(
-                    'SELECT Id FROM Visit__c WHERE Visit_Plan__c = \''
-                            + participantState.ctp.Visit_Plan__c + '\'');
-            return visitsList.size() > 0;
+        if (participantState.pe != null) {
+            List<Patient_Visit__c> patientVisit = [
+                    SELECT Id FROM Patient_Visit__c WHERE Participant_Enrollment__c = :participantState.pe.Id
+            ];
+            return !patientVisit.isEmpty();
         }
         return false;
     }

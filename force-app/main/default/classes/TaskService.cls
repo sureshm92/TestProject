@@ -174,6 +174,8 @@ public without sharing class TaskService {
         for (SurveyInvitation inv : surveyInvitation) {
             Id partContactId = inv.Participant_Enrollment__r.Participant_Contact__c;
             Id partUserId = participantContactUser.get(partContactId);
+            if(partUserId == null) continue;
+
             userContact.put(partUserId, partContactId);
             List<Id> patientDelContactIds = PatientDelegateService.getDelegatedContactIds(partContactId);
 
@@ -185,6 +187,8 @@ public without sharing class TaskService {
                 }
                 when 'Each Delegate' {
                     for (Id pdId : patientDelContactIds) {
+                        if(delContactUser.get(pdId) == null) continue;
+
                         tmpConfigs.add(new TaskConfig(delContactUser.get(pdId)));
                         userContact.put(delContactUser.get(pdId), pdId);
                     }
@@ -192,6 +196,8 @@ public without sharing class TaskService {
                 when 'Patient and each Delegate' {
                     tmpConfigs.add(new TaskConfig(partUserId));
                     for (Id pdId : patientDelContactIds) {
+                        if(delContactUser.get(pdId) == null) continue;
+
                         tmpConfigs.add(new TaskConfig(delContactUser.get(pdId)));
                         userContact.put(delContactUser.get(pdId), pdId);
                     }

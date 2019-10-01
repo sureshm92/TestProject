@@ -11,21 +11,28 @@ private class Test_IntegrationPatientTriggerHandler {
 
     @IsTest
     static void integration_Test(){
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SendDropOutEmailHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SetCurrentEnrollmentHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
+
         Integration_Patient__c externalPatient = new Integration_Patient__c();
         externalPatient.External_ID__c = '1~2~3';
         externalPatient.Subject_Status__c = 'Completed';
         externalPatient.Subject_Date__c = Date.today().addDays(1);
         externalPatient.IsDeletedInSDH__c = 'N';
+
         Test.startTest();
         insert externalPatient;
         System.assertEquals('Participation Complete', getPEStatus());
+
         externalPatient.IsDeletedInSDH__c = 'N';
         externalPatient.Subject_Status__c = 'Dropped';
         externalPatient.Subject_Date__c = Date.today().addDays(2);
         update externalPatient;
         System.assertEquals('Drop Out', getPEStatus());
+
         update externalPatient;
-        System.assertEquals(3, [SELECT COUNT() FROM PSE_Status_History__c]);
+        System.assertEquals(3, [SELECT COUNT() FROM Participant_Enrollment_Status_History__c]);
         Test.stopTest();
     }
 

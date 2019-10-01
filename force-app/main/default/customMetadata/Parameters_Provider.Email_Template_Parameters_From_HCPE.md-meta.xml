@@ -7,7 +7,8 @@
         <value xsi:type="xsd:string">StudyTitle = Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c
 StudyName = Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c
 StudySiteName = Study_Site__r.Name
-SitePhoneNumber = Study_Site__r.Study_Site_Phone__c</value>
+SitePhoneNumber = Study_Site__r.Study_Site_Phone__c
+PIName = Study_Site__r.Principal_Investigator__r.Name</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>
