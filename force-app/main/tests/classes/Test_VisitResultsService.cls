@@ -362,7 +362,8 @@ private class Test_VisitResultsService {
                         Participant_Contact__c,
                         Screening_ID__c,
                         CreatedDate,
-                        Study_Site__r.Name
+                        Study_Site__r.Name,
+                        Participant_Contact__r.Visit_Results_Opt_In__c
                 FROM Participant_Enrollment__c
                 WHERE Participant__c = :testData.participant.Id
         ];
@@ -373,12 +374,13 @@ private class Test_VisitResultsService {
                 .build()
         );
 
+        Boolean access;
         System.runAs(testData.participantUser) {
-            Boolean access = service.isNotAccessReport();
-
-            System.assertEquals(true, access);
+            access = service.isNotAccessReport();
         }
 
         Test.stopTest();
+
+        System.assertEquals(true, access);
     }
 }
