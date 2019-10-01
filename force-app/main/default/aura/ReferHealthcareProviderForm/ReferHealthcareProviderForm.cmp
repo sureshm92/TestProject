@@ -9,6 +9,7 @@
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="action" type="Object"/>
     <aura:attribute name="isValid" type="Boolean" default="false"/>
+    <aura:attribute name="isDuplicate" type="Boolean" default="false"/>
     <aura:attribute name="providerFound" type="Boolean" default="false"/>
 
 
@@ -43,8 +44,10 @@
         <div class="slds-col slds-size--3-of-12 slds-large-size--2-of-12" style="margin-top:23px">
             <aura:if isTrue="{!!v.healthCareProvider.Id}">
                 <button class="apollo-btn tertiary " style="padding:0;height:40px;min-width:160px"
-                        onclick="{!c.doConnect}" disabled="{!!v.isValid || v.action.disabled}"
-                        title="{!!v.healthCareProvider.Id &amp;&amp; v.action.disabled ? $Label.c.RSN_Your_permissions_do_not_permit_this_action : ''}">{!$Label.c.HealthCare_Provider_Connect}</button>
+                        onclick="{!c.doConnect}" disabled="{!!v.isValid || v.action.disabled || v.isDuplicate}"
+                        title="{!!v.healthCareProvider.Id &amp;&amp; v.action.disabled ?
+                        $Label.c.RSN_Your_permissions_do_not_permit_this_action : v.isDuplicate ?
+                        $Label.c.HealCare_Provider_Already_Connected : ''}">{!$Label.c.HealthCare_Provider_Connect}</button>
             </aura:if>
             <aura:if isTrue="{!v.healthCareProvider.Id}">
                 <button class="apollo-btn tertiary " style="padding:0;height:40px;min-width:160px"

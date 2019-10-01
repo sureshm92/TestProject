@@ -70,7 +70,7 @@
                         <div class="radio-group" style="max-width: 100%;">
                             <aura:iteration items="{!v.studySitesForInvitation}" var="site">
                                 <lightning:input value="{!site}" type="radio" name="site"
-                                                 label="{!site.StudyName}"
+                                                 label="{!site.StudyName + ' (' + site.studySiteName + ')'}"
                                                  onchange="{!c.doSelectStudy}" checked="{!site.selected}"/>
                             </aura:iteration>
                         </div>

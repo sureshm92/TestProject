@@ -129,7 +129,8 @@ private class Test_VisitReportService {
                         Participant_Contact__c,
                         Screening_ID__c,
                         CreatedDate,
-                        Study_Site__r.Name
+                        Study_Site__r.Name,
+                        Enrolled_Date__c
                 FROM Participant_Enrollment__c
                 WHERE Participant__c = :testData.participant.Id
         ];

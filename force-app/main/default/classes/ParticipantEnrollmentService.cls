@@ -446,13 +446,18 @@ public without sharing class ParticipantEnrollmentService {
                     ') ';
         } else if(userMode == CommunityService.USER_MODE_HCP) {
             String contactId = CommunityService.getUserContact().Id;
-            if(delegateId != null && delegateId != ''){
-                contactId = delegateId;
-            }
+            List<String> enrollmentsIds = getHealthcareProviderPE();
+            if(enrollmentsIds != null){
+                return '(' +'Id IN (\'' + String.join(enrollmentsIds, '\',\'') + '\') '+ ') ';
+            } else{
+                if(delegateId != null && delegateId != ''){
+                    contactId = delegateId;
+                }
 
-            return '(' +
-                    '   HCP__r.HCP_Contact__c = \'' + contactId + '\'' +
-                    ') ';
+                return '(' +
+                        '   HCP__r.HCP_Contact__c = \'' + contactId + '\'' +
+                        ') ';
+            }
         } else{
             if(PatientDelegateService.getInstance().isDelegate()){
                 delegatesFilter = ' OR Participant__c = \'' + PatientDelegateService.getInstance().getParticipant().Id + '\' ';
@@ -605,8 +610,8 @@ public without sharing class ParticipantEnrollmentService {
             if(!String.isEmpty(filter.study)) filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + filter.study + '\' ';
             if(!String.isEmpty(filter.studySite)) filterStr += ' AND Study_Site__c = \'' + filter.studySite + '\' ';
             if(!String.isEmpty(filter.referringStatus)) filterStr += 'AND Participant_Status__c IN ' + filter.referringStatus + ' ';
-            if(!String.isEmpty(filter.enrollmentStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.enrollmentStatus + ' ';
-            if(!String.isEmpty(filter.acceptenceStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.acceptenceStatus + ' ';
+            //if(!String.isEmpty(filter.enrollmentStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.enrollmentStatus + ' ';
+            //if(!String.isEmpty(filter.acceptenceStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.acceptenceStatus + ' ';
             if(!String.isEmpty(filter.referringClinic)) filterStr += ' AND HCP__r.HCP_Contact__r.AccountId = \'' + filter.referringClinic + '\' ';
             if(!String.isEmpty(filter.source)) filterStr += ' AND Referral_Source_ID__c = \'' + filter.source + '\' ';
             if(!String.isEmpty(filter.participantStatus)) filterStr += ' AND Participant_Status__c = \'' + filter.participantStatus + '\' ';
@@ -716,5 +721,24 @@ public without sharing class ParticipantEnrollmentService {
                 WHERE   External_Key__c IN : externalKeys
                 LIMIT   10000
         ];
+    }
+
+    public static List<String> getHealthcareProviderPE(){
+        String contactId = CommunityService.getUserContact().Id;
+        List<String> enrollmentsIds = new List<String>();
+        List<Healthcare_Provider__c> hpList = [
+                SELECT Id,
+                        HCP_Enrollment__c,
+                        Participant_Enrollment__c
+                FROM Healthcare_Provider__c
+                WHERE HCP_Enrollment__r.HCP_Contact__c = :contactId
+                AND Status__c != :ReferHealthcareProviderRemote.HP_S_NOSHARING
+        ];
+        if(!hpList.isEmpty()) {
+            for (Integer i = 0; i < hpList.size(); i++) {
+                enrollmentsIds.add(hpList[i].Participant_Enrollment__c);
+            }
+        }
+        return enrollmentsIds;
     }
 }
