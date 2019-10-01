@@ -5,6 +5,7 @@
 private class Test_SurveyService {
 
     static Trial_Survey__c ts;
+    static Id communityId = CommunityService.getCommunityId(null);
 
     @IsTest
     static void generateInvitationTest() {
@@ -32,7 +33,7 @@ private class Test_SurveyService {
         );
         insert ts;
 
-        SurveyInvitation invitation = SurveyService.getInstance().generateInvitation(ts, testData.pe.Id);
+        SurveyInvitation invitation = SurveyService.getInstance().generateInvitation(ts, testData.pe.Id, communityId);
         insert invitation;
 
         SurveyService.getInstance().getSurveyWrapper(invitation.Id);
@@ -57,7 +58,7 @@ private class Test_SurveyService {
         TestData testData = new TestData();
 
         SurveyInvitation invitation = SurveyService.getInstance().generateInvitation(
-                survey.get(0), schedule, 5, true, testData.pe.Id
+                survey.get(0), schedule, 5, true, testData.pe.Id, communityId
         );
         insert invitation;
         Test.stopTest();
@@ -87,7 +88,7 @@ private class Test_SurveyService {
                 Whose_response_needed__c = 'Patient only'
         );
         insert ts;
-        insert SurveyService.getInstance().generateInvitation(ts, testData.pe.Id);
+        insert SurveyService.getInstance().generateInvitation(ts, testData.pe.Id, communityId);
 
         SurveyService.getInstance().isInvitationExpired(
                 SurveyService.getInstance().getSurveyInvitationId(survey.get(0).Id, testData.pe.Participant_Contact__c));

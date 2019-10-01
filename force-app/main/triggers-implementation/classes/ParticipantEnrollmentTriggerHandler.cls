@@ -387,7 +387,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         Whose_response_needed__c
                 FROM Trial_Survey__c
                 WHERE Active_On_Status__c != NULL
-                AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true
+                AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
                 AND Clinical_Trial_Profile__c IN:ctpPE.keySet()
         ];
 
@@ -410,7 +410,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     }
                 }
                 if (needToAdd) {
-                    newInvitations.add(SurveyService.getInstance().generateInvitation(ts, enrollment.Id));
+                    newInvitations.add(SurveyService.getInstance()
+                            .generateInvitation(ts, enrollment.Id, CommunityService.getCommunityId(null)));
                 }
             }
         }
