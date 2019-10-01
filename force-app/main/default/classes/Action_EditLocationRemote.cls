@@ -29,6 +29,7 @@ public without sharing class Action_EditLocationRemote {
                     BillingCountryCode = newAccount.BillingCountryCode,
                     BillingCity = newAccount.BillingCity);
             if (!String.isEmpty(newAccount.BillingStateCode)) accForCheck.BillingStateCode = newAccount.BillingStateCode;
+            if (!String.isEmpty(newAccount.BillingPostalCode)) accForCheck.BillingPostalCode = newAccount.BillingPostalCode;
             insert accForCheck;
             return accForCheck.Id;
         } catch (Exception e) {

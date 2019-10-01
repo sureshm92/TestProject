@@ -26,7 +26,7 @@
                 <div  style="width: 20%">
                     <button class="{!'apollo-btn primary dark'}" onclick="{!c.navigateToTrialSearchPage}">
                         <c:RRIcon iconName="search-results"/>
-                        Find another study
+                        {!$Label.c.TrialSearch_Find_Another_Study}
                     </button>
                 </div>
             </aura:if>
