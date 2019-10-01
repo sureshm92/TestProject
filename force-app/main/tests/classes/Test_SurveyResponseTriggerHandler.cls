@@ -5,6 +5,8 @@
 @IsTest(SeeAllData=true)
 private class Test_SurveyResponseTriggerHandler {
 
+    static Id communityId = CommunityService.getCommunityId(null);
+
     @IsTest
     static void taskStatusChangerPauseTest() {
         List<Survey> survey = [SELECT Id FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
@@ -28,7 +30,7 @@ private class Test_SurveyResponseTriggerHandler {
         );
         insert tsAllSee;
 
-        SurveyInvitation invitationAll = SurveyService.getInstance().generateInvitation(tsAllSee, testData.pe.Id);
+        SurveyInvitation invitationAll = SurveyService.getInstance().generateInvitation(tsAllSee, testData.pe.Id, communityId);
         insert invitationAll;
 
         TaskService.getInstance().createSurveyTasks(new Map<Id, String>{
@@ -69,7 +71,7 @@ private class Test_SurveyResponseTriggerHandler {
         );
         insert tsOnlyDelegates;
 
-        SurveyInvitation invitationDelegates = SurveyService.getInstance().generateInvitation(tsOnlyDelegates, testData.pe.Id);
+        SurveyInvitation invitationDelegates = SurveyService.getInstance().generateInvitation(tsOnlyDelegates, testData.pe.Id, communityId);
         insert invitationDelegates;
 
         TaskService.getInstance().createSurveyTasks(new Map<Id, String>{

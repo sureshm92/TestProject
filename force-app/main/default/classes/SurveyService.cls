@@ -63,9 +63,9 @@ public without sharing class SurveyService {
         }
     }
 
-    public SurveyInvitation generateInvitation(Trial_Survey__c ts, Id peId) {
+    public SurveyInvitation generateInvitation(Trial_Survey__c ts, Id peId, Id communityId) {
         SurveyInvitation invitation = new SurveyInvitation(
-                CommunityId = CommunityService.getCommunityId(null),
+                CommunityId = communityId,
                 Is_Midpoint__c = ts.Is_Midpoint__c,
                 Name = ts.Survey__r.Name + ':TS:' + ts.Id,
                 Participant_Enrollment__c = peId,
@@ -93,10 +93,11 @@ public without sharing class SurveyService {
             Reminder_Schedule__c schedule,
             Integer expiresAfterDays,
             Boolean isMidpoint,
-            Id peId
+            Id peId,
+            Id communityId
     ) {
         SurveyInvitation invitation = new SurveyInvitation(
-                CommunityId = CommunityService.getCommunityId(null),
+                CommunityId = communityId,
                 Is_Midpoint__c = isMidpoint,
                 Name = survey.Name + ':PE:' + peId,
                 Participant_Enrollment__c = peId,
