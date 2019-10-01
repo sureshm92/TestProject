@@ -51,6 +51,17 @@ global without sharing class ReferHealthcareProviderRemote {
                     hp.lastName = contacts[0].LastName;
                 }
                 hp.email = contacts[0].Email;
+                List<Healthcare_Provider__c> isDuplicate = [
+                        SELECT Id
+                        FROM Healthcare_Provider__c
+                        WHERE Participant_Enrollment__c = :peId
+                        AND Email__c = :email
+                ];
+                if (!isDuplicate.isEmpty()) {
+                    hp.isDuplicate = true;
+                } else{
+                    hp.isDuplicate = false;
+                }
 
                 /*Healthcare_Provider__c newHP = new Healthcare_Provider__c();
                 newHP.Participant_Enrollment__c = peId;
@@ -163,6 +174,7 @@ global without sharing class ReferHealthcareProviderRemote {
         @AuraEnabled public String email { get; set; }
         @AuraEnabled public String firstName { get; set; }
         @AuraEnabled public String lastName { get; set; }
+        @AuraEnabled public Boolean isDuplicate { get; set; }
     }
 
 }
