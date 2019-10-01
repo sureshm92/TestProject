@@ -72,7 +72,7 @@ public without sharing class RRChangePasswordController {
                 FROM User WHERE Id =: userId
         ];
         contact = userVal.Contact;
-        notEnrollNow = !(contact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP) && contact.userCommunityMode__c == CommunityService.USER_MODE_HCP);
+        notEnrollNow = !((contact.userCommunytyType__c == null || contact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)) && contact.userCommunityMode__c == CommunityService.USER_MODE_HCP);
 
         Contact cont = [
                 SELECT Id, Account.Name, Account.Phone, Account.BillingStreet,
