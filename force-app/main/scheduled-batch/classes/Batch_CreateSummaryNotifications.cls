@@ -15,7 +15,6 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                         Id,
                         Notify_On_Availability__c,
                         Resource__c,
-                        Resource__r.Language__c,
                         Visible_In_Alumni__c,
                         Visible_To_Delegates__c,
                         Visible_To_Participant__c,
@@ -30,14 +29,21 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
 
     public void execute(Database.BatchableContext param1, List<Res_study__c> resStudies) {
         Map<Id, List<Res_study__c>> resStudyByCtp = new Map<Id, List<Res_study__c>>();
-        Set<String> resLangs = new Set<String>();
+        Set<Id> resIds = new Set<Id>();
         for (Res_study__c res : resStudies) {
             if (!resStudyByCtp.containsKey(res.Clinical_Trial_Profile__c)) {
                 resStudyByCtp.put(res.Clinical_Trial_Profile__c, new List<Res_study__c>());
             }
             resStudyByCtp.get(res.Clinical_Trial_Profile__c).add(res);
-            resLangs.add(res.Resource__r.Language__c);
+            resIds.add(res.Resource__c);
         }
+
+        List<ContentDocumentLink> contentDocumentLinks = [
+                SELECT Id, ContentDocument.Title
+                FROM ContentDocumentLink WHERE LinkedEntityId IN:resIds
+        ];
+        Set<String> resLangs = new Set<String>();
+        for(ContentDocumentLink content : contentDocumentLinks) resLangs.add(content.ContentDocument.Title);
 
         List<Participant_Enrollment__c> enrollment = [
                 SELECT
@@ -59,6 +65,7 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
 
         Map<Id, List<String>> resIdsByContactId = new Map<Id, List<String>>();
         List<Contact> contactToNotify = new List<Contact>();
+        Map<Id, Id> peIdByContact = new Map<Id, Id>();
         for (Participant_Enrollment__c pe : enrollment) {
             List<Contact> peContacts = new List<Contact>();
             peContacts.add(pe.Participant_Contact__r);
@@ -72,11 +79,12 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                     if (StudyResourceVisibilityService.isResourceVisibleForPE(res, pe, contact.userCommunityMode__c, isDelegate)) {
                         if (needNotify(contact, res.Resource__c)) {
                             contactToNotify.add(contact);
+                            peIdByContact.put(contact.Id, pe.Id);
 
                             if(!resIdsByContactId.containsKey(contact.Id)) {
-                                List<String> resIds = contact.Resource_Notifications__c != null ?
+                                List<String> resNotificationIds = contact.Resource_Notifications__c != null ?
                                         contact.Resource_Notifications__c.split(';') : new List<String>();
-                                resIdsByContactId.put(contact.Id, resIds);
+                                resIdsByContactId.put(contact.Id, resNotificationIds);
                             }
                             resIdsByContactId.get(contact.Id).add(res.Resource__c);
                         }
@@ -86,7 +94,8 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
         }
 
         if (!contactToNotify.isEmpty()) {
-            SendEmailToParticipant.sendPlainSummaryNotifications(contactToNotify, SendEmailToParticipant.PATIENT_PLAIN_SUMMARY);
+            SendEmailToParticipant.sendPlainSummaryNotifications(
+                    contactToNotify, peIdByContact, SendEmailToParticipant.PATIENT_PLAIN_SUMMARY);
 
             List<Contact> contactsToUpdate = new List<Contact>();
             for(Contact con : contactToNotify) {
