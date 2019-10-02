@@ -18,7 +18,9 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                         Resource__r.Language__c,
                         Visible_In_Alumni__c,
                         Visible_To_Delegates__c,
-                        Visible_To_Participant__c
+                        Visible_To_Participant__c,
+                        Visible_To_PI__c,
+                        Visible_To_RP__c
                 FROM Res_study__c
                 WHERE Notify_On_Availability__c = TRUE
                 AND Visible_To_Participant__c = TRUE
