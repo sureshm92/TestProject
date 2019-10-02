@@ -9,6 +9,7 @@
     <aura:attribute name="rowColor" type="String" default="white"/>
     <aura:attribute name="selectedRowColor" type="String" default="white"/>
     <aura:attribute name="currentRowColor" type="String" default="white" access="private"/>
+    <aura:attribute name="isDisable" type="Boolean"/>
 
 
     <aura:registerEvent name="onEdit" type="c:uiEvent"/>
@@ -30,11 +31,13 @@
         <td>
             <c:RRIconSplitter value="{!v.visit.Icons__c}" backgroundColor="{!v.currentRowColor}"/>
         </td>
+        <aura:if isTrue="{!!v.isDisable}">
         <td>
             <lightning:buttonIcon onclick="{!c.editMode}" iconName="utility:edit"/>
         </td>
         <td>
             <lightning:buttonIcon onclick="{!c.deleteRecord}" iconName="utility:delete"/>
         </td>
+        </aura:if>
     </tr>
 </aura:component>
