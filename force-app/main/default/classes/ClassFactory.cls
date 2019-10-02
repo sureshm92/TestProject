@@ -5,7 +5,7 @@ public with sharing class ClassFactory {
 	@TestVisible
 	private static Map<Type, Object> existingObjectsByTypes = new Map<Type, Object>();
 	@TestVisible
-	private static Boolean isCacheable;
+	private static Boolean isCacheable = false;
 
 	public static void setCacheable(Boolean cacheable) {
 		isCacheable = cacheable;
