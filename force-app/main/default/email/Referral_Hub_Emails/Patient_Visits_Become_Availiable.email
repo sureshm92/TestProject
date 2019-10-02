@@ -1,5 +1,8 @@
-<messaging:emailTemplate subject="{!$Label.Participant_Visits_Available}" recipientType="Contact" relatedToType="Participant_Enrollment__c">
-    <messaging:htmlEmailBody >
+<messaging:emailTemplate subject="{!$Label.Participant_Visits_Available}"
+                         recipientType="Contact"
+                         relatedToType="Participant_Enrollment__c">
+
+    <messaging:htmlEmailBody>
         <c:EmailTemplate recipientId="{!recipient.Id}"
                          parametersProvider="Email_Template_Parameters_From_PE"
                          sourceId="{!relatedTo.Id}"
@@ -12,7 +15,7 @@
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
+    <messaging:plainTextEmailBody>
         <c:EmailTemplateText recipientId="{!recipient.Id}"
                              parametersProvider="Email_Template_Parameters_From_PE"
                              sourceId="{!relatedTo.Id}"
