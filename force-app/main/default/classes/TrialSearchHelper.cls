@@ -13,10 +13,14 @@ public with sharing class TrialSearchHelper {
     private static final String QUEUE = 'Queue';
     private static final String PEH_CASE_QUEUE_NAME = 'PEH Case Queue';
 
+   static {
+       ClassFactory.setCacheable(true);
+   }
+
     private DatabaseProxy proxy {
         get {
             if (proxy == null) {
-                proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class, false);
+                proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
             }
             return proxy;
         }
