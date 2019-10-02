@@ -170,14 +170,14 @@ public without sharing class SendEmailToParticipant {
         SendEmailTemplate.sendEmailMessages(emailMessages);
     }
 
-    public static void sendPlainSummaryNotifications(List<Contact> contacts, String nameOfEmailTemplate) {
+    public static void sendPlainSummaryNotifications(List<Contact> contacts, Map<Id, Id> peIdByContact, String nameOfEmailTemplate) {
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
         for(Contact con : contacts) {
             addPatientToEmailListIfAvailable(
                     emailMessages,
                     con,
                     nameOfEmailTemplate,
-                    null
+                    peIdByContact.get(con.Id)
             );
         }
 
