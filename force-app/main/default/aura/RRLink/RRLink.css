@@ -3,16 +3,21 @@
  */
 .THIS.rr-link{
     color: #297DFD;
+    padding: 0 8px;
+    height: 32px;
     display: inline-flex;
     align-items: center;
+    border-radius: 4px;
 }
-
+/*
 .THIS.rr-link.only-text{
     display: inline;
 }
-
+*/
 .THIS.rr-link:hover{
     text-decoration: none;
+    background-color: #eef5ff;
+    transition: .25s;
 }
 
 .THIS.rr-link.limit-width{

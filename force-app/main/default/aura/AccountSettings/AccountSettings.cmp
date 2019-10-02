@@ -49,7 +49,7 @@
                 <div class="as-title">{!$Label.c.PG_AS_H_Email}</div>
                 <div class="as-email rr-form-element">
                     <div class="as-email-input slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
-                        <div class="rr-form-element All fields are required.All fields are required.slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label">{!$Label.c.PG_AS_F_Username}</div>
                             <c:rrInput valueString="{!v.initData.userName}" placeholder="{!$Label.c.PG_AS_F_Username}"
                                        disabled="{!true}"/>
@@ -497,10 +497,10 @@
                          headerText="{!$Label.c.Visit_Results_Tab_Modal_Body}"
                          closeButtonClicked="{!v.closeButtonClicked}">
                     <aura:set attribute="footerButtons">
-                        <button class="apollo-btn primary opt-in-popup-button" onclick="{!c.handleOkClick}"
-                                tabindex="0">{!$Label.c.BTN_OK}</button>
                         <button class="apollo-btn secondary opt-in-popup-button" onclick="{!c.handleCancelClick}"
                                 tabindex="1">{!$Label.c.BTN_Cancel}</button>
+                         <button class="apollo-btn primary opt-in-popup-button" onclick="{!c.handleOkClick}"
+                                tabindex="0">{!$Label.c.BTN_OK}</button>
                     </aura:set>
                 </c:Popup>
             </div>
