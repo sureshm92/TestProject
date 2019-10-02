@@ -7,9 +7,13 @@ public class Test_ClassFactory {
         Test.startTest();
         ClassFactory.ClassForTestingClassFactory testClassByType = (ClassFactory.ClassForTestingClassFactory) ClassFactory.newInstance(ClassFactory.ClassForTestingClassFactory.class);
         ClassFactory.ClassForTestingClassFactory testClassByName = (ClassFactory.ClassForTestingClassFactory) ClassFactory.newInstance('ClassFactory.ClassForTestingClassFactory');
+        ClassFactory.ClassForTestingClassFactory testClassCreateNewObjectTrue = (ClassFactory.ClassForTestingClassFactory) ClassFactory.newInstance(ClassFactory.ClassForTestingClassFactory.class, true);
+        ClassFactory.ClassForTestingClassFactory testClassCreateNewObjectFalse = (ClassFactory.ClassForTestingClassFactory) ClassFactory.newInstance(ClassFactory.ClassForTestingClassFactory.class, false);
         Test.stopTest();
         System.assertEquals('Class Created', testClassByType.testingString);
         System.assertEquals('Class Created', testClassByName.testingString);
+        System.assertEquals('Class Created', testClassCreateNewObjectTrue.testingString);
+        System.assertEquals('Class Created', testClassCreateNewObjectFalse.testingString);
     }
 
     @IsTest

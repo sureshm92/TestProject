@@ -2,15 +2,27 @@ public with sharing class ClassFactory {
 
 	@TestVisible
 	private static Map<String, Object> stubTypesByClassNames = new Map<String, Object>();
+	@TestVisible
+	private static Map<Type, Object> existingObjectsByTypes = new Map<Type, Object>();
 
 	public static Object newInstance(Type typeOfClass) {
 
-		return getStubOrInstance(typeOfClass);
+		Object instance = getStubOrInstance(typeOfClass);
+		existingObjectsByTypes.put(typeOfClass, instance);
+		return instance;
 	}
 
 	public static Object newInstance(String fullNameOfClass) {
 
 		return newInstance(Type.forName(fullNameOfClass));
+	}
+
+	public static Object newInstance(Type typeOfClass, Boolean createNewObject) {
+		if (createNewObject || !existingObjectsByTypes.containsKey(typeOfClass)) {
+			return newInstance(typeOfClass);
+		} else {
+			return existingObjectsByTypes.get(typeOfClass);
+		}
 	}
 
 	public static void clearStubTypesByClassNamesMap() {
