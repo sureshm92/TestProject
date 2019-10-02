@@ -51,12 +51,12 @@
                             <div style="padding: 10px"></div>
                             <c:ManualTaskLookup label="Therapeutic Area" selection="{!v.filter.areas}"
                                                 objType="therapeutic"/>
-                            <c:ManualTaskLookup label="Select Sponsor" selection="{!v.filter.sponsors}"
-                                                objType="sponsor"/>
+<!--                            <c:ManualTaskLookup label="Select Sponsor" selection="{!v.filter.sponsors}"-->
+<!--                                                objType="sponsor"/>-->
+                            <c:ManualTaskLookup label="Study" selection="{!v.filter.studies}" objType="study"/>
                         </div>
                         <div class="slds-col slds-size--1-of-2">
-                            <div style="padding: 14px"></div>
-                            <c:ManualTaskLookup label="Study" selection="{!v.filter.studies}" objType="study"/>
+                            <div style="padding: 52.5px"></div>
                             <c:ManualTaskLookup label="Select country" selection="{!v.filter.countries}"
                                                 objType="countries"/>
                             <c:ManualTaskLookup label="Select Site" selection="{!v.filter.sites}" objType="site"/>
