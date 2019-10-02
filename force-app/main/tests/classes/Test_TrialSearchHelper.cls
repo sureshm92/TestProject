@@ -71,14 +71,4 @@ private class Test_TrialSearchHelper {
         System.assertEquals(1, container.trialTDOs.size());
     }
 
-
-    private static List<Trial_Notification__c> selectTrialNotifications() {
-        return [
-                SELECT Id
-                , Contact__c
-                , Clinical_Trial_Profile__c
-                FROM Trial_Notification__c
-        ];
-    }
-
 }

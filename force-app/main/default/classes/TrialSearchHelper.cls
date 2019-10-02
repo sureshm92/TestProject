@@ -98,10 +98,12 @@ public with sharing class TrialSearchHelper {
     }
 
     public void createTrialNotification(Id ctpId) {
+        Clinical_Trial_Profile__c ctp = this.getClinicalTrialProfileById(ctpId);
         Contact currentContact = CommunityService.getUserContact();
         Trial_Notification__c notification = new Trial_Notification__c(
                 Contact__c = currentContact.Id
-                , Clinical_Trial_Profile__c = ctpId
+                , Clinical_Trial_Profile__c = ctp.Id
+                , CTP_Name__c = ctp.Study_Code_Name__c
         );
         proxy.upsertRecord(notification, true);
     }
@@ -112,6 +114,15 @@ public with sharing class TrialSearchHelper {
                         (ctp.Recruitment_Status__c == TrialSearchWhereClauseFactory.ENROLLING ||
                                 ctp.Recruitment_Status__c == TrialSearchWhereClauseFactory.OPEN_TO_ENROLLMENT)
                 );
+    }
+
+    private Clinical_Trial_Profile__c getClinicalTrialProfileById(Id ctpId) {
+        String query = 'SELECT Id' +
+                ', Study_Code_Name__c ' +
+                'FROM Clinical_Trial_Profile__c ' +
+                'WHERE Id = \'' + ctpId + '\'';
+        List<Clinical_Trial_Profile__c> ctps = (List<Clinical_Trial_Profile__c>) proxy.query(query, true);
+        return ctps[0];
     }
 
     private String excludeExistingCoisFromQuery(List<String> selectedCoisIds) {
