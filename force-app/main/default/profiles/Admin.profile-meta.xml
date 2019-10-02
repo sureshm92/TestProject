@@ -5427,11 +5427,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Trial_Notification__c.Clinical_Trial_Profile__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Trial_Notification__c.Need_To_Send_Alert__c</field>
         <readable>true</readable>
     </fieldPermissions>
