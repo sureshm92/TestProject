@@ -103,7 +103,7 @@ global without sharing class ReferHealthcareProviderRemote {
     }
 
     public static String createHCPinPlatform(String studySiteId, String firstName, String lastName, String email, String phone, Contact piContact) {
-        createHCPinPlatform(studySiteId, firstName, lastName, email, phone, piContact, null);
+        return createHCPinPlatform(studySiteId, firstName, lastName, email, phone, piContact, null);
     }
 
     public static String createHCPinPlatform(String studySiteId, String firstName, String lastName, String email, String phone, Contact piContact, Healthcare_Provider__c hp) {
