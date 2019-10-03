@@ -34,7 +34,10 @@ public inherited sharing class VisitService {
     }
     private List<Visit__c> getVisits(String filter, Integer limitNumber) {
         ParticipantService.ParticipantState pState = ParticipantService.getInstance().getState();
-        if (pState == null || pState.ctp == null || pState.ctp.Visit_Plan__c == null || !pState.showVisits) {
+
+//        System.debug('>>>>>>' + JSON.serializePretty(pState));
+
+        if (pState == null || pState.ctp == null || !pState.showVisits) {
             return null;
         }
 
@@ -44,7 +47,6 @@ public inherited sharing class VisitService {
                 'Icons__c, ' +
                 'Status__c ' +
                 'FROM Visit__c ';
-        visitsQuery += 'WHERE Visit_Plan__c = \'' + pState.ctp.Visit_Plan__c + '\'';
         if (filter != null) {
             visitsQuery += filter;
         }

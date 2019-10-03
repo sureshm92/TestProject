@@ -5422,6 +5422,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Trial_Notification__c.CTP_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Trial_Notification__c.Need_To_Send_Alert__c</field>
         <readable>true</readable>
     </fieldPermissions>

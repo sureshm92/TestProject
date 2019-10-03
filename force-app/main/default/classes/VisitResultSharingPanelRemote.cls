@@ -46,6 +46,7 @@ public without sharing class VisitResultSharingPanelRemote {
     }
 
     public class InitData {
+        @AuraEnabled public String user_has_permission = 'no perm';
         @AuraEnabled public List<VisitResultGroupWrapper> groups;
         @AuraEnabled public List<LabelValueItem> typeSelectLVList = new List<LabelValueItem>{
                 new LabelValueItem('Disabled for all countries', TYPE_DISABLED),
@@ -78,6 +79,7 @@ public without sharing class VisitResultSharingPanelRemote {
 
             InitData initData = new InitData();
             initData.groups = new List<VisitResultGroupWrapper>();
+            initData.user_has_permission = permissonSetCheck();
 
             List<Visit_Result_GroupM__mdt> resultGroups = [
                     SELECT Id, Label, (SELECT Id, DeveloperName, Label, Visit_Result_Code__c FROM Visit_Result_Types__r)
@@ -221,5 +223,26 @@ public without sharing class VisitResultSharingPanelRemote {
         }
         if (!forDeletionSharings.isEmpty()) delete forDeletionSharings;
         upsert typeVRSharingMap.values();
+    }
+
+    public static String permissonSetCheck() {
+        List <PermissionSetAssignment> permSet = [
+                SELECT PermissionSet.Name
+                FROM PermissionSetAssignment
+                WHERE Assignee.Id = :UserInfo.getUserId()
+        ];
+        String user_has_permission;
+        for (PermissionSetAssignment psa : permSet) {
+            if (psa.PermissionSet.Name == 'Patient_Portal_Edit_Study_Settings') {
+                user_has_permission = 'edit';
+                break;
+            } else if (psa.PermissionSet.Name == 'Patient_Portal_Read_Study_Settings') {
+                user_has_permission = 'read';
+                break;
+            } else {
+                user_has_permission = 'no perm';
+            }
+        }
+        return user_has_permission;
     }
 }
