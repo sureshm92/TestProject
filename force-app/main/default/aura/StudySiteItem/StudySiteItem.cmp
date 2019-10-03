@@ -6,6 +6,7 @@
 
     <aura:attribute name="item" type="Object"/>
     <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="viewMode" type="String"/>
 
     <tr class="{!if(v.item.emptyAssignments, 'empty-assignments', '')}">
         <th data-label="Country" scope="row">
@@ -22,11 +23,11 @@
             <div class="slds-truncate"
                  title="">{!v.item.ss.Study_Site_Number__c}</div>
         </td>
+
         <aura:iteration items="{!v.item.assignments}" var="asg">
             <td>
-                <c:uiCheckbox keyId="{!v.item.ss.Id}" forField="{!asg.value}"
-                              fieldValue="{!asg.state}"
-                              onvaluechanged="{!c.sscCheckboxStateChange}"/>
+                <lightning:input label="" type="checkbox" value="{!asg.value}" checked="{!asg.state}"
+                                 onchange="{!c.sscCheckboxStateChange}" disabled="{!v.viewMode != 'Edit'}"/>
             </td>
         </aura:iteration>
     </tr>
