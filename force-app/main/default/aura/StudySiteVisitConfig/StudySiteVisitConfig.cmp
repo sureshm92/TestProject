@@ -40,10 +40,10 @@
     <aura:method name="refresh" action="{!c.doInit}"/>
 
     <!-- component body: -->
+    <aura:if isTrue="{!not(equals(v.viewModePage, 'Disabled'))}">
         <div class="panel">
             <c:RRSpinner aura:id="spinner"/>
             <lightning:navigation aura:id="navLink"/>
-            <aura:if isTrue="{!not(equals(v.viewModePage, 'Disabled'))}">
             <aura:if isTrue="{!v.initialized}">
                 <aura:if isTrue="{!not(empty(v.ssItems))}">
                     <!--Filters-->
@@ -205,8 +205,7 @@
                     <c:EmptyListStub message="{!$Label.c.PG_VP_L_No_Items_display}"/>
                 </aura:if>
             </aura:if>
-            </aura:if>
         </div>
         <c:Action_EditVisitPlan aura:id="actionVP"/>
-
+    </aura:if>
 </aura:component>
