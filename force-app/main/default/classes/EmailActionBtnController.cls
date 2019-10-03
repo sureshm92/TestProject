@@ -5,6 +5,7 @@
 global without sharing class EmailActionBtnController {
     
     global String buttonURLString {get; set;}
+    global String caseIdString {get; set;}
     
     public String getResultURL(){
         String result = buttonURLString;
