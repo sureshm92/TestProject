@@ -103,9 +103,11 @@ public with sharing class TrialSearchHelper {
 
     public void createTrialNotification(Id ctpId) {
         Clinical_Trial_Profile__c ctp = this.getClinicalTrialProfileById(ctpId);
-        Contact currentContact = CommunityService.getUserContact();
+        CommunityService communityService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
+        PatientDelegateService delegateService = (PatientDelegateService) ClassFactory.newInstance(PatientDelegateService.class);
         Trial_Notification__c notification = new Trial_Notification__c(
-                Contact__c = currentContact.Id
+                Participant__c = delegateService.getParticipant().First_Name__c
+                , Contact__c = communityService.getCurrentContactId()
                 , Clinical_Trial_Profile__c = ctp.Id
                 , CTP_Name__c = ctp.Study_Code_Name__c
         );

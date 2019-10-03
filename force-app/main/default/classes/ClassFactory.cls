@@ -14,7 +14,9 @@ public with sharing class ClassFactory {
 	public static Object newInstance(Type typeOfClass) {
 		if (!isCacheable || !existingObjectsByTypes.containsKey(typeOfClass)) {
 			Object instance = getStubOrInstance(typeOfClass);
-			existingObjectsByTypes.put(typeOfClass, instance);
+			if (!existingObjectsByTypes.containsKey(typeOfClass)) {
+				existingObjectsByTypes.put(typeOfClass, instance);
+			}
 			return instance;
 		} else {
 			return existingObjectsByTypes.get(typeOfClass);
