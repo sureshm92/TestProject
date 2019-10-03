@@ -37,12 +37,31 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
         }else{
             filter += ' AND ' + DatabaseService.fieldEqual('Clinical_Trial_Profile__c', getCTPId());
         }
+        List<Res_study__c> resStudies = (List<Res_study__c>)
+                DatabaseService.query(RES_STUDY_FIELDS, Res_study__c.getSObjectType(), filter);
+
+        Set<Id> resStudyResourceIds = new Set<Id>();
+        for(Res_study__c rs : resStudies) resStudyResourceIds.add(rs.Resource__c);
+        List<ContentDocumentLink> contentDocumentLinks = [
+                SELECT Id, ContentDocument.Title, LinkedEntityId
+                FROM ContentDocumentLink
+                WHERE LinkedEntityId IN:resStudyResourceIds
+        ];
+
+        Map<Id, List<String>> contentLangByResId = new Map<Id, List<String>>();
+        for (ContentDocumentLink content : contentDocumentLinks) {
+            if (!contentLangByResId.containsKey(content.LinkedEntityId)) {
+                contentLangByResId.put(content.LinkedEntityId, new List<String>());
+            }
+            contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.Title);
+        }
+
         //Get Res Study records and filters result resource Ids
         List<Id> resourcesIds = new List<Id>();
-        List<Res_study__c> resStudies = (List<Res_study__c>) DatabaseService.query(RES_STUDY_FIELDS, Res_study__c.getSObjectType(), filter);
         for (Res_study__c resStudy : resStudies) {
             if(resourceId != null || StudyResourceVisibilityService.isResourceVisibleForPE(
-                    resStudy, pState.pe, CommunityService.USER_MODE_PARTICIPANT, pState.isDelegate))
+                    resStudy, pState.pe, contentLangByResId.get(resStudy.Resource__c),
+                    CommunityService.USER_MODE_PARTICIPANT, pState.isDelegate))
             {
                 resourcesIds.add(resStudy.Resource__c);
             }
