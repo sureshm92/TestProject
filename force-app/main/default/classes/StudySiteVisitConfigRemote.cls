@@ -15,6 +15,7 @@ public without sharing class StudySiteVisitConfigRemote {
         @AuraEnabled public Boolean haveEmptyVPSS;
         @AuraEnabled public PaginationData paginationData;
         @AuraEnabled public Map<String, String> countryBySSId;
+        @AuraEnabled public String viewMode;
 
         public InitData() {
             paginationData = new PaginationData();
@@ -23,16 +24,43 @@ public without sharing class StudySiteVisitConfigRemote {
 
             countryBySSId = new Map<String, String>();
             visitPlans = getVisitPlansLV();
+            viewMode = '';
         }
     }
 
     @AuraEnabled
     public static InitData getInitData(Id ctpId) {
         try {
-            return init(ctpId);
+            InitData intData = init(ctpId);
+            intData.viewMode = getPermission();
+            return intData;
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
         }
+    }
+
+    private static String getPermission() {
+        List<String> permissionSets = new List<String>{
+                'Patient_Portal_Edit_Study_Settings',
+                'Patient_Portal_Read_Study_Settings'
+        };
+        List<PermissionSetAssignment> permissions = [
+                SELECT PermissionSet.Name
+                FROM PermissionSetAssignment
+                WHERE Assignee.Id = :UserInfo.getUserId()
+                AND (PermissionSet.Name = :permissionSets[0]
+                OR PermissionSet.Name = :permissionSets[1])
+                LIMIT 1
+        ];
+
+        String mode = '';
+        if (!permissions.isEmpty()){
+            if (permissions[0].PermissionSet.Name == permissionSets[0]) mode = 'Edit';
+            else if (permissions[0].PermissionSet.Name == permissionSets[1]) mode = 'Read';
+        } else {
+            mode = 'Disabled';
+        }
+        return mode;
     }
 
     @AuraEnabled

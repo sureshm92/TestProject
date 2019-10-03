@@ -1,4 +1,4 @@
-@IsTest(IsParallel=true)
+@IsTest
 public with sharing class Test_CTPSelector {
 
     @TestSetup
@@ -57,9 +57,9 @@ public with sharing class Test_CTPSelector {
 
     @IsTest
     static void getIconDetailsByVisitPlanInCTP_test() {
-    CTPSelector selector = new CTPSelector();
-    Clinical_Trial_Profile__c ctp = getCtp();
-    List<Icon_Details__c> iconDetails = selector.getIconDetailsByVisitPlanInCTP(ctp.Id);
-    System.assertEquals(2, iconDetails.size());
-}
+        CTPSelector selector = new CTPSelector();
+        Clinical_Trial_Profile__c ctp = getCtp();
+        List<Icon_Details__c> iconDetails = selector.getIconDetailsByVisitPlanInCTP(ctp.Visit_Plan__c);
+        System.assertEquals(2, iconDetails.size());
+    }
 }

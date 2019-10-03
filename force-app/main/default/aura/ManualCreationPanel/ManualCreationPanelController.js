@@ -47,16 +47,16 @@
             'adHocWrapper': JSON.stringify(component.get('v.adHocWrapper')),
             'filter': JSON.stringify(component.get('v.filter')),
             'activeTab': component.get('v.selectedTab')
-        }, function (response) {
-            if (response > 0)
+        }, function (found) {
+            if (found)
                 communityService.showSuccessToast(
                     'Success!',
-                    'Task successfully created for ' + response + ' users.'
+                    'Creation process is launched!'
                 );
             else
                 communityService.showWarningToast(
                     'Fail!',
-                    'No relevant users found in the system'
+                    'No relevant users are found in the system!'
                 );
         }, null, function () {
             component.find('spinner').hide();

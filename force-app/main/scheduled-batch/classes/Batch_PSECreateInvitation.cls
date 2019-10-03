@@ -68,7 +68,8 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
         Map<String, SurveyInvitation> invitationMap = getInvitationMap(enrollments);
 
         List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
-        for(Participant_Enrollment__c pe : enrollments) {
+        Id communityId = CommunityService.getCommunityId(null);
+        for (Participant_Enrollment__c pe : enrollments) {
             List<Trial_Survey__c> surveys = ctpToTSMap.get(pe.Clinical_Trial_Profile__c);
             if(surveys != null) {
                 for(Trial_Survey__c ts : surveys) {
@@ -76,7 +77,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                         if(ts.Is_Midpoint__c && PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(pe.Participant_Status__c)) continue;
                         String key = '' + pe.Id + ts.Id;
                         if(invitationMap.get(key) == null) {
-                            newInvitations.add(SurveyService.getInstance().generateInvitation(ts, pe.Id));
+                            newInvitations.add(SurveyService.getInstance().generateInvitation(ts, pe.Id, communityId));
                         }
                     }
                 }

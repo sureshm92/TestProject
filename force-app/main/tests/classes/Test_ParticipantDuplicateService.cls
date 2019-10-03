@@ -28,6 +28,16 @@ private class Test_ParticipantDuplicateService {
         );
         insert participantWithoutBY;
     
+        Participant__c participantDiffPhonesSameEmails = new Participant__c(
+                First_Name__c = 'Diff',
+                Last_Name__c = 'Phones',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'NY',
+                Email__c = 'diffphones@mail.com',
+                Phone__c = '7777777'
+        );
+        insert participantDiffPhonesSameEmails;
+    
         Test.startTest();
         Participant__c noBirthYearFirstNameMatch = new Participant__c(
                 First_Name__c = 'Max',
@@ -81,13 +91,24 @@ private class Test_ParticipantDuplicateService {
                 Email__c = 'JaneGoodwin@mail.com'
         );
     
+        Participant__c participantDiffPhonesSameEmailsCompare = new Participant__c(
+                First_Name__c = 'Diff',
+                Last_Name__c = 'Phones',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'NY',
+                Email__c = 'diffphones@mail.com',
+                Phone__c = '11111'
+        );
+    
+    
         ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(new List<Participant__c>{
                 noBirthYearFirstNameMatch,
                 noBirthYearFirstNameNotMatch,
                 withBirthYear,
                 withBirthYearButNoBYInTheInTheSystemAgeMore18,
                 withBYButNoBYInTheInTheSystemAgeMore18NameNotMatch,
-                withBYButNoBYInTheInTheSystemAgeLow18
+                withBYButNoBYInTheInTheSystemAgeLow18,
+                participantDiffPhonesSameEmailsCompare
         });
         
         Test.stopTest();
@@ -104,6 +125,8 @@ private class Test_ParticipantDuplicateService {
                 'Case: "With BirthYear, No BirthYear in the system, Age > 18, Name not match". No duplicate must be found for: ' + JSON.serializePretty(withBYButNoBYInTheInTheSystemAgeMore18NameNotMatch));
         System.assert(duplicateService.findDuplicate(withBYButNoBYInTheInTheSystemAgeLow18) == null,
                 'Case "With BirthYear, No BirthYear in the system, Age <= 18". No duplicate must be found for: ' + JSON.serializePretty(withBYButNoBYInTheInTheSystemAgeLow18));
+        System.assert(duplicateService.findDuplicate(participantDiffPhonesSameEmailsCompare) != null,
+                'Case "Different emails, same phones". Duplicate must be found' + JSON.serializePretty(withBYButNoBYInTheInTheSystemAgeLow18));
 
     }
 }
