@@ -1692,7 +1692,9 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Available</shortDescription>
-        <value>Please login and check Visits data become available.</value>
+        <value>New visit data is available.
+
+            Please log in to the IQVIA Patient Portal to view the latest visit data.</value>
     </labels>
     <labels>
         <fullName>Email_Body_By_PI_RP1</fullName>
@@ -2056,14 +2058,19 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient CreatedDate</shortDescription>
-        <value>We miss you, please log in and check your profile!</value>
+        <value>"We haven't heard from you in a while.
+
+            Please log in to the IQVIA Patient Portal to view all the latest information on your clinical research study."
+        </value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient_Log_In</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient Log In</shortDescription>
-        <value>We miss you!</value>
+        <value>We haven't heard from you in a while.
+
+            Please log in to the IQVIA Patient Portal to view all the latest information on your clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Plain_Summary</fullName>
@@ -2322,7 +2329,7 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Available</shortDescription>
-        <value>This is email to notify you about lab data or vitals become available</value>
+        <value>New Visit data is available to view</value>
     </labels>
     <labels>
         <fullName>Email_Header_Case</fullName>
@@ -2343,7 +2350,7 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Created Date</shortDescription>
-        <value>We miss you!</value>
+        <value>We haven't heard from you in a while</value>
     </labels>
     <labels>
         <fullName>Email_Header_Initial_Delegate</fullName>
@@ -2462,7 +2469,7 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Patient Log In</shortDescription>
-        <value>You do not log in, please do this!</value>
+        <value>We haven't heard from you in a while</value>
     </labels>
     <labels>
         <fullName>Email_Header_Plain_Summary</fullName>
@@ -2735,7 +2742,17 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <shortDescription>Email Signature Plain Summary</shortDescription>
         <value>Please feel free to contact us if you have any questions.
 
-Sincerely,
+            Sincerely,
+            The IQVIA Patient Portal Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Plain_Summary_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Plain Summary Available</shortDescription>
+        <value>We are excited to continue this journey with you.
+
+            Sincerely,
 
             The IQVIA Patient Portal Support Team</value>
     </labels>
@@ -8501,21 +8518,21 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Participant Created Date</shortDescription>
-        <value>We Miss you, please login and check profile</value>
+        <value>We miss you!</value>
     </labels>
     <labels>
         <fullName>Participant_Not_Logged_In</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Participant Not Logged In</shortDescription>
-        <value>You not logged in to IQVIA for some time, we miss you</value>
+        <value>We miss you</value>
     </labels>
     <labels>
         <fullName>Participant_Visits_Available</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Participant Visits Available</shortDescription>
-        <value>Your data become available</value>
+        <value>New Visit data is available</value>
     </labels>
     <labels>
         <fullName>Patient</fullName>
@@ -10616,6 +10633,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Update Participant</shortDescription>
         <value>Update Participant</value>
+    </labels>
+    <labels>
+        <fullName>View_Visit_Legend</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View Visit Legend</shortDescription>
+        <value>View Visit Legend</value>
     </labels>
     <labels>
         <fullName>Visit_Icons</fullName>

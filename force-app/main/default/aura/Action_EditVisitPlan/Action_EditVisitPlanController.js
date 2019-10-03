@@ -37,7 +37,7 @@
         if (params.mode === 'create') {
             helper.createVPMode(component);
         } else if (vpId !== null) {
-            if(params.mode === 'edit') {
+            if(params.mode === 'edit' || params.mode === 'view') {
                 helper.callRemote(component, vpId);
             } else if(params.mode === 'clone') {
                 helper.callRemote(component, vpId, true);
