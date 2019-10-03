@@ -57,15 +57,21 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
         List<Visit_Result__c> listOfResult = VisitResultSharingService.getAvailableVisitResults(patientVisits, true, mapOfCTPByShare);
 
         List<Contact> peContacts = new List<Contact>();
+        Map<Id, Id> peIdByContact = new Map<Id, Id>();
         for(Visit_Result__c visitResultObj : listOfResult){
             if(visitResultObj.Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__c != null){
                 peContacts.add(visitResultObj.Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__r);
+                peIdByContact.put(
+                        visitResultObj.Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__c,
+                        visitResultObj.Patient_Visit__r.Participant_Enrollment__c
+                );
             }
             visitResultObj.Patient_Visit__r.Notified__c = true;
         }
 
         if(!peContacts.isEmpty()) {
-            SendEmailToParticipant.sendPlainSummaryNotifications(peContacts, SendEmailToParticipant.PATIENT_VISITS_AVAILABLE);
+            SendEmailToParticipant.sendPlainSummaryNotifications(
+                    peContacts, peIdByContact, SendEmailToParticipant.PATIENT_VISITS_AVAILABLE);
             update listOfResult;
         }
     }
