@@ -5,3 +5,8 @@
 .THIS .uiInput--checkbox[type=checkbox][disabled] {
     background-color: rgb(148, 148, 148);
 }
+
+.THIS.panel {
+    min-height: 100px;
+    position: relative;
+}
