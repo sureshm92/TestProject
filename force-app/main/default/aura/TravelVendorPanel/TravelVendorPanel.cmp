@@ -16,10 +16,9 @@
 
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
-    <aura:if isTrue="{!v.permission != 'disabled'}">
-        <div class="panel" style="position: relative">
+    <div class="panel">
+        <aura:if isTrue="{!v.permission != 'disabled'}">
             <c:RRSpinner aura:id="spinner"/>
-
             <!--Filters-->
             <aura:if isTrue="{!v.initialized}">
                 <div class="filters-section">
@@ -57,28 +56,29 @@
                             />
                         </div>
                         <aura:if isTrue="{! v.permission == 'edit'}">
-                        <div class="slds-col slds-size--4-of-12 slds-var-m-top_x-small">
-                            <lightning:button onclick="{!c.showModal}"
-                                              class="slds-theme_neutral slds-m-around--medium"
-                                              variant="neutral"
-                                              label="{!$Label.c.TS_Add_Vendor}"/>
-                        </div>
-                        <c:CustomModal aura:Id='customModal' size="small">
-                            <c:AddTravelVendorCmp aura:id="addTravelVendor" onSubmit="{!c.onAddTravelVendor}"/>
-                            <aura:set attribute="footer">
-                                <lightning:button variant="neutral" type="button" name="close"
-                                                  label="{!$Label.c.BTN_Close}"
-                                                  onclick="{!c.closeModal}"/>
-                                <lightning:button variant="brand" type="button" name="save" label="{!$Label.c.BTN_Save}"
-                                                  onclick="{!c.submitForm}"/>
-                            </aura:set>
-                        </c:CustomModal>
-                        <!--Save changes button-->
-                        <div class="slds-col slds-size--2-of-12 save-btn slds-p-horizontal_medium slds-var-m-top_x-small">
-                            <lightning:button variant="brand"
-                                              class="slds-m-around--medium" label="{!$Label.c.BTN_Save}"
-                                              onclick="{!c.doSave}" aura:id="saveButton"/>
-                        </div>
+                            <div class="slds-col slds-size--4-of-12 slds-var-m-top_x-small">
+                                <lightning:button onclick="{!c.showModal}"
+                                                  class="slds-theme_neutral slds-m-around--medium"
+                                                  variant="neutral"
+                                                  label="{!$Label.c.TS_Add_Vendor}"/>
+                            </div>
+                            <c:CustomModal aura:Id='customModal' size="small">
+                                <c:AddTravelVendorCmp aura:id="addTravelVendor" onSubmit="{!c.onAddTravelVendor}"/>
+                                <aura:set attribute="footer">
+                                    <lightning:button variant="neutral" type="button" name="close"
+                                                      label="{!$Label.c.BTN_Close}"
+                                                      onclick="{!c.closeModal}"/>
+                                    <lightning:button variant="brand" type="button" name="save"
+                                                      label="{!$Label.c.BTN_Save}"
+                                                      onclick="{!c.submitForm}"/>
+                                </aura:set>
+                            </c:CustomModal>
+                            <!--Save changes button-->
+                            <div class="slds-col slds-size--2-of-12 save-btn slds-p-horizontal_medium slds-var-m-top_x-small">
+                                <lightning:button variant="brand"
+                                                  class="slds-m-around--medium" label="{!$Label.c.BTN_Save}"
+                                                  onclick="{!c.doSave}" aura:id="saveButton"/>
+                            </div>
                         </aura:if>
                     </div>
                 </div>
@@ -145,6 +145,6 @@
                     </div>
                 </div>
             </aura:if>
-        </div>
-    </aura:if>
+        </aura:if>
+    </div>
 </aura:component>
