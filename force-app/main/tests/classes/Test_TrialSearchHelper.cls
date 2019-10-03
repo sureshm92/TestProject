@@ -39,7 +39,7 @@ private class Test_TrialSearchHelper {
         };
         insert cois;
 
-        List<Therapeutic_Area__c> filteredCois = new TrialSearchHelper().getFilteredTherapeuticAreas('coi', new List<Id>{cois[0].Id});
+        List<Therapeutic_Area__c> filteredCois = new TrialSearchHelper().searchFilteredTherapeuticAreas('coi', new List<Id>{cois[0].Id});
         System.assertEquals(1, filteredCois.size());
         System.assertEquals(cois[1].Id, filteredCois[0].Id);
     }
@@ -69,16 +69,6 @@ private class Test_TrialSearchHelper {
         Test.stopTest();
 
         System.assertEquals(1, container.trialTDOs.size());
-    }
-
-
-    private static List<Trial_Notification__c> selectTrialNotifications() {
-        return [
-                SELECT Id
-                , Contact__c
-                , Clinical_Trial_Profile__c
-                FROM Trial_Notification__c
-        ];
     }
 
 }
