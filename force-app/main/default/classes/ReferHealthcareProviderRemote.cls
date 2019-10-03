@@ -87,8 +87,7 @@ global without sharing class ReferHealthcareProviderRemote {
             newHP.Status__c = HP_S_INVITED;
             insert newHP;
 
-            newHP.HCP_Enrollment__c = createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null, CommunityService.getUserContact());
-            update newHP;
+            createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null, CommunityService.getUserContact(), newHP);
         }
 
         return getInitData(peId);
@@ -104,6 +103,10 @@ global without sharing class ReferHealthcareProviderRemote {
     }
 
     public static String createHCPinPlatform(String studySiteId, String firstName, String lastName, String email, String phone, Contact piContact) {
+        createHCPinPlatform(studySiteId, firstName, lastName, email, phone, piContact, null);
+    }
+
+    public static String createHCPinPlatform(String studySiteId, String firstName, String lastName, String email, String phone, Contact piContact, Healthcare_Provider__c hp) {
         Boolean isNewUser = false;
 
         Study_Site__c studySite = [SELECT Id, Site__c, Site__r.BillingCountry FROM Study_Site__c WHERE Id = :studySiteId];
@@ -152,10 +155,15 @@ global without sharing class ReferHealthcareProviderRemote {
                 Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION,
                 Study_Site__c = (String.isBlank(studySiteId) ? null : studySiteId)
         );
+        insert hcpe;
+
+        hp.HCP_Enrollment__c = hcpe.Id;
+        update hp;
+
         if (!isNewUser) {
             hcpe.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
         }
-        insert hcpe;
+        update hcpe;
 
         if (!isNewUser) {
             hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
