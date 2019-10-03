@@ -1692,7 +1692,9 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Available</shortDescription>
-        <value>Please login and check Visits data become available.</value>
+        <value>New visit data is available.
+
+            Please log in to the IQVIA Patient Portal to view the latest visit data.</value>
     </labels>
     <labels>
         <fullName>Email_Body_By_PI_RP1</fullName>
@@ -2322,7 +2324,7 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Available</shortDescription>
-        <value>This is email to notify you about lab data or vitals become available</value>
+        <value>New Visit data is available to view</value>
     </labels>
     <labels>
         <fullName>Email_Header_Case</fullName>
@@ -2736,6 +2738,17 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <value>Please feel free to contact us if you have any questions.
 
 Sincerely,
+
+            The IQVIA Patient Portal Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Plain_Summary_Available</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Plain Summary Available</shortDescription>
+        <value>We are excited to continue this journey with you.
+
+            Sincerely,
 
             The IQVIA Patient Portal Support Team</value>
     </labels>
@@ -8515,7 +8528,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Participant Visits Available</shortDescription>
-        <value>Your data become available</value>
+        <value>New Visit data is available</value>
     </labels>
     <labels>
         <fullName>Patient</fullName>
