@@ -157,8 +157,10 @@ global without sharing class ReferHealthcareProviderRemote {
         );
         insert hcpe;
 
-        hp.HCP_Enrollment__c = hcpe.Id;
-        update hp;
+        if (hp != null) {
+            hp.HCP_Enrollment__c = hcpe.Id;
+            update hp;
+        }
 
         if (!isNewUser) {
             hcpe.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
