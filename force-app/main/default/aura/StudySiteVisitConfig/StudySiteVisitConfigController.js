@@ -8,6 +8,7 @@
         communityService.executeAction(component, 'getInitData', {
             ctpId: component.get('v.recordId')
         }, function (data) {
+            component.set('v.viewModePage', data.viewMode);
             helper.init(component, data);
         });
     },
@@ -166,6 +167,12 @@
         component.find('actionVP').execute(menuCmp.get('v.plan').value, function () {
             component.refresh();
         }, 'edit');
+    },
+    doColumnVisitView: function (component, event, helper) {
+        let menuCmp = event.getSource();
+        component.find('actionVP').execute(menuCmp.get('v.plan').value, function () {
+            component.refresh();
+        }, 'view');
     },
 
     doColumnVisitClone: function (component, event, helper) {
