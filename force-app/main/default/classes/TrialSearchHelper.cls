@@ -95,7 +95,7 @@ public with sharing class TrialSearchHelper {
                 Last_Name__c = participant.Last_Name__c,
                 Gender__c = participant.Gender__c,
                 Phone__c = participant.Phone__c,
-                Study_Code__c = ctp.NCT_Number__c,
+                Study_Code__c = ctp.Study_Code_Name__c,
                 Study__c = ctp.Id
         );
         ((DatabaseProxy) (ClassFactory.newInstance(DatabaseProxy.class))).upsertRecord(caseContact, true);

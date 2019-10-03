@@ -21,10 +21,19 @@ private class Test_ManualCreationPanelRemote {
         taskPanelWrapper.task.Start_Date__c = System.today();
         taskPanelWrapper.task.Visible_For__c = 'Owner;Delegates';
 
+        ManualCreationPanelRemote.AdHocWrapper adHocWrapper = new ManualCreationPanelRemote.AdHocWrapper();
+        adHocWrapper.selectedRS = schedule.Id;
+
         Test.startTest();
         ManualCreationPanelRemote.getInitData();
+        ManualCreationPanelRemote.createTasks(
+                JSON.serialize(taskPanelWrapper),
+                JSON.serialize(adHocWrapper),
+                JSON.serialize(filter),
+                'task'
+        );
         ManualCreationPanelRemote.searchReminderScheduleByValue(schedule.Id);
-        ManualCreationPanelRemote.searchReminderSchedule('RS', schedule.Id);
+        ManualCreationPanelRemote.searchReminderSchedule('RS', '');
         Test.stopTest();
     }
 }
