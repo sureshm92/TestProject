@@ -2056,7 +2056,10 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient CreatedDate</shortDescription>
-        <value>We miss you, please log in and check your profile!</value>
+        <value>"We haven't heard from you in a while.
+
+            Please log in to the IQVIA Patient Portal to view all the latest information on your clinical research study."
+        </value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient_Log_In</fullName>
@@ -2343,7 +2346,7 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Created Date</shortDescription>
-        <value>We miss you!</value>
+        <value>We haven't heard from you in a while</value>
     </labels>
     <labels>
         <fullName>Email_Header_Initial_Delegate</fullName>
@@ -8501,7 +8504,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Participant Created Date</shortDescription>
-        <value>We Miss you, please login and check profile</value>
+        <value>We miss you!</value>
     </labels>
     <labels>
         <fullName>Participant_Not_Logged_In</fullName>
