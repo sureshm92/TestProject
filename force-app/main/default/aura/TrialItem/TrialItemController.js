@@ -32,7 +32,7 @@
         } else {
             component.find('mainSpinner').hide();
             let urlEpr = trial.ctp.Link_to_ePR_Campaign__c;
-            if (!urlEpr.match('/^https?:\/\//i')) {
+            if (!urlEpr.match('https?:\/\/')) {
                 urlEpr = 'http://' + urlEpr;
             }
             window.open(urlEpr);

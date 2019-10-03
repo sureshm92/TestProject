@@ -51,10 +51,9 @@ public without sharing class ManualCreationPanelRemote {
     @AuraEnabled
     public static Integer createTasks(String taskPanelWrapper, String adHocWrapper, String filter, String activeTab) {
         try {
-            Integer taskCreated = 0;
-
             ManualTaskFilter manFilter = (ManualTaskFilter) JSON.deserialize(filter, ManualTaskFilter.class);
 
+            Integer taskCreated = 0;
             if (activeTab.equals('task')) {
                 ManualTaskRemote.TaskPanelWrapper taskWrapper =
                         (ManualTaskRemote.TaskPanelWrapper) JSON.deserialize(taskPanelWrapper, ManualTaskRemote.TaskPanelWrapper.class);
@@ -205,26 +204,28 @@ public without sharing class ManualCreationPanelRemote {
         Reminder_Schedule__c rs = rsList.isEmpty() ? null : rsList.get(0);
 
         List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
+        Id communityId = CommunityService.getCommunityId(null);
         for (Participant_Enrollment__c pe : filter.getContactsWithPE().values()) {
             newInvitations.add(SurveyService.getInstance().generateInvitation(
                     survey,
                     rs,
                     wrapper.daysToExpire,
                     wrapper.expireOnAlumni,
-                    pe.Id
+                    pe.Id,
+                    communityId
             ));
         }
 
-        Integer count = 0;
+        Integer taskCreated = 0;
         if (!newInvitations.isEmpty()) {
             insert newInvitations;
 
             Map<Id, String> invitationsVisible = new Map<Id, String>();
             for (SurveyInvitation inv : newInvitations) invitationsVisible.put(inv.Id, wrapper.neededResponse);
 
-            count = TaskService.getInstance().createSurveyTasks(invitationsVisible);
+            taskCreated = TaskService.getInstance().createSurveyTasks(invitationsVisible);
         }
 
-        return count;
+        return taskCreated;
     }
 }

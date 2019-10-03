@@ -89,9 +89,9 @@ public without sharing class TaskService {
         tasks.addAll((List<Task>) DatabaseService.query(query + queryFilter));
 
         Boolean isDelegate = ParticipantService.getInstance().getState().isDelegate;
-        if(isDelegate) {
+        if (isDelegate) {
             ownerFilter = 'OwnerId = \'' + PatientDelegateService.getInstance().getParticipantUserId() + '\'';
-            if(filter == null) {
+            if (filter == null) {
                 queryFilter = ownerFilter;
             } else {
                 queryFilter = ownerFilter + ' AND ' + filter;
@@ -154,11 +154,23 @@ public without sharing class TaskService {
         ];
 
         Set<Id> contactIds = new Set<Id>();
+        for (SurveyInvitation inv : surveyInvitation) contactIds.add(inv.Participant_Enrollment__r.Participant_Contact__c);
+
+        List<Patient_Delegate__c> patientDelegates = [
+                SELECT Id,
+                        Contact__c,
+                        Participant__r.Contact__c
+                FROM Patient_Delegate__c
+                WHERE Participant__r.Contact__c IN:contactIds
+        ];
         Set<Id> delContactIds = new Set<Id>();
-        for (SurveyInvitation inv : surveyInvitation) {
-            Id partContactId = inv.Participant_Enrollment__r.Participant_Contact__c;
-            contactIds.add(partContactId);
-            delContactIds.addAll(PatientDelegateService.getDelegatedContactIds(partContactId));
+        Map<Id, Set<Id>> delegatesByParticipant = new Map<Id, Set<Id>>();
+        for (Patient_Delegate__c pd : patientDelegates) {
+            if (!delegatesByParticipant.containsKey(pd.Participant__r.Contact__c)) {
+                delegatesByParticipant.put(pd.Participant__r.Contact__c, new Set<Id>());
+            }
+            delegatesByParticipant.get(pd.Participant__r.Contact__c).add(pd.Contact__c);
+            delContactIds.add(pd.Contact__c);
         }
 
         Map<Id, Id> participantContactUser = getContactUserIdsMap(contactIds);
@@ -168,16 +180,16 @@ public without sharing class TaskService {
         Set<Id> allContacts = new Set<Id>();
         allContacts.addAll(contactIds);
         allContacts.addAll(delContactIds);
-        Map<Id, TimeZone> userTimezoneMap = getUserTimezoneMap(allContacts);
+        Map<Id, TimeZone> userTimezoneMap = DateTimeConverterUtil.getUsersTimezoneMap(allContacts);
 
         List<TaskConfig> taskConfigs = new List<TaskConfig>();
         for (SurveyInvitation inv : surveyInvitation) {
             Id partContactId = inv.Participant_Enrollment__r.Participant_Contact__c;
             Id partUserId = participantContactUser.get(partContactId);
-            if(partUserId == null) continue;
+            if (partUserId == null) continue;
 
             userContact.put(partUserId, partContactId);
-            List<Id> patientDelContactIds = PatientDelegateService.getDelegatedContactIds(partContactId);
+            Set<Id> patientDelContactIds = delegatesByParticipant.get(partContactId);
 
             List<TaskConfig> tmpConfigs = new List<TaskConfig>();
             String visible = invitationsVisible.get(inv.Id);
@@ -187,7 +199,7 @@ public without sharing class TaskService {
                 }
                 when 'Each Delegate' {
                     for (Id pdId : patientDelContactIds) {
-                        if(delContactUser.get(pdId) == null) continue;
+                        if (delContactUser.get(pdId) == null) continue;
 
                         tmpConfigs.add(new TaskConfig(delContactUser.get(pdId)));
                         userContact.put(delContactUser.get(pdId), pdId);
@@ -196,7 +208,7 @@ public without sharing class TaskService {
                 when 'Patient and each Delegate' {
                     tmpConfigs.add(new TaskConfig(partUserId));
                     for (Id pdId : patientDelContactIds) {
-                        if(delContactUser.get(pdId) == null) continue;
+                        if (delContactUser.get(pdId) == null) continue;
 
                         tmpConfigs.add(new TaskConfig(delContactUser.get(pdId)));
                         userContact.put(delContactUser.get(pdId), pdId);
@@ -210,16 +222,17 @@ public without sharing class TaskService {
                 tsc.description = inv.Id;
                 tsc.priority = TASK_PRIORITY_CRITICAL;
                 tsc.reminderSchedule = inv.Reminder_Schedule__c;
-                tsc.startDate = getUserDatetime(userTimezoneMap.get(tsc.ownerId), null).date();
+                tsc.startDate = DateTimeConverterUtil.getUserDatetime(userTimezoneMap.get(tsc.ownerId), (Datetime)null).date();
                 if (inv.InviteExpiryDateTime != null) {
-                    Date expiryDate= inv.InviteExpiryDateTime.date();
+                    Date expiryDate = inv.InviteExpiryDateTime.date();
                     Integer daysBetween = Date.today().daysBetween(expiryDate);
                     tsc.activityDate = tsc.startDate.addDays(daysBetween);
                 }
 
                 if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {
                     Integer firstReminderDay = (Integer) inv.Reminder_Schedule__r.First_Reminder_day__c;
-                    tsc.reminderDatetime = getUserDatetime(userTimezoneMap.get(tsc.ownerId), null).addDays(firstReminderDay);
+                    tsc.reminderDatetime = DateTimeConverterUtil.getUserDatetime(
+                            userTimezoneMap.get(tsc.ownerId), (Datetime)null).addDays(firstReminderDay);
                 }
                 tsc.subject = subject;
                 tsc.type = TASK_TYPE_SURVEY;
@@ -300,7 +313,7 @@ public without sharing class TaskService {
                 TASK_STATUS_COMPLETED
         };
         return ' (Status IN (\'' + String.join(statusFilter, '\',\'') + '\') ' +
-               'OR (Status = \'' + TASK_STATUS_EXPIRED + '\' AND Task_Type__c = \'' + TASK_TYPE_SURVEY + '\')) ';
+                'OR (Status = \'' + TASK_STATUS_EXPIRED + '\' AND Task_Type__c = \'' + TASK_TYPE_SURVEY + '\')) ';
     }
 
     public Map<Id, Id> getContactUserIdsMap(Set<Id> contactIds) {
@@ -314,26 +327,6 @@ public without sharing class TaskService {
         for (User u : users) contactUserMap.put(u.ContactId, u.Id);
 
         return contactUserMap;
-    }
-
-    public static Map<Id, TimeZone> getUserTimezoneMap(Set<Id> contactIds) {
-        List<User> users = [
-                SELECT Id, TimeZoneSidKey
-                FROM User
-                WHERE ContactId IN:contactIds
-                AND IsActive = TRUE
-        ];
-        Map<Id, TimeZone> userMap = new Map<Id, TimeZone>();
-        for (User u : users) userMap.put(u.Id, TimeZone.getTimeZone(u.TimeZoneSidKey));
-
-        return userMap;
-    }
-
-    public static Datetime getUserDatetime(TimeZone timezone, Datetime moment) {
-        if(moment == null) moment = Datetime.now();
-
-        String nowFormat = moment.format('YYYY-MM-dd HH:mm:ss', timezone.toString());
-        return Datetime.valueOfGmt(nowFormat);
     }
 
     public class TaskConfig {
@@ -369,27 +362,29 @@ public without sharing class TaskService {
             this.visibility = visibility;
         }
     }
-    
-    public List<Task> filterCurrentStudyTasks(List<Task> tasks){
+
+    public List<Task> filterCurrentStudyTasks(List<Task> tasks) {
         Participant_Enrollment__c currentPE = ParticipantService.getInstance().getState().pe;
         List<Task> filteredList = new List<Task>();
-System.debug('Task JSON: ' + JSON.serializePretty(tasks));
+        System.debug('Task JSON: ' + JSON.serializePretty(tasks));
         Set<Id> invIds = new Set<Id>();
-        for(Task t: tasks) {
-            if(t.Task_Type__c == TASK_TYPE_SURVEY && t.Description != null) invIds.add(t.Description);
+        for (Task t : tasks) {
+            if (t.Task_Type__c == TASK_TYPE_SURVEY && t.Description != null) invIds.add(t.Description);
         }
         List<SurveyInvitation> invitations = [
-                SELECT Id, Participant_Enrollment__c FROM SurveyInvitation WHERE Id IN: invIds
+                SELECT Id, Participant_Enrollment__c
+                FROM SurveyInvitation
+                WHERE Id IN:invIds
         ];
         Set<Id> peIds = new Set<Id>();
-        for(SurveyInvitation inv : invitations) peIds.add(inv.Participant_Enrollment__c);
+        for (SurveyInvitation inv : invitations) peIds.add(inv.Participant_Enrollment__c);
 
-        for(Task t : tasks){
-            if(t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()){
-                if(currentPE != null && t.WhatId == currentPE.Id) filteredList.add(t);
-            } else if(t.Task_Type__c == TASK_TYPE_SURVEY && t.Description != null) {
-                if(peIds.contains(currentPE.Id)) filteredList.add(t);
-            } else if(t.Task_Type__c != TASK_TYPE_SURVEY){
+        for (Task t : tasks) {
+            if (t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
+                if (currentPE != null && t.WhatId == currentPE.Id) filteredList.add(t);
+            } else if (t.Task_Type__c == TASK_TYPE_SURVEY && t.Description != null) {
+                if (peIds.contains(currentPE.Id)) filteredList.add(t);
+            } else if (t.Task_Type__c != TASK_TYPE_SURVEY) {
                 filteredList.add(t);
             }
         }

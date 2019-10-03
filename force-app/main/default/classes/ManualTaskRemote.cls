@@ -30,7 +30,7 @@ public with sharing class ManualTaskRemote {
             }
             insert tasks;
 
-            return users.size();//For toast after onclick
+            return tasks.size();
         } catch (Exception e) {
             return (Integer) AuraHelper.throwException(e);
         }
