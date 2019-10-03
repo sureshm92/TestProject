@@ -20,7 +20,7 @@ private class Test_ManualTaskRemote {
         );
 
         Test.startTest();
-        Integer countOfTaskCreated = ManualTaskRemote.createTasks(testTask, manualTaskFilter);
+        Boolean taskCreated = ManualTaskRemote.createTasks(testTask, manualTaskFilter);
         Test.stopTest();
 
         List<Task> tasks2 = [
@@ -51,7 +51,7 @@ private class Test_ManualTaskRemote {
             System.assertEquals('Owner;Delegates', tasks2.get(i).Visible_For__c);
         }
 
-        System.assertEquals(manualTaskFilter.getContactsWithPE().size(), countOfTaskCreated);
+        System.assertEquals(!manualTaskFilter.getContactsWithPE().isEmpty(), taskCreated);
     }
 
     @IsTest
@@ -69,10 +69,10 @@ private class Test_ManualTaskRemote {
         );
 
         Test.startTest();
-        Integer countOfTaskCreated = ManualTaskRemote.createTasks(testTask, manualTaskFilter);
+        Boolean taskCreated = ManualTaskRemote.createTasks(testTask, manualTaskFilter);
         Test.stopTest();
 
-        System.assertEquals(manualTaskFilter.getContactsWithPE().size(), countOfTaskCreated);
+        System.assertEquals(!manualTaskFilter.getContactsWithPE().isEmpty(), taskCreated);
 
         List<Task> tasks = [
                 SELECT Id
@@ -80,7 +80,7 @@ private class Test_ManualTaskRemote {
                 WHERE Subject = 'TestTask'
                 AND OwnerId IN: manualTaskFilter.getContactsWithPE().keySet()
         ];
-        System.assertEquals(countOfTaskCreated, tasks.size());
+        System.assertEquals(taskCreated, !tasks.isEmpty());
     }
 
     @TestSetup
