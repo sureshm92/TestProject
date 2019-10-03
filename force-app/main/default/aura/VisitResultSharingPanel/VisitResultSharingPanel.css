@@ -5,6 +5,11 @@
     min-height: 125px;
 }
 
+.THIS.panel {
+    min-height: 100px;
+    position: relative;
+}
+
 .THIS .global-data{
     display: flex;
     justify-content: space-between;
