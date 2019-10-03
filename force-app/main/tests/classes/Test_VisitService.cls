@@ -9,45 +9,28 @@ private class Test_VisitService {
         Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan');
         insert vp;
 
-        List<String> iconsApiName = new List<String>{
-                'icon-questionnaires;icon-ecg',
-                'icon-vital-signs;icon-blood-test',
-                'icon-questionnaires;icon-brief-ph-ex',
-                'icon-questionnaires;icon-blood-test;icon-brief-ph-ex',
-                'icon-questionnaires;icon-ecg;icon-vital-signs;icon-blood-test'
-        };
-        List<Visit__c> testVisits = new List<Visit__c>();
-        for (Integer i = 0; i < 5; i++) {
-            testVisits.add(new Visit__c(
-                    Name = 'TestVisit' + i,
-                    Visit_Schedule__c = 'Week' + i,
-                    Icons__c = iconsApiName.get(i),
-                    Order__c = i,
-                    Visit_Plan__c = vp.Id
-            ));
-        }
-        insert testVisits;
+        Visit__c testvisit = new Visit__c(
+                Name = 'TestVisit',
+                Visit_Schedule__c = 'Week1',
+                Icons__c = 'icon-ecg',
+                Order__c = 1,
+                Visit_Plan__c = vp.Id
+        );
+        insert testvisit;
+        TestData.loadTestData();
+        TestData testData = new TestData();
+        testData.updatePEStatusEnrollmentSuccess();
 
+        insert VisitService.createPatientVisit(testvisit, testData.pe.Id);
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
-        ParticipantService.ParticipantState state = new ParticipantService.ParticipantState();
-        state.pe = [
-                SELECT Id,
-                        Clinical_Trial_Profile__r.Visit_Plan__c
-                FROM Participant_Enrollment__c
-        ].get(0);
-        state.ctp = state.pe.Clinical_Trial_Profile__r;
-        state.showVisits = true;
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubBuilder.newInstance(ParticipantService.class)
-                .when('getState')
-                .then(state)
-                .build()
-       );
-
         Test.startTest();
-        List<Visit__c> visits = VisitService.getInstance().getVisits(null);
+        List<Visit__c> visits;
+        System.runAs(testData.participantUser) {
+            visits = VisitService.getInstance().getVisits(null);
+        }
         Test.stopTest();
 
-        List<Visit__c> visits2 = [
+        List<Visit__c> visitsFromDB = [
                 SELECT Id,
                         Name,
                         Icons__c,
@@ -56,51 +39,42 @@ private class Test_VisitService {
                 FROM Visit__c
                 ORDER BY Order__c
         ];
-        System.assertEquals(visits2.size(), testVisits.size());
+        System.assertEquals(visitsFromDB.size(), visits.size());
 
-        for (Integer i = 0; i < visits2.size(); i++) {
-            Visit__c v1 = testVisits.get(i);
-            Visit__c v2 = visits2.get(i);
+        for (Integer i = 0; i < visitsFromDB.size(); i++) {
+            Visit__c v1 = visits.get(i);
+            Visit__c v2 = visitsFromDB.get(i);
 
             System.assertEquals(v1.Id, v2.Id);
             System.assertEquals(v1.Name, v2.Name);
-            System.assertEquals(v1.Icons__c, v2.Icons__c);
         }
     }
 
     @IsTest
     static void getPreviewVisitsTest() {
-        List<String> iconsApiName = new List<String>{
-                'icon-questionnaires;icon-ecg',
-                'icon-vital-signs;icon-blood-test',
-                'icon-questionnaires;icon-brief-ph-ex',
-                'icon-questionnaires;icon-blood-test;icon-brief-ph-ex',
-                'icon-questionnaires;icon-ecg;icon-vital-signs;icon-blood-test'
-        };
 
         Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan');
         insert vp;
-        List<Visit__c> visits = new List<Visit__c>();
-        for (Integer i = 0; i < 5; i++) {
-            visits.add(new Visit__c(
-                    Name = 'TestVisit' + i,
-                    Visit_Schedule__c = 'Week' + i,
-                    Icons__c = iconsApiName.get(i),
-                    Order__c = i,
-                    Visit_Plan__c = vp.Id
-            ));
-        }
-        insert visits;
-//        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
+
+        Visit__c testvisit = new Visit__c(
+                Name = 'TestVisit',
+                Visit_Schedule__c = 'Week1',
+                Icons__c = 'icon-ecg',
+                Order__c = 1,
+                Visit_Plan__c = vp.Id
+        );
+        insert testvisit;
         TestData.loadTestData();
         TestData testData = new TestData();
+        testData.updatePEStatusEnrollmentSuccess();
 
+        insert VisitService.createPatientVisit(testvisit, testData.pe.Id);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
         Test.startTest();
-        List<Visit__c> previewVisits;
-        System.runAs(testData.participantUser){
-            previewVisits = VisitService.getInstance().getPreviewVisits();
+        List<Visit__c> visits;
+        System.runAs(testData.participantUser) {
+            visits = VisitService.getInstance().getPreviewVisits();
         }
-
         Test.stopTest();
 
         List<Visit__c> visits2 = [
@@ -113,12 +87,11 @@ private class Test_VisitService {
                 ORDER BY Order__c
                 LIMIT 3
         ];
-        System.debug('>>>prev_visits2:' + previewVisits.size());
 
-        System.assertEquals(visits2.size(), previewVisits.size());
+        System.assertEquals(visits2.size(), visits.size());
 
         for (Integer i = 0; i < visits2.size(); i++) {
-            Visit__c v1 = previewVisits.get(i);
+            Visit__c v1 = visits.get(i);
             Visit__c v2 = visits2.get(i);
 
             System.assertEquals(v1.Id, v2.Id);

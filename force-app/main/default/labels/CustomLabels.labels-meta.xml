@@ -10625,6 +10625,13 @@ Please check your CAPS lock key.</value>
         <value>Update Participant</value>
     </labels>
     <labels>
+        <fullName>View_Visit_Legend</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View Visit Legend</shortDescription>
+        <value>View Visit Legend</value>
+    </labels>
+    <labels>
         <fullName>Visit_Icons</fullName>
         <categories>Visit Icons</categories>
         <language>en_US</language>

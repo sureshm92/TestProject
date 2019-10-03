@@ -10,6 +10,9 @@
             ctpId: component.get('v.recordId'),
             isFirstLoad: true
         }).then(function (data) {
+
+            console.log(JSON.stringify(data));
+            component.set('v.permission', data.permission);
             if (data.vendorItems.length > 0) {
                 component.set('v.vendorItems', data.vendorItems);
                 component.set('v.selectedVendors', data.vendors);
