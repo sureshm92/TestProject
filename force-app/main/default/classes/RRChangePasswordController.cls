@@ -142,10 +142,7 @@ public without sharing class RRChangePasswordController {
         isProfileView = true;
     }
 
-    public void checkPasswords(){
-        Site.validatePassword(userVal, newPassword, verifyNewPassword);
-        if(ApexPages.getMessages().size() == 0) isProfileView = false;
-
+    public void saveUserInfo() {
         if (!notEnrollNow) {
             update contact;
 
@@ -164,11 +161,11 @@ public without sharing class RRChangePasswordController {
             }
 
             List<HCP_Enrollment__c> hcpEnrollments = [SELECT Id,
-                                                             HCP_Contact__c,
-                                                             Status__c
-                                                      FROM HCP_Enrollment__c
-                                                      WHERE HCP_Contact__c = :contact.Id AND
-                                                            Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION];
+                    HCP_Contact__c,
+                    Status__c
+            FROM HCP_Enrollment__c
+            WHERE HCP_Contact__c = :contact.Id AND
+            Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION];
             for (HCP_Enrollment__c hcpe : hcpEnrollments) {
                 hcpe.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
             }
@@ -182,6 +179,15 @@ public without sharing class RRChangePasswordController {
                 update hcpEnrollments;
             }
         }
+    }
+
+    public void checkPasswords() {
+        try {
+            Site.validatePassword(userVal, newPassword, verifyNewPassword);
+        } catch (Exception e) {
+            ApexPages.addMessages(e);
+        }
+        if(ApexPages.getMessages().size() == 0) isProfileView = false;
     }
 
     public void upload() {
