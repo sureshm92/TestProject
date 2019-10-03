@@ -2065,7 +2065,9 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient Log In</shortDescription>
-        <value>We miss you!</value>
+        <value>We haven't heard from you in a while.
+
+            Please log in to the IQVIA Patient Portal to view all the latest information on your clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Plain_Summary</fullName>
@@ -2464,7 +2466,7 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Patient Log In</shortDescription>
-        <value>You do not log in, please do this!</value>
+        <value>We haven't heard from you in a while</value>
     </labels>
     <labels>
         <fullName>Email_Header_Plain_Summary</fullName>
@@ -2737,8 +2739,7 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <shortDescription>Email Signature Plain Summary</shortDescription>
         <value>Please feel free to contact us if you have any questions.
 
-Sincerely,
-
+            Sincerely,
             The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
@@ -8521,7 +8522,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Participant Not Logged In</shortDescription>
-        <value>You not logged in to IQVIA for some time, we miss you</value>
+        <value>We miss you</value>
     </labels>
     <labels>
         <fullName>Participant_Visits_Available</fullName>

@@ -19,11 +19,11 @@
 
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" showSpinner="true"/>
-    <div class="panel">
-        <aura:if isTrue="{!v.user_has_permission != 'no perm'}">
+    <aura:if isTrue="{!v.user_has_permission != 'no perm'}">
+        <div>
             <aura:if isTrue="{!!empty(v.initData)}">
                 <aura:if isTrue="{!or(empty(v.groups), v.options.inPatientPortal)}">
-                    <div class="vrs-panel">
+                    <div class="vrs-panel" style="position: relative;">
                         <div class="group-container">
                             <div class="group-title">Global Data Shareback</div>
                             <div class="global-data">
@@ -33,14 +33,20 @@
                                                      checked="{!v.options.globalShareBck}"
                                                      onchange="{!c.onChangeGlobal}"/>
                                 </div>
-                                <div>
-                                    <lightning:button aura:id="saveBtn" variant="brand" label="Save"
-                                                      onclick="{!c.saveOptions}"/>
-                                </div>
+                                <aura:if isTrue="{!v.user_has_permission == 'edit'}">
+                                    <div>
+                                        <lightning:button aura:id="saveBtn" variant="brand" label="Save"
+                                                          onclick="{!c.saveOptions}"/>
+                                    </div>
+                                </aura:if>
                             </div>
                         </div>
+                        <aura:if isTrue="{!v.user_has_permission == 'read'}">
+                            <div class="overlay"></div>
+                        </aura:if>
                     </div>
-                    <div class="{!if(v.options.globalShareBck, 'shareback-settings-container', 'slds-hide')}">
+                    <div class="{!if(v.options.globalShareBck, 'shareback-settings-container', 'slds-hide')}"
+                         style="position: relative;">
                         <div class="vrs-panel">
                             <!-- SS Options: -->
                             <div class="group-container">
@@ -130,15 +136,15 @@
                                 </aura:iteration>
                             </div>
                         </aura:iteration>
+                        <aura:if isTrue="{!v.user_has_permission == 'read'}">
+                            <div class="overlay"></div>
+                        </aura:if>
                     </div>
                 </aura:if>
                 <aura:if isTrue="{!not(v.options.inPatientPortal)}">
                     <c:EmptyListStub message="{!$Label.c.Empty_Visits_tab}"/>
                 </aura:if>
             </aura:if>
-            <aura:if isTrue="{!v.user_has_permission == 'read'}">
-                <div class="overlay"></div>
-            </aura:if>
-        </aura:if>
-    </div>
+        </div>
+    </aura:if>
 </aura:component>
