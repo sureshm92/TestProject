@@ -281,6 +281,16 @@
             <replacetoken><![CDATA[<senderType>OrgWideEmailAddress</senderType>]]></replacetoken>
             <replacevalue><![CDATA[<senderType>CurrentUser</senderType>]]></replacevalue>
         </replace>
+        <replace casesensitive="false"
+                 file="${dx.default.dir}/workflows/case.workflow-meta.xml">
+            <replacetoken><![CDATA[<senderType>OrgWideEmailAddress</senderType>]]></replacetoken>
+            <replacevalue><![CDATA[<senderType>CurrentUser</senderType>]]></replacevalue>
+        </replace>
+        <replace casesensitive="false"
+                 file="${dx.default.dir}/workflows/case.workflow-meta.xml">
+            <replacetoken><![CDATA[<senderType>OrgWideEmailAddress</senderType>]]></replacetoken>
+            <replacevalue><![CDATA[<senderType>CurrentUser</senderType>]]></replacevalue>
+        </replace>
         <echo message="replace completed" level="info"/>
     </target>
 
