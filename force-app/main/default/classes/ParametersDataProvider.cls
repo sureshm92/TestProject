@@ -270,10 +270,34 @@ public without sharing class ParametersDataProvider {
             parameters.put('PIName', getFullContactName(cnt));
             parameters.put('PILanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_HCP){
-            if (cnt.Owner.ContactId != null) {
-                Contact piContact = [SELECT Id, Salutation, Name, FirstName, LastName FROM Contact WHERE Id = :cnt.Owner.ContactId];
-                parameters.put('PIName', getFullContactName(piContact));
+            List<HCP_Enrollment__c> hcpe = [
+                    SELECT Id, Name,
+                            HCP_Contact__r.Name,
+                            HCP_Contact__r.FirstName,
+                            HCP_Contact__r.LastName,
+                            HCP_Contact__r.Salutation,
+                            HCP_Contact__r.Language__c,
+                            Study_Site__r.Name,
+                            Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
+                            Study_Site__r.Principal_Investigator__c,
+                            Study_Site__r.Principal_Investigator__r.Language__c,
+                            Study_Site__r.Principal_Investigator__r.Name,
+                            Study_Site__r.Principal_Investigator__r.FirstName,
+                            Study_Site__r.Principal_Investigator__r.LastName,
+                            Study_Site__r.Principal_Investigator__r.Salutation,
+                            Study_Site__r.Study_Site_Phone__c,
+                            HCP_Contact__c
+                    FROM HCP_Enrollment__c
+                    WHERE HCP_Contact__c = :cnt.Id AND
+                          Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION
+                    ORDER BY CreatedDate DESC LIMIT 1
+            ];
+            if (!hcpe.isEmpty()) {
+                initParamsFromHCPE(hcpe[0].Id);
             }
+
             parameters.put('HCPName', getFullContactName(cnt));
             parameters.put('HCPLanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_PARTICIPANT){

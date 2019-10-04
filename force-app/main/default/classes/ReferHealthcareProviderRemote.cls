@@ -87,8 +87,7 @@ global without sharing class ReferHealthcareProviderRemote {
             newHP.Status__c = HP_S_INVITED;
             insert newHP;
 
-            newHP.HCP_Enrollment__c = createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null, CommunityService.getUserContact());
-            update newHP;
+            createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null, CommunityService.getUserContact(), newHP);
         }
 
         return getInitData(peId);
@@ -104,6 +103,10 @@ global without sharing class ReferHealthcareProviderRemote {
     }
 
     public static String createHCPinPlatform(String studySiteId, String firstName, String lastName, String email, String phone, Contact piContact) {
+        return createHCPinPlatform(studySiteId, firstName, lastName, email, phone, piContact, null);
+    }
+
+    public static String createHCPinPlatform(String studySiteId, String firstName, String lastName, String email, String phone, Contact piContact, Healthcare_Provider__c hp) {
         Boolean isNewUser = false;
 
         Study_Site__c studySite = [SELECT Id, Site__c, Site__r.BillingCountry FROM Study_Site__c WHERE Id = :studySiteId];
@@ -131,8 +134,20 @@ global without sharing class ReferHealthcareProviderRemote {
             update cntList[0];
         }
 
-        List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id> { cntList[0].Id });
+        HCP_Enrollment__c hcpe = new HCP_Enrollment__c(
+                HCP_Contact__c = cntList[0].Id,
+                HCP_Account__c = cntList[0].AccountId,
+                Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION,
+                Study_Site__c = (String.isBlank(studySiteId) ? null : studySiteId)
+        );
+        insert hcpe;
 
+        if (hp != null) {
+            hp.HCP_Enrollment__c = hcpe.Id;
+            update hp;
+        }
+
+        List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id> { cntList[0].Id });
         if (usrs.isEmpty()) {
             isNewUser = true;
             ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id> { cntList[0].Id });
@@ -146,17 +161,10 @@ global without sharing class ReferHealthcareProviderRemote {
             cntList[0].userCommunityMode__c = CommunityService.USER_MODE_HCP;
         }
 
-        HCP_Enrollment__c hcpe = new HCP_Enrollment__c(
-                HCP_Contact__c = cntList[0].Id,
-                HCP_Account__c = cntList[0].AccountId,
-                Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION,
-                Study_Site__c = (String.isBlank(studySiteId) ? null : studySiteId)
-        );
         if (!isNewUser) {
             hcpe.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+            update hcpe;
         }
-        insert hcpe;
-
         if (!isNewUser) {
             hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
             update hcpe;

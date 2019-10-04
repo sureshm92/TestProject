@@ -372,6 +372,7 @@ public without sharing class ParticipantEnrollmentService {
             'Visit_Plan__c',
             'Study_Name__c',
             'Study_Site__c',
+            'Study_Site__r.Approved_Lng__c',
             'Study_Site__r.Name',
             'Study_Site__r.Override_PI_Referral_Status__c',
             'Study_Site__r.Clinical_Trial_Profile__c',
@@ -447,7 +448,7 @@ public without sharing class ParticipantEnrollmentService {
         } else if(userMode == CommunityService.USER_MODE_HCP) {
             String contactId = CommunityService.getUserContact().Id;
             List<String> enrollmentsIds = getHealthcareProviderPE();
-            if(enrollmentsIds != null){
+            if(!enrollmentsIds.isEmpty()){
                 return '(' +'Id IN (\'' + String.join(enrollmentsIds, '\',\'') + '\') '+ ') ';
             } else{
                 if(delegateId != null && delegateId != ''){
