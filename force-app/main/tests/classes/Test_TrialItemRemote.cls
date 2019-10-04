@@ -23,7 +23,9 @@ private class Test_TrialItemRemote {
 
     @IsTest
     static void createTrialNotification_test() {
-        User usr = [SELECT Id FROM User WHERE Contact.LastName = 'HCP'];
+        Participant__c participant = [SELECT Id, Contact__c FROM Participant__c LIMIT 1];
+        User usr = [SELECT Id FROM User WHERE ContactId = :participant.Contact__c];
+
         Clinical_Trial_Profile__c ctp = [SELECT Id, Name, Study_Code_Name__c FROM Clinical_Trial_Profile__c LIMIT 1];
         System.runAs(usr) {
             TrialItemRemote.createTrialNotification(ctp.Id);
@@ -32,8 +34,8 @@ private class Test_TrialItemRemote {
         List<Trial_Notification__c> notifications = selectTrialNotifications();
 
         System.assertEquals(1, notifications.size());
-        System.assertEquals(ctp.Study_Code_Name__c, notifications[0].CTP_Name__c);
         System.assertEquals(ctp.Id, notifications[0].Clinical_Trial_Profile__c);
+        System.assertEquals(ctp.Study_Code_Name__c, notifications[0].CTP_Name__c);
     }
 
     @IsTest
