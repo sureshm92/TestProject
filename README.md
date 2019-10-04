@@ -60,4 +60,6 @@
    
    
 
-
+----------------------------------------------------------------------------------
+If merge request fails on the error 
+just remove <userPermission> with the name ViewFlowUsageAndFlowEventData from Admin.profile

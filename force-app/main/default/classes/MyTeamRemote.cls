@@ -304,6 +304,8 @@ public without sharing class MyTeamRemote {
             Database.rollback(sp);
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
+
+        return 'SUCCESS';
     }
     private static void sendEmailNotification(Contact delegateContact) {
         Map<Id, String> toSendNotificationMap = new Map<Id, String>();
@@ -483,6 +485,12 @@ public without sharing class MyTeamRemote {
                     newDelegateRecord.Study_Site__c = delegateRecord.enrollmentOrStudySiteId;
                     newDelegateRecord.Site_Contact__c = delegateContact.Id;
                     delegateRecordsToInsert.add(newDelegateRecord);
+                }
+                String studyName = delegateRecord.trialName.substringBefore('(');
+                if (!levelByStudy.containsKey(studyName)) {
+                    levelByStudy.put(studyName, delegateRecord.delegateLevel);
+                } else if (levelByStudy.get(studyName) != delegateRecord.delegateLevel) {
+                    return 'ERROR: ' + Label.TST_Permissions_should_be_the_same_for_study;
                 }
             }
         }

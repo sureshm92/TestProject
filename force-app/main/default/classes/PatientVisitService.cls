@@ -32,7 +32,7 @@ public inherited sharing class PatientVisitService {
                 (limitNumber == null ? '' : ' LIMIT ' + limitNumber);
 
         List<Patient_Visit__c> visits = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(visitsQuery, true);
-        TranslateHelper.translate(visits);
+        TranslateHelper.translate(visits, IRBParticipantService.getIRBLanguageMode(pState.pe.Id).languageToTranslate);
         return visits;
     }
 

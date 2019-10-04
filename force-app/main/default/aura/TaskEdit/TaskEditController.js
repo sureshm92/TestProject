@@ -4,9 +4,6 @@
  */
 ({
     doInit: function (component, event, helper) {
-        var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
-        component.set('v.todayDate', todayDate);
-
         var paramTaskId = communityService.getUrlParameter('id');
         if (paramTaskId === undefined) paramTaskId = null;
 
@@ -17,7 +14,12 @@
             component.set('v.notReferral', wrapper.notReferral);
             component.set('v.reminderEnabled', wrapper.reminderEnabled);
 
+<<<<<<< HEAD
             if (wrapper.reminderEnabled) component.set('v.reminderDateEnabled', true);
+=======
+            component.set('v.todayDate', wrapper.today);
+            if(wrapper.reminderEnabled) component.set('v.reminderDateEnabled', true);
+>>>>>>> origin/RH3.1.1-PP1.1.1INF3.1.1
 
             var task = wrapper.task;
 

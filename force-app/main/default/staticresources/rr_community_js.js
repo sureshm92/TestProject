@@ -20,6 +20,7 @@ window.communityService = (function () {
     var language;
     var preventedCookies = [];
     var participantState;
+    var baseUrl;
     var currentUserMode;
     var allUserModes;
     var showPastStudies
@@ -41,6 +42,7 @@ window.communityService = (function () {
                 isTCAcceptedFlag = communityData.isTCAccepted;
                 language = communityData.language;
                 participantState = communityData.state;
+                baseUrl = communityData.baseUrl;
                 isInitializedFlag = true;
                 allUserModes = communityData.allUserModes;
                 currentUserMode = communityData.currentUserMode;
@@ -397,8 +399,11 @@ window.communityService = (function () {
                     stickyBar.classList.remove('sticky');
                 }
             }
-        }
+        },
 
+        logOut: function () {
+            window.location.replace(baseUrl + '/secur/logout.jsp');
+        }
     };
 
     window.onscroll = function () {
