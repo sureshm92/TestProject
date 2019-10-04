@@ -84,13 +84,31 @@ public without sharing class ContactService {
         for(Res_study__c resStudy : resStudyList) resourceIds.add(resStudy.Resource__c);
         Map<Id, List<ContentDocumentLinkService.TranslatedContentItem>> translatedItemsMap =
                 ((ContentDocumentLinkService) ClassFactory.newInstance(ContentDocumentLinkService.class)).getTranslatedItemsForResources(resourceIds);
+
         Map<Id, List<Res_study__c>> resStudyByCtpIdMap = new Map<Id, List<Res_study__c>>();
+        Set<Id> resStudyResourceIds = new Set<Id>();
         for(Res_study__c resStudy : resStudyList){
             List<Res_study__c> ctpResStudyList = resStudyByCtpIdMap.get(resStudy.Clinical_Trial_Profile__c);
             if(ctpResStudyList == null) ctpResStudyList = new List<Res_study__c>();
             ctpResStudyList.add(resStudy);
             resStudyByCtpIdMap.put(resStudy.Clinical_Trial_Profile__c, ctpResStudyList);
+            resStudyResourceIds.add(resStudy.Resource__c);
         }
+
+        List<ContentDocumentLink> contentDocumentLinks = [
+                SELECT Id, ContentDocument.Title, LinkedEntityId
+                FROM ContentDocumentLink
+                WHERE LinkedEntityId IN:resStudyResourceIds
+        ];
+
+        Map<Id, List<String>> contentLangByResId = new Map<Id, List<String>>();
+        for (ContentDocumentLink content : contentDocumentLinks) {
+            if (!contentLangByResId.containsKey(content.LinkedEntityId)) {
+                contentLangByResId.put(content.LinkedEntityId, new List<String>());
+            }
+            contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.Title);
+        }
+
         List<PastStudyWrapper> pastWrappersList = new List<ContactService.PastStudyWrapper>();
         for(Participant_Enrollment__c pe : peList){
             List<ResourceService.ResourceWrapper> resources = new List<ResourceService.ResourceWrapper>();
@@ -99,7 +117,8 @@ public without sharing class ContactService {
                 for(Res_study__c resStudy : resStudyForCtpList){
                     Boolean isDelegate = pe.Participant__r.Contact__c != CommunityService.getUserContact().Id;
                     if(StudyResourceVisibilityService.isResourceVisibleForPE(
-                            resStudy, pe, CommunityService.USER_MODE_PARTICIPANT, isDelegate)){
+                            resStudy, pe, contentLangByResId.get(resStudy.Resource__c),
+                            CommunityService.USER_MODE_PARTICIPANT, isDelegate)){
                         resources.add(new ResourceService.ResourceWrapper(resStudy.Resource__r, translatedItemsMap.get(resStudy.Resource__c)));
                     }
                 }
