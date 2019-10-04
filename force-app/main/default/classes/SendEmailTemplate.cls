@@ -21,7 +21,7 @@ public without sharing class SendEmailTemplate {
         sendEmailMessages(emailMessages);
     }
 
-    public static void sendEmailNotificationWithParams(String templateName, Map<Id, String> whatIdMap) {
+    public static void sendHCPEmailNotificationWithParams(String templateName, Map<Id, String> whatIdMap) {
         if(Test.isRunningTest()) return ;
         //prepare emails list:
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
@@ -29,7 +29,7 @@ public without sharing class SendEmailTemplate {
 
         for (Id whatId : whatIdMap.keySet()) {
             if (contactsOptedOutEmailMap.get(whatIdMap.get(whatId)) != null && !contactsOptedOutEmailMap.get(whatIdMap.get(whatId))) {
-                ParametersDataProvider dataProvider = new ParametersDataProvider(whatId, null, null, null, null, null, null);
+                ParametersDataProvider dataProvider = new ParametersDataProvider(whatId, null, whatId, UserInfo.getLanguage(), null, CommunityService.USER_MODE_HCP, CommunityService.USER_MODE_HCP);
                 Messaging.SingleEmailMessage emailMessage = createEmail(getEmailTemplateId(templateName), whatIdMap.get(whatId), whatId);
                 String htmlBody = TranslateHelper.replaceParams(emailMessage.getHtmlBody(), EmailTemplateController.PARAM_PREFIX, dataProvider.parameters);
                 String txtBody = TranslateHelper.replaceParams(emailMessage.getPlainTextBody(), EmailTemplateController.PARAM_PREFIX, dataProvider.parameters);

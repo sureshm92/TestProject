@@ -20,7 +20,7 @@
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" showSpinner="true"/>
     <aura:if isTrue="{!v.user_has_permission != 'no perm'}">
-        <div>
+        <div class="panel">
             <aura:if isTrue="{!!empty(v.initData)}">
                 <aura:if isTrue="{!or(empty(v.groups), v.options.inPatientPortal)}">
                     <div class="vrs-panel" style="position: relative;">
