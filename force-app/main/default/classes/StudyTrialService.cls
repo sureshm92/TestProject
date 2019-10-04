@@ -362,7 +362,7 @@ public without sharing class StudyTrialService {
         }
         List<String> peId = ParticipantEnrollmentService.getHealthcareProviderPE();
         String healthCareProviderfilter = '';
-        if(peId!=null){
+        if(!peId.isEmpty()){
             healthCareProviderfilter = ' OR (' +'Id IN (\'' + String.join(peId, '\',\'') + '\') '+ ') ';
         }
         String query = 'SELECT Id, Clinical_Trial_Profile__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN :trialIds AND ' + '(' +
