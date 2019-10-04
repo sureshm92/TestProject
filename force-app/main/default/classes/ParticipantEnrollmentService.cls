@@ -448,7 +448,7 @@ public without sharing class ParticipantEnrollmentService {
         } else if(userMode == CommunityService.USER_MODE_HCP) {
             String contactId = CommunityService.getUserContact().Id;
             List<String> enrollmentsIds = getHealthcareProviderPE();
-            if(enrollmentsIds != null){
+            if(!enrollmentsIds.isEmpty()){
                 return '(' +'Id IN (\'' + String.join(enrollmentsIds, '\',\'') + '\') '+ ') ';
             } else{
                 if(delegateId != null && delegateId != ''){
