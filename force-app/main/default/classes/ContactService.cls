@@ -94,12 +94,14 @@ public without sharing class ContactService {
             resStudyByCtpIdMap.put(resStudy.Clinical_Trial_Profile__c, ctpResStudyList);
             resStudyResourceIds.add(resStudy.Resource__c);
         }
-
-        List<ContentDocumentLink> contentDocumentLinks = [
-                SELECT Id, ContentDocument.Title, LinkedEntityId
-                FROM ContentDocumentLink
-                WHERE LinkedEntityId IN:resStudyResourceIds
-        ];
+        List<ContentDocumentLink> contentDocumentLinks = new List<ContentDocumentLink>();
+        if(resStudyResourceIds.size() > 0){
+            contentDocumentLinks = [
+                    SELECT Id, ContentDocument.Title, LinkedEntityId
+                    FROM ContentDocumentLink
+                    WHERE LinkedEntityId IN: resStudyResourceIds
+            ];
+        }
 
         Map<Id, List<String>> contentLangByResId = new Map<Id, List<String>>();
         for (ContentDocumentLink content : contentDocumentLinks) {
