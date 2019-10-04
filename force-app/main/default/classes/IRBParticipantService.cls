@@ -109,7 +109,6 @@ public without sharing class IRBParticipantService {
                 'Study_Site__r.Approved_Lng__c ' +
                 'FROM Participant_Enrollment__c' +
                 ' WHERE Id = \'' + pe + '\'';
-        System.debug(queryPE);
         List<Participant_Enrollment__c> pes = (List<Participant_Enrollment__c>) proxy.query(queryPE);
         return pes;
 
