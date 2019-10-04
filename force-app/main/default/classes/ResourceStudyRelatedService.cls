@@ -39,21 +39,23 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
         }
         List<Res_study__c> resStudies = (List<Res_study__c>)
                 DatabaseService.query(RES_STUDY_FIELDS, Res_study__c.getSObjectType(), filter);
-
+    
+        Map<Id, List<String>> contentLangByResId = new Map<Id, List<String>>();
         Set<Id> resStudyResourceIds = new Set<Id>();
         for(Res_study__c rs : resStudies) resStudyResourceIds.add(rs.Resource__c);
-        List<ContentDocumentLink> contentDocumentLinks = [
-                SELECT Id, ContentDocument.Title, LinkedEntityId
-                FROM ContentDocumentLink
-                WHERE LinkedEntityId IN:resStudyResourceIds
-        ];
-
-        Map<Id, List<String>> contentLangByResId = new Map<Id, List<String>>();
-        for (ContentDocumentLink content : contentDocumentLinks) {
-            if (!contentLangByResId.containsKey(content.LinkedEntityId)) {
-                contentLangByResId.put(content.LinkedEntityId, new List<String>());
+        if(resStudies.size() > 0){
+            List<ContentDocumentLink> contentDocumentLinks = [
+                    SELECT Id, ContentDocument.Title, LinkedEntityId
+                    FROM ContentDocumentLink
+                    WHERE LinkedEntityId IN :resStudyResourceIds
+            ];
+    
+            for (ContentDocumentLink content : contentDocumentLinks) {
+                if (!contentLangByResId.containsKey(content.LinkedEntityId)) {
+                    contentLangByResId.put(content.LinkedEntityId, new List<String>());
+                }
+                contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.Title);
             }
-            contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.Title);
         }
 
         //Get Res Study records and filters result resource Ids
@@ -61,7 +63,7 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
         for (Res_study__c resStudy : resStudies) {
             if(resourceId != null || StudyResourceVisibilityService.isResourceVisibleForPE(
                     resStudy, pState.pe, contentLangByResId.get(resStudy.Resource__c),
-                    CommunityService.USER_MODE_PARTICIPANT, pState.isDelegate))
+                    CommunityService.getUserContact().userCommunityMode__c, pState.isDelegate))
             {
                 resourcesIds.add(resStudy.Resource__c);
             }
