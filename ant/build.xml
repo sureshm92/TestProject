@@ -77,6 +77,28 @@
         </sf:deploy>
     </target>
 
+    <target name="deploy-inf32" depends="prepare-metadata, skip-community">
+        <sf:deploy username="${sf.inf32.username}"
+                   password="${sf.inf32.password}"
+                   serverurl="${sf.serverurl}"
+                   maxPoll="${sf.maxPoll}"
+                   deployRoot="${source.dir}"
+                   pollwaitmillis="${sf.maxPollWaitTimeMs}"
+                   rollbackOnError="true">
+        </sf:deploy>
+    </target>
+
+    <target name="deploy-int32" depends="prepare-metadata, skip-community">
+        <sf:deploy username="${sf.int32.username}"
+                   password="${sf.int32.password}"
+                   serverurl="${sf.serverurl}"
+                   maxPoll="${sf.maxPoll}"
+                   deployRoot="${source.dir}"
+                   pollwaitmillis="${sf.maxPollWaitTimeMs}"
+                   rollbackOnError="true">
+        </sf:deploy>
+    </target>
+
     <target name="create-rollback-source">
         <delete dir="${rollback.dir}"/>
         <mkdir dir="${rollback.source.dir}"/>
