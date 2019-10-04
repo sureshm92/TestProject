@@ -11,11 +11,11 @@ public class Batch_CreateSurveyTasks implements Database.Batchable<InvitationsWr
     private Integer taskCreated;
     private Integer launchCount;
 
-    public Batch_CreateSurveyTasks(Map<Id, String> invitationsVisible, Id userId, Integer launchCount) {
+    public Batch_CreateSurveyTasks(Map<Id, String> invitationsVisible, Id userId, Integer taskCreated, Integer launchCount) {
         this.invitationsVisible = invitationsVisible;
         this.failedInvitation = new Map<Id, String>();
         this.userId = userId;
-        this.taskCreated = 0;
+        this.taskCreated = taskCreated;
         this.launchCount = launchCount;
     }
 
@@ -41,13 +41,14 @@ public class Batch_CreateSurveyTasks implements Database.Batchable<InvitationsWr
 
     public void finish(Database.BatchableContext param1) {
         if (!failedInvitation.isEmpty() && launchCount < 3) {
-            Database.executeBatch(new Batch_CreateSurveyTasks(failedInvitation, userId, ++launchCount), 30);
+            Database.executeBatch(
+                    new Batch_CreateSurveyTasks(failedInvitation, userId, taskCreated, ++launchCount), 30);
         } else {
             //Send email to Admin
-            List<Id> failedContactIds;
-            if (!failedInvitation.isEmpty()) failedContactIds = countFailedTask(failedInvitation);
-
             try {
+                List<Id> failedContactIds;
+                if (!failedInvitation.isEmpty()) failedContactIds = countFailedTask(failedInvitation);
+
                 Messaging.SingleEmailMessage emailMessage = new Messaging.SingleEmailMessage();
                 List<User> user = [SELECT Id, Email FROM User WHERE Id = :userId];
                 emailMessage.setToAddresses(new List<String>{user.get(0).Email});
@@ -74,7 +75,7 @@ public class Batch_CreateSurveyTasks implements Database.Batchable<InvitationsWr
     }
 
     public static void launch(Map<Id, String> invitationsVisible) {
-        Database.executeBatch(new Batch_CreateSurveyTasks(invitationsVisible, UserInfo.getUserId(), 1), 30);
+        Database.executeBatch(new Batch_CreateSurveyTasks(invitationsVisible, UserInfo.getUserId(), 0, 1), 30);
     }
 
     private List<Id> countFailedTask(Map<Id, String> invitationsVisible) {
