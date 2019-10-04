@@ -77,9 +77,20 @@
         </sf:deploy>
     </target>
 
-    <target name="deploy-inf32" depends="prepare-metadata, skip-community">
-        <sf:deploy username="${sf.inf32.username}"
-                   password="${sf.inf32.password}"
+    <target name="deploy-int311" depends="prepare-metadata, skip-community">
+        <sf:deploy username="${sf.int311.username}"
+                   password="${sf.int311.password}"
+                   serverurl="${sf.serverurl}"
+                   maxPoll="${sf.maxPoll}"
+                   deployRoot="${source.dir}"
+                   pollwaitmillis="${sf.maxPollWaitTimeMs}"
+                   rollbackOnError="true">
+        </sf:deploy>
+    </target>
+
+    <target name="deploy-inf311" depends="prepare-metadata, skip-community">
+        <sf:deploy username="${sf.inf311.username}"
+                   password="${sf.inf311.password}"
                    serverurl="${sf.serverurl}"
                    maxPoll="${sf.maxPoll}"
                    deployRoot="${source.dir}"
@@ -91,6 +102,17 @@
     <target name="deploy-int32" depends="prepare-metadata, skip-community">
         <sf:deploy username="${sf.int32.username}"
                    password="${sf.int32.password}"
+                   serverurl="${sf.serverurl}"
+                   maxPoll="${sf.maxPoll}"
+                   deployRoot="${source.dir}"
+                   pollwaitmillis="${sf.maxPollWaitTimeMs}"
+                   rollbackOnError="true">
+        </sf:deploy>
+    </target>
+
+    <target name="deploy-inf32" depends="prepare-metadata, skip-community">
+        <sf:deploy username="${sf.inf32.username}"
+                   password="${sf.inf32.password}"
                    serverurl="${sf.serverurl}"
                    maxPoll="${sf.maxPoll}"
                    deployRoot="${source.dir}"
@@ -256,6 +278,16 @@
         </replace>
         <replace casesensitive="false"
                  file="${dx.default.dir}/workflows/Participant_Study_Enrollment__c.workflow-meta.xml">
+            <replacetoken><![CDATA[<senderType>OrgWideEmailAddress</senderType>]]></replacetoken>
+            <replacevalue><![CDATA[<senderType>CurrentUser</senderType>]]></replacevalue>
+        </replace>
+        <replace casesensitive="false"
+                 file="${dx.default.dir}/workflows/case.workflow-meta.xml">
+            <replacetoken><![CDATA[<senderType>OrgWideEmailAddress</senderType>]]></replacetoken>
+            <replacevalue><![CDATA[<senderType>CurrentUser</senderType>]]></replacevalue>
+        </replace>
+        <replace casesensitive="false"
+                 file="${dx.default.dir}/workflows/case.workflow-meta.xml">
             <replacetoken><![CDATA[<senderType>OrgWideEmailAddress</senderType>]]></replacetoken>
             <replacevalue><![CDATA[<senderType>CurrentUser</senderType>]]></replacevalue>
         </replace>
