@@ -21,28 +21,6 @@ public without sharing class SendEmailTemplate {
         sendEmailMessages(emailMessages);
     }
 
-    public static void sendHCPEmailNotificationWithParams(String templateName, Map<Id, String> whatIdMap) {
-        if(Test.isRunningTest()) return ;
-        //prepare emails list:
-        List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-        Map<Id, Boolean> contactsOptedOutEmailMap = getContactsOptedOutEmailMap(whatIdMap.values());
-
-        for (Id whatId : whatIdMap.keySet()) {
-            if (contactsOptedOutEmailMap.get(whatIdMap.get(whatId)) != null && !contactsOptedOutEmailMap.get(whatIdMap.get(whatId))) {
-                ParametersDataProvider dataProvider = new ParametersDataProvider(whatId, null, whatId, UserInfo.getLanguage(), null, CommunityService.USER_MODE_HCP, CommunityService.USER_MODE_HCP);
-                Messaging.SingleEmailMessage emailMessage = createEmail(getEmailTemplateId(templateName), whatIdMap.get(whatId), whatId);
-                String htmlBody = TranslateHelper.replaceParams(emailMessage.getHtmlBody(), EmailTemplateController.PARAM_PREFIX, dataProvider.parameters);
-                String txtBody = TranslateHelper.replaceParams(emailMessage.getPlainTextBody(), EmailTemplateController.PARAM_PREFIX, dataProvider.parameters);
-                emailMessage.setHtmlBody(htmlBody);
-                emailMessage.setPlainTextBody(txtBody);
-                emailMessages.add(emailMessage);
-            }
-        }
-
-        //send emails:
-        sendEmailMessages(emailMessages);
-    }
-
     public static void sendEmailNotification(String templateName, Map<Id, Set<Id>> contactIdToWhatIdSet) {
         if(Test.isRunningTest()) return ;
         //prepare emails list:
