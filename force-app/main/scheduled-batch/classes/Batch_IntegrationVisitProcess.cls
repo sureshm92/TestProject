@@ -33,6 +33,12 @@ public without sharing class Batch_IntegrationVisitProcess extends Batch_Schedul
         List<Integration_Visit__c> integrationVisits = (List<Integration_Visit__c>)scope;
         IntegrationVisitTriggerHandler.updateVisits(integrationVisits);
     }
+
+    public override void finish(Database.BatchableContext bc) {
+        Batch_IntegrationVisitResultProcess batchResult = new Batch_IntegrationVisitResultProcess();
+        Database.executeBatch(batchResult);
+        super.finish(bc);
+    }
     
     public override Type getType() {
         return Batch_IntegrationVisitProcess.class;

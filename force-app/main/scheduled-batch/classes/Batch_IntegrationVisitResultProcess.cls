@@ -2,7 +2,7 @@
  * Created by user on 23-Jul-19.
  */
 
-public without sharing class Batch_IntegrationVisitResultProcess extends Batch_ScheduledAbstract {
+public without sharing class Batch_IntegrationVisitResultProcess implements Database.Batchable<SObject>{
 
     public Database.QueryLocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator([
@@ -42,7 +42,12 @@ public without sharing class Batch_IntegrationVisitResultProcess extends Batch_S
         ((IntegrationVisitResultService) ClassFactory.newInstance(IntegrationVisitResultService.class)).updateVisitResults(scope);
     }
 
-    public override Type getType() {
-        return Batch_IntegrationVisitResultProcess.class;
+//    public override Type getType() {
+//        return Batch_IntegrationVisitResultProcess.class;
+//    }
+
+    public void finish(Database.BatchableContext param1) {
     }
+
+
 }
