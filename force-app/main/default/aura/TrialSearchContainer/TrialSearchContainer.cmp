@@ -13,7 +13,7 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="updateSearchEvent" event="c:UpdateConditionsOfInterestSearchEvt" action="{!c.handleUpdateSearchEvent}"/>
 
-    <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="medium"/>
+    <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="medium" fixed="true"/>
 
     <lightning:layout horizontalAlign="center" class="width-limiter">
         <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="8" flexibility="auto"
