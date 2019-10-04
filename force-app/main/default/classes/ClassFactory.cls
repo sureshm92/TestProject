@@ -2,10 +2,25 @@ public with sharing class ClassFactory {
 
 	@TestVisible
 	private static Map<String, Object> stubTypesByClassNames = new Map<String, Object>();
+	@TestVisible
+	private static Map<Type, Object> existingObjectsByTypes = new Map<Type, Object>();
+	@TestVisible
+	private static Boolean isCacheable = false;
+
+	public static void setCacheable(Boolean cacheable) {
+		isCacheable = cacheable;
+	}
 
 	public static Object newInstance(Type typeOfClass) {
-
-		return getStubOrInstance(typeOfClass);
+		if (!isCacheable || !existingObjectsByTypes.containsKey(typeOfClass)) {
+			Object instance = getStubOrInstance(typeOfClass);
+			if (!existingObjectsByTypes.containsKey(typeOfClass)) {
+				existingObjectsByTypes.put(typeOfClass, instance);
+			}
+			return instance;
+		} else {
+			return existingObjectsByTypes.get(typeOfClass);
+		}
 	}
 
 	public static Object newInstance(String fullNameOfClass) {

@@ -13,6 +13,19 @@ public with sharing class TrialSearchHelper {
     private static final String QUEUE = 'Queue';
     private static final String PEH_CASE_QUEUE_NAME = 'PEH Case Queue';
 
+   static {
+       ClassFactory.setCacheable(true);
+   }
+
+    private DatabaseProxy proxy {
+        get {
+            if (proxy == null) {
+                proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
+            }
+            return proxy;
+        }
+        private set;
+    }
 
     public TrialSearchContainerRemote.TrialSearchContainer getInitTrialSearchContainer() {
         TrialSearchContainerRemote.TrialSearchContainer trialSearchContainer = this.getTrialSearchContainer(null, true, true);
@@ -21,10 +34,8 @@ public with sharing class TrialSearchHelper {
     }
 
     public TrialSearchContainerRemote.TrialSearchContainer getTrialSearchContainer(List<Therapeutic_Area_Patient__c> taps, Boolean isEnrolling, Boolean isNotYetEnrolling) {
-        DatabaseProxy proxy = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class));
         TrialSearchContainerRemote.TrialSearchContainer trialSearchContainer = new TrialSearchContainerRemote.TrialSearchContainer();
-
-        List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = taps != null ? taps : this.getTherapeuticAreaPatients(proxy);
+        List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = taps != null ? taps : this.getTherapeuticAreaPatients();
         Set<Id> taId = new Set<Id>();
         if (!therapeuticAreaPatients.isEmpty()) {
             for (Therapeutic_Area_Patient__c tap : therapeuticAreaPatients) {
@@ -40,7 +51,7 @@ public with sharing class TrialSearchHelper {
         if (!isEnrolling && !isNotYetEnrolling || (!therapeuticAreaPatients.isEmpty() && taId.isEmpty())) {
             return trialSearchContainer;
         }
-        List<Clinical_Trial_Profile__c> ctps = this.getCtps(taId, proxy, isEnrolling, isNotYetEnrolling);
+        List<Clinical_Trial_Profile__c> ctps = this.getCtps(taId, isEnrolling, isNotYetEnrolling);
         List<Clinical_Trial_Profile__c> ctpsLanguageApprove = this.getCtpsLanguageApprove(ctps);
         if (ctpsLanguageApprove.isEmpty()) {
             return trialSearchContainer;
@@ -56,30 +67,22 @@ public with sharing class TrialSearchHelper {
         return trialSearchContainer;
     }
 
-    public List<Therapeutic_Area__c> getFilteredTherapeuticAreas(String searchText, List<String> selectedCoisIds) {
-        DatabaseProxy proxy = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class));
-        String filter = '';
-        if (searchText != null && searchText != '') {
-            filter += 'AND Name LIKE \'%' + searchText + '%\' ';
-        }
-        if (selectedCoisIds != null && !selectedCoisIds.isEmpty()) {
-            filter += 'AND Id NOT IN (\'' + String.join(selectedCoisIds, '\',\'') + '\') ';
-        }
+    public List<Therapeutic_Area__c> searchFilteredTherapeuticAreas(String searchText, List<String> selectedCoisIds) {
         String query = 'SELECT ' +
                 'Id, ' +
                 'Name, ' +
                 'Therapeutic_Area__c ' +
                 'FROM Therapeutic_Area__c ' +
                 'WHERE RecordType.DeveloperName = \'' + COI_REC_TYPE + '\' ' +
-                filter +
+                this.filterCoisBySearchText(searchText) +
+                this.excludeExistingCoisFromQuery(selectedCoisIds) +
                 'LIMIT 5';
         List<Therapeutic_Area__c> therapeuticArea = (List<Therapeutic_Area__c>) proxy.query(query, true);
         return therapeuticArea;
     }
 
     public void createCaseAndSendNotification(Participant__c participant, Clinical_Trial_Profile__c ctp) {
-        DatabaseProxy proxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
-        Group queueGroup = this.getQueueGroup(proxy);
+        Group queueGroup = this.getQueueGroup();
         Case caseContact = new Case(
                 OwnerId = queueGroup.Id,
                 Postal_code__c = participant.Mailing_Zip_Postal_Code__c,
@@ -99,11 +102,14 @@ public with sharing class TrialSearchHelper {
     }
 
     public void createTrialNotification(Id ctpId) {
-        DatabaseProxy proxy = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class));
-        Contact currentContact = CommunityService.getUserContact();
+        Clinical_Trial_Profile__c ctp = this.getClinicalTrialProfileById(ctpId);
+        CommunityService communityService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
+        PatientDelegateService delegateService = (PatientDelegateService) ClassFactory.newInstance(PatientDelegateService.class);
         Trial_Notification__c notification = new Trial_Notification__c(
-                Contact__c = currentContact.Id
-                , Clinical_Trial_Profile__c = ctpId
+                Participant__c = delegateService.getParticipant().First_Name__c
+                , Contact__c = communityService.getCurrentContactId()
+                , Clinical_Trial_Profile__c = ctp.Id
+                , CTP_Name__c = ctp.Study_Code_Name__c
         );
         proxy.upsertRecord(notification, true);
     }
@@ -116,6 +122,30 @@ public with sharing class TrialSearchHelper {
                 );
     }
 
+    private Clinical_Trial_Profile__c getClinicalTrialProfileById(Id ctpId) {
+        String query = 'SELECT Id' +
+                ', Study_Code_Name__c ' +
+                'FROM Clinical_Trial_Profile__c ' +
+                'WHERE Id = \'' + ctpId + '\'';
+        List<Clinical_Trial_Profile__c> ctps = (List<Clinical_Trial_Profile__c>) proxy.query(query, true);
+        return ctps[0];
+    }
+
+    private String excludeExistingCoisFromQuery(List<String> selectedCoisIds) {
+        String filter = '';
+        if (selectedCoisIds != null && !selectedCoisIds.isEmpty()) {
+            filter = 'AND Id NOT IN (\'' + String.join(selectedCoisIds, '\',\'') + '\') ';
+        }
+        return filter;
+    }
+
+    private String filterCoisBySearchText(String searchText) {
+        String filter = '';
+        if (!String.isBlank(searchText)) {
+            filter += 'AND Name LIKE \'%' + searchText + '%\' ';
+        }
+        return filter;
+    }
 
     private List<Clinical_Trial_Profile__c> getCtpsLanguageApprove(List<Clinical_Trial_Profile__c> ctps) {
         List<Clinical_Trial_Profile__c> ctpsLanguageApprove = new List<Clinical_Trial_Profile__c>();
@@ -139,26 +169,10 @@ public with sharing class TrialSearchHelper {
         return trialTDOS;
     }
 
-    private Set<String> getContactLanguage(DatabaseProxy proxy) {
-        User user = this.getUser(proxy);
-        Set<String> contactLanguage = new Set<String>();
-        contactLanguage.add(UserInfo.getLanguage());
-        if (String.isNotBlank(user.Contact.Language__c)) {
-            contactLanguage.add(user.Contact.Language__c);
-        }
-        if (String.isNotBlank(user.Contact.Second_Choice_Language__c)) {
-            contactLanguage.add(user.Contact.Second_Choice_Language__c);
-        }
-        if (String.isNotBlank(user.Contact.Third_Choice_Language__c)) {
-            contactLanguage.add(user.Contact.Third_Choice_Language__c);
-        }
-        return contactLanguage;
-    }
-
     @TestVisible
-    private List<Clinical_Trial_Profile__c> getCtps(Set<Id> taId, DatabaseProxy proxy, Boolean isEnrolling, Boolean isNotYetEnrolling) {
-        Set<String> contactLanguage = this.getContactLanguage(proxy);
-        Set<Id> ssIds = this.getUsersQCareSiteIds(proxy);
+    private List<Clinical_Trial_Profile__c> getCtps(Set<Id> taId, Boolean isEnrolling, Boolean isNotYetEnrolling) {
+        Set<String> contactLanguage = this.getContactLanguage();
+        Set<Id> ssIds = this.getUsersQCareSiteIds();
         TrialSearchWhereClauseFactory factory = (TrialSearchWhereClauseFactory) ClassFactory.newInstance(TrialSearchWhereClauseFactory.class);
         String whereClause = factory.getInstance(new List<Id>(taId), isEnrolling, isNotYetEnrolling, ssIds).getWhereClause();
         String orderBy = ' ORDER BY Enrollment_Start_Date__c';
@@ -182,8 +196,24 @@ public with sharing class TrialSearchHelper {
         return ctps;
     }
 
+    private Set<String> getContactLanguage() {
+        User user = this.getUser();
+        Set<String> contactLanguage = new Set<String>();
+        contactLanguage.add(UserInfo.getLanguage());
+        if (String.isNotBlank(user.Contact.Language__c)) {
+            contactLanguage.add(user.Contact.Language__c);
+        }
+        if (String.isNotBlank(user.Contact.Second_Choice_Language__c)) {
+            contactLanguage.add(user.Contact.Second_Choice_Language__c);
+        }
+        if (String.isNotBlank(user.Contact.Third_Choice_Language__c)) {
+            contactLanguage.add(user.Contact.Third_Choice_Language__c);
+        }
+        return contactLanguage;
+    }
+
     @TestVisible
-    private List<Therapeutic_Area_Patient__c> getTherapeuticAreaPatients(DatabaseProxy proxy) {
+    private List<Therapeutic_Area_Patient__c> getTherapeuticAreaPatients() {
         CommunityService cService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
         String participantId = cService.getParticipantId();
         String queryTAP = 'SELECT ' +
@@ -225,7 +255,7 @@ public with sharing class TrialSearchHelper {
         return participants[0];
     }
 
-    private User getUser(DatabaseProxy proxy) {
+    private User getUser() {
         String queryUser = 'SELECT ' +
                 'ContactId, ' +
                 'Contact.Language__c, ' +
@@ -237,7 +267,7 @@ public with sharing class TrialSearchHelper {
         return user;
     }
 
-    private Group getQueueGroup(DatabaseProxy proxy) {
+    private Group getQueueGroup() {
         String query = 'SELECT ' +
                 'Id, ' +
                 'Name ' +
@@ -250,7 +280,7 @@ public with sharing class TrialSearchHelper {
     }
 
     @TestVisible
-    private Set<Id> getUsersQCareSiteIds(DatabaseProxy proxy) {
+    private Set<Id> getUsersQCareSiteIds() {
         CommunityService cService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
         String contactId = cService.getCurrentContactId();
         String query = 'SELECT Id, ' +

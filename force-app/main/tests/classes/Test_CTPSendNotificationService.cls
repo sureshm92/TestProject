@@ -2,7 +2,7 @@
  * Created by Vitalii Aheienko on 9/30/2019.
  */
 
-@IsTest
+@IsTest(IsParallel=true)
 private class Test_CTPSendNotificationService {
 
     @TestSetup
@@ -23,12 +23,34 @@ private class Test_CTPSendNotificationService {
 
     @IsTest
     static void runWorkflow_test() {
-        Clinical_Trial_Profile__c profile = [SELECT Id, Override_Recruitment_Status__c FROM Clinical_Trial_Profile__c];
-        profile.Override_Recruitment_Status__c = TrialSearchWhereClauseFactory.ACTIVELY_ENROLLING;
-        update profile;
+        Test.startTest();
+        Clinical_Trial_Profile__c ctp = [SELECT Id, Override_Recruitment_Status__c FROM Clinical_Trial_Profile__c];
+        ctp.Override_Recruitment_Status__c = TrialSearchWhereClauseFactory.ACTIVELY_ENROLLING;
+        update ctp;
+        Test.stopTest();
 
         System.assertEquals(0, [SELECT Id FROM Trial_Notification__c].size());
+    }
 
+    @IsTest
+    static void runWorkflowNoOpenedCtps_test() {
+        Test.startTest();
+        Clinical_Trial_Profile__c ctp = [SELECT Id, Study_Code_Name__c, Override_Recruitment_Status__c FROM Clinical_Trial_Profile__c];
+        ctp.Study_Code_Name__c = 'test';
+        update ctp;
+        Test.stopTest();
+
+        System.assertEquals(1, [SELECT Id FROM Trial_Notification__c].size());
+    }
+
+    @IsTest
+    static void removeRelatedTrialNotificationsOnDelete_test() {
+        Test.startTest();
+        Clinical_Trial_Profile__c ctp = [SELECT Id, Override_Recruitment_Status__c FROM Clinical_Trial_Profile__c];
+        delete ctp;
+        Test.stopTest();
+
+        System.assertEquals(0, [SELECT Id FROM Trial_Notification__c].size());
     }
 
 }

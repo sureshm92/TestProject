@@ -8,7 +8,7 @@ public with sharing class ConditionsOfInterestViewRemote {
     public static List<Therapeutic_Area__c> searchForConditionOfInterest(String searchText, List<String> selectedCoisIds) {
         try {
             TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
-            return helper.getFilteredTherapeuticAreas(searchText, selectedCoisIds);
+            return helper.searchFilteredTherapeuticAreas(searchText, selectedCoisIds);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
