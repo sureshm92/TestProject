@@ -108,9 +108,10 @@ public without sharing class HCPEnrollmentTriggerHandler {
                 }
             }
         }
+
         if (contactIdsForCreateUsers.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(contactIdsForCreateUsers);
         if (contactsForSendNotificationMap.size() > 0) SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_HCP, contactsForSendNotificationMap);
-        if (contactsForSendNotificationByPiMap.size() > 0) SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_HCP_BY_PI, contactsForSendNotificationByPiMap);
+        if (contactsForSendNotificationByPiMap.size() > 0) SendEmailTemplate.sendHCPEmailNotificationWithParams(CommunityService.COMMUNITY_ET_HCP_BY_PI, contactsForSendNotificationByPiMap);
     }
     
     @TestVisible

@@ -134,21 +134,6 @@ global without sharing class ReferHealthcareProviderRemote {
             update cntList[0];
         }
 
-        List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id> { cntList[0].Id });
-
-        if (usrs.isEmpty()) {
-            isNewUser = true;
-            ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id> { cntList[0].Id });
-        }
-        if (cntList[0].userCommunytyType__c == null) {
-            cntList[0].userCommunytyType__c = CommunityService.USER_MODE_HCP;
-        } else if (!cntList[0].userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)) {
-            cntList[0].userCommunytyType__c = cntList[0].userCommunytyType__c + ';' + CommunityService.USER_MODE_HCP;
-        }
-        if (cntList[0].userCommunityMode__c != CommunityService.USER_MODE_HCP) {
-            cntList[0].userCommunityMode__c = CommunityService.USER_MODE_HCP;
-        }
-
         HCP_Enrollment__c hcpe = new HCP_Enrollment__c(
                 HCP_Contact__c = cntList[0].Id,
                 HCP_Account__c = cntList[0].AccountId,
@@ -162,11 +147,24 @@ global without sharing class ReferHealthcareProviderRemote {
             update hp;
         }
 
+        List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id> { cntList[0].Id });
+        if (usrs.isEmpty()) {
+            isNewUser = true;
+            ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id> { cntList[0].Id });
+        }
+        if (cntList[0].userCommunytyType__c == null) {
+            cntList[0].userCommunytyType__c = CommunityService.USER_MODE_HCP;
+        } else if (!cntList[0].userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)) {
+            cntList[0].userCommunytyType__c = cntList[0].userCommunytyType__c + ';' + CommunityService.USER_MODE_HCP;
+        }
+        if (cntList[0].userCommunityMode__c != CommunityService.USER_MODE_HCP) {
+            cntList[0].userCommunityMode__c = CommunityService.USER_MODE_HCP;
+        }
+
         if (!isNewUser) {
             hcpe.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+            update hcpe;
         }
-        update hcpe;
-
         if (!isNewUser) {
             hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
             update hcpe;
