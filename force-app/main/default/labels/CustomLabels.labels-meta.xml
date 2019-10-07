@@ -8507,6 +8507,13 @@ Please check your CAPS lock key.</value>
         <value>&lt;&lt;Replace this text to approved&gt;&gt; (Study Site don&#39;t have Visit Plan)</value>
     </labels>
     <labels>
+        <fullName>PSC_Docs_will_be_published</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PSC Docs will be published</shortDescription>
+        <value>Documents will be published shortly.  Check back for updates</value>
+    </labels>
+    <labels>
         <fullName>PS_Enrollment_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
