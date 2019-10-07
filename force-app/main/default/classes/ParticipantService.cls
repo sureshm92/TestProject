@@ -54,6 +54,8 @@ public class ParticipantService {
 
             if (participantState.pe.Study_Site__r.Clinical_Trial_Profile__c != null) {
                 participantState.ctp = participantState.pe.Study_Site__r.Clinical_Trial_Profile__r;
+                TranslateHelper.translate(participantState.ctp,
+                        IRBParticipantService.getIRBLanguageMode(participantState.pe.Id).languageToTranslate);
                 participantState.showTerms = showTerms();
                 participantState.isPremium = participantState.ctp.Participating_in_Patient_Portal__c == 'Yes';
             }
@@ -97,13 +99,8 @@ public class ParticipantService {
         if (participantState.value == ParticipantStates.ALUMNI) return false;
 
         if (participantState.ctp.Visit_Plan__c != null) {
-            List<Visit__c> visitsList = (List<Visit__c>) DatabaseService.query(
-                    new List<String>{
-                            'Id'
-                    },
-                    Visit__c.getSObjectType(),
-                    DatabaseService.fieldEqual('Visit_Plan__c', participantState.ctp.Visit_Plan__c)
-            );
+            List<Visit__c> visitsList = (List<Visit__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
+                    .query('SELECT Id FROM Visit__c WHERE Visit_Plan__c = \'' + participantState.ctp.Visit_Plan__c + '\'', true);
             return !visitsList.isEmpty();
         }
 
@@ -130,27 +127,10 @@ public class ParticipantService {
     }
 
     public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe) {
-        Database.SaveResult saveResult = DatabaseService.insertSObj(participant, false);
-        if (!saveResult.isSuccess()) {
-            System.debug('PARTICIPANT INSERT ERROR');
-            for (Database.Error error : saveResult.getErrors()) {
-                if (error instanceof Database.DuplicateError) {
-                    Database.DuplicateError duplicateError = (Database.DuplicateError) error;
-                    Datacloud.DuplicateResult duplicateResult = duplicateError.getDuplicateResult();
-                    List<SObject> duplicateRecords = new List<SObject>();
-                    Datacloud.MatchResult[] matchResults = duplicateResult.getMatchResults();
-                    Datacloud.MatchResult matchResult = matchResults[0];
-                    Datacloud.MatchRecord[] matchRecords = matchResult.getMatchRecords();
-                    for (Datacloud.MatchRecord matchRecord : matchRecords) {
-                        participant = (Participant__c) matchRecord.getRecord();
-                        System.debug('FOUND PART DUPLICATE: ' + participant);
-                        break;
-                    }
-                } else {
-                    System.debug(error.getMessage());
-                    throw new ParticipantServiceException(error.getMessage());
-                }
-            }
+        participant.Preferred_Language__c = UserInfo.getLanguage();
+        if(participant.Id == null){
+            DuplicateContactController.isPERCreated = true;
+            participant = DuplicateContactController.communityReffering(participant, pe);
         }
 
         if (participant.Id != null) {
@@ -159,6 +139,8 @@ public class ParticipantService {
                 DatabaseService.getInstance().upsertToDB(pe);
             } catch (Exception e) {
                 String errorMsg = e.getMessage();
+                System.debug('STACK TRACE:' + e.getStackTraceString());
+                System.debug('MESSAGE:' + e.getMessage());
                 if (errorMsg.contains('DUPLICATE')) {
                     errorMsg = Label.Error_Message_Participant_Duplicate;
                 }
@@ -186,6 +168,4 @@ public class ParticipantService {
         genders.add(new LabelValueItem(Label.Gender_Female, 'Female'));
         return genders;
     }
-
-
 }

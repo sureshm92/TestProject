@@ -16,18 +16,16 @@
     },
 
     doDelete: function (component, event, helper) {
-        let recordId = event.getSource().get('v.value');
-        let recordIds = [];
+        var recordId = event.getSource().get('v.value');
+        var recordIds = [];
         recordIds.push(recordId);
-        let records = component.get('v.records');
+        var records = component.get('v.records');
         if (recordIds) {
-            communityService.executeAction(component, 'deleteRecords', {
+            communityService.executeAction(component, 'deleteAndGetRefferalNetworks', {
+                sObjectType: component.get("v.sObjectType"),
                 recordIds: recordIds
-            }, function () {
-                records = records.filter((el) => {
-                    return el.Id !== recordId;
-                });
-                component.set('v.records', records);
+            }, function (returnValue) {
+                component.set('v.records', returnValue);
             });
         }
     }

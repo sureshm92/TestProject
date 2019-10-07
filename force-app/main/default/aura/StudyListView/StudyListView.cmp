@@ -17,24 +17,33 @@
     <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
     <aura:attribute name="currentTab" type="String" default="recruiting"/>
     <aura:attribute name="currentTrialId" type="String"/>
+    <aura:attribute name="currentSSId" type="String"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
     <aura:attribute name="isSearchResume" type="Boolean" default="false"/>
     <aura:attribute name="searchResumeChanged" type="Boolean" default="false" access="private"/>
     <aura:attribute name="peStatusesPathList" type="List"/>
     <aura:attribute name="peStatusStateMap" type="Map"/>
-
+    <aura:attribute name="delegatesPicklist" type="List"/>
+    <aura:attribute name="contactAccountsList" type="List"/>
+    <aura:attribute name="countryPicklist" type="Object[]"/>
     <aura:attribute name="paginationData" type="Object"/>
     <aura:attribute name="filterData" type="Object"/>
     <aura:attribute name="sortData" type="Object"/>
     <aura:attribute name="currentPageList" type="List"/>
     <aura:attribute name="skipUpdate" type="Boolean" default="false" access="private"/>
     <aura:attribute name="accessUserLevel" type="String"/>
+    <aura:attribute name="statesByCountryMap" type="Object"/>
+    <aura:attribute name="countriesMap" type="Object"/>
+    <aura:attribute name="countryCodesMap" type="Object"/>
+    <aura:attribute name="checkedAccountWasCreated" type="Boolean" default="false"/>
+    <aura:attribute name="showPopUpSpinner" type="Boolean" default="false"/>
 
     <aura:handler name="change" value="{!v.paginationData.pageRecordsCount}"
                   action="{!c.doUpdateRecordsWithFirstPage}"/>
     <aura:handler name="change" value="{!v.paginationData.currentPage}" action="{!c.doUpdateRecords}"/>
     <aura:handler name="change" value="{!v.filterData}" action="{!c.doUpdateRecordsWithFirstPage}"/>
     <aura:handler name="change" value="{!v.sortData}" action="{!c.doUpdateRecordsWithFirstPage}"/>
+    <aura:handler name="change" value="{!v.currentTab}" action="{!c.clampTitle}"/>
 
     <!-- Handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
@@ -43,6 +52,13 @@
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
     <aura:method name="showOpenNoTanksModal" action="{!c.showNoThanksDialog}" access="public">
         <aura:attribute name="trialId" type="String"/>
+        <aura:attribute name="ssId" type="String"/>
+    </aura:method>
+    <aura:method name="saveSSDetails" action="{!c.saveSSDetails}" access="public">
+        <aura:attribute name="currentSS" type="Object"/>
+    </aura:method>
+    <aura:method name="saveSSnewAddress" action="{!c.saveSSnewAddress}" access="public">
+        <aura:attribute name="currentSS" type="Object"/>
     </aura:method>
 
     <!-- component body: -->
@@ -131,21 +147,32 @@
                 <!-- Output currently recruiting trials -->
                 <aura:if isTrue="{!v.currentTab == 'recruiting'}">
                     <c:EmptyListStub targetList="{!v.currentlyRecruitingTrials}"/>
-                    <aura:iteration items="{!v.currentlyRecruitingTrials}" var="trialsSubList">
-                        <div class="slv-category">{!trialsSubList.name}</div>
-                        <aura:iteration items="{!trialsSubList.studies}" var="trial">
-                            <c:StudyListViewItem currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}"/>
+                    <!--<aura:iteration items="{!v.currentlyRecruitingTrials}" var="trialsSubList">-->
+                        <!--<div class="slv-category">{!trialsSubList.name}</div>-->
+                        <div class="slv-category"></div>
+                        <aura:iteration items="{!v.currentlyRecruitingTrials}" var="trial">
+                            <c:StudyListViewItem currentStudy="{!trial}"
+                                                 delegatePicklist="{!v.delegatesPicklist}"
+                                                 userMode="{!v.userMode}"
+                                                 parent="{!this}"
+                                                 contactAccounts="{!v.contactAccountsList}"
+                                                 countryPicklist = "{!v.countryPicklist}"
+                                                 statesByCountryMap="{!v.statesByCountryMap}"
+                                                 countriesMap="{!v.countriesMap}"
+                                                 countryCodesMap="{!v.countryCodesMap}"/>
                         </aura:iteration>
-                    </aura:iteration>
+                    <!--</aura:iteration>-->
                 </aura:if>
 
                 <!-- Trials no longer recruiting -->
                 <aura:if isTrue="{! v.currentTab == 'noLongerRecruiting'}">
                     <c:EmptyListStub targetList="{!v.trialsNoLongerRecruiting}"/>
                     <aura:if isTrue="{! !empty(v.trialsNoLongerRecruiting)}">
-                        <div class="slv-category">{!$Label.c.PG_MRRL_L_Studies}</div>
+                       <div class="slv-category">{!$Label.c.PG_MRRL_L_Studies}</div>
                         <aura:iteration items="{!v.trialsNoLongerRecruiting}" var="trial">
-                            <c:StudyListViewItem currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}"/>
+                            <c:StudyListViewItem currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}" delegatePicklist="{!v.delegatesPicklist}" contactAccounts="{!v.contactAccountsList}"
+                                                 countryPicklist = "{!v.countryPicklist}" statesByCountryMap="{!v.statesByCountryMap}" countriesMap="{!v.countriesMap}"
+                                                 countryCodesMap="{!v.countryCodesMap}"/>
                         </aura:iteration>
                     </aura:if>
                 </aura:if>
@@ -156,7 +183,7 @@
         <c:OpenToReceiveReferralsModal aura:id="receiveReferralsModal" parent="{!this}"/>
 
         <!-- No,thanks dialog -->
-        <c:NoTanksModal aura:id="noTanksModal" trialId="{!v.currentTrialId}" parent="{!this}" userMode="{!v.userMode}"/>
+        <c:NoTanksModal aura:id="noTanksModal" ssId="{!v.ssId}" trialId="{!v.currentTrialId}" parent="{!this}" userMode="{!v.userMode}"/>
 
         <!-- Share dialog -->
         <c:ShareModal aura:id="shareModal" parent="{!this}"/>

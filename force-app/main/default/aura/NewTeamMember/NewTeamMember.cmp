@@ -140,11 +140,12 @@
                                                                           changedLevels="{!v.changedLevels}"/>
                                             </aura:iteration>
                                         </div>
-                                        <div class="{!'all-same-container sdli-container ' + if(v.currentTab == 'all-same','','hidden')}">
+                                        <fieldset class="{!'all-same-container sdli-container ' + if(v.currentTab == 'all-same','','hidden')}" disabled="{!v.alreadyExists}"
+                                                  title="{!v.alreadyExists?v.alreadyExistsTitle:''}">
                                             <c:StudyDelegateLevelItem aura:id="study-level" studyLevel="{!v.allTrialLevel}"
                                                                       options="{!v.delegateOptions}"
                                                                       changedLevels="{!v.changedLevelsAll}"/>
-                                        </div>
+                                        </fieldset>
                                     </div>
                                 </div>
                             </aura:if>

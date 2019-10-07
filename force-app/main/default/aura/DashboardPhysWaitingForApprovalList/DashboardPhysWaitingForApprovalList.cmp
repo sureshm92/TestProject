@@ -20,10 +20,11 @@
                     {!item.action.label}
                 </button>
             </div>
-            <c:RRLink label="{!item.data.HCP_Contact__r.Salutation + ' ' + item.data.HCP_Contact__r.Name}" page=""/> {!$Label.c.PG_DBPI_at} {!item.data.HCP_Contact__r.Account.Name}<br/>
-            for <c:RRLink label="{!item.data.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}" page="{!'study-workspace?id=' + item.data.Study_Site__r.Clinical_Trial_Profile__c}"/>
+            <c:RRLink label="{!item.data.HCP_Contact__r.Salutation + ' ' + item.data.HCP_Contact__r.Name + ' '}" page=""/>{!$Label.c.PG_DBPI_at + ' '} {!item.data.HCP_Contact__r.Account.Name}<br/>
+            {!$Label.c.PG_DBPI_L_for}&nbsp;<c:RRLink label="{!item.data.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}" page="{!'study-workspace?id=' + item.data.Study_Site__r.Clinical_Trial_Profile__c}"/><br/>
+            <span>{!item.data.Study_Site__r.Name}</span>
             <div class="rr-small-up-hide btn-block">
-                <button class="apollo-btn tertiary green"
+                <button class="apollo-btn tertiary"
                         disabled="{!item.actions.disabled}"
                         title="{!item.actions.disableReason}"
                         onclick="{!c.doAction}"

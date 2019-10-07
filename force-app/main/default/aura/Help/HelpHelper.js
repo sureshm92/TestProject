@@ -72,5 +72,9 @@
             return false;
         }
         return true;
+    },
+
+    clearFieldAfterSubmit: function (attributeName, component){
+        component.set('v.' + attributeName, '');
     }
 })

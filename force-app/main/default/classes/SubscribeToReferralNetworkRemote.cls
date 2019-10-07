@@ -60,8 +60,7 @@ public without sharing class SubscribeToReferralNetworkRemote {
         return result;
     }
 
-    @AuraEnabled
-    public static void deleteRecords(List<Id> recordIds) {
+    private static void deleteRecords(List<Id> recordIds) {
         try {
             if (recordIds != null && !recordIds.isEmpty()) {
                 List<SObject> records = new List<SObject>();
@@ -107,12 +106,13 @@ public without sharing class SubscribeToReferralNetworkRemote {
                         ORDER BY Name ASC
                 ];
             } else if (currType == Therapeutic_Area__c.getSObjectType()) {
-                foundRecords = [
+                TherapeuticAreaService taService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
+                foundRecords = taService.getTherapeuticAreas(searchTerm);/*[
                         SELECT Id, Name
                         FROM Therapeutic_Area__c
                         WHERE Name LIKE :searchTerm
                         ORDER BY Name ASC
-                ];
+                ];*/
             }
             TranslateHelper.translate(foundRecords);
 
@@ -182,5 +182,11 @@ public without sharing class SubscribeToReferralNetworkRemote {
         }
 
         return results;
+    }
+
+    @AuraEnabled
+    public static List<ReferralNetworkWrapper> deleteAndGetRefferalNetworks(String sObjectType, List<Id> recordIds) {
+        deleteRecords(recordIds);
+        return getReferralNetworkRecords(sObjectType);
     }
 }

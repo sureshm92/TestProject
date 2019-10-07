@@ -17,6 +17,7 @@ public without sharing class ReferringRemote {
         public List<LabelValueItem> countries;
         public List<LabelValueItem> genders;
         public Map<String, List<LabelValueItem>> statesByCountryMap;
+        public String delegateAccessLevel;
     }
 
     public class AccountWrapper{
@@ -24,6 +25,8 @@ public without sharing class ReferringRemote {
         public String name;
         public String addrStreet;
         public String addrCity;
+        public String siteType;
+        public Account ssAccount;
     }
 
     @AuraEnabled
@@ -65,12 +68,12 @@ public without sharing class ReferringRemote {
                 else {
                     initData.studiesPending.add(siteWrapper);
                 }
-                if(siteWrapper.siteType != 'Virtual') {
                     AccountWrapper aw = new AccountWrapper();
-                    aw.clinic = siteWrapper.site.Site__r;
+                    aw.clinic = siteWrapper.site.Principal_Investigator__r.Account;
+                    aw.ssAccount = siteWrapper.site.Site__r;
                     aw.name = siteWrapper.site.Name;
+                    aw.siteType = siteWrapper.siteType;
                     initData.markers.add(aw);
-                }
             }
         }
 //            Account site = [
@@ -88,6 +91,7 @@ public without sharing class ReferringRemote {
         initData.countries = CountryStateUtil.getCountries();
         initData.genders = ParticipantService.getGenderLVList();
         initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
+        initData.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel();
         return JSON.serialize(initData);
         /*}catch (Exception e){
             System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
@@ -98,6 +102,7 @@ public without sharing class ReferringRemote {
     @AuraEnabled
     public static void saveParticipant(Id trialId, Id hcpeId, String pEnrollmentJSON, String participantJSON){
         Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
+        participant.Preferred_Language__c = UserInfo.getLanguage();
         HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId, CommunityService.USER_MODE_HCP);
         Participant_Enrollment__c participantEnrollment = (Participant_Enrollment__c)JSON.deserialize(pEnrollmentJSON, Participant_Enrollment__c.class);
         participantEnrollment.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI;
@@ -105,7 +110,7 @@ public without sharing class ReferringRemote {
             participantEnrollment.Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_PASS;
         }
 
-        Database.SaveResult saveResult = Database.insert(participant, false);
+        /*Database.SaveResult saveResult = Database.insert(participant, false);
         if (!saveResult.isSuccess()) {
             System.debug('PARTICIPANT INSERT ERROR');
             for (Database.Error error : saveResult.getErrors()) {
@@ -126,7 +131,10 @@ public without sharing class ReferringRemote {
                     if(!Test.isRunningTest()) throw new AuraHandledException(error.getMessage());
                 }
             }
-        }
+        }*/
+
+        DuplicateContactController.isPERCreated = true;
+        participant = DuplicateContactController.communityReffering(participant, participantEnrollment);
 
         if(participant.Id != null){
             participantEnrollment.Participant__c = participant.Id;
@@ -141,8 +149,10 @@ public without sharing class ReferringRemote {
                 upsert participantEnrollment;
             }catch (Exception e){
                 String errorMsg = e.getMessage();
+                System.debug('STACK TRACE:' + e.getStackTraceString());
+                System.debug('MESSAGE:' + e.getMessage());
                 if(errorMsg.contains('DUPLICATE')) {
-                    errorMsg = 'This patient has already been referred to this study. A patient can only be referred to one trial at a time';
+                    errorMsg = Label.Error_Message_Participant_Duplicate;
                 }
                 System.debug('ERROR: ' + errorMsg);
                 throw new AuraHandledException(errorMsg);

@@ -9,3 +9,40 @@
     font-size: 13px;
     font-weight: 500;
 }
+
+.THIS .fp-filters-container{
+    width: 100%;
+}
+/*.THIS .rrs-container:first-child{
+     max-width: 100px !important;
+ }
+.THIS .rrs-container:nth-child(2){
+    max-width: 120px !important;
+}
+@media (max-width: 341px)  {
+    .THIS .rrs-container:first-child{
+        max-width: 150px !important;
+    }
+    .THIS .rrs-container:nth-child(2){
+        max-width: 150px !important;
+    }
+}*/
+.THIS .fp-ss-filter-container {
+    max-width: 120px;
+}
+
+.THIS .fp-study-filter-container {
+    max-width: 100px !important;
+}
+
+@media (max-width: 341px) {
+    .THIS .fp-ss-filter-container {
+        min-width: 150px;
+    }
+
+    .THIS .fp-study-filter-container {
+        min-width: 150px;
+    }
+}
+
+

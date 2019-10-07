@@ -7,23 +7,17 @@
     <trackTrending>false</trackTrending>
     <type>MultiselectPicklist</type>
     <valueSet>
-        <restricted>true</restricted>
         <valueSetDefinition>
-            <sorted>true</sorted>
+            <sorted>false</sorted>
             <value>
                 <fullName>icon-blood-test</fullName>
                 <default>false</default>
-                <label>Blood and urine tests</label>
+                <label>Blood tests</label>
             </value>
             <value>
                 <fullName>icon-brief-ph-ex</fullName>
                 <default>false</default>
-                <label>Brief physical examination</label>
-            </value>
-            <value>
-                <fullName>icon-x-rays</fullName>
-                <default>false</default>
-                <label>Chest, hand, and feet X-rays</label>
+                <label>Physical examination</label>
             </value>
             <value>
                 <fullName>icon-ecg</fullName>
@@ -58,12 +52,47 @@
             <value>
                 <fullName>icon-questions</fullName>
                 <default>false</default>
-                <label>Questions</label>
+                <label>Questions about your health and medications</label>
             </value>
             <value>
                 <fullName>icon-vital-signs</fullName>
                 <default>false</default>
                 <label>Vital signs</label>
+            </value>
+            <value>
+                <fullName>icon-urine-tests</fullName>
+                <default>false</default>
+                <label>Urine tests</label>
+            </value>
+            <value>
+                <fullName>icon-receive-study-medication-injection</fullName>
+                <default>false</default>
+                <label>Receive study medication injection</label>
+            </value>
+            <value>
+                <fullName>icon-receive-study-medication-capsules</fullName>
+                <default>false</default>
+                <label>Receive study medication capsules</label>
+            </value>
+            <value>
+                <fullName>icon-fasting</fullName>
+                <default>false</default>
+                <label>Fasting</label>
+            </value>
+            <value>
+                <fullName>icon-hands-and-feet-x-rays</fullName>
+                <default>false</default>
+                <label>Hands and feet X-rays</label>
+            </value>
+            <value>
+                <fullName>icon-chest-x-rays</fullName>
+                <default>false</default>
+                <label>Chest X-rays</label>
+            </value>
+            <value>
+                <fullName>icon-no-study-visit</fullName>
+                <default>false</default>
+                <label>No study visit if you take part in contRAst-X</label>
             </value>
         </valueSetDefinition>
     </valueSet>

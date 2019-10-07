@@ -29,6 +29,9 @@ global without sharing class EmailTemplateController {
     public static final String LABEL_SIGNATURE_PATIENT_DELEGATE =  'Email_Signature_New_Participant_Delegate';
     public static final String LABEL_SIGNATURE = 'Email_Signature';
     public static final String LABEL_SIGNATURE_NEW = 'Email_Signature_New';
+    
+    public static final String LABEL_GREETING_VALUE_DEFAULT = 'Email_User_Greeting_FirstName';
+    public static final String LABEL_GREETING_VALUE_PI_HCP = 'Email_User_Greeting';
 
     public static final String PARAM_PREFIX = '##';
     
@@ -39,6 +42,8 @@ global without sharing class EmailTemplateController {
     global String emailParametersProvider {get; set;}
     global Id sourceRecordId {get; set;}
     global Boolean replaceLineBreaksOnHTMLBreaks {get; set;}
+    global Boolean showDelegateTableValue{get; set;}
+    global Boolean hasPIRPDelegationRecords {get; set;}
 
     private String bodyParamValue;
     global String bodyValue {
@@ -56,9 +61,15 @@ global without sharing class EmailTemplateController {
     global String headerValue {
         get{
             setDefaultValues();
-            return headerValue;
+            if(headerValue.contains(PARAM_PREFIX)){
+                String resValue = TranslateHelper.replaceParams(headerValue, PARAM_PREFIX, getDataProvider().parameters);
+                return prepareLineBreaks(resValue);  
+            }
+            else{
+                return headerValue;
+            }
         }
-        set;
+        set; 
     }
     
     global String titleValue {
@@ -86,7 +97,23 @@ global without sharing class EmailTemplateController {
     
     global String userGreetingValue {
         get{
+            setDefaultValues();
+            System.debug(userGreetingValue);
             return prepareLineBreaks(TranslateHelper.replaceParams(userGreetingValue, PARAM_PREFIX, getDataProvider().parameters) +'\n\n');
+        }
+        set;
+    }
+
+    global String buttonLabelValue {
+        get {
+            return TranslateHelper.replaceParams(buttonLabelValue, PARAM_PREFIX, getDataProvider().parameters);
+        }
+        set;
+    }
+
+    global String buttonUrlValue {
+        get {
+           return TranslateHelper.replaceParams(buttonUrlValue, PARAM_PREFIX, getDataProvider().parameters);
         }
         set;
     }
@@ -146,6 +173,7 @@ global without sharing class EmailTemplateController {
             String headerLabel;
             String titleLabel;
             String signatureLabel;
+            String userGreetingLabel = LABEL_GREETING_VALUE_DEFAULT;
             if(getDataProvider().isDelegate){
                 if(getDataProvider().userMode == CommunityService.USER_MODE_PARTICIPANT){
                     bodyLabel = LABEL_BODY_INITIAL_PATIENT_DELEGATE;
@@ -175,17 +203,20 @@ global without sharing class EmailTemplateController {
                 headerLabel = LABEL_HEADER_INITIAL_PI;
                 titleLabel = LABEL_TITLE_ALL;
                 signatureLabel = LABEL_SIGNATURE;
+                userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
             }else if(getDataProvider().userMode == CommunityService.USER_MODE_HCP){
                 bodyLabel = LABEL_BODY_INITIAL_HCP;
                 headerLabel = LABEL_HEADER_INITIAL_HCP;
                 titleLabel = LABEL_TITLE_ALL;
                 signatureLabel = LABEL_SIGNATURE;
+                userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
             }
             
             if(bodyLabel != null) bodyValue = TranslateHelper.getLabelValue(bodyLabel, getUserLanguageCode());
             if(headerLabel != null) headerValue = TranslateHelper.getLabelValue(headerLabel, getUserLanguageCode());
             if(titleLabel != null) titleValue = TranslateHelper.getLabelValue(titleLabel, getUserLanguageCode());
             if(signatureLabel != null) signatureValue = TranslateHelper.getLabelValue(signatureLabel, getUserLanguageCode());
+            if(userGreetingLabel != null) userGreetingValue = TranslateHelper.getLabelValue(userGreetingLabel, getUserLanguageCode());
         }
     }
     

@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class AddPatientByPIRemote {
+public without sharing class AddPatientByPIRemote {
     
     public static final List<String> PE_STATUSES = new List<String>{
             PEStatusState.PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS,
@@ -12,7 +12,8 @@ public class AddPatientByPIRemote {
     };
     
     public class FormData {
-        @AuraEnabled public List<LabelValueItem> statesLVList = CountryStateUtil.getStatesByCountryMap().get('US');
+        @AuraEnabled public List<LabelValueItem> countriesLVList = CountryStateUtil.getCountries();
+        @AuraEnabled public Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
         @AuraEnabled public List<LabelValueItem> genderLVList = ParticipantService.getGenderLVList();
         @AuraEnabled public List<LabelValueItem> phoneTypeLVList = SObjectHelper.getPicklistLabelValueList(Participant__c.Phone_Type__c);
         @AuraEnabled public List<LabelValueItem> referredByLVList = SObjectHelper.getPicklistLabelValueList(Participant_Enrollment__c.Referred_By__c);
@@ -34,11 +35,13 @@ public class AddPatientByPIRemote {
     }
     
     @AuraEnabled
-    public static FormData getInitData(Id ctpId) {
+    public static FormData getInitData(Id ssId) {
         try {
             FormData initData = new FormData();
-            initData.ctp = TrialService.getTrial(ctpId);
-            initData.ss =  StudySiteService.getStudySiteForPIByTrialId(ctpId)[0];
+            if(ssId != null) {
+                initData.ss =  StudySiteService.getStudySiteForPIById(ssId);
+                initData.ctp = TrialService.getTrial(initData.ss.Clinical_Trial_Profile__c);
+            }
             return initData;
         } catch (Exception e) {
             return (FormData) AuraHelper.throwException(e);
@@ -46,7 +49,7 @@ public class AddPatientByPIRemote {
     }
     
     @AuraEnabled
-    public static void saveParticipant(String participantJSON, String peJSON){
+    public static Participant_Enrollment__c createParticipant(String participantJSON, String peJSON){
         try{
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
             Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
@@ -54,7 +57,18 @@ public class AddPatientByPIRemote {
             pe.Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI;
             pe.Referral_Source__c = 'PI';
             ParticipantService.createParticipantAndUpdatePE(participant, pe);
-            PEStatusState currentState = PEStatusState.STATUSES_MAP.get(peStatus);
+            update pe;
+            return pe;
+        }catch (Exception e){
+            return (Participant_Enrollment__c)AuraHelper.throwException(e);
+        }
+    }
+    
+    @AuraEnabled
+    public static void updatePE(String peJSON){
+        try{
+            Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
+            PEStatusState currentState = PEStatusState.STATUSES_MAP.get(pe.Participant_Status__c);
             List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
             for(PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE){
                 if(step.name == currentState.name) break;
@@ -67,8 +81,19 @@ public class AddPatientByPIRemote {
                 ));
             }
             insert statusHistories;
-            pe.Participant_Status__c = peStatus;
             update pe;
+        }catch (Exception e){
+            AuraHelper.throwException(e);
+        }
+    }
+    
+    @AuraEnabled
+    public static void updatePatientInfo(String participantJSON, String peJSON){
+        try{
+            Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
+            Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
+            update pe;
+            update participant;
         }catch (Exception e){
             AuraHelper.throwException(e);
         }

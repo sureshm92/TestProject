@@ -18,9 +18,17 @@
     <aura:attribute name="rpData" type="Object" access="private"/>
     <aura:attribute name="studySitesForInvitation" type="List" access="private"/>
     <aura:attribute name="reqFieldsFilled" type="Boolean" default="true"/>
+    <aura:attribute name="trialId" type="String"/>
+    <aura:attribute name="ssId" type="String"/>
+    <aura:attribute name="studySitePickList" type="List"/>
+    <aura:attribute name="studyPickList" type="List"/>
+    <aura:attribute name="filterWasChanged" type="Boolean" default="false"/>
+    <aura:attribute name="studyWasChanged" type="Boolean" default="false"/>
     <!--=============================================================================================================-->
     <aura:handler name="change" value="{!v.filterInfo.isActive}" action="{!c.showPendingPhysicans}"/>
     <aura:handler name="change" value="{!v.rpData}" action="{!c.checkReqFields}"/>
+    <aura:handler name="change" value="{!v.filterWasChanged}" action="{!c.filterData}"/>
+    <!--<aura:handler name="change" value="{!v.ssId}" action="{!c.filterData}"/>-->
     <!--=============================================================================================================-->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
     <!--=============================================================================================================-->
@@ -30,16 +38,16 @@
         <div class="mrc-container">
             <aura:if isTrue="{! v.showFilterByStudy}">
                 <c:RRNavigationPath>
-                    <c:RRNPathItem label="{!$Label.c.PG_CP_L_My_Referring_Clinics}"/>
+                    <c:RRNPathItem label="{!$Label.c.PG_SP_L_My_Referring_Providers}"/>
                 </c:RRNavigationPath>
                 <div class="rr-summary-panel slds-grid slds-wrap slds-grid_vertical-stretch slds-gutters_medium">
-                    <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12" style="display: flex">
+                    <!--<div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12" style="display: flex">
                         <c:rrFilterPill number="{!v.filterInfo.value}" title="{!v.filterInfo.label}"
                                         isActive="{!v.filterInfo.isActive}"/>
                     </div>
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12">
                         <c:rrSummaryPill summaryContainerList="{!v.summaryContainers}"/>
-                    </div>
+                    </div>-->
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 mrc-invite-btn-container">
                         <button class="apollo-btn primary mrc-invite-btn" onclick="{!c.doShowInviteRP}">
                             {!$Label.c.PG_MRC_BTN_Invite_Referring_Provider}
@@ -70,7 +78,7 @@
                                         <div class="label">{!$Label.c.PG_MRC_RF_Invite_to_Studies}</div>
                                         <div class="radio-group">
                                             <aura:iteration items="{!v.studySitesForInvitation}" var="site">
-                                                <lightning:input value="{!site.Id}" type="radio" name="site"
+                                                <lightning:input value="{!site}" type="radio" name="site"
                                                                  label="{!site.StudyName}"
                                                                  onchange="{!c.doSelectStudy}" checked="{!site.selected}"/>
                                             </aura:iteration>
@@ -96,8 +104,15 @@
             </aura:if>
             <div class="slds-is-relative">
                 <c:RRSpinner aura:id="recordListSpinner" size="medium" showSpinner="false"/>
-                <c:MyReferredZone workspaceWrapper="{!v.filteredReferringClinics}" userMode="{!v.userMode}"
-                                  showEnrollments="{!v.showFilterByStudy}"/>
+                <c:MyReferredZone workspaceWrapper="{!v.filteredReferringClinics}"
+                                  userMode="{!v.userMode}"
+                                  showEnrollments="{!v.showFilterByStudy}"
+                                  trialId="{!v.trialId}"
+                                  ssId="{!v.ssId}"
+                                  filterWasChanged="{!v.filterWasChanged}"
+                                  studyPickList="{!v.studyPickList}"
+                                  studySitePickList="{!v.studySitePickList}"
+                                  studyWasChanged = "{!v.studyWasChanged}"/>
             </div>
         </div>
     </aura:if>

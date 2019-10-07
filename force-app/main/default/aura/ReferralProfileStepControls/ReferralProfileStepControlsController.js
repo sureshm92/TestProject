@@ -3,28 +3,19 @@
  */
 ({
     doSaveSelectedStatus: function (component, event, helper) {
+        debugger;
         var rootComponent = component.get('v.parent');
-        rootComponent.find('mainSpinner').show();
         var pe = component.get('v.pe');
         var step = component.get('v.step');
-        var statusReason = step.selectedStatus.split(';');
-        var status, reason;
-        status = statusReason[0];
-        if (statusReason.length > 1) {
-            reason = statusReason[1];
-        }
-
-        var notes = step.notes;
-        var changePEStatusByPIAction = rootComponent.find('changePEStatusByPIAction');
-        if(status === 'Enrollment Success' && pe.Informed_Consent__c !== 'true') {
-            rootComponent.find('actionApprove').execute(function () {
-                changePEStatusByPIAction.execute(pe, status, reason, notes, rootComponent);
+        if(step.selectedStatus === 'Enrollment Success'){
+            rootComponent.find('updatePatientInfoAction').execute(pe, true, function (pe) {
+                rootComponent.set('v.pe', pe);
+                helper.saveSelectedStatus(component);
             }, function () {
-                rootComponent.find('mainSpinner').hide();
-                communityService.showWarningToast(null, $A.get('$Label.c.Toast_ICF'));
+                helper.cancel(component);
             });
-        }else {
-            changePEStatusByPIAction.execute(pe, status, reason, notes, rootComponent);
+        } else {
+            helper.saveSelectedStatus(component);
         }
     },
 

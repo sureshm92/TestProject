@@ -55,10 +55,10 @@ public without sharing class StudyDetailAboutStudyRemote {
     }*/
 
     @AuraEnabled
-    public static void setTrialAcceptedForPI(Id trialId, String piPaysForReferralActivity){
+    public static void setTrialAcceptedForPI(Id trialId, String piPaysForReferralActivity, String ssId){
         Savepoint sp = Database.setSavepoint();
         try{
-            setStatusPI(trialId, 'Accepted', piPaysForReferralActivity);
+            setStatusPI(trialId, 'Accepted', piPaysForReferralActivity, ssId);
         }catch (Exception e){
             Database.rollback(sp);
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -98,12 +98,27 @@ public without sharing class StudyDetailAboutStudyRemote {
         return enrollmentsMap;
     }*/
 
-    private static void setStatusPI(Id trialId, String status, String piPaysForReferralActivity){
-        List<Study_Site__c> studySites = StudySiteService.getStudySiteForPIByTrialId(trialId);
-        if(studySites.size() == null) throw new AuraHandledException('Data not found');
-        studySites[0].Override_PI_Referral_Status__c = status;
-        if(piPaysForReferralActivity != null) studySites[0].PI_Pays_for_Referral_Activity__c = piPaysForReferralActivity;
-        update studySites[0];
+    private static void setStatusPI(Id trialId, String status, String piPaysForReferralActivity, String ssId){
+        System.debug('ssId>>.'+ssId);
+        if(!String.isEmpty(ssId)){
+            Study_Site__c studySites = StudySiteService.getStudySiteForHCPById(ssId);
+            if(studySites == null) throw new AuraHandledException('Data not found');
+            studySites.Override_PI_Referral_Status__c = status;
+            if (piPaysForReferralActivity != null) studySites.PI_Pays_for_Referral_Activity__c = piPaysForReferralActivity;
+            update studySites;
+        }
+        else {
+            List<Study_Site__c> studySites = StudySiteService.getStudySiteForPIByTrialId(trialId);
+            if (studySites.size() == null) throw new AuraHandledException('Data not found');
+            for (Integer i = 0; i < studySites.size(); i++) {
+                if(studySites[i].Override_PI_Referral_Status__c != status && studySites[i].Override_PI_Referral_Status__c != StudySiteService.PI_S_DEACTIVATED_A) {
+                    studySites[i].Override_PI_Referral_Status__c = status;
+                    if (piPaysForReferralActivity != null) studySites[i].PI_Pays_for_Referral_Activity__c = piPaysForReferralActivity;
+               }
+             }
+            studySites[0].Override_PI_Referral_Status__c = status;
+            update studySites;
+        }
     }
 
 }

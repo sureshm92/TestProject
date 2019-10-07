@@ -22,7 +22,7 @@
             <!-- open tasks: -->
             <aura:if isTrue="{!v.taskMode == 'Open'}">
                 <div class="tt-title">{!$Label.c.Task_Tab_Open_Tasks}
-                    <button class="apollo-btn primary" onclick="{!c.doCreateNewTask}">Create New Task</button>
+                    <button class="apollo-btn primary" onclick="{!c.doCreateNewTask}">{!$Label.c.BTN_Create_New_Task}</button>
                 </div>
                 <div class="rr-white-panel">
                     <c:RRTable>
@@ -43,7 +43,7 @@
                                 </td>
                                 <td>
                                     <aura:if isTrue="{!taskWrapper.openTask.Status == 'In Progress'}">
-                                        In Progress
+                                        {!$Label.c.Task_Tab_Table_Status_In_Progress}
                                     </aura:if>
                                     <aura:if isTrue="{!taskWrapper.openTask.Status != 'In Progress'}">
                                         <aura:if isTrue="{!taskWrapper.openTask.ActivityDate}">
@@ -55,10 +55,10 @@
                                     </aura:if>
                                 </td>
                                 <td>
-                                    <aura:if isTrue="{!taskWrapper.openTask.Reminder_Date__c != null}">
-                                        <ui:outputDate value="{!taskWrapper.openTask.Reminder_Date__c}"/>
+                                    <aura:if isTrue="{!taskWrapper.reminderDate != null}">
+                                        <ui:outputDate value="{!taskWrapper.reminderDate}"/>
                                     </aura:if>
-                                    <aura:if isTrue="{!taskWrapper.openTask.Reminder_Date__c == null}">
+                                    <aura:if isTrue="{!taskWrapper.reminderDate == null}">
                                         {!$Label.c.None}
                                     </aura:if>
                                 </td>
@@ -90,13 +90,16 @@
                                     <aura:if isTrue="{!task.Status == 'Ignored'}">
                                         <c:RRLink label="{!task.Subject}" page="{!'edit-task?id=' + task.Id}"/>
                                     </aura:if>
-                                    <aura:if isTrue="{!task.Status == 'Completed'}">
+                                    <aura:if isTrue="{!task.Status == 'Completed' || task.Status == 'Expired'}">
                                         {!task.Subject}
                                     </aura:if>
                                 </td>
                                 <td>
                                     <aura:if isTrue="{!task.Status == 'Ignored'}">
-                                        Ignored
+                                        {!$Label.c.Task_Tab_Table_Status_Ignored}
+                                    </aura:if>
+                                    <aura:if isTrue="{!task.Status == 'Expired'}">
+                                        {!$Label.c.Task_Tab_Table_Status_Expired}
                                     </aura:if>
                                     <aura:if isTrue="{!task.Status == 'Completed'}">
                                         <ui:outputDate value="{!task.Completed_Date__c}"/>

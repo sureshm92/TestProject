@@ -23,25 +23,41 @@
                     </div>
                 </div>
                 <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Referring_provider}</div>
-                    <div class="value">
+                    <div class="label">{!$Label.c.PE_Study_Site_Referred_To}</div>
+                    <!--<div class="value">
+                        <c:RRLink label="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}"
+                                  page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c}"
+                                  maxWidth="250px"/>
+                    </div>-->
+                    <div class="value">{!v.pe.Study_Site__r.Name}</div>
+                </div>
+                <div class="vpi-field">
+                    <div class="label">{!$Label.c.PE_Source}</div>
+                    <aura:if isTrue="{!!empty(v.pe.HCP__c)}">
+                    <div class="value">{!v.pe.HCP__r.HCP_Contact__r.Name}</div>
+                        <aura:set attribute="else">
+                            <div class="value">{!v.pe.Referral_Source__c}</div>
+                        </aura:set>
+                    </aura:if>
+                   <!-- <div class="value"><div class="rp-max-length">{!v.pe.HCP__r.HCP_Contact__r.Name}</div></div>-->
+                   <!-- <div class="value">
                         <aura:if isTrue="{!!empty(v.pe.HCP__c)}">
                             <c:RRLink label="{!v.pe.HCP__r.HCP_Contact__r.Name}"
                                       page="{!'clinic-profile?id=' + v.pe.HCP__r.HCP_Contact__r.AccountId}"
                                       maxWidth="250px"/>
                             <aura:set attribute="else">{!v.pe.Referral_Source__c}</aura:set>
                         </aura:if>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="vpi-field">
                     <div class="label">{!$Label.c.PE_Referral_Id}</div>
                     <div class="value">{!v.pe.Name}</div>
                 </div>
 
-                <div class="vpi-field">
+                <!--<div class="vpi-field">
                     <div class="label">{!$Label.c.PE_Investigator_Recruitment_Expert}</div>
                     <div class="value">{!v.pe.Study_Site__r.Principal_Investigator__r.Name}</div>
-                </div>
+                </div>-->
 
                 <div class="vpi-field">
                     <div class="label">{!$Label.c.PE_Referred_Date}</div>
@@ -49,10 +65,10 @@
                 </div>
 
                 <aura:if isTrue="{!v.pe.Participant__c}">
-                    <div class="vpi-field">
+                    <!--<div class="vpi-field">
                         <div class="label">{!$Label.c.PE_Patient_Id}</div>
                         <div class="value">{!v.pe.Patient_ID__c}</div>
-                    </div>
+                    </div>-->
                     <div class="vpi-field">
                         <div class="label">{!$Label.c.PE_Patient_Phone_number}</div>
                         <div class="value">{!v.pe.Participant__r.Phone__c}</div>
@@ -73,9 +89,7 @@
                 <div class="vpi-field">
                     <div class="label">{!$Label.c.PE_Study_Site_Referred_To}</div>
                     <div class="value">
-                        <c:RRLink label="{!v.pe.Study_Site__r.Name}"
-                                  maxWidth="250px"
-                                  page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c + '&amp;tab=tab-referred-study-sites'}"/>
+                        {!v.pe.Study_Site__r.Name}
                     </div>
                 </div>
 

@@ -1,0 +1,103 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef1"
+            },
+            "Name": "SSN-Dunno",
+            "Study_Site_Key__c": "SSK_Dunn",
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef1",
+            "Site__c": "@AccountRef3",
+            "Principal_Investigator__c": "@ContactRef1"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef2"
+            },
+            "Name": "SSN-C5",
+            "Study_Site_Key__c": "SSk-C5",
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef3",
+            "Site__c": "@AccountRef2",
+            "Principal_Investigator__c": "@ContactRef534"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef3"
+            },
+            "Name": "SSN-P5",
+            "Study_Site_Key__c": "SSk-P5",
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef3",
+            "Site__c": "@AccountRef2",
+            "Principal_Investigator__c": "@ContactRef757"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef4"
+            },
+            "Name": "SSN-US5Virtual",
+            "Study_Site_Key__c": "SSk-5",
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef3",
+            "Principal_Investigator__c": "@ContactRef535",
+            "Site__c": "@AccountRef2"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef5"
+            },
+            "Name": "SSN-USAC",
+            "Study_Site_Key__c": "SSK-USActive",
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef3",
+            "Site__c": "@AccountRef2",
+            "Principal_Investigator__c": "@ContactRef535"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef6"
+            },
+            "Name": "SSN-US6",
+            "Study_Site_Key__c": "SSK-6U",
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef4",
+            "Site__c": "@AccountRef2",
+            "Principal_Investigator__c": "@ContactRef535"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef7"
+            },
+            "Name": "SSN-U6.1",
+            "Study_Site_Key__c": "SSK_6u.1",
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef4",
+            "Site__c": "@AccountRef2",
+            "Principal_Investigator__c": "@ContactRef535"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef8"
+            },
+            "Name": "SSN-6P",
+            "Study_Site_Key__c": "SSK-6C",
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef4",
+            "Site__c": "@AccountRef2",
+            "Principal_Investigator__c": "@ContactRef534"
+        },
+        {
+            "attributes": {
+                "type": "Study_Site__c",
+                "referenceId": "Study_Site__cRef9"
+            },
+            "Name": "SSN-6C",
+            "Study_Site_Key__c": "SSK-^P",
+            "Clinical_Trial_Profile__c": "@Clinical_Trial_Profile__cRef4",
+            "Site__c": "@AccountRef2",
+            "Principal_Investigator__c": "@ContactRef534"
+        }
+    ]
+}

@@ -81,6 +81,12 @@ public without sharing class ReferralProfileRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
+
+     @AuraEnabled
+    public static void updateParticipantData(String participantJSON, String perJSON){
+        update (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
+        update (Participant_Enrollment__c)JSON.deserialize(perJSON, Participant_Enrollment__c.class);
+    }
     
     @AuraEnabled
     public static String changePEStatus(Id peId, String newStatus, String notes, String userMode){

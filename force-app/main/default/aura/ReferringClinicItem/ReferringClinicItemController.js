@@ -1,8 +1,7 @@
 ({
     doInit: function (component, event, helper) {
-
         if(component.get("v.filterByStudy")){
-            
+
             var wrapper = component.get("v.clinicWrapper");
             var enrollsByStudy = {};//studyName, enrolments[]
             var enrollments = []; //enrollsByStudy[]
@@ -28,5 +27,7 @@
 
             component.set("v.enrollmentsByStudy", enrollments);
         }
+        console.log('ssId>>', component.get('v.ssId'));
+        console.log('enrollmentsByStudy',JSON.parse(JSON.stringify(component.get('v.enrollmentsByStudy'))));
     }
 })

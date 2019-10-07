@@ -14,6 +14,7 @@
     <aura:attribute name="fileContent" type="String"/>
     <aura:attribute name="exportType" type="String" default="Bilingual"/>
     <aura:attribute name="importResult" type="Object"/>
+    <aura:attribute name="platformObjects" type="List" />
 
     <!-- handlers: -->
     <aura:handler name="change" value="{!v.fileContent}" action="{!c.doResetImportResult}"/>
@@ -49,6 +50,32 @@
                         <div class="slds-col slds-size_2-of-2">
                             <lightning:button variant="brand" label="Export" title="Export" class="export-btn" onclick="{!c.doExport}"
                                               disabled="{!empty(v.studySite.Clinical_Trial_Profile__c)}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="border-panel" style="margin-top: 20px">
+                    <div class="section-header">Platform level data translation</div>
+                    <div class="export-form slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_1-of-1">
+                            <aura:iteration items="{!v.platformObjects}" var="item">
+                                <div><span class="platform-object">{!item.Label}</span></div>
+                            </aura:iteration>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-form-element">
+                            <label class="slds-form-element__label"><abbr class="slds-required" title="required">*</abbr>Select language</label>
+                            <div class="slds-form-element__control">
+                                <force:inputField value="{!v.translateItem.Language__c}" class="study-input"/>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:select name="select1" label="Select export type" required="true" value="{!v.exportType}">
+                                <option value="Bilingual">Bilingual</option>
+                                <option value="Untranslated">Untranslated</option>
+                                <option value="Source">Source</option>
+                            </lightning:select>
+                        </div>
+                        <div class="slds-col slds-size_2-of-2" style="margin-top: 10px">
+                            <lightning:button variant="brand" label="Export" title="Export" class="export-btn" onclick="{!c.doExportPlatformObjects}"/>
                         </div>
                     </div>
                 </div>

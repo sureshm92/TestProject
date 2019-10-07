@@ -58,6 +58,7 @@ public without sharing class StudySiteService {
         SS_CHANGE_STATUS_MAP.put(PI_S_ON_HOLD_A, new Map<String, String>());
         SS_CHANGE_STATUS_MAP.put(PI_S_DEACTIVATED_A, new Map<String, String>());
         SS_CHANGE_STATUS_MAP.put(PI_S_DECLINED_ACCEPTANCE, new Map<String, String>());
+       // SS_CHANGE_STATUS_MAP.get(PI_S_INVITATION_SENT).put('decline', PI_S_DECLINED_ACCEPTANCE);
 
     }
 
@@ -155,17 +156,40 @@ public without sharing class StudySiteService {
         return newStatus;
     }
 
+    public static void changeStatus(Set<Id> studySiteId, String userMod, String newStatusType) {
+        List<Study_Site__c> studySite = [
+                SELECT Id, Override_PI_Referral_Status__c
+                FROM Study_Site__c
+                WHERE Id IN :studySiteId
+        ];
+        if(!studySite.isEmpty()) {
+            for (Integer i = 0; i < studySite.size(); i++) {
+                String oldStatus = studySite[i].Override_PI_Referral_Status__c;
+                String newStatus = SS_CHANGE_STATUS_MAP.get(oldStatus).get(newStatusType);
+                if (newStatus == null) {
+                    throw new AuraHandledException('Invalid action! Can`t change this status to status = ' + newStatusType);
+                }
+                studySite[i].Override_PI_Referral_Status__c = newStatus;
+            }
+            update studySite;
+        }
+    }
+
     public static List<Study_Site__c> getStudySitesForPI() {
         return getStudySitesCommon(CommunityService.USER_MODE_PI, null, false);
     }
 
     private static final List<String> SS_COMMON_FIELDS = new List<String>{
             'Id',
+            'Approved_Lng__c',
             'Name',
             'Site__c',
             'Override_PI_Referral_Status__c',
             'Is_Virtual_Study_Site__c',
             'Study_Site_Type__c',
+            'Study_Site_Phone__c',
+            'Study_Site_Email__c',
+            'Account_Was_Changed__c',
             'Site__r.Name',
             'Site__r.BillingAddress',
             'Site__r.BillingCountry',
@@ -176,9 +200,14 @@ public without sharing class StudySiteService {
             'Site__r.BillingStreet',
             'Site__r.BillingLatitude',
             'Site__r.BillingLongitude',
+            'Site__r.BillingGeocodeAccuracy',
+            'Site__r.Driving_Directions__c',
+            'Site__r.Parking_Instructions__c',
+            'Site__r.ParentId',
             'Clinical_Trial_Profile__c',
             'Clinical_Trial_Profile__r.Id',
             'Clinical_Trial_Profile__r.Study_Title__c',
+            'Clinical_Trial_Profile__r.Protocol_ID__c',
             'Clinical_Trial_Profile__r.Study_Code_Name__c',
             'Clinical_Trial_Profile__r.Official_Title__c',
             'Clinical_Trial_Profile__r.Study_Sponsor__c',
@@ -204,9 +233,12 @@ public without sharing class StudySiteService {
             'Principal_Investigator__r.Account.BillingStateCode',
             'Principal_Investigator__r.Account.BillingPostalCode',
             'Principal_Investigator__r.Account.BillingCountry',
+            'Principal_Investigator__r.Account.BillingCountryCode',
             'Principal_Investigator__r.Account.BillingLatitude',
             'Principal_Investigator__r.Account.BillingLongitude',
-            'Principal_Investigator__r.Account.BillingAddress'
+            'Principal_Investigator__r.Account.BillingGeocodeAccuracy',
+            'Principal_Investigator__r.Account.BillingAddress',
+            'Site_Staff__r.Site_Contact__c'
     };
 
 
@@ -242,7 +274,7 @@ public without sharing class StudySiteService {
         }
         return filter;
     }
-
+    
     public static Study_Site__c getStudySiteForHCPById(Id ssId) {
         List<Study_Site__c> studySites = getStudySitesCommon(
                 CommunityService.USER_MODE_HCP,
@@ -252,7 +284,17 @@ public without sharing class StudySiteService {
         if (studySites.size() == 0) throw new CommunityServiceException('Data not found');
         return studySites[0];
     }
-
+    
+    public static Study_Site__c getStudySiteForPIById(Id ssId) {
+        List<Study_Site__c> studySites = getStudySitesCommon(
+                CommunityService.USER_MODE_PI,
+                ' AND Id = \'' + ssId + '\' ',
+                false
+        );
+        if (studySites.size() == 0) throw new CommunityServiceException('Data not found');
+        return studySites[0];
+    }
+    
     public static List<Study_Site__c> getStudySiteForPIByTrialId(Id trialId) {
         return getStudySitesCommon(
                 CommunityService.USER_MODE_PI,
@@ -375,7 +417,7 @@ public without sharing class StudySiteService {
 
             if(SS_TYPE_SHOW_DISTANCE.contains(this.siteType)){
 
-                this.distance = DistanceHelper.calculateDistanceTo(site.Principal_Investigator__r.Account);
+                this.distance = DistanceHelper.calculateDistanceTo(site.Site__r);
                 if (this.distance != null) {
                     this.formatedDistance = DistanceHelper.roundDouble(this.distance) + '&nbsp;' + DistanceHelper.getUnitsOfMeasurementLabel();
                 } else {
@@ -507,7 +549,8 @@ public without sharing class StudySiteService {
         if (filter.siteType != null && filter.siteType != '') {
             filterString += ' AND Study_Site_Type__c = \'' + filter.siteType + '\' ';
         }
-        filterString += 'AND Principal_Investigator__r.Account.BillingCountry = \'' + userCountry+'\' ';
+        /*filterString += 'AND Principal_Investigator__r.Account.BillingCountry = \'' + userCountry+'\' ';*/
+        filterString += 'AND Site__r.BillingCountry = \'' + userCountry+'\' ';
 
         System.debug('filterString SSDW ' + filterString);
         return getStudySitesCommon(filterString);

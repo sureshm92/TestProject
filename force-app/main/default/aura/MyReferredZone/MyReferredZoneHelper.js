@@ -95,6 +95,22 @@
     setStatusFilter: function (component) {
         var wrappers = component.get("v.workspaceWrapper");
         var status = component.get("v.statusFilter");
+        var ssId = component.get('v.ssId');
+        console.log('WRAPPERS>>>>>', wrappers);
+        /*if(ssId){
+            for(var i = 0; i < wrappers.length; i ++){
+                for (var j = 0; j < wrappers[i].enrollments.length; j++) {
+                    if(wrappers[i].enrollments[j].enrollment.Study_Site__c != ssId){
+                        wrappers[i].enrollments.splice(0,1);
+                        j--;
+                    }
+                }
+                if(wrappers[i].enrollments.length<=0){
+                    wrappers.splice(0,1);
+                    i--;
+                }
+            }
+        }*/
         var filteredWrappers = [];
         var addWrapper = false;
 

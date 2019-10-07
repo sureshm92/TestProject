@@ -49,6 +49,7 @@ public without sharing class PSEService {
             'Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
             'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
             'Clinical_Trial_Profile__r.Visit_Plan__c',
+            'Clinical_Trial_Profile__r.Visit_Data_Shareback__c',
             'Participant__c',
             'Participant__r.First_Name__c',
             'Participant__r.Last_Name__c',
@@ -61,13 +62,16 @@ public without sharing class PSEService {
             'Participant__r.Mailing_Country_Code__c',
             'Participant__r.Mailing_Zip_Postal_Code__c',
             'Participant__r.Contact__c',
+            'Participant_Contact__r.Visit_Results_Opt_In__c',
             'Participant_Enrollment__c',
             'Status__c',
             'Study_Site__c',
             'Study_Site__r.Name',
             'Study_Site__r.Override_PI_Referral_Status__c',
             'Study_Site__r.Site__r.Name',
-            'Motivational_Message_Id__c'
+            'Study_Site__r.Visit_Results_Sharing__c',
+            'Motivational_Message_Id__c',
+            'CreatedDate'
     };
     
     private static PSEService instance;
@@ -155,5 +159,56 @@ public without sharing class PSEService {
         }
     }
 
+    public static void updateExternalKey(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap){
+        Set<Id> peIds = new Set<Id>();
+        for(Participant_Enrollment__c pe : newList){
+            if(oldMap == null || pe.Screening_ID__c != oldMap.get(pe.Id).Screening_ID__c) {
+                peIds.add(pe.Id);
+            }
+        }
+        System.debug(peIds);
+        List<Participant_Study_Enrollment__c> pseList = [
+                SELECT
+                        Id,
+                        Participant_Enrollment__r.Screening_ID__c,
+                        Screening_ID__c,
+                        Participant_Enrollment__c
+                FROM    Participant_Study_Enrollment__c
+                WHERE   Participant_Enrollment__c IN :peIds
+                LIMIT   10000
+        ];
+        System.debug(pseList);
+        Map<Id, Participant_Study_Enrollment__c> pseMap = new Map<Id, Participant_Study_Enrollment__c>();
+        for(Participant_Study_Enrollment__c pse : pseList){
+            pseMap.put(pse.Participant_Enrollment__c, pse);
+        }
+        for(Participant_Enrollment__c pe : newList) {
+            if(pseMap.containsKey(pe.Id)) {
+                pseMap.get(pe.Id).Screening_ID__c = pe.Screening_ID__c;
+            }
+        }
+        System.debug(pseMap);
+        update pseMap.values();
+    }
 
+    public static List<Participant_Study_Enrollment__c> getPSEListByExternalIds(List<String> externalKeys){
+        return [
+                SELECT
+                        Id,
+                        External_Key__c,
+                        Status__c,
+                        IsSubjectIDverifiedInSDH__c,
+                        Participant_Enrollment__c,
+                        (
+                                SELECT
+                                        Id,
+                                        Changed_Date__c,
+                                        Status__c
+                                FROM    PSE_Status_Histories__r
+                        )
+                FROM    Participant_Study_Enrollment__c
+                WHERE   External_Key__c IN : externalKeys
+                LIMIT   10000
+        ];
+    }
 }

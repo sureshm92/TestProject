@@ -13,49 +13,51 @@ public class TranslationExportImportRemote {
     @AuraEnabled
     public static String export(Id studyId, String languageCode, String exportType){
         try{
-            String exportFile = '<?xml version="1.0" encoding="UTF-8"?>\n' +
-                    '<xliff version="1.2">\n' +
-                    '    <file original="Salesforce" source-language="en_US" target-language="' + languageCode + '" datatype="xml">\n' +
-                    '        <body>\n';
-    
-            List<Translation__c> translations = [
-                    SELECT Id, Value__c, Field_Name__c
-                    FROM Translation__c
-                    WHERE Record_Id__c =: studyId AND Language__c =: languageCode
-            ];
-            Map<String, Translation__c> translatedFields = new Map<String, Translation__c>();
-            for(Translation__c translation : translations) translatedFields.put(translation.Field_Name__c.toLowerCase(), translation);
-            System.debug('TRANSLATED FIELDS: ' + translatedFields);
-    
-            FieldSet fieldsToTranslate = SObjectType.Clinical_Trial_Profile__c.FieldSets.FieldsToTranslate;
-            List<String> queryFields = new List<String>();
-            for(FieldSetMember field : fieldsToTranslate.fields) queryFields.add(field.fieldPath);
-            
-            String query = 'SELECT ' + String.join(queryFields, ',') +
-                    ' FROM Clinical_Trial_Profile__c ' +
-                    ' WHERE Id =\'' + studyId + '\'';
-            Clinical_Trial_Profile__c study = Database.query(query);
-            System.debug('QUERY: ' + query);
-            
-            for(FieldSetMember field : fieldsToTranslate.fields){
-                String fieldName = field.getFieldPath().toLowerCase();
-                System.debug('FIELD:' + field);
-                if(exportType == EXPORT_TYPE_BILINGUAL || exportType == EXPORT_TYPE_SOURCE ||
-                        (exportType == EXPORT_TYPE_UNTRANSLATED && !translatedFields.containsKey(fieldName))){
-                    Translation__c translation = translatedFields.get(fieldName);
-                    if(exportType == EXPORT_TYPE_SOURCE) translation = null;
-                    exportFile += generateTranslateUnitXML(study, fieldName, translation);
-                }
-            }
-    
-            exportFile += '        </body>\n' +
-                    '    </file>\n' +
-                    '</xliff>\n';
-    
-            return exportFile;
+            return generateExportTranslationFile(
+                    exportTranslationForStudy(studyId, languageCode, exportType) +
+                            exportTranslationForStudyVisitPlan(studyId, languageCode, exportType),
+                    languageCode
+            );
         }catch (Exception e){
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (String)AuraHelper.throwException(e);
         }
+    }
+    
+    @AuraEnabled
+    public static String exportPlatformData(String languageCode, String exportType){
+        try{
+            return generateExportTranslationFile(
+                    generatePlatformLevelTranslatableObjectsItems(languageCode, exportType),
+                    languageCode
+            );
+        }catch (Exception e){
+            return (String)AuraHelper.throwException(e);
+        }
+    }
+    
+    @AuraEnabled
+    public static List<Platform_Level_Translatable_Objects__mdt> getPlatformLevelTranslatableObjects(){
+        try{
+            return [SELECT Id, Label, SObject_Name__c FROM Platform_Level_Translatable_Objects__mdt];
+        }catch (Exception e){
+            return (List<Platform_Level_Translatable_Objects__mdt>) AuraHelper.throwException(e);
+        }
+    }
+    
+    public static String generateExportTranslationFile(String items, String languageCode){
+        String exportFile =
+                '<?xml version="1.0" encoding="UTF-8"?>\n' +
+                '<xliff version="1.2">\n' +
+                '    <file original="Salesforce" source-language="en_US" target-language="' + languageCode + '" datatype="xml">\n' +
+                '        <body>\n';
+    
+        exportFile += items;
+    
+        exportFile +=
+                '        </body>\n' +
+                '    </file>\n' +
+                '</xliff>\n';
+        return exportFile;
     }
     
     public class ImportResult{
@@ -173,7 +175,7 @@ public class TranslationExportImportRemote {
             if(importResult.unimportedCount > 0) importResult.unimportedData = document.toXmlString();
             return JSON.serialize(importResult);
         }catch (Exception e){
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (String)AuraHelper.throwException(e);
         }
     }
     
@@ -197,6 +199,61 @@ public class TranslationExportImportRemote {
         errorNode.addTextNode(message);
     }
     
+    public static String exportTranslationForStudy(Id studyId, String languageCode, String exportType){
+        return generateItemsForSObjectType(Clinical_Trial_Profile__c.getSObjectType(), ' WHERE Id =\'' + studyId + '\'', languageCode, exportType);
+    }
     
-
+    public static String exportTranslationForStudyVisitPlan(Id studyId, String languageCode, String exportType){
+        Id visitPlanId = [SELECT Id, Visit_Plan__c FROM Clinical_Trial_Profile__c WHERE Id =: studyId].Visit_Plan__c;
+        return generateItemsForSObjectType(Visit__c.getSObjectType(), ' WHERE Visit_Plan__c =\'' + visitPlanId + '\'', languageCode, exportType) +
+                generateItemsForSObjectType(Icon_Details__c.getSObjectType(), ' WHERE Visit_Plan__c =\'' + visitPlanId + '\'', languageCode, exportType);
+    }
+    
+    public static String generatePlatformLevelTranslatableObjectsItems(String languageCode, String exportType){
+        String result = '';
+        List<Platform_Level_Translatable_Objects__mdt> translatableObjects = [
+                SELECT Id, SObject_Name__c
+                FROM Platform_Level_Translatable_Objects__mdt
+        ];
+        for(Platform_Level_Translatable_Objects__mdt to : translatableObjects){
+            result += generateItemsForSObjectType(Schema.getGlobalDescribe().get(to.SObject_Name__c), null, languageCode, exportType);
+        }
+        return result;
+    }
+    
+    public static String generateItemsForSObjectType(SObjectType sObjectType, String whereFilter, String languageCode, String exportType){
+        String result = '';
+        if(whereFilter == null) whereFilter = '';
+        if(sObjectType == null) return '';
+        List<String> fieldsToTranslate = SObjectHelper.getFieldSetList(sObjectType, 'FieldsToTranslate');
+        if(fieldsToTranslate.isEmpty()) return '';
+        String query = 'SELECT ' + String.join(fieldsToTranslate, ',') +
+                ' FROM ' + sObjectType.getDescribe().getName() + ' ' + whereFilter;
+        Map<Id, SObject> sObjectsMap = new Map<Id, SObject>(Database.query(query));
+        List<Translation__c> translations = [
+                SELECT Id, Value__c, Field_Name__c, Record_Id__c
+                FROM Translation__c
+                WHERE Record_Id__c IN: sObjectsMap.keySet() AND Language__c =: languageCode
+        ];
+        Map<String, Translation__c> translatedFieldsMap = new Map<String, Translation__c>();
+        for(Translation__c translation : translations) {
+            translatedFieldsMap.put(
+                    translation.Record_Id__c + translation.Field_Name__c.toLowerCase(),
+                    translation
+            );
+        }
+    
+        for(SObject sObj : sObjectsMap.values()){
+            for(String fieldName : fieldsToTranslate){
+                if(exportType == EXPORT_TYPE_BILINGUAL || exportType == EXPORT_TYPE_SOURCE ||
+                        (exportType == EXPORT_TYPE_UNTRANSLATED && !translatedFieldsMap.containsKey(sObj.Id + fieldName))){
+                    Translation__c translation = translatedFieldsMap.get(fieldName);
+                    if(exportType == EXPORT_TYPE_SOURCE) translation = null;
+                    result += generateTranslateUnitXML(sObj, fieldName, translation);
+                }
+            }
+        }
+        return result;
+    }
+    
 }

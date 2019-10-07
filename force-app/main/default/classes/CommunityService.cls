@@ -2,10 +2,13 @@
  * Created by D.Yasinskyi on 21.02.2018
  */
 public without sharing class CommunityService {
-
-    public static String COMMUNITY_USER_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
-    public static Id COMMUNITY_USER_PROFILE_ID = [SELECT Id FROM Profile WHERE Name = :COMMUNITY_USER_PROFILE_NAME].Id;
+    
+    public static final String COMMUNITY_USER_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
+    public static final Id COMMUNITY_USER_PROFILE_ID = [SELECT Id FROM Profile WHERE Name = :COMMUNITY_USER_PROFILE_NAME].Id;
+    public static final String SPNL_USER_PROFILE_NAME = 'IQVIA SPNL';
+    public static final Id SPNL_USER_PROFILE_ID = [SELECT Id FROM Profile WHERE Name =: SPNL_USER_PROFILE_NAME].Id;
     public static final String COMMUNITY_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
+    public static final Id SPNL_ROLE = [SELECT Id FROM UserRole WHERE Name='SPNL'].Id;
 
     public static String COMMUNITY_PARTICIPANT_ACCOUNT_NAME = 'Participant';
     public static String COMMUNITY_DELEGATE_ACCOUNT_NAME = 'Delegate';
@@ -64,7 +67,7 @@ public without sharing class CommunityService {
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
             accessLevel = [ SELECT Delegate_Level__c
                             FROM Referring_HCP_Staff__c
-                            WHERE Contact__r.Id = :currentContactId LIMIT 1].Delegate_Level__c;
+                            WHERE Contact__c = :currentContactId LIMIT 1].Delegate_Level__c;
         } catch (Exception ex){
             accessLevel=null;
         }
@@ -182,9 +185,15 @@ public without sharing class CommunityService {
                 locale = hcpUser.LocaleSidKey;
                 language = hcpUser.LanguageLocaleKey;
             }
+            if(!cont.Participants__r.isEmpty() && cont.Participants__r[0].Preferred_Language__c != null){
+                cont.Language__c = cont.Participants__r[0].Preferred_Language__c;
+            }
             if(cont.Language__c != null) language = cont.Language__c;
-            newPortalUsers.add(createUser(cont, locale, language, timeZone));
+            if(cont.Email != null && cont.Email != ''){
+                newPortalUsers.add(createUser(cont, locale, language, timeZone));
+            }
         }
+       System.debug('newPortalUsers' + newPortalUsers);
         insert newPortalUsers;
         System.debug('Portal users successfully created = ' + newPortalUsers.size());
     }
@@ -223,7 +232,7 @@ public without sharing class CommunityService {
 
     public static List<Contact> getContacts(Set<Id> contactIds) {
         return [
-                SELECT Id, Email, FirstName, LastName, Name, Language__c
+                SELECT Id, Email, FirstName, LastName, Name, Language__c, (SELECT Id, Preferred_Language__c FROM Participants__r)
                 FROM Contact
                 WHERE Id = :contactIds
         ];
@@ -241,6 +250,9 @@ public without sharing class CommunityService {
                         PI_DelegateAccessLevel__c,
                         userCommunity_ShowTour__c,
                         Last_Session_Id__c,
+                        Language__c,
+                        Second_Choice_Language__c,
+                        Third_Choice_Language__c,
                         MailingLatitude,
                         MailingLongitude,
                         MailingCountry,
@@ -258,12 +270,19 @@ public without sharing class CommunityService {
             numberStr = numberStr.right(2);
             names.add(email + '.' + numberStr);
         }
-
-        List<User> users = [SELECT Username FROM User WHERE Username IN: names];
-        Set<String> usedNames = new Set<String>();
-        for(User user : users) usedNames.add(user.Username);
-        for(String userName : names){
-            if(!usedNames.contains(userName)) return userName;
+        //BUG: Don't return Username field for portal users
+        List<User> users = [SELECT FirstName, Username, Email FROM User WHERE Username IN : names OR Email IN :names];
+        System.debug('usersAvailable:' + users);
+        if(users != null && users.size() == 1){
+            return email + '01';
+        }else if(users != null && users.size() == 2){
+            return email + '02';
+        }else{
+            Set<String> usedNames = new Set<String>();
+            for(User user : users) usedNames.add(user.Username);
+            for(String userName : names){
+                if(!usedNames.contains(userName)) return userName;
+            }
         }
         return null;
     }
@@ -306,5 +325,21 @@ public without sharing class CommunityService {
         if(!contact.isEmpty()) return contact.get(0).userCommunityMode__c;
 
         return null;
+    }
+
+    public static Id getCommunityId(String name) {
+        String nameFilter = '';
+        if(name != null) nameFilter = ' WHERE Name = \'' + name + '\' ';
+        return Database.query('SELECT Id FROM Network' + nameFilter).get(0).Id;
+    }
+
+    public static Boolean isNewSession(){
+        Contact userContact = getUserContact();
+        Boolean isNewSession = UserInfo.getSessionId() != userContact.Last_Session_Id__c;
+        if(isNewSession) {
+            userContact.Last_Session_Id__c = UserInfo.getSessionId();
+            update userContact;
+        }
+        return isNewSession;
     }
 }

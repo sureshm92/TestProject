@@ -1,0 +1,26 @@
+/**
+ * Created by Leonid Bartenev
+ */
+
+@IsTest(IsParallel=false)
+public class Test_MyTemRemote {
+    
+    @IsTest
+    static void testCreatePatientDelegate(){
+        TestData.loadTestData();
+        Test.startTest();
+        TestData testDatanstance = new TestData();
+        testDatanstance.createPSE();
+        System.runAs(testDatanstance.participantUser){
+            Contact delegateContact = new Contact(
+                    FirstName = 'Del',
+                    LastName = 'Del',
+                    Email = 'del@del.com'
+            );
+            MyTeamRemote.savePatientDelegate(JSON.serialize(delegateContact));
+        }
+        Test.stopTest();
+    
+    }
+    
+}

@@ -2,11 +2,12 @@
  * Created by RAMukhamadeev on 2019-04-16.
  */
 
-public class StudyDetailItem implements Comparable {
+public without sharing class StudyDetailItem implements Comparable {
     public static String sortType;
 
     public Clinical_Trial_Profile__c trial;
     public List<StudyActions.Action> studyActions;
+    public List<StudyActions.Action> studySitePiActions;
     public Map<String, StudyActions.Action> actionsMap;
     public String studyStatus;
     public Study_Site__c ss;
@@ -22,6 +23,9 @@ public class StudyDetailItem implements Comparable {
     public String therapeuticArea;
     public Datetime maxHCPCreatedDate;
     public Boolean hasPatients;
+    public List<StudyDetailItem.StudySiteWithActions> ssList = new List<StudyDetailItem.StudySiteWithActions>();
+    public List<LabelValueItem> delegatePicklist = new List<LabelValueItem>();
+    public String primaryContactName;
 
     public Integer compareTo(Object compareTo) {
         StudyDetailItem compareItem = (StudyDetailItem) compareTo;
@@ -59,7 +63,29 @@ public class StudyDetailItem implements Comparable {
                 return 0;
             }
         }
-
+        if (sortType == 'Name') {
+            if (trial.Study_Code_Name__c.toLowerCase() > this.trial.Study_Code_Name__c.toLowerCase()) {
+                return 1;
+            } else if (trial.Study_Code_Name__c.toLowerCase() < this.trial.Study_Code_Name__c.toLowerCase()) {
+                return -1;
+            } else {
+                return 0;
+            }
+        }
         return 0;
+    }
+
+    public class StudySiteWithActions{
+       public Study_Site__c studySite;
+       public List<StudyActions.Action> actions;
+       public List<Account> accounts;
+
+        public studySiteWithActions(){}
+
+        public studySiteWithActions(Study_Site__c studySite, List<StudyActions.Action> actions,List<Account> accounts){
+            this.studySite = studySite;
+            this.actions = actions;
+            this.accounts = accounts;
+        }
     }
 }

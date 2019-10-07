@@ -66,6 +66,61 @@
         </sf:deploy>
     </target>
 
+    <target name="deploy-inf-partial" depends="prepare-metadata, skip-community">
+        <sf:deploy username="${sf.inf.username}"
+                   password="${sf.inf.password}"
+                   serverurl="${sf.serverurl}"
+                   maxPoll="${sf.maxPoll}"
+                   deployRoot="${source.dir}"
+                   pollwaitmillis="${sf.maxPollWaitTimeMs}"
+                   rollbackOnError="true">
+        </sf:deploy>
+    </target>
+
+    <target name="deploy-int311" depends="prepare-metadata, skip-community">
+        <sf:deploy username="${sf.int311.username}"
+                   password="${sf.int311.password}"
+                   serverurl="${sf.serverurl}"
+                   maxPoll="${sf.maxPoll}"
+                   deployRoot="${source.dir}"
+                   pollwaitmillis="${sf.maxPollWaitTimeMs}"
+                   rollbackOnError="true">
+        </sf:deploy>
+    </target>
+
+    <target name="deploy-inf311" depends="prepare-metadata, skip-community">
+        <sf:deploy username="${sf.inf311.username}"
+                   password="${sf.inf311.password}"
+                   serverurl="${sf.serverurl}"
+                   maxPoll="${sf.maxPoll}"
+                   deployRoot="${source.dir}"
+                   pollwaitmillis="${sf.maxPollWaitTimeMs}"
+                   rollbackOnError="true">
+        </sf:deploy>
+    </target>
+
+    <target name="deploy-int32" depends="prepare-metadata, skip-community">
+        <sf:deploy username="${sf.int32.username}"
+                   password="${sf.int32.password}"
+                   serverurl="${sf.serverurl}"
+                   maxPoll="${sf.maxPoll}"
+                   deployRoot="${source.dir}"
+                   pollwaitmillis="${sf.maxPollWaitTimeMs}"
+                   rollbackOnError="true">
+        </sf:deploy>
+    </target>
+
+    <target name="deploy-inf32" depends="prepare-metadata, skip-community">
+        <sf:deploy username="${sf.inf32.username}"
+                   password="${sf.inf32.password}"
+                   serverurl="${sf.serverurl}"
+                   maxPoll="${sf.maxPoll}"
+                   deployRoot="${source.dir}"
+                   pollwaitmillis="${sf.maxPollWaitTimeMs}"
+                   rollbackOnError="true">
+        </sf:deploy>
+    </target>
+
     <target name="create-rollback-source">
         <delete dir="${rollback.dir}"/>
         <mkdir dir="${rollback.source.dir}"/>
@@ -94,41 +149,67 @@
         <mkdir dir="${dist.dir}"/>
         <mkdir dir="${dist.dir}/part1"/>
         <mkdir dir="${dist.dir}/part2"/>
+        <mkdir dir="${dist.dir}/part3"/>
+
+        <!-- part 1 -->
         <copy todir="${dist.dir}/part1">
             <fileset dir="${source.dir}">
-                <include name="staticresources/*.*"/>
+                <include name="staticresources/pdfjs_dist.*"/>
             </fileset>
         </copy>
-        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part1/package.xml">
+        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part1/package.xml" encoding="UTF-8">
             <remove path="/:Package/:types[:name[text()!='StaticResource']]"/>
-        </xmltask>
-        <copy todir="${dist.dir}/part2">
-            <fileset dir="${source.dir}">
-                <exclude name="staticresources/*.*"/>
-                <exclude name="translations/*.*"/>
-            </fileset>
-        </copy>
-        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part2/package.xml">
-            <remove path="/:Package/:types[:name[text()='StaticResource' or text()='Translations']]"/>
+            <remove path="/:Package/:types[:name[text()='StaticResource']]/:members[text()!='pdfjs_dist']"/>
         </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part1.zip">
             <fileset dir="${dist.dir}">
                 <include name="part1/**/*.*"/>
             </fileset>
         </zip>
+        <delete dir="${dist.dir}/part1"/>
+
+
+        <!-- part 2 -->
+        <copy todir="${dist.dir}/part2">
+            <fileset dir="${source.dir}">
+                <include name="staticresources/*.*"/>
+                <exclude name="staticresources/pdfjs_dist.*"/>
+            </fileset>
+        </copy>
+        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part2/package.xml" encoding="UTF-8">
+            <remove path="/:Package/:types[:name[text()!='StaticResource']]"/>
+            <remove path="/:Package/:types[:name[text()='StaticResource']]/:members[text()='pdfjs_dist']"/>
+        </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part2.zip">
             <fileset dir="${dist.dir}">
                 <include name="part2/**/*.*"/>
             </fileset>
         </zip>
-        <delete dir="${dist.dir}/part1"/>
         <delete dir="${dist.dir}/part2"/>
+
+        <!-- part 3 -->
+        <copy todir="${dist.dir}/part3">
+            <fileset dir="${source.dir}">
+                <exclude name="staticresources/*.*"/>
+                <exclude name="translations/*.*"/>
+            </fileset>
+        </copy>
+        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part3/package.xml" encoding="UTF-8">
+            <remove path="/:Package/:types[:name[text()='StaticResource' or text()='Translations']]"/>
+        </xmltask>
+        <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part3.zip">
+            <fileset dir="${dist.dir}">
+                <include name="part3/**/*.*"/>
+            </fileset>
+        </zip>
+        <delete dir="${dist.dir}/part3"/>
+
     </target>
 
     <!-- filter metadata files before deploy: -->
     <target name="prepare-metadata" depends="convert-project">
         <echo message="Start metadata filtration" level="info"/>
-        <xmltask todir="${source.dir}/profiles">
+        <xmltask todir="${source.dir}/profiles" encoding="UTF-8">
             <fileset dir="${source.dir}/profiles"/>
             <remove path="/:Profile/:userPermissions[:name[text()='EnableCommunityAppLauncher']]"/>
             <remove path="/:Profile/:userPermissions[:name[text()='FieldServiceAccess']]"/>
@@ -136,7 +217,7 @@
             <remove path="/:Profile/:applicationVisibilities[:application[text()='Developer']]"/>
         </xmltask>
         <echo message="Profiles filtered" level="info"/>
-        <xmltask todir="${source.dir}/translations">
+        <xmltask todir="${source.dir}/translations" encoding="UTF-8">
             <fileset dir="${source.dir}/translations"/>
             <remove path="/:Translations/:customApplications"/>
             <remove path="/:Translations/:customTabs"/>
@@ -145,14 +226,14 @@
         </xmltask>
         <echo message="Translations filtered" level="info"/>
         <!-- temporary fix for deployment of Contact (remove Master record type from metadata): -->
-        <xmltask source="${source.dir}/objects/Contact.object" dest="${source.dir}/objects/Contact.object">
+        <xmltask source="${source.dir}/objects/Contact.object" dest="${source.dir}/objects/Contact.object" encoding="UTF-8">
             <remove path="/:CustomObject/:recordTypes[:fullName[text()='MASTER']]"/>
         </xmltask>
-        <xmltask source="${source.dir}/labels/CustomLabels.labels" dest="${source.dir}/labels/CustomLabels.labels">
+        <xmltask source="${source.dir}/labels/CustomLabels.labels" dest="${source.dir}/labels/CustomLabels.labels" encoding="UTF-8">
             <remove path="/:CustomLabels/:labels[:fullName[text()='CommunityURL']]"/>
         </xmltask>
 
-        <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml">
+        <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml" encoding="UTF-8">
             <remove path="/:Package/:types/:members[text()='Contact.MASTER']"/>
             <!--remove path="/:Package/:types[:name[text()='EmailTemplate']]"/-->
             <!-- temporary remove SiteDotCom file from deployment -->
@@ -161,7 +242,7 @@
     </target>
 
     <target name="skip-community">
-        <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml">
+        <xmltask source="${source.dir}/package.xml" dest="${source.dir}/package.xml" encoding="UTF-8">
             <remove path="/:Package/:types[:name[text()='SiteDotCom']]"/>
         </xmltask>
     </target>
@@ -197,6 +278,16 @@
         </replace>
         <replace casesensitive="false"
                  file="${dx.default.dir}/workflows/Participant_Study_Enrollment__c.workflow-meta.xml">
+            <replacetoken><![CDATA[<senderType>OrgWideEmailAddress</senderType>]]></replacetoken>
+            <replacevalue><![CDATA[<senderType>CurrentUser</senderType>]]></replacevalue>
+        </replace>
+        <replace casesensitive="false"
+                 file="${dx.default.dir}/workflows/case.workflow-meta.xml">
+            <replacetoken><![CDATA[<senderType>OrgWideEmailAddress</senderType>]]></replacetoken>
+            <replacevalue><![CDATA[<senderType>CurrentUser</senderType>]]></replacevalue>
+        </replace>
+        <replace casesensitive="false"
+                 file="${dx.default.dir}/workflows/case.workflow-meta.xml">
             <replacetoken><![CDATA[<senderType>OrgWideEmailAddress</senderType>]]></replacetoken>
             <replacevalue><![CDATA[<senderType>CurrentUser</senderType>]]></replacevalue>
         </replace>

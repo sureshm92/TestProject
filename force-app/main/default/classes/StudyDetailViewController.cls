@@ -129,7 +129,8 @@ public without sharing class StudyDetailViewController {
                 for (Study_Site__c ss : hcpStudySites) {
                     String hcpStatus;
                     if (hcpEnrollment != null && hcpEnrollment.Study_Site__c == ss.Id && !hidedStatuses.contains(hcpEnrollment.Status__c)) hcpStatus = hcpEnrollment.Status__c;
-                    trialDetail.accountEnrollmentsList.add(createClinicWrapper(ss.Name, accountsMap.get(ss.Site__c), hcpStatus, ss.Id));
+                    Account account = accountsMap.get(ss.Site__c);
+                    trialDetail.accountEnrollmentsList.add(createClinicWrapper(account.Name, account, hcpStatus, ss.Id));
                 }
                 trialDetail.accountEnrollmentsList.sort();
             } else if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
@@ -137,6 +138,9 @@ public without sharing class StudyDetailViewController {
                         ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
                 if (participantEnrollments.size() == 0) throw new CommunityServiceException('Data not found');
                 Participant_Enrollment__c pe = participantEnrollments.get(0);
+
+                TranslateHelper.translate(trialDetail.trial, IRBParticipantService.getIRBLanguageMode(pe.Id).languageToTranslate);
+
                 trialDetail.pe = pe;
                 StudyActionsParticipant studyActions =
                         new StudyActionsParticipant(pe.Study_Site__r.Clinical_Trial_Profile__r, pe.Study_Site__r, null, pe);
@@ -147,9 +151,7 @@ public without sharing class StudyDetailViewController {
                 List<Account> accounts = getAccounts(idToStudySiteMap.keySet());
                 for (Integer i = 0; i < accounts.size(); i++) {
                     Account acc = accounts.get(i);
-                    trialDetail.accountEnrollmentsList.add(
-                            createClinicWrapper(idToStudySiteMap.get(acc.Id).Name, acc, null, null)
-                    );
+                    trialDetail.accountEnrollmentsList.add(createClinicWrapper(acc.Name, acc, null, null));
                 }
             }
             return JSON.serialize(trialDetail);
@@ -327,12 +329,12 @@ public without sharing class StudyDetailViewController {
                         Label.PG_SW_Tab_Resources,
                         backHomeAction
                 ));
-                /*tabs.add(new StudyTab(
+                tabs.add(new StudyTab(
                         'tab-lab-results',
                         'reports',
                         Label.PG_SW_Tab_Lab_Results,
                         backHomeAction
-                ));*/
+                ));
             } else {
                 tabs.add(new StudyTab(
                         'tab-tasks',

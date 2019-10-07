@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Not_Negative2</fullName>
+    <active>true</active>
+    <errorConditionFormula>Second_Reminder_day__c &lt; 0</errorConditionFormula>
+    <errorDisplayField>Second_Reminder_day__c</errorDisplayField>
+    <errorMessage>Please enter zero or positive value</errorMessage>
+</ValidationRule>

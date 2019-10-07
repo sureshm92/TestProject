@@ -9,10 +9,26 @@
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
     <label>IQVIA Referral Hub</label>
     <navType>Standard</navType>
+    <profileActionOverrides>
+        <actionName>Tab</actionName>
+        <content>IQVIA_RR_CRM</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>standard-home</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>IQVIA SPNL</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>Tab</actionName>
+        <content>IQVIA_RR_CRM</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>standard-home</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
     <tabs>standard-home</tabs>
+    <tabs>standard-Contact</tabs>
     <tabs>Clinical_Trial_Profile__c</tabs>
     <tabs>Study_Site__c</tabs>
-    <tabs>standard-Contact</tabs>
     <tabs>HCP_Enrollment__c</tabs>
     <tabs>Participant_Enrollment__c</tabs>
     <tabs>Participant_Study_Enrollment__c</tabs>

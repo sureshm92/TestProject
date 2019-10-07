@@ -12,23 +12,18 @@
             return;
         }
         component.set('v.multiMode', communityService.getCommunityTypes().length > 1);
-        var peId = communityService.getUrlParameter("id");
+        var peId = communityService.getUrlParameter('id');
         if(!peId) {
             communityService.navigateToPage('');
             return;
         }
-
-        component.set('v.peId', peId);
-
         communityService.executeAction(component, 'getReferralProfileDetail',{
             peId: peId,
             userMode: communityService.getUserMode()
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
             component.set('v.statusSteps', initData.steps);
-            component.set('v.enrollment', initData.enrollment);
-            component.set('v.enrollment.Screening_ID__c', initData.enrollment.Screening_ID__c || '');
-            component.set('v.currentScreeningId', initData.enrollment.Screening_ID__c || '');
+            component.set('v.pe', initData.enrollment);
             //set sticky bar position in browser window
             if(!component.get('v.isInitialized')) communityService.setStickyBarPosition();
             component.set('v.isInitialized', true);
@@ -36,18 +31,11 @@
             spinner.hide();
         });
     },
-    saveScreeningId: function (component, event, hepler) {
-        var spinner = component.find('mainSpinner');
-        spinner.show();
-        communityService.executeAction(component, 'savePEScreeningId',{
-            peId: component.get('v.enrollment.Id'),
-            newScreeningId: component.get('v.enrollment.Screening_ID__c')
-        }, function (returnValue) {
-            var enrollment = JSON.parse(returnValue);
-            component.set('v.enrollment.Screening_ID__c', enrollment.Screening_ID__c || '');
-            component.set('v.currentScreeningId', enrollment.Screening_ID__c || '');
-        }, null, function () {
-            spinner.hide();
+
+    doEditPatientInfo: function(component, event, helper){
+        var pe = component.get('v.pe');
+        component.find('updatePatientInfoAction').execute(pe, false, function (pe) {
+            component.set('v.pe', pe);
         });
     }
 

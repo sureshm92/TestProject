@@ -10,12 +10,7 @@ public without sharing class AccountSettingsController {
             initData.myContact = getCurrentContact();
             initData.cookieSettings = getCookieSettings();
 
-            if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
-                initData.myContact = fillParticipantContact(initData.myContact);
-            }
-
             if (initData.myContact.primaryContact__c == null) {
-        
                 if (userMode == CommunityService.USER_MODE_PARTICIPANT
                         && !ParticipantService.getInstance().getState().isDelegate) {
                     initData.participant = [
@@ -35,7 +30,9 @@ public without sharing class AccountSettingsController {
                             initData.participant.Mailing_Country_Code__c,
                             initData.participant.Mailing_State_Code__c
                     );
-
+                    //Task for updating profile exists Account
+                    List<Task> tasks = TaskService.getInstance().getTasksCommon('Status = \'Open\' AND Task_Code__c = \'Complete_Your_Profile\'');
+                    initData.participantHasUpdateTasks = !tasks.isEmpty();
                 } else {
                     initData.institute = getInstituteById(initData.myContact.AccountId);
                 }
@@ -44,7 +41,7 @@ public without sharing class AccountSettingsController {
             }
             initData.userName = UserInfo.getUserName();
             initData.isDelegate = PatientDelegateService.getInstance().isDelegate();
-            return JSON.serialize(initData);
+            return JSON.serialize(initData, false);
         } catch (Exception e) {
             System.debug(e);
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -57,6 +54,16 @@ public without sharing class AccountSettingsController {
             Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
             TaskService.getInstance().completeCYPTaskForParticipant();
             upsert participant;
+        }  catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
+    public static void updateContact(String cont) {
+        try {
+            Contact contact = (Contact) JSON.deserialize(cont, Contact.class);
+            update contact;
         }  catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -81,6 +88,22 @@ public without sharing class AccountSettingsController {
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
+    }
+
+    @AuraEnabled
+    public static Boolean changeOptInVisitResults(String contactId, Boolean isOptIn) {
+        try {
+            if(!PatientDelegateService.getInstance().isDelegate()) {
+                ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
+                        .updateRecord(new Contact(Id = contactId, Visit_Results_Opt_In__c = isOptIn), true);
+                return isOptIn;
+            } else {
+                return !isOptIn;
+            }
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
     }
 
     @AuraEnabled
@@ -129,22 +152,32 @@ public without sharing class AccountSettingsController {
 
     public static Contact getCurrentContact() {
         return [
-                SELECT Id
-                        , FirstName
-                        , LastName
-                        , AccountId
-                        , Email
-                        , Phone
-                        , primaryContact__c
-                        , primaryContact__r.AccountId
-                        , HasOptedOutOfEmail
-                        , Participant_Opt_In_Status_Emails__c
-                        , HCP_Opt_In_Patient_Status_Emails__c
-                        , HCP_Opt_In_Study_Emails__c
-                        , HCP_Opt_In_Referral_Status_Emails__c
-                        , Delegate_Opt_In_Status_Emails__c
-                        , RRCookiesAllowedCookie__c
-                        , RRLanguageAllowedCookie__c
+                SELECT Id,
+                        FirstName,
+                        LastName,
+                        AccountId,
+                        Email,
+                        Fax,
+                        Phone,
+                        MailingAddress,
+                        MailingCity,
+                        MailingCountry,
+                        MailingCountryCode,
+                        MailingPostalCode,
+                        MailingState,
+                        MailingStateCode,
+                        MailingStreet,
+                        primaryContact__c,
+                        primaryContact__r.AccountId,
+                        HasOptedOutOfEmail,
+                        Participant_Opt_In_Status_Emails__c,
+                        HCP_Opt_In_Patient_Status_Emails__c,
+                        HCP_Opt_In_Study_Emails__c,
+                        HCP_Opt_In_Referral_Status_Emails__c,
+                        Delegate_Opt_In_Status_Emails__c,
+                        RRCookiesAllowedCookie__c,
+                        RRLanguageAllowedCookie__c,
+                        Visit_Results_Opt_In__c
                 FROM Contact
                 WHERE Id IN (
                         SELECT ContactId
@@ -248,8 +281,11 @@ public without sharing class AccountSettingsController {
         @AuraEnabled public Participant__c participant;
         @AuraEnabled public String userName;
         @AuraEnabled public Boolean isDelegate;
+        @AuraEnabled public Boolean participantHasUpdateTasks;
         @AuraEnabled public String message;
         @AuraEnabled public List<LabelValueItem> gendersLVList = ParticipantService.getGenderLVList();
+        @AuraEnabled public List<LabelValueItem> countriesLVList = CountryStateUtil.getCountries();
+        @AuraEnabled public Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
         @AuraEnabled public List<CookieSettings> cookieSettings;
     }
 

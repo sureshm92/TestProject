@@ -1,0 +1,58 @@
+/**
+ * Created by Igor Malyuta on 30.05.2019.
+ */
+
+.THIS .ad-panel{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    min-height: 200px;
+    position: relative;
+}
+
+.THIS .ad-card{
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 15px;
+    background: #f9f9f9;
+}
+
+.THIS th {
+    text-align: center;
+}
+
+.THIS .ad-table td{
+    padding: 5px;
+    text-align: center;
+    width: 30px;
+}
+
+.THIS .slds-form-element__icon{
+    vertical-align: super;
+    line-height: 0;
+}
+
+.THIS .slds-text-title_bold{
+    color: #585858;
+}
+
+/*Status color map*/
+.THIS .ad-state-running,
+.THIS .ad-state-stopped {
+    color: #ffffff;
+    padding: 2px 7px;
+    border-radius: 5px;
+}
+
+.THIS .ad-table .batch-name-col{
+    text-align: left;
+}
+
+.THIS .ad-state-stopped {
+    background-color: #c23934;
+}
+
+.THIS .ad-state-running {
+    background-color: #068049;
+}

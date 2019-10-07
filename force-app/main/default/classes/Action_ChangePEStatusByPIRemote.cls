@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class Action_ChangePEStatusByPIRemote {
+public without sharing class Action_ChangePEStatusByPIRemote {
 
     @AuraEnabled
     public static String getReferralDeclineReasons() {
@@ -13,13 +13,12 @@ public class Action_ChangePEStatusByPIRemote {
             }
             return JSON.serialize(referralDeclineReasons);
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (String)AuraHelper.throwException(e);
         }
     }
 
     @AuraEnabled
-    public static void updatePE(String peId, String status, String reason, String notes) {
-        Savepoint sp = Database.setSavepoint();
+    public static String updatePE(String peId, String status, String reason, String notes) {
         try {
             Participant_Enrollment__c pe = new Participant_Enrollment__c(
                     Id = peId,
@@ -29,12 +28,14 @@ public class Action_ChangePEStatusByPIRemote {
                     Non_Enrollment_Reason__c = reason
             );
 
-            if (status == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) pe.Informed_Consent__c = true;
+            if (status == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) {
+                pe.Informed_Consent__c = true;
+            }
             update pe;
         } catch (Exception e) {
-            Database.rollback(sp);
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            AuraHelper.throwException(e);
         }
+        return ReferralProfileRemote.getReferralProfileDetail(peId, CommunityService.USER_MODE_PI);
     }
 
 }

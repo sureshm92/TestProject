@@ -7,7 +7,7 @@
 
 public without sharing class ParametersDataProvider {
     
-    public static final String DEFAULT_LANGUAGE = 'en_US';
+    public static final String DEFAULT_LANGUAGE = 'en_US'; 
     
     public Map<String, String> parameters;
     public String userMode;
@@ -77,7 +77,7 @@ public without sharing class ParametersDataProvider {
                         Participant__r.Contact__r.LastName,
                         Participant__r.Contact__r.Salutation,
                         Participant__r.Contact__r.Language__c,
-                        Participant__r.Language_Preference_Code__c,
+                        Participant__r.Preferred_Language__c,
                         Participant__r.First_Name__c,
                         Participant__r.Last_Name__c,
                         Study_Site__r.Name,
@@ -129,7 +129,7 @@ public without sharing class ParametersDataProvider {
                         Participant__r.Contact__r.LastName,
                         Participant__r.Contact__r.Salutation,
                         Participant__r.Contact__r.Language__c,
-                        Participant__r.Language_Preference_Code__c,
+                        Participant__r.Preferred_Language__c,
                         Participant__r.First_Name__c,
                         Participant__r.Last_Name__c,
                         Participant_Contact__r.FirstName,
@@ -238,14 +238,16 @@ public without sharing class ParametersDataProvider {
                         Principal_Investigator__c,
                         Clinical_Trial_Profile__r.Study_Title__c,
                         Clinical_Trial_Profile__r.Study_Code_Name__c,
-                        Study_Site_Phone__c
+                        Study_Site_Phone__c,
+                        ReferralNetworkId__r.Name
                 FROM Study_Site__c
                 WHERE Id = :ssId
         ];
         
         parameters = new Map<String, String>{
                 'PIName' => getFullContactName(ss.Principal_Investigator__r),
-                'PILanguage' => ss.Principal_Investigator__r.Language__c
+                'PILanguage' => ss.Principal_Investigator__r.Language__c,
+                'ReferralNetworkName' => ss.ReferralNetworkId__r.Name
         };
         
         TranslateHelper.translate(ss, getUserLanguage());
@@ -315,10 +317,16 @@ public without sharing class ParametersDataProvider {
             parameters.put('ParticipantLanguage', cnt.Language__c);
 
             if(isDelegate) {
-                parameters.put('ParticipantName', PatientDelegateService.getInstance().getParticipant().Full_Name__c);
-                parameters.put('ParticipantFirstName', PatientDelegateService.getInstance().getParticipant().First_Name__c);
-                parameters.put('Username', getCommunityUserName(contactId));
-                parameters.put('StudyName', ParticipantService.getParticipantState().ctp.Study_Code_Name__c);
+                Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(cnt.Id);
+                parameters.put('ParticipantName', participant.Full_Name__c);
+                parameters.put('ParticipantFirstName', participant.First_Name__c);
+                parameters.put('UserName', getCommunityUserName(contactId));
+
+                List<Participant_Enrollment__c> enrollment = [
+                        SELECT Id, Clinical_Trial_Profile__r.Study_Code_Name__c
+                        FROM Participant_Enrollment__c WHERE Participant__c = :participant.Id
+                ];
+                parameters.put('StudyName', enrollment.get(0).Clinical_Trial_Profile__r.Study_Code_Name__c);
             }else{
                 initParamsFromPE(contactId);
             }
@@ -419,7 +427,7 @@ public without sharing class ParametersDataProvider {
     
     private String getParticipantLanguage(Participant__c participant){
         String participantLanguage = participant.Contact__r.Language__c;
-        if(participant.Contact__c == null) participantLanguage = participant.Language_Preference_Code__c;
+        if(participant.Contact__c == null) participantLanguage = participant.Preferred_Language__c;
         return participantLanguage;
     }
     
@@ -431,15 +439,15 @@ public without sharing class ParametersDataProvider {
             User recipientUser = [
                     SELECT Id,
                             ContactId,
-                            Contact.Name, Contact.FirstName, Contact.LastName,
+                            Contact.Name, Contact.FirstName, Contact.LastName, Contact.Salutation,
                             Contact.UserCommunityIsDelegate__c,
                             Contact.userCommunityMode__c,
-                            LanguageLocaleKey
+                			LanguageLocaleKey
                     FROM User
                     WHERE Id =: recipientId
             ];
             recipientContactId = recipientUser.ContactId;
-            recipientName = recipientUser.Contact.Name;
+            recipientName = (recipientUser.Contact.Salutation == null ? '' : recipientUser.Contact.Salutation + ' ') + recipientUser.Contact.Name;
             recipientFirstName = recipientUser.Contact.FirstName;
             recipientLanguage = recipientUser.LanguageLocaleKey;
             isDelegate = recipientUser.Contact.UserCommunityIsDelegate__c;

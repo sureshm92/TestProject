@@ -20,6 +20,7 @@ window.communityService = (function () {
     var language;
     var preventedCookies = [];
     var participantState;
+    var baseUrl;
 
     //community service functions:
     var service = {
@@ -39,6 +40,7 @@ window.communityService = (function () {
                 isTCAcceptedFlag = communityData.isTCAccepted;
                 language = communityData.language;
                 participantState = communityData.state;
+                baseUrl = communityData.baseUrl;
                 isInitializedFlag = true;
                 service.setCookie('RRLanguage', communityData.language, 365);
                 console.log('CommunityService initialized:');
@@ -104,9 +106,10 @@ window.communityService = (function () {
         },
 
         //Getters/setters:
-        getParticipantState(){
+        getParticipantState: function(){
             return participantState;
         },
+
         getLanguage: function(){
             return language;
         },
@@ -122,8 +125,8 @@ window.communityService = (function () {
         setUserMode: function (userMode) {
             communityMode = userMode;
         },
-        isDelegate(){
-          return isDelegate;
+        isDelegate: function(){
+            return isDelegate;
         },
         getCommunityURLPathPrefix: function () {
             return communityURLPathPrefix
@@ -380,8 +383,11 @@ window.communityService = (function () {
                     stickyBar.classList.remove('sticky');
                 }
             }
-        }
+        },
 
+        logOut: function () {
+            window.location.replace(baseUrl + '/secur/logout.jsp');
+        }
     };
 
     window.onscroll = function () {

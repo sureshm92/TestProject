@@ -4,13 +4,10 @@
 ({
     doExec : function (component, event, helper) {
         var params = event.getParam('arguments');
-        component.set('v.callback', params.callback);
-
+        component.set('v.callback', $A.getCallback(params.callback));
         var popup = component.find('popup');
         popup.show();
-        popup.set('v.closeCallback', function () {
-            if(params.cancelCallback) params.cancelCallback();
-        });
+        popup.set('v.closeCallback', $A.getCallback(params.cancelCallback));
     },
 
     doSuccess : function (component) {
@@ -20,5 +17,11 @@
 
     doCancel : function (component) {
         component.find('popup').cancel();
+    },
+
+    doUpdateHtmlMessage: function (component, event, helper) {
+        var message = component.get('v.message');
+        var htmlMessage = message.replace(new RegExp('\\n', 'g'), '<br/>');
+        component.set('v.htmlMessage', htmlMessage);
     }
 })

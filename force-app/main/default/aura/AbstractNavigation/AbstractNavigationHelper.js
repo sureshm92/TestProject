@@ -41,6 +41,17 @@
                 label: $A.get('$Label.c.Navigation_Reports'),
                 icon: 'reports'
             },
+            
+            'sites-search': {
+                page: 'sites-search',
+                label: $A.get('$Label.c.Search_For_Sites'),
+                icon: 'reports'
+            },
+            'medical-record-review': {
+                page: 'sites-search',
+                label: $A.get('$Label.c.Medical_Record_Review'),
+                icon: 'reports'
+            },
 
             'help': {
                 page: 'help',
@@ -58,6 +69,11 @@
                 page: 'my-referring-clinics',
                 label: $A.get('$Label.c.Navigation_My_Referring_Clinics'),
                 icon: 'referred-clinic'
+            },
+            
+            'referring': {
+                page: 'referring',
+                label: $A.get('$Label.c.Referring')
             },
 
             'study-workspace': {
@@ -95,25 +111,43 @@
             'resources':{
                 page: 'study-workspace?tab=tab-resources',
                 label: $A.get('$Label.c.Navigation_Resources')
+            },
+
+            'past-studies':{
+                page: 'past-studies',
+                label: $A.get('$Label.c.Navigation_Past_Studies')
             }
         };
 
         //init items for every type
-        var middleMenuItem = communityService.getParticipantState() === 'ALUMNI' ? 'resources' : 'my-study';
+        var participantTabs = [
+            this.allPagesMap['participant-home'],
+            this.allPagesMap['my-study'],
+            this.allPagesMap['help']
+        ];
+
+        var participantAlumniTabs = [
+            this.allPagesMap['participant-home'],
+            this.allPagesMap['resources'],
+            this.allPagesMap['past-studies'],
+            this.allPagesMap['help']
+        ];
+
+        var participantAlumniDelegateTabs = [
+            this.allPagesMap['participant-home'],
+            this.allPagesMap['resources'],
+            this.allPagesMap['help']
+        ];
 
         this.itemsMap = {
 
-            Participant: [
-                this.allPagesMap['participant-home'],
-                this.allPagesMap[middleMenuItem],
-                this.allPagesMap['help']
-            ],
+            Participant: communityService.getParticipantState() !== 'ALUMNI' ? participantTabs : communityService.isDelegate() ? participantAlumniDelegateTabs : participantAlumniTabs,
 
             PI: [
                 this.allPagesMap[''],
                 this.allPagesMap['dashboard'],
                 this.allPagesMap['my-referrals'],
-                this.allPagesMap['my-referring-clinics'],
+                //this.allPagesMap['my-referring-clinics'],
                 this.allPagesMap['reports'],
                 this.allPagesMap['help']
             ],

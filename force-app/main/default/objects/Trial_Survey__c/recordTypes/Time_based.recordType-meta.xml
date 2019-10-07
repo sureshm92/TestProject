@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Time_based</fullName>
+    <active>true</active>
+    <label>Time based</label>
+    <picklistValues>
+        <picklist>Active_On_Status__c</picklist>
+        <values>
+            <fullName>Drop Out</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Follow-Up Period Started</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Participation Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Treatment Period Started</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trial Complete</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Whose_response_needed__c</picklist>
+        <values>
+            <fullName>Any Delegate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Each Delegate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Patient and each Delegate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Patient only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Patient or any Delegate</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

@@ -6,6 +6,8 @@
     <aura:attribute name="showEnrollments"              type="Boolean" default="{!true}"/>
     <!--===========================================PI================================================================-->
     <aura:attribute name="filterByStudy"                type="Boolean" default="{!false}"/>
+    <aura:attribute name="ssId"                         type="String"/>
+    <aura:attribute name="trialId"                      type="String"/>
     <!--=============================================================================================================-->
     <aura:attribute name="isInitialized"                type="Boolean" default="{!false}"   access="private"/>
     <aura:attribute name="child"                        type="Aura.Component"               access="private"/>
@@ -20,6 +22,10 @@
     <aura:attribute name="statusFilterPlaceholder"      type="String"                       access="private"/>
     <aura:attribute name="searchTextPlaceholder"        type="String"                       access="private"/>
     <aura:attribute name="objectLabel"                  type="String"                       access="private"/>
+    <aura:attribute name="studySitePickList"            type="List"/>
+    <aura:attribute name="studyPickList"                type="List"/>
+    <aura:attribute name="filterWasChanged"             type="Boolean" />
+    <aura:attribute name="studyWasChanged"              type="Boolean"/>
     <!--===========================================PAGINATION========================================================-->
     <aura:attribute name="allObjects"                   type="List"                         access="private"/>
     <aura:attribute name="currentObjects"               type="List"                         access="private"/>
@@ -50,6 +56,8 @@
                        itemTitle="{!if(v.userMode == 'PI', $Label.c.PG_MRZ_L_clinics, $Label.c.PG_MRZ_L_study_sites)}" >
 
             <c:rrSelect value="{!v.statusFilter}" options="{!v.statusOptions}" placeholder="{!v.statusFilterPlaceholder}" otherOptionLabel="{!$Label.c.PG_MRZ_L_No_filter}"/>
+            <c:rrSelect value="{!v.trialId}" options="{!v.studyPickList}" placeholder="{!$Label.c.PG_VP_L_Studies}" onchange="{!c.studyStatusChange}"/>
+            <c:rrSelect value="{!v.ssId}" options="{!v.studySitePickList}" placeholder="{!$Label.c.PG_VP_L_Study_sites}" onchange="{!c.statusChange}"/>
         </c:FilterPanel>
 
     </div>
@@ -58,7 +66,7 @@
 
         <aura:if isTrue="{!v.userMode == 'PI'}">
             <aura:iteration items="{! v.currentObjects}" var="item">
-                <c:ReferringClinicItem clinicWrapper="{!item}" userMode="{!v.userMode}" filterByStudy="{!v.showEnrollments}" parent="{!this}"/>
+                <c:ReferringClinicItem clinicWrapper="{!item}" userMode="{!v.userMode}" filterByStudy="{!v.showEnrollments}" ssId="{!v.ssId}" parent="{!this}"/>
             </aura:iteration>
         </aura:if>
         <aura:if isTrue="{!v.userMode == 'HCP'}">

@@ -4,6 +4,8 @@
 
 public class Alert {
     
+    public class AlertException extends Exception{}
+    
     public String title;
     public String body;
     public String code;
@@ -69,7 +71,7 @@ public class Alert {
             for(SObject sobj: objectsList) objectsMap.put(sobj.Id, sobj);
         }
 
-        String userName = [SELECT Name FROM Contact WHERE Id =: contactId].Name;
+        String userName = [SELECT FirstName FROM Contact WHERE Id =: contactId].FirstName;
         if(userMode == CommunityService.USER_MODE_PARTICIPANT){
             List<Participant__c> participants = [SELECT Id, First_Name__c FROM Participant__c WHERE Contact__c = :contactId];
             if (!participants.isEmpty()) userName = participants.get(0).First_Name__c;
@@ -80,6 +82,7 @@ public class Alert {
             Alert_Catalog__mdt card = catalogMap.get(dbAlert.Alert_Code__c);
             if(dbAlert.Record_ID__c != null){
                 SObject alertObject = objectsMap.get(dbAlert.Record_ID__c);
+                if(alertObject == null) throw new AlertException('Alert ' + dbAlert.Name + ' has wrong Record Id field: ' + dbAlert.Record_ID__c);
                 cardParametersValueMap = CatalogParametersHelper.getParamsValueMap(alertObject, card.Parameters__c);
             }
 

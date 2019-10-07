@@ -260,10 +260,16 @@ public without sharing class ParticipantEnrollmentService {
             'Participant__c',
             'Participant__r.First_Name__c',
             'Participant__r.Last_Name__c',
+            'Participant__r.Middle_Name__c',
             'Participant__r.Full_Name__c',
+            'Participant__r.Date_of_Birth__c',
+            'Participant__r.Birth_Year__c',
+            'Participant__r.Gender__c',
             'Participant__r.Email__c',
             'Participant__r.Phone__c',
+            'Participant__r.Phone_Type__c',
             'Participant__r.Mailing_State__c',
+            'Participant__r.Mailing_City__c',
             'Participant__r.Mailing_State_Code__c',
             'Participant__r.Mailing_Country__c',
             'Participant__r.Mailing_Country_Code__c',
@@ -271,8 +277,12 @@ public without sharing class ParticipantEnrollmentService {
             'Participant__r.Contact__c',
             'Participant__r.Conditions__c',
             'Participant__r.Contact__r.Language__c',
+            'Participant__r.Contact__r.Second_Choice_Language__c',
+            'Participant__r.Contact__r.Third_Choice_Language__c',
+            'Participant__r.Contact__r.Visit_Results_Opt_In__c',
             'Study_Name__c',
             'Study_Site__c',
+            'Study_Site__r.Approved_Lng__c',
             'Study_Site__r.Name',
             'Study_Site__r.Override_PI_Referral_Status__c',
             'Study_Site__r.Clinical_Trial_Profile__c',
@@ -280,8 +290,6 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Detailed_Description__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Brief_Summary__c',
-            'Study_Site__r.Clinical_Trial_Profile__r.Survey__c',
-            'Study_Site__r.Clinical_Trial_Profile__r.Survey__r.Name',
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
@@ -317,6 +325,7 @@ public without sharing class ParticipantEnrollmentService {
             'Medical_Record_Review_Completedby_Name__c',
             'Pre_Eligibility_Date__c',
             'Screening_ID__c',
+            'MRN_Id__c',
             'Referral_Completedby_Name__c',
             'CreatedDate'
     };
@@ -458,8 +467,16 @@ public without sharing class ParticipantEnrollmentService {
                 studySites = StudySiteService.getStudySitesForHCP(peFilterData.trialIds);
             }
             for(Study_Site__c ss : studySites) peFilterData.studySites.add(new LabelValueItem(ss.Name, ss.Id));
-
-
+        }
+        if(mode == CommunityService.USER_MODE_PI){
+            List<Study_Site__c> studySites;
+            if(restrictTrial && trialId!=null){
+                studySites = StudySiteService.getStudySiteForPIByTrialId(trialId);
+            }
+            else{
+                studySites = StudySiteService.getStudySitesForPI();
+            }
+            for(Study_Site__c ss : studySites) peFilterData.studySites.add(new LabelValueItem(ss.Name, ss.Id));
         }
 
         peFilterData.referringClinics = new List<LabelValueItem>();
@@ -472,6 +489,7 @@ public without sharing class ParticipantEnrollmentService {
 
     public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, PaginationData paginationData){
         //prepare filter string:
+        System.debug('filter>>>'+filter);
         String filterStr = ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') + '\') ';
         if(!String.isEmpty(filter.additionalFilter)) filterStr += ' AND ' + filter.additionalFilter + ' ';
         if(filter.searchText != null) filter.searchText = filter.searchText.trim();

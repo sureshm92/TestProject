@@ -6,6 +6,15 @@
         component.set("v.isInitialized", true);
     },
 
+    statusChange: function(component,event,helper){
+    	component.set('v.filterWasChanged',true);
+    },
+
+    studyStatusChange: function(component,event,helper){
+        component.set('v.studyWasChanged',true);
+        component.set('v.filterWasChanged',true);
+    },
+
     onFilterStatusChange: function (component, event, helper) {
         helper.resetFilters(component);
         helper.setFilters(component);
@@ -16,7 +25,6 @@
     },
 
     doSearch: function (component, event, helper) {
-
         helper.setFilters(component);
         var text = component.get("v.searchText");
         var userMode = component.get("v.userMode");

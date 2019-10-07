@@ -2,6 +2,5 @@
 <CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
     <auraComponent>ManualTask</auraComponent>
     <label>Manual Tasks Creation</label>
-    <mobileReady>false</mobileReady>
     <motif>Custom18: Form</motif>
 </CustomTab>

@@ -2,16 +2,45 @@
  - Created by D.Yasinskyi on 08.02.2018.
  -->
 
-<aura:component description="StudyListViewItem">
+<aura:component description="StudyListViewItem" controller="StudyListViewController">
 
     <!-- attributes: -->
     <aura:attribute name="currentStudy" type="Object" required="true"/>
     <aura:attribute name="userMode" type="String" description="HCP/PI/Patient"/>
     <aura:attribute name="parent" type="Aura.Component"/>
-    <aura:attribute name="detailsExpanded" type="Boolean" default="false"/>
+    <aura:attribute name="detailsExpanded" type="Boolean"/>
     <aura:attribute name="actionsList" type="Boolean"/>
     <aura:attribute name="searchItem" type="Boolean" default="false"/>
     <aura:attribute name="accessUserLevel" type="String"/>
+    <aura:attribute name="delegatePicklist" type="List"/>
+    <aura:attribute name="itemIndex" type="Integer"/>
+    <aura:attribute name="showManageLocationDetails" type="Boolean" default="false"/>
+    <aura:attribute name="popupIndex" type="Integer"/>
+    <aura:attribute name="contactAccounts" type="List"/>
+    <aura:attribute name="checkedAccount" type="Object"/>
+    <aura:attribute name="editAddress" type="Boolean" default="false"/>
+    <aura:attribute name="editedAccount" type="Object"/>
+    <aura:attribute name="countryPicklist" type="Object[]"/>
+    <aura:attribute name="locationWasChanged" type="Boolean" default="false"/>
+    <aura:attribute name="addressWasChanged" type="Boolean" default="false"/>
+    <aura:attribute name="statesByCountryMap" type="Object"/>
+    <aura:attribute name="states" type="List"/>
+    <aura:attribute name="currentCountry" type="String" default=""/>
+    <aura:attribute name="countriesMap" type="Object"/>
+    <aura:attribute name="countryCodesMap" type="Object"/>
+    <aura:attribute name="addressChecked" type="Boolean" default="false"/>
+    <aura:attribute name="showPopUpSpinner" type="Boolean"/>
+    <aura:attribute name="updateGeolocation" type="Boolean" default="false"/>
+    <aura:attribute name="checkIconStyle" type="String" default="check-icon-style"/>
+    <aura:attribute name="closeIconStyle" type="String" default="close-icon-style"/>
+    <aura:attribute name="checkIcon" type="String" default="icon-check"/>
+    <aura:attribute name="closeIcon" type="String" default="icon-close"/>
+    <aura:attribute name="showManageLocationSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="mapMarkers" type="Object"/>
+    <aura:attribute name="zoomLevel" type="Integer"/>
+
+    <!-- <aura:handler name="change" value="{!v.detailsExpanded}" action="{!c.clampDrivingInstuctions}"/>-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <!-- component body: -->
     <div class="rr-white-panel slvi-container">
@@ -21,7 +50,7 @@
                 <!-- Name: -->
                 <div class="slvi-name-section-hcp">
                     <div class="slds-grid slds-wrap">
-                        <div class="slds-col slds-small-size_1-of-1 slds-medium-size_3-of-4 slds-large-size_3-of-4 study-name">
+                        <div class="slds-col slds-small-size_1-of-1 slds-x-small-size_1-of-1 slds-medium-size_3-of-4 slds-large-size_3-of-4 study-name">
                             <c:RRLink class="study-title" label="{!v.currentStudy.trial.Study_Code_Name__c}"
                                       page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"/>
                         </div>
@@ -31,7 +60,8 @@
 
                         <!--Social Widgets-->
                         <div class="slds-col slds-small-size_1-of-3 slds-x-small-size--1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-4 slds-large-order_2 slds-medium-order_2">
-                            <aura:if isTrue="{!and(v.userMode == 'HCP',!empty(v.currentStudy.trial.NCT_Number__c))}">
+                            <aura:if
+                                    isTrue="{!and(or(v.userMode == 'HCP'),!empty(v.currentStudy.trial.NCT_Number__c))}">
                                 <div class="rri-icon slds-float_right">
                                     <a href="javascript:void(0);" data-id="email" onclick="{!c.onShareClick}">
                                     <span class="slds-m-around_x-small">
@@ -70,7 +100,59 @@
             </div>
         </aura:if>
 
-        <aura:if isTrue="{!v.userMode != 'HCP'}">
+        <aura:if isTrue="{!v.userMode == 'PI'}">
+            <div class="slvi-top-container-hcp slvi-section">
+                <!-- Name: -->
+                <div class="slvi-name-section-hcp">
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-small-size_1-of-1 slds-x-small-size_1-of-1  slds-medium-size_3-of-4 slds-large-size_3-of-4 study-name">
+                            <c:RRLink class="study-title" label="{!v.currentStudy.trial.Study_Code_Name__c}"
+                                      page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"/>
+                        </div>
+                        <div class="slds-col slds-small-size_2-of-3 slds-x-small-size--2-of-3 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-large-order_3 slds-medium-order_3 sponsor-name">
+                            {!v.currentStudy.trial.Study_Sponsor__c}
+                        </div>
+                        <div class="slds-col slds-small-size_1-of-3 slds-x-small-size--1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-4 slds-large-order_2 slds-medium-order_2">
+                            <aura:if isTrue="{!and(or(v.userMode == 'PI'),!empty(v.currentStudy.trial.NCT_Number__c))}">
+                                <div class="rri-icon-pi slds-float_right">
+                                    <a href="javascript:void(0);" data-id="email" onclick="{!c.onShareClick}">
+                                    <span class="slds-m-around_x-small">
+                                        <c:RRIcon iconName="icon-mail" id="icon-mail" color="#297DFD"/>
+                                    </span>
+                                    </a>
+                                    <a href="javascript:void(0);" data-id="facebook" onclick="{!c.onShareClick}">
+                                    <span class="slds-m-around_x-small">
+                                        <c:RRIcon iconName="icon-facebook-2" id="icon-facebook" color="#475993"/>
+                                    </span>
+                                    </a>
+                                    <a href="javascript:void(0);" data-id="twitter" onclick="{!c.onShareClick}">
+                                    <span class="slds-m-around_x-small">
+                                        <c:RRIcon iconName="icon-twitter" id="icon-twitter" color="#2AA2EE"/>
+                                    </span>
+                                    </a>
+                                    <a href="javascript:void(0);" data-id="linkedin" onclick="{!c.onShareClick}">
+                                    <span class="slds-m-around_x-small">
+                                        <c:RRIcon iconName="icon-linkedin-2" id="icon-linkedin" color="#0077B7"/>
+                                    </span>
+                                    </a>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+                <div class="slvi-objective-section slds-col slds-small-size_6-of-6">
+                    <div class="objective-text">{!v.currentStudy.trial.Brief_Summary__c}</div>
+                    <div class="objective-link">
+                        <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}">{!$Label.c.BTN_Learn_More}
+                            <c:RRIcon iconName="icon-chevron-right"/>
+                        </c:RRLink>
+                    </div>
+
+                </div>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.userMode != 'HCP' &amp;&amp; v.userMode != 'PI'}">
             <div class="slvi-top-container slvi-section">
                 <div class="slvi-name-section">
                     <div class="study-name study-name-pi">
@@ -81,8 +163,8 @@
 
                     <!-- Status: -->
                     <div class="{!'slvi-status status-' + v.currentStudy.trial.Override_Recruitment_Status__c}">
-                            {!v.currentStudy.trialRecruitmentStatusLabel}
-                        </div>
+                        {!v.currentStudy.trialRecruitmentStatusLabel}
+                    </div>
                 </div>
 
                 <div class="sponsor-name">{!v.currentStudy.trial.Study_Sponsor__c}</div>
@@ -96,17 +178,16 @@
                     </div>
                 </div>
             </div>
-
         </aura:if>
 
         <!-- PI statistics: -->
-        <c:StudyTotalPassed userMode="{!v.userMode}" statistics="{!v.currentStudy.statistics}" class="slvi-section"/>
+        <!--<c:StudyTotalPassed userMode="{!v.userMode}" statistics="{!v.currentStudy.statistics}" class="slvi-section"/>-->
 
         <!-- Display buttons for available actions: -->
         <aura:if isTrue="{!!empty(v.currentStudy.studyActions)}">
             <div class="slds-grid slvi-buttons slvi-section">
-                <aura:iteration items="{!v.currentStudy.studyActions}" var="action">
-                    <div class="{!'slds-col btn-wrapper' + if(action.disabled, ' disabled', '')}"
+                <aura:iteration items="{!v.currentStudy.studyActions}" var="action" indexVar="actionIndex">
+                    <div class="{!'slds-col btn-wrapper' + if(action.disabled, ' disabled', '') + if(and(v.userMode=='PI',actionIndex != v.currentStudy.studyActions.length-1), ' btn-pi-border', '')}"
                          title="{!action.disableReason}">
                         <div id="{!action.id}" class="{!'slvi-btn' + if(action.disabled, ' disabled', '')}"
                              onclick="{!c.doAction}">
@@ -117,6 +198,442 @@
                         </div>
                     </div>
                 </aura:iteration>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.userMode == 'PI'}">
+            <div style="background-color: #f2f2f2;box-sizing: border-box;">
+                <div class="slds-grid slds-wrap slds-p-horizontal_medium">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_10-of-12
+                                slds-order_4 slds-medium-order_1 slds-m-vertical_x-small">
+                        <div>
+                            <div class="{!empty(v.currentStudy.ssList) ? 'slds-hide' : ''}">
+                                <a href="javascript:void(0);"
+                                   class="{!(v.detailsExpanded == true ? 'expanded-icon ': 'expanded-icon hidden-icon ') + 'rr-link'}"
+                                   onclick="{!c.toggleStudySiteListView}">
+                                    <span class="slds-m-right--xx-small">{!$Label.c.SS_View_Sites}</span>
+                                    <c:RRIcon iconName="icon-chevron-right"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="{!v.detailsExpanded == true ? ' ' : 'slds-hide '}">
+                <div class="slds-p-horizontal_medium slds-p-bottom_small">
+                    <aura:iteration items="{!v.currentStudy.ssList}" var="siteWrapper" indexVar="siteWrappIndx">
+                        <aura:if isTrue="{!siteWrapper.studySite}">
+                            <div class="manage-location-details">
+                                <span data-index="{!siteWrappIndx}" onclick="{!c.showManageLocationDetails}">
+                                    {!$Label.c.SS_Manage_Location_Details}
+                                </span>
+                            </div>
+
+                            <div class="mrc-invite-popup">
+                                <c:Popup aura:id="manage-location" title="{!$Label.c.SS_Manage_Location_Details}"
+                                         size="large"
+                                         showScroll="{!true}">
+                                    <aura:if isTrue="{!!v.editAddress}">
+                                        <div class="slds-grid slds-grid_vertical">
+                                            <div class="slds-grid slds-wrap">
+                                                <div class="slds-col slds-size--1-of-5 my-location-label">{!$Label.c.SS_My_Locations}
+                                                </div>
+                                                <div class="slds-col slds-size--5-of-5 slds-grid slds-grid_align-end">
+                                                    <button data-site-id="{!siteWrapper.studySite.site.Id}"
+                                                            id="addNewLocation"
+                                                            value="{!siteWrappIndx}"
+                                                            class="apollo-btn primary"
+                                                            style="background-color: white; color: #297DFD;	border: 1px solid #D9D9D9; box-shadow: none; display: inline-block; font-size: 16px;"
+                                                            onclick="{!c.editAccountAddress}">
+                                                        <span>+</span> {!$Label.c.SS_New_Location}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <aura:if isTrue="{!siteWrapper.accounts}">
+                                                <div class="slds-grid slds-wrap">
+                                                    <aura:iteration items="{!siteWrapper.accounts}" var="account"
+                                                                    indexVar="accIndex">
+                                                        <div class="slds-grid slds-col slds-size--1-of-1">
+                                                            <div class="locationContainer slds-grid slds-wrap">
+                                                                <div class="slds-col slds-size--12-of-12 slds-grid slds-wrap"
+                                                                     style="height:100%;">
+                                                                    <div class="slds-col-size--1-of-1 slds-grid slds-wrap popup-account-name">
+                                                                        <div class="slds-col slds-size--1-of-2 slds-grid">
+                                                                            {!account.Name + ' ' + $Label.c.SS_Location}
+                                                                        </div>
+                                                                        <div class="slds-col slds-size--1-of-2 slds-grid slds-grid_align-end edit-btn"
+                                                                             data-indx="{!accIndex}"
+                                                                             data-index="{!siteWrappIndx}"
+                                                                             onclick="{!c.editAccountAddress}">
+                                                                            {!$Label.c.SS_Btn_Edit}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="slds-col slds-size--1-of-12 slds-grid slds-grid--vertical-align-center slds-grid--align-center"
+                                                                         style="height:50%;"
+                                                                         data-index="{!siteWrappIndx}">
+                                                                        <lightning:input aura:id="radioBtn"
+                                                                                         class="slds-grid" type="radio"
+                                                                                         value="{!account}"
+                                                                                         checked="{!account.Id==siteWrapper.studySite.Site__c}"
+                                                                                         onchange="{!c.changeRadioMarker}"/>
+                                                                    </div>
+                                                                    <div class="slds-col slds-size--3-of-12 manage-location-info">
+                                                                        <div class="ss-info-headers">{!$Label.c.SS_Address}</div>
+                                                                        <div class="ss-info-address">{!account.BillingStreet}</div>
+                                                                        <div class="ss-info-address">{!if(account.BillingCity!=null, account.BillingCity + ', ', '') +account.BillingStateCode + ' ' + account.BillingPostalCode}</div>
+                                                                    </div>
+                                                                    <div class="slds-col slds-size_4-of-12 manage-location-info">
+                                                                        <div class="ss-info-headers">{!$Label.c.SS_Driving_Instructions}</div>
+                                                                        <div aura:id="driving-instructions"
+                                                                             class="driving-instructions">{!account.Driving_Directions__c}</div>
+                                                                    </div>
+                                                                    <div class="slds-col slds-size_4-of-12 manage-location-info">
+                                                                        <div class="ss-info-headers">{!$Label.c.SS_Parking_Instructions}</div>
+                                                                        <div aura:id="driving-instructions"
+                                                                             class="driving-instructions">{!account.Parking_Instructions__c}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </aura:iteration>
+                                                </div>
+                                            </aura:if>
+                                        </div>
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.editAddress}">
+                                        <div class="slds-grid slds-grid_vertical edit-address-container">
+                                            <div class="slds-grid slds-wrap slds-col slds-size--1-of-1">
+                                                <div class="slds-grid slds-wrap slds-col slds-size--1-of-2">
+                                                    <div class="slds-col slds-size--1-of-1 popup-address-inputs">
+                                                        <div class="rr-form-element">
+                                                            <lightning:input aura:id="locationName"
+                                                                             class="ss-lightning-input"
+                                                                             value="{!v.editedAccount.Name}"
+                                                                             label="{!$Label.c.SS_Location_Name}"
+                                                                             required="true"
+                                                                             onblur="{!c.trimChanges}"
+                                                                             onchange="{!c.recordWasUpdated}"/>
+                                                        </div>
+                                                    </div>
+                                                    <!--<div class="slds-col slds-size&#45;&#45;1-of-1 slds-grid slds-wrap">-->
+                                                    <div class="slds-col slds-size--1-of-1 popup-address-inputs">
+                                                        <!--<div class="input-fields-labels">{!$Label.c.SS_Street_Address}</div>-->
+                                                        <div class="rr-form-element">
+                                                            <lightning:input aura:id="locationAddress"
+                                                                             value="{!v.editedAccount.BillingStreet}"
+                                                                             onblur="{!c.trimChanges}"
+                                                                             class="ss-lightning-input"
+                                                                             label="{!$Label.c.SS_Street_Address}"
+                                                                             required="true"
+                                                                             onchange="{!c.recordWasUpdated}"/>
+                                                        </div>
+                                                    </div>
+                                                    <!--<div class="slds-col slds-size&#45;&#45;1-of-2 popup-address-inputs">
+                                                        <div class="input-fields-labels">{!$Label.c.SS_Country}</div>
+                                                        <c:rrSelect id="locationCountry"
+                                                                    options="{!v.countryPicklist}"
+                                                                    value="{!v.currentCountry}"
+                                                                    class="delegate-select"
+                                                                    onchange="{!c.doCountryChange}"
+                                                                    useSentenceFont="false"/>
+                                                    </div>-->
+                                                    <!--</div>-->
+                                                    <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                                                        <div class="slds-col slds-size--4-of-6 popup-address-inputs">
+                                                            <!--<div class="input-fields-labels">{!$Label.c.SS_City}</div>-->
+                                                            <div class="rr-form-element">
+                                                                <lightning:input aura:id="locationCity"
+                                                                                 value="{!v.editedAccount.BillingCity}"
+                                                                                 onblur="{!c.trimChanges}"
+                                                                                 class="ss-lightning-input"
+                                                                                 label="{!$Label.c.SS_City}"
+                                                                                 required="true"
+                                                                                 onchange="{!c.recordWasUpdated}"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-col slds-size--2-of-6 popup-address-inputs">
+                                                            <div class="input-fields-labels">{!$Label.c.SS_State}</div>
+                                                            <c:rrSelect id="locationState"
+                                                                        options="{!v.states}"
+                                                                        value="{!v.editedAccount.BillingStateCode}"
+                                                                        class="delegate-select"
+                                                                        disabled="{!empty(v.states)}"
+                                                                        onchange="{!c.recordWasUpdated}"
+                                                                        useSentenceFont="false"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                                                        <div class="slds-col slds-size--4-of-6 popup-address-inputs">
+                                                            <div class="input-fields-labels">{!$Label.c.SS_Country}</div>
+                                                            <c:rrSelect id="locationCountry"
+                                                                        options="{!v.countryPicklist}"
+                                                                        value="{!v.currentCountry}"
+                                                                        class="delegate-select"
+                                                                        onchange="{!c.doCountryChange}"
+                                                                        useSentenceFont="false"/>
+                                                        </div>
+                                                        <div class="slds-col slds-size--2-of-6 popup-address-inputs">
+                                                            <div class="input-fields-labels">{!$Label.c.SS_Postal_Code}</div>
+                                                            <div class="rr-form-element">
+                                                                <lightning:input aura:id="locationPostalCode"
+                                                                                 class = "postal-code-input"
+                                                                                 value="{!v.editedAccount.BillingPostalCode}"
+                                                                                 onblur="{!c.trimChanges}"
+                                                                                 onchange="{!c.recordWasUpdated}"/>
+                                                            </div>
+                                                            <!--<div class="input-fields-labels">{!$Label.c.SS_State}</div>
+                                                            <c:rrSelect id="locationState"
+                                                                        options="{!v.states}"
+                                                                        value="{!v.editedAccount.BillingStateCode}"
+                                                                        class="delegate-select"
+                                                                        disabled="{!empty(v.states)}"
+                                                                        onchange="{!c.recordWasUpdated}"
+                                                                        useSentenceFont="false"/>-->
+                                                            <!--<div class="slds-col slds-size&#45;&#45;2-of-6 popup-address-inputs">
+                                                                <div class="input-fields-labels">{!$Label.c.SS_Postal_Code}</div>
+                                                                <div class="rr-form-element">
+                                                                    <lightning:input aura:id="locationPostalCode"
+                                                                                     value="{!v.editedAccount.BillingPostalCode}"
+                                                                                     onblur = "{!c.trimChanges}"
+                                                                                     onchange="{!c.recordWasUpdated}"/>
+                                                                </div>
+                                                            </div>-->
+                                                            <!--<div class="slds-col slds-size&#45;&#45;2-of-6 popup-address-inputs">
+                                                                <div class="rr-form-element">
+                                                                    <button class="apollo-btn primary check-address-btn"
+                                                                            disabled="{!v.showPopUpSpinner ? v.showPopUpSpinner :
+                                                                                        !v.editedAccount.BillingStreet ? true :
+                                                                                        !v.editedAccount.BillingCountry ? true :
+                                                                                        !v.editedAccount.BillingCity ? true : false}"
+                                                                            title="{!v.showPopUpSpinner ? $Label.c.SS_Address_Is_Checking :
+                                                                                     !v.editedAccount.BillingStreet ? $Label.c.SS_Fill_Address :
+                                                                                     !v.editedAccount.BillingCountry ? $Label.c.SS_Choose_Country :
+                                                                                     !v.editedAccount.BillingCity ? $Label.c.SS_Fill_City : $Label.c.SS_Press_To_Check}"
+                                                                            onclick="{!c.checkAddress}">{!$Label.c.SS_Btn_Check_Address}</button>
+                                                                </div>
+                                                            </div>-->
+                                                        </div>
+                                                    </div>
+                                                    <!--<lightning:map mapMarkers="{! v.mapMarkers }"/>-->
+                                                </div>
+                                                <div class="slds-col slds-size--1-of-2 slds-grid slds-wrap">
+                                                    <aura:if isTrue="{!v.editAddress}">
+                                                        <lightning:map class="google-map-style"
+                                                                       mapMarkers="{! v.mapMarkers }"
+                                                                       zoomLevel="{! v.zoomLevel }"/>
+                                                    </aura:if>
+                                                    <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                                                        <div class="slds-col slds-size--2-of-6 popup-address-inputs">
+                                                            <div class="rr-form-element check-button-container">
+                                                                <button class="apollo-btn primary check-address-btn"
+                                                                        disabled="{!v.showPopUpSpinner ? v.showPopUpSpinner :
+                                                                                    !v.editedAccount.BillingStreet ? true :
+                                                                                    !v.editedAccount.BillingCountry ? true :
+                                                                                    !v.editedAccount.BillingCity ? true : false}"
+                                                                        title="{!v.showPopUpSpinner ? $Label.c.SS_Address_Is_Checking :
+                                                                                 !v.editedAccount.BillingStreet ? $Label.c.SS_Fill_Address :
+                                                                                 !v.editedAccount.BillingCountry ? $Label.c.SS_Choose_Country :
+                                                                                 !v.editedAccount.BillingCity ? $Label.c.SS_Fill_City : $Label.c.SS_Press_To_Check}"
+                                                                        onclick="{!c.checkAddress}">{!$Label.c.SS_Btn_Check_Address}</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-col slds-size--4-of-6 slds-grid slds-wrap popup-address-inputs indicator-containers">
+                                                            <aura:if
+                                                                    isTrue="{!v.editedAccount.BillingLatitude!=undefined &amp;&amp; v.editedAccount.BillingLongitude!=undefined &amp;&amp; !v.showPopUpSpinner}">
+                                                                <c:RRIcon
+                                                                        class="{!v.checkIconStyle}"
+                                                                        iconName="{!v.checkIcon}"/>
+                                                                <div class="input-fields-labels address-indicator-label">{!$Label.c.SS_Address_Found}</div>
+                                                            </aura:if>
+                                                            <aura:if
+                                                                    isTrue="{!v.editedAccount.BillingLatitude==undefined &amp;&amp; v.editedAccount.BillingLongitude==undefined &amp;&amp; !v.showPopUpSpinner}">
+                                                                <c:RRIcon
+                                                                        class="{!v.closeIconStyle}"
+                                                                        iconName="{!v.closeIcon}"/>
+                                                                <div class="input-fields-labels address-indicator-label">{!$Label.c.SS_Address_Not_Found}</div>
+                                                            </aura:if>
+                                                            <aura:if isTrue="{!v.showPopUpSpinner}">
+                                                                <div role="status"
+                                                                     class="slds-spinner slds-spinner_xx-small address-spinner-indicator-container">
+                                                                    <div class="slds-spinner__dot-a"></div>
+                                                                    <div class="slds-spinner__dot-b"></div>
+                                                                </div>
+                                                                <div class="input-fields-labels address-indicator-label">{!$Label.c.SS_Address_Is_Checking}</div>
+                                                            </aura:if>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
+                                                    <div class="slds-col slds-size--1-of-2 popup-address-inputs">
+                                                        <div class="input-fields-labels">{!$Label.c.SS_Driving_Instructions}</div>
+                                                        <div class="rr-form-element">
+                                                            <lightning:textarea aura:id="locationDrivingInstructions"
+                                                                                class="text-area-height"
+                                                                                value="{!v.editedAccount.Driving_Directions__c}"
+                                                                                onchange="{!c.recordWasUpdated}"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-col slds-size--1-of-2 popup-address-inputs">
+                                                        <div class="input-fields-labels">{!$Label.c.SS_Parking_Instructions}</div>
+                                                        <div class="rr-form-element">
+                                                            <lightning:textarea aura:id="locationParkingInstructions"
+                                                                                class="text-area-height"
+                                                                                value="{!v.editedAccount.Parking_Instructions__c}"
+                                                                                onchange="{!c.recordWasUpdated}"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </aura:if>
+                                    <aura:set attribute="footerButtons">
+                                        <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
+                                        <button class="apollo-btn secondary"
+                                                onclick="{!v.editAddress ? c.backToTheChoice :  c.closeModal}">{!$Label.c.BTN_Cancel}</button>
+                                        <button class="apollo-btn primary"
+                                                onclick="{!v.editAddress ? c.saveNewAccount : c.changeStudySiteAddress}"
+                                                disabled="{!v.editAddress ? (!v.addressWasChanged ? !v.addressWasChanged  :
+                                                                             !v.editedAccount.Name ? true :
+                                                                             !v.editedAccount.BillingStreet? true :
+                                                                             !v.editedAccount.BillingCity ? true : false )  : !v.locationWasChanged}"
+                                                title="{!v.editAddress ? !v.addressWasChanged ? $Label.c.SS_No_Changes_Message :
+                                                                         !v.editedAccount.Name  ? $Label.c.SS_Fill_Location_Name :
+                                                                         !v.editedAccount.BillingStreet  ? $Label.c.SS_Fill_Address  :
+                                                                         !v.editedAccount.BillingCity ? $Label.c.SS_Fill_City :
+                                                                         $Label.c.SS_Save_Changes : !v.locationWasChanged ?  $Label.c.SS_No_Changes_Message :
+                                                                         $Label.c.SS_Save_Changes}"
+                                                value="{!siteWrappIndx}">{!v.editAddress ? $Label.c.SS_Save_New_Account : $Label.c.SS_Use_This_Address}</button>
+                                    </aura:set>
+                                </c:Popup>
+                            </div>
+                            <div style="box-sizing: border-box; border-right: 1px solid #F2F2F2;border-left: 1px solid #F2F2F2;border-bottom: 1px solid #F2F2F2; border-radius: 5px; background-color: #F2F2F2; min-height: 100px; margin-top:0px; padding: 0px 30px 30px 30px">
+                                <div id="ssInformation">
+                                    <div id="contactInformation"
+                                         class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 ss-info-container ss-container-border">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 ss-info-details" data-index="{!siteWrappIndx}">
+                                            <!--<div class="input-fields-labels"
+                                                 style="display: inline-block">{!$Label.c.SS_Study_Site_Name}</div>-->
+                                            <div class="rr-form-element" data-index="{!siteWrappIndx}">
+                                                <lightning:input aura:id="locationName"
+                                                                 class="ss-lightning-input"
+                                                                 value="{!siteWrapper.studySite.Name}"
+                                                                 label="{!$Label.c.SS_Study_Site_Name}"
+                                                                 required="true"
+                                                                 onblur="{!c.trimChanges}"
+                                                                 onchange="{!c.changeUpdatedStatus}"/>
+                                                <!--<lightning:input aura:id="emailInput"
+                                                                 value="{!siteWrapper.studySite.Name}"
+                                                                 onchange="{!c.changeUpdatedStatus}"/>-->
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ss-info-details clinic-type">
+                                            {!(siteWrapper.studySite.Study_Site_Type__c) + ' '+ $Label.c.SS_Site}
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 ss-info-details"
+                                             data-index="{!siteWrappIndx}">
+                                            <div class="input-fields-labels">{!$Label.c.SS_Primary_Contact}</div>
+                                            <div data-index="{!siteWrappIndx}" onclick="{!c.changeItemIndex}">
+                                                <c:rrSelect id="delegatesPicklist"
+                                                            options="{!v.currentStudy.delegatePicklist}"
+                                                            value="{!siteWrapper.studySite.Site_Staff__c}"
+                                                            class="delegate-select"
+                                                            placeholder="{!if(v.currentStudy.delegatePicklist.length>0,$Label.c.PG_AC_Select,$Label.c.SS_Add_A_Member)}"
+                                                            onchange="{!c.changeUpdatedStatus}"
+                                                            useSentenceFont="false"/>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ss-info-details" data-index="{!siteWrappIndx}">
+                                            <div class="input-fields-labels"
+                                                 style="display: inline-block;">{!$Label.c.SS_Phone}</div>
+                                            <div class="rr-form-element" data-index="{!siteWrappIndx}">
+                                                <lightning:input aura:id="emailInput"
+                                                                 value="{!siteWrapper.studySite.Study_Site_Phone__c}"
+                                                                 onchange="{!c.changeUpdatedStatus}"/>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 ss-info-details" data-index="{!siteWrappIndx}">
+                                            <div class="input-fields-labels">{!$Label.c.SS_Email}</div>
+                                            <div class="rr-form-element" data-index="{!siteWrappIndx}">
+                                                <lightning:input aura:id="emailInput"
+                                                                 value="{!siteWrapper.studySite.Study_Site_Email__c}"
+                                                                 onchange="{!c.changeUpdatedStatus}"
+                                                                 onblur="{!c.checkValidEmail}"/>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 ss-info-details">
+                                            <button class="apollo-btn pi-save-btn primary"
+                                                    onclick="{!c.saveChanges}"
+                                                    value="{!siteWrappIndx}"
+                                                    disabled="{!!siteWrapper.studySite.isEmailValid || !siteWrapper.studySite.isRecordUpdated || !siteWrapper.studySite.Name}"
+                                                    title="{!siteWrapper.studySite.isRecordUpdated ? siteWrapper.studySite.isEmailValid ? siteWrapper.studySite.Name ? $Label.c.SS_Save_Changes : 'Fill SS Name' : $Label.c.SS_invalidEmail : $Label.c.SS_No_Changes_Message}">
+                                                {!$Label.c.SS_Btn_Save}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="slds-wrap slds-grid slds-col slds-size_1-of-1 slds-medium-size_7-of-12 other-ss-info">
+                                        <div class="slds-grid--vertical">
+                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-3 other-ss-info-height-control">
+                                                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-6 other-ss-info-container">
+                                                    <div class="ss-info-headers">{!$Label.c.SS_Address}</div>
+                                                    <div class="ss-info-address">{!siteWrapper.studySite.Site__r.BillingStreet}</div>
+                                                    <div class="ss-info-address">{!if(siteWrapper.studySite.Site__r.BillingCity!=null, siteWrapper.studySite.Site__r.BillingCity + ', ', '') +siteWrapper.studySite.Site__r.BillingStateCode + ' ' + siteWrapper.studySite.Site__r.BillingPostalCode}</div>
+                                                    <c:RRIcon
+                                                            class="{!('Address' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'NearAddress' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'Block' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'Street' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'ExtendedZip' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy) &amp;&amp; siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; siteWrapper.studySite.Site__r.BillingLongitude ? 'check-icon-style' : 'close-icon-style'}"
+                                                            iconName="{!('Address' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'NearAddress' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'Block' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'Street' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'ExtendedZip' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy) &amp;&amp; siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; siteWrapper.studySite.Site__r.BillingLongitude ?'icon-check':'icon-close'}"/>
+                                                    <div style="display:inline-block;"
+                                                         class="input-fields-labels">{!('Address' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'NearAddress' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'Block' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'Street' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'ExtendedZip' == siteWrapper.studySite.Site__r.BillingGeocodeAccuracy) &amp;&amp; siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; siteWrapper.studySite.Site__r.BillingLongitude ? $Label.c.SS_Address_Found : $Label.c.SS_Address_Not_Found}</div>
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-6 other-ss-info-container">
+                                                    <div class="ss-info-headers">{!$Label.c.SS_Driving_Instructions}</div>
+                                                    <div aura:id="driving-instructions"
+                                                         class="driving-instructions">{!siteWrapper.studySite.Site__r.Driving_Directions__c}</div>
+                                                </div>
+                                                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-6 other-ss-info-container">
+                                                    <div class="ss-info-headers">{!$Label.c.SS_Parking_Instructions}</div>
+                                                    <div aura:id="driving-instructions"
+                                                         class="driving-instructions">{!siteWrapper.studySite.Site__r.Parking_Instructions__c}</div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-3">
+                                                <div class="slds-col slds-grid slds-size_1-of-1 slds-medium-size_7-of-7 slds-grid--align-end ss-info-buttons">
+                                                    <aura:iteration items="{!siteWrapper.actions}" var="action">
+                                                        <button id="{!action.id}"
+                                                                value="{!siteWrappIndx}"
+                                                                class="apollo-btn primary slds-align-bottom"
+                                                                disabled="{!action.disabled}"
+                                                                title="{!action.disableReason}"
+                                                                style="background-color: white; color: #297DFD; box-shadow: none; display: inline-block;"
+                                                                onclick="{!c.doAction}">{!action.label}</button>
+                                                    </aura:iteration>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:if>
+                    </aura:iteration>
+                    <aura:if isTrue="{!v.userMode != 'PI'}">
+                        <div class="slds-p-around--medium">
+                            <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_vertical-align-center"
+                                 style="min-height: 100%;">
+                                <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-left slvi-header-item">
+                                <span class="header-white-panel"
+                                      style="font-size: 16px;">{!$Label.c.MyStudy_None_of_these_sites_work}</span>
+                                </div>
+                                <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-right slvi-header-item ">
+                                    <button class="apollo-btn primary slvi-search-site-btn"
+                                            onclick="{!c.navigateToSitesSearch}"
+                                            disabled="{!v.accessUserLevel=='Level 2'}"
+                                            title="{!v.accessUserLevel=='Level 2'?$Label.c.RSN_Your_permissions_do_not_permit_this_action:''}">
+                                        {!$Label.c.MyStudy_Find_More_Sites}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </aura:if>
+                </div>
             </div>
         </aura:if>
 
@@ -198,9 +715,9 @@
                                         <div class="clinic-name">
                                             {!(siteWrapper.site.Name)}
                                         </div>
-                                    <div class="site-sub-header slds-m-top--x-small">
+                                        <div class="site-sub-header slds-m-top--x-small">
                                             {!(siteWrapper.site.Principal_Investigator__r.Salutation + ' ' + siteWrapper.site.Principal_Investigator__r.Name)}
-                                    </div>
+                                        </div>
                                     </div>
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
                                         <div class="site-sub-header site-distance">
@@ -213,24 +730,18 @@
                                 </div>
                                 <div class="slds-grid slds-wrap slds-m-top--x-small">
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
-                                    <div class="site-address">
-                                            {!siteWrapper.site.Principal_Investigator__r.Account.BillingStreet}
+                                        <div class="site-address">
+                                            {!siteWrapper.site.Site__r.BillingStreet}
+                                        </div>
+                                        <div class="site-address slds-m-top--xx-small">
+                                            {!(if(!empty(siteWrapper.site.Site__r.BillingCity),siteWrapper.site.Site__r.BillingCity+',','') + if(!empty(siteWrapper.site.Site__r.BillingState),' ' + siteWrapper.site.Site__r.BillingState+',','') + if(!empty(siteWrapper.site.Site__r.BillingPostalCode),' ' + siteWrapper.site.Site__r.BillingPostalCode,''))}
+
+                                            <!--
+                                                                                        {!(if(!empty(siteWrapper.site.Principal_Investigator__r.Account.BillingCity),siteWrapper.site.Principal_Investigator__r.Account.BillingCity+',','') + if(!empty(siteWrapper.site.Principal_Investigator__r.Account.BillingState),' ' + siteWrapper.site.Principal_Investigator__r.Account.BillingState+',','') + if(!empty(siteWrapper.site.Principal_Investigator__r.Account.BillingPostalCode),' ' + siteWrapper.site.Principal_Investigator__r.Account.BillingPostalCode,''))}
+                                            -->
+                                        </div>
                                     </div>
-                                    <div class="site-address slds-m-top--xx-small">
-                                            {!(if(!empty(siteWrapper.site.Principal_Investigator__r.Account.BillingCity),siteWrapper.site.Principal_Investigator__r.Account.BillingCity+',','') + if(!empty(siteWrapper.site.Principal_Investigator__r.Account.BillingState),' ' + siteWrapper.site.Principal_Investigator__r.Account.BillingState+',','') + if(!empty(siteWrapper.site.Principal_Investigator__r.Account.BillingPostalCode),' ' + siteWrapper.site.Principal_Investigator__r.Account.BillingPostalCode,''))}
-                                    </div>
-                                    </div>
-<!--                                    <div class="slds-col slds-show_medium slds-size_1-of-12">-->
-<!--                                        <div style="width: 1px; background-color: gray; height: 55px; margin-left: 50px;"></div>-->
-<!--                                    </div>-->
-<!--                                    <div class="slds-col slds-m-vertical_small slds-hide_medium slds-size_1-of-2">-->
-<!--                                        <div style="height: 1px; background-color: gray; "></div>-->
-<!--                                    </div>-->
-<!--                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">-->
-<!--                                    <div class="site-address">{!siteWrapper.site.Principal_Investigator__r.Name}</div>-->
-<!--                                    <div class="site-address slds-m-top&#45;&#45;xx-small">{!siteWrapper.site.Principal_Investigator__r.Phone}</div>-->
-<!--                                    <div class="site-address slds-m-top&#45;&#45;xx-small">{!siteWrapper.site.Principal_Investigator__r.Email}</div>-->
-<!--                                    </div>-->
+
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-m-top--x-large">
                                         <div class="slds-grid slds-wrap slds-gutters" style="text-align: right;">
                                             <aura:if isTrue="{!not(and(siteWrapper.actions.refer.disabled,siteWrapper.actions.refer.disableReason==
@@ -279,7 +790,8 @@
                         <div class="slds-grid slds-wrap slds-grid_align-center slds-grid_vertical-align-center"
                              style="min-height: 100%;">
                             <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-left slvi-header-item">
-                                <span class="header-white-panel" style="font-size: 16px;">{!$Label.c.MyStudy_None_of_these_sites_work}</span>
+                                <span class="header-white-panel"
+                                      style="font-size: 16px;">{!$Label.c.MyStudy_None_of_these_sites_work}</span>
                             </div>
                             <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-right slvi-header-item ">
                                 <button class="apollo-btn primary slvi-search-site-btn"
@@ -294,7 +806,9 @@
                 </div>
             </div>
         </aura:if>
+
     </div>
 
     <c:ShareModal aura:id="emailModal" needRefresh="false" emailType="SOCIAL_SHARING" parent="{!v.parent}"/>
+
 </aura:component>

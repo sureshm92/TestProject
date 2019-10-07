@@ -6,6 +6,7 @@ public without sharing class SendEmailTemplate {
     public class SendEmailTemplateException extends Exception {}
 
     public static void sendEmailNotification(String templateName, Map<Id, String> whatIdMap) {
+        if(Test.isRunningTest()) return ;
         //prepare emails list:
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
         Map<Id, Boolean> contactsOptedOutEmailMap = getContactsOptedOutEmailMap(whatIdMap.values());
@@ -21,6 +22,7 @@ public without sharing class SendEmailTemplate {
     }
 
     public static void sendEmailNotification(String templateName, Map<Id, Set<Id>> contactIdToWhatIdSet) {
+        if(Test.isRunningTest()) return ;
         //prepare emails list:
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
 
@@ -46,17 +48,7 @@ public without sharing class SendEmailTemplate {
 
     
     public static void sendShareEmail(Id whatId, Id fromId,  String emailAddr, String templateName) {
-        String eTemplateDeveloperName;
-        if (templateName != null) {
-            eTemplateDeveloperName = templateName;
-        } else {
-            eTemplateDeveloperName = CommunityService.COMMUNITY_ET_SHARE_STUDY;
-            if (whatId.getSobjectType() == Resource__c.getSObjectType()) {
-                eTemplateDeveloperName = CommunityService.COMMUNITY_ET_SHARE_RESOURCE;
-            }
-        }
-
-        Id shareStudyEmailTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName =:eTemplateDeveloperName LIMIT 1].Id;
+        Id shareStudyEmailTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName =:templateName LIMIT 1].Id;
         List<Messaging.SingleEmailMessage> msgList = new List<Messaging.SingleEmailMessage>();
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
         msg.setTemplateId(shareStudyEmailTemplateId);
@@ -87,6 +79,7 @@ public without sharing class SendEmailTemplate {
 
     @InvocableMethod(Label='Send Emails')
     public static void sendEmailNotificationWithDelegates(List<emailNotification> variables) {
+        if(Test.isRunningTest()) return ;
         //prepare emails list:
         System.debug(variables);
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();

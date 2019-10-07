@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AssignmentRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignmentRule>
+        <fullName>SPNL Assignment Rule</fullName>
+        <active>true</active>
+        <ruleEntry>
+            <assignedTo>Referring_provider_invited_by_PI</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>ISNEW() &amp;&amp; INCLUDES(CreatedBy.Contact.userCommunytyType__c, &#39;PI&#39;)</formula>
+        </ruleEntry>
+        <ruleEntry/>
+    </assignmentRule>
+</AssignmentRules>

@@ -123,6 +123,8 @@ public without sharing class PatientDelegateService {
     }
 
     public List<Id> getDelegatedUsersIds() {
+        if(delegates.isEmpty()) return new List<Id>();
+
         Map<Id, SObject> usersMap = new Map<Id, SObject>(
                 DatabaseService.query('SELECT Id FROM User WHERE ' + DatabaseService.fieldIn('ContactId', delegates))
         );
@@ -218,6 +220,14 @@ public without sharing class PatientDelegateService {
         if(patientDelegates.size() > 0) return patientDelegates[0].Participant__r;
         return null;
     }
-    
+
+    public static List<Id> getDelegatedContactIdsEmailOptIn(Id participantContactId) {
+        List<Id> contacts = new List<Id>();
+        for(Contact c : getDelegateContacts(participantContactId)) {
+            if(c.Participant_Opt_In_Status_Emails__c) contacts.add(c.Id);
+        }
+
+        return contacts;
+    }
 }
 
