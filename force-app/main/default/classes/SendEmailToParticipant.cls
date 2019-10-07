@@ -103,13 +103,16 @@ public without sharing class SendEmailToParticipant {
                 WHERE Id = :task.WhoId
         ]);
 
+        List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
+
         Integer firstReminderDay = (Integer) task.Reminder_Schedule__r.First_Reminder_day__c;
-        if(firstReminderDay == null) return new List<Messaging.SingleEmailMessage>();
-        Datetime firstReminderDate =
-                Datetime.newInstance(task.Start_Date__c.addDays(firstReminderDay), Time.newInstance(0, 0, 0, 0));
+        if(firstReminderDay == null) return emailMessages;
+
+        Datetime startDT = DateTimeConverterUtil.addDaysInUserTimeZone(task.Reminder_Date__c, task.WhoId, -firstReminderDay);
+        Datetime firstReminderDate = DateTimeConverterUtil.addDaysInUserTimeZone(startDT, task.WhoId, firstReminderDay);
 
         String template;
-        if (task.Reminder_Date__c.date() == firstReminderDate.date()) {
+        if (task.Reminder_Date__c == firstReminderDate) {
             if(task.Reminder_Schedule__r.Use_Final_Template__c) {
                 template = EMAIL_TEMPLATE_SURVEY_FINAL_REMINDER_TASK;
             } else {
@@ -118,30 +121,30 @@ public without sharing class SendEmailToParticipant {
         } else {
             Integer secondReminderDay = (Integer) task.Reminder_Schedule__r.Second_Reminder_day__c;
             if (secondReminderDay != null) {
-                Datetime secondReminderDate =
-                        Datetime.newInstance(task.Start_Date__c.addDays(secondReminderDay), Time.newInstance(0, 0, 0, 0));
-                if (task.Reminder_Date__c.date() == secondReminderDate.date()) {
+                Datetime secondReminderDate = DateTimeConverterUtil.addDaysInUserTimeZone(startDT, task.WhoId, secondReminderDay);
+                if (task.Reminder_Date__c == secondReminderDate) {
                     template = EMAIL_TEMPLATE_SURVEY_FINAL_REMINDER_TASK;
                 }
             }
         }
 
-        List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-        if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)) {
-            addPatientToEmailListIfAvailable(
-                    emailMessages,
-                    contactMap.get(task.WhoId),
-                    template,
-                    task.Description
-            );
-        }
-        if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
-            addMessagesForDelegates(
-                    emailMessages,
-                    PatientDelegateService.getDelegatedContactIds(contactMap.get(task.WhoId).Id),
-                    template,
-                    task.Description
-            );
+        if(template != null) {
+            if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)) {
+                addPatientToEmailListIfAvailable(
+                        emailMessages,
+                        contactMap.get(task.WhoId),
+                        template,
+                        task.Description
+                );
+            }
+            if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
+                addMessagesForDelegates(
+                        emailMessages,
+                        PatientDelegateService.getDelegatedContactIds(contactMap.get(task.WhoId).Id),
+                        template,
+                        task.Description
+                );
+            }
         }
 
         return emailMessages;
