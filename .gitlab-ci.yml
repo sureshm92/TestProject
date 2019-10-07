@@ -38,7 +38,7 @@ VALIDATE_INT-3.1.1:
 
 VALIDATE_INT-3.2:
   tags:
-    - shell_2
+  - shell
   only:
     - merge_requests
   except:
@@ -105,7 +105,7 @@ VALIDATE_INF-3.2:
 
 DeployINT3.1.1:
   tags:
-  - shell_2
+  - shell
   only:
     - Sprint-RH3.1.1-PP1.1.1
   except:
@@ -127,7 +127,7 @@ DeployINT3.1.1:
 
 DeployINT3.2:
   tags:
-    - shell
+  - shell
   only:
     - Sprint-RH3.2-PP1.2-Refactoring
   except:
@@ -148,7 +148,7 @@ DeployINT3.2:
 
 DeployINF3.1.1:
   tags:
-  - shell_2
+  - shell
   only:
   - RH3.1.1-PP1.1.1INF3.1.1
   except:
@@ -170,7 +170,7 @@ DeployINF3.1.1:
 
 DeployINF3.2:
   tags:
-  - shell
+  - shell_2
   only:
   - RH3.2-PP1.2-INF3.2
   except:
@@ -191,7 +191,7 @@ DeployINF3.2:
 
 RunTestINT3.1.1:
   tags:
-    - shell
+  - shell
   only:
     - Sprint-RH3.1.1-PP1.1.1
   except:
@@ -205,7 +205,7 @@ RunTestINT3.1.1:
 
 RunTestINT3.2:
   tags:
-    - shell
+  - shell_2
   only:
     - Sprint-RH3.2-PP1.2-Refactoring
   except:
@@ -219,7 +219,7 @@ RunTestINT3.2:
 
 RunTestINF3.1.1:
   tags:
-  - shell_2
+  - shell
   only:
   - RH3.1.1-PP1.1.1INF3.1.1
   except:

@@ -2283,6 +2283,13 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <value>Dear ##Contact,</value>
     </labels>
     <labels>
+        <fullName>Email_Delegate_Greeting</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Delegate Greeting</shortDescription>
+        <value>Dear  ##Delegate,</value>
+    </labels>
+    <labels>
         <fullName>Email_Delegate_HCP_Levels_Title</fullName>
         <language>en_US</language>
         <protected>false</protected>

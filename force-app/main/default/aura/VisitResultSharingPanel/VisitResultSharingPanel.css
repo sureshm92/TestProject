@@ -7,7 +7,6 @@
 
 .THIS.panel {
     min-height: 100px;
-    position: relative;
 }
 
 .THIS .global-data{
@@ -88,7 +87,7 @@
 }
 
 .THIS .overlay{
-    position: fixed; /* Sit on top of the page content */
+    position: absolute;
     width: 100%; /* Full width (cover the whole page) */
     height: 100%; /* Full height (cover the whole page) */
     top: 0;

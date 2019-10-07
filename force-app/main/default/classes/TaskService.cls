@@ -383,7 +383,7 @@ public without sharing class TaskService {
             if (t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
                 if (currentPE != null && t.WhatId == currentPE.Id) filteredList.add(t);
             } else if (t.Task_Type__c == TASK_TYPE_SURVEY && t.Description != null) {
-                if (peIds.contains(currentPE.Id)) filteredList.add(t);
+                if (currentPE != null && peIds.contains(currentPE.Id)) filteredList.add(t);
             } else if (t.Task_Type__c != TASK_TYPE_SURVEY) {
                 filteredList.add(t);
             }
