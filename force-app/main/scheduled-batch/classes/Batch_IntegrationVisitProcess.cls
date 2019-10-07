@@ -35,8 +35,7 @@ public without sharing class Batch_IntegrationVisitProcess extends Batch_Schedul
     }
 
     public override void finish(Database.BatchableContext bc) {
-        Batch_IntegrationVisitResultProcess batchResult = new Batch_IntegrationVisitResultProcess();
-        Database.executeBatch(batchResult);
+        Database.executeBatch(new Batch_IntegrationVisitResultProcess());
         super.finish(bc);
     }
     

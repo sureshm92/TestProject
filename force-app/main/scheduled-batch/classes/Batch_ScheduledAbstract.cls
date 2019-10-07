@@ -7,6 +7,7 @@ public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObj
     public abstract Type getType();
 
     public virtual void finish(Database.BatchableContext param1) {
+        if(Test.isRunningTest()) return;
         List<Batch_Executor__mdt> batchExecutor = [
                 SELECT Relaunch_Interval__c, Scope_Size__c
                 FROM Batch_Executor__mdt
