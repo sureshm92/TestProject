@@ -15,3 +15,8 @@
 .THIS .pill-container .close-btn{
     flex-shrink: 0;
 }
+
+.THIS .dots-item{
+    padding: 0 16px;
+    margin-bottom: 8px;
+}

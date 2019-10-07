@@ -75,5 +75,5 @@
         </aura:if>
 
     </div>
-    <c:RRSpinner aura:id="mainSpinner" showSpinner="false" size="medium"/>
+    <c:RRSpinner aura:id="mainSpinner" showSpinner="false" size="medium" fixed="true"/>
 </aura:component>
