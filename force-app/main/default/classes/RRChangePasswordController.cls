@@ -87,11 +87,7 @@ public without sharing class RRChangePasswordController {
                         userCommunytyType__c, userCommunityMode__c, Phone, Fax
                 FROM Contact WHERE Id =: contact.Id
         ];
-        if (!notEnrollNow) {
-            account = new Account(Name = '');
-        } else {
-            account = contact.Account;
-        }
+        account = contact.Account;
         account.BillingCountry = TranslateHelper.getPickListLabel(User.CountryCode, account.BillingCountryCode);
         oldAccountName = account.Name;
 
