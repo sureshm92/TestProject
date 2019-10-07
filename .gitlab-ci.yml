@@ -15,9 +15,9 @@ cache:
     - .sfdx
     
     
-VALIDATE_INT-3.2:
+VALIDATE:
   tags:
-  - shell
+    - shell
   only:
     - merge_requests
   except:
@@ -26,16 +26,16 @@ VALIDATE_INT-3.2:
 
   stage: VALIDATE
   script:
-    - echo "$INTTreeTwo" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT3.2 -d
+    - echo "$INTOneOne" > sfdx-auth-url
+    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT1.1 -d
     - sfdx --version
     - cd Nodejs
     - node convert.js
     - cd ..
     - rm -rf output
     - sfdx force:source:convert -d output
-    - sfdx force:mdapi:deploy -d output -u INT3.2 -c -w 60
-    - echo "validate Int3.2 success"
+    - sfdx force:mdapi:deploy -d output -u INT1.1 -c -w 60
+    - echo "validate INT1.1 success"
 
 DeployINT3.1.1:
   tags:
