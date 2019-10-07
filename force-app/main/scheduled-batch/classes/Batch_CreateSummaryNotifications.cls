@@ -106,7 +106,7 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
 
         if (!contactToNotify.isEmpty()) {
             SendEmailToParticipant.sendPlainSummaryNotifications(
-                    contactToNotify, peIdByContact, SendEmailToParticipant.PATIENT_PLAIN_SUMMARY);
+                    contactToNotify, peIdByContact, SendEmailToParticipant.PATIENT_SUMMARY_DOCUMENT);
 
             List<Contact> contactsToUpdate = new List<Contact>();
             for (Contact con : contactToNotify) {
