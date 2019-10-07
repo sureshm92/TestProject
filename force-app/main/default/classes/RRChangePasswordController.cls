@@ -187,10 +187,8 @@ public without sharing class RRChangePasswordController {
         }
 
         if (!notEnrollNow) {
-            update contact;
-
-            if (account.Name != oldAccountName) {
-                insert new Account(
+            if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
+                Account newClinic = new Account(
                         Name = account.Name,
                         BillingCountry = contact.MailingCountry,
                         BillingCity = contact.MailingCity,
@@ -201,7 +199,11 @@ public without sharing class RRChangePasswordController {
                         Fax = contact.Fax,
                         OwnerId = contact.OwnerId
                 );
+                insert newClinic;
+
+                contact.AccountId = newClinic.Id;
             }
+            update contact;
 
             if (ApexPages.getMessages().size() == 0) {
                 List<HCP_Enrollment__c> hcpEnrollments = [SELECT Id,
