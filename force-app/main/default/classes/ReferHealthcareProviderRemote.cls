@@ -115,11 +115,13 @@ global without sharing class ReferHealthcareProviderRemote {
                    Email = :email.toLowerCase() LIMIT 1];
 
         if (cntList.isEmpty()) {
+            Account newAcc = new Account(Name = lastName + ' temporary account', OwnerId = CommunityService.getUserContact().Account.OwnerId);
+            insert newAcc;
             cntList.add(new Contact(FirstName = firstName,
                     LastName = lastName,
                     Phone = phone,
                     Email = email,
-                    AccountId = studySite.Site__c,
+                    AccountId = newAcc.Id,
                     Language__c = UserInfo.getLanguage(),
                     RP_Invited_By_PI__c = true,
                     //MailingCountry = studySite.Site__r.BillingCountry));

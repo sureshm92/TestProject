@@ -65,8 +65,18 @@ public without sharing class ParticipantEnrollmentService {
     }
 
     public List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFieldsImpl(String userMode, List<String> customFields, String filter, String delegateId){
-        String defaultFilter = ' Study_Site__c != NULL AND ' + getUserModeFilter(userMode, delegateId);
-        if(filter != null) defaultFilter += ' ' + filter;
+        String defaultFilter = ' Study_Site__c != NULL';// AND ' + getUserModeFilter(userMode, delegateId);
+        if(userMode == CommunityService.USER_MODE_HCP){
+            if(!filter.contains(' AND Id=')) {
+                defaultFilter += ' AND (' + getUserModeFilter(userMode, delegateId) + getHealthcareProviderFilter() + ')';
+            } else{
+                if(filter != null) defaultFilter += ' ' + filter;
+            }
+        } else{
+            defaultFilter += ' AND ' + getUserModeFilter(userMode, delegateId);
+            if(filter != null) defaultFilter += ' ' + filter;
+        }
+        //if(filter != null) defaultFilter += ' ' + filter;
         List<Participant_Enrollment__c> peList = DatabaseService.query(
                 customFields,
                 Participant_Enrollment__c.getSObjectType(),
@@ -444,20 +454,15 @@ public without sharing class ParticipantEnrollmentService {
                     '   Study_Site__r.Principal_Investigator__c = \'' + CommunityService.getUserContact().Id + '\' ' +
                         delegatesFilter +
                     ') ';
-        } else if(userMode == CommunityService.USER_MODE_HCP) {
+        } else if (userMode == CommunityService.USER_MODE_HCP) {
             String contactId = CommunityService.getUserContact().Id;
-            List<String> enrollmentsIds = getHealthcareProviderPE();
-            if(!enrollmentsIds.isEmpty()){
-                return '(' +'Id IN (\'' + String.join(enrollmentsIds, '\',\'') + '\') '+ ') ';
-            } else{
-                if(delegateId != null && delegateId != ''){
+                if (delegateId != null && delegateId != '') {
                     contactId = delegateId;
                 }
-
                 return '(' +
                         '   HCP__r.HCP_Contact__c = \'' + contactId + '\'' +
                         ') ';
-            }
+
         } else{
             if(PatientDelegateService.getInstance().isDelegate()){
                 delegatesFilter = ' OR Participant__c = \'' + PatientDelegateService.getInstance().getParticipant().Id + '\' ';
@@ -723,6 +728,14 @@ public without sharing class ParticipantEnrollmentService {
         ];
     }
 
+    public static String getHealthcareProviderFilter(){
+        List<String> enrollmentsIds = getHealthcareProviderPE();
+        if (!enrollmentsIds.isEmpty()) {
+            return ' OR ' + 'Id IN (\'' + String.join(enrollmentsIds, '\',\'') + '\'' +')';
+        }
+        else return '';
+    }
+    
     public static List<String> getHealthcareProviderPE(){
         String contactId = CommunityService.getUserContact().Id;
         List<String> enrollmentsIds = new List<String>();
