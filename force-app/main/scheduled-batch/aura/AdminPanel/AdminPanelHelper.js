@@ -3,12 +3,12 @@
  */
 
 ({
-    waitStateChange: function (component, jobName, whaitedState, callback) {
+    waitStateChange: function (component, jobName, waitedState, callback) {
         var helper = this;
         communityService.executeAction(component, 'getState', {
             'jobName': jobName
         }, function (wrapper) {
-            if (whaitedState.indexOf(wrapper.state) !== -1) {
+            if (waitedState.indexOf(wrapper.state) !== -1) {
                 var jobList = component.get('v.jobs');
                 for (var i = 0; i < jobList.length; i++) {
                     if (jobList[i].jobName === jobName) {
@@ -23,7 +23,7 @@
             } else {
                 setTimeout(
                     $A.getCallback(function () {
-                        helper.waitStateChange(component, jobName, whaitedState, callback);
+                        helper.waitStateChange(component, jobName, waitedState, callback);
                     }), 500
                 );
             }
