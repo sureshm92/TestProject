@@ -2058,17 +2058,16 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient CreatedDate</shortDescription>
-        <value>"We haven't heard from you in a while.
+        <value>&quot;We haven&#39;t heard from you in a while.
 
-            Please log in to the IQVIA Patient Portal to view all the latest information on your clinical research study."
-        </value>
+            Please log in to the IQVIA Patient Portal to view all the latest information on your clinical research study.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient_Log_In</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient Log In</shortDescription>
-        <value>We haven't heard from you in a while.
+        <value>We haven&#39;t heard from you in a while.
 
             Please log in to the IQVIA Patient Portal to view all the latest information on your clinical research study.</value>
     </labels>
@@ -2203,6 +2202,14 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
 
 
             We hope you find this information helpful.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Summary_Document</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Summary Document</shortDescription>
+        <value>New study documents are available.
+Please log in to the IQVIA Patient Portal to view the latest Study Documents.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Survey_Final_Reminder</fullName>
@@ -2357,7 +2364,7 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Created Date</shortDescription>
-        <value>We haven't heard from you in a while</value>
+        <value>We haven&#39;t heard from you in a while</value>
     </labels>
     <labels>
         <fullName>Email_Header_Initial_Delegate</fullName>
@@ -2476,7 +2483,7 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Patient Log In</shortDescription>
-        <value>We haven't heard from you in a while</value>
+        <value>We haven&#39;t heard from you in a while</value>
     </labels>
     <labels>
         <fullName>Email_Header_Plain_Summary</fullName>
@@ -2589,6 +2596,13 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <protected>true</protected>
         <shortDescription>Email Header Share PH</shortDescription>
         <value>An IQVIA Patient Portal user shared this with you</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Summary_Document</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Summary Document</shortDescription>
+        <value>New study documents area available to view</value>
     </labels>
     <labels>
         <fullName>Email_Header_Task_Reminder_Type_Not_Selected</fullName>
@@ -2782,6 +2796,16 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <value>Sincerely,
 
             The IQVIA Patient Portal Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Summary_Document</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Summary Document</shortDescription>
+        <value>We are excited to continue this journey with you.
+
+Sincerely,
+The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Survey</fullName>
@@ -2993,6 +3017,13 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <protected>false</protected>
         <shortDescription>Email Subject Status Has Changed</shortDescription>
         <value>Your referral status has changed</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Summary_Document</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Summary Document</shortDescription>
+        <value>New Study Documents are available</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Survey_Final_Reminder</fullName>
@@ -8505,13 +8536,6 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PP VPC SS Empty VP</shortDescription>
         <value>&lt;&lt;Replace this text to approved&gt;&gt; (Study Site don&#39;t have Visit Plan)</value>
-    </labels>
-    <labels>
-        <fullName>PSC_Docs_will_be_published</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PSC Docs will be published</shortDescription>
-        <value>Documents will be published shortly.  Check back for updates</value>
     </labels>
     <labels>
         <fullName>PS_Enrollment_Date</fullName>
