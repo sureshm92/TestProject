@@ -20,7 +20,7 @@
     background-image: url(/resource/1569528670000/iconVideoPlayer);
     height: 35px;
     width: 35px;
-    top: 40px;
+    top: 50px;
     right: 42%; 
     opacity: .3;
 }
@@ -32,7 +32,7 @@
     background-image: url(/resource/1569528670000/iconContentPaperEdit);
     height: 35px;
     width: 35px;
-    top: 40px;
+    top: 50px;
     right: 39%; 
     opacity: .3;
 }
@@ -54,6 +54,7 @@
     font-size: .875rem;
 }
 
+
 .THIS .resource-footer .cRRLink.rr-link:after {
  	content: '';
     position: absolute;
@@ -61,7 +62,7 @@
     background-image: url(/resource/1569526732000/ChevronRightBlue);
     height: 14px;
     width: 14px;
-    top: 4px;
+    top: 7px;
     right: 0px; 
 }
 

@@ -38,22 +38,23 @@
     font-weight: 600;
 }
 
-.THIS .fp-serach-input{
-    margin-left: auto;
+.THIS .fp-mobile .fp-search, .THIS .fp-search-input{
+   width: 300px;
 }
 
-.THIS .fp-mobile .fp-search, .THIS .fp-serach-input{
-   /* width: 220px;*/
-}
-
-.THIS .fp-serach-input .rri-container{
+.THIS .fp-search-input .rri-container{
     display: inline-block;
     width: inherit;
 }
 
-.THIS .fp-serach-input input{
-    border: none;
-    background: none;
+.THIS .fp-search-input .rri-container .slds-input  {
+	padding-left: 25px;   
+    background: #fff url(/resource/1570111512000/searchIcon) no-repeat 7px 9px;
+	background-size: 14px 14px;
+	padding-left: 25px;
+	position: relative;
+	top: 0;
+	left: 0;
 }
 
 .THIS .fp-pagination-block{
@@ -113,6 +114,7 @@
 
 .THIS .fp-main-filter-block{
     display: flex;
+    flex-direction: column;
 }
 
 .THIS .fp-filters-container{
@@ -130,7 +132,7 @@
 
 .THIS .fp-filters-container .rrs-container{
     display: inline-block;
-    max-width: 150px;
+    max-width: 180px;
     margin: 5px;
 }
 

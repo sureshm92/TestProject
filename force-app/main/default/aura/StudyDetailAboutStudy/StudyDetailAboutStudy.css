@@ -431,8 +431,16 @@
 
 .THIS .socialnetworks {
     position: absolute;
-    bottom: 0;
+    bottom: 10px;
     float: right;
     right: 0;
     margin-bottom: 10px;
+}
+
+.THIS .socialnetworks .cRRIcon.rr-icon-default{
+    width: 18px;
+}
+
+.THIS .socialnetworks .slds-m-around_x-small {
+    margin: 0 .25rem;
 }

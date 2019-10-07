@@ -89,7 +89,7 @@
 
 .THIS .p-container .p-content{
     max-height: 60vh;
-    padding: 30px 15px 30px 24px;
+    padding: 30px 16px;
     color: #444;
     font-size: 1rem;
     line-height: 1.1rem;
@@ -101,10 +101,8 @@
 
 
 .THIS .p-container .p-content:not(.with-scroll) {
-
     -ms-overflow-style: none;
     overflow: -moz-scrollbars-none;
-
 }
 
 .THIS .p-container .p-content:not(.with-scroll)::-webkit-scrollbar {
@@ -119,11 +117,6 @@
     white-space: initial;
     padding: 15px 15px 30px 24px;
     overflow: hidden;
-}
-
-.THIS .p-buttons-container {
-    display: inline-flex;
-    flex-direction: row-reverse;
 }
 
 .THIS .p-buttons-container .opt-in-popup-button+.opt-in-popup-button {

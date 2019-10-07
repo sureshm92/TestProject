@@ -3,10 +3,8 @@
  */
 .THIS.te-task-panel{
     min-height: 400px;
-    max-width: 832px;
-    margin-top: 25px;
-    margin-bottom: 30px;
-    margin-left: 15%;
+    max-width: 1140px;
+    margin: 25px auto 30px;
 }
 
 

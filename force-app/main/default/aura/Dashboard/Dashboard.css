@@ -10,8 +10,9 @@
 }
 
 .THIS .db-header{
-    font-size: 15px;
+    font-size: 18px;
     line-height: 40px;
+    font-weight: 600;
     display: flex;
     margin-bottom: 10px;
 }
@@ -31,7 +32,7 @@
 .THIS .db-list-item{
     border-bottom: 2px solid #cccccc;
     padding: 10px 0;
-    line-height: 16px;
+    line-height: 26px;
 }
 
 .THIS .db-list-item:not(.header){
@@ -48,14 +49,21 @@
 }
 
 .THIS .db-list-item .apollo-btn{
-    margin-left: 10px;
+    margin: 0 0 0 10px;
     float: right;
 
 }
 
 .THIS .db-list-item .apollo-btn.text{
-    padding: 0;
     line-height: 16px;
+}
+
+.THIS .db-list-item .rr-link.only-text {
+    margin-left: -3px;
+}
+
+.THIS .db-list-item .apollo-btn + .rr-link.only-text {
+    margin-left: -8px;
 }
 
 .THIS .db-list-item .apollo-btn.tertiary,
@@ -96,6 +104,20 @@
     margin-bottom: 30px;
     background-color: #CCCCCC;
     height: 2px;
+}
+
+.THIS .cDonut .dt-legend-section .slds-grid {
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.THIS .cDonut .dt-legend-circle {
+    margin-bottom: 0;
+}
+
+.THIS .cDonut .dt-link {
+    margin: 0;
+    padding: 4px 8px;
 }
 
 .THIS .db-hcp-chart{

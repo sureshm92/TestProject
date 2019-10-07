@@ -76,7 +76,13 @@
 .THIS .ts-tab.selected{
     opacity: 1;
     pointer-events: none;
-    font-weight: bold;
+   text-shadow:
+        -.25px -.25px 0 #000,
+        .25px -.25px 0 #000;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;	
 }
 
 .THIS .ts-tab.selected label:after {

@@ -160,10 +160,15 @@
     background-color: white;
 }
 
+.THIS .vpi-status-btns {
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 16px;
+}
 
 .THIS .vpi-status-btns button{
     margin-top: 15px;
-    width: 100%;
+    margin-bottom: 25px;
     min-width: auto;
 }
 

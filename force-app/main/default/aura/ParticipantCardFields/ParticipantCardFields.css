@@ -37,6 +37,7 @@
     display: inline-flex;
     height: 30px;
     align-items: flex-end;
+    margin-bottom: 5px;
 }
 
 .THIS .vpi-field > .value{
