@@ -54,11 +54,18 @@ public without sharing class ParametersDataProvider {
         }
         
         String clinicalResearchCommunityURL = 'IQVIA Clinical Research Community at https://www.clinicalresearch.com';
-        if(outputMode == 'HTML') clinicalResearchCommunityURL = '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>';
+        Id networkId = Network.getNetworkId();
+        Auth.AuthConfiguration authConfig = new Auth.AuthConfiguration(networkId,'');
+        String clinicalResearchCommunityForgotPasswordURL = 'IQVIA Clinical Research Community Forgot password at' + authConfig.getForgotPasswordUrl();
+        if(outputMode == 'HTML') {
+            clinicalResearchCommunityURL = '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>';
+            clinicalResearchCommunityForgotPasswordURL = authConfig.getForgotPasswordUrl();
+        }
         parameters.put('CRCommunityURL', clinicalResearchCommunityURL);
         parameters.put('RecipientName', getUserName());
         parameters.put('RecipientFirstName', recipientFirstName);
-        
+        parameters.put('ForgotPasswordURL', clinicalResearchCommunityForgotPasswordURL);
+
         if(isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT){
             Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientId);
             if(participant != null){

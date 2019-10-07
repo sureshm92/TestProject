@@ -142,7 +142,7 @@ public inherited sharing class VisitResultsService {
                 this.value = visitResult.Actual_Value__c;
                 this.minValue = visitResult.Min_Value__c;
                 this.maxValue = visitResult.Max_Value__c;
-                this.measurement = visitResult.Measurement__c;
+                this.measurement = visitResult.Measurement__c.replace('/','/&#8203;');
             }
         }
 
@@ -150,7 +150,7 @@ public inherited sharing class VisitResultsService {
             this.name = name;
             if (visitResult != null) {
                 this.value = visitResult.Actual_Value__c;
-                this.measurement = visitResult.Measurement__c;
+                this.measurement = visitResult.Measurement__c.replace('/','/&#8203;');
             }
         }
     }
