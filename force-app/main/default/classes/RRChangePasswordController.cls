@@ -87,9 +87,14 @@ public without sharing class RRChangePasswordController {
                         userCommunytyType__c, userCommunityMode__c, Phone, Fax
                 FROM Contact WHERE Id =: contact.Id
         ];
-        account = cont.Account;
+        if (!notEnrollNow) {
+            account = new Account(Name = '');
+        } else {
+            account = contact.Account;
+        }
         account.BillingCountry = TranslateHelper.getPickListLabel(User.CountryCode, account.BillingCountryCode);
         oldAccountName = account.Name;
+
         photolink = userVal.FullPhotoUrl;
         isProfileView = true;
         isPaswordsEquals = true;
@@ -145,10 +150,6 @@ public without sharing class RRChangePasswordController {
         isProfileView = true;
     }
 
-    public void saveUserInfo() {
-
-    }
-
     public void checkPasswords() {
         ApexPages.getMessages().clear();
         if (!notEnrollNow && String.isBlank(contact.FirstName)) {
@@ -180,9 +181,7 @@ public without sharing class RRChangePasswordController {
         }
 
         try {
-            //Site.validatePassword(userVal, newPassword, verifyNewPassword);
-            String str = null;
-            //str.split(',');
+            Site.validatePassword(userVal, newPassword, verifyNewPassword);
         } catch (Exception e) {
             ApexPages.addMessages(e);
         }
