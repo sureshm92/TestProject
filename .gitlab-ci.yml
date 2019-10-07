@@ -13,28 +13,8 @@ cache:
     - node_modules
     - ~/.sfdx
     - .sfdx
-VALIDATE_INT-3.1.1:
-  tags:
-    - shell
-  only:
-    - merge_requests
-  except:
-    - push
-    - commit
-
-  stage: VALIDATE
-  script:
-    - echo "$INTOneOne" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT1.1 -d
-    - sfdx --version
-    - cd Nodejs
-    - node convert.js
-    - cd ..
-    - rm -rf output
-    - sfdx force:source:convert -d output
-    - sfdx force:mdapi:deploy -d output -u INT1.1 -c -w 60
-    - echo "validate INT1.1 success"
-
+    
+    
 VALIDATE_INT-3.2:
   tags:
   - shell
@@ -79,6 +59,7 @@ DeployINT3.1.1:
     - sfdx force:mdapi:deploy -d output -u INT1.1  -w 60
     - echo "deploy Int1.1 success"
 
+
 DeployINT3.2:
   tags:
   - shell
@@ -99,6 +80,7 @@ DeployINT3.2:
     - sfdx force:source:convert -d output
     - sfdx force:mdapi:deploy -d output -u INT3.2  -w 60
     - echo "deploy INT3.2 success"
+
 
 DeployINF3.1.1:
   tags:
@@ -122,6 +104,7 @@ DeployINF3.1.1:
   - sfdx force:mdapi:deploy -d output -u INF1.1  -w 60
   - echo "deploy InF1.1 success"
 
+
 DeployINF3.2:
   tags:
   - shell_2
@@ -142,6 +125,7 @@ DeployINF3.2:
   - sfdx force:source:convert -d output
   - sfdx force:mdapi:deploy -d output -u INF3.2  -w 60
   - echo "deploy INF3.2 success"
+
 
 RunTestINT3.1.1:
   tags:
