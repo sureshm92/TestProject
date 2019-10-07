@@ -5,7 +5,7 @@
 public without sharing class StudyResourceVisibilityService {
     
     public static Boolean isResourceVisibleForPE(
-            Res_study__c resStudy, Participant_Enrollment__c pe, String userMode, Boolean isDelegate){
+            Res_study__c resStudy, Participant_Enrollment__c pe, List<String> contentLangs, String userMode, Boolean isDelegate){
         Boolean isVisible = true;
         if(userMode.contains(CommunityService.USER_MODE_PARTICIPANT)){
             isVisible = resStudy.Visible_To_Participant__c;
@@ -33,7 +33,21 @@ public without sharing class StudyResourceVisibilityService {
             if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)){
                 isVisible = isVisible && resStudy.Visible_In_Alumni__c;
             }
-            //Add IRB logic here
+
+            if(!String.isEmpty(pe.Study_Site__r.Approved_Lng__c)) {
+                if(contentLangs.isEmpty()) {
+                    isVisible = false;
+                } else {
+                    Boolean isLangContains = false;
+                    for(String lng : pe.Study_Site__r.Approved_Lng__c.split(';')) {
+                        if(contentLangs.contains(lng)) {
+                            isLangContains = true;
+                            break;
+                        }
+                    }
+                    isVisible = isVisible && isLangContains;
+                }
+            }
         }else if(userMode.contains(CommunityService.USER_MODE_PI)){
             isVisible = resStudy.Visible_To_PI__c;
         }else{
