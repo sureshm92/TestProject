@@ -4994,7 +4994,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Institute Address Line</shortDescription>
-        <value>Address Line</value>
+        <value>Street Address</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Institute_City</fullName>
@@ -8505,6 +8505,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PP VPC SS Empty VP</shortDescription>
         <value>&lt;&lt;Replace this text to approved&gt;&gt; (Study Site don&#39;t have Visit Plan)</value>
+    </labels>
+    <labels>
+        <fullName>PSC_Docs_will_be_published</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PSC Docs will be published</shortDescription>
+        <value>Documents will be published shortly.  Check back for updates</value>
     </labels>
     <labels>
         <fullName>PS_Enrollment_Date</fullName>
