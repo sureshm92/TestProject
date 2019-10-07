@@ -8,13 +8,14 @@ stages:
   - RunTestINF3.2
   - RunTestINF3.1.1
   - VALIDATE
-  - VALIDATE-INF
 cache:
   paths:
     - node_modules
     - ~/.sfdx
     - .sfdx
-VALIDATE_INT-3.1.1:
+    
+    
+VALIDATE:
   tags:
     - shell
   only:
@@ -35,73 +36,6 @@ VALIDATE_INT-3.1.1:
     - sfdx force:source:convert -d output
     - sfdx force:mdapi:deploy -d output -u INT1.1 -c -w 60
     - echo "validate INT1.1 success"
-
-VALIDATE_INT-3.2:
-  tags:
-  - shell
-  only:
-    - merge_requests
-  except:
-    - push
-    - commit
-
-  stage: VALIDATE
-  script:
-    - echo "$INTTreeTwo" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT3.2 -d
-    - sfdx --version
-    - cd Nodejs
-    - node convert.js
-    - cd ..
-    - rm -rf output
-    - sfdx force:source:convert -d output
-    - sfdx force:mdapi:deploy -d output -u INT3.2 -c -w 60
-    - echo "validate Int3.2 success"
-
-VALIDATE_INF-3.1.1:
-  tags:
-  - shell
-  only:
-  - merge_requests
-  except:
-  - push
-  - commit
-
-  stage: VALIDATE-INF
-  script:
-  - echo "$INFOneOne" > sfdx-auth-url
-  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF1.1 -d
-  - sfdx --version
-  - cd Nodejs
-  - node convert.js
-  - cd ..
-  - rm -rf output
-  - sfdx force:source:convert -d output
-  - sfdx force:mdapi:deploy -d output -u INF1.1 -c -w 60
-  - echo "validate INF1.1 success"
-
-VALIDATE_INF-3.2:
-  tags:
-  - shell_2
-  only:
-  - merge_requests
-  except:
-  - push
-  - commit
-
-  stage: VALIDATE-INF
-  script:
-  - echo "$INFTreeTwo" > sfdx-auth-url
-  - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF3.2 -d
-  - sfdx --version
-  - cd Nodejs
-  - node convert.js
-  - cd ..
-  - rm -rf output
-  - sfdx force:source:convert -d output
-  - sfdx force:mdapi:deploy -d output -u INF3.2 -c -w 60
-  - echo "validate Inf3.2 success"
-
 
 DeployINT3.1.1:
   tags:
@@ -125,6 +59,7 @@ DeployINT3.1.1:
     - sfdx force:mdapi:deploy -d output -u INT1.1  -w 60
     - echo "deploy Int1.1 success"
 
+
 DeployINT3.2:
   tags:
   - shell
@@ -145,6 +80,7 @@ DeployINT3.2:
     - sfdx force:source:convert -d output
     - sfdx force:mdapi:deploy -d output -u INT3.2  -w 60
     - echo "deploy INT3.2 success"
+
 
 DeployINF3.1.1:
   tags:
@@ -168,6 +104,7 @@ DeployINF3.1.1:
   - sfdx force:mdapi:deploy -d output -u INF1.1  -w 60
   - echo "deploy InF1.1 success"
 
+
 DeployINF3.2:
   tags:
   - shell_2
@@ -188,6 +125,7 @@ DeployINF3.2:
   - sfdx force:source:convert -d output
   - sfdx force:mdapi:deploy -d output -u INF3.2  -w 60
   - echo "deploy INF3.2 success"
+
 
 RunTestINT3.1.1:
   tags:
@@ -244,5 +182,4 @@ RunTestINF3.2:
   - echo "$INFTreeTwo" > sfdx-auth-url
   - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF3.2 -d
   - sfdx force:apex:test:run -u INF3.2 --testlevel=RunLocalTests -w 60
-
 

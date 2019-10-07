@@ -71,7 +71,6 @@ public without sharing class ParticipantEnrollmentService {
                 defaultFilter += ' AND (' + getUserModeFilter(userMode, delegateId) + getHealthcareProviderFilter() + ')';
             } else{
                 if(filter != null) defaultFilter += ' ' + filter;
-                // defaultFilter += ' AND (' + getUserModeFilter(userMode, delegateId) + getHealthcareProviderFilter(filter) + ')';
             }
         } else{
             defaultFilter += ' AND ' + getUserModeFilter(userMode, delegateId);
@@ -457,12 +456,12 @@ public without sharing class ParticipantEnrollmentService {
                     ') ';
         } else if (userMode == CommunityService.USER_MODE_HCP) {
             String contactId = CommunityService.getUserContact().Id;
-            if (delegateId != null && delegateId != '') {
-                contactId = delegateId;
-            }
-            return '(' +
-                    '   HCP__r.HCP_Contact__c = \'' + contactId + '\'' +
-                    ') ';
+                if (delegateId != null && delegateId != '') {
+                    contactId = delegateId;
+                }
+                return '(' +
+                        '   HCP__r.HCP_Contact__c = \'' + contactId + '\'' +
+                        ') ';
 
         } else{
             if(PatientDelegateService.getInstance().isDelegate()){
@@ -736,19 +735,7 @@ public without sharing class ParticipantEnrollmentService {
         }
         else return '';
     }
-
-    public static String getHealthcareProviderFilter(String filter){
-        List<String> enrollmentsIds = getHealthcareProviderPE();
-        String peId = filter.substringBetween('AND Id=\'','\'');
-        String hcpfilter = '';
-        for (Integer i = 0; i < enrollmentsIds.size() ; i++) {
-            if(enrollmentsIds[i] == peId){
-                hcpfilter = ' OR Id = \''+peId+'\' ';
-            }
-        }
-        return hcpfilter;
-    }
-
+    
     public static List<String> getHealthcareProviderPE(){
         String contactId = CommunityService.getUserContact().Id;
         List<String> enrollmentsIds = new List<String>();

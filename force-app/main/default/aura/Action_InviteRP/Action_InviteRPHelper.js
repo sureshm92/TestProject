@@ -5,7 +5,7 @@
     clearInviteFields: function (component, event, helper) {
         component.set("v.firstName", '');
         component.set("v.lastName", '');
-        component.set("v.clinicName", '');
+        //component.set("v.clinicName", '');
         component.set("v.phone", '');
         component.set("v.emailS", '');
         component.set("v.studySiteId", '');
