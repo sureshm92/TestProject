@@ -7958,14 +7958,14 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP IRB Button Review</shortDescription>
-        <value>click here.</value>
+        <value>Change my language settings</value>
     </labels>
     <labels>
         <fullName>PP_IRB_LangList</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP IRB LangList</shortDescription>
-        <value>##StudyCodeName is only available in the following language(s): ##LangList. If you would like to change your language settings, </value>
+        <value>##StudyCodeName is only available in the following language(s): ##LangList.</value>
     </labels>
     <labels>
         <fullName>PP_IRB_Popup_NotAva_Text</fullName>
@@ -9870,6 +9870,195 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Update Participant</shortDescription>
         <value>Update Participant</value>
+    </labels>
+    <labels>
+        <fullName>VR_ALT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR ALT</shortDescription>
+        <value>ALT</value>
+    </labels>
+    <labels>
+        <fullName>VR_AST</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR 	AST</shortDescription>
+        <value>AST</value>
+    </labels>
+    <labels>
+        <fullName>VR_Albumin</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Albumin</shortDescription>
+        <value>Albumin</value>
+    </labels>
+    <labels>
+        <fullName>VR_Alkaline_Phosphatase</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Alkaline Phosphatase</shortDescription>
+        <value>Alkaline Phosphatase</value>
+    </labels>
+    <labels>
+        <fullName>VR_BUN</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR BUN</shortDescription>
+        <value>BUN</value>
+    </labels>
+    <labels>
+        <fullName>VR_Body_Mass_Index</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Body Mass Index</shortDescription>
+        <value>Body Mass Index</value>
+    </labels>
+    <labels>
+        <fullName>VR_Calcium</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Calcium</shortDescription>
+        <value>Calcium</value>
+    </labels>
+    <labels>
+        <fullName>VR_Creatinine</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Creatinine</shortDescription>
+        <value>Creatinine</value>
+    </labels>
+    <labels>
+        <fullName>VR_Diastolic_Blood_Pr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Diastolic Blood Pr.</shortDescription>
+        <value>Diastolic Blood Pr.</value>
+    </labels>
+    <labels>
+        <fullName>VR_Glucose</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Glucose</shortDescription>
+        <value>Glucose</value>
+    </labels>
+    <labels>
+        <fullName>VR_Height</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Height</shortDescription>
+        <value>Height</value>
+    </labels>
+    <labels>
+        <fullName>VR_Hematocrit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Hematocrit</shortDescription>
+        <value>Hematocrit</value>
+    </labels>
+    <labels>
+        <fullName>VR_Hemoglobin</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Hemoglobin</shortDescription>
+        <value>Hemoglobin</value>
+    </labels>
+    <labels>
+        <fullName>VR_High_density_Lipoprotein</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR High-density Lipoprotein</shortDescription>
+        <value>High-density Lipoprotein</value>
+    </labels>
+    <labels>
+        <fullName>VR_Low_density_Lipoprotein</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Low-density Lipoprotein</shortDescription>
+        <value>Low-density Lipoprotein</value>
+    </labels>
+    <labels>
+        <fullName>VR_Platelet_Count</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Platelet Count</shortDescription>
+        <value>Platelet Count</value>
+    </labels>
+    <labels>
+        <fullName>VR_Potassium</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Potassium</shortDescription>
+        <value>Potassium</value>
+    </labels>
+    <labels>
+        <fullName>VR_Pulse</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Pulse</shortDescription>
+        <value>Pulse</value>
+    </labels>
+    <labels>
+        <fullName>VR_RBC_Count</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR RBC Count</shortDescription>
+        <value>RBC Count</value>
+    </labels>
+    <labels>
+        <fullName>VR_Respiratory_Rate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Respiratory Rate</shortDescription>
+        <value>Respiratory Rate</value>
+    </labels>
+    <labels>
+        <fullName>VR_Sodium</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Sodium</shortDescription>
+        <value>Sodium</value>
+    </labels>
+    <labels>
+        <fullName>VR_Systolic_Blood_Pr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Systolic Blood Pr.</shortDescription>
+        <value>Systolic Blood Pr.</value>
+    </labels>
+    <labels>
+        <fullName>VR_Total_Cholesterol</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Total Cholesterol</shortDescription>
+        <value>Total Cholesterol</value>
+    </labels>
+    <labels>
+        <fullName>VR_Total_protein</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Total protein</shortDescription>
+        <value>Total protein</value>
+    </labels>
+    <labels>
+        <fullName>VR_Triglycerides</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Triglycerides</shortDescription>
+        <value>Triglycerides</value>
+    </labels>
+    <labels>
+        <fullName>VR_WBC_Count</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR WBC Count</shortDescription>
+        <value>WBC Count</value>
+    </labels>
+    <labels>
+        <fullName>VR_Weight</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Weight</shortDescription>
+        <value>Weight</value>
     </labels>
     <labels>
         <fullName>Visit_Icons</fullName>
