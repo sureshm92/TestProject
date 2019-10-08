@@ -31,7 +31,7 @@
 ##### 5) Push project to Scratch org:
 
    ```sh
-   sfdx force:source:push
+   sfdx force:source:push -f
    ```
 
 ##### 6) Import data:
