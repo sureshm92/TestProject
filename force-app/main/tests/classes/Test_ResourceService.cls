@@ -105,28 +105,87 @@ public class Test_ResourceService {
         Test.startTest();
         ResourceService.ResourceWrapperContainer articlesContainer;
         ResourceService.ResourceWrapperContainer videosContainer;
+
+        System.runAs(users[0]) {
+            ResourceDelegate rDelegate = new ResourceDelegate();
+            articlesContainer = rDelegate.getResources(ResourceService.RESOURCE_TYPE_ARTICLE);
+            videosContainer = rDelegate.getResources(ResourceService.RESOURCE_TYPE_VIDEO);
+        }
+        Test.stopTest();
+
+        System.assertEquals(2, articlesContainer.wrappers.size());
+        System.assertEquals(1, videosContainer.wrappers.size());
+
+        System.assertEquals('Resource 3', articlesContainer.wrappers[0].resource.Title__c);
+        System.assertEquals('Resource 1', articlesContainer.wrappers[1].resource.Title__c);
+        System.assertEquals('Resource 2', videosContainer.wrappers[0].resource.Title__c);
+    }
+
+    @IsTest
+    public static void getResources_Integration_ReferredPatient_Study_Document_Test() {
+
+        Test_ResourceService.initData();
+        List<Participant__c> participants = [
+                SELECT Id,
+                        Contact__c
+                FROM Participant__c
+        ];
+        System.assertEquals(1, participants.size());
+        List<User> users = [
+                SELECT Id
+                FROM User
+                WHERE ContactId = :participants[0].Contact__c
+        ];
+        System.assertEquals(1, users.size());
+
+        Test.startTest();
+
+        ResourceService.ResourceWrapperContainer studyDocumentsContainer;
+        System.runAs(users[0]) {
+            ResourceDelegate rDelegate = new ResourceDelegate();
+            studyDocumentsContainer = rDelegate.getStudyDocuments();
+        }
+        Test.stopTest();
+
+        System.assertEquals(1, studyDocumentsContainer.wrappers.size());
+
+        System.assertEquals('Resource 5', studyDocumentsContainer.wrappers[0].resource.Title__c);
+    }
+
+    @IsTest
+    public static void getResources_Integration_ReferredPatient_Resource_Type_Article_Test() {
+
+        Test_ResourceService.initData();
+        List<Participant__c> participants = [
+                SELECT Id,
+                        Contact__c
+                FROM Participant__c
+        ];
+        System.assertEquals(1, participants.size());
+        List<User> users = [
+                SELECT Id
+                FROM User
+                WHERE ContactId = :participants[0].Contact__c
+        ];
+        System.assertEquals(1, users.size());
+
+        Test.startTest();
+
         ResourceService.ResourceWrapperContainer articlesFavoritesContainer;
         ResourceService.ResourceWrapperContainer videosFavoritesContainer;
         ResourceService.ResourceWrapperContainer studyDocumentsContainer;
         System.runAs(users[0]) {
             ResourceDelegate rDelegate = new ResourceDelegate();
-            articlesContainer = rDelegate.getResources(ResourceService.RESOURCE_TYPE_ARTICLE);
-            videosContainer = rDelegate.getResources(ResourceService.RESOURCE_TYPE_VIDEO);
             articlesFavoritesContainer = rDelegate.getFavoriteResources(ResourceService.RESOURCE_TYPE_ARTICLE);
             videosFavoritesContainer = rDelegate.getFavoriteResources(ResourceService.RESOURCE_TYPE_VIDEO);
             studyDocumentsContainer = rDelegate.getStudyDocuments();
         }
         Test.stopTest();
 
-        System.assertEquals(2, articlesContainer.wrappers.size());
-        System.assertEquals(1, videosContainer.wrappers.size());
         System.assertEquals(1, articlesFavoritesContainer.wrappers.size());
         System.assertEquals(1, videosFavoritesContainer.wrappers.size());
         System.assertEquals(1, studyDocumentsContainer.wrappers.size());
 
-        System.assertEquals('Resource 3', articlesContainer.wrappers[0].resource.Title__c);
-        System.assertEquals('Resource 1', articlesContainer.wrappers[1].resource.Title__c);
-        System.assertEquals('Resource 2', videosContainer.wrappers[0].resource.Title__c);
         System.assertEquals('Resource 1', articlesFavoritesContainer.wrappers[0].resource.Title__c);
         System.assertEquals('Resource 2', videosFavoritesContainer.wrappers[0].resource.Title__c);
         System.assertEquals('Resource 5', studyDocumentsContainer.wrappers[0].resource.Title__c);
