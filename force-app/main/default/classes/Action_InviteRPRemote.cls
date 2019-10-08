@@ -27,7 +27,7 @@ public without sharing class Action_InviteRPRemote {
     }
 
     @AuraEnabled
-    public static void inviteHCP(String firstName, String lastName, String clinicName, String phone, String email, String studySiteId, String protocolId){
+    public static void inviteHCP(String firstName, String lastName, String phone, String email, String studySiteId, String protocolId){
         try{
             List<Group> invitationQueues = [SELECT Id FROM Group WHERE Type = 'Queue' AND Name = :CommunityService.INVITATION_QUEUE];
             AssignmentRule ar = new AssignmentRule();
@@ -54,7 +54,7 @@ public without sharing class Action_InviteRPRemote {
                 l.Email = email;
                 isConvertNeed = true;
             }
-            l.Company = clinicName;
+            l.Company = lastName +' temporary account';
             l.Protocol_Number__c = protocolId;
             l.Language__c = UserInfo.getLanguage();
             if (studySiteId!= null && studySiteId != '') {
