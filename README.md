@@ -23,7 +23,7 @@
 ##### 4) Setup Scratch Org before push:
     
    ```sh
-   sfdx force:org:open
+   sfdx force:org:open -f
    ```
    <!-- 1. Go to **State and Territory Picklists** and follow instruction for enable (temporary) -->
    1. Go to **Survey Settings** and enable 
