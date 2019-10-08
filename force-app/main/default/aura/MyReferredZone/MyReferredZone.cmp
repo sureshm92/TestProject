@@ -56,8 +56,8 @@
                        itemTitle="{!if(v.userMode == 'PI', $Label.c.PG_MRZ_L_clinics, $Label.c.PG_MRZ_L_study_sites)}" >
 
             <c:rrSelect value="{!v.statusFilter}" options="{!v.statusOptions}" placeholder="{!v.statusFilterPlaceholder}" otherOptionLabel="{!$Label.c.PG_MRZ_L_No_filter}"/>
-            <c:rrSelect value="{!v.trialId}" options="{!v.studyPickList}" placeholder="{!$Label.c.PG_VP_L_Studies}" onchange="{!c.studyStatusChange}"/>
-            <c:rrSelect value="{!v.ssId}" options="{!v.studySitePickList}" placeholder="{!$Label.c.PG_VP_L_Study_sites}" onchange="{!c.statusChange}"/>
+            <c:rrSelect value="{!v.trialId}" options="{!v.studyPickList}" useSentenceFont="false" placeholder="{!$Label.c.PG_VP_L_Studies}" onchange="{!c.studyStatusChange}"/>
+            <c:rrSelect value="{!v.ssId}" options="{!v.studySitePickList}" useSentenceFont="false" placeholder="{!$Label.c.PG_VP_L_Study_sites}" onchange="{!c.statusChange}"/>
         </c:FilterPanel>
 
     </div>

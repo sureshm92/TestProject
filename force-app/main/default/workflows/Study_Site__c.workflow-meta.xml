@@ -13,7 +13,7 @@
     <fieldUpdates>
         <fullName>Generate_Study_Site_Primary_Key_ePR</fullName>
         <field>Primary_Key_ePR__c</field>
-        <formula>Clinical_Trial_Profile__r.Protocol_ID__c+&quot;__&quot;+Study_Site_Number__c</formula>
+        <formula>Clinical_Trial_Profile__r.Protocol_ID__c+&quot;_&quot;+TEXT(Site__r.BillingCountryCode)+&quot;_&quot;+Study_Site_Number__c</formula>
         <name>Generate Study Site Primary Key ePR</name>
         <notifyAssignee>false</notifyAssignee>
         <operation>Formula</operation>
