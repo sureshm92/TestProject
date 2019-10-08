@@ -68,7 +68,7 @@ public class QualityCheckController {
     }
     
     private static String checkStudySiteId(Integration_Patient_Referral__c record){
-       String studySiteNumber = record.protocolId__c + '_' + record.siteSelected__c;
+        String studySiteNumber = record.protocolId__c + '_' + record.Address_Country__c + '_' + record.siteSelected__c;
        List<Study_Site__c> checkRecords = new List<Study_Site__c>();
         checkRecords = [
             SELECT	id,

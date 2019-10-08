@@ -343,8 +343,27 @@ public without sharing class StudyListViewController {
         Map<Id, LabelValueItem> delegates = new Map<Id, LabelValueItem>();
         try {
             if (!ss.isEmpty()) {
+                Set<Id> delegateContactIds = new Set<Id>();
                 for (Site_Staff__c delegatesSites : ss) {
+                    delegateContactIds.add(delegatesSites.Site_Contact__c);
+                }
+                List<Participant__c> participantDelegates = [
+                        SELECT Id, First_Name__c, Last_Name__c, Contact__c
+                        FROM Participant__c
+                        WHERE Contact__c IN :delegateContactIds
+                ];
+                Map<Id, String> participantDelegateNames = new Map<Id, String>();
+                for(Participant__c partDelegate : participantDelegates){
+                    participantDelegateNames.put(partDelegate.Contact__c, partDelegate.First_Name__c + ' ' + partDelegate.Last_Name__c);
+                }
+                for (Site_Staff__c delegatesSites : ss) {
+                    if(participantDelegateNames.containsKey(delegatesSites.Site_Contact__c)){
+                        delegates.put(delegatesSites.Site_Contact__c, new LabelValueItem(participantDelegateNames.get(delegatesSites.Site_Contact__c), delegatesSites.Id));
+                    }
+                    else{
                     delegates.put(delegatesSites.Site_Contact__c, new LabelValueItem(delegatesSites.Site_Contact__r.Name, delegatesSites.Id));
+                }
+
                 }
             }
             List<LabelValueItem> labelList = new List<LabelValueItem>();
