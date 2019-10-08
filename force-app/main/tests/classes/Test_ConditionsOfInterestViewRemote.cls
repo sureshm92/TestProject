@@ -13,7 +13,7 @@ private class Test_ConditionsOfInterestViewRemote {
 
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory.putStubTypeByClassName(TrialSearchHelper.class, StubBuilder.newInstance(TrialSearchHelper.class)
-                .when('getFilteredTherapeuticAreas')
+                .when('searchFilteredTherapeuticAreas')
                 .then(tas)
                 .build()
         );

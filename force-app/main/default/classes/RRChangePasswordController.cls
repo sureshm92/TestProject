@@ -3,6 +3,9 @@
  */
 
 public without sharing class RRChangePasswordController {
+
+    public static final String ERROR_SUFFIX = ': You must enter a value';
+
     public String photolink{get;set;}
 
     //The binary data of the image uploaded by the user
@@ -87,6 +90,7 @@ public without sharing class RRChangePasswordController {
         account = cont.Account;
         account.BillingCountry = TranslateHelper.getPickListLabel(User.CountryCode, account.BillingCountryCode);
         oldAccountName = account.Name;
+
         photolink = userVal.FullPhotoUrl;
         isProfileView = true;
         isPaswordsEquals = true;
@@ -142,12 +146,45 @@ public without sharing class RRChangePasswordController {
         isProfileView = true;
     }
 
-    public void saveUserInfo() {
-        if (!notEnrollNow) {
-            update contact;
+    public void checkPasswords() {
+        ApexPages.getMessages().clear();
+        if (!notEnrollNow && String.isBlank(contact.FirstName)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'First Name' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.LastName)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Last Name' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.MailingStreet)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Street Address' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.MailingCity)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'City' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.MailingState)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'State' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.MailingCountry)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Country' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.MailingPostalCode)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'ZIP/Postal Code' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.Phone)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Phone Number' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(account.Name)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Institute Name' + ERROR_SUFFIX));
+        }
 
-            if (account.Name != oldAccountName) {
-                insert new Account(
+        try {
+            Site.validatePassword(userVal, newPassword, verifyNewPassword);
+        } catch (Exception e) {
+            ApexPages.addMessages(e);
+        }
+
+        if (!notEnrollNow) {
+            if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
+                Account newClinic = new Account(
                         Name = account.Name,
                         BillingCountry = contact.MailingCountry,
                         BillingCity = contact.MailingCity,
@@ -158,35 +195,34 @@ public without sharing class RRChangePasswordController {
                         Fax = contact.Fax,
                         OwnerId = contact.OwnerId
                 );
-            }
+                insert newClinic;
 
-            List<HCP_Enrollment__c> hcpEnrollments = [SELECT Id,
-                    HCP_Contact__c,
-                    Status__c
-            FROM HCP_Enrollment__c
-            WHERE HCP_Contact__c = :contact.Id AND
-                  Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION];
-            for (HCP_Enrollment__c hcpe : hcpEnrollments) {
-                hcpe.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+                contact.AccountId = newClinic.Id;
             }
-            if (!hcpEnrollments.isEmpty()) {
-                update hcpEnrollments;
-            }
-            for (HCP_Enrollment__c hcpe : hcpEnrollments) {
-                hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
-            }
-            if (!hcpEnrollments.isEmpty()) {
-                update hcpEnrollments;
+            update contact;
+
+            if (ApexPages.getMessages().size() == 0) {
+                List<HCP_Enrollment__c> hcpEnrollments = [SELECT Id,
+                        HCP_Contact__c,
+                        Status__c
+                FROM HCP_Enrollment__c
+                WHERE HCP_Contact__c = :contact.Id AND
+                Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION];
+                for (HCP_Enrollment__c hcpe : hcpEnrollments) {
+                    hcpe.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+                }
+                if (!hcpEnrollments.isEmpty()) {
+                    update hcpEnrollments;
+                }
+                for (HCP_Enrollment__c hcpe : hcpEnrollments) {
+                    hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+                }
+                if (!hcpEnrollments.isEmpty()) {
+                    update hcpEnrollments;
+                }
             }
         }
-    }
 
-    public void checkPasswords() {
-        try {
-            Site.validatePassword(userVal, newPassword, verifyNewPassword);
-        } catch (Exception e) {
-            ApexPages.addMessages(e);
-        }
         if(ApexPages.getMessages().size() == 0) isProfileView = false;
     }
 
