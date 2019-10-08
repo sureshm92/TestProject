@@ -1,0 +1,76 @@
+{
+  "records": [
+    {
+      "attributes": {
+        "type": "StudySiteVisitPlan__c",
+        "referenceId": "ssVp1"
+      },
+      "Visit_Plan__c": "@vsp",
+      "Study_Site__c": "@ss1"
+    },
+    {
+      "attributes": {
+        "type": "StudySiteVisitPlan__c",
+        "referenceId": "ssVp2"
+      },
+      "Visit_Plan__c": "@vsp",
+      "Study_Site__c": "@ss2"
+    },
+    {
+      "attributes": {
+        "type": "StudySiteVisitPlan__c",
+        "referenceId": "ssVp3"
+      },
+      "Visit_Plan__c": "@vsp",
+      "Study_Site__c": "@ss3"
+    },
+    {
+      "attributes": {
+        "type": "StudySiteVisitPlan__c",
+        "referenceId": "ssVp4"
+      },
+      "Visit_Plan__c": "@vsp",
+      "Study_Site__c": "@ss4"
+    },
+    {
+      "attributes": {
+        "type": "StudySiteVisitPlan__c",
+        "referenceId": "ssVp5"
+      },
+      "Visit_Plan__c": "@vsp",
+      "Study_Site__c": "@ss5"
+    },
+    {
+      "attributes": {
+        "type": "StudySiteVisitPlan__c",
+        "referenceId": "ssVp6"
+      },
+      "Visit_Plan__c": "@vsp",
+      "Study_Site__c": "@ss6"
+    },
+    {
+      "attributes": {
+        "type": "StudySiteVisitPlan__c",
+        "referenceId": "ssVp7"
+      },
+      "Visit_Plan__c": "@vsp",
+      "Study_Site__c": "@ss7"
+    },
+    {
+      "attributes": {
+        "type": "StudySiteVisitPlan__c",
+        "referenceId": "ssVp8"
+      },
+      "Visit_Plan__c": "@vsp",
+      "Study_Site__c": "@ss8"
+    },
+    {
+      "attributes": {
+        "type": "StudySiteVisitPlan__c",
+        "referenceId": "ssVp9"
+      },
+      "Visit_Plan__c": "@vsp",
+      "Study_Site__c": "@ss9"
+    }
+  ]
+}
