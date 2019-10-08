@@ -111,6 +111,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     @TestVisible
     private void prepareAdditionalFields(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap){
+        Set<Id> participantContactIds = new Set<Id>();
         List<Contact> participantContacts = new List<Contact>();
         for(Participant_Enrollment__c pe : newList){
             String nctNumber;
@@ -136,7 +137,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     pe.Participant_Contact__c = participant.Contact__c;
                     if(oldMap == null) {
                         participant.Contact__r.Visit_Results_Opt_In__c = visitOpt;
+                        if(!participantContactIds.contains(participant.Contact__c)){
                         participantContacts.add(participant.Contact__r);
+                            participantContactIds.add(participant.Contact__c);
+                        }
+
                     }
                     participantName = participant.Name;
                 }
@@ -147,7 +152,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             }
             //populate referred date
             if(pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI){
-                if(oldMap == null || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != pe.Participant_Status__c)){
+                if((oldMap == null && pe.Referred_Date__c == null) || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != pe.Participant_Status__c)){
                     pe.Referred_Date__c = Date.today();
                 }
             }
