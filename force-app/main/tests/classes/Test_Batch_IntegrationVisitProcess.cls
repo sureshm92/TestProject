@@ -86,6 +86,7 @@ private class Test_Batch_IntegrationVisitProcess {
                 SVSTDTC__c = Date.today(),
                 VISIT__c = 'New Visit 1',
                 VISITNUM__c = 1,
+
                 IsDeletedInSDH__c = 'N'
         );
         externalVisits.add(visit);
@@ -94,9 +95,9 @@ private class Test_Batch_IntegrationVisitProcess {
         List<Integration_VisitResult__c> visitResults = new List<Integration_VisitResult__c>();
         Integration_VisitResult__c result = new Integration_VisitResult__c(
                 USUBJID__c = 'CTP1~SS1~PE1',
-                Vital_or_Lab__c = 'Vital',
+                Vital_or_Lab__c = 'Lab',
                 STUDYID__c = '10',
-                TESTCD__c = 'RBC',
+                TESTCD__c = 'BUNCC', //
                 VSDTC__c = Date.today(),
                 VISIT__c = 'New Visit 1',
                 IsDeletedInSDH__c = 'N'
