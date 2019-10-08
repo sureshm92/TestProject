@@ -193,7 +193,7 @@ RunTestINF3.1.1:
   except:
   - merge_requests
 
-  stage: RunTestINT3.1.1
+  stage: RunTestINF3.1.1
   script:
   - echo "$INFOneOne" > sfdx-auth-url
   - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF1.1 -d
