@@ -7,7 +7,7 @@
 
     <!-- component body: -->
     <div class="rr-white-panel padding">
-        <div class="slds-grid slds-wrap slds-gutters">
+        <div class="slds-grid slds-wrap slds-gutters" style="align-items: stretch">
             <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-2">
                 <aura:if isTrue="{!!empty(v.ctp.Profile_Picture__c)}">
                     <img src="{!v.ctp.Profile_Picture__c}"/>
@@ -44,6 +44,9 @@
                         <c:ResourceLink resourceWrapper="{!resourceWrapper}"/>
                     </div>
                 </aura:iteration>
+                <aura:if isTrue="{!empty(v.resources)}">
+                    <div class="no-resources-message">{!$Label.c.PSC_Docs_will_be_published}</div>
+                </aura:if>
             </div>
         </div>
     </div>
