@@ -2065,17 +2065,16 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient CreatedDate</shortDescription>
-        <value>"We haven't heard from you in a while.
+        <value>&quot;We haven&#39;t heard from you in a while.
 
-            Please log in to the IQVIA Patient Portal to view all the latest information on your clinical research study."
-        </value>
+            Please log in to the IQVIA Patient Portal to view all the latest information on your clinical research study.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient_Log_In</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient Log In</shortDescription>
-        <value>We haven't heard from you in a while.
+        <value>We haven&#39;t heard from you in a while.
 
             Please log in to the IQVIA Patient Portal to view all the latest information on your clinical research study.</value>
     </labels>
@@ -2210,6 +2209,14 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
 
 
             We hope you find this information helpful.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Summary_Document</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Summary Document</shortDescription>
+        <value>New study documents are available.
+Please log in to the IQVIA Patient Portal to view the latest Study Documents.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Survey_Final_Reminder</fullName>
@@ -2364,7 +2371,7 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Created Date</shortDescription>
-        <value>We haven't heard from you in a while</value>
+        <value>We haven&#39;t heard from you in a while</value>
     </labels>
     <labels>
         <fullName>Email_Header_Initial_Delegate</fullName>
@@ -2483,7 +2490,7 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Patient Log In</shortDescription>
-        <value>We haven't heard from you in a while</value>
+        <value>We haven&#39;t heard from you in a while</value>
     </labels>
     <labels>
         <fullName>Email_Header_Plain_Summary</fullName>
@@ -2596,6 +2603,13 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <protected>true</protected>
         <shortDescription>Email Header Share PH</shortDescription>
         <value>An IQVIA Patient Portal user shared this with you</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Summary_Document</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Summary Document</shortDescription>
+        <value>New study documents area available to view</value>
     </labels>
     <labels>
         <fullName>Email_Header_Task_Reminder_Type_Not_Selected</fullName>
@@ -2789,6 +2803,16 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <value>Sincerely,
 
             The IQVIA Patient Portal Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Summary_Document</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Summary Document</shortDescription>
+        <value>We are excited to continue this journey with you.
+
+Sincerely,
+The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Survey</fullName>
@@ -2992,7 +3016,7 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Share Resource</shortDescription>
-        <value>Content that may interest you</value>
+        <value>A clinical research study that may interest you</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Status_Has_Changed</fullName>
@@ -3000,6 +3024,13 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <protected>false</protected>
         <shortDescription>Email Subject Status Has Changed</shortDescription>
         <value>Your referral status has changed</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Summary_Document</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Summary Document</shortDescription>
+        <value>New Study Documents are available</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Survey_Final_Reminder</fullName>
@@ -3858,6 +3889,13 @@ Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</v
         <protected>false</protected>
         <shortDescription>No Case Assign</shortDescription>
         <value>No case assigenment rule found!</value>
+    </labels>
+    <labels>
+        <fullName>No_permission_Visits_tab</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No_permission_Visits_tab</shortDescription>
+        <value>No permission for this feature</value>
     </labels>
     <labels>
         <fullName>None</fullName>
@@ -6138,7 +6176,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Login H Contact Information</shortDescription>
-        <value>Contact Info</value>
+        <value>Contact Information</value>
     </labels>
     <labels>
         <fullName>PG_Login_H_Date_Format</fullName>
@@ -6173,14 +6211,14 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Login H Login Information</shortDescription>
-        <value>Login Info</value>
+        <value>Login Information</value>
     </labels>
     <labels>
         <fullName>PG_Login_H_Profile_Information</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Login H Profile Information</shortDescription>
-        <value>Profile Info</value>
+        <value>Profile Information</value>
     </labels>
     <labels>
         <fullName>PG_Login_H_Terms_And_Conditions</fullName>
@@ -8595,7 +8633,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP IRB LangList</shortDescription>
-        <value>##StudyCodeName is only available in the following language(s): ##LangList. If you would like to change your language settings, </value>
+        <value>##StudyCodeName is only available in the following language(s): ##LangList. If you would like to change your language settings,</value>
     </labels>
     <labels>
         <fullName>PP_IRB_Popup_NotAva_Text</fullName>
@@ -8631,6 +8669,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PP VPC SS Empty VP</shortDescription>
         <value>&lt;&lt;Replace this text to approved&gt;&gt; (Study Site don&#39;t have Visit Plan)</value>
+    </labels>
+    <labels>
+        <fullName>PSC_Docs_will_be_published</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PSC Docs will be published</shortDescription>
+        <value>Documents will be published shortly.  Check back for updates</value>
     </labels>
     <labels>
         <fullName>PS_Enrollment_Date</fullName>
@@ -10780,6 +10825,195 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Update Participant</shortDescription>
         <value>Update Participant</value>
+    </labels>
+    <labels>
+        <fullName>VR_ALT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR ALT</shortDescription>
+        <value>ALT</value>
+    </labels>
+    <labels>
+        <fullName>VR_AST</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR 	AST</shortDescription>
+        <value>AST</value>
+    </labels>
+    <labels>
+        <fullName>VR_Albumin</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Albumin</shortDescription>
+        <value>Albumin</value>
+    </labels>
+    <labels>
+        <fullName>VR_Alkaline_Phosphatase</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Alkaline Phosphatase</shortDescription>
+        <value>Alkaline Phosphatase</value>
+    </labels>
+    <labels>
+        <fullName>VR_BUN</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR BUN</shortDescription>
+        <value>BUN</value>
+    </labels>
+    <labels>
+        <fullName>VR_Body_Mass_Index</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Body Mass Index</shortDescription>
+        <value>Body Mass Index</value>
+    </labels>
+    <labels>
+        <fullName>VR_Calcium</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Calcium</shortDescription>
+        <value>Calcium</value>
+    </labels>
+    <labels>
+        <fullName>VR_Creatinine</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Creatinine</shortDescription>
+        <value>Creatinine</value>
+    </labels>
+    <labels>
+        <fullName>VR_Diastolic_Blood_Pr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Diastolic Blood Pr.</shortDescription>
+        <value>Diastolic Blood Pr.</value>
+    </labels>
+    <labels>
+        <fullName>VR_Glucose</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Glucose</shortDescription>
+        <value>Glucose</value>
+    </labels>
+    <labels>
+        <fullName>VR_Height</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Height</shortDescription>
+        <value>Height</value>
+    </labels>
+    <labels>
+        <fullName>VR_Hematocrit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Hematocrit</shortDescription>
+        <value>Hematocrit</value>
+    </labels>
+    <labels>
+        <fullName>VR_Hemoglobin</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Hemoglobin</shortDescription>
+        <value>Hemoglobin</value>
+    </labels>
+    <labels>
+        <fullName>VR_High_density_Lipoprotein</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR High-density Lipoprotein</shortDescription>
+        <value>High-density Lipoprotein</value>
+    </labels>
+    <labels>
+        <fullName>VR_Low_density_Lipoprotein</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Low-density Lipoprotein</shortDescription>
+        <value>Low-density Lipoprotein</value>
+    </labels>
+    <labels>
+        <fullName>VR_Platelet_Count</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Platelet Count</shortDescription>
+        <value>Platelet Count</value>
+    </labels>
+    <labels>
+        <fullName>VR_Potassium</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Potassium</shortDescription>
+        <value>Potassium</value>
+    </labels>
+    <labels>
+        <fullName>VR_Pulse</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Pulse</shortDescription>
+        <value>Pulse</value>
+    </labels>
+    <labels>
+        <fullName>VR_RBC_Count</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR RBC Count</shortDescription>
+        <value>RBC Count</value>
+    </labels>
+    <labels>
+        <fullName>VR_Respiratory_Rate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Respiratory Rate</shortDescription>
+        <value>Respiratory Rate</value>
+    </labels>
+    <labels>
+        <fullName>VR_Sodium</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Sodium</shortDescription>
+        <value>Sodium</value>
+    </labels>
+    <labels>
+        <fullName>VR_Systolic_Blood_Pr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Systolic Blood Pr.</shortDescription>
+        <value>Systolic Blood Pr.</value>
+    </labels>
+    <labels>
+        <fullName>VR_Total_Cholesterol</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Total Cholesterol</shortDescription>
+        <value>Total Cholesterol</value>
+    </labels>
+    <labels>
+        <fullName>VR_Total_protein</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Total protein</shortDescription>
+        <value>Total protein</value>
+    </labels>
+    <labels>
+        <fullName>VR_Triglycerides</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Triglycerides</shortDescription>
+        <value>Triglycerides</value>
+    </labels>
+    <labels>
+        <fullName>VR_WBC_Count</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR WBC Count</shortDescription>
+        <value>WBC Count</value>
+    </labels>
+    <labels>
+        <fullName>VR_Weight</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Weight</shortDescription>
+        <value>Weight</value>
     </labels>
     <labels>
         <fullName>View_Visit_Legend</fullName>
