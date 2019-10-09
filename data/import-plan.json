@@ -63,6 +63,15 @@
     },
 
     {
+        "sobject": "StudySiteVisitPlan__c",
+        "saveRefs": true,
+        "resolveRefs": true,
+        "files": [
+            "StudySiteVisitPlan__c.json"
+        ]
+    },
+
+    {
         "sobject": "HCP_Enrollment__c",
         "saveRefs": true,
         "resolveRefs": true,
