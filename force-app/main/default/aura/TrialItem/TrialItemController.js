@@ -22,6 +22,7 @@
         } else if (!trial.ctp.Link_to_ePR_Campaign__c) {
             component.find('mainSpinner').hide();
             helper.checkClick(component);
+            component.set('v.showModal', true);
             let form = component.find('contactModal');
             form.set('v.closeCallback', $A.getCallback(function () {
                 if (!component.get('v.isSecondClicked')) {

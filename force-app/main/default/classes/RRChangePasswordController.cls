@@ -90,6 +90,7 @@ public without sharing class RRChangePasswordController {
         account = cont.Account;
         account.BillingCountry = TranslateHelper.getPickListLabel(User.CountryCode, account.BillingCountryCode);
         oldAccountName = account.Name;
+
         photolink = userVal.FullPhotoUrl;
         isProfileView = true;
         isPaswordsEquals = true;
@@ -145,10 +146,6 @@ public without sharing class RRChangePasswordController {
         isProfileView = true;
     }
 
-    public void saveUserInfo() {
-
-    }
-
     public void checkPasswords() {
         ApexPages.getMessages().clear();
         if (!notEnrollNow && String.isBlank(contact.FirstName)) {
@@ -180,18 +177,14 @@ public without sharing class RRChangePasswordController {
         }
 
         try {
-            //Site.validatePassword(userVal, newPassword, verifyNewPassword);
-            String str = null;
-            //str.split(',');
+            Site.validatePassword(userVal, newPassword, verifyNewPassword);
         } catch (Exception e) {
             ApexPages.addMessages(e);
         }
 
         if (!notEnrollNow) {
-            update contact;
-
-            if (account.Name != oldAccountName) {
-                insert new Account(
+            if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
+                Account newClinic = new Account(
                         Name = account.Name,
                         BillingCountry = contact.MailingCountry,
                         BillingCity = contact.MailingCity,
@@ -202,7 +195,11 @@ public without sharing class RRChangePasswordController {
                         Fax = contact.Fax,
                         OwnerId = contact.OwnerId
                 );
+                insert newClinic;
+
+                contact.AccountId = newClinic.Id;
             }
+            update contact;
 
             if (ApexPages.getMessages().size() == 0) {
                 List<HCP_Enrollment__c> hcpEnrollments = [SELECT Id,
