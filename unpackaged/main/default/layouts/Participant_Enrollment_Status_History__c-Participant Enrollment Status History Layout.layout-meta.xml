@@ -23,11 +23,11 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Reason__c</field>
+                <field>Notes__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Notes__c</field>
+                <field>Reason__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
