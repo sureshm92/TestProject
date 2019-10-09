@@ -96,6 +96,10 @@
                 <behavior>Edit</behavior>
                 <field>PI_My_Studies_Filters__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Next_Notify_Date__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

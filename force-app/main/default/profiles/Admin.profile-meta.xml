@@ -2479,6 +2479,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Next_Notify_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.OneKeyID__c</field>
         <readable>true</readable>
     </fieldPermissions>
