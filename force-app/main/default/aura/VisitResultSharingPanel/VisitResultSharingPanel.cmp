@@ -20,6 +20,9 @@
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" showSpinner="true"/>
     <aura:if isTrue="{!v.user_has_permission != 'no perm'}">
+        <aura:set attribute="else">
+            <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>
+        </aura:set>
         <div class="panel">
             <aura:if isTrue="{!!empty(v.initData)}">
                 <aura:if isTrue="{!or(empty(v.groups), v.options.inPatientPortal)}">

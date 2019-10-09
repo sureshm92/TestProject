@@ -41,6 +41,9 @@
 
     <!-- component body: -->
     <aura:if isTrue="{!not(equals(v.viewModePage, 'Disabled'))}">
+        <aura:set attribute="else">
+            <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>
+        </aura:set>
         <div class="panel">
             <c:RRSpinner aura:id="spinner"/>
             <lightning:navigation aura:id="navLink"/>
