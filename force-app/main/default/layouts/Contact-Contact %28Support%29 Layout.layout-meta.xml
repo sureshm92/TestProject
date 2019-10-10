@@ -29,10 +29,6 @@
                 <behavior>Edit</behavior>
                 <field>Department</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Next_Notify_Date__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
