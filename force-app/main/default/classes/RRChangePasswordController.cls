@@ -5,6 +5,7 @@
 public without sharing class RRChangePasswordController {
 
     public static final String ERROR_SUFFIX = ': You must enter a value';
+    public static final String ERROR_VALUE_SUFFIX = ': You must enter a valid value';
 
     public String photolink{get;set;}
 
@@ -39,6 +40,11 @@ public without sharing class RRChangePasswordController {
     public Translation__c translation {get; set;}
     public String browserLanguage {get; set;}
 
+    public List<SelectOption> countries {get; set;}
+    public List<SelectOption> states {get; set;}
+
+
+    private Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
     private String oldAccountName;
 
     public RRChangePasswordController() {
@@ -114,6 +120,12 @@ public without sharing class RRChangePasswordController {
             ];
             updateTranslations();
         }
+
+        countries = new List<SelectOption>();
+        countries.add(new SelectOption('', '--None--'));
+        for (LabelValueItem country : CountryStateUtil.getCountries()) {
+            countries.add(new SelectOption(country.value, country.label));
+        }
     }
 
     public PageReference changePassword() {
@@ -147,6 +159,32 @@ public without sharing class RRChangePasswordController {
     }
 
     public void checkPasswords() {
+        if (!notEnrollNow) {
+            if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
+                Account newClinic = new Account(
+                        Name = account.Name,
+                        BillingCountry = contact.MailingCountry,
+                        BillingCity = contact.MailingCity,
+                        BillingState = contact.MailingState,
+                        BillingStreet = contact.MailingStreet,
+                        BillingPostalCode = contact.MailingPostalCode,
+                        Phone = contact.Phone,
+                        Fax = contact.Fax,
+                        OwnerId = contact.OwnerId
+                );
+                try {
+                    insert newClinic;
+
+                    contact.AccountId = newClinic.Id;
+                } catch (Exception exp) {
+                    system.debug(exp);
+                }
+            }
+            try {
+                update contact;
+            } catch (Exception exp) {}
+        }
+
         ApexPages.getMessages().clear();
         if (!notEnrollNow && String.isBlank(contact.FirstName)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'First Name' + ERROR_SUFFIX));
@@ -180,24 +218,6 @@ public without sharing class RRChangePasswordController {
         }
 
         if (!notEnrollNow) {
-            if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
-                Account newClinic = new Account(
-                        Name = account.Name,
-                        BillingCountry = contact.MailingCountry,
-                        BillingCity = contact.MailingCity,
-                        BillingState = contact.MailingState,
-                        BillingStreet = contact.MailingStreet,
-                        BillingPostalCode = contact.MailingPostalCode,
-                        Phone = contact.Phone,
-                        Fax = contact.Fax,
-                        OwnerId = contact.OwnerId
-                );
-                insert newClinic;
-
-                contact.AccountId = newClinic.Id;
-            }
-            update contact;
-
             if (ApexPages.getMessages().size() == 0) {
                 List<HCP_Enrollment__c> hcpEnrollments = [SELECT Id,
                         HCP_Contact__c,
@@ -264,6 +284,14 @@ public without sharing class RRChangePasswordController {
 
     public void translateFieldsAction(){
         updateTranslations();
+    }
+
+    public void updateStatesAction(){
+        states = new List<SelectOption>();
+        states.add(new SelectOption('', '--None--'));
+        for (LabelValueItem state : statesByCountryMap.get(contact.MailingCountryCode)) {
+            states.add(new SelectOption(state.value, state.label));
+        }
     }
 
 }
