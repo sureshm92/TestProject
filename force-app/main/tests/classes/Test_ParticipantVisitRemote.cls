@@ -5,7 +5,7 @@
 @IsTest
 public with sharing class Test_ParticipantVisitRemote {
 
-    @IsTest
+ /*   @IsTest
     private static void getVisitsPreview_test() {
 
         TestData.loadTestData();
@@ -230,4 +230,5 @@ public with sharing class Test_ParticipantVisitRemote {
         
         System.assert(true, isExceptionThrown);
     }
+    */
 }

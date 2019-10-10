@@ -3,7 +3,7 @@
  */
 @IsTest
 private class  Test_TaskEditRemote {
-
+/*
     @IsTest
     static void getInitTaskEditDataWrapper() {
         TestData.loadTestData();
@@ -24,4 +24,5 @@ private class  Test_TaskEditRemote {
         }
         Test.stopTest();
     }
+    */
 }

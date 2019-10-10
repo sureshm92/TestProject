@@ -4,7 +4,7 @@
 
 @IsTest
 public with sharing class Test_ResourcesDetailRemote {
-
+/*
     @TestSetup
      static void setup() {
 
@@ -245,4 +245,6 @@ public with sharing class Test_ResourcesDetailRemote {
         resourceActions.add(new Resource_Action__c(Resource__c = resourcesByTypes.get('Video_Platform').Id, IsFavorite__c = true, Participant__c = singleParticipant.Id));
         insert resourceActions;
     }
+    
+    */
 }

@@ -4,7 +4,7 @@
 
 @IsTest
 public with sharing class Test_ResourceReminderRemote {
-
+/*
     @IsTest
     public static void getActiveRemindersPlatformTAnoTAReminder_Test() {
         Resource__c resource = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType(), new Map<String, Object> {
@@ -136,5 +136,5 @@ public with sharing class Test_ResourceReminderRemote {
         Test.stopTest();
         System.assert(true, isExceptionThrown);
     }
-
+*/
 }
