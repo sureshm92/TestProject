@@ -87,7 +87,7 @@ public without sharing class RRChangePasswordController {
                         userCommunytyType__c, userCommunityMode__c, Phone, Fax
                 FROM Contact WHERE Id =: contact.Id
         ];
-        account = contact.Account;
+        account = cont.Account;
         account.BillingCountry = TranslateHelper.getPickListLabel(User.CountryCode, account.BillingCountryCode);
         oldAccountName = account.Name;
 
@@ -159,9 +159,6 @@ public without sharing class RRChangePasswordController {
         }
         if (!notEnrollNow && String.isBlank(contact.MailingCity)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'City' + ERROR_SUFFIX));
-        }
-        if (!notEnrollNow && String.isBlank(contact.MailingState)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'State' + ERROR_SUFFIX));
         }
         if (!notEnrollNow && String.isBlank(contact.MailingCountry)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Country' + ERROR_SUFFIX));
