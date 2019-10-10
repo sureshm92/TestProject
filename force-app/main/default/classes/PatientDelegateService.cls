@@ -322,6 +322,13 @@ public without sharing class PatientDelegateService {
     public static List<Id> getAvailablePEIdsForContact(Id contactId){
         return getAvailablePEIdsListByContactIdMap(new List<Id>{contactId}).get(contactId);
     }
+
+    public static Map<Id, List<Id>> getForExclStatusPEIdsListByContactIdMap(List<Id> contactIds, List<String> excludedPEStatuses){
+        return getPEIdsListByContactIdMap(
+                contactIds,
+                ' Participant_Status__c NOT IN ' + DatabaseService.listToString(excludedPEStatuses)
+        );
+    }
     
     public static Map<Id, List<Id>> getPastPEIdsListByContactIdMap(List<Id> contactIds){
         return getPEIdsListByContactIdMap(
