@@ -147,12 +147,16 @@ public without sharing class ContactService {
         for (Id cntId : availablePE.keySet()) {
             List<Decimal> minDays = new List<Decimal>();
             for (Participant_Enrollment__c pe : peList) {
-                if (cntId == pe.Participant_Contact__c) {
+                System.debug('>>>>>>>>>> ' + JSON.serialize(pe));
+                if (pe.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c == null) continue;
+                else if (cntId == pe.Participant_Contact__c) {
                     minDays.add(pe.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c);
                 }
             }
-            minDays.sort();
-            cnt.add(new Contact(Id = cntId, Next_Notify_Date__c = Date.today().addDays((Integer) minDays[0])));
+            if(!minDays.isEmpty()){
+                minDays.sort();
+                cnt.add(new Contact(Id = cntId, Next_Notify_Date__c = Date.today().addDays((Integer) minDays[0])));
+            }
         }
         return cnt;
     }
