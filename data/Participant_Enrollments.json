@@ -16,7 +16,8 @@
             "Referral_Source__c": "HCP",
             "Study_Site__c": "@ss1",
             "HCP__c": "@hcpe1",
-            "Participant__c": "@participant1"
+            "Participant__c": "@participant1",
+            "Visit_Plan__c": "@vsp"
         }
     ]
 }

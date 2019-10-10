@@ -1643,7 +1643,14 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Action Login now</shortDescription>
-        <value>Login now</value>
+        <value>Login Now</value>
+    </labels>
+    <labels>
+        <fullName>Email_Action_Review_Cases</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Action Review Cases</shortDescription>
+        <value>Review Cases</value>
     </labels>
     <labels>
         <fullName>Email_Action_View_My_Home_Page</fullName>
@@ -1701,7 +1708,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <shortDescription>Email Body Available</shortDescription>
         <value>New visit data is available.
 
-            Please log in to the IQVIA Patient Portal to view the latest visit data.</value>
+            Please login to the IQVIA Patient Portal to view the latest visit data.</value>
     </labels>
     <labels>
         <fullName>Email_Body_By_PI_RP1</fullName>
@@ -1719,7 +1726,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <shortDescription>Body Request notification</shortDescription>
         <value>A Participant has submitted a request for additional information on ##StudyCode.
 
-            Please login to IQVIA Patient Portal for additional information.</value>
+            Please login to Salesforce for additional information.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Complete_Baseline_Survey</fullName>
@@ -1733,11 +1740,11 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Delegate</shortDescription>
-        <value>Congratulations, ##UserName has successfully completed ##StudyName clinical research study.
+        <value>Congratulations, ##PatientFirstName has successfully completed the ##StudyName clinical research study.
 
-            As you continue to your engagement with us, there are multiple opportunities for you to stay informed.
+            Thank you for participating. Your contribution to the clinical research study has been very important.
 
-            Please log in to the IQVIA Patient Portal for the latest clinical research information.</value>
+            Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Delegate_Permission_Changed</fullName>
@@ -1910,7 +1917,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Thanks for request</shortDescription>
-        <value>Thank you for submitting a request for additional information about ##StudyCode.  Someone from the study team will be in touch with you.
+        <value>Thank you for submitting a request for additional information about ##StudyCode. Someone from the study team will be in touch with you.
 
             Please login to the IQVIA Patient Portal to check your clinical research trial matches at any time.</value>
     </labels>
@@ -1994,9 +2001,9 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <shortDescription>Email Body Patient18</shortDescription>
         <value>Congratulations, you have successfully completed ##StudyName clinical research study.
 
-            As you continue your engagement with us, there are multiple opportunities for you to stay informed.
+            Thank you for participating. Your contribution to the clinical research study has been very important.
 
-            Please log in to the IQVIA Patient Portal for the latest clinical research information.</value>
+            Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient2</fullName>
@@ -2076,16 +2083,16 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <shortDescription>Email Body Patient Log In</shortDescription>
         <value>We haven&#39;t heard from you in a while.
 
-            Please log in to the IQVIA Patient Portal to view all the latest information on your clinical research study.</value>
+            Please login to the IQVIA Patient Portal to view all the latest information on your clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Plain_Summary</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Plain Summary</shortDescription>
-        <value>Your Plain Language Summary for ##StudyName clinical research study is available on the IQVIA Patient Portal.
+        <value>New documents from ##StudyName clinical research study are now available on the IQVIA Patient Portal.   
 
-Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</value>
+            Please login to the IQVIA Patient Portal to view this information.</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP1</fullName>
@@ -2255,7 +2262,7 @@ Please log in to the IQVIA Patient Portal to view the latest Study Documents.</v
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Trial Alert</shortDescription>
-        <value>An alert on a clinical research study you may be interested in has been scheduled.  We will notify you when ##StudyName enrollment begins.
+        <value>An alert on a clinical research study you may be interested in has been created.  We will notify you when ##StudyName enrollment begins.
 
             Please login to the IQVIA Patient Portal to check your clinical research trial matches at any time.</value>
     </labels>
@@ -2350,7 +2357,7 @@ Please log in to the IQVIA Patient Portal to view the latest Study Documents.</v
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Available</shortDescription>
-        <value>New Visit data is available to view</value>
+        <value>New visit data is available to view</value>
     </labels>
     <labels>
         <fullName>Email_Header_Case</fullName>
@@ -2497,7 +2504,7 @@ Please log in to the IQVIA Patient Portal to view the latest Study Documents.</v
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header Plain Summary</shortDescription>
-        <value>A summary of your study is available to view</value>
+        <value>New documents are available for your review</value>
     </labels>
     <labels>
         <fullName>Email_Header_RP10</fullName>
@@ -2726,7 +2733,7 @@ Please log in to the IQVIA Patient Portal to view the latest Study Documents.</v
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Signature New</shortDescription>
-        <value>We are so excited to be on this journey with you.
+        <value>We are excited to continue this journey with you.
 
             Sincerely,
 
@@ -2768,7 +2775,7 @@ Please log in to the IQVIA Patient Portal to view the latest Study Documents.</v
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Plain Summary</shortDescription>
-        <value>Please feel free to contact us if you have any questions.
+        <value>We look forward to hearing from you. Please feel free to contact us if you have any questions.
 
             Sincerely,
             The IQVIA Patient Portal Support Team</value>
@@ -2824,6 +2831,17 @@ The IQVIA Patient Portal Support Team</value>
             Sincerely,
 
             The IQVIA Patient Portal Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Trial_Completed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature Trial Completed</shortDescription>
+        <value>Thank you for joining us on this journey.
+
+Sincerely, 
+
+The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_VT</fullName>
@@ -2967,7 +2985,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Plain Summary</shortDescription>
-        <value>Your Study Plain Language summary is available</value>
+        <value>New information is now available</value>
     </labels>
     <labels>
         <fullName>Email_Subject_RP11</fullName>
@@ -3065,28 +3083,28 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Trial_Complete_for_Delegate</shortDescription>
-        <value>Congratulations you the study has been completed</value>
+        <value>Congratulations, the study has been completed</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Trial_Complete_for_Participant</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Trial_Complete_for_Participant</shortDescription>
-        <value>Congratulations you have completed your study</value>
+        <value>Congratulations, you have completed your study</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Trial_Complete_for_Participant2</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Trial_Complete_for_Participant</shortDescription>
-        <value>Congratulations you the study has been completed</value>
+        <value>Congratulations, you have completed your study</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Trial_Search_Match_Alert_Received</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Trial Search Match Alert Received</shortDescription>
-        <value>An alert for a clinical research study you may be interested in has been set</value>
+        <value>Potential clinical research study alert</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Trial_Search_Match_Email</fullName>
@@ -3121,7 +3139,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Your request for additonal information</shortDescription>
-        <value>Your request for additonal information has been received</value>
+        <value>Your request for additional information has been received</value>
     </labels>
     <labels>
         <fullName>Email_Text_View_Stub</fullName>
@@ -3203,6 +3221,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Empty Visits tab</shortDescription>
         <value>This feature is not available for Studies not participating in Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>No_permission_Visits_tab</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No_permission_Visits_tab</shortDescription>
+        <value>No permission for this feature</value>
     </labels>
     <labels>
         <fullName>Error_Message_Can_Not_Create_Participant</fullName>
@@ -5074,7 +5099,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Institute Address Line</shortDescription>
-        <value>Address Line</value>
+        <value>Street Address</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Institute_City</fullName>
@@ -8710,7 +8735,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Participant Visits Available</shortDescription>
-        <value>New Visit data is available</value>
+        <value>New visit data is available</value>
     </labels>
     <labels>
         <fullName>Patient</fullName>
@@ -10754,7 +10779,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Trial Search Header</shortDescription>
-        <value>An alert on a clinical research study you may be interested in has been set</value>
+        <value>An alert has been set on a clinical research study you may be interested in</value>
     </labels>
     <labels>
         <fullName>Trial_Search_Message_Header</fullName>

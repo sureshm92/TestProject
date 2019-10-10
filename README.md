@@ -23,7 +23,7 @@
 ##### 4) Setup Scratch Org before push:
     
    ```sh
-   sfdx force:org:open
+   sfdx force:org:open -f
    ```
    <!-- 1. Go to **State and Territory Picklists** and follow instruction for enable (temporary) -->
    1. Go to **Survey Settings** and enable 
@@ -32,7 +32,7 @@
 ##### 5) Push project to Scratch org:
 
    ```sh
-   sfdx force:source:push
+   sfdx force:source:push -f
    ```
 
 ##### 6) Import data:
@@ -47,12 +47,14 @@
    ```sh
    sfdx force:data:tree:import -p data/import-plan.json
    ```
-
-##### 7) Publish community:
+##### 7) Assign permission sets
+Setup > User > Click "Edit Assignments" under "Permission Set Assignments" > Add **"Patient Portal: Edit Study Settings"** 
+   
+##### 8) Publish community:
 
    1. Go to Setup > All Communities > Open Community Builder > press Publish
 
-##### 8) Login to community:
+##### 9) Login to community:
 
    1. Open Study Site for edit and change Override Status to "Accepted" 
    2. Open HCP Enrollment for edit and change Stats to "Activated" 

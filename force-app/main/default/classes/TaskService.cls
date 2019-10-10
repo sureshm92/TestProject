@@ -365,6 +365,7 @@ public without sharing class TaskService {
 
     public List<Task> filterCurrentStudyTasks(List<Task> tasks) {
         Participant_Enrollment__c currentPE = ParticipantService.getInstance().getState().pe;
+        if(currentPE == null) return tasks;
         List<Task> filteredList = new List<Task>();
         System.debug('Task JSON: ' + JSON.serializePretty(tasks));
         Set<Id> invIds = new Set<Id>();
@@ -383,7 +384,7 @@ public without sharing class TaskService {
             if (t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
                 if (currentPE != null && t.WhatId == currentPE.Id) filteredList.add(t);
             } else if (t.Task_Type__c == TASK_TYPE_SURVEY && t.Description != null) {
-                if (peIds.contains(currentPE.Id)) filteredList.add(t);
+                if (currentPE != null && peIds.contains(currentPE.Id)) filteredList.add(t);
             } else if (t.Task_Type__c != TASK_TYPE_SURVEY) {
                 filteredList.add(t);
             }

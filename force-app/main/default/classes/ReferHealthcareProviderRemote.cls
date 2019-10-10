@@ -118,11 +118,13 @@ global without sharing class ReferHealthcareProviderRemote {
                    Email = :email.toLowerCase() LIMIT 1];
 
         if (cntList.isEmpty()) {
+            Account newAcc = new Account(Name = lastName + ' temporary account', OwnerId = CommunityService.getUserContact().Account.OwnerId);
+            insert newAcc;
             cntList.add(new Contact(FirstName = firstName,
                     LastName = lastName,
                     Phone = phone,
                     Email = email,
-                    AccountId = studySite.Site__c,
+                    AccountId = newAcc.Id,
                     Language__c = UserInfo.getLanguage(),
                     RP_Invited_By_PI__c = true,
                     //MailingCountry = studySite.Site__r.BillingCountry));
@@ -132,21 +134,6 @@ global without sharing class ReferHealthcareProviderRemote {
         } else {
             cntList[0].RP_Invited_By_PI__c = true;
             update cntList[0];
-        }
-
-        List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id> { cntList[0].Id });
-
-        if (usrs.isEmpty()) {
-            isNewUser = true;
-            ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id> { cntList[0].Id });
-        }
-        if (cntList[0].userCommunytyType__c == null) {
-            cntList[0].userCommunytyType__c = CommunityService.USER_MODE_HCP;
-        } else if (!cntList[0].userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)) {
-            cntList[0].userCommunytyType__c = cntList[0].userCommunytyType__c + ';' + CommunityService.USER_MODE_HCP;
-        }
-        if (cntList[0].userCommunityMode__c != CommunityService.USER_MODE_HCP) {
-            cntList[0].userCommunityMode__c = CommunityService.USER_MODE_HCP;
         }
 
         HCP_Enrollment__c hcpe = new HCP_Enrollment__c(
@@ -162,11 +149,24 @@ global without sharing class ReferHealthcareProviderRemote {
             update hp;
         }
 
+        List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id> { cntList[0].Id });
+        if (usrs.isEmpty()) {
+            isNewUser = true;
+            ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id> { cntList[0].Id });
+        }
+        if (cntList[0].userCommunytyType__c == null) {
+            cntList[0].userCommunytyType__c = CommunityService.USER_MODE_HCP;
+        } else if (!cntList[0].userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)) {
+            cntList[0].userCommunytyType__c = cntList[0].userCommunytyType__c + ';' + CommunityService.USER_MODE_HCP;
+        }
+        if (cntList[0].userCommunityMode__c != CommunityService.USER_MODE_HCP) {
+            cntList[0].userCommunityMode__c = CommunityService.USER_MODE_HCP;
+        }
+
         if (!isNewUser) {
             hcpe.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+            update hcpe;
         }
-        update hcpe;
-
         if (!isNewUser) {
             hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
             update hcpe;

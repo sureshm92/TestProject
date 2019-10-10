@@ -95,6 +95,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_CreateAdminTasks</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_CreateParticipantLoginNotification</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -104,6 +108,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_CreateSummaryNotifications</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_CreateSurveyTasks</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1156,6 +1164,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_CreateSummaryNotifications</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_CreateSurveyTasks</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2487,6 +2499,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Last_Session_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Next_Notify_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5461,7 +5478,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Trial_Notification__c.Clinical_Trial_Profile__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Trial_Notification__c.Need_To_Send_Alert__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Trial_Notification__c.Participant__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6673,6 +6700,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>HCP_Enrollment__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Healthcare_Provider__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>

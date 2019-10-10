@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Study_Resource</fullName>
+    <active>true</active>
+    <label>Study Resource</label>
+    <picklistValues>
+        <picklist>Active_On_Status__c</picklist>
+        <values>
+            <fullName>Contact Attempt In Progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contact Failed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contact Successful</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deceased</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Drop Out</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Eligibility Failed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Eligibility Passed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enrollment Failed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enrollment Success</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Follow-Up Period Started</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Participation Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referral Accepted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referral Declined</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referral On Hold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referral Sent to PI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Screening Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Screening Failed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Screening In Progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Treatment Period Started</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trial Complete</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Expires_On_Status__c</picklist>
+        <values>
+            <fullName>Contact Attempt In Progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contact Failed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contact Successful</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deceased</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Drop Out</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Eligibility Failed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Eligibility Passed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enrollment Failed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Enrollment Success</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Follow-Up Period Started</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Participation Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referral Accepted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referral Declined</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referral On Hold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referral Sent to PI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Screening Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Screening Failed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Screening In Progress</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Treatment Period Started</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trial Complete</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

@@ -27,6 +27,7 @@ public without sharing class SendEmailToParticipant {
             TaskService.TASK_TYPE_MEDICATION => EMAIL_TEMPLATE_MEDICATION_TASK_DELEGATE
     };
 
+    public static final String PATIENT_SUMMARY_DOCUMENT = 'Patient_Summary_Document';
     public static final String PATIENT_PLAIN_SUMMARY = 'Patient_Plain_Summary';
     public static final String PATIENT_LOGIN = 'Patient_Log_In_Template';
     public static final String PATIENT_CREATED_DATE = 'Patient_CreatedDate_Template';
