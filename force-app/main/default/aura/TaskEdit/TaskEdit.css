@@ -4,9 +4,8 @@
 .THIS.te-task-panel{
     min-height: 400px;
     max-width: 832px;
-    margin-top: 60px;
+    margin: 60px auto;
     margin-bottom: 30px;
-    margin-left: 15%;
 }
 
 .THIS .te-col {
