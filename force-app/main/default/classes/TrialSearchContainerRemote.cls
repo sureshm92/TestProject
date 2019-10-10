@@ -37,6 +37,11 @@ public with sharing class TrialSearchContainerRemote {
         @AuraEnabled
         public AddPatientByPIRemote.FormData formData;
 
+        public TrialSearchContainer() {
+            this.trialTDOs = new List<TrialSearchContainerRemote.TrialTDO>();
+            this.taps = new List<Therapeutic_Area_Patient__c>();
+        }
+
     }
 
     public class TrialTDO {
