@@ -3223,13 +3223,6 @@ The IQVIA Patient Portal Support Team</value>
         <value>This feature is not available for Studies not participating in Patient Portal</value>
     </labels>
     <labels>
-        <fullName>No_permission_Visits_tab</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>No_permission_Visits_tab</shortDescription>
-        <value>No permission for this feature</value>
-    </labels>
-    <labels>
         <fullName>Error_Message_Can_Not_Create_Participant</fullName>
         <language>en_US</language>
         <protected>true</protected>
