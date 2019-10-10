@@ -172,7 +172,7 @@ public without sharing class PatientDelegateService {
 
     public void createPDAlerts(Contact contactDelegate) {
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
-
+        if(participantState.pe == null) return ;
         List<Alert__c> alertList = new List<Alert__c>();
         alertList.add(new Alert__c(
                 Contact__c = contactDelegate.Id,
