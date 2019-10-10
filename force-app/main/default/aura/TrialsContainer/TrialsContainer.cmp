@@ -9,7 +9,7 @@
     <aura:attribute name="currentPage" type="Integer" default="1"/>
     <aura:attribute name="currentTrialTDOs" type="List"/>
 
-    <aura:if isTrue="{!v.trialTDOs}">
+    <aura:if isTrue="{!!empty(v.trialTDOs)}">
         <aura:iteration items="{!v.currentTrialTDOs}" var="trial">
             <c:TrialItem trialTDO="{!trial}" participant="{!v.participant}" formData="{!v.formData}"/>
         </aura:iteration>
