@@ -79,6 +79,7 @@ public without sharing class RRChangePasswordController {
                         Contact.Second_Choice_Language__c,
                         Contact.Third_Choice_Language__c,
                         Contact.userCommunityMode__c,
+                        Contact.userCommunytyType__c,
                         Contact.UserCommunityIsDelegate__c,
                         Contact.Phone,
                         Contact.Fax,
