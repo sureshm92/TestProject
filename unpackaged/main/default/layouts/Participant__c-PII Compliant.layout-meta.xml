@@ -53,10 +53,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Language_Preference_Code__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Mailing_State_Province__c</field>
             </layoutItems>
             <layoutItems>

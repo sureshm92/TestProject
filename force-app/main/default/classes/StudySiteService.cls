@@ -187,6 +187,7 @@ public without sharing class StudySiteService {
 
     private static final List<String> SS_COMMON_FIELDS = new List<String>{
             'Id',
+            'Approved_Lng__c',
             'Name',
             'Site__c',
             'Override_PI_Referral_Status__c',

@@ -11,6 +11,7 @@
     },
 
     doCheckFields: function (component, event, hepler) {
+        console.log('doCheckFields');
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
         var updateMode = component.get('v.updateMode');
@@ -40,7 +41,7 @@
                 (oldPE.Participant__r.Phone_Type__c && !participant.Phone_Type__c) ||
                 (oldPE.Participant__r.Email__c && !participant.Email__c) ||
                 (oldPE.Participant__r.Mailing_Country_Code__c && !participant.Mailing_Country_Code__c) ||
-                (oldPE.Participant__r.Mailing_State_Code__c && !participant.Mailing_State_Code__c) ||
+                (stateRequired && oldPE.Participant__r.Mailing_State_Code__c && !participant.Mailing_State_Code__c) ||
                 (oldPE.Participant__r.Mailing_Zip_Postal_Code__c && !participant.Mailing_Zip_Postal_Code__c) ||
                 (oldPE.Screening_ID__c && !pe.Screening_ID__c) ||
                 (oldPE.Referred_By__c && !pe.Referred_By__c) ||

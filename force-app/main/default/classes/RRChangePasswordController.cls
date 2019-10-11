@@ -3,21 +3,21 @@
  */
 
 public without sharing class RRChangePasswordController {
-
+    
     public static final String ERROR_SUFFIX = ': You must enter a value';
     public static final String ERROR_VALUE_SUFFIX = ': You must enter a valid value';
-
+    
     public String photolink{get;set;}
-
+    
     //The binary data of the image uploaded by the user
     public transient Blob blobValue {get; set;}
 
     //The content type, determined by Salesforce, of the image uploaded by the user
     public transient String contentType {get; set;}
-
+    
     // The name of the image file uploaded by the user
     public transient String filename {get; set;}
-
+ 
     public String oldPassword {get; set;}
     public String newPassword {get; set;}
     public String verifyNewPassword {get; set;}
@@ -26,10 +26,14 @@ public without sharing class RRChangePasswordController {
     public Account account {get; set;}
     public Contact contact {get; set;}
     public User userVal {get; set;}
+    
+    public String helpText_1st_Language { get; private set; }
+    public String helpText_2nd_Language { get; private set; }
+    public String helpText_3rd_Language { get; private set; }
 
     public String userLocale {get; set;}
     public transient String userLanguage {get; set;}
-
+    
     public Boolean notEnrollNow {get; set;}
     public Boolean isProfileView {get; set;}
     public String tcText {get; set;}
@@ -39,7 +43,9 @@ public without sharing class RRChangePasswordController {
 
     public Translation__c translation {get; set;}
     public String browserLanguage {get; set;}
-
+    
+    private String previousLanguage;
+    
     public List<SelectOption> countries {get; set;}
     public List<SelectOption> states {get; set;}
     public Boolean isStateRequired {get; set;}
@@ -48,7 +54,7 @@ public without sharing class RRChangePasswordController {
     private Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
     private Map<String, String> countryCodeByName = new Map<String, String>();
     private String oldAccountName;
-
+    
     public RRChangePasswordController() {
         translation = new Translation__c();
         init();
@@ -72,17 +78,27 @@ public without sharing class RRChangePasswordController {
                         Contact.MailingStreet,
                         Contact.Is_First_Logon__c,
                         Contact.Language__c,
-                        Contact.userCommunytyType__c,
+                        Contact.Second_Choice_Language__c,
+                        Contact.Third_Choice_Language__c,
                         Contact.userCommunityMode__c,
+                        Contact.userCommunytyType__c,
                         Contact.UserCommunityIsDelegate__c,
                         Contact.Phone,
                         Contact.Fax,
                         Contact.OwnerId,
                         LanguageLocaleKey,
+                        TimeZoneSidKey,
                         LocaleSidKey
                 FROM User WHERE Id =: userId
         ];
         contact = userVal.Contact;
+        previousLanguage = contact.Language__c;
+    
+        Map<String, SObjectField> fieldMap = Schema.SObjectType.Contact.fields.getMap();
+        helpText_1st_Language = fieldMap.get('Language__c').getDescribe().inlineHelpText;
+        helpText_2nd_Language = fieldMap.get('Second_Choice_Language__c').getDescribe().inlineHelpText;
+        helpText_3rd_Language = fieldMap.get('Third_Choice_Language__c').getDescribe().inlineHelpText;
+        
         notEnrollNow = !((contact.userCommunytyType__c == null || contact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)) && contact.userCommunityMode__c == CommunityService.USER_MODE_HCP);
         isStateRequired = false;
 
@@ -99,7 +115,7 @@ public without sharing class RRChangePasswordController {
         account = cont.Account;
         account.BillingCountry = TranslateHelper.getPickListLabel(User.CountryCode, account.BillingCountryCode);
         oldAccountName = account.Name;
-
+        
         photolink = userVal.FullPhotoUrl;
         isProfileView = true;
         isPaswordsEquals = true;
@@ -110,7 +126,7 @@ public without sharing class RRChangePasswordController {
             tcText = portalTC.T_C_Text__c;
             tcId = portalTC.Id;
         }
-
+        
         isParticipant = contact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT && !contact.UserCommunityIsDelegate__c;
         if(isParticipant) {
             participant = [
@@ -123,7 +139,7 @@ public without sharing class RRChangePasswordController {
             ];
             updateTranslations();
         }
-
+        
         countries = new List<SelectOption>();
         //countries.add(new SelectOption('', '--None--'));
         for (LabelValueItem country : CountryStateUtil.getCountries()) {
@@ -137,10 +153,10 @@ public without sharing class RRChangePasswordController {
             PageReference pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
             contact.Is_First_Logon__c = false;
             update contact;
-            if(translation.Language__c != null) {
-                userVal.LanguageLocaleKey = translation.Language__c;
-                update userVal;
-            }
+//            if(translation.Language__c != null) {
+//                userVal.LanguageLocaleKey = translation.Language__c;
+//                update userVal;
+//            }
 
             if (tcId!=null) {
                 Terms_And_Conditions_Acceptance__c tca = new Terms_And_Conditions_Acceptance__c();
@@ -161,7 +177,7 @@ public without sharing class RRChangePasswordController {
     public void showProfileAction(){
         isProfileView = true;
     }
-
+    
     public void checkPasswords() {
         if (!notEnrollNow) {
             if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
@@ -178,7 +194,7 @@ public without sharing class RRChangePasswordController {
                 );
                 try {
                     insert newClinic;
-
+                    
                     contact.AccountId = newClinic.Id;
                 } catch (Exception exp) {
                     system.debug(exp);
@@ -188,7 +204,7 @@ public without sharing class RRChangePasswordController {
                 update contact;
             } catch (Exception exp) {}
         }
-
+        
         ApexPages.getMessages().clear();
         if (!notEnrollNow && String.isBlank(contact.FirstName)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'First Name' + ERROR_SUFFIX));
@@ -217,13 +233,13 @@ public without sharing class RRChangePasswordController {
         if (!notEnrollNow && String.isBlank(account.Name)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Institute Name' + ERROR_SUFFIX));
         }
-
+        
         try {
             Site.validatePassword(userVal, newPassword, verifyNewPassword);
         } catch (Exception e) {
             ApexPages.addMessages(e);
         }
-
+        
         if (!notEnrollNow) {
             if (ApexPages.getMessages().size() == 0) {
                 List<HCP_Enrollment__c> hcpEnrollments = [SELECT Id,
@@ -246,7 +262,7 @@ public without sharing class RRChangePasswordController {
                 }
             }
         }
-
+        
         if(ApexPages.getMessages().size() == 0) isProfileView = false;
     }
 
@@ -255,7 +271,7 @@ public without sharing class RRChangePasswordController {
         ConnectApi.UserProfiles.setPhoto(Network.getNetworkId(), userVal.Id, photoFileInput);
         photolink = ConnectApi.UserProfiles.getPhoto(Network.getNetworkId(), userVal.Id).fullEmailPhotoUrl;
     }
-
+    
     public void updatePhotoURL(){
     }
 
@@ -273,26 +289,62 @@ public without sharing class RRChangePasswordController {
         if(contact != null && contact.Is_First_Logon__c && contact.Language__c != null && contact.Language__c != ''
                 && (translation.Language__c == null || translation.Language__c == '')) {
             translation.Language__c = contact.Language__c;
-        }
-        else{
-            translation.Language__c = TranslateHelper.convertBrowserLanguage((List<String>)JSON.deserialize(browserLanguage, List<String>.class));
+        } else {
+
+            List<String> browserLanguages = (List<String>)JSON.deserialize(browserLanguage, List<String>.class);
+            String firstLanguage  = browserLanguages.get(0);
+            String secondLanguage = browserLanguages.get(1);
+            String thirdLanguage  = browserLanguages.get(2);
+
+            if (String.isNotBlank(firstLanguage) && TranslateHelper.convertBrowserLanguage(new List<String> { firstLanguage }) != null) {
+                if (String.isBlank(contact.Language__c)) {
+                    contact.Language__c = TranslateHelper.convertBrowserLanguage(new List<String>{
+                            firstLanguage
+                    });
+                }
+            } else {
+                List<Schema.PicklistEntry> entries = Translation__c.Language__c.getDescribe().getPicklistValues();
+                for (PicklistEntry entry : entries) {
+                    if (entry.getValue().startsWithIgnoreCase('en')) {
+                        contact.Language__c = entry.getValue();
+                        break;
+                    }
+                }
+//              contact.Language__c = Translation__c.Language__c.getDescribe().getPicklistValues().get(0).getValue();
+            }
+
+            if (String.isNotBlank(secondLanguage) && TranslateHelper.convertBrowserLanguage(new List<String> { secondLanguage }) != null) {
+                contact.Second_Choice_Language__c = TranslateHelper.convertBrowserLanguage(new List<String> { secondLanguage });
+            }
+
+            if (String.isNotBlank(thirdLanguage) && TranslateHelper.convertBrowserLanguage(new List<String> { thirdLanguage }) != null) {
+                contact.Third_Choice_Language__c = TranslateHelper.convertBrowserLanguage(new List<String> { thirdLanguage });
+            }
+
+            translation.Language__c = contact.Language__c;  //TranslateHelper.convertBrowserLanguage((List<String>)JSON.deserialize(browserLanguage, List<String>.class));
         }
         if(translation.Language__c == null) translation.Language__c = userVal.LanguageLocaleKey;
         updateLanguageAction();
     }
-
+    
     public void updateLanguageAction(){
-        update new User(
-                Id = userVal.Id,
-                LanguageLocaleKey = translation.Language__c
-        );
+        try {
+            userVal.LanguageLocaleKey = userVal.Contact.Language__c;
+            update userVal;
+        } catch (Exception e) {
+            ApexPages.addMessages(e);
+            contact.Language__c = previousLanguage;
+            return;
+        }
+
+        update userVal.Contact;
         updateTranslations();
     }
-
+    
     public void translateFieldsAction(){
         updateTranslations();
     }
-
+    
     public void updateStatesAction(){
         states = new List<SelectOption>();
         //states.add(new SelectOption('', '--None--'));
