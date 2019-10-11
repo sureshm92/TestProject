@@ -313,12 +313,12 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 ));
                 
                 //TODO Just POC:
-                if(ss.Principal_Investigator__r.Phone != null){
-                    MCloudSMSSender.sendSMSAsync(new List<String>{ss.Principal_Investigator__r.Phone},
-                            'A referral has been received for Study ' + ss.Clinical_Trial_Profile__r.Study_Code_Name__c +
-                                    ' from Dr.' + ss.Principal_Investigator__r.Full_Name__c +
-                            '\n Reply “A” to Accept.');
-                }
+//                if(ss.Principal_Investigator__r.Phone != null){
+//                    MCloudSMSSender.sendSMSAsync(new List<String>{ss.Principal_Investigator__r.Phone},
+//                            'A referral has been received for Study ' + ss.Clinical_Trial_Profile__r.Study_Code_Name__c +
+//                                    ' from Dr.' + ss.Principal_Investigator__r.Full_Name__c +
+//                            '\n Reply “A” to Accept.');
+//                }
             }
         }
 
@@ -327,6 +327,10 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         if (notificationMap.size() > 0) SendEmailTemplate.sendEmailNotification(SendEmailTemplate.EMAIL_TEMPLATE_PATIENT1_NEW, notificationMap);
         if (notificationMapEmptyHCP.size() > 0) SendEmailTemplate.sendEmailNotification(SendEmailTemplate.EMAIL_TEMPLATE_PATIENT2_NEW, notificationMapEmptyHCP);
         update contactsForChangeMode;
+
+        List<Id> cntIdsForChange = new List<Id>();
+        for(Contact cnt : contactsForChangeMode) cntIdsForChange.add(cnt.Id);
+        ContactService.updateNextNotifyDateFuture(cntIdsForChange);
     }
 
     @TestVisible
