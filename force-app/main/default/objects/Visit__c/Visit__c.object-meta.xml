@@ -53,7 +53,7 @@
     <enableStreamingApi>true</enableStreamingApi>
     <label>Visit</label>
     <nameField>
-        <label>Visit Name</label>
+        <label>SDH Visit Name</label>
         <type>Text</type>
     </nameField>
     <pluralLabel>Visits</pluralLabel>

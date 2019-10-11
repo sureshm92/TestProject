@@ -43,6 +43,7 @@ public without sharing class DelegateService {
                         Study_Site__r.Principal_Investigator__c,
                         Study_Site__r.Clinical_Trial_Profile__c,
                         Delegate_Level__c,
+                        Clinical_Trial_Profile__c,
                         Site_Contact__c
                 FROM Site_Staff__c
                 WHERE Site_Contact__c =: CommunityService.getUserContact().Id

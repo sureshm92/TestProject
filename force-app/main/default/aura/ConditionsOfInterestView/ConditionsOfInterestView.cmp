@@ -75,12 +75,16 @@
                 <label>{!$Label.c.TrialSearch_Enrollment_Status}</label>
             </div>
             <div class="slds-grid slds-grid_vertical">
-                <lightning:input aura:id="enrolling" type="checkbox" label="{!$Label.c.TrialSearch_Enrolling}" checked="true"/>
-                <lightning:input aura:id="notYetEnrolling" type="checkbox" label="{!$Label.c.TrialSearch_Not_Yet_Enrolling}" checked="true"/>
+                 <div class="checkbox-container">
+                	<lightning:input aura:id="enrolling" type="checkbox" label="{!$Label.c.TrialSearch_Enrolling}" checked="true"/>
+                </div>
+                <div class="checkbox-container">
+                	<lightning:input aura:id="notYetEnrolling" type="checkbox" label="{!$Label.c.TrialSearch_Not_Yet_Enrolling}" checked="true"/>
+                </div>
             </div>
 
             <div class="margin-top">
-                <lightning:button variant="neutral" onclick="{!c.updateSearchResults}" label="{!$Label.c.TrialSearch_Update_Search_Results}"/>
+                <lightning:button class="apollo-btn secondary" onclick="{!c.updateSearchResults}" label="{!$Label.c.TrialSearch_Update_Search_Results}"/>
             </div>
         </div>
     </div>

@@ -55,8 +55,8 @@
                 <c:rrSelect value="{!v.dateRange}" options="{!v.reportsFilterData.dateRanges}" placeholder="{!$Label.c.PG_MRRL_L_Date_range}"/>
 
                 <aura:set attribute="buttons">
-                    <button class="apollo-btn tertiary" onclick="{!c.doExport}">
-                        <c:RRIcon iconName="icon-save"/>{!$Label.c.BTN_Export}
+                    <button class="apollo-btn secondary" onclick="{!c.doExport}">
+                        <img src="{!$Resource.iconDownload}" width="16" />{!$Label.c.BTN_Export}
                     </button>
                     <!--button class="apollo-btn tertiary" onclick="{!c.doExportHCPE}">
                         <c:RRIcon iconName="icon-save"/>Export HCP's

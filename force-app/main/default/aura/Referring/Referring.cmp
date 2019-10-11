@@ -111,7 +111,8 @@
                         </button>
                     </div>
                     <aura:if isTrue="{!!empty(v.pendingPEnrollments) &amp;&amp; v.accessUserLevel != 'Level 2'}">
-                        <div class="between-panels">{!$Label.c.PG_Ref_L_OR}</div>
+                       
+                        <div class="between-panels">or <!-- {!$Label.c.PG_Ref_L_OR} --> </div>
                         <div class="pe-panel padding" style="margin-bottom: 50px">
                             <c:RRIcon iconName="chart-review-sent"/>
                             <div class="title">{!$Label.c.PG_Ref_L_Select_from_Medical_Record_Review_Log}</div>

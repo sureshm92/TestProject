@@ -12,6 +12,6 @@
 
 .THIS.main-container .message {
     margin-top: 1em;
-    font-size: 17px;
-    line-height: 26px;
+    font-size: 1rem;
+    color: #999;
 }

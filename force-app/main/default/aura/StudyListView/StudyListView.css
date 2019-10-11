@@ -33,9 +33,6 @@
     line-height: 26px;
 }
 
-.THIS .search-more-btn {
-    width: 100%;
-}
 
 @media all and (min-width: 768px) {
     .THIS .slv-padded-panel-left {
