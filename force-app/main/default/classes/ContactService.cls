@@ -3,19 +3,54 @@
  */
 
 public without sharing class ContactService {
-
+    
     public class PastStudyWrapper {
         @AuraEnabled public Clinical_Trial_Profile__c ctp;
         @AuraEnabled public Participant_Enrollment__c pe;
         @AuraEnabled public List<ResourceService.ResourceWrapper> resourceWrappers;
-
+        
         public PastStudyWrapper(Clinical_Trial_Profile__c ctp, Participant_Enrollment__c pe, List<ResourceService.ResourceWrapper> resourceWrappers) {
             this.ctp = ctp;
             this.pe = pe;
             this.resourceWrappers = resourceWrappers;
         }
     }
-
+    
+    /**
+     * applyRelevantNames() this method substitutes the FirstName and LastName fields in all related objects of Contact type
+     * with the relevant fields LastName from Participant in case if
+     *
+     * @param obj
+     */
+    public static void applyRelevantNames(SObject obj) {
+        applyRelevantNames(new List<SObject> { obj });
+    }
+    public static void applyRelevantNames(List<SObject> objects) {
+        try {
+            // collecting all related objects including all nested ones
+            List<SObject> aggregateObjects = new List<SObject>();
+            for (SObject obj : objects) {
+                aggregateObjects.addAll(SObjectHelper.getAllSObjects(obj));
+            }
+            
+            // select SObjects only of type Contact
+            SObjectType contactType = Schema.getGlobalDescribe().get('Contact');
+            Map<Id, Contact> contacts = new Map<Id, Contact>();
+            for (SObject obj : aggregateObjects) {
+                if (obj.getSObjectType() != contactType) continue;              // skip SObjects of non Contact type
+                contacts.put(obj.Id, (Contact)obj);
+            }
+            
+            // query Participants and replace FirstName and LastName fields if they exist
+            for (Participant__c participant : [SELECT First_Name__c, Last_Name__c, Contact__c FROM Participant__c WHERE Contact__c IN :contacts.keySet()]) {
+                contacts.get(participant.Contact__c).FirstName = participant.First_Name__c;
+                contacts.get(participant.Contact__c).LastName  = participant.Last_Name__c;
+            }
+        } catch (Exception e) {
+            System.debug('EXCEPTION: ' + e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+    
     public static void updateCurrentPEOnContacts(List<Id> contactIds) {
         List<Contact> contacts = [
                 SELECT Id, Current_Participant_Enrollment__c
