@@ -365,6 +365,7 @@ public without sharing class TaskService {
 
     public List<Task> filterCurrentStudyTasks(List<Task> tasks) {
         Participant_Enrollment__c currentPE = ParticipantService.getInstance().getState().pe;
+        if(currentPE == null) return tasks;
         List<Task> filteredList = new List<Task>();
         System.debug('Task JSON: ' + JSON.serializePretty(tasks));
         Set<Id> invIds = new Set<Id>();

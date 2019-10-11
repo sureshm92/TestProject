@@ -73,7 +73,7 @@ public without sharing class ManualCreationPanelRemote {
     public static List<LookupSearchResult> searchSurveys(String searchTerm, String value) {
         try {
             if (searchTerm == null || String.isBlank(searchTerm)) searchTerm = '';
-            searchTerm = '%' + searchTerm;
+            searchTerm = '%' + searchTerm + '%';
 
             List<String> selectedSurveys = new List<String>();
             if (!String.isEmpty(value)) selectedSurveys = value.split(';');
