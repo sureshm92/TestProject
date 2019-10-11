@@ -8,6 +8,7 @@ public without sharing class AccountSettingsController {
         try {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
+            ContactService.applyRelevantNames(initData.myContact);
             initData.cookieSettings = getCookieSettings();
 
             if (initData.myContact.primaryContact__c == null) {
