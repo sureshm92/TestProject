@@ -3,7 +3,7 @@
     <fullName>FieldsToTranslate</fullName>
     <description>Fields To Translate</description>
     <displayedFields>
-        <field>Name</field>
+        <field>Patient_Portal_Name__c</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>

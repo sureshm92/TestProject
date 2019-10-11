@@ -447,6 +447,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>IRBParticipantService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>IconPlanetVisitInfoEditRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -492,6 +496,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>LabelValueItem</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LanguagePreferenceService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1371,6 +1379,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ParticipantVisitRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ParticipantVisitsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1423,6 +1435,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ResourceReminderRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ResourceReminderService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1432,6 +1448,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ResourceService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourcesDetailRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1472,6 +1492,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_TaskService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_TherapeuticAreaAssignmentService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2555,6 +2579,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.RRLanguageAllowedCookie__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Second_Choice_Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4410,6 +4439,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Phone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Preferred_Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6873,14 +6907,18 @@
         <enabled>true</enabled>
         <name>ContentAdministrator</name>
     </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ContentWorkspaces</name>
-    </userPermissions>
+<!--    <userPermissions>-->
+<!--        <enabled>true</enabled>-->
+<!--        <name>ContentWorkspaces</name>-->
+<!--    </userPermissions>-->
     <userPermissions>
         <enabled>true</enabled>
         <name>ConvertLeads</name>
     </userPermissions>
+<!--    <userPermissions>-->
+<!--        <enabled>true</enabled>-->
+<!--        <name>CreateContentSpace</name>-->
+<!--    </userPermissions>-->
     <userPermissions>
         <enabled>true</enabled>
         <name>CreateContentSpace</name>
@@ -6917,10 +6955,10 @@
         <enabled>true</enabled>
         <name>CreateWorkBadgeDefinition</name>
     </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>CreateWorkspaces</name>
-    </userPermissions>
+<!--    <userPermissions>-->
+<!--        <enabled>true</enabled>-->
+<!--        <name>CreateWorkspaces</name>-->
+<!--    </userPermissions>-->
     <userPermissions>
         <enabled>true</enabled>
         <name>CustomizeApplication</name>

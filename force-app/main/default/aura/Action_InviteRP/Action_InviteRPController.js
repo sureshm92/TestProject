@@ -14,7 +14,9 @@
     },
     doExecute: function (component, event, helper) {
         component.find('modalSpinner').hide();
-        helper.clearInviteFields(component, event, helper)
+        helper.clearInviteFields(component, event, helper);
+        component.set('v.isDuplicate', false);
+        component.set('v.providerFound', false);
         component.find('inviteRPDialog').show();
     },
     doInviteRP: function (component, event, helper) {
@@ -66,5 +68,29 @@
     doClearInviteAndHide: function (component, event, helper) {
         helper.clearInviteFields(component, event, helper)
         component.find('inviteRPDialog').hide();
+    },
+
+    checkContact: function(component, event, helper){
+        var email = event.getSource().get('v.value');
+        if(email && communityService.isValidEmail(email)) {
+            component.find('modalSpinner').show();
+            communityService.executeAction(component, 'checkDuplicate', {
+                email: email
+            }, function (returnValue) {
+                if (returnValue.firstName) {
+                    component.set('v.firstName', returnValue.firstName);
+                    component.set('v.lastName', returnValue.lastName);
+                    component.set('v.providerFound', true);
+                    component.set('v.isDuplicate', returnValue.isDuplicate);
+                    component.find('modalSpinner').hide();
+                } else {
+                    component.set('v.firstName', '');
+                    component.set('v.lastName', '');
+                    component.set('v.isDuplicate', returnValue.isDuplicate);
+                    component.set('v.providerFound', false);
+                    component.find('modalSpinner').hide();
+                }
+            });
+        }
     },
 })

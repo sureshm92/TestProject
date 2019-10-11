@@ -217,7 +217,7 @@ public without sharing class  IntegrationService {
                         Participant__r.Country_Code__c,
                         Participant__r.Country__c,
                         Participant__r.Mailing_Street__c,
-                        Participant__r.Language_Preference_Code__c,
+                        Participant__r.Preferred_Language__c,
                         Referral_ID__c,
                         Referred_Date__c,
                         Study_Site__r.Protocol_ID__c,
@@ -238,7 +238,7 @@ public without sharing class  IntegrationService {
         addr.CountryCode = pe.Participant__r.Mailing_Country_Code__c;
         
         CommunicationPreferences communicationPreferences = new CommunicationPreferences();
-        communicationPreferences.Language = pe.Participant__r.Language_Preference_Code__c;
+        communicationPreferences.Language = pe.Participant__r.Preferred_Language__c;
         
         Contact contact = new Contact();
         contact.Email = pe.Participant__r.Email__c;
