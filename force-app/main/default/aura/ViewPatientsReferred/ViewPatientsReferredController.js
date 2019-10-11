@@ -20,7 +20,6 @@
             delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
-            console.log('INIT DATA><><><><><>',initData);
             component.set('v.piBtnFilter', paramFilter);
             component.set('v.skipUpdate', true);
             component.set('v.pageList', initData.currentPageList);
