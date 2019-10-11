@@ -591,6 +591,7 @@
         <fields>Resource__c.Content_Class__c</fields>
         <fields>Resource__c.Content_Type__c</fields>
         <fields>Resource__c.Title__c</fields>
+        <fields>NAME</fields>
         <relatedList>Res_study__c.Clinical_Trial_Profile__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -606,7 +607,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h6E000000gRy0</masterLabel>
+        <masterLabel>00h1j000000Q8FP</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

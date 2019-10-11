@@ -18,6 +18,9 @@
 
     <div class="panel">
         <aura:if isTrue="{!v.permission != 'disabled'}">
+            <aura:set attribute="else">
+                <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>
+            </aura:set>
             <c:RRSpinner aura:id="spinner"/>
             <!--Filters-->
             <aura:if isTrue="{!v.initialized}">

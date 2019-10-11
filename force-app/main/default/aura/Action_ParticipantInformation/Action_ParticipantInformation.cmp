@@ -39,7 +39,7 @@
     <aura:handler name="change" value="{!v.pathItems}" action="{!c.prepareEditableSteps}"/>
 
     <!-- component body: -->
-    <c:Popup aura:id="dialog" title="{!v.popUpTitle}" size="large" showScroll="true">
+    <c:Popup aura:id="dialog" title="{!v.popUpTitle}" size="large" showScroll="true" showFooter="false">
         <c:RRSpinner aura:id="spinner" size="medium"/>
         <div class="form-content">
             <aura:if isTrue="{!v.initialized}">

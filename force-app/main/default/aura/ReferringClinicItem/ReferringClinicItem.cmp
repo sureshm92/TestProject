@@ -17,12 +17,12 @@
             <c:RRLink label="{!v.clinicWrapper.clinic.Name}" page="{!'clinic-profile?id=' + v.clinicWrapper.clinic.Id}" class="rci-name"/>
             <div class="rci-info">
                 <div class="rci-inline">
-                    <!--•-->{!$Label.c.PG_RSS_L_Address}:&nbsp;
+                    <span class="info-labels">{!$Label.c.PG_RSS_L_Address}:</span>
                         {! if(v.clinicWrapper.clinic.BillingStreet == null,'',v.clinicWrapper.clinic.BillingStreet + ' ')}
                         {! if(v.clinicWrapper.clinic.BillingCity == '','',v.clinicWrapper.clinic.BillingCity + ' ')}
                         {! if(empty(v.clinicWrapper.clinic.BillingPostalCode),'',v.clinicWrapper.clinic.BillingPostalCode + ' ')}
                 </div>
-                <div class="rci-inline">• {!$Label.c.PG_RSS_L_Phone}:&nbsp;{!v.clinicWrapper.clinic.Phone}</div>
+                <div class="rci-inline"><span class="info-labels">{!$Label.c.PG_RSS_L_Phone}:</span>{!v.clinicWrapper.clinic.Phone}</div>
             </div>
         </div>
 
