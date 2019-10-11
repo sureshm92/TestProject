@@ -44,7 +44,7 @@
         <div class="slds-col slds-size--3-of-12 slds-large-size--2-of-12" style="margin-top:23px">
             <aura:if isTrue="{!!v.healthCareProvider.Id || v.healthCareProvider.Status__c == 'No Sharing'}">
                 <button class="apollo-btn tertiary " style="padding:0;height:40px;min-width:160px"
-                        onclick="{!c.doConnect}" disabled="{!!v.isValid || v.action.disabled || v.isDuplicate}"
+                        onclick="{!c.doConnect}" disabled="{!v.healthCareProvider.Status__c != 'No Sharing' &amp;&amp; (!v.isValid || v.action.disabled || v.isDuplicate)}"
                         title="{!!v.healthCareProvider.Id &amp;&amp; v.action.disabled ?
                         $Label.c.RSN_Your_permissions_do_not_permit_this_action : v.isDuplicate ?
                         $Label.c.HealCare_Provider_Already_Connected : ''}">{!$Label.c.HealthCare_Provider_Connect}</button>

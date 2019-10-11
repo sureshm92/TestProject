@@ -183,9 +183,9 @@ public without sharing class RRChangePasswordController {
             if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
                 Account newClinic = new Account(
                         Name = account.Name,
-                        BillingCountry = contact.MailingCountry,
+                        BillingCountry = (contact.MailingCountry == '--None--' || String.isBlank(contact.MailingCountry) ? null : contact.MailingCountry),
                         BillingCity = contact.MailingCity,
-                        BillingState = contact.MailingState,
+                        BillingState = (contact.MailingState == '--None--' || String.isBlank(contact.MailingState) ? null : contact.MailingState),
                         BillingStreet = contact.MailingStreet,
                         BillingPostalCode = contact.MailingPostalCode,
                         Phone = contact.Phone,
@@ -194,7 +194,9 @@ public without sharing class RRChangePasswordController {
                 );
                 try {
                     insert newClinic;
-                    
+
+                    contact.MailingCountry = (contact.MailingCountry == '--None--' || String.isBlank(contact.MailingCountry) ? null : contact.MailingCountry);
+                    contact.MailingState = (contact.MailingState == '--None--' || String.isBlank(contact.MailingState) ? null : contact.MailingState);
                     contact.AccountId = newClinic.Id;
                 } catch (Exception exp) {
                     system.debug(exp);
