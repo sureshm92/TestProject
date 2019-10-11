@@ -8,7 +8,7 @@
     <aura:attribute name="class" type="String"/>
     <aura:attribute name="lineHeight" type="Decimal" default="1.4"/>
     <aura:attribute name="maxLines" type="Integer"/>
-    <aura:attribute name="background" type="String" default="white"/>
+    <aura:attribute name="background" type="String" default="#f8f9fb"/>
     <aura:attribute name="unitsType" type="String" default="em"/>
 
     <!-- component body: -->

@@ -35,7 +35,7 @@
             </aura:if>
 
             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
-                <button class="apollo-btn primary slds-float--left slds-m-top--medium slds-p-bottom--medium"
+                <button class="apollo-btn secondary slds-float--left slds-m-top--medium slds-p-bottom--medium"
                         onclick="{!c.doSelect}">
                     {!$Label.c.ReferralNetwork_SelectReferralNetwork}
                 </button>

@@ -2,7 +2,7 @@
  - Created by D.Yasinsky on 15.03.2018.
  -->
 <aura:component description="rrSelect">
-
+    
     <!-- attributes: -->
     <aura:attribute name="value" type="String" default="null" required="true"/>
     <aura:attribute name="options" type="List" description="list - {'label':'', 'value':''}"/>
@@ -73,8 +73,8 @@
                 </aura:if>
 
             </lightning:select>
-
-            <c:RRIcon iconName="{!v.iconName}" color="{!v.iconColor}"/>
+            <img src="{!$Resource.SelectMenuTriangleDown}" height="16" width="16" />
+         <!--   <c:RRIcon iconName="{!v.iconName}" color="{!v.iconColor}"/> -->
 
         </div>
 

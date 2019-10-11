@@ -172,7 +172,7 @@ public without sharing class PatientDelegateService {
 
     public void createPDAlerts(Contact contactDelegate) {
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
-
+        if(participantState.pe == null) return ;
         List<Alert__c> alertList = new List<Alert__c>();
         alertList.add(new Alert__c(
                 Contact__c = contactDelegate.Id,
@@ -321,6 +321,13 @@ public without sharing class PatientDelegateService {
     
     public static List<Id> getAvailablePEIdsForContact(Id contactId){
         return getAvailablePEIdsListByContactIdMap(new List<Id>{contactId}).get(contactId);
+    }
+
+    public static Map<Id, List<Id>> getForExclStatusPEIdsListByContactIdMap(List<Id> contactIds, List<String> excludedPEStatuses){
+        return getPEIdsListByContactIdMap(
+                contactIds,
+                ' Participant_Status__c NOT IN ' + DatabaseService.listToString(excludedPEStatuses)
+        );
     }
     
     public static Map<Id, List<Id>> getPastPEIdsListByContactIdMap(List<Id> contactIds){
