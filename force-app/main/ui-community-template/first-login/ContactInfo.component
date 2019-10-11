@@ -1,0 +1,6 @@
+<!--
+ - Created by Nargiz Mamedova on 10/11/2019.
+ -->
+
+<apex:component id="ContactInfo">
+</apex:component>
