@@ -35,7 +35,7 @@ public without sharing class StudyResourceVisibilityService {
             }
 
             if(!String.isEmpty(pe.Study_Site__r.Approved_Lng__c)) {
-                if(contentLangs.isEmpty()) {
+                if(contentLangs == null || contentLangs.isEmpty()) {
                     isVisible = false;
                 } else {
                     Boolean isLangContains = false;

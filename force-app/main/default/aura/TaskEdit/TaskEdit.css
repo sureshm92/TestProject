@@ -10,7 +10,7 @@
 
 .THIS.cRRTopBar.top-bar {
     background: none;
-    box-shadow: none;   
+    box-shadow: none;
     position: relative;
 }
 
@@ -39,7 +39,7 @@
     height: 14px;
     width: 14px;
     top: 9px;
-    left: 0; 
+    left: 0;
     transform: scaleX(-1);
 }
 

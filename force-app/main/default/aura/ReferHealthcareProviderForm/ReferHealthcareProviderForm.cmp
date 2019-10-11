@@ -30,7 +30,7 @@
                              onchange="{!c.checkFields}"
                              title="{!!v.healthCareProvider.Id &amp;&amp; v.action.disabled ? $Label.c.RSN_Your_permissions_do_not_permit_this_action : ''}"
                              disabled="{!v.healthCareProvider.Id  || v.providerFound || (!v.healthCareProvider.Id &amp;&amp; v.action.disabled)}"
-                             aura:id="hcpFirstName"/>
+                             aura:id="firstNameInput"/>
         </div>
         <div class="slds-col slds-size--1-of-1 slds-large-size--3-of-12">
             <lightning:input class="healthcare-input" type="text" required="true"
@@ -38,7 +38,7 @@
                              value="{!v.healthCareProvider.Last_Name__c}"
                              onchange="{!c.checkFields}"
                              disabled="{!v.healthCareProvider.Id  || v.providerFound || (!v.healthCareProvider.Id &amp;&amp; v.action.disabled)}"
-                             aura:id="hcpLastName"
+                             aura:id="lastNameInput"
                              title="{!!v.healthCareProvider.Id &amp;&amp; v.action.disabled ? $Label.c.RSN_Your_permissions_do_not_permit_this_action : ''}"/>
         </div>
         <div class="slds-col slds-size--3-of-12 slds-large-size--2-of-12" style="margin-top:23px">

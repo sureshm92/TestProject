@@ -6,7 +6,7 @@
     <aura:attribute name="trialTDO" type="Object"/>
     <aura:attribute name="isClicked" type="Boolean"/>
     <aura:attribute name="isSecondClicked" type="Boolean"/>
-    <aura:attribute name="isInit" type="Boolean"/>
+    <aura:attribute name="showModal" type="Boolean"/>
     <aura:attribute name="participant" type="Participant__c" access="public"/>
     <aura:attribute name="formData" type="Object" access="public"/>
     <aura:attribute name="isDisclaimer" type="Boolean"/>
@@ -56,7 +56,7 @@
             </aura:set>
         </aura:if>
 
-        <aura:if isTrue="{!v.isInit}">
+        <aura:if isTrue="{!v.showModal}">
             <c:Popup aura:id="contactModal" title="{!'Contact ' + v.trialTDO.ctp.Study_Code_Name__c}" size="large">
                 <c:FormPatientInfoTrialSearch aura:id="contactForm"
                         participant="{!v.participant}"
