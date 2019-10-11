@@ -4,7 +4,7 @@
 
 @IsTest(IsParallel=true)
 private class Test_ParticipantVisitsRemote {
-
+ 
 //    class VisitServiceMock implements StubProvider {
 //        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
 //                List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs
