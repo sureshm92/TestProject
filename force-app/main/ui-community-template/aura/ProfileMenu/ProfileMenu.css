@@ -9,6 +9,10 @@
     color: white;
 }
 
+.THIS .header-menu-link {
+    padding: 0 10px;
+}
+
 .THIS.mode-block .menu-popup-panel.popupTargetContainer{
     left: initial;
     right: 0;

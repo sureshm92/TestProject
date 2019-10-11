@@ -90,7 +90,7 @@
                             {!$Label.c.PG_MRR_BTN_Refer_Patient_to_This_Study}
 
                         </button>
-                        <button class="apollo-btn primary"
+                        <button class="apollo-btn secondary"
                                 onclick="{!c.doStartMRR}">
                             <!--disabled="{!v.actions.medicalRecordReview.disabled}"
                             title="{!v.actions.medicalRecordReview.disableReason}"-->

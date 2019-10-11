@@ -89,6 +89,7 @@ public without sharing class HCPEnrollmentTriggerHandler {
         Map<Id, Id> contactsForSendNotificationMap = new Map<Id, Id>();
         Map<Id, Id> contactsForSendNotificationByPiMap = new Map<Id, Id>();
         Map<Id, HCP_Enrollment__c> newMap = new Map<Id, HCP_Enrollment__c>(newList);
+        Map<Id,Contact> alreadyCreatedContactsMap = new Map<Id,Contact>([SELECT Id, Is_First_Logon__c FROM Contact WHERE Id IN :hcpContactIds AND Is_First_Logon__c = false]);
         List<Healthcare_Provider__c> hps = [SELECT Id, HCP_Enrollment__c FROM Healthcare_Provider__c WHERE HCP_Enrollment__c IN :newMap.keySet()];
         Map<Id, Healthcare_Provider__c> hpsByHCPE = new Map<Id, Healthcare_Provider__c>();
         for (Healthcare_Provider__c hp : hps) {
@@ -98,7 +99,7 @@ public without sharing class HCPEnrollmentTriggerHandler {
             if(hcpe.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT && hcpe.HCP_Contact__c != null &&
                     ((oldMap == null) || (oldMap != null && hcpe.Status__c != oldMap.get(hcpe.Id).Status__c))){
                 if(contactIdsWithCreatedUser.contains(hcpe.HCP_Contact__c)){
-                    if (hpsByHCPE.get(hcpe.Id) != null) {
+                    if (hpsByHCPE.get(hcpe.Id) != null || alreadyCreatedContactsMap.containsKey(hcpe.HCP_Contact__c)) {
                         contactsForSendNotificationByPiMap.put(hcpe.Id, hcpe.HCP_Contact__c);
                     } else {
                         contactsForSendNotificationMap.put(hcpe.Id, hcpe.HCP_Contact__c);

@@ -3,32 +3,32 @@
  */
 
 public without sharing class ContactService {
-    
-    public class PastStudyWrapper{
+
+    public class PastStudyWrapper {
         @AuraEnabled public Clinical_Trial_Profile__c ctp;
         @AuraEnabled public Participant_Enrollment__c pe;
         @AuraEnabled public List<ResourceService.ResourceWrapper> resourceWrappers;
-        
-        public PastStudyWrapper(Clinical_Trial_Profile__c ctp, Participant_Enrollment__c pe, List<ResourceService.ResourceWrapper> resourceWrappers){
+
+        public PastStudyWrapper(Clinical_Trial_Profile__c ctp, Participant_Enrollment__c pe, List<ResourceService.ResourceWrapper> resourceWrappers) {
             this.ctp = ctp;
             this.pe = pe;
             this.resourceWrappers = resourceWrappers;
         }
     }
-    
-    public static void updateCurrentPEOnContacts(List<Id> contactIds){
+
+    public static void updateCurrentPEOnContacts(List<Id> contactIds) {
         List<Contact> contacts = [
                 SELECT Id, Current_Participant_Enrollment__c
                 FROM Contact
-                WHERE Id IN: contactIds
+                WHERE Id IN:contactIds
         ];
         Map<Id, List<Id>> availablePEIdsByContactIdMap = PatientDelegateService.getAvailablePEIdsListByContactIdMap(contactIds);
-        for(Contact contact : contacts){
+        for (Contact contact : contacts) {
             List<Id> peIds = availablePEIdsByContactIdMap.get(contact.Id);
-            if(peIds == null) peIds = new List<Id>();
-            if(peIds.size() == 0){
+            if (peIds == null) peIds = new List<Id>();
+            if (peIds.size() == 0) {
                 contact.Current_Participant_Enrollment__c = null;
-            } else if(!peIds.contains(contact.Current_Participant_Enrollment__c)){
+            } else if (!peIds.contains(contact.Current_Participant_Enrollment__c)) {
                 contact.Current_Participant_Enrollment__c = peIds[0];
             }
         }
@@ -36,7 +36,7 @@ public without sharing class ContactService {
     }
 
     public static Participant_Enrollment__c getCurrentPE(Id contactId) {
-       Contact contact = [
+        Contact contact = [
                 SELECT Id,
                         Current_Participant_Enrollment__r.Participant__r.Full_Name__c,
                         Current_Participant_Enrollment__r.Participant__r.First_Name__c,
@@ -47,16 +47,16 @@ public without sharing class ContactService {
         ];
         return contact.Current_Participant_Enrollment__r;
     }
-    
-    public static List<PastStudyWrapper> getPastStudyWrappers(Id contactId){
+
+    public static List<PastStudyWrapper> getPastStudyWrappers(Id contactId) {
         List<Id> peIds = PatientDelegateService.getPastPEIdsForContact(contactId);
-        if(peIds == null) return new List<PastStudyWrapper>();
+        if (peIds == null) return new List<PastStudyWrapper>();
         List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getPEnrolmentsCommon(
                 CommunityService.USER_MODE_PARTICIPANT,
                 ' AND Id IN ' + DatabaseService.listToString(peIds)
         );
         Set<Id> ctpIds = new Set<Id>();
-        for(Participant_Enrollment__c pe : peList){
+        for (Participant_Enrollment__c pe : peList) {
             ctpIds.add(pe.Study_Site__r.Clinical_Trial_Profile__c);
         }
         Map<Id, Clinical_Trial_Profile__c> ctpMap = new Map<Id, Clinical_Trial_Profile__c>(TrialService.getTrials(new List<Id>(ctpIds)));
@@ -81,25 +81,25 @@ public without sharing class ContactService {
                 WHERE Clinical_Trial_Profile__c IN :ctpIds
         ];
         List<Id> resourceIds = new List<Id>();
-        for(Res_study__c resStudy : resStudyList) resourceIds.add(resStudy.Resource__c);
+        for (Res_study__c resStudy : resStudyList) resourceIds.add(resStudy.Resource__c);
         Map<Id, List<ContentDocumentLinkService.TranslatedContentItem>> translatedItemsMap =
                 ((ContentDocumentLinkService) ClassFactory.newInstance(ContentDocumentLinkService.class)).getTranslatedItemsForResources(resourceIds);
 
         Map<Id, List<Res_study__c>> resStudyByCtpIdMap = new Map<Id, List<Res_study__c>>();
         Set<Id> resStudyResourceIds = new Set<Id>();
-        for(Res_study__c resStudy : resStudyList){
+        for (Res_study__c resStudy : resStudyList) {
             List<Res_study__c> ctpResStudyList = resStudyByCtpIdMap.get(resStudy.Clinical_Trial_Profile__c);
-            if(ctpResStudyList == null) ctpResStudyList = new List<Res_study__c>();
+            if (ctpResStudyList == null) ctpResStudyList = new List<Res_study__c>();
             ctpResStudyList.add(resStudy);
             resStudyByCtpIdMap.put(resStudy.Clinical_Trial_Profile__c, ctpResStudyList);
             resStudyResourceIds.add(resStudy.Resource__c);
         }
         List<ContentDocumentLink> contentDocumentLinks = new List<ContentDocumentLink>();
-        if(resStudyResourceIds.size() > 0){
+        if (resStudyResourceIds.size() > 0) {
             contentDocumentLinks = [
                     SELECT Id, ContentDocument.Title, LinkedEntityId
                     FROM ContentDocumentLink
-                    WHERE LinkedEntityId IN: resStudyResourceIds
+                    WHERE LinkedEntityId IN:resStudyResourceIds
             ];
         }
 
@@ -112,22 +112,57 @@ public without sharing class ContactService {
         }
 
         List<PastStudyWrapper> pastWrappersList = new List<ContactService.PastStudyWrapper>();
-        for(Participant_Enrollment__c pe : peList){
+        for (Participant_Enrollment__c pe : peList) {
             List<ResourceService.ResourceWrapper> resources = new List<ResourceService.ResourceWrapper>();
             List<Res_study__c> resStudyForCtpList = resStudyByCtpIdMap.get(pe.Study_Site__r.Clinical_Trial_Profile__c);
-            if(resStudyForCtpList != null){
-                for(Res_study__c resStudy : resStudyForCtpList){
+            if (resStudyForCtpList != null) {
+                for (Res_study__c resStudy : resStudyForCtpList) {
                     Boolean isDelegate = pe.Participant__r.Contact__c != CommunityService.getUserContact().Id;
-                    if(StudyResourceVisibilityService.isResourceVisibleForPE(
+                    if (StudyResourceVisibilityService.isResourceVisibleForPE(
                             resStudy, pe, contentLangByResId.get(resStudy.Resource__c),
-                            CommunityService.USER_MODE_PARTICIPANT, isDelegate)){
+                            CommunityService.USER_MODE_PARTICIPANT, isDelegate)) {
                         resources.add(new ResourceService.ResourceWrapper(resStudy.Resource__r, translatedItemsMap.get(resStudy.Resource__c)));
                     }
                 }
             }
             pastWrappersList.add(new PastStudyWrapper(ctpMap.get(pe.Clinical_Trial_Profile__c), pe, resources));
-            
+
         }
         return pastWrappersList;
+    }
+
+    public static List<Contact> updateNextNotifyDate(List<Id> cntIds) {
+        List<String> exclPEStatuses = new List<String>{
+                PEStatusState.PE_STATUS_DROP_OUT,
+                PEStatusState.PE_STATUS_TRIAL_COMPLETE
+        };
+        Map<Id, List<Id>> availablePE = PatientDelegateService.getForExclStatusPEIdsListByContactIdMap(cntIds, exclPEStatuses);
+        List<Participant_Enrollment__c> peList = [
+                SELECT Participant_Contact__c, Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c
+                FROM Participant_Enrollment__c
+                WHERE Participant_Contact__c IN :availablePE.keySet()
+        ];
+
+        List<Contact> cnt = new List<Contact>();
+        for (Id cntId : availablePE.keySet()) {
+            List<Decimal> minDays = new List<Decimal>();
+            for (Participant_Enrollment__c pe : peList) {
+                System.debug('>>>>>>>>>> ' + JSON.serialize(pe));
+                if (pe.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c == null) continue;
+                else if (cntId == pe.Participant_Contact__c) {
+                    minDays.add(pe.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c);
+                }
+            }
+            if(!minDays.isEmpty()){
+                minDays.sort();
+                cnt.add(new Contact(Id = cntId, Next_Notify_Date__c = Date.today().addDays((Integer) minDays[0])));
+            }
+        }
+        return cnt;
+    }
+
+    @Future
+    public static void updateNextNotifyDateFuture(List<Id> conIds) {
+        update updateNextNotifyDate(conIds);
     }
 }

@@ -17,6 +17,10 @@ private class Test_Batch_PSECreateInvitation {
 
         Test.startTest();
 
+        User user = [SELECT Id, TimeZoneSidKey FROM User WHERE Id =: testData.participantUser.Id];
+        user.TimeZoneSidKey = 'America/Los_Angeles';
+        update user;
+
         Reminder_Schedule__c schedule = new Reminder_Schedule__c(
                 First_Reminder_day__c = 1
         );
