@@ -131,10 +131,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Batch_PEToPSE</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Batch_PSECreateInvitation</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1379,10 +1375,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Test_ParticipantVisitRemote</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Test_ParticipantVisitsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1435,10 +1427,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Test_ResourceReminderRemote</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Test_ResourceReminderService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1448,10 +1436,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ResourceService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Test_ResourcesDetailRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
