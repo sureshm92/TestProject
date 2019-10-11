@@ -107,7 +107,7 @@ global without sharing class ReferHealthcareProviderRemote {
                 List<Contact> contacts = [
                         SELECT Id, Email, AccountId
                         FROM Contact
-                        WHERE Email = :newHP.Email OR Email = :newHP.Email.toLowerCase()
+                        WHERE Email = :newHP.Email__c OR Email = :newHP.Email__c.toLowerCase()
                 ];
 
                 hcpe.add(new HCP_Enrollment__c(
