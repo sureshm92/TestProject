@@ -237,11 +237,11 @@ global without sharing class EmailTemplateController {
                         userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
                     }
                 } else {
-                    bodyLabel = LABEL_BODY_INITIAL_HCP;
-                    headerLabel = LABEL_HEADER_INITIAL_HCP;
-                    titleLabel = LABEL_TITLE_ALL;
-                    signatureLabel = LABEL_SIGNATURE;
-                    userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
+                        bodyLabel = LABEL_BODY_INITIAL_HCP;
+                        headerLabel = LABEL_HEADER_INITIAL_HCP;
+                        titleLabel = LABEL_TITLE_ALL;
+                        signatureLabel = LABEL_SIGNATURE;
+                        userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
                 }
             }
             
