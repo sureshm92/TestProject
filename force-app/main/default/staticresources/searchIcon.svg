@@ -1,0 +1,20 @@
+<svg width="24.000000000000007" height="24.000000000000007" xmlns="http://www.w3.org/2000/svg">
+ <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+
+ <title>search</title>
+ <desc>Created with Sketch.</desc>
+ <g>
+  <title>background</title>
+  <rect x="-1" y="-1" width="26" height="26" id="canvas_background" fill="none"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g stroke-opacity="0" stroke="#999999" id="Symbols" fill="#999999" fill-rule="evenodd">
+   <g id="icon/utility/search" fill="#000000" fill-rule="nonzero">
+    <g id="search-alternate">
+     <path stroke="#000000" d="m23.550665,21.619l-6.529,-6.529c2.95716,-3.88729 2.39668,-9.40107 -1.28218,-12.61381c-3.67887,-3.21274 -9.21791,-3.02563 -12.67159,0.42804c-3.45367,3.45368 -3.64078,8.99272 -0.42804,12.67159c3.21274,3.67886 8.72652,4.23934 12.61381,1.28218l6.529,6.529c0.49173,0.47966 1.27627,0.47966 1.768,0c0.48776,-0.48841 0.48776,-1.27959 0,-1.768zm-20.634,-12.119c0,-3.72792 3.02208,-6.75 6.75,-6.75c3.72792,0 6.75,3.02208 6.75,6.75c0,3.72792 -3.02208,6.75 -6.75,6.75c-3.72609,-0.00441 -6.74559,-3.02391 -6.75,-6.75z" id="Shape" fill="#999999"/>
+    </g>
+   </g>
+  </g>
+ </g>
+</svg>

@@ -12,7 +12,6 @@ public class TasksRemote {
 
     public class OpenTask{
         @AuraEnabled public Task openTask;
-        @AuraEnabled public Date reminderDate;
         @AuraEnabled public String originator;
         @AuraEnabled public Date activityDate;
         @AuraEnabled public Date reminder;

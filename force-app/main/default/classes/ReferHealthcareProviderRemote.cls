@@ -27,7 +27,7 @@ global without sharing class ReferHealthcareProviderRemote {
 
         if (!String.isBlank(email)) {
             List<Contact> contacts = [
-                    SELECT Id, FirstName, LastName, Name, Email
+                    SELECT Id, FirstName, LastName, Name, Email, userCommunytyType__c
                     FROM Contact
                     WHERE Email = :email OR Email = :email.toLowerCase()
             ];
@@ -45,22 +45,29 @@ global without sharing class ReferHealthcareProviderRemote {
                         contacts[0].FirstName = participants[0].First_Name__c;
                         contacts[0].LastName = participants[0].Last_Name__c;
                         update contacts[0];
+                    } else{
+                        hp.firstName = contacts[0].FirstName;
+                        hp.lastName = contacts[0].LastName;
                     }
                 } else {
                     hp.firstName = contacts[0].FirstName;
                     hp.lastName = contacts[0].LastName;
                 }
                 hp.email = contacts[0].Email;
-                List<Healthcare_Provider__c> isDuplicate = [
-                        SELECT Id
-                        FROM Healthcare_Provider__c
-                        WHERE Participant_Enrollment__c = :peId
-                        AND Email__c = :email
-                ];
-                if (!isDuplicate.isEmpty()) {
-                    hp.isDuplicate = true;
+                if(peId != null) {
+                    List<Healthcare_Provider__c> isDuplicate = [
+                            SELECT Id
+                            FROM Healthcare_Provider__c
+                            WHERE Participant_Enrollment__c = :peId
+                            AND Email__c = :email
+                    ];
+                    if (!isDuplicate.isEmpty()) {
+                        hp.isDuplicate = true;
+                    } else {
+                        hp.isDuplicate = false;
+                    }
                 } else{
-                    hp.isDuplicate = false;
+                        hp.isDuplicate = contacts[0].get('userCommunytyType__c') != null && contacts[0].userCommunytyType__c.contains('HCP');
                 }
 
                 /*Healthcare_Provider__c newHP = new Healthcare_Provider__c();

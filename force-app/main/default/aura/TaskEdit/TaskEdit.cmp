@@ -41,61 +41,6 @@
                     smallTitle=""
                     bigTitle="{!if(v.editMode, $Label.c.TTL_Edit_Task, $Label.c.TTL_Create_Task)}">
 
-            <!--Create Task-->
-            <aura:if isTrue="{!not(v.editMode)}">
-                <div class="buttons-area">
-                    <div class="rr-width-limiter buttons-block">
-                        <div class="pe-button red" onclick="{!c.doCancel}">
-                            <div>
-                                <c:RRIcon iconName="icon-close-circle"/>
-                                {!$Label.c.BTN_Cancel}
-                            </div>
-                        </div>
-                        <div class="pe-button blue" onclick="{!c.doSave}">
-                            <div>
-                                <c:RRIcon iconName="icon-check-circle"/>
-                                {!$Label.c.BTN_Save_Task}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </aura:if>
-
-            <!-- Edit Task -->
-            <aura:if isTrue="{!v.editMode}">
-                <div class="buttons-area">
-                    <div class="rr-width-limiter buttons-block">
-                        <aura:if isTrue="{!v.owner}">
-                            <div class="pe-button blue" onclick="{!c.doSave}">
-                                <div>
-                                    <c:RRIcon iconName="icon-check-circle"/>
-                                    {!$Label.c.BTN_Save_Task}
-                                </div>
-                            </div>
-                            <aura:set attribute="else">
-                                <div class="pe-button red" onclick="{!c.doCancel}">
-                                    <div>
-                                        <c:RRIcon iconName="icon-close-circle"/>
-                                        {!$Label.c.BTN_Cancel}
-                                    </div>
-                                </div>
-                            </aura:set>
-                        </aura:if>
-                        <div class="pe-button orange" onclick="{!c.doIgnoreTask}">
-                            <div>
-                                <c:RRIcon iconName="icon-stop" color="orange"/>
-                                {!$Label.c.BTN_Ignore}
-                            </div>
-                        </div>
-                        <div class="pe-button green" onclick="{!c.doMarkAsCompleted}">
-                            <div>
-                                <c:RRIcon iconName="icon-check-circle"/>
-                                {!$Label.c.BTN_Mark_As_Completed}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </aura:if>
         </c:RRTopBar>
 
         <!-- Task Panel -->
@@ -210,6 +155,62 @@
                         </div>
                     </div>
                 </aura:if>
+                
+            <!--Create Task-->
+            <aura:if isTrue="{!not(v.editMode)}">
+                <div class="buttons-area">
+                    <div class="rr-width-limiter buttons-block">
+                        <div class="apollo-btn secondary" onclick="{!c.doCancel}">
+                            <div>
+                                
+                                {!$Label.c.BTN_Cancel}
+                            </div>
+                        </div>
+                        <div class="apollo-btn primary" onclick="{!c.doSave}">
+                            <div>
+                               
+                                {!$Label.c.BTN_Save_Task}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+
+            <!-- Edit Task -->
+            <aura:if isTrue="{!v.editMode}">
+                <div class="buttons-area">
+                    <div class="rr-width-limiter buttons-block">
+                        <aura:if isTrue="{!v.owner}">
+                            <div class="apollo-btn secondary" onclick="{!c.doSave}">
+                                <div>
+                               <!--     <c:RRIcon iconName="icon-check-circle"/> -->
+                                    {!$Label.c.BTN_Save_Task}
+                                </div>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="apollo-btn secondary" onclick="{!c.doCancel}">
+                                    <div>
+                                    <!--    <c:RRIcon iconName="icon-close-circle"/> -->
+                                        {!$Label.c.BTN_Cancel}
+                                    </div>
+                                </div>
+                            </aura:set>
+                        </aura:if>
+                        <div class="apollo-btn secondary" onclick="{!c.doIgnoreTask}">
+                            <div>
+                            <!--    <c:RRIcon iconName="icon-stop" color="orange"/> -->
+                                {!$Label.c.BTN_Ignore}
+                            </div>
+                        </div>
+                        <div class="apollo-btn secondary" onclick="{!c.doMarkAsCompleted}">
+                            <div>
+                          <!--      <c:RRIcon iconName="icon-check-circle"/> -->
+                                {!$Label.c.BTN_Mark_As_Completed}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
             </div>
         </div>
     </aura:if>

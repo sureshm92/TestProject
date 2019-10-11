@@ -66,15 +66,11 @@ public without sharing class ParticipantEnrollmentService {
 
     public List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFieldsImpl(String userMode, List<String> customFields, String filter, String delegateId){
         String defaultFilter = ' Study_Site__c != NULL';// AND ' + getUserModeFilter(userMode, delegateId);
-        if(userMode == CommunityService.USER_MODE_HCP){
-            if(!filter.contains(' AND Id=')) {
-                defaultFilter += ' AND (' + getUserModeFilter(userMode, delegateId) + getHealthcareProviderFilter() + ')';
-            } else{
-                if(filter != null) defaultFilter += ' ' + filter;
-            }
-        } else{
+        if(userMode == CommunityService.USER_MODE_HCP && !filter.contains(' AND Id=')){
+                defaultFilter = ' AND (' + getUserModeFilter(userMode, delegateId) + getHealthcareProviderFilter() + ') ' + filter != null ? filter : '';
+        } else {
             defaultFilter += ' AND ' + getUserModeFilter(userMode, delegateId);
-            if(filter != null) defaultFilter += ' ' + filter;
+            if (filter != null) defaultFilter += ' ' + filter;
         }
         //if(filter != null) defaultFilter += ' ' + filter;
         List<Participant_Enrollment__c> peList = DatabaseService.query(

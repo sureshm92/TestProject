@@ -422,7 +422,7 @@ public without sharing class MyTeamRemote {
             AuraHelper.throwException(e);
         }
     }
-    
+
     private static void createDelegate(DelegateWrapper delegate, String userMode, String parentId) {
         Contact delegateContact = createDelegateContact(delegate, userMode);
         
@@ -472,7 +472,7 @@ public without sharing class MyTeamRemote {
         insert delegateContact;
         return delegateContact;
     }
-    
+
     private static void createPIDelegationRecord(DelegateWrapper delegate, Contact delegateContact) {
         List<Site_Staff__c> delegateRecordsToInsert = new List<Site_Staff__c>();
         for (TrialDelegateWrapper delegateTrialRecord : delegate.delegateTrials) {
@@ -490,14 +490,14 @@ public without sharing class MyTeamRemote {
             insert delegateRecordsToInsert;
         }
     }
-    
+
     private static void createHCPDelegationRecord(DelegateWrapper delegate, Contact delegateContact, String parentId){
         RP_Delegate_Relationship__c delegateRecord = new RP_Delegate_Relationship__c();
-        
-        delegateRecord.Delegate__c = delegateContact.Id;
-        delegateRecord.Referring_Provider__c = parentId;
-        delegateRecord.Delegate_Access_Level__c = delegate.trialLevel.delegateLevel;
-        insert delegateRecord;
+
+            delegateRecord.Delegate__c = delegateContact.Id;
+            delegateRecord.Referring_Provider__c = parentId;
+            delegateRecord.Delegate_Access_Level__c = delegate.trialLevel.delegateLevel;
+            insert delegateRecord;
     }
     
     public class MyTeamDetail {
