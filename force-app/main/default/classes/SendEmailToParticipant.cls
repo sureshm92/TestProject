@@ -98,19 +98,21 @@ public without sharing class SendEmailToParticipant {
     }
 
     public static List<Messaging.SingleEmailMessage> sendEmailSurveyNotification(Task task) {
+        List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
+        if(task.Reminder_Schedule__c == null) return emailMessages;
+
         Map<Id, Contact> contactMap = new Map<Id, Contact>([
                 SELECT Id, Participant_Opt_In_Status_Emails__c
                 FROM Contact
                 WHERE Id = :task.WhoId
         ]);
 
-        List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-
         Integer firstReminderDay = (Integer) task.Reminder_Schedule__r.First_Reminder_day__c;
-        if(firstReminderDay == null) return emailMessages;
-
-        Datetime startDT = DateTimeConverterUtil.addDaysInUserTimeZone(task.Reminder_Date__c, task.WhoId, -firstReminderDay);
-        Datetime firstReminderDate = DateTimeConverterUtil.addDaysInUserTimeZone(startDT, task.WhoId, firstReminderDay);
+        Datetime startDT = Datetime.newInstanceGmt(task.Start_Date__c, task.Reminder_Date__c.timeGmt());
+        Datetime firstReminderDate = startDT;
+        if(firstReminderDay > 0) {
+            firstReminderDate = DateTimeConverterUtil.addDaysInUserTimeZone(startDT, task.WhoId, firstReminderDay);
+        }
 
         String template;
         if (task.Reminder_Date__c == firstReminderDate) {

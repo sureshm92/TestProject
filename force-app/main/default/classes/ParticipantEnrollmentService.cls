@@ -65,9 +65,9 @@ public without sharing class ParticipantEnrollmentService {
     }
 
     public List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFieldsImpl(String userMode, List<String> customFields, String filter, String delegateId){
-        String defaultFilter = ' Study_Site__c != NULL';// AND ' + getUserModeFilter(userMode, delegateId);
+        String defaultFilter = ' Study_Site__c != NULL ';// AND ' + getUserModeFilter(userMode, delegateId);
         if(userMode == CommunityService.USER_MODE_HCP && !filter.contains(' AND Id=')){
-                defaultFilter = ' AND (' + getUserModeFilter(userMode, delegateId) + getHealthcareProviderFilter() + ') ' + filter != null ? filter : '';
+                defaultFilter += '  AND (' + getUserModeFilter(userMode, delegateId) + getHealthcareProviderFilter() + ') ' + filter != null ? filter : '';
         } else {
             defaultFilter += ' AND ' + getUserModeFilter(userMode, delegateId);
             if (filter != null) defaultFilter += ' ' + filter;
@@ -360,6 +360,8 @@ public without sharing class ParticipantEnrollmentService {
             'Participant__r.Contact__c',
             'Participant__r.Conditions__c',
             'Participant__r.Contact__r.Language__c',
+            'Participant__r.Contact__r.Second_Choice_Language__c',
+            'Participant__r.Contact__r.Third_Choice_Language__c',
             'Participant__r.Contact__r.Visit_Results_Opt_In__c',
             'Participant_Contact__c',
             'Participant_Contact__r.Visit_Results_Opt_In__c',
