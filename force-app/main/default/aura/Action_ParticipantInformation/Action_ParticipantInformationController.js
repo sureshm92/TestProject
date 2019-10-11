@@ -74,6 +74,7 @@
     doUpdate: function (component, event, helper) {
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
+        pe.Participant__r = participant;
         component.find('spinner').show();
         communityService.executeAction(component, 'updatePatientInfo', {
             participantJSON: JSON.stringify(participant),
