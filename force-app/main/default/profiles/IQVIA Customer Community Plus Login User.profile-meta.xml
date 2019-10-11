@@ -115,10 +115,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Batch_PEToPSE</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Batch_PSECreateInvitation</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -760,7 +756,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>RRChangePasswordController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>RRIconTableController</apexClass>
@@ -1327,6 +1323,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ParticipantVisitRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ParticipantVisitsRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1379,6 +1379,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ResourceReminderRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ResourceReminderService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1388,6 +1392,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ResourceService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourcesDetailRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1428,6 +1436,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_TaskService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_TherapeuticAreaAssignmentService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -2486,6 +2498,11 @@
         <editable>false</editable>
         <field>Contact.RRLanguageAllowedCookie__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Second_Choice_Language__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -6174,7 +6191,7 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>RRChangePassword</apexPage>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
         <apexPage>RRPDFViewer</apexPage>
@@ -6227,6 +6244,11 @@
         <default>true</default>
         <recordType>Metric.Progress</recordType>
         <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Res_study__c.Study_Resource</recordType>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>

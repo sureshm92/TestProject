@@ -6,7 +6,9 @@
         helper.spinnerShow(component);
         helper.enqueue(component, 'c.getReportDataWrappers', {})
             .then(function (res) {
-                component.set('v.reportDataList', JSON.parse(res));
+                let reportDataList = JSON.parse(res);
+                component.set('v.peId', reportDataList[0].peId);
+                component.set('v.reportDataList', reportDataList);
                 helper.spinnerHide(component);
             }, function (err) {
                 if (err && err[0].message) {
@@ -14,7 +16,11 @@
                 }
                 console.log('error:', err[0].message);
                 helper.spinnerHide(component);
-            });
+            }).catch(function (err) {
+            console.log('error:', err);
+            helper.spinnerHide(component);
+
+        });
     },
 
     onGenerateReport: function (component, event, helper) {

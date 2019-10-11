@@ -96,14 +96,14 @@
             </aura:if>
             <div style="height: 45px"></div>
             <!-- Date format and preferred language panel: -->
-           <!-- <div class="rr-white-panel" style="padding: 30px"> -->
-                <div class="as-title">{!$Label.c.PG_Login_H_Date_Language}</div>
-                <aura:if isTrue="{!v.userMode == 'Participant'}">
-                    <div class="as-sub-title">{!$Label.c.PP_L_Account_Setting_Preferred_Lng}</div>
-                    <aura:set attribute="else">
-                        <div class="as-sub-title">{!$Label.c.PG_Login_T_Date_Language}</div>
-                    </aura:set>
-                </aura:if>
+                <!-- <div class="rr-white-panel" style="padding: 30px"> -->
+<!--                <div class="as-title">{!$Label.c.PG_Login_H_Date_Language}</div>-->
+<!--                <aura:if isTrue="{!v.userMode == 'Participant'}">-->
+<!--                    <div class="as-sub-title">{!$Label.c.PP_L_Account_Setting_Preferred_Lng}</div>-->
+<!--                    <aura:set attribute="else">-->
+<!--                        <div class="as-sub-title">{!$Label.c.PG_Login_T_Date_Language}</div>-->
+<!--                    </aura:set>-->
+<!--                </aura:if>-->
                 <div class="as-language-switcher">
                     <c:LanguageSwitcher/>
                 </div>

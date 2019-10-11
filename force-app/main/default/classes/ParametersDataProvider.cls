@@ -372,7 +372,7 @@ public without sharing class ParametersDataProvider {
         for (Site_Staff__c PIDelegate : siteStaffs) {
             DelegateLevelWrapper dlw = new DelegateLevelWrapper();
             dlw.level = PIDelegate.Delegate_Level__c;
-            dlw.studyName = PIDelegate.Study_Site__r.Principal_Investigator__r.Full_Name__c +
+            dlw.studyName = PIDelegate.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c +
                     ' (' + PIDelegate.Study_Site__r.Name + ')';
             delegateLevelsPI.add(dlw);
         }
