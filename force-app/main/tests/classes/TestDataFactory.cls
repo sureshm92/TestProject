@@ -39,7 +39,7 @@ public class TestDataFactory {
                     'Mailing_Country_Code__c' => 'US',
                     'Mailing_State_Code__c' => 'NY',
                     'Mailing_Zip_Postal_Code__c' => '1234231234',
-                    'Language_Preference_Code__c' => 'en_US'
+                    'Preferred_Language__c' => 'en_US'
             },
 
             Resource_Action__c.getSObjectType() => new Map<String, Object>{

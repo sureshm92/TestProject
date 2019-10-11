@@ -1331,6 +1331,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ParticipantVisitRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ParticipantVisitsRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1383,6 +1387,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ResourceReminderRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ResourceReminderService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1392,6 +1400,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ResourceService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourcesDetailRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1432,6 +1444,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_TaskService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_TherapeuticAreaAssignmentService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -2495,6 +2511,11 @@
         <editable>false</editable>
         <field>Contact.RRLanguageAllowedCookie__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Second_Choice_Language__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
