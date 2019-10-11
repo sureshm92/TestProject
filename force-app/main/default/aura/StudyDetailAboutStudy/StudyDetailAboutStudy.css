@@ -22,7 +22,7 @@
 /*=======================================ABOUT STUDY==================================================================*/
 .THIS.sdas-main-container {
     background: #fff;
-    border: 1px solid #e9e9e9;
+    border: 1px solid #d9d9d9;
     border-width: 0 1px 1px 1px;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
     border-radius: 0 0 4px 4px;
@@ -75,7 +75,7 @@
 }
 
 .THIS .sdas-text {
-    color: #333333;
+    color: #444;
     font-size: 14px;
     line-height: 24px;
     white-space: pre-line;
@@ -94,16 +94,15 @@
 .THIS .sdas-separator {
     height: 8px;
     width: 100px;
-    border-top: 2px solid #297DFD;
-    border-bottom: 2px solid #297DFD;
+    border-top: 1px solid #297DFD;
     margin-top: 2em;
     margin-bottom: 2em;
 }
 
 .THIS .sdas-full-separator {
-    height: 2px;
+    height: 1px;
     width: 100%;
-    border: 1px solid #D9D9D9;
+    border-top: 1px solid #d9d9d9;
     margin-top: 2em;
     margin-bottom: 2em;
 }
@@ -153,27 +152,27 @@
 }
 
 .THIS .sdas-map-footer {
-    border: 1px solid #CCCCCC;
+    border: 1px solid #d9d9d9;
     position: relative;
 }
 
 .THIS .sdas-map-footer .sdas-footer-info {
     background-color: white;
-    padding: 17px;
-    border-bottom: 2px solid #CCCCCC;
+    padding: 18px;
+    border-bottom: 2px solid #d9d9d9;
 }
 
 .THIS .sdas-footer-info .name {
     color: #000000;
-    font-size: 15px;
+    font-size: .875rem;
     font-weight: 600;
     line-height: 18px;
     margin-bottom: 10px;
 }
 
 .THIS .sdas-footer-info .address {
-    color: #333333;
-    font-size: 13px;
+    color: #444;
+    font-size: 14px;
     line-height: 16px;
 }
 
@@ -209,7 +208,7 @@
 }
 
 .THIS .sdas-main-info .title {
-    color: #595959;
+    color: #999;
     font-size: 13px;
     line-height: 12px;
 }
@@ -224,7 +223,7 @@
 
 .THIS .sdas-question {
     box-sizing: border-box;
-    border: 1px solid #E1E6E8;
+    border: 1px solid #d9d9d9;
     border-radius: 5px;
     background-color: #FFFFFF;
     box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.2);
@@ -271,9 +270,9 @@
 }
 
 .THIS .study-sites-footer{
-    border: 1px solid #F2F2F2;
+    border: 1px solid #d9d9d9;
     border-radius: 0 0 5px 5px;
-    background-color: #F2F2F2;
+    background-color: #F8f9fb;
     box-shadow: 0 8px 30px 0 rgba(0,0,0,0.15);
     padding: 20px;
 }
@@ -293,7 +292,7 @@
     z-index: 5000;
     min-height: 72px;
     width: 100%;
-    border: 1px solid #D9D9D9;
+    border: 1px solid #d9d9d9;
     background-color: #FFFFFF;
     box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.15);
     text-align: center;
@@ -324,6 +323,7 @@
 
 .THIS .criteria-body{
     margin: 10px 5px 0 5px;
+    font-size: .875rem;
 }
 
 @media all and (max-width: 768px){
@@ -403,7 +403,7 @@
 }
 
 .THIS .slvi-section + .slvi-section {
-    border-top: 1px solid #F2F2F2;
+    border-top: 1px solid #d9d9d9;
 }
 
 @media all and (max-width: 767px) {
@@ -441,8 +441,9 @@
     margin: 10px 0;
 }
 
-.THIS .doc-item{
+.THIS .doc-item {
     padding: 2px;
+}
 .THIS .socialnetworks .cRRIcon.rr-icon-default{
     width: 18px;
 }

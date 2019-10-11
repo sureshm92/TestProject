@@ -51,9 +51,9 @@
     top: 30px;
     right: 25px;
 }
-
+/*
 .THIS .cRRIcon {display: none}
-
+*/
 .THIS .p-container .p-header {
     width: 100%;
     max-height: 20vh;
@@ -62,7 +62,7 @@
     white-space: initial;
     overflow: hidden;
     color: #000;
-    padding: 24px 15px 0 24px;
+    padding: 24px 15px 15px 24px;
     text-align: left;
 }
 

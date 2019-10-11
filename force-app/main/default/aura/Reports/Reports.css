@@ -1,20 +1,34 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS.stand-alone-mode .fp-container{
-    padding-top: 10px;
+
+.THIS .rr-white-panel {
+    border: none;
+}
+
+.THIS .rr-white-panel.padding {
+    padding-top: 0;
 }
 
 .THIS .db-header{
     font-weight: 600;
     margin-bottom: 15px;
     text-align: left;
+    font-size: 1rem;
 }
 
+.THIS .cFilterPanel .fp-filter-block {
+    padding-top: 0;
+}
+    
 .THIS .db-container{
     max-width: 380px;
     margin: auto;
     margin-bottom: 30px;
+}
+
+.THIS .fp-search-input img {
+    margin-right: 10px;
 }
 
 .THIS .cDonut.slds-grid {

@@ -11,6 +11,10 @@
     margin-bottom: 20px;
 }
 
+.THIS .cPSECard.rr-white-panel {
+    padding: 16px 0 0;
+}
+
 .THIS .rr-white-panel{
     margin-bottom: 20px;
 }
@@ -29,4 +33,12 @@
 .THIS .logo-text{
     font-size: 20px;
     font-weight: bold;
+}
+
+.THIS .apollo-btn.primary.dark {
+    width: 200px;
+}
+
+.THIS .apollo-btn.primary.dark .rr-icon-default{
+    margin-right: 10px;
 }

@@ -73,8 +73,8 @@
                 </aura:if>
 
             </lightning:select>
-
-            <c:RRIcon iconName="{!v.iconName}" color="{!v.iconColor}"/>
+            <img src="{!$Resource.SelectMenuTriangleDown}" height="16" width="16" />
+         <!--   <c:RRIcon iconName="{!v.iconName}" color="{!v.iconColor}"/> -->
 
         </div>
 

@@ -41,8 +41,13 @@
 
 .THIS .db-list-item.header{
     padding-bottom: 4px;
-
 }
+
+.THIS .db-list-item.header > .apollo-btn {
+    margin-bottom: 4px;
+    display: inline-block;
+}
+
 .THIS .db-list-item.header > span{
     font-size: 14px;
     font-weight: 600;
@@ -62,7 +67,7 @@
     margin-left: -3px;
 }
 
-.THIS .db-list-item .apollo-btn + .rr-link.only-text {
+.THIS .db-list-item > .rr-link.only-text:nth-of-type(1) {
     margin-left: -8px;
 }
 
@@ -107,12 +112,13 @@
 }
 
 .THIS .cDonut .dt-legend-section .slds-grid {
-    align-items: center;
+    display: flex;
+    align-items: flex-start;
     margin-bottom: 5px;
 }
 
 .THIS .cDonut .dt-legend-circle {
-    margin-bottom: 0;
+    margin-top: 2px;
 }
 
 .THIS .cDonut .dt-link {

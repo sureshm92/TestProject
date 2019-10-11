@@ -35,7 +35,7 @@
     width: 62px;
     padding-top: 10px;
     white-space: normal;
-    color: #297DFD;
+    color: #297dfd;
     font-size: 10px;
     font-weight: 600;
     line-height: 14px;
@@ -53,7 +53,6 @@
     opacity: 0.6;
     text-align: center;
     padding: 10px;
-    transition: 0.4s;
     white-space: nowrap;
 }
 
@@ -74,15 +73,11 @@
 }
 
 .THIS .ts-tab.selected{
-    opacity: 1;
-    pointer-events: none;
+   opacity: 1;
+   pointer-events: none;
    text-shadow:
         -.25px -.25px 0 #000,
         .25px -.25px 0 #000;
-    -webkit-transition: all .5s;
-    -moz-transition: all .5s;
-    -o-transition: all .5s;
-    transition: all .5s;	
 }
 
 .THIS .ts-tab.selected label:after {

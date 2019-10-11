@@ -9,8 +9,12 @@
     display: flex;
 }
 
+.THIS .cFilterPanel .fp-search-input .rri-container {
+	width: 300px;
+}
+
 .THIS .mrc-invite-btn-container{
-    text-align: left;
+    text-align: right;
 }
 @media all and (max-width: 767px) {
     .THIS .mrc-invite-btn-container{

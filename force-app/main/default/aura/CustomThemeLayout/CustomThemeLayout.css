@@ -58,6 +58,20 @@
     margin-top: 6px;
 }
 
+.THIS .slds-form-element__label {
+	color: #444;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 17px;
+    margin-bottom: 8px;
+}
+
+.THIS .slds-form-element__label:empty {
+    height: 0;
+    margin-bottom: 0;
+}
+
+
 .THIS .slds-select {
     background-color: #fff;
     border: 1px solid #d9d9d9;
@@ -81,7 +95,7 @@
 
 .THIS .slds-input {
     box-sizing: border-box;	
-    height: 40px;		
+    height: 32px;		
     border: 1px solid #d9d9d9;	
     border-radius: 4px;	
     background-color: #fff;	

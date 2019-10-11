@@ -18,11 +18,11 @@
                 <div class="rr-fields-cutter">
                     <div class="rr-fields-container">
                         <div class="rr-output-field">
-                            <div class="label slds-text-title_caps">{!$Label.c.PE_Investigator_Name}</div>
+                            <div class="label">{!$Label.c.PE_Investigator_Name}</div>
                             <div class="value">{!v.pe.Study_Site__r.Principal_Investigator__r.Name}</div>
                         </div>
                         <div class="rr-output-field">
-                            <div class="label slds-text-title_caps">{!$Label.c.PS_Enrollment_Date}</div>
+                            <div class="label">{!$Label.c.PS_Enrollment_Date}</div>
                             <div class="value">
                                 <div class="rp-max-length">
                                     <ui:outputDate format="MM-dd-yyyy" value="{!v.pe.Enrolled_Date__c}" />
@@ -30,7 +30,7 @@
                             </div>
                         </div>
                         <div class="rr-output-field">
-                            <div class="label slds-text-title_caps">{!$Label.c.PS_Site_Location}</div>
+                            <div class="label">{!$Label.c.PS_Site_Location}</div>
                             <div class="value ">
                                 <div class="rp-max-length">{!v.pe.Study_Site__r.Site__r.Name}</div>
                             </div>

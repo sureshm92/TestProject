@@ -39,12 +39,14 @@
     font-size: 18px;
     line-height: 20px;
     font-weight: 600;
+    margin-bottom: 10px
 }
 
 .THIS.as-container .as-sub-title {
     color: #333333;
-    font-size: 13px;
-    line-height: 16px;    
+    font-size: 14px;
+    line-height: 24px;   
+    width: 60%;
 }
 
 .THIS.as-container .as-password .as-password-button {
@@ -54,6 +56,12 @@
 .THIS .as-email-input.slds-gutters,
 .THIS .as-password-input{
     margin: -20px 0 0;
+}
+
+.THIS .slds-gutters.as-email-input .slds-col,
+.THIS .slds-gutters.as-password-input .slds-col{
+    padding-left: 0;
+    padding-right: 1.5rem;
 }
 
 .THIS .as-email-input > *,
@@ -74,12 +82,10 @@
     margin-top: 30px;
 }
 .THIS .as-submit-button{
-    width: 100%;
-    margin-top: 10px;
+    margin-top: 25px;
 }
 .THIS .as-email-pref-item{
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 15px;
 }
 
 .THIS .ah-toggle{
@@ -119,7 +125,7 @@
 
 .THIS .as-buttons-footer{
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     padding: 12px;
     margin-top: 20px;
 }

@@ -72,6 +72,13 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
+            <componentName>StudyLogo</componentName>
+        </componentInstances>
+        <name>Facet-5l0lrun48mg</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
             <componentInstanceProperties>
                 <name>body</name>
                 <value>Facet-71f78859-04bd-4226-8ba8-4ace3aa5ec77</value>
@@ -126,7 +133,58 @@
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
         </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>Facet-5l0lrun48mg</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Placeholder for languages</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
         <name>Facet-e2f2fc6b-f10c-4ef7-a488-63ddedbe118d</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentName>force:detailPanel</componentName>
+        </componentInstances>
+        <name>Facet-11lmzlz6b14c</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentName>StudyLogo</componentName>
+        </componentInstances>
+        <name>Facet-91408dbb-5d2e-4030-98a3-d91b9ac9b98f</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>Facet-11lmzlz6b14c</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Standard.Tab.detail</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>Facet-91408dbb-5d2e-4030-98a3-d91b9ac9b98f</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Placeholder for languages</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <name>Facet-6jyb2byto8d</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -136,6 +194,39 @@
                 <value>Facet-e2f2fc6b-f10c-4ef7-a488-63ddedbe118d</value>
             </componentInstanceProperties>
             <componentName>flexipage:tabset</componentName>
+            <visibilityRule>
+                <booleanFilter>1 AND 2</booleanFilter>
+                <criteria>
+                    <leftValue>{!$Permission.CustomPermission.Patient_Portal_View_Study_Configuration_Tabs}</leftValue>
+                    <operator>EQUAL</operator>
+                    <rightValue>true</rightValue>
+                </criteria>
+                <criteria>
+                    <leftValue>{!Record.Patient_Portal_Enabled__c}</leftValue>
+                    <operator>EQUAL</operator>
+                    <rightValue>true</rightValue>
+                </criteria>
+            </visibilityRule>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>tabs</name>
+                <value>Facet-6jyb2byto8d</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tabset</componentName>
+            <visibilityRule>
+                <booleanFilter>1 OR 2</booleanFilter>
+                <criteria>
+                    <leftValue>{!$Permission.CustomPermission.Patient_Portal_View_Study_Configuration_Tabs}</leftValue>
+                    <operator>EQUAL</operator>
+                    <rightValue>false</rightValue>
+                </criteria>
+                <criteria>
+                    <leftValue>{!Record.Patient_Portal_Enabled__c}</leftValue>
+                    <operator>EQUAL</operator>
+                    <rightValue>false</rightValue>
+                </criteria>
+            </visibilityRule>
         </componentInstances>
         <name>main</name>
         <type>Region</type>

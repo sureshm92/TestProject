@@ -87,7 +87,7 @@
                                         <aura:if isTrue="{!v.userMode != 'HCP'}">
                                             <aura:iteration items="{!v.studyDetail.tabs}" var="tab">
                                                 <c:RRTabSetItem tabId="{!tab.id}" currentTab="{!v.currentTab}"
-                                                                iconName="{!tab.iconName}" title="{!tab.title}"/>
+                                                                title="{!tab.title}"/>
                                             </aura:iteration>
                                         </aura:if>
                                     </aura:set>

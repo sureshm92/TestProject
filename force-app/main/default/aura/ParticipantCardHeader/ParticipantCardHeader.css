@@ -5,6 +5,12 @@
 .THIS {
     padding: 0 16px;
 }
+
+.THIS > div {
+    display: flex;
+    justify-content: space-between;
+}
+
 .THIS .psec-title-link{
     font-size: 1rem;
     color: #3294fe;
