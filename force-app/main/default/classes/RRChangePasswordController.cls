@@ -141,7 +141,7 @@ public without sharing class RRChangePasswordController {
         }
         
         countries = new List<SelectOption>();
-        //countries.add(new SelectOption('', '--None--'));
+        states = new List<SelectOption>();
         for (LabelValueItem country : CountryStateUtil.getCountries()) {
             countries.add(new SelectOption(country.label, country.label));
             countryCodeByName.put(country.label, country.value);
@@ -349,7 +349,6 @@ public without sharing class RRChangePasswordController {
     
     public void updateStatesAction(){
         states = new List<SelectOption>();
-        //states.add(new SelectOption('', '--None--'));
         List<LabelValueItem> statesByCountry = statesByCountryMap.get(countryCodeByName.get(contact.MailingCountry));
         if (statesByCountry != null) {
             for (LabelValueItem state : statesByCountry) {
