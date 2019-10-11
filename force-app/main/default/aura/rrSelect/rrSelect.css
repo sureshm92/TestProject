@@ -31,7 +31,7 @@
 }
 
 .THIS.rrs-container select{
-    height: 40px;
+    height: 32px;
 }
 
 .THIS.rrs-container .rr-icon-default{
@@ -46,4 +46,11 @@
 .THIS .slds-select_container .slds-select{
     padding-right: 30px;
     margin-top: 3px;
+    position: relative;
+}
+
+.THIS .rrs-relative img {
+    position: absolute;
+    right: 7px;
+    top: 11px;    
 }

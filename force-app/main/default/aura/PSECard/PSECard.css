@@ -2,6 +2,9 @@
  * Created by Leonid Bartenev
  */
 
+.THIS.rr-white-panel {
+    padding: 16px 0 0;
+}
 
 .THIS .vpi-path-panel{
     background-color: #F8F9FB;

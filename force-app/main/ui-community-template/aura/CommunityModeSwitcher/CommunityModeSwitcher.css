@@ -8,17 +8,16 @@
     height: 50px;
     color: white;
     background-color: rgba(255, 255, 255, 0.05);
-    width: 184px;
 }
 
 .THIS .mode-label{
-    max-width: 140px;
+    max-width: 245px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     display: inline-block;
     vertical-align: middle;
-    font-size: 12px;
+    font-size: .875rem;
 }
 
 @media all and (max-width: 550px) {

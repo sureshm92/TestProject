@@ -108,17 +108,15 @@
 
             </aura:if>
             <aura:if isTrue="{!and(v.userMode == 'PI', v.pe.Participant_Status__c == 'Referral Sent to PI')}">
-                <div class="slds-grid vpi-status-btns slds-gutters_x-small slds-wrap">
+                <div class="slds-grid vpi-status-btns slds-wrap">
                     <aura:iteration items="{!v.changeStatusBtnList}" var="btn">
-                        <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12">
-                            <button class="{!'apollo-btn tertiary ' + btn.style}"
+                            <button class="{!'apollo-btn secondary'}"
                                     disabled="{!v.actions.changePEStatusByPI.disabled}"
                                     title="{!v.actions.changePEStatusByPI.disableReason}"
                                     data-status-name="{!btn.status}"
                                     onclick="{!c.doChangeStatus}">
                                 {!btn.name}
                             </button>
-                        </div>
                     </aura:iteration>
                 </div>
             </aura:if>
