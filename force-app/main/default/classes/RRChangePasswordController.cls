@@ -42,9 +42,11 @@ public without sharing class RRChangePasswordController {
 
     public List<SelectOption> countries {get; set;}
     public List<SelectOption> states {get; set;}
+    public Boolean isStateRequired {get; set;}
 
 
     private Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
+    private Map<String, String> countryCodeByName = new Map<String, String>();
     private String oldAccountName;
 
     public RRChangePasswordController() {
@@ -82,6 +84,7 @@ public without sharing class RRChangePasswordController {
         ];
         contact = userVal.Contact;
         notEnrollNow = !((contact.userCommunytyType__c == null || contact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)) && contact.userCommunityMode__c == CommunityService.USER_MODE_HCP);
+        isStateRequired = false;
 
         Contact cont = [
                 SELECT Id, Account.Name, Account.Phone, Account.BillingStreet,
@@ -122,9 +125,10 @@ public without sharing class RRChangePasswordController {
         }
 
         countries = new List<SelectOption>();
-        countries.add(new SelectOption('', '--None--'));
+        //countries.add(new SelectOption('', '--None--'));
         for (LabelValueItem country : CountryStateUtil.getCountries()) {
-            countries.add(new SelectOption(country.value, country.label));
+            countries.add(new SelectOption(country.label, country.label));
+            countryCodeByName.put(country.label, country.value);
         }
     }
 
@@ -200,6 +204,9 @@ public without sharing class RRChangePasswordController {
         }
         if (!notEnrollNow && String.isBlank(contact.MailingCountry)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Country' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.MailingState) && states.size() > 1) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'State' + ERROR_SUFFIX));
         }
         if (!notEnrollNow && String.isBlank(contact.MailingPostalCode)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'ZIP/Postal Code' + ERROR_SUFFIX));
@@ -288,10 +295,14 @@ public without sharing class RRChangePasswordController {
 
     public void updateStatesAction(){
         states = new List<SelectOption>();
-        states.add(new SelectOption('', '--None--'));
-        for (LabelValueItem state : statesByCountryMap.get(contact.MailingCountryCode)) {
-            states.add(new SelectOption(state.value, state.label));
+        //states.add(new SelectOption('', '--None--'));
+        List<LabelValueItem> statesByCountry = statesByCountryMap.get(countryCodeByName.get(contact.MailingCountry));
+        if (statesByCountry != null) {
+            for (LabelValueItem state : statesByCountry) {
+                states.add(new SelectOption(state.label, state.label));
+            }
         }
+        isStateRequired = statesByCountry != null && !statesByCountry.isEmpty();
     }
 
 }
