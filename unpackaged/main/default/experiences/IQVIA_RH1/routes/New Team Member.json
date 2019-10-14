@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "new-team-member",
-  "appPageId" : "d9c4a932-5387-4757-867b-fed2cab30e7c",
-  "routeType" : "custom-new-team-member",
-  "pageAccess" : "UseParent",
-  "label" : "New Team Member",
-  "id" : "5c44c197-3dd4-4dc0-ba17-49723605770a",
-  "type" : "route"
-}
