@@ -72,6 +72,13 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
+            <componentName>ApproveLanguageIRB</componentName>
+        </componentInstances>
+        <name>Facet-46216db2-7a89-4163-9dfd-a02ee2c6dd12</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
             <componentInstanceProperties>
                 <name>body</name>
                 <value>Facet-71f78859-04bd-4226-8ba8-4ace3aa5ec77</value>
@@ -123,6 +130,17 @@
             <componentInstanceProperties>
                 <name>title</name>
                 <value>Travel Vendor Configuration</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>Facet-46216db2-7a89-4163-9dfd-a02ee2c6dd12</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Approved Languages</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
         </componentInstances>

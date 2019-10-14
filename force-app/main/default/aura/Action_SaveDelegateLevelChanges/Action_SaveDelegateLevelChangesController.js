@@ -19,12 +19,11 @@
             delegate: JSON.stringify(delegate),
             parentId: communityService.getDelegateId()
         }, function (returnValue) {
-            if (returnValue && returnValue.includes('ERROR')) {
-                communityService.showToast("ERROR","error",$A.get("$Label.c.TST_Permissions_should_be_the_same_for_study")) ;
-            } else if (isCreate) {
+            if(isCreate){
                 communityService.showToast("success","success",$A.get("$Label.c.TST_You_have_successfully_created_permissions_for") + " " +
                     (delegate.delegateContact.FirstName || "") + " " + delegate.delegateContact.LastName + ".") ;
-            } else {
+            }
+            else{
                 communityService.showToast("success","success",$A.get("$Label.c.TST_You_have_successfully_updated_permissions_for") + " " +
                     (delegate.delegateContact.FirstName || "") + " " + delegate.delegateContact.LastName + ".") ;
             }
