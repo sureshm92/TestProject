@@ -4,6 +4,22 @@
 
 public class SObjectHelper {
     
+    //return parent sObject with all nested sObjects
+    public static List<SObject> getAllSObjects(SObject sobj){
+        List<SObject> sObjects = new List<SObject>();
+        Map<String, Object> populatedFields = sobj.getPopulatedFieldsAsMap();
+        for(String fieldName : populatedFields.keySet()){
+            if(fieldName.endsWithIgnoreCase('__c') || fieldName.endsWithIgnoreCase('Id')) continue;
+            try{
+                SObject nestedSObj = sobj.getSObject(fieldName);
+                sObjects.addAll(getAllSObjects(nestedSObj));
+            }catch (Exception e){
+            }
+        }
+        sObjects.add(sobj);
+        return sObjects;
+    }
+    
     public static Object getSObjectFieldValue(SObject sObj, String fieldPath){
         List<String> pathItems = fieldPath.split('\\.');
         SObject currentSObject = sObj;

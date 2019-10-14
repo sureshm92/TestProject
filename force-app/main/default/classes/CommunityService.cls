@@ -185,6 +185,9 @@ public without sharing class CommunityService {
                 locale = hcpUser.LocaleSidKey;
                 language = hcpUser.LanguageLocaleKey;
             }
+            if(!cont.Participants__r.isEmpty() && cont.Participants__r[0].Preferred_Language__c != null){
+                cont.Language__c = cont.Participants__r[0].Preferred_Language__c;
+            }
             if(cont.Language__c != null) language = cont.Language__c;
             if(cont.Email != null && cont.Email != ''){
                 newPortalUsers.add(createUser(cont, locale, language, timeZone));
@@ -250,6 +253,8 @@ public without sharing class CommunityService {
                         userCommunity_ShowTour__c,
                         Current_Participant_Enrollment__c,
                         Last_Session_Id__c,
+                        Language__c,
+                        Second_Choice_Language__c,
                         MailingLatitude,
                         MailingLongitude,
                         MailingCountry,
@@ -260,8 +265,6 @@ public without sharing class CommunityService {
                         Account.BillingCountry,
                         Account.OwnerId,
                         PI_My_Studies_Filters__c,
-                        Language__c,
-                        Second_Choice_Language__c,
                         Third_Choice_Language__c
                 FROM Contact
                 WHERE Id = :contactId
@@ -337,5 +340,15 @@ public without sharing class CommunityService {
         String nameFilter = '';
         if(name != null) nameFilter = ' WHERE Name = \'' + name + '\' ';
         return Database.query('SELECT Id FROM Network' + nameFilter).get(0).Id;
+    }
+
+    public static Boolean isNewSession(){
+        Contact userContact = getUserContact();
+        Boolean isNewSession = UserInfo.getSessionId() != userContact.Last_Session_Id__c;
+        if(isNewSession) {
+            userContact.Last_Session_Id__c = UserInfo.getSessionId();
+            update userContact;
+        }
+        return isNewSession;
     }
 }

@@ -1,9 +1,10 @@
 <!--Created by D.Yasinskyi on 14.05.2018-->
 <aura:component description="NoDataToDisplay" implements="forceCommunity:availableForAllPageTypes">
     <!--=============================================================================================================-->
-    <aura:attribute name="errorMessage" type="String" default="{!$Label.c.PG_VP_L_No_Items}"/>
+    <aura:attribute name="errorMessage" type="String" default="{!$Label.c.PG_VP_L_No_Items}" description="deprecated"/>
+    <aura:attribute name="message" type="String" default="{!$Label.c.PG_VP_L_No_Items}"/>
     <!--=============================================================================================================-->
     <div class="ndtd-container">
-        <c:EmptyListStub iconName="sad" message="{!v.errorMessage}"/>
+        <c:EmptyListStub iconName="sad" message="{!v.message}"/>
     </div>
 </aura:component>
