@@ -13,9 +13,14 @@
         "StateAndCountryPicklist"
     ],
     "settings": {
-        "orgPreferenceSettings": {
-            "networksEnabled": true,
-            "translation": true
+        "experienceBundleSettings": {
+            "enableExperienceBundleMetadata": true
+        },
+        "communitiesSettings": {
+            "enableNetworksEnabled": true
+        },
+        "languageSettings": {
+            "enableTranslationWorkbench": true
         }
     }
 }
