@@ -208,7 +208,7 @@ public without sharing class RRChangePasswordController {
                     insert newClinic;
 
                     contact.MailingCountry = (noCountry ? null : contact.MailingCountry);
-                    contact.MailingState = (noState) ? null : contact.MailingState);
+                    contact.MailingState = (noState ? null : contact.MailingState);
                     contact.AccountId = newClinic.Id;
                 } catch (Exception exp) {
                     System.debug(exp);
