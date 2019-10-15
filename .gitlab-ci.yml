@@ -38,6 +38,7 @@ VALIDATE:
 
   stage: VALIDATE
   script:
+    - sfdx update
     - echo "$INTOneOne" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT1.1 -d
     - sfdx --version
