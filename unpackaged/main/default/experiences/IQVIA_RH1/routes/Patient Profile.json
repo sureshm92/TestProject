@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "patient-profile",
-  "appPageId" : "d9c4a932-5387-4757-867b-fed2cab30e7c",
-  "routeType" : "custom-patient-profile",
-  "pageAccess" : "UseParent",
-  "label" : "Patient Profile",
-  "id" : "bf2a1409-5eee-4d67-80e4-93bf5ca70c9c",
-  "type" : "route"
-}
