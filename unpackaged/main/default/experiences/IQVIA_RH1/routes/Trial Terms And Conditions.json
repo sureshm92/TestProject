@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "trial-terms-and-conditions",
-  "appPageId" : "d9c4a932-5387-4757-867b-fed2cab30e7c",
-  "routeType" : "custom-trial-terms-and-conditions",
-  "pageAccess" : "UseParent",
-  "label" : "Trial Terms And Conditions",
-  "id" : "cff9cbe2-ada1-455c-8fc2-d474a003ca62",
-  "type" : "route"
-}
