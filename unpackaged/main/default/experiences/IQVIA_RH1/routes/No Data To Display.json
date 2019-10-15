@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "no-data-to-display",
-  "appPageId" : "d9c4a932-5387-4757-867b-fed2cab30e7c",
-  "routeType" : "custom-no-data-to-display",
-  "pageAccess" : "UseParent",
-  "label" : "No Data To Display",
-  "id" : "a389ae5e-fc65-4f1a-a0d4-106b9e24f427",
-  "type" : "route"
-}
