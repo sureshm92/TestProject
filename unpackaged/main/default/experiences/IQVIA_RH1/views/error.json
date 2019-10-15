@@ -10,10 +10,15 @@
   }, {
     "components" : [ {
       "componentAttributes" : {
-        "richTextValue" : "<div style='text-align: center;'>Invalid Page</div>"
+        "additionalReasonDescription" : "Please try using the navigation to find what you're looking for.",
+        "errorNumber" : "404",
+        "header" : "Oops! You have encountered the",
+        "reason" : "Why?",
+        "reasonDescription" : "Because we can’t seem to find the page you are looking for. It is either unavailable or may no longer exist.",
+        "secondHeader" : "error page!"
       },
-      "componentName" : "forceCommunity:richTextInline",
-      "id" : "7186b06c-ff52-4799-b455-f2ea48c24204",
+      "componentName" : "c:errorPage",
+      "id" : "20621875-c030-47e8-913b-92018d0a6c1e",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
