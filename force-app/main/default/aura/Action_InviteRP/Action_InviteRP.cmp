@@ -14,6 +14,7 @@
     <aura:attribute name="studySitesForInvitation" type="List" access="private"/>
     <aura:attribute name="providerFound" type="Boolean" default="false"/>
     <aura:attribute name="isDuplicate" type="Boolean" default="false"/>
+    <aura:attribute name="refreshView" type="Boolean" default="false"/>
 
 
     <!-- handlers: -->
@@ -29,17 +30,19 @@
         <!--        <aura:attribute name="messageText" type="String"/>-->
         <!--        <aura:attribute name="callback" type="Function"/>-->
     </aura:method>
+    <aura:method name="checkfields" action="{!c.checkReqFields}"></aura:method>
 
 
     <div class="">
         <c:Popup aura:id="inviteRPDialog" title="{!$Label.c.PG_MRC_L_Invite_Referring_Provider}"
                  size="large" showScroll="{!true}">
+            <aura:if isTrue="{!!v.refreshView}">
             <div class="slds-grid slds-grid_vertical">
                 <div class="slds-col slds-grid slds-size_1-of-1">
                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                         <div class="rr-form-element">
                             <div class="label">{!$Label.c.PG_MRC_RF_Email}</div>
-                            <lightning:input value="{!v.emailS}" type="email" onblur="{!c.checkContact}"/>
+                            <lightning:input value="{!v.emailS}" type="email" onblur="{!c.checkContact}" aura:id="emailInput"/>
                         </div>
                     </div>
                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
@@ -96,22 +99,24 @@
                         </aura:if>
                     </div>
                     <aura:set attribute="else">
-                        <div class="slds-p-top_medium">There is the sames RP in the System</div>
+                        <div class="slds-p-top_medium">{!Label.c.Same_RP_in_the_system}</div>
                     </aura:set>
                 </aura:if>
             </div>
+            </aura:if>
             <aura:set attribute="footerButtons">
                 <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
                 <button class="apollo-btn secondary" onclick="{!c.doClearInviteAndHide}">
                     {!$Label.c.BTN_Cancel}
                 </button>
                 <button class="apollo-btn primary" onclick="{!c.doInviteRP}"
-                        disabled="{!v.reqFieldsFilled || v.isDuplicate}"
+                        disabled="{!!v.reqFieldsFilled || v.isDuplicate}"
                         title="{!(empty(v.lastName)||empty(v.firstName)||
                                 empty(v.clinicName)) ? $Label.c.PG_MRC_RF_Not_all_Req_Fields : ((empty(v.phone)&amp;&amp;empty(v.emailS)) ? $Label.c.PG_MRC_RF_Not_Email_or_Phone_Fields : '')}">
                     {!$Label.c.BTN_Invite}
                 </button>
             </aura:set>
+
         </c:Popup>
     </div>
 </aura:component>
