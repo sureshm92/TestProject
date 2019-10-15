@@ -5,6 +5,7 @@
                 "type": "Study_Site__c",
                 "referenceId": "ss1"
             },
+            "Approved_Lng__c": "en_US;ru",
             "Name": "Test SS1",
             "Clinical_Trial_Profile__c": "@ctp1",
             "Site__c": "@clinic1",
