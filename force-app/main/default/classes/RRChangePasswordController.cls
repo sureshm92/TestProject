@@ -189,11 +189,15 @@ public without sharing class RRChangePasswordController {
 
         if (!notEnrollNow && ApexPages.getMessages().isEmpty()) {
             if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
+                List<LabelValueItem> statesByCountry = statesByCountryMap.get(countryCodeByName.get(contact.MailingCountry));
+                Boolean noCountry = contact.MailingCountry == '--None--' || String.isBlank(contact.MailingCountry);
+                Boolean noState = contact.MailingCountry == '--None--' || String.isBlank(contact.MailingCountry) || statesByCountry == null || statesByCountry.size() < 2;
+
                 Account newClinic = new Account(
                         Name = account.Name,
-                        BillingCountry = (contact.MailingCountry == '--None--' || String.isBlank(contact.MailingCountry) ? null : contact.MailingCountry),
+                        BillingCountry = (noCountry ? null : contact.MailingCountry),
                         BillingCity = contact.MailingCity,
-                        BillingState = (contact.MailingState == '--None--' || String.isBlank(contact.MailingState) ? null : contact.MailingState),
+                        BillingState = (noState ? null : contact.MailingState),
                         BillingStreet = contact.MailingStreet,
                         BillingPostalCode = contact.MailingPostalCode,
                         Phone = contact.Phone,
@@ -203,8 +207,8 @@ public without sharing class RRChangePasswordController {
                 try {
                     insert newClinic;
 
-                    contact.MailingCountry = (contact.MailingCountry == '--None--' || String.isBlank(contact.MailingCountry) ? null : contact.MailingCountry);
-                    contact.MailingState = (contact.MailingState == '--None--' || String.isBlank(contact.MailingState) ? null : contact.MailingState);
+                    contact.MailingCountry = (noCountry ? null : contact.MailingCountry);
+                    contact.MailingState = (noState) ? null : contact.MailingState);
                     contact.AccountId = newClinic.Id;
                 } catch (Exception exp) {
                     System.debug(exp);
