@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "privacy-policy",
-  "appPageId" : "d9c4a932-5387-4757-867b-fed2cab30e7c",
-  "routeType" : "custom-privacy-policy",
-  "pageAccess" : "UseParent",
-  "label" : "Privacy Policy",
-  "id" : "700c96de-454d-4515-b4c8-7ecf34209cb1",
-  "type" : "route"
-}
