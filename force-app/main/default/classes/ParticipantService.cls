@@ -53,6 +53,8 @@ public without sharing class ParticipantService {
                 participantState.pe = pe;
                 participantState.isDelegate = pe.Participant__r.Contact__c != userContact.Id;
                 participantState.ctp = participantState.pe.Study_Site__r.Clinical_Trial_Profile__r;
+                TranslateHelper.translate(participantState.ctp,
+                        IRBParticipantService.getIRBLanguageMode(participantState.pe.Id).languageToTranslate);
                 participantState.showTerms = showTerms();
                 participantState.isPremium = participantState.ctp.Patient_Portal_Enabled__c;
                 if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
@@ -147,7 +149,7 @@ public without sharing class ParticipantService {
     }
 
     public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe) {
-        participant.Language_Preference_Code__c = UserInfo.getLanguage();
+        participant.Preferred_Language__c = UserInfo.getLanguage();
         ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(participant);
         Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
         if(participantFromDatabase != null){

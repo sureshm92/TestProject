@@ -17,7 +17,7 @@
     <c:uiHeaderMenu aura:id="menu" class="mode-block">
         <aura:set attribute="title">
             <lightning:avatar src="{!v.user.SmallPhotoUrl}"
-                              alternativeText="{!if(v.userMode=='Participant',v.participantName,v.user.Contact.Name)}"
+                              alternativeText="{!if(v.userMode=='Participant', v.participantName, v.user.Contact.FirstName + ' ' + v.user.Contact.LastName)}"
                               variant="circle" size="medium" fallbackIconName="standard:avatar"/>
             <c:RRIcon color="white" iconName="icon-chevron-down" class="chevron"/>
         </aura:set>
