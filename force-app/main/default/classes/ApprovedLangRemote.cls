@@ -295,7 +295,7 @@ public without sharing class ApprovedLangRemote {
             List<String> selectedLangs = new List<String>();
             if (!String.isEmpty(value)) selectedLangs = value.split(';');
             for (LabelValueItem labelValueItem : languages) {
-                if (labelValueItem.value.containsIgnoreCase(searchTerm) && !selectedLangs.contains(labelValueItem.value)) {
+                if (labelValueItem.label.containsIgnoreCase(searchTerm) && !selectedLangs.contains(labelValueItem.value)) {
                     resList.add(new LookupSearchResult(
                             labelValueItem.value,
                             null,
