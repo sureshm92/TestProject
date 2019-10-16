@@ -88,7 +88,7 @@ public inherited sharing class VisitResultsService {
         for (Visit_Result_TypeM__mdt singleVRT : visitResultTypes) {
             wrappers.add(new VisitResultWrapper(
                     visitResultsByTypeDeveloperNames.get(singleVRT.DeveloperName),
-                    TranslateHelper.getLabelValue('VR_' + singleVRT.DeveloperName),
+                    TranslateHelper.getLabelValue(singleVRT.DeveloperName),
                     TranslateHelper.getLabelValue(singleVRT.Description_Label_Api_Name__c)
             ));
         }
