@@ -8686,7 +8686,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP VPC SS Empty VP</shortDescription>
-        <value>&lt;&lt;Replace this text to approved&gt;&gt; (Study Site don&#39;t have Visit Plan)</value>
+        <value>Some of the Study Sites do not have a Visit plan. Ensure each Study Site has at least one Visit plan assigned.</value>
     </labels>
     <labels>
         <fullName>PSC_Docs_will_be_published</fullName>
