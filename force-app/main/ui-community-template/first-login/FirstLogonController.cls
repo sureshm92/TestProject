@@ -21,7 +21,7 @@ public without sharing class FirstLogonController {
     public String newPassword {get; set;}
     public String verifyNewPassword {get; set;}
 
-    public Boolean isPaswordsEquals {get; set;}
+    public Boolean isPasswordsEquals {get; set;}
     public Account account {get; set;}
     public Contact contact {get; set;}
     public User userVal {get; set;}
@@ -61,7 +61,6 @@ public without sharing class FirstLogonController {
     }
 
     private void init(){
-        Id userId = UserInfo.getUserId();
         userVal = [
                 SELECT Id, Name, Username, FirstName, LastName, FullPhotoUrl,
                         Contact.FirstName,
@@ -88,8 +87,7 @@ public without sharing class FirstLogonController {
                         LanguageLocaleKey,
                         TimeZoneSidKey,
                         LocaleSidKey
-                FROM User WHERE Id =: userId
-//                FROM User WHERE ContactId = '0030E00000Vs9R2QAJ'
+                FROM User WHERE Id =: UserInfo.getUserId()
         ];
         contact = userVal.Contact;
         previousLanguage = contact.Language__c;
@@ -118,7 +116,7 @@ public without sharing class FirstLogonController {
 
         photolink = userVal.FullPhotoUrl;
         isProfileView = true;
-        isPaswordsEquals = true;
+        isPasswordsEquals = true;
 
         tcText = '';
         Terms_And_Conditions__c portalTC = TermsAndConditions.getPortalTC();

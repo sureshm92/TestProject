@@ -2,7 +2,211 @@
  - Created by Nargiz Mamedova on 10/11/2019.
  -->
 
-<apex:component id="FirstLogon" controller="FirstLogonController" allowDML="true">
+<apex:component id="FirstLogon" controller="FirstLogonController" language="{!userVal.Contact.Language__c}" allowDML="true">
+    <style>
+        .all-content {
+            height: 100%;
+            width: 100%;
+            font-family: "Proxima Nova";
+        }
+
+        .footer {
+        }
+
+        .width-limiter {
+            height: 100%;
+            width: 100%;
+        }
+
+        .header-block {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+
+        .body-content {
+            vertical-align: top;
+            display: block;
+        }
+
+
+        .logo-block {
+            /*height: 39px;*/
+            width: 123px;
+        }
+
+        .current-state {
+            border-bottom: 1px solid #D9D9D9;
+            background: #F8F9FB;
+            height: 42px;
+            position: fixed;
+            top: 50px;
+        }
+
+        .thick-line {
+            height: 5px;
+            background-color: #AAB0B3;
+        }
+
+        .thick-line.selected {
+            background-color: #9014FE;
+        }
+
+        .line-info {
+            color: #AAB0B3;
+            text-align: center;
+            font-size: 12px;
+            line-height: 20px;
+        }
+
+        .line-info.selected {
+            color: #9014FE;
+        }
+
+        .line-tabs {
+            width: 100%;
+        }
+
+        .line-tabs tr td {
+            padding: 10px;
+            padding-bottom: 0;
+            width: 50%;
+        }
+
+        .main-header {
+            font-size: 60px;
+            font-weight: 600;
+            line-height: 1;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .errorMsg {
+            color: red;
+        }
+
+        .section-header {
+            font-size: 30px;
+            font-weight: 600;
+            line-height: 36px;
+        }
+
+        .alert {
+            color: white;
+            background: linear-gradient(to right, #230559 0%, #036ca7 100%);
+            padding: 20px;
+            text-align: center;
+            margin: 15px 0;
+
+        }
+
+        .slds-gutters {
+            margin-right: -0.75rem;
+            margin-left: -0.75rem;
+        }
+
+        .slds-gutters .slds-col {
+            padding-right: 0.75rem;
+            padding-left: 0.75rem;
+        }
+
+        .rr-form-element {
+            margin-top: 10px !important;
+            margin-bottom: 10px !important;
+        }
+
+        .rr-form-element .password-input {
+            position: relative;
+        }
+
+        .rr-form-element.error input {
+            border-color: red;
+        }
+
+        .footer {
+            background-color: #F2F2F2;
+        }
+
+        .copyright {
+            color: #666666;
+            font-size: 13px;
+            line-height: 16px;
+            padding: 33px 0 30px 0;
+            display: block;
+            text-align: right;
+        }
+
+        .rr-bottom-bar .bar-content {
+            justify-content: right;
+        }
+
+        .tc-accept-text {
+            color: #666666;
+            margin-right: auto;
+        }
+
+        .cp-save-btn-container {
+            height: 50px;
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+        }
+
+        .cp-save-btn {
+            width: 33%;
+        }
+
+        textarea {
+            line-height: unset !important;
+        }
+
+        @media all and (max-width: 767px) {
+            .cp-save-btn {
+                width: 100%;
+            }
+
+            .cp-language-blank {
+                display: none;
+            }
+        }
+
+        @media all and (min-width: 768px) {
+            .cp-information-container {
+                padding-left: 120px;
+                padding-right: 120px;
+            }
+        }
+    </style>
+
+    <style>
+        /* styles for language options input fields */
+        button.slds-button_icon::before {
+            content: attr(help-text);
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 12px;
+            line-height: 18px;
+            position: absolute;
+            z-index: 999;
+            text-align: left;
+            bottom: 9999px;
+            left: 50%;
+            background: #042459;
+            color: #e0e0e0;
+            min-height: 32px;
+            min-width: 200px;
+            opacity: 0;
+            transition: opacity 0.4s ease-out;
+        }
+
+        button.slds-button_icon:hover::before {
+            opacity: 1;
+            bottom: 24px;
+            left: -130px;
+        }
+    </style>
     <div class="rr-header-content">
         <div class="rr-width-limiter side-padding header-block">
             <apex:outputPanel rendered="{!isParticipant}">
@@ -38,220 +242,19 @@
             <c:ProfileIcon/>
             <div class="rr-width-limiter side-padding">
                 <!-- LoginInfo -->
-<!--                <c:LoginInfo isPaswordsEquals="{!isPaswordsEquals}" newPassword="{!newPassword}" verifyNewPassword="{!verifyNewPassword}" translation="{!translation}" userVal="{!userVal}"/>-->
-                <div class="section-header">{!$Label.PG_Login_H_Login_Information}</div>
-                <apex:messages styleClass="lg-error-alert" lang="{!translation.Language__c}"/>
-                <apex:outputPanel styleClass="error-description" rendered="{!!isPaswordsEquals}">{!$Label.PG_Login_T_Passwords_do_not_match}</apex:outputPanel>
-                <div class="slds-grid slds-wrap slds-gutters">
-                    <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                        <label>{!$Label.PG_Login_F_User_Name}</label>
-                        <input type="text" value="{!userVal.Username}" disabled="true" class="slds-input"></input>
-                    </div>
-                    <div class="rr-form-element {!IF(!isPaswordsEquals, 'error', '')} slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                        <label>{!$Label.PG_AS_F_New_password}</label>
-                        <div class="password-input">
-                            <apex:inputSecret value="{!newPassword}" redisplay="true" id="pwd_password" styleClass="slds-input"/>
-                            <svg class="button-eye" id="btn_password" aria-hidden="true" onclick="switchVisibility('password');">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!$Resource.rr_community_icons}/icons.svg#icon-view"></use>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="rr-form-element {!IF(!isPaswordsEquals, 'error', '')} slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                        <label>{!$Label.PG_AS_F_Re_enter_new_password}</label>
-                        <div class="password-input">
-                            <apex:inputSecret value="{!verifyNewPassword}" redisplay="true" id="pwd_confirm" styleClass="slds-input"/>
-                            <svg class="button-eye" id="btn_confirm" onclick="switchVisibility('confirm');" >
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!$Resource.rr_community_icons}/icons.svg#icon-view"></use>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
+                <c:LoginInfo isPasswordsEquals="{!isPasswordsEquals}" newPassword="{!newPassword}" verifyNewPassword="{!verifyNewPassword}" translation="{!translation}" userVal="{!userVal}"/>
 
                 <!-- ContactInfo -->
-                <div class="section-header" style="margin-top: 30px">{!$Label.PG_Login_H_Contact_Information}</div>
-                <div class="section-description">{!$Label.PG_Login_T_Please_Contact_Us}</div>
-<!--                <c:ContactInfo isParticipant="{!isParticipant}" contact="{!contact}"-->
-<!--                               notEnrollNow="{!notEnrollNow}" account="{!account}" participant="{!participant}"-->
-<!--                               isStateRequired="{!isStateRequired}" states="{!states}" countries="{!countries}"/>-->
-<!--                <apex:actionFunction name="updateStates" action="{!updateStatesAction}" />-->
-                <apex:outputPanel rendered="{!!isParticipant}">
-                    <div class="slds-grid slds-wrap slds-gutters">
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5" style="{!IF(!notEnrollNow,'','display:none;')}">
-                            <label>{!$Label.PG_AS_F_Title}</label>
-                            <apex:inputField styleClass="slds-input slds-combobox__input" style="height: 40px;" value="{!contact.Salutation}"/>
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1  {!IF(notEnrollNow,'slds-medium-size_1-of-3','slds-medium-size_1-of-5')}">
-                            <label><span title="required" class="slds-required" style="{!IF(!notEnrollNow,'','display:none;')}">*</span>{!$Label.PG_AS_F_First_name}</label>
-                            <input class="slds-input" type="text" value="{!contact.FirstName}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
-                            <apex:inputField styleClass="slds-input" type="text" value="{!contact.FirstName}" rendered="{!!notEnrollNow}" required="{!notEnrollNow}"/>
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5" style="{!IF(!notEnrollNow,'','display:none;')}">
-                            <label>{!$Label.PG_AS_F_Middle_name}</label>
-                            <apex:inputField styleClass="slds-input" type="text" value="{!contact.MiddleName}"/>
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 {!IF(notEnrollNow,'slds-medium-size_1-of-3','slds-medium-size_1-of-5')}">
-                            <label><span title="required" class="slds-required" style="{!IF(!notEnrollNow,'','display:none;')}">*</span>{!$Label.PG_AS_F_Last_name}</label>
-                            <input class="slds-input" type="text" value="{!contact.LastName}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
-                            <apex:inputField styleClass="slds-input" type="text" value="{!contact.LastName}" rendered="{!!notEnrollNow}" required="{!notEnrollNow}"/>
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5" style="{!IF(!notEnrollNow,'','display:none;')}">
-                            <label>{!$Label.PG_AS_F_Suffix}</label>
-                            <apex:inputField styleClass="slds-input" type="text" value="{!contact.Suffix}"/>
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3" style="{!IF(notEnrollNow,'','display:none;')}">
-
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                            <label><span title="required" class="slds-required" style="{!IF(!notEnrollNow,'','display:none;')}">*</span>{!$Label.PG_AS_F_Institute_Name}</label>
-                            <input class="slds-input" type="text" value="{!account.Name}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
-                            <apex:inputField styleClass="slds-input" type="text" value="{!account.Name}" rendered="{!!notEnrollNow}" required="{!notEnrollNow}"/>
-                        </div>
-                        <div class="rr-form-element  slds-col slds-size_1-of-1 slds-medium-size_2-of-3">
-                            <label><span title="required" class="slds-required" style="{!IF(!notEnrollNow,'','display:none;')}">*</span>{!$Label.PG_AS_F_Institute_Address_Line}</label>
-                            <input class="slds-input" type="text" value="{!account.BillingStreet}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
-                            <apex:inputField styleClass="slds-input" type="text" value="{!contact.MailingStreet}" rendered="{!!notEnrollNow}" required="{!notEnrollNow}"/>
-                        </div>
-                        <!--<div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">-->
-                        <!--<label>Institute Address Line 2</label>-->
-                        <!--<input class="slds-input" type="text" value="" disabled="true"></input>-->
-                        <!--</div>-->
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                            <label><span title="required" class="slds-required" style="{!IF(!notEnrollNow,'','display:none;')}">*</span>{!$Label.PG_AS_F_Institute_City}</label>
-                            <input class="slds-input" type="text" value="{!account.BillingCity}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
-                            <apex:inputField styleClass="slds-input" type="text" value="{!contact.MailingCity}" rendered="{!!notEnrollNow}" required="{!notEnrollNow}"/>
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                            <label><span title="required" class="slds-required" style="{!IF(notEnrollNow,'','display:none;')}">*</span>{!$Label.PG_AS_F_Institute_State}</label>
-                            <input class="slds-input" type="text" value="{!account.BillingState}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
-                            <apex:selectList id="stateId" styleClass="slds-input" disabled="{!!isStateRequired}" style="height: 40px;" size="1" value="{!contact.MailingState}" rendered="{!!notEnrollNow}" required="{!isStateRequired}">
-                                <apex:selectOption itemLabel="--None--" itemValue=""/>
-                                <apex:selectOptions value="{!states}"/>
-                            </apex:selectList>
-                            <!--<apex:inputField styleClass="slds-input" type="text" value="{!contact.MailingState}" rendered="{!!notEnrollNow}" required="false"/>-->
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                            <label><span title="required" class="slds-required" style="{!IF(!notEnrollNow,'','display:none;')}">*</span>{!$Label.PG_AS_F_Institute_Country}</label>
-                            <input class="slds-input" type="text" value="{!account.BillingCountry}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
-                            <apex:actionRegion>
-                                <apex:selectList styleClass="slds-input" style="height: 40px;" size="1" value="{!contact.MailingCountry}" rendered="{!!notEnrollNow}" required="{!notEnrollNow}">
-                                    <apex:selectOption itemLabel="--None--" itemValue=""/>
-                                    <apex:selectOptions value="{!countries}"/>
-                                    <apex:actionSupport event="onchange" action="{!updateStatesAction}" reRender="stateId"/>
-                                </apex:selectList>
-                            </apex:actionRegion>
-                            <!--<apex:inputField styleClass="slds-input" type="text" value="{!contact.MailingCountry}" rendered="{!!notEnrollNow}" required="{!notEnrollNow}"/>-->
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                            <label><span title="required" class="slds-required" style="{!IF(!notEnrollNow,'','display:none;')}">*</span>{!$Label.PG_AS_F_Institute_Zip_Postal_Code}</label>
-                            <input class="slds-input" type="text" value="{!account.BillingPostalCode}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
-                            <apex:inputField styleClass="slds-input" type="text" value="{!contact.MailingPostalCode}" rendered="{!!notEnrollNow}" required="{!notEnrollNow}"/>
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                            <label><span title="required" class="slds-required" style="{!IF(!notEnrollNow,'','display:none;')}">*</span>{!$Label.PG_AS_F_Institute_Phone_Number}</label>
-                            <input class="slds-input" type="text" value="{!account.Phone}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
-                            <apex:inputField styleClass="slds-input" type="text" value="{!contact.Phone}" rendered="{!!notEnrollNow}" required="{!notEnrollNow}"/>
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                            <label>{!$Label.PG_AS_F_Institute_Fax_Number}</label>
-                            <input class="slds-input" type="text" value="{!account.Fax}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
-                            <apex:inputField styleClass="slds-input" type="text" value="{!contact.Fax}" rendered="{!!notEnrollNow}"/>
-                        </div>
-                    </div>
-                </apex:outputPanel>
-                <apex:outputPanel rendered="{!isParticipant}">
-                    <div class="slds-grid slds-wrap slds-gutters">
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                            <label>{!$Label.PG_AS_F_First_name}</label>
-                            <input class="slds-input" type="text" value="{!participant.First_Name__c}" disabled="true"></input>
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                            <label>{!$Label.PG_AS_F_Last_name}</label>
-                            <input class="slds-input" type="text" value="{!participant.Last_Name__c}" disabled="true"></input>
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                            <label>{!$Label.PG_AS_F_Phone_number}</label>
-                            <input class="slds-input" type="text" value="{!participant.Phone__c}" disabled="true"></input>
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                            <label>{!$Label.PE_State}</label>
-                            <input class="slds-input" type="text" value="{!participant.Mailing_State__c}" disabled="true"></input>
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                            <label>{!$Label.PE_Country}</label>
-                            <input class="slds-input" type="text" value="{!participant.Mailing_Country__c}" disabled="true"></input>
-                        </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                            <label>{!$Label.PG_AS_F_Zip_Postal_Code}</label>
-                            <input class="slds-input" type="text" value="{!participant.Mailing_Zip_Postal_Code__c}" disabled="true"></input>
-                        </div>
-                    </div>
-                </apex:outputPanel>
+                <c:ContactInfo isParticipant="{!isParticipant}" contact="{!contact}"
+                               notEnrollNow="{!notEnrollNow}" account="{!account}" participant="{!participant}"
+                               isStateRequired="{!isStateRequired}" states="{!states}" countries="{!countries}"/>
+                <apex:actionFunction name="updateStates" action="{!updateStatesAction}" />
 
                 <!-- Preferred Language -->
-                <div class="section-header" style="margin-top: 30px">{!$Label.PG_Login_H_Language_Options}</div>
-                <div class="section-description">{!$Label.PG_Login_H_Language_Description}</div>
-                <apex:outputPanel >
-                    <div class="slds-grid slds-wrap slds-gutters">
-                        <div id="langSelectContainer" class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                            <label>{!$Label.PG_AS_F_Preferred_Language}
-                                <span class="slds-form-element__icon" style="inline; float:right">
-                                                <button type="button" class="slds-button slds-button_icon" aria-describedby="salesforce-lightning-helptext-bubble_e9d01f7b-4039-a66d-d7d6-3859dd5f1248" help-text="{!$Label.PG_AS_F_Preferred_Language_Help_Text}">
-                                                    <lightning-primitive-icon lightning-primitiveicon_primitiveicon-host="">
-                                                        <svg lightning-primitiveIcon_primitiveIcon="" focusable="false" data-key="info" aria-hidden="true" class="slds-button__icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="info" >
-                                                                    <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9 12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3 0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z"></path>
-                                                                </svg>
-                                                        </svg>
-                                                    </lightning-primitive-icon>
-                                                    <span class="slds-assistive-text"></span>
-                                                </button>
-                                            </span>
-                            </label>
-                            <apex:inputField styleClass="slds-input" value="{!userVal.contact.Language__c}" >
-                                <apex:actionSupport event="onchange" action="{!updateLanguageAction}"/>
-                            </apex:inputField>
-                        </div>
-                        <div id="langSelectContainer" class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                            <label>{!$Label.PG_AS_F_2nd_Choice_Language}
-                                <span class="slds-form-element__icon" style="inline; float:right">
-                                                <button type="button" class="slds-button slds-button_icon" aria-describedby="salesforce-lightning-helptext-bubble_e9d01f7b-4039-a66d-d7d6-3859dd5f1248" help-text="{!$Label.PG_AS_F_2nd_Choice_Language_Help_Text}">
-                                                    <lightning-primitive-icon lightning-primitiveicon_primitiveicon-host="">
-                                                        <svg lightning-primitiveIcon_primitiveIcon="" focusable="false" data-key="info" aria-hidden="true" class="slds-button__icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="info" >
-                                                                    <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9 12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3 0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z"></path>
-                                                                </svg>
-                                                        </svg>
-                                                    </lightning-primitive-icon>
-                                                    <span class="slds-assistive-text"></span>
-                                                </button>
-                                            </span>
-                            </label>
-                            <apex:inputField styleClass="slds-input" value="{!userVal.contact.Second_Choice_Language__c}" >
-                                <apex:actionSupport event="onchange" action="{!updateLanguageAction}" />
-                            </apex:inputField>
-                        </div>
-                        <div id="langSelectContainer" class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                            <label>{!$Label.PG_AS_F_3rd_Choice_Language}
-                                <span class="slds-form-element__icon" style="inline; float:right">
-                                                <button type="button" class="slds-button slds-button_icon" aria-describedby="salesforce-lightning-helptext-bubble_e9d01f7b-4039-a66d-d7d6-3859dd5f1248" help-text="{!$Label.PG_AS_F_3rd_Choice_Language_Help_Text}">
-                                                    <lightning-primitive-icon lightning-primitiveicon_primitiveicon-host="">
-                                                        <svg lightning-primitiveIcon_primitiveIcon="" focusable="false" data-key="info" aria-hidden="true" class="slds-button__icon">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="info" >
-                                                                    <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9 12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3 0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z"></path>
-                                                                </svg>
-                                                        </svg>
-                                                    </lightning-primitive-icon>
-                                                    <span class="slds-assistive-text"></span>
-                                                </button>
-                                            </span>
-                            </label>
-                            <apex:inputField styleClass="slds-input" value="{!userVal.Contact.Third_Choice_Language__c}">
-                                <apex:actionSupport event="onchange" action="{!updateLanguageAction}" />
-                            </apex:inputField>
-                        </div>
-                    </div>
-                </apex:outputPanel>
+                <c:PreferredLanguage language_="{!userVal}"/>
+                <apex:actionFunction name="updatePage" action="{!updateLanguageAction}"/>
 
+                <!-- Date Format -->
                 <c:DateFormat curUser="{!userVal}"/>
 
                 <!-- SAVE Button: -->

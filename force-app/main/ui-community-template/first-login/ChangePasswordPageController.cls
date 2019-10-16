@@ -16,7 +16,6 @@ public without sharing class ChangePasswordPageController {
                         LanguageLocaleKey
                 FROM User
                 WHERE Id =: UserInfo.getUserId()
-//                WHERE ContactId = '0030E00000Vs9R2QAJ'
         ];
     }
 
