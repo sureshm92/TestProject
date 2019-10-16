@@ -8402,6 +8402,13 @@ Please check your CAPS lock key.</value>
         <value>Study Name</value>
     </labels>
     <labels>
+        <fullName>Resource_Visit_Summary_Report</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource Visit Summary Report</shortDescription>
+        <value>Visit Summary Report</value>
+    </labels>
+    <labels>
         <fullName>Resources_Article</fullName>
         <language>en_US</language>
         <protected>true</protected>
