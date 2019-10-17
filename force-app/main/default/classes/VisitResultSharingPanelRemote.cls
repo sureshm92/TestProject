@@ -79,7 +79,7 @@ public without sharing class VisitResultSharingPanelRemote {
 
             InitData initData = new InitData();
             initData.groups = new List<VisitResultGroupWrapper>();
-            initData.user_has_permission = permissonSetCheck();
+            initData.user_has_permission = GetPermissions.getReadOrEditStudySettings(UserInfo.getUserId());
 
             List<Visit_Result_GroupM__mdt> resultGroups = [
                     SELECT Id, Label, (SELECT Id, DeveloperName, Label, Visit_Result_Code__c FROM Visit_Result_Types__r)

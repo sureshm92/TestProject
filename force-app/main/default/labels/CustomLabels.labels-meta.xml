@@ -8686,7 +8686,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP VPC SS Empty VP</shortDescription>
-        <value>&lt;&lt;Replace this text to approved&gt;&gt; (Study Site don&#39;t have Visit Plan)</value>
+        <value>Some of the Study Sites do not have a Visit plan. Ensure each Study Site has at least one Visit plan assigned.</value>
     </labels>
     <labels>
         <fullName>PSC_Docs_will_be_published</fullName>
@@ -9802,6 +9802,13 @@ Please check your CAPS lock key.</value>
         <value>Pre-Eligibility Screenings Completions</value>
     </labels>
     <labels>
+        <fullName>Same_RP_in_the_system</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Same RP in the system</shortDescription>
+        <value>There is the sames RP in the System</value>
+    </labels>
+    <labels>
         <fullName>Search_For_Sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10346,6 +10353,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>TS Add Vendor</shortDescription>
         <value>Add Vendor</value>
+    </labels>
+    <labels>
+        <fullName>TS_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Disclaimer</shortDescription>
+        <value>I agree to IQVIA&#39;s legalese disclaimer regarding study recruitment and other things the lawyers want us to put here</value>
     </labels>
     <labels>
         <fullName>TS_Select_Another_Country</fullName>

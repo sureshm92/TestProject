@@ -125,8 +125,7 @@
         <div class="disclaimer-box">
             <ui:inputCheckbox class="checkBox-desc" value="{!v.isDisclaimer}"/>
             <div class="disclaimer">
-                I agree to IQVIA's legalese disclaimer regarding study recruitment and other things the lawyers want us
-                to put here
+                {!$Label.c.TS_Disclaimer}
             </div>
         </div>
     </div>

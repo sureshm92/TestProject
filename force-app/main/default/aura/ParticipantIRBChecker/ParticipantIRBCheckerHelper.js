@@ -12,7 +12,6 @@
     },
 
     showToast : function (component) {
-        debugger;
         if(!component.get('v.isNewSession') && this.isToastDisplayed(component.get('v.peId'))) return;
 
         var template = component.get('v.displayText') + ' {0}';
