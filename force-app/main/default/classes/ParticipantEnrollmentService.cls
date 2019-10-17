@@ -67,7 +67,8 @@ public without sharing class ParticipantEnrollmentService {
     public List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFieldsImpl(String userMode, List<String> customFields, String filter, String delegateId){
         String defaultFilter = ' Study_Site__c != NULL ';// AND ' + getUserModeFilter(userMode, delegateId);
         if(userMode == CommunityService.USER_MODE_HCP && !filter.contains(' AND Id=')){
-                defaultFilter += '  AND (' + getUserModeFilter(userMode, delegateId) + getHealthcareProviderFilter() + ') ' + filter != null ? filter : '';
+                defaultFilter += '  AND (' + getUserModeFilter(userMode, delegateId) + getHealthcareProviderFilter() + ') ';
+            defaultFilter += filter != null ? filter : '';
         } else {
             defaultFilter += ' AND ' + getUserModeFilter(userMode, delegateId);
             if (filter != null) defaultFilter += ' ' + filter;

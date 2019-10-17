@@ -54,8 +54,8 @@ public class Batch_CreateSurveyTasks implements Database.Batchable<InvitationsWr
                 emailMessage.setToAddresses(new List<String>{user.get(0).Email});
                 emailMessage.setSubject('Batch Create Survey Task');
 
-                String messageBody = 'Task created = ' + taskCreated
-                        + '. Task failed = ' + (failedContactIds == null ? '0' : '' + (failedContactIds.size() + '\n'));
+                String messageBody = 'Task(s) created = ' + taskCreated
+                        + '. Task(s) failed = ' + (failedContactIds == null ? '0' : '' + (failedContactIds.size() + '\n'));
                 if(failedContactIds != null) {
                     messageBody += 'Failed contact ids:\n';
                     for(Integer i = 0; i < failedContactIds.size(); i++) {

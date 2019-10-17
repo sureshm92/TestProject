@@ -51,7 +51,7 @@
 
 .THIS.rri-container .rri-password .rri-show-password{
     position: absolute;
-    top: 2px;
+    top: 5px;
     right: 5px;
     cursor: pointer;
 }

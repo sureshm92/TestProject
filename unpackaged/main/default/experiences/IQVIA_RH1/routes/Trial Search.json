@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "trial-search",
-  "appPageId" : "d9c4a932-5387-4757-867b-fed2cab30e7c",
-  "routeType" : "custom-trial-search",
-  "pageAccess" : "UseParent",
-  "label" : "Trial Search",
-  "id" : "046a1633-9d15-4f0a-813e-7cf2083aba07",
-  "type" : "route"
-}
