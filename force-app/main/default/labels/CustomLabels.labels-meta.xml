@@ -5,7 +5,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ALT</shortDescription>
-        <value>{4}ALT{1}</value>
+        <value>ALT</value>
     </labels>
     <labels>
         <fullName>ALT_Description</fullName>
@@ -114,7 +114,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AST</shortDescription>
-        <value>{5}AST{1}</value>
+        <value>AST</value>
     </labels>
     <labels>
         <fullName>AST_Description</fullName>
@@ -997,7 +997,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BUN</shortDescription>
-        <value>{3}BUN{1}</value>
+        <value>BUN</value>
     </labels>
     <labels>
         <fullName>BUN_Description</fullName>
@@ -1011,7 +1011,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Body Mass Index</shortDescription>
-        <value>Body mass index {2}</value>
+        <value>Body mass index</value>
     </labels>
     <labels>
         <fullName>Body_Mass_Index_Description</fullName>
