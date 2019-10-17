@@ -8,7 +8,7 @@
 	display: flex;
 	flex-direction: column;
 	max-width: 525px;
-	min-height: 645px;
+	min-height: 450px;
     position: relative;
 }
 

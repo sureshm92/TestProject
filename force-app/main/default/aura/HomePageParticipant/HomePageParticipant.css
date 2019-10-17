@@ -42,3 +42,17 @@
 .THIS .apollo-btn.primary.dark .rr-icon-default{
     margin-right: 10px;
 }
+
+.THIS .cParticipantCardFields .vpi-fields{
+    padding: 0;
+    display: flex;
+	flex-wrap: wrap;
+    height: 125px;
+    width:	90%;
+}
+
+.THIS .cParticipantCardFields .vpi-field{
+    padding: 0 12px;
+    margin: 0;
+    flex: 0 0 33%;
+}

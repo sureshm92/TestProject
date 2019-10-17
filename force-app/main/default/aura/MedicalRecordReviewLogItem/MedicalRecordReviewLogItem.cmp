@@ -65,7 +65,7 @@
                 </div>
             </aura:if>
             <aura:if isTrue="{!v.participantEnrollment.Participant_Status__c == 'Excluded from Referring'}">
-                <button class="apollo-btn primary" style="width: 100%" onclick="{!c.undoExcludeFromReferring}"
+                <button class="apollo-btn primary" onclick="{!c.undoExcludeFromReferring}"
                         disabled="{!v.actions.undoExcludeFromReferring.disabled}"
                         title="{!v.actions.undoExcludeFromReferring.disableReason}">
                     {!v.actions.undoExcludeFromReferring.label}

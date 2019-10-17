@@ -11,3 +11,13 @@
 .THIS .language-switcher > *{
     margin-top: 20px;
 }
+
+.THIS .section-description {
+    width: 60%;
+    margin-bottom: 10px;
+}
+
+.THIS .slds-form-element__icon {
+    padding-top: 0;
+    margin-left: 3px;
+}
