@@ -48,14 +48,22 @@
 }
 
 .THIS.ts-tab-container .ts-tab {
-    min-width: 100px;
+    min-width: 70px;
     border-collapse: collapse;
     opacity: 0.6;
     text-align: center;
-    padding: 10px;
+    padding: 10px 20px;
     white-space: nowrap;
 }
 
+.THIS.ts-tab-container .ts-tab:first-child {
+    padding: 10px 20px 10px 0;
+}
+
+.THIS.ts-tab-container .ts-tab:hover {
+    opacity: 1;
+    color: #000;
+}
 
 .THIS .ts-tab .rr-icon-default{
     display: block;
