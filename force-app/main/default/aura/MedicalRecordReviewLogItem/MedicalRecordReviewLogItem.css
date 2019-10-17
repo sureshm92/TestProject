@@ -21,6 +21,7 @@
     font-size: 18px;
     line-height: 20px;
     font-weight: 600;
+    white-space: nowrap;
 }
 
 .THIS.mrrli-container .mrrli-info .mrrli-info-bottom {
@@ -48,6 +49,11 @@
 }
 
 .THIS .mrrli-buttons .slds-wrap {
+    justify-content: flex-end;
+}
+
+.THIS .mrrli-buttons.slds-col {
+    display: inline-flex;
     justify-content: flex-end;
 }
 

@@ -28,7 +28,7 @@
         <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end language-switcher" style="position: relative; padding-top:12px;">
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
                 <div class="label">{!$Label.c.PG_AS_F_Preferred_Language}
-                    <span style="inline; float:right;">
+                    <span>
                         <lightning:helptext content="{!$Label.c.PG_AS_F_Preferred_Language_Help_Text}"/>
                     </span>
                 </div>
@@ -36,7 +36,7 @@
             </div>
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
                 <div class="label">{!$Label.c.PG_AS_F_2nd_Choice_Language}
-                    <span style="inline; float:right;">
+                    <span>
                         <lightning:helptext content="{!$Label.c.PG_AS_F_2nd_Choice_Language_Help_Text}"/>
                     </span>
                 </div>
@@ -44,7 +44,7 @@
             </div>
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
                 <div class="label">{!$Label.c.PG_AS_F_3rd_Choice_Language}
-                    <span style="inline; float:right;">
+                    <span>
                         <lightning:helptext content="{!$Label.c.PG_AS_F_3rd_Choice_Language_Help_Text}"/>
                     </span>
                 </div>
@@ -69,7 +69,7 @@
         <br/>
 
         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
-            <button class="apollo-btn primary" id="0" onclick="{!c.doChangeLanguage}">{!$Label.c.PG_AS_BTN_Save_Preference}</button>
+            <button class="apollo-btn secondary" id="0" onclick="{!c.doChangeLanguage}">{!$Label.c.PG_AS_BTN_Save_Preference}</button>
         </div>
 
     </div>

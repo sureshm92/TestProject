@@ -70,6 +70,10 @@
 }
 
 
+.THIS .collapse-section.slds-m-top_large,
+.THIS .collapse-section.slds-m-top--large {
+    margin-top: 0;
+}
 
 .THIS .rr-link{
     color: #297DFD;

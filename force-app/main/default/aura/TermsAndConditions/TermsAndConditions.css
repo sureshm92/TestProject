@@ -3,7 +3,7 @@
 }
 
 .THIS .main-header {
-    font-size: 60px;
+    font-size: 2.5rem;
     font-weight: 600;
     line-height: 64px;
     text-align: center;
@@ -22,4 +22,15 @@
 
 .THIS .tc-bottom-bar-content{
     justify-content: space-between!important;
+}
+
+.THIS a {
+    color: #297dfd;
+    display: inline-block;
+    padding: 3px;
+}
+
+.THIS a:hover {
+    border-radius: 2px;
+    background-color: #eef5ff;
 }
