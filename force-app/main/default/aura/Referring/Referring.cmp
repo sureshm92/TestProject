@@ -401,12 +401,12 @@
                                             </div>
                                         </div>
                                         <div class="rr-form-element">
-                                            <lightning:input aura:id="emailField" type="text" label="{!$Label.c.PG_AS_F_Email_address}" value="{!v.participant.Email__c}"
+                                            <lightning:input aura:id="emailField" type="email" label="{!$Label.c.PG_AS_F_Email_address}" value="{!v.participant.Email__c}"
                                                              required="true" onblur="{!c.doCheckfields}"
                                                              messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"/>
                                         </div>
                                         <div class="rr-form-element">
-                                            <lightning:input aura:id="emailRepeatField" type="text" label="{!$Label.c.PG_Ref_L_Re_enter_email_address}" value="{!v.emailRepeat}"
+                                            <lightning:input aura:id="emailRepeatField" type="email" label="{!$Label.c.PG_Ref_L_Re_enter_email_address}" value="{!v.emailRepeat}"
                                                              required="true" onblur="{!c.doCheckfields}"
                                                              messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"/>
                                         </div>

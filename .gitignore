@@ -19,3 +19,5 @@ force-app/main/default/profiles/Custom%3A Sales Profile.profile-meta.xml
 force-app/main/default/profiles/Custom%3A Support Profile.profile-meta.xml
 force-app/main/default/settings/Address.settings-meta.xml
 __tmp
+force-app/main/default/flows/net_promoter_score.flow-meta.xml
+force-app/main/default/flows/customer_satisfaction.flow-meta.xml

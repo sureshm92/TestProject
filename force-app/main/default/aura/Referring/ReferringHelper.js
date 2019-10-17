@@ -65,8 +65,8 @@
         var emailRepeat = component.get('v.emailRepeat');
         var emailCmp = component.find('emailField');
         var emailRepeatCmp = component.find('emailRepeatField');
-        //var emailVaild = emailCmp.get('v.validity').valid;
-        //var emailRepeatValid = emailRepeatCmp.get('v.validity').valid;
+        var emailVaild = emailCmp && emailCmp.get('v.validity') && emailCmp.get('v.validity').valid;
+        var emailRepeatValid = emailRepeatCmp && emailRepeatCmp.get('v.validity') && emailRepeatCmp.get('v.validity').valid;
         var selectedCountry = participant.Mailing_Country_Code__c;
         var selectedState = participant.Mailing_State_Code__c;
         var states = component.get('v.states');
@@ -76,8 +76,8 @@
             participant.Last_Name__c &&
             participant.Email__c &&
             participant.Mailing_Zip_Postal_Code__c &&
-            //emailVaild &&
-            //emailRepeatValid &&
+            emailVaild &&
+            emailRepeatValid &&
             participant.Phone__c &&
             //agreeShare &&
             selectedCountry &&

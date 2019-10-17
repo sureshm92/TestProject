@@ -1,0 +1,23 @@
+<!--
+ - Created by Nargiz Mamedova on 10/14/2019.
+ -->
+
+<apex:component id="Spinner">
+<!--    <apex:attribute name="spinnerId" type="String" required="true"/>-->
+    <script>
+        function hideSpinner() {
+            $('.spinner').addClass('slds-transition-hide');
+        }
+
+        function showSpinner() {
+            $('.spinner').removeClass('slds-transition-hide');
+        }
+    </script>
+    <div class="spinner slds-spinner_container">
+        <div role="status" class="slds-spinner slds-spinner_x-small slds-spinner_brand">
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+        </div>
+    </div>
+</apex:component>
