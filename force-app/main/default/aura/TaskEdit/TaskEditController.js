@@ -17,10 +17,12 @@
             component.set('v.notReferral', wrapper.notReferral);
             component.set('v.reminderEnabled', wrapper.reminderEnabled);
 
-            if (wrapper.reminderEnabled) component.set('v.reminderDateEnabled', true);
+            if (wrapper.reminderEnabled) {
+                component.set('v.reminderDateEnabled', true);
+                component.set('v.reminderSetMode', 'Email');
+            }
 
             var task = wrapper.task;
-
             if (wrapper.reminderEnabled && wrapper.activityDate) component.set('v.frequencyEnabled', true);
 
             component.set('v.taskTypeList', wrapper.taskTypeList);
@@ -55,7 +57,7 @@
             if (visitId) component.set('v.task.Patient_Visit__c', visitId);
 
             component.set('v.jsonState', JSON.stringify(wrapper) + '' + JSON.stringify(task));
-
+            component.set('v.isValidFields', true);
             component.find('spinner').hide();
         });
     },
@@ -136,7 +138,6 @@
         } else if (reminderSetMode === 'Email') {
             var dueDate = component.get('v.initData.activityDate');
             if (dueDate && component.get('v.isValidFields')) component.set('v.frequencyEnabled', true);
-
             component.set('v.reminderDateEnabled', true);
         }
     },
@@ -154,6 +155,7 @@
         if (reminderSetMode === 'Email') {
             if (dueDate && !helper.isSameDay(component)) {
                 component.set('v.frequencyEnabled', true);
+                component.set('v.initData.reminderDate', dueDate);
                 if (frequencyMode === 'Day_Before') $A.enqueueAction(component.get('c.setOneDayBefore'))
             } else {
                 component.set('v.frequencyMode', 'By_Date');
@@ -162,6 +164,7 @@
             }
         } else {
             component.set('v.reminderDateEnabled', false);
+            component.set('v.frequencyEnabled', false);
         }
     },
 

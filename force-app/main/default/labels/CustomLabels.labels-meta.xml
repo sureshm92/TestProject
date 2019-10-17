@@ -10355,6 +10355,13 @@ Please check your CAPS lock key.</value>
         <value>Add Vendor</value>
     </labels>
     <labels>
+        <fullName>TS_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Disclaimer</shortDescription>
+        <value>I agree to IQVIA&#39;s legalese disclaimer regarding study recruitment and other things the lawyers want us to put here</value>
+    </labels>
+    <labels>
         <fullName>TS_Select_Another_Country</fullName>
         <language>en_US</language>
         <protected>true</protected>
