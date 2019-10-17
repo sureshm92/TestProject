@@ -71,8 +71,6 @@ public without sharing class ReferringClinicsFilter implements SearchFilter{
 
     private static List<String> REFERRING_CLINICS_SEARCH_FIELDS = new List<String>{
             'HCP_Contact__r.Account.Name',
-            'HCP_Contact__r.FirstName',
-            'HCP_Contact__r.LastName',
             'Study_Site__r.Name',
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c'
     };

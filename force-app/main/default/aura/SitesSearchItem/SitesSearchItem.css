@@ -3,28 +3,26 @@
  */
 .THIS .ssi-site-name{
     color: #000000;
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 1rem;
+    font-weight: 600;
 }
 .THIS .ssi-pi-name {
-    color: #999999;
+    color: #444;
     font-size: 13px;
 }
 .THIS .ssi-site-type {
-    color: #999999;
+    color: #444;
     font-size: 14px;
 }
 .THIS .ssi-site-distance{
-    color: #999999;
+    color: #444;
     font-size: 14px;
 }
 .THIS .ssi-address{
-    color: #333333;
+    color: #444;
     font-size: 13px;
 }
-.THIS .btn-request-to-refer{
-    color: #63C900;
-}
+
 .THIS .btn-refer-patient{
     color: #297DFD;
 }
@@ -38,4 +36,3 @@
 .THIS .apollo-btn{
     width: 100%;
 }
-

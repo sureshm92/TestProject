@@ -65,16 +65,14 @@
             <aura:if isTrue="{!v.currentState == 'Screening'}">
                 <div class="buttons-area">
                     <div class="rr-width-limiter buttons-block">
-                        <div class="pe-button" onclick="{!c.doReferrAnotherPatient}">
+                        <div class="apollo-btn secondary" onclick="{!c.doReferrAnotherPatient}">
                             <div>
-                                <c:RRIcon iconName="icon-sync"/>
                                 {!$Label.c.BTN_Stat_Over}
                             </div>
                         </div>
-                        <div class="pe-button red" onclick="{!c.doNoLongerInterested}">
+                        <div class="apollo-btn secondary" onclick="{!c.doNoLongerInterested}">
                             <div>
-                                <c:RRIcon iconName="icon-close-circle"/>
-                                {!$Label.c.BTN_Patient_no_longer_interested}
+                              	{!$Label.c.BTN_Patient_no_longer_interested}
                             </div>
                         </div>
                     </div>
@@ -253,7 +251,7 @@
                                         </div>
 
                                         <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ssi-button">
-                                            <button data-hcpe-id="{!ss.hcpe.Id}" class="apollo-btn tertiary" style="margin-top: 10px" onclick="{!c.doSelectSite}">
+                                            <button data-hcpe-id="{!ss.hcpe.Id}" class="apollo-btn secondary" style="margin-top: 10px" onclick="{!c.doSelectSite}">
                                                 {!$Label.c.BTN_Refer_to_this_Site}
                                             </button>
                                         </div>
@@ -304,11 +302,11 @@
                                 </aura:iteration>
                                 <div class="slds-grid slds-wrap slds-grid_align-center slds-p-around--medium slds-grid_vertical-align-center"
                                      style="min-height: 100%;">
-                                    <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-left slvi-header-item">
+                                    <div class="slds-col slds-medium-size_1-of-1 slds-size_1-of-1 slvi-header-item">
                                         <span class="header-white-panel" style="font-size: 16px;">{!$Label.c.MyStudy_None_of_these_sites_work}</span>
                                     </div>
-                                    <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-right slvi-header-item ">
-                                        <button class="apollo-btn primary slvi-search-site-btn"
+                                    <div class="slds-col slds-medium-size_1-of-1 slds-size_1-of-1 slvi-header-item ">
+                                        <button class="apollo-btn secondary slvi-search-site-btn"
                                                 onclick="{!c.doGoFindStudySites}">{!$Label.c.MyStudy_Find_More_Sites}
                                         </button>
                                     </div>
@@ -403,12 +401,12 @@
                                             </div>
                                         </div>
                                         <div class="rr-form-element">
-                                            <lightning:input aura:id="emailField" type="text" label="{!$Label.c.PG_AS_F_Email_address}" value="{!v.participant.Email__c}"
+                                            <lightning:input aura:id="emailField" type="email" label="{!$Label.c.PG_AS_F_Email_address}" value="{!v.participant.Email__c}"
                                                              required="true" onblur="{!c.doCheckfields}"
                                                              messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"/>
                                         </div>
                                         <div class="rr-form-element">
-                                            <lightning:input aura:id="emailRepeatField" type="text" label="{!$Label.c.PG_Ref_L_Re_enter_email_address}" value="{!v.emailRepeat}"
+                                            <lightning:input aura:id="emailRepeatField" type="email" label="{!$Label.c.PG_Ref_L_Re_enter_email_address}" value="{!v.emailRepeat}"
                                                              required="true" onblur="{!c.doCheckfields}"
                                                              messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"/>
                                         </div>
