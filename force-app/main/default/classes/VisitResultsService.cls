@@ -33,7 +33,7 @@ public inherited sharing class VisitResultsService {
             if (visitResult != null && visitResult.Actual_Value__c != null) {
                 listIsNotEmpty = true;
             }
-            wrappers.add(new VisitResultWrapper(visitResult, singleConfig.Dashboard_Name__c));
+            wrappers.add(new VisitResultWrapper(visitResult, TranslateHelper.getLabelValue(singleConfig.Dashboard_Name__c)));
         }
         return listIsNotEmpty ? wrappers : new List<VisitResultWrapper>();
     }
