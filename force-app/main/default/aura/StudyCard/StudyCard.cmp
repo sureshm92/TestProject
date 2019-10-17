@@ -18,10 +18,10 @@
             <div class="slvi-name-section-hcp">
                 <div class="slds-grid slds-wrap">
                     <div class="slds-col slds-small-size_1-of-1 slds-x-small-size_1-of-1 slds-medium-size_3-of-4 slds-large-size_3-of-4 study-name">
-                     <!--c:uiLimitTextByLines maxLines="{!if($Browser.formFactor == 'DESKTOP', 1, 3)}" lineHeight="33" unitsType="px"> -->
+                  <!--   <c:uiLimitTextByLines maxLines="{!if($Browser.formFactor == 'DESKTOP', 1, 3)}" lineHeight="33" unitsType="px"> -->
                             <c:RRLink class="study-title" label="{!v.currentStudy.trial.Study_Code_Name__c}"
                                       page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"/>
-                    <!--</c:uiLimitTextByLines> -->
+                <!--    </c:uiLimitTextByLines> -->
                     </div>
                     <div class="slds-col slds-small-size_2-of-3 slds-x-small-size--2-of-3 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-large-order_3 slds-medium-order_3 sponsor-name">
                         {!v.currentStudy.trial.Study_Sponsor__c}

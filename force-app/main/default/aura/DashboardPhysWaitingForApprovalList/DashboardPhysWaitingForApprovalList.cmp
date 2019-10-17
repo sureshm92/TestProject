@@ -12,7 +12,7 @@
     <aura:iteration items="{!v.hcpeList}" var="item">
         <div class="db-list-item">
             <div class="rr-small-down-hide">
-                <button class="apollo-btn tertiary green"
+                <button class="apollo-btn secondary"
                         disabled="{!item.action.disabled}"
                         title="{!item.action.disableReason}"
                         onclick="{!c.doAction}"

@@ -30,7 +30,7 @@
 }
 
 .THIS .db-list-item{
-    border-bottom: 2px solid #cccccc;
+    border-bottom: 1px solid #d9d9d9;
     padding: 10px 0;
     line-height: 26px;
 }
@@ -46,6 +46,7 @@
 .THIS .db-list-item.header > .apollo-btn {
     margin-bottom: 4px;
     display: inline-block;
+    font-size: .875rem;
 }
 
 .THIS .db-list-item.header > span{
@@ -107,8 +108,8 @@
 .THIS .db-section-devider{
     margin-top: 20px;
     margin-bottom: 30px;
-    background-color: #CCCCCC;
-    height: 2px;
+    background-color: #d9d9d9;
+    height: 1px;
 }
 
 .THIS .cDonut .dt-legend-section .slds-grid {
