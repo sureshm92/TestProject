@@ -1435,6 +1435,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Delegate</value>
     </labels>
     <labels>
+        <fullName>Diastolic</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Diastolic</shortDescription>
+        <value>Diastolic</value>
+    </labels>
+    <labels>
         <fullName>Diastolic_Blood_Pr</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8052,6 +8059,13 @@ Please check your CAPS lock key.</value>
         <value>Log Out</value>
     </labels>
     <labels>
+        <fullName>Pulse</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pulse</shortDescription>
+        <value>Pulse</value>
+    </labels>
+    <labels>
         <fullName>RBC_Count</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9338,6 +9352,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>The record has been created successfully.</shortDescription>
         <value>The record has been created successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Systolic</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Systolic</shortDescription>
+        <value>Systolic</value>
     </labels>
     <labels>
         <fullName>Systolic_Blood_Pr</fullName>
