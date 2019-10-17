@@ -2,5 +2,301 @@
  - Created by Nargiz Mamedova on 10/11/2019.
  -->
 
-<apex:component id="FirstLogon">
+<apex:component id="FirstLogon" controller="FirstLogonController" language="{!userVal.Contact.Language__c}" allowDML="true">
+    <style>
+        .all-content {
+            height: 100%;
+            width: 100%;
+            font-family: "Proxima Nova";
+        }
+
+        .footer {
+        }
+
+        .width-limiter {
+            height: 100%;
+            width: 100%;
+        }
+
+        .header-block {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+
+        .body-content {
+            vertical-align: top;
+            display: block;
+        }
+
+
+        .logo-block {
+            /*height: 39px;*/
+            width: 123px;
+        }
+
+        .current-state {
+            border-bottom: 1px solid #D9D9D9;
+            background: #F8F9FB;
+            height: 42px;
+            position: fixed;
+            top: 50px;
+        }
+
+        .thick-line {
+            height: 5px;
+            background-color: #AAB0B3;
+        }
+
+        .thick-line.selected {
+            background-color: #9014FE;
+        }
+
+        .line-info {
+            color: #AAB0B3;
+            text-align: center;
+            font-size: 12px;
+            line-height: 20px;
+        }
+
+        .line-info.selected {
+            color: #9014FE;
+        }
+
+        .line-tabs {
+            width: 100%;
+        }
+
+        .line-tabs tr td {
+            padding: 10px;
+            padding-bottom: 0;
+            width: 50%;
+        }
+
+        .main-header {
+            font-size: 60px;
+            font-weight: 600;
+            line-height: 1;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .errorMsg {
+            color: red;
+        }
+
+        .section-header {
+            font-size: 30px;
+            font-weight: 600;
+            line-height: 36px;
+        }
+
+        .alert {
+            color: white;
+            background: linear-gradient(to right, #230559 0%, #036ca7 100%);
+            padding: 20px;
+            text-align: center;
+            margin: 15px 0;
+
+        }
+
+        .slds-gutters {
+            margin-right: -0.75rem;
+            margin-left: -0.75rem;
+        }
+
+        .slds-gutters .slds-col {
+            padding-right: 0.75rem;
+            padding-left: 0.75rem;
+        }
+
+        .rr-form-element {
+            margin-top: 10px !important;
+            margin-bottom: 10px !important;
+        }
+
+        .rr-form-element .password-input {
+            position: relative;
+        }
+
+        .rr-form-element.error input {
+            border-color: red;
+        }
+
+        .footer {
+            background-color: #F2F2F2;
+        }
+
+        .copyright {
+            color: #666666;
+            font-size: 13px;
+            line-height: 16px;
+            padding: 33px 0 30px 0;
+            display: block;
+            text-align: right;
+        }
+
+        .rr-bottom-bar .bar-content {
+            justify-content: right;
+        }
+
+        .tc-accept-text {
+            color: #666666;
+            margin-right: auto;
+        }
+
+        .cp-save-btn-container {
+            height: 50px;
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+        }
+
+        .cp-save-btn {
+            width: 33%;
+        }
+
+        textarea {
+            line-height: unset !important;
+        }
+
+        @media all and (max-width: 767px) {
+            .cp-save-btn {
+                width: 100%;
+            }
+
+            .cp-language-blank {
+                display: none;
+            }
+        }
+
+        @media all and (min-width: 768px) {
+            .cp-information-container {
+                padding-left: 120px;
+                padding-right: 120px;
+            }
+        }
+    </style>
+
+    <style>
+        /* styles for language options input fields */
+        button.slds-button_icon::before {
+            content: attr(help-text);
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 12px;
+            line-height: 18px;
+            position: absolute;
+            z-index: 999;
+            text-align: left;
+            bottom: 9999px;
+            left: 50%;
+            background: #042459;
+            color: #e0e0e0;
+            min-height: 32px;
+            min-width: 200px;
+            opacity: 0;
+            transition: opacity 0.4s ease-out;
+        }
+
+        button.slds-button_icon:hover::before {
+            opacity: 1;
+            bottom: 24px;
+            left: -130px;
+        }
+    </style>
+    <div class="rr-header-content">
+        <div class="rr-width-limiter side-padding header-block">
+            <apex:outputPanel rendered="{!isParticipant}">
+                <img src="{!$Resource.PH_logo + '/Patient_Portal_Logo.svg'}" class="logo-block"/>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!!isParticipant}">
+                <img src="{!$Resource.rr_community_icons + '/Referral_Hub_Logo.svg'}" class="logo-block"/>
+            </apex:outputPanel>
+        </div>
+    </div>
+    <div class="rr-header-margin"/>
+    <div class="rr-header-content current-state">
+        <div class="rr-width-limiter">
+            <table class="line-tabs">
+                <tr>
+                    <td>
+                        <div class="thick-line selected"></div>
+                        <div class="line-info selected">{!$Label.PG_Login_H_Profile_Information}</div>
+                    </td>
+                    <td>
+                        <div class="{!'thick-line ' + IF(isProfileView, '', 'selected')}"></div>
+                        <div class="{!'line-info ' + IF(isProfileView, '', 'selected')}">{!$Label.PG_Login_H_Terms_And_Conditions}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="rr-body-content" style="height: 72px"></div>
+
+    <apex:outputPanel id="info-block" styleClass="rr-body-content body-content " rendered="{!isProfileView}">
+        <div class="rr-width-limiter cp-information-container">
+            <div class="main-header">{!$Label.PG_Login_H_Profile_Information}</div>
+            <c:ProfileIcon/>
+            <div class="rr-width-limiter side-padding">
+                <!-- LoginInfo -->
+                <c:LoginInfo isPasswordsEquals="{!isPasswordsEquals}" newPassword="{!newPassword}" verifyNewPassword="{!verifyNewPassword}" translation="{!translation}" userVal="{!userVal}"/>
+
+                <!-- ContactInfo -->
+                <c:ContactInfo isParticipant="{!isParticipant}" contact="{!contact}"
+                               notEnrollNow="{!notEnrollNow}" account="{!account}" participant="{!participant}"
+                               isStateRequired="{!isStateRequired}" states="{!states}" countries="{!countries}"/>
+                <apex:actionFunction name="updateStates" action="{!updateStatesAction}" />
+
+                <!-- Preferred Language -->
+                <c:PreferredLanguage language_="{!userVal}"/>
+                <apex:actionFunction name="updatePage" action="{!updateLanguageAction}"/>
+
+                <!-- Date Format -->
+                <c:DateFormat curUser="{!userVal}"/>
+
+                <!-- SAVE Button: -->
+                <div class="cp-save-btn-container">
+                    <apex:commandButton action="{!checkPasswords}" value="{!$Label.PG_Login_BTN_Save_And_Continue}"
+                                        styleClass="apollo-btn primary cp-save-btn"/>
+                </div>
+                <div class="cp-info-titile" style="color: #000; text-align: center">{!$Label.PG_Login_T_This_Site_Optimized_For}</div>
+                <div style="height: 80px"></div>
+            </div>
+        </div>
+    </apex:outputPanel>
+
+    <!-- TC block: -->
+    <apex:outputPanel styleClass="rr-body-content body-content" rendered="{!!isProfileView}">
+        <div class="rr-width-limiter side-padding">
+            <!--div class="alert">Text along the line "We are glade you have decided to join as"...</div-->
+            <apex:messages styleClass="lg-error-alert"/>
+            <div class="main-header">{!$Label.PG_TC_H_Terms_And_Conditions}</div>
+            <div class="terms-and-conditions">
+                <apex:outputText value=" {!tcText}" escape="false"/>
+            </div>
+            <div style="height: 80px"></div>
+        </div>
+        <div class="rr-bottom-bar-area">
+            <div class="rr-bottom-bar">
+                <div class="rr-bottom-bar-line"></div>
+                <div class="rr-width-limiter bar-content side-padding"
+                     style="justify-content: space-between">
+                    <div class="tc-accept-text">{!$Label.PG_TC_H_Do_You_Accept}</div>
+                    <apex:commandButton action="{!showProfileAction}" value="{!$Label.BTN_Back}"
+                                        styleClass="apollo-btn secondary"/>
+                    <apex:commandButton action="{!changePassword}" value="{!$Label.BTN_I_Accept}"
+                                        styleClass="apollo-btn primary"/>
+                </div>
+            </div>
+        </div>
+    </apex:outputPanel>
+    <div class="footer">
+        <div class="rr-width-limiter side-padding">
+            <div class="copyright">{!$Label.Footer_T_Copyright}</div>
+        </div>
+    </div>
+    <apex:outputPanel style="display:block; height: 72px" rendered="{!!isProfileView}"></apex:outputPanel>
 </apex:component>

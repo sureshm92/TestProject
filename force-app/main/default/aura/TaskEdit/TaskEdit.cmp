@@ -18,12 +18,12 @@
     <aura:attribute name="jsonState" type="String"/>
 
     <!-- Reminder picklist value -->
-    <aura:attribute name="reminderSetMode" type="String" default="Email"/>
+    <aura:attribute name="reminderSetMode" type="String" default="Disabled"/>
     <aura:attribute name="frequencyMode" type="String" default="By_Date"/>
 
     <aura:attribute name="reminderEnabled" type="Boolean" default="false"/>
     <aura:attribute name="frequencyEnabled" type="Boolean" default="false"/>
-    <aura:attribute name="reminderDateEnabled" type="Boolean"/>
+    <aura:attribute name="reminderDateEnabled" type="Boolean" default="false"/>
     <aura:attribute name="isValidFields" type="Boolean" default="true"/>
 
     <!-- handlers: -->

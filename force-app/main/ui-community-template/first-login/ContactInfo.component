@@ -12,6 +12,8 @@
     <apex:attribute name="states" description="" type="SelectOption" required="true"/>
     <apex:attribute name="countries" description="" type="SelectOption" required="true"/>
 
+    <div class="section-header" style="margin-top: 30px">{!$Label.PG_Login_H_Contact_Information}</div>
+    <div class="section-description">{!$Label.PG_Login_T_Please_Contact_Us}</div>
     <apex:outputPanel rendered="{!!isParticipant}">
         <div class="slds-grid slds-wrap slds-gutters">
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5" style="{!IF(!notEnrollNow,'','display:none;')}">
