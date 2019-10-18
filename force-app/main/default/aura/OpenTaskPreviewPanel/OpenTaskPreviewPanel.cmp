@@ -25,7 +25,7 @@
                         <tr>
                             <td>
                                 <c:RRLink label="{!task.Subject}"
-                                          page="{!if(empty(task.Action_URL__c), 'edit-task?id=' + task.Id, task.Action_URL__c)}"/>
+                                          page="{!if(empty(task.Action_URL__c), 'task-detail?id=' + task.Id, task.Action_URL__c)}"/>
                             </td>
                             <td>
                                 <aura:if isTrue="{!task.Status == 'In Progress'}">
