@@ -28,7 +28,7 @@ public without sharing class Test_Batch_CreateParticipantNotification {
                 LastName = 'PI',
                 Email = 'pi@emil.com',
                 AccountId = piAccount.Id,
-                Participant_Opt_In_Status_Emails__c = false,
+                Participant_Opt_In_Status_Emails__c = true,
                 Next_Notify_Date__c = Date.today()
         );
         contacts.add(piContact);
@@ -59,7 +59,7 @@ public without sharing class Test_Batch_CreateParticipantNotification {
                 Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
                 Site__c = studySiteAccount.Id,
                 Study_Site_Type__c = 'Traditional',
-                Suppress_Participant_Emails__c = false,
+                Suppress_Participant_Emails__c = true,
                 Study_Site_Number__c = 'SS1'
         );
         insert studySite;
@@ -74,7 +74,7 @@ public without sharing class Test_Batch_CreateParticipantNotification {
         );
         insert participant;
         Participant__c part1 = [SELECT Contact__c FROM Participant__c WHERE Id =: participant.Id];
-        Contact con = new Contact(Id = part1.Contact__c, Next_Notify_Date__c = Date.today(), Participant_Opt_In_Status_Emails__c = false);
+        Contact con = new Contact(Id = part1.Contact__c, Next_Notify_Date__c = Date.today(), Participant_Opt_In_Status_Emails__c = true);
         update con;
 
         Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
