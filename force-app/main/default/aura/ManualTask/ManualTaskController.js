@@ -3,12 +3,14 @@
  */
 ({
     doInit: function (component, event, helper) {
-        var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
+        //var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
+        var wrapper = component.get('v.wrapper');
+        var todayDate = component.get('v.wrapper.nowDate');
         component.set('v.todayDate', todayDate);
 
         component.set('v.wrapper.task.Visible_For__c', 'Owner;Delegates');//Def value, if not selected
 
-        var wrapper = component.get('v.wrapper');
+
         component.set('v.priorities', wrapper.priorities);
         component.set('v.visibility', wrapper.visibility);
     },
