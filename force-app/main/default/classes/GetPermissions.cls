@@ -4,27 +4,31 @@
 
 public with sharing class GetPermissions {
 
-    private static final String Patient_Portal_Edit = 'Patient_Portal_Edit_Study_Settings';
-    private static final String Patient_Portal_Read = 'Patient_Portal_Read_Study_Settings';
-    private static final List<String> STUDY_PERMISSIONS = new List<String>{
-            Patient_Portal_Edit,
-            Patient_Portal_Read
-    };
+    private static final String DISABLED_MODE = 'Disabled';
+    private static final String EDIT_MODE = 'Edit';
+    private static final String VIEW_MODE = 'View';
 
-    public static String getReadOrEditStudySettings(Id userId){
-        List<PermissionSetAssignment> permissions = [
-                SELECT PermissionSet.Name
+    public static String getViewMode(String feature) {
+        String ppFeature = 'PP_' + feature + '%';
+        List<PermissionSetAssignment> permissionSetAssignment = [
+                SELECT Id, PermissionSet.Name
                 FROM PermissionSetAssignment
-                WHERE Assignee.Id = :userId
-                AND PermissionSet.Name IN :STUDY_PERMISSIONS
+                WHERE AssigneeId = :UserInfo.getUserId()
+                AND PermissionSet.Name LIKE :ppFeature
         ];
-        //if(permissions.isEmpty()) return 'Disabled';
 
-        for(PermissionSetAssignment perm : permissions){
-            if (perm.PermissionSet.Name == Patient_Portal_Edit) return 'Edit';
-            if (perm.PermissionSet.Name == Patient_Portal_Read) return 'Read';
+        String viewMode = DISABLED_MODE;
+        if(permissionSetAssignment.isEmpty()) return viewMode;
+
+        for(PermissionSetAssignment assignment : permissionSetAssignment) {
+            if(assignment.PermissionSet.Name.endsWith(EDIT_MODE)) {
+                viewMode = EDIT_MODE;
+                break;
+            }
+            if(assignment.PermissionSet.Name.endsWith(VIEW_MODE)) viewMode = VIEW_MODE;
         }
-        return 'Disabled';
+
+        return viewMode;
     }
 
 }
