@@ -44,7 +44,7 @@
 }
 
 .THIS .slds-select_container .slds-select{
-    padding-right: 0;
+    padding-right: 25px;
     margin-top: 3px;
     position: relative;
 }
