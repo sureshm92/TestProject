@@ -2,11 +2,7 @@
  * Created by Yulia Yakushenkova on 10/9/2019.
  */
 
-public with sharing class Batch_UpdateNotifyDateOldUsers extends Batch_ScheduledAbstract {
-
-    public override Type getType() {
-        return Batch_UpdateNotifyDateOldUsers.class;
-    }
+public with sharing class Batch_UpdateNotifyDateOldUsers implements Database.Batchable<SObject>{
 
     public void execute(Database.BatchableContext param1, List<Contact> contacts) {
         List<Id> cntIds = new List<Id>();
@@ -15,6 +11,14 @@ public with sharing class Batch_UpdateNotifyDateOldUsers extends Batch_Scheduled
     }
 
     public Database.QueryLocator start(Database.BatchableContext param1) {
-        return Database.getQueryLocator([SELECT Id FROM Contact]);
+        return Database.getQueryLocator([SELECT Id FROM Contact WHERE Next_Notify_Date__c = NULL]);
+    }
+
+    public void finish(Database.BatchableContext param1) {
+
+    }
+
+    public static void run(){
+        Database.executeBatch(new Batch_UpdateNotifyDateOldUsers());
     }
 }

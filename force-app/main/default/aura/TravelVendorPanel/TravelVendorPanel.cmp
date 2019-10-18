@@ -107,7 +107,7 @@
                                                           class="uiInput--checkbox slds-medium-show--inline-block slds-float--left slds-m-right--x-small slds-dl_horizontal__label"
                                                           label="{!vendor.Id}" labelClass="slds-hide"
                                                           change="{!c.columnCheckboxStateChange}"
-                                                          disabled="{!v.permission == 'Read'}"/>
+                                                          disabled="{!v.permission == 'View'}"/>
                                         <label>{!vendor.Name}</label>
                                     </div>
                                 </th>
@@ -134,7 +134,7 @@
                                     <td>
                                         <ui:inputCheckbox value="{!selectedVendorIdSetting.isEnable__c}"
                                                           label="{!selectedVendorIdSetting.Vendor__r.Name}"
-                                                          disabled="{!v.permission == 'Read'}"
+                                                          disabled="{!v.permission == 'View'}"
                                                           class="uiInput--checkbox"/>
                                     </td>
                                 </aura:iteration>
