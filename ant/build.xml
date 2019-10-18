@@ -199,7 +199,7 @@
         <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part3/package.xml" encoding="UTF-8">
             <remove path="/:Package/:types[:name[text()!='CustomMetadata' and text()!='CustomObject' and text()!='CustomField'
             and text()!='CustomLabels' and text()!='CustomLabel' and text()!='Layout' and text()!='CompactLayout'
-            and text()!='ListView' and text()!='RecordType' and text()!='ValidationRule' and text()!='FieldSet']]"/>
+            and text()!='ListView' and text()!='RecordType' and text()!='ValidationRule' and text()!='FieldSet' and text()!='WebLink']]"/>
         </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part3.zip">
             <fileset dir="${dist.dir}">
@@ -233,6 +233,7 @@
             <remove path="/:Package/:types[:name[text()='RecordType']]"/>
             <remove path="/:Package/:types[:name[text()='ValidationRule']]"/>
             <remove path="/:Package/:types[:name[text()='FieldSet']]"/>
+            <remove path="/:Package/:types[:name[text()='WebLink']]"/>
         </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part4.zip">
             <fileset dir="${dist.dir}">
