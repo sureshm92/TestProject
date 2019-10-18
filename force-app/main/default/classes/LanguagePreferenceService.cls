@@ -10,6 +10,13 @@ public without sharing class LanguagePreferenceService {
     public static String getLanguageCode(String externalCode){
         if(String.isEmpty(externalCode))
             return DEFAULT_LANGUAGE_CODE;
+    
+        // this is a bug fix to normalize externalCode (JIRA REF-565)
+        List<String> codeTokens = externalCode.split('_');
+        if (codeTokens.size() > 1) {
+            externalCode = codeTokens[0] + '_' + codeTokens[1].toUpperCase();
+        }
+    
         if(languageCodes == null){
             languageCodes = new Set<String>();
             Schema.DescribeFieldResult fieldResult = Participant__c.Preferred_Language__c.getDescribe();
