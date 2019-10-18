@@ -220,7 +220,7 @@
             </fileset>
         </copy>
         <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part4/package.xml" encoding="UTF-8">
-            <remove path="/:Package/:types[:name[text()='StaticResource' or text()='Translations or 'text()='CustomMetadata' or text()='CustomObject'
+            <remove path="/:Package/:types[:name[text()='StaticResource' or text()='Translations' or 'text()='CustomMetadata' or text()='CustomObject'
             or text()='CustomField' or text()='CustomLabels' or text()='CustomLabel' or text()='Layout' or text()='CompactLayout'
             or text()='ListView' or text()='RecordType' or text()='ValidationRule' or text()='FieldSet']]"/>
         </xmltask>
