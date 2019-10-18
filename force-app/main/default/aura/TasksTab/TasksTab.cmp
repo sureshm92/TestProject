@@ -36,7 +36,7 @@
                             <tr>
                                 <td>
                                     <c:RRLink label="{!taskWrapper.openTask.Subject}"
-                                              page="{!if(empty(taskWrapper.openTask.Action_URL__c), 'edit-task?id=' + taskWrapper.openTask.Id, taskWrapper.openTask.Action_URL__c)}"/>
+                                              page="{!if(empty(taskWrapper.openTask.Action_URL__c), 'task-detail?id=' + taskWrapper.openTask.Id, taskWrapper.openTask.Action_URL__c)}"/>
                                 </td>
                                 <td>
                                     {!taskWrapper.originator}
@@ -87,7 +87,7 @@
                             <tr class="{!if(taskWrapper.task.Status == 'Ignored', 'ignored', '')}">
                                 <td>
                                     <aura:if isTrue="{!taskWrapper.task.Status == 'Ignored'}">
-                                        <c:RRLink label="{!taskWrapper.task.Subject}" page="{!'edit-task?id=' + taskWrapper.task.Id}"/>
+                                        <c:RRLink label="{!taskWrapper.task.Subject}" page="{!'task-detail?id=' + taskWrapper.task.Id}"/>
                                     </aura:if>
                                     <aura:if isTrue="{!taskWrapper.task.Status == 'Completed' || taskWrapper.task.Status == 'Expired'}">
                                         {!taskWrapper.task.Subject}
