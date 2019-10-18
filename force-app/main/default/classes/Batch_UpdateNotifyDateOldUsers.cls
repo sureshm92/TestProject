@@ -18,7 +18,7 @@ public with sharing class Batch_UpdateNotifyDateOldUsers implements Database.Bat
 
     }
 
-    public void run(){
+    public static void run(){
         Database.executeBatch(new Batch_UpdateNotifyDateOldUsers());
     }
 }
