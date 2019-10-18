@@ -220,9 +220,19 @@
             </fileset>
         </copy>
         <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part4/package.xml" encoding="UTF-8">
-            <remove path="/:Package/:types[:name[text()='StaticResource' or text()='Translations' or 'text()='CustomMetadata' or text()='CustomObject'
-            or text()='CustomField' or text()='CustomLabels' or text()='CustomLabel' or text()='Layout' or text()='CompactLayout'
-            or text()='ListView' or text()='RecordType' or text()='ValidationRule' or text()='FieldSet']]"/>
+            <remove path="/:Package/:types[:name[text()='StaticResource']]"/>
+            <remove path="/:Package/:types[:name[text()='Translations']]"/>
+            <remove path="/:Package/:types[:name[text()='CustomMetadata']]"/>
+            <remove path="/:Package/:types[:name[text()='CustomObject']]"/>
+            <remove path="/:Package/:types[:name[text()='CustomField']]"/>
+            <remove path="/:Package/:types[:name[text()='CustomLabels']]"/>
+            <remove path="/:Package/:types[:name[text()='CustomLabel']]"/>
+            <remove path="/:Package/:types[:name[text()='Layout']]"/>
+            <remove path="/:Package/:types[:name[text()='CompactLayout']]"/>
+            <remove path="/:Package/:types[:name[text()='ListView']]"/>
+            <remove path="/:Package/:types[:name[text()='RecordType']]"/>
+            <remove path="/:Package/:types[:name[text()='ValidationRule']]"/>
+            <remove path="/:Package/:types[:name[text()='FieldSet']]"/>
         </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part4.zip">
             <fileset dir="${dist.dir}">
