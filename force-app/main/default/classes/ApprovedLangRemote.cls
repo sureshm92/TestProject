@@ -4,6 +4,8 @@
 
 public without sharing class ApprovedLangRemote {
 
+    public static final String FEATURE_APPROVED_LANGS = 'Approved_Languages';
+
     public static List<LabelValueItem> languagesValueItems = getLanguages();
     public static List<Study_Site__c> ctpStudySites;
 
@@ -75,7 +77,7 @@ public without sharing class ApprovedLangRemote {
         try {
             InitData initData = new InitData();
             initData.ctpId = ctpId;
-            initData.viewMode = GetPermissions.getReadOrEditStudySettings(UserInfo.getUserId());
+            initData.viewMode = GetPermissions.getViewMode(FEATURE_APPROVED_LANGS);
             ctpStudySites = getStudySites(QUERY_MAIN_FILTER.replace('ctpId', ctpId));
             if(!ctpStudySites.isEmpty()) {
                 loadInitData(initData);
