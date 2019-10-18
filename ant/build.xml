@@ -190,12 +190,16 @@
         <!-- part 3 -->
         <copy todir="${dist.dir}/part3">
             <fileset dir="${source.dir}">
-                <exclude name="staticresources/*.*"/>
-                <exclude name="translations/*.*"/>
+                <include name="customMetadata/*.*"/>
+                <include name="labels/*.*"/>
+                <include name="layouts/*.*"/>
+                <include name="objects/*.*"/>
             </fileset>
         </copy>
         <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part3/package.xml" encoding="UTF-8">
-            <remove path="/:Package/:types[:name[text()='StaticResource' or text()='Translations']]"/>
+            <remove path="/:Package/:types[:name[text()!='CustomMetadata' and text()!='CustomObject' and text()!='CustomField'
+            and text()!='CustomLabels' and text()!='CustomLabel' and text()!='Layout' and text()!='CompactLayout'
+            and text()!='ListView' and text()!='RecordType' and text()!='ValidationRule' and text()!='FieldSet']]"/>
         </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part3.zip">
             <fileset dir="${dist.dir}">
@@ -203,6 +207,29 @@
             </fileset>
         </zip>
         <delete dir="${dist.dir}/part3"/>
+
+        <!-- part 4 -->
+        <copy todir="${dist.dir}/part4">
+            <fileset dir="${source.dir}">
+                <exclude name="staticresources/*.*"/>
+                <exclude name="translations/*.*"/>
+                <exclude name="customMetadata/*.*"/>
+                <exclude name="labels/*.*"/>
+                <exclude name="layouts/*.*"/>
+                <exclude name="objects/*.*"/>
+            </fileset>
+        </copy>
+        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part4/package.xml" encoding="UTF-8">
+            <remove path="/:Package/:types[:name[text()='StaticResource' or text()='Translations or 'text()='CustomMetadata' or text()='CustomObject'
+            or text()='CustomField' or text()='CustomLabels' or text()='CustomLabel' or text()='Layout' or text()='CompactLayout'
+            or text()='ListView' or text()='RecordType' or text()='ValidationRule' or text()='FieldSet']]"/>
+        </xmltask>
+        <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part4.zip">
+            <fileset dir="${dist.dir}">
+                <include name="part4/**/*.*"/>
+            </fileset>
+        </zip>
+        <delete dir="${dist.dir}/part4"/>
 
     </target>
 
