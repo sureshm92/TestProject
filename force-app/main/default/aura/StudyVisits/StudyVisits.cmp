@@ -27,7 +27,7 @@
             </div>
         </div>
 
-        <ui:scrollerWrapper class="rr-white-panel">
+        <ui:scrollerWrapper>
             <aura:if isTrue="{!!empty(v.visitWrappers)}">
                 <c:RRTable>
                     <tr>
