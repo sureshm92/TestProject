@@ -46,7 +46,7 @@
 
 
 .THIS .vpi-line-div.in_progress{
-    border-top-color: #0055f1;
+    border-top-color: #00c221;
 }
 
 .THIS .vpi-line-div.failure{
@@ -168,6 +168,10 @@
 
 .THIS .vpi-path-panel .collapse-section.opened{
     background-color: white;
+}
+
+.THIS .cParticipantCardFields .vpi-field label{
+    white-space: nowrap;
 }
 
 .THIS .vpi-status-btns {
