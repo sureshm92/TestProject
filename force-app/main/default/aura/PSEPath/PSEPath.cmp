@@ -63,7 +63,7 @@
                 </div>
                 <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">
                     <div class="slds-col slds-size_1-of-1 slds-small-size_3-of-12">
-                        <button class="{!'apollo-btn tertiary'}"
+                        <button class="{!'apollo-btn secondary'}"
                                 title="{!$Label.c.BTN_Screener_Responses}"
                                 onclick="{!c.showEditParticipantInformation}"
                                 value="screenerResponsesAnchor">
