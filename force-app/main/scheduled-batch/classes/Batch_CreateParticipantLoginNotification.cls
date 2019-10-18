@@ -7,6 +7,7 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
         return Database.getQueryLocator([
                 SELECT Id, Next_Notify_Date__c, Participant_Opt_In_Status_Emails__c
                 FROM Contact
+                WHERE Next_Notify_Date__c != null
         ]);
     }
 
