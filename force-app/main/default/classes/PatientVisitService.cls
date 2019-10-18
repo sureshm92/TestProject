@@ -19,7 +19,7 @@ public inherited sharing class PatientVisitService {
 
         String visitsQuery = 'SELECT ' +
                 'Name, ' +
-                'Visit_Schedule__c, ' +
+                'Visit__r.Visit_Schedule__c, ' +
                 'Visit__r.Patient_Portal_Name__c, ' +
                 'Visit__r.Icons__c, ' +
                 'Status__c, ' +
