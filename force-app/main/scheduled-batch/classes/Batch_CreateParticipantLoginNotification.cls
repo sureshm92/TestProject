@@ -15,7 +15,7 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
         List<Id> contactIds = new List<Id>();
         List<Contact> listOfContactEmails = new List<Contact>();
         for (Contact con : contacts) {
-            if (con.Next_Notify_Date__c == Date.today() & con.Participant_Opt_In_Status_Emails__c == false) {
+            if (con.Next_Notify_Date__c == Date.today() & con.Participant_Opt_In_Status_Emails__c == true) {
                 contactIds.add(con.Id);
                 listOfContactEmails.add(con);
             }
