@@ -86,8 +86,10 @@
                     component.set('v.isDuplicate', returnValue.isDuplicate);
                     component.find('modalSpinner').hide();
                 } else {
-                    component.set('v.firstName', '');
-                    component.set('v.lastName', '');
+                    if(component.get('v.providerFound')) {
+                        component.set('v.firstName', '');
+                        component.set('v.lastName', '');
+                    }
                     component.set('v.isDuplicate', returnValue.isDuplicate);
                     component.set('v.providerFound', false);
                     component.find('modalSpinner').hide();
