@@ -13,7 +13,7 @@
     <aura:attribute name="task" type="Task"/>
     <aura:attribute name="owner" type="Boolean" default="true"/>
     <aura:attribute name="editAvailable" type="Boolean"/>
-    <aura:attribute name="notReferral" type="Boolean"/>
+    <aura:attribute name="isEnrolled" type="Boolean"/>
     <aura:attribute name="todayDate" type="Date"/>
     <aura:attribute name="jsonState" type="String"/>
 
@@ -68,7 +68,7 @@
                     <!-- Task Type -->
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                         <aura:if isTrue="{!not(v.initData.createdByAdmin)}">
-                            <aura:if isTrue="{!v.notReferral}">
+                            <aura:if isTrue="{!v.isEnrolled}">
                                 <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}" required="true"
                                                   value="{!v.task.Task_Type__c}">
                                     <aura:iteration items="{!v.initData.taskTypeList}" var="type">
