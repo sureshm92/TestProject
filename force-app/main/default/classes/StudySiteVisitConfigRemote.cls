@@ -4,6 +4,8 @@
 
 public without sharing class StudySiteVisitConfigRemote {
 
+    public static final String FEATURE_SS_VISIT_CONFIG = 'Visits_Configuration';
+
     public static List<Study_Site__c> ctpStudySites;
 
     public class InitData {
@@ -31,7 +33,7 @@ public without sharing class StudySiteVisitConfigRemote {
     public static InitData getInitData(Id ctpId) {
         try {
             InitData intData = init(ctpId);
-            intData.viewMode = GetPermissions.getReadOrEditStudySettings(UserInfo.getUserId());
+            intData.viewMode = GetPermissions.getViewMode(FEATURE_SS_VISIT_CONFIG);
             return intData;
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
