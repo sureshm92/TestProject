@@ -30,8 +30,6 @@
         <valueSettings>
             <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
             <controllingFieldValue>Referral Accepted</controllingFieldValue>
             <controllingFieldValue>Referral On Hold</controllingFieldValue>
@@ -42,8 +40,6 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Contact Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
-            <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
             <controllingFieldValue>Referral Accepted</controllingFieldValue>
             <controllingFieldValue>Referral On Hold</controllingFieldValue>
@@ -54,6 +50,8 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Contact Failed</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
@@ -66,6 +64,8 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Contact Failed</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
             <controllingFieldValue>Referral Accepted</controllingFieldValue>
@@ -77,6 +77,8 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Contact Failed</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
             <controllingFieldValue>Referral Accepted</controllingFieldValue>

@@ -79,7 +79,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<PEByContactWra
                 emailMessage.setSubject('Batch Create Admin Task');
 
                 String messageBody = 'Task Subject: ' + adminTask.Subject + '\n';
-                messageBody = 'Task(s) created = ' + taskCreated
+                messageBody += 'Task(s) created = ' + taskCreated
                         + '. Task(s) failed = ' + (failedContactsWithPE.isEmpty() ? '0' : '' + (failedContactsWithPE.size() + '\n'));
                 if (!failedContactsWithPE.isEmpty()) {
                     messageBody += 'Failed contact ids:\n';

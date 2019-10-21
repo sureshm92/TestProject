@@ -15,12 +15,15 @@ public with sharing class ManualTaskRemote {
 
     public class TaskPanelWrapper {
         @AuraEnabled public Task task;
+        @AuraEnabled public Date nowDate;
         @AuraEnabled public List<LabelValueItem> priorities;
         @AuraEnabled public List<LabelValueItem> visibility;
 
         public TaskPanelWrapper() {
             task = new Task();
             task.Priority = 'Normal';
+
+            nowDate = Date.today();
 
             priorities = new List<LabelValueItem>();
             priorities.add(new LabelValueItem('Not selected', 'Normal'));

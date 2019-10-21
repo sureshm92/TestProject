@@ -11,6 +11,9 @@
     color:white;
     text-decoration: none;
 }
+.THIS  a:not(.no-float) {
+    float: right;
+}
 
 .THIS  a:hover {
     color:white;

@@ -16,6 +16,6 @@
     },
 
     doCreateNewTask: function (component, event, helper) {
-        communityService.navigateToPage('edit-task');
+        communityService.navigateToPage('task-detail');
     }
 });
