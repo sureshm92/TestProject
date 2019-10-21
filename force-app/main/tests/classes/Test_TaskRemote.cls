@@ -13,9 +13,11 @@ private class Test_TaskRemote {
         Task task = new Task();
         insert task;
 
+        Test.startTest();
         System.runAs(testData.participantUser) {
             TasksRemote.getPreviewTasks();
             TasksRemote.getParticipantTasks();
         }
+        Test.stopTest();
     }
 }
