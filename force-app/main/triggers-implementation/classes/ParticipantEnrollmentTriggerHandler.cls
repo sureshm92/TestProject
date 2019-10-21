@@ -230,7 +230,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             }
             //populate referred date
             if (pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI) {
-                if (oldMap == null || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != pe.Participant_Status__c)) {
+                if ((oldMap == null && pe.Referred_Date__c == null) || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != pe.Participant_Status__c)) {
                     pe.Referred_Date__c = Date.today();
                 }
             }
@@ -311,14 +311,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         Id = participant.Contact__c,
                         userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT
                 ));
-                
-                //TODO Just POC:
-//                if(ss.Principal_Investigator__r.Phone != null){
-//                    MCloudSMSSender.sendSMSAsync(new List<String>{ss.Principal_Investigator__r.Phone},
-//                            'A referral has been received for Study ' + ss.Clinical_Trial_Profile__r.Study_Code_Name__c +
-//                                    ' from Dr.' + ss.Principal_Investigator__r.Full_Name__c +
-//                            '\n Reply “A” to Accept.');
-//                }
             }
         }
 
@@ -691,5 +683,5 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         if(!selectedContactIds.isEmpty())
             ContactService.updateCurrentPEOnContacts(selectedContactIds);
     }
-    
+
 }

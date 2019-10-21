@@ -24,14 +24,63 @@
     overflow: hidden;
 }
 
-.THIS .study-name a {
+.THIS .study-name {
+    margin-left: -4px;
+    padding-left: 4px;
+}
+
+.THIS .block-with-text {
+  /* background: #fff!important; */
+   padding-left: 4px;
+}
+
+.THIS .study-name .study-title.rr-link {
     text-decoration: none;
     /*height: 30px;*/
-    color: #297DFD;
+    color: #297dfd;
     font-size: 18px;
     font-weight: 600;
     line-height: 30px;
+    padding: 6px 8px 0;
+    position: relative;
+    max-height: 6rem;
+    overflow: hidden;
+    padding-right: 1rem;
+    align-items: flex-start;
 }
+
+.THIS .study-name .study-title.rr-link span {
+    white-space: normal!important;
+}
+
+.THIS .study-name .study-title.rr-link:before {
+    position: absolute;
+    content: "...";
+    bottom: 0;
+    right: 0;
+}
+
+.THIS .study-name .study-title.rr-link:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    width: 1rem;
+    height: 1.5rem;
+    background: white;
+}
+
+.THIS .study-name .study-title:hover:after {
+    background: #eef5ff;
+}
+/*
+.THIS .study-title.rr-link {
+    color: #000;
+    pointer-events: none;
+  	cursor: default;
+}
+*/
+
+
 
 .THIS .sponsor-name {
     height: 20px;
@@ -95,11 +144,6 @@
     line-height: 10px;
 }
 
-.THIS .study-title.rr-link {
-    color: #000;
-    pointer-events: none;
-  	cursor: default;
-}
 
 .THIS .rri-icon-pi svg {
     height: 18px;

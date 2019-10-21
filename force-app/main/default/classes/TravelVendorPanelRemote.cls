@@ -4,6 +4,8 @@
 
 public with sharing class TravelVendorPanelRemote {
 
+    public static final String FEATURE_TRAVEL_VENDOR = 'Travel_Vendors';
+
     public class InitData {
         @AuraEnabled
         public List<TravelVendor__c> vendors;
@@ -21,7 +23,7 @@ public with sharing class TravelVendorPanelRemote {
             vendorItems = new List<VendorItem>();
             countryCodes = '';
             selectedSSIds = '';
-            permission = GetPermissions.getReadOrEditStudySettings(UserInfo.getUserId());
+            permission = GetPermissions.getViewMode(FEATURE_TRAVEL_VENDOR);
         }
     }
 
