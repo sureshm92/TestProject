@@ -17,8 +17,9 @@ public without sharing class ContactService {
     }
     
     /**
-     * applyRelevantNames() this method substitutes the FirstName and LastName fields in all related objects of Contact type
-     * with the relevant fields LastName from Participant in case if
+     * applyRelevantNames() this method substitutes the FirstName and LastName field values in all related objects of type Contact
+     * found in the specified SObject (or List<SObject>) with the relevant values in fields FirstName and LastName from object Participant
+     * in case if it exists for the parent Contact
      *
      * @param obj
      */
@@ -196,8 +197,16 @@ public without sharing class ContactService {
         return cnt;
     }
 
-    @Future
     public static void updateNextNotifyDateFuture(List<Id> conIds) {
+        if (System.isBatch()) {
+            update updateNextNotifyDate(conIds);
+        } else {
+            updateAsynchronously(conIds);
+        }
+    }
+    
+    @Future
+    private static void updateAsynchronously(List<Id> conIds) {
         update updateNextNotifyDate(conIds);
     }
 }
