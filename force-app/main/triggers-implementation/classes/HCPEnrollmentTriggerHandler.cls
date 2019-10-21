@@ -118,8 +118,14 @@ public without sharing class HCPEnrollmentTriggerHandler {
     @TestVisible
     private static void switchContactUserMode(List<HCP_Enrollment__c> newList) {
         Set<Id> hcpEContactIds = new Set<Id>();
-        for (HCP_Enrollment__c enrol : newList) if (enrol.HCP_Contact__c != null) hcpEContactIds.add(enrol.HCP_Contact__c);
+        for (HCP_Enrollment__c enrol : newList) {
+            if (enrol.HCP_Contact__c != null) hcpEContactIds.add(enrol.HCP_Contact__c);
+        }
         if (hcpEContactIds.isEmpty()) return;
+
+// these changes are being on hold
+// Map<Id, Participant__c> participants = CommunityService.getParticipantsByContactIds(hcpEContactIds);
+        
         List<Contact> contactsForUpdate = new List<Contact>();
         for (Contact piContact : CommunityService.getContactsByUserContactIds(hcpEContactIds)) {
             piContact.userCommunityMode__c = CommunityService.USER_MODE_HCP;
@@ -128,6 +134,15 @@ public without sharing class HCPEnrollmentTriggerHandler {
             } else if(!piContact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)){
                 piContact.userCommunytyType__c += ';' + CommunityService.USER_MODE_HCP;
             }
+
+// these changes are being on hold
+//if (participants.containsKey(piContact.Id)) {
+//    Participant__c participant = participants.get(piContact.Id);
+//    piContact.FirstName = participant.First_Name__c;
+//    piContact.LastName  = participant.Last_Name__c;
+//    System.debug('-----------> HCPEnrollmentTriggerHandler.switchContactUserMode(): Contact names replaced to: ' + piContact.FirstName + ' ' + piContact.LastName);
+//}
+            
             contactsForUpdate.add(piContact);
         }
         update contactsForUpdate;
