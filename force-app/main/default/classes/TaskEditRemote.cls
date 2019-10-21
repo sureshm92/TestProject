@@ -23,7 +23,7 @@ public without sharing class TaskEditRemote {
         @AuraEnabled public Date today;
         @AuraEnabled public Date activityDate;
         @AuraEnabled public Date reminderDate;
-        @AuraEnabled public Boolean notReferral;
+        @AuraEnabled public Boolean isEnrolled;
         @AuraEnabled public String errorMessage;
         @AuraEnabled public Boolean reminderEnabled;
         @AuraEnabled public Boolean createdByAdmin;
@@ -31,7 +31,7 @@ public without sharing class TaskEditRemote {
         public TaskEditDataWrapper() {
             List<Contact> delegates = PatientDelegateService.getInstance().getDelegates();
             Boolean emailPreferencesIsOn = checkEmailPreferencesIsOn();
-            notReferral = ParticipantService.getInstance().getState().value != ParticipantService.ParticipantStates.REFERRAL;
+            isEnrolled = ParticipantService.getInstance().getState().value == ParticipantService.ParticipantStates.PARTICIPANT;
             errorMessage = checkEmailPermissions(emailPreferencesIsOn, delegates);
             reminderEnabled = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
             createdByAdmin = false;
@@ -83,7 +83,7 @@ public without sharing class TaskEditRemote {
             taskToUpsert.Originator__c = state.isDelegate ? 'Delegate' : 'Participant';
             if(taskToUpsert.Visible_For__c == null) taskToUpsert.Visible_For__c = 'Owner;Delegates';
     
-            taskToUpsert.WhatId = state.pe.Id;
+            if(state.pe != null) taskToUpsert.WhatId = state.pe.Id ;
 
             TimeZone timezone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
             if(taskWrapper.activityDate != null) {
