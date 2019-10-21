@@ -30,7 +30,9 @@
                              value="{!v.wrapper.daysToExpire}"
                              min="0"/>
             <div class="expire-line">
-                <lightning:input type="checkbox" label="Expire in Alumni View" value="{!v.wrapper.expireOnAlumni}"/>
+                <lightning:input type="checkbox" label="Expire in Alumni View"
+                                 value="{!v.wrapper.expireOnAlumni}"
+                                 checked="{!v.wrapper.expireOnAlumni}"/>
                 <lightning:helptext content="{!$Label.c.AdHoc_CheckBox_Help_Text}"/>
             </div>
         </div>
