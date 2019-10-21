@@ -8,8 +8,10 @@ public class HomePageParticipantRemote {
     public static String getInitData(){
         try{
             User user = [SELECT LastLoginDate FROM User WHERE Id = :UserInfo.getUserId()];
-            if(user.LastLoginDate.date() != Date.today()) ContactService.updateNextNotifyDateFuture(
-                    CommunityService.getUserContact().Id, user.LastLoginDate);
+            if(user.LastLoginDate != null){
+                if(user.LastLoginDate.date() != Date.today()) ContactService.updateNextNotifyDateFuture(
+                        CommunityService.getUserContact().Id, user.LastLoginDate);
+            }
 
             return JSON.serialize(ParticipantService.getInstance().getState());
         }catch (Exception e){
