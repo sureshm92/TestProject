@@ -96,7 +96,7 @@ private class Test_IntegrationReferralTrigger {
         insert studyTranslation;
     
         Study_Site__c studySite = new Study_Site__c(
-                Primary_Key_ePR__c = 'tt123456789__',
+                Primary_Key_ePR__c = 'tt123456789_US_123',
                 Principal_Investigator__c = piContact.Id,
                 Clinical_Trial_Profile__c = study.Id,
                 Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
