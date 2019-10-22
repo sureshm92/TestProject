@@ -76,7 +76,7 @@
         );
     },
 
-   doFocus: function (component) {
+    doFocus: function (component) {
         setTimeout(
             $A.getCallback(function () {
                 var element = document.getElementById(component.getGlobalId() + '_combobox');

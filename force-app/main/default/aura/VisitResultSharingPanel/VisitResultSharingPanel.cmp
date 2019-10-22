@@ -44,7 +44,7 @@
                                 </aura:if>
                             </div>
                         </div>
-                        <aura:if isTrue="{!v.user_has_permission == 'Read'}">
+                        <aura:if isTrue="{!v.user_has_permission == 'View'}">
                             <div class="overlay"></div>
                         </aura:if>
                     </div>
@@ -139,7 +139,7 @@
                                 </aura:iteration>
                             </div>
                         </aura:iteration>
-                        <aura:if isTrue="{!v.user_has_permission == 'Read'}">
+                        <aura:if isTrue="{!v.user_has_permission == 'View'}">
                             <div class="overlay"></div>
                         </aura:if>
                     </div>
