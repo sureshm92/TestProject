@@ -38,6 +38,7 @@
                                     ctpId="{!v.recordId}" includeStates="false"
                                     isInclude="true"/>
                         </div>
+                        <!--Study Site Filter-->
                         <div class="slds-col slds-size--6-of-12 slds-p-horizontal_medium">
                             <c:StudySiteLookup
                                     ctpId="{!v.recordId}"
@@ -46,6 +47,7 @@
                                     onchange="{!c.getFilteredSS}"
                                     placeholder="{!$Label.c.TS_Select_Study_Site}"
                                     placeholderSelected="{!$Label.c.TS_Select_Another_Study_Site}"
+                                    selectedCountries="{!v.selectedByCountry}"
                                     includeSS="true"/>
                         </div>
                         <div class="slds-col slds-size--6-of-12 slds-p-horizontal_medium">
