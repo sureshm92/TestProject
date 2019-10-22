@@ -23,6 +23,7 @@ public without sharing class TaskService {
     public static final String TASK_TYPE_MEDICATION = 'Medication';
     public static final String TASK_TYPE_VISIT = 'Visit';
     public static final String TASK_TYPE_SURVEY = 'Survey';
+    public static final String TASK_TYPE_NOT_SELECTED = 'Not Selected';
 
     public static final String TASK_CODE_COMPLETE_SURVEY = 'Complete_Survey';
     public static final String TASK_CODE_COMPLETE_YOUR_PROFILE = 'Complete_Your_Profile';
