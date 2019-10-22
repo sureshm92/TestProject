@@ -61,11 +61,13 @@
         var emailS = component.get('v.emailS');
         var inputPattern = new RegExp('[!+@#$%^&*(),.?":{}|<>]','g');
         var phonePattern = new RegExp('[!@#$%^&*,.?":{}|<>]','g');
-        var reqFieldsFilled = ((emailS != undefined && emailS != '' && communityService.isValidEmail(emailS)) ||
-                                (!phonePattern.test(phone) && phone.trim())) &&
+        var isPhoneValid = !phonePattern.test(phone);
+        var reqFieldsFilled = ((communityService.isValidEmail(emailS) && (phone == '' || phone == undefined)) ||
+                                (isPhoneValid && phone.trim() && (emailS == '' || emailS == undefined)) ||
+                                (communityService.isValidEmail(emailS) && (phone.trim() && isPhoneValid))) &&
                                 (!inputPattern.test(lastName) && lastName.trim()) &&
                                 (!inputPattern.test(firstName) && firstName.trim());
-        component.set('v.reqFieldsFilled',reqFieldsFilled);
+        component.set('v.reqFieldsFilled', reqFieldsFilled);
     },
     doClearInviteAndHide: function (component, event, helper) {
         helper.clearInviteFields(component, event, helper)
@@ -86,8 +88,10 @@
                     component.set('v.isDuplicate', returnValue.isDuplicate);
                     component.find('modalSpinner').hide();
                 } else {
-                    component.set('v.firstName', '');
-                    component.set('v.lastName', '');
+                    if(component.get('v.providerFound')) {
+                        component.set('v.firstName', '');
+                        component.set('v.lastName', '');
+                    }
                     component.set('v.isDuplicate', returnValue.isDuplicate);
                     component.set('v.providerFound', false);
                     component.find('modalSpinner').hide();

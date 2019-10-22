@@ -319,10 +319,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         if (notificationMap.size() > 0) SendEmailTemplate.sendEmailNotification(SendEmailTemplate.EMAIL_TEMPLATE_PATIENT1_NEW, notificationMap);
         if (notificationMapEmptyHCP.size() > 0) SendEmailTemplate.sendEmailNotification(SendEmailTemplate.EMAIL_TEMPLATE_PATIENT2_NEW, notificationMapEmptyHCP);
         update contactsForChangeMode;
-
-        List<Id> cntIdsForChange = new List<Id>();
-        for(Contact cnt : contactsForChangeMode) cntIdsForChange.add(cnt.Id);
-        ContactService.updateNextNotifyDateFuture(cntIdsForChange);
     }
 
     @TestVisible
