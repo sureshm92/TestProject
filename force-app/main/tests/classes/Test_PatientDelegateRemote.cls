@@ -1,7 +1,7 @@
 /**
  * Created by Igor Malyuta on 18.04.2019.
  */
-@IsTest(IsParallel=true)
+@IsTest
 public class Test_PatientDelegateRemote {
 
     class PatientDelegateServiceMock implements StubProvider {

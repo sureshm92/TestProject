@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-@IsTest(IsParallel=true)
+@IsTest
 private class Test_PatientVisitSchedule {
     
     @IsTest
