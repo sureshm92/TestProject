@@ -8,18 +8,26 @@ public class StudySiteLookupRemote {
     private static final String EXCLUDE_ICON = 'standard:first_non_empty';
 
     @AuraEnabled(Cacheable = true)
-    public static List<LookupSearchResult> searchSSByTerm(Id ctpId, String searchTerm, String value, Boolean includeSS) {
+    public static List<LookupSearchResult> searchSSByTerm(Id ctpId, String searchTerm, String value, String selectedCountries,Boolean includeSS) {
         try {
             List<String> selectedIds = new List<String>();
             if(!String.isEmpty(value)) selectedIds = value.split(';');
             String term = '%';
             if(searchTerm != null) term += (searchTerm + '%');
-            List<Study_Site__c> ssList = [
-                    SELECT Name, Principal_Investigator__r.Name
-                    FROM Study_Site__c
-                    WHERE Name LIKE: term
-                    AND Clinical_Trial_Profile__c =: ctpId AND Id NOT IN: selectedIds
-            ];
+
+            String filter = 'Clinical_Trial_Profile__c = \'' + ctpId + '\''
+                    + ' AND ' + DatabaseService.fieldNotInValues('Id', selectedIds);
+            if (selectedCountries != null && !String.isEmpty(selectedCountries)) {
+                filter += 'AND ' + DatabaseService.fieldInValues('Site__r.BillingCountryCode', selectedCountries.split(';'));
+            }
+            filter += 'AND (Study_Site_Number__c = \'' + searchTerm + '\' OR Name LIKE \'' + term + '\')' +
+                    ' LIMIT 10';
+
+            List<Study_Site__c> ssList = (List<Study_Site__c>) DatabaseService.getInstance().queryImpl(new List<String>{
+                    'Id',
+                    'Name',
+                    'Principal_Investigator__r.Name'
+            }, Study_Site__c.getSObjectType(), filter);
             List<LookupSearchResult> resList = new List<LookupSearchResult>();
             for(Study_Site__c ss : ssList){
                 resList.add(new LookupSearchResult(
@@ -37,11 +45,18 @@ public class StudySiteLookupRemote {
     }
 
     @AuraEnabled(Cacheable = true)
-    public static List<LookupSearchResult> searchSSByIds(String value, Boolean includeSS){
+    public static List<LookupSearchResult> searchSSByIds(String value, String selectedCountries, Boolean includeSS){
         try{
             List<LookupSearchResult> resList = new List<LookupSearchResult>();
             List<String> ssIds = value.split(';');
-            List<Study_Site__c> ssList = [SELECT Name FROM Study_Site__c WHERE Id IN: ssIds];
+            String filter = ' WHERE Id IN ' + ssIds;
+            if (selectedCountries != null && !String.isEmpty(selectedCountries)) {
+                filter += 'AND ' + DatabaseService.fieldInValues('Site__r.BillingCountryCode', selectedCountries.split(';'));
+            }
+            List<Study_Site__c> ssList = (List<Study_Site__c>) DatabaseService.getInstance().queryImpl(new List<String>{
+                    'Id',
+                    'Name'
+            }, Study_Site__c.getSObjectType(), filter);
             for(Study_Site__c ss: ssList){
                 resList.add(new LookupSearchResult(
                         ss.Id,
