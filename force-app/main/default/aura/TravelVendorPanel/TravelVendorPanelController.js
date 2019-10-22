@@ -51,7 +51,7 @@
                     type: 'error',
                 });
             }
-            component.find('mainSpinner').hide();
+            component.find('spinner').hide();
             console.log('error:', err[0].message);
         });
     },
