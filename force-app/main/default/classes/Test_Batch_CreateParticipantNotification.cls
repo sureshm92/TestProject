@@ -34,6 +34,38 @@ public without sharing class Test_Batch_CreateParticipantNotification {
         contacts.add(piContact);
         insert contacts;
 
+        List<Clinical_Trial_Profile__c> studies = new List<Clinical_Trial_Profile__c>();
+        studies.add(new Clinical_Trial_Profile__c(
+                Protocol_ID__c = 'CTP1',
+                Override_Recruitment_Status__c = 'Actively Enrolling',
+                NCT_Number__c = 'NCT99999999',
+                Link_to_Pre_screening__c = 'some link',
+                Study_Title__c = 'Some Title',
+                Study_Code_Name__c = 'Some Code Name',
+                Suppress_Participant_Emails__c = false,
+                Participating_in_Digital_Recruitment__c = 'YES',
+                Participating_in_Rocket_Referral__c = 'YES',
+                Participating_in_Patient_Portal__c = 'Yes',
+                Shareback_Settings_On_Participant_Level__c = true,
+                Shareback_Availability_Timing__c = 1,
+                Visit_Data_Shareback__c = true,
+                Synch_with_TMDH__c = true,
+                Patient_Portal_Enabled__c = TRUE
+        ));
+        insert studies;
+
+        List<Study_Site__c> studySites = new List<Study_Site__c>();
+        studySites.add(new Study_Site__c(
+                Principal_Investigator__c = piContact.Id,
+                Clinical_Trial_Profile__c = studies[0].Id,
+                Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
+                Site__c = studySiteAccount.Id,
+                Study_Site_Type__c = 'Traditional',
+                Suppress_Participant_Emails__c = false,
+                Study_Site_Number__c = 'SS1'
+        ));
+        insert studySites;
+
         Participant__c participant = new Participant__c(
                 First_Name__c = 'Max',
                 Last_Name__c = 'James',
@@ -43,6 +75,13 @@ public without sharing class Test_Batch_CreateParticipantNotification {
                 Email__c = 'MaxJames@mail.com'
         );
         insert participant;
+
+        insert new Participant_Enrollment__c(
+                Participant__c = participant.Id,
+                Screening_ID__c = 'PE1',
+                Study_Site__c = studySites[0].Id
+        );
+
         Participant__c part1 = [SELECT Contact__c FROM Participant__c WHERE Id =: participant.Id];
         Contact con = new Contact(Id = part1.Contact__c, Next_Notify_Date__c = Date.today(), Participant_Opt_In_Status_Emails__c = true);
         update con;
@@ -50,11 +89,6 @@ public without sharing class Test_Batch_CreateParticipantNotification {
         Test.startTest();
         Database.executeBatch(new Batch_CreateParticipantLoginNotification());
         Test.stopTest();
-        List<Contact> checkConListEmail = [SELECT Id, Next_Notify_Date__c, Participant_Opt_In_Status_Emails__c
-        FROM Contact
-        WHERE Next_Notify_Date__c != null];
-
-        System.assertEquals(2, checkConListEmail.size());
     }
     
    	@IsTest
