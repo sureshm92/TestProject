@@ -39,7 +39,7 @@ public without sharing class TaskEditRemote {
             task = new Task();
 
             TimeZone timeZone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
-            //today = DateTimeConverterUtil.getUserDatetime(timeZone, null).dateGmt();
+            today = DateTimeConverterUtil.getUserDatetime(timeZone, Datetime.now()).dateGmt();
         }
     }
 
@@ -83,7 +83,9 @@ public without sharing class TaskEditRemote {
             taskToUpsert.Originator__c = state.isDelegate ? 'Delegate' : 'Participant';
             if(taskToUpsert.Visible_For__c == null) taskToUpsert.Visible_For__c = 'Owner;Delegates';
     
-            if(state.pe != null) taskToUpsert.WhatId = state.pe.Id ;
+            if(taskToUpsert.Task_Type__c != TaskService.TASK_TYPE_NOT_SELECTED && state.pe != null) {
+                taskToUpsert.WhatId = state.pe.Id;
+            }
 
             TimeZone timezone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
             if(taskWrapper.activityDate != null) {
