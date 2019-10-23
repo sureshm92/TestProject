@@ -2,7 +2,7 @@
  * Created by user on 02-May-19.
  */
 
-@IsTest(IsParallel=true)
+@IsTest(IsParallel=false)
 private class Test_TaskService {
 
     public class ParticipantServiceMock implements System.StubProvider {
