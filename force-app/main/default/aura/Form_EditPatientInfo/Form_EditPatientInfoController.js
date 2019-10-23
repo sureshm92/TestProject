@@ -20,6 +20,8 @@
         var updateMode = component.get('v.updateMode');
         var isFinalUpdate = component.get('v.isFinalUpdate');
         var stateRequired = component.get('v.statesLVList')[0];
+        var stateCmp = component.find('stateField');
+        var stateVaild = stateCmp && stateCmp.get('v.validity') && stateCmp.get('v.validity').valid;
         var dataStamp = component.get('v.dataStamp');
         var isValid = false;
         const screeningIdRequiredStatuses = 'Enrollment Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
@@ -65,7 +67,8 @@
                 (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
                 component.find('emailInput').get('v.validity').valid &&
                 pe.Screening_ID__c &&
-                (!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
+                stateVaild;
+                //(!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
         } else if (!updateMode) {
             //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
             isValid =
@@ -81,7 +84,8 @@
                 pe.Participant_Status__c &&
                 component.find('emailInput').get('v.validity').valid &&
                 (!isEnrollmentSuccess || (isEnrollmentSuccess && pe.Screening_ID__c)) &&
-                (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)) &&
+                //(!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null))) &&
+                stateVaild &&
                 (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
                 pe.Referred_By__c;
         }
