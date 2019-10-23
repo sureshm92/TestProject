@@ -1,0 +1,7 @@
+<!--
+ - Created by Nargiz Mamedova on 10/21/2019.
+ -->
+
+<design:component>
+    <design:attribute name="featureName" label="Feature"/>
+</design:component>
