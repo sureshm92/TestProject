@@ -17,11 +17,11 @@
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
     <div class="panel">
+        <c:RRSpinner aura:id="spinner"/>
         <aura:if isTrue="{!v.permission != 'Disabled'}">
             <aura:set attribute="else">
                 <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>
             </aura:set>
-            <c:RRSpinner aura:id="spinner"/>
             <!--Filters-->
             <aura:if isTrue="{!v.initialized}">
                 <div class="filters-section">

@@ -298,13 +298,12 @@ public without sharing class ParametersDataProvider {
                             HCP_Contact__c
                     FROM HCP_Enrollment__c
                     WHERE HCP_Contact__c = :cnt.Id AND
-                          Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION
+                    ( Status__c = :HCPEnrollmentService.HCP_S_INVITATION_SENT OR Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION )
                     ORDER BY CreatedDate DESC LIMIT 1
             ];
             if (!hcpe.isEmpty()) {
                 initParamsFromHCPE(hcpe[0].Id);
             }
-
             parameters.put('HCPName', getFullContactName(cnt));
             parameters.put('HCPLanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_PARTICIPANT){

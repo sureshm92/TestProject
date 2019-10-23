@@ -27,7 +27,6 @@
                 }).then(function (data) {
                     component.set('v.vendorItems', data.vendorItems);
                     component.set('v.selectedVendors', data.vendors);
-
                     component.set('v.initialized', true);
 
                     component.find('spinner').hide();
