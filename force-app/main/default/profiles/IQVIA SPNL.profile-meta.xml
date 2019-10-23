@@ -207,6 +207,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ChangePasswordPageController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ChangeStatusModalController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -399,6 +403,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>EmptyPagePanelRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ExcelController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -427,11 +435,19 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>FirstLogonController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ForgotPasswordController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ForgotPasswordControllerTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GetPermissions</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -788,6 +804,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PostInstallDX</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ProfileIconController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1151,6 +1171,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ApprovedLangRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ArticleService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1480,6 +1504,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_StudyActionParticipant</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_StudySiteVisitConfigRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -3218,6 +3246,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Address_State__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.BirthDate__c</field>
         <readable>false</readable>
@@ -3895,6 +3928,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Eligible__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Enrolled_DateTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
