@@ -46,7 +46,7 @@
                         block: 'start',
                         inline: 'nearest'
                     });
-                }), 5);
+                }), 15);
             });
             component.find('dialog').show();
         } catch (e) {
