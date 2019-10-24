@@ -52,7 +52,7 @@ public without sharing class ParticipantService {
                 participantState.participant = getParticipant(pe.Participant__c);
                 participantState.pe = pe;
                 participantState.isDelegate = pe.Participant__r.Contact__c != userContact.Id;
-                participantState.ctp = participantState.pe.Study_Site__r.Clinical_Trial_Profile__r;
+                participantState.ctp = participantState.pe.Clinical_Trial_Profile__r;
                 TranslateHelper.translate(participantState.ctp,
                         IRBParticipantService.getIRBLanguageMode(participantState.pe.Id).languageToTranslate);
                 participantState.showTerms = showTerms();

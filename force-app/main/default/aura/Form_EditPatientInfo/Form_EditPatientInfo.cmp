@@ -109,7 +109,7 @@
                             <abbr title="required" class="slds-required">*</abbr>
                         </aura:if>{!$Label.c.PE_State}
                     </div>
-                    <c:rrSelect options="{!v.statesLVList}" disabled="{!empty(v.statesLVList)}"
+                    <c:rrSelect aura:id="stateField" options="{!v.statesLVList}" disabled="{!empty(v.statesLVList)}"
                                 value="{!v.participant.Mailing_State_Code__c}"
                                 placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false" onchange="{!c.doStateChange}"/>
                 </div>

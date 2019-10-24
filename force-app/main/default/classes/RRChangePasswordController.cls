@@ -150,7 +150,7 @@ public without sharing class RRChangePasswordController {
         }
         country = contact.MailingCountry;
         state = contact.MailingState;
-        if (!String.isBlank(state)) {
+        if (!String.isBlank(country)) {
             updateStatesAction();
         }
     }
