@@ -42,3 +42,11 @@
     font-size: 13px;
     font-weight: 500;
 }
+
+@media (max-width: 768px){  
+    .THIS .slds-grid > .slds-col,
+	.THIS .apollo-btn {
+        width: 100%;
+    }
+
+}

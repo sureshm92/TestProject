@@ -17,8 +17,17 @@
     text-align: right;
 }
 @media all and (max-width: 767px) {
+    .THIS.mrc-container {
+        padding-bottom: 0;
+    }
+    
     .THIS .mrc-invite-btn-container{
         width:100%;
+        margin: 15px 0;
+    }
+    
+    .THIS .mrc-invite-btn-container .mrc-invite-btn {
+     	width: 100%;   
     }
 }
 

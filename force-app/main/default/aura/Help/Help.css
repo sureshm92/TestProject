@@ -25,7 +25,7 @@
 .THIS.h-container .h-title {
     text-align: center ;
     color: #000000;
-    font-size: 40px;
+    font-size: 20px;
     line-height: 48px;
 }
 
@@ -152,10 +152,15 @@
     .THIS.h-container .h-body {
         margin-top: 20px;
     }
+    
+    .THIS.h-container .h-body .slds-form-element {
+        width: 100%;
+    }
 
     .THIS.h-container .h-body .h-body-label {
-        font-size: 15px;
-        line-height: 53px;
+        font-size: .875rem;
+        padding-bottom: 10px;
+        width: 100%;
     }
 
     .THIS.h-container .h-body .h-body-info {
