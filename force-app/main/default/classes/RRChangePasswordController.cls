@@ -48,6 +48,8 @@ public without sharing class RRChangePasswordController {
 
     public List<SelectOption> countries {get; set;}
     public List<SelectOption> states {get; set;}
+    public String country {get; set;}
+    public String state {get; set;}
     public Boolean isStateRequired {get; set;}
 
 
@@ -146,6 +148,11 @@ public without sharing class RRChangePasswordController {
             countries.add(new SelectOption(country.label, country.label));
             countryCodeByName.put(country.label, country.value);
         }
+        country = contact.MailingCountry;
+        state = contact.MailingState;
+        if (!String.isBlank(country)) {
+            updateStatesAction();
+        }
     }
 
     public PageReference changePassword() {
@@ -216,6 +223,9 @@ public without sharing class RRChangePasswordController {
                 contact.MailingState = (noState ? null : contact.MailingState);
 
                 update contact;
+
+                country = contact.MailingCountry;
+                state = contact.MailingState;
             } catch (Exception exp) {
                 System.debug(exp);
             }

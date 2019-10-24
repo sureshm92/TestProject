@@ -84,8 +84,14 @@ public without sharing class StudySiteTriggerHandler {
     @TestVisible
     private static void switchContactUserMode(List<Study_Site__c> studySites) {
         Set<Id> piContactIds = new Set<Id>();
-        for (Study_Site__c ss : studySites) if (ss.Principal_Investigator__c != null) piContactIds.add(ss.Principal_Investigator__c);
+        for (Study_Site__c ss : studySites) {
+            if (ss.Principal_Investigator__c != null) piContactIds.add(ss.Principal_Investigator__c);
+        }
         if (piContactIds.isEmpty()) return;
+
+// these changes are being on hold
+// Map<Id, Participant__c> participants = CommunityService.getParticipantsByContactIds(piContactIds);
+        
         List<Contact> contactsForUpdate = new List<Contact>();
         for (Contact piContact : CommunityService.getContactsByUserContactIds(piContactIds)) {
             piContact.userCommunityMode__c = CommunityService.USER_MODE_PI;
@@ -94,6 +100,15 @@ public without sharing class StudySiteTriggerHandler {
             } else if(!piContact.userCommunytyType__c.contains(CommunityService.USER_MODE_PI)){
                 piContact.userCommunytyType__c += ';' + CommunityService.USER_MODE_PI;
             }
+
+// these changes are being on hold
+//if (participants.containsKey(piContact.Id)) {
+//    Participant__c participant = participants.get(piContact.Id);
+//    piContact.FirstName = participant.First_Name__c;
+//    piContact.LastName  = participant.Last_Name__c;
+//    System.debug('-----------> StudySiteTriggerHandler.switchContactUserMode(): Contact names replaced to: ' + piContact.FirstName + ' ' + piContact.LastName);
+//}
+            
             contactsForUpdate.add(piContact);
         }
         update contactsForUpdate;

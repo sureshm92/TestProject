@@ -12,6 +12,7 @@ public inherited sharing class PatientVisitService {
         return this.getVisitWrappers(this.getVisits(visitMode, limitNumber));
     }
 
+    @TestVisible
     private List<Patient_Visit__c> getVisits(String visitMode, Integer limitNumber) {
 
         ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();

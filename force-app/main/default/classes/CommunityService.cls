@@ -123,7 +123,31 @@ public without sharing class CommunityService {
                 WHERE Id IN :userContactIds
         ];
     }
+    
+    /***
+        added by Slav V on Oct 18, 2019
+     */
+    public static Map<Id, Participant__c> getParticipantsByContactIds(Set<Id> contactIds){
+        if (contactIds == null) return null;
+        
+        List<Participant__c> participants = [
+                SELECT Contact__c, First_Name__c, Last_Name__c
+                FROM Participant__c
+                WHERE Contact__c IN :ContactIds
+        ];
+        
+        Map<Id, Participant__c> participantMap = new Map<Id, Participant__c>();
+        
+        for (Participant__c participant : participants) {
+            // IMPORTANT NOTE: if a Contact is linked to more than one Participant
+            // then only the LAST one from the list will retain in the returned Map.
+            // So, if you want to use a specific Participant add the "ORDER BY" clause in the SOQL above
+            participantMap.put(participant.Contact__c, participant);
+        }
 
+         return participantMap;
+    }
+    
     public static List<User> getCommunityUsersByContactIds(Set<Id> contactIds) {
         return [
                 SELECT Id, Name, FirstName, LastName, ContactId, Email, IsActive

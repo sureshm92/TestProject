@@ -9,6 +9,7 @@
             ctpId: component.get('v.ctpId'),
             searchTerm: component.get('v.searchTerm'),
             value: component.get('v.value'),
+            selectedCountries : component.get('v.selectedCountries'),
             includeSS : component.get('v.includeSS')
         }, function (searchResults) {
             params.callback(searchResults);
@@ -19,6 +20,7 @@
         const params = event.getParam('arguments');
         communityService.executeAction(component, 'searchSSByIds', {
             value: component.get('v.value'),
+            selectedCountries : component.get('v.selectedCountries'),
             includeSS : component.get('v.includeSS')
         }, function (selection) {
             params.callback(selection);

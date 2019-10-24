@@ -8,11 +8,7 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
 
     public ParticipantTrialBuilder() {
         pe = ParticipantService.getInstance().getState().pe;
-        if(pe != null) {
-            setTrial(pe.Study_Site__r.Clinical_Trial_Profile__c);
-            TranslateHelper.translate(pe.Study_Site__r.Clinical_Trial_Profile__r,
-                    IRBParticipantService.getIRBLanguageMode(pe.Id).languageToTranslate);
-        }
+        if(pe != null) setTrial(pe.Study_Site__r.Clinical_Trial_Profile__c);
 
         studyAction = getStudyActions();
         trialDetail.tabs = getStudyTabs();

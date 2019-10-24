@@ -1,11 +1,47 @@
 /**
- * Created by Julia Kazakevich on 20-Sep-19.
+ * Created by Olga Skrynnikova on 10/23/2019.
  */
-
 @IsTest
-public without sharing class Test_Batch_CreateParticipantNotification {
+public with sharing class Test_Batch_PatientTaskReminder {
     @IsTest
-    static void testBatchExecution() {
+    static void testBatchExecute() {
+        initData();
+        Participant_Enrollment__c pe = [SELECT Id, Participant_Contact__c FROM Participant_Enrollment__c];
+        List<Task> tskList = new List<Task>();
+        User user = [
+                SELECT
+                        Id,
+                        ContactId,
+                        Contact.Participant_Opt_In_Status_Emails__c
+                FROM User
+                WHERE ContactId = : pe.Participant_Contact__c
+        ];
+        Task tsk = new Task(
+                Subject = 'Test Name',
+                Task_Type__c = 'Not Selected',
+                Reminder_Date__c = Datetime.now(),
+                Status = 'Open',
+                ReminderDateTime = Datetime.now(),
+                OwnerId = user.Id
+        );
+        tskList.add(tsk);
+
+        Contact conList = [SELECT Id, Participant_Opt_In_Status_Emails__c, Email FROM Contact WHERE Email = 'MaxJames@mail.com'];
+        conList.Participant_Opt_In_Status_Emails__c = TRUE;
+        update conList;
+
+
+        Test.startTest();
+        upsert tsk;
+            Database.executeBatch(new Batch_PatientTaskReminder());
+        Test.stopTest();
+
+        List<Task> taskList = [SELECT Id, Subject, Task_Type__c, WhoId, Reminder_Date__c FROM Task];
+        System.assertEquals(2, taskList.size());
+
+    }
+
+    static void initData() {
         List<Account> accounts = new List<Account>();
         Account participantsAccount = new Account(
                 Name = 'Participant'
@@ -27,9 +63,7 @@ public without sharing class Test_Batch_CreateParticipantNotification {
                 FirstName = 'PI',
                 LastName = 'PI',
                 Email = 'pi@emil.com',
-                AccountId = piAccount.Id,
-                Participant_Opt_In_Status_Emails__c = true,
-                Next_Notify_Date__c = Date.today()
+                AccountId = piAccount.Id
         );
         contacts.add(piContact);
         insert contacts;
@@ -50,7 +84,7 @@ public without sharing class Test_Batch_CreateParticipantNotification {
                 Shareback_Availability_Timing__c = 1,
                 Visit_Data_Shareback__c = true,
                 Synch_with_TMDH__c = true,
-                Patient_Portal_Enabled__c = TRUE
+                Logged_Out_Days_Notification__c = 12
         ));
         insert studies;
 
@@ -81,66 +115,7 @@ public without sharing class Test_Batch_CreateParticipantNotification {
                 Screening_ID__c = 'PE1',
                 Study_Site__c = studySites[0].Id
         );
-
-        Participant__c part1 = [SELECT Contact__c FROM Participant__c WHERE Id =: participant.Id];
-        Contact con = new Contact(Id = part1.Contact__c, Next_Notify_Date__c = Date.today(), Participant_Opt_In_Status_Emails__c = true);
-        update con;
-
-        Test.startTest();
-        Database.executeBatch(new Batch_CreateParticipantLoginNotification());
-        Test.stopTest();
-    }
-    
-   	@IsTest
-    static void testCreateDate() {
-        Test.startTest();
-        TestData.loadTestData();
-
-        List<Participant__c> participants = [
-            SELECT  Id,
-                        Name,
-                        Contact__c,
-                        Contact__r.Profile_Update_Years_Notification__c
-            FROM Participant__c
-        ];
-        new Batch_UserCreatedDateNotification().execute(null, participants);
-        Test.stopTest();
-
     }
 
-    @IsTest
-    static void testdataBecomesAvailiable() {
-        Test.startTest();
-        TestData.loadTestData();
-
-        List<Patient_Visit__c> participants = [
-                SELECT  Id,
-                        Completed_Date__c,
-                        Participant_Enrollment__c,
-                        Participant_Enrollment__r.Participant__r.Mailing_Country_Code__c,
-                        Participant_Enrollment__r.Clinical_Trial_Profile__c,
-                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c,
-                        Participant_Enrollment__r.Participant_Contact__r.Visit_Results_Opt_In__c,
-                        Visit_Number__c, (
-                        SELECT
-                                Id,
-                                Actual_Value__c,
-                                Max_Value__c,
-                                Measurement__c,
-                                Min_Value__c,
-                                Patient_Visit__r.Completed_Date__c,
-                                Patient_Visit__r.Notified__c,
-                                Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__c,
-                                Result_Type__c
-                        FROM Visit_Results__r
-                )
-                FROM Patient_Visit__c
-                WHERE Status__c = 'Completed'
-                AND Notified__c = false
-                ORDER BY Visit_Number__c, Completed_Date__c
-        ];
-        new Batch_DataBecomesAvailable().execute(null, participants);
-        Test.stopTest();
-
-    }
 }
+

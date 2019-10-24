@@ -177,32 +177,30 @@ public without sharing class FirstLogonController {
     }
 
     public void checkPasswords() {
-        if (!notEnrollNow) {
-            if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
-                Account newClinic = new Account(
-                        Name = account.Name,
-                        BillingCountry = contact.MailingCountry,
-                        BillingCity = contact.MailingCity,
-                        BillingState = contact.MailingState,
-                        BillingStreet = contact.MailingStreet,
-                        BillingPostalCode = contact.MailingPostalCode,
-                        Phone = contact.Phone,
-                        Fax = contact.Fax,
-                        OwnerId = contact.OwnerId
-                );
-                try {
-                    insert newClinic;
-
-                    contact.AccountId = newClinic.Id;
-                } catch (Exception exp) {
-                    system.debug(exp);
-                }
-            }
+        if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
+            Account newClinic = new Account(
+                    Name = account.Name,
+                    BillingCountry = contact.MailingCountry,
+                    BillingCity = contact.MailingCity,
+                    BillingState = contact.MailingState,
+                    BillingStreet = contact.MailingStreet,
+                    BillingPostalCode = contact.MailingPostalCode,
+                    Phone = contact.Phone,
+                    Fax = contact.Fax,
+                    OwnerId = contact.OwnerId
+            );
             try {
-                update contact;
-                update userVal;
-            } catch (Exception exp) {}
+                insert newClinic;
+                contact.AccountId = newClinic.Id;
+            } catch (Exception exp) {
+                system.debug(exp);
+            }
         }
+        try {
+            update contact;
+            update userVal;
+        } catch (Exception exp) {}
+
 
         ApexPages.getMessages().clear();
         if (!notEnrollNow && String.isBlank(contact.FirstName)) {

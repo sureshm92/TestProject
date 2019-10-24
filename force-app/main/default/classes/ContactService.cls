@@ -17,8 +17,9 @@ public without sharing class ContactService {
     }
     
     /**
-     * applyRelevantNames() this method substitutes the FirstName and LastName fields in all related objects of Contact type
-     * with the relevant fields LastName from Participant in case if
+     * applyRelevantNames() this method substitutes the FirstName and LastName field values in all related objects of type Contact
+     * found in the specified SObject (or List<SObject>) with the relevant values in fields FirstName and LastName from object Participant
+     * in case if it exists for the parent Contact
      *
      * @param obj
      */
@@ -166,7 +167,7 @@ public without sharing class ContactService {
         return pastWrappersList;
     }
 
-    public static List<Contact> updateNextNotifyDate(List<Id> cntIds) {
+    public static List<Contact> updateNextNotifyDate(List<Id> cntIds, Map<Id, Datetime> lastLoginDateByContactIds) {
         List<String> exclPEStatuses = new List<String>{
                 PEStatusState.PE_STATUS_DROP_OUT,
                 PEStatusState.PE_STATUS_TRIAL_COMPLETE
@@ -182,7 +183,6 @@ public without sharing class ContactService {
         for (Id cntId : availablePE.keySet()) {
             List<Decimal> minDays = new List<Decimal>();
             for (Participant_Enrollment__c pe : peList) {
-                System.debug('>>>>>>>>>> ' + JSON.serialize(pe));
                 if (pe.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c == null) continue;
                 else if (cntId == pe.Participant_Contact__c) {
                     minDays.add(pe.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c);
@@ -190,14 +190,21 @@ public without sharing class ContactService {
             }
             if(!minDays.isEmpty()){
                 minDays.sort();
-                cnt.add(new Contact(Id = cntId, Next_Notify_Date__c = Date.today().addDays((Integer) minDays[0])));
+                cnt.add(new Contact(
+                        Id = cntId,
+                        Next_Notify_Date__c = lastLoginDateByContactIds.get(cntId).addDays((Integer) minDays[0]).date()
+                ));
             }
         }
         return cnt;
     }
 
-    @Future
-    public static void updateNextNotifyDateFuture(List<Id> conIds) {
-        update updateNextNotifyDate(conIds);
+    //@Future - for economy resources if needed
+    public static void updateNextNotifyDateFuture(Id conIds, Datetime lastLoginDate) {
+        List<Id> ids = new List<Id>();
+        ids.add(conIds);
+        Map<Id, Datetime> lastLoginDateByContactIds = new Map<Id, Datetime>();
+        lastLoginDateByContactIds.put(conIds, lastLoginDate);
+        update updateNextNotifyDate(ids, lastLoginDateByContactIds);
     }
 }
