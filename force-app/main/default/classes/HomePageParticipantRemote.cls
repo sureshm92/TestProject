@@ -7,7 +7,7 @@ public class HomePageParticipantRemote {
     @AuraEnabled
     public static String getInitData() {
         try {
-            User user = [
+            List<User> users = [
                     SELECT
                             ContactId,
                             Contact.Next_Notify_Date__c,
@@ -17,11 +17,14 @@ public class HomePageParticipantRemote {
                     WHERE Id = :UserInfo.getUserId()
                     AND LastLoginDate != NULL
             ];
-            if (user.Contact.Next_Notify_Date__c != Date.today()) {
-                ContactService.updateNextNotifyDate(
-                        user.ContactId,
-                        user.LastLoginDate,
-                        user.Contact.UserCommunityIsDelegate__c);
+            if (!users.isEmpty()) {
+                User user = users.get(0);
+                if (user.Contact.Next_Notify_Date__c != Date.today()) {
+                    ContactService.updateNextNotifyDate(
+                            user.ContactId,
+                            user.LastLoginDate,
+                            user.Contact.UserCommunityIsDelegate__c);
+                }
             }
 
             return JSON.serialize(ParticipantService.getInstance().getState());
