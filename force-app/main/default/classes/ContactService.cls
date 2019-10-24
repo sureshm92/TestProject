@@ -3,19 +3,19 @@
  */
 
 public without sharing class ContactService {
-    
+
     public class PastStudyWrapper {
         @AuraEnabled public Clinical_Trial_Profile__c ctp;
         @AuraEnabled public Participant_Enrollment__c pe;
         @AuraEnabled public List<ResourceService.ResourceWrapper> resourceWrappers;
-        
+
         public PastStudyWrapper(Clinical_Trial_Profile__c ctp, Participant_Enrollment__c pe, List<ResourceService.ResourceWrapper> resourceWrappers) {
             this.ctp = ctp;
             this.pe = pe;
             this.resourceWrappers = resourceWrappers;
         }
     }
-    
+
     /**
      * applyRelevantNames() this method substitutes the FirstName and LastName field values in all related objects of type Contact
      * found in the specified SObject (or List<SObject>) with the relevant values in fields FirstName and LastName from object Participant
@@ -24,7 +24,9 @@ public without sharing class ContactService {
      * @param obj
      */
     public static void applyRelevantNames(SObject obj) {
-        applyRelevantNames(new List<SObject> { obj });
+        applyRelevantNames(new List<SObject>{
+                obj
+        });
     }
     public static void applyRelevantNames(List<SObject> objects) {
         try {
@@ -33,25 +35,25 @@ public without sharing class ContactService {
             for (SObject obj : objects) {
                 aggregateObjects.addAll(SObjectHelper.getAllSObjects(obj));
             }
-            
+
             // select SObjects only of type Contact
             SObjectType contactType = Schema.getGlobalDescribe().get('Contact');
             Map<Id, Contact> contacts = new Map<Id, Contact>();
             for (SObject obj : aggregateObjects) {
                 if (obj.getSObjectType() != contactType) continue;              // skip SObjects of non Contact type
-                contacts.put(obj.Id, (Contact)obj);
+                contacts.put(obj.Id, (Contact) obj);
             }
-            
+
             // query Participants and replace FirstName and LastName fields if they exist
             for (Participant__c participant : [SELECT First_Name__c, Last_Name__c, Contact__c FROM Participant__c WHERE Contact__c IN :contacts.keySet()]) {
                 contacts.get(participant.Contact__c).FirstName = participant.First_Name__c;
-                contacts.get(participant.Contact__c).LastName  = participant.Last_Name__c;
+                contacts.get(participant.Contact__c).LastName = participant.Last_Name__c;
             }
         } catch (Exception e) {
             System.debug('EXCEPTION: ' + e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-    
+
     public static void updateCurrentPEOnContacts(List<Id> contactIds) {
         List<Contact> contacts = [
                 SELECT Id, Current_Participant_Enrollment__c
@@ -167,44 +169,34 @@ public without sharing class ContactService {
         return pastWrappersList;
     }
 
-    public static List<Contact> updateNextNotifyDate(List<Id> cntIds, Map<Id, Datetime> lastLoginDateByContactIds) {
-        List<String> exclPEStatuses = new List<String>{
-                PEStatusState.PE_STATUS_DROP_OUT,
-                PEStatusState.PE_STATUS_TRIAL_COMPLETE
-        };
-        Map<Id, List<Id>> availablePE = PatientDelegateService.getForExclStatusPEIdsListByContactIdMap(cntIds, exclPEStatuses);
+    public static void updateNextNotifyDate(Id cntId, Datetime lastLoginDateByContactId, Boolean isDelegate) {
+        Id participant = cntId;
+        if (isDelegate) {
+            Patient_Delegate__c delegate = [SELECT Id, Contact__c, Participant__r.Contact__c FROM Patient_Delegate__c WHERE Contact__c = :cntId];
+            participant = delegate.Participant__r.Contact__c;
+        }
+        List<Id> enrollmentIds = PatientDelegateService.getForExclStatusPEIdsForContact(participant, PEStatusState.PE_STATUS_GROUP_COMPLETE);
         List<Participant_Enrollment__c> peList = [
                 SELECT Participant_Contact__c, Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c
                 FROM Participant_Enrollment__c
-                WHERE Participant_Contact__c IN :availablePE.keySet()
+                WHERE Participant_Contact__c IN :enrollmentIds
         ];
 
-        List<Contact> cnt = new List<Contact>();
-        for (Id cntId : availablePE.keySet()) {
-            List<Decimal> minDays = new List<Decimal>();
-            for (Participant_Enrollment__c pe : peList) {
-                if (pe.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c == null) continue;
-                else if (cntId == pe.Participant_Contact__c) {
-                    minDays.add(pe.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c);
-                }
+
+        List<Decimal> minDays = new List<Decimal>();
+        for (Participant_Enrollment__c pe : peList) {
+            if (pe.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c == null){
+                continue;
             }
-            if(!minDays.isEmpty()){
-                minDays.sort();
-                cnt.add(new Contact(
-                        Id = cntId,
-                        Next_Notify_Date__c = lastLoginDateByContactIds.get(cntId).addDays((Integer) minDays[0]).date()
-                ));
+            else if (cntId == pe.Participant_Contact__c) {
+                minDays.add(pe.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c);
             }
         }
-        return cnt;
-    }
 
-    //@Future - for economy resources if needed
-    public static void updateNextNotifyDateFuture(Id conIds, Datetime lastLoginDate) {
-        List<Id> ids = new List<Id>();
-        ids.add(conIds);
-        Map<Id, Datetime> lastLoginDateByContactIds = new Map<Id, Datetime>();
-        lastLoginDateByContactIds.put(conIds, lastLoginDate);
-        update updateNextNotifyDate(ids, lastLoginDateByContactIds);
+        if (!minDays.isEmpty()) {
+            minDays.sort();
+            Integer minDay = (Integer) minDays[0];
+            update new Contact(Id = cntId, Next_Notify_Date__c = lastLoginDateByContactId.addDays(minDay).date());
+        }
     }
 }
