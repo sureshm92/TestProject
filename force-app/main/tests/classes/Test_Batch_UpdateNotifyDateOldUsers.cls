@@ -8,9 +8,9 @@ private class Test_Batch_UpdateNotifyDateOldUsers {
     @IsTest
     static void testM() {
         initData();
-
+        List<Clinical_Trial_Profile__c> ctps = [SELECT Id FROM Clinical_Trial_Profile__c];
         Test.startTest();
-        Database.executeBatch(new Batch_UpdateNotifyDateOldUsers());
+        Database.executeBatch(new Batch_UpdateNotifyDateOldUsers(ctps));
         Test.stopTest();
     }
 
