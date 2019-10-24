@@ -70,6 +70,13 @@
                 <value>Trial_Surveys</value>
             </componentInstanceProperties>
             <componentName>EmptyPage</componentName>
+            <visibilityRule>
+                <criteria>
+                    <leftValue>{!$User.Profile.Name}</leftValue>
+                    <operator>NE</operator>
+                    <rightValue>System Administrator</rightValue>
+                </criteria>
+            </visibilityRule>
         </componentInstances>
         <name>Facet-c3fbf587-d0ce-4805-a8ed-0e5ab2b44e13</name>
         <type>Facet</type>
@@ -160,72 +167,11 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
-            <componentName>force:detailPanel</componentName>
-        </componentInstances>
-        <name>Facet-5jl3h9fu6r</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <componentInstances>
-            <componentName>ApproveLanguageIRB</componentName>
-        </componentInstances>
-        <name>Facet-560o7d4czxk</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <componentInstances>
-            <componentInstanceProperties>
-                <name>body</name>
-                <value>Facet-5jl3h9fu6r</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>title</name>
-                <value>Standard.Tab.detail</value>
-            </componentInstanceProperties>
-            <componentName>flexipage:tab</componentName>
-        </componentInstances>
-        <componentInstances>
-            <componentInstanceProperties>
-                <name>body</name>
-                <value>Facet-560o7d4czxk</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>title</name>
-                <value>Approved Languages</value>
-            </componentInstanceProperties>
-            <componentName>flexipage:tab</componentName>
-        </componentInstances>
-        <name>Facet-e6wk23ysdd7</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <componentInstances>
             <componentInstanceProperties>
                 <name>tabs</name>
                 <value>Facet-e2f2fc6b-f10c-4ef7-a488-63ddedbe118d</value>
             </componentInstanceProperties>
             <componentName>flexipage:tabset</componentName>
-            <visibilityRule>
-                <criteria>
-                    <leftValue>{!Record.Patient_Portal_Enabled__c}</leftValue>
-                    <operator>EQUAL</operator>
-                    <rightValue>true</rightValue>
-                </criteria>
-            </visibilityRule>
-        </componentInstances>
-        <componentInstances>
-            <componentInstanceProperties>
-                <name>tabs</name>
-                <value>Facet-e6wk23ysdd7</value>
-            </componentInstanceProperties>
-            <componentName>flexipage:tabset</componentName>
-            <visibilityRule>
-                <criteria>
-                    <leftValue>{!Record.Patient_Portal_Enabled__c}</leftValue>
-                    <operator>EQUAL</operator>
-                    <rightValue>false</rightValue>
-                </criteria>
-            </visibilityRule>
         </componentInstances>
         <name>main</name>
         <type>Region</type>

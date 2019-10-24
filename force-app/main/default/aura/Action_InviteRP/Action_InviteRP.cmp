@@ -37,73 +37,83 @@
         <c:Popup aura:id="inviteRPDialog" title="{!$Label.c.PG_MRC_L_Invite_Referring_Provider}"
                  size="large" showScroll="{!true}">
             <aura:if isTrue="{!!v.refreshView}">
-            <div class="slds-grid slds-grid_vertical">
-                <div class="slds-col slds-grid slds-size_1-of-1">
-                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
-                        <div class="rr-form-element">
-                            <div class="label">{!$Label.c.PG_MRC_RF_Email}</div>
-                            <lightning:input value="{!v.emailS}" type="email" onblur="{!c.checkContact}" aura:id="emailInput"/>
-                        </div>
-                    </div>
-                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
-                        <div class="rr-form-element">
-                            <div class="label">{!$Label.c.PG_MRC_RF_Phone}</div>
-                            <c:rrInput valueString="{!v.phone}"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="slds-col slds-grid slds-size_1-of-1">
-                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
-                        <div class="rr-form-element">
-                            <div class="label slds-text-align_left"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_MRC_RF_First_Name}</div>
-                            <c:rrInput valueString="{!v.firstName}" disabled="{!v.providerFound}"/>
-                        </div>
-                    </div>
-                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
-                        <div class="rr-form-element">
-                            <div class="label slds-text-align_left"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_MRC_RF_Last_Name}</div>
-                            <c:rrInput valueString="{!v.lastName}" disabled="{!v.providerFound}"/>
-                        </div>
-                    </div>
-                </div>
-                <aura:if isTrue="{!v.providerFound || v.isDuplicate}">
-                    <div class="slds-col slds-grid slds-size_1-of-1">
-                        <div class="slds-col slds-size_1-of-2">
-                            <div class="rr-form-element">
-                                {!$Label.c.HealthCare_Provider_Found}
+                <div>
+                    <div class="slds-grid slds-grid_vertical">
+                        <div class="slds-col slds-grid slds-size_1-of-1">
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                                <div class="rr-form-element">
+                                    <div class="label">{!$Label.c.PG_MRC_RF_Email}</div>
+                                    <lightning:input value="{!v.emailS}" type="email" onblur="{!c.checkContact}"
+                                                     aura:id="emailInput"/>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                                <div class="rr-form-element">
+                                    <div class="label">{!$Label.c.PG_MRC_RF_Phone}</div>
+                                    <c:rrInput valueString="{!v.phone}"/>
+                                </div>
                             </div>
                         </div>
-                        <div class="slds-col slds-size_1-of-2">
-                            <div class="rr-form-element">
-                                <c:RRLink label="{!$Label.c.Different_HealthCare_Provider}" page="{!'help'}"/>
+                        <div class="slds-col slds-grid slds-size_1-of-1">
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                                <div class="rr-form-element">
+                                    <div class="label slds-text-align_left"><abbr title="required"
+                                                                                  class="slds-required">*</abbr>{!$Label.c.PG_MRC_RF_First_Name}
+                                    </div>
+                                    <c:rrInput valueString="{!v.firstName}" disabled="{!v.providerFound}"/>
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                                <div class="rr-form-element">
+                                    <div class="label slds-text-align_left"><abbr title="required"
+                                                                                  class="slds-required">*</abbr>{!$Label.c.PG_MRC_RF_Last_Name}
+                                    </div>
+                                    <c:rrInput valueString="{!v.lastName}" disabled="{!v.providerFound}"/>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </aura:if>
-                <!--<div class="rr-form-element slds-col slds-size&#45;&#45;1-of-1 slds-p-around_medium">
-                    <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_MRC_RF_Clinic_Name}</div>
-                    <c:rrInput valueString="{!v.clinicName}"/>
-                </div>-->
-                <aura:if isTrue="{!!v.isDuplicate}">
-                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-p-around_medium"
-                         style="max-width: 100%;">
-                        <aura:if isTrue="{!!empty(v.studySitesForInvitation)}">
-                            <div class="label">{!$Label.c.PG_MRC_RF_Invite_to_Studies}</div>
-                            <div class="radio-group" style="max-width: 100%;">
-                                <aura:iteration items="{!v.studySitesForInvitation}" var="site">
-                                    <lightning:input value="{!site}" type="radio" name="site"
-                                                     label="{!site.StudyName + ' (' + site.studySiteName + ')'}"
-                                                     onchange="{!c.doSelectStudy}" checked="{!site.selected}"/>
-                                </aura:iteration>
+                        <aura:if isTrue="{!v.providerFound || v.isDuplicate}">
+                            <div class="slds-col slds-grid slds-size_1-of-1">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="rr-form-element">
+                                        {!$Label.c.HealthCare_Provider_Found}
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <div class="rr-form-element">
+                                        <c:RRLink label="{!$Label.c.Different_HealthCare_Provider}" page="{!'help'}"/>
+                                    </div>
+                                </div>
                             </div>
                         </aura:if>
                     </div>
-                    <aura:set attribute="else">
-                        <div class="slds-p-top_medium">{!Label.c.Same_RP_in_the_system}</div>
-                    </aura:set>
-                </aura:if>
-            </div>
+                    <!--<div class="rr-form-element slds-col slds-size&#45;&#45;1-of-1 slds-p-around_medium">
+                        <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_MRC_RF_Clinic_Name}</div>
+                        <c:rrInput valueString="{!v.clinicName}"/>
+                    </div>-->
+                    <div>
+                        <aura:if isTrue="{!!v.isDuplicate}">
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-p-around_medium"
+                                 style="max-width: 100%;">
+                                <aura:if isTrue="{!!empty(v.studySitesForInvitation)}">
+                                    <div class="label">{!$Label.c.PG_MRC_RF_Invite_to_Studies}</div>
+                                    <div class="radio-group" style="max-width: 100%;">
+                                        <aura:iteration items="{!v.studySitesForInvitation}" var="site">
+                                            <lightning:input value="{!site}" type="radio" name="site"
+                                                             label="{!site.StudyName + ' (' + site.studySiteName + ')'}"
+                                                             onchange="{!c.doSelectStudy}" checked="{!site.selected}"/>
+                                        </aura:iteration>
+                                    </div>
+                                </aura:if>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-p-top_medium">{!Label.c.Same_RP_in_the_system}</div>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </div>
             </aura:if>
+
             <aura:set attribute="footerButtons">
                 <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
                 <button class="apollo-btn secondary" onclick="{!c.doClearInviteAndHide}">

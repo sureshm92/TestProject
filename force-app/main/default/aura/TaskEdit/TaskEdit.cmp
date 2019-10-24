@@ -14,7 +14,6 @@
     <aura:attribute name="owner" type="Boolean" default="true"/>
     <aura:attribute name="editAvailable" type="Boolean"/>
     <aura:attribute name="isEnrolled" type="Boolean"/>
-    <aura:attribute name="todayDate" type="Date"/>
     <aura:attribute name="jsonState" type="String"/>
 
     <!-- Reminder picklist value -->
@@ -61,7 +60,7 @@
                 <div class="slds-grid slds-gutters slds-wrap">
                     <!-- Due Date -->
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                        <lightning:input aura:id="field" type="date" min="{!v.todayDate}"
+                        <lightning:input aura:id="field" type="date" min="{!v.initData.today}"
                                          label="{!$Label.c.Due_Date}" value="{!v.initData.activityDate}"
                                          disabled="{!not(v.editAvailable)}" onchange="{!c.onChangeDueDate}"/>
                     </div>
@@ -150,7 +149,7 @@
                                              value="{!v.initData.reminderDate}"
                                              onchange="{!c.onChangeReminderDate}"
                                              disabled="{!or(v.task.Is_Reminder_Sent__c, !v.reminderDateEnabled)}"
-                                             min="{!v.todayDate}"
+                                             min="{!v.initData.today}"
                                              max="{!if(v.initData.activityDate, v.initData.activityDate, '')}"/>
                         </div>
                     </div>
