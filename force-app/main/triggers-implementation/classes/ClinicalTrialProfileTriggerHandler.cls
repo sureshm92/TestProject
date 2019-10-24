@@ -16,11 +16,16 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
             populateOverrideFields(newList);
         }
 
+        public override void afterInsert(List<SObject> newList) {
+            updateNextNotifyDateByCTP((List<Clinical_Trial_Profile__c>)newList);
+        }
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap){
             updateClinicalTrialProfile(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
             CTPSendNotificationService ctpService = (CTPSendNotificationService) ClassFactory.newInstance(CTPSendNotificationService.class);
             ctpService.updateRelatedTrialNotifications(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
             ctpService.removeSentNotifications();
+            updateNextNotifyDateByCTP((List<Clinical_Trial_Profile__c>)newList);
         }
 
         public override void beforeDelete(List<SObject> oldList) {
@@ -68,4 +73,7 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
         }
     }
 
+    private static void updateNextNotifyDateByCTP(List<Clinical_Trial_Profile__c> ctps){
+        Database.executeBatch(new Batch_UpdateNotifyDateOldUsers(ctps));
+    }
 }
