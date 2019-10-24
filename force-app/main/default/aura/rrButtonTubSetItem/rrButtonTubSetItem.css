@@ -50,3 +50,12 @@
     padding-right: 5px;
     padding-left: 5px;
 }
+
+
+@media (max-width: 768px){  
+    .THIS.bts-tab {
+        display: inline-flex;
+        align-items: center;
+        height: 75px;
+    }   
+}

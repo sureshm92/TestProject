@@ -198,9 +198,7 @@
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-visits'}">
-                        <c:RRInjector componentName="StudyVisits">
-                            <c:RRInjectorAttribute name="visitMode" value="{!v.visitMode}" isReference="true"/>
-                        </c:RRInjector>
+                        <c:StudyVisits visitMode="{!v.visitMode}"/>
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-tasks'}">
@@ -208,15 +206,11 @@
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-resources'}">
-                        <c:RRInjector componentName="ResourceContainer">
-                            <c:RRInjectorAttribute name="resourceMode" value="{!v.resourceMode}" isReference="true"/>
-                        </c:RRInjector>
+                        <c:ResourceContainer resourceMode="{!v.resourceMode}"/>
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-lab-results'}">
-                        <c:RRInjector componentName="VisitResultsContainer">
-                            <c:RRInjectorAttribute name="labResultsMode" value="{!v.labResultsMode}" isReference="true"/>
-                        </c:RRInjector>
+                        <c:VisitResultsContainer labResultsMode="{!v.labResultsMode}"/>
                     </aura:if>
                 </div>
             </div>

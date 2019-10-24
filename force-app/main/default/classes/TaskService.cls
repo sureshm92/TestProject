@@ -46,6 +46,7 @@ public without sharing class TaskService {
             'Task_Type__c',
             'Visible_For__c',
             'Action_URL__c',
+            'ReminderDateTime',
             'Reminder_Date__c',
             'Originator__c',
             'Patient_Visit__c',
@@ -190,7 +191,8 @@ public without sharing class TaskService {
             if (partUserId == null) continue;
 
             userContact.put(partUserId, partContactId);
-            Set<Id> patientDelContactIds = delegatesByParticipant.get(partContactId);
+            Set<Id> patientDelContactIds = delegatesByParticipant.containsKey(partContactId)
+                    ? delegatesByParticipant.get(partContactId) : new Set<Id>();
 
             List<TaskConfig> tmpConfigs = new List<TaskConfig>();
             String visible = invitationsVisible.get(inv.Id);

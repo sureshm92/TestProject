@@ -31,3 +31,13 @@
 .THIS .path-panel .collapse-section.opened{
     background-color: white;
 }
+
+@media all and (max-width: 768px) {
+    .THIS .vpi-status-btns .apollo-btn {
+        width: 100%;
+    }
+    
+    .THIS .cPSEPath .vpi-status-btns {
+        padding: 0 15px 25px 15px;
+    }
+}
