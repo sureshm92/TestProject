@@ -190,7 +190,8 @@ public without sharing class TaskService {
             if (partUserId == null) continue;
 
             userContact.put(partUserId, partContactId);
-            Set<Id> patientDelContactIds = delegatesByParticipant.get(partContactId);
+            Set<Id> patientDelContactIds = delegatesByParticipant.containsKey(partContactId)
+                    ? delegatesByParticipant.get(partContactId) : new Set<Id>();
 
             List<TaskConfig> tmpConfigs = new List<TaskConfig>();
             String visible = invitationsVisible.get(inv.Id);
