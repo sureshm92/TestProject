@@ -83,10 +83,14 @@
                 </div>
 
                 <!--MRR Survey Results-->
-                <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">
-                    <div id="screenerResponsesAnchor" class="header">{!$Label.c.BTN_Screener_Responses}</div>
-                    <c:SurveyGismoResultsView results="{!v.pe.MRR_Survey_Results_URL__c}"/>
-                </aura:if>
+                <div id="screenerResponsesAnchor"
+                     class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'header' : 'slds-hidden'}">{!$Label.c.BTN_Screener_Responses}
+                    <aura:if
+                            isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">
+                        <!--<div id="screenerResponsesAnchor" class="header">{!$Label.c.BTN_Screener_Responses}</div>-->
+                        <c:SurveyGismoResultsView results="{!v.pe.MRR_Survey_Results_URL__c}"/>
+                    </aura:if>
+                </div>
 
             </aura:if>
         </div>
