@@ -8,17 +8,11 @@ public class Test_HomePageParticipantRemote {
     @IsTest
     public static void runTest() {
         TestData.loadTestData();
-        TestData testDataInstance = new TestData();
-        
-        try {
-            HomePageParticipantRemote.getInitData();
-        } catch (Exception e) {
-            // expected Exception
-        }
 
-        System.runAs(testDataInstance.participantUser) {
+        Test.startTest();
+        System.runAs(new TestData().participantUser) {
             HomePageParticipantRemote.getInitData();
         }
+        Test.stopTest();
     }
-    
 }
