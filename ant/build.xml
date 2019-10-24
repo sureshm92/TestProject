@@ -194,13 +194,14 @@
                 <include name="labels/*.*"/>
                 <include name="layouts/*.*"/>
                 <include name="objects/*.*"/>
+                <include name="globalValueSets/*.*"/>
             </fileset>
         </copy>
         <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part3/package.xml" encoding="UTF-8">
             <remove path="/:Package/:types[:name[text()!='CustomMetadata' and text()!='CustomObject' and text()!='CustomField'
             and text()!='CustomLabels' and text()!='CustomLabel' and text()!='Layout' and text()!='CompactLayout'
             and text()!='ListView' and text()!='RecordType' and text()!='ValidationRule' and text()!='FieldSet'
-            and text()!='WebLink' and text()!='BusinessProcess']]"/>
+            and text()!='WebLink' and text()!='BusinessProcess' and text()!='GlobalValueSet']]"/>
         </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part3.zip">
             <fileset dir="${dist.dir}">
@@ -218,6 +219,7 @@
                 <exclude name="labels/*.*"/>
                 <exclude name="layouts/*.*"/>
                 <exclude name="objects/*.*"/>
+                <exclude name="globalValueSets/*.*"/>
             </fileset>
         </copy>
         <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part4/package.xml" encoding="UTF-8">
@@ -236,6 +238,7 @@
             <remove path="/:Package/:types[:name[text()='FieldSet']]"/>
             <remove path="/:Package/:types[:name[text()='WebLink']]"/>
             <remove path="/:Package/:types[:name[text()='BusinessProcess']]"/>
+            <remove path="/:Package/:types[:name[text()='GlobalValueSet']]"/>
         </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part4.zip">
             <fileset dir="${dist.dir}">
