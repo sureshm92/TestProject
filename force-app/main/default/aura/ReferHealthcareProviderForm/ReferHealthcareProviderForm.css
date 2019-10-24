@@ -1,3 +1,10 @@
 .THIS .apollo-btn.tertiary {
-    padding: 0 10px;
+    padding: 6px 10px;
+}
+
+@media all and (max-width: 768px){
+	.THIS .apollo-btn.tertiary {
+        margin-bottom: 15px;
+    }
+    
 }

@@ -23,12 +23,12 @@
                                       page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"/>
                 <!--    </c:uiLimitTextByLines> -->
                     </div>
-                    <div class="slds-col slds-small-size_2-of-3 slds-x-small-size--2-of-3 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-large-order_3 slds-medium-order_3 sponsor-name">
+                    <div class="slds-col slds-small-size_1-of-1 slds-x-small-size--1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-large-order_3 slds-medium-order_3 sponsor-name">
                         {!v.currentStudy.trial.Study_Sponsor__c}
                     </div>
 
                     <!--Social Widgets-->
-                    <div class="slds-col slds-small-size_1-of-3 slds-x-small-size--1-of-3 slds-medium-size_1-of-4 slds-large-size_1-of-4 slds-large-order_2 slds-medium-order_2">
+                    <div class="slds-col slds-small-size_1-of-1 slds-x-small-size--1-of-1 slds-medium-size_1-of-4 slds-large-size_1-of-4 slds-large-order_2 slds-medium-order_2">
                         <aura:if isTrue="{!!empty(v.currentStudy.trial.NCT_Number__c)}">
                             <div class="{!v.userMode == 'PI'? 'rri-icon-pi slds-float_right':'rri-icon slds-float_right'}">
                                 <a href="javascript:void(0);" data-id="email" onclick="{!c.onShareClick}">

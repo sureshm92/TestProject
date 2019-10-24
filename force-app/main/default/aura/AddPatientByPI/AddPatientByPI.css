@@ -27,3 +27,12 @@
     background: #eef5ff;
 
 }
+
+@media all and (max-width: 768px){
+     .THIS .ap-buttons{
+        flex-direction: column;
+    } 
+    .THIS .ap-buttons .apollo-btn {
+     	margin-bottom: 20px;
+    }
+}

@@ -18,7 +18,6 @@
     margin: 0;
 }
 
-
 .THIS .vpi-value-length-max{
     max-width: 200px;
     overflow: hidden;
@@ -45,4 +44,14 @@
     font-size: .8125rem;
     line-height: 18px;
     font-weight: 400;
+}
+
+@media all and (max-width: 767px){
+    .THIS .vpi-fields {
+        flex-wrap: wrap;
+    }
+     .THIS .vpi-fields .vpi-field {
+        flex: 0 0 50%;
+    }
+    
 }

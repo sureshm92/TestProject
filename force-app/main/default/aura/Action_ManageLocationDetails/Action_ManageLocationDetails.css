@@ -97,6 +97,20 @@
     }
 }
 
+@media all and (max-width: 767px) {
+    .THIS .locationContainer{
+        padding: 8px 11px 13px;
+    }
+    
+    .THIS .popup-account-name:first-child {
+        padding-left: 0;
+    }
+    
+    .THIS .popup-account-name + .slds-col {
+        min-height: 100%;
+    }
+}
+
 @media all and (max-width: 600px) {
     .THIS .ss-info-address{
         word-wrap: break-word;

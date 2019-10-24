@@ -522,6 +522,41 @@ lightning-datepicker .slds-input-has-icon > lightning-button-icon:after {
 lightning-datepicker lightning-button-icon .slds-button svg {
     display: none;
 }
+
+.slds-radio [type=radio]:checked+.slds-radio_faux,
+.slds-radio [type=radio]:checked+.slds-radio--faux,
+.slds-radio [type=radio]:checked~.slds-radio_faux,
+.slds-radio [type=radio]:checked~.slds-radio--faux,
+.slds-radio [type=radio]:checked+.slds-radio__label .slds-radio_faux,
+.slds-radio [type=radio]:checked+.slds-radio__label .slds-radio--faux {
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08), 0 4px 8px 0 rgba(41, 125, 253, 0.16);
+    position: relative;
+}
+
+.slds-radio [type=radio]:checked+.slds-radio_faux:before,
+.slds-radio [type=radio]:checked+.slds-radio--faux:before,
+.slds-radio [type=radio]:checked~.slds-radio_faux:before,
+.slds-radio [type=radio]:checked~.slds-radio--faux:before,
+.slds-radio [type=radio]:checked+.slds-radio__label .slds-radio_faux:before,
+.slds-radio [type=radio]:checked+.slds-radio__label .slds-radio--faux:before {
+    border: 1px solid #297dfd;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: -3px;
+    left: -3px;
+}
+
+
+
+.slds-radio [type=radio]:checked+.slds-radio_faux:after,
+.slds-radio [type=radio]:checked+.slds-radio--faux:after,
+.slds-radio [type=radio]:checked~.slds-radio_faux:after,
+.slds-radio [type=radio]:checked~.slds-radio--faux:after,
+.slds-radio [type=radio]:checked+.slds-radio__label .slds-radio_faux:after,
+.slds-radio [type=radio]:checked+.slds-radio__label .slds-radio--faux:after {
+    background: #297dfd;
+}
 /*-------------------------------------------------------- Output -------------------------------------------------------------*/
 
 .rr-output-field{
@@ -666,9 +701,8 @@ select.rr-select-error,
     background: #297DFD;
     box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16), 0 4px 4px 0 rgba(0, 0, 0, 0.04), 0 8px 16px 0 rgba(41, 125, 253, 0.32);
     color: #FFFFFF;
-    height: 32px;
     font-size: 1rem;
-    padding: 0 16px;
+    padding: 6px 16px;
 }
 
 .apollo-btn.primary:hover, .apollo-btn.primary:focus, .apollo-btn.primary:active {
@@ -692,8 +726,7 @@ select.rr-select-error,
     color: #297dfd;
     border: 1px solid #d9d9d9;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
-    height: 32px;
-    padding: 0 16px;
+    padding: 6px 16px;
     font-size: 1rem;
 }
 
@@ -741,8 +774,7 @@ select.rr-select-error,
 .apollo-btn.tertiary{
     background: #f2f2f2;
     color: #595959;
-    padding: 0 16px;
-    height: 32px;
+    padding: 6px 16px;
 }
 
 .apollo-btn.tertiary:hover, .apollo-btn.tertiary:focus{
@@ -1300,26 +1332,26 @@ input[type=password]::-ms-clear
         display: none!important;
     }
 }
-
+/*
 @media all and (max-width: 479px){
     .rr-small-down-hide{
         display: none!important;
     }
 }
-
+*/
 /* medium 768 */
 @media all and (min-width: 768px){
     .rr-medium-up-hide{
         display: none!important;
     }
 }
-
+/*
 @media all and (max-width: 767px){
     .rr-medium-down-hide{
         display: none!important;
     }
 }
-
+*/
 /* large 1024 */
 @media all and (min-width: 1024px){
     .rr-large-up-hide{

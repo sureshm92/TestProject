@@ -213,3 +213,21 @@
 .THIS .studies-tabs li:not(:last-child){
     border-right: 2px solid #D9D9D9;
 }
+
+@media all and (max-width: 767px) {
+    .THIS .studies-tabs li {
+    	padding: 10px;    
+    } 
+    
+    /* SCROLLBAR */
+    .THIS .studies-tabs::-webkit-scrollbar {
+        background-color: #fff;
+        height: 8px;
+    }
+    /* Handle */
+    .THIS .studies-tabs::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background-color: #297dfd;
+        height: 8px;			  
+    }	
+}

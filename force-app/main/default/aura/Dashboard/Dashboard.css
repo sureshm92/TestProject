@@ -54,10 +54,16 @@
     font-weight: 600;
 }
 
-.THIS .db-list-item .apollo-btn{
-    margin: 0 0 0 10px;
-    float: right;
+.THIS .rr-large-down-hide .db-list-item {
+    position: relative;
+    line-height: 22px;
+    padding-right: 110px;
+}
 
+.THIS .rr-large-down-hide .db-list-item .apollo-btn{
+    position: absolute;
+    top: 10px;
+    right: 0;
 }
 
 .THIS .db-list-item .apollo-btn.text{
@@ -140,4 +146,13 @@
 .THIS .db-list-item .btn-block .apollo-btn{
     float: none;
     margin-left: 0;
+}
+
+@media (max-width: 768px){ 
+   .THIS .db-list-item .rr-small-down-hide {
+        display: none;
+    } 
+    .THIS .db-list-item .rr-small-up-hide .apollo-btn {
+        width: 100%;
+    }
 }
