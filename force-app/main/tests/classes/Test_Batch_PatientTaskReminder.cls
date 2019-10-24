@@ -27,13 +27,34 @@ public with sharing class Test_Batch_PatientTaskReminder {
         tskList.add(tsk);
 
         Contact conList = [SELECT Id, Participant_Opt_In_Status_Emails__c, Email FROM Contact WHERE Email = 'MaxJames@mail.com'];
-        conList.Participant_Opt_In_Status_Emails__c = TRUE;
+        conList.Participant_Opt_In_Status_Emails__c = true;
         update conList;
 
 
         Test.startTest();
         upsert tsk;
-            Database.executeBatch(new Batch_PatientTaskReminder());
+        List<Task> tasks = [
+                SELECT Id,
+                        Description,
+                        OwnerId,
+                        Subject,
+                        Start_Date__c,
+                        Task_Type__c,
+                        ReminderDateTime,
+                        Reminder_Date__c,
+                        Reminder_Schedule__c,
+                        Reminder_Schedule__r.First_Reminder_day__c,
+                        Reminder_Schedule__r.Second_Reminder_day__c,
+                        Reminder_Schedule__r.Use_Final_Template__c,
+                        Visible_For__c,
+                        WhatId,
+                        WhoId
+                FROM Task
+                WHERE ReminderDateTime <= :Datetime.now()
+                AND Is_Reminder_Sent__c = FALSE
+                AND Status IN:TaskService.TASK_STATUS_GROUP_AVAILABLE
+        ];
+        new Batch_PatientTaskReminder().execute(null, tasks);
         Test.stopTest();
 
         List<Task> taskList = [SELECT Id, Subject, Task_Type__c, WhoId, Reminder_Date__c FROM Task];
