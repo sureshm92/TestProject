@@ -52,7 +52,7 @@ public class TasksRemote {
                 }
                 if(task.Reminder_Date__c != null) {
                     taskWrapper.reminder =
-                            DateTimeConverterUtil.getUserDatetime(timezone, task.Reminder_Date__c).date();
+                            DateTimeConverterUtil.getUserDatetime(timezone, task.ReminderDateTime).date();
                 }
 
                 participantTasks.openTasksWrapper.add(taskWrapper);
