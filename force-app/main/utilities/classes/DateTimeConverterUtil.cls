@@ -53,20 +53,18 @@ public without sharing class DateTimeConverterUtil {
     }
 
     public static Datetime convertUserDatetimeToGMT(Datetime moment, TimeZone tz) {
-        Integer offset = tz.getOffset(moment) / MS_IN_HOUR;
+        Integer offset = tz.getOffset(Datetime.now()) / MS_IN_HOUR;
         Datetime momentInGMT = moment.addHours( -offset );
 
         return momentInGMT;
     }
 
     public static Datetime addDaysInUserTimeZone(Datetime moment, TimeZone tz, Integer days) {
-        Datetime momentInGMT = convertUserDatetimeToGMT(moment, tz);
-
-        Time gmtTime = momentInGMT.timeGmt();
-        Date gmtDate = momentInGMT.date().addDays(days);
+        Time gmtTime = moment.timeGmt();
+        Date gmtDate = moment.date().addDays(days);
         Datetime gmtDT = Datetime.newInstanceGmt(gmtDate, gmtTime);
 
-        return getUserDatetime(tz, gmtDT);
+        return gmtDT;
     }
 
     public static Datetime addDaysInUserTimeZone(Datetime moment, Id contactId, Integer days) {
