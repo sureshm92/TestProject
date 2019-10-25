@@ -192,4 +192,38 @@ public without sharing class ParticipantService {
         genders.add(new LabelValueItem(Label.Gender_Female, 'Female'));
         return genders;
     }
+
+    public static Map<Id, Integer> getNearestLogOutNotification(List<Id> participantContIds) {
+        List<Participant_Enrollment__c> enrollments = [
+                SELECT
+                        Id,
+                        Participant_Contact__c,
+                        Participant__r.Contact__c,
+                        Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c
+                FROM Participant_Enrollment__c
+                WHERE Participant_Contact__c IN:participantContIds
+                AND Participant_Status__c NOT IN:PEStatusState.PE_STATUS_GROUP_COMPLETE
+                AND Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c != NULL
+        ];
+
+        Map<Id, Integer> nearestNotificationByContactIds = new Map<Id, Integer>();
+        for (Participant_Enrollment__c pe : enrollments) {
+            Id contactId = pe.Participant_Contact__c != null ? pe.Participant_Contact__c : pe.Participant__r.Contact__c;
+            Integer daysNotification = (Integer) pe.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c;
+
+            if (!nearestNotificationByContactIds.containsKey(contactId)) {
+                nearestNotificationByContactIds.put(
+                        contactId,
+                        daysNotification
+                );
+            }
+
+            Integer currentNotification = nearestNotificationByContactIds.get(contactId);
+            if(currentNotification > daysNotification) {
+                nearestNotificationByContactIds.put(contactId, daysNotification);
+            }
+        }
+
+        return nearestNotificationByContactIds;
+    }
 }
