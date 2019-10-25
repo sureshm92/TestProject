@@ -238,6 +238,7 @@
             <remove path="/:Package/:types[:name[text()='RecordType']]"/>
             <remove path="/:Package/:types[:name[text()='ValidationRule']]"/>
             <remove path="/:Package/:types[:name[text()='FieldSet']]"/>
+            <remove path="/:Package/:types[:name[text()='FlexiPage']]"/>
             <remove path="/:Package/:types[:name[text()='WebLink']]"/>
             <remove path="/:Package/:types[:name[text()='BusinessProcess']]"/>
             <remove path="/:Package/:types[:name[text()='GlobalValueSet']]"/>
