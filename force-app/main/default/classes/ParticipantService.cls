@@ -202,7 +202,7 @@ public without sharing class ParticipantService {
                         Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c
                 FROM Participant_Enrollment__c
                 WHERE Participant_Contact__c IN:participantContIds
-                AND Participant_Status__c NOT IN:PEStatusState.PE_STATUS_GROUP_COMPLETE
+                AND Participant_Status__c IN: PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL
                 AND Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c != NULL
         ];
 
