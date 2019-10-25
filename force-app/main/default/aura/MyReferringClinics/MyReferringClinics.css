@@ -27,8 +27,24 @@
     }
     
     .THIS .mrc-invite-btn-container .mrc-invite-btn {
-     	width: 100%;   
+     	width: 91%;
+        margin-right: 15px;   
     }
+    
+    .THIS .slds-col {
+        flex-wrap: wrap;
+    }
+    
+    .THIS .slds-col.slds-p-around_medium {
+        flex-wrap: wrap;
+        padding: 0;
+        width: 100%;
+    }
+    
+    .THIS .rr-form-element .slds-form-element__control {
+        margin-bottom: 15px;
+    }
+
 }
 
 .THIS .rr-form-element{
