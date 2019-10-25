@@ -73,71 +73,76 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
         }
     }
 
-    private static void updateNextNotifyDateByCTP(List<Clinical_Trial_Profile__c> trialProfiles){
+    public static void updateNextNotifyDateByCTP(List<Clinical_Trial_Profile__c> profiles){
         List<Participant_Enrollment__c> enrollments = [
-                SELECT
-                        Participant_Contact__c,
-                        Participant__r.Contact__c
+                SELECT Participant__r.Contact__c
                 FROM Participant_Enrollment__c
-                WHERE Clinical_Trial_Profile__c IN:trialProfiles
-                AND Participant_Status__c NOT IN:PEStatusState.PE_STATUS_GROUP_COMPLETE
-                AND Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c != NULL
+                WHERE Clinical_Trial_Profile__c IN :profiles
         ];
-        List<Id> participantContIds = new List<Id>();
-        for(Participant_Enrollment__c pe : enrollments) {
-            Id contactId = pe.Participant_Contact__c != null ? pe.Participant_Contact__c : pe.Participant__r.Contact__c;
-            participantContIds.add(contactId);
-        }
+        List<Id> allContactIds = new List<Id>();
+        for (Participant_Enrollment__c pe : enrollments) allContactIds.add(pe.Participant__r.Contact__c);
 
         List<Patient_Delegate__c> patientDelegates = [
-                SELECT
-                        Id,
-                        Contact__c,
-                        Contact__r.Next_Notify_Date__c,
-                        Participant__r.Contact__c
+                SELECT Participant__r.Contact__c, Contact__c
                 FROM Patient_Delegate__c
-                WHERE Participant__r.Contact__c IN:participantContIds
+                WHERE Participant__r.Contact__c IN :allContactIds
         ];
 
-        List<Id> allContactsIds = new List<Id>();
-        Map<Id, Id> partCntByDelegateCnt = new Map<Id, Id>();
-        for(Patient_Delegate__c pd : patientDelegates) {
-            partCntByDelegateCnt.put(pd.Contact__c, pd.Participant__r.Contact__c);
-            allContactsIds.add(pd.Contact__c);
+        Map<Id, List<Patient_Delegate__c>> participantIdsByDelegates = new Map<Id, List<Patient_Delegate__c>>();
+        for (Patient_Delegate__c pd : patientDelegates) {
+            allContactIds.add(pd.Contact__c);
+            if (!participantIdsByDelegates.containsKey(pd.Participant__r.Contact__c)) {
+                participantIdsByDelegates.put(pd.Participant__r.Contact__c, new List<Patient_Delegate__c>());
+            }
+            participantIdsByDelegates.get(pd.Participant__r.Contact__c).add(pd);
         }
 
         List<User> users = [
-                SELECT
-                        Id,
-                        ContactId,
-                        Contact.UserCommunityIsDelegate__c,
+                SELECT  ContactId,
                         LastLoginDate
                 FROM User
-                WHERE IsActive = TRUE
+                WHERE ContactId IN :allContactIds
+                AND IsActive = TRUE
                 AND LastLoginDate != NULL
-                AND ContactId IN:allContactsIds
         ];
+        Map<Id, Datetime> lastLoginDateByContactIds = new Map<Id, Datetime>();
+        for (User us : users) lastLoginDateByContactIds.put(us.ContactId, us.LastLoginDate);
 
-        Map<Id, Integer> nearestNotificationByContactIds = ParticipantService.getNearestLogOutNotification(participantContIds);
-        List<Contact> forUpdateContacts = new List<Contact>();
-        for(User user : users) {
-            Integer daysToNotify;
-            if(user.Contact.UserCommunityIsDelegate__c && partCntByDelegateCnt.containsKey(user.ContactId)) {
-                if(nearestNotificationByContactIds.containsKey(partCntByDelegateCnt.get(user.ContactId))) {
-                    daysToNotify = nearestNotificationByContactIds.get(partCntByDelegateCnt.get(user.ContactId));
+        List<Contact> contactsForUpdate = new List<Contact>();
+        Map<Id, List<Participant_Enrollment__c>> enrollmentsByContactIds = Batch_UpdateNotifyDateOldUsers.getAllPEByContactIds(new List<Id>(participantIdsByDelegates.keySet()));
+        for (Id participantContactId : participantIdsByDelegates.keySet()) {
+            List<Decimal> minDays = new List<Decimal>();
+
+            for (Participant_Enrollment__c pe : enrollmentsByContactIds.get(participantContactId)) {
+                if (pe.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c == null) {
+                    continue;
+                } else {
+                    minDays.add(pe.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c);
                 }
-            } else if(nearestNotificationByContactIds.containsKey(user.ContactId)){
-                daysToNotify = nearestNotificationByContactIds.get(user.ContactId);
             }
+            if(minDays.isEmpty()) return;
+            minDays.sort();
+            Integer minDay = (Integer) minDays[0];
 
-            if(daysToNotify == null) continue;
-            Date nextNotifyDate = user.LastLoginDate.addDays(daysToNotify).date();
-            forUpdateContacts.add(new Contact(
-                    Id = user.ContactId,
+            Datetime lastLoginDateForParticipant = lastLoginDateByContactIds.get(participantContactId);
+            Date nextNotifyDate = lastLoginDateForParticipant.addDays(minDay).date();
+            if (Date.today().daysBetween(nextNotifyDate) < 0)  nextNotifyDate = Date.today().addDays(minDay);
+            contactsForUpdate.add(new Contact(
+                    Id = participantContactId,
                     Next_Notify_Date__c = nextNotifyDate
             ));
-        }
 
-        update forUpdateContacts;
+            for (Patient_Delegate__c pd : participantIdsByDelegates.get(participantContactId)) {
+                Datetime lastLoginDateForDelegate = lastLoginDateByContactIds.get(pd.Contact__c);
+                if(lastLoginDateForDelegate == null) continue;
+                Date nextNotifyDateDelegate = lastLoginDateForDelegate.addDays(minDay).date();
+                if (Date.today().daysBetween(nextNotifyDateDelegate) < 0)  nextNotifyDateDelegate = Date.today().addDays(minDay);
+                contactsForUpdate.add(new Contact(
+                        Id = pd.Contact__c,
+                        Next_Notify_Date__c = nextNotifyDateDelegate
+                ));
+            }
+        }
+        update contactsForUpdate;
     }
 }
