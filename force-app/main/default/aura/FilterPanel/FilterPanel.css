@@ -159,7 +159,9 @@
     .THIS .fp-page-control {
         text-align: left;
     }
-    
+    .THIS {
+        margin: 0 15px;
+    }
      .THIS .fp-page-control .fp-form-element:nth-child(2) {
         margin-left: 0;
     }

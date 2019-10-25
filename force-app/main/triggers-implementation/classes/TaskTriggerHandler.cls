@@ -93,11 +93,31 @@ public without sharing class TaskTriggerHandler {
                 SELECT
                         Id,
                         ContactId,
-                        Contact.Participant_Opt_In_Status_Emails__c
+                        Contact.Participant_Opt_In_Status_Emails__c,
+                        Contact.UserCommunityIsDelegate__c
                 FROM User
                 WHERE Id IN:ownerIds
                 AND IsActive = TRUE
         ]);
+
+        List<Id> partContactsIds = new List<Id>();
+        for(Id usId : usersByIds.keySet()) partContactsIds.add(usersByIds.get(usId).ContactId);
+
+        List<Patient_Delegate__c> patientDelegates = [
+                SELECT
+                        Contact__c,
+                        Participant__r.Contact__c
+                FROM Patient_Delegate__c
+                WHERE Participant__r.Contact__c IN:partContactsIds
+                AND Contact__r.Participant_Opt_In_Status_Emails__c = TRUE
+        ];
+        Map<Id, List<Id>> delegatesCntByPartCnt = new Map<Id, List<Id>>();
+        for(Patient_Delegate__c pd: patientDelegates) {
+            if(!delegatesCntByPartCnt.containsKey(pd.Participant__r.Contact__c)) {
+                delegatesCntByPartCnt.put(pd.Participant__r.Contact__c, new List<Id>());
+            }
+            delegatesCntByPartCnt.get(pd.Participant__r.Contact__c).add(pd.Contact__c);
+        }
 
         for (Task task : tasks) {
             if (task.Task_Code__c != null) {
@@ -117,7 +137,8 @@ public without sharing class TaskTriggerHandler {
                                 card.Immediate_Email_Template__c, usersByIds.get(task.OwnerId).ContactId, whatId));
                     }
                     if(task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
-                        for(Id delContactId : PatientDelegateService.getDelegatedContactIdsEmailOptIn(usersByIds.get(task.OwnerId).ContactId)) {
+                        if(!delegatesCntByPartCnt.containsKey(usersByIds.get(task.OwnerId).ContactId)) continue;
+                        for(Id delContactId : delegatesCntByPartCnt.get(usersByIds.get(task.OwnerId).ContactId)) {
                             emailMessages.add(SendEmailTemplate.createEmail(
                                     card.Immediate_Email_Template__c, delContactId, whatId));
                         }

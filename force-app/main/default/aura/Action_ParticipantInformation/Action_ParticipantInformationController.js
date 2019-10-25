@@ -17,7 +17,7 @@
             component.set('v.initialized', false);
             var params = event.getParam('arguments');
             var pe = JSON.parse(JSON.stringify(params.pe));
-            component.set('v.actions',JSON.parse(JSON.stringify(params.actions)));
+            component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
             component.set('v.popUpTitle', pe.Participant__r.Full_Name__c + ' ' + $A.get('$Label.c.PE_Info_PopUp_Title') + ' ' + pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c);
             component.set('v.pathItems', JSON.parse(JSON.stringify(params.pathItems)));
             component.set('v.rootComponent', params.rootComponent);
@@ -34,18 +34,20 @@
                 component.set('v.initialized', true);
                 setTimeout($A.getCallback(function () {
                     var formComponent = component.find('editForm');
-                    if(returnValue.isEnrolled) formComponent.set('v.isFinalUpdate', true);
+                    if (returnValue.isEnrolled) formComponent.set('v.isFinalUpdate', true);
                     component.find('spinner').hide();
                     component.set('v.anchor', params.anchorScroll);
                     component.set('v.pe', returnValue.enrollment);
                     component.set('v.participant', pe.Participant__r);
                     formComponent.createDataStamp();
                     formComponent.checkFields();
-                    document.getElementById(params.anchorScroll).scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start',
-                        inline: 'nearest'
-                    });
+                    setTimeout(function () {
+                        document.getElementById(params.anchorScroll).scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start',
+                            inline: 'nearest'
+                        });
+                    }), 200
                 }), 15);
             });
             component.find('dialog').show();
@@ -54,7 +56,7 @@
         }
     },
 
-    prepareEditableSteps: function(component, event, helper){
+    prepareEditableSteps: function (component, event, helper) {
         var pathItems = event.getParam('value');
         var showButtonsForSteps = [];
         for (let i = 0; i < pathItems.length; i++) {
