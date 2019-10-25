@@ -12,7 +12,8 @@ ReferralSource = Referral_Source__c
 IsVirtual = Is_Virtual_Study_Site__c
 PIName = Study_Site__r.Principal_Investigator__r.Full_Name__c
 HCPName = HCP__r.HCP_Contact__r.Name
-PatientFirstName = Participant__r.First_Name__c</value>
+PatientFirstName = Participant__r.First_Name__c
+PITitle = Study_Site__r.Principal_Investigator__r.Title</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>
