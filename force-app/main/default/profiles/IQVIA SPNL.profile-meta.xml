@@ -103,6 +103,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_CreateNewRPDelegates</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_CreateParticipantLoginNotification</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1212,6 +1216,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_PSECreateInvitation</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_PatientTaskReminder</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -5689,6 +5697,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>VisitPackage__c.Visit_Plan__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Visit_Plan__c.Version__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
