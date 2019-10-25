@@ -40,6 +40,7 @@ private class Test_Batch_PSECreateInvitation {
                         Participant_Contact__c,
                         Participant_Status__c
                 FROM Participant_Enrollment__c
+                WHERE Id =: testData.pe.Id
         ];
 
         new Batch_PSECreateInvitation().execute(null, enrollments);
