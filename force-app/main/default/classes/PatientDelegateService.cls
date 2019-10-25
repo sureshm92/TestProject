@@ -114,7 +114,8 @@ public without sharing class PatientDelegateService {
                         'Contact__r.HCP_Opt_In_Study_Emails__c',
                         'Contact__r.HCP_Opt_In_Referral_Status_Emails__c',
                         'Contact__r.Resource_Notifications__c',
-                        'Contact__r.userCommunityMode__c'
+                        'Contact__r.userCommunityMode__c',
+                        'Contact__r.Next_Notify_Date__c'
                 },
                 Patient_Delegate__c.getSObjectType(),
                 DatabaseService.fieldEqual('Participant__r.Contact__c', participantContactId)
@@ -328,6 +329,10 @@ public without sharing class PatientDelegateService {
                 contactIds,
                 ' Participant_Status__c NOT IN ' + DatabaseService.listToString(excludedPEStatuses)
         );
+    }
+
+    public static List<Id> getForExclStatusPEIdsForContact(Id contactId, List<String> excludedPEStatuses){
+        return getForExclStatusPEIdsListByContactIdMap(new List<Id>{contactId}, excludedPEStatuses).get(contactId);
     }
     
     public static Map<Id, List<Id>> getPastPEIdsListByContactIdMap(List<Id> contactIds){

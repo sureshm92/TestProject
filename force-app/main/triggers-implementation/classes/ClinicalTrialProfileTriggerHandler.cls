@@ -16,11 +16,16 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
             populateOverrideFields(newList);
         }
 
+        public override void afterInsert(List<SObject> newList) {
+            updateNextNotifyDateByCTP((List<Clinical_Trial_Profile__c>)newList);
+        }
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap){
             updateClinicalTrialProfile(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
             CTPSendNotificationService ctpService = (CTPSendNotificationService) ClassFactory.newInstance(CTPSendNotificationService.class);
             ctpService.updateRelatedTrialNotifications(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
             ctpService.removeSentNotifications();
+            updateNextNotifyDateByCTP((List<Clinical_Trial_Profile__c>)newList);
         }
 
         public override void beforeDelete(List<SObject> oldList) {
@@ -68,4 +73,71 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
         }
     }
 
+    private static void updateNextNotifyDateByCTP(List<Clinical_Trial_Profile__c> trialProfiles){
+        List<Participant_Enrollment__c> enrollments = [
+                SELECT
+                        Participant_Contact__c,
+                        Participant__r.Contact__c
+                FROM Participant_Enrollment__c
+                WHERE Clinical_Trial_Profile__c IN:trialProfiles
+                AND Participant_Status__c NOT IN:PEStatusState.PE_STATUS_GROUP_COMPLETE
+                AND Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c != NULL
+        ];
+        List<Id> participantContIds = new List<Id>();
+        for(Participant_Enrollment__c pe : enrollments) {
+            Id contactId = pe.Participant_Contact__c != null ? pe.Participant_Contact__c : pe.Participant__r.Contact__c;
+            participantContIds.add(contactId);
+        }
+
+        List<Patient_Delegate__c> patientDelegates = [
+                SELECT
+                        Id,
+                        Contact__c,
+                        Contact__r.Next_Notify_Date__c,
+                        Participant__r.Contact__c
+                FROM Patient_Delegate__c
+                WHERE Participant__r.Contact__c IN:participantContIds
+        ];
+
+        List<Id> allContactsIds = new List<Id>();
+        Map<Id, Id> partCntByDelegateCnt = new Map<Id, Id>();
+        for(Patient_Delegate__c pd : patientDelegates) {
+            partCntByDelegateCnt.put(pd.Contact__c, pd.Participant__r.Contact__c);
+            allContactsIds.add(pd.Contact__c);
+        }
+
+        List<User> users = [
+                SELECT
+                        Id,
+                        ContactId,
+                        Contact.UserCommunityIsDelegate__c,
+                        LastLoginDate
+                FROM User
+                WHERE IsActive = TRUE
+                AND LastLoginDate != NULL
+                AND ContactId IN:allContactsIds
+        ];
+
+        Map<Id, Integer> nearestNotificationByContactIds = ParticipantService.getNearestLogOutNotification(participantContIds);
+        List<Contact> forUpdateContacts = new List<Contact>();
+        for(User user : users) {
+            Integer daysToNotify;
+            if(user.Contact.UserCommunityIsDelegate__c && partCntByDelegateCnt.containsKey(user.ContactId)) {
+                if(nearestNotificationByContactIds.containsKey(partCntByDelegateCnt.get(user.ContactId))) {
+                    daysToNotify = nearestNotificationByContactIds.get(partCntByDelegateCnt.get(user.ContactId));
+                }
+            } else if(nearestNotificationByContactIds.containsKey(user.ContactId)){
+                daysToNotify = nearestNotificationByContactIds.get(user.ContactId);
+            }
+
+            if(daysToNotify == null) continue;
+            Date nextNotifyDate = user.LastLoginDate.addDays(daysToNotify).date();
+            forUpdateContacts.add(new Contact(
+                    Id = user.ContactId,
+                    Next_Notify_Date__c = nextNotifyDate
+            ));
+        }
+
+        update forUpdateContacts;
+    }
 }

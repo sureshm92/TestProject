@@ -46,6 +46,7 @@ public without sharing class TaskService {
             'Task_Type__c',
             'Visible_For__c',
             'Action_URL__c',
+            'ReminderDateTime',
             'Reminder_Date__c',
             'Originator__c',
             'Patient_Visit__c',
