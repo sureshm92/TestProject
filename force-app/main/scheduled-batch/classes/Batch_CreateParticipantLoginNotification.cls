@@ -7,12 +7,11 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
         return Database.getQueryLocator([
                 SELECT Id, Next_Notify_Date__c, Participant_Opt_In_Status_Emails__c
                 FROM Contact
-                WHERE Next_Notify_Date__c <= TODAY AND Participant_Opt_In_Status_Emails__c = true
+                WHERE Next_Notify_Date__c <= TODAY AND Participant_Opt_In_Status_Emails__c = TRUE
         ]);
     }
 
     public void execute(Database.BatchableContext param1, List<Contact> contacts) {
-
         List<Id> cntIds = new List<Id>();
         for (Contact cnt : contacts) cntIds.add(cnt.Id);
         Map<Id, Integer> conIdsAndNearestNotifyDate = ParticipantService.getNearestLogOutNotification(cntIds);
@@ -22,9 +21,8 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
             listOfContactEmails.add(new Contact(Id = conId, Next_Notify_Date__c = Date.today() + conIdsAndNearestNotifyDate.get(conId)));
         }
 
-        update listOfContactEmails;
-
         if (!listOfContactEmails.isEmpty()) {
+            update listOfContactEmails;
             SendEmailToParticipant.sendParticipantLoginNotification(listOfContactEmails, false);
         }
     }
@@ -32,6 +30,4 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
     public override Type getType() {
         return Batch_CreateParticipantLoginNotification.class;
     }
-
-
 }
