@@ -222,6 +222,7 @@
                 <exclude name="layouts/*.*"/>
                 <exclude name="objects/*.*"/>
                 <exclude name="globalValueSets/*.*"/>
+                <exclude name="navigationMenus/*.*"/>
             </fileset>
         </copy>
         <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part4/package.xml" encoding="UTF-8">
@@ -238,9 +239,11 @@
             <remove path="/:Package/:types[:name[text()='RecordType']]"/>
             <remove path="/:Package/:types[:name[text()='ValidationRule']]"/>
             <remove path="/:Package/:types[:name[text()='FieldSet']]"/>
+            <remove path="/:Package/:types[:name[text()='FlexiPage']]"/>
             <remove path="/:Package/:types[:name[text()='WebLink']]"/>
             <remove path="/:Package/:types[:name[text()='BusinessProcess']]"/>
             <remove path="/:Package/:types[:name[text()='GlobalValueSet']]"/>
+            <remove path="/:Package/:types[:name[text()='NavigationMenu']]"/>
         </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part4.zip">
             <fileset dir="${dist.dir}">
