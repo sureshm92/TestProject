@@ -191,6 +191,7 @@
         <copy todir="${dist.dir}/part3">
             <fileset dir="${source.dir}">
                 <include name="customMetadata/*.*"/>
+                <include name="flexipages/*.*"/>
                 <include name="labels/*.*"/>
                 <include name="layouts/*.*"/>
                 <include name="objects/*.*"/>
@@ -216,6 +217,7 @@
                 <exclude name="staticresources/*.*"/>
                 <exclude name="translations/*.*"/>
                 <exclude name="customMetadata/*.*"/>
+                <exclude name="flexipages/*.*"/>
                 <exclude name="labels/*.*"/>
                 <exclude name="layouts/*.*"/>
                 <exclude name="objects/*.*"/>
