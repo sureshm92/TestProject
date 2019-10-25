@@ -313,7 +313,7 @@
 }
 
 
-@media (max-width: 767px) {
+@media all and (max-width: 767px) {
     .THIS .slvi-buttons .slvi-btn + .slvi-btn {
         border-top: 1px solid #f9f9f9;
     }
@@ -361,7 +361,7 @@
     
      .THIS .slds-grid.slvi-buttons .apollo-btn {
         width: 100%;
-        margin: 15px 0 10px;
+        margin: 20px 0 0;
     }
 }
 

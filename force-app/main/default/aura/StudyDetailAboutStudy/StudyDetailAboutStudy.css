@@ -400,6 +400,10 @@
     .THIS .slvi-header-item + .slvi-header-item {
         margin-top: 16px;
     }
+    
+    .THIS .slds-grid.slds-wrap:before {
+        display: none;
+    }
 
     .THIS .site-distance {
         margin-top: .5rem;
