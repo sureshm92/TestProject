@@ -28,17 +28,22 @@
                                                                      if(v.mode == 'view', 'View Visit Plan', 'Create Visit Plan')))}">
         <div class="edit-vp-container">
             <c:RRSpinner aura:id="spinner"/>
-            <div class="toolbar">
-                <lightning:input class="inline-input" type="text" label="Visit Plan Name" value="{!v.plan.Name}"
-                                 disabled="{!equals(v.mode,'view')}"/>
-                <div class="btns">
-                    <lightning:button class="toolbar-btn" variant="neutral" type="button" label="{!if(v.mode == 'view',
-                                                                                                    $Label.c.View_Visit_Legend,
-                                                                                                    $Label.c.Edit_Visit_Legend)}"
+            <div>
+                <div class="toolbar">
+                    <lightning:input class="inline-input" type="text" label="Visit Plan Name" value="{!v.plan.Name}"
+                                     disabled="{!equals(v.mode,'view')}"/>
+                    <lightning:button class="btns toolbar-btn" variant="neutral"
+                                      type="button"
+                                      label="{!if(v.mode == 'view', $Label.c.View_Visit_Legend, $Label.c.Edit_Visit_Legend)}"
                                       onclick="{!c.doEditLegend}"/>
+                </div>
+                <div class="toolbar">
+                    <lightning:input class="inline-input" type="text" label="Version" value="{!v.plan.Version__c}"
+                                     disabled="{!equals(v.mode,'view')}"/>
                     <aura:if isTrue="{!!equals(v.mode,'view')}">
-                    <lightning:button class="toolbar-btn" variant="neutral" type="button" label="{!$Label.c.Visit_b_Add_Visit}"
-                                      onclick="{!c.doAddVisit}"/>
+                        <lightning:button class="btns toolbar-btn" variant="neutral" type="button"
+                                          label="{!$Label.c.Visit_b_Add_Visit}"
+                                          onclick="{!c.doAddVisit}"/>
                     </aura:if>
                 </div>
             </div>

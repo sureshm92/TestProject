@@ -567,10 +567,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MCloudSMSSender</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>MailForTests</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -5598,6 +5594,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>VisitPackage__c.Visit_Plan__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Visit_Plan__c.Version__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -68,7 +68,7 @@ public without sharing class VisitPlanRemote {
     }
 
     public static Visit_Plan__c getVisitPlan(String planId) {
-        return [SELECT Id, Name FROM Visit_Plan__c WHERE Id = :planId];
+        return [SELECT Id, Name, Version__c FROM Visit_Plan__c WHERE Id = :planId];
     }
 
     private static List<Visit__c> getVisits(String planId) {
