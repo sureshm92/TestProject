@@ -115,6 +115,7 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
                 FROM User
                 WHERE IsActive = TRUE
                 AND LastLoginDate != NULL
+                AND ContactId != NULL
                 AND ContactId IN:allContactsIds
         ];
 
@@ -138,6 +139,6 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
             ));
         }
 
-        update forUpdateContacts;
+        if(!forUpdateContacts.isEmpty()) update forUpdateContacts;
     }
 }
