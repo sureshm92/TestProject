@@ -4,86 +4,86 @@
 
 public without sharing class PSEService {
     
-    public static final String PSE_STATUS_ENROLLED = 'Enrolled';
-    public static final String PSE_STATUS_TREATMENT_PERIOD_STARTED = 'Treatment Period Started';
-    public static final String PSE_STATUS_FOLLOW_UP_PERIOD_STARTED = 'Follow-Up Period Started';
-    public static final String PSE_STATUS_PARTICIPATION_COMPLETE = 'Participation Complete';
-    public static final String PSE_STATUS_TRIAL_COMPLETE = 'Trial Complete';
-    public static final String PSE_STATUS_DROP_OUT = 'Drop Out';
-    public static final String PSE_STATUS_DECEASED = 'Deceased';
-
-    public static final List<String> PSE_STATUS_GROUP_ALL = new List<String>{
-            PSE_STATUS_ENROLLED,
-            PSE_STATUS_TREATMENT_PERIOD_STARTED,
-            PSE_STATUS_FOLLOW_UP_PERIOD_STARTED,
-            PSE_STATUS_PARTICIPATION_COMPLETE,
-            PSE_STATUS_TRIAL_COMPLETE
-    };
-
-    public static final List<String> PSE_STATUS_GROUP_COMPLETE = new List<String>{
-            PSE_STATUS_PARTICIPATION_COMPLETE,
-            PSE_STATUS_TRIAL_COMPLETE,
-            PSE_STATUS_DROP_OUT,
-            PSE_STATUS_DECEASED
-    };
-
-    public static final List<String> PSE_STATUS_GROUP_IN_PROGRESS = new List<String>{
-            PSE_STATUS_ENROLLED,
-            PSE_STATUS_TREATMENT_PERIOD_STARTED,
-            PSE_STATUS_FOLLOW_UP_PERIOD_STARTED
-    };
-
-    public static final List<String> PSE_DEFAULT_FIELDS_LIST = new List<String>{
-            'Name',
-            'Clinical_Trial_Profile__c',
-            'Clinical_Trial_Profile__r.Profile_Picture__c',
-            'Clinical_Trial_Profile__r.Patient_Portal_Enabled__c',
-            'Clinical_Trial_Profile__r.Study_Title__c',
-            'Clinical_Trial_Profile__r.Study_Code_Name__c',
-            'Clinical_Trial_Profile__r.Study_Sponsor__c',
-            'Clinical_Trial_Profile__r.Detailed_Description__c',
-            'Clinical_Trial_Profile__r.Official_Title__c',
-            'Clinical_Trial_Profile__r.Orientation_Required__c',
-            'Clinical_Trial_Profile__r.Override_Recruitment_Status__c',
-            'Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
-            'Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
-            'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
-            'Clinical_Trial_Profile__r.Visit_Plan__c',
-            'Clinical_Trial_Profile__r.Visit_Data_Shareback__c',
-            'Participant__c',
-            'Participant__r.First_Name__c',
-            'Participant__r.Last_Name__c',
-            'Participant__r.Full_Name__c',
-            'Participant__r.Email__c',
-            'Participant__r.Phone__c',
-            'Participant__r.Mailing_State__c',
-            'Participant__r.Mailing_State_Code__c',
-            'Participant__r.Mailing_Country__c',
-            'Participant__r.Mailing_Country_Code__c',
-            'Participant__r.Mailing_Zip_Postal_Code__c',
-            'Participant__r.Contact__c',
-            'Participant_Contact__r.Visit_Results_Opt_In__c',
-            'Participant_Enrollment__c',
-            'Status__c',
-            'Study_Site__c',
-            'Study_Site__r.Name',
-            'Study_Site__r.Override_PI_Referral_Status__c',
-            'Study_Site__r.Site__r.Name',
-            'Study_Site__r.Visit_Results_Sharing__c',
-            'Motivational_Message_Id__c',
-            'CreatedDate'
-    };
-    
-    private static PSEService instance;
-    
-    public static PSEService getInstance(){
-        if(instance == null) instance = new PSEService();
-        return instance;
-    }
-    
-    public static void setMock(StubProvider stubProvider){
-        instance = (PSEService) Test.createStub(PSEService.class, stubProvider);
-    }
+//    public static final String PSE_STATUS_ENROLLED = 'Enrolled';
+//    public static final String PSE_STATUS_TREATMENT_PERIOD_STARTED = 'Treatment Period Started';
+//    public static final String PSE_STATUS_FOLLOW_UP_PERIOD_STARTED = 'Follow-Up Period Started';
+//    public static final String PSE_STATUS_PARTICIPATION_COMPLETE = 'Participation Complete';
+//    public static final String PSE_STATUS_TRIAL_COMPLETE = 'Trial Complete';
+//    public static final String PSE_STATUS_DROP_OUT = 'Drop Out';
+//    public static final String PSE_STATUS_DECEASED = 'Deceased';
+//
+//    public static final List<String> PSE_STATUS_GROUP_ALL = new List<String>{
+//            PSE_STATUS_ENROLLED,
+//            PSE_STATUS_TREATMENT_PERIOD_STARTED,
+//            PSE_STATUS_FOLLOW_UP_PERIOD_STARTED,
+//            PSE_STATUS_PARTICIPATION_COMPLETE,
+//            PSE_STATUS_TRIAL_COMPLETE
+//    };
+//
+//    public static final List<String> PSE_STATUS_GROUP_COMPLETE = new List<String>{
+//            PSE_STATUS_PARTICIPATION_COMPLETE,
+//            PSE_STATUS_TRIAL_COMPLETE,
+//            PSE_STATUS_DROP_OUT,
+//            PSE_STATUS_DECEASED
+//    };
+//
+//    public static final List<String> PSE_STATUS_GROUP_IN_PROGRESS = new List<String>{
+//            PSE_STATUS_ENROLLED,
+//            PSE_STATUS_TREATMENT_PERIOD_STARTED,
+//            PSE_STATUS_FOLLOW_UP_PERIOD_STARTED
+//    };
+//
+//    public static final List<String> PSE_DEFAULT_FIELDS_LIST = new List<String>{
+//            'Name',
+//            'Clinical_Trial_Profile__c',
+//            'Clinical_Trial_Profile__r.Profile_Picture__c',
+//            'Clinical_Trial_Profile__r.Patient_Portal_Enabled__c',
+//            'Clinical_Trial_Profile__r.Study_Title__c',
+//            'Clinical_Trial_Profile__r.Study_Code_Name__c',
+//            'Clinical_Trial_Profile__r.Study_Sponsor__c',
+//            'Clinical_Trial_Profile__r.Detailed_Description__c',
+//            'Clinical_Trial_Profile__r.Official_Title__c',
+//            'Clinical_Trial_Profile__r.Orientation_Required__c',
+//            'Clinical_Trial_Profile__r.Override_Recruitment_Status__c',
+//            'Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
+//            'Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
+//            'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
+//            'Clinical_Trial_Profile__r.Visit_Plan__c',
+//            'Clinical_Trial_Profile__r.Visit_Data_Shareback__c',
+//            'Participant__c',
+//            'Participant__r.First_Name__c',
+//            'Participant__r.Last_Name__c',
+//            'Participant__r.Full_Name__c',
+//            'Participant__r.Email__c',
+//            'Participant__r.Phone__c',
+//            'Participant__r.Mailing_State__c',
+//            'Participant__r.Mailing_State_Code__c',
+//            'Participant__r.Mailing_Country__c',
+//            'Participant__r.Mailing_Country_Code__c',
+//            'Participant__r.Mailing_Zip_Postal_Code__c',
+//            'Participant__r.Contact__c',
+//            'Participant_Contact__r.Visit_Results_Opt_In__c',
+//            'Participant_Enrollment__c',
+//            'Status__c',
+//            'Study_Site__c',
+//            'Study_Site__r.Name',
+//            'Study_Site__r.Override_PI_Referral_Status__c',
+//            'Study_Site__r.Site__r.Name',
+//            'Study_Site__r.Visit_Results_Sharing__c',
+//            'Motivational_Message_Id__c',
+//            'CreatedDate'
+//    };
+//
+//    private static PSEService instance;
+//
+//    public static PSEService getInstance(){
+//        if(instance == null) instance = new PSEService();
+//        return instance;
+//    }
+//
+//    public static void setMock(StubProvider stubProvider){
+//        instance = (PSEService) Test.createStub(PSEService.class, stubProvider);
+//    }
     
 //    public List<Participant_Study_Enrollment__c> getPSEListCommon(String userMode, String filter){
 //        return getPSEListWithCustomFields(userMode, PSE_DEFAULT_FIELDS_LIST, filter);
