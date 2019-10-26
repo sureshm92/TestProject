@@ -1283,6 +1283,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_CountryLookupRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_DatabaseProxy</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1332,6 +1336,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_FillTAOnParticipantsBatchHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_FirstLogonController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1583,7 +1591,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_VisitResultCountryLookupRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_VisitResultMService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultSharingPanelRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
