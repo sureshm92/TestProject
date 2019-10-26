@@ -17,6 +17,7 @@ public class HomePageParticipantRemote {
                     WHERE Id = :UserInfo.getUserId()
                     AND LastLoginDate != NULL
             ];
+
             if (!users.isEmpty()) {
                 User user = users.get(0);
                 if (user.Contact.Next_Notify_Date__c != Date.today()) {

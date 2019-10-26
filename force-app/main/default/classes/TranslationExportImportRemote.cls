@@ -250,6 +250,16 @@ public class TranslationExportImportRemote {
         String query = 'SELECT ' + String.join(fieldsToTranslate, ',') +
                 ' FROM ' + sObjectType.getDescribe().getName() + ' ' + whereFilter;
         Map<Id, SObject> sObjectsMap = new Map<Id, SObject>(Database.query(query));
+
+        if(sObjectType == Icon_Details__c.SObjectType){
+            for(Id currId : sObjectsMap.keySet()) {
+                if(((Icon_Details__c)sObjectsMap.get(currId)).Description__c == null &&
+                        ((Icon_Details__c)sObjectsMap.get(currId)).Label__c == null) {
+                    sObjectsMap.remove(currId);
+                }
+            }
+        }
+
         List<Translation__c> translations = [
                 SELECT Id, Value__c, Field_Name__c, Record_Id__c
                 FROM Translation__c
