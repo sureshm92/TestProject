@@ -170,12 +170,25 @@ public without sharing class ContactService {
     }
 
     public static void updateNextNotifyDate(Id cntId, Datetime lastLoginDateByContactId, Boolean isDelegate) {
-        Id participant = cntId;
+        Id participantCnt = cntId;
         if (isDelegate) {
-            Patient_Delegate__c delegate = [SELECT Id, Contact__c, Participant__r.Contact__c FROM Patient_Delegate__c WHERE Contact__c = :cntId];
-            participant = delegate.Participant__r.Contact__c;
+            List<Patient_Delegate__c> delegate = [
+                    SELECT Id, Contact__c, Participant__r.Contact__c
+                    FROM Patient_Delegate__c
+                    WHERE Contact__c = :cntId
+            ];
+            if (delegate.isEmpty()) return;
+
+            participantCnt = delegate.get(0).Participant__r.Contact__c;
         }
-        Map<Id, Integer> idDecimalMap = ParticipantService.getNearestLogOutNotification(new List<Id>{cntId});
-        update new Contact(Id = cntId, Next_Notify_Date__c = lastLoginDateByContactId.addDays(idDecimalMap.get(cntId)).date());
+        Map<Id, Integer> notifyDayByPartCnt = ParticipantService.getNearestLogOutNotification(new List<Id>{
+                participantCnt
+        });
+        if (!notifyDayByPartCnt.containsKey(participantCnt)) return;
+
+        update new Contact(
+                Id = cntId,
+                Next_Notify_Date__c = lastLoginDateByContactId.addDays(notifyDayByPartCnt.get(participantCnt)).date()
+        );
     }
 }
