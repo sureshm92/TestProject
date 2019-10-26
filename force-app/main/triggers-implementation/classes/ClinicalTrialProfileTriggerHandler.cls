@@ -75,17 +75,18 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
 
     private static void updateNextNotifyDateByCTP(List<Clinical_Trial_Profile__c> trialProfiles){
         List<Participant_Enrollment__c> enrollments = [
-                SELECT
-                        Participant_Contact__c,
-                        Participant__r.Contact__c
+                SELECT Participant__r.Contact__c
                 FROM Participant_Enrollment__c
                 WHERE Clinical_Trial_Profile__c IN:trialProfiles
-                AND Participant_Status__c NOT IN:PEStatusState.PE_STATUS_GROUP_COMPLETE
+                AND Participant_Status__c IN: PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL
                 AND Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c != NULL
         ];
+
+        List<Id> allContactsIds = new List<Id>();
         List<Id> participantContIds = new List<Id>();
         for(Participant_Enrollment__c pe : enrollments) {
-            Id contactId = pe.Participant_Contact__c != null ? pe.Participant_Contact__c : pe.Participant__r.Contact__c;
+            Id contactId = pe.Participant__r.Contact__c;
+            allContactsIds.add(contactId);
             participantContIds.add(contactId);
         }
 
@@ -99,7 +100,6 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
                 WHERE Participant__r.Contact__c IN:participantContIds
         ];
 
-        List<Id> allContactsIds = new List<Id>();
         Map<Id, Id> partCntByDelegateCnt = new Map<Id, Id>();
         for(Patient_Delegate__c pd : patientDelegates) {
             partCntByDelegateCnt.put(pd.Contact__c, pd.Participant__r.Contact__c);
@@ -131,7 +131,7 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
             }
 
             if(daysToNotify == null) continue;
-            Date nextNotifyDate = user.LastLoginDate.addDays(daysToNotify).date();
+            Date nextNotifyDate = user.LastLoginDate.addDays(daysToNotify).dateGmt();
             forUpdateContacts.add(new Contact(
                     Id = user.ContactId,
                     Next_Notify_Date__c = nextNotifyDate
