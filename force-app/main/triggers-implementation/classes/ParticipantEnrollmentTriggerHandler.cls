@@ -242,8 +242,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     @TestVisible
     private void createUsersOrSendNotifications(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         Map<Id, Id> toCreateUser = new Map<Id, Id>();
-        Map<Id, String> notificationMap = new Map<Id, String>();
-        Map<Id, String> notificationMapEmptyHCP = new Map<Id, String>();
+        Map<Id, String> notificationMapEPR = new Map<Id, String>();
+        Map<Id, String> notificationMapPI = new Map<Id, String>();
+        Map<Id, String> notificationMapHCP = new Map<Id, String>();
         List<Contact> contactsForChangeMode = new List<Contact>();
 
         //get users if exist
@@ -301,10 +302,12 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     ));
                 } else {
                     System.debug('NOTIFY USER');
-                    if (hcpe != null) {
-                        notificationMap.put(newPE.Id, participant.Contact__c);
+                    if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP) {
+                        notificationMapHCP.put(newPE.Id, participant.Contact__c);
+                    } else if(newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI) {
+                        notificationMapPI.put(newPE.Id, participant.Contact__c);
                     } else {
-                        notificationMapEmptyHCP.put(newPE.Id, participant.Contact__c);
+                        notificationMapEPR.put(newPE.Id, participant.Contact__c);
                     }
                 }
                 contactsForChangeMode.add(new Contact(
@@ -316,8 +319,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         insert alertsForInsert;
         if (toCreateUser.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
-        if (notificationMap.size() > 0) SendEmailTemplate.sendEmailNotification(SendEmailTemplate.EMAIL_TEMPLATE_PATIENT1_NEW, notificationMap);
-        if (notificationMapEmptyHCP.size() > 0) SendEmailTemplate.sendEmailNotification(SendEmailTemplate.EMAIL_TEMPLATE_PATIENT2_NEW, notificationMapEmptyHCP);
+        if (notificationMapHCP.size() > 0) SendEmailTemplate.sendEmailNotification(SendEmailTemplate.EMAIL_TEMPLATE_PATIENT_SOURCE_HCP_NEW, notificationMapHCP);
+        if (notificationMapPI.size() > 0) SendEmailTemplate.sendEmailNotification(SendEmailTemplate.EMAIL_TEMPLATE_PATIENT_SOURCE_PI_NEW, notificationMapPI);
+        if (notificationMapEPR.size() > 0) SendEmailTemplate.sendEmailNotification(SendEmailTemplate.EMAIL_TEMPLATE_PATIENT_SOURCE_EPR_NEW, notificationMapEPR);
         update contactsForChangeMode;
     }
 
