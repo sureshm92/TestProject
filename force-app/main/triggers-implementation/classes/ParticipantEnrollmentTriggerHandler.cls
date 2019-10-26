@@ -383,6 +383,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 AND Clinical_Trial_Profile__c IN:ctpPE.keySet()
         ];
 
+        Id communityId = CommunityService.getCommunityId(null);
+
         Map<Id, String> trialWhoseResponse = new Map<Id, String>();
         List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
         for (Trial_Survey__c ts : trialSurveys) {
@@ -390,7 +392,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             for (Participant_Enrollment__c enrollment : ctpPE.get(ts.Clinical_Trial_Profile__c)) {
                 Boolean needToAdd = false;
                 if (enrollment.Participant_Status__c == ts.Active_On_Status__c) {
-                    if (PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(enrollment.Participant_Status__c)
+                    if(PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(enrollment.Participant_Status__c)
                             && ts.Is_Midpoint__c) continue;
 
                     if (oldMap != null) {
@@ -402,19 +404,20 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     }
                 }
                 if (needToAdd) {
-                    newInvitations.add(SurveyService.getInstance()
-                            .generateInvitation(ts, enrollment.Id, CommunityService.getCommunityId(null)));
+                    newInvitations.add(SurveyService.getInstance().generateInvitation(ts, enrollment.Id, communityId));
                 }
             }
         }
 
-        insert newInvitations;
-        Map<Id, String> invitationsVisible = new Map<Id, String>();
-        for (SurveyInvitation inv : newInvitations) {
-            invitationsVisible.put(inv.Id, trialWhoseResponse.get(inv.Trial_Survey__c));
-        }
+        if(!newInvitations.isEmpty()) {
+            insert newInvitations;
+            Map<Id, String> invitationsVisible = new Map<Id, String>();
+            for (SurveyInvitation inv : newInvitations) {
+                invitationsVisible.put(inv.Id, trialWhoseResponse.get(inv.Trial_Survey__c));
+            }
 
-        TaskService.getInstance().createSurveyTasks(invitationsVisible);
+            TaskService.getInstance().createSurveyTasks(invitationsVisible);
+        }
     }
 
     @TestVisible
@@ -592,12 +595,15 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
 
         List<Participant_Enrollment__c> peWithParticipating = [
-                SELECT Id, Participant_Contact__c
+                SELECT Id, Participant__c, Participant_Contact__c
                 FROM Participant_Enrollment__c
                 WHERE Id IN:peEnrollSuccessIds
-                AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true
+                AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
         ];
+        List<Id> participantIds = new List<Id>();
+        for(Participant_Enrollment__c pe : peWithParticipating) participantIds.add(pe.Participant__c);
 
+        Map<Id, List<Id>> delegateCntByParticipant = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(participantIds);
         List<Alert__c> alerts = new List<Alert__c>();
         for (Participant_Enrollment__c pe : peWithParticipating) {
             alerts.add(new Alert__c(
@@ -605,9 +611,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY,
                     Record_ID__c = pe.Id
             ));
-            for (Contact contactDelegate : PatientDelegateService.getDelegateContacts(pe.Participant_Contact__c)) {
+            if(!delegateCntByParticipant.containsKey(pe.Participant__c)) continue;
+
+            for (Id contactDelegateId : delegateCntByParticipant.get(pe.Participant__c)) {
                 alerts.add(new Alert__c(
-                        Contact__c = contactDelegate.Id,
+                        Contact__c = contactDelegateId,
                         Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE,
                         Record_ID__c = pe.Id)
                 );
@@ -629,13 +637,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 completedPEs.add(pe);
             }
         }
-
-        List<Task> tasks = [
-                SELECT Id, Description
-                FROM Task
-                WHERE Task_Type__c = :TaskService.TASK_TYPE_SURVEY
-                AND Status IN:TaskService.TASK_STATUS_GROUP_AVAILABLE
-        ];
+        if(completedPEs.isEmpty()) return;
 
         Map<Id, SurveyInvitation> invitationMap = new Map<Id, SurveyInvitation>([
                 SELECT Id, InviteExpiryDateTime
@@ -643,6 +645,14 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 WHERE Participant_Enrollment__c IN:completedPEs
                 AND Is_Midpoint__c = TRUE
         ]);
+        if(invitationMap.keySet().isEmpty()) return;
+
+        List<Task> tasks = [
+                SELECT Id, Description
+                FROM Task
+                WHERE Task_Type__c = :TaskService.TASK_TYPE_SURVEY
+                AND Status IN:TaskService.TASK_STATUS_GROUP_AVAILABLE
+        ];
 
         List<Task> tasksForExpire = new List<Task>();
         for (Task task : tasks) {
