@@ -1,7 +1,9 @@
 public without sharing class SendEmailTemplate {
 
-    public static final String EMAIL_TEMPLATE_PATIENT1_NEW = 'Patient1_New_Study';
-    public static final String EMAIL_TEMPLATE_PATIENT2_NEW = 'Patient2_New_Study';
+    public static final String EMAIL_TEMPLATE_PATIENT_SOURCE_EPR_NEW = 'Patient0_New_Study';
+    public static final String EMAIL_TEMPLATE_PATIENT_SOURCE_PI_NEW = 'Patient1_New_Study';
+    public static final String EMAIL_TEMPLATE_PATIENT_SOURCE_HCP_NEW = 'Patient2_New_Study';
+
 
     public class SendEmailTemplateException extends Exception {}
 
