@@ -28,12 +28,14 @@ public inherited sharing class VisitResultsService {
             visitResultValuesByNames.put(singleVisitResult.Result_Type__c, singleVisitResult);
         }
 
+        String languageToTranslate =
+                IRBParticipantService.getIRBLanguageMode(ParticipantService.getParticipantState().pe.Id).languageToTranslate;
         for (Visit_Result_TypeM_Dashboard_Config__mdt singleConfig : configs) {
             Visit_Result__c visitResult = visitResultValuesByNames.get(singleConfig.Visit_Result_Type__r.DeveloperName);
             if (visitResult != null && visitResult.Actual_Value__c != null) {
                 listIsNotEmpty = true;
             }
-            wrappers.add(new VisitResultWrapper(visitResult, TranslateHelper.getLabelValue(singleConfig.Dashboard_Name__c)));
+            wrappers.add(new VisitResultWrapper(visitResult, TranslateHelper.getLabelValue(singleConfig.Dashboard_Name__c, languageToTranslate)));
         }
         return listIsNotEmpty ? wrappers : new List<VisitResultWrapper>();
     }
@@ -62,15 +64,17 @@ public inherited sharing class VisitResultsService {
     }
 
     public VisitResultsContainer getVisitResultsContainer(String visitResultsGroupName) {
-
         List<Visit_Result_TypeM__mdt> visitResultTypes = this.metadataService.getVisitResultTypes(visitResultsGroupName);
         List<Visit_Result__c> visitResults = VisitResultSharingService.processResults();
+
+        String languageToTranslate =
+                IRBParticipantService.getIRBLanguageMode(ParticipantService.getParticipantState().pe.Id).languageToTranslate;
         return visitResults.isEmpty()
                 ? null
                 : new VisitResultsContainer(
                         visitResults[0].Patient_Visit__r,
                         this.getVisitResultWrappers(visitResults, visitResultTypes),
-                        visitResultsGroupName
+                        TranslateHelper.getLabelValue(visitResultsGroupName,languageToTranslate)
                 );
     }
 
