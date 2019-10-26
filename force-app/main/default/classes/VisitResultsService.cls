@@ -35,7 +35,7 @@ public inherited sharing class VisitResultsService {
             if (visitResult != null && visitResult.Actual_Value__c != null) {
                 listIsNotEmpty = true;
             }
-            wrappers.add(new VisitResultWrapper(visitResult, TranslateHelper.getLabelValue(singleConfig.Dashboard_Name__c, languageToTranslate)));
+            wrappers.add(new VisitResultWrapper(visitResult, TranslateHelper.getLabelValue(singleConfig.Dashboard_Name__c)));
         }
         return listIsNotEmpty ? wrappers : new List<VisitResultWrapper>();
     }
@@ -74,7 +74,7 @@ public inherited sharing class VisitResultsService {
                 : new VisitResultsContainer(
                         visitResults[0].Patient_Visit__r,
                         this.getVisitResultWrappers(visitResults, visitResultTypes),
-                        TranslateHelper.getLabelValue(visitResultsGroupName,languageToTranslate)
+                        TranslateHelper.getLabelValue(visitResultsGroupName)
                 );
     }
 
