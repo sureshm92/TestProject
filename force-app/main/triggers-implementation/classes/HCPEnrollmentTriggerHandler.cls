@@ -89,6 +89,7 @@ public without sharing class HCPEnrollmentTriggerHandler {
         Map<Id, Id> contactsForSendNotificationMap = new Map<Id, Id>();
         Map<Id, Id> contactsForSendNotificationByPiMap = new Map<Id, Id>();
         Map<Id, HCP_Enrollment__c> newMap = new Map<Id, HCP_Enrollment__c>(newList);
+        Map<Id,Contact> alreadyCreatedContactsMap = new Map<Id,Contact>([SELECT Id, Is_First_Logon__c FROM Contact WHERE Id IN :hcpContactIds AND Is_First_Logon__c = false]);
         List<Healthcare_Provider__c> hps = [SELECT Id, HCP_Enrollment__c FROM Healthcare_Provider__c WHERE HCP_Enrollment__c IN :newMap.keySet()];
         Map<Id, Healthcare_Provider__c> hpsByHCPE = new Map<Id, Healthcare_Provider__c>();
         for (Healthcare_Provider__c hp : hps) {
@@ -98,7 +99,7 @@ public without sharing class HCPEnrollmentTriggerHandler {
             if(hcpe.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT && hcpe.HCP_Contact__c != null &&
                     ((oldMap == null) || (oldMap != null && hcpe.Status__c != oldMap.get(hcpe.Id).Status__c))){
                 if(contactIdsWithCreatedUser.contains(hcpe.HCP_Contact__c)){
-                    if (hpsByHCPE.get(hcpe.Id) != null) {
+                    if (hpsByHCPE.get(hcpe.Id) != null || alreadyCreatedContactsMap.containsKey(hcpe.HCP_Contact__c)) {
                         contactsForSendNotificationByPiMap.put(hcpe.Id, hcpe.HCP_Contact__c);
                     } else {
                         contactsForSendNotificationMap.put(hcpe.Id, hcpe.HCP_Contact__c);
@@ -117,8 +118,14 @@ public without sharing class HCPEnrollmentTriggerHandler {
     @TestVisible
     private static void switchContactUserMode(List<HCP_Enrollment__c> newList) {
         Set<Id> hcpEContactIds = new Set<Id>();
-        for (HCP_Enrollment__c enrol : newList) if (enrol.HCP_Contact__c != null) hcpEContactIds.add(enrol.HCP_Contact__c);
+        for (HCP_Enrollment__c enrol : newList) {
+            if (enrol.HCP_Contact__c != null) hcpEContactIds.add(enrol.HCP_Contact__c);
+        }
         if (hcpEContactIds.isEmpty()) return;
+
+// these changes are being on hold
+// Map<Id, Participant__c> participants = CommunityService.getParticipantsByContactIds(hcpEContactIds);
+        
         List<Contact> contactsForUpdate = new List<Contact>();
         for (Contact piContact : CommunityService.getContactsByUserContactIds(hcpEContactIds)) {
             piContact.userCommunityMode__c = CommunityService.USER_MODE_HCP;
@@ -127,6 +134,15 @@ public without sharing class HCPEnrollmentTriggerHandler {
             } else if(!piContact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)){
                 piContact.userCommunytyType__c += ';' + CommunityService.USER_MODE_HCP;
             }
+
+// these changes are being on hold
+//if (participants.containsKey(piContact.Id)) {
+//    Participant__c participant = participants.get(piContact.Id);
+//    piContact.FirstName = participant.First_Name__c;
+//    piContact.LastName  = participant.Last_Name__c;
+//    System.debug('-----------> HCPEnrollmentTriggerHandler.switchContactUserMode(): Contact names replaced to: ' + piContact.FirstName + ' ' + piContact.LastName);
+//}
+            
             contactsForUpdate.add(piContact);
         }
         update contactsForUpdate;

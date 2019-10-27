@@ -47,7 +47,7 @@
             <!-- Share dialog -->
             <c:ShareModal aura:id="shareModal" parent="{!this}" needRefresh="false"/>
             <!-- top bar -->
-            <div class="{!'sdv-top-bar ' + if(v.multiMode, 'multi-mode', '')}" id="stickyBar" aura:id="stickyBar">
+            <div class="{!'sdv-top-bar ' + if(v.multiMode, 'multi-mode', '')}" >
                 <div class="navigation rr-width-limiter side-padding">
                     <aura:if isTrue="{!v.userMode == 'Participant'}">
                         <aura:if isTrue="{!v.state != 'ALUMNI'}">
@@ -76,7 +76,7 @@
                     </aura:if>
                 </div>
 
-                <div class="rr-all-content sticky-bar" id="stickyPositionTarget">
+                <div class="rr-all-content">
                     <c:RRAnchor aura:id="tabsTarget"/>
                     <aura:if isTrue="{!!empty(v.studyDetail.tabs)}">
                         <div class="tabs">
@@ -87,7 +87,7 @@
                                         <aura:if isTrue="{!v.userMode != 'HCP'}">
                                             <aura:iteration items="{!v.studyDetail.tabs}" var="tab">
                                                 <c:RRTabSetItem tabId="{!tab.id}" currentTab="{!v.currentTab}"
-                                                                iconName="{!tab.iconName}" title="{!tab.title}"/>
+                                                                title="{!tab.title}"/>
                                             </aura:iteration>
                                         </aura:if>
                                     </aura:set>
@@ -96,14 +96,14 @@
                                         <div class="actions-buttons">
                                             <aura:iteration items="{!v.currentActions}" var="action">
                                                 <div style="position: relative;">
-                                                    <aura:if isTrue="{!action.id != 'share'}">
+                                                  <!--  <aura:if isTrue="{!action.id != 'share'}">
                                                         <button class="{!'apollo-btn text ico-in-top small-font sdv-btn'}"
                                                                 disabled="{!action.disabled}" id="{!action.id}"
                                                                 onclick="{!c.doAction}" title="{!action.disableReason}">
                                                             <c:RRIcon iconName="{!action.iconName}"/>
                                                             {!action.label}
                                                         </button>
-                                                    </aura:if>
+                                                    </aura:if> -->
                                                     <aura:if isTrue="{!and(action.id == 'share',!empty(v.studyDetail.trial.NCT_Number__c))}">
                                                         <div class="share-icons">
                                                             <aura:iteration items="{!v.shareButtons}" var="shareButton">
@@ -198,9 +198,7 @@
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-visits'}">
-                        <c:RRInjector componentName="StudyVisits">
-                            <c:RRInjectorAttribute name="visitMode" value="{!v.visitMode}" isReference="true"/>
-                        </c:RRInjector>
+                        <c:StudyVisits visitMode="{!v.visitMode}"/>
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-tasks'}">
@@ -208,19 +206,15 @@
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-resources'}">
-                        <c:RRInjector componentName="ResourceContainer">
-                            <c:RRInjectorAttribute name="resourceMode" value="{!v.resourceMode}" isReference="true"/>
-                        </c:RRInjector>
+                        <c:ResourceContainer resourceMode="{!v.resourceMode}"/>
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-lab-results'}">
-                        <c:RRInjector componentName="VisitResultsContainer">
-                            <c:RRInjectorAttribute name="labResultsMode" value="{!v.labResultsMode}" isReference="true"/>
-                        </c:RRInjector>
+                        <c:VisitResultsContainer labResultsMode="{!v.labResultsMode}"/>
                     </aura:if>
                 </div>
             </div>
-
+            <c:ParticipantIRBChecker peId="{!v.studyDetail.pe.Id}"/>
         </aura:if>
     </div>
 </aura:component>

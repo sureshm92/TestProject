@@ -70,7 +70,7 @@
                     <li id="Overview" class="{!if(v.currentStudyId == 'Overview', 'active', '')}" onclick="{!c.doSelectStudy}">{!$Label.c.PG_CP_L_Overview}</li>
                     <aura:iteration items="{!v.myStudies}" var="studyDetail">
                         <li id="{!studyDetail.studySite.Id}" class="{!if(v.currentStudyId == studyDetail.studySite.Id, 'active', '')}"
-                            onclick="{!c.doSelectStudy}">{!studyDetail.studySite.Clinical_Trial_Profile__r.Study_Code_Name__c + ' (' + studyDetail.studySite.Name +')'}</li>
+                            onclick="{!c.doSelectStudy}" title="{!studyDetail.studySite.Clinical_Trial_Profile__r.Study_Code_Name__c + ' (' + studyDetail.studySite.Name +')'}">{!studyDetail.studySite.Clinical_Trial_Profile__r.Study_Code_Name__c + ' (' + studyDetail.studySite.Name +')'}</li>
                     </aura:iteration>
                 </ul>
             </div>
@@ -80,7 +80,7 @@
                     <div class="rr-white-panel study">
                         <div class="cp-item-section">
                             <div class="study-header"><span onclick="{!c.doSelectStudy}" id="{!studyDetail.studySite.Id}">{!studyDetail.studySite.Clinical_Trial_Profile__r.Study_Code_Name__c}</span></div>
-                            <div class="sponsor-name">{!studyDetail.studySite.Clinical_Trial_Profile__r.Study_Sponsor__c}</div>
+                            <div class="sponsor-name">{!studyDetail.studySite.Name}<br/>{!studyDetail.studySite.Clinical_Trial_Profile__r.Study_Sponsor__c}</div>
                         </div>
                         <div class="cp-item-section referring-physicians">
                             <c:StudyReferringPhysicians hcpEnrollments="{!studyDetail.hcpEnrollments}"/>

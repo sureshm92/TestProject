@@ -11,8 +11,8 @@
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_PI3}"
                          signature="{!$Label.Email_Signature_RH}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Referring_Clinics}"
-                              buttonURL="/s/my-referring-clinics"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"
+                              buttonURL="/s/"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
@@ -24,8 +24,8 @@
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_PI3}"
                              signature="{!$Label.Email_Signature_RH}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Referring_Clinics}"
-                              buttonURL="/s/my-referring-clinics"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"
+                              buttonURL="/s/"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 

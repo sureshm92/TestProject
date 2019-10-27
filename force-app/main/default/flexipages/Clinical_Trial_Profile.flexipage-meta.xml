@@ -7,6 +7,10 @@
                 <value>false</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
+                <name>hideChatterActions</name>
+                <value>false</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
                 <name>numVisibleActions</name>
                 <value>3</value>
             </componentInstanceProperties>
@@ -60,6 +64,20 @@
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
         </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>featureName</name>
+                <value>Trial_Surveys</value>
+            </componentInstanceProperties>
+            <componentName>EmptyPage</componentName>
+            <visibilityRule>
+                <criteria>
+                    <leftValue>{!$User.Profile.Name}</leftValue>
+                    <operator>NE</operator>
+                    <rightValue>System Administrator</rightValue>
+                </criteria>
+            </visibilityRule>
+        </componentInstances>
         <name>Facet-c3fbf587-d0ce-4805-a8ed-0e5ab2b44e13</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -68,6 +86,13 @@
             <componentName>TravelVendorPanel</componentName>
         </componentInstances>
         <name>Facet-ed68fcf3-f525-4f5f-83c8-60897f3503cc</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentName>ApproveLanguageIRB</componentName>
+        </componentInstances>
+        <name>Facet-46216db2-7a89-4163-9dfd-a02ee2c6dd12</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -123,6 +148,17 @@
             <componentInstanceProperties>
                 <name>title</name>
                 <value>Travel Vendor Configuration</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>Facet-46216db2-7a89-4163-9dfd-a02ee2c6dd12</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Approved Languages</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
         </componentInstances>

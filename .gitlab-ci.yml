@@ -38,6 +38,7 @@ VALIDATE:
 
   stage: VALIDATE
   script:
+    - sfdx update
     - echo "$INTOneOne" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT1.1 -d
     - sfdx --version
@@ -61,6 +62,7 @@ DeployINT3.2:
 
   stage: DeployINT3.2
   script:
+    - sfdx update
     - echo "$INTTreeTwo" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT3.2 -d
     - sfdx --version

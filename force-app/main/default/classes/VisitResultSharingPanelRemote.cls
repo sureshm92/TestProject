@@ -6,6 +6,8 @@
 
 public without sharing class VisitResultSharingPanelRemote {
 
+    public static final String FEATURE_VISIT_RESULT_SHARING = 'Visits_Results_Sharing';
+
     private static final String TYPE_DISABLED = 'Disabled';
     private static String TYPE_ALL = 'All';
 
@@ -79,7 +81,7 @@ public without sharing class VisitResultSharingPanelRemote {
 
             InitData initData = new InitData();
             initData.groups = new List<VisitResultGroupWrapper>();
-            initData.user_has_permission = permissonSetCheck();
+            initData.user_has_permission = GetPermissions.getViewMode(FEATURE_VISIT_RESULT_SHARING);
 
             List<Visit_Result_GroupM__mdt> resultGroups = [
                     SELECT Id, Label, (SELECT Id, DeveloperName, Label, Visit_Result_Code__c FROM Visit_Result_Types__r)

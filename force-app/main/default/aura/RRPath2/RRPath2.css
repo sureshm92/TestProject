@@ -24,23 +24,25 @@
     padding-left: 0;
 }
 .THIS .line-div.neutral{
-    border-top-color: #999999;
+    border-top-color: #b5b5b5;
+}
+
+.THIS .state.neutral .cRRIcon{
+ 	display: none;   
 }
 
 .THIS .line-div.success{
-    border-top-color: #55C200;
+    border-top-color: #00c221;
 }
 
 
 .THIS .line-div.in_progress{
-    border-top-color: #FF9301;
+    border-top-color: #00c221;
 }
 
 .THIS .line-div.failure{
     border-top-color: #E20000;
 }
-
-
 
 .THIS .rr-path2{
     margin-top: 30px;
@@ -58,12 +60,13 @@
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    border: 2px solid;
     position: absolute;
     top: -10px;
     left: -9px;
     line-height: 1;
-
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .THIS .state-ico-wrapper .rr-icon-default{
@@ -87,41 +90,29 @@
 }
 
 .THIS .state.neutral .state-ico-wrapper{
-    background-color: white;
-    border-color: #999999;
+    background-color: #b5b5b5;
 }
 
 .THIS .state.success .state-ico-wrapper{
-    background-color: #55C200;
-    border-color: #55C200;
+    background-color: #00c221;
 }
 
 .THIS .state.in_progress .state-ico-wrapper{
-    background-color: #FF9301;
-    border-color: #FF9301;
+    background-color: #00c221;
 }
 
 .THIS .state.failure .state-ico-wrapper{
     background-color: #E20000;
-    border-color: #E20000;
 }
 
 /* status names */
 
-.THIS .state.neutral .vri-state-label{
-    color: #999999;
+.THIS .vri-state-label{
+    color: #999;
 }
 
-.THIS .state.success .vri-state-label{
-    color: #63C900;
-}
-
-.THIS .state.in_progress .vri-state-label{
-    color: #FF9300;
-}
-
-.THIS .state.failure .vri-state-label{
-    color: #FF283F;
+.THIS .success .vri-state-label{
+    color: #000;
 }
 
 .THIS .vri-state-label{
@@ -130,6 +121,7 @@
 
 .THIS .state.current .vri-state-label{
     display: block;
+    font-weight: 600;
 }
 
 .THIS .vpi-fields{

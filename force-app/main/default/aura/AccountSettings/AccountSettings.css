@@ -14,11 +14,10 @@
     margin-bottom: 30px;
 }
 
-.THIS.as-container .as-email-preference
-{
+.THIS.as-container .as-email-preference {
     margin-top: 30px;
-    position: relative;
 }
+
 
 .THIS.as-container .as-info,
 .THIS.as-container .as-language-switcher
@@ -37,23 +36,32 @@
 
 .THIS.as-container .as-title {
     color: #000000;
-    font-size: 30px;
-    line-height: 36px;
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: 600;
+    margin-bottom: 10px
 }
 
 .THIS.as-container .as-sub-title {
     color: #333333;
-    font-size: 13px;
-    line-height: 16px;
+    font-size: 14px;
+    line-height: 24px;   
+    width: 60%;
 }
 
 .THIS.as-container .as-password .as-password-button {
     margin-top: 20px;
 }
 
-.THIS .as-email-input,
+.THIS .as-email-input.slds-gutters,
 .THIS .as-password-input{
-    margin-top: -20px;
+    margin: -20px 0 0;
+}
+
+.THIS .slds-gutters.as-email-input .slds-col,
+.THIS .slds-gutters.as-password-input .slds-col{
+    padding-left: 0;
+    padding-right: 1.5rem;
 }
 
 .THIS .as-email-input > *,
@@ -62,6 +70,10 @@
 }
 
 
+.THIS .collapse-section.slds-m-top_large,
+.THIS .collapse-section.slds-m-top--large {
+    margin-top: 0;
+}
 
 .THIS .rr-link{
     color: #297DFD;
@@ -74,12 +86,10 @@
     margin-top: 30px;
 }
 .THIS .as-submit-button{
-    width: 100%;
-    margin-top: 10px;
+    margin-top: 25px;
 }
 .THIS .as-email-pref-item{
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 15px;
 }
 
 .THIS .ah-toggle{
@@ -119,7 +129,7 @@
 
 .THIS .as-buttons-footer{
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     padding: 12px;
     margin-top: 20px;
 }
@@ -130,4 +140,26 @@
 
 .THIS .opt-in-popup-button+.opt-in-popup-button {
     margin-left: 30px;
+}
+
+@media (max-width: 768px){  
+    .THIS.as-container .as-sub-title,
+    .THIS .cLanguageSwitcher .section-description {
+        width: 100%;
+    } 
+    
+    .THIS .as-email-pref-item {
+        margin-top: 15px;
+        height: 42px;
+        display: flex;
+        padding-left: 80px;
+        align-items: center;
+        position: relative;
+    }
+    
+    .THIS .as-email-pref-item .ah-toggle {
+        left: 0;
+        top: 5px;
+        position: absolute;
+	}
 }

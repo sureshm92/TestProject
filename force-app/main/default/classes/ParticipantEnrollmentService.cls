@@ -65,16 +65,13 @@ public without sharing class ParticipantEnrollmentService {
     }
 
     public List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFieldsImpl(String userMode, List<String> customFields, String filter, String delegateId){
-        String defaultFilter = ' Study_Site__c != NULL';// AND ' + getUserModeFilter(userMode, delegateId);
-        if(userMode == CommunityService.USER_MODE_HCP){
-            if(!filter.contains(' AND Id=')) {
-                defaultFilter += ' AND (' + getUserModeFilter(userMode, delegateId) + getHealthcareProviderFilter() + ')';
-            } else{
-                if(filter != null) defaultFilter += ' ' + filter;
-            }
-        } else{
+        String defaultFilter = ' Study_Site__c != NULL ';// AND ' + getUserModeFilter(userMode, delegateId);
+        if(userMode == CommunityService.USER_MODE_HCP && !(filter != null && filter.contains(' AND Id='))){
+                defaultFilter += '  AND (' + getUserModeFilter(userMode, delegateId) + getHealthcareProviderFilter() + ') ';
+            defaultFilter += filter != null ? filter : '';
+        } else {
             defaultFilter += ' AND ' + getUserModeFilter(userMode, delegateId);
-            if(filter != null) defaultFilter += ' ' + filter;
+            if (filter != null) defaultFilter += ' ' + filter;
         }
         //if(filter != null) defaultFilter += ' ' + filter;
         List<Participant_Enrollment__c> peList = DatabaseService.query(
@@ -82,7 +79,7 @@ public without sharing class ParticipantEnrollmentService {
                 Participant_Enrollment__c.getSObjectType(),
                 defaultFilter
         );
-        TranslateHelper.translate(peList);
+        if(userMode != CommunityService.USER_MODE_PARTICIPANT) TranslateHelper.translate(peList);
         return peList;
     }
 
@@ -314,6 +311,20 @@ public without sharing class ParticipantEnrollmentService {
 
     private static final List<String> PE_COMMON_FIELDS = new List<String>{
             'Id',
+            'Clinical_Trial_Profile__r.Profile_Picture__c',
+            'Clinical_Trial_Profile__r.Patient_Portal_Enabled__c',
+            'Clinical_Trial_Profile__r.Detailed_Description__c',
+            'Clinical_Trial_Profile__r.Brief_Summary__c',
+            'Clinical_Trial_Profile__r.Study_Sponsor__c',
+            'Clinical_Trial_Profile__r.Study_Title__c',
+            'Clinical_Trial_Profile__r.Study_Code_Name__c',
+            'Clinical_Trial_Profile__r.Official_Title__c',
+            'Clinical_Trial_Profile__r.Orientation_Required__c',
+            'Clinical_Trial_Profile__r.Override_Recruitment_Status__c',
+            'Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
+            'Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
+            'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
+            'Clinical_Trial_Profile__r.Visit_Plan__c',
             'Clinical_Trial_Profile__r.Visit_Data_Shareback__c',
             'CreatedDate',
             'Enrolled_Date__c',
@@ -364,6 +375,8 @@ public without sharing class ParticipantEnrollmentService {
             'Participant__r.Contact__c',
             'Participant__r.Conditions__c',
             'Participant__r.Contact__r.Language__c',
+            'Participant__r.Contact__r.Second_Choice_Language__c',
+            'Participant__r.Contact__r.Third_Choice_Language__c',
             'Participant__r.Contact__r.Visit_Results_Opt_In__c',
             'Participant_Contact__c',
             'Participant_Contact__r.Visit_Results_Opt_In__c',
@@ -383,6 +396,7 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Name__c',
             'Study_Site__c',
             'Study_Site__r.Name',
+            'Study_Site__r.Approved_Lng__c',
             'Study_Site__r.Override_PI_Referral_Status__c',
             'Study_Site__r.Clinical_Trial_Profile__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c',

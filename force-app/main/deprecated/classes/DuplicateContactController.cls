@@ -26,6 +26,7 @@ public without sharing class  DuplicateContactController {
                 sex__c = participant.Gender__c,
                 Address_ZipCode__c = participant.Mailing_Zip_Postal_Code__c
         );
+        if(String.isEmpty(tempRecord.Language_Preference__c)) tempRecord.Language_Preference__c = UserInfo.getLanguage();
         if(participant.Date_of_Birth__c != null) {
             if (participant.Date_of_Birth__c.indexOf('-') == 4 || participant.Date_of_Birth__c.indexOf('/') == 4) {
                 tempRecord.BirthDate__c = participant.Date_of_Birth__c.replaceAll('/', '-');

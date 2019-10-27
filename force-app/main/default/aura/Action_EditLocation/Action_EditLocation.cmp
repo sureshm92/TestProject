@@ -109,7 +109,7 @@
                         <div class="slds-col slds-size--1-of-2 slds-grid slds-wrap">
                             <lightning:map class="google-map-style" mapMarkers="{!v.mapMarkers}" zoomLevel="{!v.zoomLevel}"/>
                             <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap" style="padding-top: 2.5%">
-                                <div class="slds-col slds-size--2-of-6 popup-address-inputs">
+                                <div class="slds-col slds-size--32-of-6 popup-address-inputs">
                                     <div class="rr-form-element check-button-container">
                                         <button class="apollo-btn primary check-address-btn"
                                                 disabled="{!v.showAddressValidationSpinner ? v.showAddressValidationSpinner :
@@ -123,7 +123,7 @@
                                                 onclick="{!c.doCheckAddress}">{!$Label.c.SS_Btn_Check_Address}</button>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size--4-of-6 slds-grid slds-wrap popup-address-inputs indicator-containers">
+                                <div class="slds-col slds-size--3-of-6 slds-grid slds-wrap popup-address-inputs indicator-containers">
                                     <aura:if
                                             isTrue="{!('Address' == v.account.BillingGeocodeAccuracy || 'NearAddress' == v.account.BillingGeocodeAccuracy ||
                                                         v.account.BillingGeocodeAccuracy == 'Block' || v.account.BillingGeocodeAccuracy == 'Street' || v.account.BillingGeocodeAccuracy == 'ExtendedZip') &amp;&amp; v.account.BillingLatitude!=undefined &amp;&amp; v.account.BillingLongitude!=undefined &amp;&amp; !v.showAddressValidationSpinner}">

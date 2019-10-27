@@ -40,7 +40,9 @@
             }, function (returnValue) {
                 if (returnValue.firstName) {
                     component.set('v.healthCareProvider.First_Name__c', returnValue.firstName);
+                    component.find('firstNameInput').focus();
                     component.set('v.healthCareProvider.Last_Name__c', returnValue.lastName);
+                    component.find('lastNameInput').focus();
                     component.set('v.providerFound', true);
                     component.set('v.isDuplicate',returnValue.isDuplicate);
                     if(returnValue.firstName && returnValue.lastName){

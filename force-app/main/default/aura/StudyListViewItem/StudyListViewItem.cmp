@@ -202,7 +202,7 @@
         </aura:if>
 
         <aura:if isTrue="{!v.userMode == 'PI'}">
-            <div style="background-color: #f2f2f2;box-sizing: border-box;">
+            <div style="background-color: #f8f9fb;box-sizing: border-box;">
                 <div class="slds-grid slds-wrap slds-p-horizontal_medium">
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_10-of-12
                                 slds-order_4 slds-medium-order_1 slds-m-vertical_x-small">
@@ -422,8 +422,8 @@
                                                                        mapMarkers="{! v.mapMarkers }"
                                                                        zoomLevel="{! v.zoomLevel }"/>
                                                     </aura:if>
-                                                    <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
-                                                        <div class="slds-col slds-size--2-of-6 popup-address-inputs">
+                                                    <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap address-check">
+                                                        <div class="slds-col popup-address-inputs">
                                                             <div class="rr-form-element check-button-container">
                                                                 <button class="apollo-btn primary check-address-btn"
                                                                         disabled="{!v.showPopUpSpinner ? v.showPopUpSpinner :
@@ -437,7 +437,7 @@
                                                                         onclick="{!c.checkAddress}">{!$Label.c.SS_Btn_Check_Address}</button>
                                                             </div>
                                                         </div>
-                                                        <div class="slds-col slds-size--4-of-6 slds-grid slds-wrap popup-address-inputs indicator-containers">
+                                                        <div class="slds-col slds-grid slds-wrap popup-address-inputs indicator-containers">
                                                             <aura:if
                                                                     isTrue="{!v.editedAccount.BillingLatitude!=undefined &amp;&amp; v.editedAccount.BillingLongitude!=undefined &amp;&amp; !v.showPopUpSpinner}">
                                                                 <c:RRIcon
@@ -507,7 +507,7 @@
                                     </aura:set>
                                 </c:Popup>
                             </div>
-                            <div style="box-sizing: border-box; border-right: 1px solid #F2F2F2;border-left: 1px solid #F2F2F2;border-bottom: 1px solid #F2F2F2; border-radius: 5px; background-color: #F2F2F2; min-height: 100px; margin-top:0px; padding: 0px 30px 30px 30px">
+                            <div style="box-sizing: border-box; border-right: 1px solid #e9e9e9;border-left: 1px solid #e9e9e9;border-bottom: 1px solid #e9e9e9; border-radius: 5px; background-color: #f8f9fb; min-height: 100px; margin-top:0px; padding: 0px 30px 30px 30px">
                                 <div id="ssInformation">
                                     <div id="contactInformation"
                                          class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 ss-info-container ss-container-border">
@@ -636,7 +636,7 @@
         </aura:if>
 
         <aura:if isTrue="{!v.userMode == 'HCP'}">
-            <div style="background-color: #f2f2f2; min-height: 43px; box-sizing: border-box; padding-top: 12px;">
+            <div style="background-color: #f8f9fb; min-height: 43px; box-sizing: border-box; padding-top: 3px;">
                 <div class="slds-grid slds-wrap slds-p-horizontal_medium">
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12
                                 slds-order_4 slds-medium-order_1 slds-m-vertical_x-small">
@@ -707,7 +707,7 @@
 
                     <aura:iteration items="{!v.currentStudy.sites}" var="siteWrapper">
                         <aura:if isTrue="{!siteWrapper.hasActiveHCPE}">
-                            <div style="box-sizing: border-box; border: 1px solid #F2F2F2; border-radius: 5px; background-color: #F2F2F2; min-height: 100px; margin-top: 20px; padding: 20px 30px 30px 30px">
+                            <div style="box-sizing: border-box; border: 1px solid #e9e9e9; border-radius: 5px; background-color: #F8f9fb; min-height: 100px; margin-top: 20px; padding: 20px 30px 30px 30px">
                                 <div class="slds-grid slds-wrap">
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12">
                                         <div class="clinic-name">

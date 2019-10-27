@@ -12,17 +12,18 @@
     <aura:attribute name="reportDataList" type="Object[]"/>
     <aura:attribute name="reportData" type="Object"/>
     <aura:attribute name="isReportData" type="Boolean"/>
-    <aura:attribute name="documentName" type="String" default="Visit Summary Report"/>
+    <aura:attribute name="documentName" type="String" default="{!$Label.c.Resource_Visit_Summary_Report}"/>
+    <aura:attribute name="peId" type="String"/>
 
     <aura:attribute name="errorMessage" type="String" default=""/>
 
-<!--        <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+    <!--        <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
 
     <div class="{!'sdv-top-bar ' + if(v.multiMode, 'multi-mode', '')}" id="stickyBar" aura:id="stickyBar">
         <div class="navigation rr-width-limiter side-padding">
             <c:RRNavigationPath>
                 <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page=""/>
-                <c:RRNPathItem label="Past Studies"/>
+                <c:RRNPathItem label="{!$Label.c.Navigation_Past_Studies}"/>
             </c:RRNavigationPath>
             <div class="rr-width-limiter">
                 <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.png'}"/>
@@ -39,8 +40,8 @@
                 <c:RRTable>
                     <tr>
                         <th class="study-document-icon"></th>
-                        <th class="study-document-title">Study Name</th>
-                        <th class="study-document-summary">Document Name</th>
+                        <th class="study-document-title">{!$Label.c.Resource_Title_Document_Name}</th>
+                        <th class="study-document-summary">{!$Label.c.Resource_Title_Study_Name}</th>
                     </tr>
                     <aura:iteration items="{!v.reportDataList}" var="report" indexVar="ind">
                         <tr class="study-document-row-data">
@@ -52,7 +53,7 @@
                                 </div>
                             </td>
                             <td class="study-document-column-data study-document-title-data">
-                                <div onclick="{!c.onGenerateReport}" data-ind="{!ind}"  class="resource-pointer">
+                                <div onclick="{!c.onGenerateReport}" data-ind="{!ind}" class="resource-pointer">
                                     {!report.studyCodeName}
                                 </div>
                             </td>
@@ -87,7 +88,7 @@
                 <tr>
                     <aura:iteration items="{!tableReport.tHead}" var="tableHead">
                         <th style="text-align: center;">
-                           <div style="text-transform: none; font-size: 8px; display: block"> {!tableHead.value} </div>
+                            <div style="text-transform: none; font-size: 8px; display: block"> {!tableHead.value} </div>
                             <aura:if isTrue="{!tableHead.isShowRange}">
                                 <div style="text-transform: none; font-size:4px; font-weight: normal"> {!'\n ' + $Label.c.Report_Expected_Range + ' ' + tableHead.minValue + ' - ' + tableHead.maxValue}</div>
                             </aura:if>
@@ -109,4 +110,8 @@
             </table>
         </aura:iteration>
     </div>
+
+    <aura:if isTrue="{!!empty(v.peId)}">
+        <c:ParticipantIRBChecker peId="{!v.peId}"/>
+    </aura:if>
 </aura:component>

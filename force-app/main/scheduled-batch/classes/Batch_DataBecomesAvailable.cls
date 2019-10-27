@@ -22,12 +22,13 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
                                 Patient_Visit__r.Completed_Date__c,
                                 Patient_Visit__r.Notified__c,
                                 Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__c,
+                                Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__r.Participant_Opt_In_Status_Emails__c,
                                 Result_Type__c
                         FROM Visit_Results__r
                 )
                 FROM Patient_Visit__c
                 WHERE Status__c = 'Completed'
-                      AND Notified__c = false
+                      AND Notified__c = FALSE
                 ORDER BY Visit_Number__c, Completed_Date__c
         ]);
     }
@@ -54,10 +55,12 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
         for(Clinical_Trial_Profile__c clinicalTrial : listOfCTP){
             mapOfCTPByShare.put(clinicalTrial.Id, clinicalTrial.Visit_Result_Type_Sharings__r);
         }
-        List<Visit_Result__c> listOfResult = VisitResultSharingService.getAvailableVisitResults(patientVisits, true, mapOfCTPByShare);
+        List<Visit_Result__c> listOfResult =
+                VisitResultSharingService.getAvailableVisitResults(patientVisits, true, mapOfCTPByShare);
 
         List<Contact> peContacts = new List<Contact>();
         Map<Id, Id> peIdByContact = new Map<Id, Id>();
+        List<Patient_Visit__c> updatedPatientVisits = new List<Patient_Visit__c>();
         for(Visit_Result__c visitResultObj : listOfResult){
             if(visitResultObj.Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__c != null){
                 peContacts.add(visitResultObj.Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__r);
@@ -65,14 +68,15 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
                         visitResultObj.Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__c,
                         visitResultObj.Patient_Visit__r.Participant_Enrollment__c
                 );
+                Patient_Visit__c patientVisit = visitResultObj.Patient_Visit__r;
+                patientVisit.Notified__c = true;
+                updatedPatientVisits.add(patientVisit);
             }
-            visitResultObj.Patient_Visit__r.Notified__c = true;
         }
 
         if(!peContacts.isEmpty()) {
-            SendEmailToParticipant.sendPlainSummaryNotifications(
-                    peContacts, peIdByContact, SendEmailToParticipant.PATIENT_VISITS_AVAILABLE);
-            update listOfResult;
+            SendEmailToParticipant.sendPlainSummaryNotifications( peContacts, peIdByContact, SendEmailToParticipant.PATIENT_VISITS_AVAILABLE);
+            update updatedPatientVisits;
         }
     }
 

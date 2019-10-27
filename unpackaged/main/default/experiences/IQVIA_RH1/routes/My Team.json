@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "my-team",
-  "appPageId" : "d9c4a932-5387-4757-867b-fed2cab30e7c",
-  "routeType" : "custom-my-team",
-  "pageAccess" : "UseParent",
-  "label" : "My Team",
-  "id" : "fdaf2c00-ac9c-4fa0-920f-dffdba487d9a",
-  "type" : "route"
-}

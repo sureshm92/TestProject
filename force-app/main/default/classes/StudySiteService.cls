@@ -187,6 +187,7 @@ public without sharing class StudySiteService {
 
     private static final List<String> SS_COMMON_FIELDS = new List<String>{
             'Id',
+            'Approved_Lng__c',
             'Name',
             'Site__c',
             'Override_PI_Referral_Status__c',
@@ -622,6 +623,7 @@ public without sharing class StudySiteService {
         Map<Id, List<StudySiteVisitPlan__c>> ssVisitPlanMap = getStudySiteVisitPlansMap(new List<Id>{ssId});
         List<StudySiteVisitPlan__c> ssVisitPlans = ssVisitPlanMap.get(ssId);
         List<LabelValueItem> resList = new List<LabelValueItem>();
+        resList.add(new LabelValueItem(Label.None, ''));
         if(ssVisitPlans != null){
             for(StudySiteVisitPlan__c ssVisitPlan : ssVisitPlans){
                 resList.add(new LabelValueItem(ssVisitPlan.Visit_Plan__r.Name, ssVisitPlan.Visit_Plan__c));

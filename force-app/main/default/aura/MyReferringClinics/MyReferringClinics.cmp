@@ -38,7 +38,7 @@
                     <c:RRNPathItem label="{!$Label.c.PG_SP_L_My_Referring_Providers}"/>
                 </c:RRNavigationPath>
                 <div class="rr-summary-panel slds-grid slds-wrap slds-grid_vertical-stretch slds-gutters_medium">
-                    <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 mrc-invite-btn-container">
+                    <div class="slds-col slds-size_1-of-1 mrc-invite-btn-container">
                         <button class="apollo-btn primary mrc-invite-btn" onclick="{!c.doShowInviteRP}">
                             {!$Label.c.PG_MRC_BTN_Invite_Referring_Provider}
                         </button>

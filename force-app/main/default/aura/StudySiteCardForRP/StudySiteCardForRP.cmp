@@ -11,7 +11,7 @@
     <!-- component body: -->
     <div class="slds-p-horizontal_medium slds-p-bottom_small">
         <aura:if isTrue="{!v.siteWrapper.hasActiveHCPE}">
-            <div style="box-sizing: border-box; border: 1px solid #F2F2F2; border-radius: 5px; background-color: #F2F2F2; min-height: 100px; margin-top: 20px; padding: 20px 30px 30px 30px">
+            <div class="inner-content-card">
                 <div class="slds-grid slds-wrap">
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12">
                         <div class="clinic-name">
@@ -40,15 +40,14 @@
                         </div>
                     </div>
 
-                    <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-m-top--x-large">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                         <div class="slds-grid slds-wrap slds-gutters" style="text-align: right;">
                             <aura:if isTrue="{!not(and(v.siteWrapper.actions.refer.disabled,v.siteWrapper.actions.refer.disableReason==
                                                 $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action))}">
                                 <div class="slds-col slds-size_1-of-2">
                                     <aura:if isTrue="{!v.hasPatients}">
                                         <button data-site-id="{!v.siteWrapper.site.Id}"
-                                                class="apollo-btn primary slvi-site-btn"
-                                                style="background-color: white; color: #297DFD; box-shadow: none;"
+                                                class="apollo-btn secondary slvi-site-btn"
                                                 onclick="{!c.doMyPatients}">
                                             {!$Label.c.BTN_My_Patients}
                                         </button>
@@ -56,7 +55,7 @@
                                 </div>
                                 <div class="slds-col slds-size_1-of-2">
                                     <button data-hcpe-id="{!v.siteWrapper.hcpe.Id}"
-                                            class="apollo-btn primary slvi-site-btn"
+                                            class="apollo-btn secondary slvi-site-btn"
                                             onclick="{!c.doReferPatient}"
                                             disabled="{!v.siteWrapper.actions.refer.disabled}"
                                             title="{!v.siteWrapper.actions.refer.disableReason}">

@@ -2,109 +2,81 @@
  * Created by Igor Malyuta on 19.04.2019.
  */
 
-@IsTest(IsParallel=true)
+@IsTest(IsParallel=false)
 private class Test_ParticipantVisitsRemote {
 
-//    class VisitServiceMock implements StubProvider {
-//        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
-//                List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs
-//        ) {
-//            switch on stubbedMethodName {
-//                when 'getPreviewVisits'{
-//                    return [
-//                            SELECT Id,
-//                                    Name,
-//                                    Visit_Schedule__c,
-//                                    Icons__c,
-//                                    Order__c,
-//                                    Visit_Plan__c,
-//                                    Status__c
-//                            FROM Visit__c
-//                            ORDER BY Order__c
-//                            LIMIT 3
-//                    ];
-//                }
-//                when 'getVisits' {
-//                    return [
-//                            SELECT Id,
-//                                    Name,
-//                                    Visit_Schedule__c,
-//                                    Icons__c,
-//                                    Order__c,
-//                                    Visit_Plan__c,
-//                                    Status__c
-//                            FROM Visit__c
-//                            ORDER BY Order__c
-//                    ];
-//                }
-//            }
-//            return null;
-//        }
-//
-//    }
-//
-//    @IsTest
-//    static void getVisitsPreviewTest() {
-//        VisitService.setMock(new VisitServiceMock());
-//
-//        Test.startTest();
-//        List<PatientVisitService.VisitWrapper> preview = ParticipantVisitsRemote.getVisitsPreview();
-//        Test.stopTest();
-//    }
-//
-//    @IsTest
-//    static void getParticipantVisitsTest() {
-//        VisitService.setMock(new VisitServiceMock());
-//
-//        Test.startTest();
-//        List<PatientVisitService.VisitWrapper> participantVisits = ParticipantVisitsRemote.getParticipantVisits('Current');
-//        Test.stopTest();
-//
-//        List<Visit__c> visitsAll = VisitService.getInstance().getVisits(null);
-//        System.assertEquals(visitsAll.size(), participantVisits.size());
-//    }
-//
-//    @IsTest
-//    static void getVisitsLegendTest() {
-//        List<PicklistEntry> picklistEntries = Visit__c.Icons__c.getDescribe().picklistValues;
-//        List<ParticipantVisitsRemote.Legend> legends = new List<ParticipantVisitsRemote.Legend>();
-//        for(PicklistEntry entry : picklistEntries) {
-//            ParticipantVisitsRemote.Legend leg = new ParticipantVisitsRemote.Legend();
-//            leg.iconId = entry.value;
-//            leg.iconLabel = entry.label;
-//            leg.iconLegend = ParticipantVisitsRemote.LABELS_MAP.get(entry.label);
-//            legends.add(leg);
-//        }
-//
-//        Test.startTest();
-//        String legend = ParticipantVisitsRemote.getVisitsLegend('dummy');
-//        Test.stopTest();
-//
-//        /*System.assertEquals(JSON.serialize(legends), legend);*/
-//    }
-//
-//    @TestSetup
-//    static void setup() {
-//        Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan');
-//        insert vp;
-//
-//        List<String> iconsApiName = new List<String>{
-//                'icon-questionnaires;icon-ecg',
-//                'icon-vital-signs;icon-blood-test',
-//                'icon-questionnaires;icon-brief-ph-ex',
-//                'icon-questionnaires;icon-blood-test;icon-brief-ph-ex',
-//                'icon-questionnaires;icon-ecg;icon-vital-signs;icon-blood-test'
-//        };
-//        List<Visit__c> visits = new List<Visit__c>();
-//        for(Integer i = 0; i < 5; i++) {
-//            visits.add(new Visit__c(
-//                    Name = 'TestVisit'+i,
-//                    Visit_Schedule__c = 'Week'+i,
-//                    Icons__c = iconsApiName.get(i),
-//                    Order__c = i,
-//                    Visit_Plan__c = vp.Id
-//            ));
-//        }
-//        insert visits;
-//    }
+    @IsTest
+    static void getVisitsPreviewTest() {
+        TestData.loadTestData();
+
+        Test.startTest();
+        User user = getSomeData();
+        System.runAs(user){
+            ParticipantVisitsRemote.getVisitsPreview();
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void getParticipantVisitsTest() {
+        TestData.loadTestData();
+
+        Test.startTest();
+        User user = getSomeData();
+        System.runAs(user){
+            ParticipantVisitsRemote.getParticipantVisits('Current');
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void getVisitsLegendTest() {
+        TestData.loadTestData();
+
+        Visit_Plan__c vp = [SELECT Id FROM Visit_Plan__c];
+        Icon_Details__c icon = new Icon_Details__c(Name='ICON', Label__c='icon label', Description__c='This is icon!', Visit_Plan__c = vp.Id);
+        insert icon;
+
+        String legend;
+        Test.startTest();
+        User user = getSomeData();
+        System.runAs(user){
+            legend = ParticipantVisitsRemote.getVisitsLegend('ICON');
+        }
+        Test.stopTest();
+
+        System.assertEquals('[{"iconLegend":"'+icon.Description__c+'","iconLabel":"'+icon.Label__c+'","iconId":"'+icon.Name+'"}]', legend);
+    }
+
+    @TestSetup
+    static void setup() {
+        Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan');
+        insert vp;
+
+        List<Visit__c> visits = new List<Visit__c>();
+        for(Integer i = 0; i < 5; i++) {
+            visits.add(new Visit__c(
+                    Name = 'TestVisit'+i,
+                    Visit_Schedule__c = 'Week'+i,
+                    Icons__c = 'Test_icon',
+                    Order__c = i,
+                    Visit_Plan__c = vp.Id
+            ));
+        }
+        insert visits;
+    }
+
+    static User getSomeData(){
+        TestData testData = new TestData();
+
+        Clinical_Trial_Profile__c ctp = [SELECT Id, Visit_Plan__c FROM Clinical_Trial_Profile__c WHERE Id =: testData.ctp.Id];
+        Visit_Plan__c vp = [SELECT Id FROM Visit_Plan__c];
+        ctp.Visit_Plan__c = vp.Id;
+        update ctp;
+        Participant_Enrollment__c pe = [SELECT Id, Visit_Plan__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c = :ctp.Id];
+        pe.Visit_Plan__c = vp.Id;
+        update pe;
+
+        return testData.participantUser;
+    }
 }

@@ -24,7 +24,7 @@
             <lightning:inputField aura:id="Visit_Schedule__c" fieldName="Visit_Schedule__c"/>
             <lightning:inputField aura:id="Visit_Number__c" fieldName="Visit_Number__c"/>
             <lightning:inputField class="slds-hide" aura:id='splittedIcons' fieldName="Icons__c"/>
-            <lightning:inputField value="{!v.visitPlanId}" disabled="true" aura:id='visitPlan'
+            <lightning:inputField value="{!v.visitPlanId}" disabled="true" class="slds-is-disabled" aura:id='visitPlan'
                                   fieldName="Visit_Plan__c"/>
         </lightning:recordEditForm>
     </div>

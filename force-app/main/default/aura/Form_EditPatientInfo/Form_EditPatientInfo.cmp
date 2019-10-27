@@ -29,6 +29,7 @@
     <aura:method name="createDataStamp" action="{!c.doCreateDataStamp}" access="public"/>
     <aura:method name="refreshView" action="{!c.doRefreshView}" access="public"/>
 
+
     <!-- component body: -->
     <aura:if isTrue="{!!v.isRefreshView}">
     <div>
@@ -100,7 +101,7 @@
                     </div>
                     <c:rrSelect options="{!v.formData.countriesLVList}"
                                 value="{!v.participant.Mailing_Country_Code__c}"
-                                placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false" onchange="{!c.doCheckFields}"/>
+                                placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false" onchange="{!c.doCountryCodeChanged}"/>
                 </div>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                     <div class="label">
@@ -108,9 +109,9 @@
                             <abbr title="required" class="slds-required">*</abbr>
                         </aura:if>{!$Label.c.PE_State}
                     </div>
-                    <c:rrSelect options="{!v.statesLVList}" disabled="{!empty(v.statesLVList)}"
+                    <c:rrSelect aura:id="stateField" options="{!v.statesLVList}" disabled="{!empty(v.statesLVList)}"
                                 value="{!v.participant.Mailing_State_Code__c}"
-                                placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false" onchange="{!c.doCheckFields}"/>
+                                placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false" onchange="{!c.doStateChange}"/>
                 </div>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                     <div class="label"><abbr title="required"

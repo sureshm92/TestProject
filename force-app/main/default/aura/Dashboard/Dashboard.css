@@ -10,8 +10,9 @@
 }
 
 .THIS .db-header{
-    font-size: 15px;
+    font-size: 18px;
     line-height: 40px;
+    font-weight: 600;
     display: flex;
     margin-bottom: 10px;
 }
@@ -29,9 +30,9 @@
 }
 
 .THIS .db-list-item{
-    border-bottom: 2px solid #cccccc;
+    border-bottom: 1px solid #d9d9d9;
     padding: 10px 0;
-    line-height: 16px;
+    line-height: 26px;
 }
 
 .THIS .db-list-item:not(.header){
@@ -40,22 +41,41 @@
 
 .THIS .db-list-item.header{
     padding-bottom: 4px;
-
 }
+
+.THIS .db-list-item.header > .apollo-btn {
+    margin-bottom: 4px;
+    display: inline-block;
+    font-size: .875rem;
+}
+
 .THIS .db-list-item.header > span{
     font-size: 14px;
     font-weight: 600;
 }
 
-.THIS .db-list-item .apollo-btn{
-    margin-left: 10px;
-    float: right;
+.THIS .rr-large-down-hide .db-list-item {
+    position: relative;
+    line-height: 22px;
+    padding-right: 110px;
+}
 
+.THIS .rr-large-down-hide .db-list-item .apollo-btn{
+    position: absolute;
+    top: 10px;
+    right: 0;
 }
 
 .THIS .db-list-item .apollo-btn.text{
-    padding: 0;
     line-height: 16px;
+}
+
+.THIS .db-list-item .rr-link.only-text {
+    margin-left: -3px;
+}
+
+.THIS .db-list-item > .rr-link.only-text:nth-of-type(1) {
+    margin-left: -8px;
 }
 
 .THIS .db-list-item .apollo-btn.tertiary,
@@ -94,8 +114,23 @@
 .THIS .db-section-devider{
     margin-top: 20px;
     margin-bottom: 30px;
-    background-color: #CCCCCC;
-    height: 2px;
+    background-color: #d9d9d9;
+    height: 1px;
+}
+
+.THIS .cDonut .dt-legend-section .slds-grid {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 5px;
+}
+
+.THIS .cDonut .dt-legend-circle {
+    margin-top: 2px;
+}
+
+.THIS .cDonut .dt-link {
+    margin: 0;
+    padding: 4px 8px;
 }
 
 .THIS .db-hcp-chart{
@@ -111,4 +146,13 @@
 .THIS .db-list-item .btn-block .apollo-btn{
     float: none;
     margin-left: 0;
+}
+
+@media (max-width: 768px){ 
+   .THIS .db-list-item .rr-small-down-hide {
+        display: none;
+    } 
+    .THIS .db-list-item .rr-small-up-hide .apollo-btn {
+        width: 100%;
+    }
 }

@@ -61,7 +61,7 @@
                         </div>
                         <aura:if isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}">
                             <div class="slds-col">
-                                <c:RRInjector componentName="UpcomingVisitsPreviewPanel"/>
+                                <c:UpcomingVisitsPreviewPanel/>
                             </div>
                         </aura:if>
                     </div>
@@ -69,15 +69,13 @@
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
                     <aura:if isTrue="{!v.participantState.value != 'ALUMNI'}">
                         <c:ParticipantStatePanel/>
-                        <c:RRInjector componentName="VisitResultsDashboardCard">
-                            <c:RRInjectorAttribute name="ctpId"
-                                                   value="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"/>
-                        </c:RRInjector>
+                        <c:VisitResultsDashboardCard ctpId="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"/>
                     </aura:if>
-                    <c:RRInjector componentName="ResourceDashboardCard"/>
+                    <c:ResourceDashboardCard/>
                 </div>
             </div>
+            <c:ParticipantIRBChecker peId="{!v.participantState.pe.Id}"/>
         </aura:if>
-        <div style="height: 30px"/>
+        <div style="height: 30px"></div>
     </div>
 </aura:component>

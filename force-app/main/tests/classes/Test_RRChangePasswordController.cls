@@ -21,8 +21,11 @@ private class Test_RRChangePasswordController {
             controller.showProfileAction();
             controller.oldPassword = 'qwerty1';
             controller.newPassword = 'NewPas1234';
-            controller.verifyNewPassword = 'NewPas123456';
+            controller.verifyNewPassword = 'NewPas1234';
+            controller.browserLanguage = '["en_US","",""]';
             controller.changePassword();
+            controller.updateBrowserLanguageAction();
+            controller.updateLanguageAction();
         }
         Test.stopTest();
     }

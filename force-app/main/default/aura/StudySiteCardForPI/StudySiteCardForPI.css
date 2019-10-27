@@ -4,11 +4,8 @@
 .THIS .card-header {
     height: 24px;
     margin: 24px 0 0 auto;
-    padding: 30px 30px 30px 30px;
-    background-color: #F2F2F2;
-    border-top: 1px solid #F2F2F2;
-    border-left: 1px solid #F2F2F2;
-    border-right: 1px solid #F2F2F2;
+    padding: 15px 15px 25px;
+    background-color: #F8f9fb;
 }
 .THIS .pi-name {
     display: inline-block;
@@ -65,6 +62,7 @@
 
 .THIS #contactInformation .ss-info-details:nth-child(4) {
     margin-left: 16px;
+    margin-top: 6px;
 }
 
 .THIS #contactInformation .ss-info-details:last-child {
@@ -74,7 +72,7 @@
 
 .THIS .ss-lightning-input label {
     height: 21px;
-    color: #666666;
+    color: #444;
     font-family: "Proxima Nova";
     font-size: 13px;
     font-weight: 500;
@@ -83,20 +81,18 @@
 }
 
 .THIS .clinic-type {
-    color: #4A4A4A;
-    font-family: "Proxima Nova";
-    font-size: 15px;
+    font-size: 14px;
     display: inline-block;
     padding-left: 16px;
-    padding-bottom: 11px;
+    padding-bottom: 5px;
     vertical-align: bottom;
+    color: #000;
 }
 
 .THIS .input-fields-labels {
     height: 21px;
-    color: #666666;
-    font-family: "Proxima Nova";
-    font-size: 13px;
+    color: #444;
+    font-size: .875rem;
     font-weight: 500;
     line-height: 21px;
 }
@@ -104,7 +100,6 @@
 .THIS .delegate-select {
     width: 100%;
     color: #000000;
-    font-family: "Proxima Nova";
     font-size: 14px;
 }
 
@@ -120,7 +115,7 @@
 }
 
 .THIS .other-ss-info-height-control {
-    min-height: 107px;
+    min-height: 92px;
 }
 
 .THIS .other-ss-info-container {
@@ -138,6 +133,15 @@
     line-height: 24px;
     margin-bottom: 5px;
     vertical-align: top;
+}
+
+.THIS .card-locationDetails {
+    box-sizing: border-box; 
+    border-radius: 4px; 
+    background-color: #F8f9fb; 
+    min-height: 100px; 
+    margin-top:0px; 
+    padding: 0px 15px 25px;
 }
 
 .THIS .check-icon-style {
@@ -159,7 +163,9 @@
 }
 
 .THIS .ss-info-buttons {
-    margin-top: 6%;
+    margin-top: 4%;
+    display: flex;
+    justify-content: flex-start;
 }
 
 @media (max-width: 925px) {
@@ -184,6 +190,19 @@
     .THIS .ss-container-border {
         border-right: none;
     }
+    
+    .THIS .card-locationDetails {
+        paddingn-top: 15px;
+    }
+    
+    .THIS .card-header {
+        padding-bottom: 40px;
+    }
+    
+    .THIS .ss-info-details,
+    .THIS .other-ss-info-container{
+        margin-bottom: 10px;
+    }
 
     .THIS .ss-info-buttons {
         margin-top: 5%;
@@ -194,6 +213,10 @@
         padding-left: 0px;
         padding-bottom: 0px;
     }
+    
+    .THIS .manage-location-details {
+     	width: 100%;
+    }
 
     .THIS #contactInformation .ss-info-details:nth-child(4) {
         margin-left: 0px;
@@ -201,7 +224,7 @@
 
     .THIS #contactInformation .ss-info-details:last-child {
         margin-left: 0px;
-        padding-top: 24px;
+        padding-top: 20px;
     }
 
     .THIS .other-ss-info {
@@ -209,7 +232,7 @@
     }
 
     .THIS .apollo-btn {
-        margin: 0px 0px 10px 0px;
+        margin: 0px 0px 20px 0px;
         width: 100%;
     }
 

@@ -32,6 +32,8 @@ public without sharing class CommunityFacadeRemote {
         Boolean isTCAccepted;
         String language;
         List<String> preventedCookies;
+        Boolean isNewSession;
+        String baseUrl;
         Boolean showPastStudies;
         List<CommunityModeService.CommunityMode> allUserModes;
         CommunityModeService.CommunityMode currentUserMode;
@@ -67,6 +69,8 @@ public without sharing class CommunityFacadeRemote {
             cd.language = UserInfo.getLanguage();
             cd.preventedCookies = getPreventedCookies(userContact.Id);
             cd.isDelegate = userContact.UserCommunityIsDelegate__c;
+            cd.baseUrl = Site.getBaseUrl();
+
             cd.showPastStudies = ContactService.getPastStudyWrappers(userContact.Id).size() > 0;
             
             return JSON.serialize(cd);

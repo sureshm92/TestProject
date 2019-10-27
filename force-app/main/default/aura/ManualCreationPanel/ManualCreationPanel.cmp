@@ -24,7 +24,7 @@
     </aura:method>
 
     <!-- component body -->
-    <lightning:card>
+    <lightning:card class="main-panel">
         <c:RRSpinner aura:id="spinner" size="medium"/>
         <aura:if isTrue="{!not(v.initialized)}">
             <div style="height: 200px"></div>
@@ -41,7 +41,7 @@
             </lightning:tabset>
             <!-- Filter section -->
             <lightning:accordion aura:id="accordion" activeSectionName="Filter" allowMultipleSectionsOpen="true">
-                <lightning:accordionSection name="Filter" label="Filters for recipients">
+                <lightning:accordionSection name="Filter" label="Filters for recipients" class="accordion-content">
                     <div class="slds-grid slds-gutters">
                         <div class="slds-col slds-size--1-of-2">
                             <lightning:checkboxGroup aura:id="field"

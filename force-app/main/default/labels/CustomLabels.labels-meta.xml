@@ -5,7 +5,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ALT</shortDescription>
-        <value>{4}ALT{1}</value>
+        <value>ALT</value>
     </labels>
     <labels>
         <fullName>ALT_Description</fullName>
@@ -121,7 +121,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AST</shortDescription>
-        <value>{5}AST{1}</value>
+        <value>AST</value>
     </labels>
     <labels>
         <fullName>AST_Description</fullName>
@@ -608,6 +608,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Exclude from referring</value>
     </labels>
     <labels>
+        <fullName>BTN_Exit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Exit</shortDescription>
+        <value>Exit</value>
+    </labels>
+    <labels>
         <fullName>BTN_Export</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1053,7 +1060,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BUN</shortDescription>
-        <value>{3}BUN{1}</value>
+        <value>BUN</value>
     </labels>
     <labels>
         <fullName>BUN_Description</fullName>
@@ -1074,7 +1081,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Body Mass Index</shortDescription>
-        <value>Body mass index {2}</value>
+        <value>Body mass index</value>
     </labels>
     <labels>
         <fullName>Body_Mass_Index_Description</fullName>
@@ -1540,6 +1547,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Delegate</value>
     </labels>
     <labels>
+        <fullName>Diastolic</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Diastolic</shortDescription>
+        <value>Diastolic</value>
+    </labels>
+    <labels>
         <fullName>Diastolic_Blood_Pr</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1636,7 +1650,14 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Action Login now</shortDescription>
-        <value>Login now</value>
+        <value>Login Now</value>
+    </labels>
+    <labels>
+        <fullName>Email_Action_Review_Cases</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Action Review Cases</shortDescription>
+        <value>Review Cases</value>
     </labels>
     <labels>
         <fullName>Email_Action_View_My_Home_Page</fullName>
@@ -1694,7 +1715,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <shortDescription>Email Body Available</shortDescription>
         <value>New visit data is available.
 
-            Please log in to the IQVIA Patient Portal to view the latest visit data.</value>
+            Please login to the IQVIA Patient Portal to view the latest visit data.</value>
     </labels>
     <labels>
         <fullName>Email_Body_By_PI_RP1</fullName>
@@ -1712,7 +1733,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <shortDescription>Body Request notification</shortDescription>
         <value>A Participant has submitted a request for additional information on ##StudyCode.
 
-            Please login to IQVIA Patient Portal for additional information.</value>
+            Please login to Salesforce for additional information.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Complete_Baseline_Survey</fullName>
@@ -1726,11 +1747,11 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Delegate</shortDescription>
-        <value>Congratulations, ##UserName has successfully completed ##StudyName clinical research study.
+        <value>Congratulations, ##PatientFirstName has successfully completed the ##StudyName clinical research study.
 
-            As you continue to your engagement with us, there are multiple opportunities for you to stay informed.
+            Thank you for participating. Your contribution to the clinical research study has been very important.
 
-            Please log in to the IQVIA Patient Portal for the latest clinical research information.</value>
+            Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Delegate_Permission_Changed</fullName>
@@ -1903,7 +1924,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Thanks for request</shortDescription>
-        <value>Thank you for submitting a request for additional information about ##StudyCode.  Someone from the study team will be in touch with you.
+        <value>Thank you for submitting a request for additional information about ##StudyCode. Someone from the study team will be in touch with you.
 
             Please login to the IQVIA Patient Portal to check your clinical research trial matches at any time.</value>
     </labels>
@@ -1912,11 +1933,15 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient1</shortDescription>
-        <value>Thank you for your interest in the clinical research study: ##StudyTitle.
+        <value>
+            Recently, ##PITitle ##PIName made a referral on your behalf to ##StudySiteName regarding your potential participation in a clinical research study: ##StudyName.
 
-            You will be contacted by the Principal Investigator’s site, ##StudySiteName , regarding the next steps in the enrollment process.
+            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To track your clinical research study status and to see additional information about the study, log in to the Patient Portal, and then go to &quot;My Studies.&quot;</value>
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+
+            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.
+        </value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient10</fullName>
@@ -1987,20 +2012,22 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <shortDescription>Email Body Patient18</shortDescription>
         <value>Congratulations, you have successfully completed ##StudyName clinical research study.
 
-            As you continue your engagement with us, there are multiple opportunities for you to stay informed.
+            Thank you for participating. Your contribution to the clinical research study has been very important.
 
-            Please log in to the IQVIA Patient Portal for the latest clinical research information.</value>
+            Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient2</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient2</shortDescription>
-        <value>Clinical research study: ##StudyName has been added to your list of studies in IQVIA Patient Portal.
+        <value>Recently, ##HCPTitle ##HCPName made a referral on your behalf to ##PITitle ##PIName regarding your potential participation in a clinical research study: ##StudyName.
 
-            You will be contacted by the study team regarding the next steps in the enrollment process for this study.
+            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To see additional information about this study, please log in to the IQVIA Patient Portal, and then go to “My Studies.”</value>
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+
+            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient3</fullName>
@@ -2054,6 +2081,19 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             To see additional information, log in to the IQVIA Patient Portal, and then go to &quot;My Studies.&quot;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Patient0</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Patient2</shortDescription>
+        <value>Thank you for your interest in the clinical research study: ##StudyName.
+
+            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
+
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+
+            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Patient_CreatedDate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2069,16 +2109,16 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <shortDescription>Email Body Patient Log In</shortDescription>
         <value>We haven&#39;t heard from you in a while.
 
-            Please log in to the IQVIA Patient Portal to view all the latest information on your clinical research study.</value>
+            Please login to the IQVIA Patient Portal to view all the latest information on your clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Plain_Summary</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Plain Summary</shortDescription>
-        <value>Your Plain Language Summary for ##StudyName clinical research study is available on the IQVIA Patient Portal.
+        <value>New documents from ##StudyName clinical research study are now available on the IQVIA Patient Portal.   
 
-Please log in to the IQVIA Patient Portal to view the Plain Language Summary.</value>
+            Please login to the IQVIA Patient Portal to view this information.</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP1</fullName>
@@ -2248,7 +2288,7 @@ Please log in to the IQVIA Patient Portal to view the latest Study Documents.</v
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Trial Alert</shortDescription>
-        <value>An alert on a clinical research study you may be interested in has been scheduled.  We will notify you when ##StudyName enrollment begins.
+        <value>An alert on a clinical research study you may be interested in has been created.  We will notify you when ##StudyName enrollment begins.
 
             Please login to the IQVIA Patient Portal to check your clinical research trial matches at any time.</value>
     </labels>
@@ -2343,7 +2383,7 @@ Please log in to the IQVIA Patient Portal to view the latest Study Documents.</v
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Header Available</shortDescription>
-        <value>New Visit data is available to view</value>
+        <value>New visit data is available to view</value>
     </labels>
     <labels>
         <fullName>Email_Header_Case</fullName>
@@ -2490,7 +2530,7 @@ Please log in to the IQVIA Patient Portal to view the latest Study Documents.</v
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header Plain Summary</shortDescription>
-        <value>A summary of your study is available to view</value>
+        <value>New documents are available for your review</value>
     </labels>
     <labels>
         <fullName>Email_Header_RP10</fullName>
@@ -2719,7 +2759,7 @@ Please log in to the IQVIA Patient Portal to view the latest Study Documents.</v
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Signature New</shortDescription>
-        <value>We are so excited to be on this journey with you.
+        <value>We are excited to continue this journey with you.
 
             Sincerely,
 
@@ -2761,7 +2801,7 @@ Please log in to the IQVIA Patient Portal to view the latest Study Documents.</v
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Plain Summary</shortDescription>
-        <value>Please feel free to contact us if you have any questions.
+        <value>We look forward to hearing from you. Please feel free to contact us if you have any questions.
 
             Sincerely,
             The IQVIA Patient Portal Support Team</value>
@@ -2817,6 +2857,17 @@ The IQVIA Patient Portal Support Team</value>
             Sincerely,
 
             The IQVIA Patient Portal Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Trial_Completed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature Trial Completed</shortDescription>
+        <value>Thank you for joining us on this journey.
+
+Sincerely,
+
+The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_VT</fullName>
@@ -2960,7 +3011,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Plain Summary</shortDescription>
-        <value>Your Study Plain Language summary is available</value>
+        <value>New information is now available</value>
     </labels>
     <labels>
         <fullName>Email_Subject_RP11</fullName>
@@ -3009,7 +3060,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Share Resource</shortDescription>
-        <value>Content that may interest you</value>
+        <value>A clinical research study that may interest you</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Status_Has_Changed</fullName>
@@ -3058,28 +3109,28 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Trial_Complete_for_Delegate</shortDescription>
-        <value>Congratulations you the study has been completed</value>
+        <value>Congratulations, the study has been completed</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Trial_Complete_for_Participant</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Trial_Complete_for_Participant</shortDescription>
-        <value>Congratulations you have completed your study</value>
+        <value>Congratulations, you have completed your study</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Trial_Complete_for_Participant2</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Trial_Complete_for_Participant</shortDescription>
-        <value>Congratulations you the study has been completed</value>
+        <value>Congratulations, you have completed your study</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Trial_Search_Match_Alert_Received</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Trial Search Match Alert Received</shortDescription>
-        <value>An alert for a clinical research study you may be interested in has been set</value>
+        <value>Potential clinical research study alert</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Trial_Search_Match_Email</fullName>
@@ -3114,7 +3165,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Your request for additonal information</shortDescription>
-        <value>Your request for additonal information has been received</value>
+        <value>Your request for additional information has been received</value>
     </labels>
     <labels>
         <fullName>Email_Text_View_Stub</fullName>
@@ -3272,7 +3323,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Footer T Copyright</shortDescription>
-        <value>Copyright © 2018 IQVIA. All Rights Reserved.</value>
+        <value>Copyright © 2019 IQVIA. All Rights Reserved.</value>
     </labels>
     <labels>
         <fullName>GMap_Not_Available</fullName>
@@ -3835,6 +3886,13 @@ The IQVIA Patient Portal Support Team</value>
         <value>My Study Sites</value>
     </labels>
     <labels>
+        <fullName>Navigation_Past_Studies</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Navigation Past Studies</shortDescription>
+        <value>Past Studies</value>
+    </labels>
+    <labels>
         <fullName>Navigation_Reports</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3875,6 +3933,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>No Case Assign</shortDescription>
         <value>No case assigenment rule found!</value>
+    </labels>
+    <labels>
+        <fullName>No_permission_Visits_tab</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No_permission_Visits_tab</shortDescription>
+        <value>No permission for this feature</value>
     </labels>
     <labels>
         <fullName>None</fullName>
@@ -4962,7 +5027,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS BTN Save Preference</shortDescription>
-        <value>Save Preference</value>
+        <value>Save Language and Date Preferences</value>
     </labels>
     <labels>
         <fullName>PG_AS_BTN_Submit_Your_Question</fullName>
@@ -4984,6 +5049,34 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG AS BTN Update My Password</shortDescription>
         <value>Update My Password</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_2nd_Choice_Language</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F 2nd Choice Language</shortDescription>
+        <value>2nd choice language</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_2nd_Choice_Language_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F 2nd Choice Language Help Text</shortDescription>
+        <value>This will be used to display study information when your Preferred Language is not available.</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_3rd_Choice_Language</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F 3rd Choice Language</shortDescription>
+        <value>3rd choice language</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_3rd_Choice_Language_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F 3rd Choice Language Help Text</shortDescription>
+        <value>This will be used to display study information when your other 2 choices are not available.</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Date_of_Birth</fullName>
@@ -5084,6 +5177,13 @@ View study documents and other resources including articles and videos related t
         <value>Last name</value>
     </labels>
     <labels>
+        <fullName>PG_AS_F_Locale_For_Date_Format</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_AS_F_Locale_For_Date_Format</shortDescription>
+        <value>Locale for date format</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Middle_name</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -5117,6 +5217,27 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG AS F Placeholder Enter text</shortDescription>
         <value>Enter text...</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Preferred_Language</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F Preferred Language</shortDescription>
+        <value>Preferred language</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Preferred_Language_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F Preferred Language Help Text</shortDescription>
+        <value>This will be your default language to display study information whenever possible.</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Preferred_Timezone</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_AS_F_Preferred_Timezone</shortDescription>
+        <value>Preferred timezone</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Re_enter_new_password</fullName>
@@ -6102,11 +6223,32 @@ View study documents and other resources including articles and videos related t
         <value>Contact Information</value>
     </labels>
     <labels>
+        <fullName>PG_Login_H_Date_Format</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Login H Date Format</shortDescription>
+        <value>Date Format</value>
+    </labels>
+    <labels>
         <fullName>PG_Login_H_Date_Language</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Login H Date Language</shortDescription>
         <value>Date Format and Preferred Language</value>
+    </labels>
+    <labels>
+        <fullName>PG_Login_H_Language_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Login H Language Description</shortDescription>
+        <value>Content will be displayed in your preferred language wherever possible. Alternate languages will be used when content is not available in your preferred language.</value>
+    </labels>
+    <labels>
+        <fullName>PG_Login_H_Language_Options</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Login H Language Options</shortDescription>
+        <value>Language Options</value>
     </labels>
     <labels>
         <fullName>PG_Login_H_Login_Information</fullName>
@@ -8524,6 +8666,41 @@ Please check your CAPS lock key.</value>
         <value>This form is for providing feedback about how our features can be improved and should not be used to report content on the IQVIA™ Patient Portal.</value>
     </labels>
     <labels>
+        <fullName>PP_IRB_Button_Review</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP IRB Button Review</shortDescription>
+        <value>Change my language settings</value>
+    </labels>
+    <labels>
+        <fullName>PP_IRB_LangList</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP IRB LangList</shortDescription>
+        <value>##StudyCodeName is only available in the following language(s): ##LangList. If you would like to change your language settings,</value>
+    </labels>
+    <labels>
+        <fullName>PP_IRB_Popup_NotAva_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP IRB Popup NotAva Text</shortDescription>
+        <value>Study information is not yet available.  Please check back soon.</value>
+    </labels>
+    <labels>
+        <fullName>PP_IRB_Popup_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP IRB Popup Title</shortDescription>
+        <value>Check your languages</value>
+    </labels>
+    <labels>
+        <fullName>PP_IRB_SS_Empty_AppLAng</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP IRB SS Empty AppLAng</shortDescription>
+        <value>Some Study Sites on this Study have no IRB-Approved languages. Ensure a Study Site has at least one IRB-Approved language to let Participants see Study Content.</value>
+    </labels>
+    <labels>
         <fullName>PP_L_Account_Setting_Preferred_Lng</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8535,7 +8712,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP VPC SS Empty VP</shortDescription>
-        <value>&lt;&lt;Replace this text to approved&gt;&gt; (Study Site don&#39;t have Visit Plan)</value>
+        <value>Some of the Study Sites do not have a Visit plan. Ensure each Study Site has at least one Visit plan assigned.</value>
     </labels>
     <labels>
         <fullName>PSC_Docs_will_be_published</fullName>
@@ -8577,7 +8754,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Participant Visits Available</shortDescription>
-        <value>New Visit data is available</value>
+        <value>New visit data is available</value>
     </labels>
     <labels>
         <fullName>Patient</fullName>
@@ -8634,6 +8811,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>Profile Menu Log Out</shortDescription>
         <value>Log Out</value>
+    </labels>
+    <labels>
+        <fullName>Pulse</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pulse</shortDescription>
+        <value>Pulse</value>
     </labels>
     <labels>
         <fullName>RBC_Count</fullName>
@@ -8970,6 +9154,27 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Resource Tab Study Video And Articles</shortDescription>
         <value>Video and Articles</value>
+    </labels>
+    <labels>
+        <fullName>Resource_Title_Document_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource Title Document Name</shortDescription>
+        <value>Document Name</value>
+    </labels>
+    <labels>
+        <fullName>Resource_Title_Study_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource Title Study Name</shortDescription>
+        <value>Study Name</value>
+    </labels>
+    <labels>
+        <fullName>Resource_Visit_Summary_Report</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource Visit Summary Report</shortDescription>
+        <value>Visit Summary Report</value>
     </labels>
     <labels>
         <fullName>Resources_Article</fullName>
@@ -9637,6 +9842,13 @@ Please check your CAPS lock key.</value>
         <value>Pre-Eligibility Screenings Completions</value>
     </labels>
     <labels>
+        <fullName>Same_RP_in_the_system</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Same RP in the system</shortDescription>
+        <value>There is the sames RP in the System</value>
+    </labels>
+    <labels>
         <fullName>Search_For_Sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9924,6 +10136,13 @@ Please check your CAPS lock key.</value>
         <value>The record has been created successfully.</value>
     </labels>
     <labels>
+        <fullName>Systolic</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Systolic</shortDescription>
+        <value>Systolic</value>
+    </labels>
+    <labels>
         <fullName>Systolic_Blood_Pr</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10181,6 +10400,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>TS Add Vendor</shortDescription>
         <value>Add Vendor</value>
+    </labels>
+    <labels>
+        <fullName>TS_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Disclaimer</shortDescription>
+        <value>I agree to IQVIA&#39;s legalese disclaimer regarding study recruitment and other things the lawyers want us to put here</value>
     </labels>
     <labels>
         <fullName>TS_Select_Another_Country</fullName>
@@ -10607,7 +10833,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Trial Search Header</shortDescription>
-        <value>An alert on a clinical research study you may be interested in has been set</value>
+        <value>An alert has been set on a clinical research study you may be interested in</value>
     </labels>
     <labels>
         <fullName>Trial_Search_Message_Header</fullName>
@@ -10678,6 +10904,195 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Update Participant</shortDescription>
         <value>Update Participant</value>
+    </labels>
+    <labels>
+        <fullName>VR_ALT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR ALT</shortDescription>
+        <value>ALT</value>
+    </labels>
+    <labels>
+        <fullName>VR_AST</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR 	AST</shortDescription>
+        <value>AST</value>
+    </labels>
+    <labels>
+        <fullName>VR_Albumin</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Albumin</shortDescription>
+        <value>Albumin</value>
+    </labels>
+    <labels>
+        <fullName>VR_Alkaline_Phosphatase</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Alkaline Phosphatase</shortDescription>
+        <value>Alkaline Phosphatase</value>
+    </labels>
+    <labels>
+        <fullName>VR_BUN</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR BUN</shortDescription>
+        <value>BUN</value>
+    </labels>
+    <labels>
+        <fullName>VR_Body_Mass_Index</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Body Mass Index</shortDescription>
+        <value>Body Mass Index</value>
+    </labels>
+    <labels>
+        <fullName>VR_Calcium</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Calcium</shortDescription>
+        <value>Calcium</value>
+    </labels>
+    <labels>
+        <fullName>VR_Creatinine</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Creatinine</shortDescription>
+        <value>Creatinine</value>
+    </labels>
+    <labels>
+        <fullName>VR_Diastolic_Blood_Pr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Diastolic Blood Pr.</shortDescription>
+        <value>Diastolic Blood Pr.</value>
+    </labels>
+    <labels>
+        <fullName>VR_Glucose</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Glucose</shortDescription>
+        <value>Glucose</value>
+    </labels>
+    <labels>
+        <fullName>VR_Height</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Height</shortDescription>
+        <value>Height</value>
+    </labels>
+    <labels>
+        <fullName>VR_Hematocrit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Hematocrit</shortDescription>
+        <value>Hematocrit</value>
+    </labels>
+    <labels>
+        <fullName>VR_Hemoglobin</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Hemoglobin</shortDescription>
+        <value>Hemoglobin</value>
+    </labels>
+    <labels>
+        <fullName>VR_High_density_Lipoprotein</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR High-density Lipoprotein</shortDescription>
+        <value>High-density Lipoprotein</value>
+    </labels>
+    <labels>
+        <fullName>VR_Low_density_Lipoprotein</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Low-density Lipoprotein</shortDescription>
+        <value>Low-density Lipoprotein</value>
+    </labels>
+    <labels>
+        <fullName>VR_Platelet_Count</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Platelet Count</shortDescription>
+        <value>Platelet Count</value>
+    </labels>
+    <labels>
+        <fullName>VR_Potassium</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Potassium</shortDescription>
+        <value>Potassium</value>
+    </labels>
+    <labels>
+        <fullName>VR_Pulse</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Pulse</shortDescription>
+        <value>Pulse</value>
+    </labels>
+    <labels>
+        <fullName>VR_RBC_Count</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR RBC Count</shortDescription>
+        <value>RBC Count</value>
+    </labels>
+    <labels>
+        <fullName>VR_Respiratory_Rate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Respiratory Rate</shortDescription>
+        <value>Respiratory Rate</value>
+    </labels>
+    <labels>
+        <fullName>VR_Sodium</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Sodium</shortDescription>
+        <value>Sodium</value>
+    </labels>
+    <labels>
+        <fullName>VR_Systolic_Blood_Pr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Systolic Blood Pr.</shortDescription>
+        <value>Systolic Blood Pr.</value>
+    </labels>
+    <labels>
+        <fullName>VR_Total_Cholesterol</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Total Cholesterol</shortDescription>
+        <value>Total Cholesterol</value>
+    </labels>
+    <labels>
+        <fullName>VR_Total_protein</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Total protein</shortDescription>
+        <value>Total protein</value>
+    </labels>
+    <labels>
+        <fullName>VR_Triglycerides</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Triglycerides</shortDescription>
+        <value>Triglycerides</value>
+    </labels>
+    <labels>
+        <fullName>VR_WBC_Count</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR WBC Count</shortDescription>
+        <value>WBC Count</value>
+    </labels>
+    <labels>
+        <fullName>VR_Weight</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Weight</shortDescription>
+        <value>Weight</value>
     </labels>
     <labels>
         <fullName>View_Visit_Legend</fullName>

@@ -73,9 +73,6 @@ public without sharing class VisitResultSharingService {
                     timeSharing = patientVisits.size() - patientVisits.get(i).Participant_Enrollment__r.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c.intValue();
                     visitResultTypeSharingByType = getResultTypeSharingsByType(mapOfCTPByShare.get(patientVisits.get(i).Participant_Enrollment__r.Clinical_Trial_Profile__c));
                     mailingCountryCode = patientVisits.get(i).Participant_Enrollment__r.Participant__r.Mailing_Country_Code__c;
-                    System.debug('timeSharing '+ timeSharing);
-                    System.debug('visitResultTypeSharingByType '+ visitResultTypeSharingByType);
-                    System.debug('mailingCountryCode '+ mailingCountryCode);
                 }
                 if ((i + 1) <= timeSharing) {
                     Patient_Visit__c patientVisit = patientVisits.get(i);

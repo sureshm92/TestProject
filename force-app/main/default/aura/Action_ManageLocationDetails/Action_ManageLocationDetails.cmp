@@ -22,13 +22,12 @@
         <c:Popup aura:id="manageLocation" title="{!$Label.c.SS_Manage_Location_Details}" size="large" showScroll="true">
             <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
             <div class="slds-grid slds-grid_vertical">
-                <div class="slds-grid slds-wrap">
-                    <div class="slds-col slds-size--1-of-5 my-location-label">{!$Label.c.SS_My_Locations}</div>
-                    <div class="slds-col slds-size--5-of-5 slds-grid slds-grid_align-end">
+                <div class="slds-grid slds-wrap location-title-btn">
+                    <div class="slds-col my-location-label">{!$Label.c.SS_My_Locations}</div>
+                    <div class="slds-col slds-grid slds-grid_align-end">
                         <button data-site-id="{!v.studySite.site.Id}"
                                 id="addNewLocation"
-                                class="apollo-btn primary"
-                                style="background-color: white; color: #297DFD;	border: 1px solid #D9D9D9; box-shadow: none; display: inline-block; font-size: 16px;"
+                                class="apollo-btn secondary"      
                                 onclick="{!c.editAccountAddress}">
                             <span>+</span> {!$Label.c.SS_New_Location}
                         </button>
@@ -67,7 +66,7 @@
                                         <div class="slds-col slds-size_4-of-12 manage-location-info">
                                             <div class="ss-info-headers">{!$Label.c.SS_Driving_Instructions}</div>
                                             <div class="driving-instructions">
-                                                <c:uiLimitTextByLines maxLines="3" background="#f2f2f2">
+                                                <c:uiLimitTextByLines maxLines="3" background="#f8f9fb">
                                                     {!account.Driving_Directions__c}
                                                 </c:uiLimitTextByLines>
                                             </div>
@@ -75,7 +74,7 @@
                                         <div class="slds-col slds-size_4-of-12 manage-location-info">
                                             <div class="ss-info-headers">{!$Label.c.SS_Parking_Instructions}</div>
                                             <div class="driving-instructions">
-                                                <c:uiLimitTextByLines maxLines="3" background="#f2f2f2">
+                                                <c:uiLimitTextByLines maxLines="3" background="#f8f9fb">
                                                     {!account.Parking_Instructions__c}
                                                 </c:uiLimitTextByLines>
                                             </div>

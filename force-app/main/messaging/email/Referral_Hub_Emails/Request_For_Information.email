@@ -10,7 +10,7 @@
                          title="{!$Label.Email_Title}"
                          greeting="{!$Label.Email_Notification_Greeting}"
                          body="{!$Label.Email_Body_Participant_Answer}"
-                         signature="{!$Label.Email_Signature}">
+                         signature="{!$Label.Email_Signature_New}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
@@ -23,7 +23,7 @@
                              title="{!$Label.Email_Title}"
                              greeting="{!$Label.Email_Notification_Greeting}"
                              body="{!$Label.Email_Body_Participant_Answer}"
-                             signature="{!$Label.Email_Signature}">
+                             signature="{!$Label.Email_Signature_New}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>

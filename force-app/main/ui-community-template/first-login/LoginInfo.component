@@ -1,0 +1,90 @@
+<!--
+ - Created by Nargiz Mamedova on 10/11/2019.
+ -->
+
+<apex:component id="LoginInfo">
+    <apex:attribute name="newPassword" description="" type="String" required="true"/>
+    <apex:attribute name="verifyNewPassword" description="" type="String" required="true"/>
+    <apex:attribute name="translation" description="" type="Translation__c" required="true"/>
+    <apex:attribute name="isPasswordsEquals" description="" type="Boolean" required="true"/>
+    <apex:attribute name="userVal" description="" type="User" required="true"/>
+
+    <style>
+        .button-eye{
+            width:26px;
+            height: 40px;
+            position: absolute;
+            right: 10px;
+            bottom: 0;
+            display: inline-block;
+        }
+
+        .button-eye.visible{
+            fill: #297DFD;
+        }
+
+        .rr-form-element{
+            margin-top: 10px!important;
+            margin-bottom: 10px!important;
+        }
+
+        .rr-form-element .password-input{
+            position: relative;
+        }
+
+        .rr-form-element.error input{
+            border-color: red;
+        }
+
+        .error-description{
+            font-size: 13px;
+            line-height: 16px;
+            color: red;
+        }
+
+    </style>
+
+    <script>
+        function switchVisibility(btnId){
+            $('#btn_' + btnId).toggleClass("visible");
+            var input = $('.input-new-'+ btnId ).val();
+            var type = $('.input-new-'+ btnId).attr("type");
+            if( type === 'password' ){
+                $('.input-new-'+ btnId).attr("type", "text");
+            }else{
+                $('.input-new-'+ btnId).attr("type", "password");
+            }
+        }
+
+    </script>
+
+    <apex:outputPanel id="login_info_form">
+        <div class="section-header">{!$Label.PG_Login_H_Login_Information}</div>
+        <apex:messages styleClass="lg-error-alert" lang="{!translation.Language__c}"/>
+        <apex:outputPanel styleClass="error-description" rendered="{!!isPasswordsEquals}">{!$Label.PG_Login_T_Passwords_do_not_match}</apex:outputPanel>
+        <div class="slds-grid slds-wrap slds-gutters">
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <label>{!$Label.PG_Login_F_User_Name}</label>
+                <input type="text" value="{!userVal.Username}" disabled="true" class="slds-input"></input>
+            </div>
+            <div class="rr-form-element {!IF(!isPasswordsEquals, 'error', '')} slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <label>{!$Label.PG_AS_F_New_password}</label>
+                <div class="password-input">
+                    <apex:inputSecret value="{!newPassword}" redisplay="true" id="pwd_password" styleClass="slds-input input-new-password"/>
+                    <svg class="button-eye" id="btn_password" type='password' aria-hidden="true" onclick="switchVisibility('password');">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!$Resource.rr_community_icons}/icons.svg#icon-view"></use>
+                    </svg>
+                </div>
+            </div>
+            <div class="rr-form-element {!IF(!isPasswordsEquals, 'error', '')} slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <label>{!$Label.PG_AS_F_Re_enter_new_password}</label>
+                <div class="password-input">
+                    <apex:inputSecret value="{!verifyNewPassword}" redisplay="true" id="pwd_confirm" styleClass="slds-input input-new-confirm"/>
+                    <svg class="button-eye" id="btn_confirm" onclick="switchVisibility('confirm');" >
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!$Resource.rr_community_icons}/icons.svg#icon-view"></use>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </apex:outputPanel>
+</apex:component>

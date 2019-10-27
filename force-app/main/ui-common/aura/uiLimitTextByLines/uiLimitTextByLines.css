@@ -7,8 +7,6 @@
 .THIS.block-with-text {
     overflow: hidden;
     position: relative;
-    text-align: justify;
-    margin-right: -1em;
     padding-right: 1em;
 }
 

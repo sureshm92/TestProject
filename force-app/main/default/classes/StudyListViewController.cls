@@ -220,38 +220,30 @@ public without sharing class StudyListViewController {
         Map<Id, List<Study_Site__c>> trialStudySiteMap = new Map<Id, List<Study_Site__c>>();
         List<Clinical_Trial_Profile__c> piTrials = SearchService.search(initData.PIStudiesFilter,initData.paginationData );
         System.debug('piTRIALS'+ piTrials);
-        Set<Id> trialIds = new Set<Id>();
         List<Study_Site__c> piStudySites = new List<Study_Site__c>();
+        Set<Id> ssIds = new Set<Id>();
         for(Clinical_Trial_Profile__c trial : piTrials){
-            trialIds.add(trial.Id);
             piStudySites.addAll(trial.Study_Site_Profiles__r);
+            for(Study_Site__c site: trial.Study_Site_Profiles__r){
+                ssIds.add(site.Id);
+            }
         }
         Map<Id,Map<Id,Account>> piAccounts = getPiAccounts(piStudySites);
-//        for (Study_Site__c studySite : piStudySites) {
-//            if (!trialStudySiteMap.keySet().contains(studySite.Clinical_Trial_Profile__c)) {
-//                trialStudySiteMap.put(studySite.Clinical_Trial_Profile__c, new List<Study_Site__c>{
-//                        studySite
-//                });
-//            } else {
-//                trialStudySiteMap.get(studySite.Clinical_Trial_Profile__c).add(studySite);
-//            }
-//        }
-        Map<String, List<Site_Staff__c>> delegatesMap = getDelegates(trialIds/*trialStudySiteMap.keySet()*/);
-        // get trials and TC:
-//        List<Clinical_Trial_Profile__c> trials = StudyTrialService.getTrials(trialStudySiteMap.keySet());
-//        Map<Id, Boolean> termsAcceptedMap;
-//        termsAcceptedMap = TermsAndConditions.getTrialsAcceptanceMap(trials);
+        Set<Id> siteContactIds = new Set<Id>();
+        Map<String, List<Site_Staff__c>> delegatesMap = getDelegates(ssIds, siteContactIds);
+        Map<Id, String> participantFullnameMap = getParticipantFullnameMap(siteContactIds);
+        Map<String, List<LabelValueItem>> delegatesPicklistMap = convertDelegatesToLabelValue(delegatesMap, participantFullnameMap);
         // prepare result list:
         List<StudyDetailItem> studies = new List<StudyDetailItem>();
         for (Clinical_Trial_Profile__c trial : piTrials) {
             List<Study_Site__c> ss = trial.Study_Site_Profiles__r;
             StudyDetailItem studyDetailItem = new StudyDetailItem();
             studyDetailItem.trial = trial;
-            studyDetailItem.delegatePicklist = getDelegatePickList(delegatesMap.get(trial.Id));
-            Study_Site__c initionSS = new Study_Site__c();
             Map<String, Study_Site__c> statusMap = new Map<String, Study_Site__c>();
             for (Integer i = 0; i < ss.size(); i++) {
-                studyDetailItem.ssList.add(new StudyDetailItem.StudySiteWithActions(ss[i], new StudyActionsPI(ss[i]).studySitePiActions, piAccounts.get(ss[i].Principal_Investigator__c).values()));
+                StudyDetailItem.StudySiteWithActions ssWrapper = new StudyDetailItem.StudySiteWithActions(ss[i], new StudyActionsPI(ss[i]).studySitePiActions, piAccounts.get(ss[i].Principal_Investigator__c).values());
+                ssWrapper.delegatePicklist = delegatesPicklistMap.get(ss[i].Id);
+                studyDetailItem.ssList.add(ssWrapper);
             }
             studyDetailItem.studyActions = new StudyActionsPI(ss[0]).studyListViewItemActions;
             studyDetailItem.trialRecruitmentStatusLabel = TranslateHelper.getPickListLabel(Clinical_Trial_Profile__c.Override_Recruitment_Status__c, trial.Override_Recruitment_Status__c);
@@ -298,54 +290,62 @@ public without sharing class StudyListViewController {
             AuraHelper.throwException(e);
         }
     }
-
-    private static Map<String, List<Site_Staff__c>> getDelegates(Set<Id> triaIds) {
+    private static Map<String, List<Site_Staff__c>> getDelegates(Set<Id> ssIds, Set<Id> outSiteContactIds) {
         Map<String, List<Site_Staff__c>> delegatesMap = new Map<String, List<Site_Staff__c>>();
         for (Site_Staff__c ss : [
                 SELECT Id,
                         Study_Site__r.Principal_Investigator__c,
-                        Study_Site__r.Clinical_Trial_Profile__c,
+                        Study_Site__c,
                         Site_Contact__r.Name,
                         Site_Contact__c
                 FROM Site_Staff__c
-                WHERE Study_Site__r.Clinical_Trial_Profile__c IN :triaIds
+                WHERE Study_Site__c IN :ssIds
         ]) {
-            if (delegatesMap.containsKey(ss.Study_Site__r.Clinical_Trial_Profile__c)) {
-                delegatesMap.get(ss.Study_Site__r.Clinical_Trial_Profile__c).add(ss);
+            if (delegatesMap.containsKey(ss.Study_Site__c)) {
+                delegatesMap.get(ss.Study_Site__c).add(ss);
             } else {
-                delegatesMap.put(ss.Study_Site__r.Clinical_Trial_Profile__c, new List<Site_Staff__c>{ss});
+                delegatesMap.put(ss.Study_Site__c, new List<Site_Staff__c>{ss});
             }
+            outSiteContactIds.add(ss.Site_Contact__c);
         }
         return delegatesMap;
     }
 
-    private static List<LabelValueItem> getDelegatePickList(List<Site_Staff__c> ss) {
+    private static  Map<Id, String> getParticipantFullnameMap(Set<Id> delegateContactIds){
+
+        List<Participant__c> participantDelegates = [
+                SELECT Id, First_Name__c, Last_Name__c, Contact__c
+                FROM Participant__c
+                WHERE Contact__c IN :delegateContactIds
+        ];
+        Map<Id, String> participantDelegateNames = new Map<Id, String>();
+        for(Participant__c partDelegate : participantDelegates){
+            participantDelegateNames.put(partDelegate.Contact__c, partDelegate.First_Name__c + ' ' + partDelegate.Last_Name__c);
+        }
+        return participantDelegateNames;
+    }
+
+    private static Map<String, List<LabelValueItem>> convertDelegatesToLabelValue(Map<String,List<Site_Staff__c>> delegateMap, Map<Id, String> participantFullnameMap){
+        Map<String, List<LabelValueItem>> resultMap = new Map<String, List<LabelValueItem>>();
+        for(String ssId : delegateMap.keySet()){
+            resultMap.put(ssId,getDelegatePickList(delegateMap.get(ssId),participantFullnameMap));
+        }
+        return resultMap;
+    }
+
+    private static List<LabelValueItem> getDelegatePickList(List<Site_Staff__c> ss, Map<Id, String> participantFullnameMap) {
         Map<Id, LabelValueItem> delegates = new Map<Id, LabelValueItem>();
         try {
             if (!ss.isEmpty()) {
-                Set<Id> delegateContactIds = new Set<Id>();
                 for (Site_Staff__c delegatesSites : ss) {
-                    delegateContactIds.add(delegatesSites.Site_Contact__c);
-                }
-                List<Participant__c> participantDelegates = [
-                        SELECT Id, First_Name__c, Last_Name__c, Contact__c
-                        FROM Participant__c
-                        WHERE Contact__c IN :delegateContactIds
-                ];
-                Map<Id, String> participantDelegateNames = new Map<Id, String>();
-                for(Participant__c partDelegate : participantDelegates){
-                    participantDelegateNames.put(partDelegate.Contact__c, partDelegate.First_Name__c + ' ' + partDelegate.Last_Name__c);
-                }
-                for (Site_Staff__c delegatesSites : ss) {
-                    if(participantDelegateNames.containsKey(delegatesSites.Site_Contact__c)){
-                        delegates.put(delegatesSites.Site_Contact__c, new LabelValueItem(participantDelegateNames.get(delegatesSites.Site_Contact__c), delegatesSites.Id));
+                    if(participantFullnameMap.containsKey(delegatesSites.Site_Contact__c)){
+                        delegates.put(delegatesSites.Site_Contact__c, new LabelValueItem(participantFullnameMap.get(delegatesSites.Site_Contact__c), delegatesSites.Id));
                     }
                     else{
                         delegates.put(delegatesSites.Site_Contact__c, new LabelValueItem(delegatesSites.Site_Contact__r.Name, delegatesSites.Id));
                     }
 
                 }
-
             }
             List<LabelValueItem> labelList = new List<LabelValueItem>();
             if (!delegates.isEmpty()) {

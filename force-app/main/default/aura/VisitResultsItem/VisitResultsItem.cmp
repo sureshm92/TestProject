@@ -22,18 +22,13 @@
             <div class="visit-result-name">
                 {!v.wrapper.name}
                 <br />
-                <div class="visit-result-measurement">{!v.wrapper.measurement}</div>
+                <div class="visit-result-measurement"><aura:unescapedHtml value="{!v.wrapper.measurement}"/></div>
             </div>
         </div>
         <div class="visit-result-slider">
-            <c:RRInjector componentName="RRSlider">
-                <c:RRInjectorAttribute name="value" value="{!v.wrapper.value}" isReference="true"/>
-                <c:RRInjectorAttribute name="minValue" value="{!v.wrapper.minValue}" isReference="true"/>
-                <c:RRInjectorAttribute name="maxValue" value="{!v.wrapper.maxValue}" isReference="true"/>
-                <c:RRInjectorAttribute name="showFilledTrack" value="{!!v.isVitals}" isReference="true"/>
-            </c:RRInjector>
+            <c:RRSlider value="{!v.wrapper.value}" minValue="{!v.wrapper.minValue}" maxValue="{!v.wrapper.maxValue}"/>
             <div class="{!v.showExpectedRange ? 'visit-result-range' : 'hidden'}">
-                {!$Label.c.Visit_Results_Tab_Expected_Range + ': ' + v.expectedRange}
+                <aura:unescapedHtml value="{!$Label.c.Visit_Results_Tab_Expected_Range + ': ' + v.expectedRange}"/>
             </div>
         </div>
         <lightning:helptext content="{!v.wrapper.description}" class="visit-result-item-description"/>

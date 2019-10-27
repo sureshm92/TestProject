@@ -6,7 +6,10 @@
 
     <!-- attributes: -->
     <aura:attribute name="languageKey" type="String"/>
+    <aura:attribute name="secondLangKey" type="String"/>
+    <aura:attribute name="thirdLangKey" type="String"/>
     <aura:attribute name="languages" type="LabelValueItem[]"/>
+    <aura:attribute name="optionalLanguages" type="LabelValueItem[]"/>
     <aura:attribute name="localeKey" type="String"/>
     <aura:attribute name="locales" type="LabelValueItem[]"/>
     <aura:attribute name="timezoneKey" type="String" />
@@ -19,24 +22,55 @@
 
     <!-- component body -->
     <div style="padding-top: 10px">
-        <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end language-switcher" style="position: relative">
-            <c:RRSpinner size="medium" aura:id="spinner" fixed="true"/>
+        <c:RRSpinner size="medium" aura:id="spinner" fixed="true"/>
+        <div class="as-title">{!$Label.c.PG_Login_H_Language_Options}</div>
+        <div class="section-description">{!$Label.c.PG_Login_H_Language_Description}</div>
+        <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end language-switcher" style="position: relative; padding-top:12px;">
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
-                <div class="label">{!$Label.c.PG_AS_F_Select_Preferred_Timezone}</div>
+                <div class="label">{!$Label.c.PG_AS_F_Preferred_Language}
+                    <span>
+                        <lightning:helptext content="{!$Label.c.PG_AS_F_Preferred_Language_Help_Text}"/>
+                    </span>
+                </div>
+                <c:rrSelect options="{!v.languages}" value="{!v.languageKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                <div class="label">{!$Label.c.PG_AS_F_2nd_Choice_Language}
+                    <span>
+                        <lightning:helptext content="{!$Label.c.PG_AS_F_2nd_Choice_Language_Help_Text}"/>
+                    </span>
+                </div>
+                <c:rrSelect options="{!v.optionalLanguages}" value="{!v.secondLangKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                <div class="label">{!$Label.c.PG_AS_F_3rd_Choice_Language}
+                    <span>
+                        <lightning:helptext content="{!$Label.c.PG_AS_F_3rd_Choice_Language_Help_Text}"/>
+                    </span>
+                </div>
+                <c:rrSelect options="{!v.optionalLanguages}" value="{!v.thirdLangKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
+            </div>
+        </div>
+
+        <br/>
+
+        <div class="as-title">{!$Label.c.PG_Login_H_Date_Format}</div>
+        <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end language-switcher" style="position: relative; padding-top:12px;">
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
+                <div class="label">{!$Label.c.PG_AS_F_Preferred_Timezone}</div>
                 <c:rrSelect options="{!v.timezones}" value="{!v.timezoneKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
             </div>
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
-                <div class="label">{!$Label.c.PG_AS_F_Select_Locale}</div>
+                <div class="label">{!$Label.c.PG_AS_F_Locale_For_Date_Format}</div>
                 <c:rrSelect options="{!v.locales}" value="{!v.localeKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
             </div>
-            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
-                <div class="label">{!$Label.c.PG_AS_F_Select_Preferred_Language}</div>
-                <c:rrSelect options="{!v.languages}" value="{!v.languageKey}" disabled="{!!v.initialized}" class="ls-select" useSentenceFont="{!false}"/>
-            </div>
-
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                <button class="apollo-btn primary" id="0" onclick="{!c.doChangeLanguage}">{!$Label.c.PG_AS_BTN_Save_Preference}</button>
-            </div>
         </div>
+
+        <br/>
+
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
+            <button class="apollo-btn secondary" id="0" onclick="{!c.doChangeLanguage}">{!$Label.c.PG_AS_BTN_Save_Preference}</button>
+        </div>
+
     </div>
 </aura:component>

@@ -24,7 +24,7 @@ public without sharing class ParticipantDeduplicationController {
     
     public static Participant__c checkPER(String contactId, Participant__c participant, Integration_Patient_Referral__c referralRecord){
         List<Study_Site__c> listOfStudySite = new List<Study_Site__c>();
-        String erpKey = referralRecord.protocolId__c + '_' + referralRecord.siteSelected__c;
+        String erpKey = referralRecord.protocolId__c + '_' + referralRecord.Address_Country__c + '_' + referralRecord.siteSelected__c;
         String study = '';
         listOfStudySite = [
             SELECT	id,
@@ -100,7 +100,7 @@ public without sharing class ParticipantDeduplicationController {
             insert newContact;
         }
         Participant__c newParticipant = createParticipant(newContact.Id, referralRecord);
-        String studySiteNumber = referralRecord.protocolId__c + '_' + referralRecord.siteSelected__c;
+        String studySiteNumber = referralRecord.protocolId__c + '_' + referralRecord.Address_Country__c + '_' + referralRecord.siteSelected__c;
         if(!DuplicateContactController.isPERCreated){ 
             Participant_Enrollment__c newPER = createParticipantEnrollment(newContact.Id, newParticipant.Id, studySiteNumber, referralRecord);
         }
@@ -124,7 +124,7 @@ public without sharing class ParticipantDeduplicationController {
 			Mailing_Zip_Postal_Code__c  = referralRecord.Address_ZipCode__c,
 			Mailing_Country_Code__c     = referralRecord.Address_Country__c,
 			Mailing_City__c             = referralRecord.Address_City__c,
-			Language_Preference_Code__c = referralRecord.Language_Preference__c,
+            Preferred_Language__c       = LanguagePreferenceService.getLanguageCode(referralRecord.Language_Preference__c),
 			Condition_of_Interest_s__c  = referralRecord.Condition_of_Interests__c,
             Secondary_Source__c         = referralRecord.Data_Source__c,
             Gender__c                   = referralRecord.sex__c,
@@ -159,7 +159,14 @@ public without sharing class ParticipantDeduplicationController {
 			    Participant_Status__c                   =   ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
                 Terms_and_Conditions_Accepted_Date__c   =   referralRecord.acceptedTermsAndConditions__c != null ? Date.valueOf(referralRecord.acceptedTermsAndConditions__c) : null,
                 Referred_Date__c                        =   referralRecord.Referred_Date__c != null ? Date.valueOf(referralRecord.Referred_Date__c) : null,
-                 Referred_By__c                         =   'Other'
+                 Referred_By__c                         =   'Other',
+                 utm_campaign__c = referralRecord.UTM_campaignName__c,
+                 utm_content__c = referralRecord.UTM_campaignContent__c,
+                 utm_medium__c = referralRecord.UTM_campaignMedium__c,
+                 utm_source__c = referralRecord.UTM_campaignSource__c,
+                 utm_term__c = referralRecord.UTM_campaignTerm__c,
+                 utmz__c = referralRecord.UTM_campaignCookie__c,
+                 gclid__c = referralRecord.UTM_GCLID__c
             );
         insert newPer;
         return newPer;

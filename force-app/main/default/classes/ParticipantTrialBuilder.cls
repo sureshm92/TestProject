@@ -7,26 +7,26 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
     private Participant_Enrollment__c pe;
 
     public ParticipantTrialBuilder() {
-        this.pe = ParticipantService.getInstance().getState().pe;
-        if(this.pe != null) setTrial(this.pe.Study_Site__r.Clinical_Trial_Profile__c);
+        pe = ParticipantService.getInstance().getState().pe;
+        if(pe != null) setTrial(pe.Study_Site__r.Clinical_Trial_Profile__c);
 
-        this.studyAction = this.getStudyActions();
-        this.trialDetail.tabs = this.getStudyTabs();
+        studyAction = getStudyActions();
+        trialDetail.tabs = getStudyTabs();
     }
 
     public override TrialDetail createTrial() {
-        if(pe == null) return this.trialDetail;
-
+        if(pe == null) return trialDetail;
+        trialDetail.pe = pe;
         Map<Id, Study_Site__c> idToStudySiteMap = new Map<Id, Study_Site__c>();
         idToStudySiteMap.put(pe.Study_Site__r.Site__c, pe.Study_Site__r);
-        List<Account> accounts = this.getAccounts(idToStudySiteMap.keySet());
+        List<Account> accounts = getAccounts(idToStudySiteMap.keySet());
         for (Integer i = 0; i < accounts.size(); i++) {
             Account acc = accounts.get(i);
             trialDetail.accountEnrollmentsList.add(
                     createClinicWrapper(acc.Name, acc, null, null)
             );
         }
-        return this.trialDetail;
+        return trialDetail;
     }
 
     protected override StudyActions getStudyActions() {

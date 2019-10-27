@@ -10,7 +10,11 @@
 }
 
 .THIS.as-sub-title {
-    color: #333333;
+    color: #444;
     font-size: 13px;
     line-height: 16px;
+}
+
+.THIS .apollo-btn.primary {
+    margin-top: 30px;
 }

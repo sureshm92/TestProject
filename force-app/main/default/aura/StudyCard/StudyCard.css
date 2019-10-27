@@ -6,12 +6,16 @@
     margin-bottom: 30px;
 }
 
-.THIS .slvi-section + .slvi-section {
-    border-top: 1px solid #F2F2F2;
-}
-
 .THIS .study-name {
     overflow: hidden;
+}
+
+.THIS .slds-grid.slvi-buttons {
+    padding: 0 0 25px 15px;
+}
+
+.THIS .rri-icon .cRRIcon {
+    width: 18px;
 }
 
 .THIS .study-name-pi {
@@ -20,21 +24,70 @@
     overflow: hidden;
 }
 
-.THIS .study-name a {
+.THIS .study-name {
+    margin-left: -4px;
+    padding-left: 4px;
+}
+
+.THIS .block-with-text {
+  /* background: #fff!important; */
+   padding-left: 4px;
+}
+
+.THIS .study-name .study-title.rr-link {
     text-decoration: none;
     /*height: 30px;*/
-    color: #297DFD;
-    font-size: 24px;
-    font-weight: 500;
+    color: #297dfd;
+    font-size: 18px;
+    font-weight: 600;
     line-height: 30px;
+    padding: 6px 8px 0;
+    position: relative;
+    max-height: 6rem;
+    overflow: hidden;
+    padding-right: 1rem;
+    align-items: flex-start;
 }
+
+.THIS .study-name .study-title.rr-link span {
+    white-space: normal!important;
+}
+
+.THIS .study-name .study-title.rr-link:before {
+    position: absolute;
+    content: "...";
+    bottom: 0;
+    right: 0;
+}
+
+.THIS .study-name .study-title.rr-link:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    width: 1rem;
+    height: 4.5rem;
+    background: white;
+}
+
+.THIS .study-name .study-title:hover:after {
+    background: #eef5ff;
+}
+/*
+.THIS .study-title.rr-link {
+    color: #000;
+    pointer-events: none;
+  	cursor: default;
+}
+*/
+
+
 
 .THIS .sponsor-name {
     height: 20px;
-    color: #999999;
+    color: #595959;
     font-family: "Proxima Nova";
     margin-bottom: 5px;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 20px;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -45,12 +98,13 @@
     white-space: nowrap;
     margin-left: 10px;
     flex-shrink: 0;
+    font-size: 14px;
 }
 
 .THIS .slvi-objective-section .objective-text {
     height: 16px;
-    color: #333333;
-    font-size: 13px;
+    color: #444;
+    font-size: 14px;
     line-height: 16px;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -62,6 +116,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.THIS .slvi-objective-section .cRRLink.rr-link svg {
+    margin-top: 2px;
 }
 
 .THIS .slvi-top-container {
@@ -85,6 +143,7 @@
     font-size: 10px;
     line-height: 10px;
 }
+
 
 .THIS .rri-icon-pi svg {
     height: 18px;
@@ -110,10 +169,32 @@
 .THIS .slvi-status-item {
     font-size: 14px;
     color: #666666;
+    height: 20px;
+    display: inline-flex;
 }
 
-.THIS .slvi-status-icon {
-    height: 20px;
+.THIS .slvi-status-item img {
+    margin-right: 5px;
+    height: 16px;
+    width: 16px;
+}
+
+.THIS .slvi-status-item > div:last-child {
+    margin-top: 2px;
+}
+
+.THIS .accordion-bar {
+    background-color: #f8f9fb;
+    min-height: 40px; 
+    box-sizing: border-box;
+}
+
+.THIS .accordion-bar .rr-link svg {
+    fill: #595959;
+}
+.THIS .accordion-label {
+    color: #595959;
+    font-size: 1rem;
 }
 
 .THIS .btn-wrapper {
@@ -126,6 +207,10 @@
 
 .THIS .btn-pi-border {
     border-right: 1px solid #F2F2F2;
+}
+
+.THIS .apollo-btn.primary.slvi-search-site-btn {
+    width: 270px;
 }
 
 .THIS .slvi-btn {
@@ -189,7 +274,6 @@
     transition: 0.3s ease-in-out;
     transform: rotate(90deg);
     position: relative;
-    top: -1px;
     margin-right: 3px;
 }
 
@@ -204,15 +288,6 @@
     fill: #297DFD;
     width: 14px;
     height: 14px;
-}
-
-.THIS .rr-link.expanded-icon .rr-icon-default {
-    transform-origin: center;
-    transition: 0.3s ease-in-out;
-    transform: rotate(90deg);
-    position: relative;
-    top: -1px;
-    margin-right: 3px;
 }
 
 .THIS .rr-link.hidden-icon .rr-icon-default {
@@ -240,39 +315,55 @@
 }
 
 
-@media (max-width: 767px) {
+@media all and (max-width: 767px) {
     .THIS .slvi-buttons .slvi-btn + .slvi-btn {
-        border-top: 1px solid #F2F2F2;
+        border-top: 1px solid #f9f9f9;
     }
 
     .THIS .slvi-buttons .slvi-btn + .slvi-btn {
-        border-top: 1px solid #F2F2F2;
+        border-top: 1px solid #f9f9f9;
     }
 
     .THIS .slvi-header-item + .slvi-header-item {
         margin-top: 16px;
     }
-
-    .THIS .rri-icon svg {
-        height: 18px;
-        width: 18px;
+    
+    .THIS .sponsor-name {
+     	margin-bottom: 20px;   
+    }
+    
+    .THIS .slvi-name-section-hcp .rri-icon svg {
+        height: 30px;
+        width: 30px;
     }
 
-    .THIS .rri-icon span {
-        margin: .125rem !important;
+    .THIS .slvi-name-section-hcp .rri-icon span {
+        margin: 1rem;
     }
 
     .THIS .rri-icon-pi svg {
-        height: 18px;
-        width: 18px;
+        height: 30px;
+        width: 30px;
     }
 
     .THIS .rri-icon-pi span {
-        margin: .125rem !important;
+        margin: 1rem;
     }
 
     .THIS .slvi-objective-section{
-        margin-bottom: 3%;
+        margin-bottom: 15px;
+        margin-top: 25px;
+    }
+    
+    .THIS .slds-grid.slvi-buttons {
+        display: flex;
+        flex-direction: column;
+        padding-right: 15px;
+    }
+    
+     .THIS .slds-grid.slvi-buttons .apollo-btn {
+        width: 100%;
+        margin: 20px 0 0;
     }
 }
 

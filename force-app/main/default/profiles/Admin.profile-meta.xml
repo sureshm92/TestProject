@@ -91,11 +91,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_AssignLanguagePreferences</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_CopyEnrollmentHistory</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_CreateAdminTasks</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_CreateNewRPDelegates</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -155,6 +163,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_UpdateNotifyDateOldUsers</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_UpdatePESourceType</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -195,7 +207,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ChangePasswordControllerTest</apexClass>
+        <apexClass>ChangePasswordPageController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -391,6 +403,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>EmptyPagePanelRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ExcelController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -419,11 +435,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>FirstLogonController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ForgotPasswordController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ForgotPasswordControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GetPermissions</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -444,6 +468,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>HomePageParticipantRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IRBParticipantService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -495,6 +523,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>LanguagePreferenceService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>LanguageSwitcherRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -532,10 +564,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>LookupSearchResult</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>MCloudSMSSender</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -695,6 +723,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ParticipantIRBCheckerRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ParticipantInformationRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -768,6 +800,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PostInstallDX</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ProfileIconController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1131,6 +1167,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ApprovedLangRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ArticleService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1163,6 +1203,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_Batch_IntegrationVisitProcess</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Batch_MigratePicklistToCheckbox</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1171,7 +1215,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_Batch_PatientTaskReminder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Batch_ReviewOnboardingFAQ</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_UpdateNotifyDateOldUsers</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1231,6 +1283,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_CountryLookupRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_DatabaseProxy</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1283,6 +1339,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_FirstLogonController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_HelpController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1316,6 +1376,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_IntegrationVisitTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_LanguagePreferenceService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1451,6 +1515,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_StudySiteVisitConfigRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_SurveyResponseTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1472,6 +1540,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_TaskService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_TherapeuticAreaAssignmentService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1519,7 +1591,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_VisitResultCountryLookupRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_VisitResultMService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultSharingPanelRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2479,6 +2559,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Next_Notify_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.OneKeyID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2550,6 +2635,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.RRLanguageAllowedCookie__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Second_Choice_Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3070,6 +3160,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.Address_City__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Address_State__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3753,6 +3848,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Enrolled_DateTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Enrolled_Date__c</field>
         <readable>true</readable>
@@ -4405,6 +4505,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Phone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Preferred_Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5508,6 +5613,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Visit_Plan__c.Version__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Visit_Result_TypeM_Dashboard_Config__mdt.Dashboard_Type__c</field>
         <readable>true</readable>
@@ -5789,6 +5899,10 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Res_study__c-Res-study Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Res_study__c-Res-study Layout</layout>
+        <recordType>Res_study__c.Study_Resource</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Resource_Field_Api__mdt-Resource Field Api Layout</layout>
@@ -6595,6 +6709,12 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
+        <personAccountDefault>true</personAccountDefault>
+        <recordType>Res_study__c.Study_Resource</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>true</default>
         <recordType>Resource__c.Article</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -6661,6 +6781,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>HCP_Enrollment__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Healthcare_Provider__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -6864,14 +6988,18 @@
         <enabled>true</enabled>
         <name>ContentAdministrator</name>
     </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ContentWorkspaces</name>
-    </userPermissions>
+<!--    <userPermissions>-->
+<!--        <enabled>true</enabled>-->
+<!--        <name>ContentWorkspaces</name>-->
+<!--    </userPermissions>-->
     <userPermissions>
         <enabled>true</enabled>
         <name>ConvertLeads</name>
     </userPermissions>
+<!--    <userPermissions>-->
+<!--        <enabled>true</enabled>-->
+<!--        <name>CreateContentSpace</name>-->
+<!--    </userPermissions>-->
     <userPermissions>
         <enabled>true</enabled>
         <name>CreateContentSpace</name>
@@ -6908,10 +7036,10 @@
         <enabled>true</enabled>
         <name>CreateWorkBadgeDefinition</name>
     </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>CreateWorkspaces</name>
-    </userPermissions>
+<!--    <userPermissions>-->
+<!--        <enabled>true</enabled>-->
+<!--        <name>CreateWorkspaces</name>-->
+<!--    </userPermissions>-->
     <userPermissions>
         <enabled>true</enabled>
         <name>CustomizeApplication</name>

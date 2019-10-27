@@ -101,7 +101,7 @@
     },
 
     waitAccountCheckResult: function(component, tmpAccountId, iteration){
-        debugger;
+        var helper = this;
         if(iteration === 15) {
             var acc = component.get('v.editedAccount');
             acc.BillingGeocodeAccuracy = null;
@@ -109,12 +109,12 @@
             acc.BillingLatitude = null;
             component.set('v.editedAccount', acc);
             component.set('v.showPopUpSpinner', false);
+            helper.setCoordinates(component, acc);
             communityService.executeAction(component, 'deleteTmpAccount', {
                 tmpAccountId: tmpAccountId
             });
             return;
         }
-        var helper = this;
         communityService.executeAction(component, 'getTmpAccount', {
             tmpAccountId: tmpAccountId
         }, function (tmpAccount) {
@@ -131,6 +131,7 @@
                 acc.BillingLatitude = tmpAccount.BillingLatitude;
                 component.set('v.editedAccount', acc);
                 component.set('v.showPopUpSpinner', false);
+                helper.setCoordinates(component, acc);
             }
         });
     }

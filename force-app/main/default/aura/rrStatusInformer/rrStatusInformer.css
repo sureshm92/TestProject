@@ -13,11 +13,6 @@
 }
 
 .THIS.si-container .si-title {
-    color: #D9534F;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 14px;
-}
-
-.THIS.si-container .si-title.success {
-    color: #63C900;
 }

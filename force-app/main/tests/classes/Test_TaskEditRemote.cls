@@ -12,6 +12,7 @@ private class  Test_TaskEditRemote {
         Task task = new Task();
         task.Subject = 'test';
         task.Reminder_Date__c = Datetime.now();
+        task.ActivityDate = Date.today().addDays(1);
 
         Test.startTest();
         System.runAs(testData.participantUser) {

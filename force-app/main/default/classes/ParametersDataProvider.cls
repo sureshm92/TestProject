@@ -52,11 +52,18 @@ public without sharing class ParametersDataProvider {
         }
         
         String clinicalResearchCommunityURL = 'IQVIA Clinical Research Community at https://www.clinicalresearch.com';
-        if(outputMode == 'HTML') clinicalResearchCommunityURL = '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>';
+        Id networkId = Network.getNetworkId();
+        Auth.AuthConfiguration authConfig = new Auth.AuthConfiguration(networkId,'');
+        String clinicalResearchCommunityForgotPasswordURL = 'IQVIA Clinical Research Community Forgot password at' + authConfig.getForgotPasswordUrl();
+        if(outputMode == 'HTML') {
+            clinicalResearchCommunityURL = '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>';
+            clinicalResearchCommunityForgotPasswordURL = authConfig.getForgotPasswordUrl();
+        }
         parameters.put('CRCommunityURL', clinicalResearchCommunityURL);
         parameters.put('RecipientName', getUserName());
         parameters.put('RecipientFirstName', recipientFirstName);
-        
+        parameters.put('ForgotPasswordURL', clinicalResearchCommunityForgotPasswordURL);
+
         if(isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT){
             Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientId);
             if(participant != null){
@@ -291,13 +298,12 @@ public without sharing class ParametersDataProvider {
                             HCP_Contact__c
                     FROM HCP_Enrollment__c
                     WHERE HCP_Contact__c = :cnt.Id AND
-                          Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION
+                    ( Status__c = :HCPEnrollmentService.HCP_S_INVITATION_SENT OR Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION )
                     ORDER BY CreatedDate DESC LIMIT 1
             ];
             if (!hcpe.isEmpty()) {
                 initParamsFromHCPE(hcpe[0].Id);
             }
-
             parameters.put('HCPName', getFullContactName(cnt));
             parameters.put('HCPLanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_PARTICIPANT){
@@ -372,7 +378,7 @@ public without sharing class ParametersDataProvider {
         for (Site_Staff__c PIDelegate : siteStaffs) {
             DelegateLevelWrapper dlw = new DelegateLevelWrapper();
             dlw.level = PIDelegate.Delegate_Level__c;
-            dlw.studyName = PIDelegate.Study_Site__r.Principal_Investigator__r.Full_Name__c +
+            dlw.studyName = PIDelegate.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c +
                     ' (' + PIDelegate.Study_Site__r.Name + ')';
             delegateLevelsPI.add(dlw);
         }

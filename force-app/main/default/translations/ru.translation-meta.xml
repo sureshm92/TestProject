@@ -2314,6 +2314,38 @@
         <name>PG_AS_F_Select_Preferred_Language</name>
     </customLabels>
     <customLabels>
+        <label>Выберите предпочтительный язык</label>
+        <name>PG_AS_F_Preferred_Language</name>
+    </customLabels>
+    <customLabels>
+        <label>Второй альтернативный язык</label>
+        <name>PG_AS_F_2nd_Choice_Language</name>
+    </customLabels>
+    <customLabels>
+        <label>Третий альтернативный язык</label>
+        <name>PG_AS_F_3rd_Choice_Language</name>
+    </customLabels>
+    <customLabels>
+        <label>Этот язык будет основным языком для отображения информации по исследованиям всюду, где возможно.</label>
+        <name>PG_AS_F_Preferred_Language_Help_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Этот язык будет использован в тех случаях, когда информация на основном языке будет недоступна.</label>
+        <name>PG_AS_F_2nd_Choice_Language_Help_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Этот язык будет использован тогда, когда информация на первых двух выбранных языках будет недоступна.</label>
+        <name>PG_AS_F_3rd_Choice_Language_Help_Text</name>
+    </customLabels>
+    <customLabels>
+        <label>Часовой пояс</label>
+        <name>PG_AS_F_Preferred_Timezone</name>
+    </customLabels>
+    <customLabels>
+        <label>Локаль даты/времени</label>
+        <name>PG_AS_F_Locale_For_Date_Format</name>
+    </customLabels>
+    <customLabels>
         <label>Имя пользователя</label>
         <name>PG_AS_F_Username</name>
     </customLabels>
@@ -2792,6 +2824,18 @@
     <customLabels>
         <label>Контактная информация</label>
         <name>PG_Login_H_Contact_Information</name>
+    </customLabels>
+    <customLabels>
+        <label>Выбор языка</label>
+        <name>PG_Login_H_Language_Options</name>
+    </customLabels>
+    <customLabels>
+        <label>Где возможно, информация на сайте будет отображаться на вашем предпочтительном языке. В случаях, когда она недоступна на вашем языке, будут использованы альтернативные языки.</label>
+        <name>PG_Login_H_Language_Description</name>
+    </customLabels>
+    <customLabels>
+        <label>Формат даты</label>
+        <name>PG_Login_H_Date_Format</name>
     </customLabels>
     <customLabels>
         <label>Формат дат и язык</label>

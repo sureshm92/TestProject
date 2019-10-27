@@ -156,7 +156,7 @@
     <label>Study Resource</label>
     <nameField>
         <displayFormat>RS-{000000}</displayFormat>
-        <label>Res-study Name</label>
+        <label>Resource Study Name</label>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Study Resources</pluralLabel>

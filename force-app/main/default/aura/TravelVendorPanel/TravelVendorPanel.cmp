@@ -17,8 +17,11 @@
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
     <div class="panel">
-        <aura:if isTrue="{!v.permission != 'disabled'}">
-            <c:RRSpinner aura:id="spinner"/>
+        <c:RRSpinner aura:id="spinner"/>
+        <aura:if isTrue="{!v.permission != 'Disabled'}">
+            <aura:set attribute="else">
+                <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>
+            </aura:set>
             <!--Filters-->
             <aura:if isTrue="{!v.initialized}">
                 <div class="filters-section">
@@ -35,6 +38,7 @@
                                     ctpId="{!v.recordId}" includeStates="false"
                                     isInclude="true"/>
                         </div>
+                        <!--Study Site Filter-->
                         <div class="slds-col slds-size--6-of-12 slds-p-horizontal_medium">
                             <c:StudySiteLookup
                                     ctpId="{!v.recordId}"
@@ -43,6 +47,7 @@
                                     onchange="{!c.getFilteredSS}"
                                     placeholder="{!$Label.c.TS_Select_Study_Site}"
                                     placeholderSelected="{!$Label.c.TS_Select_Another_Study_Site}"
+                                    selectedCountries="{!v.selectedByCountry}"
                                     includeSS="true"/>
                         </div>
                         <div class="slds-col slds-size--6-of-12 slds-p-horizontal_medium">
@@ -55,7 +60,7 @@
                                     recordLoadError=" "
                             />
                         </div>
-                        <aura:if isTrue="{! v.permission == 'edit'}">
+                        <aura:if isTrue="{! v.permission == 'Edit'}">
                             <div class="slds-col slds-size--4-of-12 slds-var-m-top_x-small">
                                 <lightning:button onclick="{!c.showModal}"
                                                   class="slds-theme_neutral slds-m-around--medium"
@@ -104,7 +109,7 @@
                                                           class="uiInput--checkbox slds-medium-show--inline-block slds-float--left slds-m-right--x-small slds-dl_horizontal__label"
                                                           label="{!vendor.Id}" labelClass="slds-hide"
                                                           change="{!c.columnCheckboxStateChange}"
-                                                          disabled="{!v.permission == 'read'}"/>
+                                                          disabled="{!v.permission == 'View'}"/>
                                         <label>{!vendor.Name}</label>
                                     </div>
                                 </th>
@@ -131,7 +136,7 @@
                                     <td>
                                         <ui:inputCheckbox value="{!selectedVendorIdSetting.isEnable__c}"
                                                           label="{!selectedVendorIdSetting.Vendor__r.Name}"
-                                                          disabled="{!v.permission == 'read'}"
+                                                          disabled="{!v.permission == 'View'}"
                                                           class="uiInput--checkbox"/>
                                     </td>
                                 </aura:iteration>

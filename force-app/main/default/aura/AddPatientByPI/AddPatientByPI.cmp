@@ -40,12 +40,12 @@
                                         visitPlanRequired="{!v.ctp.Patient_Portal_Enabled__c}"/>
             </div>
             <div class="ap-bottom-info">
-                {!$Label.c.PG_AP_T_Sub_Info}
+                {!$Label.c.PG_AP_T_Additional_Info}&nbsp;{!$Label.c.PG_AP_T_Sub_Info}
             </div>
             <div class="ap-buttons">
-                <button class="apollo-btn secondary custom-cancel"
+                <button class="apollo-btn tertiary custom-cancel"
                         onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
-                <button class="apollo-btn tertiary" disabled="{!!v.isValid}"
+                <button class="apollo-btn secondary" disabled="{!!v.isValid}"
                         onclick="{!c.doSaveAndNew}">{!$Label.c.BTN_Send_and_Add_Another}</button>
                 <button class="apollo-btn primary" disabled="{!!v.isValid}"
                         onclick="{!c.doSaveAndExit}">{!$Label.c.BTN_Save_and_Exit}</button>

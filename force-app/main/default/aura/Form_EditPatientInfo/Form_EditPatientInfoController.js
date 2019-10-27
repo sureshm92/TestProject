@@ -11,11 +11,17 @@
     },
 
     doCheckFields: function (component, event, hepler) {
+        console.log('doCheckFields');
         var participant = component.get('v.participant');
+        var statesByCountryMap = component.get('v.formData.statesByCountryMap');
+        var states = statesByCountryMap[participant.Mailing_Country_Code__c];
+        component.set('v.statesLVList', states);
         var pe = component.get('v.pe');
         var updateMode = component.get('v.updateMode');
         var isFinalUpdate = component.get('v.isFinalUpdate');
         var stateRequired = component.get('v.statesLVList')[0];
+        var stateCmp = component.find('stateField');
+        var stateVaild = stateCmp && stateCmp.get('v.validity') && stateCmp.get('v.validity').valid;
         var dataStamp = component.get('v.dataStamp');
         var isValid = false;
         const screeningIdRequiredStatuses = 'Enrollment Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
@@ -40,7 +46,7 @@
                 (oldPE.Participant__r.Phone_Type__c && !participant.Phone_Type__c) ||
                 (oldPE.Participant__r.Email__c && !participant.Email__c) ||
                 (oldPE.Participant__r.Mailing_Country_Code__c && !participant.Mailing_Country_Code__c) ||
-                (oldPE.Participant__r.Mailing_State_Code__c && !participant.Mailing_State_Code__c) ||
+                (stateRequired && oldPE.Participant__r.Mailing_State_Code__c && !participant.Mailing_State_Code__c) ||
                 (oldPE.Participant__r.Mailing_Zip_Postal_Code__c && !participant.Mailing_Zip_Postal_Code__c) ||
                 (oldPE.Screening_ID__c && !pe.Screening_ID__c) ||
                 (oldPE.Referred_By__c && !pe.Referred_By__c) ||
@@ -61,7 +67,8 @@
                 (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
                 component.find('emailInput').get('v.validity').valid &&
                 pe.Screening_ID__c &&
-                (!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
+                stateVaild;
+                //(!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
         } else if (!updateMode) {
             //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
             isValid =
@@ -77,7 +84,8 @@
                 pe.Participant_Status__c &&
                 component.find('emailInput').get('v.validity').valid &&
                 (!isEnrollmentSuccess || (isEnrollmentSuccess && pe.Screening_ID__c)) &&
-                (!stateRequired || (stateRequired && participant.Mailing_State_Code__c)) &&
+                //(!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null))) &&
+                stateVaild &&
                 (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
                 pe.Referred_By__c;
         }
@@ -86,12 +94,33 @@
     },
 
     doCountryCodeChanged: function (component, event, helper) {
-        console.log('doCountryCodeChanged');
         var statesByCountryMap = component.get('v.formData.statesByCountryMap');
+        var countryMap =  component.get('v.formData.countriesLVList');
         var participant = component.get('v.participant');
+        for (let i = 0; i <countryMap.length ; i++) {
+            if(countryMap[i].value == participant.Mailing_Country_Code__c){
+                component.set('v.participant.Mailing_Country__c', countryMap[i].label);
+                break;
+            }
+        }
         var states = statesByCountryMap[participant.Mailing_Country_Code__c];
         component.set('v.statesLVList', states);
         component.set('v.participant.Mailing_State_Code__c', null);
+        component.set('v.participant.Mailing_State__c', null);
+        component.checkFields();
+    },
+
+    doStateChange: function(component, event, helper){
+    	var states = component.get('v.statesLVList');
+    	if (states){
+            var participant = component.get('v.participant');
+            for (let i = 0; i < states.length ; i++) {
+                if(states[i].value == participant.Mailing_State_Code__c){
+                    component.set('v.participant.Mailing_State__c', states[i].label);
+                    break;
+                }
+            }
+        }
         component.checkFields();
     },
 

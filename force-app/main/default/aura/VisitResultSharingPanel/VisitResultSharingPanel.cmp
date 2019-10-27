@@ -19,7 +19,10 @@
 
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" showSpinner="true"/>
-    <aura:if isTrue="{!v.user_has_permission != 'no perm'}">
+    <aura:if isTrue="{!v.user_has_permission != 'Disabled'}">
+        <aura:set attribute="else">
+            <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>
+        </aura:set>
         <div class="panel">
             <aura:if isTrue="{!!empty(v.initData)}">
                 <aura:if isTrue="{!or(empty(v.groups), v.options.inPatientPortal)}">
@@ -33,7 +36,7 @@
                                                      checked="{!v.options.globalShareBck}"
                                                      onchange="{!c.onChangeGlobal}"/>
                                 </div>
-                                <aura:if isTrue="{!v.user_has_permission == 'edit'}">
+                                <aura:if isTrue="{!v.user_has_permission == 'Edit'}">
                                     <div>
                                         <lightning:button aura:id="saveBtn" variant="brand" label="Save"
                                                           onclick="{!c.saveOptions}"/>
@@ -41,7 +44,7 @@
                                 </aura:if>
                             </div>
                         </div>
-                        <aura:if isTrue="{!v.user_has_permission == 'read'}">
+                        <aura:if isTrue="{!v.user_has_permission == 'View'}">
                             <div class="overlay"></div>
                         </aura:if>
                     </div>
@@ -136,7 +139,7 @@
                                 </aura:iteration>
                             </div>
                         </aura:iteration>
-                        <aura:if isTrue="{!v.user_has_permission == 'read'}">
+                        <aura:if isTrue="{!v.user_has_permission == 'View'}">
                             <div class="overlay"></div>
                         </aura:if>
                     </div>

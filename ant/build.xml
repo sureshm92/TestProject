@@ -190,12 +190,19 @@
         <!-- part 3 -->
         <copy todir="${dist.dir}/part3">
             <fileset dir="${source.dir}">
-                <exclude name="staticresources/*.*"/>
-                <exclude name="translations/*.*"/>
+                <include name="customMetadata/*.*"/>
+                <include name="flexipages/*.*"/>
+                <include name="labels/*.*"/>
+                <include name="layouts/*.*"/>
+                <include name="objects/*.*"/>
+                <include name="globalValueSets/*.*"/>
             </fileset>
         </copy>
         <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part3/package.xml" encoding="UTF-8">
-            <remove path="/:Package/:types[:name[text()='StaticResource' or text()='Translations']]"/>
+            <remove path="/:Package/:types[:name[text()!='CustomMetadata' and text()!='CustomObject' and text()!='CustomField'
+            and text()!='CustomLabels' and text()!='CustomLabel' and text()!='Layout' and text()!='CompactLayout'
+            and text()!='ListView' and text()!='RecordType' and text()!='ValidationRule' and text()!='FieldSet'
+            and text()!='WebLink' and text()!='BusinessProcess' and text()!='GlobalValueSet']]"/>
         </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part3.zip">
             <fileset dir="${dist.dir}">
@@ -203,6 +210,47 @@
             </fileset>
         </zip>
         <delete dir="${dist.dir}/part3"/>
+
+        <!-- part 4 -->
+        <copy todir="${dist.dir}/part4">
+            <fileset dir="${source.dir}">
+                <exclude name="staticresources/*.*"/>
+                <exclude name="translations/*.*"/>
+                <exclude name="customMetadata/*.*"/>
+                <exclude name="flexipages/*.*"/>
+                <exclude name="labels/*.*"/>
+                <exclude name="layouts/*.*"/>
+                <exclude name="objects/*.*"/>
+                <exclude name="globalValueSets/*.*"/>
+                <exclude name="navigationMenus/*.*"/>
+            </fileset>
+        </copy>
+        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part4/package.xml" encoding="UTF-8">
+            <remove path="/:Package/:types[:name[text()='StaticResource']]"/>
+            <remove path="/:Package/:types[:name[text()='Translations']]"/>
+            <remove path="/:Package/:types[:name[text()='CustomMetadata']]"/>
+            <remove path="/:Package/:types[:name[text()='CustomObject']]"/>
+            <remove path="/:Package/:types[:name[text()='CustomField']]"/>
+            <remove path="/:Package/:types[:name[text()='CustomLabels']]"/>
+            <remove path="/:Package/:types[:name[text()='CustomLabel']]"/>
+            <remove path="/:Package/:types[:name[text()='Layout']]"/>
+            <remove path="/:Package/:types[:name[text()='CompactLayout']]"/>
+            <remove path="/:Package/:types[:name[text()='ListView']]"/>
+            <remove path="/:Package/:types[:name[text()='RecordType']]"/>
+            <remove path="/:Package/:types[:name[text()='ValidationRule']]"/>
+            <remove path="/:Package/:types[:name[text()='FieldSet']]"/>
+            <remove path="/:Package/:types[:name[text()='FlexiPage']]"/>
+            <remove path="/:Package/:types[:name[text()='WebLink']]"/>
+            <remove path="/:Package/:types[:name[text()='BusinessProcess']]"/>
+            <remove path="/:Package/:types[:name[text()='GlobalValueSet']]"/>
+            <remove path="/:Package/:types[:name[text()='NavigationMenu']]"/>
+        </xmltask>
+        <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part4.zip">
+            <fileset dir="${dist.dir}">
+                <include name="part4/**/*.*"/>
+            </fileset>
+        </zip>
+        <delete dir="${dist.dir}/part4"/>
 
     </target>
 

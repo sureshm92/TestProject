@@ -30,7 +30,7 @@
                         <button id="{!action.id}"
                                 disabled="{!action.disabled}"
                                 title="{!action.disableReason}"
-                                class="{!'apollo-btn tertiary slds-size_1-of-2 slds-medium-size_4-of-12 slds-large-size_4-of-12 ' + action.cssClass}"
+                                class="{!'apollo-btn secondary slds-size_1-of-2 slds-medium-size_4-of-12 slds-large-size_4-of-12 ' + action.cssClass}"
                                 tabindex="-1"
                                 onclick="{!c.doAction}">
                             {!action.label}

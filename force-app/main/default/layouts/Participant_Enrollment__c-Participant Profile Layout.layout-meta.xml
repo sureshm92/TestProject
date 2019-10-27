@@ -40,16 +40,20 @@
                 <field>IsRequestDataFromSDH__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Days_After_Enrolled__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>MRR_Survey_Results_URL__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Visit_Plan__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Days_After_Enrolled__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Enrolled_DateTime__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -326,10 +330,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Enrolled_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Non_Enrollment_Reason__c</field>
             </layoutItems>
             <layoutItems>
@@ -438,6 +438,10 @@
         <relatedList>Participant_Enrollment_Status_History__c.ParticipantEnrollment__c</relatedList>
     </relatedLists>
     <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Patient_Visit__c.Participant_Enrollment__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <fields>Name</fields>
         <fields>Participant</fields>
         <fields>Survey</fields>
@@ -450,7 +454,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hN00000014vEg</masterLabel>
+        <masterLabel>00h6E000000h6Tm</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

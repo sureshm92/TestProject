@@ -1,0 +1,129 @@
+<!--
+ - Created by Nargiz Mamedova on 10/11/2019.
+ -->
+
+<apex:component id="ContactInfo">
+    <apex:attribute name="isParticipant" description="" type="Boolean" required="true"/>
+    <apex:attribute name="contact" description="" type="Contact" required="true"/>
+    <apex:attribute name="notEnrollNow" description="" type="Boolean" required="true"/>
+    <apex:attribute name="account" description="" type="Account" required="true"/>
+    <apex:attribute name="participant" description="" type="Participant__c" required="true"/>
+    <apex:attribute name="isStateRequired" description="" type="Boolean" required="true"/>
+    <apex:attribute name="states" description="" type="SelectOption" required="true"/>
+    <apex:attribute name="countries" description="" type="SelectOption" required="true"/>
+
+    <div class="section-header" style="margin-top: 30px">{!$Label.PG_Login_H_Contact_Information}</div>
+    <div class="section-description">{!$Label.PG_Login_T_Please_Contact_Us}</div>
+    <apex:outputPanel rendered="{!!isParticipant}">
+        <div class="slds-grid slds-wrap slds-gutters">
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5" style="{!IF(!notEnrollNow,'','display:none;')}">
+                <label>{!$Label.PG_AS_F_Title}</label>
+                <apex:inputField styleClass="slds-input slds-combobox__input" style="height: 40px;" value="{!contact.Salutation}"/>
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1  {!IF(notEnrollNow,'slds-medium-size_1-of-3','slds-medium-size_1-of-5')}">
+                <label><span title="required" class="slds-required" style="{!IF(!notEnrollNow,'','display:none;')}">*</span>{!$Label.PG_AS_F_First_name}</label>
+                <input class="slds-input" type="text" value="{!contact.FirstName}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
+                <apex:inputField styleClass="slds-input" type="text" value="{!contact.FirstName}" rendered="{!!notEnrollNow}" required="{!notEnrollNow}"/>
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5" style="{!IF(!notEnrollNow,'','display:none;')}">
+                <label>{!$Label.PG_AS_F_Middle_name}</label>
+                <apex:inputField styleClass="slds-input" type="text" value="{!contact.MiddleName}"/>
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 {!IF(notEnrollNow,'slds-medium-size_1-of-3','slds-medium-size_1-of-5')}">
+                <label><span title="required" class="slds-required" style="{!IF(!notEnrollNow,'','display:none;')}">*</span>{!$Label.PG_AS_F_Last_name}</label>
+                <input class="slds-input" type="text" value="{!contact.LastName}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
+                <apex:inputField styleClass="slds-input" type="text" value="{!contact.LastName}" rendered="{!!notEnrollNow}" required="{!notEnrollNow}"/>
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-5" style="{!IF(!notEnrollNow,'','display:none;')}">
+                <label>{!$Label.PG_AS_F_Suffix}</label>
+                <apex:inputField styleClass="slds-input" type="text" value="{!contact.Suffix}"/>
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3" style="{!IF(notEnrollNow,'','display:none;')}">
+
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <label><span title="required" class="slds-required" style="{!IF(!notEnrollNow,'','display:none;')}">*</span>{!$Label.PG_AS_F_Institute_Name}</label>
+                <input class="slds-input" type="text" value="{!account.Name}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
+                <apex:inputField styleClass="slds-input" type="text" value="{!account.Name}" rendered="{!!notEnrollNow}" required="{!notEnrollNow}"/>
+            </div>
+            <div class="rr-form-element  slds-col slds-size_1-of-1 slds-medium-size_2-of-3">
+                <label><span title="required" class="slds-required" style="{!IF(!notEnrollNow,'','display:none;')}">*</span>{!$Label.PG_AS_F_Institute_Address_Line}</label>
+                <input class="slds-input" type="text" value="{!account.BillingStreet}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
+                <apex:inputField styleClass="slds-input" type="text" value="{!contact.MailingStreet}" rendered="{!!notEnrollNow}" required="{!notEnrollNow}"/>
+            </div>
+            <!--<div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">-->
+            <!--<label>Institute Address Line 2</label>-->
+            <!--<input class="slds-input" type="text" value="" disabled="true"></input>-->
+            <!--</div>-->
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <label><span title="required" class="slds-required" style="{!IF(!notEnrollNow,'','display:none;')}">*</span>{!$Label.PG_AS_F_Institute_City}</label>
+                <input class="slds-input" type="text" value="{!account.BillingCity}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
+                <apex:inputField styleClass="slds-input" type="text" value="{!contact.MailingCity}" rendered="{!!notEnrollNow}" required="{!notEnrollNow}"/>
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <label><span title="required" class="slds-required" style="{!IF(notEnrollNow,'','display:none;')}">*</span>{!$Label.PG_AS_F_Institute_State}</label>
+                <input class="slds-input" type="text" value="{!account.BillingState}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input><!-- disabled="{!!isStateRequired}"-->
+                <apex:selectList id="stateId" styleClass="slds-input" style="height: 40px;" size="1" value="{!contact.MailingState}" rendered="{!!notEnrollNow}" required="{!isStateRequired}">
+                    <apex:selectOption itemLabel="--None--" itemValue=""/>
+                    <apex:selectOptions value="{!states}"/>
+                </apex:selectList>
+                <!--<apex:inputField styleClass="slds-input" type="text" value="{!contact.MailingState}" rendered="{!!notEnrollNow}" required="false"/>-->
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <label><span title="required" class="slds-required" style="{!IF(!notEnrollNow,'','display:none;')}">*</span>{!$Label.PG_AS_F_Institute_Country}</label>
+                <input class="slds-input" type="text" value="{!account.BillingCountry}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
+<!--                <apex:actionRegion>-->
+                    <apex:selectList styleClass="slds-input" style="height: 40px;" size="1" onChange="updateStates()" value="{!contact.MailingCountry}" rendered="{!!notEnrollNow}" required="{!notEnrollNow}">
+                        <apex:selectOption itemLabel="--None--" itemValue=""/>
+                        <apex:selectOptions value="{!countries}"/>
+<!--                        <apex:actionSupport event="onchange" action="{!updateStatesAction}" reRender="stateId"/>-->
+                    </apex:selectList>
+<!--                </apex:actionRegion>-->
+                <!--<apex:inputField styleClass="slds-input" type="text" value="{!contact.MailingCountry}" rendered="{!!notEnrollNow}" required="{!notEnrollNow}"/>-->
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <label><span title="required" class="slds-required" style="{!IF(!notEnrollNow,'','display:none;')}">*</span>{!$Label.PG_AS_F_Institute_Zip_Postal_Code}</label>
+                <input class="slds-input" type="text" value="{!account.BillingPostalCode}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
+                <apex:inputField styleClass="slds-input" type="text" value="{!contact.MailingPostalCode}" rendered="{!!notEnrollNow}" required="{!notEnrollNow}"/>
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <label><span title="required" class="slds-required" style="{!IF(!notEnrollNow,'','display:none;')}">*</span>{!$Label.PG_AS_F_Institute_Phone_Number}</label>
+                <input class="slds-input" type="text" value="{!account.Phone}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
+                <apex:inputField styleClass="slds-input" type="text" value="{!contact.Phone}" rendered="{!!notEnrollNow}" required="{!notEnrollNow}"/>
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <label>{!$Label.PG_AS_F_Institute_Fax_Number}</label>
+                <input class="slds-input" type="text" value="{!account.Fax}" disabled="true" style="{!IF(notEnrollNow,'','display:none;')}"></input>
+                <apex:inputField styleClass="slds-input" type="text" value="{!contact.Fax}" rendered="{!!notEnrollNow}"/>
+            </div>
+        </div>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!isParticipant}">
+        <div class="slds-grid slds-wrap slds-gutters">
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <label>{!$Label.PG_AS_F_First_name}</label>
+                <input class="slds-input" type="text" value="{!participant.First_Name__c}" disabled="true"></input>
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <label>{!$Label.PG_AS_F_Last_name}</label>
+                <input class="slds-input" type="text" value="{!participant.Last_Name__c}" disabled="true"></input>
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <label>{!$Label.PG_AS_F_Phone_number}</label>
+                <input class="slds-input" type="text" value="{!participant.Phone__c}" disabled="true"></input>
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <label>{!$Label.PE_State}</label>
+                <input class="slds-input" type="text" value="{!participant.Mailing_State__c}" disabled="true"></input>
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <label>{!$Label.PE_Country}</label>
+                <input class="slds-input" type="text" value="{!participant.Mailing_Country__c}" disabled="true"></input>
+            </div>
+            <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <label>{!$Label.PG_AS_F_Zip_Postal_Code}</label>
+                <input class="slds-input" type="text" value="{!participant.Mailing_Zip_Postal_Code__c}" disabled="true"></input>
+            </div>
+        </div>
+    </apex:outputPanel>
+</apex:component>

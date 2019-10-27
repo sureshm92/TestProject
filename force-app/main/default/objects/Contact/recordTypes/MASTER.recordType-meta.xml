@@ -506,35 +506,19 @@
             <fullName>en_US</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>ru</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
-    <!--picklistValues>
+    <picklistValues>
         <picklist>LeadSource</picklist>
-        <values>
-            <fullName>Advertisement</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Customer Event</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Employee Referral</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Google AdWords</fullName>
-            <default>false</default>
-        </values>
         <values>
             <fullName>Other</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Partner</fullName>
+            <fullName>Partner Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone Inquiry</fullName>
             <default>false</default>
         </values>
         <values>
@@ -542,18 +526,10 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Trade Show</fullName>
+            <fullName>Web</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>Webinar</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Website</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues-->
+    </picklistValues>
     <picklistValues>
         <picklist>Name</picklist>
         <values>
@@ -643,6 +619,42 @@
         <values>
             <fullName>Yes</fullName>
             <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Second_Choice_Language__c</picklist>
+        <values>
+            <fullName>en_US</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ru</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>SitesInterested__c</picklist>
+        <values>
+            <fullName>TestSite</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Third_Choice_Language__c</picklist>
+        <values>
+            <fullName>en_US</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>ru</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>TopicsInterested__c</picklist>
+        <values>
+            <fullName>TestTopic</fullName>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>

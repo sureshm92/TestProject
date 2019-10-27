@@ -13,7 +13,7 @@
     <aura:iteration items="{!v.peList}" var="item">
         <div class="db-list-item">
             <aura:if isTrue="{!v.isAcceptence}">
-                <button class="apollo-btn tertiary green rr-small-down-hide"
+                <button class="apollo-btn secondary rr-small-down-hide"
                         disabled="{!item.actions.changePEStatusByPI.disabled}"
                         title="{!item.actions.changePEStatusByPI.disableReason}"
                         onclick="{!c.doAccept}"
@@ -28,10 +28,10 @@
                     {!' ' + $Label.c.PG_DRL_L_referred_by_Dr + ' ' + item.data.Source_Type__c}<br/>
                 </aura:set>
             </aura:if>
-            for <c:RRLink label="{!item.data.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}" page="{!'study-workspace?id=' + item.data.Study_Site__r.Clinical_Trial_Profile__c}"/>
+            {!$Label.c.PG_DBPI_L_for}&nbsp;<c:RRLink label="{!item.data.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}" page="{!'study-workspace?id=' + item.data.Study_Site__r.Clinical_Trial_Profile__c}"/>
             <aura:if isTrue="{!v.isAcceptence}">
                 <div class="rr-small-up-hide btn-block">
-                    <button class="apollo-btn tertiary green"
+                    <button class="apollo-btn secondary"
                             disabled="{!item.actions.changePEStatusByPI.disabled}"
                             title="{!item.actions.changePEStatusByPI.disableReason}"
                             onclick="{!c.doAccept}"

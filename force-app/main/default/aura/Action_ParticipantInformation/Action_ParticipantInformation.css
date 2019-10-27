@@ -1,14 +1,15 @@
-
 .THIS .path-item-detail-panel {
     text-align: start;
 }
 
 .THIS .path-item-detail-panel .title {
-    font-size: 17px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 600;
     line-height: 20px;
+    color: #000;
 }
 
+/*
 .THIS .path-item-detail-panel.success .title {
     color: #63C900;
 }
@@ -24,7 +25,7 @@
 .THIS .path-item-detail-panel.neutral .title {
     color: #999999;
 }
-
+*/
 .THIS .pe-state-row.current .path-item-detail-panel .title {
     font-weight: 600;
 }
@@ -36,43 +37,44 @@
 .THIS .label.changed {
     color: #297dfd;
 }
-
+/*
+.THIS .path-item-detail-panel > .slds-col {
+    width: auto;
+}
+*/
 .THIS .pe-history {
     margin-top: 10px;
 }
 
 .THIS .pe-history > .title {
-    color: #7F888D !important;
-    font-size: 10px;
-    font-weight: bold;
+    font-size: 14px;
     line-height: 14px;
-    text-transform: uppercase;
-    margin-bottom: 5px;
+    margin-top: 2px;
+    color: #595959;
 }
 
 .THIS .pe-history .info {
     font-size: 14px;
     line-height: 18px;
+    margin-top: 5px;
 }
 
-.THIS .pe-history .info.first {
+.THIS .history-item {
+    margin-top: 15px;
+}
+
+.THIS .pe-history .info {
     font-weight: 600;
+    color: #000;
 }
 
-.THIS .pe-history > .date {
-    color: #666666;
-    font-size: 13px;
-    line-height: 16px;
+.THIS .pe-history .date {
+    color: #595959;
+    font-size: 14px;
+    line-height: 24px;
 }
 
-.THIS .pe-history .history-item + .history-item {
-    margin-top: 2px;
-}
-
-.THIS .pe-history .history-item + .history-item {
-    margin-top: 2px;
-}
-
+/*
 .THIS .info.green {
     color: #00C221;
 }
@@ -84,7 +86,7 @@
 .THIS .info.red {
     color: #FF283F;
 }
-
+*/
 .THIS .rr-white-panel {
     border: unset;
     border-radius: unset;
@@ -97,14 +99,11 @@
 
 .THIS .path-panel {
     margin-top: 30px;
-    background-color: #F8F9FB;
-    border: 1px solid #D9D9D9;
-    border-radius: 5px;
 }
 
 .THIS .path-panel .path-section {
     border-bottom: 1px solid #D9D9D9;
-    padding: 10px;
+    padding: 10px 10px 30px;
 }
 
 .THIS .scrollerSize {
@@ -119,6 +118,14 @@
     text-overflow: ellipsis;
     margin-top: 3%;
     line-height: 25px;
+}
+
+.THIS .header#statusDetailsAnchor {
+    margin-top: 6%;
+}
+
+.THIS #healthCareProvider {
+    margin-top: 3%;
 }
 
 .THIS .personal-info-container {
@@ -155,6 +162,17 @@
     min-height: 400px;
 }
 
+@media all and (max-width: 768px){
+    .THIS .personal-info-container .slds-float_left {
+        width: 100%;
+    }
+   
+    .THIS .personal-info-container .apollo-btn {
+        width: 100%;
+        margin-top: 15px;
+    }
+}
+
 @media all and (min-width: 1024px) {
     .THIS #p-modal .p-container.large {
         width: 1000px;
@@ -168,10 +186,6 @@
 }
 
 @media all and (max-width: 600px) {
-
-    .THIS .status-select-container {
-        padding-left: 5%;
-    }
 
     .THIS .rp-save-btn {
         margin-top: 2%;

@@ -14,14 +14,16 @@
         <aura:if isTrue="{!v.pe.Participant__c}">
             <aura:if isTrue="{!v.userMode == 'Participant'}">
                 <div>
-                    <c:RRLink class="psec-title-link" label="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}" page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c}"/>
+                    <div class="vpi-tile-title">{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}</div>
+                  <!--  <c:RRLink class="psec-title-link" label="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}" page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c}"/> -->
+                	<div class="objective-link">
+                        <c:RRLink page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c}">{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-right"/></c:RRLink>
+                    </div>
                 </div>
                 <div class="sponsor-name">{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Sponsor__c}</div>
                 <div class="objective-section">
-                    <div class="objective-text">{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Brief_Summary__c}</div>
-                    <div class="objective-link">
-                        <c:RRLink page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c}">{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-right"/></c:RRLink>
-                    </div>
+                    <div class="objective-text">{!v.pe.Clinical_Trial_Profile__r.Brief_Summary__c}</div>
+                    
                 </div>
                 <aura:set attribute="else">
                     <aura:if isTrue="{!not(v.isReferral)}">

@@ -16,8 +16,15 @@ h1, h2, h3, h4, h5, h6{
 
 body{
     font-size: 13px;
+}doi
+
+a {
+    color: #297dfd;
 }
 
+a:hover {
+    text-decoration: none;
+}
 
 /* ------------------------------------------ login/change password pages: -------------------------------------------*/
 
@@ -222,9 +229,9 @@ input:focus {
 }
 
 .rr-form-element label, .rr-form-element .label{
-    color: #666666;
+    color: #444;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 400;
     line-height: 17px;
     display: block;
     margin-bottom: 8px;
@@ -246,13 +253,20 @@ input:focus {
 .rr-form-element input[type='password'],
 .rr-form-element input[type='email']{
     color: #000000;
-    font-size: 14px;
+    font-size: 1rem;
     line-height: 20px;
-    border: 1px solid #d4d4d4;
+    border: 1px solid #d9d9d9;
     border-radius: 4px;
-    padding: 9px;
+    padding: 4px 3px 4px 4px;
     width: 100%;
     display: block;
+    height: 32px;
+}
+
+.rr-form-element input[type='text']:hover,
+.rr-form-element input[type='password']:hover,
+.rr-form-element input[type='email']:hover {
+    border-color: #297dfd;
 }
 
 .rr-form-element .rr-cb-container{
@@ -272,11 +286,18 @@ input:focus {
 .rr-form-element .slds-input[disabled],
 .rr-form-element .slds-input.slds-is-disabled,
 .rr-form-element .slds-select[disabled]{
-    border: none;
-    background-color: rgb(233, 234, 236) !important;
-
+   opacity: .4;
+   cursor: not-allowed;
+   pointer-events: none;
+   background-color: #fff;
 }
-
+/*
+.rr-form-element .slds-input[disabled]:hover,
+.rr-form-element .slds-input.slds-is-disabled:hover,
+.rr-form-element .slds-select[disabled]:hover {
+    border: none;
+}
+*/
 .rr-form-element .slds-checkbox .slds-checkbox_faux,
 .rr-form-element .slds-checkbox .slds-checkbox--faux{
     border: 1px solid #999999;
@@ -309,12 +330,233 @@ input:focus {
 }
 
 .rr-form-element .slds-checkbox .slds-form-element__label{
-    color: #666666;
-    font-size: 13px;
+    color: #444;
+    font-size: 14px;
     font-weight: 600;
     line-height: 21px;
 }
 
+.slds-checkbox_toggle .slds-checkbox_faux,
+.slds-checkbox_toggle .slds-checkbox--faux,
+.slds-checkbox--toggle .slds-checkbox_faux,
+.slds-checkbox--toggle .slds-checkbox--faux {
+    background-color: #444;
+    border: 1px solid #444;
+    height: 32px;
+    outline: none;
+    width: 56px;
+}
+
+.slds-checkbox_toggle .slds-checkbox_faux::after,
+.slds-checkbox_toggle .slds-checkbox--faux::after,
+.slds-checkbox--toggle .slds-checkbox_faux::after,
+.slds-checkbox--toggle .slds-checkbox--faux::after {
+ 	width: 1.6rem;
+    height: 1.6rem;
+    top: 2px;
+    left: 3px;
+    transition: background-color 0.3s, left 0.3s;
+}
+
+.slds-checkbox_toggle .slds-checkbox_faux:hover,
+.slds-checkbox_toggle .slds-checkbox_faux:focus,
+.slds-checkbox_toggle .slds-checkbox--faux:hover,
+.slds-checkbox_toggle .slds-checkbox--faux:focus,
+.slds-checkbox--toggle .slds-checkbox_faux:hover,
+.slds-checkbox--toggle .slds-checkbox_faux:focus,
+.slds-checkbox--toggle .slds-checkbox--faux:hover,
+.slds-checkbox--toggle .slds-checkbox--faux:focus {
+	background-color: #b5b5b5;
+    border: 1px solid #b5b5b5;
+    outline: none;
+}
+
+.slds-checkbox_toggle [type=checkbox]:focus+.slds-checkbox_faux,
+.slds-checkbox_toggle [type=checkbox]:focus+.slds-checkbox--faux,
+.slds-checkbox_toggle [type=checkbox]:focus~.slds-checkbox_faux,
+.slds-checkbox_toggle [type=checkbox]:focus~.slds-checkbox--faux,
+.slds-checkbox_toggle [type=checkbox]:focus+.slds-checkbox_faux_container .slds-checkbox_faux,
+.slds-checkbox_toggle [type=checkbox]:focus+.slds-checkbox--faux_container .slds-checkbox--faux,
+.slds-checkbox--toggle [type=checkbox]:focus+.slds-checkbox_faux,
+.slds-checkbox--toggle [type=checkbox]:focus+.slds-checkbox--faux,
+.slds-checkbox--toggle [type=checkbox]:focus~.slds-checkbox_faux,
+.slds-checkbox--toggle [type=checkbox]:focus~.slds-checkbox--faux,
+.slds-checkbox--toggle [type=checkbox]:focus+.slds-checkbox_faux_container .slds-checkbox_faux,
+.slds-checkbox--toggle [type=checkbox]:focus+.slds-checkbox--faux_container .slds-checkbox--faux {
+   background-color: #444;
+    border: 1px solid #444;
+    outline: none;
+}
+
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox_faux,
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox--faux,
+.slds-checkbox_toggle [type="checkbox"]:checked ~ .slds-checkbox_faux,
+.slds-checkbox_toggle [type="checkbox"]:checked ~ .slds-checkbox--faux,
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox_faux_container .slds-checkbox_faux,
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox--faux_container .slds-checkbox--faux,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox_faux, .slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox--faux,
+.slds-checkbox--toggle [type="checkbox"]:checked ~ .slds-checkbox_faux, .slds-checkbox--toggle [type="checkbox"]:checked ~ .slds-checkbox--faux,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox_faux_container .slds-checkbox_faux,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox--faux_container .slds-checkbox--faux {
+    background-color: #00C221;
+    border: 1px solid #00C221;
+     outline: none;
+}
+
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox_faux::before,
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox--faux::before,
+.slds-checkbox_toggle [type="checkbox"]:checked ~ .slds-checkbox_faux::before,
+.slds-checkbox_toggle [type="checkbox"]:checked ~ .slds-checkbox--faux::before,
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox_faux_container
+.slds-checkbox_faux::before,
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox--faux_container .slds-checkbox--faux::before,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox_faux::before,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox--faux::before,
+.slds-checkbox--toggle [type="checkbox"]:checked ~ .slds-checkbox_faux::before,
+.slds-checkbox--toggle [type="checkbox"]:checked ~ .slds-checkbox--faux::before,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox_faux_container .slds-checkbox_faux::before,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox--faux_container .slds-checkbox--faux::before {
+    width: 1.6rem;
+    height: 1.6rem;
+    top: 2px;
+    right: 2px;
+    transition: background-color 0.3s, right 0.3s;
+}
+
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox_faux::after,
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox--faux::after,
+.slds-checkbox_toggle [type="checkbox"]:checked ~ .slds-checkbox_faux::after,
+.slds-checkbox_toggle [type="checkbox"]:checked ~ .slds-checkbox--faux::after,
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox_faux_container .slds-checkbox_faux::after,
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox--faux_container .slds-checkbox--faux::after,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox_faux::after,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox--faux::after,
+.slds-checkbox--toggle [type="checkbox"]:checked ~ .slds-checkbox_faux::after,
+.slds-checkbox--toggle [type="checkbox"]:checked ~ .slds-checkbox--faux::after,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox_faux_container .slds-checkbox_faux::after,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox--faux_container .slds-checkbox--faux::after {
+ 	display: none;
+}
+
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox_faux:hover,
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox_faux:focus,
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox--faux:hover,
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox--faux:focus,
+.slds-checkbox_toggle [type="checkbox"]:checked ~ .slds-checkbox_faux:hover,
+.slds-checkbox_toggle [type="checkbox"]:checked ~ .slds-checkbox_faux:focus,
+.slds-checkbox_toggle [type="checkbox"]:checked ~ .slds-checkbox--faux:hover,
+.slds-checkbox_toggle [type="checkbox"]:checked ~ .slds-checkbox--faux:focus,
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox_faux_container .slds-checkbox_faux:hover,
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox_faux_container .slds-checkbox_faux:focus,
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox--faux_container .slds-checkbox--faux:hover,
+.slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox--faux_container .slds-checkbox--faux:focus,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox_faux:hover,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox_faux:focus,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox--faux:hover,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox--faux:focus,
+.slds-checkbox--toggle [type="checkbox"]:checked ~ .slds-checkbox_faux:hover,
+.slds-checkbox--toggle [type="checkbox"]:checked ~ .slds-checkbox_faux:focus,
+.slds-checkbox--toggle [type="checkbox"]:checked ~ .slds-checkbox--faux:hover,
+.slds-checkbox--toggle [type="checkbox"]:checked ~ .slds-checkbox--faux:focus,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox_faux_container
+.slds-checkbox_faux:hover,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox_faux_container .slds-checkbox_faux:focus,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox--faux_container .slds-checkbox--faux:hover,
+.slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox--faux_container .slds-checkbox--faux:focus {
+    background-color: #00C221;
+    outline: none;
+}
+
+.slds-checkbox_toggle [type=checkbox]:checked:focus+.slds-checkbox_faux,
+.slds-checkbox_toggle [type=checkbox]:checked:focus+.slds-checkbox--faux,
+.slds-checkbox_toggle [type=checkbox]:checked:focus~.slds-checkbox_faux,
+.slds-checkbox_toggle [type=checkbox]:checked:focus~.slds-checkbox--faux,
+.slds-checkbox_toggle [type=checkbox]:checked:focus+.slds-checkbox_faux_container .slds-checkbox_faux,
+.slds-checkbox_toggle [type=checkbox]:checked:focus+.slds-checkbox--faux_container .slds-checkbox--faux,
+.slds-checkbox--toggle [type=checkbox]:checked:focus+.slds-checkbox_faux,
+.slds-checkbox--toggle [type=checkbox]:checked:focus+.slds-checkbox--faux,
+.slds-checkbox--toggle [type=checkbox]:checked:focus~.slds-checkbox_faux,
+.slds-checkbox--toggle [type=checkbox]:checked:focus~.slds-checkbox--faux,
+.slds-checkbox--toggle [type=checkbox]:checked:focus+.slds-checkbox_faux_container .slds-checkbox_faux,
+.slds-checkbox--toggle [type=checkbox]:checked:focus+.slds-checkbox--faux_container .slds-checkbox--faux {
+    background-color: #00C221;
+    outline: none;
+}
+
+.slds-checkbox_faux_container {
+    outline: none;
+}
+
+.slds-checkbox_toggle [type="checkbox"] + .slds-checkbox_faux_container .slds-checkbox_on,
+.slds-checkbox_toggle [type="checkbox"] + .slds-checkbox_faux_container .slds-checkbox--on,
+.slds-checkbox_toggle [type="checkbox"] + .slds-checkbox--faux_container .slds-checkbox_on,
+.slds-checkbox_toggle [type="checkbox"] + .slds-checkbox--faux_container .slds-checkbox--on,
+.slds-checkbox--toggle [type="checkbox"] + .slds-checkbox_faux_container .slds-checkbox_on,
+.slds-checkbox--toggle [type="checkbox"] + .slds-checkbox_faux_container .slds-checkbox--on,
+.slds-checkbox--toggle [type="checkbox"] + .slds-checkbox--faux_container .slds-checkbox_on,
+.slds-checkbox--toggle [type="checkbox"] + .slds-checkbox--faux_container .slds-checkbox--on,
+.slds-checkbox_toggle [type="checkbox"] + .slds-checkbox_faux_container .slds-checkbox_off,
+.slds-checkbox_toggle [type="checkbox"] + .slds-checkbox_faux_container .slds-checkbox--off,
+.slds-checkbox_toggle [type="checkbox"] + .slds-checkbox--faux_container .slds-checkbox_off,
+.slds-checkbox_toggle [type="checkbox"] + .slds-checkbox--faux_container .slds-checkbox--off,
+.slds-checkbox--toggle [type="checkbox"] + .slds-checkbox_faux_container .slds-checkbox_off,
+.slds-checkbox--toggle [type="checkbox"] + .slds-checkbox_faux_container .slds-checkbox--off,
+.slds-checkbox--toggle [type="checkbox"] + .slds-checkbox--faux_container .slds-checkbox_off,
+.slds-checkbox--toggle [type="checkbox"] + .slds-checkbox--faux_container .slds-checkbox--off
+{
+    visibility: hidden;
+}
+
+
+lightning-datepicker .slds-input-has-icon > lightning-button-icon:after {
+    content: '';
+    position: absolute;
+    background-size: 16px 16px;
+    background-image: url(/resource/1569261183000/iconCalendar);
+    height: 16px;
+    width: 16px;
+    top: -2px;
+    right: 0px;
+}
+
+lightning-datepicker lightning-button-icon .slds-button svg {
+    display: none;
+}
+
+.slds-radio [type=radio]:checked+.slds-radio_faux,
+.slds-radio [type=radio]:checked+.slds-radio--faux,
+.slds-radio [type=radio]:checked~.slds-radio_faux,
+.slds-radio [type=radio]:checked~.slds-radio--faux,
+.slds-radio [type=radio]:checked+.slds-radio__label .slds-radio_faux,
+.slds-radio [type=radio]:checked+.slds-radio__label .slds-radio--faux {
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08), 0 4px 8px 0 rgba(41, 125, 253, 0.16);
+    position: relative;
+}
+
+.slds-radio [type=radio]:checked+.slds-radio_faux:before,
+.slds-radio [type=radio]:checked+.slds-radio--faux:before,
+.slds-radio [type=radio]:checked~.slds-radio_faux:before,
+.slds-radio [type=radio]:checked~.slds-radio--faux:before,
+.slds-radio [type=radio]:checked+.slds-radio__label .slds-radio_faux:before,
+.slds-radio [type=radio]:checked+.slds-radio__label .slds-radio--faux:before {
+    border: 1px solid #297dfd;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: -3px;
+    left: -3px;
+}
+
+
+
+.slds-radio [type=radio]:checked+.slds-radio_faux:after,
+.slds-radio [type=radio]:checked+.slds-radio--faux:after,
+.slds-radio [type=radio]:checked~.slds-radio_faux:after,
+.slds-radio [type=radio]:checked~.slds-radio--faux:after,
+.slds-radio [type=radio]:checked+.slds-radio__label .slds-radio_faux:after,
+.slds-radio [type=radio]:checked+.slds-radio__label .slds-radio--faux:after {
+    background: #297dfd;
+}
 /*-------------------------------------------------------- Output -------------------------------------------------------------*/
 
 .rr-output-field{
@@ -323,11 +565,11 @@ input:focus {
 
 .rr-output-field > .label{
     display: block;
-    color: #7F888D;
-    font-size: 10px;
-    font-weight: bold;
+    color: #000;
+    font-size: 13px;
+    font-weight:600;
     line-height: 12px;
-    text-transform: uppercase;
+    margin-bottom: 5px;
 }
 
 .rr-output-field > .value{
@@ -351,7 +593,7 @@ input:focus {
 
 .rr-fields-container .rr-output-field{
     padding: 0 10px;
-    border-left: 2px solid #CCCCCC;
+    border-left: 1px solid #d9d9d9;
     vertical-align: top;
     margin-top: 15px;
 }
@@ -397,15 +639,15 @@ select.rr-select-error,
     color: #CCCCCC;
     border-top: 5px solid;
     text-align: center;
-    font-size: 10px;
+    font-size: 14px;
     line-height: 12px;
     padding-top: 4px;
     transition: 0.4s;
 }
 
 .rr-path-item.completed, .rr-path-item.current{
-    border-top-color: #9014FE;
-    color: #9014FE;
+    border-top-color: #00c221;
+    color: #000;
 
 }
 
@@ -414,11 +656,15 @@ select.rr-select-error,
     padding: 9px 16px;
     border-radius: 4px;
     border: 1px;
-    font-size: 14px;
+    font-size: 1rem;
+    font-weight: 400;
     letter-spacing: 0;
     line-height: 20px;
     user-select: none;
     min-width: 100px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .apollo-btn.small-font{
@@ -441,8 +687,10 @@ select.rr-select-error,
 }
 
 .apollo-btn:disabled{
-    opacity: 0.5;
+   	opacity: .4;
+    box-shadow: none;
     cursor: not-allowed;
+    pointer-events: none;
 }
 
 .apollo-btn:focus{
@@ -451,8 +699,16 @@ select.rr-select-error,
 
 .apollo-btn.primary{
     background: #297DFD;
-    box-shadow: 0 8px 10px 0 rgba(0,0,0,0.10), 0 8px 20px 0 rgba(41,125,253,0.40);
+    box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16), 0 4px 4px 0 rgba(0, 0, 0, 0.04), 0 8px 16px 0 rgba(41, 125, 253, 0.32);
     color: #FFFFFF;
+    font-size: 1rem;
+    padding: 6px 16px;
+}
+
+.apollo-btn.primary:hover, .apollo-btn.primary:focus, .apollo-btn.primary:active {
+    background: #10558a;
+    transition: .25s;
+    box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16), 0 4px 4px 0 rgba(0, 0, 0, 0.04), 0 8px 16px 0 rgba(41, 125, 253, 0.32);
 }
 
 .apollo-btn.primary > .rr-icon-default{
@@ -466,8 +722,20 @@ select.rr-select-error,
 }
 
 .apollo-btn.secondary{
-    background: #F2F2F2;
-    color: #666666;
+    background: #fff;
+    color: #297dfd;
+    border: 1px solid #d9d9d9;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
+    padding: 6px 16px;
+    font-size: 1rem;
+}
+
+.apollo-btn.secondary:hover, .apollo-btn.secondary:focus, .apollo-btn.secondary:active {
+    background-color: #eef5ff;
+    border-color: #297dfd;
+    color: #297dfd;
+    transition: .25s;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
 }
 
 .apollo-btn.secondary > .rr-icon-default{
@@ -504,9 +772,14 @@ select.rr-select-error,
 /* default: */
 
 .apollo-btn.tertiary{
-    color: #297DFD;
-    background: #FFFFFF;
-    border: 1px solid #CCCCCC;
+    background: #f2f2f2;
+    color: #595959;
+    padding: 6px 16px;
+}
+
+.apollo-btn.tertiary:hover, .apollo-btn.tertiary:focus{
+    background-color: rgba(0, 0, 0, 0.08);
+    transition: .25s;
 }
 
 .apollo-btn.tertiary > .rr-icon-default{
@@ -524,7 +797,6 @@ select.rr-select-error,
 .apollo-btn.tertiary.selected > .rr-icon-default{
     fill: white!important;
 }
-
 
 /* orange: */
 
@@ -807,12 +1079,12 @@ select.rr-select-error,
     border: 1px solid #F2F2F2;
     border-radius: 5px;
     background-color: #FFFFFF;
-    box-shadow: 0 8px 30px 0 rgba(0,0,0,0.15);
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
     overflow: hidden;
 }
 
 .rr-only-shadow{
-    box-shadow: 0 8px 30px 0 rgba(0,0,0,0.15);
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
 }
 
 .rr-white-panel.padding{
@@ -875,8 +1147,9 @@ select.rr-select-error,
 }
 
 .brand-gradient-background{
-    background: linear-gradient(to right, #230559 0%,#036ca7 100%);
-    color: white;
+    background: #f8f9fb;
+ /*   background: linear-gradient(to right, #230559 0%,#036ca7 100%); */
+    color: #444;
 }
 
 input[type=password]::-ms-reveal,
@@ -887,7 +1160,7 @@ input[type=password]::-ms-clear
 
 .rr-login-info-title{
     opacity: 0.7;
-    color: #FFFFFF;
+    color: #000;
     font-size: 15px;
     line-height: 24px;
     text-align: center;
@@ -1059,26 +1332,26 @@ input[type=password]::-ms-clear
         display: none!important;
     }
 }
-
+/*
 @media all and (max-width: 479px){
     .rr-small-down-hide{
         display: none!important;
     }
 }
-
+*/
 /* medium 768 */
 @media all and (min-width: 768px){
     .rr-medium-up-hide{
         display: none!important;
     }
 }
-
+/*
 @media all and (max-width: 767px){
     .rr-medium-down-hide{
         display: none!important;
     }
 }
-
+*/
 /* large 1024 */
 @media all and (min-width: 1024px){
     .rr-large-up-hide{

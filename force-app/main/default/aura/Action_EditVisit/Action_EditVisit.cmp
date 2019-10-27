@@ -20,19 +20,21 @@
         <div class="form-container">
             <div class="slds-grid slds-gutters">
                 <div class="slds-col slds-size--1-of-2">
-                    <lightning:input type="text" label="Visit Name" value="{!v.visit.Name}"/>
+                    <lightning:input type="text" label="SDH Visit Name" value="{!v.visit.Name}"/>
                 </div>
                 <div class="slds-col slds-size--1-of-2">
-                    <lightning:input type="text" label="Patient Portal Name"
+                    <lightning:input type="text" label="Patient Portal Visit Name"
                                      value="{!v.visit.Patient_Portal_Name__c}"/>
                 </div>
             </div>
             <div class="slds-grid slds-gutters">
                 <div class="slds-col slds-size--1-of-2">
-                    <lightning:input type="text" label="Visit Schedule" value="{!v.visit.Visit_Schedule__c}"/>
+                    <lightning:input type="text" label="Patient Portal Schedule Name" value="{!v.visit.Visit_Schedule__c}"/>
                 </div>
                 <div class="slds-col slds-size--1-of-2">
-                    <lightning:input type="number" label="Visit Number" value="{!v.visit.Visit_Number__c}"/>
+                    <lightning:input type="number" label="SDH Visit Number"
+                                     min="1"
+                                     value="{!v.visit.Visit_Number__c}"/>
                 </div>
             </div>
             <c:VisitIconsSection aura:id="iconsSet" icons="{!v.icons}" visit="{!v.visit}"/>

@@ -22,7 +22,7 @@
                     <span onclick="{!c.showManageLocationDetails}"> {!$Label.c.SS_Manage_Location_Details}</span>
                 </div>
             </div>
-            <div style="box-sizing: border-box; border-right: 1px solid #F2F2F2;border-left: 1px solid #F2F2F2;border-bottom: 1px solid #F2F2F2; border-radius: 5px; background-color: #F2F2F2; min-height: 100px; margin-top:0px; padding: 0px 30px 30px 30px">
+            <div class="card-locationDetails">
                 <div id="ssInformation">
                     <div id="contactInformation"
                          class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 ss-info-container ss-container-border">
@@ -69,7 +69,7 @@
                             </div>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 ss-info-details">
-                            <button class="apollo-btn pi-save-btn primary"
+                            <button class="apollo-btn pi-save-btn secondary"
                                     onclick="{!c.saveChanges}"
                                     disabled="{!!v.siteWrapper.studySite.isEmailValid || !v.siteWrapper.studySite.isRecordUpdated || !v.siteWrapper.studySite.Name}"
                                     title="{!v.siteWrapper.studySite.isRecordUpdated ? v.siteWrapper.studySite.isEmailValid ? v.siteWrapper.studySite.Name ? $Label.c.SS_Save_Changes : $Label.c.SS_Fill_Location_Name : $Label.c.SS_invalidEmail : $Label.c.SS_No_Changes_Message}">
@@ -97,7 +97,7 @@
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-6 other-ss-info-container">
                                     <div class="ss-info-headers">{!$Label.c.SS_Driving_Instructions}</div>
                                     <div class="driving-instructions">
-                                        <c:uiLimitTextByLines maxLines="3" background="#f2f2f2">
+                                        <c:uiLimitTextByLines maxLines="3">
                                             {!v.siteWrapper.studySite.Site__r.Driving_Directions__c}
                                         </c:uiLimitTextByLines>
                                     </div>
@@ -105,25 +105,26 @@
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-6 other-ss-info-container">
                                     <div class="ss-info-headers">{!$Label.c.SS_Parking_Instructions}</div>
                                     <div class="driving-instructions">
-                                        <c:uiLimitTextByLines maxLines="3" background="#f2f2f2">
+                                        <c:uiLimitTextByLines maxLines="3">
                                             {!v.siteWrapper.studySite.Site__r.Parking_Instructions__c}
                                         </c:uiLimitTextByLines>
                                     </div>
                                 </div>
                             </div>
-                            <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-3">
-                                <div class="slds-col slds-grid slds-size_1-of-1 slds-medium-size_7-of-7 slds-grid--align-end ss-info-buttons">
-                                    <aura:iteration items="{!v.siteWrapper.actions}" var="action">
-                                        <button id="{!action.id}"
-                                                value="{!siteWrappIndx}"
-                                                class="apollo-btn primary slds-align-bottom"
-                                                disabled="{!action.disabled}"
-                                                title="{!action.disableReason}"
-                                                style="background-color: white; color: #297DFD; box-shadow: none; display: inline-block;"
-                                                onclick="{!c.doAction}">{!action.label}</button>
-                                    </aura:iteration>
-                                </div>
-                            </div>
+                            
+                        </div>
+                    </div> 
+                    <div class="slds-col slds-size_1-of-1">
+                        <div class="slds-col slds-grid slds-size_1-of-1 slds-medium-size_7-of-7 slds-grid--align-end ss-info-buttons">
+                            <aura:iteration items="{!v.siteWrapper.actions}" var="action">
+                                <button id="{!action.id}"
+                                        value="{!siteWrappIndx}"
+                                        class="apollo-btn secondary slds-align-bottom"
+                                        disabled="{!action.disabled}"
+                                        title="{!action.disableReason}"
+                                        style="background-color: white; color: #297DFD; box-shadow: none; display: inline-block;"
+                                        onclick="{!c.doAction}">{!action.label}</button>
+                            </aura:iteration>
                         </div>
                     </div>
                 </div>

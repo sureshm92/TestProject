@@ -5,7 +5,9 @@
 <!-- Ui Indeterminated Checkbox -->
 <template>
     <div class="inline">
-        <span class={cssClass} onclick={handleClick}></span>
+        <template if:false={hideCheckBox}>
+            <span class={cssClass} onclick={handleClick}></span>
+        </template>
         <p style="padding-left: 5px">{fieldLabel}</p>
     </div>
 </template>

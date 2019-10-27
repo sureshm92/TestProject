@@ -27,7 +27,7 @@
             </div>
         </div>
 
-        <ui:scrollerWrapper class="rr-white-panel">
+        <ui:scrollerWrapper>
             <aura:if isTrue="{!!empty(v.visitWrappers)}">
                 <c:RRTable>
                     <tr>
@@ -43,9 +43,9 @@
                             <td class="sv-t-name">{!(visitWrapper.visit.Is_Adhoc__c
                                 ? $Label.c.StudyVisit_Unscheduled_Visit
                                 : visitWrapper.visit.Visit__r.Patient_Portal_Name__c)}</td>
-                            <td class="sv-t-time">{!(visitWrapper.visit.Is_Adhoc__c ? $Label.c.StudyVisit_Ad_hoc_Visit : visitWrapper.visit.Visit_Schedule__c)}</td>
+                            <td class="sv-t-time">{!(visitWrapper.visit.Is_Adhoc__c ? $Label.c.StudyVisit_Ad_hoc_Visit : visitWrapper.visit.Visit__r.Visit_Schedule__c)}</td>
                             <td class="{!visitWrapper.visit.Is_Adhoc__c ? 'invisible' : 'sv-t-icons'}">
-                                <c:RRIconSplitter numOfIconsToDisplay="5" class="svl-icon"
+                                <c:RRIconSplitter numOfIconsToDisplay="50" class="svl-icon"
                                                   value="{!visitWrapper.icons}"/>
                             </td>
                             <td class="{!visitWrapper.visit.Is_Adhoc__c ? 'sv-t-icons' : 'invisible'}">{!$Label.c.StudyVisit_Variable}</td>
@@ -56,7 +56,9 @@
                                 onclick="{!c.createEditTask}">
                                 {!visitWrapper.task == null ? $Label.c.Create : visitWrapper.reminderDate}
                             </td>
-                            <td class="{!v.visitMode == v.visitModeCurrent ? 'invisible' : 'sv-t-completed-date'}">{!visitWrapper.completedDate}</td>
+                            <td class="{!v.visitMode == v.visitModeCurrent ? 'invisible' : 'sv-t-completed-date'}">
+                                <ui:outputDate value="{!visitWrapper.completedDate}"/>
+                            </td>
                         </tr>
                     </aura:iteration>
                 </c:RRTable>

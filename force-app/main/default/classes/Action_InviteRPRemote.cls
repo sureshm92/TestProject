@@ -27,6 +27,11 @@ public without sharing class Action_InviteRPRemote {
     }
 
     @AuraEnabled
+    public static ReferHealthcareProviderRemote.HealthcareProvider checkDuplicate(String email){
+        return ReferHealthcareProviderRemote.checkDuplicate(null, email);
+    }
+
+    @AuraEnabled
     public static void inviteHCP(String firstName, String lastName, String phone, String email, String studySiteId, String protocolId){
         try{
             List<Group> invitationQueues = [SELECT Id FROM Group WHERE Type = 'Queue' AND Name = :CommunityService.INVITATION_QUEUE];

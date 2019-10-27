@@ -8,6 +8,7 @@ public without sharing class AccountSettingsController {
         try {
             AccountSettingsController.AccountData initData = new AccountSettingsController.AccountData();
             initData.myContact = getCurrentContact();
+            ContactService.applyRelevantNames(initData.myContact);
             initData.cookieSettings = getCookieSettings();
 
             if (initData.myContact.primaryContact__c == null) {
@@ -20,7 +21,7 @@ public without sharing class AccountSettingsController {
                                     Gender__c, Date_of_Birth__c, Initials__c
                             FROM Participant__c
                             WHERE Contact__c = :initData.myContact.Id
-                    ];
+                    ][0];
                     //translate country:
                     initData.participant.Mailing_Country__c =
                             CountryStateUtil.getCountryName(initData.participant.Mailing_Country_Code__c);

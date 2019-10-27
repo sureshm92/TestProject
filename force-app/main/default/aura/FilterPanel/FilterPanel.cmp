@@ -26,6 +26,7 @@
     <div class="{!'fp-container' + if(v.isCollapsed, ' collapsed', '')}">
         <div class="fp-collapsed-view"></div>
         <div class="fp-mobile rr-large-up-hide">
+
             <div class="fp-header">
                 <div class="fp-collapse-label" onclick="{!c.doSwitchCollapse}">
                     {!$Label.c.PG_FP_L_Filter_by}
@@ -36,23 +37,23 @@
                         </aura:set>
                     </aura:if>
                 </div>
-
-                    <div class="fp-search">
-                        <aura:if isTrue="{!!empty(v.searchTextPlaceHolder)}">
-                            <c:rrInput valueString="{!v.searchText}" iconName="icon-search" placeholder="{!v.searchTextPlaceHolder}"/>
-                            <!--aura:set attribute="else">
-                                    {!v.buttons}
-                            </aura:set-->
-                        </aura:if>
-                    </div>
+                <div class="fp-search">
+                    <aura:if isTrue="{!!empty(v.searchTextPlaceHolder)}">
+                        <c:rrInput valueString="{!v.searchText}" iconName="icon-search" 
+                                   placeholder="{!v.searchTextPlaceHolder}"/>
+                        <!--aura:set attribute="else">
+                                        {!v.buttons}
+                                </aura:set-->
+                    </aura:if>
+                </div>
             </div>
         </div>
         <div class="fp-collapsible">
             <div class="fp-filter-block">
+                <div class="fp-filters-label rr-large-down-hide">{!$Label.c.PG_FP_L_Filter_by}</div>
                 <div class="fp-main-filter-block">
-                    <div class="fp-filters-label rr-large-down-hide">{!$Label.c.PG_FP_L_Filter_by}</div>
-                    <div class="fp-filters-container">{!v.body}</div>
-                    <div class="fp-serach-input rr-large-down-hide">
+                   
+                    <div class="fp-search-input rr-large-down-hide">
                         <aura:if isTrue="{!!empty(v.searchTextPlaceHolder)}">
                             <c:rrInput valueString="{!v.searchText}" iconName="icon-search"
                                        placeholder="{!v.searchTextPlaceHolder}"/>
@@ -60,7 +61,10 @@
                                 <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">{!v.buttons}</aura:if>
                             </aura:set>
                         </aura:if>
-                    </div>
+                    </div>       
+                    
+                    <div class="fp-filters-container">{!v.body}</div>
+                   
                 </div>
             </div>
         </div>

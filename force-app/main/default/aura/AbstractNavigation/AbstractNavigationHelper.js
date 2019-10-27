@@ -115,7 +115,7 @@
 
             'past-studies':{
                 page: 'past-studies',
-                label: 'Past Studies'
+                label: $A.get('$Label.c.Navigation_Past_Studies')
             }
         };
 

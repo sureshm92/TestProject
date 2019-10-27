@@ -8,14 +8,8 @@
     position: relative;
     box-sizing: border-box;
     min-height: 62px;
-    border-top: 1px solid #F2F2F2;
-    border-bottom: 1px solid #F2F2F2;
     background-color: #FFFFFF;
-    padding-top: 11px;
-    padding-bottom: 11px;
-    padding-left: 17px;
-    padding-right: 17px;
-    font-family: "Proxima Nova";
+    padding: 11px 17px 25px;
 }
 
 .THIS.rcei-body .apollo-btn {
@@ -41,20 +35,30 @@
 .THIS .rcei-left .rcei-status {
     display: inline-table;
     color: #FFFFFF;
-    font-size: 10px;
+    font-size: 13px;
     line-height: 10px;
-    margin-top: 3px;
     margin-bottom: 3px;
     margin-left: 10px;
-    padding: 4px;
+    padding: 6px;
+    border-radius: 2px;
 }
 
 .THIS .rcei-left .rcei-details {
     color: #297DFD;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
     line-height: 16px;
     cursor: pointer;
+    display: inline-block;
+    padding: 3px 8px;
+	margin: -3px 0 0 -8px;
+}
+
+.THIS .rcei-left .rcei-details:hover {
+    background-color: #eef5ff;
+    transition: .25s;
+    border-radius: 4px;
+   
 }
 
 /*================================body-right===========*/

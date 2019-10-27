@@ -11,10 +11,10 @@ global without sharing class ReferHealthcareProviderRemote {
                                                                     Last_Name__c,
                                                                     Email__c,
                                                                     Status__c,
-                                                                    Participant_Enrollment__c
+                                                                    Participant_Enrollment__c,
+                                                                    HCP_Enrollment__c
                                                             FROM Healthcare_Provider__c
-                                                            WHERE Participant_Enrollment__c = :peId
-                                                            AND Status__c != :HP_S_NOSHARING];
+                                                            WHERE Participant_Enrollment__c = :peId];
 
         if(healthcareProviders.isEmpty()) healthcareProviders.add(new Healthcare_Provider__c());
         return healthcareProviders;
@@ -27,7 +27,7 @@ global without sharing class ReferHealthcareProviderRemote {
 
         if (!String.isBlank(email)) {
             List<Contact> contacts = [
-                    SELECT Id, FirstName, LastName, Name, Email
+                    SELECT Id, FirstName, LastName, Name, Email, userCommunytyType__c
                     FROM Contact
                     WHERE Email = :email OR Email = :email.toLowerCase()
             ];
@@ -45,22 +45,29 @@ global without sharing class ReferHealthcareProviderRemote {
                         contacts[0].FirstName = participants[0].First_Name__c;
                         contacts[0].LastName = participants[0].Last_Name__c;
                         update contacts[0];
+                    } else{
+                        hp.firstName = contacts[0].FirstName;
+                        hp.lastName = contacts[0].LastName;
                     }
                 } else {
                     hp.firstName = contacts[0].FirstName;
                     hp.lastName = contacts[0].LastName;
                 }
                 hp.email = contacts[0].Email;
-                List<Healthcare_Provider__c> isDuplicate = [
-                        SELECT Id
-                        FROM Healthcare_Provider__c
-                        WHERE Participant_Enrollment__c = :peId
-                        AND Email__c = :email
-                ];
-                if (!isDuplicate.isEmpty()) {
-                    hp.isDuplicate = true;
+                if(peId != null) {
+                    List<Healthcare_Provider__c> isDuplicate = [
+                            SELECT Id
+                            FROM Healthcare_Provider__c
+                            WHERE Participant_Enrollment__c = :peId
+                            AND Email__c = :email
+                    ];
+                    if (!isDuplicate.isEmpty()) {
+                        hp.isDuplicate = true;
+                    } else {
+                        hp.isDuplicate = false;
+                    }
                 } else{
-                    hp.isDuplicate = false;
+                        hp.isDuplicate = contacts[0].get('userCommunytyType__c') != null && contacts[0].userCommunytyType__c.contains('HCP');
                 }
 
                 /*Healthcare_Provider__c newHP = new Healthcare_Provider__c();
@@ -81,13 +88,47 @@ global without sharing class ReferHealthcareProviderRemote {
         Healthcare_Provider__c newHP = (Healthcare_Provider__c) JSON.deserialize(hp,Healthcare_Provider__c.class);
 
         Participant_Enrollment__c pe = [SELECT Id, Study_Site__c FROM Participant_Enrollment__c WHERE Id = :peId];
+        List<HCP_Enrollment__c> hcpe = new List<HCP_Enrollment__c>();
 
-        if (!String.isBlank(peId) && newHP != null) {
+        if (!String.isBlank(peId) && newHP != null && String.isBlank(newHP.Id)) {
             newHP.Participant_Enrollment__c = peId;
             newHP.Status__c = HP_S_INVITED;
             insert newHP;
 
             createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null, CommunityService.getUserContact(), newHP);
+        } else if (!String.isBlank(newHP.Id) && newHP.Status__c == HP_S_NOSHARING) {
+            hcpe = [SELECT Id,
+                           HCP_Contact__c,
+                           Status__c
+                    FROM HCP_Enrollment__c
+                    WHERE Id = :newHP.HCP_Enrollment__c];
+
+            if (hcpe.isEmpty()) {
+                List<Contact> contacts = [
+                        SELECT Id, Email, AccountId
+                        FROM Contact
+                        WHERE Email = :newHP.Email__c OR Email = :newHP.Email__c.toLowerCase()
+                ];
+
+                hcpe.add(new HCP_Enrollment__c(
+                        HCP_Contact__c = contacts[0].Id,
+                        HCP_Account__c = contacts[0].AccountId,
+                        Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION
+                ));
+                insert hcpe;
+
+                newHP.HCP_Enrollment__c = hcpe[0].Id;
+            }
+
+            newHP.Status__c = HP_S_INVITED;
+            update newHP;
+        }
+
+        if (!hcpe.isEmpty()) {
+            hcpe[0].Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+            update hcpe;
+            hcpe[0].Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+            update hcpe;
         }
 
         return getInitData(peId);

@@ -123,7 +123,31 @@ public without sharing class CommunityService {
                 WHERE Id IN :userContactIds
         ];
     }
+    
+    /***
+        added by Slav V on Oct 18, 2019
+     */
+    public static Map<Id, Participant__c> getParticipantsByContactIds(Set<Id> contactIds){
+        if (contactIds == null) return null;
+        
+        List<Participant__c> participants = [
+                SELECT Contact__c, First_Name__c, Last_Name__c
+                FROM Participant__c
+                WHERE Contact__c IN :ContactIds
+        ];
+        
+        Map<Id, Participant__c> participantMap = new Map<Id, Participant__c>();
+        
+        for (Participant__c participant : participants) {
+            // IMPORTANT NOTE: if a Contact is linked to more than one Participant
+            // then only the LAST one from the list will retain in the returned Map.
+            // So, if you want to use a specific Participant add the "ORDER BY" clause in the SOQL above
+            participantMap.put(participant.Contact__c, participant);
+        }
 
+         return participantMap;
+    }
+    
     public static List<User> getCommunityUsersByContactIds(Set<Id> contactIds) {
         return [
                 SELECT Id, Name, FirstName, LastName, ContactId, Email, IsActive
@@ -184,6 +208,9 @@ public without sharing class CommunityService {
                 timeZone = hcpUser.TimeZoneSidKey;
                 locale = hcpUser.LocaleSidKey;
                 language = hcpUser.LanguageLocaleKey;
+            }
+            if(!cont.Participants__r.isEmpty() && cont.Participants__r[0].Preferred_Language__c != null){
+                cont.Language__c = cont.Participants__r[0].Preferred_Language__c;
             }
             if(cont.Language__c != null) language = cont.Language__c;
             if(cont.Email != null && cont.Email != ''){
@@ -250,6 +277,8 @@ public without sharing class CommunityService {
                         userCommunity_ShowTour__c,
                         Current_Participant_Enrollment__c,
                         Last_Session_Id__c,
+                        Language__c,
+                        Second_Choice_Language__c,
                         MailingLatitude,
                         MailingLongitude,
                         MailingCountry,
@@ -260,8 +289,6 @@ public without sharing class CommunityService {
                         Account.BillingCountry,
                         Account.OwnerId,
                         PI_My_Studies_Filters__c,
-                        Language__c,
-                        Second_Choice_Language__c,
                         Third_Choice_Language__c
                 FROM Contact
                 WHERE Id = :contactId
@@ -337,5 +364,15 @@ public without sharing class CommunityService {
         String nameFilter = '';
         if(name != null) nameFilter = ' WHERE Name = \'' + name + '\' ';
         return Database.query('SELECT Id FROM Network' + nameFilter).get(0).Id;
+    }
+
+    public static Boolean isNewSession(){
+        Contact userContact = getUserContact();
+        Boolean isNewSession = UserInfo.getSessionId() != userContact.Last_Session_Id__c;
+        if(isNewSession) {
+            userContact.Last_Session_Id__c = UserInfo.getSessionId();
+            update userContact;
+        }
+        return isNewSession;
     }
 }

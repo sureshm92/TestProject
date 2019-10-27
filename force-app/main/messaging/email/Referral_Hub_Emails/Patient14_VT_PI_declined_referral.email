@@ -1,7 +1,7 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Patient8}"
                          recipientType="User"
                          relatedToType="Participant_Enrollment__c"
-                         language="{!relatedTo.Participant__r.Language_Preference_Code__c}">
+                         language="{!relatedTo.Participant__r.Preferred_Language__c}">
 
     <messaging:htmlEmailBody >
         <c:EmailTemplate recipientId="{!relatedTo.Participant__r.Contact__c}"

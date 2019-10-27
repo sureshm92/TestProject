@@ -1,0 +1,30 @@
+<!--
+ - Created by Igor Malyuta on 02.09.2019.
+ -->
+
+<aura:component description="ParticipantIRBChecker" controller="ParticipantIRBCheckerRemote">
+
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <aura:attribute name="peId" type="Id"/>
+    <aura:attribute name="displayText" type="String" access="private"/>
+    <aura:attribute name="studyCodeName" type="String" access="private"/>
+    <aura:attribute name="isNewSession" type="Boolean" default="false"/>
+
+    <!--Not match IRB-Approved Languages popup-->
+    <c:Popup aura:id="popup" title="{!$Label.c.PP_IRB_Popup_Title}" headerText="{!v.displayText}"
+             size="small" showClose="false">
+        <aura:set attribute="footerButtons">
+            <button class="apollo-btn primary" onclick="{!c.navigateToSettings}">{!$Label.c.PP_IRB_Button_Review}</button>
+        </aura:set>
+    </c:Popup>
+
+    <!--Empty IRB-Approved Languages popup-->
+    <c:Popup aura:id="emptyPopup" title="{!v.studyCodeName}" headerText="{!$Label.c.PP_IRB_Popup_NotAva_Text}"
+             size="small" showClose="false">
+        <aura:set attribute="footerButtons">
+            <button class="apollo-btn primary" onclick="{!c.doLogOut}">{!$Label.c.BTN_Exit}</button>
+        </aura:set>
+    </c:Popup>
+
+</aura:component>

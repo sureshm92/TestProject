@@ -20,9 +20,10 @@ public without sharing class TaskEditRemote {
         };
 
         @AuraEnabled public Task task;
+        @AuraEnabled public Date today;
         @AuraEnabled public Date activityDate;
         @AuraEnabled public Date reminderDate;
-        @AuraEnabled public Boolean notReferral;
+        @AuraEnabled public Boolean isEnrolled;
         @AuraEnabled public String errorMessage;
         @AuraEnabled public Boolean reminderEnabled;
         @AuraEnabled public Boolean createdByAdmin;
@@ -30,12 +31,15 @@ public without sharing class TaskEditRemote {
         public TaskEditDataWrapper() {
             List<Contact> delegates = PatientDelegateService.getInstance().getDelegates();
             Boolean emailPreferencesIsOn = checkEmailPreferencesIsOn();
-            notReferral = ParticipantService.getInstance().getState().value != ParticipantService.ParticipantStates.REFERRAL;
+            isEnrolled = ParticipantService.getInstance().getState().value == ParticipantService.ParticipantStates.PARTICIPANT;
             errorMessage = checkEmailPermissions(emailPreferencesIsOn, delegates);
             reminderEnabled = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
             createdByAdmin = false;
 
             task = new Task();
+
+            TimeZone timeZone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
+            today = DateTimeConverterUtil.getUserDatetime(timeZone, Datetime.now()).dateGmt();
         }
     }
 
@@ -79,7 +83,9 @@ public without sharing class TaskEditRemote {
             taskToUpsert.Originator__c = state.isDelegate ? 'Delegate' : 'Participant';
             if(taskToUpsert.Visible_For__c == null) taskToUpsert.Visible_For__c = 'Owner;Delegates';
     
-            taskToUpsert.WhatId = state.pe.Id;
+            if(taskToUpsert.Task_Type__c != TaskService.TASK_TYPE_NOT_SELECTED && state.pe != null) {
+                taskToUpsert.WhatId = state.pe.Id;
+            }
 
             TimeZone timezone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
             if(taskWrapper.activityDate != null) {

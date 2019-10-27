@@ -9,3 +9,11 @@
 .THIS .slds-card__body {
     margin-top: 0;
 }
+
+.THIS.main-panel{
+    margin-bottom: 20px;
+}
+
+.THIS .accordion-content{
+    padding: 0 10px;
+}

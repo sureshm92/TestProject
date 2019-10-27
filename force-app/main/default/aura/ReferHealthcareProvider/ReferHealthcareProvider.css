@@ -15,7 +15,7 @@
 }
 
 .THIS .referring-provider-header {
-    color: #7F888D;
+    color: #444;
     font-family: "Proxima Nova";
     font-size: 10px;
     margin-top: 3%;
@@ -23,7 +23,7 @@
 }
 
 .THIS .rp-label {
-    color: #666666;
+    color: #999;
 }
 
 .THIS .healthcare-input {
@@ -35,10 +35,18 @@
 }
 
 .THIS .healthcare-input input{
-    height: 40px;
+    height: 32px;
 }
 
 .THIS .provider-found-section{
     font-size: 13px;
     font-weight: 500;
+}
+
+@media (max-width: 768px){  
+    .THIS .slds-grid > .slds-col,
+	.THIS .apollo-btn {
+        width: 100%;
+    }
+
 }
