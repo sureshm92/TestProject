@@ -73,7 +73,6 @@ public without sharing class AddPatientByPIRemote {
                 ));
                 if(step.name == currentState.name) break;
             }
-            update pe;
             insert statusHistories;
         }catch (Exception e){
             AuraHelper.throwException(e);
