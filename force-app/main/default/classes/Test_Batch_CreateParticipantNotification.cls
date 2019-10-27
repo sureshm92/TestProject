@@ -96,14 +96,20 @@ public without sharing class Test_Batch_CreateParticipantNotification {
         Test.startTest();
         TestData.loadTestData();
 
-        List<Participant__c> participants = [
-            SELECT  Id,
-                        Name,
-                        Contact__c,
-                        Contact__r.Profile_Update_Years_Notification__c
-            FROM Participant__c
+        List<User> users = [
+                SELECT
+                        ContactId,
+                        Contact.Current_Participant_Enrollment__c,
+                        Contact.Participant_Opt_In_Status_Emails__c,
+                        Contact.Profile_Update_Years_Notification__c,
+                        CreatedDate
+                FROM User
+                WHERE CreatedDate =: Datetime.now().addYears(-1)
+                AND Contact.userCommunityMode__c =: CommunityService.USER_MODE_PARTICIPANT
+                AND Contact.Current_Participant_Enrollment__c != NULL
+                AND IsActive = TRUE
         ];
-        new Batch_UserCreatedDateNotification().execute(null, participants);
+        new Batch_UserCreatedDateNotification().execute(null, users);
         Test.stopTest();
 
     }
