@@ -21,7 +21,7 @@
             var blob = new Blob([generatedFile], {
                 type : 'text/plain'
             });
-            var filename = 'Export_' + component.get('v.exportType') + '_' + component.get('v.translateItem.Language__c') + '__PlatformObjects.xlf';
+            var filename = 'Export_' + component.get('v.exportType') + '_' + component.get('v.translateItem.Language__c') + '__' + component.get('v.studySiteVisitPlan.Visit_Plan__r.Name') +'.xlf';
             saveAs(blob, filename);
         }, null, function () {
             spinner.hide();

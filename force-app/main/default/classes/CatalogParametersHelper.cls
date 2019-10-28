@@ -45,7 +45,7 @@ public class CatalogParametersHelper {
             }else if(value instanceof Datetime){
                 valueStr = UserService.formatDateTime((Date)value, language);
             }else{
-                valueStr = value + '';
+                valueStr = (value != null ? value : '') + '';
             }
             resultMap.put(paramName, valueStr);
         }

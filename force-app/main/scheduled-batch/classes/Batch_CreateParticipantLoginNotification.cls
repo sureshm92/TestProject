@@ -1,13 +1,20 @@
 /**
  * Created by Julia Kazakevich on 18-Sep-19.
+ * Refactored by Igor Malyuta on 27-Oct-19
  */
 
 public without sharing class Batch_CreateParticipantLoginNotification extends Batch_ScheduledAbstract {
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator([
-                SELECT Id, Next_Notify_Date__c, Participant_Opt_In_Status_Emails__c
+                SELECT
+                        Id,
+                        Current_Participant_Enrollment__c,
+                        Next_Notify_Date__c,
+                        Participant_Opt_In_Status_Emails__c
                 FROM Contact
-                WHERE Next_Notify_Date__c <= TODAY AND Participant_Opt_In_Status_Emails__c = TRUE
+                WHERE Next_Notify_Date__c <=: Datetime.now().dateGmt()
+                AND Participant_Opt_In_Status_Emails__c = TRUE
+                AND Current_Participant_Enrollment__c != NULL
         ]);
     }
 
@@ -17,8 +24,11 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
         Map<Id, Integer> conIdsAndNearestNotifyDate = ParticipantService.getNearestLogOutNotification(cntIds);
 
         List<Contact> listOfContactEmails = new List<Contact>();
-        for (Id conId : conIdsAndNearestNotifyDate.keySet()) {
-            listOfContactEmails.add(new Contact(Id = conId, Next_Notify_Date__c = Date.today() + conIdsAndNearestNotifyDate.get(conId)));
+        for(Contact cnt : contacts) {
+            if(conIdsAndNearestNotifyDate.containsKey(cnt.Id)) {
+                cnt.Next_Notify_Date__c = Datetime.now().addDays(conIdsAndNearestNotifyDate.get(cnt.Id)).dateGmt();
+                listOfContactEmails.add(cnt);
+            }
         }
 
         if (!listOfContactEmails.isEmpty()) {
