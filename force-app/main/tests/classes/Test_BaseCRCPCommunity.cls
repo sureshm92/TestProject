@@ -440,6 +440,21 @@ private class Test_BaseCRCPCommunity {
     }
     @IsTest
     static void baseHCPTest5() {
+        Study_Site__c studySite = [SELECT Id, Clinical_Trial_Profile__c FROM Study_Site__c WHERE Study_Site_Type__c = 'Traditional'];
+        Contact hcpContact = [SELECT Id FROM Contact WHERE Email = 'hcp@emil.com'];
+        User hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
+        Test.startTest();
+        System.runAs(hcpUser) {
+            String initDataString = MyReferringClinicsController.getInitData(studySite.Clinical_Trial_Profile__c, studySite.Id);
+            MyReferringClinicsController.InitData initData= (MyReferringClinicsController.InitData)JSON.deserializeStrict(initDataString, MyReferringClinicsController.InitData.class);
+            MyReferringClinicsController.searchReferringClinics(JSON.serialize(initData.referringClinicsFilter.filterValues),JSON.serialize(initData.referringClinicsFilter.sortData),JSON.serialize(initData.paginationData), false);
+            MyReferringClinicsController.searchReferringClinics(JSON.serialize(initData.referringClinicsFilter.filterValues),JSON.serialize(initData.referringClinicsFilter.sortData),JSON.serialize(initData.paginationData), true);
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void baseHCPTest6() {
         Study_Site__c studySite = [SELECT Id FROM Study_Site__c WHERE Study_Site_Type__c = 'Traditional'];
         HCP_Enrollment__c hcpEnrollment = [SELECT Id FROM HCP_Enrollment__c WHERE Study_Site__c = :studySite.Id];
         Contact hcpContact = [SELECT Id FROM Contact WHERE Email = 'hcp@emil.com'];
@@ -653,6 +668,59 @@ private class Test_BaseCRCPCommunity {
             Action_ChangeHCPStatusByPIRemote.changeHCPEnrollmentStatus(hcpEnrollment.Id, StudyActions.ACT_HCP_ON_HOLD, '');
             Action_ChangePEStatusByPIRemote.getReferralDeclineReasons();
             Action_ChangePEStatusByPIRemote.updatePE(passedMrrPE.Id, PEStatusState.PE_STATUS_REFERRAL_ON_HOLD, '', '');
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void basePITest4() {
+//        Clinical_Trial_Profile__c study = [SELECT Id FROM Clinical_Trial_Profile__c WHERE NCT_Number__c = 'NCT00000001'];
+        Contact piContact = [SELECT Id FROM Contact WHERE Email = 'pi@emil.com'];
+        User piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
+//        Account hcpAccount = [SELECT Id FROM Account WHERE Name = 'HCP Account'];
+        Test.startTest();
+        System.runAs(piUser) {
+            String initDataString = StudyListViewController.getPIInitData();
+            StudyListViewController.PIInitData initData = (StudyListViewController.PIInitData) JSON.deserializeStrict( initDataString, StudyListViewController.PIInitData.class);
+            StudyListViewController.searchStudiesPI(JSON.serialize(initData.piStudiesFilter.filterData),JSON.serialize(initData.piStudiesFilter.sortData), JSON.serialize(initData.paginationData));
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void basePITest5() {
+//        Clinical_Trial_Profile__c study = [SELECT Id FROM Clinical_Trial_Profile__c WHERE NCT_Number__c = 'NCT00000001'];
+        Contact piContact = [SELECT Id FROM Contact WHERE Email = 'pi@emil.com'];
+        User piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
+//        Account hcpAccount = [SELECT Id FROM Account WHERE Name = 'HCP Account'];
+        Test.startTest();
+        System.runAs(piUser) {
+            Action_InviteRPRemote.getInviteDetail();
+            Action_InviteRPRemote.inviteHCP('test', 'hcp', '12345','test@mail.com.fake', null, 'test-protocol');
+        }
+        Test.stopTest();
+    }
+
+
+    @IsTest
+    static void healthcareProvidersTest() {
+//        Clinical_Trial_Profile__c study = [SELECT Id FROM Clinical_Trial_Profile__c WHERE NCT_Number__c = 'NCT00000001'];
+        Contact piContact = [SELECT Id FROM Contact WHERE Email = 'pi@emil.com'];
+        User piUser = [SELECT Id FROM User WHERE ContactId = :piContact.Id];
+        Participant_Enrollment__c   pe = [SELECT Id FROM Participant_Enrollment__c WHERE Patient_ID__c = 'SomePatienntId2'];
+//        Account hcpAccount = [SELECT Id FROM Account WHERE Name = 'HCP Account'];
+        Test.startTest();
+        System.runAs(piUser) {
+            Healthcare_Provider__c provider =  new Healthcare_Provider__c(
+                    First_Name__c = 'testHP',
+                    Last_Name__c = 'Lastname',
+                    Email__c = 'testHP@mail.com.fake',
+                    Participant_Enrollment__c = pe.Id
+            );
+
+            Healthcare_Provider__c hp = ReferHealthcareProviderRemote.inviteHP(pe.Id,JSON.serialize(provider))[0];
+            ReferHealthcareProviderRemote.checkDuplicate(pe.Id,'testHP@mail.com.fake');
+            ReferHealthcareProviderRemote.stopSharing(hp.Id);
         }
         Test.stopTest();
     }

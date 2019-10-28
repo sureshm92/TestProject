@@ -1929,19 +1929,30 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             Please login to the IQVIA Patient Portal to check your clinical research trial matches at any time.</value>
     </labels>
     <labels>
-        <fullName>Email_Body_Patient1</fullName>
+        <fullName>Email_Body_Patient0</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Email Body Patient1</shortDescription>
-        <value>
-            Recently, ##PITitle ##PIName made a referral on your behalf to ##StudySiteName regarding your potential participation in a clinical research study: ##StudyName.
+        <shortDescription>Email Body Patient2</shortDescription>
+        <value>Thank you for your interest in the clinical research study: ##StudyName.
 
             We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
             To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
 
-            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.
-        </value>
+            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient1</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Patient1</shortDescription>
+        <value>Recently, ##PITitle ##PIName made a referral on your behalf to ##StudySiteName regarding your potential participation in a clinical research study: ##StudyName.
+
+            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
+
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+
+            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient10</fullName>
@@ -2021,11 +2032,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient2</shortDescription>
-        <value>Clinical research study: ##StudyName has been added to your list of studies in IQVIA Patient Portal.
+        <value>Recently, ##HCPTitle ##HCPName made a referral on your behalf to ##PITitle ##PIName regarding your potential participation in a clinical research study: ##StudyName.
 
-            You will be contacted by the study team regarding the next steps in the enrollment process for this study.
+            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To see additional information about this study, please log in to the IQVIA Patient Portal, and then go to “My Studies.”</value>
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+
+            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient3</fullName>
@@ -3262,6 +3275,13 @@ The IQVIA Patient Portal Support Team</value>
         <value>Add File</value>
     </labels>
     <labels>
+        <fullName>FastingLipidProfile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>FastingLipidProfile</shortDescription>
+        <value>Fasting Lipid Profile</value>
+    </labels>
+    <labels>
         <fullName>File_Type</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3470,6 +3490,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Hematocrit Description</shortDescription>
         <value>A hematocrit test measures the proportion of red blood cells in your blood. Your blood is made up of different components, such as red and white blood cells and blood platelets. The hematocrit value is the ratio of the volume of red blood cells compared to the total volume of all the components of the blood together. This value is expressed as a percentage. For example, if your hematocrit value is 50%, it means that there are 50 milliliters (mL) of red blood cells in 100 mL of blood. Hematocrit is measured to check your general health and to check for conditions that influence red blood cells.</value>
+    </labels>
+    <labels>
+        <fullName>Hematology</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Hematology</shortDescription>
+        <value>Hematology</value>
     </labels>
     <labels>
         <fullName>Hemoglobin</fullName>
@@ -3764,6 +3791,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Medical Record Review</shortDescription>
         <value>Medical Record Review</value>
+    </labels>
+    <labels>
+        <fullName>MetabolicPanel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MetabolicPanel</shortDescription>
+        <value>Metabolic Panel</value>
     </labels>
     <labels>
         <fullName>MyStudy_Associated_Sites_and_Site_Details</fullName>
@@ -11260,6 +11294,13 @@ have questions or concerns about this data, please contact the Principal Investi
         <protected>true</protected>
         <shortDescription>Visit b Save</shortDescription>
         <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>Vitals</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Vitals</shortDescription>
+        <value>Vitals</value>
     </labels>
     <labels>
         <fullName>WBC_Count</fullName>

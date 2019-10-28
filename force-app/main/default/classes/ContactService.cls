@@ -170,33 +170,25 @@ public without sharing class ContactService {
     }
 
     public static void updateNextNotifyDate(Id cntId, Datetime lastLoginDateByContactId, Boolean isDelegate) {
-        Id participant = cntId;
+        Id participantCnt = cntId;
         if (isDelegate) {
-            Patient_Delegate__c delegate = [SELECT Id, Contact__c, Participant__r.Contact__c FROM Patient_Delegate__c WHERE Contact__c = :cntId];
-            participant = delegate.Participant__r.Contact__c;
-        }
-        List<Id> enrollmentIds = PatientDelegateService.getForExclStatusPEIdsForContact(participant, PEStatusState.PE_STATUS_GROUP_COMPLETE);
-        List<Participant_Enrollment__c> peList = [
-                SELECT Participant_Contact__c, Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c
-                FROM Participant_Enrollment__c
-                WHERE Participant_Contact__c IN :enrollmentIds
-        ];
+            List<Patient_Delegate__c> delegate = [
+                    SELECT Id, Contact__c, Participant__r.Contact__c
+                    FROM Patient_Delegate__c
+                    WHERE Contact__c = :cntId
+            ];
+            if (delegate.isEmpty()) return;
 
-
-        List<Decimal> minDays = new List<Decimal>();
-        for (Participant_Enrollment__c pe : peList) {
-            if (pe.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c == null){
-                continue;
-            }
-            else if (cntId == pe.Participant_Contact__c) {
-                minDays.add(pe.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c);
-            }
+            participantCnt = delegate.get(0).Participant__r.Contact__c;
         }
+        Map<Id, Integer> notifyDayByPartCnt = ParticipantService.getNearestLogOutNotification(new List<Id>{
+                participantCnt
+        });
+        if (!notifyDayByPartCnt.containsKey(participantCnt)) return;
 
-        if (!minDays.isEmpty()) {
-            minDays.sort();
-            Integer minDay = (Integer) minDays[0];
-            update new Contact(Id = cntId, Next_Notify_Date__c = lastLoginDateByContactId.addDays(minDay).date());
-        }
+        update new Contact(
+                Id = cntId,
+                Next_Notify_Date__c = lastLoginDateByContactId.addDays(notifyDayByPartCnt.get(participantCnt)).date()
+        );
     }
 }

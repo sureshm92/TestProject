@@ -1,9 +1,9 @@
 /**
- * Created by Leonid Bartenev
+ * Created by Krivo on 26.10.2019.
  */
 
 @IsTest(IsParallel=false)
-private class Test_RRChangePasswordController {
+private class Test_FirstLogonController {
 
     @IsTest(SeeAllData=true)
     public static void testChangePasswordController() {
@@ -11,9 +11,9 @@ private class Test_RRChangePasswordController {
         TestData testData = new TestData();
         //run test:
         Test.startTest();
-        System.runAs(testData.participantUser){
+        System.runAs(testData.participantUser) {
             // Instantiate a new controller with all parameters in the page
-            RRChangePasswordController controller = new RRChangePasswordController();
+            FirstLogonController controller = new FirstLogonController();
             controller.oldPassword = '123456';
             controller.newPassword = 'qwerty1';
             controller.verifyNewPassword = 'qwerty1';
