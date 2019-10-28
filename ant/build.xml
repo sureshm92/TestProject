@@ -187,39 +187,40 @@
         </zip>
         <delete dir="${dist.dir}/part2"/>
 
-<!--        &lt;!&ndash; part 3 &ndash;&gt;-->
-<!--        <copy todir="${dist.dir}/part3">-->
-<!--            <fileset dir="${source.dir}">-->
-<!--                <include name="labels/*.*"/>-->
-<!--            </fileset>-->
-<!--        </copy>-->
-<!--        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part3/package.xml" encoding="UTF-8">-->
-<!--            <remove path="/:Package/:types[:name[text()!='CustomLabels' and text()!='CustomLabel']]"/>-->
-<!--        </xmltask>-->
-<!--        <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part3.zip">-->
-<!--            <fileset dir="${dist.dir}">-->
-<!--                <include name="part3/**/*.*"/>-->
-<!--            </fileset>-->
-<!--        </zip>-->
-<!--        <delete dir="${dist.dir}/part3"/>-->
-
-        <!-- part 4 -->
-        <copy todir="${dist.dir}/part4">
+        <!-- part 3 -->
+        <copy todir="${dist.dir}/part3">
             <fileset dir="${source.dir}">
                 <exclude name="assignmentRules/*.*"/>
                 <exclude name="staticresources/*.*"/>
                 <exclude name="translations/*.*"/>
                 <exclude name="navigationMenus/*.*"/>
+                <exclude name="profiles/*.*"/>
+            </fileset>
+        </copy>
+        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part3/package.xml" encoding="UTF-8">
+            <remove path="/:Package/:types[:name[text()='AssignmentRule']]"/>
+            <remove path="/:Package/:types[:name[text()='AssignmentRules']]"/>
+            <remove path="/:Package/:types[:name[text()='StaticResource']]"/>
+            <remove path="/:Package/:types[:name[text()='Translations']]"/>
+            <remove path="/:Package/:types[:name[text()='NavigationMenu']]"/>
+            <remove path="/:Package/:types[:name[text()='Profile']]"/>
+        </xmltask>
+        <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part3.zip">
+            <fileset dir="${dist.dir}">
+                <include name="part3/**/*.*"/>
+            </fileset>
+        </zip>
+        <delete dir="${dist.dir}/part3"/>
+
+        <!-- part 4 -->
+        <copy todir="${dist.dir}/part4">
+            <fileset dir="${source.dir}">
+                <include name="assignmentRules/*.*"/>
+                <include name="profiles/*.*"/>
             </fileset>
         </copy>
         <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part4/package.xml" encoding="UTF-8">
-            <remove path="/:Package/:types[:name[text()='StaticResource']]"/>
-            <remove path="/:Package/:types[:name[text()='Translations']]"/>
-<!--            <remove path="/:Package/:types[:name[text()='CustomLabels']]"/>-->
-<!--            <remove path="/:Package/:types[:name[text()='CustomLabel']]"/>-->
-<!--            <remove path="/:Package/:types[:name[text()='BusinessProcess']]"/>-->
-<!--            <remove path="/:Package/:types[:name[text()='GlobalValueSet']]"/>-->
-            <remove path="/:Package/:types[:name[text()='NavigationMenu']]"/>
+            <remove path="/:Package/:types[:name[text()!='Profile' and text()!='AssignmentRule' and text()!='AssignmentRules']]"/>
         </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part4.zip">
             <fileset dir="${dist.dir}">
