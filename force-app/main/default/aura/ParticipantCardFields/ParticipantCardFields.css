@@ -5,6 +5,7 @@
 .THIS .vpi-fields{
     padding: 0 0 20px 0;
     display: flex;
+    flex-wrap: wrap;
 }
 
 .THIS.vpi-clip-item-borders{
