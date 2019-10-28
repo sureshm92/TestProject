@@ -12,7 +12,9 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
             'Visible_To_Participant__c',
             'Visible_To_PI__c',
             'Visible_To_RP__c',
-            'Resource__c'
+            'Resource__c',
+            'Resource__r.Language__c',
+            'Resource__r.Content_Type__c'
     };
     
     private Id ctpId;
@@ -44,17 +46,24 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
         Set<Id> resStudyResourceIds = new Set<Id>();
         for(Res_study__c rs : resStudies) resStudyResourceIds.add(rs.Resource__c);
         if(resStudies.size() > 0){
-            List<ContentDocumentLink> contentDocumentLinks = [
-                    SELECT Id, ContentDocument.Title, LinkedEntityId
-                    FROM ContentDocumentLink
-                    WHERE LinkedEntityId IN :resStudyResourceIds
-            ];
-    
-            for (ContentDocumentLink content : contentDocumentLinks) {
-                if (!contentLangByResId.containsKey(content.LinkedEntityId)) {
-                    contentLangByResId.put(content.LinkedEntityId, new List<String>());
+            if(resStudies.get(0).Resource__r.Content_Type__c == 'Study_Document') {
+                List<ContentDocumentLink> contentDocumentLinks = [
+                        SELECT Id, ContentDocument.Title, LinkedEntityId
+                        FROM ContentDocumentLink
+                        WHERE LinkedEntityId IN :resStudyResourceIds
+                ];
+
+                for (ContentDocumentLink content : contentDocumentLinks) {
+                    if (!contentLangByResId.containsKey(content.LinkedEntityId)) {
+                        contentLangByResId.put(content.LinkedEntityId, new List<String>());
+                    }
+                    contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.Title);
                 }
-                contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.Title);
+            } else {
+                for(Res_study__c rs : resStudies) {
+                    contentLangByResId.put(rs.Resource__c, new List<String>());
+                    contentLangByResId.get(rs.Resource__c).add(rs.Resource__r.Language__c);
+                }
             }
         }
 
