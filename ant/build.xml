@@ -202,7 +202,7 @@
             <remove path="/:Package/:types[:name[text()!='CustomMetadata' and text()!='CustomObject' and text()!='CustomField'
             and text()!='CustomLabels' and text()!='CustomLabel' and text()!='Layout' and text()!='CompactLayout'
             and text()!='ListView' and text()!='RecordType' and text()!='ValidationRule' and text()!='FieldSet'
-            and text()!='WebLink' and text()!='BusinessProcess' and text()!='GlobalValueSet']]"/>
+            and text()!='WebLink' and text()!='BusinessProcess' and text()!='GlobalValueSet' and text()!='FlexiPage']]"/>
         </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part3.zip">
             <fileset dir="${dist.dir}">
