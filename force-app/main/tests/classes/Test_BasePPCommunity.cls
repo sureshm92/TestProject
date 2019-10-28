@@ -66,5 +66,28 @@ private class Test_BasePPCommunity {
         Test.stopTest();
     }
 
+    @IsTest
+    static void test_StudyDetailView() {
+        Test.startTest();
+        TestData testDataInstance = new TestData();
+        System.runAs(testDataInstance.participantUser){
+            StudyDetailViewController.getTrialDetail(testDataInstance.ctp.Id, CommunityService.USER_MODE_PARTICIPANT);
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void test_LanguageSwitcher() {
+        Test.startTest();
+        TestData testDataInstance = new TestData();
+        System.runAs(testDataInstance.participantUser){
+            LanguageSwitcherRemote.getInitData();
+            LanguageSwitcherRemote.changeLanguage('en_US','','', 'en_US', 'Asia/Kathmandu');
+        }
+        Test.stopTest();
+    }
+
+
+
 
 }

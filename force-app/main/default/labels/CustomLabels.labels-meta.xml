@@ -2081,6 +2081,19 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             To see additional information, log in to the IQVIA Patient Portal, and then go to &quot;My Studies.&quot;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Patient0</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Patient2</shortDescription>
+        <value>Thank you for your interest in the clinical research study: ##StudyName.
+
+            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
+
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+
+            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Patient_CreatedDate</fullName>
         <language>en_US</language>
         <protected>true</protected>

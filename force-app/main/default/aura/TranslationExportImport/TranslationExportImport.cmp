@@ -26,7 +26,7 @@
         <div class="slds-grid slds-wrap" style="position: relative">
             <c:RRSpinner aura:id="spinner" size="medium"/>
             <div class="slds-col section slds-size_1-of-1 slds-large-size_1-of-2">
-                <div class="border-panel">
+                <div class="border-panel export-panel">
                     <div class="section-header">Export</div>
                     <div class="export-form slds-grid slds-wrap slds-gutters">
                         <div class="slds-col slds-size_1-of-2 slds-form-element">
@@ -82,7 +82,7 @@
                 </div>
             </div>
             <div class="slds-col section slds-size_1-of-1 slds-large-size_1-of-2">
-                <div class="border-panel">
+                <div class="border-panel export-panel">
                     <div class="section-header">Export</div>
                     <div class="export-form slds-grid slds-wrap slds-gutters">
                         <div class="slds-col slds-size_1-of-2 slds-form-element">
