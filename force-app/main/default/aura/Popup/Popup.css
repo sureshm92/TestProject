@@ -100,15 +100,17 @@
     overflow-x: hidden;
 }
 
-
+/*
 .THIS .p-container .p-content:not(.with-scroll) {
     -ms-overflow-style: none;
     overflow: -moz-scrollbars-none;
 }
 
+
 .THIS .p-container .p-content:not(.with-scroll)::-webkit-scrollbar {
     width: 0;
 }
+*/
 
 .THIS .p-container .p-footer {
     max-height: 20vh;
@@ -135,14 +137,20 @@
     right: 4px;
 }
 
-.THIS .close-icon{
+.THIS .close-icon {
     position: absolute;
     height: 33px;
     top: -2px;
     left: -7px;
     width: 46px;
-    fill: rgba(255, 255, 255, 0.5);}
+    fill: rgba(255, 255, 255, 0.5);
+}
 
+@media all and (max-width: 767px){
+     .THIS.cAction_ParticipantInformation .p-container .p-header {
+		max-height: 30vh;
+    }
+}
 @media all and (min-width: 480px){
     .THIS #p-modal .p-container.small {
         width: 400px;

@@ -21,7 +21,7 @@
                              variant="label-hidden" placeholder="{!$Label.c.ReferralNetwork_Search_For}"/>
         </div>
 
-        <div class="slds-m-top--medium" style="height: 220px; overflow-y: scroll;">
+        <div class="slds-m-top--medium" style="height: 220px; overflow-y: auto;">
             <table aria-multiselectable="true"
                    class="slds-table slds-table_header-hidden slds-table_edit slds-tree slds-table_tree"
                    role="treegrid">
