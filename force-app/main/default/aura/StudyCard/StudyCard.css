@@ -177,6 +177,7 @@
     margin-right: 5px;
     height: 16px;
     width: 16px;
+    max-width: 16px;
 }
 
 .THIS .slvi-status-item > div:last-child {

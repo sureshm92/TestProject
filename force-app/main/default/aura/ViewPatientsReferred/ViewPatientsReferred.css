@@ -23,10 +23,6 @@
     padding-top: 0;
 }
 
-.THIS .cParticipantCardFields .vpi-field {
-    flex: 0 0 15%;
-}
-
 .THIS .cParticipantCardFields .vpi-field label{
     white-space: nowrap;
 }
