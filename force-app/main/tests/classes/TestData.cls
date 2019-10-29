@@ -53,6 +53,7 @@ public class TestData {
         pe = [
                 SELECT Id,
                         Participant_Contact__c,
+                        Participant_Contact__r.Visit_Results_Opt_In__c,
                         Screening_ID__c
                 FROM Participant_Enrollment__c
                 WHERE Participant__c =: participant.Id

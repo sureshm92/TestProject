@@ -60,7 +60,7 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
 
         List<Contact> peContacts = new List<Contact>();
         Map<Id, Id> peIdByContact = new Map<Id, Id>();
-        List<Patient_Visit__c> updatedPatientVisits = new List<Patient_Visit__c>();
+        Set<Patient_Visit__c> updatedPatientVisits = new Set<Patient_Visit__c>();
         for(Visit_Result__c visitResultObj : listOfResult){
             if(visitResultObj.Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__c != null){
                 peContacts.add(visitResultObj.Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__r);
@@ -76,7 +76,7 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
 
         if(!peContacts.isEmpty()) {
             SendEmailToParticipant.sendPlainSummaryNotifications( peContacts, peIdByContact, SendEmailToParticipant.PATIENT_VISITS_AVAILABLE);
-            update updatedPatientVisits;
+            update new List<Patient_Visit__c>(updatedPatientVisits);
         }
     }
 
