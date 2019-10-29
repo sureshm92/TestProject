@@ -167,7 +167,7 @@
                             <aura:if isTrue="{!v.currentStudy.distance != null}">
                                 <div style="float: left;">
                                    <!--RRIcon class="slvi-status-icon blue-icon" iconName="map-marker"/> -->
-                                    <img src="{!$Resource.iconLocationPin}" width="16" />
+                                    <img src="{!$Resource.iconLocationPinNew}" width="16" />
                                 </div>
                                 <div>{!$Label.c.PG_MS_L_Nearest_site}
                                     <aura:unescapedHtml value="{!v.currentStudy.distance}"/>
@@ -180,7 +180,7 @@
                         <div class="slvi-status-item">
                             <aura:if isTrue="{!v.currentStudy.therapeuticArea != null}">
                                 <div style="float: left;">
-                                  <img src="{!$Resource.IconImmunology}" width="16" />
+                                  <img src="{!$Resource.IconImmunologyNew}" width="16" />
                                   <!--  <c:RRIcon class="slvi-status-icon blue-icon" iconName="about-the-study"/> -->
                                 </div>
                                 <div>{!v.currentStudy.therapeuticArea}</div>
@@ -192,7 +192,7 @@
                                 slds-order_1 slds-medium-order_4 slds-m-vertical_x-small">
                         <div class="slvi-status-item">
                             <div style="float: left;">
-                                <img src="{!$Resource.IconActivelyEnrolling}" width="16" />
+                                <img src="{!$Resource.IconActivelyEnrollingNew}" width="16" />
                              <!--   <c:RRIcon class="{!'slvi-status-icon ' + v.currentStudy.trial.iconStyle}"
                                           iconName="{!v.currentStudy.trial.statusIcon}"/> -->
                             </div>
