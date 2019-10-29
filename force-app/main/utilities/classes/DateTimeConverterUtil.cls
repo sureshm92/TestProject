@@ -48,8 +48,7 @@ public without sharing class DateTimeConverterUtil {
             );
         }
 
-        String nowFormat = moment.format('YYYY-MM-dd HH:mm:ss', timezone.toString());
-        return Datetime.valueOfGmt(nowFormat);
+        return getUserDatetime(timezone, moment);
     }
 
     public static Datetime convertUserDatetimeToGMT(Datetime moment, TimeZone tz) {
