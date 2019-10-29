@@ -519,9 +519,9 @@ lightning-datepicker .slds-input-has-icon > lightning-button-icon:after {
     right: 0px;
 }
 
-lightning-datepicker lightning-button-icon .slds-button svg {
-    display: none;
-}
+/*lightning-datepicker lightning-button-icon .slds-button svg {*/
+/*    display: none;*/
+/*}*/
 
 .slds-radio [type=radio]:checked+.slds-radio_faux,
 .slds-radio [type=radio]:checked+.slds-radio--faux,
