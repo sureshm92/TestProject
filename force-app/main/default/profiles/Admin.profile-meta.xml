@@ -2764,6 +2764,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Event.Activity_Datetime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event.Completed_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5280,6 +5285,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Action_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Activity_Datetime__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
