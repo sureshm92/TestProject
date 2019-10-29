@@ -31,9 +31,9 @@
         let taskId = event.currentTarget.dataset.taskId;
         let visitId = event.currentTarget.dataset.visitId;
         if(!taskId) {
-            communityService.navigateToPage('edit-task?visitId=' + visitId);
+            communityService.navigateToPage('task-detail?visitId=' + visitId);
         } else {
-            communityService.navigateToPage('edit-task?id=' + taskId + '&visitId=' + visitId);
+            communityService.navigateToPage('task-detail?id=' + taskId + '&visitId=' + visitId);
         }
     }
 })
