@@ -118,34 +118,62 @@ public without sharing class Test_Batch_CreateParticipantNotification {
     static void testdataBecomesAvailiable() {
         Test.startTest();
         TestData.loadTestData();
+        TestData testData = new TestData();
 
-        List<Patient_Visit__c> participants = [
-                SELECT  Id,
-                        Completed_Date__c,
-                        Participant_Enrollment__c,
-                        Participant_Enrollment__r.Participant__r.Mailing_Country_Code__c,
-                        Participant_Enrollment__r.Clinical_Trial_Profile__c,
-                        Participant_Enrollment__r.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c,
-                        Participant_Enrollment__r.Participant_Contact__r.Visit_Results_Opt_In__c,
-                        Visit_Number__c, (
-                        SELECT
-                                Id,
-                                Actual_Value__c,
-                                Max_Value__c,
-                                Measurement__c,
-                                Min_Value__c,
-                                Patient_Visit__r.Completed_Date__c,
-                                Patient_Visit__r.Notified__c,
-                                Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__c,
-                                Result_Type__c
-                        FROM Visit_Results__r
-                )
-                FROM Patient_Visit__c
-                WHERE Status__c = 'Completed'
-                AND Notified__c = false
-                ORDER BY Visit_Number__c, Completed_Date__c
-        ];
-        new Batch_DataBecomesAvailable().execute(null, participants);
+        testData.ss.Visit_Results_Sharing__c = true;
+        update testData.ss;
+
+        testData.ctp.Visit_Data_Shareback__c = true;
+        testData.ctp.Shareback_Availability_Timing__c = 0.0;
+        update testData.ctp;
+
+        testData.pe.Participant_Contact__r.Visit_Results_Opt_In__c = true;
+        update testData.pe.Participant_Contact__r;
+
+        List<Visit_Result_Type_Sharing__c> visitResultTypeSharings = new List<Visit_Result_Type_Sharing__c>();
+        visitResultTypeSharings.add(new Visit_Result_Type_Sharing__c(
+                Clinical_Trial_Profile__c = testData.ctp.Id,
+                Include_Countries__c = true,
+                Type__c = 'Calcium',
+                Sharing_Countries__c = 'US'
+        ));
+        visitResultTypeSharings.add(new Visit_Result_Type_Sharing__c(
+                Clinical_Trial_Profile__c = testData.ctp.Id,
+                Include_Countries__c = true,
+                Type__c = 'BUN',
+                Sharing_Countries__c = 'US'
+        ));
+        insert visitResultTypeSharings;
+
+        Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan');
+        insert vp;
+
+        Visit__c visit = new Visit__c(Visit_Plan__c = vp.Id);
+        insert visit;
+
+        Patient_Visit__c patientVisit = new Patient_Visit__c(
+                Participant_Enrollment__c = testData.pe.Id,
+                Status__c = 'Completed',
+                Visit__c = visit.Id,
+                Visit_Number__c = 1,
+                Completed_Date__c = Date.newInstance(2019, 12, 17)
+        );
+        insert patientVisit;
+
+        List<Visit_Result__c> visitResults = new List<Visit_Result__c>();
+        visitResults.add(new Visit_Result__c(
+                Actual_Value__c = 0.01,
+                Patient_Visit__c = patientVisit.Id,
+                Result_Type__c = 'Calcium'
+        ));
+        visitResults.add(new Visit_Result__c(
+                Actual_Value__c = 0.5,
+                Patient_Visit__c = patientVisit.Id,
+                Result_Type__c = 'BUN'
+        ));
+        insert visitResults;
+
+        Database.executeBatch(new Batch_DataBecomesAvailable());
         Test.stopTest();
 
     }
