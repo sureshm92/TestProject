@@ -31,7 +31,8 @@ public without sharing class TaskEditRemote {
         public TaskEditDataWrapper() {
             List<Contact> delegates = PatientDelegateService.getInstance().getDelegates();
             Boolean emailPreferencesIsOn = checkEmailPreferencesIsOn();
-            isEnrolled = ParticipantService.getInstance().getState().value == ParticipantService.ParticipantStates.PARTICIPANT;
+            isEnrolled = (ParticipantService.getInstance().getState().value == ParticipantService.ParticipantStates.REFERRAL) ||
+                    (ParticipantService.getInstance().getState().value == ParticipantService.ParticipantStates.PARTICIPANT) ?  true : false;
             errorMessage = checkEmailPermissions(emailPreferencesIsOn, delegates);
             reminderEnabled = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
             createdByAdmin = false;
