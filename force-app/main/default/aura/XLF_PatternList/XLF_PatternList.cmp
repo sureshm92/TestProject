@@ -1,0 +1,62 @@
+<!--
+ - Created by Slav on 22.10.2019.
+ -->
+
+<aura:component description="XLF Pattern List" implements="force:appHostable" controller="XLF_PatternListRemote">
+    <!-- attributes: -->
+    <aura:attribute name="mode" type="String" description="Current mode either WHITE or BLACK"/>
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="columns" type="List" default="[{ label:'Patterns', fieldName:'Pattern__c', type:'text', editable:true, sortable:true }]"/>
+    <aura:attribute name="selectedRows" type="List" />
+    <aura:attribute name="selectedRowsCount" type="Integer" default="0"/>
+    <aura:attribute name="sortedBy" type="String" default="Pattern__c"/>
+    <aura:attribute name="sortedDirection" type="String" default="asc"/>
+    <aura:attribute name="defaultSortDirection" type="String"/>
+    <aura:attribute name="toastType" type="String" default="info"/>
+    <aura:attribute name="toastMessage" type="String"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <!-- component body: -->
+    <div>
+        <div class="slds-page-header__title" style="padding: 10px;">XLF {!v.mode} List Management Panel</div>
+        <div class="slds-grid slds-wrap" style="position: relative">
+            <c:RRSpinner aura:id="spinner" size="medium"/>
+            <div class="slds-col section slds-size_1-of-1 slds-large-size_1-of-2">
+                <div class="border-panel">
+                    <div class="tweaker-form slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_1-of-2 slds-form-element">
+                            <lightning:button variant="brand" label="Back to XLF Tweaker" class="form-btn" onclick="{!c.backToTweaker}"/>
+                        </div>
+
+                        <div class="slds-m-around_xx-large" style="min-height:300px">
+                            <lightning:datatable aura:id="datatable"
+                                                 columns="{!v.columns}"
+                                                 data="{!v.data}"
+                                                 keyField="Id"
+                                                 showRowNumberColumn="true"
+                                                 onrowselection="{!c.handleRowSelect}"
+                                                 enableInfiniteLoading="true"
+                                                 sortedBy="{!v.sortedBy}"
+                                                 sortedDirection="{!v.sortedDirection}"
+                                                 defaultSortDirection="{!v.defaultSortDirection}"
+                                                 onsort="{!c.handleColumnSort}"
+                                                 onsave="{!c.handleSave}"/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div class="slds-float_left">
+                                <lightning:button label="Add new row"  variant="brand" onclick="{!c.handleAdd}"/>
+                                <lightning:button label="Delete selected rows"  variant="brand" onclick="{!c.handleDelete}" disabled="{!v.selectedRowsCount == 0}"/>
+                            </div>
+                            <div class="slds-float_right">
+                                <lightning:button label="Refresh" variant="brand" onclick="{!c.init}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>
