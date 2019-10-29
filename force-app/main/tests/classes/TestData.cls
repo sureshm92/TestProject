@@ -64,7 +64,13 @@ public class TestData {
                 WHERE HCP_Contact__r.LastName = 'HCP' LIMIT 1
         ];
     }
-    
+
+    /**
+     * ONLY FOR DEPLOY
+     */
+    public void createPSE() {
+    }
+
     public void updatePEStatusEnrollmentSuccess(){
         pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
         update pe;
