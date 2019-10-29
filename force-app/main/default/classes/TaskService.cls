@@ -41,6 +41,7 @@ public without sharing class TaskService {
             'CreatedDate',
             'Completed_Date__c',
             'ActivityDate',
+            'Activity_Datetime__c',
             'Task_Code__c',
             'WhatId',
             'Task_Type__c',

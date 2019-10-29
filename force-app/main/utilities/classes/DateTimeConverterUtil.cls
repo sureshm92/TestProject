@@ -32,7 +32,7 @@ public without sharing class DateTimeConverterUtil {
         if (moment == null) moment = Datetime.now();
 
         String nowFormat = moment.format('YYYY-MM-dd HH:mm:ss', timezone.toString());
-        return Datetime.valueOfGmt(nowFormat);
+        return Datetime.valueOf(nowFormat);
     }
 
     public static Datetime getUserDatetime(TimeZone timezone, Date someDate) {
@@ -47,9 +47,7 @@ public without sharing class DateTimeConverterUtil {
                     someDate.day()
             );
         }
-
-        String nowFormat = moment.format('YYYY-MM-dd HH:mm:ss', timezone.toString());
-        return Datetime.valueOfGmt(nowFormat);
+        return getUserDatetime(timezone, moment);
     }
 
     public static Datetime convertUserDatetimeToGMT(Datetime moment, TimeZone tz) {

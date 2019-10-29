@@ -66,8 +66,8 @@
                                     <c:DelegatesDisclaimer/>
                                 </aura:if>
                             </div>
-                            <div class="button-panel-mobile rr-medium-up-hide">
-                                <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center">
+                          <!--   <div class="button-panel-mobile rr-medium-up-hide">
+                               <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center">
                                     <div class="slds-col slds-size_2-of-5 slds-medium-size_1-of-3">
                                         <c:RRLink page="{!'my-team' + if(empty(v.parentId),'','?id='+v.parentId)}">
                                             <c:RRIcon iconName="icon-arrow-left"/>
@@ -77,10 +77,10 @@
                                     <div class="slds-col slds-size_3-of-5 slds-medium-size_2-of-3 button-container">
                                         <button class="apollo-btn primary ntm-button" onclick="{!c.doSaveChanges}">
                                             {!v.isStaff ? $Label.c.PG_NTM_BTN_Save_Team_Member : $Label.c.PG_PST_L_Delegates_Save}
-                                        </button>
+                                        </button> 
                                     </div>
-                                </div>
-                            </div>
+                                </div> 
+                            </div> -->
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-order_1 slds-medium-order_2 right-column">
                             <div class="personal-info-panel">
