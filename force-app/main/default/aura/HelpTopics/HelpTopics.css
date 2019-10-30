@@ -1,0 +1,119 @@
+/**
+ * Created by Kryvolap on 21.09.2019.
+ */
+.THIS .ht-panel{
+    margin-bottom: 20px;
+}
+
+
+.THIS .h-body {
+    margin-top: 0;
+}
+
+.THIS .h-header .h-header-info {
+    color: #000000;
+    font-size: 15px;
+    line-height: 24px;
+}
+
+.THIS .h-header .h-header-info .h-header-info-bold-text {
+    font-weight: bold;
+}
+
+
+.THIS .h-body .h-body-title,
+.THIS .h-body .h-body-label {
+    color: #666666;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.THIS .h-body .h-body-title {
+    margin-bottom: 10px;
+}
+
+.THIS .h-body .slds-file-selector.slds-file-selector_files,
+.THIS .h-body .slds-file-selector__dropzone,
+.THIS .h-body .slds-form-element__control.slds-grow,
+.THIS .h-body .rrs-container{
+    width: 100%;
+}
+
+.THIS .h-body .h-body-text-area label {
+    display: none;
+}
+.THIS .h-body .h-type-select{
+    margin-bottom: 10px;
+}
+.THIS .h-body textarea {
+    height: 200px;
+    margin-bottom: 20px;
+}
+
+.THIS .h-body #h-body-file-upload {
+    margin-bottom: 10px;
+}
+
+.THIS .h-body #h-body-file-upload span.slds-file-selector__button.slds-button.slds-button_neutral {
+    margin: 5px;
+    padding: 18px;
+}
+
+.THIS .h-body-file-upload-pills {
+    margin-bottom: 20px;
+}
+
+.THIS .h-body-file-upload-pills .h-file-pill {
+    margin-top: 5px;
+    margin-left: 0;
+    padding-right: 1px;
+}
+.THIS .h-body-file-upload-pills .h-file-pill svg{
+    width: 16px;
+    height: 16px;
+}
+
+.THIS .h-body .h-body-button {
+    position: relative;
+    text-align: center;
+}
+
+.THIS .h-body .h-body-info {
+    margin-top: 70px;
+}
+
+.THIS .file-btn{
+    display: inline-block!important;
+    max-height: inherit!important;
+    max-width: inherit!important;
+    text-align: center!important;
+    line-height: 1!important;
+    cursor: default!important;
+}
+
+
+@media (max-width: 850px) {
+
+
+    .THIS .h-body {
+        margin-top: 20px;
+    }
+
+    .THIS .h-body .h-body-label {
+        font-size: 15px;
+        line-height: 53px;
+    }
+
+    .THIS .h-body .h-body-info {
+        margin-top: 20px;
+    }
+}
+
+.THIS .ht-label{
+    font-size: 16px;
+}
+
+.THIS .ht-sub-label{
+    font-size: 14px;
+    color: #444444;
+}
