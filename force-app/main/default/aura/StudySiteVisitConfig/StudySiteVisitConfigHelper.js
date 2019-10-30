@@ -25,12 +25,15 @@
         var selectedVPIds = component.get('v.selectedVPIds');
         if (!selectedVPIds) component.set('v.vpFilterType', 'All');
 
+        var ssIds = component.get('v.selectedSSIds');
+        if(!ssIds) component.set('v.sitesFilterType', 'All');
+
         component.find('spinner').show();
         communityService.executeAction(component, 'getFilteredItems', {
             data: JSON.stringify(data),
             countryCodes: cCodes,
             selectedVPIds: selectedVPIds,
-            ssId: component.get('v.selectedSSIds'),
+            ssId: ssIds,
         }, function (data) {
             component.set('v.data', data);
             component.set('v.ssItems', data.studySiteItems);
