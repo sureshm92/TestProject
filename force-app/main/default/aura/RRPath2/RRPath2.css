@@ -27,13 +27,17 @@
     border-top-color: #b5b5b5;
 }
 
+.THIS .state.neutral .cRRIcon{
+ 	display: none;   
+}
+
 .THIS .line-div.success{
     border-top-color: #00c221;
 }
 
 
 .THIS .line-div.in_progress{
-    border-top-color: #00c221;
+    border-top-color: #005ff1;
 }
 
 .THIS .line-div.failure{
@@ -117,6 +121,7 @@
 
 .THIS .state.current .vri-state-label{
     display: block;
+    font-weight: 600;
 }
 
 .THIS .vpi-fields{

@@ -37,20 +37,22 @@
                         </aura:set>
                     </aura:if>
                 </div>
-				<div class="fp-search">
-                <aura:if isTrue="{!!empty(v.searchTextPlaceHolder)}">
-                    <c:rrInput valueString="{!v.searchText}" iconName="icon-search" placeholder="{!v.searchTextPlaceHolder}"/>
-                    <!--aura:set attribute="else">
+                <div class="fp-search">
+                    <aura:if isTrue="{!!empty(v.searchTextPlaceHolder)}">
+                        <c:rrInput valueString="{!v.searchText}" iconName="icon-search" 
+                                   placeholder="{!v.searchTextPlaceHolder}"/>
+                        <!--aura:set attribute="else">
                                         {!v.buttons}
                                 </aura:set-->
-                </aura:if>
+                    </aura:if>
                 </div>
-                   
             </div>
         </div>
         <div class="fp-collapsible">
             <div class="fp-filter-block">
+                <div class="fp-filters-label rr-large-down-hide">{!$Label.c.PG_FP_L_Filter_by}</div>
                 <div class="fp-main-filter-block">
+                   
                     <div class="fp-search-input rr-large-down-hide">
                         <aura:if isTrue="{!!empty(v.searchTextPlaceHolder)}">
                             <c:rrInput valueString="{!v.searchText}" iconName="icon-search"
@@ -60,7 +62,7 @@
                             </aura:set>
                         </aura:if>
                     </div>       
-                    <div class="fp-filters-label rr-large-down-hide">{!$Label.c.PG_FP_L_Filter_by}</div>
+                    
                     <div class="fp-filters-container">{!v.body}</div>
                    
                 </div>

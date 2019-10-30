@@ -54,7 +54,7 @@
 }
 
 .THIS .vpi-path{
-    margin: 30px 0 25px;
+    margin: 30px 0 5px;
     padding: 0 15px;
 }
 
@@ -103,12 +103,16 @@
     background-color: #b5b5b5;
 }
 
+.THIS .vpi-state.neutral .state-ico-wrapper .cRRIcon {
+    display: none;
+}
+
 .THIS .vpi-state.success .state-ico-wrapper{
     background-color: #00c221;
 }
 
 .THIS .vpi-state.in_progress .state-ico-wrapper{
-    background-color: #00c221;
+    background-color: #005ff1;
 }
 
 .THIS .vpi-state.failure .state-ico-wrapper{
@@ -140,17 +144,19 @@
 
 .THIS .vpi-state.current .vri-state-label{
     display: block;
+    font-weight: 600;
 }
 
 
 .THIS .vpi-path-panel .path-section{
-    padding: 20px 0 10px;
+    padding: 0 0 10px;
 }
 
+/*
 .THIS .vpi-path-panel .path-section-pi {
     padding-bottom: 10px;
 }
-
+*/
 .THIS .vpi-path-panel .collapse-section{
     padding: 0;
     font-size: 14px;
@@ -164,16 +170,36 @@
     background-color: white;
 }
 
+.THIS .cParticipantCardFields .vpi-field label{
+    white-space: nowrap;
+}
+
 .THIS .vpi-status-btns {
     display: flex;
     justify-content: flex-start;
     padding-left: 16px;
 }
 
+.THIS .vpi-status-btns > div {
+    text-align: center;
+}
+
 .THIS .vpi-status-btns button{
     margin-top: 15px;
     margin-bottom: 25px;
     min-width: auto;
+}
+
+@media all and (max-width: 768px){
+     .THIS .vpi-status-btns button{
+        margin: 5px 0 10px 0;
+        width: 100%;
+    } 
+    .THIS .vpi-status-btns {
+     	padding-right: 15px; 
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
 }
 
 @media all and (min-width: 1024px) {

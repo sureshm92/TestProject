@@ -8,6 +8,7 @@ export default class UiIndeterminatedCheckbox extends LightningElement {
 
     @api keyId;
     @api fieldLabel;
+    @api hideCheckBox = false;
     @track cssClass = 'checkbox';
 
     handleClick(event) {

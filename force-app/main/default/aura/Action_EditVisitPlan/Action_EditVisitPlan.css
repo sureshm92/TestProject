@@ -10,12 +10,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin: 5px;
 }
 
 .THIS .toolbar .btns{
     flex-shrink: 0;
     margin-left: 20px;
+    min-width: 133px;
 }
 
 .THIS .toolbar .toolbar-btn + .toolbar-btn{
@@ -24,6 +25,15 @@
 
 .THIS .inline-input{
     display: flex!important;
-    width:100%;
+    width:80%;
     white-space: nowrap;
+}
+
+.THIS .visits-table {
+    margin-top: 15px;
+}
+
+.THIS .slds-form-element__label {
+    min-width: 100px;
+    text-align: center;
 }

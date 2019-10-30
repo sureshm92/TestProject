@@ -4,7 +4,7 @@
 .THIS.rr-link{
     color: #297DFD;
     padding: 4px 8px;
-    display: inline-flex;
+  /*  display: inline-flex; */
     align-items: center;
     border-radius: 4px;
     margin: -4px 0 0 -8px;
@@ -24,7 +24,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     vertical-align: bottom;
-    white-space: nowrap;
+ /*   white-space: nowrap; */
     display: inline-block;
     padding-top: 4px;
 }

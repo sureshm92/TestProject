@@ -10,15 +10,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Contact Failed</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Contact Successful</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Deceased</fullName>
             <default>false</default>
         </values>
         <values>
@@ -26,15 +18,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Eligibility Failed</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Eligibility Passed</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Enrollment Failed</fullName>
             <default>false</default>
         </values>
         <values>
@@ -54,23 +38,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Referral Declined</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Referral On Hold</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Referral Sent to PI</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Screening Complete</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Screening Failed</fullName>
             <default>false</default>
         </values>
         <values>
@@ -93,15 +65,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Contact Failed</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Contact Successful</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Deceased</fullName>
             <default>false</default>
         </values>
         <values>
@@ -109,15 +73,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Eligibility Failed</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Eligibility Passed</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Enrollment Failed</fullName>
             <default>false</default>
         </values>
         <values>
@@ -137,23 +93,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Referral Declined</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Referral On Hold</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Referral Sent to PI</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Screening Complete</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Screening Failed</fullName>
             <default>false</default>
         </values>
         <values>

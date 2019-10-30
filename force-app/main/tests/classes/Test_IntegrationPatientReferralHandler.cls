@@ -60,28 +60,19 @@ private class Test_IntegrationPatientReferralHandler {
                 Value__c = 'Some translated value'
         );
         insert studyTranslation;
-    
+
         Study_Site__c studySite = new Study_Site__c(
+                Name = 'Some Study Site1',
                 Principal_Investigator__c = piContact.Id,
                 Clinical_Trial_Profile__c = study.Id,
                 Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
                 Site__c = studySiteAccount.Id,
                 Study_Site_Type__c = 'Traditional',
                 Suppress_Participant_Emails__c = false,
-                Study_Site_Number__c = 'SS1'
+                Study_Site_Number__c = 'SS1',
+                Study_Site_Key__c = '1111'
         );
         insert studySite;
-    
-        Study_Site__c studySite2 = new Study_Site__c(
-                Principal_Investigator__c = piContact.Id,
-                Clinical_Trial_Profile__c = study.Id,
-                Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
-                Site__c = studySiteAccount.Id,
-                Study_Site_Type__c = 'Traditional',
-                Suppress_Participant_Emails__c = false,
-                Study_Site_Number__c = 'SS2'
-        );
-        insert studySite2;
         
         studySite.Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED;
     
@@ -118,7 +109,7 @@ private class Test_IntegrationPatientReferralHandler {
                 Language_Preference__c = 'en_US',
                 phone__c = '31444244214',
                 protocolId__c = 'CTP1',
-                siteSelected__c = 'US_SS1',
+                siteSelected__c = 'SS1',
                 Referred_Date__c  = '2019-10-02T10:00:00-05:00',
                 referralID__c = '1234343242',
                 Referral_Sent_to_PI__c = 'Referral Sent to PI',
@@ -137,7 +128,7 @@ private class Test_IntegrationPatientReferralHandler {
                 Language_Preference__c = 'en_US',
                 phone__c = '13245215333',
                 protocolId__c = 'CTP1',
-                siteSelected__c = 'US_SS1',
+                siteSelected__c = 'SS1',
                 Referred_Date__c  = '2019-10-02T10:00:00-05:00',
                 referralID__c = '1232141212',
                 Referral_Sent_to_PI__c = 'Referral Sent to PI',
@@ -155,31 +146,13 @@ private class Test_IntegrationPatientReferralHandler {
                 Language_Preference__c = 'en_US',
                 phone__c = '321234243',
                 protocolId__c = 'CTP1',
-                siteSelected__c = 'US_SS1',
+                siteSelected__c = 'SS1',
                 Referred_Date__c  = '2019-10-02T10:00:00-05:00',
                 referralID__c = '444323423',
                 Referral_Sent_to_PI__c = 'Referral Sent to PI',
                 acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00'
         );
-        
-        Integration_Patient_Referral__c ipr4 = new Integration_Patient_Referral__c(
-                Address_Country__c = 'US',
-                Address_State__c = 'New York',
-                Address_ZipCode__c = '12312',
-                birthYear__c = '1985',
-                Data_Source__c = 'PI',
-                email__c = 'leo@mail.com',
-                firstName__c = 'Leo',
-                lastName__c = 'Wide',
-                Language_Preference__c = 'en_US',
-                phone__c = '321234243',
-                protocolId__c = 'CTP1',
-                siteSelected__c = 'US_SS2',
-                Referred_Date__c  = '2019-10-02T10:00:00-05:00',
-                referralID__c = '444323423',
-                Referral_Sent_to_PI__c = 'Referral Sent to PI',
-                acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00'
-        );
+
         iprList.add(ipr);
         iprList.add(ipr2);
         iprList.add(ipr3);
@@ -197,17 +170,15 @@ private class Test_IntegrationPatientReferralHandler {
                 Language_Preference__c = 'en_US',
                 phone__c = '321234243',
                 protocolId__c = 'CTP1',
-                siteSelected__c = 'US_SS1',
+                siteSelected__c = 'SS1',
                 Referred_Date__c  = '2019-10-02T10:00:00-05:00',
-                referralID__c = '444323423',
+                referralID__c = '4443234231',
                 Referral_Sent_to_PI__c = 'Referral Sent to PI',
                 acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00'
         );
         
         test.stopTest();
-        System.debug([SELECT Id, Success__c, Error_Message__c FROM Integration_Patient_Referral__c]);
-        System.debug(JSON.serializePretty([SELECT Id, Name, Email__c, Phone__c, Middle_Name__c FROM Participant__c]));
-    
+
         System.assert([SELECT Id, Middle_Name__c FROM Participant__c WHERE Email__c = 'maxjames@mail.com'].Middle_Name__c == 'S');
         System.assert([SELECT Id, Secondary_Source__c FROM Participant__c WHERE Email__c = 'some@dssd.cre'].Secondary_Source__c == 'Autorecruitment');
         System.assert([SELECT Id, Contact__c FROM Participant__c WHERE Email__c = 'leo@mail.com'].Contact__c == exitedContact.Id);
@@ -215,10 +186,6 @@ private class Test_IntegrationPatientReferralHandler {
         String refSource = [SELECT Id, Secondary_Source__c FROM Participant__c WHERE Email__c = 'leo@mail.com'].Secondary_Source__c;
         System.assert(refSource.contains('Autorecruitment'));
         System.assert(refSource.contains('23AndMe'));
-        System.assert(refSource.contains('PI'));
-        
-        
-
     }
     
 }

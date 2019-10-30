@@ -30,7 +30,7 @@ public without sharing class TravelSupportHelper {
             clause += ' AND ' + (isStudySiteIds ? '(' : '') + 'Site__r.BillingCountryCode IN ' + '(\'' + String.join(countryCodes, '\',\'') + '\')';
         }
         if (isStudySiteIds) {
-            clause += (isCountryCodes ? ' OR' : ' AND') + ' Id IN ' + '(\'' + String.join(studySiteIds, '\',\'') + '\')' + (isCountryCodes ? ') ' : '');
+            clause += ' AND Id IN ' + '(\'' + String.join(studySiteIds, '\',\'') + '\')' + (isCountryCodes ? ') ' : '');
         }
         String order = ' ORDER BY Name';
         query += clause;

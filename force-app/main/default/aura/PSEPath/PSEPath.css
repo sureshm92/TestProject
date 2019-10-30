@@ -2,7 +2,6 @@
  * Created by Leonid Bartenev
  */
 .THIS {
-    padding-top: 15px;
 }
 
 .THIS .path-panel .path-section{
@@ -17,8 +16,12 @@
     padding: 0 0 25px 15px;
 }
 
+.THIS .vpi-status-btns .slds-col {
+    text-align: center;
+}
+
 .THIS .path-panel .collapse-section{
-    padding: 10px 0;
+    padding: 10px 0 0;
     font-size: 14px;
     line-height: 22px;
     transition: 0.6s;
@@ -27,4 +30,14 @@
 
 .THIS .path-panel .collapse-section.opened{
     background-color: white;
+}
+
+@media all and (max-width: 768px) {
+    .THIS .vpi-status-btns .apollo-btn {
+        width: 100%;
+    }
+    
+    .THIS .cPSEPath .vpi-status-btns {
+        padding: 0 15px 25px 15px;
+    }
 }

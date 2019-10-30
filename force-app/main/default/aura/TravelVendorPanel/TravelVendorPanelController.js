@@ -27,7 +27,6 @@
                 }).then(function (data) {
                     component.set('v.vendorItems', data.vendorItems);
                     component.set('v.selectedVendors', data.vendors);
-
                     component.set('v.initialized', true);
 
                     component.find('spinner').hide();
@@ -51,7 +50,7 @@
                     type: 'error',
                 });
             }
-            component.find('mainSpinner').hide();
+            component.find('spinner').hide();
             console.log('error:', err[0].message);
         });
     },

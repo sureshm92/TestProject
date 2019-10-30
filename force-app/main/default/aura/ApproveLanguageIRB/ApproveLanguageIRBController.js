@@ -19,6 +19,8 @@
 
             component.set('v.initialized', true);
             component.find('spinner').hide();
+
+            component.set('v.viewModePage', data.viewMode);
         });
     },
 
@@ -150,16 +152,16 @@
 
         var ssItems = component.get('v.ssItems');
         for (var i = 0; i < ssItems.length; i++) {
-            var appCount = 0;
-            var appLangs = ssItems[i].approvedLangCodes;
-            for (var j = 0; j < appLangs.length; j++) {
-                if (appLangs[j].value === lang) {
-                    ssItems[i].approvedLangCodes[j].state = state;
+            var asgCount = 0;
+            var assignments = ssItems[i].assignments;
+            for (var j = 0; j < assignments.length; j++) {
+                if (assignments[j].value === lang) {
+                    ssItems[i].assignments[j].state = state;
                 }
-                if (appLangs[j].state) appCount++;
+                if (assignments[j].state) asgCount++;
             }
 
-            ssItems[i].emptyAppLangs = appCount === 0;
+            ssItems[i].emptyAssignments = asgCount === 0;
         }
 
         component.set('v.ssItems', ssItems);

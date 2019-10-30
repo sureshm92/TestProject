@@ -25,7 +25,6 @@
         <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="medium" fixed="true"/>
 
         <aura:if isTrue="{!v.initialized}">
-
             <aura:if
                     isTrue="{!and(v.initData.contact.Visit_Results_Opt_In__c, and(v.initData.isVisitResultsAvailable, v.initData.isResultsExist))}">
                 <div class="visit-results-disclaimer">
@@ -33,23 +32,14 @@
                 </div>
                 <aura:iteration items="{!v.initData.visitResultsGroupNames}" var="visitResultsGroupName">
                     <c:VisitResultsPanel visitResultGroupName="{!visitResultsGroupName}"
-                                         isVitals="{!v.labResultsMode == v.labResultModeVitals}"
-                    />
+                                         isVitals="{!v.labResultsMode == v.labResultModeVitals}"/>
                 </aura:iteration>
-
                 <aura:set attribute="else">
-
-                    <c:RRInjector componentName="VisitsCompliance">
-                        <c:RRInjectorAttribute name="contactId" value="{!v.initData.contact.Id}"/>
-                        <c:RRInjectorAttribute name="isVisitResultsExist" value="{!v.initData.isResultsExist}"/>
-                        <c:RRInjectorAttribute name="isVisitResultsAvailable" value="{!v.initData.isVisitResultsAvailable}"/>
-                        <c:RRInjectorAttribute name="isOptIn" value="{!v.initData.contact.Visit_Results_Opt_In__c}"/>
-                        <c:RRInjectorAttribute name="optInChanged" value="{!v.optInChanged}" isReference="true"/>
-                    </c:RRInjector>
+                    <c:VisitsCompliance contactId="{!v.initData.contact.Id}" isVisitResultsExist="{!v.initData.isResultsExist}"
+                                        isVisitResultsAvailable="{!v.initData.isVisitResultsAvailable}"
+                                        isOptIn="{!v.initData.contact.Visit_Results_Opt_In__c}" optInChanged="{!v.optInChanged}"/>
                 </aura:set>
             </aura:if>
-
         </aura:if>
     </div>
-
 </aura:component>

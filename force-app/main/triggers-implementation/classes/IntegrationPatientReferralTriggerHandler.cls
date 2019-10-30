@@ -149,6 +149,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Mailing_Street__c = ipr.Address_AddressLine1__c,
                 Gender__c = ipr.sex__c,
                 Secondary_Source__c = ipr.Data_Source__c
+
         );
     }
     
@@ -164,11 +165,17 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
                 Terms_and_Conditions_Accepted_Date__c = ipr.acceptedTermsAndConditions__c != null ? Date.valueOf(ipr.acceptedTermsAndConditions__c) : null,
                 Referred_Date__c = ipr.Referred_Date__c != null ? Date.valueOf(ipr.Referred_Date__c) : null,
-                Referred_By__c = 'Other'
+                Referred_By__c = 'Other',
+                utm_content__c = ipr.UTM_campaignContent__c,
+                utm_medium__c = ipr.UTM_campaignMedium__c,
+                utm_source__c = ipr.UTM_campaignSource__c,
+                utm_term__c = ipr.UTM_campaignTerm__c,
+                utmz__c = ipr.UTM_campaignCookie__c,
+                gclid__c = ipr.UTM_GCLID__c
         );
     }
     
     private static String getSitePrimaryKeyEPR(Integration_Patient_Referral__c ipr){
-        return ipr.protocolId__c + '_' + ipr.siteSelected__c;
+        return ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c;
     }
 }

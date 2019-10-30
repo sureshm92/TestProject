@@ -99,7 +99,7 @@ public without sharing class SendEmailToParticipant {
 
     public static List<Messaging.SingleEmailMessage> sendEmailSurveyNotification(Task task) {
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-        if(task.Reminder_Schedule__c == null) return emailMessages;
+        if (task.Reminder_Schedule__c == null) return emailMessages;
 
         Map<Id, Contact> contactMap = new Map<Id, Contact>([
                 SELECT Id, Participant_Opt_In_Status_Emails__c
@@ -110,13 +110,13 @@ public without sharing class SendEmailToParticipant {
         Integer firstReminderDay = (Integer) task.Reminder_Schedule__r.First_Reminder_day__c;
         Datetime startDT = Datetime.newInstanceGmt(task.Start_Date__c, task.Reminder_Date__c.timeGmt());
         Datetime firstReminderDate = startDT;
-        if(firstReminderDay > 0) {
+        if (firstReminderDay > 0) {
             firstReminderDate = DateTimeConverterUtil.addDaysInUserTimeZone(startDT, task.WhoId, firstReminderDay);
         }
 
         String template;
         if (task.Reminder_Date__c == firstReminderDate) {
-            if(task.Reminder_Schedule__r.Use_Final_Template__c) {
+            if (task.Reminder_Schedule__r.Use_Final_Template__c) {
                 template = EMAIL_TEMPLATE_SURVEY_FINAL_REMINDER_TASK;
             } else {
                 template = EMAIL_TEMPLATE_SURVEY_REMINDER_TASK;
@@ -131,7 +131,7 @@ public without sharing class SendEmailToParticipant {
             }
         }
 
-        if(template != null) {
+        if (template != null) {
             if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)) {
                 addPatientToEmailListIfAvailable(
                         emailMessages,
@@ -153,24 +153,17 @@ public without sharing class SendEmailToParticipant {
         return emailMessages;
     }
 
-    public static void sendParticipantLoginNotification(List<Contact> contacts, Boolean isOneYear){
+    public static void sendParticipantLoginNotification(List<Contact> contacts, Boolean isOneYear) {
+        String template = isOneYear ? PATIENT_CREATED_DATE : PATIENT_LOGIN;
+
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-        for(Contact con : contacts) {
-            if(isOneYear){
-                addPatientToEmailListIfAvailable(
-                        emailMessages,
-                        con,
-                        PATIENT_CREATED_DATE,
-                        null
-                );
-            } else{
-                addPatientToEmailListIfAvailable(
-                        emailMessages,
-                        con,
-                        PATIENT_LOGIN,
-                        null
-                );
-            }
+        for (Contact con : contacts) {
+            addPatientToEmailListIfAvailable(
+                    emailMessages,
+                    con,
+                    template,
+                    con.Current_Participant_Enrollment__c
+            );
         }
 
         SendEmailTemplate.sendEmailMessages(emailMessages);
@@ -178,7 +171,7 @@ public without sharing class SendEmailToParticipant {
 
     public static void sendPlainSummaryNotifications(List<Contact> contacts, Map<Id, Id> peIdByContact, String nameOfEmailTemplate) {
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-        for(Contact con : contacts) {
+        for (Contact con : contacts) {
             addPatientToEmailListIfAvailable(
                     emailMessages,
                     con,

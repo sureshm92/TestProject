@@ -6,7 +6,7 @@
     color: #000000;
     font-weight: 600;
     line-height: 22px;
-    margin-top: 30px;
+/*    margin-top: 30px; */
     margin-bottom: 4px;
     text-transform: uppercase;
 }
@@ -18,12 +18,13 @@
 .THIS .rr-simple-white-panel {
     box-sizing: border-box;
     width: 100%;
-    border: 1px solid #F2F2F2;
+    border: 1px solid #e9e9e9;
     border-radius: 5px;
     background-color: #FFFFFF;
     margin-bottom: 30px;
     margin-top: 0;
     padding: 16px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
 }
 
 .THIS .header-white-panel {
@@ -43,10 +44,20 @@
         padding-right: 4.5rem;
         padding-left: 4.5rem;
     }
+    
 }
 
 @media all and (max-width: 767px) {
     .THIS .slv-header-item + .slv-header-item {
         margin-top: 16px;
     }
+    
+    .THIS .search-more-btn {
+        width: 100%;
+    }
+    
+     .THIS.slv-items-panel {
+        padding-bottom: 0;
+    }
+
 }

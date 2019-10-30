@@ -74,11 +74,11 @@ public without sharing class IRBParticipantService {
         List<Participant_Enrollment__c> pes = getRalatedParticipantEnrollment(pe);
         List<String> siteApprovedLng = pes.get(0).Study_Site__r.Approved_Lng__c == null ?
                 new List<String>() : CollectionUtil.split(pes.get(0).Study_Site__r.Approved_Lng__c, ';');
-        Set<String> approvedlanguages = getContactPreferredLanguages(pes.get(0).Participant_Contact__r);
+        Set<String> approvedLanguages = getContactPreferredLanguages();
         if (participantStatus == ParticipantService.ParticipantStates.ALUMNI) {
-            contactLanguage = approvedlanguages;
+            contactLanguage = approvedLanguages;
         } else {
-            for (String s : approvedlanguages) {
+            for (String s : approvedLanguages) {
                 if (siteApprovedLng.contains(s)) {
                     contactLanguage.add(s);
                 }
@@ -88,36 +88,33 @@ public without sharing class IRBParticipantService {
         return new List<String>(contactLanguage);
     }
 
-    private static Set<String> getContactPreferredLanguages(Contact currentContact) {
-        /* User user = getUser();*/
+    private static Set<String> getContactPreferredLanguages() {
+         User user = getUser();
         Set<String> contactLanguage = new Set<String>();
         contactLanguage.add(UserInfo.getLanguage());
-        if (String.isNotBlank(currentContact.Language__c)) {
-            contactLanguage.add(currentContact.Language__c);
+        if (String.isNotBlank(user.Contact.Language__c)) {
+            contactLanguage.add(user.Contact.Language__c);
         }
-        if (String.isNotBlank(currentContact.Second_Choice_Language__c)) {
-            contactLanguage.add(currentContact.Second_Choice_Language__c);
+        if (String.isNotBlank(user.Contact.Second_Choice_Language__c)) {
+            contactLanguage.add(user.Contact.Second_Choice_Language__c);
         }
-        if (String.isNotBlank(currentContact.Third_Choice_Language__c)) {
-            contactLanguage.add(currentContact.Third_Choice_Language__c);
+        if (String.isNotBlank(user.Contact.Third_Choice_Language__c)) {
+            contactLanguage.add(user.Contact.Third_Choice_Language__c);
         }
         return contactLanguage;
     }
     private static List<Participant_Enrollment__c> getRalatedParticipantEnrollment(String pe) {
         DatabaseProxy proxy = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class));
-        String queryPE = ' SELECT Clinical_Trial_Profile__r.Study_Code_Name__c, ' +
-                'Study_Site__r.Approved_Lng__c, ' +
-                'Participant_Contact__r.Language__c, ' +
-                'Participant_Contact__r.Second_Choice_Language__c, ' +
-                'Participant_Contact__r.Third_Choice_Language__c ' +
+        String queryPE = 'SELECT ' +
+                'Study_Site__r.Approved_Lng__c ' +
                 'FROM Participant_Enrollment__c' +
                 ' WHERE Id = \'' + pe + '\'';
-        System.debug(queryPE);
         List<Participant_Enrollment__c> pes = (List<Participant_Enrollment__c>) proxy.query(queryPE);
         return pes;
 
 
     }
+
     private static User getUser() {
         DatabaseProxy proxy = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class));
         String queryUser = 'SELECT ' +
@@ -126,8 +123,7 @@ public without sharing class IRBParticipantService {
                 'Contact.Second_Choice_Language__c, ' +
                 'Contact.Third_Choice_Language__c ' +
                 'FROM User ' +
-                'WHERE Id = \'' + '0035400000Kcy3tAAB' + '\'';
-        User user = (User) proxy.query(queryUser)[0];
-        return user;
+                'WHERE Id = \'' + UserInfo.getUserId() + '\'';
+        return (User) proxy.query(queryUser)[0];
     }
 }

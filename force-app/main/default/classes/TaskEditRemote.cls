@@ -23,7 +23,7 @@ public without sharing class TaskEditRemote {
         @AuraEnabled public Date today;
         @AuraEnabled public Date activityDate;
         @AuraEnabled public Date reminderDate;
-        @AuraEnabled public Boolean notReferral;
+        @AuraEnabled public Boolean isEnrolled;
         @AuraEnabled public String errorMessage;
         @AuraEnabled public Boolean reminderEnabled;
         @AuraEnabled public Boolean createdByAdmin;
@@ -31,7 +31,11 @@ public without sharing class TaskEditRemote {
         public TaskEditDataWrapper() {
             List<Contact> delegates = PatientDelegateService.getInstance().getDelegates();
             Boolean emailPreferencesIsOn = checkEmailPreferencesIsOn();
-            notReferral = ParticipantService.getInstance().getState().value != ParticipantService.ParticipantStates.REFERRAL;
+
+            ParticipantService.ParticipantStates status = ParticipantService.getInstance().getState().value;
+            isEnrolled = status == ParticipantService.ParticipantStates.REFERRAL ||
+                    status == ParticipantService.ParticipantStates.PARTICIPANT;
+
             errorMessage = checkEmailPermissions(emailPreferencesIsOn, delegates);
             reminderEnabled = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
             createdByAdmin = false;
@@ -39,7 +43,7 @@ public without sharing class TaskEditRemote {
             task = new Task();
 
             TimeZone timeZone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
-            //today = DateTimeConverterUtil.getUserDatetime(timeZone, null).dateGmt();
+            today = DateTimeConverterUtil.getUserDatetime(timeZone, Datetime.now()).dateGmt();
         }
     }
 
@@ -52,15 +56,13 @@ public without sharing class TaskEditRemote {
                 wrapper.task = task;
 
                 TimeZone timezone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
-                if(task.ActivityDate != null) {
-                    Datetime activDT = Datetime.newInstance(
-                            task.ActivityDate, Time.newInstance(12, 0, 0, 0));
+                if(task.Activity_Datetime__c != null) {
                     wrapper.activityDate =
-                            DateTimeConverterUtil.getUserDatetime(timezone, activDT).date();
+                            DateTimeConverterUtil.getUserDatetime(timezone, task.Activity_Datetime__c).date();
                 }
-                if(task.Reminder_Date__c != null) {
+                if(task.ReminderDateTime != null) {
                     wrapper.reminderDate =
-                            DateTimeConverterUtil.getUserDatetime(timezone, task.Reminder_Date__c).date();
+                            DateTimeConverterUtil.getUserDatetime(timezone, task.ReminderDateTime).date();
                 }
 
                 wrapper.createdByAdmin = createdByAdmin(task);
@@ -83,16 +85,22 @@ public without sharing class TaskEditRemote {
             taskToUpsert.Originator__c = state.isDelegate ? 'Delegate' : 'Participant';
             if(taskToUpsert.Visible_For__c == null) taskToUpsert.Visible_For__c = 'Owner;Delegates';
     
-            taskToUpsert.WhatId = state.pe.Id;
+            if(taskToUpsert.Task_Type__c != TaskService.TASK_TYPE_NOT_SELECTED && state.pe != null) {
+                taskToUpsert.WhatId = state.pe.Id;
+            }
 
             TimeZone timezone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
             if(taskWrapper.activityDate != null) {
-                taskToUpsert.ActivityDate =
-                        DateTimeConverterUtil.getUserDatetime(timezone, taskWrapper.activityDate).date();
+                Datetime dateTimeGMT = Datetime.newInstanceGmt(
+                        taskWrapper.activityDate.year(),
+                        taskWrapper.activityDate.month(),
+                        taskWrapper.activityDate.day()
+                );
+                taskToUpsert.Activity_Datetime__c = DateTimeConverterUtil.convertUserDatetimeToGMT(dateTimeGMT, timezone);
             }
             if(taskWrapper.reminderDate != null) {
-                taskToUpsert.Reminder_Date__c =
-                        DateTimeConverterUtil.getUserDatetime(timezone, taskWrapper.reminderDate).addHours(12);
+                taskToUpsert.Reminder_Date__c = taskWrapper.reminderDate;
+                        //DateTimeConverterUtil.getUserDatetime(timezone, taskWrapper.reminderDate);
                 taskToUpsert.ReminderDateTime =
                         DateTimeConverterUtil.convertUserDatetimeToGMT(taskToUpsert.Reminder_Date__c, timezone);
             }

@@ -4,8 +4,7 @@
 
 public with sharing class TravelVendorPanelRemote {
 
-    private static final String READ_PERMISSION = 'Patient_Portal_Read_Study_Settings';
-    private static final String EDIT_PERMISSION = 'Patient_Portal_Edit_Study_Settings';
+    public static final String FEATURE_TRAVEL_VENDOR = 'Travel_Vendors';
 
     public class InitData {
         @AuraEnabled
@@ -24,28 +23,8 @@ public with sharing class TravelVendorPanelRemote {
             vendorItems = new List<VendorItem>();
             countryCodes = '';
             selectedSSIds = '';
-            permission = getPermissionSets();
+            permission = GetPermissions.getViewMode(FEATURE_TRAVEL_VENDOR);
         }
-    }
-
-    private static String getPermissionSets(){
-        String userPermission = 'disabled';
-        List<String> permissionNames = new List<String>();
-        permissionNames.add(EDIT_PERMISSION);
-        permissionNames.add(READ_PERMISSION);
-        List<PermissionSetAssignment> assignments = [
-                SELECT Id, PermissionSet.Name
-                FROM PermissionSetAssignment
-                WHERE PermissionSet.Name IN :permissionNames AND AssigneeId =: UserInfo.getUserId()];
-        for(PermissionSetAssignment assignment : assignments) {
-            if(assignment.PermissionSet.Name == EDIT_PERMISSION) {
-                userPermission = 'edit';
-                break;
-            } else if(assignment.PermissionSet.Name == READ_PERMISSION) {
-                userPermission = 'read';
-            }
-        }
-        return userPermission;
     }
 
     public class VendorItem {

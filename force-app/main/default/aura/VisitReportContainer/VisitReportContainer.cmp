@@ -12,7 +12,7 @@
     <aura:attribute name="reportDataList" type="Object[]"/>
     <aura:attribute name="reportData" type="Object"/>
     <aura:attribute name="isReportData" type="Boolean"/>
-    <aura:attribute name="documentName" type="String" default="Visit Summary Report"/>
+    <aura:attribute name="documentName" type="String" default="{!$Label.c.Resource_Visit_Summary_Report}"/>
     <aura:attribute name="peId" type="String"/>
 
     <aura:attribute name="errorMessage" type="String" default=""/>

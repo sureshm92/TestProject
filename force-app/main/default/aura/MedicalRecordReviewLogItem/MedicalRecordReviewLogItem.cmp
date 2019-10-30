@@ -56,7 +56,7 @@
                             {!v.actions.excludeFromReferring.label}
                         </button>
                    
-                        <button class="apollo-btn primary" onclick="{!c.referToThisTrial}"
+                        <button class="apollo-btn secondary" onclick="{!c.referToThisTrial}"
                                 disabled="{!v.actions.referToThisStudy.disabled}"
                                 title="{!v.actions.referToThisStudy.disableReason}">
                             {!v.actions.referToThisStudy.label}
@@ -65,7 +65,7 @@
                 </div>
             </aura:if>
             <aura:if isTrue="{!v.participantEnrollment.Participant_Status__c == 'Excluded from Referring'}">
-                <button class="apollo-btn primary" style="width: 100%" onclick="{!c.undoExcludeFromReferring}"
+                <button class="apollo-btn secondary" onclick="{!c.undoExcludeFromReferring}"
                         disabled="{!v.actions.undoExcludeFromReferring.disabled}"
                         title="{!v.actions.undoExcludeFromReferring.disableReason}">
                     {!v.actions.undoExcludeFromReferring.label}

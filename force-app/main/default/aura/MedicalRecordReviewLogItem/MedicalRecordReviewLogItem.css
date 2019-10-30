@@ -21,6 +21,7 @@
     font-size: 18px;
     line-height: 20px;
     font-weight: 600;
+    white-space: nowrap;
 }
 
 .THIS.mrrli-container .mrrli-info .mrrli-info-bottom {
@@ -51,6 +52,11 @@
     justify-content: flex-end;
 }
 
+.THIS .mrrli-buttons.slds-col {
+    display: inline-flex;
+    justify-content: flex-end;
+}
+
 @media (max-width: 500px) {
     .THIS.mrrli-container .mrrli-info .mrrli-info-top,
     .THIS.mrrli-container .mrrli-info .mrrli-info-bottom {
@@ -65,7 +71,7 @@
 
     .THIS.mrrli-container .mrrli-buttons button {
         width: 100%;
-        margin-top: 10px;
+        margin-top: 20px;
         margin-left: 0;
     }
 }

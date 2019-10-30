@@ -22,7 +22,7 @@
 /*=======================================ABOUT STUDY==================================================================*/
 .THIS.sdas-main-container {
     background: #fff;
-    border: 1px solid #d9d9d9;
+    border: 1px solid #e9e9e9;
     border-width: 0 1px 1px 1px;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
     border-radius: 0 0 4px 4px;
@@ -76,7 +76,7 @@
 
 .THIS .sdas-text {
     color: #444;
-    font-size: 14px;
+    font-size: 1rem;
     line-height: 24px;
     white-space: pre-line;
     margin-bottom: 10px;
@@ -307,22 +307,12 @@
     width: 250px;
 }
 
-.THIS .collapse-wrapper{
-    background-color: white;
-    border-radius: 5px;
-    padding: 10px;
-}
-
-.THIS .collapse-wrapper + .collapse-wrapper{
-    margin-top: 20px;
-}
-
 .THIS .collapse-wrapper .rr-collapse-panel .body{
     white-space: pre-wrap;
 }
 
 .THIS .criteria-body{
-    margin: 10px 5px 0 5px;
+    margin: 0 5px 10px 35px;
     font-size: .875rem;
 }
 
@@ -409,6 +399,10 @@
 @media all and (max-width: 767px) {
     .THIS .slvi-header-item + .slvi-header-item {
         margin-top: 16px;
+    }
+    
+    .THIS .slds-grid.slds-wrap:before {
+        display: none;
     }
 
     .THIS .site-distance {

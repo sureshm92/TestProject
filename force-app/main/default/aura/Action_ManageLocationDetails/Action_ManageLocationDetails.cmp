@@ -66,7 +66,7 @@
                                         <div class="slds-col slds-size_4-of-12 manage-location-info">
                                             <div class="ss-info-headers">{!$Label.c.SS_Driving_Instructions}</div>
                                             <div class="driving-instructions">
-                                                <c:uiLimitTextByLines maxLines="3" background="#f2f2f2">
+                                                <c:uiLimitTextByLines maxLines="3" background="#f8f9fb">
                                                     {!account.Driving_Directions__c}
                                                 </c:uiLimitTextByLines>
                                             </div>
@@ -74,7 +74,7 @@
                                         <div class="slds-col slds-size_4-of-12 manage-location-info">
                                             <div class="ss-info-headers">{!$Label.c.SS_Parking_Instructions}</div>
                                             <div class="driving-instructions">
-                                                <c:uiLimitTextByLines maxLines="3" background="#f2f2f2">
+                                                <c:uiLimitTextByLines maxLines="3" background="#f8f9fb">
                                                     {!account.Parking_Instructions__c}
                                                 </c:uiLimitTextByLines>
                                             </div>

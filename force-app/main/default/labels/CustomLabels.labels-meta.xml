@@ -5,7 +5,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ALT</shortDescription>
-        <value>{4}ALT{1}</value>
+        <value>ALT</value>
     </labels>
     <labels>
         <fullName>ALT_Description</fullName>
@@ -121,7 +121,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AST</shortDescription>
-        <value>{5}AST{1}</value>
+        <value>AST</value>
     </labels>
     <labels>
         <fullName>AST_Description</fullName>
@@ -1060,7 +1060,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BUN</shortDescription>
-        <value>{3}BUN{1}</value>
+        <value>BUN</value>
     </labels>
     <labels>
         <fullName>BUN_Description</fullName>
@@ -1081,7 +1081,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Body Mass Index</shortDescription>
-        <value>Body mass index {2}</value>
+        <value>Body mass index</value>
     </labels>
     <labels>
         <fullName>Body_Mass_Index_Description</fullName>
@@ -1547,6 +1547,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Delegate</value>
     </labels>
     <labels>
+        <fullName>Diastolic</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Diastolic</shortDescription>
+        <value>Diastolic</value>
+    </labels>
+    <labels>
         <fullName>Diastolic_Blood_Pr</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1922,15 +1929,30 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             Please login to the IQVIA Patient Portal to check your clinical research trial matches at any time.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Patient0</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Patient2</shortDescription>
+        <value>Thank you for your interest in the clinical research study: ##StudyName.
+
+            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
+
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+
+            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Patient1</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient1</shortDescription>
-        <value>Thank you for your interest in the clinical research study: ##StudyTitle.
+        <value>Recently, ##PITitle ##PIName made a referral on your behalf to ##StudySiteName regarding your potential participation in a clinical research study: ##StudyName.
 
-            You will be contacted by the Principal Investigator’s site, ##StudySiteName , regarding the next steps in the enrollment process.
+            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To track your clinical research study status and to see additional information about the study, log in to the Patient Portal, and then go to &quot;My Studies.&quot;</value>
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+
+            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient10</fullName>
@@ -2010,11 +2032,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient2</shortDescription>
-        <value>Clinical research study: ##StudyName has been added to your list of studies in IQVIA Patient Portal.
+        <value>Recently, ##HCPTitle ##HCPName made a referral on your behalf to ##PITitle ##PIName regarding your potential participation in a clinical research study: ##StudyName.
 
-            You will be contacted by the study team regarding the next steps in the enrollment process for this study.
+            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To see additional information about this study, please log in to the IQVIA Patient Portal, and then go to “My Studies.”</value>
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+
+            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient3</fullName>
@@ -2839,7 +2863,7 @@ The IQVIA Patient Portal Support Team</value>
         <shortDescription>Email Signature Trial Completed</shortDescription>
         <value>Thank you for joining us on this journey.
 
-Sincerely, 
+Sincerely,
 
 The IQVIA Patient Portal Support Team</value>
     </labels>
@@ -3251,6 +3275,13 @@ The IQVIA Patient Portal Support Team</value>
         <value>Add File</value>
     </labels>
     <labels>
+        <fullName>FastingLipidProfile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>FastingLipidProfile</shortDescription>
+        <value>Fasting Lipid Profile</value>
+    </labels>
+    <labels>
         <fullName>File_Type</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3297,7 +3328,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Footer T Copyright</shortDescription>
-        <value>Copyright © 2018 IQVIA. All Rights Reserved.</value>
+        <value>Copyright © 2019 IQVIA. All Rights Reserved.</value>
     </labels>
     <labels>
         <fullName>GMap_Not_Available</fullName>
@@ -3459,6 +3490,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Hematocrit Description</shortDescription>
         <value>A hematocrit test measures the proportion of red blood cells in your blood. Your blood is made up of different components, such as red and white blood cells and blood platelets. The hematocrit value is the ratio of the volume of red blood cells compared to the total volume of all the components of the blood together. This value is expressed as a percentage. For example, if your hematocrit value is 50%, it means that there are 50 milliliters (mL) of red blood cells in 100 mL of blood. Hematocrit is measured to check your general health and to check for conditions that influence red blood cells.</value>
+    </labels>
+    <labels>
+        <fullName>Hematology</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Hematology</shortDescription>
+        <value>Hematology</value>
     </labels>
     <labels>
         <fullName>Hemoglobin</fullName>
@@ -3753,6 +3791,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Medical Record Review</shortDescription>
         <value>Medical Record Review</value>
+    </labels>
+    <labels>
+        <fullName>MetabolicPanel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MetabolicPanel</shortDescription>
+        <value>Metabolic Panel</value>
     </labels>
     <labels>
         <fullName>MyStudy_Associated_Sites_and_Site_Details</fullName>
@@ -8644,7 +8689,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP IRB Button Review</shortDescription>
-        <value>click here.</value>
+        <value>Change my language settings</value>
     </labels>
     <labels>
         <fullName>PP_IRB_LangList</fullName>
@@ -8686,7 +8731,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP VPC SS Empty VP</shortDescription>
-        <value>&lt;&lt;Replace this text to approved&gt;&gt; (Study Site don&#39;t have Visit Plan)</value>
+        <value>Some of the Study Sites do not have a Visit plan. Ensure each Study Site has at least one Visit plan assigned.</value>
     </labels>
     <labels>
         <fullName>PSC_Docs_will_be_published</fullName>
@@ -8785,6 +8830,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>Profile Menu Log Out</shortDescription>
         <value>Log Out</value>
+    </labels>
+    <labels>
+        <fullName>Pulse</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pulse</shortDescription>
+        <value>Pulse</value>
     </labels>
     <labels>
         <fullName>RBC_Count</fullName>
@@ -9135,6 +9187,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Resource Title Study Name</shortDescription>
         <value>Study Name</value>
+    </labels>
+    <labels>
+        <fullName>Resource_Visit_Summary_Report</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource Visit Summary Report</shortDescription>
+        <value>Visit Summary Report</value>
     </labels>
     <labels>
         <fullName>Resources_Article</fullName>
@@ -9802,6 +9861,13 @@ Please check your CAPS lock key.</value>
         <value>Pre-Eligibility Screenings Completions</value>
     </labels>
     <labels>
+        <fullName>Same_RP_in_the_system</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Same RP in the system</shortDescription>
+        <value>There is the sames RP in the System</value>
+    </labels>
+    <labels>
         <fullName>Search_For_Sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10089,6 +10155,13 @@ Please check your CAPS lock key.</value>
         <value>The record has been created successfully.</value>
     </labels>
     <labels>
+        <fullName>Systolic</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Systolic</shortDescription>
+        <value>Systolic</value>
+    </labels>
+    <labels>
         <fullName>Systolic_Blood_Pr</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10346,6 +10419,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>TS Add Vendor</shortDescription>
         <value>Add Vendor</value>
+    </labels>
+    <labels>
+        <fullName>TS_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Disclaimer</shortDescription>
+        <value>I agree to IQVIA&#39;s legalese disclaimer regarding study recruitment and other things the lawyers want us to put here</value>
     </labels>
     <labels>
         <fullName>TS_Select_Another_Country</fullName>
@@ -11214,6 +11294,13 @@ have questions or concerns about this data, please contact the Principal Investi
         <protected>true</protected>
         <shortDescription>Visit b Save</shortDescription>
         <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>Vitals</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Vitals</shortDescription>
+        <value>Vitals</value>
     </labels>
     <labels>
         <fullName>WBC_Count</fullName>

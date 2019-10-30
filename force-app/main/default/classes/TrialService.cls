@@ -92,7 +92,12 @@ public without sharing class TrialService {
     public Clinical_Trial_Profile__c getTrialImpl(Id trialId){
         List<Clinical_Trial_Profile__c> trials  = getTrialsImpl(new List<Id>{trialId});
         if(trials.size() > 0){
-            TranslateHelper.translate(trials[0]);
+            String language = UserInfo.getLanguage();
+            if(CommunityService.getUserContact().userCommunityMode__c.equals(CommunityService.USER_MODE_PARTICIPANT)) {
+                language =
+                        IRBParticipantService.getIRBLanguageMode(ParticipantService.getParticipantState().pe.Id).languageToTranslate;
+            }
+            TranslateHelper.translate(trials[0], language);
             return trials[0];
         }
         return null;

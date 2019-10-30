@@ -4,6 +4,8 @@
 
 public without sharing class ApprovedLangRemote {
 
+    public static final String FEATURE_APPROVED_LANGS = 'Approved_Languages';
+
     public static List<LabelValueItem> languagesValueItems = getLanguages();
     public static List<Study_Site__c> ctpStudySites;
 
@@ -19,6 +21,7 @@ public without sharing class ApprovedLangRemote {
         @AuraEnabled public Boolean haveEmptyLangSS;
         @AuraEnabled public PaginationData paginationData;
         @AuraEnabled public Map<String, String> countryBySSId;
+        @AuraEnabled public String viewMode;
 
         public InitData() {
             paginationData = new PaginationData();
@@ -27,6 +30,7 @@ public without sharing class ApprovedLangRemote {
             haveEmptyLangSS = false;
 
             countryBySSId = new Map<String, String>();
+            viewMode = '';
         }
     }
 
@@ -73,6 +77,7 @@ public without sharing class ApprovedLangRemote {
         try {
             InitData initData = new InitData();
             initData.ctpId = ctpId;
+            initData.viewMode = GetPermissions.getViewMode(FEATURE_APPROVED_LANGS);
             ctpStudySites = getStudySites(QUERY_MAIN_FILTER.replace('ctpId', ctpId));
             if(!ctpStudySites.isEmpty()) {
                 loadInitData(initData);
@@ -292,7 +297,7 @@ public without sharing class ApprovedLangRemote {
             List<String> selectedLangs = new List<String>();
             if (!String.isEmpty(value)) selectedLangs = value.split(';');
             for (LabelValueItem labelValueItem : languages) {
-                if (labelValueItem.value.containsIgnoreCase(searchTerm) && !selectedLangs.contains(labelValueItem.value)) {
+                if (labelValueItem.label.containsIgnoreCase(searchTerm) && !selectedLangs.contains(labelValueItem.value)) {
                     resList.add(new LookupSearchResult(
                             labelValueItem.value,
                             null,

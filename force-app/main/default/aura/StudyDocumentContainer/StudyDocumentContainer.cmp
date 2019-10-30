@@ -19,7 +19,7 @@
                 <div class="resources-header">
                     <div class="resource-title">{!$Label.c.Resource_Tab_Study_Documents}</div>
                     <lightning:select value="{!v.viewMode}" label="">
-                        <option value="list">{!$Label.c.SDC_List_view}</option>
+                        <option value="list">{!$Label.c.SDC_List_View}</option>
                         <option value="thumbnail">{!$Label.c.SDC_Thumbnail_view}</option>
                     </lightning:select>
                 </div>

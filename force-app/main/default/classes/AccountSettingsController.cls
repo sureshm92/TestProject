@@ -21,7 +21,7 @@ public without sharing class AccountSettingsController {
                                     Gender__c, Date_of_Birth__c, Initials__c
                             FROM Participant__c
                             WHERE Contact__c = :initData.myContact.Id
-                    ];
+                    ][0];
                     //translate country:
                     initData.participant.Mailing_Country__c =
                             CountryStateUtil.getCountryName(initData.participant.Mailing_Country_Code__c);

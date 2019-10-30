@@ -2,6 +2,10 @@
  * Created by Leonid Bartenev
  */
 
+.THIS.rr-body-content > .rr-width-limiter {
+    margin-top: 50px;
+}
+
 .THIS .pe-button .rr-icon-default{
     width: 14px;
     height: 14px;
@@ -43,14 +47,14 @@
 }
 
 
-.THIS .buttons-area{
-    border-top: 1px solid #D9D9D9;
-
+.THIS.cRRTopBar .buttons-area{
+    border-top: none;
 }
 
-.THIS .buttons-block{
+.THIS.cRRTopBar .buttons-block{
     display: flex;
-    height: 32px;
+    height: 55px;
+    padding: 5px 0 18px;
 }
 
 .THIS .pe-button{
@@ -77,9 +81,10 @@
 }
 
 .THIS .path-area{
-    background-color: rgba(41,125,253,0.1);
-    border-top: 1px solid #D9D9D9;
-    /*border-bottom: 1px solid #D9D9D9;*/
+    background-color: #eef5ff;
+    border-top: 1px solid #d9d9d9;
+   	height: 50px;
+    padding-top: 5px;
 }
 
 .THIS .pe-large-header{
@@ -305,6 +310,11 @@
     margin-left: auto;
 }
 
+.THIS .slvi-search-site-btn {
+    margin-top: 15px;
+    width: auto;
+}
+
 @media (max-width: 480px){
     .THIS .mrr-item-btns, .THIS .mrr-item-btns button{
         width: 100%;
@@ -365,9 +375,7 @@
     font-size: 13px;
     text-align: left;
 }
-.THIS .slvi-search-site-btn{
-    width: 100%;
-}
+
 .THIS .slds-coordinates {
     display: none!important;
 }

@@ -52,8 +52,8 @@
                                             isValid="{!v.isValid}"
                                             visitPlanRequired="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c}"/>
                     <div class="slds-clearfix">
-                        <div class="slds-float_right">
-                            <button class="apollo-btn tertiary" disabled="{!!v.isValid}"
+                        <div class="slds-float_left">
+                            <button class="apollo-btn secondary" disabled="{!!v.isValid}"
                                     onclick="{!c.doUpdate}">{!$Label.c.RP_BTN_Save_Changes}</button>
                         </div>
                     </div>

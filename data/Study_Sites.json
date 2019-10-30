@@ -19,6 +19,7 @@
                 "type": "Study_Site__c",
                 "referenceId": "ss2"
             },
+            "Approved_Lng__c": "en_US;ru",
             "Name": "Test SS2",
             "Clinical_Trial_Profile__c": "@ctp2",
             "Site__c": "@clinic2",
@@ -32,6 +33,7 @@
                 "type": "Study_Site__c",
                 "referenceId": "ss3"
             },
+            "Approved_Lng__c": "en_US;ru",
             "Name": "Test SS3",
             "Clinical_Trial_Profile__c": "@ctp2",
             "Site__c": "@clinic3",
@@ -45,6 +47,7 @@
                 "type": "Study_Site__c",
                 "referenceId": "ss4"
             },
+            "Approved_Lng__c": "en_US;ru",
             "Name": "Test SS4",
             "Clinical_Trial_Profile__c": "@ctp2",
             "Site__c": "@clinic4",
@@ -58,6 +61,7 @@
                 "type": "Study_Site__c",
                 "referenceId": "ss5"
             },
+            "Approved_Lng__c": "en_US;ru",
             "Name": "Test SS5",
             "Clinical_Trial_Profile__c": "@ctp2",
             "Site__c": "@clinic5",
@@ -71,6 +75,7 @@
                 "type": "Study_Site__c",
                 "referenceId": "ss6"
             },
+            "Approved_Lng__c": "en_US;ru",
             "Name": "Test SS6",
             "Clinical_Trial_Profile__c": "@ctp3",
             "Site__c": "@clinic6",
@@ -84,6 +89,7 @@
                 "type": "Study_Site__c",
                 "referenceId": "ss7"
             },
+            "Approved_Lng__c": "en_US;ru",
             "Name": "Test SS7",
             "Clinical_Trial_Profile__c": "@ctp4",
             "Site__c": "@clinic7",
@@ -97,6 +103,7 @@
                 "type": "Study_Site__c",
                 "referenceId": "ss8"
             },
+            "Approved_Lng__c": "en_US;ru",
             "Name": "Test SS8",
             "Clinical_Trial_Profile__c": "@ctp5",
             "Site__c": "@clinic8",
@@ -110,6 +117,7 @@
                 "type": "Study_Site__c",
                 "referenceId": "ss9"
             },
+            "Approved_Lng__c": "en_US;ru",
             "Name": "Test SS9",
             "Clinical_Trial_Profile__c": "@ctp6",
             "Site__c": "@clinic9",

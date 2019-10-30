@@ -30,6 +30,24 @@
         margin-left: -0.75rem;
         margin-right: -0.75rem;
     }
+    
+    .cNewTeamMember .permissions-panel {
+        margin-top: 25px;
+    }
+
+    .THIS .button-panel {
+        margin-top: 25px;
+        margin-bottom: 25px;
+    } 
+
+	.THIS .button-panel .slds-grid > .slds-col:first-child {
+        display: none;
+    }
+
+	.THIS .button-panel .slds-grid > .button-container,
+    .THIS .button-panel .slds-grid > .button-container .apollo-btn {
+        min-width: 100%;
+    }      
 }
 
 .THIS .permissions-body{
@@ -38,9 +56,6 @@
     border-color: #e1e6e8;
 }
 
-.THIS .ntm-button{
-    width: 100%;
-}
 .THIS .permissions-panel .panel-heading{
     margin-bottom: 10px;
 }

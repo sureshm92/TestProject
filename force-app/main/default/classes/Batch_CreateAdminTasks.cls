@@ -54,7 +54,8 @@ public class Batch_CreateAdminTasks implements Database.Batchable<PEByContactWra
                         ActivityDate = adminTask.ActivityDate,
                         Reminder_Date__c = adminTask.Reminder_Date__c,
                         Visible_For__c = adminTask.Visible_For__c,
-                        WhatId = peByContactIds.get(user.ContactId).Id
+                        WhatId = peByContactIds.get(user.ContactId).Id,
+                        Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED
                 ));
             }
             insert tasks;
@@ -73,17 +74,20 @@ public class Batch_CreateAdminTasks implements Database.Batchable<PEByContactWra
             try {
                 Messaging.SingleEmailMessage emailMessage = new Messaging.SingleEmailMessage();
                 List<User> user = [SELECT Id, Email FROM User WHERE Id = :userId];
-                emailMessage.setToAddresses(new List<String>{user.get(0).Email});
+                emailMessage.setToAddresses(new List<String>{
+                        user.get(0).Email
+                });
                 emailMessage.setSubject('Batch Create Admin Task');
 
-                String messageBody = 'Task(s) created = ' + taskCreated
+                String messageBody = 'Task Subject: ' + adminTask.Subject + '\n';
+                messageBody += 'Task(s) created = ' + taskCreated
                         + '. Task(s) failed = ' + (failedContactsWithPE.isEmpty() ? '0' : '' + (failedContactsWithPE.size() + '\n'));
-                if(!failedContactsWithPE.isEmpty()) {
+                if (!failedContactsWithPE.isEmpty()) {
                     messageBody += 'Failed contact ids:\n';
                     Integer i = 0;
-                    for(Id conId : failedContactsWithPE.keySet()) {
+                    for (Id conId : failedContactsWithPE.keySet()) {
                         messageBody += conId + ', ';
-                        if(Math.mod(3, i) == 0) messageBody += '\n';
+                        if (Math.mod(3, i) == 0) messageBody += '\n';
                         i++;
                     }
 
@@ -91,7 +95,9 @@ public class Batch_CreateAdminTasks implements Database.Batchable<PEByContactWra
                 }
 
                 emailMessage.setPlainTextBody(messageBody);
-                Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{emailMessage});
+                Messaging.sendEmail((List<Messaging.Email>) new List<Messaging.SingleEmailMessage>{
+                        emailMessage
+                });
             } catch (Exception e) {
                 System.debug(e.getMessage());
             }

@@ -23,6 +23,7 @@ public without sharing class TaskService {
     public static final String TASK_TYPE_MEDICATION = 'Medication';
     public static final String TASK_TYPE_VISIT = 'Visit';
     public static final String TASK_TYPE_SURVEY = 'Survey';
+    public static final String TASK_TYPE_NOT_SELECTED = 'Not Selected';
 
     public static final String TASK_CODE_COMPLETE_SURVEY = 'Complete_Survey';
     public static final String TASK_CODE_COMPLETE_YOUR_PROFILE = 'Complete_Your_Profile';
@@ -40,11 +41,13 @@ public without sharing class TaskService {
             'CreatedDate',
             'Completed_Date__c',
             'ActivityDate',
+            'Activity_Datetime__c',
             'Task_Code__c',
             'WhatId',
             'Task_Type__c',
             'Visible_For__c',
             'Action_URL__c',
+            'ReminderDateTime',
             'Reminder_Date__c',
             'Originator__c',
             'Patient_Visit__c',
@@ -189,7 +192,8 @@ public without sharing class TaskService {
             if (partUserId == null) continue;
 
             userContact.put(partUserId, partContactId);
-            Set<Id> patientDelContactIds = delegatesByParticipant.get(partContactId);
+            Set<Id> patientDelContactIds = delegatesByParticipant.containsKey(partContactId)
+                    ? delegatesByParticipant.get(partContactId) : new Set<Id>();
 
             List<TaskConfig> tmpConfigs = new List<TaskConfig>();
             String visible = invitationsVisible.get(inv.Id);
@@ -222,7 +226,11 @@ public without sharing class TaskService {
                 tsc.description = inv.Id;
                 tsc.priority = TASK_PRIORITY_CRITICAL;
                 tsc.reminderSchedule = inv.Reminder_Schedule__c;
-                tsc.startDate = DateTimeConverterUtil.getUserDatetime(userTimezoneMap.get(tsc.ownerId), (Datetime)null).date();
+
+                TimeZone userTZ = userTimezoneMap.get(tsc.ownerId);
+                Datetime userDatetime = DateTimeConverterUtil.getUserDatetime(userTZ, Datetime.now());
+
+                tsc.startDate = userDatetime.date();
                 if (inv.InviteExpiryDateTime != null) {
                     Date expiryDate = inv.InviteExpiryDateTime.date();
                     Integer daysBetween = Date.today().daysBetween(expiryDate);
@@ -231,8 +239,8 @@ public without sharing class TaskService {
 
                 if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {
                     Integer firstReminderDay = (Integer) inv.Reminder_Schedule__r.First_Reminder_day__c;
-                    tsc.reminderDatetime = DateTimeConverterUtil.getUserDatetime(
-                            userTimezoneMap.get(tsc.ownerId), (Datetime)null).addDays(firstReminderDay);
+                    tsc.reminderDatetime = DateTimeConverterUtil.addDaysInUserTimeZone(userDatetime, userTZ, firstReminderDay);
+                    tsc.reminderGMT = DateTimeConverterUtil.convertUserDatetimeToGMT(tsc.reminderDatetime, userTZ);
                 }
                 tsc.subject = subject;
                 tsc.type = TASK_TYPE_SURVEY;
@@ -262,7 +270,10 @@ public without sharing class TaskService {
         if (taskConfig.code != null) task.Task_Code__c = taskConfig.code;
         if (taskConfig.description != null) task.Description = taskConfig.description;
         if (taskConfig.originator != null) task.Originator__c = taskConfig.originator;
-        if (taskConfig.reminderDatetime != null) task.Reminder_Date__c = taskConfig.reminderDatetime;
+        if (taskConfig.reminderDatetime != null) {
+            task.Reminder_Date__c = taskConfig.reminderDatetime;
+            if(taskConfig.reminderGMT != null) task.ReminderDateTime = taskConfig.reminderGMT;
+        }
         if (taskConfig.reminderSchedule != null) task.Reminder_Schedule__c = taskConfig.reminderSchedule;
         if (taskConfig.startDate != null) task.Start_Date__c = taskConfig.startDate;
         if (taskConfig.type != null) task.Task_Type__c = taskConfig.type;
@@ -337,6 +348,7 @@ public without sharing class TaskService {
         public Id ownerId;
         public String priority;
         public Datetime reminderDatetime;
+        public Datetime reminderGMT;
         public Id reminderSchedule;
         public Date startDate;
         public String status;
@@ -366,8 +378,7 @@ public without sharing class TaskService {
     public List<Task> filterCurrentStudyTasks(List<Task> tasks) {
         Participant_Enrollment__c currentPE = ParticipantService.getInstance().getState().pe;
         if(currentPE == null) return tasks;
-        List<Task> filteredList = new List<Task>();
-        System.debug('Task JSON: ' + JSON.serializePretty(tasks));
+
         Set<Id> invIds = new Set<Id>();
         for (Task t : tasks) {
             if (t.Task_Type__c == TASK_TYPE_SURVEY && t.Description != null) invIds.add(t.Description);
@@ -375,16 +386,25 @@ public without sharing class TaskService {
         List<SurveyInvitation> invitations = [
                 SELECT Id, Participant_Enrollment__c
                 FROM SurveyInvitation
-                WHERE Id IN:invIds
+                WHERE Id IN:invIds AND Participant_Enrollment__c =: currentPE.Id
         ];
         Set<Id> peIds = new Set<Id>();
-        for (SurveyInvitation inv : invitations) peIds.add(inv.Participant_Enrollment__c);
+        Set<Id> invFilterIds = new Set<Id>();
+        for (SurveyInvitation inv : invitations) {
+            peIds.add(inv.Participant_Enrollment__c);
+            invFilterIds.add(inv.Id);
+        }
 
+        List<Task> filteredList = new List<Task>();
         for (Task t : tasks) {
             if (t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
-                if (currentPE != null && t.WhatId == currentPE.Id) filteredList.add(t);
+                if (t.WhatId == currentPE.Id) {
+                    filteredList.add(t);
+                }
             } else if (t.Task_Type__c == TASK_TYPE_SURVEY && t.Description != null) {
-                if (currentPE != null && peIds.contains(currentPE.Id)) filteredList.add(t);
+                if (invFilterIds.contains(t.Description)) {
+                    filteredList.add(t);
+                }
             } else if (t.Task_Type__c != TASK_TYPE_SURVEY) {
                 filteredList.add(t);
             }

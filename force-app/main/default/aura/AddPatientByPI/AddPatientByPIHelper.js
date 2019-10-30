@@ -41,7 +41,7 @@
         }, function (createdPE) {
             communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
             callback();
-        }, function () {
+        }, null, function () {
             component.find('spinner').hide();
         });
     }

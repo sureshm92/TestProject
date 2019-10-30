@@ -9,8 +9,7 @@
     box-sizing: border-box;
     min-height: 62px;
     background-color: #FFFFFF;
-    padding: 11px 17px;
-    font-family: "Proxima Nova";
+    padding: 11px 17px 25px;
 }
 
 .THIS.rcei-body .apollo-btn {
@@ -38,7 +37,6 @@
     color: #FFFFFF;
     font-size: 13px;
     line-height: 10px;
-    margin-top: 3px;
     margin-bottom: 3px;
     margin-left: 10px;
     padding: 6px;

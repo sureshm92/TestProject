@@ -35,8 +35,6 @@ public inherited sharing class VisitService {
     private List<Visit__c> getVisits(String filter, Integer limitNumber) {
         ParticipantService.ParticipantState pState = ParticipantService.getInstance().getState();
 
-//        System.debug('>>>>>>' + JSON.serializePretty(pState));
-
         if (pState == null || pState.ctp == null || !pState.showVisits) {
             return null;
         }

@@ -3,21 +3,21 @@
  */
 
 public without sharing class RRChangePasswordController {
-    
+
     public static final String ERROR_SUFFIX = ': You must enter a value';
     public static final String ERROR_VALUE_SUFFIX = ': You must enter a valid value';
-    
+
     public String photolink{get;set;}
-    
+
     //The binary data of the image uploaded by the user
     public transient Blob blobValue {get; set;}
 
     //The content type, determined by Salesforce, of the image uploaded by the user
     public transient String contentType {get; set;}
-    
+
     // The name of the image file uploaded by the user
     public transient String filename {get; set;}
- 
+
     public String oldPassword {get; set;}
     public String newPassword {get; set;}
     public String verifyNewPassword {get; set;}
@@ -26,14 +26,14 @@ public without sharing class RRChangePasswordController {
     public Account account {get; set;}
     public Contact contact {get; set;}
     public User userVal {get; set;}
-    
+
     public String helpText_1st_Language { get; private set; }
     public String helpText_2nd_Language { get; private set; }
     public String helpText_3rd_Language { get; private set; }
 
     public String userLocale {get; set;}
     public transient String userLanguage {get; set;}
-    
+
     public Boolean notEnrollNow {get; set;}
     public Boolean isProfileView {get; set;}
     public String tcText {get; set;}
@@ -43,18 +43,20 @@ public without sharing class RRChangePasswordController {
 
     public Translation__c translation {get; set;}
     public String browserLanguage {get; set;}
-    
+
     private String previousLanguage;
-    
+
     public List<SelectOption> countries {get; set;}
     public List<SelectOption> states {get; set;}
+    public String country {get; set;}
+    public String state {get; set;}
     public Boolean isStateRequired {get; set;}
 
 
     private Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
     private Map<String, String> countryCodeByName = new Map<String, String>();
     private String oldAccountName;
-    
+
     public RRChangePasswordController() {
         translation = new Translation__c();
         init();
@@ -93,12 +95,12 @@ public without sharing class RRChangePasswordController {
         ];
         contact = userVal.Contact;
         previousLanguage = contact.Language__c;
-    
+
         Map<String, SObjectField> fieldMap = Schema.SObjectType.Contact.fields.getMap();
         helpText_1st_Language = fieldMap.get('Language__c').getDescribe().inlineHelpText;
         helpText_2nd_Language = fieldMap.get('Second_Choice_Language__c').getDescribe().inlineHelpText;
         helpText_3rd_Language = fieldMap.get('Third_Choice_Language__c').getDescribe().inlineHelpText;
-        
+
         notEnrollNow = !((contact.userCommunytyType__c == null || contact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)) && contact.userCommunityMode__c == CommunityService.USER_MODE_HCP);
         isStateRequired = false;
 
@@ -115,7 +117,7 @@ public without sharing class RRChangePasswordController {
         account = cont.Account;
         account.BillingCountry = TranslateHelper.getPickListLabel(User.CountryCode, account.BillingCountryCode);
         oldAccountName = account.Name;
-        
+
         photolink = userVal.FullPhotoUrl;
         isProfileView = true;
         isPaswordsEquals = true;
@@ -126,7 +128,7 @@ public without sharing class RRChangePasswordController {
             tcText = portalTC.T_C_Text__c;
             tcId = portalTC.Id;
         }
-        
+
         isParticipant = contact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT && !contact.UserCommunityIsDelegate__c;
         if(isParticipant) {
             participant = [
@@ -139,12 +141,17 @@ public without sharing class RRChangePasswordController {
             ];
             updateTranslations();
         }
-        
+
         countries = new List<SelectOption>();
         states = new List<SelectOption>();
         for (LabelValueItem country : CountryStateUtil.getCountries()) {
             countries.add(new SelectOption(country.label, country.label));
             countryCodeByName.put(country.label, country.value);
+        }
+        country = contact.MailingCountry;
+        state = contact.MailingState;
+        if (!String.isBlank(country)) {
+            updateStatesAction();
         }
     }
 
@@ -188,12 +195,15 @@ public without sharing class RRChangePasswordController {
         }
 
         if (!notEnrollNow && ApexPages.getMessages().isEmpty()) {
+            Boolean noCountry = contact.MailingCountry == '--None--' || String.isBlank(contact.MailingCountry);
+            Boolean noState = contact.MailingState == '--None--' || String.isBlank(contact.MailingState) || states == null || states.size() < 2;
+
             if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
                 Account newClinic = new Account(
                         Name = account.Name,
-                        BillingCountry = (contact.MailingCountry == '--None--' || String.isBlank(contact.MailingCountry) ? null : contact.MailingCountry),
+                        BillingCountry = (noCountry ? null : contact.MailingCountry),
                         BillingCity = contact.MailingCity,
-                        BillingState = (contact.MailingState == '--None--' || String.isBlank(contact.MailingState) ? null : contact.MailingState),
+                        BillingState = (noState ? null : contact.MailingState),
                         BillingStreet = contact.MailingStreet,
                         BillingPostalCode = contact.MailingPostalCode,
                         Phone = contact.Phone,
@@ -203,15 +213,19 @@ public without sharing class RRChangePasswordController {
                 try {
                     insert newClinic;
 
-                    contact.MailingCountry = (contact.MailingCountry == '--None--' || String.isBlank(contact.MailingCountry) ? null : contact.MailingCountry);
-                    contact.MailingState = (contact.MailingState == '--None--' || String.isBlank(contact.MailingState) ? null : contact.MailingState);
                     contact.AccountId = newClinic.Id;
                 } catch (Exception exp) {
                     System.debug(exp);
                 }
             }
             try {
+                contact.MailingCountry = (noCountry ? null : contact.MailingCountry);
+                contact.MailingState = (noState ? null : contact.MailingState);
+
                 update contact;
+
+                country = contact.MailingCountry;
+                state = contact.MailingState;
             } catch (Exception exp) {
                 System.debug(exp);
             }
@@ -247,11 +261,11 @@ public without sharing class RRChangePasswordController {
 
         if (!notEnrollNow && ApexPages.getMessages().isEmpty()) {
             List<HCP_Enrollment__c> hcpEnrollments = [SELECT Id,
-                                                             HCP_Contact__c,
-                                                             Status__c
-                                                      FROM HCP_Enrollment__c
-                                                      WHERE HCP_Contact__c = :contact.Id AND
-                                                            Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION];
+                    HCP_Contact__c,
+                    Status__c
+            FROM HCP_Enrollment__c
+            WHERE HCP_Contact__c = :contact.Id AND
+            Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION];
             for (HCP_Enrollment__c hcpe : hcpEnrollments) {
                 hcpe.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
             }
@@ -274,7 +288,7 @@ public without sharing class RRChangePasswordController {
         ConnectApi.UserProfiles.setPhoto(Network.getNetworkId(), userVal.Id, photoFileInput);
         photolink = ConnectApi.UserProfiles.getPhoto(Network.getNetworkId(), userVal.Id).fullEmailPhotoUrl;
     }
-    
+
     public void updatePhotoURL(){
     }
 
@@ -329,7 +343,7 @@ public without sharing class RRChangePasswordController {
         if(translation.Language__c == null) translation.Language__c = userVal.LanguageLocaleKey;
         updateLanguageAction();
     }
-    
+
     public void updateLanguageAction(){
         try {
             userVal.LanguageLocaleKey = userVal.Contact.Language__c;
@@ -343,11 +357,11 @@ public without sharing class RRChangePasswordController {
         update userVal.Contact;
         updateTranslations();
     }
-    
+
     public void translateFieldsAction(){
         updateTranslations();
     }
-    
+
     public void updateStatesAction(){
         states = new List<SelectOption>();
         List<LabelValueItem> statesByCountry = statesByCountryMap.get(countryCodeByName.get(contact.MailingCountry));
