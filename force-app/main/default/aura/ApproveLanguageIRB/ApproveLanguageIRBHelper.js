@@ -10,12 +10,15 @@
         var langCodes = component.get('v.langCodes');
         if (!langCodes) component.set('v.langFilterType', 'All');
 
+        var ssIds = component.get('v.selectedSSIds');
+        if(!ssIds) component.set('v.sitesFilterType', 'All');
+
         component.find('spinner').show();
         communityService.executeAction(component, 'getFilteredItems', {
             'data': JSON.stringify(data),
             'countryCodes': cCodes,
             'langCodes': langCodes,
-            'ssId': component.get('v.selectedSSIds'),
+            'ssId': ssIds,
         }, function (data) {
             component.set('v.data', data);
             component.set('v.ssItems', data.studySiteItems);

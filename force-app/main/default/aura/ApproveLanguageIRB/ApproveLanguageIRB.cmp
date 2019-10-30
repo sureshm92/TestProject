@@ -12,6 +12,8 @@
     <aura:attribute name="data" type="Object"/>
     <aura:attribute name="ssItems" type="List"/>
     <aura:attribute name="haveEmptyLangSS" type="Boolean"/>
+
+    <aura:attribute name="sitesFilterType" type="String" default="All"/>
     <aura:attribute name="selectedSSIds" type="String"/>
 
     <aura:attribute name="countryFilterType" type="String" default="All"/>
@@ -92,9 +94,19 @@
                         <div class="slds-grid slds-gutters">
                             <!--Study Site Filter-->
                             <div class="slds-col slds-size--1-of-2">
-                                <c:IRBStudySitesLookup value="{!v.selectedSSIds}" ctpId="{!v.recordId}"
-                                                       selectedCountries="{!v.countryCodes}"
-                                                       onchange="{!c.getFilteredSS}" placeholder="Select Study Site"/>
+                                <aura:if isTrue="{!equals(v.sitesFilterType, 'All')}">
+                                    <lightning:select label="Hidden" variant="label-hidden" value="{!v.sitesFilterType}"
+                                                      onchange="{!c.whenSSFilterChanged}">
+                                        <option label="All Study Sites" value="All"></option>
+                                        <option label="Selected Study Sites" value="filter"></option>
+                                    </lightning:select>
+                                    <aura:set attribute="else">
+                                        <c:IRBStudySitesLookup aura:id="ssLookup"
+                                                               value="{!v.selectedSSIds}" ctpId="{!v.recordId}"
+                                                               selectedCountries="{!v.countryCodes}"
+                                                               onchange="{!c.getFilteredSS}" placeholder="Select Study Site"/>
+                                    </aura:set>
+                                </aura:if>
                             </div>
                             <!--Save changes button-->
                             <div class="slds-col slds-size--1-of-2 slds-p-left--small save-btn">

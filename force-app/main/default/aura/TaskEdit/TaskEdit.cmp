@@ -68,7 +68,7 @@
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                         <aura:if isTrue="{!not(v.initData.createdByAdmin)}">
                             <aura:if isTrue="{!v.isEnrolled}">
-                                <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}" required="true"
+                                <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}"
                                                   value="{!v.task.Task_Type__c}">
                                     <aura:iteration items="{!v.initData.taskTypeList}" var="type">
                                         <option value="{!type.value}">{!type.label}</option>
