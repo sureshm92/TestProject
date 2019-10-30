@@ -1,78 +1,8 @@
 ({
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
-        var tabId = communityService.getUrlParameter('tab');
-        if(!tabId) tabId = 'help';
-        component.set('v.currentTab', tabId);
         component.set('v.userMode', communityService.getUserMode());
         component.set('v.isInitialized', true);
-
-        communityService.executeAction(component, 'getUserInfo', null, function (response) {
-            var userInfo = JSON.parse(response);
-            component.set('v.userContact', userInfo.currentContact);
-            component.set('v.isDelegate', userInfo.isDelegate);
-        });
     },
 
-    submitRequest: function (component, event, helper) {
-        var text;
-        var type;
-        switch(component.get('v.currentTab')){
-            case 'feedback':
-                type = 'Feedback';
-                text = component.get('v.textValueFeedback');
-                helper.clearFieldAfterSubmit('textValueFeedback', component);
-                break;
-            case 'problem':
-                type = 'Problem';
-                text = component.get('v.textValueProblem');
-                helper.clearFieldAfterSubmit('textValueProblem', component);
-                break;
-            case 'req-data':
-                type = 'Privacy';
-                text = component.get('v.textValueRequest');
-                break;
-            default:
-                communityService.showErrorToast(null, $A.get('$Label.c.TST_Incorrect_user_data'));
-                return;
-        }
-
-        if(!text) {
-            communityService.showWarningToast(null, $A.get('$Label.c.TST_Complete_description'));
-            return;
-        }
-        helper.createNewCase(component, text, type);
-    },
-
-    onFileSelect: function (component, event, helper) {
-        var files = event.target.files;
-        helper.handleFileSelection(component, files);
-    },
-
-    onDragOver: function (component, event, helper) {
-        event.preventDefault();
-    },
-
-    onDrop: function (component, event, helper) {
-        event.stopPropagation();
-        event.preventDefault();
-        event.dataTransfer.dropEffect = 'copy';
-
-        var files = event.dataTransfer.files;
-        helper.handleFileSelection(component, files);
-    },
-
-    handleRemoveFile: function (component, event, helper) {
-        event.preventDefault();
-        var tmpId = event.getSource().get('v.name');
-        console.log('tmpId= ' + tmpId);
-        var fileList = component.get('v.fileList');
-        var newList = [];
-
-        for(var i = 0; i < fileList.length; i++){
-            if(fileList[i].tmpId === tmpId) continue;
-            newList.push(fileList[i]);
-        }
-        component.set('v.fileList', newList);
-    }
 })
