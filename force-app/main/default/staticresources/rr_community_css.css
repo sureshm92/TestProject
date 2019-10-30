@@ -519,9 +519,61 @@ lightning-datepicker .slds-input-has-icon > lightning-button-icon:after {
     right: 0px;
 }
 
-/*lightning-datepicker lightning-button-icon .slds-button svg {*/
-/*    display: none;*/
-/*}*/
+lightning-datepicker lightning-button-icon .slds-button svg {
+    display: none;
+}
+
+.slds-datepicker__filter_month > div:first-child .slds-button:after {
+    content: '';
+    position: absolute;
+    background-size: 20px 20px;
+    background-image: url(/resource/1569261183000/iconTriangleLeft);
+    height: 20px;
+    width: 20px;
+    top: 6px;
+    right: 6px;
+}
+
+.slds-datepicker__filter_month > div:last-child .slds-button:after {
+    content: '';
+    position: absolute;
+    background-size: 20px 20px;
+    background-image: url(/resource/1569261183000/iconTriangleright);
+    height: 20px;
+    width: 20px;
+    top: 6px;
+    right: 4px;
+}
+
+.slds-datepicker td,
+.slds-datepicker th{
+    font-size: .875rem;
+    color: #000;
+}
+
+.slds-datepicker__filter_month .slds-align-middle,
+.slds-datepicker__filter .slds-select {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.slds-datepicker td.slds-is-today>.slds-day {
+    background-color: #297dfd;
+    color: #fff;
+}
+
+.slds-datepicker td.slds-is-today>.slds-day:hover {
+    background-color: #10558a;
+}
+
+.slds-datepicker__month + .slds-button {
+    font-size: 1rem;
+}
+
+.slds-datepicker__month + .slds-button:hover {
+    color: #10558a;
+    text-decoration: none;
+}
 
 .slds-radio [type=radio]:checked+.slds-radio_faux,
 .slds-radio [type=radio]:checked+.slds-radio--faux,
@@ -1034,7 +1086,7 @@ select.rr-select-error,
 .rr-top-bar{
     padding-top: 30px;
     background-color: white;
-    box-shadow: 0 20px 30px -10px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04)
 
 }
 
