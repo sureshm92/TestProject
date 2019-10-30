@@ -140,12 +140,20 @@ public without sharing class TaskEditRemote {
     }
 
     private static Boolean checkEmailPreferencesIsOn() {
-        return PatientDelegateService.getInstance().getParticipant().Contact__r.Participant_Opt_In_Status_Emails__c;
+        PatientDelegateService delegateService = PatientDelegateService.getInstance();
+        if (delegateService.isDelegate()) {
+            return delegateService.getDelegateContact(CommunityService.getUserContact().Id).Participant_Opt_In_Status_Emails__c;
+        }
+        return delegateService.getParticipant().Contact__r.Participant_Opt_In_Status_Emails__c;
     }
 
     private static String checkEmailPermissions(Boolean emailPreferencesIsOn, List<Contact> delegates) {
         String errorMessage = '';
-        if (!emailEnabledForAllRelatedContacts(emailPreferencesIsOn, delegates)) {
+
+        if (!emailEnabledForAllRelatedContacts(
+                PatientDelegateService.getInstance().getParticipant().Contact__r.Participant_Opt_In_Status_Emails__c,
+                delegates
+        )) {
             errorMessage = Label.Task_Reminders_Missing;
         }
         if (!emailEnabledForCurrentContact()) {
@@ -155,16 +163,14 @@ public without sharing class TaskEditRemote {
     }
 
     private static Boolean emailEnabledForAllRelatedContacts(Boolean emailPreferencesIsOn, List<Contact> delegates) {
-        if (!emailPreferencesIsOn)
-            return false;
+        if (!emailPreferencesIsOn) return false;
         for (Contact delegate : delegates) {
             if (!delegate.Participant_Opt_In_Status_Emails__c) return false;
         }
         return true;
     }
     private static Boolean emailEnabledForOneRelatedContact(Boolean emailPreferencesIsOn, List<Contact> delegates) {
-        if (emailPreferencesIsOn)
-            return true;
+        if (emailPreferencesIsOn) return true;
         for (Contact delegate : delegates) {
             if (delegate.Participant_Opt_In_Status_Emails__c) return true;
         }
