@@ -12,6 +12,7 @@ public class TestData {
     public Participant__c participant;
     public Clinical_Trial_Profile__c ctp;
     public Study_Site__c ss;
+    public Participant_Study_Enrollment__c pse; //ONLY FOR DEPLOY
     public Participant_Enrollment__c pe;
     public HCP_Enrollment__c hcpEnrollment;
     private static Contact hcpContact;
@@ -69,6 +70,17 @@ public class TestData {
      * ONLY FOR DEPLOY
      */
     public void createPSE() {
+        pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
+        update pe;
+        pse = [
+                SELECT Id,
+                        Participant_Contact__c,
+                        Screening_ID__c,
+                        Clinical_Trial_Profile__c,
+                        CreatedDate
+                FROM Participant_Study_Enrollment__c
+                WHERE Participant__c =: participant.Id
+        ];
     }
 
     public void updatePEStatusEnrollmentSuccess(){
