@@ -6,6 +6,7 @@ public without sharing class XLF_PatternListRemote implements Metadata.DeployCal
     private static Pattern alphaNumericPattern = Pattern.compile('[^a-zA-Z0-9]');
     private static String algorithm = 'AES128';
     private static String privateKey = '683d1f6bde01bd47';
+    private static Metadata.DeployResult deployResult;
     
     public class RuntimeException extends Exception {
     }
@@ -20,6 +21,14 @@ public without sharing class XLF_PatternListRemote implements Metadata.DeployCal
         }
         records.sort();
         return records;
+    }
+    
+    @AuraEnabled
+    public static Metadata.DeployResult getDeployResult () {
+        // Please note: this method may be useless if invoked from Lightning controller in a separate transaction
+        // It is so because this controller is stateless, it doesn't keep the static values assigned in previous transactions
+        // So, this method would always return null
+        return deployResult;
     }
     
     @AuraEnabled
@@ -97,6 +106,7 @@ public without sharing class XLF_PatternListRemote implements Metadata.DeployCal
     }
     
     public void handleResult (Metadata.DeployResult result, Metadata.DeployCallbackContext context) {
+        deployResult = result;
         if (result.status == Metadata.DeployStatus.Succeeded) {
             // Successful deployment
         } else {
