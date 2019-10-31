@@ -191,10 +191,17 @@
         <copy todir="${dist.dir}/part3">
             <fileset dir="${source.dir}">
                 <include name="labels/*.*"/>
+                <include name="customMetadata/*.*"/>
+                <include name="objects/*__mdt.*"/>
             </fileset>
         </copy>
         <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part3/package.xml" encoding="UTF-8">
-            <remove path="/:Package/:types[:name[text()!='CustomLabels']]"/>
+            <remove path="/:Package/:types[:name[text()!='CustomLabels' and text()!='CustomLabel' and text()!='CustomMetadata' and text()!='CustomObject' and text()!='CustomField' and text()!='ListView']]"/>
+        </xmltask>
+        <xmltask source="${dist.dir}/part3/package.xml" dest="${dist.dir}/part3/package.xml" encoding="UTF-8">
+            <remove path="/:Package/:types[:name[text()='CustomObject']]/:members[not(contains(text(), '__mdt'))]"/>
+            <remove path="/:Package/:types[:name[text()='CustomField']]/:members[not(contains(text(), '__mdt'))]"/>
+            <remove path="/:Package/:types[:name[text()='ListView']]/:members[not(contains(text(), '__mdt'))]"/>
         </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part3.zip">
             <fileset dir="${dist.dir}">
@@ -210,8 +217,8 @@
                 <exclude name="translations/*.*"/>
                 <exclude name="navigationMenus/*.*"/>
                 <exclude name="labels/*.*"/>
-                <exclude name="profiles/*.*"/>
-                <exclude name="email/**/*.*"/>
+                <exclude name="customMetadata/*.*"/>
+                <exclude name="objects/*__mdt.*"/>
             </fileset>
         </copy>
         <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part4/package.xml" encoding="UTF-8">
@@ -219,8 +226,13 @@
             <remove path="/:Package/:types[:name[text()='Translations']]"/>
             <remove path="/:Package/:types[:name[text()='NavigationMenu']]"/>
             <remove path="/:Package/:types[:name[text()='CustomLabels']]"/>
-            <remove path="/:Package/:types[:name[text()='Profile']]"/>
-            <remove path="/:Package/:types[:name[text()='EmailTemplate']]"/>
+            <remove path="/:Package/:types[:name[text()='CustomLabel']]"/>
+            <remove path="/:Package/:types[:name[text()='CustomMetadata']]"/>
+        </xmltask>
+        <xmltask source="${dist.dir}/part4/package.xml" dest="${dist.dir}/part4/package.xml" encoding="UTF-8">
+            <remove path="/:Package/:types[:name[text()='CustomObject']]/:members[contains(text(), '__mdt')]"/>
+            <remove path="/:Package/:types[:name[text()='CustomField']]/:members[contains(text(), '__mdt')]"/>
+            <remove path="/:Package/:types[:name[text()='ListView']]/:members[contains(text(), '__mdt')]"/>
         </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part4.zip">
             <fileset dir="${dist.dir}">
@@ -228,23 +240,6 @@
             </fileset>
         </zip>
         <delete dir="${dist.dir}/part4"/>
-
-        <!-- part 5 -->
-        <copy todir="${dist.dir}/part5">
-            <fileset dir="${source.dir}">
-                <include name="email/**/*.*"/>
-            </fileset>
-        </copy>
-        <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part5/package.xml" encoding="UTF-8">
-            <remove path="/:Package/:types[:name[text()!='EmailTemplate']]"/>
-        </xmltask>
-        <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part5.zip">
-            <fileset dir="${dist.dir}">
-                <include name="part5/**/*.*"/>
-            </fileset>
-        </zip>
-        <delete dir="${dist.dir}/part5"/>
-
 
     </target>
 
