@@ -44,8 +44,7 @@ public without sharing class TaskEditRemote {
 
             task = new Task();
 
-            TimeZone timeZone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
-            today = DateTimeConverterUtil.getUserDatetime(timeZone, Datetime.now()).dateGmt();
+            today = Datetime.now().date(); //Datetime.now() takes datetime from user already in user's TimeZone
         }
     }
 
