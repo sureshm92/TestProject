@@ -7,24 +7,24 @@ public without sharing class XLF_TweakerRemote {
     }
     
     @AuraEnabled
-    public static List<String> getDocuments () {
+    public static XLF_RemoteActionResult getDocuments () {
         try {
             List<String> documents = new List<String>();
             for (Document doc : [SELECT Name FROM Document]) {
                 documents.add(doc.Name);
             }
-            return documents;
+            return new XLF_RemoteActionResult (true,null,null, null, documents);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
     
     @AuraEnabled
-    public static String startTweaking (String docName) {
+    public static XLF_RemoteActionResult startTweaking (String docName) {
         try {
             List<Document> documents = [SELECT Name, Type, FolderId, Body FROM Document WHERE Name = :docName];
             if (documents.isEmpty()) {
-                return 'false:Document ' + docName + ' was not found';
+                return new XLF_RemoteActionResult (false,null, 'Document ' + docName + ' was not found', null, null);
             }
     
             String docType = documents[0].Type;
@@ -32,11 +32,11 @@ public without sharing class XLF_TweakerRemote {
             Blob   xlfData = documents[0].Body;
     
             if (docType == 'zip') {
-                return 'zip:' + EncodingUtil.base64Encode(xlfData);
+                return new XLF_RemoteActionResult (true,null,null, EncodingUtil.base64Encode(xlfData),null);
             }
             
             if (![SELECT Name FROM Document WHERE Name = :newName].isEmpty()) {
-                return 'false:Document \"' + newName + '\" already exists. Perhaps you have already tweaked it.';
+                return new XLF_RemoteActionResult (false,null, 'Document \"' + newName + '\" already exists. Perhaps you have already tweaked it.', null, null);
             }
     
             XLF_TweakerHelper tweakerHelper = new XLF_TweakerHelper();
@@ -48,16 +48,16 @@ public without sharing class XLF_TweakerRemote {
             updatedDoc.FolderId = documents[0].FolderId;
             insert updatedDoc;
     
-            return 'true:Document \"' + docName + '\" tweaked successfully';
+            return new XLF_RemoteActionResult (true,null, 'Document \"' + docName + '\" tweaked successfully', null, null);
         } catch (XmlException e) {
-            return 'false:PARSING ERROR: Document \"' + docName + '\" is not a valid XML document';
+            return new XLF_RemoteActionResult (false,null, 'PARSING ERROR: Document \"' + docName + '\" is not a valid XML document', null, null);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
     
     @AuraEnabled
-    public static String startZipTweaking (String fileName, String body) {
+    public static XLF_RemoteActionResult startZipTweaking (String fileName, String body) {
         try {
             String docType = '';
             List<String> nameParts = fileName.split('\\.');
@@ -68,7 +68,7 @@ public without sharing class XLF_TweakerRemote {
             Blob xlfData = Blob.valueOf(body);
 
             if (![SELECT Name FROM Document WHERE Name = :newName].isEmpty()) {
-                return 'false:Document \"' + newName + '\" already exists. Perhaps you have already tweaked it.';
+                return new XLF_RemoteActionResult (false,null, 'Document \"' + newName + '\" already exists. Perhaps you have already tweaked it.', null, null);
             }
 
             XLF_TweakerHelper tweakerHelper = new XLF_TweakerHelper();
@@ -79,10 +79,10 @@ public without sharing class XLF_TweakerRemote {
             updatedDoc.Type     = docType;
             updatedDoc.FolderId = [SELECT FolderId FROM Document LIMIT 1].FolderId;
             insert updatedDoc;
-
-            return 'true:Document \"' + fileName + '\" tweaked successfully';
+    
+            return new XLF_RemoteActionResult (true,null, 'Document \"' + fileName + '\" tweaked successfully', null, null);
         } catch (XmlException e) {
-            return 'false:PARSING ERROR: File \"' + fileName + '\" is not a valid XML document';
+            return new XLF_RemoteActionResult (false,null, 'PARSING ERROR: File \"' + fileName + '\" is not a valid XML document', null, null);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage() + '\n' + e.getStackTraceString());
         }

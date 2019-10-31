@@ -13,7 +13,8 @@
         		var action = component.get("c.getDocuments");
         		action.setCallback (this, function(response) {
         			if (response.getState() === "SUCCESS") {
-       					component.set('v.documents', response.getReturnValue());
+                        var result = response.getReturnValue();
+       					component.set('v.documents', result.records);
         			} else if (response.getState() === "ERROR") {
         			    var errors = response.getError();
                         component.set("v.toastType", "error");
@@ -53,31 +54,27 @@
         		action.setParams({ docName : docName });
         		action.setCallback (this, function (response) {
         			if (response.getState() === "SUCCESS") {
-                        var returnValue = response.getReturnValue();
-                        var idx = returnValue.search(':');
-                        var code = returnValue.substring(0, idx);
-                        var text = returnValue.substring(idx + 1);
-                        if (code == 'true') {
-                            component.set("v.toastType", "success");
-                            component.set("v.toastMessage", text);
-                            $A.enqueueAction(component.get('c.showToast'));
-                        } else if (code == 'false') {
-                            component.set("v.toastType", "error");
-                            component.set("v.toastMessage", text);
-                            $A.enqueueAction(component.get('c.showToast'));
-                        } else if (code == 'zip') {
-                            var zip = new JSZip();
-                            zip.loadAsync(text, {base64: true}).then(function (zip) {
-                                var names = Object.keys(zip.files).map(function (name) {
-                                    return name;
+                        var result = response.getReturnValue();
+                        var status = (result.success) ? "success" : "error";
+                        if (status === "success") {
+                            if (result.zip) {
+                                var zip = new JSZip();
+                                zip.loadAsync(result.zip, {base64: true}).then(function (zip) {
+                                    var names = Object.keys(zip.files).map(function (name) {
+                                        return name;
+                                    });
+                                    component.set("v.zip", result.zip);
+                                    component.set("v.zipNames", names);
+                                    component.set('v.isZipModalOpen', true);
                                 });
-                                component.set("v.zip", text);
-                                component.set("v.zipNames", names);
-                                component.set('v.isZipModalOpen', true);
-                            });
+                            } else {
+                                component.set("v.toastType", status);
+                                component.set("v.toastMessage", result.message);
+                                $A.enqueueAction(component.get('c.showToast'));
+                            }
                         } else {
-                            component.set("v.toastType", "error");
-                            component.set("v.toastMessage", 'ERROR: unknown error');
+                            component.set("v.toastType", status);
+                            component.set("v.toastMessage", result.message);
                             $A.enqueueAction(component.get('c.showToast'));
                         }
         			} else if (response.getState() === "ERROR") {
@@ -99,31 +96,19 @@
                 spinner.show();
 
                 var fileName = component.get("v.zipHighlighted");
-        	    var text = component.get("v.zip");
+        	    var zipBody = component.get("v.zip");
                 var zip = new JSZip();
-                zip.loadAsync(text, {base64: true}).then(function(zip) {
+                zip.loadAsync(zipBody, {base64: true}).then(function(zip) {
                     zip.file(fileName).async("string").then(function(body){
                         var action = component.get("c.startZipTweaking");
                         action.setParams({ fileName : fileName, body : body });
                         action.setCallback (this, function(response) {
                             if (response.getState() === "SUCCESS") {
-                                var returnValue = response.getReturnValue();
-                                var idx = returnValue.search(':');
-                                var code = returnValue.substring(0, idx);
-                                var text = returnValue.substring(idx + 1);
-                                if (code == 'true') {
-                                    component.set("v.toastType", "success");
-                                    component.set("v.toastMessage", text);
-                                    $A.enqueueAction(component.get('c.showToast'));
-                                } else if (code == 'false') {
-                                    component.set("v.toastType", "error");
-                                    component.set("v.toastMessage", text);
-                                    $A.enqueueAction(component.get('c.showToast'));
-                                } else {
-                                    component.set("v.toastType", "error");
-                                    component.set("v.toastMessage", 'ERROR: unknown error');
-                                    $A.enqueueAction(component.get('c.showToast'));
-                                }
+                                var result = response.getReturnValue();
+                                var status = (result.success) ? "success" : "error";
+                                component.set("v.toastType", status);
+                                component.set("v.toastMessage", result.message);
+                                $A.enqueueAction(component.get('c.showToast'));
                             } else if (response.getState() === "ERROR") {
                                 var errors = response.getError();
                                 component.set("v.toastType", "error");
