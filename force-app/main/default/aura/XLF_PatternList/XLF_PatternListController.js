@@ -16,8 +16,9 @@
                     var state = response.getState();
                     if (state === "SUCCESS" ) {
                         component.find("datatable").set("v.draftValues", null);     // this hides the Cancel/Save buttons and resets updated rows
-                        var resultData = response.getReturnValue();
-                        component.set("v.data", resultData);
+                        var result = response.getReturnValue();
+                        component.set("v.keyPrefix", result.jobId);
+                        component.set("v.data", result.records);
                         $A.enqueueAction(component.get('c.handleColumnSort'));
                     } else if (state === "ERROR") {
         			    var errors = response.getError();
@@ -56,7 +57,7 @@
                 spinner.show();
 
                 var records = event.getParam('draftValues');
-                for ( var i=0; i<records.length; i++) {
+                for (var i=0; i<records.length; i++) {
                     records[i].Active__c = true;
                 }
 
@@ -66,8 +67,11 @@
                     var state = response.getState();
                     if (state === "SUCCESS" ) {
                         component.find("datatable").set("v.draftValues", null);     // this hides the Cancel/Save buttons and resets updated rows
-                        component.set("v.toastType", "success");
-                        component.set("v.toastMessage", response.getReturnValue());
+                        var result = response.getReturnValue();
+                        var status = (result.success) ? "success" : "error";
+                        component.set("v.toastType", status);
+                        component.set("v.jobId", result.jobId);
+                        component.set("v.toastMessage", result.message);
                         $A.enqueueAction(component.get('c.showToast'));
                     } else if (state === "ERROR") {
                         var errors = response.getError();
@@ -97,8 +101,11 @@
                 action.setCallback(this, function(response) {
                     var state = response.getState();
                     if (state === "SUCCESS" ) {
-                        component.set("v.toastType", "success");
-                        component.set("v.toastMessage", response.getReturnValue());
+                        var result = response.getReturnValue();
+                        var status = (result.success) ? "success" : "error";
+                        component.set("v.toastType", status);
+                        component.set("v.jobId", result.jobId);
+                        component.set("v.toastMessage", result.message);
                         $A.enqueueAction(component.get('c.showToast'));
                     } else if (state === "ERROR") {
                         var errors = response.getError();
