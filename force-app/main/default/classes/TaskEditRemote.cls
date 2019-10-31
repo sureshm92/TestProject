@@ -44,7 +44,7 @@ public without sharing class TaskEditRemote {
 
             task = new Task();
 
-            today = Datetime.now().date(); //Datetime.now() takes datetime from user already in user's TimeZone
+            today = Datetime.now().date();
         }
     }
 
@@ -101,7 +101,6 @@ public without sharing class TaskEditRemote {
             }
             if (taskWrapper.reminderDate != null) {
                 taskToUpsert.Reminder_Date__c = taskWrapper.reminderDate;
-                //DateTimeConverterUtil.getUserDatetime(timezone, taskWrapper.reminderDate);
                 taskToUpsert.ReminderDateTime =
                         DateTimeConverterUtil.convertUserDatetimeToGMT(taskToUpsert.Reminder_Date__c, timezone);
             }
