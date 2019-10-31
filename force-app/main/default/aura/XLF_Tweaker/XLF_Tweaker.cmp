@@ -1,0 +1,79 @@
+<!--
+ - Created by Slav on 22.10.2019.
+ -->
+
+<aura:component description="XLF Tweaker" implements="force:appHostable" controller="XLF_TweakerRemote">
+    <ltng:require scripts="{!join(',', $Resource.jszip + '/jszip/jszip.js')}"/>
+    <!-- attributes: -->
+    <aura:attribute name="documents" type="String[]"/>
+    <aura:attribute name="highlighted" type="String" default=""/>
+    <aura:attribute name="zip" type="String"/>
+    <aura:attribute name="zipNames" type="String[]"/>
+    <aura:attribute name="zipHighlighted" type="String" default=""/>
+    <aura:attribute name="isZipModalOpen" type="Boolean" default="false"/>
+    <aura:attribute name="toastType" type="String" default="info"/>
+    <aura:attribute name="toastMessage" type="String"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <!-- component body: -->
+    <div>
+        <div class="slds-page-header__title" style="padding: 10px;">XLF Translation File Management Tool</div>
+        <div class="slds-grid slds-wrap" style="position: relative">
+            <c:RRSpinner aura:id="spinner" size="medium"/>
+            <div class="slds-col section slds-size_1-of-1 slds-large-size_1-of-2">
+                <div class="border-panel">
+                    <div class="tweaker-form slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_1-of-2 slds-form-element">
+                            <lightning:button variant="brand" label="Manage White List" class="form-btn" onclick="{!c.gotoWhiteList}"/>
+                            <lightning:button variant="brand" label="Manage Black List" class="form-btn" onclick="{!c.gotoBlackList}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-form-element"/>
+                        <div class="slds-col slds-size_1-of-2 slds-form-element">
+                            <lightning:select aura:id="file_select" name="file_select" onchange="{!c.onHighlightChange}">
+                                <option value="">-- Please select file ---</option>
+                                <aura:iteration items="{!v.documents}" var="doc">
+                                    <option value="{!doc}">{!doc}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <div class="slds-col slds-size_2-of-2 slds-form-element">
+                            <lightning:button variant="brand" label="Refresh List" title="Refresh" class="form-btn" onclick="{!c.init}"/>
+                            <lightning:button variant="brand" label="Start Tweaking" title="Start" class="form-btn" onclick="{!c.startProcess}" disabled="{!v.highlighted == ''}"/>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <aura:if isTrue="{!v.isZipModalOpen}">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Archived File (ZIP)</h2>
+                            <p class="slds-m-top_x-small">
+                                You've selected a document that is a ZIP archive. Below is a list of files found in the container.
+                                Please select one from the list and click the "Proceed" button to continue.
+                            </p>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <lightning:select aura:id="zip_select" name="zip_select" onchange="{!c.onZipHighlightChange}">
+                                <option value="">-- Please select file ---</option>
+                                <aura:iteration items="{!v.zipNames}" var="doc">
+                                    <option value="{!doc}">{!doc}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <button class="slds-button slds-button_neutral" onclick="{!c.closeZipModal}">Cancel</button>
+                            <button class="slds-button slds-button_brand" onclick="{!c.startZipProcess}" disabled="{!v.zipHighlighted == ''}">Proceed</button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </aura:if>
+
+        </div>
+    </div>
+</aura:component>
