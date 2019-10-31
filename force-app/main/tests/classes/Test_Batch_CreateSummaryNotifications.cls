@@ -51,7 +51,7 @@ private class Test_Batch_CreateSummaryNotifications {
         insert resStudy;
 
         Study_Site__c studySite = [SELECT Id, Approved_Lng__c FROM Study_Site__c WHERE Id = :testData.ss.Id];
-        studySite.Approved_Lng__c = 'en_US';
+        studySite.Approved_Lng__c = 'en_US;ru';
         update studySite;
 
         Contact participantContact = [

@@ -43,16 +43,14 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                 FROM ContentDocumentLink
                 WHERE LinkedEntityId IN:resIds
         ];
-        Set<String> resLangs = new Set<String>();
+
         Map<Id, List<String>> contentLangByResId = new Map<Id, List<String>>();
         for (ContentDocumentLink content : contentDocumentLinks) {
             if (!contentLangByResId.containsKey(content.LinkedEntityId)) {
                 contentLangByResId.put(content.LinkedEntityId, new List<String>());
             }
             contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.Title);
-            resLangs.add(content.ContentDocument.Title);
         }
-
 
         List<Participant_Enrollment__c> enrollment = [
                 SELECT
@@ -68,7 +66,7 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                         Study_Site__r.Approved_Lng__c
                 FROM Participant_Enrollment__c
                 WHERE Clinical_Trial_Profile__c IN:resStudyByCtp.keySet()
-                AND Study_Site__r.Approved_Lng__c IN:resLangs
+                AND Study_Site__r.Approved_Lng__c != NULL
                 AND Participant__c != NULL
                 AND Participant_Contact__c != NULL
         ];
