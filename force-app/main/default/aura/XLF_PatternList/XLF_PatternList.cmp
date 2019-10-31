@@ -68,11 +68,6 @@
                                 &nbsp;
                                 <lightning:button label="Refresh" variant="brand" onclick="{!c.init}"/>
                             </div>
-<!--                            <div class="slds-float_right">-->
-<!--                                <a href="{!'/changemgmt/monitorDeploymentsDetails.apexp?asyncId=' + v.jobId}" target="_blank">Last deploy status</a>-->
-<!--                                &nbsp;-->
-<!--                                <lightning:button label="Refresh" variant="brand" onclick="{!c.init}"/>-->
-<!--                            </div>-->
                         </div>
                     </div>
                 </div>
