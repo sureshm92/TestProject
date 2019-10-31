@@ -194,7 +194,8 @@
                 <exclude name="staticresources/*.*"/>
                 <exclude name="translations/*.*"/>
                 <exclude name="navigationMenus/*.*"/>
-                <exclude name="profiles/*.*"/>
+                <exclude name="aura/*/"/>
+                <exclude name="flexipages/*.*"/>
             </fileset>
         </copy>
         <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part3/package.xml" encoding="UTF-8">
@@ -203,7 +204,8 @@
             <remove path="/:Package/:types[:name[text()='StaticResource']]"/>
             <remove path="/:Package/:types[:name[text()='Translations']]"/>
             <remove path="/:Package/:types[:name[text()='NavigationMenu']]"/>
-            <remove path="/:Package/:types[:name[text()='Profile']]"/>
+            <remove path="/:Package/:types[:name[text()='AuraDefinitionBundle']]"/>
+            <remove path="/:Package/:types[:name[text()='FlexiPage']]"/>
         </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part3.zip">
             <fileset dir="${dist.dir}">
@@ -216,11 +218,12 @@
         <copy todir="${dist.dir}/part4">
             <fileset dir="${source.dir}">
                 <include name="assignmentRules/*.*"/>
-                <include name="profiles/*.*"/>
+                <include name="aura/**/*.*"/>
+                <include name="flexipages/*.*"/>
             </fileset>
         </copy>
         <xmltask source="${source.dir}/package.xml" dest="${dist.dir}/part4/package.xml" encoding="UTF-8">
-            <remove path="/:Package/:types[:name[text()!='Profile' and text()!='AssignmentRule' and text()!='AssignmentRules']]"/>
+            <remove path="/:Package/:types[:name[text()!='AssignmentRule' and text()!='AssignmentRules' and text()!='AuraDefinitionBundle' and text()!='FlexiPage']]"/>
         </xmltask>
         <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part4.zip">
             <fileset dir="${dist.dir}">
