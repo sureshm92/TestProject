@@ -28,7 +28,7 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
                 )
                 FROM Patient_Visit__c
                 WHERE Status__c = 'Completed'
-                      AND Notified__c = FALSE
+                      AND Notified__c = FALSE AND Participant_Enrollment__r.Participant_Contact__c != NULL
                 ORDER BY Visit_Number__c, Completed_Date__c
         ]);
     }
@@ -58,24 +58,26 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
         List<Visit_Result__c> listOfResult =
                 VisitResultSharingService.getAvailableVisitResults(patientVisits, true, mapOfCTPByShare);
 
-        List<Contact> peContacts = new List<Contact>();
-        Map<Id, Id> peIdByContact = new Map<Id, Id>();
+        List<SendEmailTemplate.EmailMessageWrapper> messageWrappers = new List<SendEmailTemplate.EmailMessageWrapper>();
         Set<Patient_Visit__c> updatedPatientVisits = new Set<Patient_Visit__c>();
+        Set<Id> recipientIds = new Set<Id>();
         for(Visit_Result__c visitResultObj : listOfResult){
-            if(visitResultObj.Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__c != null){
-                peContacts.add(visitResultObj.Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__r);
-                peIdByContact.put(
-                        visitResultObj.Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__c,
-                        visitResultObj.Patient_Visit__r.Participant_Enrollment__c
-                );
-                Patient_Visit__c patientVisit = visitResultObj.Patient_Visit__r;
-                patientVisit.Notified__c = true;
-                updatedPatientVisits.add(patientVisit);
+            Contact recipient = visitResultObj.Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__r;
+            if(recipient.Participant_Opt_In_Status_Emails__c && !recipientIds.contains(recipient.Id)){
+                recipientIds.add(recipient.Id);
+                messageWrappers.add(new SendEmailTemplate.EmailMessageWrapper(
+                        recipient.Id,
+                        visitResultObj.Patient_Visit__r.Participant_Enrollment__c,
+                        SendEmailToParticipant.PATIENT_VISITS_AVAILABLE
+                ));
             }
+            Patient_Visit__c patientVisit = visitResultObj.Patient_Visit__r;
+            patientVisit.Notified__c = true;
+            updatedPatientVisits.add(patientVisit);
         }
 
-        if(!peContacts.isEmpty()) {
-            SendEmailToParticipant.sendPlainSummaryNotifications( peContacts, peIdByContact, SendEmailToParticipant.PATIENT_VISITS_AVAILABLE);
+        if(!messageWrappers.isEmpty()) {
+            SendEmailTemplate.sendEmailMessages(messageWrappers);
             update new List<Patient_Visit__c>(updatedPatientVisits);
         }
     }
