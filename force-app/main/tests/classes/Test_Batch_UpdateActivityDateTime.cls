@@ -7,7 +7,7 @@ private class Test_Batch_UpdateActivityDateTime {
     @IsTest
     static void batchExecute() {
         TestData.loadTestData();
-        User user = [SELECT Id FROM User WHERE Contact.Name LIKE 'P%' LIMIT 1];
+        User user = [SELECT Id FROM User WHERE Account.Name = 'Participant' LIMIT 1];
         List<Task> tasksList = new List<Task>();
             Task task1 = new Task(
                     Reminder_Date__c = Datetime.now(),

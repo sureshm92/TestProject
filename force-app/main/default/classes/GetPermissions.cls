@@ -71,8 +71,6 @@ public with sharing class GetPermissions {
 //            }
 //            if (ps.endsWith(VIEW_MODE)) viewMode = VIEW_MODE;
 //        }
-
-
         return viewMode;
     }
 
