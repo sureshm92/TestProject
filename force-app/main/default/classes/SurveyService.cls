@@ -133,8 +133,8 @@ public without sharing class SurveyService {
     }
 
     public Boolean isInvitationExpired(Id invitationId) {
-        SurveyInvitation invitation = [SELECT InviteExpiryDateTime FROM SurveyInvitation WHERE Id = :invitationId];
-        return invitation.InviteExpiryDateTime <= System.now();
+        SurveyInvitation invitation = [SELECT InviteExpiryDateTime, Is_Expired__c FROM SurveyInvitation WHERE Id = :invitationId];
+        return (invitation.InviteExpiryDateTime <= Datetime.now()) || invitation.Is_Expired__c;
     }
 
     public Boolean expireInvitation(List<Id> invitationIds) {
@@ -145,15 +145,12 @@ public without sharing class SurveyService {
         }
 
         List<SurveyInvitation> invitations = [
-                SELECT Id, InviteExpiryDateTime FROM SurveyInvitation WHERE Id IN: invitationIds
+                SELECT Id, Is_Expired__c FROM SurveyInvitation WHERE Id IN: invitationIds
         ];
 
         if(!invitations.isEmpty()) {
-            for(SurveyInvitation inv : invitations) {
-                if(inv.InviteExpiryDateTime != null && inv.InviteExpiryDateTime > System.now()) {
-                    inv.InviteExpiryDateTime = System.now();
-                }
-            }
+            for(SurveyInvitation inv : invitations) inv.Is_Expired__c = true;
+
             update invitations;
             return true;
         }
