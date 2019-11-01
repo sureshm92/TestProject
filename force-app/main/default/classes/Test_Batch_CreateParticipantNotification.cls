@@ -128,6 +128,7 @@ public without sharing class Test_Batch_CreateParticipantNotification {
         update testData.ctp;
 
         testData.pe.Participant_Contact__r.Visit_Results_Opt_In__c = true;
+        testData.pe.Participant_Contact__r.Participant_Opt_In_Status_Emails__c = true;
         update testData.pe.Participant_Contact__r;
 
         List<Visit_Result_Type_Sharing__c> visitResultTypeSharings = new List<Visit_Result_Type_Sharing__c>();
