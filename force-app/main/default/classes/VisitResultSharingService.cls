@@ -87,7 +87,7 @@ public without sharing class VisitResultSharingService {
                                 }
                             }
                         }
-                        break;
+                        if(!isBatch) break;
                     }
                 }
             }
