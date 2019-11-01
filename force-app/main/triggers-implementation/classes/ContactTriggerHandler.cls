@@ -126,6 +126,7 @@ public without sharing class ContactTriggerHandler {
             if(contact.LastName != null && String.isBlank(contact.Override_Phone__c)){
                 contact.Override_Phone__c = contact.Phone;
             }
+            contact.Next_Profile_Update_DT__c = Datetime.now().addYears(1);
         }
     }
 }
