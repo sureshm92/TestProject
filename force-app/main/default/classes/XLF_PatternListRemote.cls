@@ -12,15 +12,17 @@ public without sharing class XLF_PatternListRemote implements Metadata.DeployCal
     }
     
     @AuraEnabled
-    public static List<SObject> getRecords (String mode){
+    public static XLF_RemoteActionResult getRecords (String mode){
         List<SObject> records = new List<SObject>();
+        String keyPrefix;
         if (mode.equalsIgnoreCase('WHITE')) {
             records = [SELECT Id, DeveloperName, MasterLabel, Active__c, Pattern__c FROM XLF_White_List__mdt WHERE Active__c = TRUE];
+            keyPrefix = XLF_White_List__mdt.sObjectType.getDescribe().getKeyPrefix();
         } else if (mode.equalsIgnoreCase('BLACK')) {
             records = [SELECT Id, DeveloperName, MasterLabel, Active__c, Pattern__c FROM XLF_Black_List__mdt WHERE Active__c = TRUE];
+            keyPrefix = XLF_Black_List__mdt.sObjectType.getDescribe().getKeyPrefix();
         }
-        records.sort();
-        return records;
+        return new XLF_RemoteActionResult (true, keyPrefix,null,null, records);
     }
     
     @AuraEnabled
@@ -32,7 +34,7 @@ public without sharing class XLF_PatternListRemote implements Metadata.DeployCal
     }
     
     @AuraEnabled
-    public static String saveRecords ( List<XLF_White_List__mdt> records, String mode ) {
+    public static XLF_RemoteActionResult saveRecords ( List<XLF_White_List__mdt> records, String mode ) {
         // Please note: in this method we receive submitted records as a List of XLF_White_List__mdt objects
         // We use this object type for both XLF_White_List__mdt and XLF_Black_List__mdt metadata types since they are similar on structure
         // By doing this we eliminate some difficulties related to dealing with SObject types
@@ -95,11 +97,11 @@ public without sharing class XLF_PatternListRemote implements Metadata.DeployCal
             }
 
             if (container.getMetadata().isEmpty()) {
-                return 'No records were found for deploy. Please check there is no conflict in your actions';
+                return new XLF_RemoteActionResult (false,null,'No records were found for deploy. Make sure there is no conflict in your actions', null, null);
             }
             
             Id jobId = Metadata.Operations.enqueueDeployment(container, new XLF_PatternListRemote());
-            return 'Records have been successfully submitted for deployment. Click the "Refresh" button to update the list.';
+            return new XLF_RemoteActionResult (true, jobId,'Records have been successfully submitted for deployment. Click the "Refresh" button to update the list.', null, null);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage() + '\n' + e.getStackTraceString());
         }
