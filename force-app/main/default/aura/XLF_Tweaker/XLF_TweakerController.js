@@ -43,6 +43,37 @@
             },
 
         	//----------------------------------------------------------//
+        	// navigate to selected document                           	//
+        	//----------------------------------------------------------//
+        	navigate: function (component, event, helper) {
+                var spinner = component.find('spinner');
+                spinner.show();
+                var docName = component.get("v.highlighted");
+        		var action = component.get("c.getDocId");
+        		action.setParams({ docName : docName });
+        		action.setCallback (this, function (response) {
+        			if (response.getState() === "SUCCESS") {
+                        var result = response.getReturnValue();
+                        var status = (result.success) ? "success" : "error";
+                        if (status === "success") {
+                            window.open("/" + result.jobId, "_blank");
+                        } else {
+                            component.set("v.toastType", status);
+                            component.set("v.toastMessage", result.message);
+                            $A.enqueueAction(component.get('c.showToast'));
+                        }
+        			} else if (response.getState() === "ERROR") {
+        			    var errors = response.getError();
+                        component.set("v.toastType", "error");
+                        component.set("v.toastMessage", 'APEX EXCEPTION: ' + errors[0].message);
+                        $A.enqueueAction(component.get('c.showToast'));
+        			}
+                    spinner.hide();
+        		})
+        		$A.enqueueAction(action);
+            },
+
+        	//----------------------------------------------------------//
         	// start tweaking process on remote for a file             	//
         	//----------------------------------------------------------//
         	startProcess: function (component, event, helper) {

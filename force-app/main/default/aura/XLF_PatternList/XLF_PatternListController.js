@@ -119,6 +119,13 @@
             },
 
             //----------------------------------------------------------//
+            // navigate to deployment status page                       //
+            //----------------------------------------------------------//
+            checkDeployStatus: function (component, event, helper) {
+                window.open("/changemgmt/monitorDeploymentsDetails.apexp?asyncId=" + component.get("v.jobId"), "_blank");
+            },
+
+            //----------------------------------------------------------//
             // sort Patterns                                            //
             //----------------------------------------------------------//
             handleColumnSort: function (component, event, helper) {

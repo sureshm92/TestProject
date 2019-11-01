@@ -20,11 +20,25 @@ public without sharing class XLF_TweakerRemote {
     }
     
     @AuraEnabled
+    public static XLF_RemoteActionResult getDocId (String docName) {
+        try {
+            List<Document> documents = [SELECT Id FROM Document WHERE Name = :docName];
+            if (documents.isEmpty()) {
+                return new XLF_RemoteActionResult (false, null, 'Document \"' + docName + '\" was not found', null, null);
+            } else {
+                return new XLF_RemoteActionResult (true, documents[0].Id, null, null, null);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+    
+    @AuraEnabled
     public static XLF_RemoteActionResult startTweaking (String docName) {
         try {
             List<Document> documents = [SELECT Name, Type, FolderId, Body FROM Document WHERE Name = :docName];
             if (documents.isEmpty()) {
-                return new XLF_RemoteActionResult (false,null, 'Document ' + docName + ' was not found', null, null);
+                return new XLF_RemoteActionResult (false,null, 'Document \"' + docName + '\" was not found', null, null);
             }
     
             String docType = documents[0].Type;

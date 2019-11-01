@@ -97,7 +97,7 @@ public without sharing class XLF_PatternListRemote implements Metadata.DeployCal
             }
 
             if (container.getMetadata().isEmpty()) {
-                return new XLF_RemoteActionResult (false,null,'No records were found for deploy. Please check there is no conflict in your actions', null, null);
+                return new XLF_RemoteActionResult (false,null,'No records were found for deploy. Make sure there is no conflict in your actions', null, null);
             }
             
             Id jobId = Metadata.Operations.enqueueDeployment(container, new XLF_PatternListRemote());

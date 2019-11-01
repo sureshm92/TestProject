@@ -60,13 +60,15 @@
                             <br/>
                             <br/>
                             <br/>
-                            <div class="slds-float_left" style="padding-bottom:10px;">
-                                <lightning:button label="Add new row"  variant="brand" onclick="{!c.handleAdd}"/>
-                                <lightning:button label="Delete selected rows"  variant="brand" onclick="{!c.handleDelete}" disabled="{!v.selectedRowsCount == 0}"/>
-                                &nbsp;
-                                <a href="{!'/changemgmt/monitorDeploymentsDetails.apexp?asyncId=' + v.jobId}" target="_blank">Last deploy status</a>
-                                &nbsp;
-                                <lightning:button label="Refresh" variant="brand" onclick="{!c.init}"/>
+                            <div class="slds-col slds-size_1-of-1 slds-form-element">
+                                <div class="slds-float_left" style="padding-bottom:10px;">
+                                    <lightning:button label="Add new row"  variant="brand" onclick="{!c.handleAdd}"/>
+                                    <lightning:button label="Delete selected rows"  variant="brand" onclick="{!c.handleDelete}" disabled="{!v.selectedRowsCount == 0}"/>
+                                </div>
+                                <div class="slds-float--right">
+                                    <lightning:button label="Check deploy status"  variant="brand" onclick="{!c.checkDeployStatus}" disabled="{!v.jobId == null}"/>
+                                    <lightning:button label="Refresh" variant="brand" onclick="{!c.init}"/>
+                                </div>
                             </div>
                         </div>
                     </div>
