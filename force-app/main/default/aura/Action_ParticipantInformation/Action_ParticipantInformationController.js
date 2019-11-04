@@ -83,9 +83,9 @@
             peJSON: JSON.stringify(pe)
         }, function () {
             if (component.get('v.saveAndChangeStep')) {
+                component.set('v.saveAndChangeStep', false);
                 var steps = component.find('stepControls');
                 steps[steps.length - 1].statusSave();
-                component.set('v.saveAndChangeStep', false);
             }
             component.get('v.callback')(pe);
         }, null, function () {

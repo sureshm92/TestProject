@@ -6,6 +6,7 @@ public without sharing class RRChangePasswordController {
 
     public static final String ERROR_SUFFIX = ': You must enter a value';
     public static final String ERROR_VALUE_SUFFIX = ': You must enter a valid value';
+    public static final String TEMP_ACCOUNT = 'temporary account';
 
     public String photolink{get;set;}
 
@@ -64,7 +65,7 @@ public without sharing class RRChangePasswordController {
     }
 
     private void init(){
-        Id userId = UserInfo.getUserId();
+        Id userId = '0050w000000NJKW';//UserInfo.getUserId();
         userVal = [
                 SELECT Id, Name, Username, FirstName, LastName, FullPhotoUrl,
                         Contact.FirstName,
@@ -74,9 +75,11 @@ public without sharing class RRChangePasswordController {
                         Contact.MiddleName,
                         Contact.Suffix,
                         Contact.MailingCountry,
+                        Contact.MailingCountryCode,
                         Contact.MailingCity,
                         Contact.MailingPostalCode,
                         Contact.MailingState,
+                        Contact.MailingStateCode,
                         Contact.MailingStreet,
                         Contact.Is_First_Logon__c,
                         Contact.Language__c,
@@ -109,12 +112,15 @@ public without sharing class RRChangePasswordController {
                         Account.BillingCity, Account.BillingState, Account.Fax,
                         Account.BillingCountry, Account.BillingPostalCode,
                         Account.BillingCountryCode, Language__c, MailingAddress,
-                        Salutation, MiddleName, Suffix, MailingCountry, MailingCity,
-                        MailingPostalCode, MailingState, MailingStreet, OwnerId,
+                        Salutation, MiddleName, Suffix, MailingCountry, MailingCountryCode, MailingCity,
+                        MailingPostalCode, MailingState, MailingStateCode, MailingStreet, OwnerId,
                         userCommunytyType__c, userCommunityMode__c, Phone, Fax
                 FROM Contact WHERE Id =: contact.Id
         ];
         account = cont.Account;
+        if(account.Name.contains(TEMP_ACCOUNT)){
+            account.Name = '';
+        }
         account.BillingCountry = TranslateHelper.getPickListLabel(User.CountryCode, account.BillingCountryCode);
         oldAccountName = account.Name;
 
@@ -145,11 +151,11 @@ public without sharing class RRChangePasswordController {
         countries = new List<SelectOption>();
         states = new List<SelectOption>();
         for (LabelValueItem country : CountryStateUtil.getCountries()) {
-            countries.add(new SelectOption(country.label, country.label));
+            countries.add(new SelectOption(country.value, country.label));
             countryCodeByName.put(country.label, country.value);
         }
-        country = contact.MailingCountry;
-        state = contact.MailingState;
+        country = contact.MailingCountryCode;
+        state = contact.MailingStateCode;
         if (!String.isBlank(country)) {
             updateStatesAction();
         }
@@ -195,15 +201,16 @@ public without sharing class RRChangePasswordController {
         }
 
         if (!notEnrollNow && ApexPages.getMessages().isEmpty()) {
-            Boolean noCountry = contact.MailingCountry == '--None--' || String.isBlank(contact.MailingCountry);
-            Boolean noState = contact.MailingState == '--None--' || String.isBlank(contact.MailingState) || states == null || states.size() < 2;
-
+            Boolean noCountry = contact.MailingCountryCode == '--None--' || String.isBlank(contact.MailingCountryCode);
+            Boolean noState = contact.MailingStateCode == '--None--' || String.isBlank(contact.MailingStateCode) || states == null || states.size() < 2;
+            contact.MailingCountry = null;
+            contact.MailingState = null;
             if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
                 Account newClinic = new Account(
                         Name = account.Name,
-                        BillingCountry = (noCountry ? null : contact.MailingCountry),
+                        BillingCountryCode = (noCountry ? null : contact.MailingCountryCode),
                         BillingCity = contact.MailingCity,
-                        BillingState = (noState ? null : contact.MailingState),
+                        BillingStateCode = (noState ? null : contact.MailingStateCode),
                         BillingStreet = contact.MailingStreet,
                         BillingPostalCode = contact.MailingPostalCode,
                         Phone = contact.Phone,
@@ -219,28 +226,27 @@ public without sharing class RRChangePasswordController {
                 }
             }
             try {
-                contact.MailingCountry = (noCountry ? null : contact.MailingCountry);
-                contact.MailingState = (noState ? null : contact.MailingState);
+                contact.MailingCountryCode = (noCountry ? null : contact.MailingCountryCode);
+                contact.MailingStateCode = (noState ? null : contact.MailingStateCode);
 
                 update contact;
 
-                country = contact.MailingCountry;
-                state = contact.MailingState;
+                country = contact.MailingCountryCode;
+                state = contact.MailingStateCode;
             } catch (Exception exp) {
                 System.debug(exp);
             }
         }
-
         if (!notEnrollNow && String.isBlank(contact.MailingStreet)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Street Address' + ERROR_SUFFIX));
         }
         if (!notEnrollNow && String.isBlank(contact.MailingCity)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'City' + ERROR_SUFFIX));
         }
-        if (!notEnrollNow && String.isBlank(contact.MailingCountry)) {
+        if (!notEnrollNow && String.isBlank(contact.MailingCountryCode)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Country' + ERROR_SUFFIX));
         }
-        if (!notEnrollNow && String.isBlank(contact.MailingState) && states.size() > 1) {
+        if (!notEnrollNow && String.isBlank(contact.MailingStateCode) && states.size() > 1) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'State' + ERROR_SUFFIX));
         }
         if (!notEnrollNow && String.isBlank(contact.MailingPostalCode)) {
@@ -252,7 +258,6 @@ public without sharing class RRChangePasswordController {
         if (!notEnrollNow && String.isBlank(account.Name)) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Institute Name' + ERROR_SUFFIX));
         }
-
         try {
             Site.validatePassword(userVal, newPassword, verifyNewPassword);
         } catch (Exception e) {
@@ -364,10 +369,10 @@ public without sharing class RRChangePasswordController {
 
     public void updateStatesAction(){
         states = new List<SelectOption>();
-        List<LabelValueItem> statesByCountry = statesByCountryMap.get(countryCodeByName.get(contact.MailingCountry));
+        List<LabelValueItem> statesByCountry = statesByCountryMap.get(contact.MailingCountryCode);
         if (statesByCountry != null) {
             for (LabelValueItem state : statesByCountry) {
-                states.add(new SelectOption(state.label, state.label));
+                states.add(new SelectOption(state.value, state.label));
             }
         }
         isStateRequired = statesByCountry != null && !statesByCountry.isEmpty();
