@@ -56,6 +56,7 @@ public without sharing class Action_EditLocationRemote {
                             BillingLatitude,
                             BillingCity,
                             BillingCountryCode,
+                            BillingCountry,
                             BillingStateCode,
                             BillingState,
                             BillingStreet,

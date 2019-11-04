@@ -8,6 +8,7 @@
 
     <!-- private attributes: -->
     <aura:attribute name="peId" type="String" access="private"/>
+    <aura:attribute name="pe" type="Object"/>
     <aura:attribute name="status" type="String" access="private"/>
     <aura:attribute name="reason" type="String" access="private"/>
     <aura:attribute name="notes" type="String" access="private"/>

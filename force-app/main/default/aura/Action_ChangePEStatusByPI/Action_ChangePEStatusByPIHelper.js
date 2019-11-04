@@ -7,11 +7,13 @@
         component.find('spinner').show();
         component.set('v.inProgress', true);
         var peId = component.get('v.peId');
+        var pe = component.get('v.pe');
+        pe.sobjectType = 'Participant_Enrollment__c';
         var status = component.get('v.status');
         var reason = component.get('v.reason');
         var notes = component.get('v.notes');
         communityService.executeAction(component, 'updatePE', {
-            peId: peId,
+            pe: JSON.stringify(pe),
             status: status,
             reason: reason,
             notes: notes
