@@ -58,6 +58,8 @@
 
     setCoordinates: function (component) {
         var account = component.get('v.account');
+        var state = account.BillingStateCode != null ? account.BillingStateCode : '';
+        var postalCode = account.BillingPostalCode != null ? account.BillingPostalCode : '';
         component.set('v.mapMarkers', [
             {
                 location: {
@@ -66,7 +68,7 @@
                 },
                 title: 'Location Address',
                 description: account.BillingCountry + ' ' + account.BillingStreet + ' ' + account.BillingCity + ' ' +
-                    account.BillingStateCode + ' ' + account.BillingPostalCode
+                state + ' ' + postalCode
             }
         ]);
         if (account.BillingLatitude && account.BillingLongitude) {

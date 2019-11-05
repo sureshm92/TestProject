@@ -667,7 +667,7 @@ private class Test_BaseCRCPCommunity {
             Action_ChangeHCPStatusByPIRemote.getEnrollmentReasonOptions();
             Action_ChangeHCPStatusByPIRemote.changeHCPEnrollmentStatus(hcpEnrollment.Id, StudyActions.ACT_HCP_ON_HOLD, '');
             Action_ChangePEStatusByPIRemote.getReferralDeclineReasons();
-            Action_ChangePEStatusByPIRemote.updatePE(passedMrrPE.Id, PEStatusState.PE_STATUS_REFERRAL_ON_HOLD, '', '');
+            Action_ChangePEStatusByPIRemote.updatePE(JSON.serialize(passedMrrPE), PEStatusState.PE_STATUS_REFERRAL_ON_HOLD, '', '');
         }
         Test.stopTest();
     }
