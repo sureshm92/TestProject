@@ -1,6 +1,7 @@
 public inherited sharing class DatabaseProxy {
 
     public List<SObject> query(String query) {
+        System.debug('QUERY: ' + query);
         return Database.query(query);
     }
 

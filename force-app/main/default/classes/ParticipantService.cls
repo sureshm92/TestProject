@@ -99,7 +99,8 @@ public without sharing class ParticipantService {
                         Contact__c,
                         Conditions__c,
                         Contact__r.Visit_Results_Opt_In__c,
-                        Marketing_Flag__c
+                        Marketing_Flag__c,
+                (SELECT Id, Therapeutic_Area__c FROM Therapeutic_Area_Patients__r)
                 FROM Participant__c
                 WHERE Contact__c = :sourceId OR Id = :sourceId
         ];
