@@ -191,4 +191,13 @@ public without sharing class ContactService {
                 Next_Notify_Date__c = lastLoginDateByContactId.addDays(notifyDayByPartCnt.get(participantCnt)).date()
         );
     }
+    
+    public static List<String> getPreferredLanguages(){
+        Contact contact = CommunityService.getUserContact();
+        List<String> preferredLaguages = new List<String>();
+        preferredLaguages.add(contact.Language__c);
+        if(!String.isEmpty(contact.Second_Choice_Language__c)) preferredLaguages.add(contact.Second_Choice_Language__c);
+        if(!String.isEmpty(contact.Third_Choice_Language__c)) preferredLaguages.add(contact.Third_Choice_Language__c);
+        return preferredLaguages;
+    }
 }
