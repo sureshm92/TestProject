@@ -14,7 +14,8 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
             'Visible_To_RP__c',
             'Resource__c',
             'Resource__r.Language__c',
-            'Resource__r.Content_Type__c'
+            'Resource__r.Content_Type__c',
+            'Resource__r.Title__c'
     };
     
     private Id ctpId;
@@ -31,6 +32,7 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
     
     
     protected virtual override List<Id> getResourcesIds() {
+        if(resourceId != null) return new List<Id>{resourceId};
         //Create filter for query:
         String filter = DatabaseService.fieldEqual('Resource__r.RecordType.DeveloperName', resourceType);
         if(contentClass != null) filter += ' AND ' + DatabaseService.fieldEqual('Resource__r.Content_Class__c', contentClass);
@@ -42,39 +44,65 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
         List<Res_study__c> resStudies = (List<Res_study__c>)
                 DatabaseService.query(RES_STUDY_FIELDS, Res_study__c.getSObjectType(), filter);
     
-        Map<Id, List<String>> contentLangByResId = new Map<Id, List<String>>();
-        Set<Id> resStudyResourceIds = new Set<Id>();
-        for(Res_study__c rs : resStudies) resStudyResourceIds.add(rs.Resource__c);
-        if(resStudies.size() > 0){
-            if(resStudies.get(0).Resource__r.Content_Type__c == 'Study_Document') {
-                List<ContentDocumentLink> contentDocumentLinks = [
-                        SELECT Id, ContentDocument.Title, LinkedEntityId
-                        FROM ContentDocumentLink
-                        WHERE LinkedEntityId IN :resStudyResourceIds
-                ];
-
-                for (ContentDocumentLink content : contentDocumentLinks) {
-                    if (!contentLangByResId.containsKey(content.LinkedEntityId)) {
-                        contentLangByResId.put(content.LinkedEntityId, new List<String>());
-                    }
-                    contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.Title);
-                }
-            } else {
-                for(Res_study__c rs : resStudies) {
-                    contentLangByResId.put(rs.Resource__c, new List<String>());
-                    contentLangByResId.get(rs.Resource__c).add(rs.Resource__r.Language__c);
-                }
+        //split resources
+        List<Res_study__c> studyDocumentsResources = new List<Res_study__c>();
+        List<Res_study__c> otherResources = new List<Res_study__c>();
+        for(Res_study__c rs : resStudies){
+            if(rs.Resource__r.Content_Type__c == 'Study_Document'){
+                studyDocumentsResources.add(rs);
+            }else{
+                otherResources.add(rs);
             }
         }
+        
+        //retrieve languages for study docs
+        Map<Id, List<String>> contentLangByResId = new Map<Id, List<String>>();
+        Set<Id> studyDocResourceIds = new Set<Id>();
+        for(Res_study__c rs : studyDocumentsResources) studyDocResourceIds.add(rs.Resource__c);
+        if(studyDocumentsResources.size() > 0){
+            List<ContentDocumentLink> contentDocumentLinks = [
+                    SELECT Id, ContentDocument.Title, LinkedEntityId
+                    FROM ContentDocumentLink
+                    WHERE LinkedEntityId IN :studyDocResourceIds
+            ];
+    
+            for (ContentDocumentLink content : contentDocumentLinks) {
+                if (!contentLangByResId.containsKey(content.LinkedEntityId)) {
+                    contentLangByResId.put(content.LinkedEntityId, new List<String>());
+                }
+                contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.Title);
+            }
+        }
+        
+        //group other resources by title:
+        Map<String, Map<String, Res_study__c>> otherResourceMap = new Map<String, Map<String, Res_study__c>>();
+        for(Res_study__c resStudy : otherResources){
+            if(!otherResourceMap.containsKey(resStudy.Resource__r.Title__c)) otherResourceMap.put(resStudy.Resource__r.Title__c,  new Map<String, Res_study__c>());
+            otherResourceMap.get(resStudy.Resource__r.Title__c).put(resStudy.Resource__r.Language__c, resStudy);
+        }
+        
 
         //Get Res Study records and filters result resource Ids
+        //Study document resources:
         List<Id> resourcesIds = new List<Id>();
-        for (Res_study__c resStudy : resStudies) {
-            if(resourceId != null || StudyResourceVisibilityService.isResourceVisibleForPE(
+        for (Res_study__c resStudy : studyDocumentsResources) {
+            if(StudyResourceVisibilityService.isResourceVisibleForPE(
                     resStudy, pState.pe, contentLangByResId.get(resStudy.Resource__c),
-                    CommunityService.getUserContact().userCommunityMode__c, pState.isDelegate))
-            {
-                resourcesIds.add(resStudy.Resource__c);
+                    CommunityService.getUserContact().userCommunityMode__c, pState.isDelegate)) resourcesIds.add(resStudy.Resource__c);
+        }
+        //Other resources:
+        List<String> contactPreferredLanguages = ContactService.getPreferredLanguages();
+        for (String resTitle : otherResourceMap.keySet()){
+            Map<String, Res_study__c> resourceTranslationsMap = otherResourceMap.get(resTitle);
+            for(String lang : contactPreferredLanguages){
+                Res_study__c resStudy = resourceTranslationsMap.get(lang);
+                if(StudyResourceVisibilityService.isResourceVisibleForPE(
+                        resStudy, pState.pe, new List<String>{lang},
+                        CommunityService.getUserContact().userCommunityMode__c, pState.isDelegate)){
+                    resourcesIds.add(resStudy.Resource__c);
+                    break;
+                }
+
             }
         }
         return resourcesIds;
