@@ -111,8 +111,8 @@
 }
 
 .THIS .header {
-    font-size: 24px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 400;
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
