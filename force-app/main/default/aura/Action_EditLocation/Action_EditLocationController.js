@@ -56,12 +56,12 @@
         var account = component.get('v.account');
         if(account.BillingStateCode) {
             var statesLVList = component.get('v.statesLVList');
-            for (let i = 0; i < statesLVList.length; i++) {
+            /*for (let i = 0; i < statesLVList.length; i++) {
                 if (account.BillingStateCode == statesLVList[i].value) {
                     account.BillingState = statesLVList[i].label;
                     break;
                 }
-            }
+            }*/
         }
         component.set('v.account' , account);
         helper.checkAccountModified(component);
@@ -79,12 +79,12 @@
         var statesByCountryMap = component.get('v.statesByCountryMap');
         var countriesLVList = component.get('v.countriesLVList');
         var account = component.get('v.account');
-        for (let i = 0; i < countriesLVList.length; i++) {
+        /*for (let i = 0; i < countriesLVList.length; i++) {
             if(countriesLVList[i].value == account.BillingCountryCode){
                 account.BillingCountry = countriesLVList[i].label;
                 break;
             }
-        }
+        }*/
         var states = statesByCountryMap[account.BillingCountryCode];
         account.BillingStateCode = null;
         account.BillingState = null;
@@ -96,6 +96,7 @@
     doUpsertAccount: function (component, event, helper) {
         var account = component.get('v.account');
         component.find('spinner').show();
+        console.log('account>>>', JSON.parse(JSON.stringify(account)));
         communityService.executeAction(component, 'upsertAccount', {
             accountJSON: JSON.stringify(account),
             ssId: component.get('v.ssId')
