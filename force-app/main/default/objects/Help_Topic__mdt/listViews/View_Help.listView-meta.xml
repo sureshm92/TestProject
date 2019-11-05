@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>View_Help</fullName>
+    <columns>CaseSubject__c</columns>
+    <columns>CaseDescription__c</columns>
+    <columns>MasterLabel</columns>
+    <columns>CasePriority__c</columns>
+    <columns>CaseReason__c</columns>
+    <columns>CaseType__c</columns>
+    <columns>User_Types__c</columns>
+    <columns>DeveloperName</columns>
+    <columns>Display_Name_Label__c</columns>
+    <columns>Display_Solution_Label__c</columns>
+    <columns>Description_Placeholder_Label__c</columns>
+    <columns>Is_Active__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>View Help</label>
+    <language>en_US</language>
+</ListView>

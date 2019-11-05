@@ -374,7 +374,7 @@ private class Test_BaseCRCPCommunity {
             file.base64Data = EncodingUtil.base64Encode(Blob.valueOf('Test file'));
             file.fileName = 'some.txt';
             file.contentType = 'text/plain';
-            HelpController.createCase('Some case', 'Question', JSON.serialize(files));
+            HelpController.createCase('Some case','Seme Description', 'Question', 'Low', 'Some Reason', JSON.serialize(files), false, false);
             InfoModalController.getHCPEnrollmentHistory(hcpEnrollment.Id);
             InfoModalController.getStudySiteHistory(studySite.Id);
         }
@@ -667,7 +667,7 @@ private class Test_BaseCRCPCommunity {
             Action_ChangeHCPStatusByPIRemote.getEnrollmentReasonOptions();
             Action_ChangeHCPStatusByPIRemote.changeHCPEnrollmentStatus(hcpEnrollment.Id, StudyActions.ACT_HCP_ON_HOLD, '');
             Action_ChangePEStatusByPIRemote.getReferralDeclineReasons();
-            Action_ChangePEStatusByPIRemote.updatePE(passedMrrPE.Id, PEStatusState.PE_STATUS_REFERRAL_ON_HOLD, '', '');
+            Action_ChangePEStatusByPIRemote.updatePE(JSON.serialize(passedMrrPE), PEStatusState.PE_STATUS_REFERRAL_ON_HOLD, '', '');
         }
         Test.stopTest();
     }

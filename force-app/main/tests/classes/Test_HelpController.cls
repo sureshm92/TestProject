@@ -13,13 +13,13 @@ public class Test_HelpController {
         Test.startTest();
     
         try {
-            HelpController.getUserInfo();
+            HelpController.getHelpInitData('PI');
         } catch (Exception e) {
             // expected Exception
         }
         
         System.runAs(testDataInstance.participantUser) {
-            HelpController.getUserInfo();
+            HelpController.getHelpInitData('PI');
         }
 
         List<HelpController.FileContainer> files = new List<HelpController.FileContainer>();
@@ -29,10 +29,10 @@ public class Test_HelpController {
         file.fileName = 'some.txt';
         file.contentType = 'text/plain';
         files.add(file);
-        HelpController.createCase('Some case', 'Question', JSON.serialize(files));
+        HelpController.createCase('Some case','Seme Description', 'Question', 'Low', 'Some Reason', JSON.serialize(files), false, false);
 
         try {
-            HelpController.createCase('Some case', 'Question', 'wrong_param');
+            HelpController.createCase('Some case','Seme Description', 'Question', 'Low', 'Some Reason', 'wrong', false, false);
         } catch (Exception e) {
             // expected Exception
         }

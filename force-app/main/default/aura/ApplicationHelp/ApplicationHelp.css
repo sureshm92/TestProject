@@ -3,7 +3,7 @@
  */
 .THIS.ah-main-container{
     margin-top: 30px;
-    padding: 10px;
+    padding: 10px 0 10px 10px;
 }
 .THIS .ah-main-panel{
     background-color: #FFFFFF;
@@ -20,9 +20,9 @@
 }
 .THIS .ah-item-panel{
     box-sizing: border-box;
-    border: 1px solid #D9D9D9;
     background-color: #F8F9FB;
-    padding: 17px;
+    padding: 10px;
+
 }
 .THIS .ah-section-title{
     color: black;
