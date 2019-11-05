@@ -15,6 +15,11 @@
         			if (response.getState() === "SUCCESS") {
                         var result = response.getReturnValue();
        					component.set('v.documents', result.records);
+                        var highlighted = component.get("v.highlighted");
+                        if (!result.records.includes(highlighted)) {
+                            component.find("file_select").set("v.value", "");
+                            component.set("v.highlighted", "");
+                        }
         			} else if (response.getState() === "ERROR") {
         			    var errors = response.getError();
                         component.set("v.toastType", "error");
