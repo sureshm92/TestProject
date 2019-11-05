@@ -55,6 +55,8 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
             }
         }
         
+        List<String> contactPreferredLanguages = ContactService.getPreferredLanguages();
+    
         //retrieve languages for study docs
         Map<Id, List<String>> contentLangByResId = new Map<Id, List<String>>();
         Set<Id> studyDocResourceIds = new Set<Id>();
@@ -63,7 +65,7 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
             List<ContentDocumentLink> contentDocumentLinks = [
                     SELECT Id, ContentDocument.Title, LinkedEntityId
                     FROM ContentDocumentLink
-                    WHERE LinkedEntityId IN :studyDocResourceIds
+                    WHERE LinkedEntityId IN :studyDocResourceIds AND ContentDocument.Title IN: contactPreferredLanguages
             ];
     
             for (ContentDocumentLink content : contentDocumentLinks) {
@@ -81,17 +83,17 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
             otherResourceMap.get(resStudy.Resource__r.Title__c).put(resStudy.Resource__r.Language__c, resStudy);
         }
         
-
         //Get Res Study records and filters result resource Ids
         //Study document resources:
         List<Id> resourcesIds = new List<Id>();
         for (Res_study__c resStudy : studyDocumentsResources) {
             if(StudyResourceVisibilityService.isResourceVisibleForPE(
-                    resStudy, pState.pe, contentLangByResId.get(resStudy.Resource__c),
+                    resStudy,
+                    pState.pe,
+                    contentLangByResId.get(resStudy.Resource__c),
                     CommunityService.getUserContact().userCommunityMode__c, pState.isDelegate)) resourcesIds.add(resStudy.Resource__c);
         }
         //Other resources:
-        List<String> contactPreferredLanguages = ContactService.getPreferredLanguages();
         for (String resTitle : otherResourceMap.keySet()){
             Map<String, Res_study__c> resourceTranslationsMap = otherResourceMap.get(resTitle);
             for(String lang : contactPreferredLanguages){
