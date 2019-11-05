@@ -26,21 +26,20 @@
                         helper.waitAccountCheckResult(component, tmpAccountId, iteration + 1);
                     }), 500
                 );
-            }  else {
+            } else {
                 var acc = component.get('v.account');
                 var initAcc = component.get('v.accountInitial');
                 acc.BillingGeocodeAccuracy = tmpAccount.BillingGeocodeAccuracy;
                 acc.BillingLongitude = tmpAccount.BillingLongitude;
                 acc.BillingLatitude = tmpAccount.BillingLatitude;
-                acc.BillingState = tmpAccount.BillingState ? tmpAccount.BillingState : null;
                 acc.BillingStateCode = tmpAccount.BillingStateCode ? tmpAccount.BillingStateCode : null;
                 acc.BillingPostalCode = tmpAccount.BillingPostalCode ? tmpAccount.BillingPostalCode : null;
-                if(tmpAccount.BillingGeocodeAccuracy == 'Address' || tmpAccount.BillingGeocodeAccuracy == 'NearAddress' ||
-                    tmpAccount.BillingGeocodeAccuracy == 'Block' || tmpAccount.BillingGeocodeAccuracy == 'Street' || tmpAccount.BillingGeocodeAccuracy == 'ExtendedZip'){
+                if (tmpAccount.BillingGeocodeAccuracy == 'Address' || tmpAccount.BillingGeocodeAccuracy == 'NearAddress' ||
+                    tmpAccount.BillingGeocodeAccuracy == 'Block' || tmpAccount.BillingGeocodeAccuracy == 'Street' || tmpAccount.BillingGeocodeAccuracy == 'ExtendedZip') {
                     initAcc.BillingGeocodeAccuracy = tmpAccount.BillingGeocodeAccuracy;
                     initAcc.BillingLongitude = tmpAccount.BillingLongitude;
                     initAcc.BillingLatitude = tmpAccount.BillingLatitude;
-                    initAcc.BillingState = tmpAccount.BillingState ? tmpAccount.BillingState : null;
+                    //initAcc.BillingState = tmpAccount.BillingState ? tmpAccount.BillingState : null;
                     initAcc.BillingStateCode = tmpAccount.BillingStateCode ? tmpAccount.BillingStateCode : null;
                     initAcc.BillingPostalCode = tmpAccount.BillingPostalCode ? tmpAccount.BillingPostalCode : null;
                     initAcc.BillingCity = tmpAccount.BillingCity;
@@ -60,6 +59,14 @@
         var account = component.get('v.account');
         var state = account.BillingStateCode != null ? account.BillingStateCode : '';
         var postalCode = account.BillingPostalCode != null ? account.BillingPostalCode : '';
+        var countriesLVList = component.get('v.countriesLVList');
+        var country = '';
+        for (let i = 0; i < countriesLVList.length; i++) {
+            if (countriesLVList[i].value == account.BillingCountryCode) {
+                country = countriesLVList[i].label;
+                break;
+            }
+        }
         component.set('v.mapMarkers', [
             {
                 location: {
@@ -67,8 +74,8 @@
                     Longitude: account.BillingLongitude
                 },
                 title: 'Location Address',
-                description: account.BillingCountry + ' ' + account.BillingStreet + ' ' + account.BillingCity + ' ' +
-                state + ' ' + postalCode
+                description: country + ' ' + account.BillingStreet + ' ' + account.BillingCity + ' ' +
+                    state + ' ' + postalCode
             }
         ]);
         if (account.BillingLatitude && account.BillingLongitude) {
@@ -86,12 +93,12 @@
         var fieldsToCheck = ['Name', 'Parking_Instructions__c', 'Driving_Directions__c', 'BillingStreet', 'BillingCity', 'BillingCountryCode', 'BillingStateCode', 'BillingPostalCode'];
         for (let i = 0; i < fieldsToCheck.length; i++) {
             if (currentAccount[fieldsToCheck[i]] != accountInitial[fieldsToCheck[i]]) {
-                if(!(currentAccount[fieldsToCheck[i]] == '' && !accountInitial[fieldsToCheck[i]])) {
+                if (!(currentAccount[fieldsToCheck[i]] == '' && !accountInitial[fieldsToCheck[i]])) {
                     infoWasChanged = true;
                 }
             }
             if (fieldsToCheck[i].includes('Billing') && currentAccount[fieldsToCheck[i]] != accountInitial[fieldsToCheck[i]] && !addressWasChanged) {
-                if(!(currentAccount[fieldsToCheck[i]] == '' && !accountInitial[fieldsToCheck[i]])) {
+                if (!(currentAccount[fieldsToCheck[i]] == '' && !accountInitial[fieldsToCheck[i]])) {
                     currentAccount.BillingGeocodeAccuracy = null;
                     currentAccount.BillingLatitude = null;
                     currentAccount.BillingLongitude = null;
@@ -99,7 +106,7 @@
                     addressWasChanged = true;
                 }
             } else if (fieldsToCheck[i].includes('Billing') && currentAccount[fieldsToCheck[i]] == accountInitial[fieldsToCheck[i]] && !addressWasChanged) {
-                if(!(currentAccount[fieldsToCheck[i]] == '' && !accountInitial[fieldsToCheck[i]])) {
+                if (!(currentAccount[fieldsToCheck[i]] == '' && !accountInitial[fieldsToCheck[i]])) {
                     currentAccount.BillingGeocodeAccuracy = accountInitial.BillingGeocodeAccuracy;
                     currentAccount.BillingLatitude = accountInitial.BillingLatitude;
                     currentAccount.BillingLongitude = accountInitial.BillingLongitude;
