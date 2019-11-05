@@ -65,7 +65,7 @@
     position: absolute;
     right: 0;
     width: 1rem;
-    height: 1.5rem;
+    height: 4.5rem;
     background: white;
 }
 
@@ -175,6 +175,9 @@
 
 .THIS .slvi-status-item img {
     margin-right: 5px;
+    height: 16px;
+    width: 16px;
+    max-width: 16px;
 }
 
 .THIS .slvi-status-item > div:last-child {
@@ -313,7 +316,7 @@
 }
 
 
-@media (max-width: 767px) {
+@media all and (max-width: 767px) {
     .THIS .slvi-buttons .slvi-btn + .slvi-btn {
         border-top: 1px solid #f9f9f9;
     }
@@ -325,27 +328,43 @@
     .THIS .slvi-header-item + .slvi-header-item {
         margin-top: 16px;
     }
-
-    .THIS .rri-icon svg {
-        height: 18px;
-        width: 18px;
+    
+    .THIS .sponsor-name {
+     	margin-bottom: 20px;   
+    }
+    
+    .THIS .slvi-name-section-hcp .rri-icon svg {
+        height: 30px;
+        width: 30px;
     }
 
-    .THIS .rri-icon span {
-        margin: .125rem !important;
+    .THIS .slvi-name-section-hcp .rri-icon span {
+        margin: 1rem;
     }
 
     .THIS .rri-icon-pi svg {
-        height: 18px;
-        width: 18px;
+        height: 30px;
+        width: 30px;
     }
 
     .THIS .rri-icon-pi span {
-        margin: .125rem !important;
+        margin: 1rem;
     }
 
     .THIS .slvi-objective-section{
-        margin-bottom: 3%;
+        margin-bottom: 15px;
+        margin-top: 25px;
+    }
+    
+    .THIS .slds-grid.slvi-buttons {
+        display: flex;
+        flex-direction: column;
+        padding-right: 15px;
+    }
+    
+     .THIS .slds-grid.slvi-buttons .apollo-btn {
+        width: 100%;
+        margin: 20px 0 0;
     }
 }
 

@@ -1172,14 +1172,14 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Community Email Logo</shortDescription>
-        <value>https://uiux3-iqviaconnect.cs59.force.com/servlet/servlet.ImageServer?id=0151I000001lrdm&amp;oid=00D2C0000004dEW</value>
+        <value>https://infohotfix-iqviaconnect.cs128.force.com/servlet/servlet.ImageServer?id=0153N00000090CH&amp;oid=00D3N0000008aUa</value>
     </labels>
     <labels>
         <fullName>CommunityPrivatePolicyLink</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Community Private Policy Link</shortDescription>
-        <value>https://uiux3-iqviaconnect.cs59.force.com/s/privacy-policy</value>
+        <value>https://infohotfix-iqviaconnect.cs128.force.com/s/privacy-policy</value>
     </labels>
     <labels>
         <fullName>CommunityURL</fullName>
@@ -1929,15 +1929,30 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             Please login to the IQVIA Patient Portal to check your clinical research trial matches at any time.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Patient0</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Patient2</shortDescription>
+        <value>Thank you for your interest in the clinical research study: ##StudyName.
+
+            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
+
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+
+            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Patient1</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient1</shortDescription>
-        <value>Thank you for your interest in the clinical research study: ##StudyTitle.
+        <value>Recently, ##PITitle ##PIName made a referral on your behalf to ##StudySiteName regarding your potential participation in a clinical research study: ##StudyName.
 
-            You will be contacted by the Principal Investigator’s site, ##StudySiteName , regarding the next steps in the enrollment process.
+            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To track your clinical research study status and to see additional information about the study, log in to the Patient Portal, and then go to &quot;My Studies.&quot;</value>
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+
+            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient10</fullName>
@@ -2017,11 +2032,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Patient2</shortDescription>
-        <value>Clinical research study: ##StudyName has been added to your list of studies in IQVIA Patient Portal.
+        <value>Recently, ##HCPTitle ##HCPName made a referral on your behalf to ##PITitle ##PIName regarding your potential participation in a clinical research study: ##StudyName.
 
-            You will be contacted by the study team regarding the next steps in the enrollment process for this study.
+            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To see additional information about this study, please log in to the IQVIA Patient Portal, and then go to “My Studies.”</value>
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+
+            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient3</fullName>
@@ -2287,7 +2304,11 @@ Please log in to the IQVIA Patient Portal to view the latest Study Documents.</v
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body User Lockout</shortDescription>
-        <value>Some text here for user lockout</value>
+        <value>You have been locked out due to too many failed login attempts.
+
+Please wait 15 minutes and then you can either try again or &lt;a href=&quot;##ForgotPasswordURL&quot;&gt;reset your password&lt;/a&gt;.
+
+If this is not you or you are unable to reset your password, you may email &lt;a href=&quot;mailto:support@cp.clinicalresearch.com?subject=Lockout - unable to login&quot;&gt;technical support&lt;/a&gt; and they will reset your password for you and investigate any potential security issues.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Visit_Task_Reminder</fullName>
@@ -3258,6 +3279,13 @@ The IQVIA Patient Portal Support Team</value>
         <value>Add File</value>
     </labels>
     <labels>
+        <fullName>FastingLipidProfile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>FastingLipidProfile</shortDescription>
+        <value>Fasting Lipid Profile</value>
+    </labels>
+    <labels>
         <fullName>File_Type</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3340,6 +3368,492 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Glucose Description</shortDescription>
         <value>Glucose is a sugar, also called “blood sugar”. When your body digests food, carbohydrates are broken down to make glucose. Your small intestine then absorbs the glucose to release it into the blood. Glucose is the most important source of energy for cells in your body and the only source of energy for your brain, spinal cord, and nerves. Blood glucose is measured to check your general health and to check for a range of conditions.</value>
+    </labels>
+    <labels>
+        <fullName>HT_01_B</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HT 01 B</shortDescription>
+        <value>Are you locked out?  If so, please wait for 15 minutes before trying to log back in again.  If you have already waited 15 minutes and cannot login, please use the “Forgot Password” to have your password reset.  If you are not receiving your password reset email, please log a ticket and make sure to provide your name, email, and phone number.</value>
+    </labels>
+    <labels>
+        <fullName>HT_01_H</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HT 01 H</shortDescription>
+        <value>Unable to login</value>
+    </labels>
+    <labels>
+        <fullName>HT_02_B_PI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HT 02 B PI</shortDescription>
+        <value>Please provide what you would like your address updated to.</value>
+    </labels>
+    <labels>
+        <fullName>HT_02_B_RP_Patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HT 02 B RP Patient</shortDescription>
+        <value>Please go to Account Settings -&gt; Contact Information -&gt; Edit your contact information accordingly -&gt; Save</value>
+    </labels>
+    <labels>
+        <fullName>HT_02_H</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HT 02 H</shortDescription>
+        <value>I need my address updated.</value>
+    </labels>
+    <labels>
+        <fullName>HT_03_B_PI_RP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HT 03 B PI RP</shortDescription>
+        <value>Please go to My Team -&gt; Add New Team Member -&gt; Enter information -&gt; Assign “Permissions by Level”.  If you want a study coordinator to handle referrals on your behalf, we recommend delegate level 1.</value>
+    </labels>
+    <labels>
+        <fullName>HT_03_B_Patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HT 03 B Patient</shortDescription>
+        <value>Please go to Account Settings -> Delegates -> Add New Delegate -> Enter information -> Assign “Permissions by Level”. If you want a delegate to complete tasks on your behalf, we recommend delegate level 1.</value>
+    </labels>
+    <labels>
+        <fullName>HT_03_H_PI_RP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HT 03 H PI RP</shortDescription>
+        <value>How do I create team members?</value>
+    </labels>
+    <labels>
+        <fullName>HT_03_H_Patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HT 03 H Patient</shortDescription>
+        <value>How do I create delegates?</value>
+    </labels>
+    <labels>
+        <fullName>HT_04_B_RP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HT 04 B RP</shortDescription>
+        <value>From the "My Studies" page, select the study you would like to refer a person to and select "Pre-eligibilty Screening".  Follow the guided process in order to refer a patient to a study.</value>
+    </labels>
+    <labels>
+        <fullName>HT_04_H_RP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HT 04 H RP</shortDescription>
+        <value>How do I refer someone?</value>
+    </labels>
+    <labels>
+        <fullName>HT_05_B_PI_RP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HT 05 B PI RP</shortDescription>
+        <value>If none of our help topics are relevant to the issue you are facing, please log a ticket.</value>
+    </labels>
+    <labels>
+        <fullName>HT_05_B_Patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HT 05 B Patient</shortDescription>
+        <value>If none of our help topics are relevant to the issue you are facing, please attach a screenshot of the issue you are encountering.</value>
+    </labels>
+    <labels>
+        <fullName>HT_05_H</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HT 05 H</shortDescription>
+        <value>I still need help</value>
+    </labels>
+    <labels>
+        <fullName>HT_06_B_PI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 06 B PI</shortDescription>
+        <value>From the &quot;My Studies&quot; page, select the &quot;Manage Referrals&quot; button and see a listing of referrals for that study.  You can use filters to narrow down the search results by study site locations, referral source, referral status.  You can also click the study title to see details about the study being conducted.  Click &quot;Find Sites For This Study&quot; to see a listing of sites -&gt; click &quot;Request to refer&quot; to notify a study site of your interest in referring.</value>
+    </labels>
+    <labels>
+        <fullName>HT_06_B_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 06 B Participant</shortDescription>
+        <value>The IQVIA™ Patient Portal is a personalized platform that allows patients to receive information about their participation in a clinical research study.</value>
+    </labels>
+    <labels>
+        <fullName>HT_06_B_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 06 B RP</shortDescription>
+        <value>From the &quot;My Studies&quot; page, select the &quot;Search for More Studies&quot; button and see a listing of active studies to which you can refer patients.  You can use filters to narrow down the search results by therapeutic area and/or closest study site to your location.  You can also click the study title to see details about the study being conducted.  Click &quot;Find Sites For This Study&quot; to see a listing of sites -&gt; click &quot;Request to refer&quot; to notify a study site of your interest in referring.</value>
+    </labels>
+    <labels>
+        <fullName>HT_06_H_PI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 06 H PI</shortDescription>
+        <value>How do I check on my patients&apos; status?</value>
+    </labels>
+    <labels>
+        <fullName>HT_06_H_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 06 H Participant</shortDescription>
+        <value>What is the IQVIA™ Patient Portal?</value>
+    </labels>
+    <labels>
+        <fullName>HT_06_H_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 06 H RP</shortDescription>
+        <value>How do I find a study?</value>
+    </labels>
+    <labels>
+        <fullName>HT_07_B_PI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 07 B PI</shortDescription>
+        <value>The IQVIA™ Referral Hub is a personalized platform that allows a principal investigator to manage patients participation in a clinical research study.</value>
+    </labels>
+    <labels>
+        <fullName>HT_07_B_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 07 B Participant</shortDescription>
+        <value>If this is a medical emergency, please contact your local emergency services.</value>
+    </labels>
+    <labels>
+        <fullName>HT_07_B_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 07 B RP</shortDescription>
+        <value>From the &quot;My Studies&quot; page, select the &quot;Search for More Studies&quot; button and see a listing of active studies to which you can refer patients.  You can use filters to narrow down the search results by therapeutic area and/or closest study site to your location.  You can also click the study title to see details about the study being conducted.  Click &quot;Find Sites For This Study&quot; to see a listing of sites -&gt; click &quot;Request to refer&quot; to notify a study site of your interest in referring.</value>
+    </labels>
+    <labels>
+        <fullName>HT_07_H_PI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 07 H PI</shortDescription>
+        <value>What is the IQVIA™ Referral Hub?</value>
+    </labels>
+    <labels>
+        <fullName>HT_07_H_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 07 H Participant</shortDescription>
+        <value>Can I report medical problems on the Patient Portal?</value>
+    </labels>
+    <labels>
+        <fullName>HT_07_H_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 07 H RP</shortDescription>
+        <value>How do I check on my patients&apos; status?</value>
+    </labels>
+    <labels>
+        <fullName>HT_08_B_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 08 B Participant</shortDescription>
+        <value>Values are only available for vitals and labs recorded for the visit date displayed. If you have questions or concerns about this data, please contact the study doctor at your study center</value>
+    </labels>
+    <labels>
+        <fullName>HT_08_B_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 08 B RP</shortDescription>
+        <value>The IQVIA™ Referral Hub is a personalized platform that allows a healthcare professional to refer their patient to a clinical research study site.</value>
+    </labels>
+    <labels>
+        <fullName>HT_08_H_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 08 H Participant</shortDescription>
+        <value>Why am I missing some of my vital and lab data?</value>
+    </labels>
+    <labels>
+        <fullName>HT_08_H_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 08 H RP</shortDescription>
+        <value>What is the IQVIA™ Referral Hub?</value>
+    </labels>
+    <labels>
+        <fullName>HT_09_B_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 09 B Participant</shortDescription>
+        <value>Visit assessment information is not available for this clinical research study. If you have questions or concerns, please contact the study doctor at your study center.</value>
+    </labels>
+    <labels>
+        <fullName>HT_09_B_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 09 B RP</shortDescription>
+        <value>Clinical trial investigators are usually physicians in active practice. They are responsible for the day-to-day management of clinical trials at the site level. Their main responsibilities are ensuring patient safety during the trial and safeguarding patients’ rights, making sure that trial activities and procedures are done in accordance with the protocol. Clinical trial investigators are also responsible for maintaining the quality of data collected during the trial.</value>
+    </labels>
+    <labels>
+        <fullName>HT_09_H_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 09 H Participant</shortDescription>
+        <value>Why can&apos;t I see any information under the results tab?</value>
+    </labels>
+    <labels>
+        <fullName>HT_09_H_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 09 H RP</shortDescription>
+        <value>Who are clinical trial investigators?</value>
+    </labels>
+    <labels>
+        <fullName>HT_10_B_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 10 B Participant</shortDescription>
+        <value>Unscheduled visits are captured in addition to the standard visit schedule.</value>
+    </labels>
+    <labels>
+        <fullName>HT_10_B_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 10 B RP</shortDescription>
+        <value>By conducting clinical trials, physicians can be at the cutting edge of research in their medical field. This may add prestige to their medical practice and respect within the professional community. Being a clinical trial investigator also helps you to connect patients to clinical trials that are right for them.</value>
+    </labels>
+    <labels>
+        <fullName>HT_10_H_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 10 H Participant</shortDescription>
+        <value>Why are some of my past study visits displayed as unscheduled?</value>
+    </labels>
+    <labels>
+        <fullName>HT_10_H_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 10 H RP</shortDescription>
+        <value>What are the benefits of becoming a clinical trial investigator?</value>
+    </labels>
+    <labels>
+        <fullName>HT_11_B_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 11 B Participant</shortDescription>
+        <value>Articles and videos are available on a study by study basis.  As new articles and videos are added to your study, they will become visible on your home page.</value>
+    </labels>
+    <labels>
+        <fullName>HT_11_B_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 11 B RP</shortDescription>
+        <value>IQVIA is committed to delivering excellency in clinical trials and adhering to the highest standards of scientific research. With over 30 years of experience in running and optimizing clinical trials, IQVIA has the people, processes, and technology to streamline the investigator experience – from communication to training to workflow for the entire course of a trial.</value>
+    </labels>
+    <labels>
+        <fullName>HT_11_H_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 11 H Participant</shortDescription>
+        <value>Why can&apos;t I see any articles and videos?</value>
+    </labels>
+    <labels>
+        <fullName>HT_11_H_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 11 H RP</shortDescription>
+        <value>How does IQVIA™ help clinical tial investigators?</value>
+    </labels>
+    <labels>
+        <fullName>HT_12_B_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 12 B Participant</shortDescription>
+        <value>Clinical research is how the pharmaceutical industry builds the evidence for potential new treatment approaches for humans to find the ones that are well tolerated and effective. A clinical trial is a research study involving human participants that tests and evaluates the investigational drug, device, or procedure to find out how safe it is and how well it works. Before any investigational drug, device, or procedure can be approved for use in humans, it must be evaluated in a series of clinical trials.</value>
+    </labels>
+    <labels>
+        <fullName>HT_12_B_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 12 B RP</shortDescription>
+        <value>If you are interested in becoming a clinical trial investigator, you can start by registering in our database (coming soon). Our staff will assess the information provided and contact you when a future clinical trial matches your interest.</value>
+    </labels>
+    <labels>
+        <fullName>HT_12_H_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 12 H Participant</shortDescription>
+        <value>What is clinical research and what is a clinical trial?</value>
+    </labels>
+    <labels>
+        <fullName>HT_12_H_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 12 H RP</shortDescription>
+        <value>How can I express my interest in becoming a clinical trial investigator?</value>
+    </labels>
+    <labels>
+        <fullName>HT_13_B_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 13 B Participant</shortDescription>
+        <value>You can do an instant search to find clinical trials recruiting in your area, which requires no registration. Or, you can register to receive notifications when new clinical trials in a condition that you are interested in start recruiting patients.</value>
+    </labels>
+    <labels>
+        <fullName>HT_13_B_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 13 B RP</shortDescription>
+        <value>Each potential participant in a clinical trial is helped to make an informed decision about their participation, and informed consent is at the heart of this process. The overall purpose of the informed consent process is to offer potential participants detailed information about the trial aim, the tested intervention, potential benefits and risks, specific procedures, and participants’ rights and responsibilities.
+
+            Once the potential participant decides to join a trial, they must sign the Informed Consent Form (ICF). Participants have the right to withdraw from the trial at any time without any explanation and without jeopardizing their standard of medical care.</value>
+    </labels>
+    <labels>
+        <fullName>HT_13_H_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 13 H Participant</shortDescription>
+        <value>How do I find clinical trials to take part in?</value>
+    </labels>
+    <labels>
+        <fullName>HT_13_H_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 13 H RP</shortDescription>
+        <value>How does informed consent work?</value>
+    </labels>
+    <labels>
+        <fullName>HT_14_B_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 14 B Participant</shortDescription>
+        <value>The length of a clinical trial and how much of your time it will take up varies, depending on what is being studied. You will be told how long a trial will last before you decide whether to take part.</value>
+    </labels>
+    <labels>
+        <fullName>HT_14_B_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 14 B RP</shortDescription>
+        <value>The institutional review board (IRB)/ethics committee (EC) is a local administrative body that safeguards the rights and safety of participants involved in a clinical trial. It reviews trial documentation (e.g. the Clinical Trial Protocol, Participant Information Sheet, and Informed Consent Form) and provides an opinion on the proposed research. The outcome of the review may vary, and the trial can be approved, approved with comments, or rejected.
+
+            The IRB/EC members have various backgrounds (e.g. physicians, nurses, statisticians, and community representatives). It operates in accordance with national and/or local regulations and the International Council for Harmonisation of Technical Requirements for Pharmaceuticals for Human Use (ICH) Good Clinical Practice guidelines.
+
+            The IRB/EC is also entitled to perform periodic checks throughout the trial duration.</value>
+    </labels>
+    <labels>
+        <fullName>HT_14_H_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 14 H Participant</shortDescription>
+        <value>How long does a clinical trial last?</value>
+    </labels>
+    <labels>
+        <fullName>HT_14_H_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 14 H RP</shortDescription>
+        <value>What is the role of the institutional review board / ethics committee?</value>
+    </labels>
+    <labels>
+        <fullName>HT_15_B_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 15 B Participant</shortDescription>
+        <value>IQVIA™ is a contract research organization (CRO), working closely with pharmaceutical and biotech companies to get investigational drugs, devices, and procedures through the complexities of clinical development.</value>
+    </labels>
+    <labels>
+        <fullName>HT_15_B_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 15 B RP</shortDescription>
+        <value>The Good Clinical Practice (GCP) guidelines are the principles and practices that are followed to ensure participant safety and well-being. Compliance with GCP helps ensure that the rights, safety, and well-being of trial participants are protected, and that research data are reliable.
+
+            If you want to be involved in clinical trials, you should have a good understanding of GCP, which is the international ethical and scientific quality practical standard to which all clinical research should adhere.</value>
+    </labels>
+    <labels>
+        <fullName>HT_15_H_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 15 H Participant</shortDescription>
+        <value>Who is IQVIA™?</value>
+    </labels>
+    <labels>
+        <fullName>HT_15_H_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 15 H RP</shortDescription>
+        <value>What is Good Clinical Practice?</value>
+    </labels>
+    <labels>
+        <fullName>HT_16_B_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 16 B Participant</shortDescription>
+        <value>Yes, clinical trials for children are called &quot;pediatric clinical trials.&quot; It is often specified in the title of the clinical trial if the patient population is children only. These trials are designed specifically to look at investigational drugs, devices, or procedures in children. There are also clinical trials that are for both adults and children; the age range of the patient population will be detailed in the trial information.</value>
+    </labels>
+    <labels>
+        <fullName>HT_16_B_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 16 B RP</shortDescription>
+        <value>Clinical trials must be conducted in compliance with the international and national regulations governing the conduct of trials derived from the Declaration of Helsinki, US Food and Drug Administration (FDA) regulations, or European Medicines Agency (EMA) directives.</value>
+    </labels>
+    <labels>
+        <fullName>HT_16_H_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 16 H Participant</shortDescription>
+        <value>Are there clinical trials for children?</value>
+    </labels>
+    <labels>
+        <fullName>HT_16_H_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 16 H RP</shortDescription>
+        <value>What is regulatory framework?</value>
+    </labels>
+    <labels>
+        <fullName>HT_17_B_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 17 B Participant</shortDescription>
+        <value>Some clinical trials may offer payment. Other clinical trials will not offer payment, but may provide compensation for any travel costs or other expenses incurred during participation. You can check this with the trial team before agreeing to take part.</value>
+    </labels>
+    <labels>
+        <fullName>HT_17_B_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 17 B RP</shortDescription>
+        <value>To facilitate development and implementation of clinical trials, a research infrastructure may be available to you. It consists of specialized units that offer support for trial set-up, conduct, monitoring, networking, and training. These units are organized at the national, central, or local level and can include clinical research offices, research and development departments, clinical trials units, and investigator networks.</value>
+    </labels>
+    <labels>
+        <fullName>HT_17_H_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 17 H Participant</shortDescription>
+        <value>Will I get paid to participate in a clinical trial?</value>
+    </labels>
+    <labels>
+        <fullName>HT_17_H_RP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 17 H RP</shortDescription>
+        <value>Is national infastructure and support available?</value>
+    </labels>
+    <labels>
+        <fullName>HT_18_B_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 18 B Participant</shortDescription>
+        <value>You will not need to pay a fee to participate in a clinical trial, but you may need to pay for travel costs to attend visits at the clinical trial center nearest to you. You may also need to pay for babysitting or childcare, and factor in lost income if the visits take place during working hours. Clinical trials may provide compensation to cover these costs.
+
+            If the clinical trial is using an approved medication, then depending on your country of residence (e.g. the United States), your medical insurance may need to be billed. You can check this with the trial team before agreeing to take part.</value>
+    </labels>
+    <labels>
+        <fullName>HT_18_H_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 18 H Participant</shortDescription>
+        <value>Will it cost me money to take part in a clinical trial?</value>
     </labels>
     <labels>
         <fullName>Haematocrit</fullName>
@@ -3466,6 +3980,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Hematocrit Description</shortDescription>
         <value>A hematocrit test measures the proportion of red blood cells in your blood. Your blood is made up of different components, such as red and white blood cells and blood platelets. The hematocrit value is the ratio of the volume of red blood cells compared to the total volume of all the components of the blood together. This value is expressed as a percentage. For example, if your hematocrit value is 50%, it means that there are 50 milliliters (mL) of red blood cells in 100 mL of blood. Hematocrit is measured to check your general health and to check for conditions that influence red blood cells.</value>
+    </labels>
+    <labels>
+        <fullName>Hematology</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Hematology</shortDescription>
+        <value>Hematology</value>
     </labels>
     <labels>
         <fullName>Hemoglobin</fullName>
@@ -3760,6 +4281,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Medical Record Review</shortDescription>
         <value>Medical Record Review</value>
+    </labels>
+    <labels>
+        <fullName>MetabolicPanel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MetabolicPanel</shortDescription>
+        <value>Metabolic Panel</value>
     </labels>
     <labels>
         <fullName>MyStudy_Associated_Sites_and_Site_Details</fullName>
@@ -4762,7 +5290,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AH H Show Tour Now</shortDescription>
-        <value>Show me a walkthrough right now</value>
+        <value>Show me a walkthrough now</value>
     </labels>
     <labels>
         <fullName>PG_AH_H_Show_Tour_On_Login</fullName>
@@ -5894,6 +6422,13 @@ View study documents and other resources including articles and videos related t
         <value>or drag screenshot here.</value>
     </labels>
     <labels>
+        <fullName>PG_HLP_F_Placeholder_Help_Topic</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG HLP F Placeholder Help Topic</shortDescription>
+        <value>Select your problem type</value>
+    </labels>
+    <labels>
         <fullName>PG_HLP_F_Placeholder_Other</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5941,6 +6476,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG HLP H Give Us Feedback About a Feature</shortDescription>
         <value>Give Us Feedback About a Feature</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_H_Help</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG HLP H Help</shortDescription>
+        <value>Help</value>
     </labels>
     <labels>
         <fullName>PG_HLP_H_Report_a_Problem</fullName>
@@ -6064,6 +6606,13 @@ View study documents and other resources including articles and videos related t
         <value>Learn more about how to report something for abuse, spam, or other violations of our Community Standards, including intellectual property violations.</value>
     </labels>
     <labels>
+        <fullName>PG_HLP_T_Did_this_solve_your_problem</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG HLP T Did this solve your problem?</shortDescription>
+        <value>Did this solve your problem?</value>
+    </labels>
+    <labels>
         <fullName>PG_HLP_T_Let_us_know</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6082,7 +6631,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG HLP T What happened</shortDescription>
-        <value>What happened?</value>
+        <value>What do you need help with?</value>
     </labels>
     <labels>
         <fullName>PG_HLP_Terms_Note</fullName>
@@ -10208,6 +10757,13 @@ Please check your CAPS lock key.</value>
         <value>Request to invite a referring provider has been successfully submitted</value>
     </labels>
     <labels>
+        <fullName>TST_Screenshot_Wrong_Format</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Screenshot Wrong Format</shortDescription>
+        <value>Wrong file format</value>
+    </labels>
+    <labels>
         <fullName>TST_Screenshot_size_limit_2MB_exceeded</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10219,7 +10775,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST Screenshots size limit(10MB) exceeded!</shortDescription>
-        <value>Screenshots size limit(10MB) exceeded!</value>
+        <value>Screenshots size limit(3MB) exceeded!</value>
     </labels>
     <labels>
         <fullName>TST_Something_went_wrong</fullName>
@@ -10248,6 +10804,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>TST Thank you for submitting your question.</shortDescription>
         <value>Thank you for submitting your question.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Thank_you_for_using_our_help</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Thank you for using our help.</shortDescription>
+        <value>Thank you for using our help.</value>
     </labels>
     <labels>
         <fullName>TST_Thank_you_for_your_feedback</fullName>
@@ -11256,6 +11819,13 @@ have questions or concerns about this data, please contact the Principal Investi
         <protected>true</protected>
         <shortDescription>Visit b Save</shortDescription>
         <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>Vitals</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Vitals</shortDescription>
+        <value>Vitals</value>
     </labels>
     <labels>
         <fullName>WBC_Count</fullName>

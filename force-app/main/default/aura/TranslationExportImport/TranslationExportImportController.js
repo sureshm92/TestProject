@@ -10,6 +10,24 @@
         })
     },
 
+    doExportVisitPlan: function (component, event, helper) {
+        var spinner = component.find('spinner');
+        spinner.show();
+        communityService.executeAction(component, 'exportVisitPlan', {
+            visitPlanId: component.get('v.studySiteVisitPlan.Visit_Plan__c'),
+            languageCode: component.get('v.translateItem.Language__c'),
+            exportType: component.get('v.exportType')
+        }, function (generatedFile) {
+            var blob = new Blob([generatedFile], {
+                type : 'text/plain'
+            });
+            var filename = 'Export_' + component.get('v.exportType') + '_' + component.get('v.translateItem.Language__c') + '__' + component.get('v.studySiteVisitPlan.Visit_Plan__r.Name') +'.xlf';
+            saveAs(blob, filename);
+        }, null, function () {
+            spinner.hide();
+        })
+    },
+
     doExportPlatformObjects: function (component, event, hepler) {
         var spinner = component.find('spinner');
         spinner.show();

@@ -54,22 +54,34 @@
     font-weight: 600;
 }
 
-.THIS .db-list-item .apollo-btn{
-    margin: 0 0 0 10px;
-    float: right;
+.THIS .rr-large-down-hide .db-list-item {
+    position: relative;
+    line-height: 22px;
+    padding-right: 180px;
+}
 
+.THIS .rr-large-down-hide .db-list-item .apollo-btn{
+    position: absolute;
+    top: 10px;
+    right: 0;
+    max-width: 180px;
 }
 
 .THIS .db-list-item .apollo-btn.text{
     line-height: 16px;
 }
 
+.THIS .db-list-item .cRRLink.rr-link {
+    padding: 4px;
+}
+
 .THIS .db-list-item .rr-link.only-text {
-    margin-left: -3px;
+    margin-left: -4px;
+    margin-right: -4px;
 }
 
 .THIS .db-list-item > .rr-link.only-text:nth-of-type(1) {
-    margin-left: -8px;
+    margin-left: -4px;
 }
 
 .THIS .db-list-item .apollo-btn.tertiary,
@@ -140,4 +152,13 @@
 .THIS .db-list-item .btn-block .apollo-btn{
     float: none;
     margin-left: 0;
+}
+
+@media (max-width: 768px){ 
+   .THIS .db-list-item .rr-small-down-hide {
+        display: none;
+    } 
+    .THIS .db-list-item .rr-small-up-hide .apollo-btn {
+        width: 100%;
+    }
 }

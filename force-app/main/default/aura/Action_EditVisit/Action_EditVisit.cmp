@@ -32,7 +32,9 @@
                     <lightning:input type="text" label="Patient Portal Schedule Name" value="{!v.visit.Visit_Schedule__c}"/>
                 </div>
                 <div class="slds-col slds-size--1-of-2">
-                    <lightning:input type="number" label="SDH Visit Number" value="{!v.visit.Visit_Number__c}"/>
+                    <lightning:input type="number" label="SDH Visit Number"
+                                     min="1"
+                                     value="{!v.visit.Visit_Number__c}"/>
                 </div>
             </div>
             <c:VisitIconsSection aura:id="iconsSet" icons="{!v.icons}" visit="{!v.visit}"/>

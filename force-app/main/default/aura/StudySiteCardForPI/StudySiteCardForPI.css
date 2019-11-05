@@ -190,6 +190,19 @@
     .THIS .ss-container-border {
         border-right: none;
     }
+    
+    .THIS .card-locationDetails {
+        paddingn-top: 15px;
+    }
+    
+    .THIS .card-header {
+        padding-bottom: 40px;
+    }
+    
+    .THIS .ss-info-details,
+    .THIS .other-ss-info-container{
+        margin-bottom: 10px;
+    }
 
     .THIS .ss-info-buttons {
         margin-top: 5%;
@@ -200,6 +213,10 @@
         padding-left: 0px;
         padding-bottom: 0px;
     }
+    
+    .THIS .manage-location-details {
+     	width: 100%;
+    }
 
     .THIS #contactInformation .ss-info-details:nth-child(4) {
         margin-left: 0px;
@@ -207,7 +224,7 @@
 
     .THIS #contactInformation .ss-info-details:last-child {
         margin-left: 0px;
-        padding-top: 24px;
+        padding-top: 20px;
     }
 
     .THIS .other-ss-info {
@@ -215,7 +232,7 @@
     }
 
     .THIS .apollo-btn {
-        margin: 0px 0px 10px 0px;
+        margin: 0px 0px 20px 0px;
         width: 100%;
     }
 

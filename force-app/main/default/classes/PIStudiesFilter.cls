@@ -5,8 +5,8 @@
 
 public without sharing class PIStudiesFilter implements SearchFilter {
 
-    FilterData filterData;
-    SortData sortData;
+    public FilterData filterData;
+    public SortData sortData;
 
     public PIStudiesFilter() {
         filterData = new FilterData();

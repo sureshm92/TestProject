@@ -114,7 +114,8 @@ public without sharing class PatientDelegateService {
                         'Contact__r.HCP_Opt_In_Study_Emails__c',
                         'Contact__r.HCP_Opt_In_Referral_Status_Emails__c',
                         'Contact__r.Resource_Notifications__c',
-                        'Contact__r.userCommunityMode__c'
+                        'Contact__r.userCommunityMode__c',
+                        'Contact__r.Next_Notify_Date__c'
                 },
                 Patient_Delegate__c.getSObjectType(),
                 DatabaseService.fieldEqual('Participant__r.Contact__c', participantContactId)
@@ -228,7 +229,35 @@ public without sharing class PatientDelegateService {
 
         return contacts;
     }
-    
+
+    /**
+     * @param partContactsIds List with participant contact ids
+     * @param delegatedCntFields List with required contact fields
+     */
+    public static Map<Id, List<Contact>> getDelegatedCntsByParticipantCnt(List<Id> partContactsIds, List<String> delegatedCntFields) {
+        List<String> pdFields = new List<String>();
+        pdFields.add('Participant__r.Contact__c');
+        for(String cntField : delegatedCntFields) pdFields.add('Contact__r.' + cntField);
+
+        List<Patient_Delegate__c> patientDelegates = (List<Patient_Delegate__c>) DatabaseService.query(
+                pdFields,
+                Patient_Delegate__c.getSObjectType(),
+                DatabaseService.fieldInValues('Participant__r.Contact__c', partContactsIds)
+        );
+
+        Map<Id, List<Contact>> delContactsByPartCnt = new Map<Id, List<Contact>>();
+        for(Patient_Delegate__c pd : patientDelegates) {
+            Id partCntId = pd.Participant__r.Contact__c;
+            if(!delContactsByPartCnt.containsKey(partCntId)) {
+                delContactsByPartCnt.put(partCntId, new List<Contact>());
+            }
+
+            delContactsByPartCnt.get(partCntId).add(pd.Contact__r);
+        }
+
+        return delContactsByPartCnt;
+    }
+
     public static Map<Id, List<Id>> getDelegatedContactIdsByParticipantIdMap(List<Id> participantIds) {
         List<Patient_Delegate__c> delegatesList = [
                 SELECT Id, Participant__c, Contact__c
@@ -328,6 +357,10 @@ public without sharing class PatientDelegateService {
                 contactIds,
                 ' Participant_Status__c NOT IN ' + DatabaseService.listToString(excludedPEStatuses)
         );
+    }
+
+    public static List<Id> getForExclStatusPEIdsForContact(Id contactId, List<String> excludedPEStatuses){
+        return getForExclStatusPEIdsListByContactIdMap(new List<Id>{contactId}, excludedPEStatuses).get(contactId);
     }
     
     public static Map<Id, List<Id>> getPastPEIdsListByContactIdMap(List<Id> contactIds){

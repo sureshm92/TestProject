@@ -14,8 +14,7 @@ public class TranslationExportImportRemote {
     public static String export(Id studyId, String languageCode, String exportType){
         try{
             return generateExportTranslationFile(
-                    exportTranslationForStudy(studyId, languageCode, exportType) +
-                            exportTranslationForStudyVisitPlan(studyId, languageCode, exportType),
+                    exportTranslationForStudy(studyId, languageCode, exportType),
                     languageCode
             );
         }catch (Exception e){
@@ -31,6 +30,19 @@ public class TranslationExportImportRemote {
                     languageCode
             );
         }catch (Exception e){
+            return (String)AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
+    public static String exportVisitPlan(Id visitPlanId, String languageCode, String exportType){
+        try{
+            return generateExportTranslationFile(
+                    exportTranslationForVisitPlan(visitPlanId, languageCode, exportType) +
+                            exportTranslationForVisitPlanIconDetails(visitPlanId, languageCode, exportType),
+                    languageCode
+            );
+        }catch (Exception e) {
             return (String)AuraHelper.throwException(e);
         }
     }
@@ -208,6 +220,14 @@ public class TranslationExportImportRemote {
         return generateItemsForSObjectType(Visit__c.getSObjectType(), ' WHERE Visit_Plan__c =\'' + visitPlanId + '\'', languageCode, exportType) +
                 generateItemsForSObjectType(Icon_Details__c.getSObjectType(), ' WHERE Visit_Plan__c =\'' + visitPlanId + '\'', languageCode, exportType);
     }
+
+    public static String exportTranslationForVisitPlan(Id visitPlanId, String languageCode, String exportType){
+        return generateItemsForSObjectType(Visit__c.getSObjectType(), ' WHERE Visit_Plan__c =\'' + visitPlanId + '\'', languageCode, exportType);
+    }
+
+    public static String exportTranslationForVisitPlanIconDetails(Id visitPlanId, String languageCode, String exportType){
+        return generateItemsForSObjectType(Icon_Details__c.getSObjectType(), ' WHERE Visit_Plan__c =\'' + visitPlanId + '\'', languageCode, exportType);
+    }
     
     public static String generatePlatformLevelTranslatableObjectsItems(String languageCode, String exportType){
         String result = '';
@@ -230,6 +250,16 @@ public class TranslationExportImportRemote {
         String query = 'SELECT ' + String.join(fieldsToTranslate, ',') +
                 ' FROM ' + sObjectType.getDescribe().getName() + ' ' + whereFilter;
         Map<Id, SObject> sObjectsMap = new Map<Id, SObject>(Database.query(query));
+
+        if(sObjectType == Icon_Details__c.SObjectType){
+            for(Id currId : sObjectsMap.keySet()) {
+                if(((Icon_Details__c)sObjectsMap.get(currId)).Description__c == null &&
+                        ((Icon_Details__c)sObjectsMap.get(currId)).Label__c == null) {
+                    sObjectsMap.remove(currId);
+                }
+            }
+        }
+
         List<Translation__c> translations = [
                 SELECT Id, Value__c, Field_Name__c, Record_Id__c
                 FROM Translation__c

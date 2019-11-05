@@ -4,6 +4,8 @@
 
 public without sharing class TaskEditRemote {
 
+    public Boolean isDelegate;
+
     public class TaskEditDataWrapper {
         @AuraEnabled public List<LabelValueItem> taskTypeList = new List<LabelValueItem>{
                 new LabelValueItem(Label.Task_Type_Not_Selected, 'Not Selected'),
@@ -31,15 +33,18 @@ public without sharing class TaskEditRemote {
         public TaskEditDataWrapper() {
             List<Contact> delegates = PatientDelegateService.getInstance().getDelegates();
             Boolean emailPreferencesIsOn = checkEmailPreferencesIsOn();
-            isEnrolled = ParticipantService.getInstance().getState().value == ParticipantService.ParticipantStates.PARTICIPANT;
+
+            ParticipantService.ParticipantStates status = ParticipantService.getInstance().getState().value;
+            isEnrolled = status == ParticipantService.ParticipantStates.REFERRAL ||
+                    status == ParticipantService.ParticipantStates.PARTICIPANT;
+
             errorMessage = checkEmailPermissions(emailPreferencesIsOn, delegates);
             reminderEnabled = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
             createdByAdmin = false;
 
             task = new Task();
 
-            TimeZone timeZone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
-            //today = DateTimeConverterUtil.getUserDatetime(timeZone, null).dateGmt();
+            today = Datetime.now().date();
         }
     }
 
@@ -52,15 +57,13 @@ public without sharing class TaskEditRemote {
                 wrapper.task = task;
 
                 TimeZone timezone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
-                if(task.ActivityDate != null) {
-                    Datetime activDT = Datetime.newInstance(
-                            task.ActivityDate, Time.newInstance(12, 0, 0, 0));
+                if (task.Activity_Datetime__c != null) {
                     wrapper.activityDate =
-                            DateTimeConverterUtil.getUserDatetime(timezone, activDT).date();
+                            DateTimeConverterUtil.getUserDatetime(timezone, task.Activity_Datetime__c).date();
                 }
-                if(task.Reminder_Date__c != null) {
+                if (task.ReminderDateTime != null) {
                     wrapper.reminderDate =
-                            DateTimeConverterUtil.getUserDatetime(timezone, task.Reminder_Date__c).date();
+                            DateTimeConverterUtil.getUserDatetime(timezone, task.ReminderDateTime).date();
                 }
 
                 wrapper.createdByAdmin = createdByAdmin(task);
@@ -81,18 +84,23 @@ public without sharing class TaskEditRemote {
             taskToUpsert.OwnerId = PatientDelegateService.getInstance().getParticipantUserId();
 
             taskToUpsert.Originator__c = state.isDelegate ? 'Delegate' : 'Participant';
-            if(taskToUpsert.Visible_For__c == null) taskToUpsert.Visible_For__c = 'Owner;Delegates';
-    
-            if(state.pe != null) taskToUpsert.WhatId = state.pe.Id ;
+            if (taskToUpsert.Visible_For__c == null) taskToUpsert.Visible_For__c = 'Owner;Delegates';
+
+            if (taskToUpsert.Task_Type__c != TaskService.TASK_TYPE_NOT_SELECTED && state.pe != null) {
+                taskToUpsert.WhatId = state.pe.Id;
+            }
 
             TimeZone timezone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
-            if(taskWrapper.activityDate != null) {
-                taskToUpsert.ActivityDate =
-                        DateTimeConverterUtil.getUserDatetime(timezone, taskWrapper.activityDate).date();
+            if (taskWrapper.activityDate != null) {
+                Datetime dateTimeGMT = Datetime.newInstanceGmt(
+                        taskWrapper.activityDate.year(),
+                        taskWrapper.activityDate.month(),
+                        taskWrapper.activityDate.day()
+                );
+                taskToUpsert.Activity_Datetime__c = DateTimeConverterUtil.convertUserDatetimeToGMT(dateTimeGMT, timezone);
             }
-            if(taskWrapper.reminderDate != null) {
-                taskToUpsert.Reminder_Date__c =
-                        DateTimeConverterUtil.getUserDatetime(timezone, taskWrapper.reminderDate).addHours(12);
+            if (taskWrapper.reminderDate != null) {
+                taskToUpsert.Reminder_Date__c = taskWrapper.reminderDate;
                 taskToUpsert.ReminderDateTime =
                         DateTimeConverterUtil.convertUserDatetimeToGMT(taskToUpsert.Reminder_Date__c, timezone);
             }
@@ -132,12 +140,20 @@ public without sharing class TaskEditRemote {
     }
 
     private static Boolean checkEmailPreferencesIsOn() {
-        return PatientDelegateService.getInstance().getParticipant().Contact__r.Participant_Opt_In_Status_Emails__c;
+        PatientDelegateService delegateService = PatientDelegateService.getInstance();
+        if (delegateService.isDelegate()) {
+            return delegateService.getDelegateContact(CommunityService.getUserContact().Id).Participant_Opt_In_Status_Emails__c;
+        }
+        return delegateService.getParticipant().Contact__r.Participant_Opt_In_Status_Emails__c;
     }
 
     private static String checkEmailPermissions(Boolean emailPreferencesIsOn, List<Contact> delegates) {
         String errorMessage = '';
-        if (!emailEnabledForAllRelatedContacts(emailPreferencesIsOn, delegates)) {
+
+        if (!emailEnabledForAllRelatedContacts(
+                PatientDelegateService.getInstance().getParticipant().Contact__r.Participant_Opt_In_Status_Emails__c,
+                delegates
+        )) {
             errorMessage = Label.Task_Reminders_Missing;
         }
         if (!emailEnabledForCurrentContact()) {
@@ -147,18 +163,18 @@ public without sharing class TaskEditRemote {
     }
 
     private static Boolean emailEnabledForAllRelatedContacts(Boolean emailPreferencesIsOn, List<Contact> delegates) {
-        if (!emailPreferencesIsOn)
-            return false;
+        if (!emailPreferencesIsOn) return false;
         for (Contact delegate : delegates) {
             if (!delegate.Participant_Opt_In_Status_Emails__c) return false;
         }
         return true;
     }
     private static Boolean emailEnabledForOneRelatedContact(Boolean emailPreferencesIsOn, List<Contact> delegates) {
-        if (emailPreferencesIsOn)
-            return true;
-        for (Contact delegate : delegates) {
-            if (delegate.Participant_Opt_In_Status_Emails__c) return true;
+        if (emailPreferencesIsOn) return true;
+        if (PatientDelegateService.getInstance().isDelegate()) {
+            for (Contact delegate : delegates) {
+                if (delegate.Participant_Opt_In_Status_Emails__c) return true;
+            }
         }
         return false;
     }
@@ -174,12 +190,12 @@ public without sharing class TaskEditRemote {
         return false;
     }
 
-    private static Boolean createdByAdmin(Task task){
+    private static Boolean createdByAdmin(Task task) {
         Set<Id> delegateIds = new Set<Id>(PatientDelegateService.getInstance().getDelegatedUsersIds());
         Boolean createdByDelegate = delegateIds.isEmpty() ? false : delegateIds.contains(task.CreatedById);
 
         Id participantId;
-        if(ParticipantService.getInstance().getState().isDelegate){
+        if (ParticipantService.getInstance().getState().isDelegate) {
             participantId = PatientDelegateService.getInstance().getParticipantUserId();
         } else {
             participantId = UserInfo.getUserId();

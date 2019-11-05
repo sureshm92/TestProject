@@ -4,9 +4,9 @@
 
 public without sharing class ReferringClinicsFilter implements SearchFilter{
 
-    FilterData filterData;
-    FilterValues filterValues;
-    SortData sortData;
+    public FilterData filterData;
+    public FilterValues filterValues;
+    public SortData sortData;
 
     public ReferringClinicsFilter(String trialId, String ssId) {
         filterValues = new FilterValues(trialId, ssId, '');

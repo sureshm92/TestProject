@@ -18,3 +18,7 @@
     width: 100%;
     font-size: 14px;
 }
+
+.THIS .slds-select_container {
+    width: 110px;
+}

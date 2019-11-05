@@ -17,9 +17,34 @@
     text-align: right;
 }
 @media all and (max-width: 767px) {
+    .THIS.mrc-container {
+        padding-bottom: 0;
+    }
+    
     .THIS .mrc-invite-btn-container{
         width:100%;
+        margin: 15px 0;
     }
+    
+    .THIS .mrc-invite-btn-container .mrc-invite-btn {
+     	width: 91%;
+        margin-right: 15px;   
+    }
+    
+    .THIS .slds-col {
+        flex-wrap: wrap;
+    }
+    
+    .THIS .slds-col.slds-p-around_medium {
+        flex-wrap: wrap;
+        padding: 0;
+        width: 100%;
+    }
+    
+    .THIS .rr-form-element .slds-form-element__control {
+        margin-bottom: 15px;
+    }
+
 }
 
 .THIS .rr-form-element{

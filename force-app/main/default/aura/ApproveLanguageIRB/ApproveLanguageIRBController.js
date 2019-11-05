@@ -146,6 +146,17 @@
         }
     },
 
+    whenSSFilterChanged: function (component, event, helper) {
+        var filterType = component.get('v.sitesFilterType');
+        if (filterType === 'filter') {
+            setTimeout(
+                $A.getCallback(function () {
+                    component.find('ssLookup').focus();
+                }), 100
+            );
+        }
+    },
+
     columnCheckboxStateChange: function (component, event, helper) {
         var lang = event.getParam('keyId');
         var state = event.getParam('value');

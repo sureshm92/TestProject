@@ -190,6 +190,18 @@
     min-width: auto;
 }
 
+@media all and (max-width: 768px){
+     .THIS .vpi-status-btns button{
+        margin: 5px 0 10px 0;
+        width: 100%;
+    } 
+    .THIS .vpi-status-btns {
+     	padding-right: 15px; 
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+}
+
 @media all and (min-width: 1024px) {
     .THIS .vri-state-label{
         display: block;

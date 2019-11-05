@@ -111,8 +111,8 @@
 }
 
 .THIS .header {
-    font-size: 24px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 400;
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -162,6 +162,17 @@
     min-height: 400px;
 }
 
+@media all and (max-width: 768px){
+    .THIS .personal-info-container .slds-float_left {
+        width: 100%;
+    }
+   
+    .THIS .personal-info-container .apollo-btn {
+        width: 100%;
+        margin-top: 15px;
+    }
+}
+
 @media all and (min-width: 1024px) {
     .THIS #p-modal .p-container.large {
         width: 1000px;
@@ -175,10 +186,6 @@
 }
 
 @media all and (max-width: 600px) {
-
-    .THIS .status-select-container {
-        padding-left: 5%;
-    }
 
     .THIS .rp-save-btn {
         margin-top: 2%;

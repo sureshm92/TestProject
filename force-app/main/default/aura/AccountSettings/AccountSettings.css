@@ -141,3 +141,25 @@
 .THIS .opt-in-popup-button+.opt-in-popup-button {
     margin-left: 30px;
 }
+
+@media (max-width: 768px){  
+    .THIS.as-container .as-sub-title,
+    .THIS .cLanguageSwitcher .section-description {
+        width: 100%;
+    } 
+    
+    .THIS .as-email-pref-item {
+        margin-top: 15px;
+        height: 42px;
+        display: flex;
+        padding-left: 80px;
+        align-items: center;
+        position: relative;
+    }
+    
+    .THIS .as-email-pref-item .ah-toggle {
+        left: 0;
+        top: 5px;
+        position: absolute;
+	}
+}

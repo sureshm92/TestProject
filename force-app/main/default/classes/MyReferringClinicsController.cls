@@ -86,8 +86,8 @@ public without sharing class MyReferringClinicsController {
         }
     }
     public class InitData {
-        ReferringClinicsFilter referringClinicsFilter;
-        PaginationData paginationData;
+        public ReferringClinicsFilter referringClinicsFilter;
+        public PaginationData paginationData;
         public List<MyReferringClinicsController.ClinicWrapper> filteredReferringClinics;
         public String trialId;
         public String ssId;

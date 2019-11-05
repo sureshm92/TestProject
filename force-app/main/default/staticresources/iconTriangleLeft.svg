@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>triangle-left</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon/triangle/left" fill="#000000" fill-rule="nonzero">
+            <path d="M16.5430583,6.13145194 C16.2611755,5.95049718 15.9157482,5.95675407 15.6390402,6.14782684 L8.43245535,11.1242626 C8.16400486,11.3096802 8,11.6417231 8,11.9998083 C8,12.3578935 8.16400486,12.6899364 8.43245535,12.875354 L15.6390402,17.8523015 C15.9159742,18.0434257 16.2616636,18.0494585 16.5435895,17.8680873 C16.8255154,17.686716 16.9999407,17.346078 17,16.9767558 L17,7.02337251 C17.000019,6.6537128 16.8253499,6.31277002 16.5430583,6.13145194 Z" id="Shape"></path>
+        </g>
+    </g>
+</svg>

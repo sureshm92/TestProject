@@ -103,6 +103,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_CreateNewRPDelegates</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_CreateParticipantLoginNotification</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -203,7 +207,7 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ChangePasswordControllerTest</apexClass>
+        <apexClass>ChangePasswordPageController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -399,6 +403,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>EmptyPagePanelRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ExcelController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -427,11 +435,19 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>FirstLogonController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ForgotPasswordController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ForgotPasswordControllerTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GetPermissions</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -548,10 +564,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>LookupSearchResult</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>MCloudSMSSender</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -788,6 +800,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PostInstallDX</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ProfileIconController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1151,6 +1167,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ApprovedLangRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ArticleService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1192,6 +1212,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_PSECreateInvitation</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_PatientTaskReminder</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1259,6 +1283,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_CountryLookupRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_DatabaseProxy</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1308,6 +1336,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_FillTAOnParticipantsBatchHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_FirstLogonController</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1483,6 +1515,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_StudySiteVisitConfigRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_SurveyResponseTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1555,7 +1591,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_VisitResultCountryLookupRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_VisitResultMService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultSharingPanelRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1742,6 +1786,18 @@
         <apexClass>VisitTriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>XLF_PatternListRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>XLF_TweakerHelper</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>XLF_TweakerRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
     <custom>true</custom>
     <customMetadataTypeAccesses>
         <enabled>false</enabled>
@@ -1762,6 +1818,10 @@
     <customMetadataTypeAccesses>
         <enabled>false</enabled>
         <name>Guides_Setting__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Help_Topic__mdt</name>
     </customMetadataTypeAccesses>
     <customMetadataTypeAccesses>
         <enabled>false</enabled>
@@ -1846,6 +1906,14 @@
     <customMetadataTypeAccesses>
         <enabled>false</enabled>
         <name>Visit_Result_TypeM__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>XLF_Black_List__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>XLF_White_List__mdt</name>
     </customMetadataTypeAccesses>
     <fieldPermissions>
         <editable>false</editable>
@@ -2623,6 +2691,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Next_Profile_Update_DT__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Contact.OneKeyID__c</field>
         <readable>true</readable>
@@ -2815,6 +2888,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.Action_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Activity_Datetime__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3108,6 +3186,71 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.CaseDescription__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.CasePriority__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.CaseReason__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.CaseSubject__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.Description_Placeholder_Label__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.Display_Solution_Label__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.Is_Active__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.Is_Escalated__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.Knowledge_Article_Link__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.Order__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.Submit_Required__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.User_Description_Required__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.User_Types__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Icon_Details__c.Custom_Icon__c</field>
         <readable>true</readable>
@@ -3216,6 +3359,11 @@
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.Address_City__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Address_State__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3895,6 +4043,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Eligible__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Enrolled_DateTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5294,6 +5447,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>SurveyInvitation.Is_Expired__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>SurveyInvitation.Is_Midpoint__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5325,6 +5483,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Action_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Activity_Datetime__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5658,6 +5821,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Visit_Plan__c.Version__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Visit_Result_TypeM_Dashboard_Config__mdt.Dashboard_Type__c</field>
         <readable>false</readable>
@@ -5767,6 +5935,26 @@
         <field>Visit__c.Visit_Schedule__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>XLF_Black_List__mdt.Active__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>XLF_Black_List__mdt.Pattern__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>XLF_White_List__mdt.Active__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>XLF_White_List__mdt.Pattern__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>Account-Account Layout</layout>
     </layoutAssignments>
@@ -5831,6 +6019,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Healthcare_Provider__c-Healthcare Provider Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Help_Topic__mdt-Help Topic Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Icon_Details__c-icons detail Layout</layout>
@@ -6079,6 +6270,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit__c-Visit Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>XLF_Black_List__mdt-XLF Black List Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>XLF_White_List__mdt-XLF White List Layout</layout>
     </layoutAssignments>
     <loginIpRanges>
         <description>TEST ONLY</description>
@@ -6630,6 +6827,10 @@
     <tabVisibilities>
         <tab>Visit__c</tab>
         <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>XLF_Tweaker</tab>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <userLicense>Salesforce</userLicense>
     <userPermissions>

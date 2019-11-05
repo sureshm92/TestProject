@@ -10,6 +10,8 @@ private class Test_Batch_PSECreateInvitation {
         List<Survey> survey = [SELECT Id FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
         if (survey.isEmpty()) return;
 
+        TriggerHandlerExecutor.bypassHandler(TaskTriggerHandler.SendImmediateEmailsForTaskCodeHandler.class);
+
         TestData.loadTestData();
         TestData testData = new TestData();
         testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
@@ -40,6 +42,7 @@ private class Test_Batch_PSECreateInvitation {
                         Participant_Contact__c,
                         Participant_Status__c
                 FROM Participant_Enrollment__c
+                WHERE Id =: testData.pe.Id
         ];
 
         new Batch_PSECreateInvitation().execute(null, enrollments);

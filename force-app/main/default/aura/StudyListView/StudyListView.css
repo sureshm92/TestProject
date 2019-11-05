@@ -44,10 +44,20 @@
         padding-right: 4.5rem;
         padding-left: 4.5rem;
     }
+    
 }
 
 @media all and (max-width: 767px) {
     .THIS .slv-header-item + .slv-header-item {
         margin-top: 16px;
     }
+    
+    .THIS .search-more-btn {
+        width: 100%;
+    }
+    
+     .THIS.slv-items-panel {
+        padding-bottom: 0;
+    }
+
 }

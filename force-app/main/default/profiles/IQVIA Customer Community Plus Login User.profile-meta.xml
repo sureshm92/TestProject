@@ -103,6 +103,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_CreateNewRPDelegates</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_CreateParticipantLoginNotification</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -203,8 +207,8 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ChangePasswordControllerTest</apexClass>
-        <enabled>true</enabled>
+        <apexClass>ChangePasswordPageController</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ChangeStatusModalController</apexClass>
@@ -399,6 +403,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>EmptyPagePanelRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ExcelController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -427,11 +435,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>FirstLogonController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ForgotPasswordController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ForgotPasswordControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GetPermissions</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -549,10 +565,6 @@
     <classAccesses>
         <apexClass>LookupSearchResult</apexClass>
         <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>MCloudSMSSender</apexClass>
-        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>MailForTests</apexClass>
@@ -789,6 +801,10 @@
     <classAccesses>
         <apexClass>PostInstallDX</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ProfileIconController</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>QualityCheckController</apexClass>
@@ -1043,11 +1059,19 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StudySiteLookupRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudySiteService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>StudySiteTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudySiteVisitConfigRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1143,6 +1167,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ApprovedLangRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ArticleService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1171,6 +1199,14 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_Batch_CreateSurveyTasks</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_IntegrationVisitProcess</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Batch_MigratePicklistToCheckbox</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1179,7 +1215,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_Batch_PatientTaskReminder</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Batch_ReviewOnboardingFAQ</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_UpdateNotifyDateOldUsers</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1192,6 +1236,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_CTPSelector</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_CTPSendNotificationService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1216,6 +1264,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ConditionOfInterestRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ConditionsOfInterestViewRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1328,6 +1380,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_LeadConversion</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ManualCreationPanelRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1451,6 +1507,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_StudySiteVisitConfigRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_SurveyResponseTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1487,12 +1547,24 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_TravelVendorPanelRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_TrialItemRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_TrialSearchContainerRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_TrialSearchHelper</apexClass>
         <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_TrialSearchWhereClauseFactory</apexClass>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_TrialSurveyTriggerHandler</apexClass>
@@ -1648,6 +1720,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>VisitIconsConfiguration</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitPlanRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -3071,6 +3147,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Address_State__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.BirthDate__c</field>
         <readable>false</readable>
@@ -3749,6 +3830,11 @@
         <editable>false</editable>
         <field>Participant_Enrollment__c.Eligible__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Enrolled_DateTime__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -5792,6 +5878,10 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Res_study__c-Res-study Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Res_study__c-Res-study Layout</layout>
+        <recordType>Res_study__c.Study_Resource</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Resource_Field_Api__mdt-Resource Field Api Layout</layout>

@@ -1,7 +1,20 @@
 public without sharing class SendEmailTemplate {
 
-    public static final String EMAIL_TEMPLATE_PATIENT1_NEW = 'Patient1_New_Study';
-    public static final String EMAIL_TEMPLATE_PATIENT2_NEW = 'Patient2_New_Study';
+    public static final String EMAIL_TEMPLATE_PATIENT_SOURCE_EPR_NEW = 'Patient0_New_Study';
+    public static final String EMAIL_TEMPLATE_PATIENT_SOURCE_PI_NEW = 'Patient1_New_Study';
+    public static final String EMAIL_TEMPLATE_PATIENT_SOURCE_HCP_NEW = 'Patient2_New_Study';
+
+    public class EmailMessageWrapper {
+        public  Id recipientId;
+        public  Id whatId;
+        public  String emailTemplateName;
+
+        public EmailMessageWrapper(Id recipientId, Id whatId, String emailTemplateName) {
+            this.recipientId = recipientId;
+            this.whatId = whatId;
+            this.emailTemplateName = emailTemplateName;
+        }
+    }
 
     public class SendEmailTemplateException extends Exception {}
 
@@ -207,4 +220,11 @@ public without sharing class SendEmailTemplate {
         }
     }
 
+    public static void sendEmailMessages(List<EmailMessageWrapper> emailMessageWrappers) {
+        List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
+        for(EmailMessageWrapper emw : emailMessageWrappers) {
+            emailMessages.add(createEmail(emw.emailTemplateName, emw.recipientId, emw.whatId));
+        }
+        sendEmailMessages(emailMessages);
+    }
 }

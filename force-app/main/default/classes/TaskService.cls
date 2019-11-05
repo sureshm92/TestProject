@@ -41,11 +41,13 @@ public without sharing class TaskService {
             'CreatedDate',
             'Completed_Date__c',
             'ActivityDate',
+            'Activity_Datetime__c',
             'Task_Code__c',
             'WhatId',
             'Task_Type__c',
             'Visible_For__c',
             'Action_URL__c',
+            'ReminderDateTime',
             'Reminder_Date__c',
             'Originator__c',
             'Patient_Visit__c',
@@ -190,7 +192,8 @@ public without sharing class TaskService {
             if (partUserId == null) continue;
 
             userContact.put(partUserId, partContactId);
-            Set<Id> patientDelContactIds = delegatesByParticipant.get(partContactId);
+            Set<Id> patientDelContactIds = delegatesByParticipant.containsKey(partContactId)
+                    ? delegatesByParticipant.get(partContactId) : new Set<Id>();
 
             List<TaskConfig> tmpConfigs = new List<TaskConfig>();
             String visible = invitationsVisible.get(inv.Id);
@@ -223,7 +226,11 @@ public without sharing class TaskService {
                 tsc.description = inv.Id;
                 tsc.priority = TASK_PRIORITY_CRITICAL;
                 tsc.reminderSchedule = inv.Reminder_Schedule__c;
-                tsc.startDate = DateTimeConverterUtil.getUserDatetime(userTimezoneMap.get(tsc.ownerId), (Datetime)null).date();
+
+                TimeZone userTZ = userTimezoneMap.get(tsc.ownerId);
+                Datetime userDatetime = DateTimeConverterUtil.getUserDatetime(userTZ, Datetime.now());
+
+                tsc.startDate = userDatetime.date();
                 if (inv.InviteExpiryDateTime != null) {
                     Date expiryDate = inv.InviteExpiryDateTime.date();
                     Integer daysBetween = Date.today().daysBetween(expiryDate);
@@ -232,8 +239,8 @@ public without sharing class TaskService {
 
                 if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {
                     Integer firstReminderDay = (Integer) inv.Reminder_Schedule__r.First_Reminder_day__c;
-                    tsc.reminderDatetime = DateTimeConverterUtil.getUserDatetime(
-                            userTimezoneMap.get(tsc.ownerId), (Datetime)null).addDays(firstReminderDay);
+                    tsc.reminderDatetime = DateTimeConverterUtil.addDaysInUserTimeZone(userDatetime, userTZ, firstReminderDay);
+                    tsc.reminderGMT = DateTimeConverterUtil.convertUserDatetimeToGMT(tsc.reminderDatetime, userTZ);
                 }
                 tsc.subject = subject;
                 tsc.type = TASK_TYPE_SURVEY;
@@ -263,7 +270,10 @@ public without sharing class TaskService {
         if (taskConfig.code != null) task.Task_Code__c = taskConfig.code;
         if (taskConfig.description != null) task.Description = taskConfig.description;
         if (taskConfig.originator != null) task.Originator__c = taskConfig.originator;
-        if (taskConfig.reminderDatetime != null) task.Reminder_Date__c = taskConfig.reminderDatetime;
+        if (taskConfig.reminderDatetime != null) {
+            task.Reminder_Date__c = taskConfig.reminderDatetime;
+            if(taskConfig.reminderGMT != null) task.ReminderDateTime = taskConfig.reminderGMT;
+        }
         if (taskConfig.reminderSchedule != null) task.Reminder_Schedule__c = taskConfig.reminderSchedule;
         if (taskConfig.startDate != null) task.Start_Date__c = taskConfig.startDate;
         if (taskConfig.type != null) task.Task_Type__c = taskConfig.type;
@@ -338,6 +348,7 @@ public without sharing class TaskService {
         public Id ownerId;
         public String priority;
         public Datetime reminderDatetime;
+        public Datetime reminderGMT;
         public Id reminderSchedule;
         public Date startDate;
         public String status;
