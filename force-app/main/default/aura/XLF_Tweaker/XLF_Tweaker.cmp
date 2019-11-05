@@ -101,7 +101,7 @@
                                 </aura:iteration>
                             </lightning:select>
                         </div>
-                        <footer class="slds-modal__footer">
+                        <footer class="slds-modal__footer" style="padding:30px;">
                             <button class="slds-button slds-button_neutral" onclick="{!c.closeZipModal}">Cancel</button>
                             <button class="slds-button slds-button_brand" onclick="{!c.startZipProcess}" disabled="{!v.zipHighlighted == ''}">Proceed</button>
                         </footer>

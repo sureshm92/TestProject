@@ -20,6 +20,7 @@
     <aura:attribute name="showMore" type="Boolean" default="false"/>
     <aura:attribute name="showMoreEnabled" type="Boolean" default="false"/>
     <aura:attribute name="showEntriesVisble" type="Boolean" default="true"/>
+    <aura:attribute name="setValueAsSelected" type="Boolean" default="false"/>
     <aura:attribute name="itemTitle" type="String" default="{!$Label.c.PG_DB_L_patients}"/>
 
     <!--compoenent body -->
@@ -88,7 +89,7 @@
                     <aura:if isTrue="{!!empty(v.sortVariants)}">
                         <div class="fp-form-element">
                             <label>{!$Label.c.PG_FP_L_Sort_by}</label>
-                            <c:rrSelect value="{!v.sortType}" options="{!v.sortVariants}"/>
+                            <c:rrSelect value="{!v.sortType}" options="{!v.sortVariants}" setValueAsSelected="{!v.setValueAsSelected}"/>
                         </div>
                     </aura:if>
                     <aura:if isTrue="{!v.showEntriesVisble}">
