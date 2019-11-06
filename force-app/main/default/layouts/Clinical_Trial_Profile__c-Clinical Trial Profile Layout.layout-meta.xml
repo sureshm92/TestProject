@@ -348,6 +348,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Participating_in_Rocket_Referral__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Prescreen__c</field>
             </layoutItems>
             <layoutItems>
@@ -390,6 +394,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Prescreen_to_Referral_Ratio_CAP_per_HCP__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Profile_Picture__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -515,6 +523,10 @@
                 <behavior>Edit</behavior>
                 <field>Verification_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Visit_Plan__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -603,7 +615,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h1x000000f4zu</masterLabel>
+        <masterLabel>00h0E000001aOnx</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
