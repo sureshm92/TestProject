@@ -1,7 +1,10 @@
 public virtual inherited sharing class ResourceArticleVideoService extends ResourceService {
 
+    private static ResourceArticleVideoService instance;
+
     public static ResourceArticleVideoService getInstance(){
-        return (ResourceArticleVideoService) ClassFactory.newInstance(ResourceArticleVideoService.class);
+        if(instance == null) instance = new ResourceArticleVideoService();
+        return instance;
     }
     
     public override virtual List<Resource__c> getResources() {

@@ -3416,7 +3416,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HT 03 B Patient</shortDescription>
-        <value>Please go to Account Settings -> Delegates -> Add New Delegate -> Enter information -> Assign “Permissions by Level”. If you want a delegate to complete tasks on your behalf, we recommend delegate level 1.</value>
+        <value>Please go to Account Settings -&gt; Delegates -&gt; Add New Delegate -&gt; Enter information -&gt; Assign “Permissions by Level”. If you want a delegate to complete tasks on your behalf, we recommend delegate level 1.</value>
     </labels>
     <labels>
         <fullName>HT_03_H_PI_RP</fullName>
@@ -3437,7 +3437,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HT 04 B RP</shortDescription>
-        <value>From the "My Studies" page, select the study you would like to refer a person to and select "Pre-eligibilty Screening".  Follow the guided process in order to refer a patient to a study.</value>
+        <value>From the &quot;My Studies&quot; page, select the study you would like to refer a person to and select &quot;Pre-eligibilty Screening&quot;.  Follow the guided process in order to refer a patient to a study.</value>
     </labels>
     <labels>
         <fullName>HT_04_H_RP</fullName>
@@ -3493,7 +3493,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 06 H PI</shortDescription>
-        <value>How do I check on my patients&apos; status?</value>
+        <value>How do I check on my patients&#39; status?</value>
     </labels>
     <labels>
         <fullName>HT_06_H_Participant</fullName>
@@ -3549,7 +3549,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 07 H RP</shortDescription>
-        <value>How do I check on my patients&apos; status?</value>
+        <value>How do I check on my patients&#39; status?</value>
     </labels>
     <labels>
         <fullName>HT_08_B_Participant</fullName>
@@ -3598,7 +3598,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 09 H Participant</shortDescription>
-        <value>Why can&apos;t I see any information under the results tab?</value>
+        <value>Why can&#39;t I see any information under the results tab?</value>
     </labels>
     <labels>
         <fullName>HT_09_H_RP</fullName>
@@ -3654,7 +3654,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 11 H Participant</shortDescription>
-        <value>Why can&apos;t I see any articles and videos?</value>
+        <value>Why can&#39;t I see any articles and videos?</value>
     </labels>
     <labels>
         <fullName>HT_11_H_RP</fullName>
@@ -10141,6 +10141,13 @@ Please check your CAPS lock key.</value>
         <value>Location</value>
     </labels>
     <labels>
+        <fullName>SS_Location_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Location Address</shortDescription>
+        <value>Location Address</value>
+    </labels>
+    <labels>
         <fullName>SS_Location_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -10950,7 +10957,14 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TS Disclaimer</shortDescription>
-        <value>I agree to IQVIA&#39;s legalese disclaimer regarding study recruitment and other things the lawyers want us to put here</value>
+        <value>I agree to the</value>
+    </labels>
+    <labels>
+        <fullName>TS_Disclaimer1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Disclaimer 1</shortDescription>
+        <value>, and to share my contact details or contact details of another person (who has provided their consent) and be contacted by IQVIA, a study doctor, and other affiliated companies regarding this clinical study.</value>
     </labels>
     <labels>
         <fullName>TS_Select_Another_Country</fullName>
