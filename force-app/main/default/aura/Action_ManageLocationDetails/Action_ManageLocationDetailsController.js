@@ -61,6 +61,8 @@
             helper.sortAndSetAccountsByName(component, accountsList);
             studySite.Site__c = account.Id;
             studySite.Site__r = account;
+            component.set('v.studySiteAccounts', accountsList);
+            component.set('v.studySite', studySite);
             var radioBtns = component.find('radioBtn');
             for (let i = 0; i < radioBtns.length; i++) {
                 if(radioBtns[i].get('v.value').Id == account.Id){
