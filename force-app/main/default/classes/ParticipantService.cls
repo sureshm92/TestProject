@@ -80,7 +80,8 @@ public without sharing class ParticipantService {
     
     private Participant__c getParticipant(Id sourceId){
         List<Participant__c> participants = [
-                SELECT First_Name__c,
+                SELECT Id,
+                        First_Name__c,
                         Last_Name__c,
                         Middle_Name__c,
                         Full_Name__c,
@@ -99,8 +100,7 @@ public without sharing class ParticipantService {
                         Contact__c,
                         Conditions__c,
                         Contact__r.Visit_Results_Opt_In__c,
-                        Marketing_Flag__c,
-                (SELECT Id, Therapeutic_Area__c FROM Therapeutic_Area_Patients__r)
+                        Marketing_Flag__c
                 FROM Participant__c
                 WHERE Contact__c = :sourceId OR Id = :sourceId
         ];
