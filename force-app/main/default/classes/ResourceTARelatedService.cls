@@ -13,11 +13,10 @@ public inherited sharing class ResourceTARelatedService extends ResourceService 
     }
     
     protected override List<Id> getResourcesIds() {
-        ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
         List<String> participantLanguages = new List<String>();
-        participantLanguages.add(participantState.pe.Participant__r.Contact__r.Language__c);
-        participantLanguages.add(participantState.pe.Participant__r.Contact__r.Second_Choice_Language__c);
-        participantLanguages.add(participantState.pe.Participant__r.Contact__r.Third_Choice_Language__c);
+        participantLanguages.add(pState.pe.Participant__r.Contact__r.Language__c);
+        participantLanguages.add(pState.pe.Participant__r.Contact__r.Second_Choice_Language__c);
+        participantLanguages.add(pState.pe.Participant__r.Contact__r.Third_Choice_Language__c);
 
         String filter = DatabaseService.fieldEqual('Therapeutic_Area__c', therapeuticAreaId)
                 + (contentClass == null ? '' : ('AND' + DatabaseService.fieldEqual('Resource__r.Content_Class__c', contentClass)))

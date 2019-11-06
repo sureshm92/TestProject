@@ -90,6 +90,7 @@ public without sharing class XLF_TweakerRemote {
             Document updatedDoc = new Document();
             updatedDoc.Body     = newBody;
             updatedDoc.Name     = newName;
+            updatedDoc.AuthorId = UserInfo.getUserId();
             updatedDoc.Type     = docType;
             updatedDoc.FolderId = [SELECT FolderId FROM Document LIMIT 1].FolderId;
             insert updatedDoc;

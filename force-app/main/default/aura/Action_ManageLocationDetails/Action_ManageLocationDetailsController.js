@@ -61,6 +61,8 @@
             helper.sortAndSetAccountsByName(component, accountsList);
             studySite.Site__c = account.Id;
             studySite.Site__r = account;
+            component.set('v.studySiteAccounts', accountsList);
+            component.set('v.studySite', studySite);
             var radioBtns = component.find('radioBtn');
             for (let i = 0; i < radioBtns.length; i++) {
                 if(radioBtns[i].get('v.value').Id == account.Id){
@@ -70,6 +72,8 @@
                 }
             }
             component.get('v.callback')(studySite, accountsList);
+            component.find('manageLocation').cancel();
+            component.find('manageLocation').show();
             communityService.showToast('success', 'success', $A.get('$Label.c.SS_Success_Save_Message'));
         });
     },
