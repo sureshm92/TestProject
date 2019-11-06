@@ -19,6 +19,8 @@ private class Test_ManualCreationPanelRemote {
         ManualTaskRemote.TaskPanelWrapper taskPanelWrapper = new ManualTaskRemote.TaskPanelWrapper();
         taskPanelWrapper.task.Subject = 'Test';
         taskPanelWrapper.task.Start_Date__c = System.today();
+        taskPanelWrapper.task.ActivityDate = System.today();
+        taskPanelWrapper.task.Reminder_Date__c = System.now();
         taskPanelWrapper.task.Visible_For__c = 'Owner;Delegates';
 
         ManualCreationPanelRemote.AdHocWrapper adHocWrapper = new ManualCreationPanelRemote.AdHocWrapper();
