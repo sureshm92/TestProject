@@ -10957,7 +10957,14 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TS Disclaimer</shortDescription>
-        <value>I agree to IQVIA&#39;s legalese disclaimer regarding study recruitment and other things the lawyers want us to put here</value>
+        <value>I agree to the</value>
+    </labels>
+    <labels>
+        <fullName>TS_Disclaimer1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Disclaimer 1</shortDescription>
+        <value>, and to share my contact details or contact details of another person (who has provided their consent) and be contacted by IQVIA, a study doctor, and other affiliated companies regarding this clinical study.</value>
     </labels>
     <labels>
         <fullName>TS_Select_Another_Country</fullName>

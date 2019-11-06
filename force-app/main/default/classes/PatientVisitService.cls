@@ -68,7 +68,7 @@ public inherited sharing class PatientVisitService {
         List<Task> tasks = [
                 SELECT Id,
                         Patient_Visit__c,
-                        ActivityDate
+                        Reminder_Date__c
                 FROM Task
                 WHERE Patient_Visit__c IN :new Map<Id, Patient_Visit__c>(visits).keySet() AND Status = 'Open'
         ];
@@ -95,7 +95,7 @@ public inherited sharing class PatientVisitService {
             this.visit = visit;
             this.icons = visit.Visit__r.Icons__c;
             this.task = task;
-            this.reminderDate = (this.task == null || this.task.ActivityDate == null) ? Label.Home_Page_StudyVisit_No_Reminder_Date : DateService.format(this.task.ActivityDate, 'DD-MMM-YYYY');
+            this.reminderDate = (this.task == null || this.task.Reminder_Date__c == null) ? Label.Home_Page_StudyVisit_No_Reminder_Date : DateService.format(this.task.Reminder_Date__c.date(), 'DD-MMM-YYYY');
             this.completedDate = visit.Completed_Date__c == null ? Label.StudyVisit_Information_Not_Available : String.valueOf(visit.Completed_Date__c);
         }
     }
