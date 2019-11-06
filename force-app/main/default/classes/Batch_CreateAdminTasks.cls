@@ -52,7 +52,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<PEByContactWra
                         Priority = adminTask.Priority,
                         Start_Date__c = adminTask.Start_Date__c,
                         Activity_Datetime__c = adminTask.Activity_Datetime__c,
-                        ReminderDateTime = adminTask.ReminderDateTime,
+                        ReminderDateTime = adminTask.Reminder_Date__c,
                         Visible_For__c = adminTask.Visible_For__c,
                         WhatId = peByContactIds.get(user.ContactId).Id,
                         Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED
