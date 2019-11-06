@@ -82,7 +82,7 @@
                 window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl) + '&quote=' + shareText);
                 break;
             case 'shareTwitter':
-                window.open('https://twitter.com/home?status=' + shareText + ':%20' + encodeURIComponent(shareUrl));
+                window.open('https://twitter.com/intent/tweet?text=' + shareText + '&url=' + encodeURIComponent(shareUrl));
                 break;
             case 'shareLinkedin':
                 window.open('https://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(shareUrl));

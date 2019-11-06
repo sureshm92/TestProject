@@ -531,10 +531,10 @@
                                             <div class="input-fields-labels">{!$Label.c.SS_Primary_Contact}</div>
                                             <div data-index="{!siteWrappIndx}" onclick="{!c.changeItemIndex}">
                                                 <c:rrSelect id="delegatesPicklist"
-                                                            options="{!v.currentStudy.delegatePicklist}"
+                                                            options="{!siteWrapper.delegatePicklist}"
                                                             value="{!siteWrapper.studySite.Site_Staff__c}"
                                                             class="delegate-select"
-                                                            placeholder="{!if(v.currentStudy.delegatePicklist.length>0,$Label.c.PG_AC_Select,$Label.c.SS_Add_A_Member)}"
+                                                            placeholder="{!if(v.siteWrapper.delegatePicklist.length>0,$Label.c.PG_AC_Select,$Label.c.SS_Add_A_Member)}"
                                                             onchange="{!c.changeUpdatedStatus}"
                                                             useSentenceFont="false"/>
                                             </div>

@@ -13,21 +13,44 @@ public inherited sharing class ResourceTARelatedService extends ResourceService 
     }
     
     protected override List<Id> getResourcesIds() {
-        String therapeuticAreaAssignmentsQuery =
-                'SELECT Id, ' +
-                        'Resource__c ' +
-                        'FROM Therapeutic_Area_Assignment__c ' +
-                        'WHERE Therapeutic_Area__c = \'' + therapeuticAreaId + '\' ' +
-                        (contentClass == null ? '' : ('AND Resource__r.Content_Class__c = \'' + contentClass + '\' ')) +
-                        (resourceId == null ? '' : ('AND Resource__c = \'' + resourceId + '\' ')) +
-                        'AND Resource__r.RecordType.DeveloperName = \'' + resourceType + '\' ' +
-                        'AND Resource__r.Language__c = \'' + getParticipantLanguage() + '\' ';
-        List<Therapeutic_Area_Assignment__c> assignments = (List<Therapeutic_Area_Assignment__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
-                .query(therapeuticAreaAssignmentsQuery, true);
-        List<Id> resourcesIds = new List<Id>();
-        for (Therapeutic_Area_Assignment__c assignment : assignments) {
-            resourcesIds.add(assignment.Resource__c);
+        List<String> participantLanguages = new List<String>();
+        participantLanguages.add(pState.pe.Participant__r.Contact__r.Language__c);
+        participantLanguages.add(pState.pe.Participant__r.Contact__r.Second_Choice_Language__c);
+        participantLanguages.add(pState.pe.Participant__r.Contact__r.Third_Choice_Language__c);
+
+        String filter = DatabaseService.fieldEqual('Therapeutic_Area__c', therapeuticAreaId)
+                + (contentClass == null ? '' : ('AND' + DatabaseService.fieldEqual('Resource__r.Content_Class__c', contentClass)))
+                + (resourceId == null ? '' : ('AND' + DatabaseService.fieldEqual('Resource__c', resourceId)))
+                + 'AND' + DatabaseService.fieldEqual('Resource__r.RecordType.DeveloperName', resourceType)
+                + 'AND' + DatabaseService.fieldInValues('Resource__r.Language__c', participantLanguages)
+        ;
+        List<Therapeutic_Area_Assignment__c> assignments = (List<Therapeutic_Area_Assignment__c>)
+                DatabaseService.query(new List<String>{
+                'Resource__c',
+                'Resource__r.Language__c',
+                'Resource__r.Title__c'
+        }, Therapeutic_Area_Assignment__c.getSObjectType(), filter);
+
+        Map<String, Map<String, Id>> resIdByLangByTitle = new Map<String, Map<String, Id>>();
+        for(Therapeutic_Area_Assignment__c ass : assignments) {
+            if(!resIdByLangByTitle.containsKey(ass.Resource__r.Title__c)) {
+                resIdByLangByTitle.put(ass.Resource__r.Title__c, new Map<String, Id>());
+            }
+
+            resIdByLangByTitle.get(ass.Resource__r.Title__c).put(ass.Resource__r.Language__c, ass.Resource__c);
         }
+
+        List<Id> resourcesIds = new List<Id>();
+        for(String title : resIdByLangByTitle.keySet()) {
+            Map<String, Id> resIdByLang = resIdByLangByTitle.get(title);
+            for(String participantLang : participantLanguages) {
+                if(resIdByLang.containsKey(participantLang)) {
+                    resourcesIds.add(resIdByLang.get(participantLang));
+                    break;
+                }
+            }
+        }
+
         return resourcesIds;
     }
 
