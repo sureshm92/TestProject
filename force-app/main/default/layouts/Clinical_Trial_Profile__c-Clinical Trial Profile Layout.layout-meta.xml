@@ -31,6 +31,14 @@
                 <behavior>Edit</behavior>
                 <field>Logged_Out_Days_Notification__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Profile_Picture__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Visit_Plan__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -193,6 +201,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Participating_in_Rocket_Referral__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Patient_Portal_Enabled__c</field>
             </layoutItems>
             <layoutItems>
@@ -348,10 +360,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Participating_in_Rocket_Referral__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Prescreen__c</field>
             </layoutItems>
             <layoutItems>
@@ -394,10 +402,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Prescreen_to_Referral_Ratio_CAP_per_HCP__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Profile_Picture__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -522,10 +526,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Verification_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Visit_Plan__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>

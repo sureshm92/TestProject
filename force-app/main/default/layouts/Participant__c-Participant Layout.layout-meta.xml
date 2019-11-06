@@ -83,12 +83,12 @@
                 <field>Language_Preference_Code__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Condition_of_Interest_s__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Conditions__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Condition_of_Interest_s__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
