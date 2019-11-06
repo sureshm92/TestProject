@@ -72,6 +72,8 @@
                 }
             }
             component.get('v.callback')(studySite, accountsList);
+            component.find('manageLocation').cancel();
+            component.find('manageLocation').show();
             communityService.showToast('success', 'success', $A.get('$Label.c.SS_Success_Save_Message'));
         });
     },
