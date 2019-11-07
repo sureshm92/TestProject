@@ -48,7 +48,7 @@ public class TasksRemote {
                     taskWrapper.activityDate =
                             DateTimeConverterUtil.getUserDatetime(timezone, task.Activity_Datetime__c).date();
                 }
-                if (task.Reminder_Date__c != null) {
+                if (task.ReminderDateTime != null) {
                     taskWrapper.reminder =
                             DateTimeConverterUtil.getUserDatetime(timezone, task.ReminderDateTime).date();
                 }

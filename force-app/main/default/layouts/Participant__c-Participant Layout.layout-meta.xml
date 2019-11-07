@@ -53,6 +53,14 @@
                 <behavior>Edit</behavior>
                 <field>Phone_Type__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>PSE_Count__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Study_Enrollment_Status__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -77,6 +85,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Preferred_Language__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Language_Preference__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
