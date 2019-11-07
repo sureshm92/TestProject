@@ -13,10 +13,7 @@ public inherited sharing class ResourceTARelatedService extends ResourceService 
     }
     
     protected override List<Id> getResourcesIds() {
-        List<String> participantLanguages = new List<String>();
-        participantLanguages.add(pState.pe.Participant__r.Contact__r.Language__c);
-        participantLanguages.add(pState.pe.Participant__r.Contact__r.Second_Choice_Language__c);
-        participantLanguages.add(pState.pe.Participant__r.Contact__r.Third_Choice_Language__c);
+        List<String> participantLanguages = ContactService.getPreferredLanguages();
 
         String filter = DatabaseService.fieldEqual('Therapeutic_Area__c', therapeuticAreaId)
                 + (contentClass == null ? '' : ('AND' + DatabaseService.fieldEqual('Resource__r.Content_Class__c', contentClass)))
