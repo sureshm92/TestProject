@@ -20,7 +20,7 @@
                 <field>Is_Midpoint__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Active_On_Status__c</field>
             </layoutItems>
             <layoutItems>
