@@ -7,6 +7,10 @@
                 <value>false</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
+                <name>hideChatterActions</name>
+                <value>false</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
                 <name>numVisibleActions</name>
                 <value>3</value>
             </componentInstanceProperties>
@@ -140,6 +144,13 @@
         </componentInstances>
         <componentInstances>
             <componentName>FileUpload</componentName>
+            <visibilityRule>
+                <criteria>
+                    <leftValue>{!Record.Content_Type__c}</leftValue>
+                    <operator>EQUAL</operator>
+                    <rightValue>Study_Document</rightValue>
+                </criteria>
+            </visibilityRule>
         </componentInstances>
         <componentInstances>
             <componentInstanceProperties>
