@@ -8,7 +8,11 @@ public without sharing class ParticipantDecoupler {
     public static List<Therapeutic_Area_Patient__c> getTherapeuticAreaPatients(Participant__c participant) {
         if (!therapeuticAreaPatientsByParticipantIds.containsKey(participant.Id)) {
             List<Therapeutic_Area_Patient__c> areaPatient = [
-                    SELECT Therapeutic_Area__c FROM Therapeutic_Area_Patient__c WHERE Participant__c = :participant.Id
+                    SELECT
+                            Condition_Of_Interest_Order__c,
+                            Therapeutic_Area__c,
+                            Therapeutic_Area__r.Name
+                    FROM Therapeutic_Area_Patient__c WHERE Participant__c = :participant.Id
             ];
 
             therapeuticAreaPatientsByParticipantIds.put(participant.Id, areaPatient);
