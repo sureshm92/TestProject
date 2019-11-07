@@ -1,0 +1,69 @@
+<!--
+ - Created by Kryvolap Andrii
+ -->
+
+<aura:component description="ParticipantInformationPrintView" controller="ParticipantInformationRemote" implements="forceCommunity:availableForAllPageTypes">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="pe" type="Participant_Enrollment__c"/>
+    <aura:attribute name="participant" type="Participant__c" access="private"/>
+    <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
+    <aura:attribute name="formData" type="AddPatientByPIRemote.FormData" access="private"/>
+    <aura:attribute name="initialized" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="isFinalUpdate" type="Boolean"/>
+    <aura:attribute name="isValid" type="Boolean" default="false"/>
+    <aura:attribute name="pathItems" type="List"/>
+    <aura:attribute name="statusSteps" type="List" access="public"/>
+    <aura:attribute name="actions" type="Object"/>
+
+    <!-- component body: -->
+        <c:RRSpinner aura:id="spinner" size="medium"/>
+        <div class="form-content">
+            <aura:if isTrue="{!v.initialized}">
+                <!--Personal Information-->
+                <div class="personal-info-container" id="personalInfoAnchor">
+                    <c:Form_EditPatientInfo aura:id="editForm" participant="{!v.participant}" pe="{!v.pe}"
+                                            formData="{!v.formData}"
+                                            updateMode="false"
+                                            isFinalUpdate="{!v.isFinalUpdate}"
+                                            isValid="{!v.isValid}"
+                                            visitPlanRequired="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c}"/>
+                </div>
+                <aura:if isTrue="{!v.pe}">
+                    <div id="healthCareProvider">
+                        <c.ReferHealthcareProvider pe="{!v.pe}" action="{!v.actions.connectProvider}"/>
+                    </div>
+                </aura:if>
+                <!--Status Detail Path-->
+                <div id="statusDetailsAnchor" class="header">{!$Label.c.BTN_Status_Details}</div>
+                <div class="path-panel">
+                    <div class="path-section">
+                        <c:RRPath2 pathItems="{!v.pathItems}"/>
+                    </div>
+                </div>
+
+                <!--Status Detail Path Controll-->
+                <div class="slds-grid slds-grid_vertical rp-status-detail">
+                    <aura:if isTrue="{!!v.refreshSteps}">
+                        <aura:iteration items="{!v.statusSteps}" var="step" indexVar="index">
+                            <c:ReferralProfileStepControls aura:id="stepControls" parent="{!this}"
+                                                           rootComponent="{!v.rootComponent}" step="{!step}"
+                                                           pe="{!v.pe}" modifiedSteps="{!v.modifiedSteps}" isValid="{!v.isValid}"/>
+                        </aura:iteration>
+                    </aura:if>
+                </div>
+
+                <!--MRR Survey Results-->
+                <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">
+                    <div id="screenerResponsesAnchor" class="header">{!$Label.c.BTN_Screener_Responses}</div>
+                    <c:SurveyGismoResultsView results="{!v.pe.MRR_Survey_Results_URL__c}"/>
+                </aura:if>
+
+            </aura:if>
+        </div>
+
+
+</aura:component>
+
