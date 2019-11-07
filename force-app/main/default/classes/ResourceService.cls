@@ -60,7 +60,7 @@ public virtual inherited sharing class ResourceService {
         }else{
             List<Resource__c> resources = getResources();
             if(resources.size() > 0){
-                return getResourceWrapperContainer(getResources());
+                return getResourceWrapperContainer(resources);
             }else{
                 return getErrorNoResources();
             }

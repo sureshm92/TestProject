@@ -124,11 +124,12 @@
         </div>
         <div class="disclaimer-box">
             <ui:inputCheckbox class="checkBox-desc" value="{!v.isDisclaimer}"/>
-            <div class="disclaimer">
-                {!$Label.c.TS_Disclaimer}
+            <div class="disclaimer" style="max-width: 750px">
+                {!$Label.c.TS_Disclaimer}&nbsp;
+                <lightning:formattedUrl label="{!$Label.c.Footer_Link_Terms_Of_Use}" value="/terms-and-conditions?ret" />,
+                <lightning:formattedUrl label="{!$Label.c.Footer_Link_Privacy_Policy}" value="/privacy-policy?ret" />
+                {!$Label.c.TS_Disclaimer1}
             </div>
         </div>
     </div>
-
-
 </aura:component>

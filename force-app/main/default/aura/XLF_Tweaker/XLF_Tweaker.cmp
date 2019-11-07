@@ -20,17 +20,47 @@
     <!-- component body: -->
     <div>
         <div class="slds-page-header__title" style="padding: 10px;">XLF Translation File Management Tool</div>
+
         <div class="slds-grid slds-wrap" style="position: relative">
             <c:RRSpinner aura:id="spinner" size="medium"/>
             <div class="slds-col section slds-size_1-of-1 slds-large-size_1-of-2">
+                <div class="slds-text-body--regular" style="padding-bottom:20px; text-align:justify">
+                    <p>
+                    The XLF Tweaker is a tool designed to help IQVIA developers and consultants to remove unwanted elements from XLF files exported by
+                    <a href="/lightning/setup/LabelWorkbenchExport/home" target="_blank">Translation Workbench</a>.
+                    The exported documents for current user are placed in "<a href="/015" target="_blank">My Personal Documents</a>" folder.
+                    Usually, they are ZIP archives containing the actual files.
+                    </p>
+                    <br/>
+                    <p>
+                    The process of filtering data elements consists of two steps and involves two lists of patterns: Whitelist for step one and Blacklist for step two.
+                    Patterns are stored as Custom Metadata Type records and can be managed by this tool as well.
+                    Brief explanation on how to administer patterns can be found on their management panels.
+                    Every pattern represents a string to which data elements are compared. Patterns may be specified as full-match or partial-match ones.
+                    Partial-match patterns must have an asterisk "*" at the end. For full-match patterns a match takes place when an element "equalsIgnoreCase" to the pattern.
+                    For partial-match patterns a match takes place when an element "startsWithIgnoreCase" for the pattern.
+                    </p>
+                    <br/>
+                    <p>
+                    During the process every element in XLF file is sequentially compared to the patterns in Whitelist and Blacklist in the following order.
+                    If the element matches any pattern from Whitelist then it's retained and passed through to the next step. Elements with no matches are removed from the file immediately.
+                    In the next step the element is compared to the patterns from Blacklist. If any match found at this step then the element removed from the file.
+                    All remaining elements are saved as a new document of the same type in the same folder. The name of the document includes suffix "tweaked" for better recognition.
+                    </p>
+                    <br/>
+                    <p>
+                    In order to get correct results make sure patterns in the Blacklist do not contradict the same in the Whitelist. For example, if you define a partial-match pattern
+                    "PicklistValue.Clinical_Trial_Profile__c.*" in the Whitelist and another partial-match pattern "PicklistValue.*" in the Blacklist
+                    you would never get any "PicklistValue" elements in your resulting file.
+                    </p>
+                </div>
                 <div class="border-panel">
                     <div class="tweaker-form slds-grid slds-wrap slds-gutters">
-                        <div class="slds-col slds-size_1-of-2 slds-form-element">
+                        <div class="slds-col slds-size_1-of-1 slds-form-element">
                             <lightning:button variant="brand" label="Manage White List" class="form-btn" onclick="{!c.gotoWhiteList}"/>
                             <lightning:button variant="brand" label="Manage Black List" class="form-btn" onclick="{!c.gotoBlackList}"/>
                         </div>
-                        <div class="slds-col slds-size_1-of-2 slds-form-element"/>
-                        <div class="slds-col slds-size_1-of-2 slds-form-element">
+                        <div class="slds-col slds-size_1-of-1 slds-form-element">
                             <lightning:select aura:id="file_select" name="file_select" onchange="{!c.onHighlightChange}">
                                 <option value="">-- Please select file ---</option>
                                 <aura:iteration items="{!v.documents}" var="doc">
@@ -38,9 +68,15 @@
                                 </aura:iteration>
                             </lightning:select>
                         </div>
-                        <div class="slds-col slds-size_2-of-2 slds-form-element">
-                            <lightning:button variant="brand" label="Refresh List" title="Refresh" class="form-btn" onclick="{!c.init}"/>
-                            <lightning:button variant="brand" label="Start Tweaking" title="Start" class="form-btn" onclick="{!c.startProcess}" disabled="{!v.highlighted == ''}"/>
+                        <div class="slds-col slds-size_1-of-1 slds-form-element">
+                            <div class="slds-float--left">
+                                <lightning:button variant="brand" label="Refresh List" title="Refresh" class="form-btn" onclick="{!c.init}"/>
+                            </div>
+                            <div class="slds-float--right">
+<!--                            <lightning:button variant="brand" label="Delete" title="Delete" class="form-btn" onclick="{!c.to_be_implemented}" disabled="true"/>-->
+                                <lightning:button variant="brand" label="Navigate to Doc" title="Navigate" class="form-btn" onclick="{!c.navigate}" disabled="{!v.highlighted == ''}"/>
+                                <lightning:button variant="brand" label="Start Tweaking" title="Start" class="form-btn" onclick="{!c.startProcess}" disabled="{!v.highlighted == ''}"/>
+                            </div>
                         </div>
                     </div>
 
@@ -65,7 +101,7 @@
                                 </aura:iteration>
                             </lightning:select>
                         </div>
-                        <footer class="slds-modal__footer">
+                        <footer class="slds-modal__footer" style="padding:30px;">
                             <button class="slds-button slds-button_neutral" onclick="{!c.closeZipModal}">Cancel</button>
                             <button class="slds-button slds-button_brand" onclick="{!c.startZipProcess}" disabled="{!v.zipHighlighted == ''}">Proceed</button>
                         </footer>

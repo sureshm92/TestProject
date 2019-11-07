@@ -47,6 +47,7 @@
     padding-right: 25px;
     margin-top: 3px;
     position: relative;
+    font-size: 1rem;
 }
 
 .THIS .slds-select_container:after {

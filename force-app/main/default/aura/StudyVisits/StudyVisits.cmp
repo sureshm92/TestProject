@@ -56,9 +56,7 @@
                                 onclick="{!c.createEditTask}">
                                 {!visitWrapper.task == null ? $Label.c.Create : visitWrapper.reminderDate}
                             </td>
-                            <td class="{!v.visitMode == v.visitModeCurrent ? 'invisible' : 'sv-t-completed-date'}">
-                                <ui:outputDate value="{!visitWrapper.completedDate}"/>
-                            </td>
+                            <td class="{!v.visitMode == v.visitModeCurrent ? 'invisible' : 'sv-t-completed-date'}">{!visitWrapper.completedDate}</td>
                         </tr>
                     </aura:iteration>
                 </c:RRTable>

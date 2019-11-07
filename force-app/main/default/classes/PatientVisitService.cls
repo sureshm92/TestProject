@@ -3,6 +3,7 @@ public inherited sharing class PatientVisitService {
     public static final String VISIT_MODE_CURRENT = 'Current';
     public static final String VISIT_MODE_PAST = 'Past';
     public static final String VISIT_STATUS_PENDING = 'Pending';
+    private static User CURRENT_USER;
 
     public List<VisitWrapper> getVisitWrappers(String visitMode) {
         return this.getVisitWrappers(visitMode, null);
@@ -47,7 +48,9 @@ public inherited sharing class PatientVisitService {
         List<VisitWrapper> visitWrappers = new List<VisitWrapper>();
         if (visits == null || visits.isEmpty()) return visitWrappers;
 
-        TimeZone timeZone = UserInfo.getTimeZone();
+        List<User> users = [SELECT Id, LocaleSidKey, TimeZoneSidKey FROM User WHERE Id =: UserInfo.getUserId()];
+        CURRENT_USER = users.get(0);
+        TimeZone timeZone = TimeZone.getTimeZone(CURRENT_USER.TimeZoneSidKey);
         Map<Id, Task> tasksByVisitIds = getTasksByVisitIds(visits);
         Set<Id> uniqueId = new Set<Id>();
         for (Patient_Visit__c singleVisit : visits) {
@@ -68,9 +71,9 @@ public inherited sharing class PatientVisitService {
         List<Task> tasks = [
                 SELECT Id,
                         Patient_Visit__c,
-                        ActivityDate
+                        Reminder_Date__c
                 FROM Task
-                WHERE Patient_Visit__c IN :new Map<Id, Patient_Visit__c>(visits).keySet() AND Status = 'Open'
+                WHERE Patient_Visit__c IN :NEW Map<Id, Patient_Visit__c>(visits).keySet() AND Status = 'Open'
         ];
         for (Task singleTask : tasks) {
             tasksByVisitIds.put(singleTask.Patient_Visit__c, singleTask);
@@ -95,7 +98,7 @@ public inherited sharing class PatientVisitService {
             this.visit = visit;
             this.icons = visit.Visit__r.Icons__c;
             this.task = task;
-            this.reminderDate = (this.task == null || this.task.ActivityDate == null) ? Label.Home_Page_StudyVisit_No_Reminder_Date : DateService.format(this.task.ActivityDate, 'DD-MMM-YYYY');
+            this.reminderDate = (this.task == null || this.task.Reminder_Date__c == null) ? Label.Home_Page_StudyVisit_No_Reminder_Date : UserService.formatDate(this.task.Reminder_Date__c.date(), CURRENT_USER.LocaleSidKey);
             this.completedDate = visit.Completed_Date__c == null ? Label.StudyVisit_Information_Not_Available : String.valueOf(visit.Completed_Date__c);
         }
     }

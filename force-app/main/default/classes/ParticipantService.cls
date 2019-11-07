@@ -80,7 +80,8 @@ public without sharing class ParticipantService {
     
     private Participant__c getParticipant(Id sourceId){
         List<Participant__c> participants = [
-                SELECT First_Name__c,
+                SELECT Id,
+                        First_Name__c,
                         Last_Name__c,
                         Middle_Name__c,
                         Full_Name__c,

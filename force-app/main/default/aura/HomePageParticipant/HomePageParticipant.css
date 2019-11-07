@@ -15,6 +15,12 @@
     padding: 16px 0 0;
 }
 
+.THIS > .slds-grid > .slds-col, 
+.THIS  > .slds-grid > [class*=slds-col_padded], 
+.THIS  > .slds-grid > [class*=slds-col--padded] {
+    flex: 0 0 auto;
+}
+
 .THIS .rr-white-panel{
     margin-bottom: 20px;
 }
