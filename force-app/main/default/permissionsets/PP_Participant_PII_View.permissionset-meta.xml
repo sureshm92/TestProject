@@ -111,7 +111,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Participant_Enrollment__c.Medical_Record_Review_Completed_by__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -557,6 +557,15 @@
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>PP: Participant PII View</label>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Integration_Log__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
