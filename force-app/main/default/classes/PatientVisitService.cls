@@ -71,7 +71,8 @@ public inherited sharing class PatientVisitService {
         List<Task> tasks = [
                 SELECT Id,
                         Patient_Visit__c,
-                        Reminder_Date__c
+                        Reminder_Date__c,
+                        ReminderDateTime
                 FROM Task
                 WHERE Patient_Visit__c IN :NEW Map<Id, Patient_Visit__c>(visits).keySet() AND Status = 'Open'
         ];
@@ -90,7 +91,7 @@ public inherited sharing class PatientVisitService {
         @AuraEnabled
         public Task task;
         @AuraEnabled
-        public String reminderDate;
+        public Date reminderDate;
         @AuraEnabled
         public Patient_Visit__c visit;
 
@@ -98,7 +99,7 @@ public inherited sharing class PatientVisitService {
             this.visit = visit;
             this.icons = visit.Visit__r.Icons__c;
             this.task = task;
-            this.reminderDate = (this.task == null || this.task.Reminder_Date__c == null) ? Label.Home_Page_StudyVisit_No_Reminder_Date : UserService.formatDate(this.task.Reminder_Date__c.date(), CURRENT_USER.LocaleSidKey);
+            this.reminderDate = DateTimeConverterUtil.getUserDatetime(TimeZone.getTimeZone(CURRENT_USER.TimeZoneSidKey), this.task.ReminderDateTime).date();
             this.completedDate = visit.Completed_Date__c == null ? Label.StudyVisit_Information_Not_Available : String.valueOf(visit.Completed_Date__c);
         }
     }
