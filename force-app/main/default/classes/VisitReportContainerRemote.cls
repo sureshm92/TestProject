@@ -27,15 +27,13 @@ public inherited sharing class VisitReportContainerRemote {
     }
 
     @AuraEnabled
-    public static String getReportDataWrappers() {
-        List<VisitReportContainerRemote.ReportDataWrapper> reportDataWrappers = new List<VisitReportContainerRemote.ReportDataWrapper>();
+    public static ReportDataWrapper getReportDataWrappers(Id peId) {
         try {
             VisitReportService visitReportService = ((VisitReportService) ClassFactory.newInstance(VisitReportService.class));
-            reportDataWrappers = visitReportService.getReportDataWrapper();
+            return visitReportService.getReportDataWrapper(peId);
         } catch (Exception e) {
-            AuraHelper.throwException(e);
+            return (ReportDataWrapper) AuraHelper.throwException(e);
         }
-        return JSON.serialize(reportDataWrappers);
     }
 
     public class ReportDataWrapper {
