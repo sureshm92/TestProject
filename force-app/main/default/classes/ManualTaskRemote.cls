@@ -9,6 +9,14 @@ public with sharing class ManualTaskRemote {
             newTask.Activity_Datetime__c = Datetime.newInstanceGmt(
                     newTask.ActivityDate,
                     Time.newInstance(Datetime.now().hourGmt(), 0, 0, 0));
+
+            newTask.ReminderDateTime = Datetime.newInstanceGmt(
+                    newTask.Reminder_Date__c.yearGmt(),
+                    newTask.Reminder_Date__c.monthGmt(),
+                    newTask.Reminder_Date__c.dayGmt(),
+                    Datetime.now().hourGmt(), 0, 0
+            );
+
             Batch_CreateAdminTasks.launch(filter.getContactsWithPE(), newTask);
             return true;
         } catch (Exception e) {
