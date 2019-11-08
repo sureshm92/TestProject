@@ -12,7 +12,7 @@ public inherited sharing class VisitReportService {
         if (this.isNotAccessReport(pe)) {
             return null;
         }
-        List<Patient_Visit__c> patientVisits = visitResultsService.getPatientVisitsForReport(pe); 
+        List<Patient_Visit__c> patientVisits = visitResultsService.getPatientVisitsForReport(pe);
         if (patientVisits.isEmpty()) {
             return null;
         }
