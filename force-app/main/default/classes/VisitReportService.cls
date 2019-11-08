@@ -5,36 +5,35 @@ public inherited sharing class VisitReportService {
 
     public static final String VISIT_RECORD_TYPE_LABS = 'Labs';
 
-    public List<VisitReportContainerRemote.ReportDataWrapper> getReportDataWrapper() {
-        List<VisitReportContainerRemote.ReportDataWrapper> result = new List<VisitReportContainerRemote.ReportDataWrapper>();
+    public VisitReportContainerRemote.ReportDataWrapper getReportDataWrapper(Id peId) {
+        Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, CommunityService.USER_MODE_PARTICIPANT);
         VisitResultsService visitResultsService = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class));
         VisitResultMService visitResultMService = ((VisitResultMService) ClassFactory.newInstance(VisitResultMService.class));
-        if (this.isNotAccessReport()) {
-            return result;
+        if (this.isNotAccessReport(pe)) {
+            return null;
         }
-        List<Patient_Visit__c> patientVisits = visitResultsService.getPatientVisitsForReport();
+        List<Patient_Visit__c> patientVisits = visitResultsService.getPatientVisitsForReport(pe);
         if (patientVisits.isEmpty()) {
-            return result;
+            return null;
         }
         List<Visit_Result_GroupM__mdt> visitResultGroupMS = visitResultMService.getVisitResultGroups(true, null);
-        Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap = this.getDataTableWrappersByGroupName(patientVisits, visitResultGroupMS);
+        Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap = this.getDataTableWrappersByGroupName(pe, patientVisits, visitResultGroupMS);
         if (reportDataWrapperMap.isEmpty()) {
-            return result;
+            return null;
         }
-        VisitReportContainerRemote.ReportDataWrapper reportDataWrapper = this.getFillReportData(reportDataWrapperMap, visitResultGroupMS);
-        result.add(reportDataWrapper);
-        return result;
+        return getFillReportData(reportDataWrapperMap, visitResultGroupMS, pe);
     }
 
     @TestVisible
     private Map<String, VisitReportContainerRemote.ReportDataTableWrapper> getDataTableWrappersByGroupName(
+            Participant_Enrollment__c pe,
             List<Patient_Visit__c> patientVisits,
             List<Visit_Result_GroupM__mdt> visitResultGroupMS
     ) {
         VisitResultSharingService visitResultSharingServiceInt = ((VisitResultSharingService) ClassFactory.newInstance(VisitResultSharingService.class));
         Map<String, VisitReportContainerRemote.ReportDataTableWrapper> result = new Map<String, VisitReportContainerRemote.ReportDataTableWrapper>();
-        Map<Id, List<VisitResultWrapper>> availableVisitResultTypeMSByGroupIds = visitResultSharingServiceInt.geAvailableVisitResultTypeMSByGroupIds(visitResultGroupMS);
-        Map<Id, Map<String, Visit_Result__c>> availableVisitResultsByPatientVisitIds = visitResultSharingServiceInt.getAvailableVisitResultsByPatientVisitIds(patientVisits);
+        Map<Id, List<VisitResultWrapper>> availableVisitResultTypeMSByGroupIds = visitResultSharingServiceInt.geAvailableVisitResultTypeMSByGroupIds(pe, visitResultGroupMS);
+        Map<Id, Map<String, Visit_Result__c>> availableVisitResultsByPatientVisitIds = visitResultSharingServiceInt.getAvailableVisitResultsByPatientVisitIds(pe, patientVisits);
         Set<String> notAccessResultType = visitResultSharingServiceInt.getNotAccessResultType();
         for (Patient_Visit__c patientVisit : patientVisits) {
             if (availableVisitResultsByPatientVisitIds.containsKey(patientVisit.Id)) {
@@ -89,23 +88,22 @@ public inherited sharing class VisitReportService {
     @TestVisible
     private VisitReportContainerRemote.ReportDataWrapper getFillReportData(
             Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap
-            , List<Visit_Result_GroupM__mdt> visitResultGroupMS
+            , List<Visit_Result_GroupM__mdt> visitResultGroupMS, Participant_Enrollment__c pe
     ) {
-        ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
         VisitReportContainerRemote.ReportDataWrapper result = new VisitReportContainerRemote.ReportDataWrapper();
         List<VisitReportContainerRemote.ReportDataTableWrapper> sortReportDataTableWrappers = this.getSortedReportDataTableWrappers(reportDataWrapperMap, visitResultGroupMS);
         result.dataTables = sortReportDataTableWrappers;
-        result.studyCodeName = pState.ctp.Study_Code_Name__c;
-        result.studyTitle = pState.ctp.Study_Title__c;
-        result.profilePicture = pState.ctp.Profile_Picture__c;
-        result.participantFullName = pState.participant.Full_Name__c;
-        result.participantLastName = pState.participant.Last_Name__c;
-        if (pState.pe.Enrolled_Date__c != null) {
-            Datetime dT = pState.pe.Enrolled_Date__c;
+        result.studyCodeName = pe.Clinical_Trial_Profile__r.Study_Code_Name__c;
+        result.studyTitle = pe.Clinical_Trial_Profile__r.Study_Title__c;
+        result.profilePicture = pe.Clinical_Trial_Profile__r.Profile_Picture__c;
+        result.participantFullName = pe.Participant__r.Full_Name__c;
+        result.participantLastName = pe.Participant__r.Last_Name__c;
+        if (pe.Enrolled_Date__c != null) {
+            Datetime dT = pe.Enrolled_Date__c;
             Date myDate = Date.newInstance(dT.year(), dT.month(), dT.day());
             result.enrollmentDate = DateService.format(myDate, 'DD-MMM-YYYY');
         }
-        result.studySiteName = pState.pe.Study_Site__r.Name;
+        result.studySiteName = pe.Study_Site__r.Name;
         return result;
     }
 
@@ -154,12 +152,9 @@ public inherited sharing class VisitReportService {
     }
 
     @TestVisible
-    private Boolean isNotAccessReport() {
-        ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
-        return !ParticipantService.ParticipantStates.ALUMNI.equals(pState.value)
-                || pState.isDelegate
-                || !pState.pe.Participant_Contact__r.Visit_Results_Opt_In__c
-                || !VisitResultSharingService.isVisitResultAvailable();
+    private Boolean isNotAccessReport(Participant_Enrollment__c pe) {
+        return !PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)
+                || !pe.Participant_Contact__r.Visit_Results_Opt_In__c;
     }
 
     public class VisitResultWrapper implements Comparable {
