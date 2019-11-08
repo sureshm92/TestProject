@@ -94,8 +94,7 @@ public without sharing class TrialService {
         if(trials.size() > 0){
             String language = UserInfo.getLanguage();
             if(CommunityService.getUserContact().userCommunityMode__c.equals(CommunityService.USER_MODE_PARTICIPANT)) {
-                language =
-                        IRBParticipantService.getIRBLanguageMode(ParticipantService.getParticipantState().pe.Id).languageToTranslate;
+                language = IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
             }
             TranslateHelper.translate(trials[0], language);
             return trials[0];

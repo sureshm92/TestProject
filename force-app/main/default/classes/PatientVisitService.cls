@@ -39,7 +39,7 @@ public inherited sharing class PatientVisitService {
 
         List<Patient_Visit__c> visits = (List<Patient_Visit__c>)
                 DatabaseService.query(fields, Patient_Visit__c.getSObjectType(), filter, order, limitVisits);
-        TranslateHelper.translate(visits, IRBParticipantService.getIRBLanguageMode(pState.pe.Id).languageToTranslate);
+        TranslateHelper.translate(visits, IRBParticipantService.getSuitableLanguageForIRBTranslation(pState.pe.Id));
         return visits;
     }
 
