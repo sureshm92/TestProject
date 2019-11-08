@@ -9,18 +9,9 @@ public inherited sharing class VisitReportService {
         Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, CommunityService.USER_MODE_PARTICIPANT);
         VisitResultsService visitResultsService = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class));
         VisitResultMService visitResultMService = ((VisitResultMService) ClassFactory.newInstance(VisitResultMService.class));
-        if (this.isNotAccessReport(pe)) {
-            return null;
-        }
         List<Patient_Visit__c> patientVisits = visitResultsService.getPatientVisitsForReport(pe);
-        if (patientVisits.isEmpty()) {
-            return null;
-        }
         List<Visit_Result_GroupM__mdt> visitResultGroupMS = visitResultMService.getVisitResultGroups(true, null);
-        Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap = this.getDataTableWrappersByGroupName(pe, patientVisits, visitResultGroupMS);
-        if (reportDataWrapperMap.isEmpty()) {
-            return null;
-        }
+        Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap = getDataTableWrappersByGroupName(pe, patientVisits, visitResultGroupMS);
         return getFillReportData(reportDataWrapperMap, visitResultGroupMS, pe);
     }
 
