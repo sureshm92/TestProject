@@ -42,7 +42,7 @@
         var spinner = component.find('recordsSpinner');
         spinner.show();
         var filter = component.get('v.peFilter');
-        var listOfFilters = ['activePE','study','studySite','source','participantStatus'];
+       /* var listOfFilters = ['activePE','study','studySite','source','participantStatus'];
         if(event.getParam('index')){
             if(listOfFilters.includes(event.getParam('index'))) {
                 var startIndex = listOfFilters.indexOf(event.getParam('index'));
@@ -50,7 +50,7 @@
                     filter[listOfFilters[i]] = null;
                 }
             }
-        }
+        }*/
         var searchText = filter.searchText;
         var filterJSON = JSON.stringify(filter);
         debugger;
