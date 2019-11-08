@@ -9,6 +9,7 @@
     <aura:attribute name="userMode" type="String" description="HCP/PI/Patient"/>
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="detailsExpanded" type="Boolean"/>
+    <aura:attribute name="searchItem" type="Boolean" default="false"/>
     <aura:attribute name="accessUserLevel" type="String"/>
 
     <!-- component body: -->
