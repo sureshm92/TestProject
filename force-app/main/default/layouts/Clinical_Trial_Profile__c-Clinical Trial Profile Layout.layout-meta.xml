@@ -33,10 +33,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Profile_Picture__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Visit_Plan__c</field>
             </layoutItems>
         </layoutColumns>
