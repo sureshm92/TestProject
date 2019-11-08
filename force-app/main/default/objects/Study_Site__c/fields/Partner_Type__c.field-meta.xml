@@ -17,6 +17,46 @@
                 <default>false</default>
                 <label>QCare</label>
             </value>
+            <value>
+                <fullName>5</fullName>
+                <default>false</default>
+                <label>CRC Aided Sites</label>
+            </value>
+            <value>
+                <fullName>3</fullName>
+                <default>false</default>
+                <label>Q Capital investment</label>
+            </value>
+            <value>
+                <fullName>7</fullName>
+                <default>false</default>
+                <label>Oncology</label>
+            </value>
+            <value>
+                <fullName>4</fullName>
+                <default>false</default>
+                <label>Quintiles Owned Facility</label>
+            </value>
+            <value>
+                <fullName>1</fullName>
+                <default>false</default>
+                <label>Mutual Relationship</label>
+            </value>
+            <value>
+                <fullName>6</fullName>
+                <default>false</default>
+                <label>Prime Site</label>
+            </value>
+            <value>
+                <fullName>10</fullName>
+                <default>false</default>
+                <label>General Medicine</label>
+            </value>
+            <value>
+                <fullName>12</fullName>
+                <default>false</default>
+                <label>SRM Support</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
