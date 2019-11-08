@@ -48,7 +48,6 @@ public inherited sharing class VisitReportService {
                         reportRowWrappers.add(new VisitReportContainerRemote.VisitDateColumnWrapper(patientVisit.Completed_Date__c));
                         Boolean isResult = false;
                         for (VisitResultWrapper visitResultWrapper : availableVisitResultSortWrappers) {
-                            System.debug('XXXXX_' + notAccessResultType);
                             if (!notAccessResultType.contains(visitResultWrapper.visitResultTypeM.DeveloperName)) {
                                 if (availableVisitResultsByResultType.containsKey(visitResultWrapper.visitResultTypeM.DeveloperName)) {
                                     this.fillDataFromExistingVisit(
