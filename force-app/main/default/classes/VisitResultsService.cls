@@ -29,7 +29,7 @@ public inherited sharing class VisitResultsService {
         }
 
         String languageToTranslate =
-                IRBParticipantService.getIRBLanguageMode(ParticipantService.getParticipantState().pe.Id).languageToTranslate;
+                IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
         for (Visit_Result_TypeM_Dashboard_Config__mdt singleConfig : configs) {
             Visit_Result__c visitResult = visitResultValuesByNames.get(singleConfig.Visit_Result_Type__r.DeveloperName);
             if (visitResult != null && visitResult.Actual_Value__c != null) {
@@ -40,13 +40,7 @@ public inherited sharing class VisitResultsService {
         return listIsNotEmpty ? wrappers : new List<VisitResultWrapper>();
     }
 
-    public List<Patient_Visit__c> getPatientVisitsForReport() {
-
-        ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
-        if (pState == null || pState.ctp == null || pState.ctp.Visit_Plan__c == null || pState.pe == null) {
-            return new List<Patient_Visit__c>();
-        }
-
+    public List<Patient_Visit__c> getPatientVisitsForReport(Participant_Enrollment__c pe) {
         String visitsQuery = 'SELECT ' +
                 'Name, ' +
                 'Completed_Date__c, ' +
@@ -55,11 +49,9 @@ public inherited sharing class VisitResultsService {
                 'Participant_Enrollment__r.Participant__r.Last_Name__c, ' +
                 '(SELECT Name, Actual_Value__c, Min_Value__c, Max_Value__c, Measurement__c, Result_Type__c, Patient_Visit__r.Visit_Number__c FROM Visit_Results__r) ' +
                 'FROM Patient_Visit__c ' +
-                'WHERE Visit__r.Visit_Plan__c = \'' + pState.ctp.Visit_Plan__c + '\'' +
-                ' AND Participant_Enrollment__c = \'' + pState.pe.Id + '\'' +
+                'WHERE Participant_Enrollment__c = \'' + pe.Id + '\'' +
                 ' AND Status__c = \'Completed\'' +
                 ' ORDER BY Completed_Date__c NULLS LAST';
-
         return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(visitsQuery, true);
     }
 
@@ -68,7 +60,7 @@ public inherited sharing class VisitResultsService {
         List<Visit_Result__c> visitResults = VisitResultSharingService.processResults();
 
         String languageToTranslate =
-                IRBParticipantService.getIRBLanguageMode(ParticipantService.getParticipantState().pe.Id).languageToTranslate;
+                IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
         return visitResults.isEmpty()
                 ? null
                 : new VisitResultsContainer(

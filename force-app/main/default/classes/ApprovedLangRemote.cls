@@ -6,7 +6,7 @@ public without sharing class ApprovedLangRemote {
 
     public static final String FEATURE_APPROVED_LANGS = 'Approved_Languages';
 
-    public static List<LabelValueItem> languagesValueItems = getLanguages();
+    public static List<LabelValueItem> languagesValueItems = IRBParticipantService.getLanguages();
     public static List<Study_Site__c> ctpStudySites;
 
     public static final String QUERY_MAIN_FILTER = 'Clinical_Trial_Profile__c = \'ctpId\'';
@@ -430,15 +430,6 @@ public without sharing class ApprovedLangRemote {
         }
 
         return getStudySites(filter);
-    }
-
-    public static List<LabelValueItem> getLanguages() {
-        List<LabelValueItem> languages = new List<LabelValueItem>();
-        Schema.DescribeFieldResult fieldResult = Study_Site__c.Approved_Lng__c.getDescribe();
-        List<Schema.PicklistEntry> entries = fieldResult.getPicklistValues();
-        for (Schema.PicklistEntry entry : entries) languages.add(new LabelValueItem(entry.getLabel(), entry.getValue()));
-
-        return languages;
     }
 
     public static List<String> getListByString(String toSplit) {

@@ -5,12 +5,12 @@
                 "type": "Visit__c",
                 "referenceId": "Visit__cRef1"
             },
-            "Name": "Clinical Visit 2",
-            "Patient_Portal_Name__c": "Clinical Visit 2",
+            "Name": "Clinical Visit 1",
+            "Patient_Portal_Name__c": "Clinical Visit 1",
             "Icons__c": "icon-questionnaires;icon-ecg;icon-vital-signs;icon-blood-test;icon-pregnancy;icon-brief-ph-ex;icon-joint;icon-lung-test;icon-lung-check;icon-x-rays;icon-questions",
-            "Order__c": 10,
-			"Visit_Schedule__c": "Week 10",
-			"Visit_Number__c": 10,
+            "Order__c": 1,
+            "Visit_Schedule__c": "Week 1",
+            "Visit_Number__c": 1,
             "Visit_Plan__c": "@vsp"
         },
         {
@@ -21,9 +21,9 @@
             "Name": "Clinical Visit 2",
             "Patient_Portal_Name__c": "Clinical Visit 2",
             "Icons__c": "icon-questionnaires;icon-brief-ph-ex",
-            "Order__c": 9,
-			"Visit_Schedule__c": "Week 9",
-			"Visit_Number__c": 9,
+            "Order__c": 2,
+            "Visit_Schedule__c": "Week 2",
+            "Visit_Number__c": 2,
             "Visit_Plan__c": "@vsp"
         },
         {
@@ -31,12 +31,12 @@
                 "type": "Visit__c",
                 "referenceId": "Visit__cRef3"
             },
-            "Name": "Clinical Visit 2",
-            "Patient_Portal_Name__c": "Clinical Visit 2",
+            "Name": "Clinical Visit 3",
+            "Patient_Portal_Name__c": "Clinical Visit 3",
             "Icons__c": "icon-questionnaires;icon-brief-ph-ex",
-            "Order__c": 8,
-			"Visit_Schedule__c": "Week 8",
-			"Visit_Number__c": 8,
+            "Order__c": 3,
+            "Visit_Schedule__c": "Week 3",
+            "Visit_Number__c": 3,
             "Visit_Plan__c": "@vsp"
         },
         {
@@ -44,12 +44,12 @@
                 "type": "Visit__c",
                 "referenceId": "Visit__cRef4"
             },
-            "Name": "Visit 1 Physical",
-            "Patient_Portal_Name__c": "Visit 1 Physical",
+            "Name": "Clinical Visit 4",
+            "Patient_Portal_Name__c": "Clinical Visit 3",
             "Icons__c": "icon-questionnaires;icon-blood-test;icon-brief-ph-ex",
-            "Order__c": 1,
-			"Visit_Schedule__c": "Week 1",
-			"Visit_Number__c": 1,
+            "Order__c": 4,
+            "Visit_Schedule__c": "Week 4",
+            "Visit_Number__c": 4,
             "Visit_Plan__c": "@vsp"
         },
         {
@@ -57,12 +57,12 @@
                 "type": "Visit__c",
                 "referenceId": "Visit__cRef5"
             },
-            "Name": "Clinical Visit 1",
-            "Patient_Portal_Name__c": "Clinical Visit 1",
+            "Name": "Clinical Visit 5",
+            "Patient_Portal_Name__c": "Clinical Visit 5",
             "Icons__c": "icon-questionnaires;icon-blood-test;icon-brief-ph-ex",
-            "Order__c": 3,
-			"Visit_Schedule__c": "Week 3",
-			"Visit_Number__c": 3,
+            "Order__c": 5,
+            "Visit_Schedule__c": "Week 5",
+            "Visit_Number__c": 5,
             "Visit_Plan__c": "@vsp"
         },
         {
@@ -70,12 +70,12 @@
                 "type": "Visit__c",
                 "referenceId": "Visit__cRef6"
             },
-            "Name": "Visit 2 Lab Visit",
-            "Patient_Portal_Name__c": "Visit 2 Lab Visit",
+            "Name": "Visit 6",
+            "Patient_Portal_Name__c": "Visit 6",
             "Icons__c": "icon-questionnaires;icon-ecg;icon-vital-signs;icon-blood-test;icon-pregnancy;icon-joint;icon-lung-test;icon-lung-check",
-            "Order__c": 2,
-			"Visit_Schedule__c": "Week 2",
-			"Visit_Number__c": 2,
+            "Order__c": 6,
+            "Visit_Schedule__c": "Week 6",
+            "Visit_Number__c": 6,
             "Visit_Plan__c": "@vsp"
         },
         {
@@ -83,12 +83,12 @@
                 "type": "Visit__c",
                 "referenceId": "Visit__cRef7"
             },
-            "Name": "Clinical Visit 2",
-            "Patient_Portal_Name__c": "Clinical Visit 2",
+            "Name": "Clinical Visit 7",
+            "Patient_Portal_Name__c": "Clinical Visit 7",
             "Icons__c": "icon-questionnaires;icon-brief-ph-ex",
-            "Order__c": 4,
-			"Visit_Schedule__c": "Week 4",
-			"Visit_Number__c": 4,
+            "Order__c": 7,
+            "Visit_Schedule__c": "Week 7",
+            "Visit_Number__c": 7,
             "Visit_Plan__c": "@vsp"
         }
     ]
