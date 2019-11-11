@@ -82,7 +82,7 @@ public without sharing class SurveyService {
                     today.month(),
                     today.day()
             );
-            invitation.InviteExpiryDateTime = expiry;
+            invitation.ExpireDateTime__c = expiry;
         }
 
         return invitation;
@@ -114,7 +114,7 @@ public without sharing class SurveyService {
                     today.month(),
                     today.day()
             );
-            invitation.InviteExpiryDateTime = expiry;
+            invitation.ExpireDateTime__c = expiry;
         }
 
         return invitation;
@@ -133,8 +133,8 @@ public without sharing class SurveyService {
     }
 
     public Boolean isInvitationExpired(Id invitationId) {
-        SurveyInvitation invitation = [SELECT InviteExpiryDateTime, Is_Expired__c FROM SurveyInvitation WHERE Id = :invitationId];
-        return (invitation.InviteExpiryDateTime <= Datetime.now()) || invitation.Is_Expired__c;
+        SurveyInvitation invitation = [SELECT ExpireDateTime__c, Is_Expired__c FROM SurveyInvitation WHERE Id = :invitationId];
+        return (invitation.Is_Expired__c || invitation.ExpireDateTime__c <= Datetime.now());
     }
 
     public Boolean expireInvitation(List<Id> invitationIds) {

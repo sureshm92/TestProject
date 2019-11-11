@@ -35,7 +35,7 @@ public without sharing class SurveyResponseTriggerHandler {
     public static void taskStatusChanger(Map<Id, List<Id>> invitationSubmitter, Boolean forFinish) {
         Map<Id, SurveyInvitation> invitationMap = new Map<Id, SurveyInvitation>([
                 SELECT
-                        InviteExpiryDateTime,
+                        ExpireDateTime__c,
                         Participant_Enrollment__r.Participant_Contact__c
                 FROM SurveyInvitation
                 WHERE Id IN:invitationSubmitter.keySet()
@@ -64,7 +64,7 @@ public without sharing class SurveyResponseTriggerHandler {
                         if(forFinish) {
                             TaskService.getInstance().completeTask(t);
                             if(t.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
-                                if(!Test.isRunningTest()) invitationMap.get(t.Description).InviteExpiryDateTime = System.now();
+                                if(!Test.isRunningTest()) invitationMap.get(t.Description).ExpireDateTime__c = System.now();
                             }
                         } else if(t.Status != TaskService.TASK_STATUS_COMPLETED){
                             t.Status = TaskService.TASK_STATUS_IN_PROGRESS;
@@ -74,7 +74,7 @@ public without sharing class SurveyResponseTriggerHandler {
                         if(t.WhoId == invitationMap.get(t.Description).Participant_Enrollment__r.Participant_Contact__c) {
                             if(forFinish) {
                                 TaskService.getInstance().completeTask(t);
-                                if(!Test.isRunningTest()) invitationMap.get(t.Description).InviteExpiryDateTime = System.now();
+                                if(!Test.isRunningTest()) invitationMap.get(t.Description).ExpireDateTime__c = System.now();
                             } else if(t.Status != TaskService.TASK_STATUS_COMPLETED){
                                 t.Status = TaskService.TASK_STATUS_IN_PROGRESS;
                             }
