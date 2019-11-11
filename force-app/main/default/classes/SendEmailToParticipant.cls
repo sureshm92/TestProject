@@ -42,7 +42,31 @@ public without sharing class SendEmailToParticipant {
 
     public static void sendEmailReminderForTask(Task task) {
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-        if (task.WhatId != null && task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType() && task.Task_Type__c != null) {
+        if (task.Task_Type__c == 'Not Selected') {
+            User user = [
+                    SELECT
+                            Id,
+                            ContactId,
+                            Contact.Participant_Opt_In_Status_Emails__c
+                    FROM User
+                    WHERE Id = :task.OwnerId
+            ];
+            addPatientToEmailListIfAvailable(
+                    emailMessages,
+                    user.Contact,
+                    EMAIL_TEMPLATE_NO_TYPE_TASK,
+                    task.Id
+            );
+            addMessagesForDelegates(
+                    emailMessages,
+                    PatientDelegateService.getDelegatedContactIds(user.ContactId),
+                    EMAIL_TEMPLATE_NO_TYPE_TASK_DELEGATE,
+                    task.Id
+            );
+
+        } else if (task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
+            emailMessages.addAll(sendEmailSurveyNotification(task));
+        } else if (task.WhatId != null && task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType() && task.Task_Type__c != null) {
             System.debug('WhatId != null');
             Participant_Enrollment__c pe = [
                     SELECT
@@ -66,32 +90,6 @@ public without sharing class SendEmailToParticipant {
                     task.WhatId
             );
         }
-
-        if (task.Task_Type__c == 'Not Selected') {
-            User user = [
-                    SELECT
-                            Id,
-                            ContactId,
-                            Contact.Participant_Opt_In_Status_Emails__c
-                    FROM User
-                    WHERE Id = :task.OwnerId
-            ];
-            addPatientToEmailListIfAvailable(
-                    emailMessages,
-                    user.Contact,
-                    EMAIL_TEMPLATE_NO_TYPE_TASK,
-                    task.Id
-            );
-            addMessagesForDelegates(
-                    emailMessages,
-                    PatientDelegateService.getDelegatedContactIds(user.ContactId),
-                    EMAIL_TEMPLATE_NO_TYPE_TASK_DELEGATE,
-                    task.Id
-            );
-
-        }
-
-        if (task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) emailMessages.addAll(sendEmailSurveyNotification(task));
 
         SendEmailTemplate.sendEmailMessages(emailMessages);
         System.debug('EMAIL MESSAGES: ' + emailMessages.size());

@@ -15,57 +15,7 @@ private class Test_VisitResultsService {
 
         System.assert( testNames[0].equals('Vitals'));
     }
-
-    @IsTest
-    private static void getPatientVisitsForReportWithPse_test() {
-        VisitResultsService service = new VisitResultsService();
-        ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
-        Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c();
-        ctp.Visit_Plan__c = TestDataFactory.getFakeId(Visit_Plan__c.getSObjectType());
-        pState.ctp = ctp;
-        Participant_Enrollment__c pe = new Participant_Enrollment__c();
-        pState.pe = pe;
-        List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>{
-                new Patient_Visit__c(),
-                new Patient_Visit__c()
-        };
-
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubBuilder.newInstance(ParticipantService.class)
-                .when('getState')
-                .then(pState)
-                .build()
-        );
-        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubBuilder.newInstance(DatabaseProxy.class)
-                .when('query')
-                .then(patientVisits)
-                .build()
-        );
-
-        Test.startTest();
-        List<Patient_Visit__c> testPatientVisits = service.getPatientVisitsForReport();
-        Test.stopTest();
-
-        System.assertEquals(2, testPatientVisits.size());
-    }
-
-    @IsTest
-    private static void getPatientVisitsForReportWithOutPse_test() {
-        VisitResultsService service = new VisitResultsService();
-        ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubBuilder.newInstance(ParticipantService.class)
-                .when('getState')
-                .then(pState)
-                .build()
-        );
-
-        Test.startTest();
-        List<Patient_Visit__c> visits = service.getPatientVisitsForReport();
-        Test.stopTest();
-        System.assert(visits.isEmpty());
-    }
-
+    
     @IsTest
     private static void getVisitResultWrappersForDashboard_test() {
         VisitResultsService service = new VisitResultsService();
@@ -345,42 +295,4 @@ private class Test_VisitResultsService {
         Test.stopTest();
     }
 
-    @IsTest
-    private static void checkOnAccess_test() {
-        VisitReportService service = new VisitReportService();
-        TestData.loadTestData();
-        TestData testData = new TestData();
-        testData.ctp.Shareback_Availability_Timing__c = 1;
-        update testData.ctp;
-
-        Test.startTest();
-        testData.updatePEStatusEnrollmentSuccess();
-
-        ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
-        pState.pe = [
-                SELECT Id,
-                        Participant_Contact__c,
-                        Screening_ID__c,
-                        CreatedDate,
-                        Study_Site__r.Name,
-                        Participant_Contact__r.Visit_Results_Opt_In__c
-                FROM Participant_Enrollment__c
-                WHERE Participant__c = :testData.participant.Id
-        ];
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubBuilder.newInstance(ParticipantService.class)
-                .when('getState')
-                .then(pState)
-                .build()
-        );
-
-        Boolean access;
-        System.runAs(testData.participantUser) {
-            access = service.isNotAccessReport();
-        }
-
-        Test.stopTest();
-
-        System.assertEquals(true, access);
-    }
 }

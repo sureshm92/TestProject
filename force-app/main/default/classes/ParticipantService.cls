@@ -53,8 +53,7 @@ public without sharing class ParticipantService {
                 participantState.pe = pe;
                 participantState.isDelegate = pe.Participant__r.Contact__c != userContact.Id;
                 participantState.ctp = participantState.pe.Clinical_Trial_Profile__r;
-                TranslateHelper.translate(participantState.ctp,
-                        IRBParticipantService.getIRBLanguageMode(participantState.pe.Id).languageToTranslate);
+                TranslateHelper.translate(participantState.pe, IRBParticipantService.getSuitableLanguageForIRBTranslation(pe.Id));
                 participantState.showTerms = showTerms();
                 participantState.isPremium = participantState.ctp.Patient_Portal_Enabled__c;
                 if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
