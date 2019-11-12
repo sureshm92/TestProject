@@ -6,8 +6,6 @@
 
     <!-- attributes: -->
     <aura:attribute name="studySite" type="Object"/>
-    <aura:attribute name="siteWrapper" type="Object"/>
-    <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="studySiteAccounts" type="List"/>
     <aura:attribute name="callback" type="Object" access="private"/>
     <aura:attribute name="locationWasChanged" type="Boolean" default="false"/>
@@ -16,7 +14,6 @@
     <!-- methods: -->
     <aura:method name="execute" action="{!c.doExecute}">
         <aura:attribute name="studySiteWrapper" type="Object"/>
-        <aura:attribute name="parent" type="Aura.Component"/>
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
 
