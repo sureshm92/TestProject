@@ -163,6 +163,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_UpdateActivityDateTimeOldUsers</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_UpdateNotifyDateOldUsers</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1223,6 +1227,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_Batch_UpdateActivityDateTime</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Batch_UpdateNotifyDateOldUsers</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1788,6 +1796,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>XLF_PatternListRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>XLF_RemoteActionResult</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -5443,6 +5455,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Visit_Results_Sharing__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>SurveyInvitation.ExpireDateTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -71,8 +71,8 @@
                     radioBtns[i].set('v.checked', false);
                 }
             }
-            component.get('v.callback')(studySite, accountsList);
-            component.find('manageLocation').cancel();
+            //component.get('v.callback')(studySite, accountsList);
+            component.find('manageLocation').hide();
             component.find('manageLocation').show();
             communityService.showToast('success', 'success', $A.get('$Label.c.SS_Success_Save_Message'));
         });

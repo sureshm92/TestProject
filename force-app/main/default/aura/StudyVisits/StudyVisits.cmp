@@ -54,7 +54,17 @@
                                 data-visit-id="{!visitWrapper.visit.Id}"
                                 data-task-id="{!visitWrapper.task.Id}"
                                 onclick="{!c.createEditTask}">
-                                {!visitWrapper.task == null ? $Label.c.Create : visitWrapper.reminderDate}
+                                <aura:if isTrue="{!visitWrapper.task == null}">
+                                    {!$Label.c.Create}
+                                    <aura:set attribute="else">
+                                        <aura:if isTrue="{!visitWrapper.task.ReminderDateTime == null}">
+                                            {!$Label.c.Home_Page_StudyVisit_No_Reminder_Date}
+                                            <aura:set attribute="else">
+                                                <ui:outputDate value="{!visitWrapper.reminderDate}"/>
+                                            </aura:set>
+                                        </aura:if>
+                                    </aura:set>
+                                </aura:if>
                             </td>
                             <td class="{!v.visitMode == v.visitModeCurrent ? 'invisible' : 'sv-t-completed-date'}">{!visitWrapper.completedDate}</td>
                         </tr>
