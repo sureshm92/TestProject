@@ -6,7 +6,9 @@
     doExecute: function (component, event, helper) {
         var params = event.getParam('arguments');
         var ssWrapper = JSON.parse(JSON.stringify(params.studySiteWrapper));
+        component.set('v.siteWrapper', params.studySiteWrapper);
         component.set('v.studySite', ssWrapper.studySite);
+        component.set('v.parent', params.parent);
         helper.sortAndSetAccountsByName(component, ssWrapper.accounts);
         if (params.callback) component.set('v.callback', $A.getCallback(params.callback));
         component.find('manageLocation').show();
@@ -72,6 +74,10 @@
                 }
             }
             //component.get('v.callback')(studySite, accountsList);
+            var ssWrap = component.get('v.siteWrapper');
+            ssWrap.studySite = studySite;
+            ssWrap.accounts = accountsList;
+            component.get('v.parent').set('v.siteWrapper',ssWrap);
             component.find('manageLocation').hide();
             component.find('manageLocation').show();
             communityService.showToast('success', 'success', $A.get('$Label.c.SS_Success_Save_Message'));
