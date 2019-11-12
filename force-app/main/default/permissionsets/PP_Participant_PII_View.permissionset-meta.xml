@@ -276,7 +276,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Participant_Enrollment__c.Referral_Completed_by__c</field>
         <readable>true</readable>
     </fieldPermissions>

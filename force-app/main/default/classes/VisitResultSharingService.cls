@@ -7,14 +7,13 @@ public without sharing class VisitResultSharingService {
     private static ParticipantService.ParticipantState state;
     private static Boolean onStudy;
     private static Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType;
-    private static Set<String> notAccessResultType;
+    private static Set<String> notAccessResultType = new Set<String>();
 
     static {
         if ([SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId()].ContactId != null) {
             state = ParticipantService.getParticipantState();
             onStudy = PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(state.pe.Participant_Status__c) ||
                     PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(state.pe.Participant_Status__c);
-            notAccessResultType = new Set<String>();
         }
     }
 
@@ -98,12 +97,12 @@ public without sharing class VisitResultSharingService {
         return filteredResults;
     }
 
-    public  Map<Id, Map<String, Visit_Result__c>> getAvailableVisitResultsByPatientVisitIds(List<Patient_Visit__c> patientVisits) {
+    public  Map<Id, Map<String, Visit_Result__c>> getAvailableVisitResultsByPatientVisitIds(Participant_Enrollment__c pe, List<Patient_Visit__c> patientVisits) {
         Map<Id, Map<String, Visit_Result__c>> resultMap = new Map<Id, Map<String, Visit_Result__c>>();
         if (visitResultTypeSharingByType == null) {
-            visitResultTypeSharingByType = getResultTypeSharingsByType(getCTP(state.ctp.Id).Visit_Result_Type_Sharings__r);
+            visitResultTypeSharingByType = getResultTypeSharingsByType(getCTP(pe.Clinical_Trial_Profile__c).Visit_Result_Type_Sharings__r);
         }
-        String mailingCountryCode = state.pe.Participant__r.Mailing_Country_Code__c;
+        String mailingCountryCode = pe.Participant__r.Mailing_Country_Code__c;
         for (Patient_Visit__c patientVisit : patientVisits) {
             Map<String, Visit_Result__c> filteredResultsByType = new Map<String, Visit_Result__c>();
             if (!patientVisit.Visit_Results__r.isEmpty()) {
@@ -132,9 +131,9 @@ public without sharing class VisitResultSharingService {
         return notAccessResultType;
     }
 
-    public Map<Id, List<VisitReportService.VisitResultWrapper>> geAvailableVisitResultTypeMSByGroupIds(List<Visit_Result_GroupM__mdt> visitResultGroupMs) {
+    public Map<Id, List<VisitReportService.VisitResultWrapper>> geAvailableVisitResultTypeMSByGroupIds(Participant_Enrollment__c pe, List<Visit_Result_GroupM__mdt> visitResultGroupMs) {
         if (visitResultTypeSharingByType == null) {
-            visitResultTypeSharingByType = getResultTypeSharingsByType(getCTP(state.ctp.Id).Visit_Result_Type_Sharings__r);
+            visitResultTypeSharingByType = getResultTypeSharingsByType(getCTP(pe.Clinical_Trial_Profile__c).Visit_Result_Type_Sharings__r);
         }
         Map<Id, List<VisitReportService.VisitResultWrapper>> visitResultTypeMSByGroupIds = new Map<Id, List<VisitReportService.VisitResultWrapper>>();
         for (Visit_Result_GroupM__mdt groupM : visitResultGroupMs) {
