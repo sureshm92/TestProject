@@ -27,15 +27,13 @@ public inherited sharing class VisitReportContainerRemote {
     }
 
     @AuraEnabled
-    public static String getReportDataWrappers() {
-        List<VisitReportContainerRemote.ReportDataWrapper> reportDataWrappers = new List<VisitReportContainerRemote.ReportDataWrapper>();
+    public static ReportDataWrapper getReportDataWrappers(Id peId) {
         try {
             VisitReportService visitReportService = ((VisitReportService) ClassFactory.newInstance(VisitReportService.class));
-            reportDataWrappers = visitReportService.getReportDataWrapper();
+            return visitReportService.getReportDataWrapper(peId);
         } catch (Exception e) {
-            AuraHelper.throwException(e);
+            return (ReportDataWrapper) AuraHelper.throwException(e);
         }
-        return JSON.serialize(reportDataWrappers);
     }
 
     public class ReportDataWrapper {
@@ -76,11 +74,11 @@ public inherited sharing class VisitReportContainerRemote {
         @AuraEnabled
         public String descriptionLab;
 
-        public LabsNameDescriptionWrapper(Visit_Result_TypeM__mdt visitResultTypeM) {
+        public LabsNameDescriptionWrapper(Visit_Result_TypeM__mdt visitResultTypeM, String language) {
             this.nameLabs = differentLabNames.contains(visitResultTypeM.DeveloperName)
-                    ? TranslateHelper.getLabelValue(visitResultTypeM.DeveloperName + '_Name_Labs')
-                    : TranslateHelper.getLabelValue(visitResultTypeM.DeveloperName);
-            this.descriptionLab = TranslateHelper.getLabelValue(visitResultTypeM.Description_Label_Api_Name__c);
+                    ? TranslateHelper.getLabelValue(visitResultTypeM.DeveloperName + '_Name_Labs', language)
+                    : TranslateHelper.getLabelValue(visitResultTypeM.DeveloperName, language);
+            this.descriptionLab = TranslateHelper.getLabelValue(visitResultTypeM.Description_Label_Api_Name__c, language);
         }
     }
 

@@ -21,12 +21,12 @@ public class TestData {
         participant = [
                 SELECT Id, Name
                 FROM Participant__c
-                WHERE Last_Name__c = 'Participant'
+                WHERE Last_Name__c = 'ParticipantTD'
         ];
         List<String> contactLastNames = new List<String>{
                 participant.Name,
-                'HCP',
-                'PI'
+                'HCPTD',
+                'PITD'
         };
         List<User> users = [
                 SELECT Id, ContactId, LastName
@@ -34,8 +34,8 @@ public class TestData {
                 WHERE Contact.LastName IN: contactLastNames
         ];
         for(User user : users){
-            if(user.LastName == 'PI') piUser = user;
-            if(user.LastName == 'HCP') hcpUser = user;
+            if(user.LastName == 'PITD') piUser = user;
+            if(user.LastName == 'HCPTD') hcpUser = user;
             if(user.LastName == participant.Name) participantUser = user;
         }
         ctp = [
@@ -62,7 +62,7 @@ public class TestData {
         hcpEnrollment = [
                 SELECT Id
                 FROM HCP_Enrollment__c
-                WHERE HCP_Contact__r.LastName = 'HCP' LIMIT 1
+                WHERE HCP_Contact__r.LastName = 'HCPTD' LIMIT 1
         ];
     }
 
@@ -145,16 +145,16 @@ public class TestData {
     
         List<Contact> contacts = new List<Contact>();
         Contact piContact = new Contact(
-                FirstName = 'PI',
-                LastName = 'PI',
+                FirstName = 'PITD',
+                LastName = 'PITD',
                 Email = 'pi@emil.com',
                 AccountId = piAccount.Id
         );
         contacts.add(piContact);
 
         hcpContact = new Contact(
-                FirstName = 'HCP',
-                LastName = 'HCP',
+                FirstName = 'HCPTD',
+                LastName = 'HCPTD',
                 Email = 'hcp@emil.com',
                 AccountId = hcpAccount.Id,
                 MailingLatitude = 40.766594,
@@ -163,7 +163,7 @@ public class TestData {
         contacts.add(hcpContact);
         insert contacts;
         
-        Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA');
+        Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA TD');
         insert area;
     
         Clinical_Trial_Profile__c study = new Clinical_Trial_Profile__c(
@@ -218,8 +218,8 @@ public class TestData {
         
     
         Participant__c participant = new Participant__c(
-                First_Name__c = 'Participant',
-                Last_Name__c = 'Participant',
+                First_Name__c = 'ParticipantTD',
+                Last_Name__c = 'ParticipantTD',
                 Phone__c = '55313535',
                 Email__c = 'part1@email.com',
                 Mailing_Country_Code__c = 'US',

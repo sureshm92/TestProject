@@ -409,7 +409,7 @@
         </actions>
         <active>true</active>
         <description>Patient  receives email that they have been referred to a clinical research study by eRP</description>
-        <formula>ISPICKVAL( Participant_Status__c , &quot;Referral Sent to PI&quot;) &amp;&amp;   Is_Virtual_Study_Site__c = True  &amp;&amp;  NOT(Study_Site__r.Suppress_Participant_Emails__c)  &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp;   NOT(ISPICKVAL( Referral_Source__c , &quot;HCP&quot;)) &amp;&amp; NOT(ISPICKVAL( Referral_Source__c , &quot;PI&quot;))</formula>
+        <formula>OR(ISPICKVAL( Participant_Status__c , &quot;Referral Sent to PI&quot;),AND(ISPICKVAL( Participant_Status__c , &quot;Referral Accepted&quot;),IsAutoaccepted__c = True)) &amp;&amp; Is_Virtual_Study_Site__c = True &amp;&amp; NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(ISPICKVAL( Referral_Source__c , &quot;HCP&quot;)) &amp;&amp; NOT(ISPICKVAL( Referral_Source__c , &quot;PI&quot;))</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
 </Workflow>

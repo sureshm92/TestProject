@@ -644,7 +644,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         if(completedPEs.isEmpty()) return;
 
         Map<Id, SurveyInvitation> invitationMap = new Map<Id, SurveyInvitation>([
-                SELECT Id, InviteExpiryDateTime
+                SELECT Id
                 FROM SurveyInvitation
                 WHERE Participant_Enrollment__c IN:completedPEs
                 AND Is_Midpoint__c = TRUE
@@ -666,11 +666,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             }
         }
         update tasksForExpire;
-
-        System.debug('>>>completedPSEs.size = ' + completedPEs.size());
-        System.debug('>>>tasks.size = ' + tasks.size());
-        System.debug('>>>invitationMap.size = ' + invitationMap.size());
-        System.debug('>>>tasksForExpire.size = ' + tasksForExpire.size());
 
         SurveyService.getInstance().expireInvitation(new List<Id>(invitationMap.keySet()));
     }

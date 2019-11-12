@@ -31,6 +31,10 @@
                 <behavior>Edit</behavior>
                 <field>Logged_Out_Days_Notification__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Visit_Plan__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -190,6 +194,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Include_in_RP_trial_search__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Participating_in_Rocket_Referral__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -603,7 +611,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h1x000000f4zu</masterLabel>
+        <masterLabel>00h0E000001aOnx</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

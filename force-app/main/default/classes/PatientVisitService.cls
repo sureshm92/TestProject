@@ -3,6 +3,7 @@ public inherited sharing class PatientVisitService {
     public static final String VISIT_MODE_CURRENT = 'Current';
     public static final String VISIT_MODE_PAST = 'Past';
     public static final String VISIT_STATUS_PENDING = 'Pending';
+    private static User CURRENT_USER;
 
     public List<VisitWrapper> getVisitWrappers(String visitMode) {
         return this.getVisitWrappers(visitMode, null);
@@ -38,7 +39,7 @@ public inherited sharing class PatientVisitService {
 
         List<Patient_Visit__c> visits = (List<Patient_Visit__c>)
                 DatabaseService.query(fields, Patient_Visit__c.getSObjectType(), filter, order, limitVisits);
-        TranslateHelper.translate(visits, IRBParticipantService.getIRBLanguageMode(pState.pe.Id).languageToTranslate);
+        TranslateHelper.translate(visits, IRBParticipantService.getSuitableLanguageForIRBTranslation(pState.pe.Id));
         return visits;
     }
 
@@ -47,7 +48,9 @@ public inherited sharing class PatientVisitService {
         List<VisitWrapper> visitWrappers = new List<VisitWrapper>();
         if (visits == null || visits.isEmpty()) return visitWrappers;
 
-        TimeZone timeZone = UserInfo.getTimeZone();
+        List<User> users = [SELECT Id, LocaleSidKey, TimeZoneSidKey FROM User WHERE Id =: UserInfo.getUserId()];
+        CURRENT_USER = users.get(0);
+        TimeZone timeZone = TimeZone.getTimeZone(CURRENT_USER.TimeZoneSidKey);
         Map<Id, Task> tasksByVisitIds = getTasksByVisitIds(visits);
         Set<Id> uniqueId = new Set<Id>();
         for (Patient_Visit__c singleVisit : visits) {
@@ -68,9 +71,10 @@ public inherited sharing class PatientVisitService {
         List<Task> tasks = [
                 SELECT Id,
                         Patient_Visit__c,
-                        ActivityDate
+                        Reminder_Date__c,
+                        ReminderDateTime
                 FROM Task
-                WHERE Patient_Visit__c IN :new Map<Id, Patient_Visit__c>(visits).keySet() AND Status = 'Open'
+                WHERE Patient_Visit__c IN :NEW Map<Id, Patient_Visit__c>(visits).keySet() AND Status = 'Open'
         ];
         for (Task singleTask : tasks) {
             tasksByVisitIds.put(singleTask.Patient_Visit__c, singleTask);
@@ -87,7 +91,7 @@ public inherited sharing class PatientVisitService {
         @AuraEnabled
         public Task task;
         @AuraEnabled
-        public String reminderDate;
+        public Date reminderDate;
         @AuraEnabled
         public Patient_Visit__c visit;
 
@@ -95,7 +99,7 @@ public inherited sharing class PatientVisitService {
             this.visit = visit;
             this.icons = visit.Visit__r.Icons__c;
             this.task = task;
-            this.reminderDate = (this.task == null || this.task.ActivityDate == null) ? Label.Home_Page_StudyVisit_No_Reminder_Date : DateService.format(this.task.ActivityDate, 'DD-MMM-YYYY');
+            this.reminderDate = DateTimeConverterUtil.getUserDatetime(TimeZone.getTimeZone(CURRENT_USER.TimeZoneSidKey), this.task.ReminderDateTime).date();
             this.completedDate = visit.Completed_Date__c == null ? Label.StudyVisit_Information_Not_Available : String.valueOf(visit.Completed_Date__c);
         }
     }

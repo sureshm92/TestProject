@@ -98,7 +98,7 @@ public virtual inherited sharing class ResourceStudyRelatedService extends Resou
             Map<String, Res_study__c> resourceTranslationsMap = otherResourceMap.get(resTitle);
             for(String lang : contactPreferredLanguages){
                 Res_study__c resStudy = resourceTranslationsMap.get(lang);
-                if(StudyResourceVisibilityService.isResourceVisibleForPE(
+                if(resStudy != null && StudyResourceVisibilityService.isResourceVisibleForPE(
                         resStudy, pState.pe, new List<String>{lang},
                         CommunityService.getUserContact().userCommunityMode__c, pState.isDelegate)){
                     resourcesIds.add(resStudy.Resource__c);
