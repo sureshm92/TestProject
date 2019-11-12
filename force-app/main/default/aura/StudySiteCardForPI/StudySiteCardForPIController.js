@@ -52,8 +52,6 @@
             component.set('v.siteWrapper.studySite', studySite);
             if (accounts) {
                 component.set('v.siteWrapper.accounts', accounts);
-                studyListView.find('actionManageLocationDetails').find('manageLocation').hide();
-                studyListView.find('actionManageLocationDetails').find('manageLocation').show();
             }
         });
     },
