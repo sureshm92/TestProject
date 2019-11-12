@@ -36,6 +36,7 @@ public without sharing class SurveyResponseTriggerHandler {
         Map<Id, SurveyInvitation> invitationMap = new Map<Id, SurveyInvitation>([
                 SELECT
                         ExpireDateTime__c,
+                        InviteExpiryDateTime,
                         Participant_Enrollment__r.Participant_Contact__c
                 FROM SurveyInvitation
                 WHERE Id IN:invitationSubmitter.keySet()
@@ -59,22 +60,25 @@ public without sharing class SurveyResponseTriggerHandler {
         ];
         for(Task t : tasks) {
             if(invitationSubmitter.containsKey(t.Description)) {
+                SurveyInvitation invitation = invitationMap.get(t.Description);
                 for(Id submitterId : invitationSubmitter.get(t.Description)) {
                     if(t.WhoId == submitterId) {
                         if(forFinish) {
                             TaskService.getInstance().completeTask(t);
                             if(t.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
-                                if(!Test.isRunningTest()) invitationMap.get(t.Description).ExpireDateTime__c = System.now();
+                                invitation.ExpireDateTime__c = System.now();
+                                if(invitation.InviteExpiryDateTime != null) invitation.InviteExpiryDateTime = null;
                             }
                         } else if(t.Status != TaskService.TASK_STATUS_COMPLETED){
                             t.Status = TaskService.TASK_STATUS_IN_PROGRESS;
                         }
                         break;
                     } else if(t.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)){
-                        if(t.WhoId == invitationMap.get(t.Description).Participant_Enrollment__r.Participant_Contact__c) {
+                        if(t.WhoId == invitation.Participant_Enrollment__r.Participant_Contact__c) {
                             if(forFinish) {
                                 TaskService.getInstance().completeTask(t);
-                                if(!Test.isRunningTest()) invitationMap.get(t.Description).ExpireDateTime__c = System.now();
+                                invitation.ExpireDateTime__c = System.now();
+                                if(invitation.InviteExpiryDateTime != null) invitation.InviteExpiryDateTime = null;
                             } else if(t.Status != TaskService.TASK_STATUS_COMPLETED){
                                 t.Status = TaskService.TASK_STATUS_IN_PROGRESS;
                             }

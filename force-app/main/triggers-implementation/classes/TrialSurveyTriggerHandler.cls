@@ -17,6 +17,7 @@ public without sharing class TrialSurveyTriggerHandler {
                         Id,
                         CreatedDate,
                         ExpireDateTime__c,
+                        InviteExpiryDateTime,
                         Participant_Enrollment__r.Participant_Contact__c
                 FROM SurveyInvitation
                 WHERE Trial_Survey__c IN:oldTrialSurveys
@@ -24,7 +25,9 @@ public without sharing class TrialSurveyTriggerHandler {
 
         Set<Id> contactIds = new Set<Id>();
         for(SurveyInvitation inv : surveyInvitations.values()) {
-            if(!Test.isRunningTest()) inv.ExpireDateTime__c = System.now();
+            inv.ExpireDateTime__c = System.now();
+            inv.Is_Expired__c = true;
+            if(inv.InviteExpiryDateTime != null) inv.InviteExpiryDateTime = null;
 
             Id participantCId = inv.Participant_Enrollment__r.Participant_Contact__c;
             contactIds.add(participantCId);

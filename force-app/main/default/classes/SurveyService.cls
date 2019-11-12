@@ -145,11 +145,16 @@ public without sharing class SurveyService {
         }
 
         List<SurveyInvitation> invitations = [
-                SELECT Id, Is_Expired__c FROM SurveyInvitation WHERE Id IN: invitationIds
+                SELECT Id, Is_Expired__c, InviteExpiryDateTime
+                FROM SurveyInvitation
+                WHERE Id IN: invitationIds
         ];
 
         if(!invitations.isEmpty()) {
-            for(SurveyInvitation inv : invitations) inv.Is_Expired__c = true;
+            for(SurveyInvitation inv : invitations) {
+                inv.Is_Expired__c = true;
+                if(inv.InviteExpiryDateTime != null) inv.InviteExpiryDateTime = null;
+            }
 
             update invitations;
             return true;
