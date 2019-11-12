@@ -97,4 +97,8 @@
         var pe = component.get('v.pe');
         component.get('v.callback')(pe);
     },
+    doPrint: function (component, event, helper) {
+        var pe = component.get('v.pe');
+        window.open('patient-info-pv?id=' + pe.Id, '_blank');
+    }
 });
