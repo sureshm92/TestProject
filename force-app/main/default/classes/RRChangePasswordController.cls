@@ -209,6 +209,7 @@ public without sharing class RRChangePasswordController {
                 Account newClinic = new Account(
                         Name = account.Name,
                         BillingCountryCode = (noCountry ? null : contact.MailingCountryCode),
+                        BillingCountry = contact.MailingCountry,
                         BillingCity = contact.MailingCity,
                         BillingStateCode = (noState ? null : contact.MailingStateCode),
                         BillingStreet = contact.MailingStreet,
