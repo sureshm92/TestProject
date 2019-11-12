@@ -42,16 +42,12 @@
         var spinner = component.find('recordsSpinner');
         spinner.show();
         var filter = component.get('v.peFilter');
-       /* var listOfFilters = ['activePE','study','studySite','source','participantStatus'];
-        if(event.getParam('index')){
-            if(listOfFilters.includes(event.getParam('index'))) {
-                var startIndex = listOfFilters.indexOf(event.getParam('index'));
-                for (let i = startIndex + 1; i < listOfFilters.length; i++) {
-                    filter[listOfFilters[i]] = null;
-                }
-            }
-        }*/
         var searchText = filter.searchText;
+        for (var key in filter) {
+            if (key != 'searchText' && filter[key] == '') {
+                filter[key] = null;
+            }
+        }
         var filterJSON = JSON.stringify(filter);
         debugger;
         var paginationJSON = JSON.stringify(component.get('v.paginationData'));
