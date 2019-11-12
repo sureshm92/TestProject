@@ -56,6 +56,7 @@ public without sharing class RRChangePasswordController {
 
     private Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
     private Map<String, String> countryCodeByName = new Map<String, String>();
+    private Map<String, String> stateCodeByName = new Map<String, String>();
     private String oldAccountName;
 
     public RRChangePasswordController() {
@@ -152,7 +153,7 @@ public without sharing class RRChangePasswordController {
         states = new List<SelectOption>();
         for (LabelValueItem country : CountryStateUtil.getCountries()) {
             countries.add(new SelectOption(country.value, country.label));
-            countryCodeByName.put(country.label, country.value);
+            countryCodeByName.put(country.value, country.label);
         }
         country = contact.MailingCountryCode;
         state = contact.MailingStateCode;
@@ -203,14 +204,16 @@ public without sharing class RRChangePasswordController {
         if (!notEnrollNow && ApexPages.getMessages().isEmpty()) {
             Boolean noCountry = contact.MailingCountryCode == '--None--' || String.isBlank(contact.MailingCountryCode);
             Boolean noState = contact.MailingStateCode == '--None--' || String.isBlank(contact.MailingStateCode) || states == null || states.size() < 2;
-            contact.MailingCountry = null;
-            contact.MailingState = null;
+            contact.MailingCountry = (noCountry ? null : countryCodeByName.get(contact.MailingCountryCode));
+            contact.MailingState = (noState ? null : stateCodeByName.get(contact.MailingCountryCode));
+
             if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
                 Account newClinic = new Account(
                         Name = account.Name,
                         BillingCountryCode = (noCountry ? null : contact.MailingCountryCode),
                         BillingCountry = contact.MailingCountry,
                         BillingCity = contact.MailingCity,
+                        BillingState = contact.MailingState,
                         BillingStateCode = (noState ? null : contact.MailingStateCode),
                         BillingStreet = contact.MailingStreet,
                         BillingPostalCode = contact.MailingPostalCode,
@@ -369,11 +372,13 @@ public without sharing class RRChangePasswordController {
     }
 
     public void updateStatesAction(){
+        stateCodeByName = new Map<String, String>();
         states = new List<SelectOption>();
         List<LabelValueItem> statesByCountry = statesByCountryMap.get(contact.MailingCountryCode);
         if (statesByCountry != null) {
             for (LabelValueItem state : statesByCountry) {
                 states.add(new SelectOption(state.value, state.label));
+                stateCodeByName.put(state.value, state.label);
             }
         }
         isStateRequired = statesByCountry != null && !statesByCountry.isEmpty();
