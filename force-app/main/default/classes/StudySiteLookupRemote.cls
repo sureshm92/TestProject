@@ -49,7 +49,7 @@ public class StudySiteLookupRemote {
         try{
             List<LookupSearchResult> resList = new List<LookupSearchResult>();
             List<String> ssIds = value.split(';');
-            String filter = ' WHERE Id IN ' + ssIds;
+            String filter = 'Id IN ' + ssIds;
             if (selectedCountries != null && !String.isEmpty(selectedCountries)) {
                 filter += 'AND ' + DatabaseService.fieldInValues('Site__r.BillingCountryCode', selectedCountries.split(';'));
             }
