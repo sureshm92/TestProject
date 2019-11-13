@@ -98,7 +98,8 @@ public inherited sharing class VisitReportService {
         if (pe.Enrolled_Date__c != null) {
             Datetime dT = pe.Enrolled_Date__c;
             Date myDate = Date.newInstance(dT.year(), dT.month(), dT.day());
-            result.enrollmentDate = DateService.format(myDate, 'DD-MMM-YYYY');
+            //result.enrollmentDate = DateService.format(myDate, 'DD-MMM-YYYY');
+            result.enrollmentDate = myDate.format();
         }
         result.studySiteName = pe.Study_Site__r.Name;
         return result;
