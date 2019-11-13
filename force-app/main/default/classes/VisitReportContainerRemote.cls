@@ -110,7 +110,8 @@ public inherited sharing class VisitReportContainerRemote {
 
     public class VisitDateColumnWrapper extends VisitDataWrapper{
         public VisitDateColumnWrapper(Date resultDate) {
-            this.value = DateService.format(resultDate, 'MMM, D YYYY');
+            //this.value = DateService.format(resultDate, 'MMM, D YYYY');
+            this.value = resultDate.format();
         }
     }
 
