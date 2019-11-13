@@ -74,11 +74,11 @@ public inherited sharing class VisitReportContainerRemote {
         @AuraEnabled
         public String descriptionLab;
 
-        public LabsNameDescriptionWrapper(Visit_Result_TypeM__mdt visitResultTypeM) {
+        public LabsNameDescriptionWrapper(Visit_Result_TypeM__mdt visitResultTypeM, String language) {
             this.nameLabs = differentLabNames.contains(visitResultTypeM.DeveloperName)
-                    ? TranslateHelper.getLabelValue(visitResultTypeM.DeveloperName + '_Name_Labs')
-                    : TranslateHelper.getLabelValue(visitResultTypeM.DeveloperName);
-            this.descriptionLab = TranslateHelper.getLabelValue(visitResultTypeM.Description_Label_Api_Name__c);
+                    ? TranslateHelper.getLabelValue(visitResultTypeM.DeveloperName + '_Name_Labs', language)
+                    : TranslateHelper.getLabelValue(visitResultTypeM.DeveloperName, language);
+            this.descriptionLab = TranslateHelper.getLabelValue(visitResultTypeM.Description_Label_Api_Name__c, language);
         }
     }
 
