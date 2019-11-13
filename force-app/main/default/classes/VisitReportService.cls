@@ -84,10 +84,13 @@ public inherited sharing class VisitReportService {
             Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap
             , List<Visit_Result_GroupM__mdt> visitResultGroupMS, Participant_Enrollment__c pe
     ) {
-        String language  = IRBParticipantService.getSuitableLanguageForIRBTranslation(pe.Id);
-        if(language == null) language = UserInfo.getLanguage();
-        TranslateHelper.translate(pe, language);
         VisitReportContainerRemote.ReportDataWrapper result = new VisitReportContainerRemote.ReportDataWrapper();
+        String language  = IRBParticipantService.getIRBLanguage(pe.Id);
+        if(language == null) {
+            language = UserInfo.getLanguage();
+            result.notAvailableMessage = ParticipantIRBCheckerRemote.checkLanguagePermissions(pe.Id).message;
+        }
+        TranslateHelper.translate(pe, language);
         List<VisitReportContainerRemote.ReportDataTableWrapper> sortReportDataTableWrappers = this.getSortedReportDataTableWrappers(reportDataWrapperMap, visitResultGroupMS);
         result.dataTables = sortReportDataTableWrappers;
         result.studyCodeName = pe.Clinical_Trial_Profile__r.Study_Code_Name__c;
