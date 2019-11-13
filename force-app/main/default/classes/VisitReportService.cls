@@ -21,6 +21,8 @@ public inherited sharing class VisitReportService {
             List<Patient_Visit__c> patientVisits,
             List<Visit_Result_GroupM__mdt> visitResultGroupMS
     ) {
+        String language  = IRBParticipantService.getSuitableLanguageForIRBTranslation(pe.Id);
+        if(language == null) language = UserInfo.getLanguage();
         VisitResultSharingService visitResultSharingServiceInt = ((VisitResultSharingService) ClassFactory.newInstance(VisitResultSharingService.class));
         Map<String, VisitReportContainerRemote.ReportDataTableWrapper> result = new Map<String, VisitReportContainerRemote.ReportDataTableWrapper>();
         Map<Id, List<VisitResultWrapper>> availableVisitResultTypeMSByGroupIds = visitResultSharingServiceInt.geAvailableVisitResultTypeMSByGroupIds(pe, visitResultGroupMS);
@@ -53,7 +55,7 @@ public inherited sharing class VisitReportService {
                                     reportRowWrappers.add(new VisitReportContainerRemote.VisitValueWrapper('______'));
 
                                 }
-                                labsDescription.add(new VisitReportContainerRemote.LabsNameDescriptionWrapper(visitResultWrapper.visitResultTypeM));
+                                labsDescription.add(new VisitReportContainerRemote.LabsNameDescriptionWrapper(visitResultWrapper.visitResultTypeM, language));
                             }
                         }
                         if (isResult) {
@@ -64,7 +66,8 @@ public inherited sharing class VisitReportService {
                                         reportHeaderWrappers,
                                         reportRowWrappers,
                                         visitResultGroupM,
-                                        labsDescription
+                                        labsDescription,
+                                        pe.Id
                                 );
                                 result.put(visitResultGroupM.DeveloperName, reportDataTableWrapper);
                             }
@@ -82,6 +85,12 @@ public inherited sharing class VisitReportService {
             , List<Visit_Result_GroupM__mdt> visitResultGroupMS, Participant_Enrollment__c pe
     ) {
         VisitReportContainerRemote.ReportDataWrapper result = new VisitReportContainerRemote.ReportDataWrapper();
+        String language  = IRBParticipantService.getIRBLanguage(pe.Id);
+        if(language == null) {
+            language = UserInfo.getLanguage();
+            result.notAvailableMessage = ParticipantIRBCheckerRemote.checkLanguagePermissions(pe.Id).message;
+        }
+        TranslateHelper.translate(pe, language);
         List<VisitReportContainerRemote.ReportDataTableWrapper> sortReportDataTableWrappers = this.getSortedReportDataTableWrappers(reportDataWrapperMap, visitResultGroupMS);
         result.dataTables = sortReportDataTableWrappers;
         result.studyCodeName = pe.Clinical_Trial_Profile__r.Study_Code_Name__c;
@@ -92,7 +101,8 @@ public inherited sharing class VisitReportService {
         if (pe.Enrolled_Date__c != null) {
             Datetime dT = pe.Enrolled_Date__c;
             Date myDate = Date.newInstance(dT.year(), dT.month(), dT.day());
-            result.enrollmentDate = DateService.format(myDate, 'DD-MMM-YYYY');
+            //result.enrollmentDate = DateService.format(myDate, 'DD-MMM-YYYY');
+            result.enrollmentDate = myDate.format();
         }
         result.studySiteName = pe.Study_Site__r.Name;
         return result;
@@ -102,14 +112,17 @@ public inherited sharing class VisitReportService {
             List<VisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers,
             List<VisitReportContainerRemote.VisitDataWrapper> reportRowWrappers,
             Visit_Result_GroupM__mdt visitResultGroupM,
-            List<VisitReportContainerRemote.LabsNameDescriptionWrapper> labsDescription
+            List<VisitReportContainerRemote.LabsNameDescriptionWrapper> labsDescription,
+            Id peId
     ) {
+        String language  = IRBParticipantService.getSuitableLanguageForIRBTranslation(peId);
+        if(language == null) language = UserInfo.getLanguage();
         VisitReportContainerRemote.ReportDataTableWrapper reportDataTableWrapper = new VisitReportContainerRemote.ReportDataTableWrapper();
         reportDataTableWrapper.tHead = reportHeaderWrappers;
         reportDataTableWrapper.visitResultsWrapper = new List<List<VisitReportContainerRemote.VisitDataWrapper>>{
                 reportRowWrappers
         };
-        reportDataTableWrapper.tableName = TranslateHelper.getLabelValue('Report_' + visitResultGroupM.DeveloperName + '_header');
+        reportDataTableWrapper.tableName = TranslateHelper.getLabelValue('Report_' + visitResultGroupM.DeveloperName + '_header', language);
         reportDataTableWrapper.tableApiName = visitResultGroupM.DeveloperName;
         reportDataTableWrapper.labsDescription = labsDescription;
         return reportDataTableWrapper;

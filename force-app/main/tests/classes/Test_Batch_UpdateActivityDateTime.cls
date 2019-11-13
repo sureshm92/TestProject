@@ -8,28 +8,19 @@ private class Test_Batch_UpdateActivityDateTime {
     static void batchExecute() {
         TestData.loadTestData();
         User user = [SELECT Id FROM User WHERE Account.Name = 'Participant' LIMIT 1];
-        List<Task> tasksList = new List<Task>();
-            Task task1 = new Task(
-                    Reminder_Date__c = Datetime.now(),
-                    Subject = 'Some',
-                    OwnerId = user.Id,
-                    ActivityDate = Date.today()
-            );
-            Task task2 = new Task(
-                    Reminder_Date__c = Datetime.now(),
-                    Subject = 'Some 2',
-                    OwnerId = user.Id,
-                    ActivityDate = Date.today()
-            );
-            tasksList.add(task1);
-            tasksList.add(task2);
+        List<Task> tasksList = new List<Task>{new Task(
+                Subject = 'Some',
+                OwnerId = user.Id,
+                ActivityDate = Date.today())};
         insert tasksList;
 
         Test.startTest();
         new Batch_UpdateActivityDateTimeOldUsers().execute(null, tasksList);
         Test.stopTest();
 
-        System.assertEquals(Datetime.now().dateGmt(), tasksList[0].Activity_Datetime__c);
-        System.assertEquals(2, tasksList.size());
+        System.assertEquals(Datetime.newInstanceGMT(
+                Date.today().year(), Date.today().month(), Date.today().day(), 0, 0, 0 ),
+                tasksList[0].Activity_Datetime__c);
+        System.assertEquals(1, tasksList.size());
     }
 }

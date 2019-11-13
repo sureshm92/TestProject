@@ -185,3 +185,13 @@
         height: 80px;
     }
 }
+
+@media print {
+    .THIS .rr-header-content{
+        display: none!important;
+    }
+    .THIS .footer{
+        display: none!important;
+    }
+
+}

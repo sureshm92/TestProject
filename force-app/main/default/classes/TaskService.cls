@@ -147,7 +147,7 @@ public without sharing class TaskService {
         List<SurveyInvitation> surveyInvitation = [
                 SELECT
                         Id,
-                        InviteExpiryDateTime,
+                        ExpireDateTime__c,
                         Participant_Enrollment__r.Participant_Contact__c,
                         Reminder_Schedule__c,
                         Reminder_Schedule__r.First_Reminder_day__c,
@@ -231,10 +231,10 @@ public without sharing class TaskService {
                 Datetime userDatetime = DateTimeConverterUtil.getUserDatetime(userTZ, Datetime.now());
 
                 tsc.startDate = userDatetime.date();
-                if (inv.InviteExpiryDateTime != null) {
-                    Date expiryDate = inv.InviteExpiryDateTime.date();
+                if (inv.ExpireDateTime__c != null) {
+                    Date expiryDate = inv.ExpireDateTime__c.date();
                     Integer daysBetween = Date.today().daysBetween(expiryDate);
-                    tsc.activityDate = tsc.startDate.addDays(daysBetween);
+                    tsc.activityDate = DateTimeConverterUtil.addDaysInUserTimeZone(userDatetime, userTZ, daysBetween);
                 }
 
                 if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {
@@ -266,7 +266,7 @@ public without sharing class TaskService {
                 Visible_For__c = taskConfig.visibility
         );
 
-        if (taskConfig.activityDate != null) task.ActivityDate = taskConfig.activityDate;
+        if (taskConfig.activityDate != null) task.Activity_Datetime__c = taskConfig.activityDate;
         if (taskConfig.code != null) task.Task_Code__c = taskConfig.code;
         if (taskConfig.description != null) task.Description = taskConfig.description;
         if (taskConfig.originator != null) task.Originator__c = taskConfig.originator;
@@ -341,7 +341,7 @@ public without sharing class TaskService {
     }
 
     public class TaskConfig {
-        public Date activityDate;
+        public Datetime activityDate;
         public String code;
         public String description;
         public String originator;
