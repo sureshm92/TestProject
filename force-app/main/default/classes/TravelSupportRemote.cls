@@ -2,7 +2,7 @@
  * Created by dmytro.fedchyshyn on 06.09.2019.
  */
 
-public with sharing class TravelSupportRemote {
+public without sharing class TravelSupportRemote {
     @AuraEnabled
     public static List<TravelVendorSettings__c> getVendors(String studySiteId) {
         try {

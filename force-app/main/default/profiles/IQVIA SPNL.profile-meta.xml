@@ -375,6 +375,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DirectMessageRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DistanceHelper</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -2861,6 +2865,16 @@
         <editable>true</editable>
         <field>Contact.userCommunytyType__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>DirectMessageEvent__e.ConversationID__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>DirectMessageEvent__e.MessageID__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -5993,6 +6007,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>CTE__c-CTE Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Case-Case Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>CaseClose-Close Case Layout</layout>
