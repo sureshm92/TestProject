@@ -84,10 +84,13 @@ public inherited sharing class VisitReportService {
             Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap
             , List<Visit_Result_GroupM__mdt> visitResultGroupMS, Participant_Enrollment__c pe
     ) {
-        String language  = IRBParticipantService.getSuitableLanguageForIRBTranslation(pe.Id);
-        if(language == null) language = UserInfo.getLanguage();
-        TranslateHelper.translate(pe, language);
         VisitReportContainerRemote.ReportDataWrapper result = new VisitReportContainerRemote.ReportDataWrapper();
+        String language  = IRBParticipantService.getIRBLanguage(pe.Id);
+        if(language == null) {
+            language = UserInfo.getLanguage();
+            result.notAvailableMessage = ParticipantIRBCheckerRemote.checkLanguagePermissions(pe.Id).message;
+        }
+        TranslateHelper.translate(pe, language);
         List<VisitReportContainerRemote.ReportDataTableWrapper> sortReportDataTableWrappers = this.getSortedReportDataTableWrappers(reportDataWrapperMap, visitResultGroupMS);
         result.dataTables = sortReportDataTableWrappers;
         result.studyCodeName = pe.Clinical_Trial_Profile__r.Study_Code_Name__c;
@@ -98,7 +101,8 @@ public inherited sharing class VisitReportService {
         if (pe.Enrolled_Date__c != null) {
             Datetime dT = pe.Enrolled_Date__c;
             Date myDate = Date.newInstance(dT.year(), dT.month(), dT.day());
-            result.enrollmentDate = DateService.format(myDate, 'DD-MMM-YYYY');
+            //result.enrollmentDate = DateService.format(myDate, 'DD-MMM-YYYY');
+            result.enrollmentDate = myDate.format();
         }
         result.studySiteName = pe.Study_Site__r.Name;
         return result;
