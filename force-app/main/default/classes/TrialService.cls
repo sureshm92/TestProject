@@ -35,6 +35,7 @@ public without sharing class TrialService {
             'Profile_Picture__c',
             'Share_URL__c',
             'Patient_Portal_Enabled__c',
+            'Visit_Data_Shareback__c',
             'Therapeutic_Area__r.Name'
     };
     
