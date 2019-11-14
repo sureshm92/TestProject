@@ -53,6 +53,8 @@ public inherited sharing class VisitReportContainerRemote {
         public String enrollmentDate;
         @AuraEnabled
         public String studySiteName;
+        @AuraEnabled
+        public String notAvailableMessage;
     }
 
     public class ReportDataTableWrapper {
@@ -110,7 +112,8 @@ public inherited sharing class VisitReportContainerRemote {
 
     public class VisitDateColumnWrapper extends VisitDataWrapper{
         public VisitDateColumnWrapper(Date resultDate) {
-            this.value = DateService.format(resultDate, 'MMM, D YYYY');
+            //this.value = DateService.format(resultDate, 'MMM, D YYYY');
+            this.value = resultDate.format();
         }
     }
 

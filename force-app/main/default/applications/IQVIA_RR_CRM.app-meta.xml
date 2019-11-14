@@ -31,7 +31,6 @@
     <tabs>Study_Site__c</tabs>
     <tabs>HCP_Enrollment__c</tabs>
     <tabs>Participant_Enrollment__c</tabs>
-    <tabs>Participant_Study_Enrollment__c</tabs>
     <tabs>Terms_And_Conditions__c</tabs>
     <tabs>Terms_And_Conditions_Acceptance__c</tabs>
     <tabs>standard-report</tabs>
