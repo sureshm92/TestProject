@@ -19,7 +19,6 @@ public without sharing class IRBParticipantService {
                 if (contLang.equals(appLang)) return contLang;
             }
         }
-        if (language == null) language = approvedLanguages.get(0);
 
         return language;
     }

@@ -163,6 +163,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_UpdateActivityDateTimeOldUsers</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_UpdateNotifyDateOldUsers</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -371,6 +375,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DirectMessageRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DistanceHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -565,6 +573,10 @@
     <classAccesses>
         <apexClass>LookupSearchResult</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MCloudSMSSender</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>MailForTests</apexClass>
@@ -1223,6 +1235,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_Batch_UpdateActivityDateTime</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Batch_UpdateNotifyDateOldUsers</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1283,6 +1299,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_CountryLookupRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_DatabaseProxy</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1333,6 +1353,10 @@
     <classAccesses>
         <apexClass>Test_FillTAOnParticipantsBatchHandler</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_FirstLogonController</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_HelpController</apexClass>
@@ -1583,8 +1607,16 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_VisitResultCountryLookupRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_VisitResultMService</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_VisitResultSharingPanelRemote</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_VisitResultSharingService</apexClass>
@@ -1644,7 +1676,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TravelSupportRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>TravelVendorPanelRemote</apexClass>
@@ -1668,7 +1700,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TrialSearchContainerRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>TrialSearchHelper</apexClass>
@@ -1770,7 +1802,139 @@
         <apexClass>VisitTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>XLF_PatternListRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>XLF_RemoteActionResult</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>XLF_TweakerHelper</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>XLF_TweakerRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
     <custom>true</custom>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Alert_Catalog__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Batch_Executor__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Email_Dummy_Parameter__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Email_Template_Settings__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Guides_Setting__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Help_Topic__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Injector_Binding__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Motivation_Plan_Message__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Motivation_Plans__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Number_Of_Limits__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Onboarding_Slide__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Onboarding_Tour_Slides__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Onboarding_Tour__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Parameters_Provider__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>ParticipantEnrollmentSet__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Participant_Enrollment_settings__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Participant_Status_Integration__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Platform_Level_Translatable_Objects__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Post_Install__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Regex__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Resource_Field_Api__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>SDH_Status__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>ScheduleIntervalSettings__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Task_Catalog__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Visit_Result_GroupM__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Visit_Result_TypeM_Dashboard_Config__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Visit_Result_TypeM__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>XLF_Black_List__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>XLF_White_List__mdt</name>
+    </customMetadataTypeAccesses>
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Account_Name_2__c</field>
@@ -2548,6 +2712,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Contact.Next_Profile_Update_DT__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Contact.OneKeyID__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2708,6 +2877,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>DirectMessageEvent__e.ConversationID__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>DirectMessageEvent__e.MessageID__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Drug_Usage__c.Concomitant_Therapies__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2745,6 +2924,11 @@
         <editable>true</editable>
         <field>Event.Action_URL__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Event.Activity_Datetime__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3035,6 +3219,71 @@
         <editable>true</editable>
         <field>Healthcare_Provider__c.Status__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.CaseDescription__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.CasePriority__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.CaseReason__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.CaseSubject__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.Description_Placeholder_Label__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.Display_Solution_Label__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.Is_Active__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.Is_Escalated__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.Knowledge_Article_Link__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.Order__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.Submit_Required__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.User_Description_Required__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Help_Topic__mdt.User_Types__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -5233,6 +5482,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>SurveyInvitation.ExpireDateTime__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>SurveyInvitation.Is_Expired__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>SurveyInvitation.Is_Midpoint__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -5265,6 +5524,11 @@
         <editable>true</editable>
         <field>Task.Action_URL__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Task.Activity_Datetime__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -5598,6 +5862,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Visit_Plan__c.Version__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Visit_Result_TypeM_Dashboard_Config__mdt.Dashboard_Type__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -5706,6 +5975,26 @@
         <field>Visit__c.Visit_Schedule__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>XLF_Black_List__mdt.Active__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>XLF_Black_List__mdt.Pattern__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>XLF_White_List__mdt.Active__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>XLF_White_List__mdt.Pattern__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>Account-Account Layout</layout>
     </layoutAssignments>
@@ -5773,6 +6062,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Healthcare_Provider__c-Healthcare Provider Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Help_Topic__mdt-Help Topic Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Icon_Details__c-icons detail Layout</layout>
@@ -6021,6 +6313,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit__c-Visit Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>XLF_Black_List__mdt-XLF Black List Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>XLF_White_List__mdt-XLF White List Layout</layout>
     </layoutAssignments>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -6593,6 +6891,10 @@
     <tabVisibilities>
         <tab>Visit__c</tab>
         <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>XLF_Tweaker</tab>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <userLicense>Customer Community Plus Login</userLicense>
     <userPermissions>
