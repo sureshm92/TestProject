@@ -17,24 +17,10 @@ public without sharing class IRBParticipantService {
                 if (contLang.equals(appLang)) return contLang;
             }
         }
-        if (language == null) language = approvedLanguages.get(0);
+
         return language;
     }
-    
-    public static String getIRBLanguage(Id peId) {
-        List<String> contactLanguages = ContactService.getPreferredLanguages();
-        List<String> approvedLanguages = getSSApprovedLanguages(peId);
-        String language;
-        if (approvedLanguages.isEmpty()) return language;
-        for (String contLang : contactLanguages) {
-            for (String appLang : approvedLanguages) {
-                if (contLang.equals(appLang)) return contLang;
-            }
-        }
-        return language;
-    }
-    
-    
+
     private static List<String> getSSApprovedLanguages(Id peId) {
         List<Participant_Enrollment__c> enrollment = [
                 SELECT Study_Site__r.Approved_Lng__c

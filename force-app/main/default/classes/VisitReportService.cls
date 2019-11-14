@@ -85,7 +85,7 @@ public inherited sharing class VisitReportService {
             , List<Visit_Result_GroupM__mdt> visitResultGroupMS, Participant_Enrollment__c pe
     ) {
         VisitReportContainerRemote.ReportDataWrapper result = new VisitReportContainerRemote.ReportDataWrapper();
-        String language  = IRBParticipantService.getIRBLanguage(pe.Id);
+        String language  = IRBParticipantService.getSuitableLanguageForIRBTranslation(pe.Id);
         if(language == null) {
             language = UserInfo.getLanguage();
             result.notAvailableMessage = ParticipantIRBCheckerRemote.checkLanguagePermissions(pe.Id).message;

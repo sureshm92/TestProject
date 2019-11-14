@@ -11639,6 +11639,13 @@ Please check your CAPS lock key.</value>
         <value>Triglycerides</value>
     </labels>
     <labels>
+        <fullName>VR_Visits_Not_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Visits Not Available</shortDescription>
+        <value>Visit information is not available for this research study.  If you have questions or concerns, please contact the study doctor at your study center.</value>
+    </labels>
+    <labels>
         <fullName>VR_WBC_Count</fullName>
         <language>en_US</language>
         <protected>true</protected>
