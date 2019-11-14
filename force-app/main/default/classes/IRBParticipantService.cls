@@ -20,7 +20,7 @@ public without sharing class IRBParticipantService {
 
         return language;
     }
-    
+
     private static List<String> getSSApprovedLanguages(Id peId) {
         List<Participant_Enrollment__c> enrollment = [
                 SELECT Study_Site__r.Approved_Lng__c
