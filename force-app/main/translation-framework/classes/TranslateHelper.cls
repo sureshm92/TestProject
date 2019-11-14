@@ -26,6 +26,8 @@ public class TranslateHelper {
         for(SObject so : recordsList) {
             if(so.Id != null) recordIds.add(so.Id);
         }
+
+        if(language == null) language = UserInfo.getLanguage();
         List<Translation__c> translations = [
                 SELECT Id,
                         Field_Name__c,

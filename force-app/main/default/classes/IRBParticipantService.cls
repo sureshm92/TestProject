@@ -6,20 +6,17 @@ public without sharing class IRBParticipantService {
 
     public class IRBParticipantServiceException extends Exception {
     }
-
+    
     public static String getSuitableLanguageForIRBTranslation(Id peId) {
         List<String> contactLanguages = ContactService.getPreferredLanguages();
         List<String> approvedLanguages = getSSApprovedLanguages(peId);
-
         String language;
         if (approvedLanguages.isEmpty()) return language;
-
         for (String contLang : contactLanguages) {
             for (String appLang : approvedLanguages) {
                 if (contLang.equals(appLang)) return contLang;
             }
         }
-        if (language == null) language = approvedLanguages.get(0);
 
         return language;
     }
