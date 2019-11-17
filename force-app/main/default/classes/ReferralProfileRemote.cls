@@ -8,6 +8,8 @@ public without sharing class ReferralProfileRemote {
         List<StatusStep> steps = new List<StatusStep>();
         Participant_Enrollment__c enrollment;
         List<LabelValueItem> visitPlanLVList;
+        Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
+        List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
         Boolean isEnrolled;
     }
 

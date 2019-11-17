@@ -5,7 +5,8 @@
 <aura:component description="ReferHealthcareProvider" controller="ReferHealthcareProviderRemote">
     <aura:attribute name="pe" type="Object"/>
     <aura:attribute name="healthCareProviders" type="List"/>
-    <aura:attribute name="action" type="Object"/>
+    <aura:attribute name="actionDisabled" type="Boolean" default="false"/>
+    <aura:attribute name="printMode" type="Boolean" default="false"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.pe}" action="{!c.doInit}"/>
@@ -31,10 +32,11 @@
         </div>
         <div class="slds-grid slds-wrap slds-size--1-of-1">
             <aura:iteration items="{!v.healthCareProviders}" var="hcProvider" indexVar="index">
-                <c:ReferHealthcareProviderForm healthCareProvider = "{!hcProvider}" index = "{!index}" parent="{!this}" pe="{!v.pe}" action="{!v.action}"/>
+                <c:ReferHealthcareProviderForm healthCareProvider = "{!hcProvider}" index = "{!index}" parent="{!this}"
+                                               pe="{!v.pe}" actionDisabled="{!v.actionDisabled}" printMode="{!v.printMode}"/>
             </aura:iteration>
         </div>
-        <aura:if isTrue="{!!v.action.disabled}">
+        <aura:if isTrue="{!!v.actionDisabled}">
             <button class="apollo-btn secondary" onclick="{!c.doAddProvider}">{!$Label.c.Add_Another_Provider}</button>
         </aura:if>
     </div>

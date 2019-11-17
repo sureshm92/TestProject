@@ -5,6 +5,25 @@
     generateReport: function (component) {
         const helper = this;
         let reportData = component.get('v.reportData');
+        if(reportData.notAvailableMessage){
+            var template = reportData.notAvailableMessage + ' {0}';
+            var accUrl = 'settings?tab=account-settings';
+            var urlLabel = $A.get('$Label.c.PP_IRB_Button_Review');
+
+            var toastEvent = $A.get('e.force:showToast');
+            toastEvent.setParams({
+                type: 'warning',
+                mode: 'sticky',
+                message: 'This is a required message',
+                messageTemplate: template,
+                messageTemplateData: [{
+                    url: accUrl,
+                    label: urlLabel
+                }]
+            });
+            toastEvent.fire();
+            return;
+        }
         if(!reportData) return;
         let ie = navigator.userAgent.match(/.NET/g);
         let oldIE = navigator.userAgent.match(/MSIE/g);

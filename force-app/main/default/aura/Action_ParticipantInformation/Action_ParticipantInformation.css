@@ -162,6 +162,13 @@
     min-height: 400px;
 }
 
+.THIS .print-icon{
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    height: 14px;
+}
+
 @media all and (max-width: 768px){
     .THIS .personal-info-container .slds-float_left {
         width: 100%;

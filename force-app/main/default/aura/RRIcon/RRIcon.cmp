@@ -11,7 +11,15 @@
     <aura:attribute name="color" type="String"/>
     <aura:attribute name="library" type="String" default="icons.svg"/>
     <aura:attribute name="resource" type="String" default="{!$Resource.rr_community_icons}"/>
+    <aura:attribute name="imageResource" type="String" default="{!$Resource.rr_community_images}"/>
+    <aura:attribute name="printMode" type="Boolean" default="false"/>
 
-    <c:MySVG xlinkHref="{!v.resource + '/' + v.library + '#' + v.iconName}" id="{!v.id}"
-             class="{!v.class + ' rr-icon-default'}" color="{!v.color}"/>
+    <aura:if isTrue="{!!v.printMode}">
+        <c:MySVG xlinkHref="{!v.resource + '/' + v.library + '#' + v.iconName}" id="{!v.id}"
+                 class="{!v.class + ' rr-icon-default'}" color="{!v.color}"/>
+        <aura:set attribute="else">
+            <img src="{!v.imageResource + '/' + v.iconName + '.png'}"/>
+        </aura:set>
+    </aura:if>
+
 </aura:component>
