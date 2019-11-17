@@ -49,11 +49,17 @@
         var siteWrapper = component.get('v.siteWrapper');
         var studyListView = component.get('v.studyListViewComponent');
         studyListView.find('actionManageLocationDetails').execute(siteWrapper, function (studySite, accounts) {
-            component.set('v.siteWrapper.studySite', studySite);
+           // component.set('v.siteWrapper.studySite', studySite);
+            component.set('v.siteWrapper.studySite.Site__c', studySite.Site__c);
+            component.set('v.siteWrapper.studySite.Site__r.Name', studySite.Site__r.Name);
+            component.set('v.siteWrapper.studySite.Site__r.BillingCity', studySite.Site__r.BillingCity);
+            component.set('v.siteWrapper.studySite.Site__r.BillingCountryCode', studySite.Site__r.BillingCountryCode);
+            component.set('v.siteWrapper.studySite.Site__r.BillingStateCode', studySite.Site__r.BillingStateCode);
+            component.set('v.siteWrapper.studySite.Site__r.BillingStreet', studySite.Site__r.BillingStreet);
+            component.set('v.siteWrapper.studySite.Site__r.Driving_Directions__c', studySite.Site__r.Driving_Directions__c);
+            component.set('v.siteWrapper.studySite.Site__r.Parking_Instructions__c', studySite.Site__r.Parking_Instructions__c);
             if (accounts) {
                 component.set('v.siteWrapper.accounts', accounts);
-                studyListView.find('actionManageLocationDetails').find('manageLocation').hide();
-                studyListView.find('actionManageLocationDetails').find('manageLocation').show();
             }
         });
     },

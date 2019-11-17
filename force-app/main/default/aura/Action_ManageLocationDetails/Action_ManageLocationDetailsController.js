@@ -42,7 +42,7 @@
 
     editAccountAddress: function (component, event, helper) {
         var index = event.currentTarget.dataset.index;
-        var accountsList = component.get('v.studySiteAccounts');
+        var accountsList = JSON.parse(JSON.stringify(component.get('v.studySiteAccounts')));
         var studySite = component.get('v.studySite');
         var account = accountsList[index];
         if (!account) {
@@ -61,8 +61,8 @@
             helper.sortAndSetAccountsByName(component, accountsList);
             studySite.Site__c = account.Id;
             studySite.Site__r = account;
-            component.set('v.studySiteAccounts', accountsList);
-            component.set('v.studySite', studySite);
+            //component.set('v.studySiteAccounts', accountsList);
+            //component.set('v.studySite', studySite);
             var radioBtns = component.find('radioBtn');
             for (let i = 0; i < radioBtns.length; i++) {
                 if(radioBtns[i].get('v.value').Id == account.Id){
@@ -71,10 +71,13 @@
                     radioBtns[i].set('v.checked', false);
                 }
             }
+            communityService.showToast('success', 'success', $A.get('$Label.c.SS_Success_Save_Message'));
             component.get('v.callback')(studySite, accountsList);
+            //component.set('v.refresh', true);
+            //component.set('v.refresh', false);
             //component.find('manageLocation').hide();
             //component.find('manageLocation').show();
-            communityService.showToast('success', 'success', $A.get('$Label.c.SS_Success_Save_Message'));
+
         });
     },
 });
