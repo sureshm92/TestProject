@@ -42,8 +42,10 @@ public without sharing class XLF_TweakerRemote {
             }
     
             String docType = documents[0].Type;
-            String newName = documents[0].Name.removeEnd(docType) + 'tweaked.' + docType;
-            Blob   xlfData = documents[0].Body;
+            String newName = documents[0].Name.removeEnd(docType);
+            if (!newName.endsWith('.')) newName += '.';
+            newName += 'tweaked.' + docType;
+            Blob xlfData = documents[0].Body;
     
             if (docType == 'zip') {
                 return new XLF_RemoteActionResult (true,null,null, EncodingUtil.base64Encode(xlfData),null);

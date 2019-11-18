@@ -52,6 +52,7 @@ public abstract class StudyActions {
     }
 
     //action ID's
+    public static final String ACT_ACCEPT_TC = 'acceptTermsAndConditions';
     public static final String ACT_VIEW_TC = 'viewTermsAndConditions';
     public static final String ACT_NO_THANKS = 'noThanks';
     public static final String ACT_DELEGATE = 'delegate';
@@ -91,6 +92,7 @@ public abstract class StudyActions {
     public static final String ACT_CONNECT_PROVIDER = 'connectProvider';
 
     //action labels:
+    public static final String LABEL_ACCEPT_TC = Label.BTN_Accept_terms_and_conditions;
     public static final String LABEL_VIEW_TC = Label.BTN_View_terms_and_conditions;
     public static final String LABEL_VIEW_TC_Participant = Label.BTN_View_terms_and_conditions_participant;
     public static final String LABEL_NO_THANKS = Label.BTN_No_thanks;
@@ -241,6 +243,18 @@ public abstract class StudyActions {
 
 
         //common actions:
+        actions.put(ACT_ACCEPT_TC, new Action(
+                ACT_ACCEPT_TC,
+                LABEL_ACCEPT_TC,
+                'paper-many',
+                new List<DisableReason>{
+                        new DisableReason(
+                                study.Terms_And_Conditions_ID__c  == null,
+                                ''
+                        )
+                },
+                'primary'
+        ));
         actions.put(ACT_VIEW_TC, new Action(
                 ACT_VIEW_TC,
                 LABEL_VIEW_TC,
