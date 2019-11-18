@@ -25,13 +25,13 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     color: #297DFD;
-    font-size: .8125rem;
+    font-size: 1rem;
     line-height: 16px;
 }
 
 .THIS .vpi-field > .label{
     color: #595959;
-    font-size: .8125rem;
+    font-size: 1rem;
     line-height: 16px;
     display: inline-flex;
     height: 30px;
@@ -42,7 +42,7 @@
 
 .THIS .vpi-field > .value{
     color: #000000;
-    font-size: .8125rem;
+    font-size: 1rem;
     line-height: 18px;
     font-weight: 400;
 }

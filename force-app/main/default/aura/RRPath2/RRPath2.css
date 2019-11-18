@@ -27,15 +27,13 @@
     border-top-color: #b5b5b5;
 }
 
-
-
 .THIS .line-div.success{
     border-top-color: #00c221;
 }
 
 
 .THIS .line-div.in_progress{
-    border-top-color: #005ff1;
+    border-top-color: #00c221
 }
 
 .THIS .line-div.failure{
@@ -96,7 +94,7 @@
 }
 
 .THIS .state.in_progress .state-ico-wrapper{
-    background-color: #00c221!important;
+    background-color: #005ff1!important;
 }
 
 .THIS .state.failure .state-ico-wrapper{
