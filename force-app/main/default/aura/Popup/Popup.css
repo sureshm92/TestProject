@@ -74,6 +74,9 @@
     line-height: 30px;
     width: 90%;
 }
+.THIS .p-header.p-header-buttons h2 {
+    width: 80%;
+}
 
 .THIS .p-header.success {
     background: #00C221;

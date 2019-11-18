@@ -73,7 +73,7 @@
     width: 14px;
     height: 14px;
     padding: 0;
-    fill: white;
+    fill: white!important;
 }
 
 .THIS .state.current .state-ico-wrapper{
@@ -90,19 +90,19 @@
 }
 
 .THIS .state.neutral .state-ico-wrapper{
-    background-color: #b5b5b5;
+    background-color: #b5b5b5!important;
 }
 
 .THIS .state.success .state-ico-wrapper{
-    background-color: #00c221;
+    background-color: #00c221!important;
 }
 
 .THIS .state.in_progress .state-ico-wrapper{
-    background-color: #00c221;
+    background-color: #00c221!important;
 }
 
 .THIS .state.failure .state-ico-wrapper{
-    background-color: #E20000;
+    background-color: #E20000!important;
 }
 
 /* status names */
@@ -111,12 +111,14 @@
     color: #999;
 }
 
+
+@media not print {
+    .THIS .vri-state-label {
+        display: none;
+    }
+}
 .THIS .success .vri-state-label{
     color: #000;
-}
-
-.THIS .vri-state-label{
-    display: none;
 }
 
 .THIS .state.current .vri-state-label{
