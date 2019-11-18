@@ -32,14 +32,31 @@ public class XLF_TweakerHelper {
         doc.load(data.toString());
         Dom.XmlNode rootNode = doc.getRootElement();
     
+        XmlStreamWriter newDoc = new XmlStreamWriter();
+        newDoc.writeStartDocument('UTF-8', '1.0');
+        newDoc.writeCharacters('\n');
+        newDoc.writeStartElement(null, 'xliff', null);
+        newDoc.writeAttribute(null, null, 'version', rootNode.getAttribute('version', null));
+   
         //--------------------------------------------------------------//
         // parse document body and remove unwanted elements             //
         //--------------------------------------------------------------//
         for (Dom.XmlNode fileElement : rootNode.getChildElements()) {
             if (fileElement.getName() != 'file') continue;
+            newDoc.writeCharacters('\n    ');
+            newDoc.writeStartElement(null, 'file', null);
+            newDoc.writeAttribute(null, null, 'original', fileElement.getAttribute('original', null));
+            newDoc.writeAttribute(null, null, 'source-language', fileElement.getAttribute('source-language', null));
+            newDoc.writeAttribute(null, null, 'target-language', fileElement.getAttribute('target-language', null));
+            newDoc.writeAttribute(null, null, 'datatype', fileElement.getAttribute('datatype', null));
+    
             for (Dom.XmlNode bodyElement : fileElement.getChildElements()) {
                 if (bodyElement.getName() != 'body') continue;
+                newDoc.writeCharacters('\n        ');
+                newDoc.writeStartElement(null, 'body', null);
+
                 for (Dom.XmlNode transElement : bodyElement.getChildElements()) {
+                    if (transElement.getName() != 'trans-unit') continue;
                     String id = transElement.getAttribute('id', null);
     
                     // -----------------------------------------------------------------------------------
@@ -69,13 +86,9 @@ public class XLF_TweakerHelper {
     
                     // ------------------------------------------------------------------
                     // if file element doesn't have any matches in the WhiteList patterns
-                    // then remove it from file and go to next element
+                    // then skip it and go to next element
                     // ------------------------------------------------------------------
                     if (!whiteMatchFound) {
-                        for (Dom.XmlNode child : transElement.getChildren()) {
-                            transElement.removeChild(child);
-                        }
-                        bodyElement.removeChild(transElement);
                         continue;
                     }
     
@@ -106,26 +119,51 @@ public class XLF_TweakerHelper {
     
                     // -----------------------------------------------------
                     // if file element matches any pattern in the BlackList
-                    // then remove it from file and go to next element
+                    // then skip it and go to next element
                     // -----------------------------------------------------
                     if (blackMatchFound) {
-                        for (Dom.XmlNode child : transElement.getChildren()) {
-                            transElement.removeChild(child);
-                        }
-                        bodyElement.removeChild(transElement);
                         continue;
                     }
+                    
+                    newDoc.writeCharacters('\n            ');
+                    newDoc.writeStartElement(null, 'trans-unit', null);
+                    newDoc.writeAttribute(null, null, 'id', id);
+                    newDoc.writeAttribute(null, null, 'maxwidth', transElement.getAttribute('maxwidth', null));
+                    newDoc.writeAttribute(null, null, 'size-unit', transElement.getAttribute('size-unit', null));
+    
+                    Dom.XmlNode sourceElement = transElement.getChildElement('source', null);
+                    Dom.XmlNode targetElement = transElement.getChildElement('target', null);
+
+                    newDoc.writeCharacters('\n                ');
+                    newDoc.writeStartElement(null, 'source', null);
+                    newDoc.writeCharacters(sourceElement.getText());
+                    newDoc.writeEndElement();                           // end of 'source'
+    
+                    newDoc.writeCharacters('\n                ');
+                    newDoc.writeStartElement(null, 'target', null);
+                    if (targetElement != null) {
+                        newDoc.writeCharacters(sourceElement.getText());
+                    } else {
+                        newDoc.writeCharacters(id);
+                    }
+                    newDoc.writeEndElement();                           // end of 'target'
+                    
+                    newDoc.writeCharacters('\n            ');
+                    newDoc.writeEndElement();                           // end of 'trans-unit'
                 }
+                newDoc.writeCharacters('\n        ');
+                newDoc.writeEndElement();                   // end of 'body'
             }
+            newDoc.writeCharacters('\n    ');
+            newDoc.writeEndElement();                       // end of 'file'
         }
     
-        String docString = doc.toXmlString();
-        while (docString.contains(' \n')) {
-            docString = docString.replace(' \n', '\n');
-        }
-        while (docString.contains('\n\n')) {
-            docString = docString.replace('\n\n', '\n');
-        }
+        newDoc.writeCharacters('\n');
+        newDoc.writeEndElement();                           // end of 'exliff'
+        newDoc.writeEndDocument();
+        String docString = newDoc.getXmlString();
+        newDoc.close();
+    
         return Blob.valueOf(docString);
     }
 }
