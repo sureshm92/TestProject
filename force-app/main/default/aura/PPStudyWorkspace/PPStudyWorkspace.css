@@ -199,10 +199,6 @@
     display: none;
 }
 
-.THIS .rr-all-content > .links:last-child {
-	margin-bottom: 5px;
-}
-
 .THIS .sdv-btn{
     margin-left: 20px;
     white-space: nowrap;
