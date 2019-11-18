@@ -119,7 +119,7 @@
                 <div class="header">{!$Label.c.BTN_Status_Details}</div>
                 <div class="path-panel">
                     <div class="path-section">
-                        <c:RRPath2 pathItems="{!v.pathItems}"/>
+                        <c:RRPath2 pathItems="{!v.pathItems}" printMode="true"/>
                     </div>
                 </div>
 
