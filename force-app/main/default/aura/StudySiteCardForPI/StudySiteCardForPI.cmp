@@ -9,6 +9,7 @@
     <aura:attribute name="delegatePicklist" type="List"/>
     <aura:attribute name="rerenderComponent" type="Boolean" description="false"/>
     <aura:attribute name="userMode" type="String" description="HCP/PI/Patient"/>
+    <aura:attribute name="refresh" type="Boolean" default="false"/>
     <aura:attribute name="studyListViewComponent" type="Aura.Component"/>
 
     <!-- component body: -->
@@ -85,14 +86,16 @@
                                     <div class="ss-info-address">{!v.siteWrapper.studySite.Site__r.Name + ' ' + $Label.c.SS_Location}</div>
                                     <div class="ss-info-address">{!v.siteWrapper.studySite.Site__r.BillingStreet}</div>
                                     <div class="ss-info-address">{!if(v.siteWrapper.studySite.Site__r.BillingCity!=null, v.siteWrapper.studySite.Site__r.BillingCity + ', ', '') +v.siteWrapper.studySite.Site__r.BillingStateCode + ' ' + v.siteWrapper.studySite.Site__r.BillingPostalCode}</div>
-                                    <c:RRIcon
-                                            class="{!('Address' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'NearAddress' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy ||
+                                    <aura:if isTrue="{!!v.refresh}">
+                                        <c:RRIcon
+                                                class="{!('Address' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'NearAddress' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy ||
                                                        v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'Block' || v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'Street' || v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'ExtendedZip') &amp;&amp; v.siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; v.siteWrapper.studySite.Site__r.BillingLongitude ? 'check-icon-style' : 'close-icon-style'}"
-                                            iconName="{!('Address' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'NearAddress' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy ||
+                                                iconName="{!('Address' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'NearAddress' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy ||
                                                           v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'Block' || v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'Street' || v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'ExtendedZip') &amp;&amp; v.siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; v.siteWrapper.studySite.Site__r.BillingLongitude ? 'icon-check' : 'icon-close'}"/>
-                                    <div style="display:inline-block;"
-                                         class="input-fields-labels">{!('Address' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'NearAddress' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy ||
-                                                                         v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'Block' || v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'Street' || v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'ExtendedZip') &amp;&amp; v.siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; v.siteWrapper.studySite.Site__r.BillingLongitude ? $Label.c.SS_Address_Found : $Label.c.SS_Address_Not_Found}</div>
+                                        <div style="display:inline-block;"
+                                             class="input-fields-labels">{!('Address' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'NearAddress' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy ||
+                                            v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'Block' || v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'Street' || v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'ExtendedZip') &amp;&amp; v.siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; v.siteWrapper.studySite.Site__r.BillingLongitude ? $Label.c.SS_Address_Found : $Label.c.SS_Address_Not_Found}</div>
+                                    </aura:if>
                                 </div>
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-6 other-ss-info-container">
                                     <div class="ss-info-headers">{!$Label.c.SS_Driving_Instructions}</div>
@@ -111,9 +114,9 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
-                    </div> 
+                    </div>
                     <div class="slds-col slds-size_1-of-1">
                         <div class="slds-col slds-grid slds-size_1-of-1 slds-medium-size_7-of-7 slds-grid--align-end ss-info-buttons">
                             <aura:iteration items="{!v.siteWrapper.actions}" var="action">
