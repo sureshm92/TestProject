@@ -279,7 +279,7 @@ public class StudyActionsPI extends StudyActions{
 
         //if(openToReceiveReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
             if(isTCAcceptanceRequired){
-                studyListViewItemActions.add(actions.get(ACT_VIEW_TC));
+                studyListViewItemActions.add(actions.get(ACT_ACCEPT_TC));
             }
             if(openToReceiveReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
                 //studyListViewItemActions.add(actions.get(ACT_OPEN_TO_RECEIVE_REFERRALS));

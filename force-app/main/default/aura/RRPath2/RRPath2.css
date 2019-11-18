@@ -27,9 +27,7 @@
     border-top-color: #b5b5b5;
 }
 
-.THIS .state.neutral .cRRIcon{
- 	display: none;   
-}
+
 
 .THIS .line-div.success{
     border-top-color: #00c221;
@@ -111,12 +109,17 @@
     color: #999;
 }
 
+
+@media not print {
+    .THIS .vri-state-label {
+        display: none;
+    }
+    .THIS .state.neutral .cRRIcon{
+        display: none;
+    }
+}
 .THIS .success .vri-state-label{
     color: #000;
-}
-
-.THIS .vri-state-label{
-    display: none;
 }
 
 .THIS .state.current .vri-state-label{
