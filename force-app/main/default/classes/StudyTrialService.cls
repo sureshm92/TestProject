@@ -407,7 +407,7 @@ public without sharing class StudyTrialService {
                     currActions.add(myPatients);
                 }
                 if(studyDetailItem.trial.Terms_And_Conditions_ID__c != null){
-                    StudyActions.Action tcAction = currSA.actions.get(StudyActions.ACT_VIEW_TC);
+                    StudyActions.Action tcAction = currSA.actions.get(StudyActions.ACT_ACCEPT_TC);
                     currActions.add(tcAction);
                 }
                 availableActions.addAll(currActions);
