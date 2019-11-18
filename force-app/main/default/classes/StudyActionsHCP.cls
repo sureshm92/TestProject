@@ -255,7 +255,7 @@ public without sharing class StudyActionsHCP extends StudyActions{
 
         };
         if(hcpEnrollment!= null && tcStatuses.contains(hcpEnrollment.Status__c) && (isTCAcceptanceRequired)){
-            studyListViewItemActions.add(actions.get(ACT_VIEW_TC));
+            studyListViewItemActions.add(actions.get(ACT_ACCEPT_TC));
         }
 
         //Find study sites:
