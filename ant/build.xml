@@ -145,9 +145,6 @@
 
     </target>
 
-    <target name="test">
-    </target>
-
     <target name="create-distributive" depends="prepare-metadata">
         <echo message="Creating distributive: ${dist.name} ..."/>
         <exec executable="git">
