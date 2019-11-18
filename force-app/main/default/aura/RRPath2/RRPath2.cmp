@@ -27,7 +27,7 @@
                                     <c:RRIcon iconName="icon-minus" printMode="{!v.printMode}"/>
                                 </aura:if>
                                 <aura:if isTrue="{!pathItem.state == 'neutral'}">
-                                    <c:RRIcon iconName="icon-minus" printMode="{!v.printMode}"/>
+                                    <c:RRIcon iconName="{!if(v.printMode,'icon-none','icon-minus')}" printMode="{!v.printMode}"/>
                                 </aura:if>
                             </div>
                         </div>

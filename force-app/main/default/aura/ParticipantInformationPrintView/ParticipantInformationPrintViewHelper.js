@@ -11,7 +11,7 @@
         var iconMap = {
             success: 'icon-check',
             failure: 'icon-close',
-            neutral: 'icon-minus',
+            neutral: 'icon-none',
             in_progress: 'icon-minus'
         };
         for (var i = 0; i < statuses.length; i++) {
