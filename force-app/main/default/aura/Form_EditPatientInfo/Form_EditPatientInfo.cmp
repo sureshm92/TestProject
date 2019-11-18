@@ -158,7 +158,7 @@
                 </div>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                     <div class="label">{!$Label.c.MRN_Internal_Id}</div>
-                    <lightning:input type="text" value="{!v.pe.MRN_Id__c}" onblur="{!c.doCheckFields}"/>
+                    <lightning:input aura:id="mrnId" type="text" value="{!v.pe.MRN_Id__c}" onblur="{!c.doCheckFields}"/>
                 </div>
                 <aura:if isTrue="{!v.visitPlanRequired}">
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
