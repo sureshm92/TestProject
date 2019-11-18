@@ -12,11 +12,11 @@
 .THIS .ah-item-label{
     color: black;
     font-weight: 600;
-    font-size: 17px;
+    font-size: 18px;
 }
 .THIS .ah-item-sublabel{
     color: #666666;
-    font-size: 13px;
+    font-size: 1rem;
 }
 .THIS .ah-item-panel{
     box-sizing: border-box;
@@ -62,13 +62,6 @@
         margin-bottom: 10px;
     }
 
-    .THIS .ah-item-sublabel{
-        font-size: 10px;
-    }
-
-    .THIS .ah-item-label{
-        font-size: 12px;
-    }
     .THIS .ah-item-panel{
         padding-left: 5px;
         padding-right: 5px;
@@ -77,4 +70,5 @@
 
         width: 360px;
     }
+
 }
