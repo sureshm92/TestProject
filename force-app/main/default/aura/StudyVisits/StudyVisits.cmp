@@ -75,7 +75,7 @@
                                     entriesOnPage="4"/>
                 </div>
             </aura:if>
-            <c:EmptyListStub class="no-visits-message" targetList="{!v.visitWrappers}" iconName="none"/>
+            <c:EmptyListStub class="no-visits-message" targetList="{!v.visitWrappers}" iconName="none" message="{!$Label.c.VR_Visits_Not_Available}"/>
         </ui:scrollerWrapper>
 
         <aura:if isTrue="{!v.initialized}">
