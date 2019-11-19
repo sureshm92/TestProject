@@ -3,8 +3,8 @@
  -->
 
 <aura:component description="ParticipantInformationPrintView" controller="ParticipantInformationRemote" implements="forceCommunity:availableForAllPageTypes">
-    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require styles="{!join(',', $Resource.rr_community + '/rr_community_css.css', $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community + '/rr_community_js.js')}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="pe" type="Participant_Enrollment__c"/>
