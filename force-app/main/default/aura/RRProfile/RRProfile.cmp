@@ -1,6 +1,6 @@
 <aura:component controller="RRProfileController" description="RRProfile">
 
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community + '/rr_community_js.js')}" afterScriptsLoaded="{!c.doInit}"/>
     <!--=============================================================================================================-->
     <aura:attribute name="profileMenu" type="Aura.Component[]" description="Deprecated. Use custom profile!"/>
     <aura:attribute name="userMode" type="String" required="true"/>

@@ -5,7 +5,7 @@
 <aura:component description="StudySiteVisitConfig" controller="StudySiteVisitConfigRemote"
                 implements="force:hasRecordId, flexipage:availableForAllPageTypes">
 
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!$Resource.rr_community + '/rr_community_js.js'}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!--attributes: -->
     <aura:attribute name="initialized" type="Boolean" default="false"/>

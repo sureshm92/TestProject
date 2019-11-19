@@ -9,7 +9,6 @@ import communityPack from '@salesforce/resourceUrl/rr_community';
 
 export default class WebIcon extends LightningElement {
 
-
     @api iconName;
     @api classCss;
 

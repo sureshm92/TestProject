@@ -5,7 +5,7 @@
 <aura:component description="AdminPanel" controller="AdminPanelRemote"
                 implements="forceCommunity:availableForAllPageTypes,force:appHostable">
 
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community + '/rr_community_js.js')}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="jobs" type="List"/>

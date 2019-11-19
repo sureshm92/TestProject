@@ -3,7 +3,7 @@
  -->
 
 <aura:component description="RRGoogleMap">
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community + '/rr_community_js.js')}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!--attributes-->
     <aura:attribute name="accounts" type="List"/>

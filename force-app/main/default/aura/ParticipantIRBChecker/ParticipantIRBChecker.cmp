@@ -4,7 +4,7 @@
 
 <aura:component description="ParticipantIRBChecker" controller="ParticipantIRBCheckerRemote">
 
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!$Resource.rr_community + '/rr_community_js.js'}" afterScriptsLoaded="{!c.doInit}"/>
 
     <aura:attribute name="peId" type="Id"/>
     <aura:attribute name="displayText" type="String" access="private"/>

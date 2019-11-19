@@ -3,7 +3,7 @@
  -->
 
 <aura:component description="RRLoginForm" implements="forceCommunity:availableForAllPageTypes" controller="RRLoginRemote">
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.initialize}"/>
+    <ltng:require scripts="{!$Resource.rr_community + '/rr_community_js.js'}" afterScriptsLoaded="{!c.initialize}"/>
 
     <aura:attribute name="showError" type="Boolean" required="true" description="" default="false" access="private"/>
     <aura:attribute name="errorMessage" type="String" required="false" description="" access="private"/>

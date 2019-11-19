@@ -1,6 +1,6 @@
 <aura:component controller="ParticipantVisitsRemote" description="StudyVisitsPreviewPanel" >
 
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community + '/rr_community_js.js')}" afterScriptsLoaded="{!c.doInit}"/>
 
     <aura:attribute name="visitWrappers" type="PatientVisitService.VisitWrapper[]"/>
 

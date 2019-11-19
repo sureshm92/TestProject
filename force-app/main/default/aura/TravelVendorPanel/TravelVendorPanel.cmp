@@ -14,7 +14,7 @@
     <aura:attribute name="currentPage" type="Integer" default="1"/>
     <aura:attribute name="permission" type="String" default=""/>
 
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!$Resource.rr_community + '/rr_community_js.js'}" afterScriptsLoaded="{!c.doInit}"/>
 
     <div class="panel">
         <c:RRSpinner aura:id="spinner"/>

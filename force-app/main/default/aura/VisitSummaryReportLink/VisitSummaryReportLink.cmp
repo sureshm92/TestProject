@@ -3,7 +3,8 @@
  -->
 
 <aura:component description="VisitSummaryReportLink"  controller="VisitReportContainerRemote" extends="c:LightningService">
-    <ltng:require scripts="{!join(',', $Resource.jsPDF + '/jspdf.js', $Resource.jsPDF + '/jspdf.plugin.autotable.min.js', $Resource.pdfjs_dist + '/build/pdf.js', $Resource.rr_community_js)}"
+    <ltng:require scripts="{!join(',', $Resource.jsPDF + '/jspdf.js', $Resource.jsPDF + '/jspdf.plugin.autotable.min.js',
+                    $Resource.pdfjs_dist + '/build/pdf.js', $Resource.rr_community + '/rr_community_js.js')}"
                   afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
