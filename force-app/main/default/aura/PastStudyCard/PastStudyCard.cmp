@@ -10,7 +10,7 @@
         <div class="slds-grid slds-wrap slds-gutters" style="align-items: stretch">
             <div class="slds-col slds-size--1-of-1 slds-large-size_2-of-3">
                 <aura:if isTrue="{!!empty(v.ctp.Profile_Picture__c)}">
-                    <img src="{!v.ctp.Profile_Picture__c}"/>
+                    <img class="profile-pic" src="{!v.ctp.Profile_Picture__c}"/>
                 </aura:if>
                 <div class="study-title">{!v.ctp.Study_Code_Name__c} ({!v.ctp.Therapeutic_Area__r.Name})</div>
                 <div class="study-description">{!v.ctp.Detailed_Description__c}</div>
