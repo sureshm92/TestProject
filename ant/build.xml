@@ -151,7 +151,11 @@
             <arg value="tag"/>
             <arg value="${dist.name}"/>
         </exec>
-        <echo message="Tag in Git for this distributive created"/>
+        <exec executable="git">
+            <arg value="push"/>
+            <arg value="origin"/>
+            <arg value="${dist.name}"/>
+        </exec>
 
         <delete dir="${dist.dir}"/>
         <mkdir dir="${dist.dir}"/>
