@@ -1,5 +1,5 @@
 <aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="FileUploadController">
-    <ltng:require scripts="{!join(',', $Resource.rr_community + '/rr_community_js.js')}"
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
     <!-- attributes -->
     <aura:attribute name="fileType" type="List" default="['.pdf']"/>

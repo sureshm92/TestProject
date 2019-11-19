@@ -4,7 +4,7 @@
 
 <aura:component description="TranslationExportImport" implements="force:appHostable" controller="TranslationExportImportRemote">
     <!-- import libs: -->
-    <ltng:require scripts="{!join(',', $Resource.rr_community + '/rr_community_js.js', $Resource.filesaver)}"
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js, $Resource.filesaver)}"
                   afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->

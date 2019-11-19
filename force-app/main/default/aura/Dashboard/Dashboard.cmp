@@ -3,8 +3,8 @@
  -->
 
 <aura:component description="Dashboard" implements="forceCommunity:availableForAllPageTypes" controller="DashboardRemote">
-    <ltng:require styles="{!join(',', $Resource.rr_community + '/rr_community_css.css', $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community + '/rr_community_js.js')}"
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->

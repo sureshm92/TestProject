@@ -4,7 +4,7 @@
 
 <aura:component description="TaskEdit" controller="TaskEditRemote" implements="forceCommunity:availableForAllPageTypes">
 
-    <ltng:require scripts="{!join(',', $Resource.rr_community + '/rr_community_js.js', $Resource.moment_js)}"
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js, $Resource.moment_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes -->
