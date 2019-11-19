@@ -26,7 +26,8 @@
 
 .THIS .vri-state-label{
     text-align: center;
-    font-size: .875rem;
+    font-size: 1rem;
+    line-height: 1;
 }
 
 .THIS .vpi-line-div{
@@ -176,7 +177,7 @@
 
 .THIS .vpi-status-btns {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     padding-left: 16px;
 }
 
