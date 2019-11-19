@@ -23,8 +23,8 @@
             helper.preparePathItems(component);
             setTimeout(
                 $A.getCallback(function () {
+                    window.addEventListener("afterprint", function(event) { window.close(); });
                     window.print();
-
                 }), 1000
             );
         });
