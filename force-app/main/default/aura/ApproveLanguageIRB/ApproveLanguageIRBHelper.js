@@ -15,10 +15,10 @@
 
         component.find('spinner').show();
         communityService.executeAction(component, 'getFilteredItems', {
-            'data': JSON.stringify(data),
-            'countryCodes': cCodes,
-            'langCodes': langCodes,
-            'ssId': ssIds,
+            data: JSON.stringify(data),
+            countryCodes: cCodes,
+            langCodes: langCodes,
+            ssId: ssIds,
         }, function (data) {
             component.set('v.data', data);
             component.set('v.ssItems', data.studySiteItems);
