@@ -5,16 +5,15 @@
 import {LightningElement, api} from 'lwc';
 import {loadStyle} from 'lightning/platformResourceLoader';
 import rrIcons from '@salesforce/resourceUrl/rr_community_icons';
-import communityPack from '@salesforce/resourceUrl/rr_community';
+import communityPack from '@salesforce/resourceUrl/rr_community_css';
 
 export default class WebIcon extends LightningElement {
-
 
     @api iconName;
     @api classCss;
 
     connectedCallback() {
-        loadStyle(this, communityPack + '/rr_community_css.css');
+        loadStyle(this, communityPack);
     }
 
     get icon() {

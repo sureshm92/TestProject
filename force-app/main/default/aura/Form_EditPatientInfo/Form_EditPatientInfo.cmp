@@ -3,8 +3,8 @@
  -->
 
 <aura:component description="Form_EditPatientInfo">
-    <ltng:require styles="{!join(',', $Resource.rr_community + '/rr_community_css.css', $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community + '/rr_community_js.js')}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
     
     <!-- public attributes: -->
     <aura:attribute name="pe" type="Participant_Enrollment__c" access="public"/>
@@ -158,7 +158,7 @@
                 </div>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                     <div class="label">{!$Label.c.MRN_Internal_Id}</div>
-                    <lightning:input type="text" value="{!v.pe.MRN_Id__c}" onblur="{!c.doCheckFields}"/>
+                    <lightning:input aura:id="mrnId" type="text" value="{!v.pe.MRN_Id__c}" onblur="{!c.doCheckFields}"/>
                 </div>
                 <aura:if isTrue="{!v.visitPlanRequired}">
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">

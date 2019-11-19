@@ -255,7 +255,7 @@ public without sharing class StudyActionsHCP extends StudyActions{
 
         };
         if(hcpEnrollment!= null && tcStatuses.contains(hcpEnrollment.Status__c) && (isTCAcceptanceRequired)){
-            studyListViewItemActions.add(actions.get(ACT_VIEW_TC));
+            studyListViewItemActions.add(actions.get(ACT_ACCEPT_TC));
         }
 
         //Find study sites:
@@ -287,7 +287,7 @@ public without sharing class StudyActionsHCP extends StudyActions{
         //prepare bottom bar actions:
         if(hcpEnrollment!= null && findStudySiteStatuses.contains(hcpEnrollment.Status__c)){
             if(isTCAcceptanceRequired){
-                studyDetailBottomBarActions.add(actions.get(ACT_VIEW_TC));
+                studyDetailBottomBarActions.add(actions.get(ACT_ACCEPT_TC));
             }else{
                 studyDetailBottomBarActions.add(actions.get(ACT_FIND_STUDY_SITES));
             }

@@ -28,7 +28,7 @@
 .THIS .save-btn {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
+    align-items: flex-end;
 }
 
 .THIS .padding-info {

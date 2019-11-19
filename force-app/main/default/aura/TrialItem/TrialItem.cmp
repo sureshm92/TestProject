@@ -49,7 +49,7 @@
                 v.trialTDO.ctp.Link_to_ePR_Campaign__c ? $Label.c.TrialSearch_See_Qualify : $Label.c.TrialSearch_Contact_the_study}
             </button>
             <aura:set attribute="else">
-                <button class="apollo-btn tertiary button-ctp"
+                <button class="apollo-btn secondary button-ctp"
                         onclick="{!c.onClick}" disabled="{!v.trialTDO.relatedNotificationExists}">
                     {!v.trialTDO.relatedNotificationExists ? $Label.c.TrialSearch_We_will_alert_you : $Label.c.TrialSearch_Study_contacted}
                 </button>
