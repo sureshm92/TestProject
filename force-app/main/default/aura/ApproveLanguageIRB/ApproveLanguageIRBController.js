@@ -158,8 +158,31 @@
     },
 
     columnCheckboxStateChange: function (component, event, helper) {
-        var lang = event.getParam('keyId');
-        var state = event.getParam('value');
+        let lang = event.getParam('keyId');
+        let state = event.getParam('value');
+        if(state === true) {
+            component.find('spinner').show();
+            var cCodes = component.get('v.countryCodes');
+            var langCodes = component.get('v.langCodes');
+            var ssIds = component.get('v.selectedSSIds');
+
+            communityService.executeAction(component, 'setLanguageForAll', {
+                data: JSON.stringify(component.get('v.data')),
+                language: lang,
+                countryCodes: cCodes,
+                langCodes: langCodes,
+                ssId: ssIds,
+            }, function (data) {
+                component.set('v.data', data);
+                component.set('v.ssItems', data.studySiteItems);
+
+                component.set('v.allRecordsCount', data.paginationData.allRecordsCount);
+                component.set('v.currentPage', data.paginationData.currentPage);
+                component.set('v.languages', data.languages);
+                component.find('spinner').hide();
+            });
+
+        }
 
         var ssItems = component.get('v.ssItems');
         for (var i = 0; i < ssItems.length; i++) {
