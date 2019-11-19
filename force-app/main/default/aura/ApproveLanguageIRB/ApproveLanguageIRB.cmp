@@ -41,7 +41,7 @@
     <!-- component body: -->
     <div class="panel">
         <c:RRSpinner aura:id="spinner"/>
-        <aura:if isTrue="{!v.viewModePage != 'Disabled'}">
+        <aura:if isTrue="{!notequals(v.viewModePage, 'Disabled')}">
             <aura:set attribute="else">
                 <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>
             </aura:set>
