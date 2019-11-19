@@ -163,7 +163,7 @@ public without sharing class ApprovedLangRemote {
     }
 
     @AuraEnabled
-    public static InitData setLanguageForAll(String data, String language, String countryCodes, String langCodes, String ssId) {
+    public static void setLanguageForAll(String data, String language) {
         try {
             InitData initData = (InitData) JSON.deserialize(data, InitData.class);
             if (ctpStudySites == null) ctpStudySites = getStudySites(QUERY_MAIN_FILTER.replace('ctpId', initData.ctpId));
@@ -180,10 +180,8 @@ public without sharing class ApprovedLangRemote {
             }
 
             update ctpStudySites;
-
-            return getFilteredItems(data, countryCodes, language, ssId);
         } catch (Exception e) {
-            return (InitData) AuraHelper.throwException(e);
+            AuraHelper.throwException(e);
         }
     }
 
