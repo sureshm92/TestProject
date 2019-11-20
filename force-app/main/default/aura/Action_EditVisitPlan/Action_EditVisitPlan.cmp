@@ -40,7 +40,7 @@
                 <div class="toolbar">
                     <lightning:input class="inline-input" type="text" label="Version" value="{!v.plan.Version__c}"
                                      disabled="{!equals(v.mode,'view')}"/>
-                    <aura:if isTrue="{!!equals(v.mode,'view')}">
+                    <aura:if isTrue="{!notequals(v.mode,'view')}">
                         <lightning:button class="btns toolbar-btn" variant="neutral" type="button"
                                           label="{!$Label.c.Visit_b_Add_Visit}"
                                           onclick="{!c.doAddVisit}"/>
@@ -68,7 +68,7 @@
                             <th scope="col">
                                 <div class="slds-truncate">{!$Label.c.Visit_Icons}</div>
                             </th>
-                            <aura:if isTrue="{!!equals(v.mode,'view')}">
+                            <aura:if isTrue="{!notequals(v.mode,'view')}">
                                 <th></th>
                                 <th></th>
                             </aura:if>
@@ -93,7 +93,7 @@
             <lightning:button variant="neutral" type="button" name="createVisitPlan"
                               label="{!$Label.c.BTN_Cancel}"
                               onclick="{!c.cancelClick}"/>
-            <aura:if isTrue="{!!equals(v.mode,'view')}">
+            <aura:if isTrue="{!notequals(v.mode,'view')}">
                 <lightning:button variant="brand" type="button" name="save" label="{!$Label.c.Visit_b_Save}"
                                   disabled="{!empty(v.plan.Name)}" onclick="{!c.saveVP}"/>
             </aura:if>
