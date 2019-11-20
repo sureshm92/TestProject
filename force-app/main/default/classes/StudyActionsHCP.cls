@@ -254,7 +254,7 @@ public without sharing class StudyActionsHCP extends StudyActions{
                 HCPEnrollmentService.HCP_S_DECLINED_A
 
         };
-        if(hcpEnrollment!= null && tcStatuses.contains(hcpEnrollment.Status__c) && (isTCAcceptanceRequired)){
+        if(hcpEnrollment!= null /*&& tcStatuses.contains(hcpEnrollment.Status__c)*/ && (isTCAcceptanceRequired)){
             studyListViewItemActions.add(actions.get(ACT_ACCEPT_TC));
         }
 
