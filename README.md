@@ -47,8 +47,9 @@
    sfdx force:data:tree:import -p data/import-plan.json
    ```
 ##### 7) Assign permission sets
-Setup > User > Click "Edit Assignments" under "Permission Set Assignments" > Add **"Patient Portal: Edit Study Settings"** 
-   
+```sh
+sfdx force:user:permset:assign --permsetname Patient_Portal_Edit_Study_Settings 
+```   
 ##### 8) Publish community:
 
    1. Go to Setup > All Communities > Open Community Builder > press Publish
