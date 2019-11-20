@@ -226,4 +226,11 @@ public without sharing class ParticipantService {
 
         return nearestNotificationByContactIds;
     }
+
+    public static String getParticipantFullName(Id contactId) {
+        List<Participant__c> participant = [SELECT Full_Name__c FROM Participant__c WHERE Contact__c = :contactId];
+        if(participant.isEmpty()) throw new ParticipantServiceException('This contact hasn\'t participant!');
+
+        return participant.get(0).Full_Name__c;
+    }
 }

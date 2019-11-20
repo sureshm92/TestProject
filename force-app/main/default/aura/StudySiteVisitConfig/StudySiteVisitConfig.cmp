@@ -42,7 +42,7 @@
     <aura:method name="refresh" action="{!c.doInit}"/>
 
     <!-- component body: -->
-    <aura:if isTrue="{!not(equals(v.viewModePage, 'Disabled'))}">
+    <aura:if isTrue="{!notequals(v.viewModePage, 'Disabled')}">
         <aura:set attribute="else">
             <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>
         </aura:set>
@@ -111,7 +111,6 @@
                                 </aura:if>
                             </div>
                             <!--Save changes button-->
-
                             <div class="slds-col slds-size--1-of-2 slds-p-left--small padding-info">
                                 <aura:if isTrue="{!v.haveEmptyVPSS}">
                                     <lightning:icon iconName="utility:warning" alternativeText="Warning!"

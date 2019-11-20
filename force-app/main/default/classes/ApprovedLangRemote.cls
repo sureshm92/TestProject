@@ -82,7 +82,6 @@ public without sharing class ApprovedLangRemote {
             if(!ctpStudySites.isEmpty()) {
                 loadInitData(initData);
                 initPageItems(initData, initData.countryCodes, null, null);
-                initData.paginationData.reCalc();
             }
 
             return initData;
@@ -160,6 +159,29 @@ public without sharing class ApprovedLangRemote {
             return initData;
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
+    public static void setLanguageForAll(String data, String language) {
+        try {
+            InitData initData = (InitData) JSON.deserialize(data, InitData.class);
+            if (ctpStudySites == null) ctpStudySites = getStudySites(QUERY_MAIN_FILTER.replace('ctpId', initData.ctpId));
+
+            for (Study_Site__c ss : ctpStudySites) {
+                if(String.isEmpty(ss.Approved_Lng__c)) ss.Approved_Lng__c = '';
+
+                List<String> appLngs = ss.Approved_Lng__c.split(';');
+                if (appLngs.contains(language)) continue;
+
+                appLngs.add(language);
+                appLngs.sort();
+                ss.Approved_Lng__c = String.join(appLngs, ';');
+            }
+
+            update ctpStudySites;
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
         }
     }
 
@@ -351,7 +373,7 @@ public without sharing class ApprovedLangRemote {
         }
 
         initData.countryCodes = initData.countryCodes.removeEnd(';');
-        initData.paginationData.allRecordsCount = ctpStudySites.size();
+        initData.paginationData.setRecordsCount(ctpStudySites.size());
     }
 
     private static void initPageItems(InitData initData, String countryCodes, String langCodes, String ssId) {
