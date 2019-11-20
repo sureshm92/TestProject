@@ -1067,7 +1067,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StudySiteFilter</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudySiteLookupRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudySiteSearchLookup</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1752,6 +1760,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>VisitPlanRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitPlanSearchLookup</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>

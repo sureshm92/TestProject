@@ -1,7 +1,6 @@
 /**
  * Created by Igor Malyuta on 19.09.2019.
  */
-
 .THIS.panel {
     box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.15);
     border: 1px solid #e4e4e4;
@@ -18,7 +17,7 @@
 
 .THIS .sorted-column {
     display: flex;
-    align-items: center;
+    justify-content: center;
 }
 
 .THIS .cell-wrap {
@@ -37,4 +36,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.THIS .column-btn {
+    text-align: center;
+}
+
+.THIS .column-btn a {
+    font-weight: normal;
+    font-size: 12px;
 }
