@@ -1259,8 +1259,10 @@ input[type=password]::-ms-clear
     z-index: 2100;
 }
 
-.rr-header-content, .rr-header-margin{
-    height: 50px;
+@media not print {
+    .rr-header-content, .rr-header-margin{
+        height: 50px;
+    }
 }
 
 .rr-body-content{
