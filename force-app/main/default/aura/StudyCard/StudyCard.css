@@ -12,6 +12,7 @@
 
 .THIS .slds-grid.slvi-buttons {
     padding: 0 0 25px 15px;
+    justify-content: center;
 }
 
 .THIS .rri-icon .cRRIcon {

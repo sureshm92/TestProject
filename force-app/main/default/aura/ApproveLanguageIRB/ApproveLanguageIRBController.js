@@ -158,8 +158,18 @@
     },
 
     columnCheckboxStateChange: function (component, event, helper) {
-        var lang = event.getParam('keyId');
-        var state = event.getParam('value');
+        let lang = event.getParam('keyId');
+        let state = event.getParam('value');
+        if(state === true) {
+            component.find('spinner').show();
+            communityService.executeAction(component, 'setLanguageForAll', {
+                data: JSON.stringify(component.get('v.data')),
+                language: lang
+            }, function () {
+                helper.updateTable(component);
+            });
+
+        }
 
         var ssItems = component.get('v.ssItems');
         for (var i = 0; i < ssItems.length; i++) {

@@ -1,0 +1,14 @@
+/**
+ * Created by Igor Malyuta on 18.11.2019.
+ */
+.rr-icon-default{
+    fill: #686868;
+    height: 32px;
+    width: 26px;
+    display: inline-block;
+}
+
+.rr-icon-big{
+    height: 40px;
+    width: 40px;
+}
