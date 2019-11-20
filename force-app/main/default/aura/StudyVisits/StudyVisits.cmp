@@ -13,6 +13,7 @@
     <aura:attribute name="visitModeCurrent" type="String" access="private" default="Current"/>
     <aura:attribute name="visitMode" type="String" default="{!v.visitModeCurrent}"/>
     <aura:attribute name="iconNames" type="String" default=""/>
+    <aura:attribute name="isHasVisits" type="Boolean" default="true"/>
 
     <!--HANDLERS-->
     <aura:handler name="change" value="{!v.visitMode}" action="{!c.doInit}"/>
@@ -75,8 +76,15 @@
                                     entriesOnPage="4"/>
                 </div>
             </aura:if>
-            <c:EmptyListStub class="no-visits-message" targetList="{!v.visitWrappers}" iconName="none" message="{!$Label.c.VR_Visits_Not_Available}"/>
+
+            <aura:if isTrue="{!v.isHasVisits}">
+                <c:EmptyListStub class="no-visits-message" targetList="{!v.visitWrappers}" iconName="none" message="{!$Label.c.PG_VP_L_No_Items}"/>
+                <aura:set attribute="else">
+                    <c:EmptyListStub class="no-visits-message" targetList="{!v.visitWrappers}" iconName="none" message="{!$Label.c.VR_Visits_Not_Available}"/>
+                </aura:set>
+            </aura:if>
         </ui:scrollerWrapper>
+
 
         <aura:if isTrue="{!v.initialized}">
             <c:StudyVisitsLegend iconNames="{!v.iconNames}"/>
