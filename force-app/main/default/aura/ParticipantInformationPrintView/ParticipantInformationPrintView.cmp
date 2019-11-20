@@ -116,10 +116,12 @@
                     </div>
                 </aura:if>
                 <!--Status Detail Path-->
-                <div class="header">{!$Label.c.BTN_Status_Details}</div>
-                <div class="path-panel">
-                    <div class="path-section">
-                        <c:RRPath2 pathItems="{!v.pathItems}" printMode="true"/>
+                <div>
+                    <div class="header">{!$Label.c.BTN_Status_Details}</div>
+                    <div class="path-panel">
+                        <div class="path-section">
+                            <c:RRPath2 pathItems="{!v.pathItems}" printMode="true"/>
+                        </div>
                     </div>
                 </div>
 
@@ -168,8 +170,10 @@
 
                 <!--MRR Survey Results-->
                 <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">
-                    <div class="header">{!$Label.c.BTN_Screener_Responses}</div>
-                    <c:SurveyGismoResultsView results="{!v.pe.MRR_Survey_Results_URL__c}"/>
+                    <div>
+                        <div class="header">{!$Label.c.BTN_Screener_Responses}</div>
+                        <c:SurveyGismoResultsView results="{!v.pe.MRR_Survey_Results_URL__c}"/>
+                    </div>
                 </aura:if>
 
             </aura:if>
