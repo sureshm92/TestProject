@@ -34,33 +34,11 @@
    sfdx force:source:push -f
    ```
 
-##### 6) Import data:
+##### 6) Post setup:
     
    ```sh
-   sfdx force:org:open
+   post-setup.bat
    ```
-
-   1. Setup > User > edit > set role "View All" 
-   2. Upload data
-
-   ```sh
-   sfdx force:data:tree:import -p data/import-plan.json
-   ```
-##### 7) Assign permission sets
-Setup > User > Click "Edit Assignments" under "Permission Set Assignments" > Add **"Patient Portal: Edit Study Settings"** 
-   
-##### 8) Publish community:
-
-   1. Go to Setup > All Communities > Open Community Builder > press Publish
-
-##### 9) Login to community:
-
-   1. Open Study Site for edit and change Override Status to "Accepted" 
-   2. Open HCP Enrollment for edit and change Stats to "Activated" 
-   3. Login to community under PI User, HCP user or Participant user on your choice 
-   
-   
-
 ----------------------------------------------------------------------------------
 If merge request fails on the error 
 just remove <userPermission> with the name ViewFlowUsageAndFlowEventData from Admin.profile
