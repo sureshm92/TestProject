@@ -27,7 +27,7 @@
     <aura:attribute name="currentPage" type="Integer" default="1"/>
     <aura:attribute name="allRecordsCount" type="Integer"/>
 
-    <aura:attribute name="sortOrder" type="String" default="country"/>
+    <aura:attribute name="sortOrder" type="String" default="name"/>
     <aura:attribute name="countrySortType" type="Boolean"/>
     <aura:attribute name="nameSortType" type="Boolean"/>
     <aura:attribute name="numberSortType" type="Boolean"/>

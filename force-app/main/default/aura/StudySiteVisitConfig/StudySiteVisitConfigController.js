@@ -19,6 +19,8 @@
         let data = component.get('v.data');
         data.paginationData.currentPage = component.get('v.currentPage');
 
+        component.set('v.sortOrder', 'name');
+
         let cCodes = component.get('v.countryCodes');
         let selectedVPIds = component.get('v.selectedVPIds');
         let selectedSSIds = component.get('v.selectedSSIds');
