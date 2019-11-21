@@ -200,11 +200,6 @@ global without sharing class ReferHealthcareProviderRemote {
                        WHERE Email = :email OR
                              Email = :email.toLowerCase() LIMIT 1];
         }
-        if (String.isBlank(studySiteId)) {
-            studySitesToInvite = getStudySitesForMatchedRP(cntList[0].Id);
-        } else {
-            studySitesToInvite.add(new Study_Site__c(Id = studySiteId));
-        }
 
         if (cntList.isEmpty()) {
             Account newAcc = new Account(Name = lastName + ' temporary account', OwnerId = CommunityService.getUserContact().Account.OwnerId);
@@ -222,6 +217,11 @@ global without sharing class ReferHealthcareProviderRemote {
             insert cntList;
         } else {
             cntList[0].RP_Invited_By_PI__c = true;
+        }
+        if (String.isBlank(studySiteId)) {
+            studySitesToInvite = getStudySitesForMatchedRP(cntList[0].Id);
+        } else {
+            studySitesToInvite.add(new Study_Site__c(Id = studySiteId));
         }
 
         List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id> { cntList[0].Id });
