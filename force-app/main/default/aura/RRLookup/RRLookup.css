@@ -11,4 +11,11 @@
     display: none;
 }
 
+.THIS .slds-input__icon-group_right {
+    right: 5px;
+    top: 50%;
+}
 
+.THIS input {
+    padding: 1px 12px;
+}

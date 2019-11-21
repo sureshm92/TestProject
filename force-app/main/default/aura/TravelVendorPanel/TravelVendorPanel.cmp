@@ -61,28 +61,30 @@
                             />
                         </div>
                         <aura:if isTrue="{! v.permission == 'Edit'}">
-                            <div class="slds-col slds-size--4-of-12 slds-var-m-top_x-small">
-                                <lightning:button onclick="{!c.showModal}"
-                                                  class="slds-theme_neutral slds-m-around--medium"
-                                                  variant="neutral"
-                                                  label="{!$Label.c.TS_Add_Vendor}"/>
-                            </div>
-                            <c:CustomModal aura:Id='customModal' size="small">
-                                <c:AddTravelVendorCmp aura:id="addTravelVendor" onSubmit="{!c.onAddTravelVendor}"/>
-                                <aura:set attribute="footer">
-                                    <lightning:button variant="neutral" type="button" name="close"
-                                                      label="{!$Label.c.BTN_Close}"
-                                                      onclick="{!c.closeModal}"/>
-                                    <lightning:button variant="brand" type="button" name="save"
-                                                      label="{!$Label.c.BTN_Save}"
-                                                      onclick="{!c.submitForm}"/>
-                                </aura:set>
-                            </c:CustomModal>
-                            <!--Save changes button-->
-                            <div class="slds-col slds-size--2-of-12 save-btn slds-p-horizontal_medium slds-var-m-top_x-small">
-                                <lightning:button variant="brand"
-                                                  class="slds-m-around--medium" label="{!$Label.c.BTN_Save}"
-                                                  onclick="{!c.doSave}" aura:id="saveButton"/>
+                            <div class="slds-col slds-size--6-of-12">
+                                <div class="save-btn">
+                                    <lightning:button onclick="{!c.showModal}"
+                                                      class="slds-theme_neutral slds-m-left--medium"
+                                                      variant="neutral"
+                                                      label="{!$Label.c.TS_Add_Vendor}"/>
+
+                                    <c:CustomModal aura:Id='customModal' size="small">
+                                        <c:AddTravelVendorCmp aura:id="addTravelVendor" onSubmit="{!c.onAddTravelVendor}"/>
+                                        <aura:set attribute="footer">
+                                            <lightning:button variant="neutral" type="button" name="close"
+                                                              label="{!$Label.c.BTN_Close}"
+                                                              onclick="{!c.closeModal}"/>
+                                            <lightning:button variant="brand" type="button" name="save"
+                                                              label="{!$Label.c.BTN_Save}"
+                                                              onclick="{!c.submitForm}"/>
+                                        </aura:set>
+                                    </c:CustomModal>
+
+                                    <!--Save changes button-->
+                                    <lightning:button variant="brand"
+                                                      class="" label="{!$Label.c.BTN_Save}"
+                                                      onclick="{!c.doSave}" aura:id="saveButton"/>
+                                </div>
                             </div>
                         </aura:if>
                     </div>
@@ -90,7 +92,8 @@
                 <!--Study Site Table-->
                 <div class="slds-scrollable_x">
                     <table aria-multiselectable="true"
-                           class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped" role="grid">
+                           class="slds-table slds-table_cell-buffer slds-table_bordered"
+                           style="margin-top: 10px" role="grid">
                         <thead>
                         <tr class="slds-line-height_reset">
                             <th class="" scope="col">

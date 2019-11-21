@@ -13,7 +13,7 @@
 
     <ui:menu>
         <ui:menuTriggerLink>
-            <div>{!v.plan.label}</div>
+            <div style="text-align: center">{!v.plan.label}</div>
         </ui:menuTriggerLink>
         <ui:menuList aura:id="actionMenu" class="menu-popup">
             <aura:if isTrue="{!v.isVisible}">

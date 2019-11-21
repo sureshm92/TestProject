@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 13.11.2019.
  */
 
-import { LightningElement, track, wire } from 'lwc';
+import { LightningElement, api, track, wire } from 'lwc';
 import { refreshApex } from '@salesforce/apex';
 import { subscribe, onError } from 'lightning/empApi';
 
@@ -15,7 +15,12 @@ import publishNewMessageEvent from '@salesforce/apex/DirectMessageRemote.publish
 
 export default class DirectMessager extends LightningElement {
 
+    @api userMode;
+    isParticipant = false;
+
     connectedCallback() {
+        if(this.userMode && this.userMode === 'Participant') this.isParticipant = true;
+
         const messageCallback = (response) => {
             const receivedConversationId = response.data.payload.ConversationID__c;
             const receivedMessageId = response.data.payload.MessageID__c;
