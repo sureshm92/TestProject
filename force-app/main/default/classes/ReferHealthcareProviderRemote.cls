@@ -201,7 +201,7 @@ global without sharing class ReferHealthcareProviderRemote {
                              Email = :email.toLowerCase() LIMIT 1];
         }
         if (String.isBlank(studySiteId)) {
-            studySitesToInvite = getStudySitesForMatchedRP(hcpContactId);
+            studySitesToInvite = getStudySitesForMatchedRP(cntList[0].Id);
         } else {
             studySitesToInvite.add(new Study_Site__c(Id = studySiteId));
         }
