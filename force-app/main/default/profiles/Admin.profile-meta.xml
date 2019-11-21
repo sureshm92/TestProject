@@ -2975,6 +2975,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Event.Survey_Invitation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event.Task_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5571,6 +5576,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Survey_Invitation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -1067,7 +1067,15 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StudySiteFilter</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudySiteLookupRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudySiteSearchLookup</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1752,6 +1760,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>VisitPlanRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitPlanSearchLookup</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -2954,6 +2966,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Survey_Invitation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5554,6 +5571,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Survey_Invitation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
