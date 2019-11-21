@@ -52,8 +52,8 @@ public without sharing class TaskService {
             'Originator__c',
             'Patient_Visit__c',
             'Is_Reminder_Sent__c',
-            'Survey_Invitation__c'
-//            'Survey_Invitation__r.',
+            'Survey_Invitation__c',
+            'Survey_Invitation__r.Is_Expired__c'
     };
 
     public static final List<String> TASK_STATUS_GROUP_EXPIRE_AVAILABLE = new List<String>{
@@ -225,7 +225,7 @@ public without sharing class TaskService {
             String subject = Label.Task_Subject_Complete_Survey.replace('##SurveyName', inv.Survey.Name);
             for (TaskConfig tsc : tmpConfigs) {
                 tsc.code = TASK_CODE_COMPLETE_SURVEY;
-                tsc.description = inv.Id;
+                tsc.invitation = inv.Id;
                 tsc.priority = TASK_PRIORITY_CRITICAL;
                 tsc.reminderSchedule = inv.Reminder_Schedule__c;
 
@@ -270,7 +270,7 @@ public without sharing class TaskService {
 
         if (taskConfig.activityDate != null) task.Activity_Datetime__c = taskConfig.activityDate;
         if (taskConfig.code != null) task.Task_Code__c = taskConfig.code;
-        if (taskConfig.description != null) task.Description = taskConfig.description;
+        if (taskConfig.invitation != null) task.Survey_Invitation__c = taskConfig.invitation;
         if (taskConfig.originator != null) task.Originator__c = taskConfig.originator;
         if (taskConfig.reminderDatetime != null) {
             task.Reminder_Date__c = taskConfig.reminderDatetime;
@@ -308,7 +308,8 @@ public without sharing class TaskService {
                 TASK_STATUS_OPEN,
                 TASK_STATUS_IN_PROGRESS
         };
-        return ' Status IN (\'' + String.join(statusFilter, '\',\'') + '\') ';
+        return DatabaseService.fieldInValues('Status', statusFilter)
+                + 'AND Survey_Invitation__r.Is_Expired__c != TRUE ';
     }
 
     public void completeCYPTaskForParticipant() {
@@ -345,7 +346,7 @@ public without sharing class TaskService {
     public class TaskConfig {
         public Datetime activityDate;
         public String code;
-        public String description;
+        public Id invitation;
         public String originator;
         public Id ownerId;
         public String priority;
@@ -383,7 +384,7 @@ public without sharing class TaskService {
 
         Set<Id> invIds = new Set<Id>();
         for (Task t : tasks) {
-            if (t.Task_Type__c == TASK_TYPE_SURVEY && t.Description != null) invIds.add(t.Description);
+            if (t.Task_Type__c == TASK_TYPE_SURVEY && t.Survey_Invitation__c != null) invIds.add(t.Survey_Invitation__c);
         }
         List<SurveyInvitation> invitations = [
                 SELECT Id, Participant_Enrollment__c
@@ -403,8 +404,8 @@ public without sharing class TaskService {
                 if (t.WhatId == currentPE.Id) {
                     filteredList.add(t);
                 }
-            } else if (t.Task_Type__c == TASK_TYPE_SURVEY && t.Description != null) {
-                if (invFilterIds.contains(t.Description)) {
+            } else if (t.Task_Type__c == TASK_TYPE_SURVEY && t.Survey_Invitation__c != null) {
+                if (invFilterIds.contains(t.Survey_Invitation__c)) {
                     filteredList.add(t);
                 }
             } else if (t.Task_Type__c != TASK_TYPE_SURVEY) {
