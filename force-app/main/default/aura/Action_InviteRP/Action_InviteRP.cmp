@@ -109,8 +109,8 @@
                             </div>
                             <aura:set attribute="else">
                                 <div class="slds-p-top_medium">{!Label.c.Same_RP_in_the_system}</div>
-                            </aura:set>-->
-                        <!--</aura:if>-->
+                            </aura:set>
+                        </aura:if>-->
                     </div>
                 </div>
             </aura:if>
