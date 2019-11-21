@@ -185,7 +185,7 @@ global without sharing class ReferHealthcareProviderRemote {
     public static String createHCPinPlatform(String studySiteId, String firstName, String lastName, String email, String phone, Contact piContact, Healthcare_Provider__c hp, Id hcpContactId) {
         Boolean isNewUser = false;
         List<HCP_Enrollment__c> hcpes = new List<HCP_Enrollment__c>();
-        List<Study_Site__c> studySitesToInvite;
+        List<Study_Site__c> studySitesToInvite = new List<Study_Site__c>();
 
         List<Contact> cntList = new List<Contact>();
         if (!String.isBlank(hcpContactId)) {

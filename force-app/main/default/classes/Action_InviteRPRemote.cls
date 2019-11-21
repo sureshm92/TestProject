@@ -72,12 +72,14 @@ public without sharing class Action_InviteRPRemote {
             l.Company = lastName +' temporary account';
             l.Protocol_Number__c = protocolId;
             l.Language__c = UserInfo.getLanguage();
-            if (studySiteId!= null && studySiteId != '') {
+            if (String.isNotBlank(studySiteId)) {
                 l.Study_Site__c = studySiteId;
             }
             l.Status = 'New';
             Contact piContact = CommunityService.getUserContact();
-            l.Invited_by_PI__c = piContact.Id;
+            if (piContact != null) {
+                l.Invited_by_PI__c = piContact.Id;
+            }
             if (invitationQueues.size() > 0) {
                 l.OwnerId = invitationQueues[0].Id;
             }
