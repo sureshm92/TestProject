@@ -14,6 +14,7 @@
     <aura:attribute name="studySitesForInvitation" type="List" access="private"/>
     <aura:attribute name="providerFound" type="Boolean" default="false"/>
     <aura:attribute name="isDuplicate" type="Boolean" default="false"/>
+    <aura:attribute name="hcpContactId" type="String" default="" access="private"/>
     <aura:attribute name="refreshView" type="Boolean" default="false"/>
 
 
@@ -92,7 +93,7 @@
                         <c:rrInput valueString="{!v.clinicName}"/>
                     </div>-->
                     <div>
-                        <aura:if isTrue="{!!v.isDuplicate}">
+                        <!--<aura:if isTrue="{!!v.isDuplicate}">
                             <div class="rr-form-element slds-col slds-size--1-of-1 slds-p-around_medium"
                                  style="max-width: 100%;">
                                 <aura:if isTrue="{!!empty(v.studySitesForInvitation)}">
@@ -108,8 +109,8 @@
                             </div>
                             <aura:set attribute="else">
                                 <div class="slds-p-top_medium">{!Label.c.Same_RP_in_the_system}</div>
-                            </aura:set>
-                        </aura:if>
+                            </aura:set>-->
+                        <!--</aura:if>-->
                     </div>
                 </div>
             </aura:if>
@@ -120,7 +121,7 @@
                     {!$Label.c.BTN_Cancel}
                 </button>
                 <button class="apollo-btn primary" onclick="{!c.doInviteRP}"
-                        disabled="{!!v.reqFieldsFilled || v.isDuplicate}"
+                        disabled="{!!v.reqFieldsFilled}"
                         title="{!(empty(v.lastName)||empty(v.firstName)||
                                 empty(v.clinicName)) ? $Label.c.PG_MRC_RF_Not_all_Req_Fields : ((empty(v.phone)&amp;&amp;empty(v.emailS)) ? $Label.c.PG_MRC_RF_Not_Email_or_Phone_Fields : '')}">
                     {!$Label.c.BTN_Invite}
