@@ -44,7 +44,7 @@ public without sharing class TaskEditRemote {
 
             task = new Task();
 
-            today = Datetime.now().date();
+            today = Date.today();
         }
     }
 
