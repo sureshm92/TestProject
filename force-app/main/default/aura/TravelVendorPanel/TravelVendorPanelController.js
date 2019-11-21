@@ -146,6 +146,19 @@
     },
 
     columnCheckboxStateChange: function (component, event, helper) {
-        helper.columnCheckboxStateChange(component, event);
+        let target = event.target.dataset.vendor;
+        let checked = event.target.dataset.state === 'Enabled';
+        let items = component.get('v.vendorItems');
+        let page = component.get('v.currentPage');
+        items.forEach(function (item) {
+            let settings = item.vendorSettings;
+            settings.forEach(function (setting) {
+                if (setting.TravelVendor__c === target) {
+                    setting.isEnable__c = checked;
+                }
+            });
+        });
+        component.set('v.vendorItems', items);
+        component.set('v.currentPage', page);
     }
 })
