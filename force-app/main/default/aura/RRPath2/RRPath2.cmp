@@ -6,6 +6,7 @@
 
     <!-- attributes: -->
     <aura:attribute name="pathItems" type="List"/>
+    <aura:attribute name="printMode" type="Boolean" default="false"/>
 
     <!-- component body -->
     <div>
@@ -17,16 +18,16 @@
                         <div class="{!'slds-col width-basis line-div ' + pathItem.right}" style="position: relative">
                             <div class="state-ico-wrapper">
                                 <aura:if isTrue="{!pathItem.state == 'success'}">
-                                    <c:RRIcon iconName="icon-check"/>
+                                    <c:RRIcon iconName="icon-check" printMode="{!v.printMode}"/>
                                 </aura:if>
                                 <aura:if isTrue="{!pathItem.state == 'failure'}">
-                                    <c:RRIcon iconName="icon-close"/>
+                                    <c:RRIcon iconName="icon-close" printMode="{!v.printMode}"/>
                                 </aura:if>
                                 <aura:if isTrue="{!pathItem.state == 'in_progress'}">
-                                    <c:RRIcon iconName="icon-minus"/>
+                                    <c:RRIcon iconName="icon-minus" printMode="{!v.printMode}"/>
                                 </aura:if>
                                 <aura:if isTrue="{!pathItem.state == 'neutral'}">
-                                    <c:RRIcon iconName="icon-minus"/>
+                                    <c:RRIcon iconName="{!if(v.printMode,'icon-none','icon-minus')}" printMode="{!v.printMode}"/>
                                 </aura:if>
                             </div>
                         </div>

@@ -176,7 +176,7 @@
     }
 }
 
-@media all and (max-width: 550px){
+@media screen and (max-width: 550px){
     .THIS .rr-header-content.multi-mode{
         height: 80px;
     }
@@ -184,4 +184,14 @@
     .THIS .rr-header-margin.multi-mode{
         height: 80px;
     }
+}
+
+@media print {
+    .THIS .rr-header-content{
+        display: none!important;
+    }
+    .THIS .footer{
+        display: none!important;
+    }
+
 }

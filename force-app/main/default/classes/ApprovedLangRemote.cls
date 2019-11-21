@@ -82,7 +82,6 @@ public without sharing class ApprovedLangRemote {
             if(!ctpStudySites.isEmpty()) {
                 loadInitData(initData);
                 initPageItems(initData, initData.countryCodes, null, null);
-                initData.paginationData.reCalc();
             }
 
             return initData;
@@ -164,6 +163,34 @@ public without sharing class ApprovedLangRemote {
     }
 
     @AuraEnabled
+    public static void setLanguageForAll(String data, String language, Boolean state) {
+        try {
+            InitData initData = (InitData) JSON.deserialize(data, InitData.class);
+            if (ctpStudySites == null) ctpStudySites = getStudySites(QUERY_MAIN_FILTER.replace('ctpId', initData.ctpId));
+
+            for (Study_Site__c ss : ctpStudySites) {
+                if(String.isEmpty(ss.Approved_Lng__c)) ss.Approved_Lng__c = '';
+
+                List<String> appLanguages = ss.Approved_Lng__c.split(';');
+
+                if(state){
+                    if(!appLanguages.contains(language)) appLanguages.add(language);
+                } else {
+                    Integer langIndex = appLanguages.indexOf(language);
+                    if (langIndex != -1) appLanguages.remove(langIndex);
+                }
+
+                appLanguages.sort();
+                ss.Approved_Lng__c = String.join(appLanguages, ';');
+            }
+
+            update ctpStudySites;
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
     public static InitData save(String data) {
         try {
             InitData initData = (InitData) JSON.deserialize(data, InitData.class);
@@ -224,69 +251,6 @@ public without sharing class ApprovedLangRemote {
     }
 
     //Search lookup logic: ---------------------------------------------------------------------------------------------
-    @AuraEnabled(Cacheable = true)
-    public static List<LookupSearchResult> searchSSByTerm(Id ctpId, String searchTerm, String value, String selectedCountries) {
-        try {
-            List<String> selectedIds = new List<String>();
-            if (!String.isEmpty(value)) selectedIds = value.split(';');
-            String term = '%';
-            if (searchTerm != null) term += (searchTerm + '%');
-
-            String filter = 'Clinical_Trial_Profile__c = \'' + ctpId + '\''
-                    + ' AND ' + DatabaseService.fieldNotInValues('Id', selectedIds);
-            if (selectedCountries != null && !String.isEmpty(selectedCountries)) {
-                filter += 'AND ' + DatabaseService.fieldInValues('Site__r.BillingCountryCode', selectedCountries.split(';'));
-            }
-            filter += 'AND (Study_Site_Number__c = \'' + searchTerm + '\' OR Name LIKE \'' + term + '\')' +
-                    ' LIMIT 10';
-
-            List<Study_Site__c> studySites = (List<Study_Site__c>) DatabaseService.getInstance().queryImpl(new List<String>{
-                    'Id',
-                    'Name'
-            }, Study_Site__c.getSObjectType(), filter);
-            List<LookupSearchResult> resList = new List<LookupSearchResult>();
-            for (Study_Site__c ss : studySites) {
-                resList.add(new LookupSearchResult(
-                        ss.Id,
-                        'Study_Site__c',
-                        'standard:task2',
-                        ss.Name,
-                        null
-                ));
-            }
-            return resList;
-        } catch (Exception e) {
-            return (List<LookupSearchResult>) AuraHelper.throwException(e);
-        }
-    }
-
-    @AuraEnabled(Cacheable = true)
-    public static List<LookupSearchResult> searchSSByIds(String value) {
-        try {
-            List<LookupSearchResult> resList = new List<LookupSearchResult>();
-            List<String> ssIds = value.split(';');
-
-            String filter = DatabaseService.fieldInValues('Id', ssIds);
-
-            List<Study_Site__c> studySites = (List<Study_Site__c>) DatabaseService.getInstance().queryImpl(new List<String>{
-                    'Id',
-                    'Name'
-            }, Study_Site__c.getSObjectType(), filter);
-            for (Study_Site__c ss : studySites) {
-                resList.add(new LookupSearchResult(
-                        ss.Id,
-                        'Study_Site__c',
-                        'standard:task2',
-                        ss.Name,
-                        null
-                ));
-            }
-            return resList;
-        } catch (Exception e) {
-            return (List<LookupSearchResult>) AuraHelper.throwException(e);
-        }
-    }
-
     @AuraEnabled
     public static List<LookupSearchResult> searchLanguages(String searchTerm, String value) {
         try {
@@ -351,7 +315,7 @@ public without sharing class ApprovedLangRemote {
         }
 
         initData.countryCodes = initData.countryCodes.removeEnd(';');
-        initData.paginationData.allRecordsCount = ctpStudySites.size();
+        initData.paginationData.setRecordsCount(ctpStudySites.size());
     }
 
     private static void initPageItems(InitData initData, String countryCodes, String langCodes, String ssId) {
@@ -408,17 +372,17 @@ public without sharing class ApprovedLangRemote {
         }
 
         if (sortOrder == null || String.isEmpty(sortOrder)) {
-            sortOrder = 'Site__r.BillingCountry';
+            sortOrder = 'Name';
         } else {
             switch on sortOrder {
-                when 'name' {
-                    sortOrder = 'Name';
+                when 'country' {
+                    sortOrder = 'Site__r.BillingCountry';
                 }
                 when 'number' {
                     sortOrder = 'Study_Site_Number__c';
                 }
                 when else {
-                    sortOrder = 'Site__r.BillingCountry';
+                    sortOrder = 'Name';
                 }
             }
         }

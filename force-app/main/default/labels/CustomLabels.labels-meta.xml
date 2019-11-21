@@ -475,6 +475,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Accept</value>
     </labels>
     <labels>
+        <fullName>BTN_Accept_terms_and_conditions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Accept terms and conditions</shortDescription>
+        <value>Accept terms and conditions</value>
+    </labels>
+    <labels>
         <fullName>BTN_Account_Settings_Save_Updates</fullName>
         <language>en_US</language>
         <protected>false</protected>

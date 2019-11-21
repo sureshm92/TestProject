@@ -20,7 +20,7 @@ public without sharing class SearchService{
 
     public List<SObject> searchImpl(SearchFilter filter, PaginationData paginationData){
         paginationData.setRecordsCount(countRecords(filter));
-        return queryRecords(filter, PaginationData);
+        return queryRecords(filter, paginationData);
     }
 
     private Integer countRecords(SearchFilter filter){
@@ -34,7 +34,8 @@ public without sharing class SearchService{
 
     private List<SObject> queryRecords(SearchFilter filter, PaginationData paginationData){
         if(filter.getQueryType() == QUERY_TYPE_SOQL){
-            return  DatabaseService.query(filter.getFields(), filter.getSObjectType(),filter.getFilterString(),filter.getOrderBy(), paginationData.pageRecordsCount, paginationData.offset);
+            return  DatabaseService.query(filter.getFields(), filter.getSObjectType(),
+                    filter.getFilterString(), filter.getOrderBy(), paginationData.pageRecordsCount, paginationData.offset);
         }
         else{
             return null;
@@ -44,7 +45,6 @@ public without sharing class SearchService{
 
     // Static facade: --------------------------------------------------------------------------------------------------
     public static List<SObject> search(SearchFilter filter, PaginationData paginationData){
-        return getInstance().searchImpl(filter, PaginationData);
+        return getInstance().searchImpl(filter, paginationData);
     }
-
 }

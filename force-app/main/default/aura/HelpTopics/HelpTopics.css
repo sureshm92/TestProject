@@ -12,7 +12,7 @@
 
 .THIS .h-header .h-header-info {
     color: #000000;
-    font-size: 15px;
+    font-size: 1rem;
     line-height: 24px;
 }
 
@@ -20,11 +20,10 @@
     font-weight: bold;
 }
 
-
 .THIS .h-body .h-body-title,
 .THIS .h-body .h-body-label {
     color: #666666;
-    font-size: 13px;
+    font-size: 1rem;
     line-height: 16px;
 }
 
@@ -100,7 +99,7 @@
     }
 
     .THIS .h-body .h-body-label {
-        font-size: 15px;
+        font-size: 1rem;
         line-height: 53px;
     }
 

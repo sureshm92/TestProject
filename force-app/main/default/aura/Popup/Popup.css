@@ -1,5 +1,5 @@
 .THIS #backdrop {
-    background-color: rgba(0,0,0,0.85);
+    background-color: rgba(0,0,0,0.7);
 }
 
 .THIS #p-modal.transition-show .p-container{
@@ -73,6 +73,9 @@
     font-weight: 500;
     line-height: 30px;
     width: 90%;
+}
+.THIS .p-header.p-header-buttons h2 {
+    width: 80%;
 }
 
 .THIS .p-header.success {

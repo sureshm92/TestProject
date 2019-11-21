@@ -61,7 +61,7 @@
                 </div>
                 <aura:if isTrue="{!v.pe}">
                     <div id="healthCareProvider">
-                        <c.ReferHealthcareProvider pe="{!v.pe}" action="{!v.actions.connectProvider}"/>
+                        <c.ReferHealthcareProvider pe="{!v.pe}" actionDisabled="{!v.actions.screenerResponses.disabled}"/>
                     </div>
                 </aura:if>
                 <!--Status Detail Path-->
@@ -91,6 +91,11 @@
 
             </aura:if>
         </div>
+        <aura:set attribute="headerButtons">
+            <lightning:button onclick="{!c.doPrint}" name="Print" class="{!'slds-button slds-button--icon-inverse'}">
+                <c:RRIcon iconName="icon-print" class="print-icon"/>
+            </lightning:button>
+        </aura:set>
         <aura:set attribute="footerButtons">
             <button class="apollo-btn secondary" style="display:none" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
         </aura:set>

@@ -4,7 +4,8 @@
 
 <aura:component description="TranslationExportImport" implements="force:appHostable" controller="TranslationExportImportRemote">
     <!-- import libs: -->
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js, $Resource.filesaver)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js, $Resource.filesaver)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="studySite" type="Study_Site__c" default="{ 'sobjectType': 'Study_Site__c' }"/>

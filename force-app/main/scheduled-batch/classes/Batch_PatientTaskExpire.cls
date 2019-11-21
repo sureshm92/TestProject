@@ -6,10 +6,10 @@ public with sharing class Batch_PatientTaskExpire extends Batch_ScheduledAbstrac
 
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator([
-                SELECT Id, Description
+                SELECT Id, Survey_Invitation__c
                 FROM Task
-                WHERE Activity_Datetime__c <= :System.now()
-                AND Status IN:TaskService.TASK_STATUS_GROUP_EXPIRE_AVAILABLE
+                WHERE Status IN:TaskService.TASK_STATUS_GROUP_EXPIRE_AVAILABLE
+                AND (Activity_Datetime__c <= :System.now() OR Survey_Invitation__r.Is_Expired__c = TRUE)
         ]);
     }
 
@@ -17,7 +17,7 @@ public with sharing class Batch_PatientTaskExpire extends Batch_ScheduledAbstrac
         List<Id> invitationIds = new List<Id>();
         for (Task t : tasks) {
             t.Status = TaskService.TASK_STATUS_EXPIRED;
-            if (t.Description != null) invitationIds.add(Id.valueOf(t.Description));
+            if (t.Survey_Invitation__c != null) invitationIds.add(Id.valueOf(t.Survey_Invitation__c));
         }
         update tasks;
 

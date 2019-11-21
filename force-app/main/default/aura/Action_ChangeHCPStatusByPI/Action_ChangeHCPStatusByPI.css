@@ -11,8 +11,8 @@
 .THIS .dialog-alert {
     word-wrap: break-word;
     white-space: pre;
-    text-align: center;
-    font-size: 14px;
+    text-align: left;
+    font-size: 1rem;
     font-weight: 600;
     line-height: 17px;
     margin-bottom: 10px;

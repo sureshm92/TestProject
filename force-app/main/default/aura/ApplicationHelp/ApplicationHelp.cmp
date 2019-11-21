@@ -48,7 +48,7 @@
                         </div>
                     </div>
             <div class="slds-col slds-size--1-of-3 slds-medium-size--1-of-4">
-                        <button class="apollo-btn tertiary ah-button" onclick="{!c.showTour}">
+                        <button class="apollo-btn secondary ah-button" onclick="{!c.showTour}">
                             {!$Label.c.BTN_Lets_Go}
                         </button>
                     </div>
@@ -63,7 +63,7 @@
                         </div>
                     </div>
             <div class="slds-col slds-size--1-of-3 slds-medium-size--1-of-4">
-                        <button class="apollo-btn tertiary ah-button" onclick="{!c.OpenQuickReference}">
+                        <button class="apollo-btn secondary ah-button" onclick="{!c.OpenQuickReference}">
                             {!$Label.c.BTN_View}
                         </button>
                     </div>
@@ -79,7 +79,7 @@
                             </div>
                         </div>
                 <div class="slds-col slds-size--1-of-3 slds-medium-size--1-of-4">
-                            <button class="apollo-btn tertiary ah-button" onclick="{!c.OpenGuide}">
+                            <button class="apollo-btn secondary ah-button" onclick="{!c.OpenGuide}">
                                 {!$Label.c.BTN_View}
                             </button>
                         </div>
@@ -101,7 +101,7 @@
                             </div>
                         </div>
                 <div class="slds-col slds-size--1-of-3 slds-medium-size--1-of-4">
-                            <button class="apollo-btn tertiary ah-button" onclick="{!c.showVideo}">
+                            <button class="apollo-btn secondary ah-button" onclick="{!c.showVideo}">
                                 {!$Label.c.BTN_Watch}
                             </button>
                         </div>

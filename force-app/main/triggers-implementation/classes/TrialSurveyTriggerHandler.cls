@@ -36,18 +36,15 @@ public without sharing class TrialSurveyTriggerHandler {
         update surveyInvitations.values();
 
         List<Task> surveyTasks = [
-                SELECT
-                        Id,
-                        Description,
-                        Status
+                SELECT Id, Status
                 FROM Task
                 WHERE Task_Type__c =: TaskService.TASK_TYPE_SURVEY
-                    AND Status IN: TaskService.TASK_STATUS_GROUP_EXPIRE_AVAILABLE
-                    AND WhoId IN: contactIds
+                AND Status IN: TaskService.TASK_STATUS_GROUP_EXPIRE_AVAILABLE
+                AND WhoId IN: contactIds
+                AND Survey_Invitation__c IN: surveyInvitations.keySet()
         ];
-        for(Task task : surveyTasks) {
-            if(surveyInvitations.containsKey(task.Description)) task.Status = TaskService.TASK_STATUS_EXPIRED;
-        }
+        for(Task task : surveyTasks)  task.Status = TaskService.TASK_STATUS_EXPIRED;
+
         update surveyTasks;
     }
 }

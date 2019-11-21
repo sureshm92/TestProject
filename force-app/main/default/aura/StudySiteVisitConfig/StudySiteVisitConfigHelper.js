@@ -18,14 +18,14 @@
     },
 
     updateTable : function (component) {
-        var data = component.get('v.data');
-        var cCodes = component.get('v.countryCodes');
+        let data = component.get('v.data');
+        let cCodes = component.get('v.countryCodes');
         if (!cCodes) component.set('v.countryFilterType', 'All');
 
-        var selectedVPIds = component.get('v.selectedVPIds');
+        let selectedVPIds = component.get('v.selectedVPIds');
         if (!selectedVPIds) component.set('v.vpFilterType', 'All');
 
-        var ssIds = component.get('v.selectedSSIds');
+        let ssIds = component.get('v.selectedSSIds');
         if(!ssIds) component.set('v.sitesFilterType', 'All');
 
         component.find('spinner').show();

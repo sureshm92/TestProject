@@ -6,8 +6,7 @@ public interface SearchFilter {
 
     String getQueryType();
     List<String> getFields();
-    String getFilterString ();
+    String getFilterString();
     String getOrderBy();
     SObjectType getSObjectType();
-
 }

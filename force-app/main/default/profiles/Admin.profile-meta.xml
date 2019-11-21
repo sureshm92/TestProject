@@ -139,6 +139,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_MoveTaskInvitations</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_PEToPSE</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -372,6 +376,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>DeploymentContext</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DirectMessageRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1063,7 +1071,15 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StudySiteFilter</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudySiteLookupRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudySiteSearchLookup</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1748,6 +1764,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>VisitPlanRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitPlanSearchLookup</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2868,6 +2888,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>DirectMessageEvent__e.ConversationID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>DirectMessageEvent__e.MessageID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Drug_Usage__c.Concomitant_Therapies__c</field>
         <readable>true</readable>
@@ -2945,6 +2975,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Survey_Invitation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5549,6 +5584,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Task.Survey_Invitation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Task.Task_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6368,6 +6408,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Contact_Therapeutic_Area__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>DirectMessageEvent__e</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

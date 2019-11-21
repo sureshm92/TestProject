@@ -2,7 +2,7 @@
  - Created by Igor Malyuta on 19.09.2019.
  -->
 
-<aura:component description="IRBStudySitesLookup" controller="ApprovedLangRemote" extends="c:RRSearchAbstract">
+<aura:component description="IRBStudySitesLookup" controller="StudySiteSearchLookup" extends="c:RRSearchAbstract">
 
     <aura:attribute name="isMultiEntry" type="Boolean" default="true"/>
     <aura:attribute name="minTermLength" type="Integer" default="0"/>
