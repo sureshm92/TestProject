@@ -14,9 +14,6 @@ private class Test_ApprovedLangRemote {
         ApprovedLangRemote.getNextData(JSON.serializePretty(initData), initData.countryCodes, null, null);
         ApprovedLangRemote.getFilteredItems(JSON.serializePretty(initData), initData.countryCodes, null, null);
         ApprovedLangRemote.getSortedItems(JSON.serializePretty(initData), null, initData.countryCodes, true);
-        ApprovedLangRemote.searchSSByTerm(testData.ctp.Id, null, '', 'USA');
-
-        //for()
         ApprovedLangRemote.searchLanguagesByValue('en_US');
         Test.stopTest();
     }

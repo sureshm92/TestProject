@@ -304,7 +304,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     System.debug('NOTIFY USER');
                     if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP) {
                         notificationMapHCP.put(newPE.Id, participant.Contact__c);
-                    } else if(newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI) {
+                    } else if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI) {
                         notificationMapPI.put(newPE.Id, participant.Contact__c);
                     } else {
                         notificationMapEPR.put(newPE.Id, participant.Contact__c);
@@ -396,7 +396,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             for (Participant_Enrollment__c enrollment : ctpPE.get(ts.Clinical_Trial_Profile__c)) {
                 Boolean needToAdd = false;
                 if (enrollment.Participant_Status__c == ts.Active_On_Status__c) {
-                    if(PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(enrollment.Participant_Status__c)
+                    if (PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(enrollment.Participant_Status__c)
                             && ts.Is_Midpoint__c) continue;
 
                     if (oldMap != null) {
@@ -413,7 +413,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             }
         }
 
-        if(!newInvitations.isEmpty()) {
+        if (!newInvitations.isEmpty()) {
             insert newInvitations;
             Map<Id, String> invitationsVisible = new Map<Id, String>();
             for (SurveyInvitation inv : newInvitations) {
@@ -430,9 +430,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             Map<Id, Participant_Enrollment__c> oldMap
     ) {
         List<Participant_Enrollment_Status_History__c> histories = new List<Participant_Enrollment_Status_History__c>();
-        for(Participant_Enrollment__c pe : enrollments) {
-            if(pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI) {
-                if(oldMap == null ||
+        for (Participant_Enrollment__c pe : enrollments) {
+            if (pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI) {
+                if (oldMap == null ||
                         (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI)) {
                     histories.add(new Participant_Enrollment_Status_History__c(
                             Date__c = pe.Participant_Status_Last_Changed_Date__c,
@@ -444,7 +444,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 }
             }
         }
-        if(!histories.isEmpty()) insert histories;
+        if (!histories.isEmpty()) insert histories;
     }
 
     @TestVisible
@@ -605,7 +605,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
         ];
         List<Id> participantIds = new List<Id>();
-        for(Participant_Enrollment__c pe : peWithParticipating) participantIds.add(pe.Participant__c);
+        for (Participant_Enrollment__c pe : peWithParticipating) participantIds.add(pe.Participant__c);
 
         Map<Id, List<Id>> delegateCntByParticipant = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(participantIds);
         List<Alert__c> alerts = new List<Alert__c>();
@@ -615,7 +615,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY,
                     Record_ID__c = pe.Id
             ));
-            if(!delegateCntByParticipant.containsKey(pe.Participant__c)) continue;
+            if (!delegateCntByParticipant.containsKey(pe.Participant__c)) continue;
 
             for (Id contactDelegateId : delegateCntByParticipant.get(pe.Participant__c)) {
                 alerts.add(new Alert__c(
@@ -641,7 +641,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 completedPEs.add(pe);
             }
         }
-        if(completedPEs.isEmpty()) return;
+        if (completedPEs.isEmpty()) return;
 
         Map<Id, SurveyInvitation> invitationMap = new Map<Id, SurveyInvitation>([
                 SELECT Id
@@ -649,21 +649,20 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 WHERE Participant_Enrollment__c IN:completedPEs
                 AND Is_Midpoint__c = TRUE
         ]);
-        if(invitationMap.keySet().isEmpty()) return;
+        if (invitationMap.keySet().isEmpty()) return;
 
         List<Task> tasks = [
-                SELECT Id, Description
+                SELECT Id
                 FROM Task
                 WHERE Task_Type__c = :TaskService.TASK_TYPE_SURVEY
                 AND Status IN:TaskService.TASK_STATUS_GROUP_AVAILABLE
+                AND Survey_Invitation__c IN:invitationMap.keySet()
         ];
 
         List<Task> tasksForExpire = new List<Task>();
         for (Task task : tasks) {
-            if (task.Description != null && invitationMap.containsKey(task.Description)) {
-                task.Status = TaskService.TASK_STATUS_EXPIRED;
-                tasksForExpire.add(task);
-            }
+            task.Status = TaskService.TASK_STATUS_EXPIRED;
+            tasksForExpire.add(task);
         }
         update tasksForExpire;
 
@@ -677,19 +676,19 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         targetStatuses.add(PEStatusState.PE_STATUS_CONTACT_FAILED);
         List<Id> selectedParticipantIds = new List<Id>();
         List<Id> selectedContactIds = new List<Id>();
-        for(Participant_Enrollment__c pe : newList){
-            if(oldMap == null ||
+        for (Participant_Enrollment__c pe : newList) {
+            if (oldMap == null ||
                     (oldMap != null && pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c &&
-                            targetStatuses.contains(pe.Participant_Status__c))){
+                            targetStatuses.contains(pe.Participant_Status__c))) {
                 selectedParticipantIds.add(pe.Participant__c);
-                if(pe.Participant_Contact__c!=null)
+                if (pe.Participant_Contact__c != null)
                     selectedContactIds.add(pe.Participant_Contact__c);
             }
         }
-        if(selectedParticipantIds.size() == 0) return;
+        if (selectedParticipantIds.size() == 0) return;
         Map<Id, List<Id>> delegatedContactIdsByParticipantIdMap = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(selectedParticipantIds);
-        for(List<Id> delegatedContactIds : delegatedContactIdsByParticipantIdMap.values()) selectedContactIds.addAll(delegatedContactIds);
-        if(!selectedContactIds.isEmpty())
+        for (List<Id> delegatedContactIds : delegatedContactIdsByParticipantIdMap.values()) selectedContactIds.addAll(delegatedContactIds);
+        if (!selectedContactIds.isEmpty())
             ContactService.updateCurrentPEOnContacts(selectedContactIds);
     }
 

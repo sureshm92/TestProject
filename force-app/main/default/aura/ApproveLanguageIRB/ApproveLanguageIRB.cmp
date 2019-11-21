@@ -27,7 +27,7 @@
     <aura:attribute name="currentPage" type="Integer" default="1"/>
     <aura:attribute name="allRecordsCount" type="Integer"/>
 
-    <aura:attribute name="sortOrder" type="String" default="country"/>
+    <aura:attribute name="sortOrder" type="String" default="name"/>
     <aura:attribute name="countrySortType" type="Boolean"/>
     <aura:attribute name="nameSortType" type="Boolean"/>
     <aura:attribute name="numberSortType" type="Boolean"/>
@@ -45,7 +45,7 @@
             <aura:set attribute="else">
                 <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>
             </aura:set>
-        <lightning:navigation aura:id="navLink"/>
+            <lightning:navigation aura:id="navLink"/>
 
             <aura:if isTrue="{!v.initialized}">
                 <aura:if isTrue="{!not(empty(v.ssItems))}">
@@ -104,7 +104,8 @@
                                         <c:IRBStudySitesLookup aura:id="ssLookup"
                                                                value="{!v.selectedSSIds}" ctpId="{!v.recordId}"
                                                                selectedCountries="{!v.countryCodes}"
-                                                               onchange="{!c.getFilteredSS}" placeholder="Select Study Site"/>
+                                                               onchange="{!c.getFilteredSS}"
+                                                               placeholder="Select Study Site"/>
                                     </aura:set>
                                 </aura:if>
                             </div>
@@ -134,16 +135,11 @@
                                             Country
                                         </div>
                                         <div class="slds-m-left--x-small">
-                                            <aura:if isTrue="{!v.countrySortType}">
-                                                <lightning:icon iconName="utility:arrowdown" alternativeText=""
-                                                                variant="{!if(v.sortOrder == 'country', 'success', 'warning')}"
-                                                                size="xx-small"/>
-                                                <aura:set attribute="else">
-                                                    <lightning:icon iconName="utility:arrowup" alternativeText=""
-                                                                    variant="{!if(v.sortOrder == 'country', 'success', 'warning')}"
-                                                                    size="xx-small"/>
-                                                </aura:set>
-                                            </aura:if>
+                                            <lightning:icon
+                                                    iconName="{!'utility:' + if(v.countrySortType, 'arrowdown', 'arrowup')}"
+                                                    alternativeText=""
+                                                    variant="{!if(v.sortOrder == 'country', 'success', 'warning')}"
+                                                    size="xx-small"/>
                                         </div>
                                     </div>
                                 </th>
@@ -153,43 +149,40 @@
                                             Study Site
                                         </div>
                                         <div class="slds-m-left--x-small">
-                                            <aura:if isTrue="{!v.nameSortType}">
-                                                <lightning:icon iconName="utility:arrowdown" alternativeText=""
-                                                                variant="{!if(v.sortOrder == 'name', 'success', 'warning')}"
-                                                                size="xx-small"/>
-                                                <aura:set attribute="else">
-                                                    <lightning:icon iconName="utility:arrowup" alternativeText=""
-                                                                    variant="{!if(v.sortOrder == 'name', 'success', 'warning')}"
-                                                                    size="xx-small"/>
-                                                </aura:set>
-                                            </aura:if>
+                                            <lightning:icon
+                                                    iconName="{!'utility:' + if(v.nameSortType, 'arrowdown', 'arrowup')}"
+                                                    alternativeText=""
+                                                    variant="{!if(v.sortOrder == 'name', 'success', 'warning')}"
+                                                    size="xx-small"/>
                                         </div>
                                     </div>
                                 </th>
                                 <th class="cell-wrap" scope="col">
                                     <div data-order="number" class="sorted-column" onclick="{!c.doSort}">
                                         <div>Study Site Number</div>
-                                        <div class="slds-m-left--x-small">
-                                            <aura:if isTrue="{!v.numberSortType}">
-                                                <lightning:icon iconName="utility:arrowdown" alternativeText=""
-                                                                variant="{!if(v.sortOrder == 'number', 'success', 'warning')}"
-                                                                size="xx-small"/>
-                                                <aura:set attribute="else">
-                                                    <lightning:icon iconName="utility:arrowup" alternativeText=""
-                                                                    variant="{!if(v.sortOrder == 'number', 'success', 'warning')}"
-                                                                    size="xx-small"/>
-                                                </aura:set>
-                                            </aura:if>
+                                        <div class="slds-m-left--x-small slds-align--absolute-center">
+                                            <lightning:icon
+                                                    iconName="{!'utility:' + if(v.numberSortType,'arrowdown', 'arrowup')}"
+                                                    alternativeText=""
+                                                    variant="{!if(v.sortOrder == 'number', 'success', 'warning')}"
+                                                    size="xx-small"/>
                                         </div>
                                     </div>
                                 </th>
                                 <aura:if isTrue="{!v.languages}">
                                     <aura:iteration items="{!v.languages}" var="lang">
                                         <th class="" scope="col">
-                                            <c:uiIndeterminatedCheckbox aura:id="columnLang" keyId="{!lang.value}"
-                                                                        fieldLabel="{!lang.label}"
-                                                                        hideCheckBox="{!v.viewModePage != 'Edit'}"
-                                                                        onvaluechanged="{!c.columnCheckboxStateChange}"/>
+                                            <div style="text-align: center;">{!lang.label}</div>
+                                            <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
+                                                <div class="column-btn">
+                                                    <a data-state="Enabled"
+                                                       data-lang="{!lang.value}"
+                                                       onclick="{!c.columnCheckboxStateChange}">Select All</a>
+                                                    <span style="padding: 0 3px; color: #006DCC; ">|</span>
+                                                    <a data-state="Disabled" data-lang="{!lang.value}"
+                                                       onclick="{!c.columnCheckboxStateChange}">Clear All</a>
+                                                </div>
+                                            </aura:if>
                                         </th>
                                     </aura:iteration>
                                 </aura:if>

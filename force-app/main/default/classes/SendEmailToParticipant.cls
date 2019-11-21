@@ -67,7 +67,6 @@ public without sharing class SendEmailToParticipant {
         } else if (task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
             emailMessages.addAll(sendEmailSurveyNotification(task));
         } else if (task.WhatId != null && task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType() && task.Task_Type__c != null) {
-            System.debug('WhatId != null');
             Participant_Enrollment__c pe = [
                     SELECT
                             Id,
@@ -135,7 +134,7 @@ public without sharing class SendEmailToParticipant {
                         emailMessages,
                         contactMap.get(task.WhoId),
                         template,
-                        task.Description
+                        task.Survey_Invitation__c
                 );
             }
             if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
@@ -143,7 +142,7 @@ public without sharing class SendEmailToParticipant {
                         emailMessages,
                         PatientDelegateService.getDelegatedContactIds(contactMap.get(task.WhoId).Id),
                         template,
-                        task.Description
+                        task.Survey_Invitation__c
                 );
             }
         }
