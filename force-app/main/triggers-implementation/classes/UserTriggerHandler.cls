@@ -9,7 +9,7 @@ public without sharing class UserTriggerHandler {
     public class UpdateLanguageOnRelatedContactsHandler extends TriggerHandler{
     
         public override void afterInsert(List<SObject> newList) {
-            updateLanguageOnRelatedContacts(newList, null);
+            //updateLanguageOnRelatedContacts(newList, null);
         }
         
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -53,7 +53,7 @@ public without sharing class UserTriggerHandler {
                 ));
             }
         }
-        update contactsForUpdate;
+        if(contactsForUpdate.size() > 0) update contactsForUpdate;
     }
     
     @TestVisible
@@ -70,7 +70,7 @@ public without sharing class UserTriggerHandler {
                 }
             }
         }
-        update changeEmailContacts;
+        if(changeEmailContacts.size() > 0) update changeEmailContacts;
     }
     
     @TestVisible
