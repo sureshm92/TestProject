@@ -102,10 +102,6 @@
                                     <div class="label">{!$Label.c.MRN_Internal_Id}</div>
                                     <lightning:input type="text" value="{!v.pe.MRN_Id__c}" disabled="true"/>
                                 </div>
-                                    <div class="rr-form-element slds-col slds-size--1-of-3">
-                                        <div class="label"></div>
-                                        <lightning:input type="text" value="{!v.pe.Visit_Plan__c}" disabled="true"/>
-                                    </div>
                             </div>
                         </div>
                     </div>
