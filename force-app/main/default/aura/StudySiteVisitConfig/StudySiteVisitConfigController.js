@@ -16,12 +16,12 @@
     doLoadNextData: function (component, event, helper) {
         if (event.getParam('oldValue') === undefined) return;
 
-        var data = component.get('v.data');
+        let data = component.get('v.data');
         data.paginationData.currentPage = component.get('v.currentPage');
 
-        var cCodes = component.get('v.countryCodes');
-        var selectedVPIds = component.get('v.selectedVPIds');
-        var selectedSSIds = component.get('v.selectedSSIds');
+        let cCodes = component.get('v.countryCodes');
+        let selectedVPIds = component.get('v.selectedVPIds');
+        let selectedSSIds = component.get('v.selectedSSIds');
 
         component.find('spinner').show();
 
@@ -40,11 +40,11 @@
     },
 
     onCountriesChange: function (component, event, helper) {
-        var ccCodes = component.get('v.countryCodes').split(';');
-        var newSelectedSSIds = new Set();
+        let ccCodes = component.get('v.countryCodes').split(';');
+        let newSelectedSSIds = new Set();
 
-        var count = 0;
-        var items = component.get('v.ssItems');
+        let count = 0;
+        let items = component.get('v.ssItems');
         for (let i = 0; i < items.length; i++) {
             if (ccCodes.indexOf(items[i].ss.Site__r.BillingCountryCode) > -1) {
                 newSelectedSSIds.add(items[i].ss.Id);
@@ -52,7 +52,7 @@
             }
         }
 
-        var newSSIds = Array.from(newSelectedSSIds).join(';');
+        let newSSIds = Array.from(newSelectedSSIds).join(';');
         if (count === items.length) newSSIds = '';
 
         component.set('v.selectedSSIds', newSSIds);
@@ -67,8 +67,8 @@
     },
 
     doSort: function (component, event, helper) {
-        var sortDirection = true;
-        var order;
+        let sortDirection = true;
+        let order;
 
         if (event) {
             event.preventDefault();
@@ -99,7 +99,7 @@
     },
 
     doSave: function (component, event, helper) {
-        var data = component.get('v.data');
+        let data = component.get('v.data');
         data.studySiteItems = component.get('v.ssItems');
 
         component.find('spinner').show();
@@ -119,7 +119,7 @@
     },
 
     whenCountryFilterChanged: function (component, event, helper) {
-        var filterType = component.get('v.countryFilterType');
+        let filterType = component.get('v.countryFilterType');
         if (filterType === 'filter') {
             setTimeout(
                 $A.getCallback(function () {
@@ -130,7 +130,7 @@
     },
 
     whenVPFilterChanged: function (component, event, helper) {
-        var filterType = component.get('v.vpFilterType');
+        let filterType = component.get('v.vpFilterType');
         if (filterType === 'filter') {
             setTimeout(
                 $A.getCallback(function () {
@@ -141,7 +141,7 @@
     },
 
     whenSSFilterChanged: function (component, event, helper) {
-        var filterType = component.get('v.sitesFilterType');
+        let filterType = component.get('v.sitesFilterType');
         if (filterType === 'filter') {
             setTimeout(
                 $A.getCallback(function () {
@@ -153,24 +153,17 @@
 
     //Visit Plan column actions: ---------------------------------------------------------------------------------------
     columnCheckboxStateChange: function (component, event, helper) {
-        var lang = event.getParam('keyId');
-        var state = event.getParam('value');
+        let vpId = event.target.dataset.vp;
+        let state = event.target.dataset.state === 'Enabled';
 
-        var ssItems = component.get('v.ssItems');
-        for (var i = 0; i < ssItems.length; i++) {
-            var asgCount = 0;
-            var assignments = ssItems[i].assignments;
-            for (var j = 0; j < assignments.length; j++) {
-                if (assignments[j].value === lang) {
-                    ssItems[i].assignments[j].state = state;
-                }
-                if (assignments[j].state) asgCount++;
-            }
-
-            ssItems[i].emptyAssignments = asgCount === 0;
-        }
-
-        component.set('v.ssItems', ssItems);
+        component.find('spinner').show();
+        communityService.executeAction(component, 'setVisitPlanForAll', {
+            data: JSON.stringify(component.get('v.data')),
+            vpId: vpId,
+            state: state
+        }, function () {
+            helper.updateTable(component);
+        });
     },
 
     doColumnVisitEdit: function (component, event, helper) {
@@ -179,6 +172,7 @@
             component.refresh();
         }, 'edit');
     },
+
     doColumnVisitView: function (component, event, helper) {
         let menuCmp = event.getSource();
         component.find('actionVP').execute(menuCmp.get('v.plan').value, function () {
