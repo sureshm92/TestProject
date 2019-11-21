@@ -94,7 +94,7 @@
                     </div>-->
                     <div>
                         <!--<aura:if isTrue="{!!v.isDuplicate}">
-                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-p-around_medium"
+                            <div class="rr-form-element slds-col slds-size-VVV-1-of-1 slds-p-around_medium"
                                  style="max-width: 100%;">
                                 <aura:if isTrue="{!!empty(v.studySitesForInvitation)}">
                                     <div class="label">{!$Label.c.PG_MRC_RF_Invite_to_Studies}</div>
