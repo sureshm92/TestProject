@@ -9,7 +9,7 @@ public without sharing class UserTriggerHandler {
     public class UpdateLanguageOnRelatedContactsHandler extends TriggerHandler{
     
         public override void afterInsert(List<SObject> newList) {
-            updateLanguageOnRelatedContacts(newList, null);
+            //updateLanguageOnRelatedContacts(newList, null);
         }
         
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
