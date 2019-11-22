@@ -283,7 +283,7 @@ public without sharing class RRChangePasswordController {
 
                     update hcpEnrollments;
 
-                    ReferHealthcareProviderRemote.sendNotificationForRPInvite(hcpEnrollments[0].Id, contact.Id);
+                    //ReferHealthcareProviderRemote.sendNotificationForRPInvite(hcpEnrollments[0].Id, contact.Id);
                 } else {
                     hcpEnrollments[0].Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
                     update hcpEnrollments;
