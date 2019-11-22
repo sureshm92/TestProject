@@ -2148,7 +2148,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <shortDescription>Email Body RP111</shortDescription>
         <value>You have been invited to refer to ##PIName using the IQVIA Referral Hub. If you are not already a Referring Provider in the system, this will also make it possible for you to find other clinical research studies that are available and refer patients to nearby study sites.
 
-            Please take a moment to log in to the Referral Hub, access &quot;My Studies,&quot; and review and accept this study. You will then be able to easily connect with study sites and begin referring patients to this study through Referral Hub.</value>
+            Please take a moment to log in to the Referral Hub and view the studies to which you can refer.</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP2</fullName>
