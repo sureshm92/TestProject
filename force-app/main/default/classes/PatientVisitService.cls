@@ -3,6 +3,7 @@ public inherited sharing class PatientVisitService {
     public static final String VISIT_MODE_CURRENT = 'Current';
     public static final String VISIT_MODE_PAST = 'Past';
     public static final String VISIT_STATUS_PENDING = 'Pending';
+    public static final String VISIT_MODE_ALL = 'All';
     private static User CURRENT_USER;
 
     public List<VisitWrapper> getVisitWrappers(String visitMode) {
@@ -29,11 +30,14 @@ public inherited sharing class PatientVisitService {
                 'Visit__r.Patient_Portal_Name__c',
                 'Visit__r.Icons__c'
         };
-        String filter = DatabaseService.fieldEqual('Participant_Enrollment__c', pState.pe.Id) +
+        String filter = DatabaseService.fieldEqual('Participant_Enrollment__c', pState.pe.Id);
+        if (visitMode != VISIT_MODE_ALL) {
+            filter +=
                 'AND' + (VISIT_MODE_CURRENT == visitMode ?
-                                DatabaseService.fieldEqual('Status__c', VISIT_STATUS_PENDING)
-                                : DatabaseService.fieldNotEqual('Status__c', VISIT_STATUS_PENDING)
-                        );
+                        DatabaseService.fieldEqual('Status__c', VISIT_STATUS_PENDING)
+                        : DatabaseService.fieldNotEqual('Status__c', VISIT_STATUS_PENDING)
+                );
+        }
         String order = 'Visit_Number__c ' + (VISIT_MODE_PAST == visitMode ? ' DESC ' : 'ASC') + ' NULLS LAST';
         Integer limitVisits = (limitNumber != null ? limitNumber : null);
 
@@ -48,13 +52,13 @@ public inherited sharing class PatientVisitService {
         List<VisitWrapper> visitWrappers = new List<VisitWrapper>();
         if (visits == null || visits.isEmpty()) return visitWrappers;
 
-        List<User> users = [SELECT Id, LocaleSidKey, TimeZoneSidKey FROM User WHERE Id =: UserInfo.getUserId()];
+        List<User> users = [SELECT Id, LocaleSidKey, TimeZoneSidKey FROM User WHERE Id = :UserInfo.getUserId()];
         CURRENT_USER = users.get(0);
         TimeZone timeZone = TimeZone.getTimeZone(CURRENT_USER.TimeZoneSidKey);
         Map<Id, Task> tasksByVisitIds = getTasksByVisitIds(visits);
         Set<Id> uniqueId = new Set<Id>();
         for (Patient_Visit__c singleVisit : visits) {
-            if(singleVisit.Completed_Date__c != null) {
+            if (singleVisit.Completed_Date__c != null) {
                 singleVisit.Completed_Date__c = DateTimeConverterUtil.getUserDatetime(timeZone, singleVisit.Completed_Date__c).date();
             }
 

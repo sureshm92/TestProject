@@ -27,7 +27,7 @@
     <aura:attribute name="currentPage" type="Integer" default="1"/>
     <aura:attribute name="allRecordsCount" type="Integer"/>
 
-    <aura:attribute name="sortOrder" type="String" default="country"/>
+    <aura:attribute name="sortOrder" type="String" default="name"/>
     <aura:attribute name="countrySortType" type="Boolean"/>
     <aura:attribute name="nameSortType" type="Boolean"/>
     <aura:attribute name="numberSortType" type="Boolean"/>
@@ -106,7 +106,8 @@
                                         <c:IRBStudySitesLookup aura:id="ssLookup"
                                                                value="{!v.selectedSSIds}" ctpId="{!v.recordId}"
                                                                selectedCountries="{!v.countryCodes}"
-                                                               onchange="{!c.getFilteredSS}" placeholder="Select Study Site"/>
+                                                               onchange="{!c.getFilteredSS}"
+                                                               placeholder="Select Study Site"/>
                                     </aura:set>
                                 </aura:if>
                             </div>
@@ -120,7 +121,7 @@
                                 </aura:if>
                             </div>
                         </div>
-                        <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}" >
+                        <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
                             <div class="save-btn">
                                 <lightning:button variant="neutral" label="Add Visit Plan" onclick="{!c.doAddVP}"/>
                                 <div style="padding-left: 1rem"></div>
@@ -135,7 +136,7 @@
                                 <tr class="slds-line-height_reset">
                                     <th scope="col">
                                         <div data-order="country" class="sorted-column" onclick="{!c.doSort}">
-                                            <div class="slds-truncate">
+                                            <div class="slds-truncate slds-text-align--center">
                                                 Country
                                             </div>
                                             <div class="slds-m-left--x-small">
@@ -164,7 +165,7 @@
                                     <th class="cell-wrap" scope="col">
                                         <div data-order="number" class="sorted-column" onclick="{!c.doSort}">
                                             <div>Study Site Number</div>
-                                            <div class="slds-m-left--x-small">
+                                            <div class="slds-m-left--x-small slds-align--absolute-center">
                                                 <lightning:icon
                                                         iconName="{!'utility:' + if(v.numberSortType,'arrowdown', 'arrowup')}"
                                                         alternativeText=""
@@ -176,18 +177,20 @@
                                     <aura:if isTrue="{!v.visitPlans}">
                                         <aura:iteration items="{!v.visitPlans}" var="vp">
                                             <th scope="col">
-                                                    <div class="sorted-column">
-                                                        <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
-                                                            <c:uiIndeterminatedCheckbox aura:id="columnVP" keyId="{!vp.value}"
-                                                                                        onvaluechanged="{!c.columnCheckboxStateChange}"/>
-                                                        </aura:if>
-                                                        <c:VisitPlanColumnMenu plan="{!vp}"
-                                                                               onEdit="{!if(equals(v.viewModePage, 'Edit'), c.doColumnVisitEdit,
-                                                                                                                            c.doColumnVisitView)}"
-                                                                               onClone="{!c.doColumnVisitClone}"
-                                                                               onDelete="{!c.doColumnVisitDelete}"
-                                                                               isVisible="{!if(equals(v.viewModePage, 'Edit'), true, false)}"/>
-                                                </div>
+                                                <c:VisitPlanColumnMenu plan="{!vp}"
+                                                                       onEdit="{!if(equals(v.viewModePage, 'Edit'), c.doColumnVisitEdit, c.doColumnVisitView)}"
+                                                                       onClone="{!c.doColumnVisitClone}"
+                                                                       onDelete="{!c.doColumnVisitDelete}"
+                                                                       isVisible="{!equals(v.viewModePage, 'Edit')}"/>
+                                                <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
+                                                    <div class="column-btn">
+                                                        <a data-state="Enabled" data-vp="{!vp.value}"
+                                                           onclick="{!c.columnCheckboxStateChange}">Select All</a>
+                                                        <span style="padding: 0 3px; color: #006DCC; ">|</span>
+                                                        <a data-state="Disabled" data-vp="{!vp.value}"
+                                                           onclick="{!c.columnCheckboxStateChange}">Clear All</a>
+                                                    </div>
+                                                </aura:if>
                                             </th>
                                         </aura:iteration>
                                     </aura:if>

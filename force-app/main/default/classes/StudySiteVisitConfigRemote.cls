@@ -113,6 +113,38 @@ public without sharing class StudySiteVisitConfigRemote {
     }
 
     @AuraEnabled
+    public static void setVisitPlanForAll(String data, String vpId, Boolean state) {
+        try {
+            InitData initData = (InitData) JSON.deserialize(data, InitData.class);
+            if (ctpStudySites == null) {
+                ctpStudySites = ApprovedLangRemote.getStudySites(ApprovedLangRemote.QUERY_MAIN_FILTER.replace('ctpId', initData.ctpId));
+            }
+            List<Id> ssIds = new List<Id>();
+            for (Study_Site__c ss : ctpStudySites) ssIds.add(ss.Id);
+
+            if (state) {
+                Map<Id, Map<Id, StudySiteVisitPlan__c>> ssVPsByStudySiteIds = getStudySiteVisitPlansMap(ssIds);
+                List<StudySiteVisitPlan__c> studySiteVisitPlans = new List<StudySiteVisitPlan__c>();
+                for (Id ssId : ssIds) {
+                    Map<Id, StudySiteVisitPlan__c> ssVPByIds = ssVPsByStudySiteIds.get(ssId);
+                    if (ssVPByIds != null && ssVPByIds.containsKey(vpId)) continue;
+
+                    studySiteVisitPlans.add(new StudySiteVisitPlan__c(
+                            Study_Site__c = ssId,
+                            Visit_Plan__c = vpId
+                    ));
+                }
+
+                if (!studySiteVisitPlans.isEmpty()) insert studySiteVisitPlans;
+            } else {
+                delete [SELECT Id FROM StudySiteVisitPlan__c WHERE Visit_Plan__c = :vpId AND Study_Site__c IN:ssIds];
+            }
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
     public static InitData save(String data) {
         try {
             InitData initData = (InitData) JSON.deserialize(data, InitData.class);
@@ -164,67 +196,7 @@ public without sharing class StudySiteVisitConfigRemote {
         }
     }
 
-//Search lookup logic: ---------------------------------------------------------------------------------------------
-    @AuraEnabled(Cacheable = true)
-    public static List<LookupSearchResult> searchVPByTerm(String searchTerm, String value) {
-        try {
-            List<String> selectedIds = new List<String>();
-            if (!String.isEmpty(value)) selectedIds = value.split(';');
-            String term = '%';
-            if (searchTerm != null) term += (searchTerm + '%');
-
-            String filter =
-                    DatabaseService.fieldNotInValues('Id', selectedIds) +
-                            'AND Name LIKE \'' + term + '\' LIMIT 10';
-
-            List<Visit_Plan__c> visitPlans = (List<Visit_Plan__c>) DatabaseService.getInstance().queryImpl(new List<String>{
-                    'Id',
-                    'Name'
-            }, Visit_Plan__c.getSObjectType(), filter);
-            List<LookupSearchResult> resList = new List<LookupSearchResult>();
-            for (Visit_Plan__c vp : visitPlans) {
-                resList.add(new LookupSearchResult(
-                        vp.Id,
-                        'Visit_Plan__c',
-                        'standard:visits',
-                        vp.Name,
-                        null
-                ));
-            }
-            return resList;
-        } catch (Exception e) {
-            return (List<LookupSearchResult>) AuraHelper.throwException(e);
-        }
-    }
-
-    @AuraEnabled(Cacheable = true)
-    public static List<LookupSearchResult> searchVPByIds(String value) {
-        try {
-            List<LookupSearchResult> resList = new List<LookupSearchResult>();
-            List<String> vpIds = value.split(';');
-
-            String filter = DatabaseService.fieldInValues('Id', vpIds);
-
-            List<Visit_Plan__c> visitPlans = (List<Visit_Plan__c>) DatabaseService.getInstance().queryImpl(new List<String>{
-                    'Id',
-                    'Name'
-            }, Visit_Plan__c.getSObjectType(), filter);
-            for (Visit_Plan__c vp : visitPlans) {
-                resList.add(new LookupSearchResult(
-                        vp.Id,
-                        'Visit_Plan__c',
-                        'standard:visits',
-                        vp.Name,
-                        null
-                ));
-            }
-            return resList;
-        } catch (Exception e) {
-            return (List<LookupSearchResult>) AuraHelper.throwException(e);
-        }
-    }
-
-//Inner logic: -----------------------------------------------------------------------------------------------------
+    //Inner logic: -----------------------------------------------------------------------------------------------------
     private static InitData init(Id ctpId) {
         InitData initData = new InitData();
         initData.ctpId = ctpId;
@@ -232,7 +204,6 @@ public without sharing class StudySiteVisitConfigRemote {
         if (!ctpStudySites.isEmpty()) {
             loadInitData(initData);
             initPageItems(initData, initData.countryCodes, null, null);
-            initData.paginationData.reCalc();
         }
 
         return initData;
@@ -250,7 +221,7 @@ public without sharing class StudySiteVisitConfigRemote {
         initData.haveEmptyVPSS = getStudySiteVisitPlansMap(ssIds).keySet().size() != ssIds.size();
 
         initData.countryCodes = initData.countryCodes.removeEnd(';');
-        initData.paginationData.allRecordsCount = ctpStudySites.size();
+        initData.paginationData.setRecordsCount(ctpStudySites.size());
     }
 
     private static void initPageItems(InitData initData, String countryCodes, String selectedVPIds, String ssId) {
@@ -318,7 +289,6 @@ public without sharing class StudySiteVisitConfigRemote {
 
         return ssVisitPlansBySSId;
     }
-
 
     public static List<LabelValueItem> getVisitPlansLV() {
         List<LabelValueItem> visitPlans = new List<LabelValueItem>();
