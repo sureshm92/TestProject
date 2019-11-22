@@ -7,7 +7,8 @@ public without sharing class Action_InviteRPRemote {
     @AuraEnabled
     public static String getInviteDetail() {
         InviteDetail inviteDetail = new InviteDetail();
-        try {
+        inviteDetail.studySitesForInvitation = new List<SiteWrapper>();
+        /*try {
             List<Study_Site__c> studySitesNotDelegate = StudySiteService.getStudySitesForPI();
             inviteDetail.studySitesForInvitation = new List<SiteWrapper>();
             if (studySitesNotDelegate != null && !studySitesNotDelegate.isEmpty()) {
@@ -22,17 +23,26 @@ public without sharing class Action_InviteRPRemote {
             }
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-        }
+        }*/
         return JSON.serialize(inviteDetail);
     }
 
     @AuraEnabled
-    public static ReferHealthcareProviderRemote.HealthcareProvider checkDuplicate(String email){
+    public static ReferHealthcareProviderRemote.HealthcareProvider checkDuplicate(String email) {
         return ReferHealthcareProviderRemote.checkDuplicate(null, email);
     }
 
     @AuraEnabled
-    public static void inviteHCP(String firstName, String lastName, String phone, String email, String studySiteId, String protocolId){
+    public static void inviteExistingHCP(String hcpContactId) {
+        try {
+            ReferHealthcareProviderRemote.createHCPinPlatform(CommunityService.getUserContact().Id, hcpContactId);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
+    @AuraEnabled
+    public static void inviteNewHCP(String firstName, String lastName, String phone, String email, String studySiteId, String protocolId){
         try{
             List<Group> invitationQueues = [SELECT Id FROM Group WHERE Type = 'Queue' AND Name = :CommunityService.INVITATION_QUEUE];
             AssignmentRule ar = new AssignmentRule();
@@ -62,20 +72,22 @@ public without sharing class Action_InviteRPRemote {
             l.Company = lastName +' temporary account';
             l.Protocol_Number__c = protocolId;
             l.Language__c = UserInfo.getLanguage();
-            if (studySiteId!= null && studySiteId != '') {
+            if (String.isNotBlank(studySiteId)) {
                 l.Study_Site__c = studySiteId;
             }
             l.Status = 'New';
             Contact piContact = CommunityService.getUserContact();
-            l.Invited_by_PI__c = piContact.Id;
+            if (piContact != null) {
+                l.Invited_by_PI__c = piContact.Id;
+            }
             if (invitationQueues.size() > 0) {
                 l.OwnerId = invitationQueues[0].Id;
             }
-            if (!isConvertNeed || String.isEmpty(studySiteId)) {
+            if (!isConvertNeed) {
                 l.setOptions(dmlOpts);
                 insert l;
             } else {
-                ReferHealthcareProviderRemote.createHCPinPlatform(studySiteId, firstName, lastName, email, phone, piContact);
+                ReferHealthcareProviderRemote.createHCPinPlatform(null, firstName, lastName, email, phone, piContact);
             }
         }catch(Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());

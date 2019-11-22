@@ -372,17 +372,17 @@ public without sharing class ApprovedLangRemote {
         }
 
         if (sortOrder == null || String.isEmpty(sortOrder)) {
-            sortOrder = 'Site__r.BillingCountry';
+            sortOrder = 'Name';
         } else {
             switch on sortOrder {
-                when 'name' {
-                    sortOrder = 'Name';
+                when 'country' {
+                    sortOrder = 'Site__r.BillingCountry';
                 }
                 when 'number' {
                     sortOrder = 'Study_Site_Number__c';
                 }
                 when else {
-                    sortOrder = 'Site__r.BillingCountry';
+                    sortOrder = 'Name';
                 }
             }
         }

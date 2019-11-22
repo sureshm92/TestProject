@@ -54,12 +54,8 @@ public without sharing class TaskTriggerHandler {
             }
 
             Id whatId = task.WhatId;
-            if(whatId == null) {
-                try {
-                    whatId = task.Description;
-                } catch (Exception e) {
-                    System.debug('Wrong id on description');
-                }
+            if (whatId == null) {
+                whatId = task.Survey_Invitation__c;
             }
             if (whatId == null && card.Parameters__c != null) {
                 task.WhatId.addError('What Id can not be null');
@@ -101,7 +97,7 @@ public without sharing class TaskTriggerHandler {
         ]);
 
         List<Id> partContactsIds = new List<Id>();
-        for(Id usId : usersByIds.keySet()) partContactsIds.add(usersByIds.get(usId).ContactId);
+        for (Id usId : usersByIds.keySet()) partContactsIds.add(usersByIds.get(usId).ContactId);
 
         List<Patient_Delegate__c> patientDelegates = [
                 SELECT
@@ -112,8 +108,8 @@ public without sharing class TaskTriggerHandler {
                 AND Contact__r.Participant_Opt_In_Status_Emails__c = TRUE
         ];
         Map<Id, List<Id>> delegatesCntByPartCnt = new Map<Id, List<Id>>();
-        for(Patient_Delegate__c pd: patientDelegates) {
-            if(!delegatesCntByPartCnt.containsKey(pd.Participant__r.Contact__c)) {
+        for (Patient_Delegate__c pd : patientDelegates) {
+            if (!delegatesCntByPartCnt.containsKey(pd.Participant__r.Contact__c)) {
                 delegatesCntByPartCnt.put(pd.Participant__r.Contact__c, new List<Id>());
             }
             delegatesCntByPartCnt.get(pd.Participant__r.Contact__c).add(pd.Contact__c);
@@ -124,21 +120,17 @@ public without sharing class TaskTriggerHandler {
                 Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
                 if (card != null && card.Immediate_Email_Template__c != null) {
                     Id whatId = task.WhatId;
-                    if(whatId == null && task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
-                        try {
-                            whatId = task.Description;
-                        } catch (Exception e) {
-                            System.debug('Wrong id on description');
-                        }
+                    if (whatId == null && task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
+                        whatId = task.Survey_Invitation__c;
                     }
-                    if(task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)
+                    if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)
                             && usersByIds.get(task.OwnerId).Contact.Participant_Opt_In_Status_Emails__c) {
                         emailMessages.add(SendEmailTemplate.createEmail(
                                 card.Immediate_Email_Template__c, usersByIds.get(task.OwnerId).ContactId, whatId));
                     }
-                    if(task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
-                        if(!delegatesCntByPartCnt.containsKey(usersByIds.get(task.OwnerId).ContactId)) continue;
-                        for(Id delContactId : delegatesCntByPartCnt.get(usersByIds.get(task.OwnerId).ContactId)) {
+                    if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
+                        if (!delegatesCntByPartCnt.containsKey(usersByIds.get(task.OwnerId).ContactId)) continue;
+                        for (Id delContactId : delegatesCntByPartCnt.get(usersByIds.get(task.OwnerId).ContactId)) {
                             emailMessages.add(SendEmailTemplate.createEmail(
                                     card.Immediate_Email_Template__c, delContactId, whatId));
                         }
@@ -164,12 +156,8 @@ public without sharing class TaskTriggerHandler {
             if (card.Source_Object_Type__c == null) continue;
 
             if (task.WhatId == null && card.Parameters__c != null) {
-                if(task.Task_Code__c == TaskService.TASK_CODE_COMPLETE_SURVEY && task.Description != null) {
-                    try {
-                        task.WhatId = task.Description;
-                    } catch (Exception e) {
-                        System.debug('Wrong id on description field');
-                    }
+                if (task.Task_Code__c == TaskService.TASK_CODE_COMPLETE_SURVEY && task.Survey_Invitation__c != null) {
+                    task.WhatId = task.Survey_Invitation__c;
                 } else {
                     task.WhatId.addError('What Id can not be null');
                     continue;
@@ -212,7 +200,7 @@ public without sharing class TaskTriggerHandler {
             task.Subject = CatalogParametersHelper.prepareLabel(card.Subject_Label__c, cardParametersValueMap);
 
             String description = CatalogParametersHelper.prepareLabel(card.Comments_Label__c, cardParametersValueMap);
-            if(description != null) task.Description = description;
+            if (description != null) task.Description = description;
 
             task.Action_URL__c = CatalogParametersHelper.prepareMergeFields(card.Action_Link__c, cardParametersValueMap);
 

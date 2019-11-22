@@ -33,14 +33,15 @@ private class Test_Batch_CreateSurveyTasks {
 
         Boolean isTaskExist = false;
         List<Task> tasks = [
-                SELECT Id, Description
+                SELECT Id, Description, Survey_Invitation__c
                 FROM Task
                 WHERE Task_Type__c = 'Survey'
                 AND CreatedDate = TODAY
                 AND CreatedById =: UserInfo.getUserId()
         ];
         for(Task t : tasks) {
-            if(t.Description != null && t.Description.equals(invitation.Id)) {
+            if((t.Survey_Invitation__c != null && t.Survey_Invitation__c == invitation.Id) ||
+                    (t.Description != null && t.Description.equals(invitation.Id))) {
                 isTaskExist = true;
                 break;
             }
