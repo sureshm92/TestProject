@@ -266,11 +266,17 @@ global without sharing class ReferHealthcareProviderRemote {
                 for (HCP_Enrollment__c hcpEnrollment : hcpes) {
                     hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
                 }
-                insert hcpes;
+                if (!hcpes.isEmpty()) {
+                    insert hcpes;
 
-                sendNotificationForRPInvite(hcpes[0].Id, hcpContactId);
+                    sendNotificationForRPInvite(hcpes[0].Id, hcpContactId);
+                } else {
+                    throw new AuraHandledException('RP is already invited to your Study Sites!');
+                }
             } else {
-                insert hcpes;
+                if (!hcpes.isEmpty()) {
+                    insert hcpes;
+                }
             }
         }
 
