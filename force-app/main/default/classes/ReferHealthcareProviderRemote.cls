@@ -243,26 +243,48 @@ global without sharing class ReferHealthcareProviderRemote {
             hcpes.add(new HCP_Enrollment__c(
                     HCP_Contact__c = cntList[0].Id,
                     HCP_Account__c = cntList[0].AccountId,
-                    Status__c = HCPEnrollmentService.HCP_S_ACTIVATED,
+                    Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION,
                     Study_Site__c = (String.isBlank(stdSite.Id) ? null : stdSite.Id)
             ));
         }
-        hcpes[0].Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION;
-        insert hcpes;
 
         if (hp != null) {
+            if (!isNewUser) {
+                hcpes[0].Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+                insert hcpes[0];
+                hcpes[0].Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+                update hcpes[0];
+            } else {
+                hcpes[0].Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION;
+                insert hcpes;
+            }
+
             hp.HCP_Enrollment__c = hcpes[0].Id;
             update hp;
-        }
+        } else {
+            if (!isNewUser) {
+                for (HCP_Enrollment__c hcpEnrollment : hcpes) {
+                    hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+                }
+                if (!hcpes.isEmpty()) {
+                    insert hcpes;
 
-        if (!isNewUser) {
-            hcpes[0].Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
-            update hcpes[0];
-            hcpes[0].Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
-            update hcpes[0];
+                    sendNotificationForRPInvite(hcpes[0].Id, hcpContactId);
+                } else {
+                    throw new AuraHandledException('RP is already invited to your Study Sites!');
+                }
+            } else {
+                if (!hcpes.isEmpty()) {
+                    insert hcpes;
+                }
+            }
         }
 
         return hcpes[0].Id;
+    }
+
+    public static void sendNotificationForRPInvite(Id hcpEnrollId, Id hcpContactId) {
+        SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_HCP_INVITE, new Map<Id, Id> { hcpEnrollId => hcpContactId });
     }
 
     public final static String HP_S_INVITED = 'Invited';
