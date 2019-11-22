@@ -31,8 +31,9 @@
         var studySiteId = component.get('v.studySiteId');
         var protocolId = component.get('v.protocolId');
         var isDuplicate = component.get('v.isDuplicate');
+        var hcpContactId = component.get('v.hcpContactId');
         component.find('modalSpinner').show();
-        if (!isDuplicate) {
+        if (!hcpContactId) {
             communityService.executeAction(component, 'inviteNewHCP', {
                 firstName: firstName,
                 lastName: lastName,
@@ -49,7 +50,6 @@
                 communityService.showToast("success", "success", $A.get("$Label.c.TST_Request_to_invite_a_referring_provider"));
             });
         } else {
-            var hcpContactId = component.get('v.hcpContactId');
             communityService.executeAction(component, 'inviteExistingHCP', {
                 hcpContactId: hcpContactId
             }, function (returnValue) {
