@@ -25,9 +25,9 @@
             <!--Filters-->
             <aura:if isTrue="{!v.initialized}">
                 <div class="filters-section">
-                    <div class="slds-grid slds-wrap">
+                    <div class="slds-grid slds-wrap slds-gutters form-items">
                         <!--Country Filter-->
-                        <div class="slds-col slds-size--6-of-12 slds-p-horizontal_medium ">
+                        <div class="slds-col slds-size--1-of-2">
                             <c:CountryLookup
                                     aura:id="countryLookup"
                                     isMultiEntry="true"
@@ -39,7 +39,7 @@
                                     isInclude="true"/>
                         </div>
                         <!--Study Site Filter-->
-                        <div class="slds-col slds-size--6-of-12 slds-p-horizontal_medium">
+                        <div class="slds-col slds-size--1-of-2">
                             <c:StudySiteLookup
                                     ctpId="{!v.recordId}"
                                     isMultiEntry="true"
@@ -50,7 +50,8 @@
                                     selectedCountries="{!v.selectedByCountry}"
                                     includeSS="true"/>
                         </div>
-                        <div class="slds-col slds-size--6-of-12 slds-p-horizontal_medium">
+                        <!--Travel Vendor Filter-->
+                        <div class="slds-col slds-size--1-of-2">
                             <c:RRLookup
                                     objectName="TravelVendorSettings__c"
                                     lookupName="TravelVendor__c"
@@ -61,7 +62,7 @@
                             />
                         </div>
                         <aura:if isTrue="{! v.permission == 'Edit'}">
-                            <div class="slds-col slds-size--6-of-12">
+                            <div class="slds-col slds-size--1-of-2">
                                 <div class="save-btn">
                                     <lightning:button onclick="{!c.showModal}"
                                                       class="slds-theme_neutral slds-m-left--medium"
@@ -108,12 +109,16 @@
                             <aura:iteration items="{!v.selectedVendors}" var="vendor">
                                 <th class="cell-wrap" scope="col">
                                     <div class="slds-medium-show--inline-block">
-                                        <ui:inputCheckbox aura:id="columnVendor"
-                                                          class="uiInput--checkbox slds-medium-show--inline-block slds-float--left slds-m-right--x-small slds-dl_horizontal__label"
-                                                          label="{!vendor.Id}" labelClass="slds-hide"
-                                                          change="{!c.columnCheckboxStateChange}"
-                                                          disabled="{!v.permission == 'View'}"/>
                                         <label>{!vendor.Name}</label>
+                                        <aura:if isTrue="{!equals(v.permission, 'Edit')}">
+                                            <div class="column-btn">
+                                                <a data-state="Enabled" data-vendor="{!vendor.Id}"
+                                                   onclick="{!c.columnCheckboxStateChange}">Select All</a>
+                                                <span style="padding: 0 3px; color: #006DCC; ">|</span>
+                                                <a data-state="Disabled" data-vendor="{!vendor.Id}"
+                                                   onclick="{!c.columnCheckboxStateChange}">Clear All</a>
+                                            </div>
+                                        </aura:if>
                                     </div>
                                 </th>
                             </aura:iteration>
@@ -136,7 +141,7 @@
                                     <div class="slds-truncate slds-text-align--center">{!item.studySite.Study_Site_Number__c}</div>
                                 </td>
                                 <aura:iteration items="{!item.vendorSettings}" var="selectedVendorIdSetting">
-                                    <td>
+                                    <td class="cell-wrap" >
                                         <ui:inputCheckbox value="{!selectedVendorIdSetting.isEnable__c}"
                                                           label="{!selectedVendorIdSetting.Vendor__r.Name}"
                                                           disabled="{!v.permission == 'View'}"
