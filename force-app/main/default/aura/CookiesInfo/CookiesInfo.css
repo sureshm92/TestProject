@@ -12,3 +12,8 @@
     }
     
 }
+@media print {
+    .THIs .ci-bottom-aria{
+        display: none;
+    }
+}
