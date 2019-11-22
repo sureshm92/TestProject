@@ -17,32 +17,24 @@
         if (event.getParam('oldValue') === undefined) return;
 
         let data = component.get('v.data');
-        data.paginationData.currentPage = component.get('v.currentPage');
+        data.searchWrapper.pagination.currentPage = component.get('v.currentPage');
 
-        component.set('v.sortOrder', 'name');
-
-        let cCodes = component.get('v.countryCodes');
-        let selectedVPIds = component.get('v.selectedVPIds');
-        let selectedSSIds = component.get('v.selectedSSIds');
-
+        helper.updateSorting(component);
         component.find('spinner').show();
 
         communityService.executeAction(component, 'getNextData', {
-            data: JSON.stringify(data),
-            countryCodes: cCodes,
-            selectedVPIds: selectedVPIds,
-            ssId: selectedSSIds,
+            data: JSON.stringify(data)
         }, function (response) {
             component.set('v.data', response);
             component.set('v.ssItems', response.studySiteItems);
-            component.set('v.haveEmptyVPSS', response.haveEmptyVPSS);
 
             component.find('spinner').hide();
         });
     },
 
     onCountriesChange: function (component, event, helper) {
-        let ccCodes = component.get('v.countryCodes').split(';');
+        var data = component.get('v.data');
+        let ccCodes = data.searchWrapper.filter.countryCodes.split(';');
         let newSelectedSSIds = new Set();
 
         let count = 0;
@@ -57,42 +49,28 @@
         let newSSIds = Array.from(newSelectedSSIds).join(';');
         if (count === items.length) newSSIds = '';
 
-        component.set('v.selectedSSIds', newSSIds);
+        data.searchWrapper.filter.selectedSSIds = newSSIds;
+        component.set('v.data', data);
 
         component.find('spinner').show();
-        helper.updateTable(component);
+        helper.updateTable(component, helper);
     },
 
     getFilteredSS: function (component, event, helper) {
         component.find('spinner').show();
-        helper.updateTable(component);
+        helper.updateTable(component, helper);
     },
 
     doSort: function (component, event, helper) {
-        let sortDirection = true;
-        let order;
-
         if (event) {
             event.preventDefault();
-            order = event.currentTarget.dataset.order;
-            if (order === 'country') {
-                sortDirection = !component.get('v.countrySortType');
-                component.set('v.countrySortType', sortDirection);
-            } else if (order === 'name') {
-                sortDirection = !component.get('v.nameSortType');
-                component.set('v.nameSortType', sortDirection);
-            } else if (order === 'number') {
-                sortDirection = !component.get('v.numberSortType');
-                component.set('v.numberSortType', sortDirection);
-            }
+            let order = event.currentTarget.dataset.order;
             component.set('v.sortOrder', order);
+            helper.updateSorting(component, true);
 
             component.find('spinner').show();
             communityService.executeAction(component, 'getSortedItems', {
-                data: JSON.stringify(component.get('v.data')),
-                selectedVPIds: component.get('v.selectedVPIds'),
-                sortOrder: order,
-                sortDirection: sortDirection
+                data: JSON.stringify(component.get('v.data'))
             }, function (data) {
                 component.set('v.ssItems', data.studySiteItems);
                 component.find('spinner').hide();
@@ -107,8 +85,7 @@
         component.find('spinner').show();
         communityService.executeAction(component, 'save', {
             data: JSON.stringify(data)
-        }, function (data) {
-            component.set('v.haveEmptyVPSS', data.haveEmptyVPSS);
+        }, function () {
             component.find('spinner').hide();
             communityService.showSuccessToast('Success', 'Changes were saved!');
         });
@@ -161,10 +138,10 @@
         component.find('spinner').show();
         communityService.executeAction(component, 'setVisitPlanForAll', {
             data: JSON.stringify(component.get('v.data')),
-            vpId: vpId,
+            visitPlanId: vpId,
             state: state
         }, function () {
-            helper.updateTable(component);
+            helper.updateTable(component, helper);
         });
     },
 
@@ -195,8 +172,8 @@
 
         component.find('spinner').show();
         communityService.executeAction(component, 'deleteVisitPlan', {
-            planId: planId,
-            ctpId: component.get('v.recordId')
+            data: JSON.stringify(component.get('v.data')),
+            planId: planId
         }, function (data) {
             helper.init(component, data);
         });

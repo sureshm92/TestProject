@@ -6,25 +6,14 @@ public without sharing class StudySiteVisitConfigRemote {
 
     public static final String FEATURE_SS_VISIT_CONFIG = 'Visits_Configuration';
 
-    public static List<Study_Site__c> ctpStudySites;
-
     public class InitData {
+        @AuraEnabled public StudySiteFilter.StudySiteSearchWrapper searchWrapper;
         @AuraEnabled public List<LabelValueItem> visitPlans;
-        @AuraEnabled public String countryCodes;
-        @AuraEnabled public String selectedSSIds;
-        @AuraEnabled public Id ctpId;
         @AuraEnabled public List<ApprovedLangRemote.StudySiteItem> studySiteItems;
-        @AuraEnabled public Boolean haveEmptyVPSS;
-        @AuraEnabled public PaginationData paginationData;
-        @AuraEnabled public Map<String, String> countryBySSId;
         @AuraEnabled public String viewMode;
 
         public InitData() {
-            paginationData = new PaginationData();
-            countryCodes = '';
-            haveEmptyVPSS = false;
-
-            countryBySSId = new Map<String, String>();
+            searchWrapper = new StudySiteFilter.StudySiteSearchWrapper(new StudySiteFilter(), new PaginationData());
             visitPlans = getVisitPlansLV();
         }
     }
@@ -32,20 +21,10 @@ public without sharing class StudySiteVisitConfigRemote {
     @AuraEnabled
     public static InitData getInitData(Id ctpId) {
         try {
-            InitData intData = init(ctpId);
-            intData.viewMode = GetPermissions.getViewMode(FEATURE_SS_VISIT_CONFIG);
-            return intData;
-        } catch (Exception e) {
-            return (InitData) AuraHelper.throwException(e);
-        }
-    }
-
-    @AuraEnabled
-    public static InitData getNextData(String data, String countryCodes, String selectedVPIds, String ssId) {
-        try {
-            InitData initData = save(data);
-            initData.paginationData.reCalc();
-            initPageItems(initData, countryCodes, selectedVPIds, ssId);
+            InitData initData = new InitData();
+            initData.searchWrapper.filter.ctpId = ctpId;
+            init(initData);
+            initData.viewMode = GetPermissions.getViewMode(FEATURE_SS_VISIT_CONFIG);
             return initData;
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
@@ -53,58 +32,32 @@ public without sharing class StudySiteVisitConfigRemote {
     }
 
     @AuraEnabled
-    public static InitData getFilteredItems(String data, String countryCodes, String selectedVPIds, String ssId) {
+    public static InitData getNextData(String data) {
+        try {
+            InitData initData = save(data);
+            initPageItems(initData);
+            return initData;
+        } catch (Exception e) {
+            return (InitData) AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
+    public static InitData getFilteredItems(String data) {
         try {
             InitData initData = (InitData) JSON.deserialize(data, InitData.class);
-
-            List<String> countries = ApprovedLangRemote.getListByString(countryCodes);
-            List<String> vpIds = ApprovedLangRemote.getListByString(selectedVPIds);
-            List<String> studyIds = ApprovedLangRemote.getListByString(ssId);
+            List<String> visitPlansIds = StudySiteFilter.getListByString(initData.searchWrapper.filter.pageFeatureIds);
 
             initData.visitPlans = new List<LabelValueItem>();
             for (LabelValueItem vp : getVisitPlansLV()) {
-                if (vpIds.isEmpty() || (!vpIds.isEmpty() && vpIds.contains(vp.value))) {
+                if (visitPlansIds.isEmpty() || (!visitPlansIds.isEmpty() && visitPlansIds.contains(vp.value))) {
                     initData.visitPlans.add(vp);
                 }
             }
 
-            List<Study_Site__c> studySites = ApprovedLangRemote.getStudySites(
-                    initData.ctpId, countries, studyIds, null, 'ASC', -1, 0
-            );
-            initData.paginationData.setRecordsCount(studySites.size());
-
-            List<Study_Site__c> ssPart = new List<Study_Site__c>();
-            for (Integer i = 0; i < studySites.size(); i++) {
-                if (ssPart.size() - 1 < ApprovedLangRemote.QUERY_LIMIT) {
-                    if (countries.isEmpty() || countries.contains(studySites.get(i).Site__r.BillingCountryCode)) {
-                        ssPart.add(studySites.get(i));
-                    }
-                } else {
-                    break;
-                }
-            }
-
-            initData.studySiteItems = getStudySiteItems(ssPart, vpIds);
-            return initData;
-        } catch (Exception e) {
-            return (InitData) AuraHelper.throwException(e);
-        }
-    }
-
-    @AuraEnabled
-    public static InitData getSortedItems(String data, String selectedVPIds, String sortOrder, Boolean sortDirection) {
-        try {
-            InitData initData = (InitData) JSON.deserialize(data, InitData.class);
-
-            List<String> ssIds = new List<String>();
-            for (ApprovedLangRemote.StudySiteItem item : initData.studySiteItems) ssIds.add(item.ss.Id);
-
-            String direction = sortDirection ? 'ASC' : 'DESC';
-
-            List<Study_Site__c> studySites = ApprovedLangRemote.getStudySites(
-                    initData.ctpId, null, ssIds, sortOrder, direction, -1, ApprovedLangRemote.QUERY_LIMIT
-            );
-            initData.studySiteItems = getStudySiteItems(studySites, ApprovedLangRemote.getListByString(selectedVPIds));
+            List<Study_Site__c> studySites =
+                    (List<Study_Site__c>) SearchService.search(initData.searchWrapper.filter, initData.searchWrapper.pagination);
+            initData.studySiteItems = getStudySiteItems(studySites, visitPlansIds);
 
             return initData;
         } catch (Exception e) {
@@ -113,12 +66,38 @@ public without sharing class StudySiteVisitConfigRemote {
     }
 
     @AuraEnabled
-    public static void setVisitPlanForAll(String data, String vpId, Boolean state) {
+    public static InitData getSortedItems(String data) {
         try {
             InitData initData = (InitData) JSON.deserialize(data, InitData.class);
-            if (ctpStudySites == null) {
-                ctpStudySites = ApprovedLangRemote.getStudySites(ApprovedLangRemote.QUERY_MAIN_FILTER.replace('ctpId', initData.ctpId));
+
+            String selectedSSIds = '';
+            if(!String.isEmpty(initData.searchWrapper.filter.selectedSSIds)) {
+                selectedSSIds = initData.searchWrapper.filter.selectedSSIds;
             }
+
+            //For sorting only for current page items
+            String pageSSIds = '';
+            for (ApprovedLangRemote.StudySiteItem item : initData.studySiteItems) pageSSIds += item.ss.Id + ';';
+
+            initData.searchWrapper.filter.selectedSSIds = pageSSIds.removeEnd(';');
+            List<Study_Site__c> studySites =
+                    (List<Study_Site__c>) SearchService.search(initData.searchWrapper.filter, initData.searchWrapper.pagination);
+            initData.studySiteItems =
+                    getStudySiteItems(studySites, StudySiteFilter.getListByString(initData.searchWrapper.filter.pageFeatureIds));
+
+            initData.searchWrapper.filter.selectedSSIds = selectedSSIds;
+            return initData;
+        } catch (Exception e) {
+            return (InitData) AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
+    public static void setVisitPlanForAll(String data, String visitPlanId, Boolean state) {
+        try {
+            InitData initData = (InitData) JSON.deserialize(data, InitData.class);
+            List<Study_Site__c> ctpStudySites = ApprovedLangRemote.getCtpStudySites(initData.searchWrapper.filter);
+
             List<Id> ssIds = new List<Id>();
             for (Study_Site__c ss : ctpStudySites) ssIds.add(ss.Id);
 
@@ -127,17 +106,17 @@ public without sharing class StudySiteVisitConfigRemote {
                 List<StudySiteVisitPlan__c> studySiteVisitPlans = new List<StudySiteVisitPlan__c>();
                 for (Id ssId : ssIds) {
                     Map<Id, StudySiteVisitPlan__c> ssVPByIds = ssVPsByStudySiteIds.get(ssId);
-                    if (ssVPByIds != null && ssVPByIds.containsKey(vpId)) continue;
+                    if (ssVPByIds != null && ssVPByIds.containsKey(visitPlanId)) continue;
 
                     studySiteVisitPlans.add(new StudySiteVisitPlan__c(
                             Study_Site__c = ssId,
-                            Visit_Plan__c = vpId
+                            Visit_Plan__c = visitPlanId
                     ));
                 }
 
                 if (!studySiteVisitPlans.isEmpty()) insert studySiteVisitPlans;
             } else {
-                delete [SELECT Id FROM StudySiteVisitPlan__c WHERE Visit_Plan__c = :vpId AND Study_Site__c IN:ssIds];
+                delete [SELECT Id FROM StudySiteVisitPlan__c WHERE Visit_Plan__c = :visitPlanId AND Study_Site__c IN:ssIds];
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -149,11 +128,8 @@ public without sharing class StudySiteVisitConfigRemote {
         try {
             InitData initData = (InitData) JSON.deserialize(data, InitData.class);
 
-            if (ctpStudySites == null) {
-                ctpStudySites = ApprovedLangRemote.getStudySites(ApprovedLangRemote.QUERY_MAIN_FILTER.replace('ctpId', initData.ctpId));
-            }
             List<Id> ctpStudySiteIds = new List<Id>();
-            for (Study_Site__c ss : ctpStudySites) ctpStudySiteIds.add(ss.Id);
+            for (Study_Site__c ss : ApprovedLangRemote.getCtpStudySites(initData.searchWrapper.filter)) ctpStudySiteIds.add(ss.Id);
 
             List<StudySiteVisitPlan__c> deselectedSSVPs = new List<StudySiteVisitPlan__c>();
             List<StudySiteVisitPlan__c> newSSVPs = new List<StudySiteVisitPlan__c>();
@@ -177,7 +153,8 @@ public without sharing class StudySiteVisitConfigRemote {
             if (!deselectedSSVPs.isEmpty()) delete deselectedSSVPs;
             if (!newSSVPs.isEmpty()) insert newSSVPs;
 
-            initData.haveEmptyVPSS = getStudySiteVisitPlansMap(ctpStudySiteIds).keySet().size() != ctpStudySiteIds.size();
+            initData.searchWrapper.haveEmptyAssigment =
+                    getStudySiteVisitPlansMap(ctpStudySiteIds).keySet().size() != ctpStudySiteIds.size();
             return initData;
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
@@ -185,55 +162,45 @@ public without sharing class StudySiteVisitConfigRemote {
     }
 
     @AuraEnabled
-    public static InitData deleteVisitPlan(String planId, String ctpId) {
+    public static InitData deleteVisitPlan(String data, String planId) {
         try {
-            Visit_Plan__c plan = VisitPlanRemote.getVisitPlan(planId);
-            delete plan;
+            delete VisitPlanRemote.getVisitPlan(planId);
 
-            return init(ctpId);
+            return init((InitData) JSON.deserialize(data, InitData.class));
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
         }
     }
 
     //Inner logic: -----------------------------------------------------------------------------------------------------
-    private static InitData init(Id ctpId) {
-        InitData initData = new InitData();
-        initData.ctpId = ctpId;
-        ctpStudySites = ApprovedLangRemote.getStudySites(ApprovedLangRemote.QUERY_MAIN_FILTER.replace('ctpId', ctpId));
+    private static InitData init(InitData initData) {
+        List<Study_Site__c> ctpStudySites = SearchService.search(initData.searchWrapper.filter, initData.searchWrapper.pagination);
         if (!ctpStudySites.isEmpty()) {
-            loadInitData(initData);
-            initPageItems(initData, initData.countryCodes, null, null);
+            loadInitData(initData.searchWrapper, ctpStudySites);
+            initPageItems(initData);
         }
 
         return initData;
     }
 
-    private static void loadInitData(InitData initData) {
+    private static void loadInitData(StudySiteFilter.StudySiteSearchWrapper searchWrapper, List<Study_Site__c> ctpStudySites) {
         List<Id> ssIds = new List<Id>();
         for (Study_Site__c ss : ctpStudySites) {
-            if (ss.Site__r.BillingCountryCode != null && !initData.countryCodes.contains(ss.Site__r.BillingCountryCode)) {
-                initData.countryCodes += ss.Site__r.BillingCountryCode + ';';
+            if (ss.Site__r.BillingCountryCode != null && !searchWrapper.filter.countryCodes.contains(ss.Site__r.BillingCountryCode)) {
+                searchWrapper.filter.countryCodes += ss.Site__r.BillingCountryCode + ';';
             }
             ssIds.add(ss.Id);
         }
 
-        initData.haveEmptyVPSS = getStudySiteVisitPlansMap(ssIds).keySet().size() != ssIds.size();
-
-        initData.countryCodes = initData.countryCodes.removeEnd(';');
-        initData.paginationData.setRecordsCount(ctpStudySites.size());
+        searchWrapper.haveEmptyAssigment = getStudySiteVisitPlansMap(ssIds).keySet().size() != ssIds.size();
+        searchWrapper.filter.countryCodes = searchWrapper.filter.countryCodes.removeEnd(';');
     }
 
-    private static void initPageItems(InitData initData, String countryCodes, String selectedVPIds, String ssId) {
+    private static void initPageItems(InitData initData) {
         initData.studySiteItems = getStudySiteItems(
-                ApprovedLangRemote.getStudySites(initData.ctpId,
-                        ApprovedLangRemote.getListByString(countryCodes), ApprovedLangRemote.getListByString(ssId),
-                        null, 'ASC',
-                        initData.paginationData.offset, ApprovedLangRemote.QUERY_LIMIT
-                ),
-                ApprovedLangRemote.getListByString(selectedVPIds)
+                (List<Study_Site__c>) SearchService.search(initData.searchWrapper.filter, initData.searchWrapper.pagination),
+                StudySiteFilter.getListByString(initData.searchWrapper.filter.pageFeatureIds)
         );
-        initData.paginationData.pageRecordsCount = initData.studySiteItems.size();
     }
 
     private static List<ApprovedLangRemote.StudySiteItem> getStudySiteItems(List<Study_Site__c> studySites, List<String> selectedVPIds) {
