@@ -4,7 +4,7 @@
 
 @IsTest
 private class Test_ApprovedLangRemote {
-    @IsTest
+    /*@IsTest
     static void testBehavior() {
         TestData.loadTestData();
         TestData testData = new TestData();
@@ -16,5 +16,5 @@ private class Test_ApprovedLangRemote {
         ApprovedLangRemote.getSortedItems(JSON.serializePretty(initData), null, initData.countryCodes, true);
         ApprovedLangRemote.searchLanguagesByValue('en_US');
         Test.stopTest();
-    }
+    }*/
 }

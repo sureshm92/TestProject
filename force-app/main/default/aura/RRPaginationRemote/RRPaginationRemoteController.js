@@ -15,11 +15,14 @@
         var totalPages = component.get('v.totalPages');
         if(currentPage < totalPages)
         component.set('v.currentPage',currentPage + 1);
+        let onchangeEvent = component.getEvent('onchange');
+        if(onchangeEvent) onchangeEvent.fire();
     },
 
     doPrevPage: function(component){
         var currentPage = component.get('v.currentPage');
-        if(currentPage > 1)
-            component.set('v.currentPage',currentPage - 1);
+        if(currentPage > 1) component.set('v.currentPage',currentPage - 1);
+        let onchangeEvent = component.getEvent('onchange');
+        if(onchangeEvent) onchangeEvent.fire();
     }
 })

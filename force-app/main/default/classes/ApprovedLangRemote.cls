@@ -9,14 +9,9 @@ public without sharing class ApprovedLangRemote {
 
     public class InitData {
         @AuraEnabled public StudySiteFilter.StudySiteSearchWrapper searchWrapper;
-        @AuraEnabled public List<LabelValueItem> languages;
+        @AuraEnabled public List<LabelValueItem> languages = languagesValueItems;
         @AuraEnabled public List<StudySiteItem> studySiteItems;
         @AuraEnabled public String viewMode;
-
-        public InitData() {
-            searchWrapper = new StudySiteFilter.StudySiteSearchWrapper(new StudySiteFilter(), new PaginationData());
-            languages = languagesValueItems;
-        }
     }
 
     public class StudySiteItem {
@@ -42,12 +37,22 @@ public without sharing class ApprovedLangRemote {
     public class ValueStateItem implements Comparable {
         @AuraEnabled public String value;
         @AuraEnabled public Boolean state;
-
+        @AuraEnabled public Boolean initialState;
+        @AuraEnabled public Id sourceId;
+    
         public ValueStateItem(String value, Boolean state) {
             this.value = value;
             this.state = state;
+            this.initialState = state;
         }
-
+    
+        public ValueStateItem(String value, Id sourceId) {
+            this.value = value;
+            this.state = sourceId != null;
+            this.initialState = state;
+            this.sourceId = sourceId;
+        }
+    
         public Integer compareTo(Object compareTo) {
             String compareValue = ((ValueStateItem) compareTo).value;
             if (this.value > compareValue) return 1;
@@ -62,7 +67,7 @@ public without sharing class ApprovedLangRemote {
         try {
             InitData initData = new InitData();
             initData.viewMode = GetPermissions.getViewMode(FEATURE_APPROVED_LANGS);
-            initData.searchWrapper.filter.ctpId = ctpId;
+            initData.searchWrapper = new StudySiteFilter.StudySiteSearchWrapper(new StudySiteFilter(ctpId), new PaginationData());
             List<Study_Site__c> ctpStudySites = SearchService.search(initData.searchWrapper.filter, initData.searchWrapper.pagination);
             if(!ctpStudySites.isEmpty()) {
                 loadInitData(initData.searchWrapper, ctpStudySites);
