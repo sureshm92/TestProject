@@ -21,10 +21,11 @@
             component.set('v.peStatusesPathList', returnValue.peStatusesPathList);
             component.set('v.peStatusStateMap', returnValue.peStatusStateMap);
             helper.preparePathItems(component);
+            //window.addEventListener("afterprint", function(event) { window.close(); });
             setTimeout(
                 $A.getCallback(function () {
-                    window.addEventListener("afterprint", function(event) { window.close(); });
-                    window.print();
+                   window.print();
+                    window.close();
                 }), 1000
             );
         });

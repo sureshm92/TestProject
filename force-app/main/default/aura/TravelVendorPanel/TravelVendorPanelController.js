@@ -160,5 +160,53 @@
         });
         component.set('v.vendorItems', items);
         component.set('v.currentPage', page);
+
+        component.find('spinner').show();
+
+
+        let vendorItems = component.get('v.vendorItems');
+        let allSettings = [];
+        let studySites = component.get('v.selectedByStudySite');
+        let countries = component.get('v.selectedByCountry');
+        let vendors = component.get('v.selectedVendors');
+
+        if ((studySites || countries)  && vendors.length === 0 ){
+            helper.notify({
+                title: 'Warning!',
+                message: 'Select travel vendor first.',
+                type: 'warning',
+            });
+            component.find('spinner').hide();
+            return;
+        }
+
+        let isAnyLookUpSelected = studySites || countries;
+
+        if (isAnyLookUpSelected) {
+            vendorItems.forEach(function (vendorItem) {
+                helper.checkOnIsManualStudySites(studySites, countries, vendorItem);
+                allSettings = allSettings.concat(vendorItem.vendorSettings);
+            });
+        } else {
+            allSettings = helper.uncheckAllCheckBoxForVendorSettings(vendorItems, allSettings);
+        }
+        console.log('allSettings ' + JSON.stringify(allSettings));
+        helper.enqueue(component, 'c.saveData', {
+            'ctpId': component.get('v.recordId'),
+            'settings': allSettings
+        }).then(function () {
+            component.find('spinner').hide();
+        }, function (err) {
+            if (err && err[0].message) {
+                helper.notify({
+                    title: 'error',
+                    message: err[0].message,
+                    type: 'error',
+                });
+            }
+
+            component.find('spinner').hide();
+            console.log('error:', err[0].message);
+        });
     }
 })
