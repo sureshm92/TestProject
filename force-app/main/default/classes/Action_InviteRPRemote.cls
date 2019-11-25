@@ -33,11 +33,12 @@ public without sharing class Action_InviteRPRemote {
     }
 
     @AuraEnabled
-    public static void inviteExistingHCP(String hcpContactId) {
+    public static String inviteExistingHCP(String hcpContactId) {
         try {
             ReferHealthcareProviderRemote.createHCPinPlatform(CommunityService.getUserContact().Id, hcpContactId);
+            return Label.TST_Request_to_invite_a_referring_provider;
         } catch (Exception e) {
-            AuraHelper.throwException(e);
+            return Label.RP_Is_Already_Invited;
         }
     }
 
