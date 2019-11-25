@@ -38,6 +38,8 @@
 .THIS .fp-search-input .rri-container{
     display: inline-block;
     width: inherit;
+    width: 250px;
+    margin-top: 3px;
 }
 
 .THIS .fp-search .rri-container .slds-input,
