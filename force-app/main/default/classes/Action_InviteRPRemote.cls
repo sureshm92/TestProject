@@ -37,7 +37,7 @@ public without sharing class Action_InviteRPRemote {
         try {
             ReferHealthcareProviderRemote.createHCPinPlatform(CommunityService.getUserContact().Id, hcpContactId);
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            AuraHelper.throwException(e);
         }
     }
 
