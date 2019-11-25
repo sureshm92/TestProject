@@ -271,7 +271,7 @@ global without sharing class ReferHealthcareProviderRemote {
 
                     sendNotificationForRPInvite(hcpes[0].Id, hcpContactId);
                 } else {
-                    throw new AuraHandledException('RP is already invited to your Study Sites!');
+                    throw new AuraHandledException(Label.RP_Is_Already_Invited);
                 }
             } else {
                 if (!hcpes.isEmpty()) {

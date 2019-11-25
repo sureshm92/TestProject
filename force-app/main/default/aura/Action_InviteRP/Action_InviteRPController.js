@@ -58,6 +58,9 @@
                 helper.clearInviteFields(component, event, helper)
                 component.find('inviteRPDialog').hide();
                 communityService.showToast("success", "success", $A.get("$Label.c.TST_Request_to_invite_a_referring_provider"));
+            }, function () {
+                component.find('modalSpinner').hide();
+                communityService.showWarningToast('',  $A.get('$Label.c.RP_Is_Already_Invited'));
             });
         }
     },
