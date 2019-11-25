@@ -16,7 +16,7 @@ private class Test_ApprovedLangRemote {
         String paginationJS = JSON.serialize(initData.searchResponse.pagination);
 
         ApprovedLangRemote.getItems(ssItemsJS, filterJS, paginationJS);
-        ApprovedLangRemote.setLanguageForAll(filterJS, paginationJS, 'ru', true);
+        ApprovedLangRemote.setLanguageForAll(filterJS, paginationJS, ssItemsJS, 'ru', true);
         ApprovedLangRemote.getCtpStudySites(initData.filter);
         Test.stopTest();
     }
