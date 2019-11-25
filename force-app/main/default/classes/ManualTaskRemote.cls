@@ -20,7 +20,7 @@ public with sharing class ManualTaskRemote {
                         Datetime.now().hourGmt(), 0, 0
                 );
             }
-            
+
             Batch_CreateAdminTasks.launch(filter.getContactsWithPE(), newTask);
             return true;
         } catch (Exception e) {
