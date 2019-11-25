@@ -91,7 +91,7 @@ public without sharing class StudySiteVisitConfigRemote {
         List<Study_Site__c> ctpStudySites = (List<Study_Site__c>) DatabaseService.query(
                 filter.getFields(),
                 filter.getSObjectType(),
-                'Clinical_Trial_Profile__c = \'' + filter.ctpId + '\'');
+                filter.getFilterString());
         return ctpStudySites;
     }
 }

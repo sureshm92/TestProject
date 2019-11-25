@@ -66,9 +66,9 @@ public without sharing class ApprovedLangRemote {
             for(StudySiteItem item : studySiteItems) {
                 for(ValueStateItem assigment : item.assignments) {
                     if(assigment.initialState && !assigment.state) {
-                        item.ss.Approved_Lng__c = removeLanguage(item.ss.Approved_Lng__c, assigment.value);
+                        item.ss.Approved_Lng__c = updateLanguage(item.ss.Approved_Lng__c, assigment.value, false);
                     } else if(!assigment.initialState && assigment.state){
-                        item.ss.Approved_Lng__c += ';' + assigment.value;
+                        item.ss.Approved_Lng__c = updateLanguage(item.ss.Approved_Lng__c, assigment.value, true);
                     }
                 }
                 studySites.add(item.ss);
@@ -83,16 +83,24 @@ public without sharing class ApprovedLangRemote {
         List<Study_Site__c> ctpStudySites = (List<Study_Site__c>) DatabaseService.query(
                 filter.getFields(),
                 filter.getSObjectType(),
-                'Clinical_Trial_Profile__c = \'' + filter.ctpId + '\'');
+                filter.getFilterString());
         return ctpStudySites;
     }
 
-    private static String removeLanguage(String ssApproved, String langCodes) {
-        List<String> resultApprove = new List<String>();
+    private static String updateLanguage(String ssApproved, String langCodes, Boolean isAdd) {
+        Set<String> resultApprove = new Set<String>();
+        if(ssApproved == null) ssApproved = '';
+
         List<String> approvedSplit = ssApproved.split(';');
-        for(String appLang : approvedSplit) {
-            if(appLang != langCodes) resultApprove.add(appLang);
+        if(!isAdd) {
+            for(String appLang : approvedSplit) {
+                if(appLang != langCodes) resultApprove.add(appLang);
+            }
+        } else {
+            resultApprove.addAll(approvedSplit);
+            resultApprove.add(langCodes);
         }
-        return String.join(resultApprove, ';');
+
+        return String.join(new List<String>(resultApprove), ';');
     }
 }
