@@ -9422,6 +9422,13 @@ Please check your CAPS lock key.</value>
         <value>Edit Referral Details</value>
     </labels>
     <labels>
+        <fullName>RP_Is_Already_Invited</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP Is Already Invited</shortDescription>
+        <value>RP is already invited to your Study Sites!</value>
+    </labels>
+    <labels>
         <fullName>RP_MRN_Internal_ID</fullName>
         <language>en_US</language>
         <protected>true</protected>
