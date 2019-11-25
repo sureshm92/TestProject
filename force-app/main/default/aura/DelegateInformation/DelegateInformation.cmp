@@ -15,9 +15,10 @@
     <div class="rr-white-panel" style="padding: 30px">
         <div class="slds-grid slds-gutters">
             <div class="slds-col slds-size--1-of-3">
-    		<div class="delegate-info">
-                <div class="as-title">{!$Label.c.PG_PST_L_Delegates_Delegate_Information}</div>
-                <c:DelegateLevelInfoTable userMode="Participant"/>
+                <div class="delegate-info">
+                    <div class="as-title">{!$Label.c.PG_PST_L_Delegates_Delegate_Information}</div>
+                    <c:DelegateLevelInfoTable userMode="Participant"/>
+                </div>
             </div>
            <div class="slds-col slds-grow-none">
                 <div class="height-stub line"></div>
@@ -32,7 +33,6 @@
                     </button>
                 </div>
     		</div>
-       </div>
         </div>
   </div>
 </aura:component>
