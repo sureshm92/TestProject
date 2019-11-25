@@ -41,8 +41,15 @@ public without sharing class StudySiteVisitConfigRemote {
     }
     
     @AuraEnabled
-    public static SSVisitConfigSearchResponse setVisitPlanForAll(String visitPlanId, Boolean state, String filterJSON, String paginationJSON) {
+    public static SSVisitConfigSearchResponse setVisitPlanForAll(String visitPlanId, Boolean state, String filterJSON,
+            String paginationJSON, String ssItemsJSON) {
         try {
+            if(ssItemsJSON != null) {
+                List<StudySiteItem> studySiteItems =
+                        (List<StudySiteItem>) JSON.deserialize(ssItemsJSON, List<StudySiteItem>.class);
+                save(studySiteItems);
+            }
+
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
             List<StudySiteItem> allSSItems = SSVisitConfigSearchResponse.convertToSSItems(getCtpStudySites(filter), visitPlanId);
