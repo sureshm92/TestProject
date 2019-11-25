@@ -19,7 +19,7 @@
     <div style="padding-bottom: 30px">
         <aura:if isTrue="{!v.initialized}">
             <aura:iteration items="{!v.pastStudiesList}" var="pastStudy">
-                <c:PastStudyCard ctp="{!pastStudy.ctp}" pe="{!pastStudy.pe}" resources="{!pastStudy.resourceWrappers}"/>
+                <c:PastStudyCard ctp="{!pastStudy.ctp}" pe="{!pastStudy.pe}" resources="{!pastStudy.resourceWrappers}" showReport="{!pastStudy.showReport}"/>
             </aura:iteration>
         </aura:if>
     </div>

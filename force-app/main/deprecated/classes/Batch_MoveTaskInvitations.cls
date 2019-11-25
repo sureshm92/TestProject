@@ -9,7 +9,6 @@ public without sharing class Batch_MoveTaskInvitations implements Database.Batch
                 SELECT Id, Description, Survey_Invitation__c
                 FROM Task
                 WHERE Task_Type__c =: TaskService.TASK_TYPE_SURVEY
-                AND Status IN: TaskService.TASK_STATUS_GROUP_AVAILABLE
                 AND Survey_Invitation__c = NULL
         ]);
     }
