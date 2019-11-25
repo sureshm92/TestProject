@@ -67,6 +67,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ApprovedLangSearchResponse</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ArticleService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -539,6 +543,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>LanguageSearchLookup</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>LanguageSwitcherRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -955,6 +963,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SSVisitConfigSearchResponse</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SchemaUtil</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1072,6 +1084,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>StudySiteFilter</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudySiteItem</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1748,6 +1764,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>UserTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ValueStateItem</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
