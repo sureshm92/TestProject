@@ -18,14 +18,10 @@
     },
 
     sscCheckboxStateChange: function (component, event, helper) {
-        var lang = event.getParam('field');
-        var state = event.getParam('value');
-
         var item = component.get('v.item');
         var asgCount = 0;
         var assignments = item.assignments;
         for (var j = 0; j < assignments.length; j++) {
-            if (assignments[j].value === lang) assignments[j].state = state;
             if (assignments[j].state) asgCount++;
         }
         item.emptyAssignments = asgCount === 0;

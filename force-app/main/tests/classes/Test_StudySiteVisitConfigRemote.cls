@@ -9,11 +9,19 @@ private class Test_StudySiteVisitConfigRemote {
         TestData.loadTestData();
         TestData testData = new TestData();
 
+        Visit_Plan__c visitPlan = new Visit_Plan__c(Name = 'Test_StudySiteVisitConfigRemote VP');
+        insert visitPlan;
+
         Test.startTest();
         StudySiteVisitConfigRemote.InitData initData = StudySiteVisitConfigRemote.getInitData(testData.ctp.Id);
-        StudySiteVisitConfigRemote.getNextData(JSON.serializePretty(initData), initData.countryCodes, null, null);
-        StudySiteVisitConfigRemote.getFilteredItems(JSON.serializePretty(initData), initData.countryCodes, null, null);
-        StudySiteVisitConfigRemote.getSortedItems(JSON.serializePretty(initData), null, initData.countryCodes, true);
+        String ssItemsJS = JSON.serialize(initData.searchResponse.studySiteItems);
+        String filterJS = JSON.serialize(initData.filter);
+        String paginationJS = JSON.serialize(initData.searchResponse.pagination);
+
+        StudySiteVisitConfigRemote.getItems(ssItemsJS, filterJS, paginationJS);
+        StudySiteVisitConfigRemote.setVisitPlanForAll(visitPlan.Id, true, filterJS, paginationJS, ssItemsJS);
+        StudySiteVisitConfigRemote.deleteVisitPlan(visitPlan.Id, filterJS, paginationJS);
+        StudySiteVisitConfigRemote.getCtpStudySites(initData.filter);
         Test.stopTest();
     }
 }
