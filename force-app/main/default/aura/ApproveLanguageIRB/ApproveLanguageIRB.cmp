@@ -94,15 +94,19 @@
                                 </aura:if>
                             </div>
                             <!--Save changes button-->
-                            <div class="slds-col slds-size--1-of-2 slds-p-left--small save-btn">
-                                <aura:if isTrue="{!v.haveEmptyAssigment}">
-                                    <lightning:icon iconName="utility:warning" alternativeText="Warning!"
-                                                    variant="warning"
-                                                    size="small"/>
-                                    <p style="font-size: 11px; padding: 5px;">{!$Label.c.PP_IRB_SS_Empty_AppLAng}</p>
-                                </aura:if>
+                            <div class="slds-col slds-size--1-of-2 slds-p-left--small">
+                                <div class="save-btn">
+                                    <aura:if isTrue="{!v.haveEmptyAssigment}">
+                                        <lightning:icon iconName="utility:warning" alternativeText="Warning!"
+                                                        variant="warning"
+                                                        size="small"/>
+                                        <p style="font-size: 11px; padding: 5px;">{!$Label.c.PP_IRB_SS_Empty_AppLAng}</p>
+                                    </aura:if>
+                                </div>
                                 <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
-                                    <lightning:button variant="brand" label="Save" onclick="{!c.doSaveAndUpdate}"/>
+                                    <div class="slds-text-align_right">
+                                        <lightning:button variant="brand" label="Save" onclick="{!c.doSaveAndUpdate}"/>
+                                    </div>
                                 </aura:if>
                             </div>
                         </div>

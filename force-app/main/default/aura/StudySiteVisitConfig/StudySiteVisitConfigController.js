@@ -87,7 +87,8 @@
             visitPlanId: vpId,
             state: state,
             filterJSON: JSON.stringify(component.get('v.filter')),
-            paginationJSON: JSON.stringify(component.get('v.pagination'))
+            paginationJSON: JSON.stringify(component.get('v.pagination')),
+            ssItemsJSON: JSON.stringify(component.get('v.ssItems'))
         }, function (searchResponse) {
             helper.setSearchResponse(component, searchResponse);
         });

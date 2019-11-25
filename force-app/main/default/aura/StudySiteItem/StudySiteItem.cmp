@@ -26,8 +26,10 @@
 
         <aura:iteration items="{!v.item.assignments}" var="asg">
             <td style="text-align: center">
-                <lightning:input label="" type="checkbox" value="{!asg.value}" checked="{!asg.state}"
-                                 onchange="{!c.sscCheckboxStateChange}" disabled="{!v.viewMode != 'Edit'}"/>
+                <ui:inputCheckbox value="{!asg.state}"
+                                  label=""
+                                  disabled="{!v.viewMode != 'Edit'}"
+                                  change="{!c.sscCheckboxStateChange}"/>
             </td>
         </aura:iteration>
     </tr>

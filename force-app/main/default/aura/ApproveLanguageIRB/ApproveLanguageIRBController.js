@@ -81,6 +81,7 @@
         communityService.executeAction(component, 'setLanguageForAll', {
             filterJS: JSON.stringify(component.get('v.filter')),
             paginationJS: JSON.stringify(component.get('v.pagination')),
+            ssItemsJSON: JSON.stringify(component.get('v.ssItems')),
             language: lang,
             state: state
         }, function (searchResponse) {
