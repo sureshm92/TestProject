@@ -8,7 +8,9 @@
 
     <!--attributes-->
     <aura:attribute name="initialized" type="Boolean" default="false"/>
-    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="pageWrapper" type="StudySitePageWrapper"/>
+    <aura:attribute name="filter" type="StudySiteFilter"/>
+
     <aura:attribute name="ssItems" type="List"/>
     <aura:attribute name="languages" type="List"/>
 
@@ -56,7 +58,7 @@
                                     </lightning:select>
                                     <aura:set attribute="else">
                                         <c:VisitResultSharingCountryLookup aura:id="countryLookup"
-                                                                           value="{!v.data.searchWrapper.filter.countryCodes}"
+                                                                           value="{!v.filter.countryCodes}"
                                                                            isMultiEntry="true"
                                                                            onchange="{!c.onCountriesChange}"
                                                                            placeholder="Select country"
@@ -76,7 +78,7 @@
                                     </lightning:select>
                                     <aura:set attribute="else">
                                         <c:GlobalLanguagesLookup aura:id="langsLookup"
-                                                                 value="{!v.data.searchWrapper.filter.pageFeatureIds}"
+                                                                 value="{!v.filter.pageFeatureIds}"
                                                                  isMultiEntry="true"
                                                                  onchange="{!c.getFilteredSS}"
                                                                  placeholder="Select Language"
@@ -96,9 +98,9 @@
                                     </lightning:select>
                                     <aura:set attribute="else">
                                         <c:IRBStudySitesLookup aura:id="ssLookup"
-                                                               value="{!v.data.searchWrapper.filter.selectedSSIds}"
+                                                               value="{!v.filter.selectedSSIds}"
                                                                ctpId="{!v.recordId}"
-                                                               selectedCountries="{!v.data.searchWrapper.filter.countryCodes}"
+                                                               selectedCountries="{!v.filter.countryCodes}"
                                                                onchange="{!c.getFilteredSS}"
                                                                placeholder="Select Study Site"/>
                                     </aura:set>
@@ -106,7 +108,7 @@
                             </div>
                             <!--Save changes button-->
                             <div class="slds-col slds-size--1-of-2 slds-p-left--small save-btn">
-                                <aura:if isTrue="{!v.data.searchWrapper.haveEmptyAssigment}">
+                                <aura:if isTrue="{!v.pageWrapper.haveEmptyAssigment}">
                                     <lightning:icon iconName="utility:warning" alternativeText="Warning!"
                                                     variant="warning"
                                                     size="small"/>

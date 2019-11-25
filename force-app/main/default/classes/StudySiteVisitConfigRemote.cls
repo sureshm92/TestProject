@@ -9,7 +9,7 @@ public without sharing class StudySiteVisitConfigRemote {
     public class InitData {
         @AuraEnabled public StudySiteFilter.StudySiteSearchWrapper searchWrapper;
         @AuraEnabled public List<LabelValueItem> visitPlans;
-        @AuraEnabled public List<ApprovedLangRemote.StudySiteItem> studySiteItems;
+        @AuraEnabled public List<StudySiteItem> studySiteItems;
         @AuraEnabled public String viewMode;
 
         public InitData() {
@@ -77,7 +77,7 @@ public without sharing class StudySiteVisitConfigRemote {
 
             //For sorting only for current page items
             String pageSSIds = '';
-            for (ApprovedLangRemote.StudySiteItem item : initData.studySiteItems) pageSSIds += item.ss.Id + ';';
+            for (StudySiteItem item : initData.studySiteItems) pageSSIds += item.ss.Id + ';';
 
             initData.searchWrapper.filter.selectedSSIds = pageSSIds.removeEnd(';');
             List<Study_Site__c> studySites =
@@ -135,10 +135,10 @@ public without sharing class StudySiteVisitConfigRemote {
             List<StudySiteVisitPlan__c> newSSVPs = new List<StudySiteVisitPlan__c>();
 
             Map<Id, Map<Id, StudySiteVisitPlan__c>> ssVisitPlansByIds = getStudySiteVisitPlansMap(ctpStudySiteIds);
-            for (ApprovedLangRemote.StudySiteItem item : initData.studySiteItems) {
+            for (StudySiteItem item : initData.studySiteItems) {
                 Map<Id, StudySiteVisitPlan__c> siteVisitPlans = ssVisitPlansByIds.get(item.ss.Id) != null
                         ? ssVisitPlansByIds.get(item.ss.Id) : new Map<Id, StudySiteVisitPlan__c>();
-                for (ApprovedLangRemote.ValueStateItem assigment : item.assignments) {
+                for (ValueStateItem assigment : item.assignments) {
                     if (assigment.state && !siteVisitPlans.containsKey(assigment.value)) {
                         newSSVPs.add(new StudySiteVisitPlan__c(
                                 Study_Site__c = item.ss.Id,
@@ -203,18 +203,18 @@ public without sharing class StudySiteVisitConfigRemote {
         );
     }
 
-    private static List<ApprovedLangRemote.StudySiteItem> getStudySiteItems(List<Study_Site__c> studySites, List<String> selectedVPIds) {
+    private static List<StudySiteItem> getStudySiteItems(List<Study_Site__c> studySites, List<String> selectedVPIds) {
         List<Id> ssIds = new List<Id>();
         for (Study_Site__c ss : studySites) ssIds.add(ss.Id);
         Map<Id, Map<Id, StudySiteVisitPlan__c>> ssVisitPlansBySSId = getStudySiteVisitPlansMap(ssIds);
 
         Map<Id, Visit_Plan__c> visitPlans = getVisitPlansMap();
-        List<ApprovedLangRemote.StudySiteItem> studySiteItems = new List<ApprovedLangRemote.StudySiteItem>();
+        List<StudySiteItem> studySiteItems = new List<StudySiteItem>();
         for (Study_Site__c ss : studySites) {
             String countryName = ss.Site__r.BillingCountry;
             String countryCode = ss.Site__r.BillingCountryCode;
-            ApprovedLangRemote.StudySiteItem item =
-                    new ApprovedLangRemote.StudySiteItem(new LabelValueItem(countryName, countryCode), ss.Name, ss);
+            StudySiteItem item =
+                    new StudySiteItem(new LabelValueItem(countryName, countryCode), ss.Name, ss);
 
             List<StudySiteVisitPlan__c> studySiteVisitPlans = ssVisitPlansBySSId.containsKey(ss.Id)
                     ? ssVisitPlansBySSId.get(ss.Id).values() : new List<StudySiteVisitPlan__c>();
@@ -230,7 +230,7 @@ public without sharing class StudySiteVisitConfigRemote {
                         }
                     }
 
-                    item.assignments.add(new ApprovedLangRemote.ValueStateItem(vpId, selected));
+                    item.assignments.add(new ValueStateItem(vpId, selected));
                 }
             }
 

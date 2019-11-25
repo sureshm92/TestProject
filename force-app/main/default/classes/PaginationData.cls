@@ -24,6 +24,11 @@ public without sharing class PaginationData {
         };
     }
 
+    public PaginationData(Integer pageRecordsCount) {
+        this();
+        this.pageRecordsCount = pageRecordsCount;
+    }
+
     public void setRecordsCount(Integer recordsCount){
         allRecordsCount = recordsCount;
         reCalc();

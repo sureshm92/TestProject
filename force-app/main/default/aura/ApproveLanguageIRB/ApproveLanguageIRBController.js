@@ -6,36 +6,38 @@
     doInit: function (component, event, helper) {
         component.find('spinner').show();
         communityService.executeAction(component, 'getInitData', {
-            'ctpId': component.get('v.recordId')
+            ctpId: component.get('v.recordId')
         }, function (data) {
-            component.set('v.data', data);
-            component.set('v.ssItems', data.studySiteItems);
-            component.set('v.languages', data.languages);
+            component.set('v.filter', data.filter);
+            component.set('v.viewModePage', data.viewMode);
 
-            component.set('v.allRecordsCount', data.searchWrapper.pagination.allRecordsCount);
-            component.set('v.pageRecordsCount', data.searchWrapper.pagination.pageRecordsCount);
-            component.set('v.currentPage', data.searchWrapper.pagination.currentPage);
+            let pageWrapper = data.pageWrapper;
+            component.set('v.pageWrapper', pageWrapper);
+            component.set('v.ssItems', pageWrapper.studySiteItems);
+            component.set('v.languages', pageWrapper.pageColumnItems);
+            component.set('v.allRecordsCount', pageWrapper.pagination.allRecordsCount);
+            component.set('v.pageRecordsCount', pageWrapper.pagination.pageRecordsCount);
+            component.set('v.currentPage', pageWrapper.pagination.currentPage);
 
             component.set('v.initialized', true);
             component.find('spinner').hide();
-
-            component.set('v.viewModePage', data.viewMode);
         });
     },
 
     doLoadNextData: function (component, event, helper) {
         if (event.getParam('oldValue') === undefined) return;
 
-        let data = component.get('v.data');
-        data.searchWrapper.pagination.currentPage = component.get('v.currentPage');
+        let pageWrapper = component.get('v.pageWrapper');
+        pageWrapper.pagination.currentPage = component.get('v.currentPage');
 
         helper.updateSorting(component);
         component.find('spinner').show();
 
         communityService.executeAction(component, 'getNextData', {
-            data: JSON.stringify(data)
+            wrapper: JSON.stringify(pageWrapper),
+            filter: JSON.stringify(component.get('v.filter'))
         }, function (response) {
-            component.set('v.data', response);
+            component.set('v.pageWrapper', response);
             component.set('v.ssItems', response.studySiteItems);
 
             component.find('spinner').hide();
@@ -43,8 +45,8 @@
     },
 
     onCountriesChange: function (component, event, helper) {
-        var data = component.get('v.data');
-        let ccCodes = data.searchWrapper.filter.countryCodes.split(';');
+        var filter = component.get('v.filter');
+        let ccCodes = filter.countryCodes.split(';');
         let newSelectedSSIds = new Set();
 
         let count = 0;
@@ -59,8 +61,8 @@
         let newSSIds = Array.from(newSelectedSSIds).join(';');
         if (count === items.length) newSSIds = '';
 
-        data.searchWrapper.filter.selectedSSIds = newSSIds;
-        component.set('v.data', data);
+        filter.selectedSSIds = newSSIds;
+        component.set('v.filter', filter);
 
         component.find('spinner').show();
         helper.updateTable(component, helper);
@@ -80,22 +82,25 @@
 
             component.find('spinner').show();
             communityService.executeAction(component, 'getSortedItems', {
-                data: JSON.stringify(component.get('v.data'))
-            }, function (data) {
-                component.set('v.ssItems', data.studySiteItems);
+                wrapper: JSON.stringify(component.get('v.pageWrapper')),
+                filter: JSON.stringify(component.get('v.filter'))
+            }, function (response) {
+                component.set('v.ssItems', JSON.parse(response));
                 component.find('spinner').hide();
             });
         }
     },
 
     doSave: function (component, event, helper) {
-        let data = component.get('v.data');
-        data.studySiteItems = component.get('v.ssItems');
+        let pageWrapper = component.get('v.pageWrapper');
+        pageWrapper.studySiteItems = component.get('v.ssItems');
 
         component.find('spinner').show();
         communityService.executeAction(component, 'save', {
-            data: JSON.stringify(data)
-        }, function () {
+            wrapper: JSON.stringify(pageWrapper),
+            filter: JSON.stringify(component.get('v.filter'))
+        }, function (response) {
+            component.set('v.pageWrapper', response);
             component.find('spinner').hide();
             communityService.showSuccessToast('Success', 'Changes were saved!');
         });
@@ -140,7 +145,7 @@
 
         component.find('spinner').show();
         communityService.executeAction(component, 'setLanguageForAll', {
-            data: JSON.stringify(component.get('v.data')),
+            filter: JSON.stringify(component.get('v.filter')),
             language: lang,
             state: state
         }, function () {

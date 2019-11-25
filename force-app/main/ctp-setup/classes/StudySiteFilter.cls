@@ -11,7 +11,8 @@ public without sharing class StudySiteFilter implements SearchFilter {
     @AuraEnabled public String sortField;
     @AuraEnabled public String sortDirection;
 
-    public StudySiteFilter() {
+    public StudySiteFilter(Id ctpId) {
+        this.ctpId = ctpId;
         this.countryCodes = '';
         this.selectedSSIds = '';
         this.pageFeatureIds = '';

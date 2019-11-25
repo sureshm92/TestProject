@@ -8,65 +8,30 @@ public without sharing class ApprovedLangRemote {
     public static List<LabelValueItem> languagesValueItems = IRBParticipantService.getLanguages();
 
     public class InitData {
-        @AuraEnabled public StudySiteFilter.StudySiteSearchWrapper searchWrapper;
-        @AuraEnabled public List<LabelValueItem> languages;
-        @AuraEnabled public List<StudySiteItem> studySiteItems;
+        @AuraEnabled public StudySiteFilter filter;
+        @AuraEnabled public StudySitePageWrapper pageWrapper;
         @AuraEnabled public String viewMode;
-
-        public InitData() {
-            searchWrapper = new StudySiteFilter.StudySiteSearchWrapper(new StudySiteFilter(), new PaginationData());
-            languages = languagesValueItems;
-        }
-    }
-
-    public class StudySiteItem {
-        @AuraEnabled public LabelValueItem country;
-        @AuraEnabled public String name;
-        @AuraEnabled public Boolean emptyAssignments;
-        @AuraEnabled public List<ValueStateItem> assignments;
-        @AuraEnabled public Study_Site__c ss;
-
-        public StudySiteItem() {
-        }
-
-        public StudySiteItem(LabelValueItem country, String ssName, Study_Site__c ss) {
-            this.country = country;
-            this.name = ssName;
-            this.ss = ss;
-
-            emptyAssignments = false;
-            assignments = new List<ValueStateItem>();
-        }
-    }
-
-    public class ValueStateItem implements Comparable {
-        @AuraEnabled public String value;
-        @AuraEnabled public Boolean state;
-
-        public ValueStateItem(String value, Boolean state) {
-            this.value = value;
-            this.state = state;
-        }
-
-        public Integer compareTo(Object compareTo) {
-            String compareValue = ((ValueStateItem) compareTo).value;
-            if (this.value > compareValue) return 1;
-            if (this.value < compareValue) return -1;
-
-            return 0;
-        }
     }
 
     @AuraEnabled
     public static InitData getInitData(Id ctpId) {
         try {
             InitData initData = new InitData();
+            initData.filter = new StudySiteFilter(ctpId);
+            initData.pageWrapper = new StudySitePageWrapper(new PaginationData(15), languagesValueItems);
             initData.viewMode = GetPermissions.getViewMode(FEATURE_APPROVED_LANGS);
-            initData.searchWrapper.filter.ctpId = ctpId;
-            List<Study_Site__c> ctpStudySites = SearchService.search(initData.searchWrapper.filter, initData.searchWrapper.pagination);
+
+            List<Study_Site__c> ctpStudySites = SearchService.search(initData.filter, initData.pageWrapper.pagination);
             if(!ctpStudySites.isEmpty()) {
-                loadInitData(initData.searchWrapper, ctpStudySites);
-                initPageItems(initData);
+                for (Study_Site__c ss : ctpStudySites) {
+                    if (ss.Site__r.BillingCountryCode != null && !initData.filter.countryCodes.contains(ss.Site__r.BillingCountryCode)) {
+                        initData.filter.countryCodes += ss.Site__r.BillingCountryCode + ';';
+                    }
+                    if (ss.Approved_Lng__c == null) initData.pageWrapper.haveEmptyAssigment = true;
+                }
+
+                initData.filter.countryCodes = initData.filter.countryCodes.removeEnd(';');
+                initPageItems(initData.pageWrapper, initData.filter);
             }
 
             return initData;
@@ -76,72 +41,66 @@ public without sharing class ApprovedLangRemote {
     }
 
     @AuraEnabled
-    public static InitData getNextData(String data) {
+    public static StudySitePageWrapper getNextData(String wrapper, String filter) {
         try {
-            InitData initData = save(data);
-            initPageItems(initData);
-            return initData;
+            StudySitePageWrapper pageWrapper = save(wrapper, filter);
+            StudySiteFilter ssFilter = (StudySiteFilter) JSON.deserialize(filter, StudySiteFilter.class);
+            initPageItems(pageWrapper, ssFilter);
+            return pageWrapper;
         } catch (Exception e) {
-            return (InitData) AuraHelper.throwException(e);
+            return (StudySitePageWrapper) AuraHelper.throwException(e);
         }
     }
 
     @AuraEnabled
-    public static InitData getFilteredItems(String data) {
+    public static StudySitePageWrapper getFilteredItems(String wrapper, String filter) {
         try {
-            InitData initData = (InitData) JSON.deserialize(data, InitData.class);
-            List<String> languages = StudySiteFilter.getListByString(initData.searchWrapper.filter.pageFeatureIds);
+            StudySitePageWrapper pageWrapper = (StudySitePageWrapper) JSON.deserialize(wrapper, StudySitePageWrapper.class);
+            StudySiteFilter ssFilter = (StudySiteFilter) JSON.deserialize(filter, StudySiteFilter.class);
 
+            List<String> languages = StudySiteFilter.getListByString(ssFilter.pageFeatureIds);
             List<LabelValueItem> orgLanguages = languagesValueItems;
-            initData.languages = new List<LabelValueItem>();
+            pageWrapper.pageColumnItems = new List<LabelValueItem>();
             for (LabelValueItem lang : orgLanguages) {
                 if (languages.isEmpty() || (!languages.isEmpty() && languages.contains(lang.value))) {
-                    initData.languages.add(lang);
+                    pageWrapper.pageColumnItems.add(lang);
                 }
             }
 
             List<Study_Site__c> studySites =
-                    (List<Study_Site__c>) SearchService.search(initData.searchWrapper.filter, initData.searchWrapper.pagination);
-            initData.studySiteItems = getStudySiteItems(studySites, languages);
+                    (List<Study_Site__c>) SearchService.search(ssFilter, pageWrapper.pagination);
+            pageWrapper.studySiteItems = getStudySiteItems(studySites, languages);
 
-            return initData;
+            return pageWrapper;
         } catch (Exception e) {
-            return (InitData) AuraHelper.throwException(e);
+            return (StudySitePageWrapper) AuraHelper.throwException(e);
         }
     }
 
     @AuraEnabled
-    public static InitData getSortedItems(String data) {
+    public static String getSortedItems(String wrapper, String filter) {
         try {
-            InitData initData = (InitData) JSON.deserialize(data, InitData.class);
+            StudySitePageWrapper pageWrapper = (StudySitePageWrapper) JSON.deserialize(wrapper, StudySitePageWrapper.class);
+            StudySiteFilter ssFilter = (StudySiteFilter) JSON.deserialize(filter, StudySiteFilter.class);
 
-            String selectedSSIds = '';
-            if(!String.isEmpty(initData.searchWrapper.filter.selectedSSIds)) {
-                selectedSSIds = initData.searchWrapper.filter.selectedSSIds;
-            }
-
-            //For sorting only for current page items
             String pageSSIds = '';
-            for (StudySiteItem item : initData.studySiteItems) pageSSIds += item.ss.Id + ';';
+            for (StudySiteItem item : pageWrapper.studySiteItems) pageSSIds += item.ss.Id + ';';
 
-            initData.searchWrapper.filter.selectedSSIds = pageSSIds.removeEnd(';');
+            ssFilter.selectedSSIds = pageSSIds.removeEnd(';');
             List<Study_Site__c> studySites =
-                    (List<Study_Site__c>) SearchService.search(initData.searchWrapper.filter, initData.searchWrapper.pagination);
-            initData.studySiteItems =
-                    getStudySiteItems(studySites, StudySiteFilter.getListByString(initData.searchWrapper.filter.pageFeatureIds));
+                    (List<Study_Site__c>) SearchService.search(ssFilter, pageWrapper.pagination);
 
-            initData.searchWrapper.filter.selectedSSIds = selectedSSIds;
-            return initData;
+            return JSON.serialize(getStudySiteItems(studySites, StudySiteFilter.getListByString(ssFilter.pageFeatureIds)));
         } catch (Exception e) {
-            return (InitData) AuraHelper.throwException(e);
+            return (String) AuraHelper.throwException(e);
         }
     }
 
     @AuraEnabled
-    public static void setLanguageForAll(String data, String language, Boolean state) {
+    public static void setLanguageForAll(String filter, String language, Boolean state) {
         try {
-            InitData initData = (InitData) JSON.deserialize(data, InitData.class);
-            List<Study_Site__c> ctpStudySites = getCtpStudySites(initData.searchWrapper.filter);
+            StudySiteFilter studySiteFilter = (StudySiteFilter) JSON.deserialize(filter, StudySiteFilter.class);
+            List<Study_Site__c> ctpStudySites = getCtpStudySites(studySiteFilter);
 
             for (Study_Site__c ss : ctpStudySites) {
                 if(String.isEmpty(ss.Approved_Lng__c)) ss.Approved_Lng__c = '';
@@ -166,14 +125,15 @@ public without sharing class ApprovedLangRemote {
     }
 
     @AuraEnabled
-    public static InitData save(String data) {
+    public static StudySitePageWrapper save(String wrapper, String filter) {
         try {
-            InitData initData = (InitData) JSON.deserialize(data, InitData.class);
+            StudySitePageWrapper pageWrapper = (StudySitePageWrapper) JSON.deserialize(wrapper, StudySitePageWrapper.class);
+            StudySiteFilter studySiteFilter = (StudySiteFilter) JSON.deserialize(filter, StudySiteFilter.class);
 
             Map<Id, StudySiteItem> updateItemsMap = new Map<Id, StudySiteItem>();
-            for (StudySiteItem item : initData.studySiteItems) updateItemsMap.put(item.ss.Id, item);
+            for (StudySiteItem item : pageWrapper.studySiteItems) updateItemsMap.put(item.ss.Id, item);
 
-            List<Study_Site__c> ctpStudySites = getCtpStudySites(initData.searchWrapper.filter);
+            List<Study_Site__c> ctpStudySites = getCtpStudySites(studySiteFilter);
             List<StudySiteItem> oldStudySiteItems = getStudySiteItems(ctpStudySites, null);
             Map<Id, StudySiteItem> oldItemsMap = new Map<Id, StudySiteItem>();
             for (StudySiteItem item : oldStudySiteItems) oldItemsMap.put(item.ss.Id, item);
@@ -215,12 +175,12 @@ public without sharing class ApprovedLangRemote {
 
             Integer withoutApprove = Database.countQuery(
                     'SELECT count() FROM Study_Site__c WHERE Clinical_Trial_Profile__c = \''
-                            + initData.searchWrapper.filter.ctpId + '\' AND Approved_Lng__c = NULL');
-            initData.searchWrapper.haveEmptyAssigment = withoutApprove > 0;
+                            + studySiteFilter.ctpId + '\' AND Approved_Lng__c = NULL');
+            pageWrapper.haveEmptyAssigment = withoutApprove > 0;
 
-            return initData;
+            return pageWrapper;
         } catch (Exception e) {
-            return (InitData) AuraHelper.throwException(e);
+            return (StudySitePageWrapper) AuraHelper.throwException(e);
         }
     }
 
@@ -280,21 +240,10 @@ public without sharing class ApprovedLangRemote {
     }
 
     //Inner logic: -----------------------------------------------------------------------------------------------------
-    private static void loadInitData(StudySiteFilter.StudySiteSearchWrapper searchWrapper, List<Study_Site__c> ctpStudySites) {
-        for (Study_Site__c ss : ctpStudySites) {
-            if (ss.Site__r.BillingCountryCode != null && !searchWrapper.filter.countryCodes.contains(ss.Site__r.BillingCountryCode)) {
-               searchWrapper.filter.countryCodes += ss.Site__r.BillingCountryCode + ';';
-            }
-            if (ss.Approved_Lng__c == null) searchWrapper.haveEmptyAssigment = true;
-        }
-
-        searchWrapper.filter.countryCodes = searchWrapper.filter.countryCodes.removeEnd(';');
-    }
-
-    public static void initPageItems(InitData initData) {
-        initData.studySiteItems = getStudySiteItems(
-                (List<Study_Site__c>) SearchService.search(initData.searchWrapper.filter, initData.searchWrapper.pagination),
-                StudySiteFilter.getListByString(initData.searchWrapper.filter.pageFeatureIds)
+    public static void initPageItems(StudySitePageWrapper pageWrapper, StudySiteFilter filter) {
+        pageWrapper.studySiteItems = getStudySiteItems(
+                (List<Study_Site__c>) SearchService.search(filter, pageWrapper.pagination),
+                StudySiteFilter.getListByString(filter.pageFeatureIds)
         );
     }
 

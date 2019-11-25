@@ -3,32 +3,33 @@
  */
 ({
     updateTable: function (component, helper) {
-        let data = component.get('v.data');
-        if (!data.searchWrapper.filter.countryCodes) component.set('v.countryFilterType', 'All');
-        if (!data.searchWrapper.filter.pageFeatureIds) component.set('v.langFilterType', 'All');
-        if (!data.searchWrapper.filter.selectedSSIds) component.set('v.sitesFilterType', 'All');
+        let filter = component.get('v.filter');
+        if (!filter.countryCodes) component.set('v.countryFilterType', 'All');
+        if (!filter.pageFeatureIds) component.set('v.langFilterType', 'All');
+        if (!filter.selectedSSIds) component.set('v.sitesFilterType', 'All');
 
         helper.updateSorting(component);
 
         component.find('spinner').show();
         communityService.executeAction(component, 'getFilteredItems', {
-            data: JSON.stringify(data)
-        }, function (data) {
-            component.set('v.data', data);
-            component.set('v.ssItems', data.studySiteItems);
+            wrapper: JSON.stringify(component.get('v.pageWrapper')),
+            filter: JSON.stringify(filter)
+        }, function (response) {
+            component.set('v.pageWrapper', response);
+            component.set('v.ssItems', response.studySiteItems);
 
-            component.set('v.allRecordsCount', data.searchWrapper.pagination.allRecordsCount);
-            component.set('v.currentPage', data.searchWrapper.pagination.currentPage);
-            component.set('v.languages', data.languages);
+            component.set('v.allRecordsCount', response.pagination.allRecordsCount);
+            component.set('v.currentPage', response.pagination.currentPage);
+            component.set('v.languages', response.pageColumnItems);
 
             component.find('spinner').hide();
         });
     },
     
     updateSorting: function (component, isAction) {
-        let data = component.get('v.data');
+        let filter = component.get('v.filter');
         let sortOrder = component.get('v.sortOrder');
-        data.searchWrapper.filter.sortField = sortOrder;
+        filter.sortField = sortOrder;
 
         if(isAction) {
             let sortDirection;
@@ -42,9 +43,9 @@
                 sortDirection = !component.get('v.numberSortType');
                 component.set('v.numberSortType', sortDirection);
             }
-            data.searchWrapper.filter.sortDirection = sortDirection ? 'ASC' : 'DESC';
+            filter.sortDirection = sortDirection ? 'ASC' : 'DESC';
         }
 
-        component.set('v.data', data);
+        component.set('v.filter', filter);
     }
 });
