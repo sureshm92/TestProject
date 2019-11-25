@@ -45,23 +45,11 @@ public without sharing class StudySiteVisitConfigRemote {
         try {
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
-            List<Study_Site__c> ctpStudySites = ApprovedLangRemote.getCtpStudySites(filter);
-            if (state) {
-                List<StudySiteVisitPlan__c> studySiteVisitPlans = new List<StudySiteVisitPlan__c>();
-                for(ApprovedLangRemote.StudySiteItem ssItem : SSVisitConfigSearchResponse.convertToSSItems(ctpStudySites, visitPlanId)){
-                    for (ApprovedLangRemote.ValueStateItem assigment : ssItem.assignments){
-                        if(!assigment.state){
-                            studySiteVisitPlans.add(new StudySiteVisitPlan__c(
-                                    Study_Site__c = ssItem.ss.Id,
-                                    Visit_Plan__c = visitPlanId
-                            ));
-                        }
-                    }
-                }
-                if (!studySiteVisitPlans.isEmpty()) insert studySiteVisitPlans;
-            } else {
-                delete [SELECT Id FROM StudySiteVisitPlan__c WHERE Visit_Plan__c = :visitPlanId AND Study_Site__c IN: ctpStudySites];
+            List<ApprovedLangRemote.StudySiteItem> allSSItems = SSVisitConfigSearchResponse.convertToSSItems(ApprovedLangRemote.getCtpStudySites(filter), visitPlanId);
+            for(ApprovedLangRemote.StudySiteItem ssItem : allSSItems){
+                for (ApprovedLangRemote.ValueStateItem assigment : ssItem.assignments) assigment.state = state;
             }
+            save(allSSItems);
             return new SSVisitConfigSearchResponse(filter, pagination);
         } catch (Exception e) {
             return (SSVisitConfigSearchResponse) AuraHelper.throwException(e);
