@@ -43,8 +43,15 @@ public without sharing class ApprovedLangRemote {
     }
 
     @AuraEnabled
-    public static ApprovedLangSearchResponse setLanguageForAll(String filterJS, String paginationJS, String language, Boolean state) {
+    public static ApprovedLangSearchResponse setLanguageForAll(String filterJS, String paginationJS, String ssItemsJSON,
+            String language, Boolean state) {
         try {
+            if(ssItemsJSON != null) {
+                List<StudySiteItem> studySiteItems =
+                        (List<StudySiteItem>) JSON.deserialize(ssItemsJSON, List<StudySiteItem>.class);
+                save(studySiteItems);
+            }
+
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJS, StudySiteFilter.class);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJS, PaginationData.class);
 
