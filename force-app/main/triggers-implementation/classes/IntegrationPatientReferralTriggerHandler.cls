@@ -159,7 +159,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Study_Site__c = ssId,
                 Pre_Eligibility__c = ipr.Pass_Fail__c,
                 Referral_Source__c = ipr.Data_Source__c,
-                Participant_ID_randomized_ID__c = ipr.ePRPatient_ID_Number__c,
+                Patient_ID__c = ipr.ePRPatient_ID_Number__c,
                 Referral_ID__c = ipr.referralID__c,
                 MRR_Survey_Results_URL__c = ipr.MRR_Survey_Results_URL__c,
                 Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
