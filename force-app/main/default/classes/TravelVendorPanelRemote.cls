@@ -161,7 +161,6 @@ public with sharing class TravelVendorPanelRemote {
                     }
                 }
             }
-            supportHelper.deleteTravelSettings(ctpId, travelVendorSettingsIds);
             if (!travelVendorSettings.isEmpty()) {
                 upsert travelVendorSettings;
             }
