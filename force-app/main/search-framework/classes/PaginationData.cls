@@ -3,6 +3,7 @@
  */
 
 public without sharing class PaginationData {
+    
     @AuraEnabled public Integer allRecordsCount;
     @AuraEnabled public Integer pagesCount;
     @AuraEnabled public Integer pageRecordsCount;

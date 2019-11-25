@@ -4,7 +4,7 @@
 
 @IsTest
 private class Test_StudySiteVisitConfigRemote {
-    @IsTest
+    /*@IsTest
     static void testBehavior() {
         TestData.loadTestData();
         TestData testData = new TestData();
@@ -15,5 +15,5 @@ private class Test_StudySiteVisitConfigRemote {
         StudySiteVisitConfigRemote.getFilteredItems(JSON.serializePretty(initData), initData.countryCodes, null, null);
         StudySiteVisitConfigRemote.getSortedItems(JSON.serializePretty(initData), null, initData.countryCodes, true);
         Test.stopTest();
-    }
+    }*/
 }
