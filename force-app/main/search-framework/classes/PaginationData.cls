@@ -15,19 +15,18 @@ public without sharing class PaginationData {
     @AuraEnabled public List<LabelValueItem> recordCountVariants;
 
     public PaginationData(){
+        this(10);
+    }
+
+    public PaginationData(Integer pageRecordsCount) {
+        this.pageRecordsCount = pageRecordsCount;
         currentPage = 1;
-        pageRecordsCount = 10;
         recordCountVariants =new List<LabelValueItem>{
                 new LabelValueItem('5', '5'),
                 new LabelValueItem('10', '10'),
                 new LabelValueItem('25', '25'),
                 new LabelValueItem('50', '50')
         };
-    }
-
-    public PaginationData(Integer pageRecordsCount) {
-        this();
-        this.pageRecordsCount = pageRecordsCount;
     }
 
     public void setRecordsCount(Integer recordsCount){

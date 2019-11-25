@@ -5,16 +5,12 @@
 public without sharing class SSVisitConfigSearchResponse {
     
     @AuraEnabled public PaginationData pagination;
-    @AuraEnabled public List<ApprovedLangRemote.StudySiteItem> studySiteItems;
+    @AuraEnabled public List<StudySiteItem> studySiteItems;
     @AuraEnabled public List<LabelValueItem> visitPlans;
     @AuraEnabled public Boolean haveEmptyAssigment;
     
     public SSVisitConfigSearchResponse(StudySiteFilter filter, PaginationData pagination){
         this.pagination = pagination;
-        if(this.pagination == null) {
-            this.pagination = new PaginationData();
-            this.pagination.pageRecordsCount = 20;
-        }
         List<Study_Site__c> ssList = SearchService.search(filter, this.pagination);
         visitPlans = getVisitPlans(filter.pageFeatureIds);
         studySiteItems = convertToSSItems(ssList, filter.pageFeatureIds);
@@ -40,14 +36,14 @@ public without sharing class SSVisitConfigSearchResponse {
         return false;
     }
     
-    public static List<ApprovedLangRemote.StudySiteItem> convertToSSItems(List<Study_Site__c> studySites, String selectedVPIdsStr) {
+    public static List<StudySiteItem> convertToSSItems(List<Study_Site__c> studySites, String selectedVPIdsStr) {
         List<LabelValueItem> visitPlans = getVisitPlans(selectedVPIdsStr);
         Map<Id, List<StudySiteVisitPlan__c>> ssVisitPlansBySSIdMap = getVisitPlansBySSIdMap(studySites);
-        List<ApprovedLangRemote.StudySiteItem> studySiteItems = new List<ApprovedLangRemote.StudySiteItem>();
+        List<StudySiteItem> studySiteItems = new List<StudySiteItem>();
         for (Study_Site__c ss : studySites) {
             String countryName = ss.Site__r.BillingCountry;
             String countryCode = ss.Site__r.BillingCountryCode;
-            ApprovedLangRemote.StudySiteItem item = new ApprovedLangRemote.StudySiteItem(new LabelValueItem(countryName, countryCode), ss.Name, ss);
+            StudySiteItem item = new StudySiteItem(new LabelValueItem(countryName, countryCode), ss.Name, ss);
             List<StudySiteVisitPlan__c> ssVPList = ssVisitPlansBySSIdMap.containsKey(ss.Id) ? ssVisitPlansBySSIdMap.get(ss.Id) : new List<StudySiteVisitPlan__c>();
             item.emptyAssignments = ssVPList.isEmpty();
             for (LabelValueItem vp : visitPlans) {
@@ -58,7 +54,7 @@ public without sharing class SSVisitConfigSearchResponse {
                         break;
                     }
                 }
-                item.assignments.add(new ApprovedLangRemote.ValueStateItem(vp.value, ssVPId));
+                item.assignments.add(new ValueStateItem(vp.value, ssVPId));
             }
             studySiteItems.add(item);
         }

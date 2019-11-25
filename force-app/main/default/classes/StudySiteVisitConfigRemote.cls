@@ -17,7 +17,7 @@ public without sharing class StudySiteVisitConfigRemote {
         try {
             InitData initData = new InitData();
             initData.filter = new StudySiteFilter(ctpId);
-            initData.searchResponse = new SSVisitConfigSearchResponse(initData.filter, null);
+            initData.searchResponse = new SSVisitConfigSearchResponse(initData.filter, new PaginationData(15));
             return initData;
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
@@ -30,8 +30,8 @@ public without sharing class StudySiteVisitConfigRemote {
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
             if(ssItemsJSON != null) {
-                List<ApprovedLangRemote.StudySiteItem> studySiteItems =
-                        (List<ApprovedLangRemote.StudySiteItem>) JSON.deserialize(ssItemsJSON, List<ApprovedLangRemote.StudySiteItem>.class);
+                List<StudySiteItem> studySiteItems =
+                        (List<StudySiteItem>) JSON.deserialize(ssItemsJSON, List<StudySiteItem>.class);
                 save(studySiteItems);
             }
             return new SSVisitConfigSearchResponse(filter, pagination);
@@ -45,9 +45,9 @@ public without sharing class StudySiteVisitConfigRemote {
         try {
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
-            List<ApprovedLangRemote.StudySiteItem> allSSItems = SSVisitConfigSearchResponse.convertToSSItems(ApprovedLangRemote.getCtpStudySites(filter), visitPlanId);
-            for(ApprovedLangRemote.StudySiteItem ssItem : allSSItems){
-                for (ApprovedLangRemote.ValueStateItem assigment : ssItem.assignments) assigment.state = state;
+            List<StudySiteItem> allSSItems = SSVisitConfigSearchResponse.convertToSSItems(getCtpStudySites(filter), visitPlanId);
+            for(StudySiteItem ssItem : allSSItems){
+                for (ValueStateItem assigment : ssItem.assignments) assigment.state = state;
             }
             save(allSSItems);
             return new SSVisitConfigSearchResponse(filter, pagination);
@@ -68,12 +68,11 @@ public without sharing class StudySiteVisitConfigRemote {
         }
     }
     
-    
-    private static void save(List<ApprovedLangRemote.StudySiteItem> studySiteItems) {
+    private static void save(List<StudySiteItem> studySiteItems) {
         List<StudySiteVisitPlan__c> toDelete = new List<StudySiteVisitPlan__c>();
         List<StudySiteVisitPlan__c> toInsert = new List<StudySiteVisitPlan__c>();
-        for (ApprovedLangRemote.StudySiteItem ssItem : studySiteItems) {
-            for (ApprovedLangRemote.ValueStateItem assigment : ssItem.assignments) {
+        for (StudySiteItem ssItem : studySiteItems) {
+            for (ValueStateItem assigment : ssItem.assignments) {
                 if (assigment.sourceId != null && !assigment.state) {
                     toDelete.add(new StudySiteVisitPlan__c(Id = assigment.sourceId));
                 }else if(assigment.sourceId == null && assigment.state){
@@ -88,4 +87,11 @@ public without sharing class StudySiteVisitConfigRemote {
         insert toInsert;
     }
 
+    public static List<Study_Site__c> getCtpStudySites(StudySiteFilter filter) {
+        List<Study_Site__c> ctpStudySites = (List<Study_Site__c>) DatabaseService.query(
+                filter.getFields(),
+                filter.getSObjectType(),
+                'Clinical_Trial_Profile__c = \'' + filter.ctpId + '\'');
+        return ctpStudySites;
+    }
 }

@@ -10,100 +10,34 @@
         }, function (data) {
             component.set('v.filter', data.filter);
             component.set('v.viewModePage', data.viewMode);
-
-            let pageWrapper = data.pageWrapper;
-            component.set('v.pageWrapper', pageWrapper);
-            component.set('v.ssItems', pageWrapper.studySiteItems);
-            component.set('v.languages', pageWrapper.pageColumnItems);
-            component.set('v.allRecordsCount', pageWrapper.pagination.allRecordsCount);
-            component.set('v.pageRecordsCount', pageWrapper.pagination.pageRecordsCount);
-            component.set('v.currentPage', pageWrapper.pagination.currentPage);
+            helper.setSearchResponse(component, data.searchResponse);
 
             component.set('v.initialized', true);
-            component.find('spinner').hide();
         });
     },
 
-    doLoadNextData: function (component, event, helper) {
-        if (event.getParam('oldValue') === undefined) return;
+    doUpdate: function (component, event, helper) {
+        helper.updateItems(component);
+    },
 
-        let pageWrapper = component.get('v.pageWrapper');
-        pageWrapper.pagination.currentPage = component.get('v.currentPage');
-
-        helper.updateSorting(component);
-        component.find('spinner').show();
-
-        communityService.executeAction(component, 'getNextData', {
-            wrapper: JSON.stringify(pageWrapper),
-            filter: JSON.stringify(component.get('v.filter'))
-        }, function (response) {
-            component.set('v.pageWrapper', response);
-            component.set('v.ssItems', response.studySiteItems);
-
-            component.find('spinner').hide();
-        });
+    doSaveAndUpdate: function(component, event, helper){
+        helper.updateItems(component, true);
     },
 
     onCountriesChange: function (component, event, helper) {
-        var filter = component.get('v.filter');
-        let ccCodes = filter.countryCodes.split(';');
-        let newSelectedSSIds = new Set();
-
-        let count = 0;
-        let items = component.get('v.ssItems');
-        for (let i = 0; i < items.length; i++) {
-            if (ccCodes.indexOf(items[i].ss.Site__r.BillingCountryCode) > -1) {
-                newSelectedSSIds.add(items[i].ss.Id);
-                count++;
-            }
-        }
-
-        let newSSIds = Array.from(newSelectedSSIds).join(';');
-        if (count === items.length) newSSIds = '';
-
-        filter.selectedSSIds = newSSIds;
-        component.set('v.filter', filter);
-
-        component.find('spinner').show();
-        helper.updateTable(component, helper);
-    },
-
-    getFilteredSS: function (component, event, helper) {
-        component.find('spinner').show();
-        helper.updateTable(component, helper);
+        component.set('v.filter.selectedSSIds', '');
+        helper.updateItems(component);
     },
 
     doSort: function (component, event, helper) {
-        if (event) {
-            event.preventDefault();
-            let order = event.currentTarget.dataset.order;
-            component.set('v.sortOrder', order);
-            helper.updateSorting(component, true);
-
-            component.find('spinner').show();
-            communityService.executeAction(component, 'getSortedItems', {
-                wrapper: JSON.stringify(component.get('v.pageWrapper')),
-                filter: JSON.stringify(component.get('v.filter'))
-            }, function (response) {
-                component.set('v.ssItems', JSON.parse(response));
-                component.find('spinner').hide();
-            });
+        let sortDirection = component.get('v.filter.sortDirection');
+        component.set('v.filter.sortField', event.currentTarget.dataset.order);
+        if(sortDirection === 'ASC'){
+            component.set('v.filter.sortDirection', 'DESC');
+        }else{
+            component.set('v.filter.sortDirection', 'ASC');
         }
-    },
-
-    doSave: function (component, event, helper) {
-        let pageWrapper = component.get('v.pageWrapper');
-        pageWrapper.studySiteItems = component.get('v.ssItems');
-
-        component.find('spinner').show();
-        communityService.executeAction(component, 'save', {
-            wrapper: JSON.stringify(pageWrapper),
-            filter: JSON.stringify(component.get('v.filter'))
-        }, function (response) {
-            component.set('v.pageWrapper', response);
-            component.find('spinner').hide();
-            communityService.showSuccessToast('Success', 'Changes were saved!');
-        });
+        helper.updateItems(component);
     },
 
     whenCountryFilterChanged: function (component, event, helper) {
@@ -145,11 +79,12 @@
 
         component.find('spinner').show();
         communityService.executeAction(component, 'setLanguageForAll', {
-            filter: JSON.stringify(component.get('v.filter')),
+            filterJS: JSON.stringify(component.get('v.filter')),
+            paginationJS: JSON.stringify(component.get('v.pagination')),
             language: lang,
             state: state
-        }, function () {
-            helper.updateTable(component, helper);
+        }, function (searchResponse) {
+            helper.setSearchResponse(component, searchResponse);
         });
     }
 });

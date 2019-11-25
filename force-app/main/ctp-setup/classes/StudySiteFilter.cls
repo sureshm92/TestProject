@@ -53,32 +53,4 @@ public without sharing class StudySiteFilter implements SearchFilter {
     public SObjectType getSObjectType() {
         return Study_Site__c.getSObjectType();
     }
-    
-    
-    //TODO REMOVE this method and class! (Now used in IRB Config cmp):
-    
-    public static List<String> getListByString(String toSplit) {
-        List<String> splitted;
-        if (toSplit != null && !String.isEmpty(toSplit)) splitted = toSplit.split(';');
-        return splitted == null ? new List<String>() : splitted;
-    }
-    
-    public class StudySiteSearchWrapper {
-        @AuraEnabled public StudySiteFilter filter;
-        @AuraEnabled public PaginationData pagination;
-        @AuraEnabled public Boolean haveEmptyAssigment;
-        
-        public StudySiteSearchWrapper() {}
-        
-        public StudySiteSearchWrapper(StudySiteFilter filter, PaginationData pagination, Integer itemsPerPage) {
-            this.filter = filter;
-            this.pagination = pagination;
-            this.pagination.pageRecordsCount = itemsPerPage;
-        }
-        
-        public StudySiteSearchWrapper(StudySiteFilter filter, PaginationData pagination) {
-            this(filter, pagination, 15);
-        }
-    }
-
 }

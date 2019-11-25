@@ -8,30 +8,17 @@
 
     <!--attributes-->
     <aura:attribute name="initialized" type="Boolean" default="false"/>
-    <aura:attribute name="pageWrapper" type="StudySitePageWrapper"/>
     <aura:attribute name="filter" type="StudySiteFilter"/>
-
+    <aura:attribute name="pagination" type="PaginationData"/>
     <aura:attribute name="ssItems" type="List"/>
     <aura:attribute name="languages" type="List"/>
+    <aura:attribute name="haveEmptyAssigment" type="Boolean"/>
 
     <aura:attribute name="viewModePage" type="String"/>
 
     <aura:attribute name="countryFilterType" type="String" default="All"/>
     <aura:attribute name="langFilterType" type="String" default="All"/>
     <aura:attribute name="sitesFilterType" type="String" default="All"/>
-
-    <aura:attribute name="pageRecordsCount" type="Integer"/>
-    <aura:attribute name="currentPage" type="Integer" default="1"/>
-    <aura:attribute name="allRecordsCount" type="Integer"/>
-
-    <aura:attribute name="sortOrder" type="String" default="name"/>
-    <aura:attribute name="countrySortType" type="Boolean"/>
-    <aura:attribute name="nameSortType" type="Boolean"/>
-    <aura:attribute name="numberSortType" type="Boolean"/>
-
-    <!--handlers: -->
-    <aura:handler name="change" value="{!v.pageRecordsCount}" action="{!c.doLoadNextData}"/>
-    <aura:handler name="change" value="{!v.currentPage}" action="{!c.doLoadNextData}"/>
 
     <!-- component body: -->
     <div class="panel">
@@ -80,7 +67,7 @@
                                         <c:GlobalLanguagesLookup aura:id="langsLookup"
                                                                  value="{!v.filter.pageFeatureIds}"
                                                                  isMultiEntry="true"
-                                                                 onchange="{!c.getFilteredSS}"
+                                                                 onchange="{!c.doUpdate}"
                                                                  placeholder="Select Language"
                                                                  placeholderSelected="Select another language"/>
                                     </aura:set>
@@ -101,21 +88,21 @@
                                                                value="{!v.filter.selectedSSIds}"
                                                                ctpId="{!v.recordId}"
                                                                selectedCountries="{!v.filter.countryCodes}"
-                                                               onchange="{!c.getFilteredSS}"
+                                                               onchange="{!c.doUpdate}"
                                                                placeholder="Select Study Site"/>
                                     </aura:set>
                                 </aura:if>
                             </div>
                             <!--Save changes button-->
                             <div class="slds-col slds-size--1-of-2 slds-p-left--small save-btn">
-                                <aura:if isTrue="{!v.pageWrapper.haveEmptyAssigment}">
+                                <aura:if isTrue="{!v.haveEmptyAssigment}">
                                     <lightning:icon iconName="utility:warning" alternativeText="Warning!"
                                                     variant="warning"
                                                     size="small"/>
                                     <p style="font-size: 11px; padding: 5px;">{!$Label.c.PP_IRB_SS_Empty_AppLAng}</p>
                                 </aura:if>
                                 <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
-                                    <lightning:button variant="brand" label="Save" onclick="{!c.doSave}"/>
+                                    <lightning:button variant="brand" label="Save" onclick="{!c.doSaveAndUpdate}"/>
                                 </aura:if>
                             </div>
                         </div>
@@ -132,11 +119,13 @@
                                             Country
                                         </div>
                                         <div class="slds-m-left--x-small">
-                                            <lightning:icon
-                                                    iconName="{!'utility:' + if(v.countrySortType, 'arrowdown', 'arrowup')}"
-                                                    alternativeText=""
-                                                    variant="{!if(v.sortOrder == 'country', 'success', 'warning')}"
-                                                    size="xx-small"/>
+                                            <aura:if isTrue="{!equals(v.filter.sortField, 'country')}">
+                                                <lightning:icon
+                                                        iconName="{!'utility:' + if(equals(v.filter.sortDirection, 'DESC'), 'arrowdown', 'arrowup')}"
+                                                        alternativeText=""
+                                                        variant="success"
+                                                        size="xx-small"/>
+                                            </aura:if>
                                         </div>
                                     </div>
                                 </th>
@@ -146,11 +135,13 @@
                                             Study Site
                                         </div>
                                         <div class="slds-m-left--x-small">
-                                            <lightning:icon
-                                                    iconName="{!'utility:' + if(v.nameSortType, 'arrowdown', 'arrowup')}"
-                                                    alternativeText=""
-                                                    variant="{!if(v.sortOrder == 'name', 'success', 'warning')}"
-                                                    size="xx-small"/>
+                                            <aura:if isTrue="{!equals(v.filter.sortField, 'name')}">
+                                                <lightning:icon
+                                                        iconName="{!'utility:' + if(equals(v.filter.sortDirection, 'DESC'), 'arrowdown', 'arrowup')}"
+                                                        alternativeText=""
+                                                        variant="success"
+                                                        size="xx-small"/>
+                                            </aura:if>
                                         </div>
                                     </div>
                                 </th>
@@ -158,11 +149,13 @@
                                     <div data-order="number" class="sorted-column" onclick="{!c.doSort}">
                                         <div>Study Site Number</div>
                                         <div class="slds-m-left--x-small slds-align--absolute-center">
-                                            <lightning:icon
-                                                    iconName="{!'utility:' + if(v.numberSortType,'arrowdown', 'arrowup')}"
-                                                    alternativeText=""
-                                                    variant="{!if(v.sortOrder == 'number', 'success', 'warning')}"
-                                                    size="xx-small"/>
+                                            <aura:if isTrue="{!equals(v.filter.sortField, 'number')}">
+                                                <lightning:icon
+                                                        iconName="{!'utility:' + if(equals(v.filter.sortDirection, 'DESC'), 'arrowdown', 'arrowup')}"
+                                                        alternativeText=""
+                                                        variant="success"
+                                                        size="xx-small"/>
+                                            </aura:if>
                                         </div>
                                     </div>
                                 </th>
@@ -196,9 +189,10 @@
                     </div>
                     <!--Pagination-->
                     <div>
-                        <c:RRPaginationRemote entriesOnPage="{!v.pageRecordsCount}"
-                                              currentPage="{!v.currentPage}"
-                                              allRecordsCount="{!v.allRecordsCount}"/>
+                        <c:RRPaginationRemote entriesOnPage="{!v.pagination.pageRecordsCount}"
+                                              currentPage="{!v.pagination.currentPage}"
+                                              allRecordsCount="{!v.pagination.allRecordsCount}"
+                                              onchange="{!c.doSaveAndUpdate}"/>
                         <div class="padding-info">
                             <lightning:icon class="slds-m-left--x-small" iconName="utility:save" alternativeText=""
                                             variant="warning" size="small"/>
