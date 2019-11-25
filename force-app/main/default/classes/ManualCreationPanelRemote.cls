@@ -204,15 +204,17 @@ public without sharing class ManualCreationPanelRemote {
 
         List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
         Id communityId = CommunityService.getCommunityId(null);
-        for (Participant_Enrollment__c pe : filter.getContactsWithPE().values()) {
-            newInvitations.add(SurveyService.getInstance().generateInvitation(
-                    survey,
-                    rs,
-                    wrapper.daysToExpire,
-                    wrapper.expireOnAlumni,
-                    pe.Id,
-                    communityId
-            ));
+        for (Id contactId : filter.getContactsWithPE().keySet()) {
+            for(Participant_Enrollment__c pe : filter.getContactsWithPE().get(contactId)) {
+                newInvitations.add(SurveyService.getInstance().generateInvitation(
+                        survey,
+                        rs,
+                        wrapper.daysToExpire,
+                        wrapper.expireOnAlumni,
+                        pe.Id,
+                        communityId
+                ));
+            }
         }
 
         if (!newInvitations.isEmpty()) {
