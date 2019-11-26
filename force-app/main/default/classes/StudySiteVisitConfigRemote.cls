@@ -29,11 +29,7 @@ public without sharing class StudySiteVisitConfigRemote {
         try {
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
-            if(ssItemsJSON != null) {
-                List<StudySiteItem> studySiteItems =
-                        (List<StudySiteItem>) JSON.deserialize(ssItemsJSON, List<StudySiteItem>.class);
-                save(studySiteItems);
-            }
+            save(ssItemsJSON);
             return new SSVisitConfigSearchResponse(filter, pagination);
         } catch (Exception e) {
             return (SSVisitConfigSearchResponse) AuraHelper.throwException(e);
@@ -44,12 +40,7 @@ public without sharing class StudySiteVisitConfigRemote {
     public static SSVisitConfigSearchResponse setVisitPlanForAll(String visitPlanId, Boolean state, String filterJSON,
             String paginationJSON, String ssItemsJSON) {
         try {
-            if(ssItemsJSON != null) {
-                List<StudySiteItem> studySiteItems =
-                        (List<StudySiteItem>) JSON.deserialize(ssItemsJSON, List<StudySiteItem>.class);
-                save(studySiteItems);
-            }
-
+            save(ssItemsJSON);
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
             List<StudySiteItem> allSSItems = SSVisitConfigSearchResponse.convertToSSItems(getCtpStudySites(filter), visitPlanId);
@@ -75,6 +66,12 @@ public without sharing class StudySiteVisitConfigRemote {
         }
     }
     
+    private static void save(String ssItemsJSON) {
+        if(String.isEmpty(ssItemsJSON)) return;
+        List<StudySiteItem> studySiteItems = (List<StudySiteItem>) JSON.deserialize(ssItemsJSON, List<StudySiteItem>.class);
+        save(studySiteItems);
+    }
+    
     private static void save(List<StudySiteItem> studySiteItems) {
         List<StudySiteVisitPlan__c> toDelete = new List<StudySiteVisitPlan__c>();
         List<StudySiteVisitPlan__c> toInsert = new List<StudySiteVisitPlan__c>();
@@ -92,6 +89,7 @@ public without sharing class StudySiteVisitConfigRemote {
         }
         delete toDelete;
         insert toInsert;
+
     }
 
     public static List<Study_Site__c> getCtpStudySites(StudySiteFilter filter) {
