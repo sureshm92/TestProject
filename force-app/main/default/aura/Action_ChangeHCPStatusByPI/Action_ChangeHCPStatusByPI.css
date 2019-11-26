@@ -10,7 +10,7 @@
 
 .THIS .dialog-alert {
     word-wrap: break-word;
-    white-space: pre;
+/*    white-space: pre; */
     text-align: left;
     font-size: 1rem;
     font-weight: 600;
