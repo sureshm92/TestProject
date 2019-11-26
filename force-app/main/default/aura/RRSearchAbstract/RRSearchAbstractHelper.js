@@ -20,7 +20,7 @@
    },
 
     search: function (component) {
-        var searchTerm = component.get('v.searchTerm').replace(/[^a-zA-Z0-9-]/g, '\\');
+        var searchTerm = component.get('v.searchTerm');
         if (searchTerm.length < component.get('v.minTermLength')) {
             component.set('v.searchResults', []);
             return;
