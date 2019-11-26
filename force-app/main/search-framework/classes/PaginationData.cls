@@ -3,6 +3,7 @@
  */
 
 public without sharing class PaginationData {
+    
     @AuraEnabled public Integer allRecordsCount;
     @AuraEnabled public Integer pagesCount;
     @AuraEnabled public Integer pageRecordsCount;
@@ -14,8 +15,12 @@ public without sharing class PaginationData {
     @AuraEnabled public List<LabelValueItem> recordCountVariants;
 
     public PaginationData(){
+        this(10);
+    }
+
+    public PaginationData(Integer pageRecordsCount) {
+        this.pageRecordsCount = pageRecordsCount;
         currentPage = 1;
-        pageRecordsCount = 10;
         recordCountVariants =new List<LabelValueItem>{
                 new LabelValueItem('5', '5'),
                 new LabelValueItem('10', '10'),

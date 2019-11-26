@@ -109,7 +109,6 @@ public without sharing class TravelSupportHelper {
                 (travelVendorSettingsIds.isEmpty() ? '' : ' AND Id NOT IN ' + '(\'' + String.join(new List<Id>(travelVendorSettingsIds), '\',\'') + '\')');
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
         List<TravelVendorSettings__c> ts = (List<TravelVendorSettings__c>) databaseProxy.query(query);
-        delete ts;
     }
 
     public List<TravelVendorSettings__c> getVendors(Id studySiteId) {

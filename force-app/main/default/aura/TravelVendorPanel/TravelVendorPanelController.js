@@ -146,6 +146,55 @@
     },
 
     columnCheckboxStateChange: function (component, event, helper) {
-        helper.columnCheckboxStateChange(component, event);
+        let target = event.target.dataset.vendor;
+        let checked = event.target.dataset.state === 'Enabled';
+        let items = component.get('v.vendorItems');
+        let page = component.get('v.currentPage');
+        items.forEach(function (item) {
+            let settings = item.vendorSettings;
+            settings.forEach(function (setting) {
+                if (setting.TravelVendor__c === target) {
+                    setting.isEnable__c = checked;
+                }
+            });
+        });
+        component.set('v.vendorItems', items);
+        component.set('v.currentPage', page);
+
+        component.find('spinner').show();
+        let vendorItems = component.get('v.vendorItems');
+        let allSettings = [];
+        let studySites = component.get('v.selectedByStudySite');
+        let countries = component.get('v.selectedByCountry');
+        let vendors = component.get('v.selectedVendors');
+
+        let isAnyLookUpSelected = studySites || countries;
+
+        if (isAnyLookUpSelected) {
+            vendorItems.forEach(function (vendorItem) {
+                helper.checkOnIsManualStudySites(studySites, countries, vendorItem);
+                allSettings = allSettings.concat(vendorItem.vendorSettings);
+            });
+        } else {
+            allSettings = helper.uncheckAllCheckBoxForVendorSettings(vendorItems, allSettings);
+        }
+        console.log('allSettings ' + JSON.stringify(allSettings));
+        helper.enqueue(component, 'c.saveData', {
+            'ctpId': component.get('v.recordId'),
+            'settings': allSettings
+        }).then(function () {
+            component.find('spinner').hide();
+        }, function (err) {
+            if (err && err[0].message) {
+                helper.notify({
+                    title: 'error',
+                    message: err[0].message,
+                    type: 'error',
+                });
+            }
+
+            component.find('spinner').hide();
+            console.log('error:', err[0].message);
+        });
     }
 })

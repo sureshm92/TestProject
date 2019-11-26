@@ -118,6 +118,7 @@ public with sharing class TravelVendorPanelRemote {
                 vendorIdsList.add(travelVendor.Id);
             }
             supportHelper.fillVendorSettingsWithStub(vendorIdsList, initData.vendorItems);
+            initData.vendorItems = getFilteredItems(ctpId, initData.selectedSSIds, initData.countryCodes, vendorIdsList, true);
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
         }

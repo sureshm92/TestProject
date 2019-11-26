@@ -11,3 +11,11 @@
     text-overflow: ellipsis;
     overflow: hidden;
 }
+
+.THIS .uiInput--default {
+    display: inline-block;
+}
+
+.THIS .uiInput--default .form-element__label {
+    display: none;
+}
