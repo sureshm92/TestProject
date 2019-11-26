@@ -5249,7 +5249,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Setting_Store__c.DeveloperName__c</field>
+        <field>Setting_Store__c.Developer_Name__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
