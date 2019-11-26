@@ -8,24 +8,23 @@
     <aura:attribute name="hasDefault" type="Boolean"/>
     <aura:attribute name="selectedVendor" type="Object"/>
 
-    <c:RRTable>
-        <div class="slds-scrollable">
-            <table class="slds-table ">
-                <tbody class="slds-p-around_none">
-                <aura:iteration var="vendor" items="{!v.vendors}" indexVar="ind">
-                    <tr class="slds-hint-parent ">
-                        <td data-ind="{!vendor.TravelVendor__r.Link_Vendor__c}" >
-                            <div class="slds-medium-show--inline-block overflow slds-m-left--xx-large">
-                                <lightning:input aura:id="checkBoxBtn" type="checkbox" label="" onchange="{!c.makeUnique}" value="{!vendor}"/>
+    <div class="slds-scrollable--y vendor-table">
+        <c:RRTable>
+            <tbody>
+            <aura:iteration var="vendor" items="{!v.vendors}" indexVar="ind">
+                <tr>
+                    <td data-ind="{!vendor.Link_Vendor__c}">
+                        <div class="vendor-row">
+                            <lightning:input aura:id="checkBoxBtn" type="checkbox" label=""
+                                             onchange="{!c.makeUnique}" value="{!vendor}"/>
+                            <div class="slds-text-align--left">
+                                <p class="vendor-name" title="{!vendor.Name}">{!vendor.Name}</p>
                             </div>
-                            <div class="slds-medium-show--inline-block slds-size--8-of-12">
-                                <p class="slds-text-align--left overflow" >{!vendor.TravelVendor__r.Name}</p>
-                            </div>
-                        </td>
-                    </tr>
-                </aura:iteration>
-                </tbody>
-            </table>
-        </div>
-    </c:RRTable>
+                        </div>
+                    </td>
+                </tr>
+            </aura:iteration>
+            </tbody>
+        </c:RRTable>
+    </div>
 </aura:component>
