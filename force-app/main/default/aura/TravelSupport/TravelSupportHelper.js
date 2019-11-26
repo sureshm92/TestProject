@@ -4,10 +4,10 @@
 
 ({
     checkOnDisclaimer: function (component, event) {
-        let isShowMore = component.get("v.isShowDisclaimer");
+        let isShowMore = component.get('v.isShowDisclaimer');
         if (isShowMore) {
-            component.set("v.selectedVendor", null);
-            component.set("v.isShowDisclaimer", false);
+            component.set('v.selectedVendor', null);
+            component.set('v.isShowDisclaimer', false);
             let message = component.get('v.message');
             let htmlMessage = message.replace(new RegExp('\\n', 'g'), '<br/>');
             component.set('v.htmlMessage', htmlMessage);
@@ -15,9 +15,9 @@
     },
 
     redirectToUrl: function (component, event) {
-        let eUrl = $A.get("e.force:navigateToURL");
+        let eUrl = $A.get('e.force:navigateToURL');
         eUrl.setParams({
-            "url": component.get('v.selectedVendor').TravelVendor__r.Link_Vendor__c
+            'url': component.get('v.selectedVendor').Link_Vendor__c
         });
         component.find('popup').cancel();
         eUrl.fire();
