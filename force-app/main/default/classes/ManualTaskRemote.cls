@@ -14,9 +14,9 @@ public with sharing class ManualTaskRemote {
 
             if(newTask.ReminderDateTime != null) {
                 newTask.ReminderDateTime = Datetime.newInstanceGmt(
-                        newTask.Reminder_Date__c.yearGmt(),
-                        newTask.Reminder_Date__c.monthGmt(),
-                        newTask.Reminder_Date__c.dayGmt(),
+                        newTask.ReminderDateTime.yearGmt(),
+                        newTask.ReminderDateTime.monthGmt(),
+                        newTask.ReminderDateTime.dayGmt(),
                         Datetime.now().hourGmt(), 0, 0
                 );
             }
