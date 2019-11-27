@@ -90,7 +90,7 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                     defaultActions
             ));
 
-            if (participantState.isPremium) {
+            if (participantState.isPremium && participantState.showVisits) {
                 tabs.add(new TrialDetail.StudyTab(
                         'tab-visits',
                         'referred-patient',
@@ -111,12 +111,14 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                     Label.PG_SW_Tab_Resources,
                     backHomeAction
             ));
-            tabs.add(new TrialDetail.StudyTab(
-                    'tab-lab-results',
-                    'reports',
-                    Label.PG_SW_Tab_Lab_Results,
-                    backHomeAction
-            ));
+            if (participantState.showVisits) {
+                tabs.add(new TrialDetail.StudyTab(
+                        'tab-lab-results',
+                        'reports',
+                        Label.PG_SW_Tab_Lab_Results,
+                        backHomeAction
+                ));
+            }
         } else {
             tabs.add(new TrialDetail.StudyTab(
                     'tab-tasks',

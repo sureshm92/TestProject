@@ -5,6 +5,7 @@
     doInit : function(component, event, helper) {
         communityService.executeAction(component, 'getVisitsPreview', null, function(response) {
             component.set('v.visitWrappers', response);
+            component.set('v.initialized', true);
             component.find('spinner').hide();
         });
     },
