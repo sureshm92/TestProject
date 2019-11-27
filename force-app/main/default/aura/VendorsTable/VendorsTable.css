@@ -1,18 +1,18 @@
 /**
  * Created by dmytro.fedchyshyn on 10.09.2019.
  */
-.THIS .vendor-table {
-    max-height: 250px;
-    max-width: 300px;
+.THIS.vendor-table {
+    max-height: 200px;
     overflow-y: scroll;
 }
 
-.THIS .vendor-row {
-    display: flex;
+.THIS .vendor-name {
+    width: 305px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.THIS .vendor-name {
-    width: 70%;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
+.THIS .slds-checkbox .slds-checkbox__label .slds-form-element__label {
+    display: none;
 }
