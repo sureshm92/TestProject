@@ -12,7 +12,7 @@ public with sharing class Test_TravelSupportHelper {
         Study_Site__c studySite = [SELECT Id FROM Study_Site__c];
 
         Test.startTest();
-        List<TravelVendor__c> vendorSettings = TravelSupportRemote.getVendors(studySite.Id);
+        List<TravelVendor__c> vendorSettings = TravelSupportHelper.getVendors(studySite.Id);
         Test.stopTest();
 
         System.assertEquals(4, vendorSettings.size());
