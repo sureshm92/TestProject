@@ -66,21 +66,10 @@ public class TestData {
         ];
     }
 
-    /**
-     * ONLY FOR DEPLOY
-     */
-    public void createPSE() {
-        pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
-        update pe;
-        pse = [
-                SELECT Id,
-                        Participant_Contact__c,
-                        Screening_ID__c,
-                        Clinical_Trial_Profile__c,
-                        CreatedDate
-                FROM Participant_Study_Enrollment__c
-                WHERE Participant__c =: participant.Id
-        ];
+    public void createSSTravelVendors(){
+        TravelVendor__c tv = new TravelVendor__c(Name = 'Test TV', Link_Vendor__c = 'Some link');
+        insert(tv);
+        insert new TravelVendorSettings__c(Study_Site__c = ss.Id, TravelVendor__c = tv.Id);
     }
 
     public void updatePEStatusEnrollmentSuccess(){

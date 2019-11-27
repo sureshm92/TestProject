@@ -17,7 +17,6 @@ private class Test_ApprovedLangRemote {
 
         ApprovedLangRemote.getItems(ssItemsJS, filterJS, paginationJS);
         ApprovedLangRemote.setLanguageForAll(filterJS, paginationJS, ssItemsJS, 'ru', true);
-        ApprovedLangRemote.getCtpStudySites(initData.filter);
         Test.stopTest();
     }
 }

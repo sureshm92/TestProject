@@ -4,90 +4,67 @@
 
 @IsTest
 public with sharing class Test_TravelVendorPanelRemote {
+    
+    @TestSetup
+    static void init(){
+        TestData.loadTestData();
+    }
+    
     @IsTest
     static void getInitData_test() {
-
-//        TestDataFactory.createDataForTravelSupportTesting();
-        TestData.loadTestData();
         TestData td = new TestData();
-
         Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
 
         Test.startTest();
         TravelVendorPanelRemote.InitData initData = TravelVendorPanelRemote.getInitData(clinicalTrialProfile.Id);
         Test.stopTest();
-//        System.assertEquals('SS1', initData.searchResponse);
     }
 
-//    @IsTest
-//    static void getFilteredItems_test() {
-//
-//       TestDataFactory.createDataForTravelSupportTesting();
-//
-//        Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
-//        List<TravelVendor__c> travelVendors = [SELECT Id FROM TravelVendor__c];
-//        List<Id> vendorIds = new List<Id>();
-//        for (TravelVendor__c travelVendor : travelVendors) {
-//            vendorIds.add(travelVendor.Id);
-//        }
-//
-//        Test.startTest();
-//        List<TravelVendorPanelRemote.VendorItem> vendorItems = TravelVendorPanelRemote.getFilteredItems(clinicalTrialProfile.Id, null, null, vendorIds, true);
-//        Test.stopTest();
-//
-//        System.assertEquals('SS1', vendorItems[0].studySite.Study_Site_Number__c);
-//    }
+    @IsTest
+    static void getItems_test(){
+        TestData td = new TestData();
+        Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
 
-//    @IsTest
-//    static void saveData_test() {
-//
-//        TestDataFactory.createDataForTravelSupportTesting();
-//
-//        Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
-//        Study_Site__c studySite = [SELECT Id FROM Study_Site__c];
-//
-//        List<TravelVendor__c> travelVendors = [SELECT Id FROM TravelVendor__c];
-//        List<TravelVendorSettings__c> travelVendorSettings = new List<TravelVendorSettings__c>{
-//                new TravelVendorSettings__c(Study_Site__c = studySite.Id, TravelVendor__c = travelVendors[0].Id, isEnable__c = true, Is_Manual__c = true),
-//                new TravelVendorSettings__c(Study_Site__c = studySite.Id, TravelVendor__c = travelVendors[1].Id, isEnable__c = true, By_Country__c = true),
-//                new TravelVendorSettings__c(Study_Site__c = studySite.Id, TravelVendor__c = travelVendors[2].Id, isEnable__c = false, Is_Manual__c = true, By_Country__c = true)
-//        };
-//
-//        Test.startTest();
-//        TravelVendorPanelRemote.saveData(clinicalTrialProfile.Id, travelVendorSettings);
-//        Test.stopTest();
-//
-//        List<TravelVendor__c> newTravelVendors = [SELECT Id FROM TravelVendor__c];
-//
-//        System.assertEquals(4, newTravelVendors.size());
-//    }
+        Test.startTest();
+        TravelVendorPanelRemote.InitData initData = TravelVendorPanelRemote.getInitData(clinicalTrialProfile.Id);
+        TravelVendorPanelRemote.getItems(JSON.serialize(initData.searchResponse.studySiteItems), JSON.serialize(initData.filter), JSON.serialize(new PaginationData(15)));
+        Test.stopTest();
+    }
+    
+    @IsTest
+    static void selectAllInColumn_test(){
+        TestData td = new TestData();
+        Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
+        TravelVendor__c travelVendor = new TravelVendor__c(Name = 'Uber', Link_Vendor__c = 'link 1');
+        insert travelVendor;
 
-//    @IsTest
-//    static void createVendor_test() {
-//
-//        TravelVendor__c travelVendor = new TravelVendor__c(Name = 'Uber', Link_Vendor__c = 'test_link.com');
-//
-//
-//        Test.startTest();
-//        TravelVendor__c vendor = TravelVendorPanelRemote.createVendor(travelVendor);
-//        Test.stopTest();
-//
-//        System.assertEquals('Uber', vendor.Name);
-//    }
+        Test.startTest();
+        TravelVendorPanelRemote.InitData initData = TravelVendorPanelRemote.getInitData(clinicalTrialProfile.Id);
+        TravelVendorPanelRemote.selectAllInColumn(travelVendor.Id, true, JSON.serialize(initData.filter), JSON.serialize(new PaginationData(15)), JSON.serialize(initData.searchResponse.studySiteItems));
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void clearAllInColumn_test(){
+        TestData td = new TestData();
+        TravelVendor__c travelVendor = new TravelVendor__c(Name = 'Uber', Link_Vendor__c = 'link 1');
+        insert travelVendor;
+
+        Test.startTest();
+        TravelVendorPanelRemote.InitData initData = TravelVendorPanelRemote.getInitData(td.ctp.Id);
+        System.debug(JSON.serializePretty(initData.searchResponse.studySiteItems));
+        TravelVendorPanelRemote.selectAllInColumn(travelVendor.Id, false, JSON.serialize(initData.filter), JSON.serialize(new PaginationData(15)), JSON.serialize(initData.searchResponse.studySiteItems));
+        Test.stopTest();
+    }
 
     @IsTest
     static void getVendors_test() {
-
-        TestDataFactory.createDataForTravelSupportTesting();
-
-        List<Study_Site__c> studySites = [SELECT Id FROM Study_Site__c];
-
-
+        TestData testDataInstance = new TestData();
+        testDataInstance.createSSTravelVendors();
         Test.startTest();
-        List<TravelVendor__c> vendorSettings = TravelSupportRemote.getVendors(studySites[0].Id);
+        List<TravelVendor__c> vendorSettings = TravelSupportRemote.getVendors(testDataInstance.ss.Id);
         Test.stopTest();
-
-        System.assertEquals(4, vendorSettings.size());
+        System.assertEquals(1, vendorSettings.size());
     }
 
 
@@ -108,9 +85,7 @@ public with sharing class Test_TravelVendorPanelRemote {
 
     @IsTest
     static void getVendorsWithException_test() {
-
         Boolean isExceptionThrown = false;
-
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory.putStubTypeByClassName(TravelSupportHelper.class, StubBuilder.newInstance(TravelSupportHelper.class)
                 .when('getVendors')
@@ -129,47 +104,9 @@ public with sharing class Test_TravelVendorPanelRemote {
         System.assert(true, isExceptionThrown);
     }
 
-//    @IsTest
-//    static void saveDataWithException_test() {
-//        Boolean isExceptionThrown = false;
-//
-//        ClassFactory.clearStubTypesByClassNamesMap();
-//        ClassFactory.putStubTypeByClassName(TravelSupportHelper.class, StubBuilder.newInstance(TravelSupportHelper.class)
-//                .when('deleteTravelSettings')
-//                .then(new AuraHandledException('error'))
-//                .build()
-//        );
-//
-//        Test.startTest();
-//        try {
-//            TravelVendorPanelRemote.saveData(null, null);
-//        } catch (Exception e) {
-//            isExceptionThrown = true;
-//            System.assert(e.getTypeName() == 'System.AuraHandledException');
-//        }
-//        Test.stopTest();
-//        System.assert(true, isExceptionThrown);
-//    }
-
-//    @IsTest
-//    static void getFilteredItemsWithException_test() {
-//        Boolean isExceptionThrown = false;
-//
-//        Test.startTest();
-//        try {
-//            TravelVendorPanelRemote.getFilteredItems(null, null, null, null, false);
-//        } catch (Exception e) {
-//            isExceptionThrown = true;
-//            System.assert(e.getTypeName() == 'System.AuraHandledException');
-//        }
-//        Test.stopTest();
-//        System.assert(true, isExceptionThrown);
-//    }
-
     @IsTest
     static void getInitDataWithException_test() {
         Boolean isExceptionThrown = false;
-
         Test.startTest();
         try {
             TravelVendorPanelRemote.getInitData(null);
