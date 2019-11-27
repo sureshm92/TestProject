@@ -6,7 +6,7 @@ public without sharing class TravelSupportRemote {
     @AuraEnabled
     public static List<TravelVendor__c> getVendors(String studySiteId) {
         try {
-            String filter = 'Study_Site__c =  \'' + studySiteId + '\' AND isEnable__c = TRUE';
+            String filter = 'Study_Site__c =  \'' + studySiteId + '\'';
             List<TravelVendorSettings__c> vendorSettings =
                     (List<TravelVendorSettings__c>) DatabaseService.query(new List<String>{
                             'TravelVendor__c',
