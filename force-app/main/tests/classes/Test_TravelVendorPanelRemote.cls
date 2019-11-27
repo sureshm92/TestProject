@@ -4,9 +4,14 @@
 
 @IsTest
 public with sharing class Test_TravelVendorPanelRemote {
+    
+    @TestSetup
+    static void init(){
+        TestData.loadTestData();
+    }
+    
     @IsTest
     static void getInitData_test() {
-        TestData.loadTestData();
         TestData td = new TestData();
         Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
 
@@ -17,7 +22,6 @@ public with sharing class Test_TravelVendorPanelRemote {
 
     @IsTest
     static void getItems_test(){
-        TestData.loadTestData();
         TestData td = new TestData();
         Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
 
@@ -26,22 +30,9 @@ public with sharing class Test_TravelVendorPanelRemote {
         TravelVendorPanelRemote.getItems(JSON.serialize(initData.searchResponse.studySiteItems), JSON.serialize(initData.filter), JSON.serialize(new PaginationData(15)));
         Test.stopTest();
     }
-
-    @IsTest
-    static void getCtpStudySites_test(){
-        TestData.loadTestData();
-        TestData td = new TestData();
-        Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
-
-        Test.startTest();
-        TravelVendorPanelRemote.InitData initData = TravelVendorPanelRemote.getInitData(clinicalTrialProfile.Id);
-        TravelVendorPanelRemote.getCtpStudySites(initData.filter);
-        Test.stopTest();
-    }
-
+    
     @IsTest
     static void selectAllInColumn_test(){
-        TestData.loadTestData();
         TestData td = new TestData();
         Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
         TravelVendor__c travelVendor = new TravelVendor__c(Name = 'Uber', Link_Vendor__c = 'link 1');
@@ -55,7 +46,6 @@ public with sharing class Test_TravelVendorPanelRemote {
 
     @IsTest
     static void clearAllInColumn_test(){
-        TestData.loadTestData();
         TestData td = new TestData();
         TravelVendor__c travelVendor = new TravelVendor__c(Name = 'Uber', Link_Vendor__c = 'link 1');
         insert travelVendor;
@@ -69,14 +59,12 @@ public with sharing class Test_TravelVendorPanelRemote {
 
     @IsTest
     static void getVendors_test() {
-        TestDataFactory.createDataForTravelSupportTesting();
-        List<Study_Site__c> studySites = [SELECT Id FROM Study_Site__c];
-
+        TestData testDataInstance = new TestData();
+        testDataInstance.createSSTravelVendors();
         Test.startTest();
-        List<TravelVendor__c> vendorSettings = TravelSupportRemote.getVendors(studySites[0].Id);
+        List<TravelVendor__c> vendorSettings = TravelSupportRemote.getVendors(testDataInstance.ss.Id);
         Test.stopTest();
-
-        System.assertEquals(4, vendorSettings.size());
+        System.assertEquals(1, vendorSettings.size());
     }
 
 
@@ -97,9 +85,7 @@ public with sharing class Test_TravelVendorPanelRemote {
 
     @IsTest
     static void getVendorsWithException_test() {
-
         Boolean isExceptionThrown = false;
-
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory.putStubTypeByClassName(TravelSupportHelper.class, StubBuilder.newInstance(TravelSupportHelper.class)
                 .when('getVendors')
@@ -121,7 +107,6 @@ public with sharing class Test_TravelVendorPanelRemote {
     @IsTest
     static void getInitDataWithException_test() {
         Boolean isExceptionThrown = false;
-
         Test.startTest();
         try {
             TravelVendorPanelRemote.getInitData(null);

@@ -94,14 +94,6 @@ public with sharing class TravelVendorPanelRemote {
         insert toInsert;
     }
     
-    public static List<Study_Site__c> getCtpStudySites(StudySiteFilter filter) {
-        List<Study_Site__c> ctpStudySites = (List<Study_Site__c>) DatabaseService.query(
-                filter.getFields(),
-                filter.getSObjectType(),
-                filter.getFilterString());
-        return ctpStudySites;
-    }
-    
     private static void saveFilter( StudySiteFilter filter){
         SettingStoreService.saveOrgDefault(TRAVEL_VENDOR_SETUP_FILTER + filter.ctpId, filter, StudySiteFilter.class);
     }
