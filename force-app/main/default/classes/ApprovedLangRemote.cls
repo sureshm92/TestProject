@@ -3,8 +3,9 @@
  */
 
 public without sharing class ApprovedLangRemote {
-
+    
     public static final String FEATURE_APPROVED_LANGS = 'Approved_Languages';
+    public static final String APPROVED_LANGS_CONFIG_FILTER = 'ApprovedLanguagesConfigFilter';
 
     public class InitData {
         @AuraEnabled public StudySiteFilter filter;
@@ -16,7 +17,9 @@ public without sharing class ApprovedLangRemote {
     public static InitData getInitData(Id ctpId) {
         try {
             InitData initData = new InitData();
-            initData.filter = new StudySiteFilter(ctpId);
+            StudySiteFilter filter = (StudySiteFilter) SettingStoreService.getOrgDefault(APPROVED_LANGS_CONFIG_FILTER + ctpId);
+            if(filter == null) filter = new StudySiteFilter(ctpId);
+            initData.filter = filter;
             initData.searchResponse = new ApprovedLangSearchResponse(initData.filter, new PaginationData(15));
             initData.viewMode = GetPermissions.getViewMode(FEATURE_APPROVED_LANGS);
 
@@ -31,11 +34,8 @@ public without sharing class ApprovedLangRemote {
         try {
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
-            if(ssItemsJSON != null) {
-                List<StudySiteItem> studySiteItems =
-                        (List<StudySiteItem>) JSON.deserialize(ssItemsJSON, List<StudySiteItem>.class);
-                save(studySiteItems);
-            }
+            save(ssItemsJSON);
+            saveFilter(filter);
             return new ApprovedLangSearchResponse(filter, pagination);
         } catch (Exception e) {
             return (ApprovedLangSearchResponse) AuraHelper.throwException(e);
@@ -46,25 +46,26 @@ public without sharing class ApprovedLangRemote {
     public static ApprovedLangSearchResponse setLanguageForAll(String filterJS, String paginationJS, String ssItemsJSON,
             String language, Boolean state) {
         try {
-            if(ssItemsJSON != null) {
-                List<StudySiteItem> studySiteItems =
-                        (List<StudySiteItem>) JSON.deserialize(ssItemsJSON, List<StudySiteItem>.class);
-                save(studySiteItems);
-            }
-
+            save(ssItemsJSON);
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJS, StudySiteFilter.class);
+            saveFilter(filter);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJS, PaginationData.class);
-
-            List<StudySiteItem> studySiteItems = ApprovedLangSearchResponse.convertToSSItems(getCtpStudySites(filter), language);
+            List<StudySiteItem> studySiteItems = ApprovedLangSearchResponse.convertToSSItems(SearchService.search(filter), language);
             for(StudySiteItem item : studySiteItems) {
                 for(ValueStateItem assignment : item.assignments) assignment.state = state;
             }
             save(studySiteItems);
-
             return new ApprovedLangSearchResponse(filter, pagination);
         } catch (Exception e) {
             return (ApprovedLangSearchResponse) AuraHelper.throwException(e);
         }
+    }
+    
+    private static void save(String ssItemsJSON){
+        if(String.isEmpty(ssItemsJSON)) return ;
+        List<StudySiteItem> studySiteItems = (List<StudySiteItem>) JSON.deserialize(ssItemsJSON, List<StudySiteItem>.class);
+        save(studySiteItems);
+
     }
 
     private static void save(List<StudySiteItem> studySiteItems) {
@@ -86,14 +87,6 @@ public without sharing class ApprovedLangRemote {
         }
     }
 
-    public static List<Study_Site__c> getCtpStudySites(StudySiteFilter filter) {
-        List<Study_Site__c> ctpStudySites = (List<Study_Site__c>) DatabaseService.query(
-                filter.getFields(),
-                filter.getSObjectType(),
-                filter.getFilterString());
-        return ctpStudySites;
-    }
-
     private static String updateLanguage(String ssApproved, String langCodes, Boolean isAdd) {
         Set<String> resultApprove = new Set<String>();
         if(ssApproved == null) ssApproved = '';
@@ -107,7 +100,11 @@ public without sharing class ApprovedLangRemote {
             resultApprove.addAll(approvedSplit);
             resultApprove.add(langCodes);
         }
-
         return String.join(new List<String>(resultApprove), ';');
     }
+    
+    private static void saveFilter(StudySiteFilter filter){
+        SettingStoreService.saveOrgDefault(APPROVED_LANGS_CONFIG_FILTER + filter.ctpId, filter, StudySiteFilter.class);
+    }
+
 }

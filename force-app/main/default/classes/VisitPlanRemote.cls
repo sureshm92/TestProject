@@ -12,7 +12,7 @@ public without sharing class VisitPlanRemote {
     }
 
     @AuraEnabled
-    public static void upsertVisitPlan(String plan, String visits, String deletedVisits, String details) {
+    public static Id upsertVisitPlan(String plan, String visits, String deletedVisits, String details) {
         try {
             Visit_Plan__c newPlan = (Visit_Plan__c) JSON.deserialize(plan, Visit_Plan__c.class);
             upsert newPlan;
@@ -48,8 +48,9 @@ public without sharing class VisitPlanRemote {
 
             if (!newVisits.isEmpty()) insert newVisits;
             if (!updatedVisits.isEmpty()) upsert updatedVisits;
+            return newPlan.Id;
         } catch (Exception e) {
-            AuraHelper.throwException(e);
+            return (Id)AuraHelper.throwException(e);
         }
     }
 

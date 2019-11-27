@@ -40,39 +40,6 @@
         helper.updateItems(component);
     },
 
-    whenCountryFilterChanged: function (component, event, helper) {
-        let filterType = component.get('v.countryFilterType');
-        if (filterType === 'filter') {
-            setTimeout(
-                $A.getCallback(function () {
-                    component.find('countryLookup').focus();
-                }), 100
-            );
-        }
-    },
-
-    whenLangFilterChanged: function (component, event, helper) {
-        let filterType = component.get('v.langFilterType');
-        if (filterType === 'filter') {
-            setTimeout(
-                $A.getCallback(function () {
-                    component.find('langsLookup').focus();
-                }), 100
-            );
-        }
-    },
-
-    whenSSFilterChanged: function (component, event, helper) {
-        let filterType = component.get('v.sitesFilterType');
-        if (filterType === 'filter') {
-            setTimeout(
-                $A.getCallback(function () {
-                    component.find('ssLookup').focus();
-                }), 100
-            );
-        }
-    },
-
     columnCheckboxStateChange: function (component, event, helper) {
         let lang = event.target.dataset.lang;
         let state = event.target.dataset.state === 'Enabled';

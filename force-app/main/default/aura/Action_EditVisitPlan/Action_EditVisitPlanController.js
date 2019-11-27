@@ -86,12 +86,12 @@
             visits: JSON.stringify(updatedVisits),
             deletedVisits: JSON.stringify(deletedVisits),
             details: JSON.stringify(component.get('v.iconDetails'))
-        }, function () {
+        }, function (vpId) {
             component.find('spinner').hide();
             component.find('createVisitPlan').hide();
 
             let callback = component.get('v.callback');
-            if (callback) callback();
+            if (callback) callback(vpId);
         });
     },
 

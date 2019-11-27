@@ -8,7 +8,6 @@
         communityService.executeAction(component, 'getInitData', {
             ctpId: component.get('v.recordId')
         }, function (initData) {
-            debugger;
             component.set('v.filter', initData.filter);
             component.set('v.viewMode', initData.viewMode);
             helper.setSearchResponse(component, initData.searchResponse);
@@ -63,7 +62,5 @@
             helper.setSearchResponse(component, searchResponse);
         });
     },
-
-
 
 })
