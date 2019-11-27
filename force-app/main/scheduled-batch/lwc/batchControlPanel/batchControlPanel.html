@@ -40,7 +40,7 @@
                         <tr key={job.jobName} class="slds-hint-parent bcp-table">
                             <td data-label="Job Name" class="batch-name-col">
                                 <!-- Record Detail -->
-                                <a href="javascript:void(0);"  data-id={job.detailId}
+                                <a href="javascript:void(0);" data-id={job.detailId}
                                    onclick={handleEditDetail}>{job.label}</a>
                             </td>
                             <td><span class={job.css}>{job.state}</span></td>
@@ -120,30 +120,44 @@
             </template>
             <!-- Add Batch on Panel -->
             <template if:true={showAddNew}>
-                <div class="bcp-detail">
-                    <lightning-combobox
-                            label="Select Batch"
-                            placeholder="Select Apex Class"
-                            value={batchClass}
-                            onchange={handleClassChange}
-                            options={batchClasses}></lightning-combobox>
-                    <lightning-input label="Batch label" value={batchLabel}
-                                     onchange={handleLabelChange}></lightning-input>
-                    <lightning-combobox
-                            label="Select Interval mode"
-                            value={batchIntervalMode}
-                            onchange={handleModeChange}
-                            options={intervalMods}></lightning-combobox>
-                    <lightning-input type="number" label="Relaunch interval"
-                                     value={batchInterval} onchange={handleIntervalChange}
-                                     step="1" min="1"></lightning-input>
-                    <lightning-input type="number" label="Scope size"
-                                     value={batchScopeSize} onchange={handleScopeChange}
-                                     step="1" min="1" max="200"></lightning-input>
-                    <lightning-button label="Add to panel"
-                                      title="Add to panel"
-                                      onclick={handleAddBatch}></lightning-button>
+                <div class="btc-add-button">
+                    <lightning-button label="Add new Job" onclick={handleAddJobClick}></lightning-button>
                 </div>
+                <c-web-modal header-text="Add Batch to the Panel" size="small">
+                    <div slot="body">
+                        <lightning-record-edit-form object-api-name="Batch_Detail__c">
+                            <lightning-messages></lightning-messages>
+                            <lightning-combobox
+                                    label="Select Batch"
+                                    placeholder="Select Apex Class"
+                                    value={batchDetail.Name}
+                                    onchange={handleClassChange}
+                                    options={batchClasses}></lightning-combobox>
+                            <lightning-input label="Batch label" value={batchDetail.Panel_Label__c}
+                                             onchange={handleLabelChange}></lightning-input>
+                            <lightning-combobox
+                                    label="Select Interval mode"
+                                    value={batchDetail.Interval_Mode__c}
+                                    onchange={handleModeChange}
+                                    options={intervalMods}></lightning-combobox>
+                            <lightning-input type="number" label="Relaunch interval"
+                                             value={batchDetail.Relaunch_Interval__c}
+                                             onchange={handleIntervalChange}
+                                             step="1" min="1"></lightning-input>
+                            <lightning-input type="number" label="Scope size"
+                                             value={batchDetail.Scope_Size__c}
+                                             onchange={handleScopeChange}
+                                             step="1" min="1" max="200"></lightning-input>
+                            <lightning-input type="datetime" label="Select first launch time"
+                                             value={batchDetail.First_launch_DT__c}
+                                             onchange={handleLaunchDTChange}></lightning-input>
+                        </lightning-record-edit-form>
+                    </div>
+                    <div slot="footer">
+                        <lightning-button class="slds-m-top_small" type="submit"
+                                          label="Create new Batch Detail" onclick={handleAddBatch}></lightning-button>
+                    </div>
+                </c-web-modal>
             </template>
         </div>
     </lightning-card>

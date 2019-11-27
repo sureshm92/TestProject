@@ -6,7 +6,7 @@ public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObj
 
     public abstract Type getType();
 
-    public void finish(Database.BatchableContext param1) {
+    public virtual void finish(Database.BatchableContext param1) {
         List<Batch_Detail__c> batchDetails = [
                 SELECT
                         Interval_Mode__c,
@@ -24,7 +24,7 @@ public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObj
         }
     }
 
-    private Integer getMinutesByMode(String intervalMode, Integer interval) {
+    public static Integer getMinutesByMode(String intervalMode, Integer interval) {
         Integer minutes;
         switch on intervalMode {
             when 'Hours' {

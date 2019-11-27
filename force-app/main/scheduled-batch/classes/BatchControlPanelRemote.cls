@@ -150,15 +150,22 @@ public without sharing class BatchControlPanelRemote {
     }
 
     @AuraEnabled
-    public static String addBatch(String apexClass, String label, String intervalMode, Integer interval, Integer scopeSize) {
+    public static String addBatch(String detail) {
         try {
-            insert new Batch_Detail__c(
-                    Name = apexClass,
-                    Panel_Label__c = label,
-                    Interval_Mode__c = intervalMode,
-                    Relaunch_Interval__c = interval,
-                    Scope_Size__c = scopeSize
-            );
+            Batch_Detail__c batchDetail = (Batch_Detail__c) JSON.deserialize(detail, Batch_Detail__c.class);
+            insert batchDetail;
+
+            if(batchDetail.First_launch_DT__c != null && batchDetail.First_launch_DT__c > Datetime.now().addMinutes(1)) {
+                Integer minutes = Batch_ScheduledAbstract.getMinutesByMode(
+                        batchDetail.Interval_Mode__c, batchDetail.Relaunch_Interval__c.intValue());
+                System.scheduleBatch((Database.Batchable<SObject>)
+                        Type.forName(batchDetail.Name).newInstance(),
+                        batchDetail.Name,
+                        minutes,
+                        batchDetail.Scope_Size__c.intValue()
+                );
+            }
+
             return getData();
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);

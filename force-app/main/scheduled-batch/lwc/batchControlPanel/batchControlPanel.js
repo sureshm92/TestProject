@@ -25,13 +25,18 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     spinner;
 
     //Add new batch
+    @track batchDetail;
+
     @track batchClass;
     @track batchLabel;
     @track batchIntervalMode;
     @track batchInterval;
     @track batchScopeSize;
+    @track launchTime;
 
     connectedCallback() {
+        this.resetInputFields();
+
         setInterval(() => {
             if (!this.inProcess) {
                 if (this.initialized) {
@@ -164,41 +169,48 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
 
     //Create Record Handlers: ------------------------------------------------------------------------------------------
     handleClassChange(event) {
-        this.batchClass = event.target.value;
-        this.batchLabel = this.batchClass.substring(6, this.batchClass.length);
+        this.batchDetail.Name = event.target.value;
+        this.batchDetail.Panel_Label__c = this.batchDetail.Name.substring(6,this.batchDetail.Name.length);
     }
 
     handleLabelChange(event) {
-        this.batchLabel = event.target.value;
+        this.batchDetail.Panel_Label__c = event.target.value;
     }
 
     handleModeChange(event) {
-        this.batchIntervalMode = event.target.value;
+        this.batchDetail.Interval_Mode__c = event.target.value;
     }
 
     handleIntervalChange(event) {
-        this.batchInterval = event.target.value;
+        this.batchDetail.Relaunch_Interval__c = event.target.value;
     }
 
     handleScopeChange(event) {
-        this.batchScopeSize = event.target.value;
+        this.batchDetail.Scope_Size__c = event.target.value;
+    }
+
+    handleLaunchDTChange(event) {
+        this.batchDetail.First_launch_DT__c = event.target.value;
     }
 
     handleAddBatch(event) {
-        if (!this.batchClass || !this.batchLabel) {
+        if (!this.batchDetail.Name || !this.batchDetail.Panel_Label__c) {
             this.showToast('Failed', 'Please fill required fields');
             return;
+        }
+
+        if(!this.batchDetail.Relaunch_Interval__c || this.batchDetail.Relaunch_Interval__c === 0) {
+            this.batchDetail.Relaunch_Interval__c = 10;
+        }
+        if(!this.batchDetail.Scope_Size__c || this.batchDetail.Scope_Size__c === 0) {
+            this.batchDetail.Scope_Size__c = 200;
         }
 
         this.inProcess = true;
         this.spinner.show();
 
         addBatch({
-            apexClass: this.batchClass,
-            label: this.batchLabel,
-            intervalMode: this.batchIntervalMode,
-            interval: this.batchInterval,
-            scopeSize: this.batchScopeSize
+            detail: JSON.stringify(this.batchDetail)
         })
             .then(data => {
                 let wrapper = JSON.parse(data);
@@ -214,7 +226,12 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
             })
             .finally(() => {
                 this.spinner.hide();
+                this.template.querySelector('c-web-modal').hide();
             });
+    }
+
+    handleAddJobClick(event) {
+        this.template.querySelector('c-web-modal').show();
     }
 
     //Service methods: -------------------------------------------------------------------------------------------------
@@ -228,11 +245,12 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     }
 
     resetInputFields() {
-        this.batchClass = undefined;
-        this.batchLabel = undefined;
-        this.batchIntervalMode = 'Minutes';
-        this.batchInterval = 10;
-        this.batchScopeSize = 200;
+        this.batchDetail = {
+            objectApiName: 'Batch_Detail__c',
+            Interval_Mode__c:'Minutes',
+            Relaunch_Interval__c: 10,
+            Scope_Size__c: 200
+        };
     }
 
     waitStateChange(jobName, waitedState, spinner, callback) {

@@ -57,9 +57,8 @@ th {
     background-color: #068049;
 }
 
-.bcp-detail {
-    margin-top: 20px;
+.btc-add-button {
     display: flex;
-    align-items: flex-end;
-    justify-content: space-around;
+    justify-content: flex-end;
+    margin-top: 20px;
 }

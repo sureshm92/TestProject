@@ -2017,6 +2017,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Batch_Detail__c.First_launch_DT__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Batch_Detail__c.Scope_Size__c</field>
         <readable>true</readable>
     </fieldPermissions>
