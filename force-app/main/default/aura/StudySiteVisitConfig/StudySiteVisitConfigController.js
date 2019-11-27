@@ -40,43 +40,14 @@
     },
 
     doAddVP: function (component, event, helper) {
-        component.find('actionVP').execute(null, function () {
-            component.refresh();
+        component.find('actionVP').execute(null, function (vpId) {
+            let vpIds = component.get('v.filter.pageFeatureIds');
+            if(vpIds) vpIds += ';' + vpId;
+            component.set('v.filter.pageFeatureIds', vpIds);
+            helper.updateItems(component);
         }, 'create');
     },
 
-    whenCountryFilterChanged: function (component, event, helper) {
-        let filterType = component.get('v.countryFilterType');
-        if (filterType === 'filter') {
-            setTimeout(
-                $A.getCallback(function () {
-                    component.find('countryLookup').focus();
-                }), 100
-            );
-        }
-    },
-
-    whenVPFilterChanged: function (component, event, helper) {
-        let filterType = component.get('v.vpFilterType');
-        if (filterType === 'filter') {
-            setTimeout(
-                $A.getCallback(function () {
-                    component.find('vpLookup').focus();
-                }), 100
-            );
-        }
-    },
-
-    whenSSFilterChanged: function (component, event, helper) {
-        let filterType = component.get('v.sitesFilterType');
-        if (filterType === 'filter') {
-            setTimeout(
-                $A.getCallback(function () {
-                    component.find('ssLookup').focus();
-                }), 100
-            );
-        }
-    },
 
     //Visit Plan column actions: ---------------------------------------------------------------------------------------
     columnCheckboxStateChange: function (component, event, helper) {
@@ -97,27 +68,36 @@
     doColumnVisitEdit: function (component, event, helper) {
         let menuCmp = event.getSource();
         component.find('actionVP').execute(menuCmp.get('v.plan').value, function () {
-            component.refresh();
+            helper.updateItems(component);
         }, 'edit');
     },
 
     doColumnVisitView: function (component, event, helper) {
         let menuCmp = event.getSource();
         component.find('actionVP').execute(menuCmp.get('v.plan').value, function () {
-            component.refresh();
+            helper.updateItems(component);
         }, 'view');
     },
 
     doColumnVisitClone: function (component, event, helper) {
         let menuCmp = event.getSource();
         component.find('actionVP').execute(menuCmp.get('v.plan').value, function () {
-            component.refresh();
+            helper.updateItems(component);
         }, 'clone');
     },
 
     doColumnVisitDelete: function (component, event, helper) {
         let menuCmp = event.getSource();
         let planId = menuCmp.get('v.plan').value;
+        let vpIds = component.get('v.filter.pageFeatureIds');
+        if(vpIds){
+            let items = vpIds.split(';');
+            let resItems = [];
+            for(let i = 0; i < items.length; i++){
+                if(items[i] !== planId) resItems.push(items[i]);
+            }
+            component.set('v.filter.pageFeatureIds', resItems.join(';'));
+        }
         component.find('spinner').show();
         communityService.executeAction(component, 'deleteVisitPlan', {
             planId: planId,

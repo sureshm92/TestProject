@@ -3,6 +3,7 @@
  */
 
 public without sharing class StudySiteItem {
+    
     @AuraEnabled public LabelValueItem country;
     @AuraEnabled public String name;
     @AuraEnabled public Boolean emptyAssignments;

@@ -7,17 +7,15 @@ public with sharing class Test_TravelSupportHelper {
 
     @IsTest
     static void getVendors_test() {
-        TravelSupportHelper helper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
-
         TestDataFactory.createDataForTravelSupportTesting();
 
         Study_Site__c studySite = [SELECT Id FROM Study_Site__c];
 
         Test.startTest();
-        List<TravelVendorSettings__c> vendorSettings = helper.getVendors(studySite.Id);
+        List<TravelVendor__c> vendorSettings = TravelSupportHelper.getVendors(studySite.Id);
         Test.stopTest();
 
-        System.assertEquals(2, vendorSettings.size());
+        System.assertEquals(4, vendorSettings.size());
     }
 
     @IsTest
@@ -55,7 +53,7 @@ public with sharing class Test_TravelSupportHelper {
     }
 
     @IsTest
-    static void getVendorItemsWithCountryCodeOrStudySite_test() {
+    static void getVendorItemsWithStudySite_test() {
         TravelSupportHelper helper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
 
         TestDataFactory.createDataForTravelSupportTesting();
@@ -74,6 +72,23 @@ public with sharing class Test_TravelSupportHelper {
         Test.stopTest();
 
         System.assertEquals('SS1' ,items[0].studySite.Study_Site_Number__c);
+    }
+
+    @IsTest
+    static void getVendorItemsWithCountryCode_test() {
+        TravelSupportHelper helper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
+
+        TestDataFactory.createDataForTravelSupportTesting();
+
+        Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
+        List<TravelVendor__c> travelVendors = [SELECT Id FROM TravelVendor__c];
+        List<Id> vendors = new List<Id>();
+        List<String> countryCodes = new List<String>();
+        vendors.add(travelVendors[0].Id);
+        countryCodes.add('US');
+        Test.startTest();
+        List<TravelVendorPanelRemote.VendorItem> items = helper.getVendorItems(countryCodes, clinicalTrialProfile.Id, null, vendors, false);
+        Test.stopTest();
     }
 
     @IsTest

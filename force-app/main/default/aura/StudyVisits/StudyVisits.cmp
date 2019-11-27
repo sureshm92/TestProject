@@ -77,12 +77,7 @@
                 </div>
             </aura:if>
 
-            <aura:if isTrue="{!v.isHasVisits}">
-                <c:EmptyListStub class="no-visits-message" targetList="{!v.visitWrappers}" iconName="none" message="{!$Label.c.PG_VP_L_No_Items}"/>
-                <aura:set attribute="else">
-                    <c:EmptyListStub class="no-visits-message" targetList="{!v.visitWrappers}" iconName="none" message="{!$Label.c.VR_Visits_Not_Available}"/>
-                </aura:set>
-            </aura:if>
+            <c:EmptyListStub class="no-visits-message" targetList="{!v.visitWrappers}" iconName="none" message="{!$Label.c.PG_VP_L_No_Items_display}"/>
         </ui:scrollerWrapper>
 
 

@@ -59,7 +59,7 @@
                     component.find('inviteRPDialog').hide();
                     communityService.showToast("success", "success", $A.get("$Label.c.TST_Request_to_invite_a_referring_provider"));
                 } else {
-                    communityService.showWarningToast('',  $A.get('$Label.c.RP_Is_Already_Invited'));
+                    communityService.showSuccessToast('',  $A.get('$Label.c.RP_Is_Already_Invited'));
                 }
             });
         }

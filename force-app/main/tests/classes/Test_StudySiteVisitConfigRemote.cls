@@ -21,7 +21,6 @@ private class Test_StudySiteVisitConfigRemote {
         StudySiteVisitConfigRemote.getItems(ssItemsJS, filterJS, paginationJS);
         StudySiteVisitConfigRemote.setVisitPlanForAll(visitPlan.Id, true, filterJS, paginationJS, ssItemsJS);
         StudySiteVisitConfigRemote.deleteVisitPlan(visitPlan.Id, filterJS, paginationJS);
-        StudySiteVisitConfigRemote.getCtpStudySites(initData.filter);
         Test.stopTest();
     }
 }

@@ -17,7 +17,6 @@
 
 .THIS .sorted-column {
     display: flex;
-    justify-content: center;
 }
 
 .THIS .cell-wrap {
@@ -26,7 +25,7 @@
 }
 
 .THIS .save-btn {
-    padding-bottom: 10px;
+    margin-bottom: 20px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
