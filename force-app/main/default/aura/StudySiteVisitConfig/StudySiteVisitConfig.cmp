@@ -15,13 +15,6 @@
     <aura:attribute name="haveEmptyAssigment" type="Boolean"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
 
-    <aura:attribute name="countryFilterType" type="String" default="All"/>
-    <aura:attribute name="sitesFilterType" type="String" default="All"/>
-    <aura:attribute name="vpFilterType" type="String" default="All"/>
-
-    <!--methods: -->
-    <aura:method name="refresh" action="{!c.doInit}"/>
-
     <!-- component body: -->
     <aura:if isTrue="{!notequals(v.viewModePage, 'Disabled')}">
         <aura:set attribute="else">
@@ -37,62 +30,34 @@
                         <div class="slds-grid slds-gutters">
                             <!--Country Filter-->
                             <div class="slds-col slds-size--1-of-2">
-                                <aura:if isTrue="{!equals(v.countryFilterType, 'All')}">
-                                    <lightning:select label="Hidden" variant="label-hidden"
-                                                      value="{!v.countryFilterType}"
-                                                      onchange="{!c.whenCountryFilterChanged}">
-                                        <option label="All Countries" value="All"></option>
-                                        <option label="Selected Countries" value="filter"></option>
-                                    </lightning:select>
-                                    <aura:set attribute="else">
-                                        <c:VisitResultSharingCountryLookup aura:id="countryLookup"
-                                                                           value="{!v.filter.countryCodes}"
-                                                                           isMultiEntry="true"
-                                                                           onchange="{!c.onCountriesChange}"
-                                                                           placeholder="Select country"
-                                                                           placeholderSelected="Select another country"
-                                                                           ctpId="{!v.recordId}"
-                                                                           isInclude="true"/>
-                                    </aura:set>
-                                </aura:if>
+                                <c:VisitResultSharingCountryLookup aura:id="countryLookup"
+                                                                   value="{!v.filter.countryCodes}"
+                                                                   isMultiEntry="true"
+                                                                   onchange="{!c.onCountriesChange}"
+                                                                   placeholder="Select country"
+                                                                   placeholderSelected="Select another country"
+                                                                   ctpId="{!v.recordId}"
+                                                                   isInclude="true"/>
                             </div>
                             <!--Visit Plan Filter-->
                             <div class="slds-col slds-size--1-of-2">
-                                <aura:if isTrue="{!equals(v.vpFilterType, 'All')}">
-                                    <lightning:select label="Hidden" variant="label-hidden" value="{!v.vpFilterType}"
-                                                      onchange="{!c.whenVPFilterChanged}">
-                                        <option label="All Visit Plans" value="All"></option>
-                                        <option label="Selected Visit Plans" value="filter"></option>
-                                    </lightning:select>
-                                    <aura:set attribute="else">
-                                        <c:VisitPlansLookup aura:id="vpLookup"
-                                                            value="{!v.filter.pageFeatureIds}"
-                                                            isMultiEntry="true"
-                                                            onchange="{!c.doUpdate}"
-                                                            placeholder="Select Visit Plan"
-                                                            placeholderSelected="Select another Visit Plan"/>
-                                    </aura:set>
-                                </aura:if>
+                                <c:VisitPlansLookup aura:id="vpLookup"
+                                                    value="{!v.filter.pageFeatureIds}"
+                                                    isMultiEntry="true"
+                                                    onchange="{!c.doUpdate}"
+                                                    placeholder="Select Visit Plan"
+                                                    placeholderSelected="Select another Visit Plan"/>
                             </div>
                         </div>
                         <div class="slds-grid slds-gutters">
                             <!--Study Site Filter-->
                             <div class="slds-col slds-size--1-of-2">
-                                <aura:if isTrue="{!equals(v.sitesFilterType, 'All')}">
-                                    <lightning:select label="Hidden" variant="label-hidden" value="{!v.sitesFilterType}"
-                                                      onchange="{!c.whenSSFilterChanged}">
-                                        <option label="All Study Sites" value="All"></option>
-                                        <option label="Selected Study Sites" value="filter"></option>
-                                    </lightning:select>
-                                    <aura:set attribute="else">
-                                        <c:IRBStudySitesLookup aura:id="ssLookup"
-                                                               value="{!v.filter.selectedSSIds}"
-                                                               ctpId="{!v.recordId}"
-                                                               selectedCountries="{!v.filter.countryCodes}"
-                                                               onchange="{!c.doUpdate}"
-                                                               placeholder="Select Study Site"/>
-                                    </aura:set>
-                                </aura:if>
+                                <c:IRBStudySitesLookup aura:id="ssLookup"
+                                                       value="{!v.filter.selectedSSIds}"
+                                                       ctpId="{!v.recordId}"
+                                                       selectedCountries="{!v.filter.countryCodes}"
+                                                       onchange="{!c.doUpdate}"
+                                                       placeholder="Select Study Site"/>
                             </div>
                             <!--Save changes button-->
                             <div class="slds-col slds-size--1-of-2 slds-p-left--small padding-info">

@@ -19,6 +19,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
+    margin-top: 20px;
 }
 
 .THIS .slds-slide-from-top-to-bottom{
@@ -33,9 +34,6 @@
     display: inline-block;
 }
 
-.THIS .column-btn {
-    text-align: center;
-}
 
 .THIS .padding-info {
     display: flex;
@@ -49,4 +47,13 @@
 
 .THIS .sorted-column {
     display: flex;
+}
+
+.THIS .column-btn {
+    text-align: center;
+}
+
+.THIS .column-btn a {
+    font-weight: normal;
+    font-size: 12px;
 }

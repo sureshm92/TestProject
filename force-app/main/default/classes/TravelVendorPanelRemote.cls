@@ -5,6 +5,7 @@
 public with sharing class TravelVendorPanelRemote {
 
     public static final String FEATURE_TRAVEL_VENDOR = 'Travel_Vendors';
+    public static final String TRAVEL_VENDOR_SETUP_FILTER = 'TravelVendorSetupFilter';
     
     public class InitData {
         @AuraEnabled public String viewMode = GetPermissions.getViewMode(FEATURE_TRAVEL_VENDOR);
@@ -26,7 +27,9 @@ public with sharing class TravelVendorPanelRemote {
     public static InitData getInitData(Id ctpId) {
         try {
             InitData initData = new InitData();
-            initData.filter = new StudySiteFilter(ctpId);
+            StudySiteFilter filter = (StudySiteFilter) SettingStoreService.getOrgDefault(TRAVEL_VENDOR_SETUP_FILTER + ctpId);
+            if(filter == null) filter = new StudySiteFilter(ctpId);
+            initData.filter = filter;
             initData.searchResponse = new SSTravelVendorsConfigResponse(initData.filter, new PaginationData(15));
             return initData;
         } catch (Exception e) {
@@ -40,6 +43,7 @@ public with sharing class TravelVendorPanelRemote {
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
             save(ssItemsJSON);
+            saveFilter(filter);
             return new SSTravelVendorsConfigResponse(filter, pagination);
         } catch (Exception e) {
             return (SSTravelVendorsConfigResponse) AuraHelper.throwException(e);
@@ -52,8 +56,9 @@ public with sharing class TravelVendorPanelRemote {
         try {
             save(ssItemsJSON);
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
+            saveFilter(filter);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
-            List<StudySiteItem> allSSItems = SSTravelVendorsConfigResponse.convertToSSItems(getCtpStudySites(filter), travelVendorId);
+            List<StudySiteItem> allSSItems = SSTravelVendorsConfigResponse.convertToSSItems(SearchService.search(filter), travelVendorId);
             for(StudySiteItem ssItem : allSSItems){
                 for (ValueStateItem assigment : ssItem.assignments) assigment.state = state;
             }
@@ -95,6 +100,10 @@ public with sharing class TravelVendorPanelRemote {
                 filter.getSObjectType(),
                 filter.getFilterString());
         return ctpStudySites;
+    }
+    
+    private static void saveFilter( StudySiteFilter filter){
+        SettingStoreService.saveOrgDefault(TRAVEL_VENDOR_SETUP_FILTER + filter.ctpId, filter, StudySiteFilter.class);
     }
 
 }
