@@ -18,7 +18,7 @@
     <aura:handler name="change" value="{!v.wrapper.task.Subject}" action="{!c.doCheckFields}"/>
     <aura:handler name="change" value="{!v.wrapper.task.Start_Date__c}" action="{!c.doCheckFields}"/>
     <aura:handler name="change" value="{!v.wrapper.task.ActivityDate}" action="{!c.doCheckFields}"/>
-    <aura:handler name="change" value="{!v.wrapper.task.Reminder_Date__c}" action="{!c.doCheckFields}"/>
+    <aura:handler name="change" value="{!v.wrapper.task.ReminderDateTime}" action="{!c.doCheckFields}"/>
     <aura:handler name="change" value="{!v.dayRemind}" action="{!c.doCheckFields}"/>
 
     <!-- component body -->
@@ -66,7 +66,7 @@
                         </span>
                     <aura:set attribute="else">
                         <lightning:input aura:id="field" type="date" label="Reminder Date"
-                                         value="{!v.wrapper.task.Reminder_Date__c}"
+                                         value="{!v.wrapper.task.ReminderDateTime}"
                                          onchange="{!c.onDaysChange}"
                                          min="{!v.wrapper.task.Start_Date__c}"
                                          max="{!v.wrapper.task.ActivityDate}"/>

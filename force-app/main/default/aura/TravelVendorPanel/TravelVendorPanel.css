@@ -33,6 +33,20 @@
     display: inline-block;
 }
 
-.THIS .form-items .slds-col{
-    margin-bottom: 10px;
+.THIS .column-btn {
+    text-align: center;
+}
+
+.THIS .padding-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.THIS .filters-section{
+    margin-bottom: 20px;
+}
+
+.THIS .sorted-column {
+    display: flex;
 }

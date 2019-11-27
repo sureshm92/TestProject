@@ -14,7 +14,7 @@ public without sharing class ContactService {
             this.ctp = ctp;
             this.pe = pe;
             this.resourceWrappers = resourceWrappers;
-            this.showReport = hadEnrolmentSuccess && ctp.Visit_Data_Shareback__c && pe.Study_Site__r.Visit_Results_Sharing__c;
+            this.showReport = hadEnrolmentSuccess && ctp.Visit_Data_Shareback__c && pe.Study_Site__r.Visit_Results_Sharing__c && ctp.Patient_Portal_Enabled__c;
         }
     }
 

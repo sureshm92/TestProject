@@ -3,6 +3,7 @@
  */
 ({
     doInit: function (component, event, helper) {
+        debugger;
         communityService.scrollToTop(true);
         var spinner = component.get('v.parent').find('mainSpinner');
         spinner.show();
