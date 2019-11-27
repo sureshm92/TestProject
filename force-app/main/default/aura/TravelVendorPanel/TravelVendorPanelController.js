@@ -5,196 +5,65 @@
 ({
     doInit: function (component, event, helper) {
         component.find('spinner').show();
-
-        helper.enqueue(component, 'c.getInitData', {
-            ctpId: component.get('v.recordId'),
-            isFirstLoad: true
-        }).then(function (data) {
-
-            console.log(JSON.stringify(data));
-            component.set('v.permission', data.permission);
-            if (data.vendorItems.length > 0) {
-                component.set('v.vendorItems', data.vendorItems);
-                component.set('v.selectedVendors', data.vendors);
-                component.set('v.selectedByCountry', data.countryCodes);
-                component.set('v.selectedByStudySite', data.selectedSSIds);
-                component.set('v.initialized', true);
-
-                component.find('spinner').hide();
-            } else {
-                helper.enqueue(component, 'c.getAllData', {
-                    'ctpId': component.get('v.recordId')
-                }).then(function (data) {
-                    component.set('v.vendorItems', data.vendorItems);
-                    component.set('v.selectedVendors', data.vendors);
-                    component.set('v.initialized', true);
-
-                    component.find('spinner').hide();
-                }, function (err) {
-                    if (err && err[0].message) {
-                        helper.notify({
-                            title: 'error',
-                            message: err[0].message,
-                            type: 'error',
-                        });
-                    }
-                    component.find('spinner').hide();
-                    console.log('error:', err[0].message);
-                });
-            }
-        }, function (err) {
-            if (err && err[0].message) {
-                helper.notify({
-                    title: 'error',
-                    message: err[0].message,
-                    type: 'error',
-                });
-            }
-            component.find('spinner').hide();
-            console.log('error:', err[0].message);
+        communityService.executeAction(component, 'getInitData', {
+            ctpId: component.get('v.recordId')
+        }, function (initData) {
+            debugger;
+            component.set('v.filter', initData.filter);
+            component.set('v.viewMode', initData.viewMode);
+            helper.setSearchResponse(component, initData.searchResponse);
+            component.set('v.initialized', true);
         });
     },
 
-    addVendor: function (component, event, helper) {
-        helper.addVendor(component, helper);
+    doUpdate: function (component, event, helper) {
+        helper.updateItems(component);
     },
 
-    getFilteredSS: function (component, event, helper) {
-        helper.getFilteredItem(component, helper);
+    doSaveAndUpdate: function(component, event, helper){
+        helper.updateItems(component, true);
     },
 
-
-    onAddTravelVendor: function (component, event, helper) {
-        let newVendor = component.find('addTravelVendor').get('v.record');
-        let vendors = component.get('v.selectedVendors');
-        vendors.push(newVendor);
-        component.set('v.selectedVendors', vendors);
-        helper.addVendor(component, helper);
-        component.find('customModal').hide();
+    onCountriesChange: function (component, event, helper) {
+        component.set('v.filter.selectedSSIds', '');
+        helper.updateItems(component);
     },
 
-    showModal: function (component, event, helper) {
-        component.find('customModal').show();
+    doSort: function (component, event, helper) {
+        let sortDirection = component.get('v.filter.sortDirection');
+        component.set('v.filter.sortField', event.currentTarget.dataset.order);
+        if(sortDirection === 'ASC'){
+            component.set('v.filter.sortDirection', 'DESC');
+        }else{
+            component.set('v.filter.sortDirection', 'ASC');
+        }
+        helper.updateItems(component);
     },
 
-    closeModal: function (component, event, helper) {
-        component.find('customModal').hide();
+    doAddTravelVendor: function (component, event, helper) {
+        component.find('addTravelVendorAction').execute(function(newVendorId){
+            let vendorIds = component.get('v.filter.pageFeatureIds');
+            if(vendorIds) vendorIds += ';' + newVendorId;
+            component.set('v.filter.pageFeatureIds', vendorIds);
+            helper.updateItems(component);
+        });
     },
 
-    submitForm: function (component, event, helper) {
-        component.find('addTravelVendor').submitForm();
-    },
-
-    doSave: function (component, event, helper) {
+    doSelectAllInColumn: function (component, event, helper) {
+        let travelVendorId = event.target.dataset.tv;
+        let state = event.target.dataset.state === 'Enabled';
         component.find('spinner').show();
-
-
-        let vendorItems = component.get('v.vendorItems');
-        let allSettings = [];
-        let studySites = component.get('v.selectedByStudySite');
-        let countries = component.get('v.selectedByCountry');
-        let vendors = component.get('v.selectedVendors');
-
-        if ((studySites || countries)  && vendors.length === 0 ){
-            helper.notify({
-                title: 'Warning!',
-                message: 'Select travel vendor first.',
-                type: 'warning',
-            });
-            component.find('spinner').hide();
-            return;
-        }
-
-            let isAnyLookUpSelected = studySites || countries;
-
-        if (isAnyLookUpSelected) {
-            vendorItems.forEach(function (vendorItem) {
-                helper.checkOnIsManualStudySites(studySites, countries, vendorItem);
-                allSettings = allSettings.concat(vendorItem.vendorSettings);
-            });
-        } else {
-            allSettings = helper.uncheckAllCheckBoxForVendorSettings(vendorItems, allSettings);
-        }
-            console.log('allSettings ' + JSON.stringify(allSettings));
-            helper.enqueue(component, 'c.saveData', {
-                'ctpId': component.get('v.recordId'),
-                'settings': allSettings
-            }).then(function () {
-                component.find('spinner').hide();
-                helper.notify({
-                    title: 'Success!',
-                    message: 'Successfully saved.',
-                    type: 'success',
-                });
-            }, function (err) {
-                if (err && err[0].message) {
-                    helper.notify({
-                        title: 'error',
-                        message: err[0].message,
-                        type: 'error',
-                    });
-                }
-                
-                component.find('spinner').hide();
-                console.log('error:', err[0].message);
-            });
-
+        communityService.executeAction(component, 'selectAllInColumn', {
+            travelVendorId: travelVendorId,
+            state: state,
+            filterJSON: JSON.stringify(component.get('v.filter')),
+            paginationJSON: JSON.stringify(component.get('v.pagination')),
+            ssItemsJSON: JSON.stringify(component.get('v.ssItems'))
+        }, function (searchResponse) {
+            helper.setSearchResponse(component, searchResponse);
+        });
     },
 
-    navToRecord: function (component, event, helper) {
-        window.open('/' + event.target.getAttribute("data-ssid"));
-    },
 
-    columnCheckboxStateChange: function (component, event, helper) {
-        let target = event.target.dataset.vendor;
-        let checked = event.target.dataset.state === 'Enabled';
-        let items = component.get('v.vendorItems');
-        let page = component.get('v.currentPage');
-        items.forEach(function (item) {
-            let settings = item.vendorSettings;
-            settings.forEach(function (setting) {
-                if (setting.TravelVendor__c === target) {
-                    setting.isEnable__c = checked;
-                }
-            });
-        });
-        component.set('v.vendorItems', items);
-        component.set('v.currentPage', page);
 
-        component.find('spinner').show();
-        let vendorItems = component.get('v.vendorItems');
-        let allSettings = [];
-        let studySites = component.get('v.selectedByStudySite');
-        let countries = component.get('v.selectedByCountry');
-        let vendors = component.get('v.selectedVendors');
-
-        let isAnyLookUpSelected = studySites || countries;
-
-        if (isAnyLookUpSelected) {
-            vendorItems.forEach(function (vendorItem) {
-                helper.checkOnIsManualStudySites(studySites, countries, vendorItem);
-                allSettings = allSettings.concat(vendorItem.vendorSettings);
-            });
-        } else {
-            allSettings = helper.uncheckAllCheckBoxForVendorSettings(vendorItems, allSettings);
-        }
-        console.log('allSettings ' + JSON.stringify(allSettings));
-        helper.enqueue(component, 'c.saveData', {
-            'ctpId': component.get('v.recordId'),
-            'settings': allSettings
-        }).then(function () {
-            component.find('spinner').hide();
-        }, function (err) {
-            if (err && err[0].message) {
-                helper.notify({
-                    title: 'error',
-                    message: err[0].message,
-                    type: 'error',
-                });
-            }
-
-            component.find('spinner').hide();
-            console.log('error:', err[0].message);
-        });
-    }
 })

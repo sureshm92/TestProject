@@ -15,7 +15,7 @@ public without sharing class StudySiteFilter implements SearchFilter {
         this.ctpId = ctpId;
         this.countryCodes = '';
         this.selectedSSIds = '';
-        this.pageFeatureIds = '';
+        //this.pageFeatureIds = '';
         this.sortField = 'name';
         this.sortDirection = 'ASC';
     }

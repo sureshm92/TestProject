@@ -1,10 +1,18 @@
 /**
  * Created by dmytro.fedchyshyn on 10.09.2019.
  */
+.THIS .vendor-table {
+    max-height: 250px;
+    max-width: 300px;
+    overflow-y: scroll;
+}
 
-.THIS .overflow{
+.THIS .vendor-row {
+    display: flex;
+}
+
+.THIS .vendor-name {
+    width: 70%;
     overflow-x: hidden;
-     white-space: nowrap;
     text-overflow: ellipsis;
-
 }
