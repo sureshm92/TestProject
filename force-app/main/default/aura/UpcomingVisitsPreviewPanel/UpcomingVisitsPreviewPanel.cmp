@@ -35,7 +35,7 @@
                         </aura:iteration>
                     </c:RRTable>
                 </aura:if>
-                <c:EmptyListStub targetList="{!v.visitWrappers}" iconName="none"/>
+                <c:EmptyListStub targetList="{!v.visitWrappers}" iconName="none" message="{!$Label.c.PG_VP_L_No_Items_display}"/>
             </div>
             <div class="sv-footer">
                 <c:RRLink page="study-workspace?tab=tab-visits" label="{!$Label.c.Resources_See_All}"/>
