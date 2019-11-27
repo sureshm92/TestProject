@@ -111,7 +111,7 @@ public without sharing class TravelSupportHelper {
         List<TravelVendorSettings__c> ts = (List<TravelVendorSettings__c>) databaseProxy.query(query);
     }
 
-    public List<TravelVendor__c> getVendors(String studySiteId) {
+    public static List<TravelVendor__c> getVendors(String studySiteId) {
         String filter = 'Study_Site__c =  \'' + studySiteId + '\'' + ' ORDER BY TravelVendor__r.Name';
         List<TravelVendorSettings__c> vendorSettings =
                 (List<TravelVendorSettings__c>) DatabaseService.query(new List<String>{
