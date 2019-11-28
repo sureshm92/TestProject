@@ -146,7 +146,7 @@
     </target>
 
     <target name="create-distributive" depends="prepare-metadata">
-        <echo message="Creating distributive: ${dist.name} ..."/>
+        <echo message="Creating distributive: ${dist.name} ..." level="info"/>
         <exec executable="git">
             <arg value="tag"/>
             <arg value="${dist.name}"/>

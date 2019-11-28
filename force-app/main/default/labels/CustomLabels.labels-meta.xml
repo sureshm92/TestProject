@@ -1798,7 +1798,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <shortDescription>Email Body Initial PI HCP</shortDescription>
         <value>You have been invited to join the IQVIA Referral Hub by ##PIName. The Referral Hub will make it possible for you to find clinical research studies that are available and refer your patients to nearby study sites.
 
-            The first step is for you to enroll.</value>
+            If you believe you have received this invitation in error, please notify support@cp.clinicalresearch.com.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_PI_PT_HCP</fullName>
@@ -2140,6 +2140,15 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>Email Body RP11</shortDescription>
         <value>A new study site has been added to a Referral Network in which you have expressed interest: ##ReferralNetworkName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_RP111</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body RP111</shortDescription>
+        <value>You have been invited to refer to ##PIName using the IQVIA Referral Hub. If you are not already a Referring Provider in the system, this will also make it possible for you to find other clinical research studies that are available and refer patients to nearby study sites.
+
+            Please take a moment to log in to the Referral Hub and view the studies to which you can refer.</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP2</fullName>
@@ -9411,6 +9420,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>RP Edit Referral Details</shortDescription>
         <value>Edit Referral Details</value>
+    </labels>
+    <labels>
+        <fullName>RP_Is_Already_Invited</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP Is Already Invited</shortDescription>
+        <value>RP is already invited to your Study Sites!</value>
     </labels>
     <labels>
         <fullName>RP_MRN_Internal_ID</fullName>

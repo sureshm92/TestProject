@@ -8,24 +8,22 @@
     <aura:attribute name="hasDefault" type="Boolean"/>
     <aura:attribute name="selectedVendor" type="Object"/>
 
-    <c:RRTable>
-        <div class="slds-scrollable">
-            <table class="slds-table ">
-                <tbody class="slds-p-around_none">
-                <aura:iteration var="vendor" items="{!v.vendors}" indexVar="ind">
-                    <tr class="slds-hint-parent ">
-                        <td data-ind="{!vendor.TravelVendor__r.Link_Vendor__c}" >
-                            <div class="slds-medium-show--inline-block overflow slds-m-left--xx-large">
-                                <lightning:input aura:id="checkBoxBtn" type="checkbox" label="" onchange="{!c.makeUnique}" value="{!vendor}"/>
-                            </div>
-                            <div class="slds-medium-show--inline-block slds-size--8-of-12">
-                                <p class="slds-text-align--left overflow" >{!vendor.TravelVendor__r.Name}</p>
-                            </div>
-                        </td>
-                    </tr>
-                </aura:iteration>
-                </tbody>
-            </table>
-        </div>
-    </c:RRTable>
+    <div class="slds-scrollable--y vendor-table">
+        <c:RRTable>
+            <tbody>
+            <aura:iteration var="vendor" items="{!v.vendors}" indexVar="ind">
+                <tr>
+                    <td class="slds-grid slds-grid_vertical-align-center" data-ind="{!vendor.Link_Vendor__c}">
+                        <div class="slds-col slds-p-around--none slds-size--1-of-12">
+                            <lightning:input aura:id="checkBoxBtn" type="checkbox" label=""
+                                             onchange="{!c.makeUnique}" value="{!vendor}"/>
+                        </div>
+                        <div class="slds-col slds-p-around--none slds-size--11-of-12 vendor-name"
+                             title="{!vendor.Name}">{!vendor.Name}</div>
+                    </td>
+                </tr>
+            </aura:iteration>
+            </tbody>
+        </c:RRTable>
+    </div>
 </aura:component>

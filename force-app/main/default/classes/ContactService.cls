@@ -8,11 +8,13 @@ public without sharing class ContactService {
         @AuraEnabled public Clinical_Trial_Profile__c ctp;
         @AuraEnabled public Participant_Enrollment__c pe;
         @AuraEnabled public List<ResourceService.ResourceWrapper> resourceWrappers;
+        @AuraEnabled public Boolean showReport;
 
-        public PastStudyWrapper(Clinical_Trial_Profile__c ctp, Participant_Enrollment__c pe, List<ResourceService.ResourceWrapper> resourceWrappers) {
+        public PastStudyWrapper(Clinical_Trial_Profile__c ctp, Participant_Enrollment__c pe, List<ResourceService.ResourceWrapper> resourceWrappers, Boolean hadEnrolmentSuccess) {
             this.ctp = ctp;
             this.pe = pe;
             this.resourceWrappers = resourceWrappers;
+            this.showReport = hadEnrolmentSuccess && ctp.Visit_Data_Shareback__c && pe.Study_Site__r.Visit_Results_Sharing__c && ctp.Patient_Portal_Enabled__c;
         }
     }
 
@@ -148,6 +150,19 @@ public without sharing class ContactService {
             }
             contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.Title);
         }
+        
+        List<Participant_Enrollment_Status_History__c> peshList = [
+                SELECT ParticipantEnrollment__c, Status__c
+                FROM Participant_Enrollment_Status_History__c
+                WHERE ParticipantEnrollment__c IN: peList
+        ];
+        Map<Id, Set<String>> historyStatusesByPEIdMap = new Map<Id, Set<String>>();
+        for(Participant_Enrollment_Status_History__c pesh : peshList){
+            Set<String> statuses = historyStatusesByPEIdMap.get(pesh.ParticipantEnrollment__c);
+            if(statuses == null) statuses = new Set<String>();
+            statuses.add(pesh.Status__c);
+            historyStatusesByPEIdMap.put(pesh.ParticipantEnrollment__c, statuses);
+        }
 
         List<PastStudyWrapper> pastWrappersList = new List<ContactService.PastStudyWrapper>();
         for (Participant_Enrollment__c pe : peList) {
@@ -163,7 +178,9 @@ public without sharing class ContactService {
                     }
                 }
             }
-            pastWrappersList.add(new PastStudyWrapper(ctpMap.get(pe.Clinical_Trial_Profile__c), pe, resources));
+            Set<String> peHistorySatuses = historyStatusesByPEIdMap.get(pe.Id);
+            Boolean hadEnrolmentSuccess = peHistorySatuses != null && peHistorySatuses.contains(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS);
+            pastWrappersList.add(new PastStudyWrapper(ctpMap.get(pe.Clinical_Trial_Profile__c), pe, resources, hadEnrolmentSuccess));
 
         }
         return pastWrappersList;

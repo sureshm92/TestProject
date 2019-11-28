@@ -17,12 +17,16 @@ public without sharing class SearchService{
     public static void setMock(StubProvider stubProvider){
         instance = (SearchService) Test.createStub(SearchService.class, stubProvider);
     }
-
+    
     public List<SObject> searchImpl(SearchFilter filter, PaginationData paginationData){
         paginationData.setRecordsCount(countRecords(filter));
-        return queryRecords(filter, PaginationData);
+        return queryRecords(filter, paginationData);
     }
-
+    
+    public List<SObject> searchImpl(SearchFilter filter){
+        return queryRecords(filter);
+    }
+    
     private Integer countRecords(SearchFilter filter){
         if(filter.getQueryType() == QUERY_TYPE_SOQL){
             return DatabaseService.countQuery(filter.getSObjectType(), filter.getFilterString());
@@ -31,20 +35,32 @@ public without sharing class SearchService{
             return 0;
         }
     }
-
+    
     private List<SObject> queryRecords(SearchFilter filter, PaginationData paginationData){
         if(filter.getQueryType() == QUERY_TYPE_SOQL){
-            return  DatabaseService.query(filter.getFields(), filter.getSObjectType(),filter.getFilterString(),filter.getOrderBy(), paginationData.pageRecordsCount, paginationData.offset);
-        }
-        else{
+            return  DatabaseService.query(filter.getFields(), filter.getSObjectType(),
+                    filter.getFilterString(), filter.getOrderBy(), paginationData.pageRecordsCount, paginationData.offset);
+        } else{
+            //TODO
             return null;
         }
-
     }
-
+    
+    private List<SObject> queryRecords(SearchFilter filter){
+        if(filter.getQueryType() == QUERY_TYPE_SOQL){
+            return  DatabaseService.query(filter.getFields(), filter.getSObjectType(), filter.getFilterString());
+        } else{
+            //TODO
+            return null;
+        }
+    }
+    
     // Static facade: --------------------------------------------------------------------------------------------------
     public static List<SObject> search(SearchFilter filter, PaginationData paginationData){
-        return getInstance().searchImpl(filter, PaginationData);
+        return getInstance().searchImpl(filter, paginationData);
     }
-
+    
+    public static List<SObject> search(SearchFilter filter){
+        return getInstance().searchImpl(filter);
+    }
 }

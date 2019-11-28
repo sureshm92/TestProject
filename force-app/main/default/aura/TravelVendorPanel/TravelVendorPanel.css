@@ -19,5 +19,41 @@
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
-    margin-right: 15px;
+    margin-top: 20px;
+}
+
+.THIS .slds-slide-from-top-to-bottom{
+    transform: none!important;
+}
+
+.THIS .cell-wrap{
+    text-align: center;
+}
+
+.THIS .uiInput--checkbox{
+    display: inline-block;
+}
+
+
+.THIS .padding-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.THIS .filters-section{
+    margin-bottom: 20px;
+}
+
+.THIS .sorted-column {
+    display: flex;
+}
+
+.THIS .column-btn {
+    text-align: center;
+}
+
+.THIS .column-btn a {
+    font-weight: normal;
+    font-size: 12px;
 }

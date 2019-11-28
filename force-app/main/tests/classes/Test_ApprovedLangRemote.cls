@@ -11,13 +11,12 @@ private class Test_ApprovedLangRemote {
 
         Test.startTest();
         ApprovedLangRemote.InitData initData = ApprovedLangRemote.getInitData(testData.ctp.Id);
-        ApprovedLangRemote.getNextData(JSON.serializePretty(initData), initData.countryCodes, null, null);
-        ApprovedLangRemote.getFilteredItems(JSON.serializePretty(initData), initData.countryCodes, null, null);
-        ApprovedLangRemote.getSortedItems(JSON.serializePretty(initData), null, initData.countryCodes, true);
-        ApprovedLangRemote.searchSSByTerm(testData.ctp.Id, null, '', 'USA');
+        String ssItemsJS = JSON.serialize(initData.searchResponse.studySiteItems);
+        String filterJS = JSON.serialize(initData.filter);
+        String paginationJS = JSON.serialize(initData.searchResponse.pagination);
 
-        //for()
-        ApprovedLangRemote.searchLanguagesByValue('en_US');
+        ApprovedLangRemote.getItems(ssItemsJS, filterJS, paginationJS);
+        ApprovedLangRemote.setLanguageForAll(filterJS, paginationJS, ssItemsJS, 'ru', true);
         Test.stopTest();
     }
 }

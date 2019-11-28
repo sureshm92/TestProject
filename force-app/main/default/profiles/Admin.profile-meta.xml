@@ -67,6 +67,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ApprovedLangSearchResponse</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ArticleService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -140,6 +144,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_MigratePicklistToCheckbox</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_MoveTaskInvitations</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -536,6 +544,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>LanguagePreferenceService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LanguageSearchLookup</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -959,6 +971,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SSVisitConfigSearchResponse</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SchemaUtil</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -988,6 +1004,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SendEmailToParticipant</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SettingStoreService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1075,7 +1095,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StudySiteFilter</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudySiteItem</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudySiteLookupRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudySiteSearchLookup</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1747,6 +1779,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ValueStateItem</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ViewPatientsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1760,6 +1796,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>VisitPlanRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitPlanSearchLookup</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2977,6 +3017,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Survey_Invitation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5221,6 +5266,26 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Setting_Store__c.Body__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Setting_Store__c.Developer_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Setting_Store__c.Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Setting_Store__c.User__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Site_Staff__c.Clinical_Trial_Profile__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5577,6 +5642,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Survey_Invitation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6700,6 +6770,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Score__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Setting_Store__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

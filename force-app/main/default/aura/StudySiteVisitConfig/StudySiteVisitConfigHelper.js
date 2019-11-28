@@ -3,46 +3,26 @@
  */
 
 ({
-    init: function (component, data) {
-        component.set('v.data', data);
-        component.set('v.ssItems', data.studySiteItems);
-        component.set('v.haveEmptyVPSS', data.haveEmptyVPSS);
-        component.set('v.visitPlans', data.visitPlans);
-
-        component.set('v.allRecordsCount', data.paginationData.allRecordsCount);
-        component.set('v.pageRecordsCount', data.paginationData.pageRecordsCount);
-        component.set('v.currentPage', data.paginationData.currentPage);
-
-        component.set('v.initialized', true);
+    setSearchResponse: function(component, searchResponse){
+        component.set('v.haveEmptyAssigment', searchResponse.haveEmptyAssigment);
+        component.set('v.ssItems', searchResponse.studySiteItems);
+        component.set('v.pagination', searchResponse.pagination);
+        component.set('v.visitPlans', searchResponse.visitPlans);
         component.find('spinner').hide();
     },
 
-    updateTable : function (component) {
-        var data = component.get('v.data');
-        var cCodes = component.get('v.countryCodes');
-        if (!cCodes) component.set('v.countryFilterType', 'All');
-
-        var selectedVPIds = component.get('v.selectedVPIds');
-        if (!selectedVPIds) component.set('v.vpFilterType', 'All');
-
-        var ssIds = component.get('v.selectedSSIds');
-        if(!ssIds) component.set('v.sitesFilterType', 'All');
-
+    updateItems: function(component, saveCurrentState){
         component.find('spinner').show();
-        communityService.executeAction(component, 'getFilteredItems', {
-            data: JSON.stringify(data),
-            countryCodes: cCodes,
-            selectedVPIds: selectedVPIds,
-            ssId: ssIds,
-        }, function (data) {
-            component.set('v.data', data);
-            component.set('v.ssItems', data.studySiteItems);
-
-            component.set('v.allRecordsCount', data.paginationData.allRecordsCount);
-            component.set('v.currentPage', data.paginationData.currentPage);
-            component.set('v.visitPlans', data.visitPlans);
-
-            component.find('spinner').hide();
+        let helper = this;
+        let ssItemsJSON = null;
+        if(saveCurrentState) ssItemsJSON = JSON.stringify(component.get('v.ssItems'));
+        communityService.executeAction(component, 'getItems', {
+            ssItemsJSON: ssItemsJSON,
+            filterJSON: JSON.stringify(component.get('v.filter')),
+            paginationJSON: JSON.stringify(component.get('v.pagination'))
+        }, function (searchResponse) {
+            helper.setSearchResponse(component, searchResponse);
         });
     }
+
 });

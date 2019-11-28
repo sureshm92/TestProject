@@ -30,23 +30,39 @@
         var emailS = component.get('v.emailS');
         var studySiteId = component.get('v.studySiteId');
         var protocolId = component.get('v.protocolId');
+        var isDuplicate = component.get('v.isDuplicate');
+        var hcpContactId = component.get('v.hcpContactId');
         component.find('modalSpinner').show();
-        communityService.executeAction(component, 'inviteHCP', {
-            firstName: firstName,
-            lastName: lastName,
-            //clinicName: clinicName,
-            phone: phone,
-            email: emailS,
-            studySiteId: studySiteId,
-            protocolId: protocolId,
-        }, function (returnValue) {
-            var initData = JSON.parse(returnValue);
-            component.find('modalSpinner').hide();
-            helper.clearInviteFields(component, event, helper)
-            component.find('inviteRPDialog').hide();
-            communityService.showToast("success", "success",  $A.get("$Label.c.TST_Request_to_invite_a_referring_provider"));
-        })
-
+        if (!hcpContactId) {
+            communityService.executeAction(component, 'inviteNewHCP', {
+                firstName: firstName,
+                lastName: lastName,
+                //clinicName: clinicName,
+                phone: phone,
+                email: emailS,
+                studySiteId: studySiteId,
+                protocolId: protocolId,
+            }, function (returnValue) {
+                var initData = JSON.parse(returnValue);
+                component.find('modalSpinner').hide();
+                helper.clearInviteFields(component, event, helper)
+                component.find('inviteRPDialog').hide();
+                communityService.showToast("success", "success", $A.get("$Label.c.TST_Request_to_invite_a_referring_provider"));
+            });
+        } else {
+            communityService.executeAction(component, 'inviteExistingHCP', {
+                hcpContactId: hcpContactId
+            }, function (returnValue) {
+                component.find('modalSpinner').hide();
+                if (returnValue != $A.get('$Label.c.RP_Is_Already_Invited')) {
+                    helper.clearInviteFields(component, event, helper)
+                    component.find('inviteRPDialog').hide();
+                    communityService.showToast("success", "success", $A.get("$Label.c.TST_Request_to_invite_a_referring_provider"));
+                } else {
+                    communityService.showSuccessToast('',  $A.get('$Label.c.RP_Is_Already_Invited'));
+                }
+            });
+        }
     },
     doSelectStudy: function (component, event, helper) {
         var siteId = event.getSource().get('v.value');
@@ -86,6 +102,7 @@
                     component.set('v.lastName', returnValue.lastName);
                     component.set('v.providerFound', true);
                     component.set('v.isDuplicate', returnValue.isDuplicate);
+                    component.set('v.hcpContactId', returnValue.hcpContactId);
                     component.find('modalSpinner').hide();
                 } else {
                     if(component.get('v.providerFound')) {
@@ -93,6 +110,7 @@
                         component.set('v.lastName', '');
                     }
                     component.set('v.isDuplicate', returnValue.isDuplicate);
+                    component.set('v.hcpContactId', returnValue.hcpContactId);
                     component.set('v.providerFound', false);
                     component.find('modalSpinner').hide();
                 }

@@ -7,202 +7,104 @@
         component.find('spinner').show();
         communityService.executeAction(component, 'getInitData', {
             ctpId: component.get('v.recordId')
-        }, function (data) {
-            component.set('v.viewModePage', data.viewMode);
-            helper.init(component, data);
+        }, function (initData) {
+            component.set('v.filter', initData.filter);
+            component.set('v.viewModePage', initData.viewMode);
+            helper.setSearchResponse(component, initData.searchResponse);
+            component.set('v.initialized', true);
         });
     },
 
-    doLoadNextData: function (component, event, helper) {
-        if (event.getParam('oldValue') === undefined) return;
+    doUpdate: function (component, event, helper) {
+        helper.updateItems(component);
+    },
 
-        var data = component.get('v.data');
-        data.paginationData.currentPage = component.get('v.currentPage');
-
-        var cCodes = component.get('v.countryCodes');
-        var selectedVPIds = component.get('v.selectedVPIds');
-        var selectedSSIds = component.get('v.selectedSSIds');
-
-        component.find('spinner').show();
-
-        communityService.executeAction(component, 'getNextData', {
-            data: JSON.stringify(data),
-            countryCodes: cCodes,
-            selectedVPIds: selectedVPIds,
-            ssId: selectedSSIds,
-        }, function (response) {
-            component.set('v.data', response);
-            component.set('v.ssItems', response.studySiteItems);
-            component.set('v.haveEmptyVPSS', response.haveEmptyVPSS);
-
-            component.find('spinner').hide();
-        });
+    doSaveAndUpdate: function(component, event, helper){
+        helper.updateItems(component, true);
     },
 
     onCountriesChange: function (component, event, helper) {
-        var ccCodes = component.get('v.countryCodes').split(';');
-        var newSelectedSSIds = new Set();
-
-        var count = 0;
-        var items = component.get('v.ssItems');
-        for (let i = 0; i < items.length; i++) {
-            if (ccCodes.indexOf(items[i].ss.Site__r.BillingCountryCode) > -1) {
-                newSelectedSSIds.add(items[i].ss.Id);
-                count++;
-            }
-        }
-
-        var newSSIds = Array.from(newSelectedSSIds).join(';');
-        if (count === items.length) newSSIds = '';
-
-        component.set('v.selectedSSIds', newSSIds);
-
-        component.find('spinner').show();
-        helper.updateTable(component);
-    },
-
-    getFilteredSS: function (component, event, helper) {
-        component.find('spinner').show();
-        helper.updateTable(component);
+        component.set('v.filter.selectedSSIds', '');
+        helper.updateItems(component);
     },
 
     doSort: function (component, event, helper) {
-        var sortDirection = true;
-        var order;
-
-        if (event) {
-            event.preventDefault();
-            order = event.currentTarget.dataset.order;
-            if (order === 'country') {
-                sortDirection = !component.get('v.countrySortType');
-                component.set('v.countrySortType', sortDirection);
-            } else if (order === 'name') {
-                sortDirection = !component.get('v.nameSortType');
-                component.set('v.nameSortType', sortDirection);
-            } else if (order === 'number') {
-                sortDirection = !component.get('v.numberSortType');
-                component.set('v.numberSortType', sortDirection);
-            }
-            component.set('v.sortOrder', order);
-
-            component.find('spinner').show();
-            communityService.executeAction(component, 'getSortedItems', {
-                data: JSON.stringify(component.get('v.data')),
-                selectedVPIds: component.get('v.selectedVPIds'),
-                sortOrder: order,
-                sortDirection: sortDirection
-            }, function (data) {
-                component.set('v.ssItems', data.studySiteItems);
-                component.find('spinner').hide();
-            });
+        let sortDirection = component.get('v.filter.sortDirection');
+        component.set('v.filter.sortField', event.currentTarget.dataset.order);
+        if(sortDirection === 'ASC'){
+            component.set('v.filter.sortDirection', 'DESC');
+        }else{
+            component.set('v.filter.sortDirection', 'ASC');
         }
-    },
-
-    doSave: function (component, event, helper) {
-        var data = component.get('v.data');
-        data.studySiteItems = component.get('v.ssItems');
-
-        component.find('spinner').show();
-        communityService.executeAction(component, 'save', {
-            data: JSON.stringify(data)
-        }, function (data) {
-            component.set('v.haveEmptyVPSS', data.haveEmptyVPSS);
-            component.find('spinner').hide();
-            communityService.showSuccessToast('Success', 'Changes were saved!');
-        });
+        helper.updateItems(component);
     },
 
     doAddVP: function (component, event, helper) {
-        component.find('actionVP').execute(null, function () {
-            component.refresh();
+        component.find('actionVP').execute(null, function (vpId) {
+            let vpIds = component.get('v.filter.pageFeatureIds');
+            if(vpIds) vpIds += ';' + vpId;
+            component.set('v.filter.pageFeatureIds', vpIds);
+            helper.updateItems(component);
         }, 'create');
     },
 
-    whenCountryFilterChanged: function (component, event, helper) {
-        var filterType = component.get('v.countryFilterType');
-        if (filterType === 'filter') {
-            setTimeout(
-                $A.getCallback(function () {
-                    component.find('countryLookup').focus();
-                }), 100
-            );
-        }
-    },
-
-    whenVPFilterChanged: function (component, event, helper) {
-        var filterType = component.get('v.vpFilterType');
-        if (filterType === 'filter') {
-            setTimeout(
-                $A.getCallback(function () {
-                    component.find('vpLookup').focus();
-                }), 100
-            );
-        }
-    },
-
-    whenSSFilterChanged: function (component, event, helper) {
-        var filterType = component.get('v.sitesFilterType');
-        if (filterType === 'filter') {
-            setTimeout(
-                $A.getCallback(function () {
-                    component.find('ssLookup').focus();
-                }), 100
-            );
-        }
-    },
 
     //Visit Plan column actions: ---------------------------------------------------------------------------------------
     columnCheckboxStateChange: function (component, event, helper) {
-        var lang = event.getParam('keyId');
-        var state = event.getParam('value');
-
-        var ssItems = component.get('v.ssItems');
-        for (var i = 0; i < ssItems.length; i++) {
-            var asgCount = 0;
-            var assignments = ssItems[i].assignments;
-            for (var j = 0; j < assignments.length; j++) {
-                if (assignments[j].value === lang) {
-                    ssItems[i].assignments[j].state = state;
-                }
-                if (assignments[j].state) asgCount++;
-            }
-
-            ssItems[i].emptyAssignments = asgCount === 0;
-        }
-
-        component.set('v.ssItems', ssItems);
+        let vpId = event.target.dataset.vp;
+        let state = event.target.dataset.state === 'Enabled';
+        component.find('spinner').show();
+        communityService.executeAction(component, 'setVisitPlanForAll', {
+            visitPlanId: vpId,
+            state: state,
+            filterJSON: JSON.stringify(component.get('v.filter')),
+            paginationJSON: JSON.stringify(component.get('v.pagination')),
+            ssItemsJSON: JSON.stringify(component.get('v.ssItems'))
+        }, function (searchResponse) {
+            helper.setSearchResponse(component, searchResponse);
+        });
     },
 
     doColumnVisitEdit: function (component, event, helper) {
         let menuCmp = event.getSource();
         component.find('actionVP').execute(menuCmp.get('v.plan').value, function () {
-            component.refresh();
+            helper.updateItems(component);
         }, 'edit');
     },
+
     doColumnVisitView: function (component, event, helper) {
         let menuCmp = event.getSource();
         component.find('actionVP').execute(menuCmp.get('v.plan').value, function () {
-            component.refresh();
+            helper.updateItems(component);
         }, 'view');
     },
 
     doColumnVisitClone: function (component, event, helper) {
         let menuCmp = event.getSource();
         component.find('actionVP').execute(menuCmp.get('v.plan').value, function () {
-            component.refresh();
+            helper.updateItems(component);
         }, 'clone');
     },
 
     doColumnVisitDelete: function (component, event, helper) {
         let menuCmp = event.getSource();
         let planId = menuCmp.get('v.plan').value;
-
+        let vpIds = component.get('v.filter.pageFeatureIds');
+        if(vpIds){
+            let items = vpIds.split(';');
+            let resItems = [];
+            for(let i = 0; i < items.length; i++){
+                if(items[i] !== planId) resItems.push(items[i]);
+            }
+            component.set('v.filter.pageFeatureIds', resItems.join(';'));
+        }
         component.find('spinner').show();
         communityService.executeAction(component, 'deleteVisitPlan', {
             planId: planId,
-            ctpId: component.get('v.recordId')
-        }, function (data) {
-            helper.init(component, data);
+            filterJSON: JSON.stringify(component.get('v.filter')),
+            paginationJSON: JSON.stringify(component.get('v.pagination'))
+        }, function (searchResponse) {
+            helper.setSearchResponse(component, searchResponse);
         });
     }
 });

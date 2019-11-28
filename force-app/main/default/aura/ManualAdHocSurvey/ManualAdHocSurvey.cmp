@@ -8,6 +8,8 @@
     <aura:attribute name="wrapper" type="Object"/>
     <aura:attribute name="isValid" type="Boolean" default="false"/>
 
+    <aura:handler name="change" value="{!v.wrapper.daysToExpire}" action="{!c.doCheckFields}"/>
+
     <div class="slds-grid slds-gutters mt-panel">
         <div class="slds-col slds-size--1-of-2">
             <c:SurveyLookup aura:id="surveyLookup"
@@ -26,7 +28,8 @@
             </lightning:select>
         </div>
         <div class="slds-col slds-size--1-of-2">
-            <lightning:input type="number" label="Number of Days Before Survey Expires"
+            <lightning:input aura:id="daysToExpire" type="number"
+                             label="Number of Days Before Survey Expires"
                              value="{!v.wrapper.daysToExpire}"
                              min="0"/>
             <div class="expire-line">
