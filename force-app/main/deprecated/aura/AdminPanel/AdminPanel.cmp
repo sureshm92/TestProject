@@ -1,0 +1,7 @@
+<!--
+ - Created by Igor Malyuta on 30.05.2019.
+ -->
+
+<aura:component description="AdminPanel" controller="AdminPanelRemote"
+                implements="forceCommunity:availableForAllPageTypes,force:appHostable">
+</aura:component>
