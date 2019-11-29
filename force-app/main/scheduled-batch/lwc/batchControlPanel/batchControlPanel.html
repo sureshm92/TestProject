@@ -118,6 +118,8 @@
                     </tbody>
                 </table>
             </template>
+            <c-web-empty-list target-list={jobs}></c-web-empty-list>
+
             <!-- Add Batch on Panel -->
             <template if:true={showAddNew}>
                 <div class="btc-add-button">
@@ -155,7 +157,8 @@
                     </div>
                     <div slot="footer">
                         <lightning-button class="slds-m-top_small" type="submit"
-                                          label="Create new Batch Detail" onclick={handleAddBatch}></lightning-button>
+                                          label="Create new Batch Detail"
+                                          onclick={handleAddBatch}></lightning-button>
                     </div>
                 </c-web-modal>
             </template>
