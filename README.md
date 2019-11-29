@@ -6,28 +6,20 @@
    sfdx force:auth:web:login -d -a devHubAlias
    ```
 
-##### 2) Create Scratch org and make it default (-s key):
+##### 2) Create Scratch Org:
 
    ```sh
-   sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a scratchOrgAlias
+   create-scratch-org.bat scratchOrgAlias
    ```
 
-##### 3) Import Org Wide Email Address:
+##### 3) Approve Org Wide Email Address:
 
-   ```sh
-   sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
-   ```
-   
-   After import complete go to mail boxes updates@cp.clinicalresearch.com & patientupdates@cp.clinicalresearch.com and approve both. Don't forget remove this emails from emailbox. Ask about how to get access to this mailbox
+   Go to mail boxes updates@cp.clinicalresearch.com & patientupdates@cp.clinicalresearch.com and approve both. Don't forget remove this emails from Email box. Ask about how to get access to this mailbox
     
 ##### 4) Setup Scratch Org before push:
-    
-   ```sh
-   sfdx force:org:open
-   ```
-   <!-- 1. Go to **State and Territory Picklists** and follow instruction for enable (temporary) -->
+
    1. Go to **Survey Settings** and enable 
-   2. Go to **User Interface** in the *Name Settings* section, select "Enable Middle Names for Person Names" and "Enable Name Suffixes for Person Names".
+   
 ##### 5) Push project to Scratch org:
 
    ```sh
