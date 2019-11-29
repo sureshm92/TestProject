@@ -1,0 +1,137 @@
+<!--
+ - Created by Nikita Abrazhevitch on 21-Aug-19.
+ -->
+
+<aura:component description="StudySiteCardForPI" controller="StudyListViewController">
+
+    <!-- attributes: -->
+    <aura:attribute name="siteWrapper" type="Object"/>
+    <aura:attribute name="delegatePicklist" type="List"/>
+    <aura:attribute name="rerenderComponent" type="Boolean" description="false"/>
+    <aura:attribute name="userMode" type="String" description="HCP/PI/Patient"/>
+    <aura:attribute name="refresh" type="Boolean" default="false"/>
+    <aura:attribute name="studyListViewComponent" type="Aura.Component"/>
+
+    <!-- component body: -->
+    <div class="slds-p-horizontal_medium slds-p-bottom_small">
+        <aura:if isTrue="{!v.siteWrapper.studySite}">
+            <div class="card-header">
+                <div class="pi-name">
+                    {!v.siteWrapper.PIName}
+                </div>
+                <div class="manage-location-details">
+                    <span onclick="{!c.showManageLocationDetails}"> {!$Label.c.SS_Manage_Location_Details}</span>
+                </div>
+            </div>
+            <div class="card-locationDetails">
+                <div id="ssInformation">
+                    <div id="contactInformation"
+                         class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 ss-info-container ss-container-border">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 ss-info-details">
+                            <div class="rr-form-element">
+                                <lightning:input aura:id="locationName"
+                                                 class="ss-lightning-input"
+                                                 value="{!v.siteWrapper.studySite.Name}"
+                                                 label="{!$Label.c.SS_Study_Site_Name}"
+                                                 required="true"
+                                                 onblur="{!c.trimChanges}"
+                                                 onchange="{!c.changeUpdatedStatus}"/>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ss-info-details clinic-type">
+                            {!(v.siteWrapper.studySite.Study_Site_Type__c) + ' '+ $Label.c.SS_Site}
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 ss-info-details">
+                            <div class="input-fields-labels">{!$Label.c.SS_Primary_Contact}</div>
+                            <c:rrSelect id="delegatesPicklist"
+                                        options="{!v.siteWrapper.delegatePicklist}"
+                                        value="{!v.siteWrapper.studySite.Site_Staff__c}"
+                                        class="delegate-select"
+                                        placeholder="{!if(v.siteWrapper.delegatePicklist.length>0,$Label.c.PG_AC_Select,$Label.c.SS_Add_A_Member)}"
+                                        onchange="{!c.changeUpdatedStatus}"
+                                        useSentenceFont="false"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ss-info-details">
+                            <div class="input-fields-labels"
+                                 style="display: inline-block;">{!$Label.c.SS_Phone}</div>
+                            <div class="rr-form-element">
+                                <lightning:input aura:id="emailInput"
+                                                 value="{!v.siteWrapper.studySite.Study_Site_Phone__c}"
+                                                 onchange="{!c.changeUpdatedStatus}"/>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 ss-info-details">
+                            <div class="input-fields-labels">{!$Label.c.SS_Email}</div>
+                            <div class="rr-form-element">
+                                <lightning:input aura:id="emailInput"
+                                                 value="{!v.siteWrapper.studySite.Study_Site_Email__c}"
+                                                 onchange="{!c.changeUpdatedStatus}"
+                                                 onblur="{!c.checkValidEmail}"/>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-12 ss-info-details">
+                            <button class="apollo-btn pi-save-btn secondary"
+                                    onclick="{!c.saveChanges}"
+                                    disabled="{!!v.siteWrapper.studySite.isEmailValid || !v.siteWrapper.studySite.isRecordUpdated || !v.siteWrapper.studySite.Name}"
+                                    title="{!v.siteWrapper.studySite.isRecordUpdated ? v.siteWrapper.studySite.isEmailValid ? v.siteWrapper.studySite.Name ? $Label.c.SS_Save_Changes : $Label.c.SS_Fill_Location_Name : $Label.c.SS_invalidEmail : $Label.c.SS_No_Changes_Message}">
+                                {!$Label.c.SS_Btn_Save}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="slds-wrap slds-grid slds-col slds-size_1-of-1 slds-medium-size_7-of-12 other-ss-info">
+                        <div class="slds-grid--vertical">
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-3 other-ss-info-height-control">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-6 other-ss-info-container">
+                                    <div class="ss-info-headers">{!$Label.c.SS_Address}</div>
+                                    <div class="ss-info-address">{!v.siteWrapper.studySite.Site__r.Name + ' ' + $Label.c.SS_Location}</div>
+                                    <div class="ss-info-address">{!v.siteWrapper.studySite.Site__r.BillingStreet}</div>
+                                    <div class="ss-info-address">{!if(v.siteWrapper.studySite.Site__r.BillingCity!=null, v.siteWrapper.studySite.Site__r.BillingCity + ', ', '') +v.siteWrapper.studySite.Site__r.BillingStateCode + ' ' + v.siteWrapper.studySite.Site__r.BillingPostalCode}</div>
+                                    <aura:if isTrue="{!!v.refresh}">
+                                        <c:RRIcon
+                                                class="{!('Address' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'NearAddress' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy ||
+                                                       v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'Block' || v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'Street' || v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'ExtendedZip') &amp;&amp; v.siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; v.siteWrapper.studySite.Site__r.BillingLongitude ? 'check-icon-style' : 'close-icon-style'}"
+                                                iconName="{!('Address' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'NearAddress' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy ||
+                                                          v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'Block' || v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'Street' || v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'ExtendedZip') &amp;&amp; v.siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; v.siteWrapper.studySite.Site__r.BillingLongitude ? 'icon-check' : 'icon-close'}"/>
+                                        <div style="display:inline-block;"
+                                             class="input-fields-labels">{!('Address' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy || 'NearAddress' == v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy ||
+                                            v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'Block' || v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'Street' || v.siteWrapper.studySite.Site__r.BillingGeocodeAccuracy == 'ExtendedZip') &amp;&amp; v.siteWrapper.studySite.Site__r.BillingLatitude &amp;&amp; v.siteWrapper.studySite.Site__r.BillingLongitude ? $Label.c.SS_Address_Found : $Label.c.SS_Address_Not_Found}</div>
+                                    </aura:if>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-6 other-ss-info-container">
+                                    <div class="ss-info-headers">{!$Label.c.SS_Driving_Instructions}</div>
+                                    <div class="driving-instructions">
+                                        <c:uiLimitTextByLines maxLines="3">
+                                            {!v.siteWrapper.studySite.Site__r.Driving_Directions__c}
+                                        </c:uiLimitTextByLines>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-6 other-ss-info-container">
+                                    <div class="ss-info-headers">{!$Label.c.SS_Parking_Instructions}</div>
+                                    <div class="driving-instructions">
+                                        <c:uiLimitTextByLines maxLines="3">
+                                            {!v.siteWrapper.studySite.Site__r.Parking_Instructions__c}
+                                        </c:uiLimitTextByLines>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1">
+                        <div class="slds-col slds-grid slds-size_1-of-1 slds-medium-size_7-of-7 slds-grid--align-end ss-info-buttons">
+                            <aura:iteration items="{!v.siteWrapper.actions}" var="action">
+                                <button id="{!action.id}"
+                                        value="{!siteWrappIndx}"
+                                        class="apollo-btn secondary slds-align-bottom"
+                                        disabled="{!action.disabled}"
+                                        title="{!action.disableReason}"
+                                        style="background-color: white; color: #297DFD; box-shadow: none; display: inline-block;"
+                                        onclick="{!c.doAction}">{!action.label}</button>
+                            </aura:iteration>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

@@ -2,6 +2,17 @@
  * Created by Leonid Bartenev
  */
 ({
+    doInit: function (component, event, helper) {
+        console.log(component.get('v.userMode'));
+        console.log(component.get('v.studyDetail').trial.Id);
+        communityService.executeAction(component, 'getDocuments', {
+            'role': component.get('v.userMode'),
+            'ctpId': component.get('v.studyDetail').trial.Id,
+        }, function (documents) {
+            component.set('v.documents', documents);
+        });
+    },
+
     doChangeStudySite: function (component, event, helper) {
         communityService.logError(function () {
             var refreshSource = component.get('v.parent');

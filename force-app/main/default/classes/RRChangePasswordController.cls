@@ -3,17 +3,22 @@
  */
 
 public without sharing class RRChangePasswordController {
+
+    public static final String ERROR_SUFFIX = ': You must enter a value';
+    public static final String ERROR_VALUE_SUFFIX = ': You must enter a valid value';
+    public static final String TEMP_ACCOUNT = 'temporary account';
+
     public String photolink{get;set;}
-    
+
     //The binary data of the image uploaded by the user
     public transient Blob blobValue {get; set;}
 
     //The content type, determined by Salesforce, of the image uploaded by the user
     public transient String contentType {get; set;}
-    
+
     // The name of the image file uploaded by the user
     public transient String filename {get; set;}
- 
+
     public String oldPassword {get; set;}
     public String newPassword {get; set;}
     public String verifyNewPassword {get; set;}
@@ -22,7 +27,7 @@ public without sharing class RRChangePasswordController {
     public Account account {get; set;}
     public Contact contact {get; set;}
     public User userVal {get; set;}
-    
+
     public String helpText_1st_Language { get; private set; }
     public String helpText_2nd_Language { get; private set; }
     public String helpText_3rd_Language { get; private set; }
@@ -30,6 +35,7 @@ public without sharing class RRChangePasswordController {
     public String userLocale {get; set;}
     public transient String userLanguage {get; set;}
 
+    public Boolean notEnrollNow {get; set;}
     public Boolean isProfileView {get; set;}
     public String tcText {get; set;}
     public String tcId {get; set;}
@@ -38,9 +44,21 @@ public without sharing class RRChangePasswordController {
 
     public Translation__c translation {get; set;}
     public String browserLanguage {get; set;}
-    
+
     private String previousLanguage;
-    
+
+    public List<SelectOption> countries {get; set;}
+    public List<SelectOption> states {get; set;}
+    public String country {get; set;}
+    public String state {get; set;}
+    public Boolean isStateRequired {get; set;}
+
+
+    private Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
+    private Map<String, String> countryCodeByName = new Map<String, String>();
+    private Map<String, String> stateCodeByName = new Map<String, String>();
+    private String oldAccountName;
+
     public RRChangePasswordController() {
         translation = new Translation__c();
         init();
@@ -54,12 +72,26 @@ public without sharing class RRChangePasswordController {
                         Contact.FirstName,
                         Contact.LastName,
                         Contact.MailingAddress,
+                        Contact.Salutation,
+                        Contact.MiddleName,
+                        Contact.Suffix,
+                        Contact.MailingCountry,
+                        Contact.MailingCountryCode,
+                        Contact.MailingCity,
+                        Contact.MailingPostalCode,
+                        Contact.MailingState,
+                        Contact.MailingStateCode,
+                        Contact.MailingStreet,
                         Contact.Is_First_Logon__c,
                         Contact.Language__c,
                         Contact.Second_Choice_Language__c,
                         Contact.Third_Choice_Language__c,
                         Contact.userCommunityMode__c,
+                        Contact.userCommunytyType__c,
                         Contact.UserCommunityIsDelegate__c,
+                        Contact.Phone,
+                        Contact.Fax,
+                        Contact.OwnerId,
                         LanguageLocaleKey,
                         TimeZoneSidKey,
                         LocaleSidKey
@@ -67,22 +99,32 @@ public without sharing class RRChangePasswordController {
         ];
         contact = userVal.Contact;
         previousLanguage = contact.Language__c;
-    
+
         Map<String, SObjectField> fieldMap = Schema.SObjectType.Contact.fields.getMap();
         helpText_1st_Language = fieldMap.get('Language__c').getDescribe().inlineHelpText;
         helpText_2nd_Language = fieldMap.get('Second_Choice_Language__c').getDescribe().inlineHelpText;
         helpText_3rd_Language = fieldMap.get('Third_Choice_Language__c').getDescribe().inlineHelpText;
-    
+
+        notEnrollNow = !((contact.userCommunytyType__c == null || contact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)) && contact.userCommunityMode__c == CommunityService.USER_MODE_HCP);
+        isStateRequired = false;
+
         Contact cont = [
                 SELECT Id, Account.Name, Account.Phone, Account.BillingStreet,
                         Account.BillingCity, Account.BillingState, Account.Fax,
                         Account.BillingCountry, Account.BillingPostalCode,
-                        Account.BillingCountryCode,
-                        Language__c
+                        Account.BillingCountryCode, Language__c, MailingAddress,
+                        Salutation, MiddleName, Suffix, MailingCountry, MailingCountryCode, MailingCity,
+                        MailingPostalCode, MailingState, MailingStateCode, MailingStreet, OwnerId,
+                        userCommunytyType__c, userCommunityMode__c, Phone, Fax
                 FROM Contact WHERE Id =: contact.Id
         ];
         account = cont.Account;
+        if(account.Name.contains(TEMP_ACCOUNT)){
+            account.Name = '';
+        }
         account.BillingCountry = TranslateHelper.getPickListLabel(User.CountryCode, account.BillingCountryCode);
+        oldAccountName = account.Name;
+
         photolink = userVal.FullPhotoUrl;
         isProfileView = true;
         isPaswordsEquals = true;
@@ -93,7 +135,7 @@ public without sharing class RRChangePasswordController {
             tcText = portalTC.T_C_Text__c;
             tcId = portalTC.Id;
         }
-        
+
         isParticipant = contact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT && !contact.UserCommunityIsDelegate__c;
         if(isParticipant) {
             participant = [
@@ -105,6 +147,18 @@ public without sharing class RRChangePasswordController {
                     WHERE Contact__c = :contact.Id
             ];
             updateTranslations();
+        }
+
+        countries = new List<SelectOption>();
+        states = new List<SelectOption>();
+        for (LabelValueItem country : CountryStateUtil.getCountries()) {
+            countries.add(new SelectOption(country.value, country.label));
+            countryCodeByName.put(country.value, country.label);
+        }
+        country = contact.MailingCountryCode;
+        state = contact.MailingStateCode;
+        if (!String.isBlank(country)) {
+            updateStatesAction();
         }
     }
 
@@ -118,7 +172,7 @@ public without sharing class RRChangePasswordController {
 //                update userVal;
 //            }
 
-            if (tcId!=null) {           
+            if (tcId!=null) {
                 Terms_And_Conditions_Acceptance__c tca = new Terms_And_Conditions_Acceptance__c();
                 tca.Accepted_Date__c = Datetime.now();
                 tca.Terms_And_Conditions__c = tcId;
@@ -138,9 +192,108 @@ public without sharing class RRChangePasswordController {
         isProfileView = true;
     }
 
-    public void checkPasswords(){
-        Site.validatePassword(userVal, newPassword, verifyNewPassword);
-        if(ApexPages.getMessages().size() == 0) isProfileView = false;
+    public void checkPasswords() {
+        ApexPages.getMessages().clear();
+        if (!notEnrollNow && String.isBlank(contact.FirstName)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'First Name' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.LastName)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Last Name' + ERROR_SUFFIX));
+        }
+
+        if (!notEnrollNow && ApexPages.getMessages().isEmpty()) {
+            Boolean noCountry = contact.MailingCountryCode == '--None--' || String.isBlank(contact.MailingCountryCode);
+            Boolean noState = contact.MailingStateCode == '--None--' || String.isBlank(contact.MailingStateCode) || states == null || states.size() < 2;
+            contact.MailingCountry = (noCountry ? null : countryCodeByName.get(contact.MailingCountryCode));
+            contact.MailingState = (noState ? null : stateCodeByName.get(contact.MailingCountryCode));
+
+            if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
+                Account newClinic = new Account(
+                        Name = account.Name,
+                        BillingCountryCode = (noCountry ? null : contact.MailingCountryCode),
+                        BillingCountry = contact.MailingCountry,
+                        BillingCity = contact.MailingCity,
+                        BillingState = contact.MailingState,
+                        BillingStateCode = (noState ? null : contact.MailingStateCode),
+                        BillingStreet = contact.MailingStreet,
+                        BillingPostalCode = contact.MailingPostalCode,
+                        Phone = contact.Phone,
+                        Fax = contact.Fax,
+                        OwnerId = contact.OwnerId
+                );
+                try {
+                    insert newClinic;
+
+                    contact.AccountId = newClinic.Id;
+                } catch (Exception exp) {
+                    System.debug(exp);
+                }
+            }
+            try {
+                contact.MailingCountryCode = (noCountry ? null : contact.MailingCountryCode);
+                contact.MailingStateCode = (noState ? null : contact.MailingStateCode);
+
+                update contact;
+
+                country = contact.MailingCountryCode;
+                state = contact.MailingStateCode;
+            } catch (Exception exp) {
+                System.debug(exp);
+            }
+        }
+        if (!notEnrollNow && String.isBlank(contact.MailingStreet)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Street Address' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.MailingCity)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'City' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.MailingCountryCode)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Country' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.MailingStateCode) && states.size() > 1) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'State' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.MailingPostalCode)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'ZIP/Postal Code' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.Phone)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Phone Number' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(account.Name)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Institute Name' + ERROR_SUFFIX));
+        }
+        try {
+            Site.validatePassword(userVal, newPassword, verifyNewPassword);
+        } catch (Exception e) {
+            ApexPages.addMessages(e);
+        }
+
+        if (!notEnrollNow && ApexPages.getMessages().isEmpty()) {
+            List<HCP_Enrollment__c> hcpEnrollments = [SELECT Id,
+                                                             HCP_Contact__c,
+                                                             Status__c
+                                                      FROM HCP_Enrollment__c
+                                                      WHERE HCP_Contact__c = :contact.Id AND
+                                                            Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION];
+            if (!hcpEnrollments.isEmpty()) {
+                if (hcpEnrollments.size() > 1) {
+                    for (HCP_Enrollment__c hcpe : hcpEnrollments) {
+                        hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+                    }
+
+                    update hcpEnrollments;
+
+                    //ReferHealthcareProviderRemote.sendNotificationForRPInvite(hcpEnrollments[0].Id, contact.Id);
+                } else {
+                    hcpEnrollments[0].Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+                    update hcpEnrollments;
+                    hcpEnrollments[0].Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+                    update hcpEnrollments;
+                }
+            }
+        }
+
+        if (ApexPages.getMessages().isEmpty()) isProfileView = false;
     }
 
     public void upload() {
@@ -148,7 +301,7 @@ public without sharing class RRChangePasswordController {
         ConnectApi.UserProfiles.setPhoto(Network.getNetworkId(), userVal.Id, photoFileInput);
         photolink = ConnectApi.UserProfiles.getPhoto(Network.getNetworkId(), userVal.Id).fullEmailPhotoUrl;
     }
-    
+
     public void updatePhotoURL(){
     }
 
@@ -203,7 +356,7 @@ public without sharing class RRChangePasswordController {
         if(translation.Language__c == null) translation.Language__c = userVal.LanguageLocaleKey;
         updateLanguageAction();
     }
-    
+
     public void updateLanguageAction(){
         try {
             userVal.LanguageLocaleKey = userVal.Contact.Language__c;
@@ -217,9 +370,22 @@ public without sharing class RRChangePasswordController {
         update userVal.Contact;
         updateTranslations();
     }
-    
+
     public void translateFieldsAction(){
         updateTranslations();
+    }
+
+    public void updateStatesAction(){
+        stateCodeByName = new Map<String, String>();
+        states = new List<SelectOption>();
+        List<LabelValueItem> statesByCountry = statesByCountryMap.get(contact.MailingCountryCode);
+        if (statesByCountry != null) {
+            for (LabelValueItem state : statesByCountry) {
+                states.add(new SelectOption(state.value, state.label));
+                stateCodeByName.put(state.value, state.label);
+            }
+        }
+        isStateRequired = statesByCountry != null && !statesByCountry.isEmpty();
     }
 
 }

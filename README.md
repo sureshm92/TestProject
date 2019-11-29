@@ -25,38 +25,20 @@
    ```sh
    sfdx force:org:open
    ```
+   <!-- 1. Go to **State and Territory Picklists** and follow instruction for enable (temporary) -->
    1. Go to **Survey Settings** and enable 
-   2. Go to **Communities Settings** and check "Enable ExperienceBundle Metadata API" checkbox
-
+   2. Go to **User Interface** in the *Name Settings* section, select "Enable Middle Names for Person Names" and "Enable Name Suffixes for Person Names".
 ##### 5) Push project to Scratch org:
 
    ```sh
-   sfdx force:source:push
+   sfdx force:source:push -f
    ```
 
-##### 6) Import data:
+##### 6) Post setup:
     
    ```sh
-   sfdx force:org:open
+   post-setup.bat
    ```
-
-   1. Setup > User > edit > set role "View All" 
-   2. Upload data
-
-   ```sh
-   sfdx force:data:tree:import -p data/import-plan.json
-   ```
-
-##### 7) Publish community:
-
-   1. Go to Setup > All Communities > Open Community Builder > press Publish
-
-##### 8) Login to community:
-
-   1. Open Study Site for edit and change Override Status to "Accepted" 
-   2. Open HCP Enrollment for edit and change Stats to "Activated" 
-   3. Login to community under PI User, HCP user or Participant user on your choice 
-
 ----------------------------------------------------------------------------------
 If merge request fails on the error 
 just remove <userPermission> with the name ViewFlowUsageAndFlowEventData from Admin.profile

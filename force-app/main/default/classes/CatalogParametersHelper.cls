@@ -30,22 +30,22 @@ public class CatalogParametersHelper {
         return resMap;
     }
     
-    public static Map<String, String> getParamsValueMap(String sourceId, Parameters_Provider__mdt pp, String locale){
+    public static Map<String, String> getParamsValueMap(String sourceId, Parameters_Provider__mdt pp, String language){
         Map<String, String> paramsMap = getParamsMap(pp.Parameters__c);
         Set<String> fields = new Set<String>(paramsMap.values());
         List<SObject> sObjects = queryObjects(pp.Source_Object_Type__c, fields, new Set<Id>{sourceId});
-        TranslateHelper.translate(sObjects, locale);
+        TranslateHelper.translate(sObjects, language);
         Map<String, String> resultMap = new Map<String, String>();
         for(String paramName : paramsMap.keySet()){
             String fieldPath = paramsMap.get(paramName);
             Object value = SObjectHelper.getSObjectFieldValue(sObjects[0], fieldPath);
             String valueStr;
             if(value instanceof Date){
-                valueStr = UserService.formatDate((Date)value, locale);
+                valueStr = UserService.formatDate((Date)value, language);
             }else if(value instanceof Datetime){
-                valueStr = UserService.formatDateTime((Date)value, locale);
+                valueStr = UserService.formatDateTime((Date)value, language);
             }else{
-                valueStr = value + '';
+                valueStr = (value != null ? value : '') + '';
             }
             resultMap.put(paramName, valueStr);
         }
@@ -95,6 +95,13 @@ public class CatalogParametersHelper {
         return resultValue;
     }
     
+    public static String prepareMergeFields(String sourceString, Id sourceId, String providerDeveloperName){
+        Parameters_Provider__mdt parametersProvider = getParametersProviderMetadata(providerDeveloperName);
+        Map<String, String> paramsMap = getParamsValueMap(sourceId, parametersProvider, UserInfo.getLanguage());
+        return prepareMergeFields(sourceString, paramsMap);
+    }
+    
+    
     public static Parameters_Provider__mdt getParametersProviderMetadata(String providerDeveloperName){
         List<Parameters_Provider__mdt> parametersProviders = [
                 SELECT Id, DeveloperName, Parameters__c, Source_Object_Type__c
@@ -124,5 +131,6 @@ public class CatalogParametersHelper {
             }
         }
     }
+    
 
 }

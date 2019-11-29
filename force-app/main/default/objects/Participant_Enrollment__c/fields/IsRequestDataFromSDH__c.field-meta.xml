@@ -18,7 +18,7 @@ NOT (ISPICKVAL(Participant_Status__c, &quot;Failed Review&quot;)),
 NOT (ISPICKVAL(Participant_Status__c, &quot;Failed Referral&quot;)),
 NOT (ISPICKVAL(Participant_Status__c, &quot;Excluded from Referring&quot;))
 ),
-ISPICKVAL(Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c, &quot;Yes&quot;)
+Not(IsNull(Screening_ID__c))
 )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>IsRequestDataFromSDH</label>

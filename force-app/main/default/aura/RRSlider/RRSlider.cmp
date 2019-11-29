@@ -9,11 +9,9 @@
     <aura:attribute name="value" type="Double" default="0" required="true"/>
     <aura:attribute name="minValue" type="Double" default="0" required="true"/>
     <aura:attribute name="maxValue" type="Double" default="0" required="true"/>
-    <aura:attribute name="showFilledTrack" type="Boolean" default="true"/>
     <aura:attribute name="disabled" type="Boolean" default="true"/>
 
     <aura:attribute name="valueInBox" type="Double" default="0" access="private"/>
-    <aura:attribute name="showFilledTrackPrivate" type="Boolean" default="true" access="private"/>
     <aura:attribute name="hidden" type="Boolean" default="false" access="private"/>
     <aura:attribute name="showValueBox" type="Boolean" default="true" access="private"/>
     <aura:attribute name="showKnob" type="Boolean" default="true" access="private"/>
@@ -30,10 +28,7 @@
             {!v.valueInBox}
         </div>
         <div class="rr-slider-bar">
-            <div aura:id="track" class="rr-slider-track">
-                <div style="width: 20%;" aura:id="track-filled"
-                     class="{!'rr-slider-track-filled' + (v.showFilledTrackPrivate ? '' : ' hidden')}"></div>
-            </div>
+            <div aura:id="track" class="rr-slider-track"></div>
             <div style="left: 20%;" aura:id="knob" class="{!'rr-slider-knob' + (v.showKnob ? '' : ' hidden')}"></div>
         </div>
     </div>

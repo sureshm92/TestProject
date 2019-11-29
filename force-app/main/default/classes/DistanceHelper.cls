@@ -9,7 +9,7 @@ public without sharing class DistanceHelper {
     private static String unitsOfMeasurement;
     private static Location userLocation;
     private static User communityUser;
-    private static Boolean alreadyInit = false;
+    @TestVisible private static Boolean alreadyInit = false;
     public static String getUnitsOfMeasurement() {
         if (!alreadyInit) {
             init();

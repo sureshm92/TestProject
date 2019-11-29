@@ -1,7 +1,6 @@
 /**
  * Created by Denis on 12.04.2019.
  */
-
 @IsTest
 private class  Test_TaskEditRemote {
 
@@ -10,24 +9,20 @@ private class  Test_TaskEditRemote {
         TestData.loadTestData();
         TestData testData = new TestData();
 
+        Task task = new Task();
+        task.Subject = 'test';
+        task.Reminder_Date__c = Datetime.now();
+        task.ActivityDate = Date.today().addDays(1);
+
         Test.startTest();
-        testData.createPSE();
-
         System.runAs(testData.participantUser) {
-            Task task = new Task();
-            task.Subject = 'test';
-            task.Task_Type__c = 'Medication';
-            task.Reminder_Date__c = Datetime.now();
             insert task;
-
-            new TaskEditRemote.TaskEditDataWrapper();
             TaskEditRemote.getTaskEditData(task.Id);
             task.Reminder_Date__c = task.Reminder_Date__c.addDays(1);
-            TaskEditRemote.upsertTask(JSON.serialize(task), Date.today());
+            TaskEditRemote.upsertTask(JSON.serialize(new TaskEditRemote.TaskEditDataWrapper()), JSON.serialize(task));
             TaskEditRemote.markAsCompleted(task.Id);
             TaskEditRemote.deleteTask(task);
         }
-
         Test.stopTest();
     }
 }

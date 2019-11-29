@@ -7,8 +7,9 @@
 .THIS.resource-card {
 	display: flex;
 	flex-direction: column;
-	min-width: 565px;
-	min-height: 645px;
+	max-width: 525px;
+	min-height: 450px;
+    position: relative;
 }
 
 .THIS .last-resource-container {

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sync_flag_must_be_checked_before_PSS</fullName>
+    <active>true</active>
+    <errorConditionFormula>!Synch_with_TMDH__c &amp;&amp; Patient_study_search__c</errorConditionFormula>
+    <errorDisplayField>Patient_study_search__c</errorDisplayField>
+    <errorMessage>TMDH Sync flag must be checked before Patient study search could be checked.</errorMessage>
+</ValidationRule>

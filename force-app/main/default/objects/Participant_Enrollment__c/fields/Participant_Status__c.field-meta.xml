@@ -7,87 +7,12 @@
     <label>Participant Status</label>
     <required>false</required>
     <trackFeedHistory>true</trackFeedHistory>
-
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
         <valueSetDefinition>
             <sorted>false</sorted>
-            <value>
-                <fullName>Referral Sent to PI</fullName>
-                <default>false</default>
-                <label>Referral Sent to PI</label>
-            </value>
-            <value>
-                <fullName>Excluded from Referring</fullName>
-                <default>false</default>
-                <label>Excluded from Referring</label>
-            </value>
-            <value>
-                <fullName>Referral Accepted</fullName>
-                <default>false</default>
-                <label>Referral Accepted</label>
-            </value>
-            <value>
-                <fullName>Contact Successful</fullName>
-                <default>false</default>
-                <label>Contact Successful</label>
-            </value>
-            <value>
-                <fullName>Eligibility Passed</fullName>
-                <default>false</default>
-                <label>Eligibility Passed</label>
-            </value>
-            <value>
-                <fullName>Screening Complete</fullName>
-                <default>false</default>
-                <label>Screening Complete</label>
-            </value>
-            <value>
-                <fullName>Enrollment Success</fullName>
-                <default>false</default>
-                <label>Enrollment Success</label>
-            </value>
-            <value>
-                <fullName>Referral On Hold</fullName>
-                <default>false</default>
-                <label>Referral On Hold</label>
-            </value>
-            <value>
-                <fullName>Contact Attempt In Progress</fullName>
-                <default>false</default>
-                <label>Contact Attempt In Progress</label>
-            </value>
-            <value>
-                <fullName>Screening In Progress</fullName>
-                <default>false</default>
-                <label>Screening In Progress</label>
-            </value>
-            <value>
-                <fullName>Referral Declined</fullName>
-                <default>false</default>
-                <label>Referral Declined</label>
-            </value>
-            <value>
-                <fullName>Contact Failed</fullName>
-                <default>false</default>
-                <label>Contact Failed</label>
-            </value>
-            <value>
-                <fullName>Eligibility Failed</fullName>
-                <default>false</default>
-                <label>Eligibility Failed</label>
-            </value>
-            <value>
-                <fullName>Screening Failed</fullName>
-                <default>false</default>
-                <label>Screening Failed</label>
-            </value>
-            <value>
-                <fullName>Enrollment Failed</fullName>
-                <default>false</default>
-                <label>Enrollment Failed</label>
-            </value>
             <value>
                 <fullName>Failed Referral</fullName>
                 <default>false</default>
@@ -102,6 +27,111 @@
                 <fullName>Pending Referral</fullName>
                 <default>false</default>
                 <label>Pending Referral</label>
+            </value>
+            <value>
+                <fullName>Referral Sent to PI</fullName>
+                <default>true</default>
+                <label>Referral Sent to PI</label>
+            </value>
+            <value>
+                <fullName>Referral Accepted</fullName>
+                <default>false</default>
+                <label>Referral Accepted</label>
+            </value>
+            <value>
+                <fullName>Referral On Hold</fullName>
+                <default>false</default>
+                <label>Referral On Hold</label>
+            </value>
+            <value>
+                <fullName>Referral Declined</fullName>
+                <default>false</default>
+                <label>Referral Declined</label>
+            </value>
+            <value>
+                <fullName>Excluded from Referring</fullName>
+                <default>false</default>
+                <label>Excluded from Referring</label>
+            </value>
+            <value>
+                <fullName>Contact Successful</fullName>
+                <default>false</default>
+                <label>Contact Successful</label>
+            </value>
+            <value>
+                <fullName>Contact Attempt In Progress</fullName>
+                <default>false</default>
+                <label>Contact Attempt In Progress</label>
+            </value>
+            <value>
+                <fullName>Contact Failed</fullName>
+                <default>false</default>
+                <label>Contact Failed</label>
+            </value>
+            <value>
+                <fullName>Eligibility Passed</fullName>
+                <default>false</default>
+                <label>Eligibility Passed</label>
+            </value>
+            <value>
+                <fullName>Eligibility Failed</fullName>
+                <default>false</default>
+                <label>Eligibility Failed</label>
+            </value>
+            <value>
+                <fullName>Screening Complete</fullName>
+                <default>false</default>
+                <label>Screening Complete</label>
+            </value>
+            <value>
+                <fullName>Screening In Progress</fullName>
+                <default>false</default>
+                <label>Screening In Progress</label>
+            </value>
+            <value>
+                <fullName>Screening Failed</fullName>
+                <default>false</default>
+                <label>Screening Failed</label>
+            </value>
+            <value>
+                <fullName>Enrollment Success</fullName>
+                <default>false</default>
+                <label>Enrollment Success</label>
+            </value>
+            <value>
+                <fullName>Enrollment Failed</fullName>
+                <default>false</default>
+                <label>Enrollment Failed</label>
+            </value>
+            <value>
+                <fullName>Treatment Period Started</fullName>
+                <default>false</default>
+                <label>Treatment Period Started</label>
+            </value>
+            <value>
+                <fullName>Follow-Up Period Started</fullName>
+                <default>false</default>
+                <label>Follow-Up Period Started</label>
+            </value>
+            <value>
+                <fullName>Participation Complete</fullName>
+                <default>false</default>
+                <label>Participation Complete</label>
+            </value>
+            <value>
+                <fullName>Trial Complete</fullName>
+                <default>false</default>
+                <label>Trial Complete</label>
+            </value>
+            <value>
+                <fullName>Drop Out</fullName>
+                <default>false</default>
+                <label>Drop Out</label>
+            </value>
+            <value>
+                <fullName>Deceased</fullName>
+                <default>false</default>
+                <label>Deceased</label>
             </value>
         </valueSetDefinition>
     </valueSet>

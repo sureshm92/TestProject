@@ -5,32 +5,24 @@
 public inherited sharing class IconPlanetVisitInfoEditRemote {
 
     @AuraEnabled
-    public static void saveIconInfo(List<Icon_Details__c> iconsDetails, String ctpId) {
-        CTPSelector selector = (CTPSelector) ClassFactory.newInstance(CTPSelector.class);
-
+    public static void saveIconInfo(List<Icon_Details__c> iconsDetails, String planId) {
         try {
-            List<Clinical_Trial_Profile__c> ctp = selector.getCtpById(ctpId);
-            if (!ctp.isEmpty()) {
-                for (Icon_Details__c singleIconDetails : iconsDetails) {
-                    singleIconDetails.Visit_Plan__c = ctp[0].Visit_Plan__c;
-                }
-                ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
-                        .upsertRecords(iconsDetails, true);
-            }
+            for (Icon_Details__c singleIconDetails : iconsDetails) singleIconDetails.Visit_Plan__c = planId;
+
+            ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
+                    .upsertRecords(iconsDetails, true);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
     }
 
     @AuraEnabled
-    public static List<Icon_Details__c> getIconDetails(String ctpId) {
-        CTPSelector selector = (CTPSelector) ClassFactory.newInstance(CTPSelector.class);
-
+    public static List<Icon_Details__c> getIconDetails(String planId) {
         try {
-                return selector.getIconDetailsByVisitPlanInCTP(ctpId);
+            CTPSelector selector = (CTPSelector) ClassFactory.newInstance(CTPSelector.class);
+            return selector.getIconDetailsByVisitPlanInCTP(planId);
         } catch (Exception e) {
-            AuraHelper.throwException(e);
+            return (List<Icon_Details__c>) AuraHelper.throwException(e);
         }
-        return null;
     }
 }

@@ -3,7 +3,7 @@
  -->
 
 <aura:component description="Action_SendSiteRequestByHCP" controller="Action_SendSiteRequestByHCPRemote">
-
+    <!-- DEPRECATED!!!!! -->
     <!-- attributes: -->
     <aura:attribute name="study" type="Object"/>
     <aura:attribute name="refreshSource" type="Aura.Component"/>

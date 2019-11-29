@@ -4,57 +4,41 @@
 
 public with sharing class ManualTaskRemote {
 
-    @AuraEnabled
-    public static String getInitData() {
+    public static Boolean createTasks(Task newTask, ManualTaskFilter filter) {
         try {
-            InitData initData = new InitData();
-            return JSON.serialize(initData);
-        } catch (Exception e) {
-            return (String) AuraHelper.throwException(e);
-        }
-    }
+            if(newTask.ActivityDate != null) {
+                newTask.Activity_Datetime__c = Datetime.newInstanceGmt(
+                        newTask.ActivityDate,
+                        Time.newInstance(Datetime.now().hourGmt(), 0, 0, 0));
+            }
 
-    @AuraEnabled
-    public static Integer createTasks(String task, String filter) {
-        try {
-            Task newTask = (Task) JSON.deserialize(task, Task.class);
-            ManualTaskFilter taskFilter = (ManualTaskFilter) JSON.deserialize(filter, ManualTaskFilter.class);
-
-            //Assigning a common task for each found user
-            List<User> users = taskFilter.getUsers();
-            List<Task> tasks = new List<Task>();
-            for(User user : users) {
-                tasks.add(new Task(
-                                OwnerId = user.Id,
-                                Subject = newTask.Subject,
-                                Priority = newTask.Priority,
-                                Start_Date__c = newTask.Start_Date__c,
-                                ActivityDate = newTask.ActivityDate,
-                                Reminder_Date__c = newTask.Reminder_Date__c,
-                                ReminderDateTime = newTask.Reminder_Date__c,
-                                Visible_For__c = newTask.Visible_For__c)
+            if(newTask.ReminderDateTime != null) {
+                newTask.ReminderDateTime = Datetime.newInstanceGmt(
+                        newTask.ReminderDateTime.yearGmt(),
+                        newTask.ReminderDateTime.monthGmt(),
+                        newTask.ReminderDateTime.dayGmt(),
+                        Datetime.now().hourGmt(), 0, 0
                 );
             }
-            insert tasks;
 
-            //For toast after onclick
-            return users.size();
+            Batch_CreateAdminTasks.launch(filter.getContactsWithPE(), newTask);
+            return true;
         } catch (Exception e) {
-            return (Integer) AuraHelper.throwException(e);
+            return (Boolean) AuraHelper.throwException(e);
         }
     }
 
-    public class InitData {
-        public Task task;
-        public ManualTaskFilter filters;
-        public List<LabelValueItem> priorities;
-        public List<LabelValueItem> visibility;
+    public class TaskPanelWrapper {
+        @AuraEnabled public Task task;
+        @AuraEnabled public Date nowDate;
+        @AuraEnabled public List<LabelValueItem> priorities;
+        @AuraEnabled public List<LabelValueItem> visibility;
 
-        public InitData() {
+        public TaskPanelWrapper() {
             task = new Task();
             task.Priority = 'Normal';
-            
-            filters = new ManualTaskFilter();
+
+            nowDate = Date.today();
 
             priorities = new List<LabelValueItem>();
             priorities.add(new LabelValueItem('Not selected', 'Normal'));

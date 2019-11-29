@@ -1,0 +1,79 @@
+<!--
+ - Created by Slav on 22.10.2019.
+ -->
+
+<aura:component description="XLF Pattern List" implements="force:appHostable" controller="XLF_PatternListRemote">
+    <!-- attributes: -->
+    <aura:attribute name="mode" type="String" description="Current mode either WHITE or BLACK"/>
+    <aura:attribute name="keyPrefix" type="String"/>
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="columns" type="List" default="[{ label:'Patterns', fieldName:'Pattern__c', type:'text', editable:true, sortable:true }]"/>
+    <aura:attribute name="selectedRows" type="List" />
+    <aura:attribute name="selectedRowsCount" type="Integer" default="0"/>
+    <aura:attribute name="sortedBy" type="String" default="Pattern__c"/>
+    <aura:attribute name="sortedDirection" type="String" default="asc"/>
+    <aura:attribute name="defaultSortDirection" type="String"/>
+    <aura:attribute name="jobId" type="String"/>
+    <aura:attribute name="toastType" type="String" default="info"/>
+    <aura:attribute name="toastMessage" type="String"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <!-- component body: -->
+    <div>
+        <div class="slds-page-header__title" style="padding: 10px;">XLF {!v.mode} List Management Panel</div>
+        <div class="slds-grid slds-wrap" style="position: relative">
+            <c:RRSpinner aura:id="spinner" size="medium"/>
+            <div class="slds-col section slds-size_1-of-1 slds-large-size_1-of-2">
+                <div class="border-panel">
+                    <div class="tweaker-form slds-grid slds-wrap slds-gutters">
+                        <div class="slds-col slds-size_1-of-1 slds-form-element">
+                            <lightning:button variant="brand" label="Back to XLF Tweaker" class="form-btn" onclick="{!c.backToTweaker}"/>
+                        </div>
+                        <div class="slds-text-body--regular" style="padding-top:10px; text-align:justify; width:100%">
+                            <p>
+                                Patterns in the {!v.mode} List are stored as Custom Metadata Type records.
+                                Just because they are not regular custom objects the way they're managed is also different.
+                                When a Custom Metadata Type record is created or updated it's deployed in an org, not inserted/updated in the database.
+                                The process of deploying is asynchronous and therefore you may not observe immediate results on the screen.
+                                If records submitted successfully you would get a message saying that, however it takes a few seconds to actually complete deployment.
+                                Normally, you wait 2-3 seconds and press the "Refresh" button to bring up all records.
+                                If updated records don't show up click on "Last deploy status" link (next to "Refresh" button) to view deployment results.
+                                You can also open the Salesforce Setup page for the {!v.mode} List Custom Metadata Types by clicking on this
+                                <a href="{!'/lightning/setup/CustomMetadata/page?address=/' + v.keyPrefix + '?setupid=CustomMetadata'}" target="_blank">link</a>.
+                            </p>
+                        </div>
+                        <div class="slds-m-around_xx-large" style="min-height:300px; width:100%">
+                            <lightning:datatable aura:id="datatable"
+                                                 columns="{!v.columns}"
+                                                 data="{!v.data}"
+                                                 keyField="Id"
+                                                 showRowNumberColumn="true"
+                                                 onrowselection="{!c.handleRowSelect}"
+                                                 enableInfiniteLoading="true"
+                                                 sortedBy="{!v.sortedBy}"
+                                                 sortedDirection="{!v.sortedDirection}"
+                                                 defaultSortDirection="{!v.defaultSortDirection}"
+                                                 onsort="{!c.handleColumnSort}"
+                                                 onsave="{!c.handleSave}"/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div class="slds-col slds-size_1-of-1 slds-form-element">
+                                <div class="slds-float_left" style="padding-bottom:10px;">
+                                    <lightning:button label="Add new row"  variant="brand" onclick="{!c.handleAdd}"/>
+                                    <lightning:button label="Delete selected rows"  variant="brand" onclick="{!c.handleDelete}" disabled="{!v.selectedRowsCount == 0}"/>
+                                </div>
+                                <div class="slds-float--right">
+                                    <lightning:button label="Check deploy status"  variant="brand" onclick="{!c.checkDeployStatus}" disabled="{!v.jobId == null}"/>
+                                    <lightning:button label="Refresh" variant="brand" onclick="{!c.init}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

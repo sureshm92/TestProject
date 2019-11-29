@@ -10,26 +10,26 @@
         var isCreate = params.isCreate;
         var mainspinner = refreshSource.find('mainSpinner');
         mainspinner.show();
+        debugger;
         component.set('v.delegate', delegate);
         component.set('v.refreshSource', refreshSource);
-        component.set('v.saveInProgress', true);
+        var test = JSON.stringify(delegate);
         communityService.executeAction(component, 'saveDelegateLevelChanges', {
             userMode: userMode,
-            delegate: JSON.stringify(delegate)
+            delegate: JSON.stringify(delegate),
+            parentId: communityService.getDelegateId()
         }, function (returnValue) {
-            if (returnValue && returnValue.includes('ERROR')) {
-                communityService.showToast("ERROR","error",$A.get("$Label.c.TST_Permissions_should_be_the_same_for_study")) ;
-            } else if (isCreate) {
+            if(isCreate){
                 communityService.showToast("success","success",$A.get("$Label.c.TST_You_have_successfully_created_permissions_for") + " " +
                     (delegate.delegateContact.FirstName || "") + " " + delegate.delegateContact.LastName + ".") ;
-            } else {
+            }
+            else{
                 communityService.showToast("success","success",$A.get("$Label.c.TST_You_have_successfully_updated_permissions_for") + " " +
                     (delegate.delegateContact.FirstName || "") + " " + delegate.delegateContact.LastName + ".") ;
             }
 
             refreshSource.refresh();
-        }, null , function () {
-            component.set('v.saveInProgress', false);
+        }, null, function () {
             mainspinner.hide();
         });
 

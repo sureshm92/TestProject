@@ -7,6 +7,7 @@
     <aura:attribute name="resourceWrapper" type="ResourceService.ResourceWrapper"/>
     <aura:attribute name="StudyDocumentRecordTypeName" type="String" default="Study_Document"
                     description="constant variable" access="private"/>
+    <aura:attribute name="lang" type="String"/>
 
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
     <aura:handler name="render" value="{!this}" action="{!c.doRender}"/>
@@ -22,7 +23,7 @@
                     <iframe class="my_iframe"
                             frameborder="0"
                             src="{!and(v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName, v.resourceWrapper.resource.Video__c == null) ?
-                            ('/apex/RRPDFViewer?resourceId=' + v.resourceWrapper.resource.Id)
+                            ('/apex/RRPDFViewer?resourceId=' + v.resourceWrapper.resource.Id + '&amp;language=' + v.lang )
                             : v.resourceWrapper.resource.Video__c}">
                     </iframe>
                 </div>
@@ -39,7 +40,7 @@
             </aura:if>
             <div class="resource-expiration-date">
                 {!(v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName ? $Label.c.Resources_Version_Date + ': ' : $Label.c.Resources_Expires + ': ')}
-                <aura:if isTrue="{!!v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName}">
+                <aura:if isTrue="{!v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName}">
                     <ui:outputDate value="{!v.resourceWrapper.resource.Version_Date__c}" format="dd-MMM-y"/>
                     <aura:set attribute="else">
                         <aura:if isTrue="{!v.resourceWrapper.resource.Expiration_Date__c}">

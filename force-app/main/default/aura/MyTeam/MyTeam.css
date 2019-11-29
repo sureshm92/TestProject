@@ -31,15 +31,7 @@
     margin-bottom: 30px;
 }
 @media all and (max-width: 767px){
-    .THIS .mt-button-container{
-        position: fixed;
-        bottom: 20px;
-        left: 0px;
-        width: 100%;
-        padding-left: .65rem;
-        padding-right: .65rem;
-        z-index: 1 ;
-    }
+
     .THIS .delegate-info-table-container{
         margin-left: -0.75rem;
         margin-right: -0.75rem;
@@ -47,6 +39,7 @@
     .THIS .team-items-panel{
         margin-bottom: 0;
     }
+
 
 }
 .THIS .empty-list {
@@ -56,4 +49,7 @@
     text-align: center;
     color: #999999;
     font-size: 17px;
+}
+.THIS .delegate-parent-tabs{
+    margin-bottom: 20px;
 }

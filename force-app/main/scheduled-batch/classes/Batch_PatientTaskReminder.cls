@@ -13,11 +13,12 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator([
                 SELECT Id,
-                        Description,
                         OwnerId,
                         Subject,
+                        Survey_Invitation__c,
                         Start_Date__c,
                         Task_Type__c,
+                        ReminderDateTime,
                         Reminder_Date__c,
                         Reminder_Schedule__c,
                         Reminder_Schedule__r.First_Reminder_day__c,

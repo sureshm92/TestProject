@@ -12,6 +12,7 @@
     <aura:attribute name="primaryButtonLabel" type="String" default="Ok"/>
     <aura:attribute name="secondaryButtonLabel" type="String" default="Cancel"/>
     <aura:attribute name="footerButtons" type="Aura.Component[]" description="custom buttons array, inset of standard button set"/>
+    <aura:attribute name="headerButtons" type="Aura.Component[]" description="custom buttons array if needed left to the close button"/>
 
     <aura:attribute name="showHeader" type="Boolean" default="{!true}"/>
     <aura:attribute name="showFooter" type="Boolean" default="{!true}"/>
@@ -36,11 +37,15 @@
     <div>
         <div id="p-modal" class="{!if(v.showModal, 'transition-show', '')}">
             <div class="{! 'p-container ' + v.size}">
+                <aura:if isTrue="{!!empty(v.headerButtons)}">
+                    {!v.headerButtons}
+                </aura:if>
                 <lightning:button onclick="{!c.doCancel}" name="Close" class="{!'slds-button slds-modal__close slds-button--icon-inverse' + if(not(v.showClose), ' slds-hide') + if($Browser.isPhone, ' p-mobile-close')}">
                     <c:RRIcon iconName="icon-close" class="close-icon"/>
                 </lightning:button>
+
                 <!-- title: -->
-                <div class="{!'p-header ' + v.variant}">
+                <div class="{!'p-header ' + v.variant + if(empty(v.headerButtons),'',' p-header-buttons')}">
                     <h2 id="p-header" class="{!if(v.showHeader == false, ' slds-hide', '')}">{!v.title}</h2>
                 </div>
                 <div style="position: relative">

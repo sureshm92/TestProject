@@ -1,0 +1,24 @@
+<!--
+  - Created by Yehor Dobrovolskyi
+ -->
+<aura:component description="TrialsContainer">
+    <aura:attribute name="trialTDOs" type="List"/>
+    <aura:attribute name="participant" type="Participant__c" access="public"/>
+    <aura:attribute name="formData" type="Object" access="public"/>
+
+    <aura:attribute name="currentPage" type="Integer" default="1"/>
+    <aura:attribute name="currentTrialTDOs" type="List"/>
+
+    <aura:if isTrue="{!!empty(v.trialTDOs)}">
+        <aura:iteration items="{!v.currentTrialTDOs}" var="trial">
+            <c:TrialItem trialTDO="{!trial}" participant="{!v.participant}" formData="{!v.formData}"/>
+        </aura:iteration>
+        <div class="slds-align--absolute-center slds-m-around--medium">
+            <c:rrPagination aura:id="pagination" allObjects="{!v.trialTDOs}" entriesOnPage="10"
+                            currentObjects="{!v.currentTrialTDOs}" currentPage="{!v.currentPage}"/>
+        </div>
+        <aura:set attribute="else">
+            <div class="not-ctp-message"> {!$Label.c.TrialSearch_No_trial_matches_available}</div>
+        </aura:set>
+    </aura:if>
+</aura:component>

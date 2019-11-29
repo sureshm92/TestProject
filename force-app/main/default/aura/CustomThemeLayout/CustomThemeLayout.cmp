@@ -15,8 +15,9 @@
     <aura:attribute name="showSideMenu" type="Boolean" default="false"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
 
-    <aura:attribute name="mode" type="String"/>
-    <aura:attribute name="availableModes" type="String[]"/>
+    <aura:attribute name="allModes" type="Object[]"/>
+    <aura:attribute name="currentMode" type="Object"/>
+    <aura:attribute name="showModeSwitcher" type="Boolean" default="false"/>
 
     <!-- events: -->
     <!--aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized"/-->
@@ -24,37 +25,36 @@
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
 
-
+    <!--c:RRSpinner aura:id="spinner" fixed="true" showSpinner="true" size="medium"/-->
     <div class="{!'rr-all-content ' + $Browser.formFactor + ' ' + if(v.showSideMenu, ' bodyShift ', ' ') + if(v.availableModes.length > 1, ' with-selector ', '')}">
-        <div class="{!'rr-header-content ' + if(v.availableModes.length > 1, ' multi-mode', '')}">
-            <div class="layout-header rr-width-limiter side-padding">
-                <div class="menu-btn" onclick="{!c.switchSideMenu}">
-                    <!--c:RRIcon color="white" iconName="icon-menu" class="chevron"/-->
-                    <img src="{!$Resource.rr_community_icons + '/menu_btn.png'}" class="chevron" style="height: 32px; width: 32px"/>
-                </div>
-                <!--c:MySVG xlinkHref="{!$Resource.rr_community_icons + '/logo.svg#full-logo'}" class="title-logo"/-->
-                <div class="logo-container">
-                    <aura:if isTrue="{!v.isInitialized}">
-                        <img src="{!if(v.mode == 'Participant', $Resource.PH_logo + '/Patient_Portal_Logo.svg', $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}" class="title-logo" onclick="{!c.doGoHome}"/>
-                    </aura:if>
-                </div>
+        <div class="{!'rr-header-content ' + if(v.showModeSwitcher, ' multi-mode', '')}">
+            <aura:if isTrue="{!v.isInitialized}">
+                <div class="layout-header rr-width-limiter side-padding">
+                    <div class="menu-btn" onclick="{!c.switchSideMenu}">
+                        <img src="{!$Resource.rr_community_icons + '/menu_btn.png'}" class="chevron" style="height: 32px; width: 32px"/>
+                    </div>
+                    <div class="logo-container">
+                        <img src="{!if(v.currentMode.userMode == 'Participant', $Resource.PH_logo + '/Patient_Portal_Logo.svg', $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}" class="title-logo" onclick="{!c.doGoHome}"/>
+                    </div>
 
-                <div class="navigation-block">
-                    <c:CommunityNavigation mode="{!v.mode}" />
+                    <div class="navigation-block">
+                        <c:CommunityNavigation mode="{!v.currentMode.userMode}" />
+                    </div>
+                    <div class="right-block">
+                        <aura:if isTrue="{!v.showModeSwitcher}">
+                            <c:CommunityModeSwitcher allModes="{!v.allModes}" currentMode="{!v.currentMode}"/>
+                        </aura:if>
+                        <c:ProfileMenu userMode="{!v.currentMode.userMode}"/>
+                    </div>
                 </div>
-                <div class="right-block">
-                    <c:ModeSelector currentMode="{!v.mode}" availableModes="{!v.availableModes}"/>
-                    <!--<c:RRNotification />-->
-                    <c:RRProfile profileMenu="{!v.profileMenu}" userMode="{!v.mode}"/>
-                </div>
-            </div>
+            </aura:if>
         </div>
-        <div class="{!'rr-header-margin ' + if(v.availableModes.length > 1, ' multi-mode', '')}"></div>
+        <div class="{!'rr-header-margin ' + if(v.showModeSwitcher, ' multi-mode', '')}"></div>
         <div class="rr-body-content rr-min-body-height">
-            <c:CommunityNavigationMobile showSideMenu="{!v.showSideMenu}" mode="{!v.mode}" class="{!if(v.availableModes.length > 1, ' multi-mode', '')}"/>
+            <c:CommunityNavigationMobile showSideMenu="{!v.showSideMenu}" mode="{!v.currentMode.userMode}" class="{!if(v.availableModes.length > 1, ' multi-mode', '')}"/>
             {!v.body}
         </div>
-        <aura:if isTrue="{!!empty(v.mode)}">
+        <aura:if isTrue="{!v.isInitialized}">
             <div class="footer">
                 <div class="rr-width-limiter" style="padding: 0 15px">
                     <c:CommunityFooter />
@@ -64,6 +64,6 @@
         </aura:if>
     </div>
 
-    <c:Alerts userMode="{!v.mode}"/>
+    <c:Alerts userMode="{!v.currentMode.userMode}"/>
 
 </aura:component>

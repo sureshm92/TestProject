@@ -2,11 +2,11 @@
  * Created by Leonid Bartenev
  */
 .THIS.rr-white-panel {
-    padding-top: 18px;
+    padding: 16px 0 0;
 }
 
 .THIS .vpi-title{
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 600;
 }
 
@@ -26,36 +26,37 @@
 
 .THIS .vri-state-label{
     text-align: center;
+    font-size: 1rem;
+    line-height: 1;
 }
 
 .THIS .vpi-line-div{
     height: 22px;
-    border-top: 2px solid;
+    border-top: 3px solid;
     padding-right: 0;
     padding-left: 0;
 }
 
 .THIS .vpi-line-div.neutral{
-    border-top-color: #999999;
+    border-top-color: #b5b5b5;
 }
 
 .THIS .vpi-line-div.success{
-    border-top-color: #55C200;
+    border-top-color: #00c221;
 }
 
 
 .THIS .vpi-line-div.in_progress{
-    border-top-color: #FF9301;
+    border-top-color: #00c221;
 }
 
 .THIS .vpi-line-div.failure{
     border-top-color: #E20000;
 }
 
-
-
 .THIS .vpi-path{
-    margin-top: 30px;
+    margin: 30px 0 5px;
+    padding: 0 15px;
 }
 
 .THIS .vpi-path .vpi-state:first-child .vpi-line-div:first-child{
@@ -70,12 +71,13 @@
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    border: 2px solid;
     position: absolute;
     top: -10px;
     left: -9px;
     line-height: 1;
-
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .THIS .state-ico-wrapper .rr-icon-default{
@@ -99,41 +101,42 @@
 }
 
 .THIS .vpi-state.neutral .state-ico-wrapper{
-    background-color: white;
-    border-color: #999999;
+    background-color: #b5b5b5;
+}
+
+.THIS .vpi-state.neutral .state-ico-wrapper .cRRIcon {
+    display: none;
 }
 
 .THIS .vpi-state.success .state-ico-wrapper{
-    background-color: #55C200;
-    border-color: #55C200;
+    background-color: #00c221;
 }
 
 .THIS .vpi-state.in_progress .state-ico-wrapper{
-    background-color: #FF9301;
-    border-color: #FF9301;
+    background-color: #005ff1;
 }
 
 .THIS .vpi-state.failure .state-ico-wrapper{
     background-color: #E20000;
-    border-color: #E20000;
 }
 
 /* status names */
 
 .THIS .vpi-state.neutral .vri-state-label{
-    color: #999999;
+    color: #999;
 }
 
 .THIS .vpi-state.success .vri-state-label{
-    color: #63C900;
+    color: #000;
 }
 
 .THIS .vpi-state.in_progress .vri-state-label{
-    color: #FF9300;
+    color: #000;
+    font-weight: 600;
 }
 
 .THIS .vpi-state.failure .vri-state-label{
-    color: #FF283F;
+    color: #000;
 }
 
 .THIS .vri-state-label{
@@ -142,36 +145,62 @@
 
 .THIS .vpi-state.current .vri-state-label{
     display: block;
+    font-weight: 600;
 }
 
-.THIS .vpi-path-panel{
-    background-color: #F8F9FB;
-    border: 1px solid #D9D9D9;
-    border-radius: 5px;
-}
 
 .THIS .vpi-path-panel .path-section{
-    border-bottom: 1px solid #D9D9D9;
-    padding-bottom: 10px;
+    padding: 0 0 10px;
 }
 
+/*
+.THIS .vpi-path-panel .path-section-pi {
+    padding-bottom: 10px;
+}
+*/
 .THIS .vpi-path-panel .collapse-section{
-    padding: 10px;
+    padding: 0;
     font-size: 14px;
     line-height: 22px;
     transition: 0.6s;
     border-radius: 5px;
+    margin: 0;
 }
 
 .THIS .vpi-path-panel .collapse-section.opened{
     background-color: white;
 }
 
+.THIS .cParticipantCardFields .vpi-field label{
+    white-space: nowrap;
+}
+
+.THIS .vpi-status-btns {
+    display: flex;
+    justify-content: center;
+    padding-left: 16px;
+}
+
+.THIS .vpi-status-btns > div {
+    text-align: center;
+}
 
 .THIS .vpi-status-btns button{
     margin-top: 15px;
-    width: 100%;
+    margin-bottom: 25px;
     min-width: auto;
+}
+
+@media all and (max-width: 768px){
+     .THIS .vpi-status-btns button{
+        margin: 5px 0 10px 0;
+        width: 100%;
+    } 
+    .THIS .vpi-status-btns {
+     	padding-right: 15px; 
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
 }
 
 @media all and (min-width: 1024px) {

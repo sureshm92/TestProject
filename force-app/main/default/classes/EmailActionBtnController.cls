@@ -6,15 +6,20 @@ global without sharing class EmailActionBtnController {
     
     global String buttonURLString {get; set;}
     global String caseIdString {get; set;}
-    
+
     public String getResultURL(){
         String result = buttonURLString;
-        if(result == null) result = '';
+        if (String.isBlank(caseIdString)) {
+            if(result == null) result = '';
 
-        if(!result.containsIgnoreCase('http')){
-            if(!String.isBlank(result) && !result.startsWith('/')) result = '/' + result;
-            result = getCurrentCommunityURL() + result;
+            if(!result.containsIgnoreCase('http')){
+                if(!String.isBlank(result) && !result.startsWith('/')) result = '/' + result;
+                result = getCurrentCommunityURL() + result;
+            }
+        } else {
+            result = Url.getOrgDomainUrl().toExternalForm() + '/' + caseIdString;
         }
+
         return result;
     }
 

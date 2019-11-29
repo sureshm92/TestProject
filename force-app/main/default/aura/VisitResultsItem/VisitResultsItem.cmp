@@ -22,14 +22,13 @@
             <div class="visit-result-name">
                 {!v.wrapper.name}
                 <br />
-                <div class="visit-result-measurement">{!v.wrapper.measurement}</div>
+                <div class="visit-result-measurement"><aura:unescapedHtml value="{!v.wrapper.measurement}"/></div>
             </div>
         </div>
         <div class="visit-result-slider">
-            <c:RRSlider value="{!v.wrapper.value}" minValue="{!v.wrapper.minValue}" maxValue="{!v.wrapper.maxValue}"
-                        showFilledTrack="{!!v.isVitals}"/>
+            <c:RRSlider value="{!v.wrapper.value}" minValue="{!v.wrapper.minValue}" maxValue="{!v.wrapper.maxValue}"/>
             <div class="{!v.showExpectedRange ? 'visit-result-range' : 'hidden'}">
-                {!$Label.c.Visit_Results_Tab_Expected_Range + ': ' + v.expectedRange}
+                <aura:unescapedHtml value="{!$Label.c.Visit_Results_Tab_Expected_Range + ': ' + v.expectedRange}"/>
             </div>
         </div>
         <lightning:helptext content="{!v.wrapper.description}" class="visit-result-item-description"/>

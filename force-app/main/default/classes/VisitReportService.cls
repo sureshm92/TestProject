@@ -4,89 +4,73 @@
 public inherited sharing class VisitReportService {
 
     public static final String VISIT_RECORD_TYPE_LABS = 'Labs';
-    public static String languageToTranslate;
 
-    public List<VisitReportContainerRemote.ReportDataWrapper> getReportDataWrapper() {
-        List<VisitReportContainerRemote.ReportDataWrapper> result = new List<VisitReportContainerRemote.ReportDataWrapper>();
+    public VisitReportContainerRemote.ReportDataWrapper getReportDataWrapper(Id peId) {
+        Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, CommunityService.USER_MODE_PARTICIPANT);
         VisitResultsService visitResultsService = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class));
         VisitResultMService visitResultMService = ((VisitResultMService) ClassFactory.newInstance(VisitResultMService.class));
-        ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
-        if (pState.pe != null) {
-            VisitReportService.languageToTranslate = IRBParticipantService.getIRBLanguageMode(pState.pe.Id).languageToTranslate;
-        }
-        if (visitResultsService.checkOnAccess(pState)) {
-            return result;
-        }
-        List<Patient_Visit__c> patientVisits = visitResultsService.getPatientVisitsForReport();
-        if (patientVisits.isEmpty()) {
-            return result;
-        }
+        List<Patient_Visit__c> patientVisits = visitResultsService.getPatientVisitsForReport(pe);
         List<Visit_Result_GroupM__mdt> visitResultGroupMS = visitResultMService.getVisitResultGroups(true, null);
-        Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap = this.getDataTableWrappersByGroupName(patientVisits, visitResultGroupMS);
-        if (reportDataWrapperMap.isEmpty()) {
-            return result;
-        }
-        VisitReportContainerRemote.ReportDataWrapper reportDataWrapper = this.getFillReportData(reportDataWrapperMap, visitResultGroupMS, pState);
-        result.add(reportDataWrapper);
-        return result;
+        Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap = getDataTableWrappersByGroupName(pe, patientVisits, visitResultGroupMS);
+        return getFillReportData(reportDataWrapperMap, visitResultGroupMS, pe);
     }
 
-
     @TestVisible
-    private Map<String, VisitReportContainerRemote.ReportDataTableWrapper> getDataTableWrappersByGroupName(List<Patient_Visit__c> patientVisits, List<Visit_Result_GroupM__mdt> visitResultGroupMS) {
+    private Map<String, VisitReportContainerRemote.ReportDataTableWrapper> getDataTableWrappersByGroupName(
+            Participant_Enrollment__c pe,
+            List<Patient_Visit__c> patientVisits,
+            List<Visit_Result_GroupM__mdt> visitResultGroupMS
+    ) {
+        String language  = IRBParticipantService.getSuitableLanguageForIRBTranslation(pe.Id);
+        if(language == null) language = UserInfo.getLanguage();
+        VisitResultSharingService visitResultSharingServiceInt = ((VisitResultSharingService) ClassFactory.newInstance(VisitResultSharingService.class));
         Map<String, VisitReportContainerRemote.ReportDataTableWrapper> result = new Map<String, VisitReportContainerRemote.ReportDataTableWrapper>();
+        Map<Id, List<VisitResultWrapper>> availableVisitResultTypeMSByGroupIds = visitResultSharingServiceInt.geAvailableVisitResultTypeMSByGroupIds(pe, visitResultGroupMS);
+        Map<Id, Map<String, Visit_Result__c>> availableVisitResultsByPatientVisitIds = visitResultSharingServiceInt.getAvailableVisitResultsByPatientVisitIds(pe, patientVisits);
+        Set<String> notAccessResultType = visitResultSharingServiceInt.getNotAccessResultType();
         for (Patient_Visit__c patientVisit : patientVisits) {
-            if (!patientVisit.Visit_Results__r.isEmpty()) {
-                List<Visit_Result__c> visitResultsAvailable = VisitResultSharingService.getAvailableVisitResultsForReport(patientVisit.Visit_Results__r);
-                if (visitResultsAvailable.isEmpty()) continue;
-                Set<String> notAccessResultType = VisitResultSharingService.getNotAccessResultType();
-                Map<String, Visit_Result__c> visitResultsByResultType = this.getVisitResultMapByResultType(visitResultsAvailable);
+            if (availableVisitResultsByPatientVisitIds.containsKey(patientVisit.Id)) {
+                Map<String, Visit_Result__c> availableVisitResultsByResultType = availableVisitResultsByPatientVisitIds.get(patientVisit.Id);
                 for (Visit_Result_GroupM__mdt visitResultGroupM : visitResultGroupMS) {
-                    Boolean isResult = false;
-                    List<VisitReportContainerRemote.VisitDataWrapper> reportRowWrappers = new List<VisitReportContainerRemote.VisitDataWrapper>();
-                    List<VisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers = new List<VisitReportContainerRemote.VisitDataWrapper>();
-                    String visitDate = DateService.format(patientVisit.Completed_Date__c, 'MMM, D YYYY');
-                    reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper('Report_Dates', VisitReportService.languageToTranslate));
-                    reportRowWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitDate, VisitReportService.languageToTranslate));
-                    List<VisitReportContainerRemote.LabsNameDescriptionWrapper> labsDescription = new List<VisitReportContainerRemote.LabsNameDescriptionWrapper>();
-                    List<VisitResultWrapper> visitResultWrappers = new List<VisitResultWrapper>();
-                    for (Visit_Result_TypeM__mdt visitResultTypeM : visitResultGroupM.Visit_Result_Types__r) {
-                        visitResultWrappers.add(new VisitResultWrapper(visitResultTypeM));
-                    }
-                    visitResultWrappers.sort();
-                    for (VisitResultWrapper visitResultWrapper : visitResultWrappers) {
-                        if (notAccessResultType.contains(visitResultWrapper.visitResultTypeM.DeveloperName)) continue;
-                        if (visitResultsByResultType.containsKey(visitResultWrapper.visitResultTypeM.DeveloperName)) {
-                            Visit_Result__c visitResult = visitResultsByResultType.get(visitResultWrapper.visitResultTypeM.DeveloperName);
-                            if (VisitReportService.VISIT_RECORD_TYPE_LABS.equalsIgnoreCase(visitResultGroupM.Visit_Results_Mode__c)) {
-                                reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResult, VisitReportService.languageToTranslate));
-                            } else {
-                                reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResult.Result_Type__c, VisitReportService.languageToTranslate));
-                            }
-                            Decimal rounded = visitResult.Actual_Value__c.setScale(4, RoundingMode.HALF_UP).stripTrailingZeros();
-                            String value = rounded.toPlainString();
-                            reportRowWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(value, visitResult.Measurement__c, VisitReportService.languageToTranslate));
-                            isResult = true;
-                        } else {
-                            reportRowWrappers.add(new VisitReportContainerRemote.VisitDataWrapper('______', VisitReportService.languageToTranslate));
-                            reportHeaderWrappers.add(new VisitReportContainerRemote.VisitDataWrapper(visitResultWrapper.visitResultTypeM.DeveloperName, VisitReportService.languageToTranslate));
+                    if (availableVisitResultTypeMSByGroupIds.containsKey(visitResultGroupM.Id)) {
+                        List<VisitResultWrapper> availableVisitResultSortWrappers = availableVisitResultTypeMSByGroupIds.get(visitResultGroupM.Id);
+                        List<VisitReportContainerRemote.VisitDataWrapper> reportRowWrappers = new List<VisitReportContainerRemote.VisitDataWrapper>();
+                        List<VisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers = new List<VisitReportContainerRemote.VisitDataWrapper>();
+                        List<VisitReportContainerRemote.LabsNameDescriptionWrapper> labsDescription = new List<VisitReportContainerRemote.LabsNameDescriptionWrapper>();
+                        reportHeaderWrappers.add(new VisitReportContainerRemote.VisitHeaderWrapper('Report_Dates'));
+                        reportRowWrappers.add(new VisitReportContainerRemote.VisitDateColumnWrapper(patientVisit.Completed_Date__c));
+                        Boolean isResult = false;
+                        for (VisitResultWrapper visitResultWrapper : availableVisitResultSortWrappers) {
+                            if (!notAccessResultType.contains(visitResultWrapper.visitResultTypeM.DeveloperName)) {
+                                if (availableVisitResultsByResultType.containsKey(visitResultWrapper.visitResultTypeM.DeveloperName)) {
+                                    this.fillDataFromExistingVisit(
+                                            visitResultGroupM,
+                                            reportHeaderWrappers,
+                                            availableVisitResultsByResultType.get(visitResultWrapper.visitResultTypeM.DeveloperName),
+                                            reportRowWrappers
+                                    );
+                                    isResult = true;
+                                } else {
+                                    reportHeaderWrappers.add(new VisitReportContainerRemote.VisitHeaderWrapper(visitResultWrapper.visitResultTypeM.DeveloperName));
+                                    reportRowWrappers.add(new VisitReportContainerRemote.VisitValueWrapper('______'));
 
+                                }
+                                labsDescription.add(new VisitReportContainerRemote.LabsNameDescriptionWrapper(visitResultWrapper.visitResultTypeM, language));
+                            }
                         }
-                        labsDescription.add(new VisitReportContainerRemote.LabsNameDescriptionWrapper(visitResultWrapper.visitResultTypeM, VisitReportService.languageToTranslate));
-                    }
-                    if (isResult) {
-                        if (result.get(visitResultGroupM.DeveloperName) != null) {
-                            result.get(visitResultGroupM.DeveloperName).visitResultsWrapper.add(reportRowWrappers);
-                        } else {
-                            VisitReportContainerRemote.ReportDataTableWrapper reportDataTableWrapper = new VisitReportContainerRemote.ReportDataTableWrapper();
-                            reportDataTableWrapper.tHead = reportHeaderWrappers;
-                            reportDataTableWrapper.visitResultsWrapper = new List<List<VisitReportContainerRemote.VisitDataWrapper>>{
-                                    reportRowWrappers
-                            };
-                            reportDataTableWrapper.tableName = TranslateHelper.getLabelValue('Report_' + visitResultGroupM.DeveloperName + '_header', VisitReportService.languageToTranslate);
-                            reportDataTableWrapper.tableApiName = visitResultGroupM.DeveloperName;
-                            reportDataTableWrapper.labsDescription = labsDescription;
-                            result.put(visitResultGroupM.DeveloperName, reportDataTableWrapper);
+                        if (isResult) {
+                            if (result.containsKey(visitResultGroupM.DeveloperName)) {
+                                result.get(visitResultGroupM.DeveloperName).visitResultsWrapper.add(reportRowWrappers);
+                            } else {
+                                VisitReportContainerRemote.ReportDataTableWrapper reportDataTableWrapper = this.getReportDataTableWrapper(
+                                        reportHeaderWrappers,
+                                        reportRowWrappers,
+                                        visitResultGroupM,
+                                        labsDescription,
+                                        pe.Id
+                                );
+                                result.put(visitResultGroupM.DeveloperName, reportDataTableWrapper);
+                            }
                         }
                     }
                 }
@@ -95,41 +79,86 @@ public inherited sharing class VisitReportService {
         return result;
     }
 
-    private Map<String, Visit_Result__c> getVisitResultMapByResultType(List<Visit_Result__c> visitResults) {
-        Map<String, Visit_Result__c> result = new Map<String, Visit_Result__c>();
-        for (Visit_Result__c visitResult : visitResults) {
-            result.put(visitResult.Result_Type__c, visitResult);
+    @TestVisible
+    private VisitReportContainerRemote.ReportDataWrapper getFillReportData(
+            Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap
+            , List<Visit_Result_GroupM__mdt> visitResultGroupMS, Participant_Enrollment__c pe
+    ) {
+        VisitReportContainerRemote.ReportDataWrapper result = new VisitReportContainerRemote.ReportDataWrapper();
+        String language  = IRBParticipantService.getSuitableLanguageForIRBTranslation(pe.Id);
+        if(language == null) {
+            language = UserInfo.getLanguage();
+            result.notAvailableMessage = ParticipantIRBCheckerRemote.checkLanguagePermissions(pe.Id).message;
         }
+        TranslateHelper.translate(pe, language);
+        List<VisitReportContainerRemote.ReportDataTableWrapper> sortReportDataTableWrappers = this.getSortedReportDataTableWrappers(reportDataWrapperMap, visitResultGroupMS);
+        result.dataTables = sortReportDataTableWrappers;
+        result.studyCodeName = pe.Clinical_Trial_Profile__r.Study_Code_Name__c;
+        result.studyTitle = pe.Clinical_Trial_Profile__r.Study_Title__c;
+        result.profilePicture = pe.Clinical_Trial_Profile__r.Profile_Picture__c;
+        result.participantFullName = pe.Participant__r.Full_Name__c;
+        result.participantLastName = pe.Participant__r.Last_Name__c;
+        if (pe.Enrolled_Date__c != null) {
+            Datetime dT = pe.Enrolled_Date__c;
+            Date myDate = Date.newInstance(dT.year(), dT.month(), dT.day());
+            //result.enrollmentDate = DateService.format(myDate, 'DD-MMM-YYYY');
+            result.enrollmentDate = myDate.format();
+        }
+        result.studySiteName = pe.Study_Site__r.Name;
         return result;
     }
 
-    private List<VisitReportContainerRemote.ReportDataTableWrapper> getSortedReportDataTableWrappers(Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap, List<Visit_Result_GroupM__mdt> visitResultGroupMS) {
+    private VisitReportContainerRemote.ReportDataTableWrapper getReportDataTableWrapper(
+            List<VisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers,
+            List<VisitReportContainerRemote.VisitDataWrapper> reportRowWrappers,
+            Visit_Result_GroupM__mdt visitResultGroupM,
+            List<VisitReportContainerRemote.LabsNameDescriptionWrapper> labsDescription,
+            Id peId
+    ) {
+        String language  = IRBParticipantService.getSuitableLanguageForIRBTranslation(peId);
+        if(language == null) language = UserInfo.getLanguage();
+        VisitReportContainerRemote.ReportDataTableWrapper reportDataTableWrapper = new VisitReportContainerRemote.ReportDataTableWrapper();
+        reportDataTableWrapper.tHead = reportHeaderWrappers;
+        reportDataTableWrapper.visitResultsWrapper = new List<List<VisitReportContainerRemote.VisitDataWrapper>>{
+                reportRowWrappers
+        };
+        reportDataTableWrapper.tableName = TranslateHelper.getLabelValue('Report_' + visitResultGroupM.DeveloperName + '_header', language);
+        reportDataTableWrapper.tableApiName = visitResultGroupM.DeveloperName;
+        reportDataTableWrapper.labsDescription = labsDescription;
+        return reportDataTableWrapper;
+    }
+
+    private void fillDataFromExistingVisit(
+            Visit_Result_GroupM__mdt visitResultGroupM,
+            List<VisitReportContainerRemote.VisitDataWrapper> reportHeaderWrappers,
+            Visit_Result__c visitResult,
+            List<VisitReportContainerRemote.VisitDataWrapper> reportRowWrappers
+    ) {
+        if (VisitReportService.VISIT_RECORD_TYPE_LABS.equalsIgnoreCase(visitResultGroupM.Visit_Results_Mode__c)) {
+            reportHeaderWrappers.add(new VisitReportContainerRemote.VisitHeaderWrapper(visitResult));
+        } else {
+            reportHeaderWrappers.add(new VisitReportContainerRemote.VisitHeaderWrapper(visitResult.Result_Type__c));
+        }
+        reportRowWrappers.add(new VisitReportContainerRemote.VisitValueWrapper(visitResult.Actual_Value__c, visitResult.Measurement__c));
+    }
+
+    private List<VisitReportContainerRemote.ReportDataTableWrapper> getSortedReportDataTableWrappers(
+            Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap,
+            List<Visit_Result_GroupM__mdt> visitResultGroupMS
+    ) {
         List<VisitReportContainerRemote.ReportDataTableWrapper> result = new List<VisitReportContainerRemote.ReportDataTableWrapper>();
         for (Visit_Result_GroupM__mdt visitResultGroupM : visitResultGroupMS) {
-            VisitReportContainerRemote.ReportDataTableWrapper rep = reportDataWrapperMap.get(visitResultGroupM.DeveloperName);
-            if (rep != null) {
-                result.add(rep);
+            if (reportDataWrapperMap.containsKey(visitResultGroupM.DeveloperName)) {
+                result.add(reportDataWrapperMap.get(visitResultGroupM.DeveloperName));
             }
         }
         return result;
     }
 
     @TestVisible
-    private VisitReportContainerRemote.ReportDataWrapper getFillReportData(Map<String, VisitReportContainerRemote.ReportDataTableWrapper> reportDataWrapperMap, List<Visit_Result_GroupM__mdt> visitResultGroupMS, ParticipantService.ParticipantState pState) {
-        VisitReportContainerRemote.ReportDataWrapper result = new VisitReportContainerRemote.ReportDataWrapper();
-        List<VisitReportContainerRemote.ReportDataTableWrapper> sortReportDataTableWrappers = this.getSortedReportDataTableWrappers(reportDataWrapperMap, visitResultGroupMS);
-        result.dataTables = sortReportDataTableWrappers;
-        result.studyCodeName = pState.ctp.Study_Code_Name__c;
-        result.studyTitle = pState.ctp.Study_Title__c;
-        result.profilePicture = pState.ctp.Profile_Picture__c;
-        result.participantFullName = pState.participant.Full_Name__c;
-        result.participantLastName = pState.participant.Last_Name__c;
-        Datetime dT = pState.pse.CreatedDate;
-        Date myDate = Date.newInstance(dT.year(), dT.month(), dT.day());
-        result.enrollmentDate = DateService.format(myDate, 'DD-MMM-YYYY');
-        result.studySiteName = pState.pse.Study_Site__r.Name;
-        result.peId = pState.pe.Id;
-        return result;
+    private Boolean isNotAccessReport(Participant_Enrollment__c pe) {
+        return !PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)
+                || !pe.Participant_Contact__r.Visit_Results_Opt_In__c;
     }
 
     public class VisitResultWrapper implements Comparable {

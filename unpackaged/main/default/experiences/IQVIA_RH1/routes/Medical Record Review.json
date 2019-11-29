@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "medical-record-review",
-  "appPageId" : "d9c4a932-5387-4757-867b-fed2cab30e7c",
-  "routeType" : "custom-medical-record-preview",
-  "pageAccess" : "UseParent",
-  "label" : "Medical Record Review",
-  "id" : "bb7b8eb7-a728-4eb5-9f02-9b51c62a3bce",
-  "type" : "route"
-}

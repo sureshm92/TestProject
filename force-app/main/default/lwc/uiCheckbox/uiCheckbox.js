@@ -1,8 +1,8 @@
 /**
- * Created by Igor Malyuta on 23.08.2019.
+ * Created by Igor Malyuta on 19.09.2019.
  */
 
-import {LightningElement, api, track} from 'lwc';
+import {LightningElement, api} from 'lwc';
 
 export default class UiCheckbox extends LightningElement {
 

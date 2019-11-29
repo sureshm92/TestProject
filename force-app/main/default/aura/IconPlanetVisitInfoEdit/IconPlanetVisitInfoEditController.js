@@ -7,8 +7,8 @@
         helper.getIconDetails(component, event, helper);
     },
     saveIconsLegend: function (component, event, helper) {
-        helper.saveIconsLegend(component, event, helper);
-
+        let params = event.getParam('arguments');
+        helper.saveIconsLegend(component, event, helper, params.callback);
     },
     closeModal: function (component, event, helper) {
         let params = event.getParam('arguments');

@@ -49,7 +49,7 @@
                 <div class="as-title">{!$Label.c.PG_AS_H_Email}</div>
                 <div class="as-email rr-form-element">
                     <div class="as-email-input slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">
-                        <div class="rr-form-element All fields are required.All fields are required.slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label">{!$Label.c.PG_AS_F_Username}</div>
                             <c:rrInput valueString="{!v.initData.userName}" placeholder="{!$Label.c.PG_AS_F_Username}"
                                        disabled="{!true}"/>
@@ -60,7 +60,7 @@
                                        placeholder="{!$Label.c.PG_AS_F_Email_address}"/>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
-                            <button class="apollo-btn primary" id="0"
+                            <button class="apollo-btn secondary" id="0"
                                     onclick="{!c.doChangeEmail}">{!$Label.c.PG_AS_BTN_Update_My_Email}</button>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                             <c:rrInput type="password" valueString="{!v.initData.password.reNew}"/>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-4">
-                            <button class="apollo-btn primary" id="0"
+                            <button class="apollo-btn secondary" id="0"
                                     onclick="{!c.doChangePassword}">{!$Label.c.PG_AS_BTN_Update_My_Password}</button>
                         </div>
                     </div>
@@ -90,12 +90,13 @@
                     <!--<button class="apollo-btn primary" id="0" onclick="{!c.doChangePassword}">{!$Label.c.PG_AS_BTN_Update_My_Password}</button>-->
                     <!--</div>-->
                 </div>
-            </div>
+          <!--  </div> -->
             <aura:if isTrue="{!v.isDelegate}">
                 <c:DelegateInformation contact="{!v.initData.myContact}" parentComponent="{!this}"/>
             </aura:if>
+            <div style="height: 45px"></div>
             <!-- Date format and preferred language panel: -->
-            <div class="rr-white-panel" style="padding: 30px">
+                <!-- <div class="rr-white-panel" style="padding: 30px"> -->
 <!--                <div class="as-title">{!$Label.c.PG_Login_H_Date_Language}</div>-->
 <!--                <aura:if isTrue="{!v.userMode == 'Participant'}">-->
 <!--                    <div class="as-sub-title">{!$Label.c.PP_L_Account_Setting_Preferred_Lng}</div>-->
@@ -106,6 +107,7 @@
                 <div class="as-language-switcher">
                     <c:LanguageSwitcher/>
                 </div>
+                <div style="height: 45px"></div>
                 <aura:if isTrue="{!v.userMode != 'PI'}">
                     <div class="as-email-preference">
                         <div class="as-title ">{!$Label.c.PG_AS_H_Email_Preferences}</div>
@@ -151,6 +153,7 @@
                                                  onchange="{!c.doSwitchOptInEmail}"/>
                                 {!$Label.c.PG_AS_L_Opt_In_Participant_Status_Emails}
                             </div>
+                            <div style="height: 25px"></div>
                             <div class="as-email-preference">
                                 <div class="as-title ">{!$Label.c.PG_AS_L_Conditions_of_Interest}</div>
                                 <div class="as-sub-title">
@@ -161,13 +164,12 @@
                                 </div>
                             </div>
                         </aura:if>
-                        <div style="height: 15px"></div>
                     </div>
                 </aura:if>
-            </div>
-
+     <!--       </div> -->
+				<div style="height: 45px"></div>
             <!-- Cookies settings -->
-            <div class="rr-white-panel" style="padding: 0 30px 30px 30px;">
+      <!--      <div class="rr-white-panel" style="padding: 0 30px 30px 30px;"> -->
                 <div class="as-email-preference">
                     <div class="as-title">{!$Label.c.AccountSettings_Cookie_Settings}</div>
                     <div class="as-sub-title"
@@ -234,13 +236,12 @@
                             </div>
                         </c:RRCollapse>
                     </div>
-                    <div style="height: 15px"></div>
-                </div>
-            </div>
-
+               </div>
+           <!--  </div> -->
+			<div style="height: 65px"></div>
             <!-- Referral Network settings -->
             <aura:if isTrue="{!v.userMode == 'HCP'}">
-                <div class="rr-white-panel" style="padding: 0 30px 30px 30px;">
+             <!--   <div class="rr-white-panel" style="padding: 0 30px 30px 30px;"> -->
                     <div class="as-email-preference">
                         <div class="as-title">{!$Label.c.AccountSettings_Referral_Networks}</div>
                         <div class="as-sub-title">
@@ -260,10 +261,10 @@
                             <c:SubscribeToReferralNetwork sObjectType="Therapeutic_Area__c"/>
                         </div>
                     </div>
-                </div>
+              <!--  </div> --><div style="height: 45px"></div>
             </aura:if>
-
-            <div class="rr-white-panel" style="padding: 30px">
+			
+        <!--    <div class="rr-white-panel" style="padding: 30px"> -->
                 <div class="as-title">
                     {!$Label.c.PG_AS_H_Contact_Information}
                 </div>
@@ -336,7 +337,7 @@
                         </div>
 
                     </aura:if>
-
+					<div style="height: 45px"></div>
                     <!-- participant contact info: -->
                     <aura:if isTrue="{!and(v.userMode == 'Participant', !v.isDelegate)}">
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
@@ -396,7 +397,7 @@
                                              onblur="{!c.doCheckFieldsValidity}"/>
                         </div>
                         <div class="slds-col slds-size_1-of-1 as-buttons-footer">
-                            <button class="apollo-btn primary"
+                            <button class="apollo-btn secondary"
                                     disabled="{!or(and(!v.participantChanged,!v.participantHasUpdateTasks), !v.isAllFieldsValid)}"
                                     onclick="{!c.doUpdateParticipant}">{!if(v.participantHasUpdateTasks,$Label.c.BTN_Account_Settings_Save_Updates,$Label.c.BTN_Save)}</button>
                         </div>
@@ -445,17 +446,17 @@
                                              onblur="{!c.doCheckFieldsValidity}"/>
                         </div>
                         <div class="slds-col slds-size_1-of-1 as-buttons-footer">
-                            <button class="apollo-btn primary"
+                            <button class="apollo-btn secondary"
                                     disabled="{!or(and(!v.contactChanged,!v.participantHasUpdateTasks), !v.isAllFieldsValid)}"
                                     onclick="{!c.doUpdateContact}">{!if(v.participantHasUpdateTasks,$Label.c.BTN_Account_Settings_Save_Updates,$Label.c.BTN_Save)}</button>
                         </div>
 
                     </aura:if>
                 </div>
-            </div>
-
-            <div class="rr-white-panel" style="padding: 30px">
-
+         <!--   </div>
+				
+            <div class="rr-white-panel" style="padding: 30px"> -->
+				<div style="height: 65px"></div>
                 <aura:if isTrue="{!and(v.userMode == 'Participant',!v.isDelegate)}">
                     <div class="as-title">{!$Label.c.PG_AS_H_Display_Vitals_and_Lab_Data}</div>
                     <div class="as-sub-title">{!$Label.c.PG_AS_T_Display_Vitals_and_Lab_Data}</div>
@@ -469,6 +470,7 @@
                         <p class="slds-m-top--small">{!$Label.c.PG_AS_L_Opt_In_Visit_Results}</p>
                     </div>
                 </aura:if>
+                 <div style="height: 45px"></div>
                 <div class="as-title">{!$Label.c.PG_AS_H_Privacy_Rights}</div>
                 <div class="as-sub-title">{!$Label.c.PG_AS_T_Privacy_Rights}</div>
                 <!--<div class="as-privacy slds-grid slds-wrap slds-gutters slds-grid_vertical-align-end">-->
@@ -477,6 +479,7 @@
                 <!--checked="{!v.initData.myContact.HasOptedOutOfEmail}" onchange="{!c.doSwitchHasOptedOutOfEmail}"/>-->
                 <!--</div>-->
                 <!--</div>-->
+               
                 <div class="as-privacy-form slds-grid slds-wrap slds-grid_vertical-align-end">
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-4">
                         <div class="slds-grid slds-wrap">
@@ -485,9 +488,9 @@
                                                     variant="label-hidden"
                                                     placeholder="{!$Label.c.PG_AS_F_Placeholder_Enter_text}"/>
                             </div>
-                            <div class="slds-medium-size_8-of-12 slds-medium-show"/>
-                            <div class="slds-col slds-size_1-of-1  slds-medium-size_4-of-12">
-                                <button class="as-submit-button apollo-btn primary" id="2"
+                           
+                            <div class="slds-col slds-size_1-of-1">
+                                <button class="as-submit-button apollo-btn secondary" id="2"
                                         onclick="{!c.doSubmitQuestion}">{!$Label.c.PG_AS_BTN_Submit_Your_Question}</button>
                             </div>
                         </div>
@@ -497,10 +500,10 @@
                          headerText="{!$Label.c.Visit_Results_Tab_Modal_Body}"
                          closeButtonClicked="{!v.closeButtonClicked}">
                     <aura:set attribute="footerButtons">
-                        <button class="apollo-btn primary opt-in-popup-button" onclick="{!c.handleOkClick}"
-                                tabindex="0">{!$Label.c.BTN_OK}</button>
                         <button class="apollo-btn secondary opt-in-popup-button" onclick="{!c.handleCancelClick}"
                                 tabindex="1">{!$Label.c.BTN_Cancel}</button>
+                         <button class="apollo-btn secondary opt-in-popup-button" onclick="{!c.handleOkClick}"
+                                tabindex="0">{!$Label.c.BTN_OK}</button>
                     </aura:set>
                 </c:Popup>
             </div>

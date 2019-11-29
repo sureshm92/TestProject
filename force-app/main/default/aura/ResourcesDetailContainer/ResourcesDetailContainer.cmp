@@ -5,7 +5,7 @@
 <aura:component description="ResourcesDetailContainer" implements="forceCommunity:availableForAllPageTypes"
                 controller="ResourcesDetailRemote">
     <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community_js)}"/>
+                  scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
     <aura:attribute name="resourceWrapper" type="ResourceService.ResourceWrapper"/>
     <aura:attribute name="resourceType" type="String" default="Article"/>
@@ -13,8 +13,8 @@
     <aura:attribute name="smallTitle" type="String" default="&nbsp;"/>
     <aura:attribute name="bigTitle" type="String" default="&nbsp;"/>
     <aura:attribute name="errorMessage" type="String" default=""/>
+    <aura:attribute name="lang" type="String"/>
 
-    <aura:handler name="init" value="this" action="{!c.doInit}"/>
 
     <div>
         <c:RRTopBar backLabel="{!v.backStudy == '' ? $Label.c.Link_Back_To_Home : $Label.c.Link_Back_To_Resources}"
@@ -29,7 +29,7 @@
             </div>
             <aura:set attribute="else">
                 <div class="resource-detail-block">
-                    <c:ResourcesDetailItem resourceWrapper ="{!v.resourceWrapper}"/>
+                    <c:ResourcesDetailItem resourceWrapper ="{!v.resourceWrapper}" lang="{!v.lang}"/>
                 </div>
             </aura:set>
         </aura:if>

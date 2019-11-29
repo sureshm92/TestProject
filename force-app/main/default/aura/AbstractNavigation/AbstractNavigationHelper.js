@@ -120,28 +120,20 @@
         };
 
         //init items for every type
-        var participantTabs = [
-            this.allPagesMap['participant-home'],
-            this.allPagesMap['my-study'],
-            this.allPagesMap['help']
-        ];
+        var participantTabs = [];
+        participantTabs.push(this.allPagesMap['participant-home']);
+        if(communityService.getParticipantState() !== 'ALUMNI') {
+            participantTabs.push(this.allPagesMap['my-study']);
+        }else{
+            participantTabs.push(this.allPagesMap['resources']);
+        }
+        if(communityService.isShowPastStudies()) participantTabs.push(this.allPagesMap['past-studies']);
+        participantTabs.push(this.allPagesMap['help']);
 
-        var participantAlumniTabs = [
-            this.allPagesMap['participant-home'],
-            this.allPagesMap['resources'],
-            this.allPagesMap['past-studies'],
-            this.allPagesMap['help']
-        ];
-
-        var participantAlumniDelegateTabs = [
-            this.allPagesMap['participant-home'],
-            this.allPagesMap['resources'],
-            this.allPagesMap['help']
-        ];
 
         this.itemsMap = {
 
-            Participant: communityService.getParticipantState() !== 'ALUMNI' ? participantTabs : communityService.isDelegate() ? participantAlumniDelegateTabs : participantAlumniTabs,
+            Participant: participantTabs,
 
             PI: [
                 this.allPagesMap[''],

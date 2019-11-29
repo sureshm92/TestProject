@@ -3,7 +3,7 @@
  */
 
 @IsTest
-public without sharing class TestData {
+public class TestData {
     
     public User piUser;
     public User hcpUser;
@@ -12,20 +12,21 @@ public without sharing class TestData {
     public Participant__c participant;
     public Clinical_Trial_Profile__c ctp;
     public Study_Site__c ss;
-    public Participant_Study_Enrollment__c pse;
+    public Participant_Study_Enrollment__c pse; //ONLY FOR DEPLOY
     public Participant_Enrollment__c pe;
     public HCP_Enrollment__c hcpEnrollment;
-    
+    private static Contact hcpContact;
+    private static Terms_And_Conditions__c studyTC;
     public TestData(){
         participant = [
                 SELECT Id, Name
                 FROM Participant__c
-                WHERE Last_Name__c = 'Participant'
+                WHERE Last_Name__c = 'ParticipantTD'
         ];
         List<String> contactLastNames = new List<String>{
                 participant.Name,
-                'HCP',
-                'PI'
+                'HCPTD',
+                'PITD'
         };
         List<User> users = [
                 SELECT Id, ContactId, LastName
@@ -33,14 +34,14 @@ public without sharing class TestData {
                 WHERE Contact.LastName IN: contactLastNames
         ];
         for(User user : users){
-            if(user.LastName == 'PI') piUser = user;
-            if(user.LastName == 'HCP') hcpUser = user;
+            if(user.LastName == 'PITD') piUser = user;
+            if(user.LastName == 'HCPTD') hcpUser = user;
             if(user.LastName == participant.Name) participantUser = user;
         }
         ctp = [
                 SELECT Id, Therapeutic_Area__c,
-                        Terms_and_Conditions__c,
-                        Visit_Plan__c
+                        Patient_Portal_Enabled__c,
+                        Terms_and_Conditions__c
                 FROM Clinical_Trial_Profile__c
                 WHERE NCT_Number__c = 'NCT99999999'
         ];
@@ -53,34 +54,41 @@ public without sharing class TestData {
         pe = [
                 SELECT Id,
                         Participant_Contact__c,
-                        Screening_ID__c,
-                        Clinical_Trial_Profile__c,
-                        Participant__c,
-                        Study_Site__c
+                        Participant_Contact__r.Visit_Results_Opt_In__c,
+                        Screening_ID__c
                 FROM Participant_Enrollment__c
                 WHERE Participant__c =: participant.Id
         ];
         hcpEnrollment = [
                 SELECT Id
                 FROM HCP_Enrollment__c
-                WHERE HCP_Contact__r.LastName = 'HCP' LIMIT 1
+                WHERE HCP_Contact__r.LastName = 'HCPTD' LIMIT 1
         ];
     }
-    
-    public void createPSE(){
+
+    public void createSSTravelVendors(){
+        TravelVendor__c tv = new TravelVendor__c(Name = 'Test TV', Link_Vendor__c = 'Some link');
+        insert(tv);
+        insert new TravelVendorSettings__c(Study_Site__c = ss.Id, TravelVendor__c = tv.Id);
+    }
+
+    public void updatePEStatusEnrollmentSuccess(){
         pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
         update pe;
-        pse = [
-                SELECT Id,
-                        Participant_Contact__c,
-                        Screening_ID__c,
-                        Clinical_Trial_Profile__c,
-                        CreatedDate
-                FROM Participant_Study_Enrollment__c
-                WHERE Participant_Enrollment__c =: pe.Id
-        ];
     }
-    
+
+    /**
+     * Fill Enrolled_Date__c on PE
+     * @param status some of PEStatusState
+     */
+    public void updatePEStatusThroughHistory(String status) {
+        Participant_Enrollment_Status_History__c history = new Participant_Enrollment_Status_History__c(
+                Date__c = Datetime.now(),
+                Status__c = status,
+                ParticipantEnrollment__c = pe.Id
+        );
+        insert history;
+    }
     
     public static void loadTestData(){
         TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
@@ -91,7 +99,7 @@ public without sharing class TestData {
         );
         tcList.add(portalTC);
     
-        Terms_And_Conditions__c studyTC = new Terms_And_Conditions__c();
+        studyTC = new Terms_And_Conditions__c();
         tcList.add(studyTC);
         insert tcList;
     
@@ -126,16 +134,16 @@ public without sharing class TestData {
     
         List<Contact> contacts = new List<Contact>();
         Contact piContact = new Contact(
-                FirstName = 'PI',
-                LastName = 'PI',
+                FirstName = 'PITD',
+                LastName = 'PITD',
                 Email = 'pi@emil.com',
                 AccountId = piAccount.Id
         );
         contacts.add(piContact);
-        
-        Contact hcpContact = new Contact(
-                FirstName = 'HCP',
-                LastName = 'HCP',
+
+        hcpContact = new Contact(
+                FirstName = 'HCPTD',
+                LastName = 'HCPTD',
                 Email = 'hcp@emil.com',
                 AccountId = hcpAccount.Id,
                 MailingLatitude = 40.766594,
@@ -144,7 +152,7 @@ public without sharing class TestData {
         contacts.add(hcpContact);
         insert contacts;
         
-        Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA');
+        Therapeutic_Area__c area = new Therapeutic_Area__c(Name = 'Test TA TD');
         insert area;
     
         Clinical_Trial_Profile__c study = new Clinical_Trial_Profile__c(
@@ -157,9 +165,9 @@ public without sharing class TestData {
                 Study_Code_Name__c = 'Some Code Name',
                 Suppress_Participant_Emails__c = false,
                 Therapeutic_Area__c = area.Id,
-                Participating_in_Digital_Recruitment__c = 'YES',
-                Participating_in_Rocket_Referral__c = 'YES',
-                Participating_in_Patient_Portal__c = 'Yes',
+                Synch_with_TMDH__c = true,
+                Include_in_RP_trial_search__c = true,
+                Patient_Portal_Enabled__c = true,
                 Shareback_Settings_On_Participant_Level__c = true,
                 Shareback_Availability_Timing__c = 1,
                 Visit_Data_Shareback__c = true
@@ -176,7 +184,6 @@ public without sharing class TestData {
         insert studyTranslation;
     
         Study_Site__c studySite = new Study_Site__c(
-                Name = 'Test SS',
                 Principal_Investigator__c = piContact.Id,
                 Clinical_Trial_Profile__c = study.Id,
                 Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
@@ -200,8 +207,8 @@ public without sharing class TestData {
         
     
         Participant__c participant = new Participant__c(
-                First_Name__c = 'Participant',
-                Last_Name__c = 'Participant',
+                First_Name__c = 'ParticipantTD',
+                Last_Name__c = 'ParticipantTD',
                 Phone__c = '55313535',
                 Email__c = 'part1@email.com',
                 Mailing_Country_Code__c = 'US',
@@ -239,8 +246,12 @@ public without sharing class TestData {
         );
         insert contactTherapeuticArea;
     
+
+    }
+
+    public static void createTCAcceptance() {
         User hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
-    
+
         Terms_And_Conditions_Acceptance__c tc_acceptance = new Terms_And_Conditions_Acceptance__c(
                 User__c = hcpUser.Id,
                 Terms_And_Conditions__c = studyTC.Id

@@ -1,16 +1,26 @@
 /**
  * Created by Leonid Bartenev
  */
+
+.THIS {
+    padding: 0 16px;
+}
+
+.THIS > div {
+    display: flex;
+    justify-content: space-between;
+}
+
 .THIS .psec-title-link{
-    font-size: 17px;
+    font-size: 1rem;
     color: #3294fe;
     font-weight: 600;
 }
 
 .THIS .sponsor-name {
     height: 20px;
-    color: #999999;
-    font-size: 12px;
+    color: #595959;
+    font-size: 1rem;
     line-height: 20px;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -26,22 +36,28 @@
 }
 
 .THIS .objective-section .objective-text {
-    height: 16px;
-    color: #333333;
-    font-size: 13px;
-    line-height: 16px;
+    height: 1rem;
+    color: #444;
+    font-size: 1rem;
+    line-height: 1rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    margin-top: 5px;
 }
 
-.THIS .objective-section .objective-link {
+.THIS .objective-link {
     white-space: nowrap;
-    margin-left: 10px;
-    flex-shrink: 0;
+    font-size: 1rem;
+    width: 150px;
+    display: inline-block;
+    text-align: right;
 }
 
-.THIS .vpi-title{
-    font-size: 17px;
+.THIS .vpi-title,
+.THIS .vpi-tile-title {
+    font-size: 1.125rem;
     font-weight: 600;
+    color: #000;
+    display: inline-block;
 }

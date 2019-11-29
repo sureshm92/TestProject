@@ -4,9 +4,9 @@
     width: 100%;
 }
 .THIS .slds-select {
-    font-size: 14px;
+    font-size: 1rem;
     line-height: 22px;
-    height: 40px;
+    height: 32px;
 }
 .THIS.rri-container .rri-body {
     display: flex;
@@ -22,8 +22,8 @@
 
 .THIS.rri-container .rri-label {
     display: flex;
-    color: #666666;
-    font-size: 13px;
+    color: #444;
+    font-size: .874rem;
     font-weight: 500;
     line-height: 21px;
 }
@@ -33,9 +33,9 @@
 }
 
 .THIS.rri-container input {
-    font-size: 14px;
+    font-size: 1rem;
     line-height: 22px;
-    height: 40px;
+    height: 32px;
 }
 
 .THIS.rri-container svg {
@@ -51,7 +51,7 @@
 
 .THIS.rri-container .rri-password .rri-show-password{
     position: absolute;
-    top: 9px;
+    top: 5px;
     right: 5px;
     cursor: pointer;
 }

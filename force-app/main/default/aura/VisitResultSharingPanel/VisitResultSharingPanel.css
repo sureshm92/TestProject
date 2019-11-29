@@ -2,7 +2,11 @@
  * Created by Leonid Bartenev
  */
 .THIS{
-    min-height: 125px;
+    min-height: 100px;
+}
+
+.THIS.panel {
+    min-height: 100px;
 }
 
 .THIS .global-data{
@@ -80,4 +84,15 @@
 
 .THIS .completed-visits-input .info-text{
     padding-left: 10px;
+}
+
+.THIS .overlay{
+    position: absolute;
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: unset;
 }

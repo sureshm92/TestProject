@@ -6,7 +6,6 @@
                 minValue = component.get('v.minValue'),
                 maxValue = component.get('v.maxValue');
             if(value == null) {
-                component.set('v.showFilledTrackPrivate', false);
                 component.set('v.showValueBox', false);
                 component.set('v.showKnob', false);
                 return;
@@ -27,12 +26,10 @@
             let actualValue = (value - minValue) / (maxValue - minValue);
             try {
                 let track = component.find('track').getElement(),
-                    trackFilled = component.find('track-filled').getElement(),
                     knob = component.find('knob').getElement(),
                     valueBox = component.find('valueBox').getElement(),
                     barWidth = track.offsetWidth,
                     valueInPx = actualValue * barWidth;
-                trackFilled.style.setProperty('width', actualValue * 100 + '%');
                 knob.style.setProperty('left', helper.getShift(barWidth,valueInPx, knob) + 'px');
                 valueBox.style.setProperty('left', helper.getShift(barWidth,valueInPx, valueBox) + 'px');
             } catch(err) {
@@ -47,7 +44,7 @@
 
         getShift : function(totalWidth, widthInPx, element) {
             let shift = widthInPx - element.offsetWidth/2;
-            let subtractedWidth = totalWidth - element.offsetWidth
+            let subtractedWidth = totalWidth - element.offsetWidth;
             if(shift > subtractedWidth) {
                 return subtractedWidth;
             }

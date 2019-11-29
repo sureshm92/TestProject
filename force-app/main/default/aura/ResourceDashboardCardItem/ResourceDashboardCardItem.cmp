@@ -18,7 +18,7 @@
     <!--COMPONENT BODY-->
     <div class="resource-container">
 
-        <c:RRSpinner aura:id="spinner" showSpinner="true" size="medium"/>
+        <c:RRSpinner aura:id="spinner" showSpinner="true" size="small"/>
 
         <aura:if isTrue="{!v.initialized}">
             <div class="resource-title">
@@ -55,7 +55,7 @@
 
                 </aura:if>
             </div>
-
+			<!--
             <div class="resource-more-links">
                 {!v.resourceType == v.videoResource ? $Label.c.Resources_More_Videos : $Label.c.Resources_More_Articles}
                 <aura:if isTrue="{! !v.errorMessage}">
@@ -74,7 +74,7 @@
                         </div>
                     </aura:if>
                 </aura:if>
-            </div>
+            </div> -->
         </aura:if>
 
     </div>

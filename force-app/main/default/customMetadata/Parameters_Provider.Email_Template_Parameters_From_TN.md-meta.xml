@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Email Template Parameters From TN</label>
+    <protected>false</protected>
+    <values>
+        <field>Parameters__c</field>
+        <value xsi:type="xsd:string">Delegate = Contact__r.FirstName
+StudyName = CTP_Name__c
+Contact = Participant__c</value>
+    </values>
+    <values>
+        <field>Source_Object_Type__c</field>
+        <value xsi:type="xsd:string">Trial_Notification__c</value>
+    </values>
+</CustomMetadata>

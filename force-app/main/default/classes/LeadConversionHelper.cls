@@ -55,7 +55,7 @@ public without sharing class LeadConversionHelper {
                 }
             }
             if (!contactIdsForCreateUser.isEmpty()) {
-                CommunityService.createPortalUsers(contactIdsForCreateUser);
+                ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(contactIdsForCreateUser);
             }
         }
     }

@@ -1,0 +1,52 @@
+/**
+ * Created by Nikita Abrazhevitch on 19-Sep-19.
+ */
+
+.THIS.healthcare-container {
+    text-align: start;
+}
+
+.THIS .healthcare-info {
+    margin: 1% 0 1% 0;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 600;
+    color: black;
+}
+
+.THIS .referring-provider-header {
+    color: #444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    margin-top: 5.5%;
+    padding-left: 9%;
+}
+
+.THIS .rp-label {
+    color: #999;
+}
+
+.THIS .healthcare-input {
+    padding-right: 4%;
+}
+
+.THIS .healthcare-form-container{
+    margin-bottom: 1%;
+}
+
+.THIS .healthcare-input input{
+    height: 32px;
+}
+
+.THIS .provider-found-section{
+    font-size: 13px;
+    font-weight: 500;
+}
+
+@media screen and (max-width: 768px){
+    .THIS .slds-grid > .slds-col,
+	.THIS .apollo-btn {
+        width: 100%;
+    }
+
+}

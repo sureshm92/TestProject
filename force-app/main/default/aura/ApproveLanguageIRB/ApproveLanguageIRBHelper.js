@@ -2,29 +2,26 @@
  * Created by Igor Malyuta on 26.08.2019.
  */
 ({
-    updateTable : function (component) {
-        var data = component.get('v.data');
-        var cCodes = component.get('v.countryCodes');
-        if (!cCodes) component.set('v.countryFilterType', 'All');
-
-        var langCodes = component.get('v.langCodes');
-        if (!langCodes) component.set('v.langFilterType', 'All');
-
+    updateItems: function (component, saveCurrentState) {
         component.find('spinner').show();
-        communityService.executeAction(component, 'getFilteredItems', {
-            'data': JSON.stringify(data),
-            'countryCodes': cCodes,
-            'langCodes': langCodes,
-            'ssId': component.get('v.selectedSSIds'),
-        }, function (data) {
-            component.set('v.data', data);
-            component.set('v.ssItems', data.studySiteItems);
+        let helper = this;
+        let ssItemsJSON = null;
+        if(saveCurrentState) ssItemsJSON = JSON.stringify(component.get('v.ssItems'));
 
-            component.set('v.allRecordsCount', data.paginationData.allRecordsCount);
-            component.set('v.currentPage', data.paginationData.currentPage);
-            component.set('v.languages', data.languages);
-
-            component.find('spinner').hide();
+        communityService.executeAction(component, 'getItems', {
+            ssItemsJSON: ssItemsJSON,
+            filterJSON: JSON.stringify(component.get('v.filter')),
+            paginationJSON: JSON.stringify(component.get('v.pagination'))
+        }, function (searchResponse) {
+            helper.setSearchResponse(component, searchResponse);
         });
+    },
+
+    setSearchResponse: function (component, searchResponse){
+        component.set('v.haveEmptyAssigment', searchResponse.haveEmptyAssigment);
+        component.set('v.ssItems', searchResponse.studySiteItems);
+        component.set('v.pagination', searchResponse.pagination);
+        component.set('v.languages', searchResponse.languages);
+        component.find('spinner').hide();
     }
 });

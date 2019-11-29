@@ -36,11 +36,11 @@
 
         <div class="rri-body">
             <aura:if isTrue="{!v.type != 'picklist'}">
-                <aura:if isTrue="{! v.iconName != ''}">
+              <!-- <aura:if isTrue="{! v.iconName != ''}">
                     <div class="rri-icon" title="{!'title= ' + if(v.iconTitle != '', v.iconTitle, v.placeholder)}">
                         <c:RRIcon iconName="{!v.iconName}" color="{!v.iconColor}"/>
                     </div>
-                </aura:if>
+                </aura:if> -->
 
                 <aura:if isTrue="{!v.type == 'password'}">
                     <div class="rri-password">

@@ -20,12 +20,14 @@ public class TranslateHelper {
     public static void translate(List<SObject> inputRecords, String language){
         if(inputRecords == null || inputRecords.size() == 0 ) return;
         List<SObject> recordsList = new List<SObject>();
-        for(SObject sobj : inputRecords) recordsList.addAll(getAllSObjects(sobj));
+        for(SObject sobj : inputRecords) recordsList.addAll(SObjectHelper.getAllSObjects(sobj));
 
         List<Id> recordIds = new List<Id>();
         for(SObject so : recordsList) {
             if(so.Id != null) recordIds.add(so.Id);
         }
+
+        if(language == null) language = UserInfo.getLanguage();
         List<Translation__c> translations = [
                 SELECT Id,
                         Field_Name__c,
@@ -61,23 +63,7 @@ public class TranslateHelper {
             }
         }
     }
-
-    //return parent sObject with all nested sObjects
-    public static List<SObject> getAllSObjects(SObject sobj){
-        List<SObject> sObjects = new List<SObject>();
-        Map<String, Object> populatedFields = sobj.getPopulatedFieldsAsMap();
-        for(String fieldName : populatedFields.keySet()){
-            if(fieldName.endsWithIgnoreCase('__c') || fieldName.endsWithIgnoreCase('Id')) continue;
-            try{
-                SObject nestedSObj = sobj.getSObject(fieldName);
-                sObjects.addAll(getAllSObjects(nestedSObj));
-            }catch (Exception e){
-            }
-        }
-        sObjects.add(sobj);
-        return sObjects;
-    }
-
+    
 
     /*@Future(Callout=true)
     public static void translateNotificationsFuture(Set<Id> notificationIds){

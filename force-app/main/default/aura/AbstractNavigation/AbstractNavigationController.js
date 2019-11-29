@@ -30,7 +30,7 @@
     doCurrentPageChange: function (component, event, helper) {
         try {
             var menuItems = component.get('v.menuItems');
-            var currentPageName = communityService.getPageName();
+            var currentPageName = communityService.getFullPageName();
             helper.updateDocumentTitle(component, currentPageName);
             //document.title = $A.get('$Label.c.RH_Window_Title');
             component.set('v.currentPage', currentPageName);

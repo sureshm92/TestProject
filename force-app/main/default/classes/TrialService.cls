@@ -7,6 +7,38 @@ public without sharing class TrialService {
     public static final String STATUS_ACTIVELY_ENROLLING = 'Actively Enrolling';
     public static final String STATUS_NO_LONGER_ENROLLING = 'No Longer Enrolling';
     
+    private static final List<String> CTP_FIELDS = new List<String>{
+            'Id',
+            'Orientation_Required__c',
+            'Name',
+            'Terms_And_Conditions_ID__c',
+            'Study_Sponsor__c',
+            'Study_Type__c',
+            'Detailed_Description__c',
+            'toLabel(Override_Recruitment_Status__c)',
+            'Brief_Summary__c',
+            'Override_Description__c',
+            'Override_Inclusion_Criteria__c',
+            'Override_Exclusion_Criteria__c',
+            'Condition_s_Therapeutic_Area__c',
+            'Sponsor_Pays_for_Referral_Activity__c',
+            'Study_Phase__c, NCT_Number__c',
+            'Protocol_ID__c',
+            'Enrollment_Start_Date__c',
+            'Enrolled_End_Date__c',
+            'Link_to_Medical_Record_Review__c',
+            'Link_to_Pre_screening__c',
+            'Study_Title__c',
+            'Study_Code_Name__c',
+            'Official_Title__c',
+            'Interventions__c',
+            'Profile_Picture__c',
+            'Share_URL__c',
+            'Patient_Portal_Enabled__c',
+            'Visit_Data_Shareback__c',
+            'Therapeutic_Area__r.Name'
+    };
+    
     private static TrialService instance;
     
     public static TrialService getInstance(){
@@ -17,14 +49,16 @@ public without sharing class TrialService {
     public static void setMock(StubProvider stubProvider){
         instance = (TrialService) Test.createStub(TrialService.class, stubProvider);
     }
-    
     public List<Clinical_Trial_Profile__c> getAvailableTrialsImpl(String mode){
+        return getAvailableTrialsImpl(mode, null);
+    }
+    public List<Clinical_Trial_Profile__c> getAvailableTrialsImpl(String mode, String delegateId){
         Set<Clinical_Trial_Profile__c> trials= new Set<Clinical_Trial_Profile__c>();
         if(mode == CommunityService.USER_MODE_PI){
             List<Study_Site__c> studySites = StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI, null, false);
             for(Study_Site__c ss : studySites) trials.add(ss.Clinical_Trial_Profile__r);
         }else if(mode == CommunityService.USER_MODE_HCP){
-            List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsCommon(mode, null, false);
+            List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsCommon(mode, delegateId, null, false);
             System.debug('hcpCommon' + hcpEnrollments);
             for(HCP_Enrollment__c hcpEnrollment : hcpEnrollments) {
                 if(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r != null) trials.add(hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r);
@@ -47,43 +81,33 @@ public without sharing class TrialService {
         return ownTrials;
     }
     
+    public List<Clinical_Trial_Profile__c> getTrialsImpl(List<Id> trialIds){
+        List<Clinical_Trial_Profile__c> trials  = DatabaseService.query(
+                CTP_FIELDS,
+                Clinical_Trial_Profile__c.getSObjectType(),
+                DatabaseService.fieldInValues('Id', trialIds)
+        );
+        return trials;
+    }
+    
     public Clinical_Trial_Profile__c getTrialImpl(Id trialId){
-        List<Clinical_Trial_Profile__c> trials = [
-                SELECT Id, Orientation_Required__c,
-                        Name,
-                        Terms_And_Conditions_ID__c,
-                        Study_Sponsor__c,
-                        Study_Type__c,
-                        Detailed_Description__c,
-                        toLabel(Override_Recruitment_Status__c),
-                        Brief_Summary__c,
-                        Override_Description__c,
-                        Override_Inclusion_Criteria__c,
-                        Override_Exclusion_Criteria__c,
-                        Condition_s_Therapeutic_Area__c,
-                        Sponsor_Pays_for_Referral_Activity__c,
-                        Study_Phase__c, NCT_Number__c,
-                        Protocol_ID__c,
-                        Enrollment_Start_Date__c,
-                        Enrolled_End_Date__c,
-                        Link_to_Medical_Record_Review__c,
-                        Link_to_Pre_screening__c,
-                        Study_Title__c,
-                        Study_Code_Name__c,
-                        Official_Title__c,
-                        Interventions__c,
-                        Profile_Picture__c,
-                        Share_URL__c
-                FROM Clinical_Trial_Profile__c
-                WHERE Id =: trialId
-        ];
-        if(trials.size() == 0) throw new CommunityServiceException('Data not found');
-        TranslateHelper.translate(trials[0]);
-        return trials[0];
+        List<Clinical_Trial_Profile__c> trials  = getTrialsImpl(new List<Id>{trialId});
+        if(trials.size() > 0){
+            String language = UserInfo.getLanguage();
+            if(CommunityService.getUserContact().userCommunityMode__c.equals(CommunityService.USER_MODE_PARTICIPANT)) {
+                language = IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
+            }
+            TranslateHelper.translate(trials[0], language);
+            return trials[0];
+        }
+        return null;
     }
     
     public List<Id> getAvailableTrialIdsImpl(String userMode){
-        return SObjectHelper.toIdsList(getAvailableTrials(userMode));
+        return getAvailableTrialIdsImpl(userMode, null);
+    }
+    public List<Id> getAvailableTrialIdsImpl(String userMode, String delegateId){
+        return SObjectHelper.toIdsList(getAvailableTrials(userMode, delegateId));
     }
     
     
@@ -91,6 +115,10 @@ public without sharing class TrialService {
     
     public static List<Clinical_Trial_Profile__c> getAvailableTrials(String userMode){
         return getInstance().getAvailableTrialsImpl(userMode);
+    }
+
+    public static List<Clinical_Trial_Profile__c> getAvailableTrials(String userMode, String delegateId){
+        return getInstance().getAvailableTrialsImpl(userMode, delegateId);
     }
     
     public static List<Clinical_Trial_Profile__c> getOwnTrials(String userMode){
@@ -100,13 +128,24 @@ public without sharing class TrialService {
     public static List<Id> getAvailableTrialIds(String userMode){
         return getInstance().getAvailableTrialIdsImpl(userMode);
     }
+    public static List<Id> getAvailableTrialIds(String userMode, String delegateId){
+        return getInstance().getAvailableTrialIdsImpl(userMode, delegateId);
+    }
     
     public static Clinical_Trial_Profile__c getTrial(Id trialId){
         return getInstance().getTrialImpl(trialId);
     }
     
+    public static List<Clinical_Trial_Profile__c> getTrials(List<Id> trialIds){
+        return getInstance().getTrialsImpl(trialIds);
+    }
+    
     public static Boolean isTrialAvailable(Id trialId, String userMode){
         return getAvailableTrialIds(userMode).contains(trialId);
+    }
+
+    public static Boolean isTrialAvailable(Id trialId, String userMode, String delegateId){
+        return getAvailableTrialIds(userMode, delegateId).contains(trialId);
     }
 
 }

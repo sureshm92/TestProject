@@ -4,11 +4,7 @@
 
 public without sharing class PatientDelegateService {
 
-    public class PatientDelegateServiceException extends Exception {
-    }
-
-    public static final String PH_WELCOME_CODE = 'Welcome_To_The_PH_Delegate';
-    public static final String STUDY_WELCOME_CODE = 'Welcome_to_the_Study_Patient_Delegates';
+    public class PatientDelegateServiceException extends Exception {}
 
     private List<Contact> delegates = new List<Contact>();
     private Boolean isDelegate = false;
@@ -111,11 +107,15 @@ public without sharing class PatientDelegateService {
                         'Contact__r.Name',
                         'Contact__r.FirstName',
                         'Contact__r.LastName',
+                        'Contact__r.Language__c',
                         'Contact__r.Email',
                         'Contact__r.Participant_Opt_In_Status_Emails__c',
                         'Contact__r.HCP_Opt_In_Patient_Status_Emails__c',
                         'Contact__r.HCP_Opt_In_Study_Emails__c',
-                        'Contact__r.HCP_Opt_In_Referral_Status_Emails__c'
+                        'Contact__r.HCP_Opt_In_Referral_Status_Emails__c',
+                        'Contact__r.Resource_Notifications__c',
+                        'Contact__r.userCommunityMode__c',
+                        'Contact__r.Next_Notify_Date__c'
                 },
                 Patient_Delegate__c.getSObjectType(),
                 DatabaseService.fieldEqual('Participant__r.Contact__c', participantContactId)
@@ -173,19 +173,19 @@ public without sharing class PatientDelegateService {
 
     public void createPDAlerts(Contact contactDelegate) {
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
-
+        if(participantState.pe == null) return ;
         List<Alert__c> alertList = new List<Alert__c>();
         alertList.add(new Alert__c(
                 Contact__c = contactDelegate.Id,
-                Alert_Code__c = PH_WELCOME_CODE,
+                Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH_DELEGATE,
                 Record_ID__c = participantState.pe.Id
         ));
 
         if (participantState.value == ParticipantService.ParticipantStates.PARTICIPANT) {
             alertList.add(new Alert__c(
                         Contact__c = contactDelegate.Id,
-                        Alert_Code__c = STUDY_WELCOME_CODE,
-                        Record_ID__c = participantState.pse.Id
+                        Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY_DELEGATE,
+                        Record_ID__c = participantState.pe.Id
                 ));
         }
 
@@ -229,5 +229,151 @@ public without sharing class PatientDelegateService {
 
         return contacts;
     }
+
+    /**
+     * @param partContactsIds List with participant contact ids
+     * @param delegatedCntFields List with required contact fields
+     */
+    public static Map<Id, List<Contact>> getDelegatedCntsByParticipantCnt(List<Id> partContactsIds, List<String> delegatedCntFields) {
+        List<String> pdFields = new List<String>();
+        pdFields.add('Participant__r.Contact__c');
+        for(String cntField : delegatedCntFields) pdFields.add('Contact__r.' + cntField);
+
+        List<Patient_Delegate__c> patientDelegates = (List<Patient_Delegate__c>) DatabaseService.query(
+                pdFields,
+                Patient_Delegate__c.getSObjectType(),
+                DatabaseService.fieldInValues('Participant__r.Contact__c', partContactsIds)
+        );
+
+        Map<Id, List<Contact>> delContactsByPartCnt = new Map<Id, List<Contact>>();
+        for(Patient_Delegate__c pd : patientDelegates) {
+            Id partCntId = pd.Participant__r.Contact__c;
+            if(!delContactsByPartCnt.containsKey(partCntId)) {
+                delContactsByPartCnt.put(partCntId, new List<Contact>());
+            }
+
+            delContactsByPartCnt.get(partCntId).add(pd.Contact__r);
+        }
+
+        return delContactsByPartCnt;
+    }
+
+    public static Map<Id, List<Id>> getDelegatedContactIdsByParticipantIdMap(List<Id> participantIds) {
+        List<Patient_Delegate__c> delegatesList = [
+                SELECT Id, Participant__c, Contact__c
+                FROM Patient_Delegate__c
+                WHERE Participant__c IN: participantIds
+        ];
+        Map<Id, List<Id>> delegatedContactsByParticipantMap = new Map<Id, List<Id>>();
+        for(Patient_Delegate__c pd : delegatesList) {
+            List<Id> delegatedContacts = delegatedContactsByParticipantMap.get(pd.Participant__c);
+            if(delegatedContacts == null) delegatedContacts = new List<Id>();
+            delegatedContacts.add(pd.Contact__c);
+            delegatedContactsByParticipantMap.put(pd.Participant__c, delegatedContacts);
+        }
+        return delegatedContactsByParticipantMap;
+    }
+    
+    public static Map<Id, List<Id>> getParticipantIdsByDelegatedContactIdMap(List<Id> contactIds){
+        List<Patient_Delegate__c> pdList = [
+                SELECT Participant__c, Contact__c
+                FROM Patient_Delegate__c
+                WHERE Contact__c IN: contactIds
+        ];
+        Map<Id, List<Id>> resultMap = new Map<Id, List<Id>>();
+        for(Patient_Delegate__c pd : pdList){
+            List<Id> participantIds = resultMap.get(pd.Contact__c);
+            if(participantIds == null) participantIds = new List<Id>();
+            participantIds.add(pd.Participant__c);
+            resultMap.put(pd.Contact__c, participantIds);
+        }
+        return resultMap;
+    }
+    
+    public static Map<Id, List<Id>> getPEIdsListByContactIdMap(List<Id> contactIds, String filter) {
+        if(filter == null) filter = '';
+        String ownPEFilter = 'Participant__r.Contact__c IN ' + DatabaseService.listToString(contactIds);
+        if(!String.isEmpty(filter)) ownPEFilter += ' AND ' +filter;
+        List<Participant_Enrollment__c> ownPEList = DatabaseService.query(
+                new List<String>{
+                'Participant__c',
+                'Participant__r.Contact__c'
+                },
+                Participant_Enrollment__c.getSObjectType(),
+                ownPEFilter);
+        Map<Id, List<Id>> resultMap = new Map<Id, List<Id>>();
+        for(Participant_Enrollment__c pe : ownPEList){
+            List<Id> ownPEIdsForContact = resultMap.get(pe.Participant__r.Contact__c);
+            if(ownPEIdsForContact == null) ownPEIdsForContact = new List<Id>();
+            ownPEIdsForContact.add(pe.Id);
+            resultMap.put(pe.Participant__r.Contact__c, ownPEIdsForContact);
+        }
+        Map<Id, List<Id>> participantIdsByDelegatedContactIdMap = getParticipantIdsByDelegatedContactIdMap(contactIds);
+        System.debug('>>> ' + JSON.serializePretty(participantIdsByDelegatedContactIdMap));
+        List<Id> delegatedParticipantIds = new List<Id>();
+        for(List<Id> participantIds : participantIdsByDelegatedContactIdMap.values()) delegatedParticipantIds.addAll(participantIds);
+        String allDelegatedPEFilter = '';
+        if(filter != null) allDelegatedPEFilter = ' WHERE ' + filter;
+        List<Participant__c> allDelegatedParticipants = DatabaseService.query(new List<String>{
+                'Id',
+                ' ( SELECT Id FROM Participant_Profile__r ' + allDelegatedPEFilter + ') '
+        }, Participant__c.getSObjectType(), DatabaseService.fieldInValues('Id', delegatedParticipantIds));
+        System.debug('>>> All participants: ' + allDelegatedParticipants);
+        Map<Id, List<Id>> peIdsByParticipantIdMap = new Map<Id, List<Id>>();
+        for(Participant__c participant : allDelegatedParticipants){
+            List<Id> peIdsForParticipant = new List<Id>();
+            for(Participant_Enrollment__c pe : participant.Participant_Profile__r) peIdsForParticipant.add(pe.Id);
+            peIdsByParticipantIdMap.put(participant.Id, peIdsForParticipant);
+        }
+        
+        for(Id contactId : participantIdsByDelegatedContactIdMap.keySet()){
+            List<Id> delegatedParticipantIdsForContact = participantIdsByDelegatedContactIdMap.get(contactId);
+            if(delegatedParticipantIds == null) delegatedParticipantIds = new List<Id>();
+            List<Id> delegatedPEIdsForContact = new List<Id>();
+            for(Id participantId : delegatedParticipantIdsForContact){
+                delegatedPEIdsForContact.addAll(peIdsByParticipantIdMap.get(participantId));
+            }
+            List<Id> allPEIdsForContact = resultMap.get(contactId);
+            if(allPEIdsForContact == null) allPEIdsForContact = new List<Id>();
+            allPEIdsForContact.addAll(delegatedPEIdsForContact);
+            resultMap.put(contactId, allPEIdsForContact);
+        }
+        return resultMap;
+    }
+    
+    public static Map<Id, List<Id>> getAvailablePEIdsListByContactIdMap(List<Id> contactIds){
+        return getPEIdsListByContactIdMap(
+                contactIds,
+                ' Participant_Status__c NOT IN ' + DatabaseService.listToString(PEStatusState.PE_STATUS_GROUP_ALUMNI)
+        );
+    }
+    
+    public static List<Id> getAvailablePEIdsForContact(Id contactId){
+        return getAvailablePEIdsListByContactIdMap(new List<Id>{contactId}).get(contactId);
+    }
+
+    public static Map<Id, List<Id>> getForExclStatusPEIdsListByContactIdMap(List<Id> contactIds, List<String> excludedPEStatuses){
+        return getPEIdsListByContactIdMap(
+                contactIds,
+                ' Participant_Status__c NOT IN ' + DatabaseService.listToString(excludedPEStatuses)
+        );
+    }
+
+    public static List<Id> getForExclStatusPEIdsForContact(Id contactId, List<String> excludedPEStatuses){
+        return getForExclStatusPEIdsListByContactIdMap(new List<Id>{contactId}, excludedPEStatuses).get(contactId);
+    }
+    
+    public static Map<Id, List<Id>> getPastPEIdsListByContactIdMap(List<Id> contactIds){
+        return getPEIdsListByContactIdMap(
+                contactIds,
+                ' Participant_Status__c IN ' + DatabaseService.listToString(PEStatusState.PE_STATUS_GROUP_ALUMNI)
+        );
+    }
+    
+    public static List<Id> getPastPEIdsForContact(Id contactId){
+        return getPastPEIdsListByContactIdMap(new List<Id>{contactId}).get(contactId);
+    }
+
+
 }
 

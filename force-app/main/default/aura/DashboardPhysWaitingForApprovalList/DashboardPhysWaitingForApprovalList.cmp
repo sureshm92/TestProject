@@ -12,9 +12,9 @@
     <aura:iteration items="{!v.hcpeList}" var="item">
         <div class="db-list-item">
             <div class="rr-small-down-hide">
-                <button class="apollo-btn tertiary green"
-                        disabled="{!item.actions.disabled}"
-                        title="{!item.actions.disableReason}"
+                <button class="apollo-btn secondary"
+                        disabled="{!item.action.disabled}"
+                        title="{!item.action.disableReason}"
                         onclick="{!c.doAction}"
                         data-hcpe-id="{!item.data.Id}">
                     {!item.action.label}
@@ -25,8 +25,8 @@
             <span>{!item.data.Study_Site__r.Name}</span>
             <div class="rr-small-up-hide btn-block">
                 <button class="apollo-btn tertiary"
-                        disabled="{!item.actions.disabled}"
-                        title="{!item.actions.disableReason}"
+                        disabled="{!item.action.disabled}"
+                        title="{!item.action.disableReason}"
                         onclick="{!c.doAction}"
                         data-hcpe-id="{!item.data.Id}">
                     {!item.action.label}

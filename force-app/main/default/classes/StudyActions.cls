@@ -52,6 +52,7 @@ public abstract class StudyActions {
     }
 
     //action ID's
+    public static final String ACT_ACCEPT_TC = 'acceptTermsAndConditions';
     public static final String ACT_VIEW_TC = 'viewTermsAndConditions';
     public static final String ACT_NO_THANKS = 'noThanks';
     public static final String ACT_DELEGATE = 'delegate';
@@ -87,8 +88,11 @@ public abstract class StudyActions {
     public static final String ACT_HCP_ORIENTATION_ATTENDED_AND_ACTIVATE = 'hcpOrientationAttendedAndActivate';
     public static final String ACT_HCP_DEACTIVATE = 'hcpDeactivate';
     public static final String ACT_HCP_LINK_STUDY_SITES = 'linkToStudySites';
+    public static final String ACT_SCREENER_RESPONSES = 'screenerResponses';
+    public static final String ACT_CONNECT_PROVIDER = 'connectProvider';
 
     //action labels:
+    public static final String LABEL_ACCEPT_TC = Label.BTN_Accept_terms_and_conditions;
     public static final String LABEL_VIEW_TC = Label.BTN_View_terms_and_conditions;
     public static final String LABEL_VIEW_TC_Participant = Label.BTN_View_terms_and_conditions_participant;
     public static final String LABEL_NO_THANKS = Label.BTN_No_thanks;
@@ -163,14 +167,26 @@ public abstract class StudyActions {
 
     private static Map<Id, Boolean> tcAcceptanceMap;
 
+    public StudyActions(){}
+
     public StudyActions(Clinical_Trial_Profile__c study, Study_Site__c studySite, HCP_Enrollment__c hcpEnrollment, String userMode){
+        this(
+                study,
+                studySite,
+                hcpEnrollment,
+                userMode,
+                null
+        );
+    }
+
+    public StudyActions(Clinical_Trial_Profile__c study, Study_Site__c studySite, HCP_Enrollment__c hcpEnrollment, String userMode, String delegateId){
         this.userMode = userMode;
         this.study = study;
         this.studySite = studySite;
         this.hcpEnrollment = hcpEnrollment;
 
         isStudyTCAccepted = isTCAccepted(study.Id);
-        studyAccessLevel = DelegateService.getStudyAccessLevel(study.Id, userMode);
+        studyAccessLevel = DelegateService.getStudyAccessLevel(studySite != null ? studySite.Id : null, userMode, delegateId);
 
         isTCAcceptanceRequired = study.Terms_And_Conditions_ID__c != null && isStudyTCAccepted!= null && !isStudyTCAccepted;
 
@@ -227,6 +243,18 @@ public abstract class StudyActions {
 
 
         //common actions:
+        actions.put(ACT_ACCEPT_TC, new Action(
+                ACT_ACCEPT_TC,
+                LABEL_ACCEPT_TC,
+                'paper-many',
+                new List<DisableReason>{
+                        new DisableReason(
+                                study.Terms_And_Conditions_ID__c  == null,
+                                ''
+                        )
+                },
+                'primary'
+        ));
         actions.put(ACT_VIEW_TC, new Action(
                 ACT_VIEW_TC,
                 LABEL_VIEW_TC,

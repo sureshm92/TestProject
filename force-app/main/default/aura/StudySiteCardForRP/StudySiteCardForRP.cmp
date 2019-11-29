@@ -1,0 +1,84 @@
+<!--
+ - Created by Nikita Abrazhevitch on 26-Aug-19.
+ -->
+
+<aura:component description="StudySiteCardForRP">
+
+    <!-- attributes: -->
+    <aura:attribute name="siteWrapper" type="Object"/>
+    <aura:attribute name="hasPatients" type="Boolean"/>
+
+    <!-- component body: -->
+    <div class="slds-p-horizontal_medium slds-p-bottom_small">
+        <aura:if isTrue="{!v.siteWrapper.hasActiveHCPE}">
+            <div class="inner-content-card">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12">
+                        <div class="clinic-name">
+                            {!v.siteWrapper.site.Name}
+                        </div>
+                        <div class="site-sub-header slds-m-top--x-small">
+                            {!(v.siteWrapper.site.Principal_Investigator__r.Salutation + ' ' + v.siteWrapper.site.Principal_Investigator__r.Name)}
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
+                        <div class="site-sub-header site-distance">
+                            {!if(!empty(v.siteWrapper.siteTypeLabel),v.siteWrapper.siteTypeLabel + ' ' + $Label.c.PG_SFS_L_Site,'')}
+                        </div>
+                        <div class="site-sub-header slds-m-topxx-small site-distance">
+                            <aura:unescapedHtml value="{!v.siteWrapper.formatedDistance}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-wrap slds-m-top--x-small">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
+                        <div class="site-address">
+                            {!v.siteWrapper.site.Site__r.BillingStreet}
+                        </div>
+                        <div class="site-address slds-m-top--xx-small">
+                            {!(if(!empty(v.siteWrapper.site.Site__r.BillingCity),v.siteWrapper.site.Site__r.BillingCity+',','') + if(!empty(v.siteWrapper.site.Site__r.BillingState),' ' + v.siteWrapper.site.Site__r.BillingState+',','') + if(!empty(v.siteWrapper.site.Site__r.BillingPostalCode),' ' + v.siteWrapper.site.Site__r.BillingPostalCode,''))}
+                        </div>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                        <div class="slds-grid slds-wrap slds-gutters" style="text-align: right;">
+                            <aura:if isTrue="{!not(and(v.siteWrapper.actions.refer.disabled,v.siteWrapper.actions.refer.disableReason==
+                                                $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action))}">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <aura:if isTrue="{!v.hasPatients}">
+                                        <button data-site-id="{!v.siteWrapper.site.Id}"
+                                                class="apollo-btn secondary slvi-site-btn"
+                                                onclick="{!c.doMyPatients}">
+                                            {!$Label.c.BTN_My_Patients}
+                                        </button>
+                                    </aura:if>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2">
+                                    <button data-hcpe-id="{!v.siteWrapper.hcpe.Id}"
+                                            class="apollo-btn secondary slvi-site-btn"
+                                            onclick="{!c.doReferPatient}"
+                                            disabled="{!v.siteWrapper.actions.refer.disabled}"
+                                            title="{!v.siteWrapper.actions.refer.disableReason}">
+                                        {!$Label.c.BTN_Refer_a_Patient}
+                                    </button>
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue="{!and(v.siteWrapper.actions.refer.disabled,v.siteWrapper.actions.refer.disableReason==
+                                                $Label.c.RSN_Current_status_of_referring_provider_does_not_permit_this_action)}">
+                                <div class="slds-col slds-size_1-of-3 slds-show_medium"/>
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-3">
+                                    <button disabled='disabled'
+                                            class="apollo-btn tertiary slvi-site-btn"
+                                            style="background-color: white; color: #297DFD; box-shadow: none;"
+                                            onclick="{!c.doMyPatients}">
+                                        {!v.siteWrapper.siteStatusLabel}
+                                    </button>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

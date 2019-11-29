@@ -43,7 +43,7 @@ public class DashboardRemote {
     }
     
     @AuraEnabled
-    public static String getInitData(String userMode){
+    public static String getInitData(String userMode, String delegateId){
         try{
             if(userMode == CommunityService.USER_MODE_PI){
                 PIData piData = new PIData();
@@ -51,7 +51,8 @@ public class DashboardRemote {
                 piData.waitingAcceptenceList = preparePEList(
                         ParticipantEnrollmentService.getPEnrolmentsByStatus(userMode, new List<String>{
                                 ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI
-                        }, 3), userMode
+                        }, 3), userMode,
+                        delegateId
                 );
                 Integer piPending = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS));
                 Integer piAccepted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_SUCCESS));
@@ -69,7 +70,8 @@ public class DashboardRemote {
                 piData.waitingToBeContactedList = preparePEList(
                         ParticipantEnrollmentService.getPEnrolmentsByStatus(userMode, new List<String>{
                                 PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_SUCCESS)
-                        }, 3), userMode
+                        }, 3), userMode,
+                        delegateId
                 );
                 Integer piPendingContacted = piAccepted;
                 Integer piSuccessContacted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[2].states.get(PEStatusState.STATUS_STATE_SUCCESS));
@@ -103,16 +105,17 @@ public class DashboardRemote {
     
             }else if(userMode == CommunityService.USER_MODE_HCP){
                 HCPData hcpData = new HCPData();
-                hcpData.waitingToBeReferred = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL);
+                hcpData.waitingToBeReferred = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL, delegateId);
                 hcpData.waitingToBeReferredList = preparePEList(
                         ParticipantEnrollmentService.getPEnrolmentsByStatus(userMode, new List<String>{
                                 ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL
-                        }, 3), userMode
+                        }, 3, delegateId), userMode,
+                        delegateId
                 );
                 //Referring status:
-                Integer passedReviewAndReffered = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, new List<String>(PEStatusState.ALL_USED_STATUSES));
+                Integer passedReviewAndReffered = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, new List<String>(PEStatusState.ALL_USED_STATUSES), delegateId);
                 Integer passedReviewNotYetReferred = hcpData.waitingToBeReferred;
-                Integer failedReview = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW);
+                Integer failedReview = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW, delegateId);
                 hcpData.referringStatus.addAll(new List<DonutItem>{
                         new DonutItem(Label.DI_L_Passed_review_and_referred, passedReviewAndReffered , DonutItem.Type.SUCCSESS),
                         new DonutItem(Label.DI_L_Passed_review_and_not_yet_referred, passedReviewNotYetReferred , DonutItem.Type.ON_HOLD),
@@ -120,10 +123,10 @@ public class DashboardRemote {
                 });
         
                 //Acceptance statuses
-                Integer piPending = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS));
-                Integer piAccepted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_SUCCESS));
-                Integer piOnHold = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_IN_PROGRESS));
-                Integer piDeclined = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_FAILURE));
+                Integer piPending = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS), delegateId);
+                Integer piAccepted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_SUCCESS), delegateId);
+                Integer piOnHold = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_IN_PROGRESS), delegateId);
+                Integer piDeclined = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_FAILURE), delegateId);
                 hcpData.acceptenceStatus.addAll(new List<DonutItem>{
                         new DonutItem(Label.DI_L_Accepted, piAccepted , DonutItem.Type.SUCCSESS),
                         new DonutItem(Label.DI_L_On_hold, piOnHold , DonutItem.Type.ON_HOLD),
@@ -132,9 +135,9 @@ public class DashboardRemote {
                 });
         
                 //Enrollment status
-                Integer enrolledRandomized = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUSES_ENROLLED);
-                Integer inProgress = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUSES_IN_PROGRESS);
-                Integer declined = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUSES_FAILED);
+                Integer enrolledRandomized = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUSES_ENROLLED, delegateId);
+                Integer inProgress = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUSES_IN_PROGRESS, delegateId);
+                Integer declined = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUSES_FAILED, delegateId);
                 hcpData.enrollmentStatus.addAll(new List<DonutItem>{
                         new DonutItem(Label.DI_L_Enrolled_randomized, enrolledRandomized , DonutItem.Type.SUCCSESS),
                         new DonutItem(Label.DI_L_In_progress, inProgress , DonutItem.Type.ON_HOLD),
@@ -157,7 +160,7 @@ public class DashboardRemote {
                 Participant_Status__c = PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_SUCCESS)
         );
         upsert pe;
-        return getInitData(CommunityService.USER_MODE_PI);
+        return getInitData(CommunityService.USER_MODE_PI, null);
     }
     
     private static List<ListItem> prepareHCPEList(List<HCP_Enrollment__c> hcpeList, String userMode){
@@ -175,13 +178,16 @@ public class DashboardRemote {
         }
         return resList;
     }
-    
     private static List<ListItem> preparePEList(List<Participant_Enrollment__c> peList, String userMode){
+        return preparePEList(peList, userMode, null);
+    }
+
+    private static List<ListItem> preparePEList(List<Participant_Enrollment__c> peList, String userMode, String delegateId){
         List<ListItem> resList = new List<ListItem>();
         for(Participant_Enrollment__c pe : peList){
             StudyActions studyActions;
             if(userMode == CommunityService.USER_MODE_HCP) {
-                studyActions = new StudyActionsHCP(pe);
+                studyActions = new StudyActionsHCP(pe, delegateId);
             }else{
                 studyActions = new StudyActionsPI(pe);
             }

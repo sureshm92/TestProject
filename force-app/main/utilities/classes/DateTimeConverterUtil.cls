@@ -1,5 +1,5 @@
 /**
- * Created by Igor Malyuta on 20.08.2019.
+ * Created by Igor Malyuta on 10.09.2019.
  */
 
 public without sharing class DateTimeConverterUtil {
@@ -32,24 +32,37 @@ public without sharing class DateTimeConverterUtil {
         if (moment == null) moment = Datetime.now();
 
         String nowFormat = moment.format('YYYY-MM-dd HH:mm:ss', timezone.toString());
-        return Datetime.valueOfGmt(nowFormat);
+        return Datetime.valueOf(nowFormat);
+    }
+
+    public static Datetime getUserDatetime(TimeZone timezone, Date someDate) {
+        Datetime moment;
+
+        if(someDate == null) {
+            moment = Datetime.now();
+        } else {
+            moment = Datetime.newInstance(
+                    someDate.year(),
+                    someDate.month(),
+                    someDate.day()
+            );
+        }
+        return getUserDatetime(timezone, moment);
     }
 
     public static Datetime convertUserDatetimeToGMT(Datetime moment, TimeZone tz) {
-        Integer offset = tz.getOffset(moment) / MS_IN_HOUR;
+        Integer offset = tz.getOffset(Datetime.now()) / MS_IN_HOUR;
         Datetime momentInGMT = moment.addHours( -offset );
 
         return momentInGMT;
     }
 
     public static Datetime addDaysInUserTimeZone(Datetime moment, TimeZone tz, Integer days) {
-        Datetime momentInGMT = convertUserDatetimeToGMT(moment, tz);
-
-        Time gmtTime = momentInGMT.timeGmt();
-        Date gmtDate = momentInGMT.date().addDays(days);
+        Time gmtTime = moment.timeGmt();
+        Date gmtDate = moment.date().addDays(days);
         Datetime gmtDT = Datetime.newInstanceGmt(gmtDate, gmtTime);
 
-        return getUserDatetime(tz, gmtDT);
+        return gmtDT;
     }
 
     public static Datetime addDaysInUserTimeZone(Datetime moment, Id contactId, Integer days) {

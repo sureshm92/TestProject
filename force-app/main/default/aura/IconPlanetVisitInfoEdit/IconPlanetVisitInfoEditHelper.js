@@ -16,7 +16,7 @@
                 return helper.enqueue(
                     component,
                     'c.getIconDetails',
-                    {ctpId: component.get('v.ctpId')});
+                    {planId: component.get('v.planId')});
             }, function (errorMessage) {
                 component.set('v.error', errorMessage);
             }).then(function (dbresult) {
@@ -76,13 +76,13 @@
         let iconsDetails = component.get('v.iconDetails');
         let notEmpty = helper.getNotEmptyIcons(iconsDetails);
         helper.enqueue(component, 'c.saveIconInfo', {
-            'iconsDetails': notEmpty,
-            'ctpId': component.get('v.ctpId')
+            iconsDetails: notEmpty,
+            planId: component.get('v.planId')
         }).then(function () {
             return helper.enqueue(
                 component,
                 'c.getIconDetails',
-                {ctpId: component.get('v.ctpId')});
+                {planId: component.get('v.planId')});
         }, function (err) {
             if (err && err[0].message) {
                 console.log('error:', err[0].message);
@@ -110,7 +110,7 @@
         let customIcons = component.get('v.iconDetails');
         for (let i = 0; i < customIcons.length; i++) {
             let index = dbResult.findIndex(function (item) {
-                return item.Name == customIcons[i].Name;
+                return item.Name === customIcons[i].Name;
             });
             if (index > -1) {
                 customIcons[i] = dbResult[index];

@@ -40,13 +40,6 @@
     background-color: #D9D9D9;
 }
 
-.THIS .rr-slider-track-filled {
-    height: 7px;
-    border-radius: 4px;
-    background-color: #0F498C;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.08), 0 4px 8px 0 rgba(41,125,253,0.16);
-}
-
 .THIS .rr-slider-knob {
     border-radius: 50%;
     height: 20px;

@@ -12,10 +12,10 @@
 
     <!-- Attributes: -->
     <aura:attribute name="userMode" type="String" access="private"/>
-    <aura:attribute name="currentlyRecruitingTrials" type="List"/>
-    <aura:attribute name="trialsNoLongerRecruiting" type="List"/>
+    <aura:attribute name="currentPITrials" type="List"/>
+<!--    <aura:attribute name="trialsNoLongerRecruiting" type="List"/>-->
     <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
-    <aura:attribute name="currentTab" type="String" default="recruiting"/>
+<!--    <aura:attribute name="currentTab" type="String" default="recruiting"/>-->
     <aura:attribute name="currentTrialId" type="String"/>
     <aura:attribute name="currentSSId" type="String"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
@@ -23,18 +23,13 @@
     <aura:attribute name="searchResumeChanged" type="Boolean" default="false" access="private"/>
     <aura:attribute name="peStatusesPathList" type="List"/>
     <aura:attribute name="peStatusStateMap" type="Map"/>
-    <aura:attribute name="delegatesPicklist" type="List"/>
-    <aura:attribute name="contactAccountsList" type="List"/>
-    <aura:attribute name="countryPicklist" type="Object[]"/>
     <aura:attribute name="paginationData" type="Object"/>
     <aura:attribute name="filterData" type="Object"/>
     <aura:attribute name="sortData" type="Object"/>
     <aura:attribute name="currentPageList" type="List"/>
     <aura:attribute name="skipUpdate" type="Boolean" default="false" access="private"/>
     <aura:attribute name="accessUserLevel" type="String"/>
-    <aura:attribute name="statesByCountryMap" type="Object"/>
-    <aura:attribute name="countriesMap" type="Object"/>
-    <aura:attribute name="countryCodesMap" type="Object"/>
+    <aura:attribute name="piId" type="String"/>
     <aura:attribute name="checkedAccountWasCreated" type="Boolean" default="false"/>
     <aura:attribute name="showPopUpSpinner" type="Boolean" default="false"/>
 
@@ -43,7 +38,7 @@
     <aura:handler name="change" value="{!v.paginationData.currentPage}" action="{!c.doUpdateRecords}"/>
     <aura:handler name="change" value="{!v.filterData}" action="{!c.doUpdateRecordsWithFirstPage}"/>
     <aura:handler name="change" value="{!v.sortData}" action="{!c.doUpdateRecordsWithFirstPage}"/>
-    <aura:handler name="change" value="{!v.currentTab}" action="{!c.clampTitle}"/>
+<!--    <aura:handler name="change" value="{!v.currentTab}" action="{!c.clampTitle}"/>-->
 
     <!-- Handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
@@ -76,24 +71,25 @@
                 <c:RRNPathItem label="{!$Label.c.PG_MS_L_Search_for_Studies}"/>
             </c:RRNavigationPath>
         </div>
-        <aura:if isTrue="{!v.userMode != 'HCP'}">
-            <c:rrButtonTubSet >
-                <c:rrButtonTubSetItem title="{!$Label.c.PG_MyStudies_Studies_Currently_Recruiting}" tabId="recruiting" currentTab="{!v.currentTab}"/>
-                <c:rrButtonTubSetItem title="{!$Label.c.PG_MyStudies_Studies_No_Longer_Recruiting}" tabId="noLongerRecruiting" currentTab="{!v.currentTab}"/>
-            </c:rrButtonTubSet>
-        </aura:if>
+<!--        <aura:if isTrue="{!v.userMode != 'HCP'}">-->
+<!--            <c:rrButtonTubSet >-->
+<!--                <c:rrButtonTubSetItem title="{!$Label.c.PG_MyStudies_Studies_Currently_Recruiting}" tabId="recruiting" currentTab="{!v.currentTab}"/>-->
+<!--                <c:rrButtonTubSetItem title="{!$Label.c.PG_MyStudies_Studies_No_Longer_Recruiting}" tabId="noLongerRecruiting" currentTab="{!v.currentTab}"/>-->
+<!--            </c:rrButtonTubSet>-->
+<!--        </aura:if>-->
 
-        <aura:if isTrue="{!v.userMode == 'HCP'}">
-            <div>
-                <c:FilterPanel searchText="{!v.filterData.searchText}"
-                               searchTextPlaceHolder="{!v.isSearchResume ? $Label.c.PG_MS_L_Global_Search_for_Study: $Label.c.PG_MS_L_Search_for_Study}"
-                               recordsPerPage="{!v.paginationData.pageRecordsCount}"
-                               recordsPerPageVariants="{!v.paginationData.recordCountVariants}"
-                               sortType="{!v.sortData.sortType}"
-                               sortVariants="{!v.sortData.sortVariants}"
-                               allRecordsCount="{!v.paginationData.allRecordsCount}"
-                               currentPageCount="{!v.paginationData.currentPageCount}"
-                               itemTitle="{!$Label.c.PG_MS_L_Studies_low}">
+        <div>
+            <c:FilterPanel searchText="{!v.filterData.searchText}"
+                           searchTextPlaceHolder="{!v.isSearchResume ? $Label.c.PG_MS_L_Global_Search_for_Study: $Label.c.PG_MS_L_Search_for_Study}"
+                           recordsPerPage="{!v.paginationData.pageRecordsCount}"
+                           recordsPerPageVariants="{!v.paginationData.recordCountVariants}"
+                           sortType="{!v.sortData.sortType}"
+                           sortVariants="{!v.sortData.sortVariants}"
+                           allRecordsCount="{!v.paginationData.allRecordsCount}"
+                           currentPageCount="{!v.paginationData.currentPageCount}"
+                           itemTitle="{!$Label.c.PG_MS_L_Studies_low}"
+                           showEntriesVisble="{!v.userMode == 'HCP'}">
+                <aura:if isTrue="{!v.userMode == 'HCP'}">
                     <c:rrSelect value="{!v.filterData.enrollmentStatus}"
                                 options="{!v.filterData.enrollmentStatuses}"
                                 placeholder=""
@@ -106,8 +102,26 @@
                                 options="{!v.filterData.therapeuticAreas}"
                                 placeholder=""
                                 setValueAsSelected="true"/>
-                </c:FilterPanel>
-            </div>
+                </aura:if>
+                <aura:if isTrue="{!v.userMode == 'PI'}">
+                    <c:rrSelect value="{!v.filterData.statusFilter}"
+                                options="{!v.filterData.statusOptions}"
+                                placeholder=""
+                                useSentenceFont="false"/>
+                    <c:rrSelect value="{!v.filterData.piId}"
+                                options="{!v.filterData.PIPickList}"
+                                placeholder=""
+                                useSentenceFont="false"
+                                setValueAsSelected="true"/>
+                    <c:rrSelect value="{!v.filterData.trialId}"
+                                options="{!v.filterData.studyPickList}"
+                                placeholder=""
+                                useSentenceFont="false"
+                                setValueAsSelected="true"/>
+                </aura:if>
+            </c:FilterPanel>
+        </div>
+        <aura:if isTrue="{!v.userMode == 'HCP'}">
 
             <div class="slv-items-panel">
                 <div class="{!(v.isSearchResume ? 'slds-hide' : '') + ' rr-simple-white-panel'}">
@@ -129,55 +143,49 @@
                 <div style="position: relative; min-height: 100px;" class="slds-gutters_">
                     <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
                     <aura:iteration items="{!v.currentPageList}" var="trial">
-                        <c:StudyListViewItem searchItem="{!v.isSearchResume}" currentStudy="{!trial}"
-                                             userMode="{!v.userMode}" parent="{!this}" accessUserLevel="{!v.accessUserLevel}"/>
+                        <c:StudyCard currentStudy = "{!trial}" userMode="{!v.userMode}" parent="{!this}" detailsExpanded="false" accessUserLevel="{!v.accessUserLevel}" searchItem="{!v.isSearchResume}"/>
                     </aura:iteration>
                 </div>
             </div>
 
-            <div>
-                <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"
-                                      currentPage="{!v.paginationData.currentPage}"
-                                      allRecordsCount="{!v.paginationData.allRecordsCount}"/>
-            </div>
+
         </aura:if>
 
         <aura:if isTrue="{!v.userMode == 'PI'}">
             <div class="slv-items-panel">
                 <!-- Output currently recruiting trials -->
-                <aura:if isTrue="{!v.currentTab == 'recruiting'}">
-                    <c:EmptyListStub targetList="{!v.currentlyRecruitingTrials}"/>
-                    <!--<aura:iteration items="{!v.currentlyRecruitingTrials}" var="trialsSubList">-->
-                        <!--<div class="slv-category">{!trialsSubList.name}</div>-->
-                        <div class="slv-category"></div>
-                        <aura:iteration items="{!v.currentlyRecruitingTrials}" var="trial">
-                            <c:StudyListViewItem currentStudy="{!trial}"
-                                                 delegatePicklist="{!v.delegatesPicklist}"
-                                                 userMode="{!v.userMode}"
-                                                 parent="{!this}"
-                                                 contactAccounts="{!v.contactAccountsList}"
-                                                 countryPicklist = "{!v.countryPicklist}"
-                                                 statesByCountryMap="{!v.statesByCountryMap}"
-                                                 countriesMap="{!v.countriesMap}"
-                                                 countryCodesMap="{!v.countryCodesMap}"/>
-                        </aura:iteration>
-                    <!--</aura:iteration>-->
-                </aura:if>
+                <c:EmptyListStub targetList="{!v.currentPITrials}"/>
+                <div class="slv-category"></div>
+                <c:RRSpinner aura:id="recordsSpinnerPI" size="medium" showSpinner="false"/>
+                <aura:iteration items="{!v.currentPITrials}" var="trial">
+                    <c:StudyCard currentStudy = "{!trial}" userMode="{!v.userMode}" parent="{!this}" detailsExpanded="true"/>
+                </aura:iteration>
+<!--                <aura:if isTrue="{!v.currentTab == 'recruiting'}">-->
+<!--                    <c:EmptyListStub targetList="{!v.currentlyRecruitingTrials}"/>-->
+<!--                        <div class="slv-category"></div>-->
+<!--                        <aura:iteration items="{!v.currentlyRecruitingTrials}" var="trial">-->
+<!--                            <c:StudyCard currentStudy = "{!trial}" userMode="{!v.userMode}" parent="{!this}" detailsExpanded="true"/>-->
+<!--                        </aura:iteration>-->
+<!--                </aura:if>-->
 
                 <!-- Trials no longer recruiting -->
-                <aura:if isTrue="{! v.currentTab == 'noLongerRecruiting'}">
-                    <c:EmptyListStub targetList="{!v.trialsNoLongerRecruiting}"/>
-                    <aura:if isTrue="{! !empty(v.trialsNoLongerRecruiting)}">
-                       <div class="slv-category">{!$Label.c.PG_MRRL_L_Studies}</div>
-                        <aura:iteration items="{!v.trialsNoLongerRecruiting}" var="trial">
-                            <c:StudyListViewItem currentStudy="{!trial}" userMode="{!v.userMode}" parent="{!this}" delegatePicklist="{!v.delegatesPicklist}" contactAccounts="{!v.contactAccountsList}"
-                                                 countryPicklist = "{!v.countryPicklist}" statesByCountryMap="{!v.statesByCountryMap}" countriesMap="{!v.countriesMap}"
-                                                 countryCodesMap="{!v.countryCodesMap}"/>
-                        </aura:iteration>
-                    </aura:if>
-                </aura:if>
+<!--                <aura:if isTrue="{! v.currentTab == 'noLongerRecruiting'}">-->
+<!--                    <c:EmptyListStub targetList="{!v.trialsNoLongerRecruiting}"/>-->
+<!--                    <aura:if isTrue="{! !empty(v.trialsNoLongerRecruiting)}">-->
+<!--                       <div class="slv-category">{!$Label.c.PG_MRRL_L_Studies}</div>-->
+<!--                        <aura:iteration items="{!v.trialsNoLongerRecruiting}" var="trial">-->
+<!--                            <c:StudyCard currentStudy = "{!trial}" userMode="{!v.userMode}" parent="{!this}" detailsExpanded="true"/>-->
+<!--                        </aura:iteration>-->
+<!--                    </aura:if>-->
+<!--                </aura:if>-->
             </div>
         </aura:if>
+
+        <div>
+            <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"
+                                  currentPage="{!v.paginationData.currentPage}"
+                                  allRecordsCount="{!v.paginationData.allRecordsCount}"/>
+        </div>
 
         <!-- Reimbusment dialog -->
         <c:OpenToReceiveReferralsModal aura:id="receiveReferralsModal" parent="{!this}"/>
@@ -187,6 +195,12 @@
 
         <!-- Share dialog -->
         <c:ShareModal aura:id="shareModal" parent="{!this}"/>
+
+        <!-- Email Modal -->
+        <c:ShareModal aura:id="emailModal" needRefresh="false" emailType="SOCIAL_SHARING" parent="{!v.parent}"/>
+
+        <!-- ManageLocationDetails dialog -->
+        <c:Action_ManageLocationDetails aura:id="actionManageLocationDetails"/>
     </aura:if>
 
 </aura:component>

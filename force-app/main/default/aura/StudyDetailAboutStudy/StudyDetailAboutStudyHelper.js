@@ -16,7 +16,7 @@
     },
 
     onTwitterClick: function (component, url, text) {
-        window.open('https://twitter.com/home?status=' + text + ':%20' + encodeURIComponent(url));
+        window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + encodeURIComponent(url));
     },
 
     onLinkedInClick: function (component, url) {

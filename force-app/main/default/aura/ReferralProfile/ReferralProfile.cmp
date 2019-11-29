@@ -71,12 +71,15 @@
                             </div>
                             <div class="rr-output-field">
                                 <div class="label">{!$Label.c.PE_Source}</div>
-                                <aura:if isTrue="{!!empty(v.pe.HCP__c)}">
-                                    <div class="value ">
-                                        <div class="rp-max-length">{!v.pe.HCP__r.HCP_Contact__r.Name}</div>
-                                    </div>
+                                <aura:if isTrue="{!v.pe.Referral_Source__c == 'HCP'}">
+                                    <div class="value "> <div class="rp-max-length">{!v.pe.HCP__r.HCP_Contact__r.Name}</div></div>
                                     <aura:set attribute="else">
-                                        <div class="rp-max-length">{!v.pe.Referral_Source__c}</div>
+                                        <aura:if isTrue="{!v.pe.Referral_Source__c == 'PI'}">
+                                            <div class="value "> <div class="rp-max-length">{!v.pe.PI_Contact__r.Name}</div></div>
+                                            <aura:set attribute="else">
+                                                <div class="rp-max-length">{!v.pe.Source_Type__c}</div>
+                                            </aura:set>
+                                        </aura:if>
                                     </aura:set>
                                 </aura:if>
                             </div>

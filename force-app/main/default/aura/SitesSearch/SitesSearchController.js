@@ -11,8 +11,10 @@
             helper.doUpdateStudyTitle(component);
         }));
         communityService.executeAction(component, 'getInitData', {
-            trialId: trialId
+            trialId: trialId,
+            delegateId: communityService.getDelegateId()
         }, function (returnValue) {
+            debugger;
             var initData = JSON.parse(returnValue);
             component.set('v.skipUpdate', true);
             component.set('v.trial', initData.trial);
@@ -42,6 +44,7 @@
         communityService.executeAction(component, 'getRecords', {
             filterJSON: filterJSON,
             paginationJSON: paginationJSON,
+            delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             var result = JSON.parse(returnValue);
             component.set('v.skipUpdate', true);

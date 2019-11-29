@@ -5,14 +5,28 @@
     padding-bottom: 30px;
 }
 .THIS .vpr-header{
-    color:#999999;
-    font-size: 13px;
-    font-weight: 500;
+    color: #444;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 5px;
 }
 
 .THIS .fp-filters-container{
     width: 100%;
 }
+
+.THIS .cFilterPanel {
+    padding-top: 0;
+}
+
+.THIS .cFilterPanel .fp-filter-block {
+    padding-top: 0;
+}
+
+.THIS .cParticipantCardFields .vpi-field label{
+    white-space: nowrap;
+}
+
 /*.THIS .rrs-container:first-child{
      max-width: 100px !important;
  }
@@ -35,6 +49,27 @@
     max-width: 100px !important;
 }
 
+.THIS .vpi-status-btns .slds-col.slds-small-size_4-of-12 {
+    width: auto;
+    margin-top: 15px;
+}
+
+@media (max-width: 768px){
+     .THIS .cParticipantCardFields .vpi-field {
+        flex-wrap: wrap;
+    }
+    
+    .THIS .cParticipantCardFields .vpi-field {
+        flex: 0 0 50%;
+    } 
+    
+    .THIS .vpi-status-btns .slds-col.slds-small-size_4-of-12 {
+        width: 100%;
+        margin-top: 5px;
+    }
+    
+}
+
 @media (max-width: 341px) {
     .THIS .fp-ss-filter-container {
         min-width: 150px;
@@ -44,5 +79,3 @@
         min-width: 150px;
     }
 }
-
-

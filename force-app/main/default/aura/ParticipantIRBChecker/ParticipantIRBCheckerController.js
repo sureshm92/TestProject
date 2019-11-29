@@ -4,6 +4,7 @@
 
 ({
     doInit : function (component, event, helper) {
+        if(!component.get('v.peId')) return;
         communityService.executeAction(component, 'checkLanguagePermissions', {
             peId : component.get('v.peId')
         }, function (response) {

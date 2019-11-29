@@ -1,16 +1,16 @@
 .THIS.resource-container {
-    min-height: 293px;
+    min-height: 225px;
     width: 247px;
     margin: auto;
     position: relative;
 }
 
 .THIS .resource-title {
-    color: #000000;
-    font-family: "Proxima Nova";
+    color: #595959;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 400;
     line-height: 20px;
+    text-align: center;
 }
 
 .THIS .resource-image-container {
@@ -43,21 +43,18 @@
 
 .THIS .resource-description-text {
     color: #999999;
-    font-family: "Proxima Nova";
-    font-size: 12px;
+    font-size: .75rem;
     margin: 0 0 2px 7px;
 }
 
 .THIS .resource-more-links {
     color: #000000;
-    font-family: "Proxima Nova";
-    font-size: 14px;
+    font-size: .875rem;
     font-weight: 600;
 }
 
 .THIS .resource-more-single-link {
     color: #297DFD;
-    font-family: "Proxima Nova";
     margin: 0 auto 5px 7px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -72,10 +69,24 @@
     padding: 30% 0;
     height: 26px;
     color: #999999;
-    font-family: "Proxima Nova";
-    font-size: 17px;
+    font-size: 1rem;
     line-height: 26px;
     text-align: center;
+}
+
+.THIS .resource-content > .slds-wrap > .slds-col:nth-child(1) .resource-error-message:after {
+    content: '';
+    position: absolute;
+    background-size: 40px 40px;
+    background-image: url(/resource/1569528670000/iconVideoPlayer);
+    height: 40px;
+    width: 40px;
+    top: 20px;
+    right: 50%; 
+}
+
+.THIS .resource-content > .slds-wrap > .slds-col:nth-child(2) .resource-error-message:after {
+    
 }
 
 .THIS .resource-pointer {

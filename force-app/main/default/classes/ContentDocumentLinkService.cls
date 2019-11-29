@@ -10,6 +10,22 @@ public with sharing class ContentDocumentLinkService {
             'JPG',
             'GIF'
     };
+    
+    public class TranslatedContentItem{
+        @AuraEnabled public Id contentId;
+        @AuraEnabled public String languageCode;
+        @AuraEnabled public String languageLabel;
+        
+        public TranslatedContentItem(Id contentId, String languageCode){
+            this.contentId = contentId;
+            this.languageCode = languageCode;
+            this.languageLabel = TranslateHelper.getPickListLabel(Contact.Language__c, languageCode);
+        }
+    }
+    
+    public static ContentDocumentLinkService getInstance(){
+        return (ContentDocumentLinkService) ClassFactory.newInstance(ContentDocumentLinkService.class);
+    }
 
     public List<ContentDocumentLink> getContentDocumentLinksByResourcesIds(Set<String> resourcesIdsSet) {
 
@@ -28,6 +44,46 @@ public with sharing class ContentDocumentLinkService {
                         'WHERE LinkedEntityId IN (' + String.join(resourcesIds, ', ') + ') ' +
                         'ORDER BY ContentDocument.CreatedDate DESC';
         return (List<ContentDocumentLink>) databaseProxy.query(documentLinksQuery);
+    }
+    
+    public Map<Id, List<TranslatedContentItem>> getTranslatedItemsForResources(List<Id> resourceIds){
+        List<Resource__c> resources = [
+                SELECT Id, (
+                        SELECT Id, ContentDocument.LatestPublishedVersion.Title,
+                                ContentDocument.LatestPublishedVersionId
+                        FROM ContentDocumentLinks
+                )
+                FROM Resource__c
+                WHERE Id IN :resourceIds
+        ];
+        Map<Id, List<TranslatedContentItem>> resourceTranslationContentsMap = new Map<Id, List<ContentDocumentLinkService.TranslatedContentItem>>();
+        List<String> availableLanguageCodes = new List<String>();
+        for(LabelValueItem item : SObjectHelper.getPicklistLabelValueList(Contact.Language__c)) availableLanguageCodes.add(item.value);
+        for(Resource__c resource : resources){
+            List<TranslatedContentItem> items = resourceTranslationContentsMap.get(resource.Id);
+            if(items == null) items = new List<ContentDocumentLinkService.TranslatedContentItem>();
+            for(ContentDocumentLink cdl : resource.ContentDocumentLinks){
+                if(availableLanguageCodes.contains(cdl.ContentDocument.LatestPublishedVersion.Title)){
+                    items.add(new TranslatedContentItem(cdl.ContentDocument.LatestPublishedVersionId, cdl.ContentDocument.LatestPublishedVersion.Title));
+                }
+            }
+            resourceTranslationContentsMap.put(resource.Id, items);
+        }
+        return resourceTranslationContentsMap;
+    }
+    
+    public ContentDocumentLink getCDLForResource(Id resourceId, String languageCode){
+        List<ContentDocumentLink> cdlList = [
+                SELECT ContentDocument.LatestPublishedVersion.Title,
+                        ContentDocument.LatestPublishedVersion.VersionData
+                FROM ContentDocumentLink
+                WHERE LinkedEntityId = :resourceId
+        ];
+        for(ContentDocumentLink cdl : cdlList){
+            if(cdl.ContentDocument.LatestPublishedVersion.Title == languageCode) return cdl;
+        }
+        if(cdlList.size() > 0) return cdlList[0];
+        return null;
     }
 
     public void extendSharingToAllUsers(List<ContentDocumentLink> links) {

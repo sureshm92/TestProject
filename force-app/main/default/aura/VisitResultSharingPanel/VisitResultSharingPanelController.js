@@ -4,8 +4,9 @@
 ({
     doInit: function (component, event, helper) {
         communityService.executeAction(component, 'getInitData', {
-            'ctpId' : component.get('v.recordId')
+            'ctpId': component.get('v.recordId')
         }, function (initData) {
+            component.set('v.user_has_permission', initData.user_has_permission);
             component.set('v.initData', initData);
             component.set('v.groups', initData.groups);
             component.set('v.typeSelectLVList', initData.typeSelectLVList);
@@ -17,7 +18,7 @@
 
     doSSSelectionChange: function (component, event, helper) {
         var options = component.get('v.options');
-        if(!options.selectedSSIds){
+        if (!options.selectedSSIds) {
             options.ssSelectionType = 'All';
             component.set('v.options', options);
         }
@@ -25,17 +26,17 @@
 
     doSelectedStatusesChanged: function (component, event, helper) {
         var options = component.get('v.options');
-        if(!options.selectedStatuses){
+        if (!options.selectedStatuses) {
             options.statusBasedType = '';
             component.set('v.options', options);
         }
     },
 
-    doSSSelectionTypeChanged: function (component, event, helper){
+    doSSSelectionTypeChanged: function (component, event, helper) {
         var options = component.get('v.options');
-        if(options.ssSelectionType !== 'All'){
+        if (options.ssSelectionType !== 'All') {
             component.find('ssSelectLookup').focus();
-        }else{
+        } else {
             options.selectedSSIds = '';
             component.set('v.options', options);
         }
@@ -43,15 +44,15 @@
 
     doAfterDaysBlur: function (component, event, helper) {
         var options = component.get('v.options');
-        if(!options.showAfterDays || options.showAfterDays < 1){
+        if (!options.showAfterDays || options.showAfterDays < 1) {
             options.showAfterDays = 1;
             component.set('v.options', options);
         }
     },
 
-    doWhenToShowChanged: function(component, event, helper){
+    doWhenToShowChanged: function (component, event, helper) {
         var options = component.get('v.options');
-        if(options.whenToShow === 'After'){
+        if (options.whenToShow === 'After') {
             setTimeout(
                 $A.getCallback(function () {
                     component.find('whenToShowDaysInput').focus();
@@ -64,27 +65,27 @@
         component.set('v.options', options);
     },
 
-    onChangeGlobal : function (component, event, helper) {
-        if(!component.get('v.options.globalShareBck')) {
+    onChangeGlobal: function (component, event, helper) {
+        if (!component.get('v.options.globalShareBck')) {
             communityService.showInfoToast('', 'For the changes to take effect, do not forget to click Save!');
         }
     },
 
-    saveOptions : function (component, event, helper) {
-        if(helper.compareSnapshots(component, helper)) {
+    saveOptions: function (component, event, helper) {
+        if (helper.compareSnapshots(component, helper)) {
             communityService.showWarningToast('', 'Not found changes!');
             return;
         }
 
         component.find('spinner').show();
         communityService.executeAction(component, 'saveSharingRules', {
-            'options' : JSON.stringify(component.get('v.options')),
-            'groups' : JSON.stringify(component.get('v.groups')),
-            'ctpId' : component.get('v.recordId')
+            'options': JSON.stringify(component.get('v.options')),
+            'groups': JSON.stringify(component.get('v.groups')),
+            'ctpId': component.get('v.recordId')
         }, function () {
             component.find('spinner').hide();
             communityService.showSuccessToast('Success', 'Visit Result Sharing setting saved!');
-            if(!component.get('v.options.globalShareBck')) component.refresh();
+            if (!component.get('v.options.globalShareBck')) component.refresh();
         });
     }
 })

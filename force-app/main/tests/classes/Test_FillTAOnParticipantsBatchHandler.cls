@@ -1,9 +1,7 @@
-@IsTest(IsParallel=false)
+@IsTest(IsParallel=true)
 public class Test_FillTAOnParticipantsBatchHandler {
 
-    @TestSetup
     public static void setup() {
-
         Account singleAccount = (Account) TestDataFactory.getSObject(Account.getSObjectType());
         Account participantAccount = (Account) TestDataFactory.getSObject(Account.getSObjectType(), new Map<String, Object>{
                 'Name' => 'Participant'
@@ -111,6 +109,16 @@ public class Test_FillTAOnParticipantsBatchHandler {
 
     @IsTest
     public static void batch_Test() {
+
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .build()
+        );
+        setup();
 
         Test.startTest();
         String participantsQuery = 'SELECT Id, ' +

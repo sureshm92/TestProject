@@ -23,6 +23,7 @@ public without sharing class TaskService {
     public static final String TASK_TYPE_MEDICATION = 'Medication';
     public static final String TASK_TYPE_VISIT = 'Visit';
     public static final String TASK_TYPE_SURVEY = 'Survey';
+    public static final String TASK_TYPE_NOT_SELECTED = 'Not Selected';
 
     public static final String TASK_CODE_COMPLETE_SURVEY = 'Complete_Survey';
     public static final String TASK_CODE_COMPLETE_YOUR_PROFILE = 'Complete_Your_Profile';
@@ -40,15 +41,19 @@ public without sharing class TaskService {
             'CreatedDate',
             'Completed_Date__c',
             'ActivityDate',
+            'Activity_Datetime__c',
             'Task_Code__c',
             'WhatId',
             'Task_Type__c',
             'Visible_For__c',
             'Action_URL__c',
+            'ReminderDateTime',
             'Reminder_Date__c',
             'Originator__c',
             'Patient_Visit__c',
-            'Is_Reminder_Sent__c'
+            'Is_Reminder_Sent__c',
+            'Survey_Invitation__c',
+            'Survey_Invitation__r.Is_Expired__c'
     };
 
     public static final List<String> TASK_STATUS_GROUP_EXPIRE_AVAILABLE = new List<String>{
@@ -73,30 +78,6 @@ public without sharing class TaskService {
         instance = (TaskService) Test.createStub(TaskService.class, mock);
     }
 
-    //Task filters------------------------------------------------------------------------------------------------------
-    private String getVisibilityFilter() {
-        String role = ParticipantService.getParticipantState().isDelegate ? TASK_VISIBILITY_DELEGATES : TASK_VISIBILITY_OWNER;
-        return ' AND Visible_For__c INCLUDES (\'' + role + '\') ';
-    }
-
-    public String getOpenTasksFilter() {
-        List<String> statusFilter = new List<String>{
-                TASK_STATUS_OPEN,
-                TASK_STATUS_IN_PROGRESS
-        };
-        return ' Status IN (\'' + String.join(statusFilter, '\',\'') + '\') ';
-    }
-
-    private String getCompletedTasksFilter() {
-        List<String> statusFilter = new List<String>{
-                TASK_STATUS_IGNORED,
-                TASK_STATUS_COMPLETED
-        };
-        return ' (Status IN (\'' + String.join(statusFilter, '\',\'') + '\') ' +
-                'OR (Status = \'' + TASK_STATUS_EXPIRED + '\' AND Task_Type__c = \'' + TASK_TYPE_SURVEY + '\')) ';
-    }
-
-    //Task getters------------------------------------------------------------------------------------------------------
     public List<Task> getTasksCommon(String filter) {
         List<Task> tasks = new List<Task>();
         String query = 'SELECT ' + String.join(DEFAULT_FIELDS, ',') + ' FROM Task WHERE ';
@@ -129,15 +110,15 @@ public without sharing class TaskService {
     }
 
     public List<Task> getCompletedTasks() {
-        return getTasksCommon(getCompletedTasksFilter() + getVisibilityFilter() + ' ORDER BY Completed_Date__c DESC');
+        return filterCurrentStudyTasks(getTasksCommon(getCompletedTasksFilter() + getVisibilityFilter() + ' ORDER BY Completed_Date__c DESC'));
     }
 
     public List<Task> getOpenTasks() {
-        return getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER);
+        return filterCurrentStudyTasks(getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER));
     }
 
     public List<Task> getPreviewTasks() {
-        return getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER + ' LIMIT 5');
+        return filterCurrentStudyTasks(getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER + ' LIMIT 5'));
     }
 
     public Task getTask(Id taskId) {
@@ -146,7 +127,6 @@ public without sharing class TaskService {
         return tasks[0];
     }
 
-    //Task state changers-----------------------------------------------------------------------------------------------
     public void ignoreTask(Id taskId) {
         Task task = getTask(taskId);
         task.Status = TASK_STATUS_IGNORED;
@@ -165,21 +145,11 @@ public without sharing class TaskService {
         task.Completed_Date__c = Datetime.now();
     }
 
-    public void completeCYPTaskForParticipant() {
-        List<Task> tasks = getTasksCommon('Task_Code__c =\'' +
-                TASK_CODE_COMPLETE_YOUR_PROFILE + '\' AND ' + getOpenTasksFilter());
-        if (tasks.size() > 0) {
-            completeTask(tasks[0]);
-            update tasks[0];
-        }
-    }
-
-    //Task creators-----------------------------------------------------------------------------------------------------
-    public void createSurveyTasks(Map<Id, String> invitationsVisible) {
+    public Integer createSurveyTasks(Map<Id, String> invitationsVisible) {
         List<SurveyInvitation> surveyInvitation = [
                 SELECT
                         Id,
-                        InviteExpiryDateTime,
+                        ExpireDateTime__c,
                         Participant_Enrollment__r.Participant_Contact__c,
                         Reminder_Schedule__c,
                         Reminder_Schedule__r.First_Reminder_day__c,
@@ -189,11 +159,23 @@ public without sharing class TaskService {
         ];
 
         Set<Id> contactIds = new Set<Id>();
+        for (SurveyInvitation inv : surveyInvitation) contactIds.add(inv.Participant_Enrollment__r.Participant_Contact__c);
+
+        List<Patient_Delegate__c> patientDelegates = [
+                SELECT Id,
+                        Contact__c,
+                        Participant__r.Contact__c
+                FROM Patient_Delegate__c
+                WHERE Participant__r.Contact__c IN:contactIds
+        ];
         Set<Id> delContactIds = new Set<Id>();
-        for (SurveyInvitation inv : surveyInvitation) {
-            Id partContactId = inv.Participant_Enrollment__r.Participant_Contact__c;
-            contactIds.add(partContactId);
-            delContactIds.addAll(PatientDelegateService.getDelegatedContactIds(partContactId));
+        Map<Id, Set<Id>> delegatesByParticipant = new Map<Id, Set<Id>>();
+        for (Patient_Delegate__c pd : patientDelegates) {
+            if (!delegatesByParticipant.containsKey(pd.Participant__r.Contact__c)) {
+                delegatesByParticipant.put(pd.Participant__r.Contact__c, new Set<Id>());
+            }
+            delegatesByParticipant.get(pd.Participant__r.Contact__c).add(pd.Contact__c);
+            delContactIds.add(pd.Contact__c);
         }
 
         Map<Id, Id> participantContactUser = getContactUserIdsMap(contactIds);
@@ -209,8 +191,11 @@ public without sharing class TaskService {
         for (SurveyInvitation inv : surveyInvitation) {
             Id partContactId = inv.Participant_Enrollment__r.Participant_Contact__c;
             Id partUserId = participantContactUser.get(partContactId);
+            if (partUserId == null) continue;
+
             userContact.put(partUserId, partContactId);
-            List<Id> patientDelContactIds = PatientDelegateService.getDelegatedContactIds(partContactId);
+            Set<Id> patientDelContactIds = delegatesByParticipant.containsKey(partContactId)
+                    ? delegatesByParticipant.get(partContactId) : new Set<Id>();
 
             List<TaskConfig> tmpConfigs = new List<TaskConfig>();
             String visible = invitationsVisible.get(inv.Id);
@@ -220,6 +205,8 @@ public without sharing class TaskService {
                 }
                 when 'Each Delegate' {
                     for (Id pdId : patientDelContactIds) {
+                        if (delContactUser.get(pdId) == null) continue;
+
                         tmpConfigs.add(new TaskConfig(delContactUser.get(pdId)));
                         userContact.put(delContactUser.get(pdId), pdId);
                     }
@@ -227,6 +214,8 @@ public without sharing class TaskService {
                 when 'Patient and each Delegate' {
                     tmpConfigs.add(new TaskConfig(partUserId));
                     for (Id pdId : patientDelContactIds) {
+                        if (delContactUser.get(pdId) == null) continue;
+
                         tmpConfigs.add(new TaskConfig(delContactUser.get(pdId)));
                         userContact.put(delContactUser.get(pdId), pdId);
                     }
@@ -236,19 +225,20 @@ public without sharing class TaskService {
             String subject = Label.Task_Subject_Complete_Survey.replace('##SurveyName', inv.Survey.Name);
             for (TaskConfig tsc : tmpConfigs) {
                 tsc.code = TASK_CODE_COMPLETE_SURVEY;
-                tsc.description = inv.Id;
+                tsc.invitation = inv.Id;
                 tsc.priority = TASK_PRIORITY_CRITICAL;
                 tsc.reminderSchedule = inv.Reminder_Schedule__c;
 
                 TimeZone userTZ = userTimezoneMap.get(tsc.ownerId);
-                Datetime userDatetime = DateTimeConverterUtil.getUserDatetime(userTZ, null);
+                Datetime userDatetime = DateTimeConverterUtil.getUserDatetime(userTZ, Datetime.now());
 
                 tsc.startDate = userDatetime.date();
-                if (inv.InviteExpiryDateTime != null) {
-                    Date expiryDate = inv.InviteExpiryDateTime.date();
+                if (inv.ExpireDateTime__c != null) {
+                    Date expiryDate = inv.ExpireDateTime__c.date();
                     Integer daysBetween = Date.today().daysBetween(expiryDate);
-                    tsc.activityDate = tsc.startDate.addDays(daysBetween);
+                    tsc.activityDate = DateTimeConverterUtil.addDaysInUserTimeZone(userDatetime, userTZ, daysBetween);
                 }
+
                 if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {
                     Integer firstReminderDay = (Integer) inv.Reminder_Schedule__r.First_Reminder_day__c;
                     tsc.reminderDatetime = DateTimeConverterUtil.addDaysInUserTimeZone(userDatetime, userTZ, firstReminderDay);
@@ -263,10 +253,36 @@ public without sharing class TaskService {
         }
 
         List<Task> tasks = new List<Task>();
-        for (TaskConfig taskConfig : taskConfigs) tasks.add(createTaskFromConfig(taskConfig));
+        for (TaskConfig taskConfig : taskConfigs) tasks.add(createTask(taskConfig));
 
         insert tasks;
-        System.debug('Task inserted: ' + tasks.size());
+        return tasks.size();
+    }
+
+    public Task createTask(TaskConfig taskConfig) {
+        Task task = new Task(
+                OwnerId = taskConfig.ownerId,
+                Priority = taskConfig.priority,
+                Status = taskConfig.status,
+                Subject = taskConfig.subject,
+                Visible_For__c = taskConfig.visibility
+        );
+
+        if (taskConfig.activityDate != null) task.Activity_Datetime__c = taskConfig.activityDate;
+        if (taskConfig.code != null) task.Task_Code__c = taskConfig.code;
+        if (taskConfig.invitation != null) task.Survey_Invitation__c = taskConfig.invitation;
+        if (taskConfig.originator != null) task.Originator__c = taskConfig.originator;
+        if (taskConfig.reminderDatetime != null) {
+            task.Reminder_Date__c = taskConfig.reminderDatetime;
+            if(taskConfig.reminderGMT != null) task.ReminderDateTime = taskConfig.reminderGMT;
+        }
+        if (taskConfig.reminderSchedule != null) task.Reminder_Schedule__c = taskConfig.reminderSchedule;
+        if (taskConfig.startDate != null) task.Start_Date__c = taskConfig.startDate;
+        if (taskConfig.type != null) task.Task_Type__c = taskConfig.type;
+        if (taskConfig.whatId != null) task.WhatId = taskConfig.whatId;
+        if (taskConfig.whoId != null) task.WhoId = taskConfig.whoId;
+
+        return task;
     }
 
     public Task createCompleteYourProfileTask(Id ownerId, Id participantId, Id participantContactId) {
@@ -282,30 +298,36 @@ public without sharing class TaskService {
         );
     }
 
-    public Task createTaskFromConfig(TaskConfig taskConfig) {
-        Task task = new Task(
-                OwnerId = taskConfig.ownerId,
-                Priority = taskConfig.priority,
-                Status = taskConfig.status,
-                Subject = taskConfig.subject,
-                Visible_For__c = taskConfig.visibility
-        );
+    private String getVisibilityFilter() {
+        String role = ParticipantService.getParticipantState().isDelegate ? TASK_VISIBILITY_DELEGATES : TASK_VISIBILITY_OWNER;
+        return ' AND Visible_For__c INCLUDES (\'' + role + '\') ';
+    }
 
-        if (taskConfig.activityDate != null) task.ActivityDate = taskConfig.activityDate;
-        if (taskConfig.code != null) task.Task_Code__c = taskConfig.code;
-        if (taskConfig.description != null) task.Description = taskConfig.description;
-        if (taskConfig.originator != null) task.Originator__c = taskConfig.originator;
-        if (taskConfig.reminderDatetime != null) {
-            task.Reminder_Date__c = taskConfig.reminderDatetime;
-            if(taskConfig.reminderGMT != null) task.ReminderDateTime = taskConfig.reminderGMT;
+    public String getOpenTasksFilter() {
+        List<String> statusFilter = new List<String>{
+                TASK_STATUS_OPEN,
+                TASK_STATUS_IN_PROGRESS
+        };
+        return DatabaseService.fieldInValues('Status', statusFilter)
+                + 'AND Survey_Invitation__r.Is_Expired__c != TRUE ';
+    }
+
+    public void completeCYPTaskForParticipant() {
+        List<Task> tasks = getTasksCommon('Task_Code__c =\'' +
+                TASK_CODE_COMPLETE_YOUR_PROFILE + '\' AND ' + getOpenTasksFilter());
+        if (tasks.size() > 0) {
+            completeTask(tasks[0]);
+            update tasks[0];
         }
-        if (taskConfig.reminderSchedule != null) task.Reminder_Schedule__c = taskConfig.reminderSchedule;
-        if (taskConfig.startDate != null) task.Start_Date__c = taskConfig.startDate;
-        if (taskConfig.type != null) task.Task_Type__c = taskConfig.type;
-        if (taskConfig.whatId != null) task.WhatId = taskConfig.whatId;
-        if (taskConfig.whoId != null) task.WhoId = taskConfig.whoId;
+    }
 
-        return task;
+    private String getCompletedTasksFilter() {
+        List<String> statusFilter = new List<String>{
+                TASK_STATUS_IGNORED,
+                TASK_STATUS_COMPLETED
+        };
+        return ' (Status IN (\'' + String.join(statusFilter, '\',\'') + '\') ' +
+                'OR (Status = \'' + TASK_STATUS_EXPIRED + '\' AND Task_Type__c = \'' + TASK_TYPE_SURVEY + '\')) ';
     }
 
     public Map<Id, Id> getContactUserIdsMap(Set<Id> contactIds) {
@@ -322,9 +344,9 @@ public without sharing class TaskService {
     }
 
     public class TaskConfig {
-        public Date activityDate;
+        public Datetime activityDate;
         public String code;
-        public String description;
+        public Id invitation;
         public String originator;
         public Id ownerId;
         public String priority;
@@ -336,8 +358,8 @@ public without sharing class TaskService {
         public String subject;
         public String type;
         public String visibility;
-        public String whatId;
-        public String whoId;
+        public Id whatId;
+        public Id whoId;
 
         public TaskConfig(Id ownerId) {
             this.ownerId = ownerId;
@@ -355,4 +377,42 @@ public without sharing class TaskService {
             this.visibility = visibility;
         }
     }
+
+    public List<Task> filterCurrentStudyTasks(List<Task> tasks) {
+        Participant_Enrollment__c currentPE = ParticipantService.getInstance().getState().pe;
+        if(currentPE == null) return tasks;
+
+        Set<Id> invIds = new Set<Id>();
+        for (Task t : tasks) {
+            if (t.Task_Type__c == TASK_TYPE_SURVEY && t.Survey_Invitation__c != null) invIds.add(t.Survey_Invitation__c);
+        }
+        List<SurveyInvitation> invitations = [
+                SELECT Id, Participant_Enrollment__c
+                FROM SurveyInvitation
+                WHERE Id IN:invIds AND Participant_Enrollment__c =: currentPE.Id
+        ];
+        Set<Id> peIds = new Set<Id>();
+        Set<Id> invFilterIds = new Set<Id>();
+        for (SurveyInvitation inv : invitations) {
+            peIds.add(inv.Participant_Enrollment__c);
+            invFilterIds.add(inv.Id);
+        }
+
+        List<Task> filteredList = new List<Task>();
+        for (Task t : tasks) {
+            if (t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
+                if (t.WhatId == currentPE.Id) {
+                    filteredList.add(t);
+                }
+            } else if (t.Task_Type__c == TASK_TYPE_SURVEY && t.Survey_Invitation__c != null) {
+                if (invFilterIds.contains(t.Survey_Invitation__c)) {
+                    filteredList.add(t);
+                }
+            } else if (t.Task_Type__c != TASK_TYPE_SURVEY) {
+                filteredList.add(t);
+            }
+        }
+        return filteredList;
+    }
+
 }

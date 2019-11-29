@@ -3,7 +3,7 @@
  */
 .THIS.ah-main-container{
     margin-top: 30px;
-    padding: 10px;
+    padding: 10px 0 10px 10px;
 }
 .THIS .ah-main-panel{
     background-color: #FFFFFF;
@@ -12,17 +12,17 @@
 .THIS .ah-item-label{
     color: black;
     font-weight: 600;
-    font-size: 17px;
+    font-size: 18px;
 }
 .THIS .ah-item-sublabel{
     color: #666666;
-    font-size: 13px;
+    font-size: 1rem;
 }
 .THIS .ah-item-panel{
     box-sizing: border-box;
-    border: 1px solid #D9D9D9;
     background-color: #F8F9FB;
-    padding: 17px;
+    padding: 10px;
+
 }
 .THIS .ah-section-title{
     color: black;
@@ -62,13 +62,6 @@
         margin-bottom: 10px;
     }
 
-    .THIS .ah-item-sublabel{
-        font-size: 10px;
-    }
-
-    .THIS .ah-item-label{
-        font-size: 12px;
-    }
     .THIS .ah-item-panel{
         padding-left: 5px;
         padding-right: 5px;
@@ -77,4 +70,5 @@
 
         width: 360px;
     }
+
 }

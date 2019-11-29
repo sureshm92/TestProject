@@ -2,7 +2,7 @@
  * Created by Kryvolap on 15.09.2018.
  */
 .THIS.sdli-container.show-study{
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 .THIS.sdli-container .sdli-label{
@@ -17,4 +17,8 @@
 .THIS.sdli-container .sdli-select{
     width: 100%;
     font-size: 14px;
+}
+
+.THIS .slds-select_container {
+    width: 110px;
 }

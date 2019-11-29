@@ -1,5 +1,14 @@
 /**
  * Created by Kryvolap on 04.09.2018.
  */
-.THIS {
+@media (max-width: 768px){  
+    .THIS .path-item-detail-panel > .slds-col {
+        width: 100%;
+    }
+    
+    .THIS .path-item-detail-panel {
+        display: flex;
+        flex-direction: column;
+    }
+    
 }

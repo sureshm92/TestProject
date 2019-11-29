@@ -4,3 +4,16 @@
 .THIS {
     font-family: "Proxima Nova"!important;
 }
+
+@media all and (max-width: 767px) {
+	.THIS .ci-panel {
+        width: 79%;
+        color: #444;
+    }
+    
+}
+@media print {
+    .THIS.ci-bottom-aria{
+        display: none;
+    }
+}

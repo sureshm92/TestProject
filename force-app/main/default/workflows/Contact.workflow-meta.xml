@@ -52,7 +52,7 @@
             <name>Populate_Override_Field_Address</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <formula>LastName &lt;&gt; NULL &amp;&amp; ISBLANK(  Override_Mailing_Address__c )</formula>
         <triggerType>onCreateOnly</triggerType>
     </rules>
@@ -90,7 +90,7 @@
             <name>Populate_Override_Field_Phone</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <formula>LastName &lt;&gt; NULL &amp;&amp;  ISBLANK( Override_Phone__c )</formula>
         <triggerType>onCreateOnly</triggerType>
     </rules>

@@ -18,24 +18,23 @@ public without sharing class Action_ChangePEStatusByPIRemote {
     }
 
     @AuraEnabled
-    public static String updatePE(String peId, String status, String reason, String notes) {
+    public static String updatePE(String pe, String status, String reason, String notes) {
+        Participant_Enrollment__c penr = (Participant_Enrollment__c) JSON.deserialize(pe,Participant_Enrollment__c.class);
+        if(status == 'Enrollment Success'){
+            update penr;
+        }
         try {
-            Participant_Enrollment__c pe = new Participant_Enrollment__c(
-                    Id = peId,
-                    Participant_Status_Last_Changed_Date__c = Datetime.now(),
-                    Last_Status_Changed_Notes__c = notes,
-                    Participant_Status__c = status,
-                    Non_Enrollment_Reason__c = reason
+            Participant_Enrollment_Status_History__c history = new Participant_Enrollment_Status_History__c(
+                    Date__c = Datetime.now(),
+                    Status__c = status,
+                    Notes__c = notes,
+                    ParticipantEnrollment__c = penr.Id,
+                    Reason__c = reason
             );
-
-            if (status == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) {
-                pe.Informed_Consent__c = true;
-            }
-            update pe;
+            insert history;
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
-        return ReferralProfileRemote.getReferralProfileDetail(peId, CommunityService.USER_MODE_PI);
+        return ReferralProfileRemote.getReferralProfileDetail(penr.Id, CommunityService.USER_MODE_PI);
     }
-
 }

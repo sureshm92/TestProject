@@ -224,6 +224,21 @@ public class StudyActionsPI extends StudyActions{
                 }
         ));
 
+        actions.put(ACT_SCREENER_RESPONSES, new Action(
+                ACT_SCREENER_RESPONSES,
+                null,
+                null, new List<DisableReason>{
+                        supportLevelReason
+                }
+        ));
+        actions.put(ACT_CONNECT_PROVIDER, new Action(
+                ACT_CONNECT_PROVIDER,
+                null,
+                null, new List<DisableReason>{
+                        level2AndLowReason
+                }
+        ));
+
 
         actions.put(ACT_MANAGE_REFERRALS_BY_SS, new Action(
                 ACT_MANAGE_REFERRALS_BY_SS,
@@ -264,7 +279,7 @@ public class StudyActionsPI extends StudyActions{
 
         //if(openToReceiveReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
             if(isTCAcceptanceRequired){
-                studyListViewItemActions.add(actions.get(ACT_VIEW_TC));
+                studyListViewItemActions.add(actions.get(ACT_ACCEPT_TC));
             }
             if(openToReceiveReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
                 //studyListViewItemActions.add(actions.get(ACT_OPEN_TO_RECEIVE_REFERRALS));

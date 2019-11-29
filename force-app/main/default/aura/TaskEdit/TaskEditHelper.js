@@ -16,7 +16,7 @@
 
     isSameDay : function (component) {
         var today = component.get('v.todayDate');
-        var dueDate = component.get('v.task.ActivityDate');
+        var dueDate = component.get('v.initData.activityDate');
         dueDate = moment(dueDate, 'YYYY-MM-DD');
 
         return dueDate.isSame(today);

@@ -26,7 +26,7 @@ private without sharing class Test_ReferringRemote {
                     Mailing_Country_Code__c = 'US',
                     Mailing_State_Code__c = 'AL'
             );
-            ReferringRemote.saveParticipant(testDataInstance.ctp.Id, testDataInstance.hcpEnrollment.Id, JSON.serialize(pe), JSON.serialize(participant));
+            ReferringRemote.saveParticipant(testDataInstance.hcpEnrollment.Id, JSON.serialize(pe), JSON.serialize(participant), null);
         }
         Test.stopTest();
     }
@@ -37,7 +37,7 @@ private without sharing class Test_ReferringRemote {
         Test.startTest();
         TestData testDataInstance = new TestData();
         System.runAs(testDataInstance.hcpUser){
-            String initDataStr = ReferringRemote.getInitData(testDataInstance.ctp.Id, testDataInstance.pe.Id, testDataInstance.hcpEnrollment.Id, CommunityService.USER_MODE_HCP);
+            String initDataStr = ReferringRemote.getInitData(testDataInstance.ctp.Id, testDataInstance.pe.Id, testDataInstance.hcpEnrollment.Id, CommunityService.USER_MODE_HCP, null);
         }
         Test.stopTest();
     }

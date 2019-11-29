@@ -19,12 +19,15 @@
     <aura:attribute name="isCollapsed" type="Boolean" default="true"/>
     <aura:attribute name="showMore" type="Boolean" default="false"/>
     <aura:attribute name="showMoreEnabled" type="Boolean" default="false"/>
+    <aura:attribute name="showEntriesVisble" type="Boolean" default="true"/>
+    <aura:attribute name="setValueAsSelected" type="Boolean" default="false"/>
     <aura:attribute name="itemTitle" type="String" default="{!$Label.c.PG_DB_L_patients}"/>
 
     <!--compoenent body -->
     <div class="{!'fp-container' + if(v.isCollapsed, ' collapsed', '')}">
         <div class="fp-collapsed-view"></div>
         <div class="fp-mobile rr-large-up-hide">
+
             <div class="fp-header">
                 <div class="fp-collapse-label" onclick="{!c.doSwitchCollapse}">
                     {!$Label.c.PG_FP_L_Filter_by}
@@ -35,23 +38,23 @@
                         </aura:set>
                     </aura:if>
                 </div>
-
-                    <div class="fp-search">
-                        <aura:if isTrue="{!!empty(v.searchTextPlaceHolder)}">
-                            <c:rrInput valueString="{!v.searchText}" iconName="icon-search" placeholder="{!v.searchTextPlaceHolder}"/>
-                            <!--aura:set attribute="else">
-                                    {!v.buttons}
-                            </aura:set-->
-                        </aura:if>
-                    </div>
+                <div class="fp-search">
+                    <aura:if isTrue="{!!empty(v.searchTextPlaceHolder)}">
+                        <c:rrInput valueString="{!v.searchText}" iconName="icon-search" 
+                                   placeholder="{!v.searchTextPlaceHolder}"/>
+                        <!--aura:set attribute="else">
+                                        {!v.buttons}
+                                </aura:set-->
+                    </aura:if>
+                </div>
             </div>
         </div>
         <div class="fp-collapsible">
             <div class="fp-filter-block">
+                <div class="fp-filters-label rr-large-down-hide">{!$Label.c.PG_FP_L_Filter_by}</div>
                 <div class="fp-main-filter-block">
-                    <div class="fp-filters-label rr-large-down-hide">{!$Label.c.PG_FP_L_Filter_by}</div>
-                    <div class="fp-filters-container">{!v.body}</div>
-                    <div class="fp-serach-input rr-large-down-hide">
+                   
+                    <div class="fp-search-input rr-large-down-hide">
                         <aura:if isTrue="{!!empty(v.searchTextPlaceHolder)}">
                             <c:rrInput valueString="{!v.searchText}" iconName="icon-search"
                                        placeholder="{!v.searchTextPlaceHolder}"/>
@@ -59,7 +62,10 @@
                                 <aura:if isTrue="{!$Browser.formFactor == 'DESKTOP'}">{!v.buttons}</aura:if>
                             </aura:set>
                         </aura:if>
-                    </div>
+                    </div>       
+                    
+                    <div class="fp-filters-container">{!v.body}</div>
+                   
                 </div>
             </div>
         </div>
@@ -83,13 +89,15 @@
                     <aura:if isTrue="{!!empty(v.sortVariants)}">
                         <div class="fp-form-element">
                             <label>{!$Label.c.PG_FP_L_Sort_by}</label>
-                            <c:rrSelect value="{!v.sortType}" options="{!v.sortVariants}"/>
+                            <c:rrSelect value="{!v.sortType}" options="{!v.sortVariants}" setValueAsSelected="{!v.setValueAsSelected}"/>
                         </div>
                     </aura:if>
-<!--                    <div class="fp-form-element">-->
-<!--                        <label>{!$Label.c.PG_FP_L_Show_entries}</label>-->
-<!--                        <c:rrSelect value="{!v.recordsPerPage}" options="{!v.recordsPerPageVariants}"/>-->
-<!--                    </div>-->
+                    <aura:if isTrue="{!v.showEntriesVisble}">
+                        <div class="fp-form-element">
+                            <label>{!$Label.c.PG_FP_L_Show_entries}</label>
+                            <c:rrSelect value="{!v.recordsPerPage}" options="{!v.recordsPerPageVariants}"/>
+                        </div>
+                    </aura:if>
                 </div>
             </aura:if>
         </div>

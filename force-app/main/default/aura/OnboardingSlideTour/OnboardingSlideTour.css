@@ -29,13 +29,21 @@
 .THIS .tour-panel{
     background-color: white;
     width: calc(100% - 20px);
-    height: calc(100% - 20px);
+    height: calc(100% - 100px);
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: 5px;
+    border-radius: 0 0 4px 4px;
     overflow: hidden;
     position: relative;
+}
+
+.THIS .tour-panel:before {
+    height: 4px;
+    width: 100%;
+    background-image: linear-gradient(to right, #250056 20%, #0076AE 48%, #0076AE 52%, #250056 100%);
+    content: '';
+    display: block;
 }
 
 
@@ -76,10 +84,11 @@
 }
 
 .THIS .tour-title{
-    font-size: 32px;
+    font-size: 20px;
     line-height: 40px;
     font-weight: 600;
     padding: 15px 20px;
+    background-color: #fff;
 }
 
 .THIS .tour-slides-body{

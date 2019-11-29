@@ -27,7 +27,7 @@
     <aura:if isTrue="{!v.isInitialized}">
         <div class="rr-top-bar multi-mode" id="stickyBar" aura:id="stickyBar">
             <div class="rr-width-limiter side-padding">
-                <c:RRLink page="{!'settings?tab=delegates'}">
+                <c:RRLink page="{!'my-team'}">
                     <c:RRIcon iconName="icon-arrow-left"/>
                     {!$Label.c.PG_PST_L_Delegates_Back}
                 </c:RRLink>
@@ -51,7 +51,7 @@
                             <div class="button-panel-mobile rr-medium-up-hide">
                                 <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center">
                                     <div class="slds-col slds-size_2-of-5 slds-medium-size_1-of-3">
-                                        <c:RRLink page="{!'settings?tab=delegates'}">
+                                        <c:RRLink page="{!'my-team'}">
                                             <c:RRIcon iconName="icon-arrow-left"/>
                                             {!$Label.c.PG_PST_L_Delegates_Back}
                                         </c:RRLink>
@@ -91,13 +91,13 @@
                             <div class="button-panel rr-medium-down-hide">
                                 <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center">
                                     <div class="slds-col slds-size_2-of-5 slds-medium-size_1-of-3">
-                                        <c:RRLink page="{!'settings?tab=delegates'}">
+                                        <c:RRLink page="{!'my-team'}">
                                             <c:RRIcon iconName="icon-arrow-left"/>
                                             {!$Label.c.PG_PST_L_Delegates_Back}
                                         </c:RRLink>
                                     </div>
-                                    <div class="slds-col slds-size_3-of-5 slds-medium-size_2-of-3 button-container">
-                                        <button class="apollo-btn primary ntm-button"
+                                    <div class="slds-col slds-text-align_right slds-size_3-of-5 slds-medium-size_2-of-3">
+                                        <button class="apollo-btn primary"
                                                 onclick="{!c.doSaveChanges}"
                                                 disabled="{!or(not(v.isCorrectEmail), empty(and(v.delegate.FirstName, v.delegate.LastName)))}">
                                             {!$Label.c.PG_PST_L_Delegates_Save}

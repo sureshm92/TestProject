@@ -1,5 +1,5 @@
 /**
- * Created by Igor Malyuta on 04.09.2019.
+ * Created by Igor Malyuta on 19.09.2019.
  */
 
 ({
@@ -18,17 +18,13 @@
     },
 
     sscCheckboxStateChange: function (component, event, helper) {
-        var lang = event.getParam('field');
-        var state = event.getParam('value');
-
         var item = component.get('v.item');
-        var appLangs = item.approvedLangCodes;
-        var appCount = 0;
-        for (var j = 0; j < appLangs.length; j++) {
-            if (appLangs[j].value === lang) appLangs[j].state = state;
-            if (appLangs[j].state) appCount++;
+        var asgCount = 0;
+        var assignments = item.assignments;
+        for (var j = 0; j < assignments.length; j++) {
+            if (assignments[j].state) asgCount++;
         }
-        item.emptyAppLangs = appCount === 0;
+        item.emptyAssignments = asgCount === 0;
         component.set('v.item', item);
     }
 });

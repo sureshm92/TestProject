@@ -45,13 +45,13 @@
 
             </aura:if>
 
-            <footer class="resource-footer" onclick="{!c.navigateToPage}">
-                {!$Label.c.Resources_See_All}
+            <footer class="resource-footer">
+                <a class="cRRLink rr-link" onclick="{!c.navigateToPage}">{!$Label.c.Resources_See_All}</a>
             </footer>
 
         </aura:if>
 
-        <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="medium"/>
+        <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="small"/>
 
     </div>
 

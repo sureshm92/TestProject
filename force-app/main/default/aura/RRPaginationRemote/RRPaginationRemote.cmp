@@ -8,9 +8,12 @@
     <aura:attribute name="allRecordsCount" type="Integer"/>
     <aura:attribute name="totalPages" type="Integer" access="private"/>
 
+    <!-- events: -->
+    <aura:registerEvent access="global" name="onchange" type="c:uiEvent"/>
+
     <aura:handler name="init" value="{!this}" action="{!c.doCalcTotalPages}"/>
     <aura:handler name="change" value="{!v.allRecordsCount}" action="{!c.doCalcTotalPages}"/>
-
+    <aura:handler name="change" value="{!v.entriesOnPage}" action="{!c.doCalcTotalPages}"/>
     <aura:if isTrue="{!v.totalPages > 0}">
         <div class="rrp-container">
             <div class="buttons">

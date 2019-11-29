@@ -4,7 +4,6 @@
 
 ({
     doInit: function(component, event, helper){
-        debugger;
         helper.getIconsUrl(component,event)
     },
 

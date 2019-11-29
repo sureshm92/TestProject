@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "medical-record-review-log",
-  "appPageId" : "d9c4a932-5387-4757-867b-fed2cab30e7c",
-  "routeType" : "custom-medical-record-review-log",
-  "pageAccess" : "UseParent",
-  "label" : "Medical Record Review Log",
-  "id" : "7f6e62da-8f3e-4ff9-8f54-57261d5846d9",
-  "type" : "route"
-}

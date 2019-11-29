@@ -4,31 +4,11 @@
 
 public with sharing class ManualTaskFilter {
 
-    private static final String PROFILE = 'IQVIA Customer Community Plus Login User';
-
-    private static final String ENROLLED_QUERY =
+    private static final String QUERY =
             'SELECT Id, Participant__r.Contact__c, Participant__r.Mailing_Country_Code__c ' +
-                    'FROM Participant_Study_Enrollment__c ' +
-                    'WHERE ';
+                    'FROM Participant_Enrollment__c WHERE ';
 
-    private static final String REFERRED_QUERY =
-            'SELECT Id, Participant__r.Contact__c, Participant__r.Mailing_Country_Code__c ' +
-                    'FROM Participant_Enrollment__c ' +
-                    'WHERE Participant_Status__c IN ';
-
-    private static final String THERAPEUTIC_QUERY = 'SELECT Participant__r.Id FROM Therapeutic_Area_Patient__c ' +
-            'WHERE ';
-
-    //Color filters (statuses)
-    @TestVisible
-    private static final String[] PE_STATUSES_GREEN = new String[]{
-            'Referral Sent to PI', 'Referral Accepted', 'Contact Successful', 'Eligibility Passed', 'Screening Complete'
-    };
-
-    @TestVisible
-    private static final String[] PE_STATUSES_YELLOW = new String[]{
-            'Referral On Hold', 'Contact Attempt In Progress', 'Screening In Progress'
-    };
+    private static final String THERAPEUTIC_QUERY = 'SELECT Participant__c FROM Therapeutic_Area_Patient__c WHERE ';
 
     public static final String SEPARATOR = '\',\'';
 
@@ -39,71 +19,34 @@ public with sharing class ManualTaskFilter {
     @AuraEnabled public List<LookupSearchResult> countries = new List<LookupSearchResult>();
     @AuraEnabled public List<LookupSearchResult> sites = new List<LookupSearchResult>();
 
-    public List<User> getUsers() {
-        Set<Participant__c> participants = new Set<Participant__c>();
+    public Map<Id, List<Participant_Enrollment__c>> getContactsWithPE() {
+        List<String> searchStatuses = new List<String>();
+        if (statuses.contains('Referred')) searchStatuses.addAll(PEStatusState.PE_STATUS_GROUP_IN_PROGRESS);
+        if (statuses.contains('Enrolled')) searchStatuses.addAll(PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS);
+        if (statuses.contains('Alumni')) searchStatuses.addAll(PEStatusState.PE_STATUS_GROUP_ALUMNI);
 
-        if (statuses.contains('Enrolled')) {
-            String query = ENROLLED_QUERY + fieldJoin('Status__c', PSEService.PSE_STATUS_GROUP_IN_PROGRESS) + getFiltersQuery();
-            System.debug('Enrolled query is: ' + query);
+        String peQuery = QUERY +
+                DatabaseService.fieldInValues('Participant_Status__c', searchStatuses) + getFiltersQuery();
+        List<Participant_Enrollment__c> enrollments = (List<Participant_Enrollment__c>) Database.query(peQuery);
 
-            List<Participant_Study_Enrollment__c> participantStudyEnrollment =
-                    (List<Participant_Study_Enrollment__c>) Database.query(query);
-
-            for (Participant_Study_Enrollment__c pse : participantStudyEnrollment) {
-                participants.add(pse.Participant__r);
-            }
-        }
-
-        if (statuses.contains('Referred')) {
-            String query = REFERRED_QUERY + getColorFilters() + getFiltersQuery();
-            System.debug('Referred query is: ' + query);
-
-            List<Participant_Enrollment__c> participantEnrollments =
-                    (List<Participant_Enrollment__c>) Database.query(query);
-
-            for (Participant_Enrollment__c pe : participantEnrollments) {
-                if(pe.Participant__r != null) {
-                    participants.add(pe.Participant__r);
-                }
-            }
-        }
-
-        Set<Id> contacts = new Set<Id>();
         List<String> countryCodes;
-        if(!countries.isEmpty()) {
-            countryCodes = getCountryCode();
-        }
+        if (!countries.isEmpty()) countryCodes = getCountryCode();
 
-        for (Participant__c partic : participants) {
-            if (partic.Contact__c != null) {
-                Id partContact = partic.Contact__c;
-                if (countryCodes != null) {
-                    if (countryCodes.contains(partic.Mailing_Country_Code__c)) {
-                        contacts.add(partContact);
-                    }
-                } else {
-                    contacts.add(partContact);
+        Map<Id, List<Participant_Enrollment__c>> peByContactIds = new Map<Id, List<Participant_Enrollment__c>>();
+        for (Participant_Enrollment__c pe : enrollments) {
+            if (pe.Participant__r.Contact__c != null) {
+                if (countryCodes != null && !countryCodes.contains(pe.Participant__r.Mailing_Country_Code__c)) {
+                    continue;
                 }
+
+                if (!peByContactIds.containsKey(pe.Participant__r.Contact__c)) {
+                    peByContactIds.put(pe.Participant__r.Contact__c, new List<Participant_Enrollment__c>());
+                }
+                peByContactIds.get(pe.Participant__r.Contact__c).add(pe);
             }
         }
 
-        return [
-                SELECT Id, Name
-                FROM User
-                WHERE ContactId IN :contacts
-                AND IsActive = TRUE
-                AND Profile.Name = :PROFILE
-        ];
-    }
-
-    //Add green and yellow status 'IN(...)'
-    @TestVisible
-    private String getColorFilters() {
-        return '(\'' +
-                String.join(PE_STATUSES_GREEN, ManualTaskFilter.SEPARATOR) +
-                ManualTaskFilter.SEPARATOR +
-                String.join(PE_STATUSES_YELLOW, ManualTaskFilter.SEPARATOR) +
-                '\') ';
+        return peByContactIds;
     }
 
     @TestVisible
@@ -112,10 +55,9 @@ public with sharing class ManualTaskFilter {
                 Database.query(THERAPEUTIC_QUERY + fieldJoin('Therapeutic_Area__c', areas));
 
         List<String> participantIds = new List<String>();
-        for (Therapeutic_Area_Patient__c areaPatientpart : participantInArea)
-            participantIds.add(areaPatientpart.Participant__r.Id);
+        for (Therapeutic_Area_Patient__c areaPatient : participantInArea) participantIds.add(areaPatient.Participant__c);
 
-        return fieldJoin('Participant__c', participantIds);
+        return DatabaseService.fieldInValues('Participant__c', participantIds);
     }
 
     @TestVisible
@@ -129,23 +71,18 @@ public with sharing class ManualTaskFilter {
     }
 
     @TestVisible
-    private String fieldJoin(String fieldName, List<LookupSearchResult> items) {
-        List<String> ids = new List<String>();
-        for (LookupSearchResult result : items) ids.add(result.id);
-
-        return fieldName + ' IN (\'' + String.join(ids, SEPARATOR) + '\') ';
-    }
-
-    @TestVisible
-    private String fieldJoin(String fieldName, List<String> items) {
-        return fieldName + ' IN (\'' + String.join(items, SEPARATOR) + '\') ';
-    }
-
-    @TestVisible
     private List<String> getCountryCode() {
         List<String> countryCodes = new List<String>();
         for (LookupSearchResult searchResult : countries) countryCodes.add(searchResult.id);
 
         return countryCodes;
+    }
+
+    @TestVisible
+    private String fieldJoin(String fieldName, List<LookupSearchResult> items) {
+        List<String> ids = new List<String>();
+        for (LookupSearchResult result : items) ids.add(result.id);
+
+        return fieldName + ' IN (\'' + String.join(ids, SEPARATOR) + '\') ';
     }
 }

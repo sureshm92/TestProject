@@ -3,6 +3,7 @@
  */
 ({
     doInit: function (component, event, helper) {
+        debugger;
         communityService.scrollToTop(true);
         var spinner = component.get('v.parent').find('mainSpinner');
         spinner.show();
@@ -17,20 +18,31 @@
         if(communityService.isInitialized()){
             component.set('v.userMode', communityService.getUserMode());
             component.set('v.state', communityService.getParticipantState());
-            component.set('v.multiMode', communityService.getCommunityTypes().length > 1);
+            component.set('v.multiMode', communityService.getAllUserModes().length > 1);
             component.set('v.currentTab', tabId);
             component.set('v.taskMode', taskMode);
             component.set('v.resourceMode', resourceMode);
+
             communityService.executeAction(component, 'getTrialDetail', {
                 trialId: recId,
                 userMode: communityService.getUserMode()
             }, function (returnValue) {
                 var trialDetail = JSON.parse(returnValue);
+                if(trialDetail.isTCAccepted !== null) {
+                    if(!trialDetail.isTCAccepted) {
+                        communityService.navigateToPage('trial-terms-and-conditions?id='
+                            + trialDetail.trial.Id
+                            + '&ret=' + communityService.createRetString());
+                        return;
+                    }
+                }
+
                 component.set('v.studyDetail', trialDetail);
                 //get sticky bar position in browser window
                 if(!component.get('v.isInitialized')) communityService.setStickyBarPosition();
                 component.set('v.isInitialized', true);
-                component.set('v.shareButtons', trialDetail.shareActions);
+                if(trialDetail.trial !== null) component.set('v.shareButtons', trialDetail.shareActions);
+
                 helper.setTabInitialized(component);
                 helper.setTabActions(component);
                 spinner.hide();
@@ -42,9 +54,9 @@
     doAction: function (component, event) {
         var studyDetail = component.get('v.studyDetail');
         var trial = studyDetail.trial;
+        if(!trial) trial = {};
         var trialId = trial.Id;
         var actionId = event.currentTarget.id;
-
         let shareUrl = trial.Share_URL__c + 'none';
         let shareText = 'A clinical study of interest';
         switch (actionId){
@@ -71,7 +83,7 @@
                 window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(shareUrl) + '&quote=' + shareText);
                 break;
             case 'shareTwitter':
-                window.open('https://twitter.com/home?status=' + shareText + ':%20' + encodeURIComponent(shareUrl));
+                window.open('https://twitter.com/intent/tweet?text=' + shareText + '&url=' + encodeURIComponent(shareUrl));
                 break;
             case 'shareLinkedin':
                 window.open('https://www.linkedin.com/shareArticle?mini=true&url=' + encodeURIComponent(shareUrl));

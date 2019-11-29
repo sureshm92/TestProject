@@ -1,4 +1,4 @@
-@isTest(IsParallel=false)
+@isTest(IsParallel=true)
 public class DelegateAddressesBatchTest {
 	
      public static void createData() {
@@ -79,9 +79,9 @@ public class DelegateAddressesBatchTest {
                 Study_Code_Name__c = 'Some Code Name',
                 Suppress_Participant_Emails__c = false,
                 Therapeutic_Area__c = area.Id,
-                Participating_in_Digital_Recruitment__c = 'YES',
-                Participating_in_Rocket_Referral__c = 'YES',
-                Participating_in_Patient_Portal__c = 'Yes'
+                Synch_with_TMDH__c = true,
+                Include_in_RP_trial_search__c = true,
+                Patient_Portal_Enabled__c = true
         );
         insert study; 
          
@@ -122,6 +122,13 @@ public class DelegateAddressesBatchTest {
     
     @isTest
     public static void testDelegatesUpdates(){
+       ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+               .when('createPortalUsers')
+               .then(null)
+               .when('createParticipantUsers')
+               .then(null)
+               .build()
+       );
         createData();
         Test.startTest();
 	 	DelegateAddressesBatch bt = new DelegateAddressesBatch();

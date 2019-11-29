@@ -1,15 +1,15 @@
 {
   "defaultCode" : "en_US",
   "defaultLabel" : "English (US)",
-  "id" : "10257a6c-04f3-4cc3-a49d-ef95924816ba",
-  "type" : "languageContainer",
+  "id" : "da80bde2-1b2d-461f-a01d-d22195a10ec9",
   "languages" : [ {
-    "languageCode" : "ru",
     "countryCode" : "",
+    "fallbackLanguageId" : null,
+    "id" : "5ff0dec6-c596-44a8-90be-850a490a1534",
     "isActive" : true,
     "label" : "Russian",
-    "fallbackLanguageId" : null,
-    "id" : "da1205d1-1fb0-4953-8a1c-59ad9c3bc0bc",
+    "languageCode" : "ru",
     "type" : "language"
-  } ]
+  } ],
+  "type" : "languageContainer"
 }

@@ -86,14 +86,14 @@ public with sharing class ClinicalTrialProfileService {
             DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
             String pSEQuery =
                     'SELECT Id, ' +
-                            'Status__c, ' +
+                            'Participant_Status__c, ' +
                             'Participant__c ' +
-                            'FROM Participant_Study_Enrollment__c ' +
+                            'FROM Participant_Enrollment__c ' +
                             'WHERE Participant__c IN (' + String.join(CollectionUtil.wrapInApostrophes(tAsByParticipantsIds.keySet()), ', ') + ')';
-            List<Participant_Study_Enrollment__c> enrollments = (List<Participant_Study_Enrollment__c>) databaseProxy.query(pSEQuery);
-            for (Participant_Study_Enrollment__c singlePSE : enrollments) {
-                if (PSEService.PSE_STATUS_GROUP_COMPLETE.contains(singlePSE.Status__c)) {
-                    tAsByParticipantsIds.remove(singlePSE.Participant__c);
+            List<Participant_Enrollment__c> enrollments = (List<Participant_Enrollment__c>) databaseProxy.query(pSEQuery);
+            for (Participant_Enrollment__c singlePE : enrollments) {
+                if (PEStatusState.PE_STATUS_GROUP_PARTICIPATION_FLOW.contains(singlePE.Participant_Status__c)) {
+                    tAsByParticipantsIds.remove(singlePE.Participant__c);
                 }
             }
         }

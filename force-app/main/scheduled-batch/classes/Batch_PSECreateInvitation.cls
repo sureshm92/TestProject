@@ -23,16 +23,15 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                         Clinical_Trial_Profile__c,
                         Days_After_Enrolled__c,
                         Participant_Contact__c,
-                        Participant_Enrollment__c,
-                        Status__c
-                FROM Participant_Study_Enrollment__c
-                WHERE Status__c IN: PSEService.PSE_STATUS_GROUP_ALL
+                        Participant_Status__c
+                FROM Participant_Enrollment__c
+                WHERE Participant_Status__c IN: PEStatusState.PE_STATUS_GROUP_PARTICIPANT
                     AND Days_After_Enrolled__c IN: daysSet
                     AND Participant_Contact__c IN (SELECT ContactId FROM User WHERE IsActive = TRUE)
         ]);
     }
 
-    public void execute(Database.BatchableContext param1, List<SObject> enrollments) {
+    public void execute(Database.BatchableContext param1, List<Participant_Enrollment__c> enrollments) {
         List<Trial_Survey__c> trialSurveys = [
                 SELECT
                         Id,
@@ -48,7 +47,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                 WHERE Clinical_Trial_Profile__c
                         IN (SELECT
                                 Clinical_Trial_Profile__c
-                        FROM Participant_Study_Enrollment__c
+                        FROM Participant_Enrollment__c
                         WHERE Id IN:enrollments)
                     AND Survey__r.ActiveVersionId != NULL
         ];
@@ -66,18 +65,19 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
             tsList.add(t);
         }
 
-        Map<String, SurveyInvitation> invitationMap = getInvitationMap((List<Participant_Study_Enrollment__c>) enrollments);
+        Map<String, SurveyInvitation> invitationMap = getInvitationMap(enrollments);
 
         List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
-        for(Participant_Study_Enrollment__c pse : (List<Participant_Study_Enrollment__c>) enrollments) {
-            List<Trial_Survey__c> surveys = ctpToTSMap.get(pse.Clinical_Trial_Profile__c);
+        Id communityId = CommunityService.getCommunityId(null);
+        for (Participant_Enrollment__c pe : enrollments) {
+            List<Trial_Survey__c> surveys = ctpToTSMap.get(pe.Clinical_Trial_Profile__c);
             if(surveys != null) {
                 for(Trial_Survey__c ts : surveys) {
-                    if(ts.Active_After_Days__c == pse.Days_After_Enrolled__c) {
-                        if(ts.Is_Midpoint__c && PSEService.PSE_STATUS_GROUP_COMPLETE.contains(pse.Status__c)) continue;
-                        String key = '' + pse.Participant_Enrollment__c + ts.Id;
+                    if(ts.Active_After_Days__c == pe.Days_After_Enrolled__c) {
+                        if(ts.Is_Midpoint__c && PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(pe.Participant_Status__c)) continue;
+                        String key = '' + pe.Id + ts.Id;
                         if(invitationMap.get(key) == null) {
-                            newInvitations.add(SurveyService.getInstance().generateInvitation(ts, pse.Participant_Enrollment__c));
+                            newInvitations.add(SurveyService.getInstance().generateInvitation(ts, pe.Id, communityId));
                         }
                     }
                 }
@@ -93,17 +93,14 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
         TaskService.getInstance().createSurveyTasks(invitationsVisible);
     }
 
-    private Map<String, SurveyInvitation> getInvitationMap(List<Participant_Study_Enrollment__c> enrollments) {
-        List<Id> peIds = new List<Id>();
-        for (Participant_Study_Enrollment__c pse : enrollments) peIds.add(pse.Participant_Enrollment__c);
-
+    private Map<String, SurveyInvitation> getInvitationMap(List<Participant_Enrollment__c> enrollments) {
         List<SurveyInvitation> surveyInvitation = [
                 SELECT
                         Id,
                         Participant_Enrollment__c,
                         Trial_Survey__c
                 FROM SurveyInvitation
-                WHERE Participant_Enrollment__c IN:peIds
+                WHERE Participant_Enrollment__c IN:enrollments
         ];
 
         Map<String, SurveyInvitation> invitationMap = new Map<String, SurveyInvitation>();

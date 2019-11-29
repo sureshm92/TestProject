@@ -1,0 +1,43 @@
+<!--
+ - Created by Igor Malyuta on 16.09.2019.
+ -->
+
+<aura:component description="ManualAdHocSurvey">
+
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="wrapper" type="Object"/>
+    <aura:attribute name="isValid" type="Boolean" default="false"/>
+
+    <aura:handler name="change" value="{!v.wrapper.daysToExpire}" action="{!c.doCheckFields}"/>
+
+    <div class="slds-grid slds-gutters mt-panel">
+        <div class="slds-col slds-size--1-of-2">
+            <c:SurveyLookup aura:id="surveyLookup"
+                            label="Survey"
+                            value="{!v.wrapper.selectedSurvey}"
+                            placeholder="Select Survey"
+                            onchange="{!c.doCheckFields}"/>
+            <c:ReminderScheduleLookup aura:id="rsLookup"
+                                      label="Reminder Schedule"
+                                      value="{!v.wrapper.selectedRS}"
+                                      placeholder="Select Reminder Schedule"/>
+            <lightning:select label="Whose response needed" value="{!v.wrapper.neededResponse}">
+                <aura:iteration items="{!v.wrapper.neededResponsesOptions}" var="response">
+                    <option label="{!response.label}" value="{!response.value}"></option>
+                </aura:iteration>
+            </lightning:select>
+        </div>
+        <div class="slds-col slds-size--1-of-2">
+            <lightning:input aura:id="daysToExpire" type="number"
+                             label="Number of Days Before Survey Expires"
+                             value="{!v.wrapper.daysToExpire}"
+                             min="0"/>
+            <div class="expire-line">
+                <lightning:input type="checkbox" label="Expire in Alumni View"
+                                 value="{!v.wrapper.expireOnAlumni}"
+                                 checked="{!v.wrapper.expireOnAlumni}"/>
+                <lightning:helptext content="{!$Label.c.AdHoc_CheckBox_Help_Text}"/>
+            </div>
+        </div>
+    </div>
+</aura:component>

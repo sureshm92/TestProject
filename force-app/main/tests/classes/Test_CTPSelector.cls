@@ -7,7 +7,7 @@ public with sharing class Test_CTPSelector {
         insert visitPlan;
 
         Clinical_Trial_Profile__c ctpList = (new Clinical_Trial_Profile__c(Protocol_ID__c = '11111111111', Study_Title__c = 'test',
-                Visit_Plan__c = visitPlan.Id));
+                Visit_Plan__c = visitPlan.Id, Synch_with_TMDH__c = true));
         insert ctpList;
 
         List<Visit__c> visits = new List<Visit__c>();
@@ -57,9 +57,9 @@ public with sharing class Test_CTPSelector {
 
     @IsTest
     static void getIconDetailsByVisitPlanInCTP_test() {
-    CTPSelector selector = new CTPSelector();
-    Clinical_Trial_Profile__c ctp = getCtp();
-    List<Icon_Details__c> iconDetails = selector.getIconDetailsByVisitPlanInCTP(ctp.Id);
-    System.assertEquals(2, iconDetails.size());
-}
+        CTPSelector selector = new CTPSelector();
+        Clinical_Trial_Profile__c ctp = getCtp();
+        List<Icon_Details__c> iconDetails = selector.getIconDetailsByVisitPlanInCTP(ctp.Visit_Plan__c);
+        System.assertEquals(2, iconDetails.size());
+    }
 }

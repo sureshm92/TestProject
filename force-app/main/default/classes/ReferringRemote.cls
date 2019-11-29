@@ -30,7 +30,7 @@ public without sharing class ReferringRemote {
     }
 
     @AuraEnabled
-    public static String getInitData(Id trialId, Id peId, Id hcpeId, String userMode){
+    public static String getInitData(Id trialId, Id peId, Id hcpeId, String userMode, String delegateId){
         //try{
         InitData initData = new InitData();
         initData.trial = TrialService.getInstance().getTrialImpl(trialId);
@@ -39,23 +39,23 @@ public without sharing class ReferringRemote {
             initData.trial.Link_to_Pre_screening__c = CommunityFacadeRemote.getLocalizedURL(initData.trial.Link_to_Pre_screening__c);
         }
         if(hcpeId != null){
-            initData.hcpEnrollment = HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId,userMode);//getHCPEnrollmentForHCPByTrial(trialId);
+            initData.hcpEnrollment = HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId,userMode,delegateId);//getHCPEnrollmentForHCPByTrial(trialId);
         }
         //new StudyActionsHCP(initData.hcpEnrollment).checkAction(StudyActions.ACT_REFER_TO_THIS_STUDY);
 
         //initData.actions = new StudyActionsHCP(initData.trial, initData.hcpEnrollment!=null?initData.hcpEnrollment.Study_Site__r:null,  initData.hcpEnrollment).actions;
         if(peId != null) {
-            initData.participantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode);
+            initData.participantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId);
         }else if (initData.trial.Link_to_Medical_Record_Review__c == null){
             initData.participantEnrollment = ParticipantEnrollmentService.createParticipantEnrollment(initData.trial, initData.hcpEnrollment, null);
         }
         if(initData.trial.Link_to_Medical_Record_Review__c != null) {
-            initData.pendingPEnrollments = ParticipantEnrollmentService.getPendingParticipantEnrollments(trialId, null);
+            initData.pendingPEnrollments = ParticipantEnrollmentService.getPendingParticipantEnrollments(trialId, null, delegateId);
         }
         StudySiteService.SiteFilterData siteFilterData = StudySiteService.getInstance().getSiteFilterDataImpl(trialId, 'HCP');
 
         StudySiteService.SiteFilter siteFilter = new StudySiteService.SiteFilter(siteFilterData);
-        List<StudySiteService.StudySiteDistanceWrapper> studiesTemp = StudySiteService.getInstance().getStudySitesWithDistanceForHCPByTrialIdImpl(siteFilter, null, true);
+        List<StudySiteService.StudySiteDistanceWrapper> studiesTemp = StudySiteService.getInstance().getStudySitesWithDistanceForHCPByTrialIdImpl(siteFilter, null, true,delegateId);
         initData.markers = new List<ReferringRemote.AccountWrapper>();
         initData.studies = new List<StudySiteService.StudySiteDistanceWrapper>();
         initData.studiesPending = new List<StudySiteService.StudySiteDistanceWrapper>();
@@ -91,7 +91,7 @@ public without sharing class ReferringRemote {
         initData.countries = CountryStateUtil.getCountries();
         initData.genders = ParticipantService.getGenderLVList();
         initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
-        initData.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel();
+        initData.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);
         return JSON.serialize(initData);
         /*}catch (Exception e){
             System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
@@ -100,65 +100,28 @@ public without sharing class ReferringRemote {
     }
 
     @AuraEnabled
-    public static void saveParticipant(Id trialId, Id hcpeId, String pEnrollmentJSON, String participantJSON){
-        Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
-        participant.Preferred_Language__c = UserInfo.getLanguage();
-        HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId, CommunityService.USER_MODE_HCP);
-        Participant_Enrollment__c participantEnrollment = (Participant_Enrollment__c)JSON.deserialize(pEnrollmentJSON, Participant_Enrollment__c.class);
-        participantEnrollment.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI;
-        if(participantEnrollment.Pre_screening_Status__c == ParticipantEnrollmentService.PES_STATUS_PENDING){
-            participantEnrollment.Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_PASS;
-        }
-
-        /*Database.SaveResult saveResult = Database.insert(participant, false);
-        if (!saveResult.isSuccess()) {
-            System.debug('PARTICIPANT INSERT ERROR');
-            for (Database.Error error : saveResult.getErrors()) {
-                if (error instanceof Database.DuplicateError) {
-                    Database.DuplicateError duplicateError = (Database.DuplicateError) error;
-                    Datacloud.DuplicateResult duplicateResult = duplicateError.getDuplicateResult();
-                    List<SObject> duplicateRecords = new List<SObject>();
-                    Datacloud.MatchResult[] matchResults = duplicateResult.getMatchResults();
-                    Datacloud.MatchResult matchResult = matchResults[0];
-                    Datacloud.MatchRecord[] matchRecords = matchResult.getMatchRecords();
-                    for (Datacloud.MatchRecord matchRecord : matchRecords) {
-                        participant = (Participant__c) matchRecord.getRecord();
-                        System.debug('FOUND PART DUPLICATE: ' + participant);
-                        break;
-                    }
-                }else{
-                    System.debug(error.getMessage());
-                    if(!Test.isRunningTest()) throw new AuraHandledException(error.getMessage());
-                }
+    public static void saveParticipant(Id hcpeId, String pEnrollmentJSON, String participantJSON, String delegateId){
+        try {
+            Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
+            participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
+            Participant_Enrollment__c enrollment = (Participant_Enrollment__c)
+                    JSON.deserialize(pEnrollmentJSON, Participant_Enrollment__c.class);
+            enrollment.Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI;
+            enrollment.Referral_Completed_by__c = CommunityService.getInstance().getCurrentContactId();
+            if (enrollment.Pre_screening_Status__c == ParticipantEnrollmentService.PES_STATUS_PENDING) {
+                enrollment.Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_PASS;
             }
-        }*/
 
-        DuplicateContactController.isPERCreated = true;
-        participant = DuplicateContactController.communityReffering(participant, participantEnrollment);
+            HCP_Enrollment__c hcpEnrollment =
+                    HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId, CommunityService.USER_MODE_HCP, delegateId);
+            enrollment.HCP__c = hcpEnrollment.Id;
+            enrollment.Study_Site__c = hcpEnrollment.Study_Site__c;
+            enrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;
+            enrollment.Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
 
-        if(participant.Id != null){
-            participantEnrollment.Participant__c = participant.Id;
-            participantEnrollment.HCP__c = hcpeId;
-            participantEnrollment.Study_Site__c = hcpEnrollment.Study_Site__c;
-            participantEnrollment.Referral_Completed_by__c = CommunityService.getInstance().getCurrentContactId();
-            participantEnrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;
-            if(participantEnrollment.Participant_Name__c == null) participantEnrollment.Participant_Name__c = participant.First_Name__c;
-            if(participantEnrollment.Participant_Surname__c == null) participantEnrollment.Participant_Surname__c = participant.Last_Name__c;
-            try{
-                System.debug(participantEnrollment);
-                upsert participantEnrollment;
-            }catch (Exception e){
-                String errorMsg = e.getMessage();
-                System.debug('STACK TRACE:' + e.getStackTraceString());
-                System.debug('MESSAGE:' + e.getMessage());
-                if(errorMsg.contains('DUPLICATE')) {
-                    errorMsg = Label.Error_Message_Participant_Duplicate;
-                }
-                System.debug('ERROR: ' + errorMsg);
-                throw new AuraHandledException(errorMsg);
-            }
-        }else{
-            throw new AuraHandledException('Can not create participant');
+            ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participant, enrollment);
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
         }
     }
 

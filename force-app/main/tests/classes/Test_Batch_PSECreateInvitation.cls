@@ -10,11 +10,14 @@ private class Test_Batch_PSECreateInvitation {
         List<Survey> survey = [SELECT Id FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
         if (survey.isEmpty()) return;
 
+        TriggerHandlerExecutor.bypassHandler(TaskTriggerHandler.SendImmediateEmailsForTaskCodeHandler.class);
+
         TestData.loadTestData();
         TestData testData = new TestData();
+        testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
+        update testData.pe;
 
         Test.startTest();
-        testData.createPSE();
 
         Reminder_Schedule__c schedule = new Reminder_Schedule__c(
                 First_Reminder_day__c = 1
@@ -31,19 +34,18 @@ private class Test_Batch_PSECreateInvitation {
         );
         insert tsAllSee;
 
-        List<Participant_Study_Enrollment__c> participantStudyEnrollment = [
+        List<Participant_Enrollment__c> enrollments = [
                 SELECT
                         Id,
                         Clinical_Trial_Profile__c,
                         Days_After_Enrolled__c,
                         Participant_Contact__c,
-                        Participant_Enrollment__c,
-                        Status__c
-                FROM Participant_Study_Enrollment__c
-                WHERE Id =: testData.pse.Id
+                        Participant_Status__c
+                FROM Participant_Enrollment__c
+                WHERE Id =: testData.pe.Id
         ];
 
-        new Batch_PSECreateInvitation().execute(null, participantStudyEnrollment);
+        new Batch_PSECreateInvitation().execute(null, enrollments);
         Test.stopTest();
     }
 }

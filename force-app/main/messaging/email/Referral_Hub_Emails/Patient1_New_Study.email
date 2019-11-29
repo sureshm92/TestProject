@@ -12,7 +12,7 @@
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Patient1}"
                          signature="{!$Label.Email_Signature_Patient}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
@@ -25,7 +25,7 @@
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Patient1}"
                              signature="{!$Label.Email_Signature_Patient}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 

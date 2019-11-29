@@ -5,16 +5,16 @@
 <aura:component implements="forceCommunity:availableForAllPageTypes" description="NewTeamMember"
                 controller="MyTeamRemote">
     <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community_js)}"/>
+                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String" description="HCP / PI / Participant" access="private"/>
     <aura:attribute name="isStaff" type="Boolean" access="private"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
-    <aura:attribute name="showSpinner" type="Boolean" default="{!true}" access="private"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
     <aura:attribute name="delegate" type="Object" access="private"/>
     <aura:attribute name="delegateOptions" type="List" access="private"/>
-    <aura:attribute name="saveInProgress" type="Boolean" default="{!false}"/>
     <aura:attribute name="currentTab" type="String" default="all-same"/>
     <aura:attribute name="allTrialLevel" type="Object"/>
     <aura:attribute name="isCorrectEmail" type="Boolean" default="false" access="private"/>
@@ -22,14 +22,14 @@
     <aura:attribute name="changedLevels" type="List" access="private" default="[]"/>
     <aura:attribute name="changedLevelsAll" type="List" access="private" default="[]"/>
     <aura:attribute name="currentUserContactId" type="String" access="private" default=""/>
-    <aura:attribute name="alreadyExists" type="Boolean" default="false" access="private"/>
-    <aura:attribute name="alreadyExistsTitle" type="String" default="" access="private"/>
+    <aura:attribute name="parentId" type="String" access="private" default=""/>
+    <aura:attribute name="parentFullName" type="String" access="private" default=""/>
 
     <!-- methods: -->
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
 
     <!-- handlers:-->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+<!--    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.delegate.delegateContact.Email}" action="{!c.doCheckEmail}"/>
     <aura:handler name="change" value="{!v.delegate.delegateContact.FirstName}" action="{!c.doCheckContactData}"/>
@@ -37,19 +37,19 @@
 
     <!-- component body-->
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}"/>
-    <c:Action_SaveDelegateLevelChanges aura:id="saveDelegateLevelChanges" saveInProgress="{!v.saveInProgress}"
+    <c:Action_SaveDelegateLevelChanges aura:id="saveDelegateLevelChanges"
                                        userMode="{!v.userMode}"/>
     <aura:if isTrue="{!v.isInitialized}">
         <div class="rr-top-bar multi-mode" id="stickyBar" aura:id="stickyBar">
             <div class="rr-width-limiter side-padding">
-                <c:RRLink page="{!'settings?tab=' + if(v.isStaff,'my-team','delegates')}">
+                <c:RRLink page="{!'my-team' + if(empty(v.parentId),'','?id='+v.parentId)}">
                     <c:RRIcon iconName="icon-arrow-left"/>
                     {!v.isStaff ? $Label.c.PG_NTM_BTN_Back_to_My_Team : $Label.c.PG_PST_L_Delegates_Back}
                 </c:RRLink>
             </div>
             <div class="rr-all-content sticky-bar" id="stickyPositionTarget">
                 <div class="title rr-width-limiter side-padding">
-                    {!v.isStaff ? $Label.c.PG_MT_BTN_Add_New_Team_Member : $Label.c.PG_PST_L_Delegates_Add}</div>
+                    {!v.isStaff ? (empty(v.parentId) ? $Label.c.PG_MT_BTN_Add_New_Team_Member:$Label.c.PG_MT_L_Add_New_Team_Member_for + ' ' + v.parentFullName) : $Label.c.PG_PST_L_Delegates_Add}</div>
             </div>
             <div>
                 <div class="height-stub" style="height: 56px"></div>
@@ -66,10 +66,10 @@
                                     <c:DelegatesDisclaimer/>
                                 </aura:if>
                             </div>
-                            <div class="button-panel-mobile rr-medium-up-hide">
-                                <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center">
+                          <!--   <div class="button-panel-mobile rr-medium-up-hide">
+                               <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center">
                                     <div class="slds-col slds-size_2-of-5 slds-medium-size_1-of-3">
-                                        <c:RRLink page="{!'settings?tab=' + if(v.isStaff,'my-team','delegates')}">
+                                        <c:RRLink page="{!'my-team' + if(empty(v.parentId),'','?id='+v.parentId)}">
                                             <c:RRIcon iconName="icon-arrow-left"/>
                                             {!v.isStaff ? $Label.c.PG_NTM_BTN_Back_to_My_Team : $Label.c.PG_PST_L_Delegates_Back}
                                         </c:RRLink>
@@ -77,10 +77,10 @@
                                     <div class="slds-col slds-size_3-of-5 slds-medium-size_2-of-3 button-container">
                                         <button class="apollo-btn primary ntm-button" onclick="{!c.doSaveChanges}">
                                             {!v.isStaff ? $Label.c.PG_NTM_BTN_Save_Team_Member : $Label.c.PG_PST_L_Delegates_Save}
-                                        </button>
+                                        </button> 
                                     </div>
-                                </div>
-                            </div>
+                                </div> 
+                            </div> -->
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-order_1 slds-medium-order_2 right-column">
                             <div class="personal-info-panel">
@@ -125,7 +125,7 @@
                                     <aura:if isTrue="{!v.userMode != 'HCP'}">
                                         <c:rrButtonTubSet>
 
-                                            <c:rrButtonTubSetItem title="{!$Label.c.PG_NTM_L_Set_By_Study}" tabId="by-study"
+                                            <c:rrButtonTubSetItem title="{!$Label.c.PG_NTM_L_Set_By_Study_Site}" tabId="by-study"
                                                                   currentTab="{!v.currentTab}" variant="underlined"/>
                                             <c:rrButtonTubSetItem title="{!$Label.c.PG_NTM_L_Set_Same_For_All_Studies}" tabId="all-same"
                                                                   currentTab="{!v.currentTab}" variant="underlined"/>
@@ -134,14 +134,13 @@
 
                                     <div class="permissions-body rr-white-panel">
                                         <div class="{!'by-study-container sdli-container ' + if(v.currentTab == 'by-study','','hidden')}">
-                                            <aura:iteration items="{!v.delegate.trialLevels}" var="trialLevel">
-                                                <c:StudyDelegateLevelItem aura:id="study-level" studyLevel="{!trialLevel}"
+                                            <aura:iteration items="{!v.delegate.delegateTrials}" var="trial">
+                                                <c:DelegateTrialCard aura:id="study-level" studyLevels="{!trial}"
                                                                           options="{!v.delegateOptions}"
                                                                           changedLevels="{!v.changedLevels}"/>
                                             </aura:iteration>
                                         </div>
-                                        <fieldset class="{!'all-same-container sdli-container ' + if(v.currentTab == 'all-same','','hidden')}" disabled="{!v.alreadyExists}"
-                                                  title="{!v.alreadyExists?v.alreadyExistsTitle:''}">
+                                        <fieldset class="{!'all-same-container sdli-container ' + if(v.currentTab == 'all-same','','hidden')}">
                                             <c:StudyDelegateLevelItem aura:id="study-level" studyLevel="{!v.allTrialLevel}"
                                                                       options="{!v.delegateOptions}"
                                                                       changedLevels="{!v.changedLevelsAll}"/>
@@ -152,7 +151,7 @@
                             <div class="button-panel rr-medium-down-hide">
                                 <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center">
                                     <div class="slds-col slds-size_2-of-5 slds-medium-size_1-of-3">
-                                        <c:RRLink page="{!'settings?tab=' + if(v.isStaff,'my-team','delegates')}">
+                                        <c:RRLink page="{!'my-team' + if(empty(v.parentId),'','?id='+v.parentId)}">
                                             <c:RRIcon iconName="icon-arrow-left"/>
                                             {!v.isStaff ? $Label.c.PG_NTM_BTN_Back_to_My_Team : $Label.c.PG_PST_L_Delegates_Back}
                                         </c:RRLink>
@@ -165,14 +164,15 @@
                                                         and(v.currentTab=='by-study',empty(v.changedLevels))),
                                                         and(v.currentTab=='all-same',empty(v.changedLevelsAll))),
                                                         v.delegate.delegateContact.Id == v.currentUserContactId),
-                                                        v.alreadyExists)
+                                                        and(not(empty(v.parentId)),v.delegate.delegateContact.Id == v.parentId))
 }"
-                                                    title="{!if(v.alreadyExists, v.alreadyExistsTitle,if(or(or(or(or(not(v.isCorrectEmail),
+                                                    title="{!if(or(or(or(or(or(not(v.isCorrectEmail),
                                                         and(not(v.isCorrectContactData),v.delegate.delegateContact.Id==undefined)),
                                                         and(v.currentTab=='by-study',empty(v.changedLevels))),
                                                         and(v.currentTab=='all-same',empty(v.changedLevelsAll))),
                                                         v.delegate.delegateContact.Id == v.currentUserContactId),
-                                                        $Label.c.PG_NTM_T_Correct_Info,''))}">
+                                                        and(not(empty(v.parentId)),v.delegate.delegateContact.Id == v.parentId)),
+                                                        $Label.c.PG_NTM_T_Correct_Info,'')}">
                                                 {!$Label.c.PG_NTM_BTN_Save_Team_Member}
                                             </button>
                                             <aura:set attribute="else">

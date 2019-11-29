@@ -2,7 +2,8 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="ViewPatientsReferred"  implements="forceCommunity:availableForAllPageTypes" controller="ViewPatientsRemote">
+<aura:component description="ViewPatientsReferred" implements="forceCommunity:availableForAllPageTypes"
+                controller="ViewPatientsRemote">
     <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
                   scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
@@ -25,8 +26,8 @@
     <aura:attribute name="changeStatusBtnList" type="List"/>
     <aura:attribute name="piBtnFilter" type="String"/>
     <aura:attribute name="showStatistics" type="Boolean" default="false"/>
-    <aura:attribute name="header"   type="String" default=""   access="public"/>
-    <aura:attribute name="studyFilterEnabled"       type="Boolean" default="false"                    access="public"/>
+    <aura:attribute name="header" type="String" default="" access="public"/>
+    <aura:attribute name="studyFilterEnabled" type="Boolean" default="false" access="public"/>
     <aura:attribute name="ssId" type="String"/>
 
     <!-- handlers: -->
@@ -47,14 +48,14 @@
         <aura:if isTrue="{!v.isInitialized}">
             <aura:if isTrue="{!!empty(v.header)}">
                 <div class="vpr-header">
-                        {!v.header}
-                    </div>
+                    {!v.header}
+                </div>
             </aura:if>
             <!-- statistic panel -->
-           <!-- <aura:if isTrue="{!v.showStatistics}">
+            <!-- <aura:if isTrue="{!v.showStatistics}">
 
-                <c:MyPatientsStatistics statistics="{!v.statistics}" userMode="{!v.userMode}" currentBtnFilter="{!v.piBtnFilter}"/>
-            </aura:if>-->
+                 <c:MyPatientsStatistics statistics="{!v.statistics}" userMode="{!v.userMode}" currentBtnFilter="{!v.piBtnFilter}"/>
+             </aura:if>-->
 
             <!-- filter panel -->
             <c:FilterPanel searchText="{!v.peFilter.searchText}"
@@ -64,22 +65,50 @@
                            sortType="{!v.peFilter.sortType}"
                            sortVariants="{!v.peFilterData.sortVariants}"
                            allRecordsCount="{!v.paginationData.allRecordsCount}"
-                           currentPageCount="{!v.paginationData.currentPageCount}">
-
+                           currentPageCount="{!v.paginationData.currentPageCount}"
+                           setValueAsSelected="true">
+                <aura:if isTrue="{!v.userMode == 'PI'}">
+                    <c:rrSelect value="{!v.peFilter.activePE}" options="{!v.peFilterData.activePE}"
+                                placeholder="{!$Label.c.PG_VP_L_Active}" useSentenceFont="false"
+                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container" setValueAsSelected="true"/>
+                </aura:if>
                 <aura:if isTrue="{!v.studyFilterEnabled}">
-                    <c:rrSelect value="{!v.peFilter.study}" options="{!v.peFilterData.studies}" placeholder="{!$Label.c.PG_MRRL_L_Studies}" useSentenceFont="false" disabled="{!not(empty(v.peFilter.searchText))}" class="fp-study-filter-container"/>
+                    <c:rrSelect value="{!v.peFilter.study}" options="{!v.peFilterData.studies}"
+                                placeholder="{!$Label.c.PG_MRRL_L_Studies}" useSentenceFont="false"
+                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-study-filter-container" setValueAsSelected="true"/>
                 </aura:if>
                 <aura:if isTrue="{!v.userMode == 'HCP'}">
-                    <c:rrSelect value="{!v.peFilter.studySite}" options="{!v.peFilterData.studySites}" placeholder="{!$Label.c.PG_VP_L_Study_sites}" useSentenceFont="false" disabled="{!or(not(empty(v.peFilter.searchText)),empty(v.peFilter.study))}"/>
-                    <c:rrSelect value="{!v.peFilter.referringStatus}" options="{!v.peFilterData.referringStatuses}" placeholder="{!$Label.c.PG_VP_L_Referral_status}" disabled="{!not(empty(v.peFilter.searchText))}"/>
+                    <c:rrSelect value="{!v.peFilter.studySite}" options="{!v.peFilterData.studySites}"
+                                placeholder="{!$Label.c.PG_VP_L_Study_sites}" useSentenceFont="false"
+                                disabled="{!or(not(empty(v.peFilter.searchText)),empty(v.peFilter.study))}" setValueAsSelected="true"/>
+                    <c:rrSelect value="{!v.peFilter.referringStatus}" options="{!v.peFilterData.referringStatuses}"
+                                placeholder="{!$Label.c.PG_VP_L_Referral_status}"
+                                disabled="{!not(empty(v.peFilter.searchText))}" setValueAsSelected="true"/>
+                    <c:rrSelect value="{!v.peFilter.dateRange}" options="{!v.peFilterData.dateRanges}"
+                                placeholder="{!$Label.c.PG_MRRL_L_Date_range}"
+                                disabled="{!not(empty(v.peFilter.searchText))}" setValueAsSelected="true"/>
                 </aura:if>
                 <aura:if isTrue="{!v.userMode == 'PI'}">
-                    <c:rrSelect value="{!v.peFilter.studySite}" options="{!v.peFilterData.studySites}" placeholder="{!$Label.c.PG_VP_L_Study_sites}" useSentenceFont="false" disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container"/>
-                    <c:rrSelect value="{!v.peFilter.referringClinic}" options="{!v.peFilterData.referringClinics}" placeholder="{!$Label.c.PG_DBPI_L_Referring_clinics}" useSentenceFont="false" disabled="{!not(empty(v.peFilter.searchText))}"/>
-                    <c:rrSelect value="{!v.peFilter.acceptenceStatus}" options="{!v.peFilterData.acceptenceStatuses}" placeholder="{!$Label.c.PG_VP_L_Acceptance_status}" disabled="{!not(empty(v.peFilter.searchText))}"/>
-                    <c:rrSelect value="{!v.peFilter.enrollmentStatus}" options="{!v.peFilterData.enrollmentStatuses}" placeholder="{!$Label.c.PG_SW_F_Enrollment_Status}" disabled="{!not(empty(v.peFilter.searchText))}"/>
+                    <c:rrSelect value="{!v.peFilter.studySite}" options="{!v.peFilterData.studySites}"
+                                placeholder="{!$Label.c.PG_VP_L_Study_sites}" useSentenceFont="false"
+                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container" setValueAsSelected="true"/>
+                    <c:rrSelect value="{!v.peFilter.source}" options="{!v.peFilterData.source}"
+                                placeholder="{!$Label.c.PG_VP_L_Source}" useSentenceFont="false"
+                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container" setValueAsSelected="true"/>
+                    <c:rrSelect value="{!v.peFilter.participantStatus}" options="{!v.peFilterData.statuses}"
+                                placeholder="{!$Label.c.PG_VP_L_Participant_Status}" useSentenceFont="false"
+                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container" setValueAsSelected="true"/>
+                    <!--<c:rrSelect value="{!v.peFilter.referringClinic}" options="{!v.peFilterData.referringClinics}"
+                                placeholder="{!$Label.c.PG_DBPI_L_Referring_clinics}" useSentenceFont="false"
+                                disabled="{!not(empty(v.peFilter.searchText))}"/>
+                    <c:rrSelect value="{!v.peFilter.acceptenceStatus}" options="{!v.peFilterData.acceptenceStatuses}"
+                                placeholder="{!$Label.c.PG_VP_L_Acceptance_status}"
+                                disabled="{!not(empty(v.peFilter.searchText))}"/>
+                    <c:rrSelect value="{!v.peFilter.enrollmentStatus}" options="{!v.peFilterData.enrollmentStatuses}"
+                                placeholder="{!$Label.c.PG_SW_F_Enrollment_Status}"
+                                disabled="{!not(empty(v.peFilter.searchText))}"/>-->
                 </aura:if>
-                <c:rrSelect value="{!v.peFilter.dateRange}" options="{!v.peFilterData.dateRanges}" placeholder="{!$Label.c.PG_MRRL_L_Date_range}" disabled="{!not(empty(v.peFilter.searchText))}"/>
+
 
                 <!--aura:set attribute="buttons">
                     <button class="apollo-btn tertiary">
@@ -93,22 +122,12 @@
                 <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false"/>
                 <c:EmptyListStub targetList="{!v.pageList}"/>
                 <aura:iteration items="{!v.pageList}" var="item">
-                    <aura:if isTrue="{!v.ssId &amp;&amp; item.pItem.pe.Study_Site__c == v.ssId}">
                     <c:ParticipantCard participantItem="{!item.pItem}"
                                        actions="{!item.actions}"
                                        singlePatientView="false"
                                        changeStatusBtnList="{!v.changeStatusBtnList}"
                                        parent="{!this}"
                                        userMode="{!v.userMode}"/>
-                </aura:if>
-                    <aura:if isTrue="{!!v.ssId}">
-                        <c:ParticipantCard participantItem="{!item.pItem}"
-                                           actions="{!item.actions}"
-                                           singlePatientView="false"
-                                           changeStatusBtnList="{!v.changeStatusBtnList}"
-                                           parent="{!this}"
-                                           userMode="{!v.userMode}"/>
-                    </aura:if>
                 </aura:iteration>
             </div>
 
@@ -119,6 +138,10 @@
 
             <!-- change PE status action by PI: -->
             <c:Action_ChangePEStatusByPI aura:id="changePEStatusByPIAction"/>
+
+            <!-- change PE Information -->
+            <c:Action_ParticipantInformation aura:id="updatePatientInfoAction"/>
+
 
         </aura:if>
     </div>

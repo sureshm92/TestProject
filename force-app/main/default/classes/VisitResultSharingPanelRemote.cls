@@ -6,6 +6,8 @@
 
 public without sharing class VisitResultSharingPanelRemote {
 
+    public static final String FEATURE_VISIT_RESULT_SHARING = 'Visits_Results_Sharing';
+
     private static final String TYPE_DISABLED = 'Disabled';
     private static String TYPE_ALL = 'All';
 
@@ -46,6 +48,7 @@ public without sharing class VisitResultSharingPanelRemote {
     }
 
     public class InitData {
+        @AuraEnabled public String user_has_permission = 'no perm';
         @AuraEnabled public List<VisitResultGroupWrapper> groups;
         @AuraEnabled public List<LabelValueItem> typeSelectLVList = new List<LabelValueItem>{
                 new LabelValueItem('Disabled for all countries', TYPE_DISABLED),
@@ -78,6 +81,7 @@ public without sharing class VisitResultSharingPanelRemote {
 
             InitData initData = new InitData();
             initData.groups = new List<VisitResultGroupWrapper>();
+            initData.user_has_permission = GetPermissions.getViewMode(FEATURE_VISIT_RESULT_SHARING);
 
             List<Visit_Result_GroupM__mdt> resultGroups = [
                     SELECT Id, Label, (SELECT Id, DeveloperName, Label, Visit_Result_Code__c FROM Visit_Result_Types__r)
@@ -143,9 +147,7 @@ public without sharing class VisitResultSharingPanelRemote {
             initData.options.ssSelectionType = ssSelectionType;
             initData.options.showAfterDays = (Integer) ctp.Shareback_Availability_Timing__c;
             initData.options.whenToShow = ctp.Shareback_Availability_Timing__c > 0 ? 'After' : 'Immediate';
-            initData.options.inPatientPortal =
-                    (ctp.Participating_in_Patient_Portal__c != null && ctp.Participating_in_Patient_Portal__c == 'Yes')
-                            ? true : false;
+            initData.options.inPatientPortal = ctp.Patient_Portal_Enabled__c;
 
             return initData;
         } catch (Exception e) {
@@ -223,5 +225,26 @@ public without sharing class VisitResultSharingPanelRemote {
         }
         if (!forDeletionSharings.isEmpty()) delete forDeletionSharings;
         upsert typeVRSharingMap.values();
+    }
+
+    public static String permissonSetCheck() {
+        List <PermissionSetAssignment> permSet = [
+                SELECT PermissionSet.Name
+                FROM PermissionSetAssignment
+                WHERE Assignee.Id = :UserInfo.getUserId()
+        ];
+        String user_has_permission;
+        for (PermissionSetAssignment psa : permSet) {
+            if (psa.PermissionSet.Name == 'Patient_Portal_Edit_Study_Settings') {
+                user_has_permission = 'edit';
+                break;
+            } else if (psa.PermissionSet.Name == 'Patient_Portal_Read_Study_Settings') {
+                user_has_permission = 'read';
+                break;
+            } else {
+                user_has_permission = 'no perm';
+            }
+        }
+        return user_has_permission;
     }
 }

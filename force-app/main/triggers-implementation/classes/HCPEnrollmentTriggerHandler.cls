@@ -46,7 +46,7 @@ public without sharing class HCPEnrollmentTriggerHandler {
     public class CreateRecruitingHCPStaffModeHandler extends TriggerHandler{
 
         public override void afterInsert(List<SObject> newList) {
-            createDelegates(newList);
+//            createDelegates(newList);
         }
     }
     
@@ -87,25 +87,45 @@ public without sharing class HCPEnrollmentTriggerHandler {
         for(User user : CommunityService.getCommunityUsersByContactIds(hcpContactIds)) contactIdsWithCreatedUser.add(user.ContactId);
         Set<Id> contactIdsForCreateUsers = new Set<Id>();
         Map<Id, Id> contactsForSendNotificationMap = new Map<Id, Id>();
+        Map<Id, Id> contactsForSendNotificationByPiMap = new Map<Id, Id>();
+        Map<Id, HCP_Enrollment__c> newMap = new Map<Id, HCP_Enrollment__c>(newList);
+        Map<Id,Contact> alreadyCreatedContactsMap = new Map<Id,Contact>([SELECT Id, Is_First_Logon__c FROM Contact WHERE Id IN :hcpContactIds AND Is_First_Logon__c = false]);
+        List<Healthcare_Provider__c> hps = [SELECT Id, HCP_Enrollment__c FROM Healthcare_Provider__c WHERE HCP_Enrollment__c IN :newMap.keySet()];
+        Map<Id, Healthcare_Provider__c> hpsByHCPE = new Map<Id, Healthcare_Provider__c>();
+        for (Healthcare_Provider__c hp : hps) {
+            hpsByHCPE.put(hp.HCP_Enrollment__c, hp);
+        }
         for(HCP_Enrollment__c hcpe : newList){
             if(hcpe.Status__c == HCPEnrollmentService.HCP_S_INVITATION_SENT && hcpe.HCP_Contact__c != null &&
                     ((oldMap == null) || (oldMap != null && hcpe.Status__c != oldMap.get(hcpe.Id).Status__c))){
                 if(contactIdsWithCreatedUser.contains(hcpe.HCP_Contact__c)){
-                    contactsForSendNotificationMap.put(hcpe.Id, hcpe.HCP_Contact__c);
+                    if (hpsByHCPE.get(hcpe.Id) != null || alreadyCreatedContactsMap.containsKey(hcpe.HCP_Contact__c)) {
+                        contactsForSendNotificationByPiMap.put(hcpe.Id, hcpe.HCP_Contact__c);
+                    } else {
+                        contactsForSendNotificationMap.put(hcpe.Id, hcpe.HCP_Contact__c);
+                    }
                 }else{
                     contactIdsForCreateUsers.add(hcpe.HCP_Contact__c);
                 }
             }
         }
-        if (contactIdsForCreateUsers.size() > 0) CommunityService.createPortalUsers(contactIdsForCreateUsers);
+
+        if (contactIdsForCreateUsers.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(contactIdsForCreateUsers);
         if (contactsForSendNotificationMap.size() > 0) SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_HCP, contactsForSendNotificationMap);
+        if (contactsForSendNotificationByPiMap.size() > 0) SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_HCP_BY_PI, contactsForSendNotificationByPiMap);
     }
     
     @TestVisible
     private static void switchContactUserMode(List<HCP_Enrollment__c> newList) {
         Set<Id> hcpEContactIds = new Set<Id>();
-        for (HCP_Enrollment__c enrol : newList) if (enrol.HCP_Contact__c != null) hcpEContactIds.add(enrol.HCP_Contact__c);
+        for (HCP_Enrollment__c enrol : newList) {
+            if (enrol.HCP_Contact__c != null) hcpEContactIds.add(enrol.HCP_Contact__c);
+        }
         if (hcpEContactIds.isEmpty()) return;
+
+// these changes are being on hold
+// Map<Id, Participant__c> participants = CommunityService.getParticipantsByContactIds(hcpEContactIds);
+        
         List<Contact> contactsForUpdate = new List<Contact>();
         for (Contact piContact : CommunityService.getContactsByUserContactIds(hcpEContactIds)) {
             piContact.userCommunityMode__c = CommunityService.USER_MODE_HCP;
@@ -114,36 +134,45 @@ public without sharing class HCPEnrollmentTriggerHandler {
             } else if(!piContact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)){
                 piContact.userCommunytyType__c += ';' + CommunityService.USER_MODE_HCP;
             }
+
+// these changes are being on hold
+//if (participants.containsKey(piContact.Id)) {
+//    Participant__c participant = participants.get(piContact.Id);
+//    piContact.FirstName = participant.First_Name__c;
+//    piContact.LastName  = participant.Last_Name__c;
+//    System.debug('-----------> HCPEnrollmentTriggerHandler.switchContactUserMode(): Contact names replaced to: ' + piContact.FirstName + ' ' + piContact.LastName);
+//}
+            
             contactsForUpdate.add(piContact);
         }
         update contactsForUpdate;
     }
 
-    @TestVisible
-    private static void createDelegates(List<HCP_Enrollment__c> newList) {
-        Set<Id> hcpEContactIds = new Set<Id>();
-        for (HCP_Enrollment__c enrol : newList) if (enrol.HCP_Contact__c != null) hcpEContactIds.add(enrol.HCP_Contact__c);
-        if (hcpEContactIds.isEmpty()) return;
-        Map<Id, Map<Id, String>> delegatesMapbyHCP = DelegateService.getHCPTeamLevelMapByHCP(hcpEContactIds);
-        List<Referring_HCP_Staff__c> newDelegateRecords = new List<Referring_HCP_Staff__c>();
-        for (HCP_Enrollment__c enrol : newList){
-            if (enrol.HCP_Contact__c != null) {
-                if(delegatesMapbyHCP.containsKey(enrol.HCP_Contact__c)){
-                    Map<Id, String> delegateMap = delegatesMapbyHCP.get(enrol.HCP_Contact__c);
-                    for(Id key: delegateMap.keySet()){
-                        Referring_HCP_Staff__c newDelegate = new Referring_HCP_Staff__c();
-                        newDelegate.Delegate_Level__c = delegateMap.get(key);
-                        newDelegate.Contact__c = key;
-                        newDelegate.HCP_Enrollment__c = enrol.Id;
-                        newDelegateRecords.add(newDelegate);
-                    }
-                }
-            }
-        }
-        if(!newDelegateRecords.isEmpty()){
-            insert newDelegateRecords;
-        }
-    }
+//    @TestVisible
+//    private static void createDelegates(List<HCP_Enrollment__c> newList) {
+//        Set<Id> hcpEContactIds = new Set<Id>();
+//        for (HCP_Enrollment__c enrol : newList) if (enrol.HCP_Contact__c != null) hcpEContactIds.add(enrol.HCP_Contact__c);
+//        if (hcpEContactIds.isEmpty()) return;
+//        Map<Id, Map<Id, String>> delegatesMapbyHCP = DelegateService.getHCPTeamLevelMapByHCP(hcpEContactIds);
+//        List<Referring_HCP_Staff__c> newDelegateRecords = new List<Referring_HCP_Staff__c>();
+//        for (HCP_Enrollment__c enrol : newList){
+//            if (enrol.HCP_Contact__c != null) {
+//                if(delegatesMapbyHCP.containsKey(enrol.HCP_Contact__c)){
+//                    Map<Id, String> delegateMap = delegatesMapbyHCP.get(enrol.HCP_Contact__c);
+//                    for(Id key: delegateMap.keySet()){
+//                        Referring_HCP_Staff__c newDelegate = new Referring_HCP_Staff__c();
+//                        newDelegate.Delegate_Level__c = delegateMap.get(key);
+//                        newDelegate.Contact__c = key;
+//                        newDelegate.HCP_Enrollment__c = enrol.Id;
+//                        newDelegateRecords.add(newDelegate);
+//                    }
+//                }
+//            }
+//        }
+//        if(!newDelegateRecords.isEmpty()){
+//            insert newDelegateRecords;
+//        }
+//    }
 
     @TestVisible
     private static void createStatusHistory(List<HCP_Enrollment__c> newList, Map<Id, HCP_Enrollment__c> oldMap) {

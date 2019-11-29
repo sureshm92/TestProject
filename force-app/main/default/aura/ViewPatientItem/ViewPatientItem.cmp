@@ -32,18 +32,18 @@
             <div style="height: 250px"></div>
         </aura:if>
         <aura:if isTrue="{!!empty(v.pe)}">
-            <c:ParticipantCardHeader userMode="{!v.userMode}" pe="{!v.pe}"/>
+            <c:ParticipantCardHeader userMode="{!v.userMode}" pe="{!v.pe}" isReferral="false"/>
             <c:ParticipantCardFields userMode="{!v.userMode}" pe="{!v.pe}"/>
-
             <aura:if isTrue="{!v.showPath}">
                 <div class="vpi-path-panel">
-                    <div class="path-section">
+                    <div class="{!v.userMode != 'PI' ? 'path-section' : 'path-section-pi'}">
                         <div class="slds-grid vpi-path">
                             <aura:iteration items="{!v.pathItems}" var="pathItem">
                                 <div class="{!'slds-col width-basis vpi-state ' + pathItem.state + if(pathItem.isCurrent, ' current', '')}">
                                     <div class="slds-grid">
                                         <div class="{!'slds-col width-basis vpi-line-div ' + pathItem.left}"></div>
-                                        <div class="{!'slds-col width-basis vpi-line-div ' + pathItem.right}" style="position: relative">
+                                        <div class="{!'slds-col width-basis vpi-line-div ' + pathItem.right}"
+                                             style="position: relative">
                                             <div class="state-ico-wrapper">
                                                 <aura:if isTrue="{!pathItem.state == 'success'}">
                                                     <c:RRIcon iconName="icon-check"/>
@@ -65,36 +65,64 @@
                             </aura:iteration>
                         </div>
                     </div>
-                    <div class="{!'collapse-section ' + if(v.detailCollapsed, '', ' opened')}">
-                        <c:RRCollapse label="{!$Label.c.PE_Details}" isCollapsed="{!v.detailCollapsed}">
-                            <aura:if isTrue="{!and(v.userMode == 'HCP',!empty(v.pe.Referral_ID__c))}">
-                                <div class="vpi-refid-field">
-                                    <div class="label">{!$Label.c.PE_Referral_Id}</div>
-                                    <div class="value">{!v.pe.Referral_ID__c}</div>
-                                </div>
-                            </aura:if>
-                            <c:PatientStatusPathDetail aura:id="statusDetail" pathItems="{!v.pathItems}" peId="{!v.pe.Id}"/>
-                        </c:RRCollapse>
-                    </div>
                 </div>
+
+                <aura:if isTrue="{!v.userMode == 'PI'}">
+                    <div class="slds-grid vpi-status-btns slds-gutters_x-small slds-wrap">
+                        <div class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_4-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_4-of-12'}">
+                            <button class="{!'apollo-btn secondary'}"
+                                    title="{!$Label.c.BTN_Participant_Information}"
+                                    onclick="{!c.showEditParticipantInformation}"
+                                    value="personalInfoAnchor">
+                                {!$Label.c.BTN_Participant_Information}
+                            </button>
+                        </div>
+                        <div class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_4-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_4-of-12'}">
+                            <button class="{!'apollo-btn secondary'}"
+                                    title="{!$Label.c.BTN_HealthCare_Providers}"
+                                    onclick="{!c.showEditParticipantInformation}"
+                                    value="healthCareProvider">
+                                {!$Label.c.BTN_HealthCare_Providers}
+                            </button>
+                        </div>
+                        <div class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_4-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_4-of-12'}">
+                            <button class="{!'apollo-btn secondary'}"
+                                    title="{!$Label.c.BTN_Status_Details}"
+                                    onclick="{!c.showEditParticipantInformation}"
+                                    value="statusDetailsAnchor">
+                                {!$Label.c.BTN_Status_Details}
+                            </button>
+                        </div>
+                        <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">
+                            <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12">
+                                <button class="{!'apollo-btn secondary'}"
+                                        title="{!$Label.c.BTN_Screener_Responses}"
+                                        onclick="{!c.showEditParticipantInformation}"
+                                        value="screenerResponsesAnchor">
+                                    {!$Label.c.BTN_Screener_Responses}
+                                </button>
+                            </div>
+                        </aura:if>
+                    </div>
+                </aura:if>
+
             </aura:if>
             <aura:if isTrue="{!and(v.userMode == 'PI', v.pe.Participant_Status__c == 'Referral Sent to PI')}">
-                <div class="slds-grid vpi-status-btns slds-gutters_x-small slds-wrap">
+                <div class="slds-grid vpi-status-btns slds-wrap">
                     <aura:iteration items="{!v.changeStatusBtnList}" var="btn">
-                        <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12">
-                            <button class="{!'apollo-btn tertiary ' + btn.style}"
+                            <button class="{!'apollo-btn secondary'}"
                                     disabled="{!v.actions.changePEStatusByPI.disabled}"
                                     title="{!v.actions.changePEStatusByPI.disableReason}"
                                     data-status-name="{!btn.status}"
                                     onclick="{!c.doChangeStatus}">
                                 {!btn.name}
                             </button>
-                        </div>
                     </aura:iteration>
                 </div>
             </aura:if>
 
-            <aura:if isTrue="{!and(!v.showPath, !and(v.userMode == 'PI', v.pe.Participant_Status__c == 'Referral Sent to PI'))}">
+            <aura:if
+                    isTrue="{!and(!v.showPath, !and(v.userMode == 'PI', v.pe.Participant_Status__c == 'Referral Sent to PI'))}">
                 <div>
                     <c:ParticipantStatus pEnrollment="{!v.pe}"/>
                 </div>

@@ -53,7 +53,7 @@
             </aura:if>
             </div>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
-                <button class="apollo-btn primary slds-float--right slds-m-top--medium slds-p-bottom--medium" id="0"
+                <button class="apollo-btn secondary slds-m-top--medium slds-p-bottom--medium" id="0"
                         onclick="{!c.doSelect}">
                     {!$Label.c.PG_COI_L_Select_Conditions}
                 </button>

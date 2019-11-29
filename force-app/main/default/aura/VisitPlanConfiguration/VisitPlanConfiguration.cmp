@@ -5,9 +5,11 @@
 <aura:component description="VisitPlanConfiguration"
                 implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId"
                 controller="VisitConfigurationRemote" extends="c:LightningService">
+
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="onEditRecord" event="c:sendRecord" action="{!c.editMode}"/>
     <aura:handler name="onDeleteRecord" event="c:sendRecord" action="{!c.deleteRecord}"/>
+
     <aura:attribute name="recordId" type="Id"/>
     <aura:attribute name="visitPlanId" type="Id"/>
     <aura:attribute name="IconsPackageName" type="String"/>
@@ -26,6 +28,7 @@
     <aura:attribute name="summaryContainers" type="List" access="private"/>
     <aura:attribute name="iconsURL" type="String"/>
     <aura:attribute name="successCallback" type="Object"/>
+
     <force:recordData aura:id="CTPLoader"
                       recordId="{!v.recordId}"
                       fields="Name,Visit_Plan__c"
@@ -33,7 +36,9 @@
                       targetError="{!v.recordLoadError}"
                       recordUpdated="{!c.handleRecordUpdated}"
     />
+
     <c:RRSpinner aura:id="mainSpinner" showSpinner="false" size="medium" fixed="false"/>
+
     <lightning:card title="Planned visits" iconName="standard:contact">
         <aura:set attribute="actions">
             <lightning:layout horizontalAlign="center" verticalAlign="end">
@@ -148,7 +153,7 @@
                                   IconsPackageFIlePath="/icons.svg"/>
 
     <c:CustomModal aura:Id='editLegend' size="medium">
-        <c:IconPlanetVisitInfoEdit aura:Id='legend' ctpId="{!v.recordId}"/>
+        <c:IconPlanetVisitInfoEdit aura:Id='legend'/>
         <aura:set attribute="footer">
             <lightning:button variant="neutral" type="button" name="close" label="{!$Label.c.Visit_b_Close}"
                               onclick="{!c.closeLegend}"/>

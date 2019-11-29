@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 13.06.2019.
  */
 
-@IsTest(SeeAllData = true)
+@IsTest
 private class Test_AdminPanelRemote {
 
     @IsTest

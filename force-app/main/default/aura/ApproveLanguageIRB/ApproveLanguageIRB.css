@@ -1,22 +1,23 @@
 /**
  * Created by Igor Malyuta on 26.08.2019.
  */
-.THIS .panel {
+.THIS.panel {
     box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.15);
     border: 1px solid #e4e4e4;
     border-radius: 5px;
     padding: 14px;
-    min-height: 500px;
+    min-height: 300px;
 }
 
 .THIS .irb-table {
+    min-height: 200px;
     max-width: 100%;
     max-height: 500px;
+    margin-top: 20px;
 }
 
 .THIS .sorted-column {
     display: flex;
-    justify-content: center;
 }
 
 .THIS .cell-wrap {
@@ -28,10 +29,20 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    margin-top: 20px;
 }
 
 .THIS .padding-info {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.THIS .column-btn {
+    text-align: center;
+}
+
+.THIS .column-btn a {
+    font-weight: normal;
+    font-size: 12px;
 }

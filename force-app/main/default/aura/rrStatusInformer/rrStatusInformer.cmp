@@ -7,7 +7,7 @@
     <aura:if isTrue="{! !empty(v.title)}">
         <div class="si-container">
             <div class="si-icon">
-                <c:RRIcon class="slds-align_absolute-center" color="{! if(v.status, '#63C900', '#D9534F')}" iconName="{! if(v.status, 'icon-check-solid', 'icon-close-solid')}"/>
+                <c:RRIcon class="slds-align_absolute-center" color="{! if(v.status, '#00c221', '#e20000')}" iconName="{! if(v.status, 'icon-check-solid', 'icon-close-solid')}"/>
             </div>
             <div class="{!'rr-sentence-font si-title' + if(v.status, ' success', '')}">
                     {!v.title}

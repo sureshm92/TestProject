@@ -28,58 +28,48 @@ public inherited sharing class VisitResultsService {
             visitResultValuesByNames.put(singleVisitResult.Result_Type__c, singleVisitResult);
         }
 
+        String languageToTranslate =
+                IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
         for (Visit_Result_TypeM_Dashboard_Config__mdt singleConfig : configs) {
             Visit_Result__c visitResult = visitResultValuesByNames.get(singleConfig.Visit_Result_Type__r.DeveloperName);
             if (visitResult != null && visitResult.Actual_Value__c != null) {
                 listIsNotEmpty = true;
             }
-            wrappers.add(new VisitResultWrapper(visitResult, singleConfig.Dashboard_Name__c));
+            wrappers.add(new VisitResultWrapper(visitResult, TranslateHelper.getLabelValue(singleConfig.Dashboard_Name__c)));
         }
         return listIsNotEmpty ? wrappers : new List<VisitResultWrapper>();
     }
 
-    public List<Patient_Visit__c> getPatientVisitsForReport() {
-
-        ParticipantService.ParticipantState pState = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
-        if (pState == null || pState.ctp == null || pState.ctp.Visit_Plan__c == null || pState.pse == null) {
-            return null;
-        }
-
+    public List<Patient_Visit__c> getPatientVisitsForReport(Participant_Enrollment__c pe) {
         String visitsQuery = 'SELECT ' +
                 'Name, ' +
                 'Completed_Date__c, ' +
-                'Participant_Study_Enrollment__r.Participant__r.Contact__r.Visit_Results_Opt_In__c, ' +
-                'Participant_Study_Enrollment__r.Participant__r.Full_Name__c, ' +
-                'Participant_Study_Enrollment__r.Participant__r.Last_Name__c, ' +
+                'Participant_Enrollment__r.Participant__r.Contact__r.Visit_Results_Opt_In__c, ' +
+                'Participant_Enrollment__r.Participant__r.Full_Name__c, ' +
+                'Participant_Enrollment__r.Participant__r.Last_Name__c, ' +
                 '(SELECT Name, Actual_Value__c, Min_Value__c, Max_Value__c, Measurement__c, Result_Type__c, Patient_Visit__r.Visit_Number__c FROM Visit_Results__r) ' +
                 'FROM Patient_Visit__c ' +
-                'WHERE Visit__r.Visit_Plan__c = \'' + pState.ctp.Visit_Plan__c + '\'' +
-                ' AND Participant_Study_Enrollment__c = \'' + pState.pse.Id + '\'' +
+                'WHERE Participant_Enrollment__c = \'' + pe.Id + '\'' +
                 ' AND Status__c = \'Completed\'' +
                 ' ORDER BY Completed_Date__c NULLS LAST';
-
         return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(visitsQuery, true);
     }
 
     public VisitResultsContainer getVisitResultsContainer(String visitResultsGroupName) {
-
         List<Visit_Result_TypeM__mdt> visitResultTypes = this.metadataService.getVisitResultTypes(visitResultsGroupName);
         List<Visit_Result__c> visitResults = VisitResultSharingService.processResults();
+
+        String languageToTranslate =
+                IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
         return visitResults.isEmpty()
                 ? null
                 : new VisitResultsContainer(
                         visitResults[0].Patient_Visit__r,
                         this.getVisitResultWrappers(visitResults, visitResultTypes),
-                        visitResultsGroupName
+                        TranslateHelper.getLabelValue(visitResultsGroupName)
                 );
     }
 
-    public Boolean checkOnAccess(ParticipantService.ParticipantState pState) {
-        return !ParticipantService.ParticipantStates.ALUMNI.equals(pState.value)
-                || pState.isDelegate
-                || !VisitResultSharingService.isVisitResultAvailable()
-                || !pState.pse.Participant_Contact__r.Visit_Results_Opt_In__c;
-    }
 
     private List<VisitResultWrapper> getVisitResultWrappers(List<Visit_Result__c> visitResults, List<Visit_Result_TypeM__mdt> visitResultTypes) {
 
@@ -88,7 +78,7 @@ public inherited sharing class VisitResultsService {
         for (Visit_Result_TypeM__mdt singleVRT : visitResultTypes) {
             wrappers.add(new VisitResultWrapper(
                     visitResultsByTypeDeveloperNames.get(singleVRT.DeveloperName),
-                    TranslateHelper.getLabelValue('VR_' + singleVRT.DeveloperName),
+                    TranslateHelper.getLabelValue(singleVRT.DeveloperName),
                     TranslateHelper.getLabelValue(singleVRT.Description_Label_Api_Name__c)
             ));
         }
@@ -142,7 +132,7 @@ public inherited sharing class VisitResultsService {
                 this.value = visitResult.Actual_Value__c;
                 this.minValue = visitResult.Min_Value__c;
                 this.maxValue = visitResult.Max_Value__c;
-                this.measurement = visitResult.Measurement__c;
+                this.measurement = visitResult.Measurement__c.replace('/','/&#8203;');
             }
         }
 
@@ -150,7 +140,7 @@ public inherited sharing class VisitResultsService {
             this.name = name;
             if (visitResult != null) {
                 this.value = visitResult.Actual_Value__c;
-                this.measurement = visitResult.Measurement__c;
+                this.measurement = visitResult.Measurement__c.replace('/','/&#8203;');
             }
         }
     }

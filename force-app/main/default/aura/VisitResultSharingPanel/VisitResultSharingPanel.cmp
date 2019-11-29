@@ -13,126 +13,141 @@
     <aura:attribute name="typeSelectLVList" type="List"/>
     <aura:attribute name="options" type="Object"/>
     <aura:attribute name="dataSnapshot" type="String"/>
+    <aura:attribute name="user_has_permission" type="String"/>
 
     <aura:method name="refresh" action="{!c.doInit}"/>
 
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" showSpinner="true"/>
-    <div>
-        <aura:if isTrue="{!!empty(v.initData)}">
-            <aura:if isTrue="{!or(empty(v.groups), v.options.inPatientPortal)}">
-                <div class="vrs-panel">
-                    <div class="group-container">
-                        <div class="group-title">Global Data Shareback</div>
-                        <div class="global-data">
-                            <div>
-                                <lightning:input type="toggle" label="Data shareback enabled"
-                                                 name="globalSharebackToggle"
-                                                 checked="{!v.options.globalShareBck}" onchange="{!c.onChangeGlobal}"/>
-                            </div>
-                            <div>
-                                <lightning:button aura:id="saveBtn" variant="brand" label="Save"
-                                                  onclick="{!c.saveOptions}"/>
+    <aura:if isTrue="{!v.user_has_permission != 'Disabled'}">
+        <aura:set attribute="else">
+            <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>
+        </aura:set>
+        <div class="panel">
+            <aura:if isTrue="{!!empty(v.initData)}">
+                <aura:if isTrue="{!or(empty(v.groups), v.options.inPatientPortal)}">
+                    <div class="vrs-panel" style="position: relative;">
+                        <div class="group-container">
+                            <div class="group-title">Global Data Shareback</div>
+                            <div class="global-data">
+                                <div>
+                                    <lightning:input type="toggle" label="Data shareback enabled"
+                                                     name="globalSharebackToggle"
+                                                     checked="{!v.options.globalShareBck}"
+                                                     onchange="{!c.onChangeGlobal}"/>
+                                </div>
+                                <aura:if isTrue="{!v.user_has_permission == 'Edit'}">
+                                    <div>
+                                        <lightning:button aura:id="saveBtn" variant="brand" label="Save"
+                                                          onclick="{!c.saveOptions}"/>
+                                    </div>
+                                </aura:if>
                             </div>
                         </div>
+                        <aura:if isTrue="{!v.user_has_permission == 'View'}">
+                            <div class="overlay"></div>
+                        </aura:if>
                     </div>
-                </div>
-                <div class="{!if(v.options.globalShareBck, 'shareback-settings-container', 'slds-hide')}">
-                    <div class="vrs-panel">
-                        <!-- SS Options: -->
-                        <div class="group-container">
-                            <div class="group-title">Data Shareback Settings on Study Site Level</div>
-                            <div class="slds-grid ss-options">
-                                <div class="slds-col slds-col slds-size_4-of-12 ss-type-col">
-                                    <lightning:select name="SS Selection type" label="Hidden" variant="label-hidden"
-                                                      class="type-picklist" value="{!v.options.ssSelectionType}"
-                                                      onchange="{!c.doSSSelectionTypeChanged}"
-                                                      disabled="{!v.options.ssSelectionType != 'All'}">
-                                        <aura:iteration items="{!v.initData.ssSelectionTypeLVList}" var="option">
-                                            <option text="{!option.label}" value="{!option.value}"/>
-                                        </aura:iteration>
-                                    </lightning:select>
-                                </div>
-                                <div class="slds-col slds-col slds-size_8-of-12 ss-lookup-container">
-                                    <aura:if isTrue="{!v.options.ssSelectionType != 'All'}">
-                                        <c:VisitResultSharingSSLookup aura:id="ssSelectLookup"
-                                                                      value="{!v.options.selectedSSIds}"
-                                                                      ctpId="{!v.recordId}"
-                                                                      onchange="{!c.doSSSelectionChange}"
-                                                                      onblur="{!c.doSSSelectionChange}"
-                                                                      includeSS="{!v.options.ssSelectionType == 'Study Sites'}"/>
-                                    </aura:if>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- participant options: -->
-                        <div class="group-container">
-                            <div class="group-title">Default Data Shareback Settings on Participant Level</div>
-                            <div class="slds-grid participant-options">
-                                <div class="slds-col slds-col slds-size_3-of-12 ss-type-col">
-                                    <lightning:select name="SS Selection type" label="Hidden" variant="label-hidden"
-                                                      class="type-picklist" value="{!v.options.participantDefault}">
-                                        <aura:iteration items="{!v.initData.participantDefaultLVList}" var="option">
-                                            <option text="{!option.label}" value="{!option.value}"/>
-                                        </aura:iteration>
-                                    </lightning:select>
+                    <div class="{!if(v.options.globalShareBck, 'shareback-settings-container', 'slds-hide')}"
+                         style="position: relative;">
+                        <div class="vrs-panel">
+                            <!-- SS Options: -->
+                            <div class="group-container">
+                                <div class="group-title">Data Shareback Settings on Study Site Level</div>
+                                <div class="slds-grid ss-options">
+                                    <div class="slds-col slds-col slds-size_4-of-12 ss-type-col">
+                                        <lightning:select name="SS Selection type" label="Hidden" variant="label-hidden"
+                                                          class="type-picklist" value="{!v.options.ssSelectionType}"
+                                                          onchange="{!c.doSSSelectionTypeChanged}"
+                                                          disabled="{!v.options.ssSelectionType != 'All'}">
+                                            <aura:iteration items="{!v.initData.ssSelectionTypeLVList}" var="option">
+                                                <option text="{!option.label}" value="{!option.value}"/>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </div>
+                                    <div class="slds-col slds-col slds-size_8-of-12 ss-lookup-container">
+                                        <aura:if isTrue="{!v.options.ssSelectionType != 'All'}">
+                                            <c:VisitResultSharingSSLookup aura:id="ssSelectLookup"
+                                                                          value="{!v.options.selectedSSIds}"
+                                                                          ctpId="{!v.recordId}"
+                                                                          onchange="{!c.doSSSelectionChange}"
+                                                                          onblur="{!c.doSSSelectionChange}"
+                                                                          includeSS="{!v.options.ssSelectionType == 'Study Sites'}"/>
+                                        </aura:if>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- when to show: -->
-                        <div class="group-container">
-                            <div class="group-title">Data Shareback Availability Timing</div>
-                            <div class="slds-grid participant-options">
-                                <div class="slds-col slds-col slds-size_3-of-12 ss-type-col">
-                                    <lightning:select name="SS Selection type" label="Hidden" variant="label-hidden"
-                                                      class="type-picklist" value="{!v.options.whenToShow}"
-                                                      onchange="{!c.doWhenToShowChanged}">
-                                        <aura:iteration items="{!v.initData.whenToShowLVList}" var="option">
-                                            <option text="{!option.label}" value="{!option.value}"/>
-                                        </aura:iteration>
-                                    </lightning:select>
-                                </div>
-                                <div class="slds-col slds-col slds-size_9-of-12 ss-lookup-container">
-                                    <aura:if isTrue="{!v.options.whenToShow == 'After'}">
-                                        <div class="completed-visits-input">
-                                            <lightning:input aura:id="whenToShowDaysInput" type="number" label=""
-                                                             variant="label-hidden" min="0"
-                                                             value="{!v.options.showAfterDays}"
-                                                             onblur="{!c.doAfterDaysBlur}"/>
-                                            <div class="info-text">completed visits</div>
-                                        </div>
-                                    </aura:if>
+                            <!-- participant options: -->
+                            <div class="group-container">
+                                <div class="group-title">Default Data Shareback Settings on Participant Level</div>
+                                <div class="slds-grid participant-options">
+                                    <div class="slds-col slds-col slds-size_3-of-12 ss-type-col">
+                                        <lightning:select name="SS Selection type" label="Hidden" variant="label-hidden"
+                                                          class="type-picklist" value="{!v.options.participantDefault}">
+                                            <aura:iteration items="{!v.initData.participantDefaultLVList}" var="option">
+                                                <option text="{!option.label}" value="{!option.value}"/>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </div>
                                 </div>
                             </div>
+                            <!-- when to show: -->
+                            <div class="group-container">
+                                <div class="group-title">Data Shareback Availability Timing</div>
+                                <div class="slds-grid participant-options">
+                                    <div class="slds-col slds-col slds-size_3-of-12 ss-type-col">
+                                        <lightning:select name="SS Selection type" label="Hidden" variant="label-hidden"
+                                                          class="type-picklist" value="{!v.options.whenToShow}"
+                                                          onchange="{!c.doWhenToShowChanged}">
+                                            <aura:iteration items="{!v.initData.whenToShowLVList}" var="option">
+                                                <option text="{!option.label}" value="{!option.value}"/>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </div>
+                                    <div class="slds-col slds-col slds-size_9-of-12 ss-lookup-container">
+                                        <aura:if isTrue="{!v.options.whenToShow == 'After'}">
+                                            <div class="completed-visits-input">
+                                                <lightning:input aura:id="whenToShowDaysInput" type="number" label=""
+                                                                 variant="label-hidden" min="0"
+                                                                 value="{!v.options.showAfterDays}"
+                                                                 onblur="{!c.doAfterDaysBlur}"/>
+                                                <div class="info-text">completed visits</div>
+                                            </div>
+                                        </aura:if>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- PSE Status -->
+                            <!--                        <div class="group-container">-->
+                            <!--                            <div class="group-title">When to show the Visit Report</div>-->
+                            <!--                            <div class="ss-options">-->
+                            <!--                                <c:RRPicklistLookup aura:id="statusSelectLookup" value="{!v.options.selectedStatuses}"-->
+                            <!--                                                    sObjectName="Participant_Study_Enrollment__c" fieldName="Status__c"-->
+                            <!--                                                    onchange="{!c.doSelectedStatusesChanged}"-->
+                            <!--                                                    onblur="{!c.doSelectedStatusesChanged}"/>-->
+                            <!--                            </div>-->
+                            <!--                        </div>-->
                         </div>
-                        <!-- PSE Status -->
-<!--                        <div class="group-container">-->
-<!--                            <div class="group-title">When to show the Visit Report</div>-->
-<!--                            <div class="ss-options">-->
-<!--                                <c:RRPicklistLookup aura:id="statusSelectLookup" value="{!v.options.selectedStatuses}"-->
-<!--                                                    sObjectName="Participant_Study_Enrollment__c" fieldName="Status__c"-->
-<!--                                                    onchange="{!c.doSelectedStatusesChanged}"-->
-<!--                                                    onblur="{!c.doSelectedStatusesChanged}"/>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                        <!-- visit results options: -->
+                        <aura:iteration items="{!v.groups}" var="group">
+                            <div class="group-container vrs-panel">
+                                <div class="group-title">{!group.label}</div>
+                                <aura:iteration items="{!group.visitResults}" var="vResult">
+                                    <c:VisitResultSharingItem visitResult="{!vResult}"
+                                                              typeSelectLVList="{!v.typeSelectLVList}"
+                                                              ctpId="{!v.recordId}"/>
+                                </aura:iteration>
+                            </div>
+                        </aura:iteration>
+                        <aura:if isTrue="{!v.user_has_permission == 'View'}">
+                            <div class="overlay"></div>
+                        </aura:if>
                     </div>
-                    <!-- visit results options: -->
-                    <aura:iteration items="{!v.groups}" var="group">
-                        <div class="group-container vrs-panel">
-                            <div class="group-title">{!group.label}</div>
-                            <aura:iteration items="{!group.visitResults}" var="vResult">
-                                <c:VisitResultSharingItem visitResult="{!vResult}"
-                                                          typeSelectLVList="{!v.typeSelectLVList}"
-                                                          ctpId="{!v.recordId}"/>
-                            </aura:iteration>
-                        </div>
-                    </aura:iteration>
-                </div>
+                </aura:if>
+                <aura:if isTrue="{!not(v.options.inPatientPortal)}">
+                    <c:EmptyListStub message="{!$Label.c.Empty_Visits_tab}"/>
+                </aura:if>
             </aura:if>
-            <aura:if isTrue="{!not(v.options.inPatientPortal)}">
-                <c:EmptyListStub message="{!$Label.c.Empty_Visits_tab}"/>
-            </aura:if>
-        </aura:if>
-    </div>
-
+        </div>
+    </aura:if>
 </aura:component>

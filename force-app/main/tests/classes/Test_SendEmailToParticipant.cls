@@ -10,7 +10,7 @@ private class Test_SendEmailToParticipant {
         TestData.loadTestData();
         Test.startTest();
         TestData testDataInstance = new TestData();
-        testDataInstance.createPSE();
+
         Task task = new Task(
                 Reminder_Date__c = Datetime.now(),
                 Subject = 'Some',
@@ -23,7 +23,7 @@ private class Test_SendEmailToParticipant {
                 Subject = 'Some',
                 OwnerId = testDataInstance.participantUser.Id,
                 Task_Type__c = 'Visit',
-                WhatId = testDataInstance.pse.Id
+                WhatId = testDataInstance.pe.Id
         );
         SendEmailToParticipant.sendEmailNotificationWithDelegates(new List<Task>{task});
         Test.stopTest();

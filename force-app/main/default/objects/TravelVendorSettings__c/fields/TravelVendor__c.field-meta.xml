@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TravelVendor__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <deleteConstraint>Restrict</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Travel Vendor</label>
+    <referenceTo>TravelVendor__c</referenceTo>
+    <relationshipLabel>TravelVendorSettings</relationshipLabel>
+    <relationshipName>TravelVendorSettings</relationshipName>
+    <required>false</required>
+    <securityClassification>Public</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

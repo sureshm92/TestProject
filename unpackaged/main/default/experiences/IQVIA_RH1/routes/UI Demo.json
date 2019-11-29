@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "ui-demo",
-  "appPageId" : "d9c4a932-5387-4757-867b-fed2cab30e7c",
-  "routeType" : "custom-ui-demo",
-  "pageAccess" : "UseParent",
-  "label" : "UI Demo",
-  "id" : "f81eafe5-e897-4780-84ad-4f3812b52e45",
-  "type" : "route"
-}

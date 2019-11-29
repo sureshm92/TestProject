@@ -9,6 +9,7 @@
     },
 
     doChangeStatus: function (component, event, helper) {
+        debugger;
         var spinner = component.find('dialogSpinner');
         spinner.show();
         var refreshSource = component.get('v.refreshSource');
@@ -35,16 +36,17 @@
     },
 
     doHideSPinner: function(component){
-        component.get('v.refreshSource').find('mainSpinner').hide();
+        //component.get('v.refreshSource').find('mainSpinner').hide();
     },
 
     doExecute: function (component, event, hepler) {
         //init params:
+        debugger;
         var params = event.getParam('arguments');
         component.set('v.hcpEnrollment', params.hcpEnrollment);
         component.set('v.actionId', params.actionId);
         component.set('v.refreshSource', params.refreshSource);
-        params.refreshSource.find('mainSpinner').show();
+        //params.refreshSource.find('mainSpinner').show();
 
         //reset:
         component.set("v.showDatePicker", false);

@@ -14,13 +14,13 @@ public without sharing class SurveyResponseTriggerHandler {
 
         for (SurveyResponse sr : srList) {
             if (sr.Status == SURVEY_RESPONSE_STATUS_COMPLETED) {
-                if(!invitationSubmitterClose.containsKey(sr.InvitationId)) {
+                if (!invitationSubmitterClose.containsKey(sr.InvitationId)) {
                     invitationSubmitterClose.put(sr.InvitationId, new List<Id>());
                 }
                 invitationSubmitterClose.get(sr.InvitationId).add(sr.SubmitterId);
             }
             if (sr.Status == SURVEY_RESPONSE_STATUS_PAUSED) {
-                if(!invitationSubmitterPaused.containsKey(sr.InvitationId)) {
+                if (!invitationSubmitterPaused.containsKey(sr.InvitationId)) {
                     invitationSubmitterPaused.put(sr.InvitationId, new List<Id>());
                 }
                 invitationSubmitterPaused.get(sr.InvitationId).add(sr.SubmitterId);
@@ -32,16 +32,17 @@ public without sharing class SurveyResponseTriggerHandler {
     }
 
     @TestVisible
-    private static void taskStatusChanger(Map<Id, List<Id>> invitationSubmitter, Boolean forFinish) {
+    public static void taskStatusChanger(Map<Id, List<Id>> invitationSubmitter, Boolean forFinish) {
         Map<Id, SurveyInvitation> invitationMap = new Map<Id, SurveyInvitation>([
                 SELECT
+                        ExpireDateTime__c,
                         InviteExpiryDateTime,
                         Participant_Enrollment__r.Participant_Contact__c
                 FROM SurveyInvitation
                 WHERE Id IN:invitationSubmitter.keySet()
         ]);
         Set<Id> contactsIds = new Set<Id>();
-        for(SurveyInvitation si : invitationMap.values()) {
+        for (SurveyInvitation si : invitationMap.values()) {
             contactsIds.add(si.Participant_Enrollment__r.Participant_Contact__c);
             contactsIds.addAll(invitationSubmitter.get(si.Id));
         }
@@ -49,42 +50,44 @@ public without sharing class SurveyResponseTriggerHandler {
         List<Task> tasks = [
                 SELECT
                         Id,
-                        Description,
                         Status,
+                        Survey_Invitation__c,
                         Visible_For__c,
                         WhoId
                 FROM Task
                 WHERE WhoId IN:contactsIds
-                AND Task_Type__c =: TaskService.TASK_TYPE_SURVEY
+                AND Task_Type__c = :TaskService.TASK_TYPE_SURVEY
+                AND Survey_Invitation__c IN:invitationMap.keySet()
         ];
-        for(Task t : tasks) {
-            if(invitationSubmitter.containsKey(t.Description)) {
-                for(Id submitterId : invitationSubmitter.get(t.Description)) {
-                    if(t.WhoId == submitterId) {
-                        if(forFinish) {
+        for (Task t : tasks) {
+            SurveyInvitation invitation = invitationMap.get(t.Survey_Invitation__c);
+            for (Id submitterId : invitationSubmitter.get(t.Survey_Invitation__c)) {
+                if (t.WhoId == submitterId) {
+                    if (forFinish) {
+                        TaskService.getInstance().completeTask(t);
+                        if (t.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
+                            invitation.ExpireDateTime__c = System.now();
+                            if (invitation.InviteExpiryDateTime != null) invitation.InviteExpiryDateTime = null;
+                        }
+                    } else if (t.Status != TaskService.TASK_STATUS_COMPLETED) {
+                        t.Status = TaskService.TASK_STATUS_IN_PROGRESS;
+                    }
+                    break;
+                } else if (t.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
+                    if (t.WhoId == invitation.Participant_Enrollment__r.Participant_Contact__c) {
+                        if (forFinish) {
                             TaskService.getInstance().completeTask(t);
-                            if(t.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
-                                invitationMap.get(t.Description).InviteExpiryDateTime = System.now();
-                            }
-                        } else if(t.Status != TaskService.TASK_STATUS_COMPLETED){
+                            invitation.ExpireDateTime__c = System.now();
+                            if (invitation.InviteExpiryDateTime != null) invitation.InviteExpiryDateTime = null;
+                        } else if (t.Status != TaskService.TASK_STATUS_COMPLETED) {
                             t.Status = TaskService.TASK_STATUS_IN_PROGRESS;
                         }
                         break;
-                    } else if(t.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)){
-                        if(t.WhoId == invitationMap.get(t.Description).Participant_Enrollment__r.Participant_Contact__c) {
-                            if(forFinish) {
-                                TaskService.getInstance().completeTask(t);
-                                invitationMap.get(t.Description).InviteExpiryDateTime = System.now();
-                            } else if(t.Status != TaskService.TASK_STATUS_COMPLETED){
-                                t.Status = TaskService.TASK_STATUS_IN_PROGRESS;
-                            }
-                            break;
-                        }
                     }
                 }
             }
         }
-        if(forFinish) update invitationMap.values();
+        if (forFinish) update invitationMap.values();
 
         System.debug('FOR ' + (forFinish ? 'COMPLETE' : 'PAUSE') + ' SIZE: ' + tasks.size());
         update tasks;

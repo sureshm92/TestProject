@@ -6,16 +6,15 @@
 
     <!-- attributes: -->
     <apex:attribute name="userMode" type="String" description=""/>
-    <apex:attribute name="showAllPermissions" type="Boolean" default="false" description=""/>
     <apex:attribute name="delegateLevelsPI" type="DelegateLevelWrapper[]" description=""/>
     <apex:attribute name="delegateLevelsHCP" type="DelegateLevelWrapper[]" description=""/>
 
     <!-- component body -->
-    <c:EmailTemplateDelegateTable rendered="{!delegateLevelsPI.size > 0 && (showAllPermissions || userMode == 'PI')}"
+    <c:EmailTemplateDelegateTable rendered="{!delegateLevelsPI.size > 0}"
                                   title="{!$Label.Email_Delegate_PI_Levels_Title}"
                                   delegateLevels="{!delegateLevelsPI}"
                                   isPI="true"/>
-    <c:EmailTemplateDelegateTable rendered="{!delegateLevelsHCP.size > 0 && (showAllPermissions || userMode == 'HCP')}"
+    <c:EmailTemplateDelegateTable rendered="{!delegateLevelsHCP.size > 0}"
                                   title="{!$Label.Email_Delegate_HCP_Levels_Title}"
                                   delegateLevels="{!delegateLevelsHCP}"
                                   isPI="false"

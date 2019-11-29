@@ -6,19 +6,68 @@ public without sharing class HelpController {
      * @return UserContact
      */
     @AuraEnabled
-    public static String getUserInfo() {
+    public static String getHelpInitData(String userMode) {
         try{
             UserContact userContact = new UserContact();
             userContact.currentContact = CommunityService.getUserContact();
             userContact.isDelegate = PatientDelegateService.getInstance().isDelegate();
-            return JSON.serialize(userContact);
+            HelpInitData initData = new HelpInitData();
+            initData.userContact = userContact;
+            initData.helpTopicSettings = new List<HelpController.HelpTopicWrapper>();
+            initData.helpTopicOptions = new List<LabelValueItem>();
+            String userModefilter = '%' + userMode + '%';
+            List<Help_Topic__mdt> helpTopics = [
+                    SELECT  CaseType__c, CaseDescription__c,CaseSubject__c,
+                            CasePriority__c, CaseReason__c,
+                            Display_Name_Label__c, Display_Solution_Label__c,
+                            Description_Placeholder_Label__c,
+                            Is_Escalated__c,
+                            Knowledge_Article_Link__c, Order__c,
+                            Submit_Required__c,
+                            User_Description_Required__c, User_Types__c
+                    FROM Help_Topic__mdt
+                    WHERE User_Types__c LIKE :userModefilter
+                    AND Is_Active__c = TRUE
+                    ORDER BY Order__c
+            ];
+            TranslateHelper.prepareLabelFields(helpTopics, new Set<String>{
+                    'Display_Name_Label__c',
+                    'Display_Solution_Label__c',
+                    'Description_Placeholder_Label__c'
+            });
+            for(Help_Topic__mdt topic : helpTopics){
+                HelpTopicWrapper tw = new HelpTopicWrapper();
+                tw.type = topic.CaseType__c;
+                tw.subject = topic.CaseSubject__c;
+                tw.description = topic.CaseDescription__c;
+                tw.priority = topic.CasePriority__c;
+                tw.reason = topic.CaseReason__c;
+                tw.userDescriptionRequired = topic.User_Description_Required__c;
+                tw.knowledgeArticleLink = topic.Knowledge_Article_Link__c;
+                tw.userTypes = topic.User_Types__c;
+                tw.order = (Integer)topic.Order__c;
+                tw.displayName = topic.Display_Name_Label__c;
+                tw.displaySolution = topic.Display_Solution_Label__c;
+                tw.descriptionPlaceholder = topic.Description_Placeholder_Label__c;
+                tw.submitRequired = topic.Submit_Required__c;
+                tw.escalated = topic.Is_Escalated__c;
+                initData.helpTopicSettings.add(tw);
+            }
+
+            initData.helpTopicSettings.sort();
+
+            for(Integer i=0; i< initData.helpTopicSettings.size(); i++){
+                initData.helpTopicOptions.add(new LabelValueItem(initData.helpTopicSettings[i].displayName,String.valueOf(i)));
+            }
+
+            return JSON.serialize(initData);
         }catch (Exception e) {
            return (String) AuraHelper.throwException(e);
         }
     }
 
     @AuraEnabled
-    public static void createCase(String description, String type, String files) {
+    public static void createCase(String subject, String description, String type, String priority, String reason, String files, Boolean isClosed, Boolean isEscalated) {
         Savepoint sp = Database.setSavepoint();
         List<AssignmentRule> ars = getCaseAssignmentRule();
         if(ars.isEmpty()) throw new AuraHandledException(Label.No_Case_Assign);
@@ -27,10 +76,14 @@ public without sharing class HelpController {
         dmlOptions.assignmentRuleHeader.assignmentRuleId = ars[0].Id;
 
         Case newCase = new Case();
-        newCase.Status = 'New';
+        newCase.Status = (isClosed?'Closed':(isEscalated?'Escalated':'New'));
         newCase.Origin = 'Web';
         newCase.Description = description;
         newCase.Type = type;
+        newCase.Subject = subject;
+        newCase.OwnerId = UserInfo.getUserId();
+        newCase.Priority = priority;
+        newCase.Reason = reason;
         newCase.setOptions(dmlOptions);
 
         try {
@@ -118,6 +171,37 @@ public without sharing class HelpController {
         }
 
         insert links;
+    }
+
+    public class HelpInitData {
+        UserContact userContact;
+        List<HelpTopicWrapper> helpTopicSettings;
+        List<LabelValueItem> helpTopicOptions;
+    }
+
+    public class HelpTopicWrapper implements Comparable{
+        Boolean userDescriptionRequired;
+        String knowledgeArticleLink;
+        String type;
+        String subject;
+        String priority;
+        String reason;
+        String description;
+        String userTypes;
+        Integer order;
+        String displayName;
+        String displaySolution;
+        String descriptionPlaceholder;
+        Boolean submitRequired;
+        Boolean escalated;
+
+        public Integer compareTo(Object compObject){
+            HelpTopicWrapper compareToObj = (HelpTopicWrapper) compObject;
+            if(order == compareToObj.order)
+                return compareToObj.userTypes.length() - userTypes.length();
+            else
+                    return order - compareToObj.order;
+        }
     }
 
     public class UserContact {
