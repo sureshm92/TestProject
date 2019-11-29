@@ -3,7 +3,7 @@
  */
 
 @IsTest
-public with sharing class Test_TravelVendorPanelRemote {
+private with sharing class Test_TravelVendorPanelRemote {
     
     @TestSetup
     static void init(){
@@ -16,7 +16,7 @@ public with sharing class Test_TravelVendorPanelRemote {
         Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
 
         Test.startTest();
-        TravelVendorPanelRemote.InitData initData = TravelVendorPanelRemote.getInitData(clinicalTrialProfile.Id);
+        TravelVendorPanelRemote.InitData initData = TravelVendorPanelRemote.getInitData(td.ctp.Id);
         Test.stopTest();
     }
 

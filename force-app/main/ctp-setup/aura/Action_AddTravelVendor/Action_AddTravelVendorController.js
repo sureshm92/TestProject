@@ -21,9 +21,9 @@
     },
 
     onSuccess: function (component, event, helper) {
-        let callback = component.get('v.callback');
         component.find('spinner').hide();
         component.find('addTravelVendorDialog').hide();
+        let callback = component.get('v.callback');
         if (callback) callback(event.getParams().response.id);
         helper.resetForm(component);
     },
