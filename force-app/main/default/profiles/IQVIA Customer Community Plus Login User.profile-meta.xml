@@ -83,6 +83,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>BatchControlPanelRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>BatchException</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -585,6 +589,10 @@
     <classAccesses>
         <apexClass>LookupSearchResult</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MCloudSMSSender</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>MailForTests</apexClass>
@@ -2046,6 +2054,16 @@
         <editable>true</editable>
         <field>Alert__c.Viewed__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Batch_Detail__c.First_launch_DT__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Batch_Detail__c.Scope_Size__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -6071,6 +6089,9 @@
         <layout>Alert__c-Alert Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Batch_Detail__c-Batch Detail Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Batch_Executor__mdt-BatchExecutor Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6831,10 +6852,14 @@
     </recordTypeVisibilities>
     <tabVisibilities>
         <tab>Admin_Panel</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOff</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Alert__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Batch_Control_Panel</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>

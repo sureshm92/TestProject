@@ -5,22 +5,24 @@
 import {LightningElement, api} from 'lwc';
 import {loadStyle} from 'lightning/platformResourceLoader';
 import rrIcons from '@salesforce/resourceUrl/rr_community_icons';
-import communityPack from '@salesforce/resourceUrl/rr_community_css';
+import rrImages from '@salesforce/resourceUrl/rr_community_images';
 
 export default class WebIcon extends LightningElement {
 
     @api iconName;
+    @api iconColor = '#CCCCCC';
     @api classCss;
-
-    connectedCallback() {
-        loadStyle(this, communityPack);
-    }
+    @api printMode = false;
 
     get icon() {
         return rrIcons + '/icons.svg#' + this.iconName;
     }
 
-    get cssClass() {
-        return this.classCss + ' rr-icon-default';
+    get imageSrc() {
+        return rrImages + '/' + this.iconName + '.png';
+    }
+
+    get svgClass() {
+        return (this.classCss !== undefined ? this.classCss : 'rr-icon-default');
     }
 }

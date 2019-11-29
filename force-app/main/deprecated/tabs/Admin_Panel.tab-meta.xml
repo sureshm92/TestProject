@@ -2,5 +2,5 @@
 <CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
     <auraComponent>AdminPanel</auraComponent>
     <label>Admin Panel</label>
-    <motif>Custom87: Safe</motif>
+    <motif>Custom61: Castle</motif>
 </CustomTab>
