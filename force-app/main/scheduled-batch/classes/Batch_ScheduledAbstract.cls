@@ -7,18 +7,43 @@ public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObj
     public abstract Type getType();
 
     public virtual void finish(Database.BatchableContext param1) {
-        if(Test.isRunningTest()) return;
-        List<Batch_Executor__mdt> batchExecutor = [
-                SELECT Relaunch_Interval__c, Scope_Size__c
-                FROM Batch_Executor__mdt
-                WHERE DeveloperName = : getType().getName()
+        List<Batch_Detail__c> batchDetails = [
+                SELECT
+                        Interval_Mode__c,
+                        Relaunch_Interval__c,
+                        Scope_Size__c
+                FROM Batch_Detail__c
+                WHERE Name = :getType().getName()
         ];
-        if(!batchExecutor.isEmpty()) {
-            Integer minutes = batchExecutor.get(0).Relaunch_Interval__c.intValue();
-            Integer scopeSize = batchExecutor.get(0).Scope_Size__c.intValue();
+        if (!batchDetails.isEmpty()) {
+            Batch_Detail__c detail = batchDetails.get(0);
+            Integer minutes = getMinutesByMode(detail.Interval_Mode__c, detail.Relaunch_Interval__c.intValue());
+            Integer scopeSize = detail.Scope_Size__c.intValue();
             System.scheduleBatch(
                     (Database.Batchable<SObject>) getType().newInstance(), getType().getName(), minutes, scopeSize);
         }
     }
 
+    public static Integer getMinutesByMode(String intervalMode, Integer interval) {
+        Integer minutes;
+        switch on intervalMode {
+            when 'Hours' {
+                minutes = interval * 60;
+            }
+            when 'Days' {
+                minutes = interval * 1440;
+            }
+            when 'Weeks' {
+                minutes = interval * 10080;
+            }
+            when 'Months' {
+                minutes = interval * 43800;
+            }
+            when else {
+                minutes = interval;
+            }
+        }
+
+        return minutes;
+    }
 }

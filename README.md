@@ -39,6 +39,11 @@
    ```sh
    post-setup.bat
    ```
+
+##### 7) Publish community:
+
+   Go to Setup > All Communities > Open Community Builder > press "Publish"
+  
 ----------------------------------------------------------------------------------
 If merge request fails on the error 
 just remove <userPermission> with the name ViewFlowUsageAndFlowEventData from Admin.profile
