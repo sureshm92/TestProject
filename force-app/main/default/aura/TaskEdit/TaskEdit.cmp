@@ -41,7 +41,7 @@
                     bigTitle="{!if(v.editMode, $Label.c.TTL_Edit_Task, $Label.c.TTL_Create_Task)}">
 
         </c:RRTopBar>
-
+        <c:action_TimeZoneCheck/>
         <!-- Task Panel -->
         <div class="te-task-panel">
             <div class="rr-white-panel padding slds-col" style="min-height: 250px;">
