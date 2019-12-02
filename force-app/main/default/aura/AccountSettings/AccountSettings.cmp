@@ -502,7 +502,7 @@
                     <aura:set attribute="footerButtons">
                         <button class="apollo-btn secondary opt-in-popup-button" onclick="{!c.handleCancelClick}"
                                 tabindex="1">{!$Label.c.BTN_Cancel}</button>
-                         <button class="apollo-btn secondary opt-in-popup-button" onclick="{!c.handleOkClick}"
+                         <button class="apollo-btn primary opt-in-popup-button" onclick="{!c.handleOkClick}"
                                 tabindex="0">{!$Label.c.BTN_OK}</button>
                     </aura:set>
                 </c:Popup>
