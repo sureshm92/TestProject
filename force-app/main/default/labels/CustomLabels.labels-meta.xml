@@ -11249,6 +11249,13 @@ Please check your CAPS lock key.</value>
         <value>Patients cannot be enrolled without signing the Informed Consent Form</value>
     </labels>
     <labels>
+        <fullName>Toast_TimeZone</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast TimeZone</shortDescription>
+        <value>The browser timezone not match with your profile timezone. Please set correct timezone {0}.</value>
+    </labels>
+    <labels>
         <fullName>Total_Cholesterol</fullName>
         <language>en_US</language>
         <protected>false</protected>

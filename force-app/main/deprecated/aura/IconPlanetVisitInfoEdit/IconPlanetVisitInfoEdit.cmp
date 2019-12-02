@@ -1,8 +1,20 @@
 <!--
   - Created by Yehor Dobrovolskyi
  -->
+
+<!-- DEPRECATED!!! -->
+
 <aura:component implements="flexipage:availableForAllPageTypes,c:Modalable" description="IconPlanetVisitInfoEdit"
                 extends="c:LightningService"
                 controller="IconPlanetVisitInfoEditRemote">
-    <!-- deprecated -->
+
+    <!--ATTRIBUTES-->
+    <aura:attribute name="ctpId" type="String" description="Deprecated, for merge only"/>
+    <aura:attribute name="planId" type="String"/>
+    <aura:attribute name="iconDetails" type="Object[]" default="[]"/>
+    <aura:attribute name="IconsPackageName" default="Icons_legend" type="String"/>
+    <aura:attribute name="IconsPackageFIlePath" default="/icons.svg" type="String"/>
+    <aura:attribute name="iconsURL" type="String"/>
+    <aura:attribute name="error" type="String"/>
+
 </aura:component>

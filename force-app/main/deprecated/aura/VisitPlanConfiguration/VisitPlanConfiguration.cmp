@@ -2,9 +2,7 @@
  - Created by AlexKetch on 6/18/2019.
  -->
 
-<aura:component description="VisitPlanConfiguration"
-                implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId"
-                controller="VisitConfigurationRemote" extends="c:LightningService">
+<aura:component description="VisitPlanConfiguration" controller="VisitConfigurationRemote" extends="c:LightningService">
 
     <!-- deprecated -->
 </aura:component>
