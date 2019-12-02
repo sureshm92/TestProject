@@ -8,6 +8,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 import profileTZ from '@salesforce/i18n/timeZone';
 import toastMessage from '@salesforce/label/c.Toast_TimeZone';
+import linkText from '@salesforce/label/c.PG_Login_L_here_link';
 
 const accUrl = 'settings?tab=account-settings';
 
@@ -21,7 +22,7 @@ export default class ActionTimeZoneCheck extends NavigationMixin(LightningElemen
                 messageData: [
                     {
                         url: accUrl,
-                        label: 'here'
+                        label: linkText
                     }
                 ],
                 mode: 'sticky',
