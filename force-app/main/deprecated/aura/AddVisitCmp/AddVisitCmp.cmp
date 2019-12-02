@@ -1,0 +1,7 @@
+<!--
+ - Created by AlexKetch on 7/26/2019.
+ -->
+
+<aura:component implements="c:Modalable" description="AddVisitCmp">
+    <!-- deprecated -->
+</aura:component>

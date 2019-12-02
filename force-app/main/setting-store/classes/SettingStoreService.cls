@@ -2,7 +2,8 @@
  * Created by Nargiz Mamedova on 11/26/2019.
  */
 
-public with sharing class SettingStoreService {
+public without sharing class SettingStoreService {
+    
     public static Object get(String developerName, Id userId){
         List<Setting_Store__c> settingStores = [
                 SELECT Id, Developer_Name__c, User__c, Type__c, Body__c
