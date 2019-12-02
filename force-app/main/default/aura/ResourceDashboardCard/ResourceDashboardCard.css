@@ -21,7 +21,7 @@
     height: 35px;
     width: 35px;
     top: 50px;
-    right: 42%; 
+    right: 45%; 
     opacity: .3;
 }
 
@@ -33,7 +33,7 @@
     height: 35px;
     width: 35px;
     top: 50px;
-    right: 39%; 
+    right: 45%; 
     opacity: .3;
 }
 
@@ -81,3 +81,12 @@
 		margin-left: 2%;
 	}
 }
+
+@media (max-width: 768px){
+  .THIS .resource-content > .slds-wrap > .slds-col:nth-child(1) .resource-error-message:after,
+  .THIS .resource-content > .slds-wrap > .slds-col:nth-child(2) .resource-error-message:after {
+     	right: 47%;   
+    }
+}
+
+

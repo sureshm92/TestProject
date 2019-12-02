@@ -181,8 +181,7 @@
 
 @media (max-width: 800px) {
     .THIS .ss-info-buttons .apollo-btn {
-       font-size: 12px;
-       min-height: 58px;
+       font-size: 1rem;
     }
 }
 
@@ -236,8 +235,4 @@
         width: 100%;
     }
 
-    .THIS .ss-info-buttons .apollo-btn {
-        font-size: 14px;
-        min-height: unset;
-    }
 }

@@ -113,3 +113,16 @@
         padding: 30% 10% 30% 0;
     }
 }
+
+@media (max-width: 768px){
+    
+    .THIS .resource-error-message{
+        padding: 30% 10% 30% 0;
+    }
+   .THIS.resource-container {
+        margin-left: 0;
+    } 
+   .THIS .resource-error-message{
+        padding: 30% 0;
+    }
+}

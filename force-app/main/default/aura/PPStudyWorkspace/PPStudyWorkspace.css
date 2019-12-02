@@ -259,16 +259,20 @@
 
 @media (max-width: 768px){
     .THIS .sdv-top-bar .links .apollo-btn.text{
-        font-size: 13px;
+        font-size: 14px;
     }
     .THIS  .share-social-buttons {
         margin-right: 0;
+    }
+    
+    .THIS .sdv-top-bar .rr-all-content {
+        margin: 0 10px;
     }
 }
 
 @media all and (max-width: 480px){
     .THIS .sdv-top-bar .links .apollo-btn.text{
-        font-size: 11px;
+        font-size: 14px;
     }
 }
 
