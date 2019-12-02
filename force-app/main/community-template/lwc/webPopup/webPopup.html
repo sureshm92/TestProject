@@ -1,0 +1,48 @@
+<!--
+ - Created by Igor Malyuta on 28.11.2019.
+ -->
+
+<!-- Web Popup -->
+<template>
+    <div class="slds-button_icon-inverse">
+        <div class={modalClass}>
+            <div class={conteinerSizeClass}>
+                <slot name="headerButtons"></slot>
+                <div class={iconButtonClass} onclick={doCancel}>
+                    <c-web-icon icon-name="icon-close" class-css="slds-hide"></c-web-icon>
+                </div>
+                <!-- title: -->
+                <div class={divHeaderClass}>
+                    <h2 class={h2Class}>{title}</h2>
+                </div>
+                <div style="position: relative">
+                    <!-- dialog body: -->
+                    <div class={contentScrollClass}>
+                        <label>{headerText}</label>
+                        <slot name="body"></slot>
+                        <label>{footerText}</label>
+                    </div>
+                    <!-- dialog footer: -->
+                    <template if:true={showFooter}>
+                        <div class={footerVariantClass}>
+                            <div class="p-buttons-container">
+                                <template if:true={customButtons}>
+                                    <slot name="footerButtons"></slot>
+                                </template>
+                                <template if:false={customButtons}>
+                                    <button class="apollo-btn secondary" onclick={clickedSecondary} tabindex="0">
+                                        {secondaryButtonLabel}
+                                    </button>
+                                    <button class="apollo-btn primary" onclick={clickedPrimary} tabindex="-1">
+                                        {primaryButtonLabel}
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+        <div class={backDropClass}></div>
+    </div>
+</template>
