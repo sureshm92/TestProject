@@ -1,0 +1,27 @@
+<!--
+ - Created by Yulia Yakushenkova on 12/2/2019.
+ -->
+
+<!-- Web Pagination Remote -->
+<template>
+    <!-- events: -->
+<!--    <aura:registerEvent access="global" name="onchange" type="c:uiEvent"/>-->
+
+<!--    <aura:handler name="change" value="{!v.allRecordsCount}" action="{!c.doCalcTotalPages}"/>-->
+<!--    <aura:handler name="change" value="{!v.entriesOnPage}" action="{!c.doCalcTotalPages}"/>-->
+    <div if:true={positiveTotalPages}>
+        <div class="rrp-container">
+            <div class="buttons">
+                <button class={previousBtnCss} onclick={prevPageClick}>
+                    <c-web-icon icon-name="icon-chevron-left" icon-color="#333333"></c-web-icon>
+                </button>
+                <button class={nextBtnCss} onclick={nextPageClick}>
+                    <c-web-icon icon-name="icon-chevron-right" icon-color="#333333"></c-web-icon>
+                </button>
+            </div>
+            <div class="info">
+                {currentPagesOfTotalPages}
+            </div>
+        </div>
+    </div>
+</template>
