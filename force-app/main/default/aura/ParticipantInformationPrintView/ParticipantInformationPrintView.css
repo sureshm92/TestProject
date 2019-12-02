@@ -40,6 +40,7 @@
 .THIS .label.changed {
     color: #297dfd;
 }
+
 /*
 .THIS .path-item-detail-panel > .slds-col {
     width: auto;
@@ -144,14 +145,14 @@
     text-overflow: ellipsis;
 }
 
-.THIS .screening-gizmo-frame{
+.THIS .screening-gizmo-frame {
     width: 100%;
     border: 0;
     overflow: hidden;
     margin-top: 30px;
 }
 
-.THIS .hide-survey-header{
+.THIS .hide-survey-header {
     display: none;
 }
 
@@ -161,11 +162,11 @@
     position: relative;
 }
 
-.THIS .form-content{
+.THIS .form-content {
     min-height: 400px;
 }
 
-@media all and (max-width: 768px){
+@media all and (max-width: 768px) {
     .THIS .personal-info-container .slds-float_left {
         width: 100%;
     }
@@ -196,52 +197,61 @@
 }
 
 
-.THIS .rr-form-element + .rr-form-element{
+.THIS .rr-form-element + .rr-form-element {
     margin-top: 0;
 }
 
-.THIS .rr-form-element{
+.THIS .rr-form-element {
     margin-bottom: 10px;
 }
 
-.THIS .ap-section-title{
+.THIS .ap-section-title {
     font-size: 20px;
     line-height: 36px;
 }
 
-.THIS .ap-section + .ap-section{
+.THIS .ap-section + .ap-section {
     margin-top: 20px;
 }
 
-.THIS .ap-buttons{
+.THIS .ap-buttons {
     display: flex;
     justify-content: flex-end;
     margin-top: 10px;
     margin-bottom: 80px;
 }
 
-.THIS .apollo-btn.custom-cancel{
+.THIS .apollo-btn.custom-cancel {
     background-color: #e8e8e8;
 }
 
-.THIS .rr-form-element .slds-form-element__label{
+.THIS .rr-form-element .slds-form-element__label {
     display: none;
 }
 
-.THIS .rr-form-element .cRrSelect .slds-select_container .slds-select{
+.THIS .rr-form-element .cRrSelect .slds-select_container .slds-select {
     margin-top: 0;
 }
 
-@media print
-{
-  .THIS  div:not(#healthCareProvider):not(.healthcare-container){
+@media print {
+    .THIS div:not(#healthCareProvider):not(.healthcare-container) {
         page-break-inside: avoid;
     }
- .THIS #healthCareProvider {
- 	   margin-top: 0!important;
+
+    .THIS #healthCareProvider {
+        margin-top: 0 !important;
     }
- .THIS button {
+
+    .THIS button {
         max-height: 34px;
-        overflow:hidden;
+        overflow: hidden;
+    }
+
+    .THIS .healthcare-form-container {
+        margin-bottom: 9px !important;
+    }
+
+    .THIS .healthcare-form-container:nth-child(12n+5) {
+        margin-bottom: 19px !important;
     }
 }
