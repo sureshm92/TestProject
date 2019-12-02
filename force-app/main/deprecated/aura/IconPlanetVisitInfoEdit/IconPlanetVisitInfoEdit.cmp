@@ -1,0 +1,8 @@
+<!--
+  - Created by Yehor Dobrovolskyi
+ -->
+<aura:component implements="flexipage:availableForAllPageTypes,c:Modalable" description="IconPlanetVisitInfoEdit"
+                extends="c:LightningService"
+                controller="IconPlanetVisitInfoEditRemote">
+    <!-- deprecated -->
+</aura:component>

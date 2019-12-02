@@ -23,16 +23,10 @@
 ##### 5) Push project to Scratch org:
 
    ```sh
-   sfdx force:source:push -f
+   push-scrach-org.bat
    ```
 
-##### 6) Post setup:
-    
-   ```sh
-   post-setup.bat
-   ```
-
-##### 7) Publish community:
+##### 6) Publish community:
 
    Go to Setup > All Communities > Open Community Builder > press "Publish"
   
