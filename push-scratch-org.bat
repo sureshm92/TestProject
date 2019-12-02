@@ -1,7 +1,9 @@
 @echo off
+echo Push in progress...
 call sfdx force:source:push -f
 
 if %ERRORLEVEL% == 0 (
+    echo Post setup in progress...
     call sfdx force:apex:execute -f scripts/apex/SFDX_Setup_UpdateUserRole.apex
 
     call sfdx force:data:tree:import -p data/import-plan.json
@@ -22,4 +24,5 @@ if %ERRORLEVEL% == 0 (
     call sfdx force:user:permset:assign --permsetname PP_Participant_BL
     call sfdx force:user:permset:assign --permsetname SurveyCreator
 
+    echo Push completed successfully!
 ) else (echo Push not completed properly, check logs and try again)
