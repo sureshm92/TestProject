@@ -2,7 +2,7 @@
  * Created by Nargiz Mamedova on 11/19/2019.
  */
 
-public with sharing class SendPEToStudyHub extends RemoteCall{
+public with sharing class RemoteCall_SendPEToStudyHub extends RemoteCall{
     public Id participantEnrollmentId;
 
     public class IntegrationMessage{
@@ -51,7 +51,7 @@ public with sharing class SendPEToStudyHub extends RemoteCall{
         public CommunicationPreferences CommunicationPreferences;
     }
 
-    public SendPEToStudyHub(Id participantEnrollmentId) {
+    public RemoteCall_SendPEToStudyHub(Id participantEnrollmentId) {
         this.endPointURL = 'callout:ServiceNowAndStudyHub';
         this.httpMethod = METHOD_POST;
         this.headersMap.putAll(new Map<String, String>{
@@ -61,7 +61,7 @@ public with sharing class SendPEToStudyHub extends RemoteCall{
     }
 
     public override Type getType() {
-        return SendPEToStudyHub.class;
+        return RemoteCall_SendPEToStudyHub.class;
     }
 
     protected override String buildRequestBody() {
