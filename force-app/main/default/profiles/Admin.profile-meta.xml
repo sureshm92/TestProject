@@ -399,6 +399,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>EmailService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EmailTemplateController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -575,6 +579,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MCloudSMSSender</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MailForTests</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -655,7 +663,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>NotificationService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>NotificationTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>OnboardingSlideTourRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PENotificationTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1427,6 +1447,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_NotificationTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PENotificationTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_PSEService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1850,6 +1878,14 @@
     <customMetadataTypeAccesses>
         <enabled>false</enabled>
         <name>Motivation_Plans__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Notification_Target__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Notification_Type__mdt</name>
     </customMetadataTypeAccesses>
     <customMetadataTypeAccesses>
         <enabled>false</enabled>
@@ -2784,11 +2820,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.RRLanguageAllowedCookie__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.Second_Choice_Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3944,6 +3975,61 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>National_ID__c.State__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Notification_Target__mdt.Email_Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Notification_Target__mdt.Message_Body__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Notification_Target__mdt.Notification_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Notification_Target__mdt.Target_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Notification_Type__mdt.Description__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Notification_Type__mdt.Parameters_Provider__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Notification_Type__mdt.Recipient_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Notification__c.Email_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Notification__c.Notification_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Notification__c.Recipient__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Notification__c.WhatId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6105,6 +6191,15 @@
         <layout>National_ID__c-National ID Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Notification_Target__mdt-Notification Target Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Notification_Type__mdt-Notification Type Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Notification__c-Notification Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Number_Of_Limits__mdt-Number Of Limits Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6508,6 +6603,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>National_ID__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Notification__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -6991,7 +7095,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Res_study__c.Study_Resource</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
@@ -7075,6 +7178,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Manual_Creation_Panel</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Notification__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -7274,18 +7381,14 @@
         <enabled>true</enabled>
         <name>ContentAdministrator</name>
     </userPermissions>
-<!--    <userPermissions>-->
-<!--        <enabled>true</enabled>-->
-<!--        <name>ContentWorkspaces</name>-->
-<!--    </userPermissions>-->
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ContentWorkspaces</name>
+    </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
         <name>ConvertLeads</name>
     </userPermissions>
-<!--    <userPermissions>-->
-<!--        <enabled>true</enabled>-->
-<!--        <name>CreateContentSpace</name>-->
-<!--    </userPermissions>-->
     <userPermissions>
         <enabled>true</enabled>
         <name>CreateContentSpace</name>
@@ -7322,10 +7425,10 @@
         <enabled>true</enabled>
         <name>CreateWorkBadgeDefinition</name>
     </userPermissions>
-<!--    <userPermissions>-->
-<!--        <enabled>true</enabled>-->
-<!--        <name>CreateWorkspaces</name>-->
-<!--    </userPermissions>-->
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>CreateWorkspaces</name>
+    </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
         <name>CustomizeApplication</name>
@@ -7541,6 +7644,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ManageHealthCheck</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ManageHubConnections</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
@@ -7837,6 +7944,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ViewSetup</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ViewUserPII</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

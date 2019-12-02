@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>New Study Email</label>
+    <protected>false</protected>
+    <values>
+        <field>Email_Template__c</field>
+        <value xsi:type="xsd:string">Patient2_New_Study</value>
+    </values>
+    <values>
+        <field>Message_Body__c</field>
+        <value xsi:type="xsd:string">New Study Message</value>
+    </values>
+    <values>
+        <field>Notification_Type__c</field>
+        <value xsi:type="xsd:string">New_Study_Message_Type</value>
+    </values>
+    <values>
+        <field>Target_Type__c</field>
+        <value xsi:type="xsd:string">Email</value>
+    </values>
+</CustomMetadata>

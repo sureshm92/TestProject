@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Patient Referral Update Status Email</label>
+    <protected>false</protected>
+    <values>
+        <field>Email_Template__c</field>
+        <value xsi:type="xsd:string">Patient9_Referral_Status_Update</value>
+    </values>
+    <values>
+        <field>Message_Body__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Notification_Type__c</field>
+        <value xsi:type="xsd:string">Message_to_PT_Ref_Status_Update_Type</value>
+    </values>
+    <values>
+        <field>Target_Type__c</field>
+        <value xsi:type="xsd:string">Email</value>
+    </values>
+</CustomMetadata>

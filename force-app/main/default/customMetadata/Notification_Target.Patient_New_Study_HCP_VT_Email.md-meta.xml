@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Patient New Study HCP VT Email</label>
+    <protected>false</protected>
+    <values>
+        <field>Email_Template__c</field>
+        <value xsi:type="xsd:string">Patient4_VT_HCP_New_C_S_Referral</value>
+    </values>
+    <values>
+        <field>Message_Body__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Notification_Type__c</field>
+        <value xsi:type="xsd:string">Message_to_PT_New_Study_HCP_VT_Type</value>
+    </values>
+    <values>
+        <field>Target_Type__c</field>
+        <value xsi:type="xsd:string">Email</value>
+    </values>
+</CustomMetadata>

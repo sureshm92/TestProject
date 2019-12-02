@@ -655,8 +655,16 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>NotificationTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>OnboardingSlideTourRemote</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PENotificationTriggerHandler</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>PEStatusState</apexClass>
@@ -1427,6 +1435,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_NotificationTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PENotificationTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_PSEService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1850,6 +1866,14 @@
     <customMetadataTypeAccesses>
         <enabled>false</enabled>
         <name>Motivation_Plans__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Notification_Target__mdt</name>
+    </customMetadataTypeAccesses>
+    <customMetadataTypeAccesses>
+        <enabled>false</enabled>
+        <name>Notification_Type__mdt</name>
     </customMetadataTypeAccesses>
     <customMetadataTypeAccesses>
         <enabled>false</enabled>
@@ -2785,11 +2809,6 @@
         <editable>false</editable>
         <field>Contact.RRLanguageAllowedCookie__c</field>
         <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Contact.Second_Choice_Language__c</field>
-        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3945,6 +3964,56 @@
         <editable>false</editable>
         <field>National_ID__c.State__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Notification_Target__mdt.Email_Template__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Notification_Target__mdt.Message_Body__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Notification_Target__mdt.Notification_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Notification_Target__mdt.Target_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Notification_Type__mdt.Description__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Notification_Type__mdt.Parameters_Provider__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Notification__c.Email_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Notification__c.Notification_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Notification__c.Recipient__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Notification__c.WhatId__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -6105,6 +6174,15 @@
         <layout>National_ID__c-National ID Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Notification_Target__mdt-Notification Target Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Notification_Type__mdt-Notification Type Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Notification__c-Notification Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Number_Of_Limits__mdt-Number Of Limits Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6790,6 +6868,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Manual_Creation_Panel</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Notification__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
