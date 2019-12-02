@@ -42,14 +42,14 @@ export default class WebPaginationRemote extends LightningElement {
         if(this.currentPage < this.totalPages) this.currentPage += 1;
 
         const changeEvent = new CustomEvent('change', {});
-        if(changeEvent) this.dispatchEvent(changeEvent);
+        this.dispatchEvent(changeEvent);
     }
 
     prevPageClick() {
         if(this.currentPage > 1) this.currentPage -= 1;
 
         const changeEvent = new CustomEvent('change', {});
-        if(changeEvent) this.dispatchEvent(changeEvent);
+        this.dispatchEvent(changeEvent);
     }
 
     //Expressions for html attributes-----------------------------------------------------------------------------------
