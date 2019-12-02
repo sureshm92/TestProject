@@ -1,0 +1,20 @@
+/**
+ * Created by Igor Malyuta on 28.11.2019.
+ */
+.main-container {
+    margin-top: 2em;
+    text-align: center;
+}
+
+.main-container svg {
+    font-size: 60px;
+    line-height: 60px;
+    height: 60px;
+    width: 60px;
+}
+
+.main-container .message {
+    margin-top: 1em;
+    font-size: 1rem;
+    color: #999;
+}

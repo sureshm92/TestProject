@@ -16,7 +16,7 @@
 }
 
 .THIS .sv-title{
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 600;
     line-height: 27px;
 }
@@ -50,7 +50,7 @@
 .THIS .sv-footer .cRRLink.rr-link {
  	padding-right: 16px;
     position: relative;
-    font-size: .875rem;
+    font-size: 1rem;
 }
 
 .THIS .sv-footer .cRRLink.rr-link:after {
@@ -60,6 +60,6 @@
     background-image: url(/resource/1569526732000/ChevronRightBlue);
     height: 14px;
     width: 14px;
-    top: 7px;
+    top: 10px;
     right: 0px; 
 }

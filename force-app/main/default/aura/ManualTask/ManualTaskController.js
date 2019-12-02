@@ -27,12 +27,12 @@
     onDaysChange: function (component, event, helper) {
         var startDate = component.get('v.wrapper.task.Start_Date__c');
         var dueDate = component.get('v.wrapper.task.ActivityDate');
-        var reminderDate = component.get('v.wrapper.task.Reminder_Date__c');
+        var reminderDate = component.get('v.wrapper.task.ReminderDateTime');
         var useDaysNumber = component.get('v.showNumbersAdd') === 'true';
 
         if (startDate && !dueDate) {
             if (reminderDate && moment(reminderDate, 'YYYY-MM-DD').isBefore(startDate)) {
-                component.set('v.wrapper.task.Reminder_Date__c', startDate);
+                component.set('v.wrapper.task.ReminderDateTime', startDate);
             }
         }
 
@@ -57,16 +57,16 @@
             }
 
             var remDate = dueDate.add(-daysCount, 'days');
-            component.set('v.wrapper.task.Reminder_Date__c', remDate.format('YYYY-MM-DD'));
+            component.set('v.wrapper.task.ReminderDateTime', remDate.format('YYYY-MM-DD'));
 
         } else {
-            var remindDate = component.get('v.wrapper.task.Reminder_Date__c');
+            var remindDate = component.get('v.wrapper.task.ReminderDateTime');
             if (!remindDate) return;
             remindDate = moment(remindDate, 'YYYY-MM-DD');
 
             var diff = dueDate.diff(remindDate, 'days');
             if (diff < 0) {
-                component.set('v.wrapper.task.Reminder_Date__c', dueDate.format('YYYY-MM-DD'));
+                component.set('v.wrapper.task.ReminderDateTime', dueDate.format('YYYY-MM-DD'));
                 diff = 0;
             }
 

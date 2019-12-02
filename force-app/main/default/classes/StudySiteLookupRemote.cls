@@ -48,12 +48,11 @@ public class StudySiteLookupRemote {
     public static List<LookupSearchResult> searchSSByIds(String value, String selectedCountries, Boolean includeSS){
         try{
             List<LookupSearchResult> resList = new List<LookupSearchResult>();
-            List<String> ssIds = value.split(';');
-            String filter = 'Id IN ' + ssIds;
+            String filter = DatabaseService.fieldInValues('Id', value.split(';'));
             if (selectedCountries != null && !String.isEmpty(selectedCountries)) {
                 filter += 'AND ' + DatabaseService.fieldInValues('Site__r.BillingCountryCode', selectedCountries.split(';'));
             }
-            List<Study_Site__c> ssList = (List<Study_Site__c>) DatabaseService.getInstance().queryImpl(new List<String>{
+            List<Study_Site__c> ssList = (List<Study_Site__c>) DatabaseService.query(new List<String>{
                     'Id',
                     'Name'
             }, Study_Site__c.getSObjectType(), filter);

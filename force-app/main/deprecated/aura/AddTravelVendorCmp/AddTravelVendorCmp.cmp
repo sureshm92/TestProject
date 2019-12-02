@@ -1,0 +1,3 @@
+<aura:component implements="c:Modalable" description="AddVisitCmp">
+    <!-- deprecated -->
+</aura:component>

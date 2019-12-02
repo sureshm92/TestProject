@@ -49,11 +49,12 @@
         var siteWrapper = component.get('v.siteWrapper');
         var studyListView = component.get('v.studyListViewComponent');
         studyListView.find('actionManageLocationDetails').execute(siteWrapper, function (studySite, accounts) {
+            // component.set('v.siteWrapper.studySite', studySite);
+            component.set('v.refresh',true);
             component.set('v.siteWrapper.studySite', studySite);
+            component.set('v.refresh',false);
             if (accounts) {
                 component.set('v.siteWrapper.accounts', accounts);
-                studyListView.find('actionManageLocationDetails').find('manageLocation').hide();
-                studyListView.find('actionManageLocationDetails').find('manageLocation').show();
             }
         });
     },

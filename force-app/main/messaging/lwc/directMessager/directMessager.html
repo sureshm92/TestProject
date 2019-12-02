@@ -123,6 +123,13 @@
                     <lightning-layout-item flexibility="no-grow" class="slds-p-left_x-small footer-icon">
                         <lightning-button-icon
                                 variant="border-filled"
+                                icon-name="utility:attach"
+                                size="medium">
+                        </lightning-button-icon>
+                    </lightning-layout-item>
+                    <lightning-layout-item flexibility="no-grow" class="slds-p-left_x-small footer-icon">
+                        <lightning-button-icon
+                                variant="border-filled"
                                 icon-name="utility:send"
                                 size="medium"
                                 onclick={sendMessage}>
@@ -156,15 +163,17 @@
                 </lightning-layout>
             </header>
             <section class="slds-p-around_x-small body">
-                <div class="slds-m-bottom_x-small">
-                    <lightning-input
-                            type="search"
-                            variant="label-hidden"
-                            placeholder="Search recipient user..."
-                            value={userSearchKeyword}
-                            onchange={handleChangeUserSearchKeyword}>
-                    </lightning-input>
-                </div>
+                <template if:false={isParticipant}>
+                    <div class="slds-m-bottom_x-small">
+                        <lightning-input
+                                type="search"
+                                variant="label-hidden"
+                                placeholder="Search recipient user..."
+                                value={userSearchKeyword}
+                                onchange={handleChangeUserSearchKeyword}>
+                        </lightning-input>
+                    </div>
+                </template>
                 <div class="slds-m-bottom_small">
                     <template for:each={newRecipients} for:item="newRecipient">
                         <lightning-pill

@@ -67,6 +67,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ApprovedLangSearchResponse</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ArticleService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -77,6 +81,10 @@
     <classAccesses>
         <apexClass>BaselineSurveyRemote</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>BatchControlPanelRemote</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>BatchException</apexClass>
@@ -137,6 +145,10 @@
     <classAccesses>
         <apexClass>Batch_MigratePicklistToCheckbox</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_MoveTaskInvitations</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_PEToPSE</apexClass>
@@ -535,6 +547,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>LanguageSearchLookup</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>LanguageSwitcherRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -700,7 +716,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PaginationData</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ParametersDataProvider</apexClass>
@@ -959,6 +975,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SSVisitConfigSearchResponse</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SchemaUtil</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1075,8 +1095,20 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StudySiteFilter</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudySiteItem</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudySiteLookupRemote</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudySiteSearchLookup</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>StudySiteService</apexClass>
@@ -1755,6 +1787,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ValueStateItem</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ViewPatientsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1769,6 +1805,10 @@
     <classAccesses>
         <apexClass>VisitPlanRemote</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>VisitPlanSearchLookup</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>VisitReportContainerRemote</apexClass>
@@ -2034,6 +2074,16 @@
         <editable>true</editable>
         <field>Alert__c.Viewed__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Batch_Detail__c.First_launch_DT__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Batch_Detail__c.Scope_Size__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2978,6 +3028,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Event.Start_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Event.Survey_Invitation__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5272,6 +5327,26 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Setting_Store__c.Body__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Setting_Store__c.Developer_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Setting_Store__c.Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Setting_Store__c.User__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Site_Staff__c.Clinical_Trial_Profile__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -5628,6 +5703,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Task.Start_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Task.Survey_Invitation__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6074,6 +6154,9 @@
         <layout>Alert__c-Alert Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Batch_Detail__c-Batch Detail Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Batch_Executor__mdt-BatchExecutor Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6278,6 +6361,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Score__c-Score Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Setting_Store__c-Setting Store Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Site_Staff__c-PI Profile Layout</layout>
@@ -6840,10 +6926,14 @@
     </recordTypeVisibilities>
     <tabVisibilities>
         <tab>Admin_Panel</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOff</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Alert__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Batch_Control_Panel</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>

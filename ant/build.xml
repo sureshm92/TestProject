@@ -19,6 +19,7 @@
     <tstamp>
         <format property="nowDT" pattern="yyyy-MM-dd__HH-mm"  locale="en,US" />
     </tstamp>
+    <property name="dist.name" value="PH_RH__${release.version}__${nowDT}"/>
 
     <!-- targets: -->
 
@@ -145,11 +146,23 @@
     </target>
 
     <target name="create-distributive" depends="prepare-metadata">
+        <echo message="Creating distributive: ${dist.name} ..." level="info"/>
+        <exec executable="git">
+            <arg value="tag"/>
+            <arg value="${dist.name}"/>
+        </exec>
+        <exec executable="git">
+            <arg value="push"/>
+            <arg value="origin"/>
+            <arg value="${dist.name}"/>
+        </exec>
+
         <delete dir="${dist.dir}"/>
         <mkdir dir="${dist.dir}"/>
         <mkdir dir="${dist.dir}/part1"/>
         <mkdir dir="${dist.dir}/part2"/>
         <mkdir dir="${dist.dir}/part3"/>
+        <mkdir dir="${dist.dir}/part4"/>
 
         <!-- part 1 -->
         <copy todir="${dist.dir}/part1">
@@ -161,7 +174,7 @@
             <remove path="/:Package/:types[:name[text()!='StaticResource']]"/>
             <remove path="/:Package/:types[:name[text()='StaticResource']]/:members[text()!='pdfjs_dist']"/>
         </xmltask>
-        <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part1.zip">
+        <zip destfile="${dist.dir}/${dist.name}__Part1.zip">
             <fileset dir="${dist.dir}">
                 <include name="part1/**/*.*"/>
             </fileset>
@@ -180,7 +193,7 @@
             <remove path="/:Package/:types[:name[text()!='StaticResource']]"/>
             <remove path="/:Package/:types[:name[text()='StaticResource']]/:members[text()='pdfjs_dist']"/>
         </xmltask>
-        <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part2.zip">
+        <zip destfile="${dist.dir}/${dist.name}__Part2.zip">
             <fileset dir="${dist.dir}">
                 <include name="part2/**/*.*"/>
             </fileset>
@@ -203,7 +216,7 @@
             <remove path="/:Package/:types[:name[text()='CustomField']]/:members[not(contains(text(), '__mdt'))]"/>
             <remove path="/:Package/:types[:name[text()='ListView']]/:members[not(contains(text(), '__mdt'))]"/>
         </xmltask>
-        <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part3.zip">
+        <zip destfile="${dist.dir}/${dist.name}__Part3.zip">
             <fileset dir="${dist.dir}">
                 <include name="part3/**/*.*"/>
             </fileset>
@@ -234,7 +247,7 @@
             <remove path="/:Package/:types[:name[text()='CustomField']]/:members[contains(text(), '__mdt')]"/>
             <remove path="/:Package/:types[:name[text()='ListView']]/:members[contains(text(), '__mdt')]"/>
         </xmltask>
-        <zip destfile="${dist.dir}/PH_RH_Dist__${nowDT}__Part4.zip">
+        <zip destfile="${dist.dir}/${dist.name}__Part4.zip">
             <fileset dir="${dist.dir}">
                 <include name="part4/**/*.*"/>
             </fileset>
@@ -350,5 +363,4 @@
             <arg path="../convert-project.bat"/>
         </exec>
     </target>
-
 </project>

@@ -1,0 +1,183 @@
+<!--
+ - Created by Igor Malyuta on 18.09.2019.
+ -->
+<aura:component description="StudySiteVisitConfig" controller="StudySiteVisitConfigRemote"
+                implements="force:hasRecordId, flexipage:availableForAllPageTypes">
+
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <!--attributes: -->
+    <aura:attribute name="pagination" type="Object"/>
+    <aura:attribute name="filter" type="Object"/>
+    <aura:attribute name="ssItems" type="List"/>
+    <aura:attribute name="visitPlans" type="List"/>
+    <aura:attribute name="viewModePage" type="String"/>
+    <aura:attribute name="haveEmptyAssigment" type="Boolean"/>
+    <aura:attribute name="initialized" type="Boolean" default="false"/>
+
+    <!-- component body: -->
+    <aura:if isTrue="{!notequals(v.viewModePage, 'Disabled')}">
+        <aura:set attribute="else">
+            <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>
+        </aura:set>
+        <div class="panel">
+            <c:RRSpinner aura:id="spinner"/>
+            <lightning:navigation aura:id="navLink"/>
+            <aura:if isTrue="{!v.initialized}">
+                <aura:if isTrue="{!not(empty(v.ssItems))}">
+                    <!--Filters-->
+                    <div class="slds-m-bottom--small">
+                        <div class="slds-grid slds-gutters">
+                            <!--Country Filter-->
+                            <div class="slds-col slds-size--1-of-2">
+                                <c:VisitResultSharingCountryLookup aura:id="countryLookup"
+                                                                   value="{!v.filter.countryCodes}"
+                                                                   isMultiEntry="true"
+                                                                   onchange="{!c.onCountriesChange}"
+                                                                   placeholder="Select country"
+                                                                   placeholderSelected="Select another country"
+                                                                   ctpId="{!v.recordId}"
+                                                                   isInclude="true"/>
+                            </div>
+                            <!--Visit Plan Filter-->
+                            <div class="slds-col slds-size--1-of-2">
+                                <c:VisitPlansLookup aura:id="vpLookup"
+                                                    value="{!v.filter.pageFeatureIds}"
+                                                    isMultiEntry="true"
+                                                    onchange="{!c.doUpdate}"
+                                                    placeholder="Select Visit Plan"
+                                                    placeholderSelected="Select another Visit Plan"/>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-gutters">
+                            <!--Study Site Filter-->
+                            <div class="slds-col slds-size--1-of-2">
+                                <c:IRBStudySitesLookup aura:id="ssLookup"
+                                                       value="{!v.filter.selectedSSIds}"
+                                                       ctpId="{!v.recordId}"
+                                                       selectedCountries="{!v.filter.countryCodes}"
+                                                       onchange="{!c.doUpdate}"
+                                                       placeholder="Select Study Site"/>
+                            </div>
+                            <!--Save changes button-->
+                            <div class="slds-col slds-size--1-of-2 slds-p-left--small padding-info">
+                                <aura:if isTrue="{!v.haveEmptyAssigment}">
+                                    <lightning:icon iconName="utility:warning" alternativeText="Warning!"
+                                                    variant="warning"
+                                                    size="small"/>
+                                    <p style="font-size: 11px; padding: 5px;">{!$Label.c.PP_VPC_SS_Empty_VP}</p>
+                                </aura:if>
+                            </div>
+                        </div>
+                        <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
+                            <div class="save-btn">
+                                <lightning:button variant="neutral" label="Add Visit Plan" onclick="{!c.doAddVP}"/>
+                                <div style="padding-left: 1rem"></div>
+                                <lightning:button variant="brand" label="Save" onclick="{!c.doSaveAndUpdate}"/>
+                            </div>
+                        </aura:if>
+                        <!--Study Site Table-->
+                        <div class="slds-scrollable ss-table">
+                            <table aria-multiselectable="true"
+                                   class="slds-table slds-table_cell-buffer slds-table_bordered" role="grid">
+                                <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th scope="col">
+                                        <div data-order="country" class="sorted-column" onclick="{!c.doSort}">
+                                            <div class="slds-truncate">
+                                                Country
+                                            </div>
+                                            <aura:if isTrue="{!v.filter.sortField == 'country'}">
+                                                <div class="slds-m-left--x-small">
+                                                    <lightning:icon
+                                                            iconName="{!'utility:' + if(v.filter.sortDirection == 'DESC', 'arrowdown', 'arrowup')}"
+                                                            alternativeText=""
+                                                            variant="success"
+                                                            size="xx-small"/>
+                                                </div>
+                                            </aura:if>
+                                        </div>
+                                    </th>
+                                    <th scope="col">
+                                        <div data-order="name" class="sorted-column" onclick="{!c.doSort}">
+                                            <div class="slds-truncate">
+                                                Study Site
+                                            </div>
+                                            <aura:if isTrue="{!v.filter.sortField == 'name'}">
+                                                <div class="slds-m-left--x-small">
+                                                    <lightning:icon
+                                                            iconName="{!'utility:' + if(v.filter.sortDirection == 'DESC', 'arrowdown', 'arrowup')}"
+                                                            alternativeText=""
+                                                            variant="success"
+                                                            size="xx-small"/>
+                                                </div>
+                                            </aura:if>
+                                        </div>
+                                    </th>
+                                    <th class="cell-wrap" scope="col">
+                                        <div data-order="number" class="sorted-column" onclick="{!c.doSort}">
+                                            <div>Study Site Number</div>
+                                            <aura:if isTrue="{!v.filter.sortField == 'number'}">
+                                                <div class="slds-m-left--x-small slds-align--absolute-center">
+                                                    <lightning:icon
+                                                            iconName="{!'utility:' + if(v.filter.sortDirection == 'DESC', 'arrowdown', 'arrowup')}"
+                                                            alternativeText=""
+                                                            variant="success"
+                                                            size="xx-small"/>
+                                                </div>
+                                            </aura:if>
+                                        </div>
+                                    </th>
+                                    <aura:if isTrue="{!v.visitPlans}">
+                                        <aura:iteration items="{!v.visitPlans}" var="vp">
+                                            <th scope="col">
+                                                <c:VisitPlanColumnMenu plan="{!vp}"
+                                                                       onEdit="{!if(equals(v.viewModePage, 'Edit'), c.doColumnVisitEdit, c.doColumnVisitView)}"
+                                                                       onClone="{!c.doColumnVisitClone}"
+                                                                       onDelete="{!c.doColumnVisitDelete}"
+                                                                       isVisible="{!equals(v.viewModePage, 'Edit')}"/>
+                                                <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
+                                                    <div class="column-btn">
+                                                        <a data-state="Enabled" data-vp="{!vp.value}"
+                                                           onclick="{!c.columnCheckboxStateChange}">Select All</a>
+                                                        <span style="padding: 0 3px; color: #006DCC; ">|</span>
+                                                        <a data-state="Disabled" data-vp="{!vp.value}"
+                                                           onclick="{!c.columnCheckboxStateChange}">Clear All</a>
+                                                    </div>
+                                                </aura:if>
+                                            </th>
+                                        </aura:iteration>
+                                    </aura:if>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <aura:if isTrue="{!v.ssItems}">
+                                    <aura:iteration items="{!v.ssItems}" var="item">
+                                        <c:StudySiteItem item="{!item}" parent="{!this}" viewMode="{!v.viewModePage}"/>
+                                    </aura:iteration>
+                                </aura:if>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--Pagination-->
+                        <div>
+                            <c:RRPaginationRemote entriesOnPage="{!v.pagination.pageRecordsCount}"
+                                                  currentPage="{!v.pagination.currentPage}"
+                                                  allRecordsCount="{!v.pagination.allRecordsCount}"
+                                                  onchange="{!c.doSaveAndUpdate}"/>
+                            <div class="padding-info">
+                                <lightning:icon class="slds-m-left--x-small" iconName="utility:save" alternativeText=""
+                                                variant="warning" size="small"/>
+                                <p style="font-size: 11px; padding: 5px;">{!$Label.c.IRB_Padding_Info}</p>
+                            </div>
+                        </div>
+                    </div>
+                </aura:if>
+                <aura:if isTrue="{!empty(v.ssItems)}">
+                    <c:EmptyListStub message="{!$Label.c.PG_VP_L_No_Items_display}"/>
+                </aura:if>
+            </aura:if>
+        </div>
+        <c:Action_EditVisitPlan aura:id="actionVP"/>
+    </aura:if>
+</aura:component>

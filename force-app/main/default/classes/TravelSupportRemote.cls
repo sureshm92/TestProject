@@ -4,21 +4,19 @@
 
 public without sharing class TravelSupportRemote {
     @AuraEnabled
-    public static List<TravelVendorSettings__c> getVendors(String studySiteId) {
+    public static List<TravelVendor__c> getVendors(String studySiteId) {
         try {
-            TravelSupportHelper service = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
-            return service.getVendors(studySiteId);
+            return TravelSupportHelper.getVendors(studySiteId);
         } catch (Exception e) {
-            AuraHelper.throwException(e);
+            return (List<TravelVendor__c>) AuraHelper.throwException(e);
         }
-        return null;
     }
 
     @AuraEnabled
-    public static String getInitData(){
-        try{
+    public static String getInitData() {
+        try {
             return JSON.serialize(ParticipantService.getInstance().getState());
-        }catch (Exception e){
+        } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
     }

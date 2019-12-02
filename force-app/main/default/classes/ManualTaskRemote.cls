@@ -6,16 +6,20 @@ public with sharing class ManualTaskRemote {
 
     public static Boolean createTasks(Task newTask, ManualTaskFilter filter) {
         try {
-            newTask.Activity_Datetime__c = Datetime.newInstanceGmt(
-                    newTask.ActivityDate,
-                    Time.newInstance(Datetime.now().hourGmt(), 0, 0, 0));
+            if(newTask.ActivityDate != null) {
+                newTask.Activity_Datetime__c = Datetime.newInstanceGmt(
+                        newTask.ActivityDate,
+                        Time.newInstance(Datetime.now().hourGmt(), 0, 0, 0));
+            }
 
-            newTask.ReminderDateTime = Datetime.newInstanceGmt(
-                    newTask.Reminder_Date__c.yearGmt(),
-                    newTask.Reminder_Date__c.monthGmt(),
-                    newTask.Reminder_Date__c.dayGmt(),
-                    Datetime.now().hourGmt(), 0, 0
-            );
+            if(newTask.ReminderDateTime != null) {
+                newTask.ReminderDateTime = Datetime.newInstanceGmt(
+                        newTask.ReminderDateTime.yearGmt(),
+                        newTask.ReminderDateTime.monthGmt(),
+                        newTask.ReminderDateTime.dayGmt(),
+                        Datetime.now().hourGmt(), 0, 0
+                );
+            }
 
             Batch_CreateAdminTasks.launch(filter.getContactsWithPE(), newTask);
             return true;

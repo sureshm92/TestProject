@@ -1,0 +1,153 @@
+/**
+ * Created by Igor Malyuta on 28.11.2019.
+ */
+.transition-show .p-container {
+    opacity: 1;
+    visibility: visible;
+}
+
+.p-container {
+    position: fixed;
+    max-height: 100vh;
+    z-index: 10000;
+    top: 50%;
+    left: 50%;
+    background-color: #FFFFFF;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.7);
+    border-radius: 0 0 4px 4px;
+    border: 1px solid #B5B5B5;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .4s linear;
+}
+
+ .p-container:before {
+    content: '';
+    width: 100.1%;
+    background: linear-gradient(306deg, #0076AE 0%, #250056 100%);
+    height: 4px;
+    display: block;
+}
+
+.p-container > .slds-button {
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+
+}
+
+.p-container > .slds-button:after {
+    content: '';
+    position: absolute;
+    background-size: 14px 14px;
+    background-image: url(/resource/1569269587000/iconCloseBlack);
+    height: 14px;
+    width: 14px;
+    top: 30px;
+    right: 25px;
+
+}
+
+.p-container .p-header {
+    width: 100%;
+    max-height: 20vh;
+    min-height: 40px;
+    white-space: initial;
+    overflow: hidden;
+    color: #000;
+    padding: 24px 15px 15px 24px;
+    text-align: left;
+}
+
+.p-header h2 {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 30px;
+    width: 90%;
+}
+
+.p-header.p-header-buttons h2 {
+    width: 80%;
+}
+
+.p-header.success {
+    background: #00C221;
+}
+
+.p-header.warning {
+    background: #FFE200;
+    color: #000000;
+}
+
+.p-header.error {
+    background: #FF0031;
+}
+
+.p-container .p-content {
+    max-height: 60vh;
+    padding: 30px 16px;
+    color: #444;
+    font-size: 1rem;
+    line-height: 1.1rem;
+    white-space: initial;
+    text-align: left;
+    font-weight: 400;
+    overflow-x: hidden;
+}
+
+.p-container .p-footer {
+    max-height: 20vh;
+    background-color: #FFFFFF;
+    border-radius: 0 0 4px 4px;
+    text-align: left;
+    white-space: initial;
+    padding: 15px 15px 30px 24px;
+    overflow: hidden;
+}
+
+.p-buttons-container .opt-in-popup-button+.opt-in-popup-button {
+    margin-left: 0;
+    margin-right: 5px;
+}
+
+ .p-container{
+    width: calc(100% - 30px);
+    max-height: 100%;
+}
+
+ .p-container .p-mobile-close {
+    top: 4px;
+    right: 4px;
+}
+
+.p-backdrop {
+    background-color: rgba(0,0,0,0.7);
+}
+
+@media all and (max-width: 767px){
+    .cAction_ParticipantInformation .p-container .p-header {
+        max-height: 30vh;
+    }
+}
+@media all and (min-width: 480px){
+     .p-container.small {
+        width: 400px;
+    }
+}
+
+@media all and (min-width: 768px){
+     .p-container.medium {
+        width: 600px;
+    }
+}
+
+@media all and (min-width: 1024px){
+     .p-container.large {
+        width: 800px;
+    }
+}

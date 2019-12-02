@@ -45,7 +45,7 @@ public without sharing class ViewPatientsRemote {
             initData.peFilter = new ParticipantEnrollmentService.PEFilter(initData.peFilterData);
             initData.peFilter.studySite = siteId;
             initData.peFilter.study = trialId;
-            initData.peFilter.activePE = 'Active';
+            initData.peFilter.activePE = userMode == 'PI' ? 'Active' : null;
             //set up search fields
             initData.peFilter.searchFields = new List<String>{
                     'Participant__r.First_Name__c',

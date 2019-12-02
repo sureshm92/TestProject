@@ -5,6 +5,17 @@
 public with sharing class ParticipantVisitsRemote {
 
     @AuraEnabled
+    public static Boolean isStudySiteHasVisits(){
+        try {
+            return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class))
+                    .getVisitWrappers(PatientVisitService.VISIT_MODE_ALL, null).size() > 0 ? true : false;
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+
+    @AuraEnabled
     public static List<PatientVisitService.VisitWrapper> getVisitsPreview() {
         try {
             return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class)).getVisitWrappers(PatientVisitService.VISIT_MODE_CURRENT, 3);

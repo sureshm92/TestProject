@@ -109,21 +109,25 @@ public without sharing class TravelSupportHelper {
                 (travelVendorSettingsIds.isEmpty() ? '' : ' AND Id NOT IN ' + '(\'' + String.join(new List<Id>(travelVendorSettingsIds), '\',\'') + '\')');
         DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
         List<TravelVendorSettings__c> ts = (List<TravelVendorSettings__c>) databaseProxy.query(query);
-        delete ts;
     }
 
-    public List<TravelVendorSettings__c> getVendors(Id studySiteId) {
-        String vendorsQuery = 'SELECT ' +
-                'Id, ' +
-                'TravelVendor__c, ' +
-                'TravelVendor__r.Name, ' +
-                'TravelVendor__r.Link_Vendor__c, ' +
-                'TravelVendor__r.Disclosure__c, ' +
-                'Study_Site__r.Site__r.BillingCountryCode ' +
-                'FROM TravelVendorSettings__c ' +
-                'WHERE Study_Site__c =  \'' + studySiteId + '\' ' +
-                'AND isEnable__c = ' + true;
-        return (List<TravelVendorSettings__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(vendorsQuery, false);
+    public static List<TravelVendor__c> getVendors(String studySiteId) {
+        String filter = 'Study_Site__c =  \'' + studySiteId + '\'' + ' ORDER BY TravelVendor__r.Name';
+        List<TravelVendorSettings__c> vendorSettings =
+                (List<TravelVendorSettings__c>) DatabaseService.query(new List<String>{
+                        'TravelVendor__c',
+                        'TravelVendor__r.Name',
+                        'TravelVendor__r.Link_Vendor__c',
+                        'TravelVendor__r.Disclosure__c'
+                }, TravelVendorSettings__c.getSObjectType(), filter);
+
+        Set<TravelVendor__c> vendorsUniq = new Set<TravelVendor__c>();
+        for (TravelVendorSettings__c vendorSetting : vendorSettings) vendorsUniq.add(vendorSetting.TravelVendor__r);
+
+        List<TravelVendor__c> vendors = new List<TravelVendor__c>();
+        if(!vendorsUniq.isEmpty()) vendors.addAll(vendorsUniq);
+
+        return vendors;
     }
 
     private List<TravelVendorPanelRemote.VendorItem> getAllStudySites(Id ctpId){
