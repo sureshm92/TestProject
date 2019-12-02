@@ -23,7 +23,7 @@
 ##### 5) Push project to Scratch org:
 
    ```sh
-   push-scrach-org.bat
+   push-scratch-org.bat
    ```
 
 ##### 6) Publish community:
