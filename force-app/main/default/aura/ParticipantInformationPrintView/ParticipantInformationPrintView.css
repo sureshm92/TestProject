@@ -237,6 +237,11 @@
   .THIS  div:not(#healthCareProvider):not(.healthcare-container){
         page-break-inside: avoid;
     }
+ .THIS #healthCareProvider {
+ 	   margin-top: 0!important;
+    }
+ .THIS button {
+        max-height: 34px;
+        overflow:hidden;
+    }
 }
-
-
