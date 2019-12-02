@@ -1,0 +1,22 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="uiLimitTextByLines">
+
+    <!-- attributes: -->
+    <aura:attribute name="class" type="String"/>
+    <aura:attribute name="lineHeight" type="Decimal" default="1.4"/>
+    <aura:attribute name="maxLines" type="Integer"/>
+    <aura:attribute name="background" type="String" default="#f8f9fb"/>
+    <aura:attribute name="unitsType" type="String" default="em"/>
+
+    <!-- component body: -->
+    <div class="{!'block-with-text ' +if(empty(v.class), '', v.class)}"
+         style="{!'line-height:' + v.lineHeight + v.unitsType +
+                 '; max-height:' + (v.lineHeight * v.maxLines) + v.unitsType +
+                 '; background:' + v.background }" >
+        {!v.body}
+    </div>
+
+</aura:component>

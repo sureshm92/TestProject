@@ -18,10 +18,11 @@
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true" showSpinner="true"/>
     <aura:if isTrue="{!v.initialized}">
-        <aura:if isTrue="{!or(v.userMode == 'Participant')}">
+        <aura:if isTrue="{!v.userMode == 'Participant'}">
             <c:HomePageParticipant/>
         </aura:if>
         <aura:if isTrue="{!v.userMode != 'Participant'}">
+<!--            <c:directMessager/>-->
             <c:StudyListView/>
         </aura:if>
     </aura:if>

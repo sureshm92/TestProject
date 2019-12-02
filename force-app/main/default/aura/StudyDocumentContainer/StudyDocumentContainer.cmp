@@ -1,68 +1,80 @@
-<aura:component controller="ResourceRemote" description="StudyDocumentContainer">
+<aura:component controller="ResourceRemote" description="StudyDocumentContainer" access="global">
+    <ltng:require scripts="{!join(',', $Resource.pdf_js, $Resource.pdf_worker_js, $Resource.jquery_min_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
 
-    <!--ATTRIBUTES-->
-
-    <aura:attribute name="resourceMode" type="String" default="Documents" access="private"
-                    description="constant variable"/>
-    <aura:attribute name="studyDocumentVideoType" type="String" default="Video" access="private"
-                    description="constant variable"/>
+    <!-- attributes: -->
     <aura:attribute name="resourceWrappers" type="ResourceService.ResourceWrapper[]"/>
     <aura:attribute name="resourcesOnPage" type="ResourceService.ResourceWrapper[]"/>
+    <aura:attribute name="itemsPerPage" type="Integer" default="5"/>
+    <aura:attribute name="viewMode" type="String" default="thumbnail"/>
     <aura:attribute name="errorMessage" type="String" default=""/>
 
-    <!--HANDLERS-->
+    <!-- component body -->
+    <c:RRSpinner aura:id="spinner" showSpinner="true" fixed="true" size="medium"/>
 
-    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+    <div>
+        <div class="rr-white-panel resources-panel">
+            <div class="resource-table">
 
-    <!--COMPONENT BODY-->
+                <div class="resources-header">
+                    <div class="resource-title">{!$Label.c.Resource_Tab_Study_Documents}</div>
+                    <lightning:select value="{!v.viewMode}" label="">
+                        <option value="list">{!$Label.c.SDC_List_View}</option>
+                        <option value="thumbnail">{!$Label.c.SDC_Thumbnail_view}</option>
+                    </lightning:select>
+                </div>
 
-    <div class="rr-white-panel" style="margin-top: 32px">
-        <div class="resource-table">
-            <div class="resource-title">
-                {!$Label.c.Resource_Tab_Study_Documents}
+                <aura:if isTrue="{!!empty(v.resourcesOnPage)}">
+                    <!-- list view -->
+                    <aura:if isTrue="{!v.viewMode == 'list'}">
+                        <c:RRTable>
+                            <tr>
+                                <th class="study-document-title">{!$Label.c.Resources_Study_Document_Table_Col_Title}</th>
+                                <th class="study-document-summary rr-medium-down-hide">{!$Label.c.Resources_Study_Document_Table_Col_Summary}</th>
+                                <th class="study-document-version-date">{!$Label.c.Resources_Study_Document_Table_Col_Version_Date}</th>
+                            </tr>
+                            <aura:iteration items="{!v.resourcesOnPage}" var="resourceWrapper">
+                                <tr class="study-document-row-data">
+                                    <td class="study-document-column-data study-document-title-data">
+                                        <c:ResourceLink resourceWrapper="{!resourceWrapper}"/>
+                                    </td>
+                                    <td class="rr-medium-down-hide study-document-summary study-document-column-data">
+                                    {!resourceWrapper.resource.Description__c}
+                                </td>
+                                    <td class="study-document-version-date study-document-column-data">
+                                        <ui:outputDate value="{!resourceWrapper.resource.Version_Date__c}"
+                                                       format="DD-MMM-YYYY"/>
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </c:RRTable>
+                    </aura:if>
+
+                    <!-- thumbnail view -->
+                    <aura:if isTrue="{!v.viewMode == 'thumbnail'}">
+                        <div class="slds-grid slds-gutters slds-wrap">
+                            <aura:iteration items="{!v.resourcesOnPage}" var="resourceWrapper">
+                                <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3 resource-item-container">
+                                    <c:ResourceThumbnail resourceWrapper="{!resourceWrapper}"/>
+                                    <c:ResourceLink resourceWrapper="{!resourceWrapper}"/>
+                                </div>
+                            </aura:iteration>
+                        </div>
+                    </aura:if>
+                </aura:if>
+
+                <!-- pagination -->
+                <aura:if isTrue="{!!empty(v.resourceWrappers)}">
+                    <footer class="resource-footer">
+                        <c:rrPagination allObjects="{!v.resourceWrappers}" currentObjects="{!v.resourcesOnPage}" entriesOnPage="{!v.itemsPerPage}"/>
+                    </footer>
+                </aura:if>
+
+                <aura:if isTrue="{!v.errorMessage}">
+                    <div class="resource-error-message">{!v.errorMessage}</div>
+                </aura:if>
             </div>
-            <c:RRTable>
-                <tr>
-                    <th class="study-document-icon"></th>
-                    <th class="study-document-title">{!$Label.c.Resources_Study_Document_Table_Col_Title}</th>
-                    <th class="study-document-summary">{!$Label.c.Resources_Study_Document_Table_Col_Summary}</th>
-                    <th class="study-document-version-date">{!$Label.c.Resources_Study_Document_Table_Col_Version_Date}</th>
-                </tr>
-                <aura:iteration items="{!v.resourcesOnPage}" var="resourceWrapper">
-                    <tr class="study-document-row-data">
-                        <td class="study-document-icon">
-                            <div class="resource-pointer"
-                                 data-type="{!resourceWrapper.resource.RecordType.DeveloperName}"
-                                 data-id="{!resourceWrapper.resource.Id}" onclick="{!c.navigateToPage}">
-                                <c:RRIcon
-                                        iconName="{!resourceWrapper.resource.document_type__c != v.studyDocumentVideoType ? 'icon-pdf' : 'icon-video-study-document'}"
-                                        class="{!resourceWrapper.resource.document_type__c != v.studyDocumentVideoType ? 'resources-icon-pdf' : 'resources-icon-video'}"/>
-                            </div>
-                        </td>
-                        <td class="study-document-column-data study-document-title-data">
-                            <a data-type="{!resourceWrapper.resource.RecordType.DeveloperName}"
-                               data-id="{!resourceWrapper.resource.Id}"
-                               onclick="{!c.navigateToPage}">
-                                {!resourceWrapper.resource.Title__c}
-                            </a>
-                        </td>
-                        <td class="study-document-summary study-document-column-data">
-                            {!resourceWrapper.resource.Description__c}
-                        </td>
-                        <td class="study-document-version-date study-document-column-data">
-                            <ui:outputDate value="{!resourceWrapper.resource.Version_Date__c}" format="DD-MMM-YYYY"/>
-                        </td>
-                    </tr>
-                </aura:iteration>
-            </c:RRTable>
-            <footer class="resource-footer" style="{!lessthan(v.resourceWrappers.length, 11) ? 'display: none;' : ''}">
-                <c:rrPagination allObjects="{!v.resourceWrappers}" currentObjects="{!v.resourcesOnPage}"
-                                entriesOnPage="11"/>
-            </footer>
-            <aura:if isTrue="{!v.errorMessage}">
-                <div class="resource-error-message">{!v.errorMessage}</div>
-            </aura:if>
         </div>
-        <c:RRSpinner aura:id="spinner" showSpinner="true" fixed="true" size="medium"/>
+
     </div>
 </aura:component>

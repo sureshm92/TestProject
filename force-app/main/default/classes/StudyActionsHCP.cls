@@ -8,7 +8,17 @@ public without sharing class StudyActionsHCP extends StudyActions{
         this(
                 hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r,
                 hcpEnrollment.Study_Site__r,
-                hcpEnrollment
+                hcpEnrollment,
+                null
+        );
+    }
+
+    public StudyActionsHCP(HCP_Enrollment__c hcpEnrollment, String delegateId){
+        this(
+                hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r,
+                hcpEnrollment.Study_Site__r,
+                hcpEnrollment,
+                delegateId
         );
     }
 
@@ -16,12 +26,31 @@ public without sharing class StudyActionsHCP extends StudyActions{
         this(
                 pe.Study_Site__r.Clinical_Trial_Profile__r,
                 pe.Study_Site__r,
-                pe.HCP__r
+                pe.HCP__r,
+                null
+        );
+    }
+
+    public StudyActionsHCP(Participant_Enrollment__c pe, String delegateId){
+        this(
+                pe.Study_Site__r.Clinical_Trial_Profile__r,
+                pe.Study_Site__r,
+                pe.HCP__r,
+                delegateId
         );
     }
 
     public StudyActionsHCP(Clinical_Trial_Profile__c study, Study_Site__c studySite, HCP_Enrollment__c hcpEnrollment){
-        super(study,studySite, hcpEnrollment, CommunityService.USER_MODE_HCP);
+        this(
+                study,
+                studySite,
+                hcpEnrollment,
+                null
+        );
+    }
+
+    public StudyActionsHCP(Clinical_Trial_Profile__c study, Study_Site__c studySite, HCP_Enrollment__c hcpEnrollment, String delegateId){
+        super(study,studySite, hcpEnrollment, CommunityService.USER_MODE_HCP, delegateId);
 
         //init actions:
         actions.put(ACT_MEDICAL_RECORD_REVIEW, new Action(
@@ -43,12 +72,12 @@ public without sharing class StudyActionsHCP extends StudyActions{
                 '',
                 new List<DisableReason>{
                         level2AndLowReason,
-                        tcAcceptanceRequiredReason,
-                        hcpOnHoldReason,
-                        studySiteOnHoldReason,
-                        hcpNotActiveReason,
-                        studySiteNotAcceptedReason,
-                        studyNoLongerEnrollingReason
+                        tcAcceptanceRequiredReason//,
+//                        hcpOnHoldReason,
+//                        studySiteOnHoldReason,
+//                        hcpNotActiveReason,
+//                        studySiteNotAcceptedReason,
+//                        studyNoLongerEnrollingReason
                 }
         ));
 
@@ -58,12 +87,12 @@ public without sharing class StudyActionsHCP extends StudyActions{
                 '',
                 new List<DisableReason>{
                         level2AndLowReason,
-                        tcAcceptanceRequiredReason,
-                        hcpOnHoldReason,
-                        studySiteOnHoldReason,
-                        hcpNotActiveReason,
-                        studySiteNotAcceptedReason,
-                        studyNoLongerEnrollingReason
+                        tcAcceptanceRequiredReason//,
+//                        hcpOnHoldReason,
+//                        studySiteOnHoldReason,
+//                        hcpNotActiveReason,
+//                        studySiteNotAcceptedReason,
+//                        studyNoLongerEnrollingReason
                 }
         ));
 
@@ -225,8 +254,8 @@ public without sharing class StudyActionsHCP extends StudyActions{
                 HCPEnrollmentService.HCP_S_DECLINED_A
 
         };
-        if(hcpEnrollment!= null && tcStatuses.contains(hcpEnrollment.Status__c) && (isTCAcceptanceRequired)){
-            studyListViewItemActions.add(actions.get(ACT_VIEW_TC));
+        if(hcpEnrollment!= null /*&& tcStatuses.contains(hcpEnrollment.Status__c)*/ && (isTCAcceptanceRequired)){
+            studyListViewItemActions.add(actions.get(ACT_ACCEPT_TC));
         }
 
         //Find study sites:
@@ -258,7 +287,7 @@ public without sharing class StudyActionsHCP extends StudyActions{
         //prepare bottom bar actions:
         if(hcpEnrollment!= null && findStudySiteStatuses.contains(hcpEnrollment.Status__c)){
             if(isTCAcceptanceRequired){
-                studyDetailBottomBarActions.add(actions.get(ACT_VIEW_TC));
+                studyDetailBottomBarActions.add(actions.get(ACT_ACCEPT_TC));
             }else{
                 studyDetailBottomBarActions.add(actions.get(ACT_FIND_STUDY_SITES));
             }

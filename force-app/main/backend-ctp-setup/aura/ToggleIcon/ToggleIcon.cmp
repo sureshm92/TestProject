@@ -1,0 +1,19 @@
+<!--
+ - Created by Igor Malyuta on 23.09.2019.
+ -->
+
+<aura:component description="ToggleIcon">
+
+    <aura:attribute name="resource" type="String"/>
+    <aura:attribute name="iconDetail" type="Object"/>
+
+    <aura:registerEvent access="global" name="onchange" type="c:uiEvent"/>
+
+    <div onclick="{!c.onClick}">
+        <div class="{!'icon-section' + if(v.iconDetail.isSelected, ' selected', '')}">
+            <c:RRIcon resource="{!v.resource}" iconName="{!v.iconDetail.id}"/>
+        </div>
+        <div class="icon-label" title="{!v.iconDetail.name}">{!v.iconDetail.name}</div>
+    </div>
+
+</aura:component>

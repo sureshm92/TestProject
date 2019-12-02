@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Alert_received_delegate</fullName>
+        <description>Alert received delegate</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Contact__c</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderAddress>patientupdates@cp.clinicalresearch.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Referral_Hub_Emails/Trial_Alert_Received_Delegate</template>
+    </alerts>
+    <alerts>
+        <fullName>CTP_become_enrolled_delegate</fullName>
+        <description>CTP become enrolled delegate</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Contact__c</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Referral_Hub_Emails/Trial_Alert_Match_Delegate</template>
+    </alerts>
+    <alerts>
+        <fullName>Send_alert_about_CTP_become_enrolled</fullName>
+        <description>Send alert about CTP become enrolled</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Contact__c</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Referral_Hub_Emails/Trial_Alert_Match</template>
+    </alerts>
+    <alerts>
+        <fullName>Trial_Alert_received_by_IQVIA</fullName>
+        <description>Trial Alert received by IQVIA</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Contact__c</field>
+            <type>contactLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Referral_Hub_Emails/Trial_Alert_Received</template>
+    </alerts>
+    <rules>
+        <fullName>Alert received</fullName>
+        <actions>
+            <name>Trial_Alert_received_by_IQVIA</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Contact.Email</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Alert received Delegate</fullName>
+        <actions>
+            <name>Alert_received_delegate</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Contact.Email</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Contact.UserCommunityIsDelegate__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>CTP become Enrolled</fullName>
+        <actions>
+            <name>Send_alert_about_CTP_become_enrolled</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Trial_Notification__c.Need_To_Send_Alert__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>CTP become Enrolled Delegate</fullName>
+        <actions>
+            <name>CTP_become_enrolled_delegate</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Trial_Notification__c.Need_To_Send_Alert__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Contact.UserCommunityIsDelegate__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>

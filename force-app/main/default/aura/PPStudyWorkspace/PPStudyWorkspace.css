@@ -1,35 +1,53 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS div {
-    /*overflow: hidden;
-    white-space: nowrap;
-    font-size: 1em;*/
+.THIS {
+    padding-bottom: 25px;
 }
 
 .THIS .sd-study-name {
     margin-bottom: 10px;
     color: #000000;
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 500;
     line-height: 36px;
+}
+
+.THIS .tabs .rr-width-limiter {
+    background: #fff;
+    border-radius: 4px 4px 0 0;
+    border: 1px solid #e9e9e9;
+    border-width: 1px 1px 0 1px;
+    box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.04); 
 }
 
 /*=============================TABS=============================*/
 /*.THIS .sd-tab-container::-webkit-scrollbar {*/
 /*width: 0;*/
 /*}*/
-.THIS .links .apollo-btn{
-    padding: 0 10px;
+
+.THIS .links .apollo-btn {
+    padding: 0;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    background: #f8f9fb;
+    border: 1px solid #d9d9d9;
+    border-radius: 0;
+    height: 40px;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
+    padding: 0 16px;
+    font-weight: 600;
 }
 
-.THIS .links .apollo-btn + .apollo-btn{
-    margin-left: 5px;
-}
+.THIS .links .apollo-btn:nth-child(n+2) {border-left: none}
 
 .THIS .apollo-btn.current{
-    background-color: #e9f2ff;
-    transition: 0.3s;
+    color: #000;
+    background: none;
+    transition: color .4s, background .4s; 
 }
 
 .THIS .sd-tab-container {
@@ -43,6 +61,7 @@
     overflow-y: hidden;
     -ms-overflow-style: none;
     overflow: -moz-scrollbars-none;
+    position: relative;
 }
 
 .THIS .sd-tab-container .sd-tab-right,
@@ -60,8 +79,7 @@
     padding-top: 10px;
     white-space: normal;
     color: #297DFD;
-    font-size: 10px;
-    font-weight: 600;
+    font-size: 13px;
     line-height: 14px;
     text-align: center;
 }
@@ -128,23 +146,9 @@
 
 .THIS .sdv-top-bar{
     padding-top: 30px;
-    background-color: white;
-    box-shadow: 0px 20px 30px -10px rgba(0,0,0,0.15);
     z-index: 1250;
     position: relative;
 }
-
-.THIS .sdv-top-bar.sticky{
-    box-shadow: none;
-}
-
-.THIS .sdv-top-bar.sticky .sticky-bar{
-    position: fixed;
-    top: 50px;
-    z-index: 2000;
-    box-shadow: 0px 20px 30px -10px rgba(0,0,0,0.15);
-}
-
 
 .THIS .sdv-top-bar .navigation{
     font-size: 13px;
@@ -153,23 +157,23 @@
 }
 
 .THIS .sdv-top-bar .title{
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 600;
     line-height: 36px;
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
-.THIS .sdv-top-bar .tabs{
-    border-top: 1px solid #F2F2F2;
-    border-bottom: 1px solid #F2F2F2;
-}
-
 .THIS .sdv-top-bar .links{
-    padding-top: 10px;
+    padding-top: 25px;
     padding-bottom: 10px;
     transition: 0.4s;
     overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
+    text-align: center;
+    border: 1px solid #e9e9e9;
+    border-width: 0 1px;
 }
 
 .THIS .sdv-top-bar .links.collapsed{
@@ -183,20 +187,16 @@
     transition: 0.4s;
 }
 
-.THIS .sdv-top-bar .sticky-bar{
-    background-color: white;
-}
-
-.THIS .sdv-top-bar .sticky-bar.sticky{
-    box-shadow: 0 20px 30px -10px rgba(0,0,0,0.15);
-}
-
 .THIS .sdv-top-bar .height-stub{
     display: none;
 }
 
 .THIS .sdv-top-bar.sticky .height-stub{
     display: block;
+}
+
+.THIS .rr-all-content > .tabs + .links {
+    display: none;
 }
 
 .THIS .sdv-btn{

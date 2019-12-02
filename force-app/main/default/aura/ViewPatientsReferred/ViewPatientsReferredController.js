@@ -3,7 +3,6 @@
  */
 ({
     doInit: function (component, event, hepler) {
-        console.log('ss ID = ',component.get('v.ssId'));
         if (!communityService.isInitialized()) return;
         component.set('v.userMode', communityService.getUserMode());
         var trialId = component.get('v.trialId');
@@ -17,12 +16,12 @@
             siteId: siteId,
             mode: communityService.getUserMode(),
             btnFilter: paramFilter,
-            userMode: component.get('v.userMode')
+            userMode: component.get('v.userMode'),
+            delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
             component.set('v.piBtnFilter', paramFilter);
             component.set('v.skipUpdate', true);
-            console.log('INIT DATA>>>>>>', initData);
             component.set('v.pageList', initData.currentPageList);
             component.set('v.peFilterData', initData.peFilterData);
             component.set('v.paginationData', initData.paginationData);
@@ -38,12 +37,17 @@
         });
     },
 
-    doUpdateRecords: function (component) {
+    doUpdateRecords: function (component, event) {
         if(component.get('v.skipUpdate')) return;
         var spinner = component.find('recordsSpinner');
         spinner.show();
         var filter = component.get('v.peFilter');
         var searchText = filter.searchText;
+        for (var key in filter) {
+            if (key != 'searchText' && filter[key] == '') {
+                filter[key] = null;
+            }
+        }
         var filterJSON = JSON.stringify(filter);
         debugger;
         var paginationJSON = JSON.stringify(component.get('v.paginationData'));
@@ -59,30 +63,31 @@
             paginationJSON: paginationJSON,
             piBtnFilter: piBtnFilter,
             userMode: communityService.getUserMode(),
-            studyChanged: studyWasChanged
+            studyChanged: studyWasChanged,
+            delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             if(component.get('v.peFilter').searchText !== searchText) return;
             var result = JSON.parse(returnValue);
-            debugger;
             component.set('v.skipUpdate', true);
             component.set('v.pageList', result.peList);
+            component.set('v.peFilter', result.peFilter);
+            component.set('v.peFilterData', result.peFilterData);
             if(trialId != filter.study){
-                component.set('v.peFilterData.studySites', result.peFilterData.studySites);
-                component.set('v.peFilter', result.peFilter);
                 component.set('v.trialId', filter.study)
             }
             component.set('v.paginationData.allRecordsCount', result.paginationData.allRecordsCount);
             component.set('v.paginationData.currentPage', result.paginationData.currentPage);
             component.set('v.paginationData.currentPageCount', result.paginationData.currentPageCount);
-
             component.set('v.skipUpdate', false);
             spinner.hide();
+
         })
     },
 
     doUpdateStatistics: function (component) {
         communityService.executeAction(component, 'getStatistics', {
-            mode: communityService.getUserMode()
+            mode: communityService.getUserMode(),
+            delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             var statistics = JSON.parse(returnValue);
             component.set('v.statistics', statistics);

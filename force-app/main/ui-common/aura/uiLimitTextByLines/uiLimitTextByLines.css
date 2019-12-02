@@ -1,0 +1,30 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS {
+}
+
+.THIS.block-with-text {
+    overflow: hidden;
+    position: relative;
+    padding-right: 1em;
+}
+
+
+.THIS.block-with-text:before {
+    content: '...';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+
+.THIS.block-with-text:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 1em;
+    height: 1em;
+    margin-top: 0.2em;
+    background: inherit;
+}

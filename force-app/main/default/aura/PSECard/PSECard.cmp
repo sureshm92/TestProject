@@ -6,15 +6,19 @@
 
     <!-- attributes: -->
     <aura:attribute name="pe" type="Object"/>
-    <aura:attribute name="pse" type="Object"/>
     <aura:attribute name="steps" type="List"/>
     <aura:attribute name="userMode" type="String"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="peStatusesPathList" type="List"/>
+    <aura:attribute name="peStatusStateMap" type="Map"/>
+    <aura:attribute name="actions" type="List"/>
 
     <!-- component body:-->
     <div class="rr-white-panel padding" style="position: relative">
-        <c:ParticipantCardHeader userMode="{!v.userMode}" pe="{!v.pe}"/>
+        <c:ParticipantCardHeader userMode="{!v.userMode}" pe="{!v.pe}" isReferral="false"/>
         <c:ParticipantCardFields userMode="{!v.userMode}" pe="{!v.pe}"/>
-        <c:PSEPath steps="{!v.steps}" pse="{!v.pse}"/>
+        <c:PSEPath steps="{!v.steps}" pe="{!v.pe}" userMode="{!v.userMode}" parent="{!v.parent}" peStatusesPathList="{!v.peStatusesPathList}"
+                   peStatusStateMap="{!v.peStatusStateMap}" actions="{!v.actions}"/>
     </div>
 
 </aura:component>

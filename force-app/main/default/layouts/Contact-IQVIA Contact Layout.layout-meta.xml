@@ -46,6 +46,14 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Second_Choice_Language__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Third_Choice_Language__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Participant_Opt_In_Status_Emails__c</field>
             </layoutItems>
             <layoutItems>
@@ -78,11 +86,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Second_Choice_Language__c</field>
+                <field>Current_Participant_Enrollment__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Third_Choice_Language__c</field>
+                <field>userCommunityDelegateId__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>PI_My_Studies_Filters__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -227,6 +239,12 @@
         </relatedContentItems>
     </relatedContent>
     <relatedLists>
+        <fields>ACCOUNT.NAME</fields>
+        <fields>ACCCONRELATION.IS_DIRECT</fields>
+        <fields>ACCCONRELATION.ROLES</fields>
+        <relatedList>RelatedContactAccountRelationList</relatedList>
+    </relatedLists>
+    <relatedLists>
         <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>
         <fields>Site__c</fields>
@@ -311,6 +329,11 @@
         <fields>NAME</fields>
         <relatedList>Alert__c.Contact__c</relatedList>
     </relatedLists>
+    <relatedLists>
+        <fields>Referring_Provider__c</fields>
+        <fields>Delegate_Access_Level__c</fields>
+        <relatedList>RP_Delegate_Relationship__c.Delegate__c</relatedList>
+    </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
@@ -318,7 +341,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h1X000000G9lU</masterLabel>
+        <masterLabel>00hN00000014vFQ</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

@@ -19,7 +19,7 @@
     <!-- component body: -->
     <div class="mrrli-container slds-grid slds-wrap slds-grid_align-spread slds-is-relative">
         <c:RRSpinner size="medium" showSpinner="{!v.showSpinner}"/>
-        <div class="mrrli-info slds-col slds-medium-size_2-of-3 slds-size_1-of-1">
+        <div class="mrrli-info slds-col slds-medium-size_1-of-2 slds-size_1-of-1">
             <div class="mrrli-info-top">
                 <div>
                     <aura:if isTrue="{! or(!empty(v.participantEnrollment.Participant_Name__c), !empty(v.participantEnrollment.Participant_Surname__c))}">
@@ -46,18 +46,17 @@
             </div>
         </div>
 
-        <div class="mrrli-buttons slds-col slds-medium-size_1-of-3 slds-size_1-of-1">
+        <div class="mrrli-buttons slds-col slds-medium-size_1-of-2 slds-size_1-of-1">
             <aura:if isTrue="{!v.participantEnrollment.Participant_Status__c == 'Pending Referral'}">
                 <div class="slds-grid slds-wrap">
-                    <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1">
-                        <button class="apollo-btn tertiary red" onclick="{!c.excludeFromReferring}"
+                    <div class="slds-col">
+                        <button class="apollo-btn secondary" onclick="{!c.excludeFromReferring}"
                                 disabled="{!v.actions.excludeFromReferring.disabled}"
                                 title="{!v.actions.excludeFromReferring.disableReason}">
                             {!v.actions.excludeFromReferring.label}
                         </button>
-                    </div>
-                    <div class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1">
-                        <button class="apollo-btn primary" onclick="{!c.referToThisTrial}"
+                   
+                        <button class="apollo-btn secondary" onclick="{!c.referToThisTrial}"
                                 disabled="{!v.actions.referToThisStudy.disabled}"
                                 title="{!v.actions.referToThisStudy.disableReason}">
                             {!v.actions.referToThisStudy.label}
@@ -66,7 +65,7 @@
                 </div>
             </aura:if>
             <aura:if isTrue="{!v.participantEnrollment.Participant_Status__c == 'Excluded from Referring'}">
-                <button class="apollo-btn primary" style="width: 100%" onclick="{!c.undoExcludeFromReferring}"
+                <button class="apollo-btn secondary" onclick="{!c.undoExcludeFromReferring}"
                         disabled="{!v.actions.undoExcludeFromReferring.disabled}"
                         title="{!v.actions.undoExcludeFromReferring.disableReason}">
                     {!v.actions.undoExcludeFromReferring.label}

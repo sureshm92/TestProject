@@ -1,0 +1,243 @@
+/**
+ * Created by Nikita Abrazhevitch on 21-Aug-19.
+ */
+.THIS .card-header {
+    height: 24px;
+    margin: 24px 0 0 auto;
+    padding: 15px 15px 25px;
+    background-color: #F8f9fb;
+}
+.THIS .pi-name {
+    display: inline-block;
+    width: 50%;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: left;
+}
+.THIS .manage-location-details {
+    display: inline-block;
+    width: 50%;
+    color: #297DFD;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: right;
+}
+
+.THIS .manage-location-details span {
+    cursor: pointer;
+}
+
+.THIS #ssInformation .ss-info-container:first-child {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: auto;
+}
+
+.THIS .ss-info-container {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 24px;
+}
+
+.THIS #ssInformation .ss-info-container:first-child {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: auto;
+}
+
+.THIS .ss-container-border {
+    border-right: 1px solid #E9E9E9;
+}
+
+.THIS .ss-info-details {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 8px;
+}
+
+.THIS #contactInformation .ss-info-details:nth-child(4) {
+    margin-left: 16px;
+    margin-top: 6px;
+}
+
+.THIS #contactInformation .ss-info-details:last-child {
+    margin-left: 16px;
+    padding-top: 24px;
+}
+
+.THIS .ss-lightning-input label {
+    height: 21px;
+    color: #444;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 21px;
+    margin-bottom: 4px;
+}
+
+.THIS .clinic-type {
+    font-size: 14px;
+    display: inline-block;
+    padding-left: 16px;
+    padding-bottom: 5px;
+    vertical-align: bottom;
+    color: #000;
+}
+
+.THIS .input-fields-labels {
+    height: 21px;
+    color: #444;
+    font-size: .875rem;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.THIS .delegate-select {
+    width: 100%;
+    color: #000000;
+    font-size: 14px;
+}
+
+.THIS .pi-save-btn {
+    width: 100%;
+    min-width: 100%;
+}
+
+.THIS .other-ss-info {
+    display: inline-block;
+    padding-top: 3.3%;
+    padding-left: 24px;
+}
+
+.THIS .other-ss-info-height-control {
+    min-height: 92px;
+}
+
+.THIS .other-ss-info-container {
+    display: inline-block;
+    padding-right: 5%;
+    vertical-align: top;
+}
+
+.THIS .ss-info-headers {
+    height: 24px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+    margin-bottom: 5px;
+    vertical-align: top;
+}
+
+.THIS .card-locationDetails {
+    box-sizing: border-box; 
+    border-radius: 4px; 
+    background-color: #F8f9fb; 
+    min-height: 100px; 
+    margin-top:0px; 
+    padding: 0px 15px 25px;
+}
+
+.THIS .check-icon-style {
+    width: 16px;
+    height: 16px;
+    fill: #00C221;
+}
+
+.THIS .close-icon-style {
+    width: 16px;
+    height: 16px;
+    fill: #E20000;
+}
+
+.THIS .driving-instructions {
+    color: #333333;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+}
+
+.THIS .ss-info-buttons {
+    margin-top: 4%;
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 925px) {
+    .THIS .ss-info-headers {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .THIS .ss-info-buttons {
+        margin-top: 10%;
+    }
+}
+
+@media (max-width: 800px) {
+    .THIS .ss-info-buttons .apollo-btn {
+       font-size: 12px;
+       min-height: 58px;
+    }
+}
+
+@media (max-width: 767px) {
+    .THIS .ss-container-border {
+        border-right: none;
+    }
+    
+    .THIS .card-locationDetails {
+        paddingn-top: 15px;
+    }
+    
+    .THIS .card-header {
+        padding-bottom: 40px;
+    }
+    
+    .THIS .ss-info-details,
+    .THIS .other-ss-info-container{
+        margin-bottom: 10px;
+    }
+
+    .THIS .ss-info-buttons {
+        margin-top: 5%;
+        display: block;
+    }
+
+    .THIS .clinic-type {
+        padding-left: 0px;
+        padding-bottom: 0px;
+    }
+    
+    .THIS .manage-location-details {
+     	width: 100%;
+    }
+
+    .THIS #contactInformation .ss-info-details:nth-child(4) {
+        margin-left: 0px;
+    }
+
+    .THIS #contactInformation .ss-info-details:last-child {
+        margin-left: 0px;
+        padding-top: 20px;
+    }
+
+    .THIS .other-ss-info {
+        padding-left: 0px;
+    }
+
+    .THIS .apollo-btn {
+        margin: 0px 0px 20px 0px;
+        width: 100%;
+    }
+
+    .THIS .ss-info-buttons .apollo-btn {
+        font-size: 14px;
+        min-height: unset;
+    }
+}

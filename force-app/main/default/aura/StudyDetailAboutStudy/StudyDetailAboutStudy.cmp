@@ -8,22 +8,23 @@
     <aura:attribute name="studyDetail" type="StudyDetailViewController.TrialDetail" required="true"/>
     <aura:attribute name="userMode" type="String" description="HCP / PI / Participant" required="true"/>
     <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="documents" type="Object[]"/>
 
     <!-- actions: -->
-
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <c:Action_SendSiteRequestByHCP aura:id="sendSiteRequestAction"/>
     <c:OpenToReceiveReferralsModal aura:id="openToReceiveReferralsModal" trialId="{!v.studyDetail.trial.Id}" parent="{!v.parent}"/>
     <c:NoTanksModal aura:id="noTanksModal" trialId="{!v.studyDetail.trial.Id}" parent="{!v.parent}" userMode="{!v.userMode}"/>
 
     <!-- component body: -->
     <!-- TC alert: -->
-<!--    <aura:if isTrue="{!and(and(v.studyDetail.trial.Terms_And_Conditions_ID__c, !v.studyDetail.isTCAccepted), (v.userMode != 'Participant'))}">-->
-<!--        <div class="rr-alert brand" style="margin: 30px 0">-->
-<!--            {!$Label.c.PG_SDAS_L1_TC_Required}-->
-<!--            <c:RRLink label="{!$Label.c.PG_Login_H_Terms_And_Conditions}" class="tc-link" page="{!'trial-terms-and-conditions?id=' + v.studyDetail.trial.Id}"/>-->
-<!--            {!if(v.userMode == 'PI', $Label.c.PG_SDAS_L2P_TC_required, $Label.c.PG_SDAS_L2_TC_required)}-->
-<!--        </div>-->
-<!--    </aura:if>-->
+    <!--    <aura:if isTrue="{!and(and(v.studyDetail.trial.Terms_And_Conditions_ID__c, !v.studyDetail.isTCAccepted), (v.userMode != 'Participant'))}">-->
+    <!--        <div class="rr-alert brand" style="margin: 30px 0">-->
+    <!--            {!$Label.c.PG_SDAS_L1_TC_Required}-->
+    <!--            <c:RRLink label="{!$Label.c.PG_Login_H_Terms_And_Conditions}" class="tc-link" page="{!'trial-terms-and-conditions?id=' + v.studyDetail.trial.Id}"/>-->
+    <!--            {!if(v.userMode == 'PI', $Label.c.PG_SDAS_L2P_TC_required, $Label.c.PG_SDAS_L2_TC_required)}-->
+    <!--        </div>-->
+    <!--    </aura:if>-->
 
     <div class="sdas-main-container">
         <div class="sdas-about">
@@ -31,7 +32,7 @@
                 <div id="info-left" class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_1">
                     <!-- about title -->
                     <c:RRAnchor aura:id="aboutAnchor" offset="-160"/>
-<!--                    <div class="sdas-category"><c:RRIcon iconName="about-the-study"/>{!$Label.c.PG_SW_Link_About_The_Study}</div>-->
+                    <!--                    <div class="sdas-category"><c:RRIcon iconName="about-the-study"/>{!$Label.c.PG_SW_Link_About_The_Study}</div>-->
 
                     <!-- objectiove section: -->
                     <div class="sdas-sub-category">{!$Label.c.PG_SW_H_Objective}</div>
@@ -44,7 +45,7 @@
                     <!-- inclusion exclusion: -->
                     <div class="sdas-sub-category">{!$Label.c.PG_SW_Link_Inclusion_Exclusion_Criteria}</div>
                     <c:RRAnchor aura:id="inclusionExclusionAnchor" offset="-160"/>
-<!--                    <div class="sdas-category"><c:RRIcon iconName="people"/>{!$Label.c.PG_SW_Link_Inclusion_Exclusion_Criteria}</div>-->
+                    <!--                    <div class="sdas-category"><c:RRIcon iconName="people"/>{!$Label.c.PG_SW_Link_Inclusion_Exclusion_Criteria}</div>-->
                     <div class="sdas-text">
                         <aura:if isTrue="{!v.userMode == 'Participant'}">
                             {!$Label.c.PG_SW_T_1}
@@ -66,15 +67,15 @@
                     <!-- map section: -->
 
                     <!-- for HCP: -->
-                   <!-- <aura:if isTrue="{!v.userMode == 'HCP'}">
-                        <c:RRAnchor aura:id="studySitesAnchor" offset="-160"/>
-                        <div class="sdas-category"><c:RRIcon iconName="map-marker"/>{!$Label.c.PG_VP_L_Study_sites}</div>
-                        <div class="sdas-text">
-                            {!$Label.c.PG_SDAS_L1_please_review}
-                            <br/>
-                            {!$Label.c.PG_SDAS_L2_please_review}
-                        </div>
-                    </aura:if> -->
+                    <!-- <aura:if isTrue="{!v.userMode == 'HCP'}">
+                         <c:RRAnchor aura:id="studySitesAnchor" offset="-160"/>
+                         <div class="sdas-category"><c:RRIcon iconName="map-marker"/>{!$Label.c.PG_VP_L_Study_sites}</div>
+                         <div class="sdas-text">
+                             {!$Label.c.PG_SDAS_L1_please_review}
+                             <br/>
+                             {!$Label.c.PG_SDAS_L2_please_review}
+                         </div>
+                     </aura:if> -->
 
                     <aura:if isTrue="{!v.userMode == 'Participant'}">
                         <c:RRAnchor aura:id="studySiteAnchor" offset="-160"/>
@@ -84,17 +85,17 @@
                     <aura:if isTrue="{!v.userMode == 'PI'}">
                         <div class="sdas-sub-category">{!$Label.c.PG_SRP_L_Referring_Providers}</div>
                         <c:RRAnchor aura:id="referringClinicsAnchor" offset="-160"/>
-<!--                        <div id="anchor-clinics" class="sdas-category"><c:RRIcon iconName="referring-clinic"/>{!$Label.c.PG_DBPI_L_Referring_clinics}</div>-->
+                        <!--                        <div id="anchor-clinics" class="sdas-category"><c:RRIcon iconName="referring-clinic"/>{!$Label.c.PG_DBPI_L_Referring_clinics}</div>-->
                         <aura:if isTrue="{!empty(v.studyDetail.accountEnrollmentsList)}">
                             <c:EmptyListStub iconName="sad"
                                              message="{!$Label.c.PG_SDAS_L_No_items}"/>
                         </aura:if>
 
                         <aura:if isTrue="{!v.studyDetail.isSSAccepted}">
-<!--                            <div class="sdas-text">-->
-<!--                                {!$Label.c.PG_SDAS_L_list_referring_clinics + ' '}-->
-<!--                                <c:RRLink page="my-referring-clinics?" label="{!$Label.c.PG_CP_L_My_Referring_Clinics}"/> {!' ' + $Label.c.PG_SDAS_L2_list_referring_clinics}-->
-<!--                            </div>-->
+                            <!--                            <div class="sdas-text">-->
+                            <!--                                {!$Label.c.PG_SDAS_L_list_referring_clinics + ' '}-->
+                            <!--                                <c:RRLink page="my-referring-clinics?" label="{!$Label.c.PG_CP_L_My_Referring_Clinics}"/> {!' ' + $Label.c.PG_SDAS_L2_list_referring_clinics}-->
+                            <!--                            </div>-->
                             <aura:set attribute="else">
                                 <div class="sdas-text">
                                     {!$Label.c.PG_SDAS_T_steps}
@@ -144,7 +145,7 @@
                                             <button class="apollo-btn text" onclick="{!c.doSelectNoSites}">{!$Label.c.BTN_Click_here}</button>
                                             &nbsp;
                                             {!$Label.c.PG_SDAS_L_not_acceptable}
-                                        </div>  
+                                        </div>
                                     </aura:if>
                                 </div>
                             </aura:if>
@@ -207,6 +208,18 @@
 
                     <div class="sdas-main-info" style="position: relative;">
                         <c:RRSpinner aura:id="mainSpinner" size="medium"/>
+
+                        <aura:if isTrue="{!v.userMode != 'Participant'}">
+                            <div class="title">{!$Label.c.PG_SW_F_Study_Documents}</div>
+                            <div class="docs-conteiner">
+                                <aura:iteration items="{!v.studyDetail.resources}" var="resourceWrapper">
+                                    <div class="doc-item">
+                                        <c:ResourceLink resourceWrapper="{!resourceWrapper}"/>
+                                    </div>
+                                </aura:iteration>
+                            </div>
+                        </aura:if>
+
                         <div class="title">{!$Label.c.PG_SW_F_Official_Title}</div>
                         <div class="text">{!v.studyDetail.trial.Official_Title__c}</div>
 

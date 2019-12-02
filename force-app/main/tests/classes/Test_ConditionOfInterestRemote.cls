@@ -4,19 +4,14 @@
 @IsTest(IsParallel=true)
 public with sharing class Test_ConditionOfInterestRemote {
 
-    @TestSetup
-    public static void setup() {
-
-    }
-
     @IsTest
     public static void getConditionOfInterest_Test() {
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(TherapeuticAreaService.class, StubFactory.newInstance(TherapeuticAreaService.class)
+        ClassFactory.putStubTypeByClassName(TherapeuticAreaService.class, StubBuilder.newInstance(TherapeuticAreaService.class)
                 .when('getParticipant')
                 .then(Test_ConditionOfInterestRemote.getParticipant())
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
         List<TherapeuticAreaService.CAWrapper> caWrappers = ConditionOfInterestRemote.getConditionOfInterest();
         Test.stopTest();
@@ -26,11 +21,11 @@ public with sharing class Test_ConditionOfInterestRemote {
     @IsTest
     public static void getConditionOfInterest_Exception_Test() {
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(TherapeuticAreaService.class, StubFactory.newInstance(TherapeuticAreaService.class)
+        ClassFactory.putStubTypeByClassName(TherapeuticAreaService.class, StubBuilder.newInstance(TherapeuticAreaService.class)
                 .when('getParticipant')
                 .then(new AuraHandledException('Test Exception'))
-                .getInstance()
-        );
+                .build()
+       );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {

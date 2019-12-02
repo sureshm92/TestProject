@@ -1,0 +1,37 @@
+<!--
+  - Created by Dmytro Pokutnii
+  -->
+<aura:component description="VisitResultsItem">
+
+    <!-- ATTRIBUTES -->
+
+    <aura:attribute name="wrapper" type="VisitResultsService.VisitResultWrapper"/>
+    <aura:attribute name="isVitals" type="Boolean" default="false"/>
+
+    <aura:attribute name="expectedRange" type="String" default="-" access="private"/>
+    <aura:attribute name="showExpectedRange" type="Boolean" default="true" access="private"/>
+
+    <!-- HANDLERS -->
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!-- COMPONENT BODY -->
+
+    <div class="visit-result-item-panel">
+        <div class="visit-result-name-container">
+            <div class="visit-result-name">
+                {!v.wrapper.name}
+                <br />
+                <div class="visit-result-measurement"><aura:unescapedHtml value="{!v.wrapper.measurement}"/></div>
+            </div>
+        </div>
+        <div class="visit-result-slider">
+            <c:RRSlider value="{!v.wrapper.value}" minValue="{!v.wrapper.minValue}" maxValue="{!v.wrapper.maxValue}"/>
+            <div class="{!v.showExpectedRange ? 'visit-result-range' : 'hidden'}">
+                <aura:unescapedHtml value="{!$Label.c.Visit_Results_Tab_Expected_Range + ': ' + v.expectedRange}"/>
+            </div>
+        </div>
+        <lightning:helptext content="{!v.wrapper.description}" class="visit-result-item-description"/>
+    </div>
+
+</aura:component>

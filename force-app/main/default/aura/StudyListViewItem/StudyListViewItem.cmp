@@ -202,7 +202,7 @@
         </aura:if>
 
         <aura:if isTrue="{!v.userMode == 'PI'}">
-            <div style="background-color: #f2f2f2;box-sizing: border-box;">
+            <div style="background-color: #f8f9fb;box-sizing: border-box;">
                 <div class="slds-grid slds-wrap slds-p-horizontal_medium">
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_10-of-12
                                 slds-order_4 slds-medium-order_1 slds-m-vertical_x-small">
@@ -376,7 +376,7 @@
                                                             <div class="input-fields-labels">{!$Label.c.SS_Postal_Code}</div>
                                                             <div class="rr-form-element">
                                                                 <lightning:input aura:id="locationPostalCode"
-                                                                                 class = "postal-code-input"
+                                                                                 class="postal-code-input"
                                                                                  value="{!v.editedAccount.BillingPostalCode}"
                                                                                  onblur="{!c.trimChanges}"
                                                                                  onchange="{!c.recordWasUpdated}"/>
@@ -422,8 +422,8 @@
                                                                        mapMarkers="{! v.mapMarkers }"
                                                                        zoomLevel="{! v.zoomLevel }"/>
                                                     </aura:if>
-                                                    <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
-                                                        <div class="slds-col slds-size--2-of-6 popup-address-inputs">
+                                                    <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap address-check">
+                                                        <div class="slds-col popup-address-inputs">
                                                             <div class="rr-form-element check-button-container">
                                                                 <button class="apollo-btn primary check-address-btn"
                                                                         disabled="{!v.showPopUpSpinner ? v.showPopUpSpinner :
@@ -437,7 +437,7 @@
                                                                         onclick="{!c.checkAddress}">{!$Label.c.SS_Btn_Check_Address}</button>
                                                             </div>
                                                         </div>
-                                                        <div class="slds-col slds-size--4-of-6 slds-grid slds-wrap popup-address-inputs indicator-containers">
+                                                        <div class="slds-col slds-grid slds-wrap popup-address-inputs indicator-containers">
                                                             <aura:if
                                                                     isTrue="{!v.editedAccount.BillingLatitude!=undefined &amp;&amp; v.editedAccount.BillingLongitude!=undefined &amp;&amp; !v.showPopUpSpinner}">
                                                                 <c:RRIcon
@@ -507,13 +507,12 @@
                                     </aura:set>
                                 </c:Popup>
                             </div>
-                            <div style="box-sizing: border-box; border-right: 1px solid #F2F2F2;border-left: 1px solid #F2F2F2;border-bottom: 1px solid #F2F2F2; border-radius: 5px; background-color: #F2F2F2; min-height: 100px; margin-top:0px; padding: 0px 30px 30px 30px">
+                            <div style="box-sizing: border-box; border-right: 1px solid #e9e9e9;border-left: 1px solid #e9e9e9;border-bottom: 1px solid #e9e9e9; border-radius: 5px; background-color: #f8f9fb; min-height: 100px; margin-top:0px; padding: 0px 30px 30px 30px">
                                 <div id="ssInformation">
                                     <div id="contactInformation"
                                          class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 ss-info-container ss-container-border">
-                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 ss-info-details" data-index="{!siteWrappIndx}">
-                                            <!--<div class="input-fields-labels"
-                                                 style="display: inline-block">{!$Label.c.SS_Study_Site_Name}</div>-->
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 ss-info-details"
+                                             data-index="{!siteWrappIndx}">
                                             <div class="rr-form-element" data-index="{!siteWrappIndx}">
                                                 <lightning:input aura:id="locationName"
                                                                  class="ss-lightning-input"
@@ -522,9 +521,6 @@
                                                                  required="true"
                                                                  onblur="{!c.trimChanges}"
                                                                  onchange="{!c.changeUpdatedStatus}"/>
-                                                <!--<lightning:input aura:id="emailInput"
-                                                                 value="{!siteWrapper.studySite.Name}"
-                                                                 onchange="{!c.changeUpdatedStatus}"/>-->
                                             </div>
                                         </div>
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ss-info-details clinic-type">
@@ -535,15 +531,16 @@
                                             <div class="input-fields-labels">{!$Label.c.SS_Primary_Contact}</div>
                                             <div data-index="{!siteWrappIndx}" onclick="{!c.changeItemIndex}">
                                                 <c:rrSelect id="delegatesPicklist"
-                                                            options="{!v.currentStudy.delegatePicklist}"
+                                                            options="{!siteWrapper.delegatePicklist}"
                                                             value="{!siteWrapper.studySite.Site_Staff__c}"
                                                             class="delegate-select"
-                                                            placeholder="{!if(v.currentStudy.delegatePicklist.length>0,$Label.c.PG_AC_Select,$Label.c.SS_Add_A_Member)}"
+                                                            placeholder="{!if(v.siteWrapper.delegatePicklist.length>0,$Label.c.PG_AC_Select,$Label.c.SS_Add_A_Member)}"
                                                             onchange="{!c.changeUpdatedStatus}"
                                                             useSentenceFont="false"/>
                                             </div>
                                         </div>
-                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ss-info-details" data-index="{!siteWrappIndx}">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ss-info-details"
+                                             data-index="{!siteWrappIndx}">
                                             <div class="input-fields-labels"
                                                  style="display: inline-block;">{!$Label.c.SS_Phone}</div>
                                             <div class="rr-form-element" data-index="{!siteWrappIndx}">
@@ -552,7 +549,8 @@
                                                                  onchange="{!c.changeUpdatedStatus}"/>
                                             </div>
                                         </div>
-                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 ss-info-details" data-index="{!siteWrappIndx}">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 ss-info-details"
+                                             data-index="{!siteWrappIndx}">
                                             <div class="input-fields-labels">{!$Label.c.SS_Email}</div>
                                             <div class="rr-form-element" data-index="{!siteWrappIndx}">
                                                 <lightning:input aura:id="emailInput"
@@ -638,7 +636,7 @@
         </aura:if>
 
         <aura:if isTrue="{!v.userMode == 'HCP'}">
-            <div style="background-color: #f2f2f2; min-height: 43px; box-sizing: border-box; padding-top: 12px;">
+            <div style="background-color: #f8f9fb; min-height: 43px; box-sizing: border-box; padding-top: 3px;">
                 <div class="slds-grid slds-wrap slds-p-horizontal_medium">
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12
                                 slds-order_4 slds-medium-order_1 slds-m-vertical_x-small">
@@ -709,7 +707,7 @@
 
                     <aura:iteration items="{!v.currentStudy.sites}" var="siteWrapper">
                         <aura:if isTrue="{!siteWrapper.hasActiveHCPE}">
-                            <div style="box-sizing: border-box; border: 1px solid #F2F2F2; border-radius: 5px; background-color: #F2F2F2; min-height: 100px; margin-top: 20px; padding: 20px 30px 30px 30px">
+                            <div style="box-sizing: border-box; border: 1px solid #e9e9e9; border-radius: 5px; background-color: #F8f9fb; min-height: 100px; margin-top: 20px; padding: 20px 30px 30px 30px">
                                 <div class="slds-grid slds-wrap">
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12">
                                         <div class="clinic-name">
@@ -735,13 +733,8 @@
                                         </div>
                                         <div class="site-address slds-m-top--xx-small">
                                             {!(if(!empty(siteWrapper.site.Site__r.BillingCity),siteWrapper.site.Site__r.BillingCity+',','') + if(!empty(siteWrapper.site.Site__r.BillingState),' ' + siteWrapper.site.Site__r.BillingState+',','') + if(!empty(siteWrapper.site.Site__r.BillingPostalCode),' ' + siteWrapper.site.Site__r.BillingPostalCode,''))}
-
-                                            <!--
-                                                                                        {!(if(!empty(siteWrapper.site.Principal_Investigator__r.Account.BillingCity),siteWrapper.site.Principal_Investigator__r.Account.BillingCity+',','') + if(!empty(siteWrapper.site.Principal_Investigator__r.Account.BillingState),' ' + siteWrapper.site.Principal_Investigator__r.Account.BillingState+',','') + if(!empty(siteWrapper.site.Principal_Investigator__r.Account.BillingPostalCode),' ' + siteWrapper.site.Principal_Investigator__r.Account.BillingPostalCode,''))}
-                                            -->
                                         </div>
                                     </div>
-
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-m-top--x-large">
                                         <div class="slds-grid slds-wrap slds-gutters" style="text-align: right;">
                                             <aura:if isTrue="{!not(and(siteWrapper.actions.refer.disabled,siteWrapper.actions.refer.disableReason==
@@ -806,7 +799,6 @@
                 </div>
             </div>
         </aura:if>
-
     </div>
 
     <c:ShareModal aura:id="emailModal" needRefresh="false" emailType="SOCIAL_SHARING" parent="{!v.parent}"/>

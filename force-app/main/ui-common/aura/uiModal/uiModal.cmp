@@ -1,0 +1,40 @@
+<!--
+ - Created by Igor Malyuta on 23.09.2019.
+ -->
+
+<aura:component description="uiModal">
+
+    <!--attributes-->
+    <aura:attribute name="isShow" type="Boolean"/>
+    <aura:attribute name="headerText" type="String"/>
+    <aura:attribute name="footer" type="Aura.Component[]"/>
+    <aura:attribute name="size" type="String" default="medium"/>
+    <aura:attribute name="cancelCallback" type="Object"/>
+
+    <!--methods: -->
+    <aura:method name="show" action="{!c.doShow}"/>
+    <aura:method name="hide" action="{!c.doHide}"/>
+    <aura:method name="cancel" action="{!c.doCancel}"/>
+
+    <!-- component body: -->
+    <section role="dialog" tabindex="-1" aria-modal="true" class="{!'slds-modal slds-modal_' + v.size + if(v.isShow, ' slds-fade-in-open ', '')}">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <lightning:buttonIcon alternativeText="Close"
+                                      class="slds-modal__close"
+                                      iconName="utility:close"
+                                      variant="bare-inverse"
+                                      onclick="{!c.doCancel}" size="large"/>
+                <h2 class="slds-modal__title slds-text-heading_medium slds-hyphenate">{!v.headerText}</h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium">
+                {!v.body}
+            </div>
+            <footer class="slds-modal__footer">
+                {!v.footer}
+            </footer>
+        </div>
+    </section>
+    <div class="{!'slds-backdrop ' + if(v.isShow, ' slds-backdrop_open ', '')}"></div>
+
+</aura:component>

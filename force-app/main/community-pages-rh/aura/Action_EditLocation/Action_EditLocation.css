@@ -1,0 +1,146 @@
+/**
+ * Created by Nikita Abrazhevitch on 22-Aug-19.
+ */
+
+.THIS  .popup-address-inputs{
+    padding: 20px 8px 0px 8px;
+}
+
+.THIS .edit-address-container{
+    font-weight: 500;
+    text-align: left;
+}
+
+.THIS .ss-lightning-input label{
+    height: 21px;
+    color: #666666;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 21px;
+    margin-bottom: 4px;
+}
+
+.THIS .delegate-select{
+    width: 100%;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+}
+
+.THIS .input-fields-labels{
+    height: 21px;
+    color: #666666;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.THIS .postal-code-input{
+    margin-top: 2px;
+}
+
+.THIS .google-map-style{
+    padding: 12% 0% 0% 1%;
+}
+
+.THIS .check-button-container{
+    padding-top: 12%;
+}
+
+.THIS .check-address-btn{
+    padding: 4px 16px;
+    max-height: 44px;
+}
+
+.THIS .indicator-containers{
+    margin-top:6%;
+}
+
+.THIS .address-spinner-indicator-container{
+    margin-top: 4%;
+    margin-left: 2%;
+    position: unset;
+}
+
+
+.THIS .text-area-height textarea{
+    min-height: 158px;
+}
+
+.THIS .check-icon-style{
+    width: 16px;
+    height: 16px;
+    fill: #00C221;
+}
+
+.THIS .close-icon-style{
+    width: 16px;
+    height: 16px;
+    fill: #E20000;
+}
+
+@media all and (max-width: 767px) {
+    .THIS .slvi-header-item + .slvi-header-item {
+        margin-top: 16px;
+    }
+
+    .THIS .site-distance {
+        margin-top: .5rem;
+    }
+
+    .THIS .rri-icon svg {
+        height: 18px;
+        width: 18px;
+    }
+
+    .THIS .rri-icon span {
+        margin: .125rem !important;
+    }
+    .THIS .rri-icon-pi svg {
+        height: 18px;
+        width: 18px;
+    }
+
+    .THIS .rri-icon-pi span {
+        margin: .125rem !important;
+    }
+
+    .THIS .edit-address-container .slds-size--4-of-6{
+        width:100%;
+    }
+    .THIS .edit-address-container .slds-size--2-of-6{
+        width:100%;
+    }
+    .THIS .edit-address-container .slds-size--1-of-2{
+        width:100%
+    }
+
+    .THIS .check-button-container {
+        padding-top: unset;
+    }
+
+    .THIS .indicator-containers {
+        margin-top: unset;
+    }
+
+    .THIS .google-map-style {
+        padding: 5% 0% 0% 1%;
+    }
+    .THIS .edit-address-container .slds-map{
+        min-width:35.75rem;
+    }
+}
+
+@media all and (max-width: 644px) {
+    .THIS .edit-address-container .slds-map{
+        min-width:25.75rem;
+    }
+}
+
+@media all and (max-width: 482px) {
+    .THIS .edit-address-container .slds-map{
+        min-width:15.75rem;
+    }
+}

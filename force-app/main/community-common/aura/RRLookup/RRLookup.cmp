@@ -1,0 +1,59 @@
+<!--
+ - Created by Vitalii Aheienko on 9/2/2019.
+ -->
+
+<aura:component description="RRLookup">
+
+    <aura:attribute name="objectName" type="String" required="true"/>
+    <aura:attribute name="lookupName" type="string" required="true"/>
+    <aura:attribute name="lookupObjectNameField" type="String" default="Name"/>
+    <aura:attribute name="selectedRecords" type="List" default="[]"/>
+    <aura:attribute name="selectedLookup" type="String"/>
+    <aura:attribute name="record" type="object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <aura:attribute name="accountRecord" type="Object"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+    <aura:attribute name="value" type="String"/>
+    <aura:attribute name="onchange" type="Aura.Action"/>
+    <!--body-->
+    <lightning:recordEditForm objectApiName="{!v.objectName}" class="slds-large-size--1-of-1">
+        <div class="travel_vendor_lookup">
+            <lightning:inputField fieldName="{!v.lookupName}" onchange="{!c.onSelect}" aura:id="field"
+                                  value="{!v.selectedLookup}" class="slds-combobox__input" variant="label-hidden"/>
+        </div>
+    </lightning:recordEditForm>
+
+    <force:recordData aura:id="recordData"
+                      recordId="{!v.selectedLookup.Id}"
+                      layoutType="COMPACT"
+                      targetFields="{!v.record}"
+                      targetError="{!v.recordError}"
+                      recordUpdated="{!c.handleRecordUpdated}"/>
+
+    <!-- Multi-selection pills -->
+    <aura:if isTrue="{!!empty(v.selectedRecords)}">
+        <div class="pill-container">
+            <div id="{# globalId + '_selection' }" role="listbox" aria-orientation="horizontal"
+                 class="slds-medium-show--inline-block">
+                <ul class="slds-listbox slds-listbox_inline slds-slide-from-top-to-bottom slds-large-size--1-of-1"
+                    role="group" aria-label="Selected Options:">
+                    <aura:iteration items="{!v.selectedRecords}" var="item">
+                        <li role="presentation" class="slds-listbox__item slds-m-bottom--xxx-small">
+                            <lightning:pill label="{!item.Name}" class="slds-m-around--none slds-box_link"
+                                            onremove="{!c.onRemoveSelectedItem}" name="{!item.Id}"
+                                            onclick="{!c.navigateToRecord}">
+                                <aura:set attribute="media">
+                                    <lightning:icon iconName="custom:custom31"/>
+                                </aura:set>
+                            </lightning:pill>
+                        </li>
+                    </aura:iteration>
+                </ul>
+            </div>
+            <lightning:buttonIcon iconName="utility:close" size="x-small" alternativeText="Close"
+                                  onclick="{!c.onClearSelection}"
+                                  class="close-btn slds-float--right slds-medium-show--inline-block"/>
+        </div>
+    </aura:if>
+
+</aura:component>

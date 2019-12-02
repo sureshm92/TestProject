@@ -1,0 +1,31 @@
+/**
+ * Created by dmytro.fedchyshyn on 23.09.2019.
+ */
+
+.THIS .travel_vendor_lookup .slds-has-error .slds-input {
+    border-color:  rgb(221, 219, 218);
+    box-shadow: none;
+}
+
+.THIS .slds-form-element__help {
+    display: none;
+}
+
+.THIS .slds-input__icon-group_right {
+    right: 5px;
+    top: 50%;
+}
+
+.THIS input {
+    padding: 1px 12px;
+}
+
+.THIS.pill-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.THIS.slds-large-size--1-of-1 {
+    margin-bottom: 2px;
+}

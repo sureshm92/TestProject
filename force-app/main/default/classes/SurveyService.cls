@@ -6,12 +6,18 @@ public without sharing class SurveyService {
 
     public class SurveyException extends Exception {}
 
+    public static final String SURVEY_RESPONSE_PATIENT_ONLY = 'Patient only';
+    public static final String SURVEY_RESPONSE_EACH_DELEGATE = 'Each Delegate';
+    public static final String SURVEY_RESPONSE_PATIENT_ANY_DELEGATE = 'Patient or any Delegate';
+    public static final String SURVEY_RESPONSE_ANY_DELEGATE = 'Any Delegate';
+    public static final String SURVEY_RESPONSE_PATIENT_EACH_DELEGATE = 'Patient and each Delegate';
+
     public static final Map<String, String> SURVEY_VISIBLE = new Map<String, String>{
-            'Patient only' => TaskService.TASK_VISIBILITY_OWNER,
-            'Each Delegate' => TaskService.TASK_VISIBILITY_OWNER,
-            'Patient or any Delegate' => TaskService.TASK_VISIBILITY_ALL,
-            'Any Delegate' => TaskService.TASK_VISIBILITY_DELEGATES,
-            'Patient and each Delegate' => TaskService.TASK_VISIBILITY_OWNER
+            SURVEY_RESPONSE_PATIENT_ONLY => TaskService.TASK_VISIBILITY_OWNER,
+            SURVEY_RESPONSE_EACH_DELEGATE => TaskService.TASK_VISIBILITY_OWNER,
+            SURVEY_RESPONSE_PATIENT_ANY_DELEGATE => TaskService.TASK_VISIBILITY_ALL,
+            SURVEY_RESPONSE_ANY_DELEGATE => TaskService.TASK_VISIBILITY_DELEGATES,
+            SURVEY_RESPONSE_PATIENT_EACH_DELEGATE => TaskService.TASK_VISIBILITY_OWNER
     };
 
     public class SurveyWrapper {
@@ -57,9 +63,9 @@ public without sharing class SurveyService {
         }
     }
 
-    public SurveyInvitation generateInvitation(Trial_Survey__c ts, Id peId) {
+    public SurveyInvitation generateInvitation(Trial_Survey__c ts, Id peId, Id communityId) {
         SurveyInvitation invitation = new SurveyInvitation(
-                CommunityId = CommunityService.getCommunityId(null),
+                CommunityId = communityId,
                 Is_Midpoint__c = ts.Is_Midpoint__c,
                 Name = ts.Survey__r.Name + ':TS:' + ts.Id,
                 Participant_Enrollment__c = peId,
@@ -76,7 +82,7 @@ public without sharing class SurveyService {
                     today.month(),
                     today.day()
             );
-            invitation.InviteExpiryDateTime = expiry;
+            invitation.ExpireDateTime__c = expiry;
         }
 
         return invitation;
@@ -87,17 +93,19 @@ public without sharing class SurveyService {
             Reminder_Schedule__c schedule,
             Integer expiresAfterDays,
             Boolean isMidpoint,
-            Id peId
+            Id peId,
+            Id communityId
     ) {
         SurveyInvitation invitation = new SurveyInvitation(
-                CommunityId = CommunityService.getCommunityId(null),
+                CommunityId = communityId,
                 Is_Midpoint__c = isMidpoint,
                 Name = survey.Name + ':PE:' + peId,
                 Participant_Enrollment__c = peId,
-                Reminder_Schedule__c = schedule.Id,
                 SurveyId = survey.Id,
                 Survey__c = survey.Id
         );
+
+        if(schedule != null) invitation.Reminder_Schedule__c = schedule.Id;
 
         if (expiresAfterDays != null) {
             Date today = System.today().addDays(expiresAfterDays);
@@ -106,7 +114,7 @@ public without sharing class SurveyService {
                     today.month(),
                     today.day()
             );
-            invitation.InviteExpiryDateTime = expiry;
+            invitation.ExpireDateTime__c = expiry;
         }
 
         return invitation;
@@ -125,8 +133,8 @@ public without sharing class SurveyService {
     }
 
     public Boolean isInvitationExpired(Id invitationId) {
-        SurveyInvitation invitation = [SELECT InviteExpiryDateTime FROM SurveyInvitation WHERE Id = :invitationId];
-        return invitation.InviteExpiryDateTime <= System.now();
+        SurveyInvitation invitation = [SELECT ExpireDateTime__c, Is_Expired__c FROM SurveyInvitation WHERE Id = :invitationId];
+        return (invitation.Is_Expired__c || invitation.ExpireDateTime__c <= Datetime.now());
     }
 
     public Boolean expireInvitation(List<Id> invitationIds) {
@@ -137,15 +145,17 @@ public without sharing class SurveyService {
         }
 
         List<SurveyInvitation> invitations = [
-                SELECT Id, InviteExpiryDateTime FROM SurveyInvitation WHERE Id IN: invitationIds
+                SELECT Id, Is_Expired__c, InviteExpiryDateTime
+                FROM SurveyInvitation
+                WHERE Id IN: invitationIds
         ];
 
         if(!invitations.isEmpty()) {
             for(SurveyInvitation inv : invitations) {
-                if(inv.InviteExpiryDateTime != null && inv.InviteExpiryDateTime > System.now()) {
-                    inv.InviteExpiryDateTime = System.now();
-                }
+                inv.Is_Expired__c = true;
+                if(inv.InviteExpiryDateTime != null) inv.InviteExpiryDateTime = null;
             }
+
             update invitations;
             return true;
         }

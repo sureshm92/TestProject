@@ -1,0 +1,23 @@
+<!--
+ - Created by Igor Malyuta on 23.09.2019.
+ -->
+
+<aura:component description="VisitIconsSection">
+
+    <aura:attribute name="icons" type="List"/>
+    <aura:attribute name="visit" type="Object"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:method name="reset" action="{!c.doInit}" access="public"/>
+
+    <div class="section">
+        <p style="padding: 10px">Visit Icons</p>
+        <div class="icons-container">
+            <aura:iteration items="{!v.icons}" var="icon">
+                <c:ToggleIcon resource="{!$Resource.Icons_legend}" iconDetail="{!icon}" onchange="{!c.valueChange}"/>
+            </aura:iteration>
+        </div>
+    </div>
+
+</aura:component>

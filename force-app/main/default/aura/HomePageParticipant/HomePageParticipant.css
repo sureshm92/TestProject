@@ -11,6 +11,16 @@
     margin-bottom: 20px;
 }
 
+.THIS .cPSECard.rr-white-panel {
+    padding: 16px 0 0;
+}
+
+.THIS > .slds-grid > .slds-col, 
+.THIS  > .slds-grid > [class*=slds-col_padded], 
+.THIS  > .slds-grid > [class*=slds-col--padded] {
+    flex: 0 0 auto;
+}
+
 .THIS .rr-white-panel{
     margin-bottom: 20px;
 }
@@ -19,7 +29,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px;
+    padding: 16px;
 }
 
 .THIS .hp-logo-panel img{
@@ -29,5 +39,26 @@
 .THIS .logo-text{
     font-size: 20px;
     font-weight: bold;
-    text-align: center;
+}
+
+.THIS .apollo-btn.primary.dark {
+    width: 200px;
+}
+
+.THIS .apollo-btn.primary.dark .rr-icon-default{
+    margin-right: 10px;
+}
+
+.THIS .cParticipantCardFields .vpi-fields{
+    padding: 0;
+    display: flex;
+	flex-wrap: wrap;
+/*   height: 125px; */
+    width:	90%;
+}
+
+.THIS .cParticipantCardFields .vpi-field{
+    padding: 0 12px;
+    margin: 0;
+    flex: 0 0 33%;
 }

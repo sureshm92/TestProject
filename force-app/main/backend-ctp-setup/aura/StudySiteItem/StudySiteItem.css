@@ -1,0 +1,21 @@
+/**
+ * Created by Igor Malyuta on 19.09.2019.
+ */
+
+.THIS.empty-assignments {
+    background-color: antiquewhite;
+}
+
+.THIS .name-overflow {
+    max-width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.THIS .uiInput--default {
+    display: inline-block;
+}
+
+.THIS .uiInput--default .form-element__label {
+    display: none;
+}

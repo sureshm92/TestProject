@@ -1,4 +1,4 @@
-@IsTest(IsParallel=true)
+@IsTest
 public class Test_ResourceRemote {
 
     @TestSetup
@@ -21,50 +21,31 @@ public class Test_ResourceRemote {
 
     @IsTest
     public static void setResourceAction_ActionExist_Test() {
-
-        List<Participant__c> participants = [SELECT Id FROM Participant__c];
-        System.assertEquals(1, participants.size());
+        TestData.loadTestData();
         List<Resource__c> resources = [SELECT Id FROM Resource__c];
-        System.assertEquals(1, resources.size());
-        ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
-        pState.participant = participants[0];
-
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
-                .when('getState')
-                .then(pState)
-                .getInstance()
-        );
+        delete [SELECT Id FROM Resource_Action__c];
 
         Test.startTest();
-        ResourceRemote.setResourceAction(resources[0].Id, true, true);
+        System.runAs(new TestData().participantUser){
+            ResourceRemote.setResourceAction(resources[0].Id, true, true);
+        }
         Test.stopTest();
 
-        List<Resource_Action__c> actions = [SELECT Id, IsFavorite__c, IsVoted__c FROM Resource_Action__c LIMIT 1];
+        List<Resource_Action__c> actions = [SELECT Id, IsFavorite__c, IsVoted__c FROM Resource_Action__c];
         System.assertEquals(true, actions[0].IsVoted__c);
         System.assertEquals(true, actions[0].IsFavorite__c);
     }
 
     @IsTest
     public static void setResourceAction_ActionDoesNotExist_Test() {
-
-        List<Participant__c> participants = [SELECT Id FROM Participant__c];
-        System.assertEquals(1, participants.size());
-        List<Resource__c> resources = [SELECT Id FROM Resource__c];
-        System.assertEquals(1, resources.size());
+        TestData.loadTestData();
         delete [SELECT Id FROM Resource_Action__c];
-        ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
-        pState.participant = participants[0];
-
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
-                .when('getState')
-                .then(pState)
-                .getInstance()
-        );
+        List<Resource__c> resources = [SELECT Id FROM Resource__c];
 
         Test.startTest();
-        ResourceRemote.setResourceAction(resources[0].Id, true, true);
+        System.runAs(new TestData().participantUser){
+            ResourceRemote.setResourceAction(resources[0].Id, true, true);
+        }
         Test.stopTest();
 
         List<Resource_Action__c> actions = [SELECT Id, IsFavorite__c, IsVoted__c FROM Resource_Action__c LIMIT 1];
@@ -76,11 +57,11 @@ public class Test_ResourceRemote {
     public static void setResourceAction_Exception_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceService.class, StubFactory.newInstance(ResourceService.class)
+        ClassFactory.putStubTypeByClassName(ResourceService.class, StubBuilder.newInstance(ResourceService.class)
                 .when('getParticipantId')
                 .then(TestDataFactory.getFakeId(Participant__c.getSObjectType()))
-                .getInstance()
-        );
+                .build()
+       );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
@@ -96,28 +77,28 @@ public class Test_ResourceRemote {
     public static void getResources_FavoriteResources_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceDelegate.class, StubFactory.newInstance(ResourceDelegate.class)
+        ClassFactory.putStubTypeByClassName(ResourceDelegate.class, StubBuilder.newInstance(ResourceDelegate.class)
                 .when('getFavoriteResources')
                 .then(new ResourceService.ResourceWrapperContainer(Label.Resources_No_Favorite_Articles))
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
         ResourceService.ResourceWrapperContainer container = ResourceRemote.getResources('Article', 'Favorite');
         Test.stopTest();
 
         System.assert(container.errorMessage.equalsIgnoreCase(Label.Resources_No_Favorite_Articles));
-        System.assert(container.wrappers == null);
+        System.assert(container.wrappers.isEmpty());
     }
 
     @IsTest
     public static void getResources_DefaultResources_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceDelegate.class, StubFactory.newInstance(ResourceDelegate.class)
+        ClassFactory.putStubTypeByClassName(ResourceDelegate.class, StubBuilder.newInstance(ResourceDelegate.class)
                 .when('getResources')
                 .then(new ResourceService.ResourceWrapperContainer(new List<ResourceService.ResourceWrapper>()))
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
         ResourceService.ResourceWrapperContainer container = ResourceRemote.getResources('Article', 'Default');
         Test.stopTest();
@@ -130,11 +111,11 @@ public class Test_ResourceRemote {
     public static void getResources_DocumentsResources_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceDelegate.class, StubFactory.newInstance(ResourceDelegate.class)
+        ClassFactory.putStubTypeByClassName(ResourceDelegate.class, StubBuilder.newInstance(ResourceDelegate.class)
                 .when('getStudyDocuments')
                 .then(new ResourceService.ResourceWrapperContainer(new List<ResourceService.ResourceWrapper>()))
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
         ResourceService.ResourceWrapperContainer container = ResourceRemote.getStudyDocuments();
         Test.stopTest();
@@ -147,11 +128,11 @@ public class Test_ResourceRemote {
     public static void getResources_Exception_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceService.class, StubFactory.newInstance(ResourceService.class)
+        ClassFactory.putStubTypeByClassName(ResourceService.class, StubBuilder.newInstance(ResourceService.class)
                 .when('getResources')
                 .then(new AuraHandledException('Test Exception'))
-                .getInstance()
-        );
+                .build()
+       );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
@@ -165,15 +146,20 @@ public class Test_ResourceRemote {
 
     @IsTest
     public static void getTrialId_Positive_Test() {
-
+        TestData.loadTestData();
+        TestData testData = new TestData();
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceService.class, StubFactory.newInstance(ResourceService.class)
+        ClassFactory.putStubTypeByClassName(ResourceService.class, StubBuilder.newInstance(ResourceService.class)
                 .when('getParticipantState')
                 .then(Test_ResourceRemote.getParticipantState())
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
-        String trialId = ResourceRemote.getTrialId();
+        String trialId;
+        System.runAs(testData.participantUser)
+        {
+            trialId = ResourceRemote.getTrialId();
+        }
         Test.stopTest();
         System.assert(String.isNotBlank(trialId));
     }
@@ -182,11 +168,11 @@ public class Test_ResourceRemote {
     public static void getTrialId_MissingStudyException_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceService.class, StubFactory.newInstance(ResourceService.class)
+        ClassFactory.putStubTypeByClassName(ResourceService.class, StubBuilder.newInstance(ResourceService.class)
                 .when('getParticipantState')
                 .then(Test_ResourceRemote.getAlumniState())
-                .getInstance()
-        );
+                .build()
+       );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
@@ -202,11 +188,11 @@ public class Test_ResourceRemote {
     public static void getNoTAMessage_Exception_Test() {
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceService.class, StubFactory.newInstance(ResourceService.class)
+        ClassFactory.putStubTypeByClassName(ResourceService.class, StubBuilder.newInstance(ResourceService.class)
                 .when('getParticipantState')
                 .then(new AuraHandledException(('Test Exception')))
-                .getInstance()
-        );
+                .build()
+       );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {
@@ -220,30 +206,38 @@ public class Test_ResourceRemote {
 
     @IsTest
     public static void getNoTAMessage_AlumniPatient_Test() {
+        TestData.loadTestData();
+        TestData testData = new TestData();
 
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceService.class, StubFactory.newInstance(ResourceService.class)
-                .when('getParticipantState')
-                .then(Test_ResourceRemote.getAlumniState())
-                .getInstance()
-        );
+        testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_GROUP_ALUMNI.get(0);
+        update testData.pe;
+
         Test.startTest();
-        String noTAMessage = ResourceRemote.getNoTAMessage();
+        String noTAMessage;
+        System.runAs(testData.participantUser)
+        {
+            noTAMessage = ResourceRemote.getNoTAMessage();
+        }
         Test.stopTest();
         System.assert(noTAMessage.containsIgnoreCase(Label.Resources_Go_To_Your_Profile));
     }
 
     @IsTest
     public static void getNoTAMessage_NotAlumniPatient_Test() {
-
+        TestData.loadTestData();
+        TestData testData = new TestData();
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceService.class, StubFactory.newInstance(ResourceService.class)
+        ClassFactory.putStubTypeByClassName(ResourceService.class, StubBuilder.newInstance(ResourceService.class)
                 .when('getParticipantState')
                 .then(Test_ResourceRemote.getParticipantState())
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
-        String noTAMessage = ResourceRemote.getNoTAMessage();
+        String noTAMessage;
+        System.runAs(testData.participantUser)
+        {
+            noTAMessage = ResourceRemote.getNoTAMessage();
+        }
         Test.stopTest();
         System.assert(noTAMessage == null);
     }

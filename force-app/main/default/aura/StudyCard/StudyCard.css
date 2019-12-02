@@ -1,0 +1,386 @@
+/**
+ * Created by Nikita Abrazhevitch on 21-Aug-19.
+ */
+.THIS.slvi-container {
+    padding-top: 17px;
+    margin-bottom: 30px;
+}
+
+.THIS .study-name {
+    overflow: hidden;
+}
+
+.THIS .slds-grid.slvi-buttons {
+    padding: 0 0 25px 15px;
+    justify-content: center;
+}
+
+.THIS .rri-icon .cRRIcon {
+    width: 18px;
+}
+
+.THIS .study-name-pi {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.THIS .study-name {
+    margin-left: -4px;
+    padding-left: 4px;
+}
+
+.THIS .block-with-text {
+  /* background: #fff!important; */
+   padding-left: 4px;
+}
+
+.THIS .study-name .study-title.rr-link {
+    text-decoration: none;
+    /*height: 30px;*/
+    color: #297dfd;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 30px;
+    padding: 6px 8px 0;
+    position: relative;
+    max-height: 6rem;
+    overflow: hidden;
+    padding-right: 1rem;
+    align-items: flex-start;
+}
+
+.THIS .study-name .study-title.rr-link span {
+    white-space: normal!important;
+}
+
+.THIS .study-name .study-title.rr-link:before {
+    position: absolute;
+    content: "...";
+    bottom: 0;
+    right: 0;
+}
+
+.THIS .study-name .study-title.rr-link:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    width: 1rem;
+    height: 4.5rem;
+    background: white;
+}
+
+.THIS .study-name .study-title:hover:after {
+    background: #eef5ff;
+}
+/*
+.THIS .study-title.rr-link {
+    color: #000;
+    pointer-events: none;
+  	cursor: default;
+}
+*/
+
+
+
+.THIS .sponsor-name {
+    height: 20px;
+    color: #595959;
+    font-family: "Proxima Nova";
+    margin-bottom: 5px;
+    font-size: 14px;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.THIS .slvi-objective-section .objective-link {
+    white-space: nowrap;
+    margin-left: 10px;
+    flex-shrink: 0;
+    font-size: 14px;
+}
+
+.THIS .slvi-objective-section .objective-text {
+    height: 16px;
+    color: #444;
+    font-size: 14px;
+    line-height: 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.THIS .slvi-name-section,
+.THIS .slvi-objective-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.THIS .slvi-objective-section .cRRLink.rr-link svg {
+    margin-top: 2px;
+}
+
+.THIS .slvi-top-container {
+    height: 100px;
+    padding-left: 17px;
+    padding-right: 17px;
+}
+
+.THIS .slvi-top-container-hcp {
+    min-height: 100px;
+    padding-left: 17px;
+    padding-right: 17px;
+}
+
+.THIS .slvi-top-container .study-options {
+    float: right;
+    height: 18px;
+    width: auto;
+    text-align: center;
+    color: white;
+    font-size: 10px;
+    line-height: 10px;
+}
+
+
+.THIS .rri-icon-pi svg {
+    height: 18px;
+    width: 18px;
+}
+
+.THIS .slvi-top-container .study-options span {
+    float: right;
+}
+
+.THIS .slvi-top-container .study-options div {
+    padding: 0.2rem;
+    float: right;
+}
+
+.THIS .slvi-status {
+    white-space: nowrap;
+    padding: 0 5px;
+    margin-left: 10px;
+    flex-shrink: 0;
+}
+
+.THIS .slvi-status-item {
+    font-size: 14px;
+    color: #666666;
+    height: 20px;
+    display: inline-flex;
+}
+
+.THIS .slvi-status-item img {
+    margin-right: 5px;
+    height: 16px;
+    width: 16px;
+    max-width: 16px;
+}
+
+.THIS .slvi-status-item > div:last-child {
+    margin-top: 2px;
+}
+
+.THIS .accordion-bar {
+    background-color: #f8f9fb;
+    min-height: 40px; 
+    box-sizing: border-box;
+}
+
+.THIS .accordion-bar .rr-link svg {
+    fill: #595959;
+}
+.THIS .accordion-label {
+    color: #595959;
+    font-size: 1rem;
+}
+
+.THIS .btn-wrapper {
+    flex-basis: 0;
+}
+
+.THIS .btn-wrapper.disabled {
+    cursor: not-allowed;
+}
+
+.THIS .btn-pi-border {
+    border-right: 1px solid #F2F2F2;
+}
+
+.THIS .apollo-btn.primary.slvi-search-site-btn {
+    width: 270px;
+}
+
+.THIS .slvi-btn {
+    text-align: center;
+    color: #297DFD;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-collapse: collapse;
+    flex-basis: 0;
+}
+
+.THIS .slvi-btn + .slvi-btn {
+    border-left: 1px solid #F2F2F2;
+}
+
+
+.THIS .slvi-btn.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.THIS .slvi-btn .rr-icon-default {
+    height: 24px;
+    width: 20px;
+    margin: auto;
+    fill: #297DFD;
+}
+
+.THIS .slvi-btn .btn-content {
+    display: flex;
+    flex-flow: column;
+    user-select: none;
+    position: relative;
+}
+
+.THIS .slvi-btn .btn-content:active {
+    top: 1px;
+}
+
+
+.THIS .slvi-btn:hover {
+    cursor: pointer;
+    background-color: #F8F9FB;
+}
+
+.THIS .slvi-btn:active {
+    box-shadow: inset 1px 4px 9px -6px rgba(0, 0, 0, 0.35);
+}
+
+.THIS .slvi-btn:first-child {
+    border-bottom-left-radius: 5px;
+}
+
+.THIS .slvi-btn:last-child {
+    border-bottom-right-radius: 5px;
+}
+
+.THIS .rr-link.expanded-icon .rr-icon-default {
+    transform-origin: center;
+    transition: 0.3s ease-in-out;
+    transform: rotate(90deg);
+    position: relative;
+    margin-right: 3px;
+}
+
+.THIS .rr-link {
+    color: #297DFD;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.THIS .rr-link svg {
+    fill: #297DFD;
+    width: 14px;
+    height: 14px;
+}
+
+.THIS .rr-link.hidden-icon .rr-icon-default {
+    transform: rotate(0deg);
+}
+
+.THIS .orange-icon {
+    fill: #FF9301;
+}
+
+.THIS .red-icon {
+    fill: #E20000;
+}
+
+.THIS .blue-icon {
+    fill: #005587;
+}
+
+.THIS .green-icon {
+    fill: #55C200;
+}
+
+.THIS .slvi-search-site-btn {
+    width: 100%;
+}
+
+
+@media all and (max-width: 767px) {
+    .THIS .slvi-buttons .slvi-btn + .slvi-btn {
+        border-top: 1px solid #f9f9f9;
+    }
+
+    .THIS .slvi-buttons .slvi-btn + .slvi-btn {
+        border-top: 1px solid #f9f9f9;
+    }
+
+    .THIS .slvi-header-item + .slvi-header-item {
+        margin-top: 16px;
+    }
+    
+    .THIS .sponsor-name {
+     	margin-bottom: 20px;   
+    }
+    
+    .THIS .slvi-name-section-hcp .rri-icon svg {
+        height: 30px;
+        width: 30px;
+    }
+
+    .THIS .slvi-name-section-hcp .rri-icon span {
+        margin: 1rem;
+    }
+
+    .THIS .rri-icon-pi svg {
+        height: 30px;
+        width: 30px;
+    }
+
+    .THIS .rri-icon-pi span {
+        margin: 1rem;
+    }
+
+    .THIS .slvi-objective-section{
+        margin-bottom: 15px;
+        margin-top: 25px;
+    }
+    
+    .THIS .slds-grid.slvi-buttons {
+        display: flex;
+        flex-direction: column;
+        padding-right: 15px;
+    }
+    
+     .THIS .slds-grid.slvi-buttons .apollo-btn {
+        width: 100%;
+        margin: 20px 0 0;
+    }
+}
+
+@media (min-width: 767px) {
+    .THIS .site-distance {
+        text-align: right;
+    }
+
+    .THIS .slvi-padded-panel-left {
+        padding-left: 9rem;
+        padding-right: 1rem;
+        text-align: right;
+    }
+
+    .THIS .slvi-padded-panel-right {
+        padding-right: 9rem;
+    }
+}

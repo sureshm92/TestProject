@@ -3,37 +3,36 @@
  */
 ({
     doInit: function (component, event, helper) {
-        var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
+        //var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
+        var wrapper = component.get('v.wrapper');
+        var todayDate = component.get('v.wrapper.nowDate');
         component.set('v.todayDate', todayDate);
 
-        communityService.executeAction(component, 'getInitData', null, function (returnValue) {
-            var initData = JSON.parse(returnValue);
-            component.set('v.task', initData.task);
-            component.set('v.task.Visible_For__c', 'Owner;Delegates');//Def value, if not selected
-            component.set('v.priorities', initData.priorities);
-            component.set('v.visibility', initData.visibility);
-            component.set('v.taskFilters', initData.filters);
+        component.set('v.wrapper.task.Visible_For__c', 'Owner;Delegates');//Def value, if not selected
 
-            component.set('v.statuses', []);
-        });
+
+        component.set('v.priorities', wrapper.priorities);
+        component.set('v.visibility', wrapper.visibility);
     },
 
     doCheckFields: function (component, event, helper) {
         var allValid = component.find('field').reduce(function (validSoFar, inputCmp) {
             return validSoFar && inputCmp.checkValidity();
         }, true);
-        component.set('v.isValidFields', allValid);
+
+        component.set('v.isValid', allValid);
+        component.get('v.parent').setValidity(allValid);
     },
 
     onDaysChange: function (component, event, helper) {
-        var startDate = component.get('v.task.Start_Date__c');
-        var dueDate = component.get('v.task.ActivityDate');
-        var reminderDate = component.get('v.task.Reminder_Date__c');
+        var startDate = component.get('v.wrapper.task.Start_Date__c');
+        var dueDate = component.get('v.wrapper.task.ActivityDate');
+        var reminderDate = component.get('v.wrapper.task.ReminderDateTime');
         var useDaysNumber = component.get('v.showNumbersAdd') === 'true';
 
-        if(startDate && !dueDate) {
-            if(reminderDate && moment(reminderDate, 'YYYY-MM-DD').isBefore(startDate)) {
-                component.set('v.task.Reminder_Date__c', startDate);
+        if (startDate && !dueDate) {
+            if (reminderDate && moment(reminderDate, 'YYYY-MM-DD').isBefore(startDate)) {
+                component.set('v.wrapper.task.ReminderDateTime', startDate);
             }
         }
 
@@ -49,25 +48,25 @@
             var daysCount = component.get('v.dayRemind');
             var daysBetween = dueDate.diff(startDate, 'days');
 
-            if(daysCount > daysBetween) {
+            if (daysCount > daysBetween) {
                 component.set('v.dayRemind', daysBetween);
                 return;
-            } else if(daysCount < 0) {
+            } else if (daysCount < 0) {
                 component.set('v.dayRemind', 0);
                 return;
             }
 
             var remDate = dueDate.add(-daysCount, 'days');
-            component.set('v.task.Reminder_Date__c', remDate.format('YYYY-MM-DD'));
+            component.set('v.wrapper.task.ReminderDateTime', remDate.format('YYYY-MM-DD'));
 
         } else {
-            var remindDate = component.get('v.task.Reminder_Date__c');
+            var remindDate = component.get('v.wrapper.task.ReminderDateTime');
             if (!remindDate) return;
             remindDate = moment(remindDate, 'YYYY-MM-DD');
 
             var diff = dueDate.diff(remindDate, 'days');
-            if(diff < 0) {
-                component.set('v.task.Reminder_Date__c', dueDate.format('YYYY-MM-DD'));
+            if (diff < 0) {
+                component.set('v.wrapper.task.ReminderDateTime', dueDate.format('YYYY-MM-DD'));
                 diff = 0;
             }
 
@@ -78,33 +77,5 @@
     dueNumberKeyPress: function (component, event, helper) {
         //Fired on press any key in field
         if (event.which === 13) helper.setDays(component);
-    },
-
-    createTask: function (component, event, helper) {
-        var filter = component.get('v.taskFilters');
-        filter.statuses = component.get('v.statuses');
-
-        component.find('spinner').show();
-        communityService.executeAction(component, 'createTasks', {
-            'task': JSON.stringify(component.get('v.task')),
-            'filter': JSON.stringify(filter)
-        }, function (response) {
-            if (response > 0)
-                communityService.showSuccessToast(
-                    'Success!',
-                    'Task successfully created for ' + response + ' users.'
-                );
-            else
-                communityService.showWarningToast(
-                    'Fail!',
-                    'No relevant users found in the system'
-                );
-        }, null, function () {
-            component.find('spinner').hide();
-        });
-    },
-
-    resetClick: function (component, event, helper) {
-        helper.reset(component);
     }
-})
+});

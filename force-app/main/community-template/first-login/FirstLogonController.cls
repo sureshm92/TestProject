@@ -1,0 +1,356 @@
+/**
+ * Created by Nargiz Mamedova on 10/15/2019.
+ */
+
+public without sharing class FirstLogonController {
+    public static final String ERROR_SUFFIX = ': You must enter a value';
+    public static final String ERROR_VALUE_SUFFIX = ': You must enter a valid value';
+
+    public String photolink{get;set;}
+
+    //The binary data of the image uploaded by the user
+    public transient Blob blobValue {get; set;}
+
+    //The content type, determined by Salesforce, of the image uploaded by the user
+    public transient String contentType {get; set;}
+
+    // The name of the image file uploaded by the user
+    public transient String filename {get; set;}
+
+    public String oldPassword {get; set;}
+    public String newPassword {get; set;}
+    public String verifyNewPassword {get; set;}
+
+    public Boolean isPasswordsEquals {get; set;}
+    public Account account {get; set;}
+    public Contact contact {get; set;}
+    public User userVal {get; set;}
+
+    public String helpText_1st_Language { get; private set; }
+    public String helpText_2nd_Language { get; private set; }
+    public String helpText_3rd_Language { get; private set; }
+
+    public String userLocale {get; set;}
+    public transient String userLanguage {get; set;}
+
+    public Boolean notEnrollNow {get; set;}
+    public Boolean isProfileView {get; set;}
+    public String tcText {get; set;}
+    public String tcId {get; set;}
+    public Boolean isParticipant {get; set;}
+    public Participant__c participant {get; set;}
+
+    public Translation__c translation {get; set;}
+    public String browserLanguage {get; set;}
+
+    private String previousLanguage;
+
+    public List<SelectOption> countries {get; set;}
+    public List<SelectOption> states {get; set;}
+    public Boolean isStateRequired {get; set;}
+
+
+    private Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
+    private Map<String, String> countryCodeByName = new Map<String, String>();
+    private String oldAccountName;
+
+    public FirstLogonController() {
+        translation = new Translation__c();
+        init();
+        if(!contact.Is_First_Logon__c) translation.Language__c = userVal.LanguageLocaleKey;
+    }
+
+    private void init(){
+        userVal = [
+                SELECT Id, Name, Username, FirstName, LastName, FullPhotoUrl,
+                        Contact.FirstName,
+                        Contact.LastName,
+                        Contact.MailingAddress,
+                        Contact.Salutation,
+                        Contact.MiddleName,
+                        Contact.Suffix,
+                        Contact.MailingCountry,
+                        Contact.MailingCity,
+                        Contact.MailingPostalCode,
+                        Contact.MailingState,
+                        Contact.MailingStreet,
+                        Contact.Is_First_Logon__c,
+                        Contact.Language__c,
+                        Contact.Second_Choice_Language__c,
+                        Contact.Third_Choice_Language__c,
+                        Contact.userCommunityMode__c,
+                        Contact.userCommunytyType__c,
+                        Contact.UserCommunityIsDelegate__c,
+                        Contact.Phone,
+                        Contact.Fax,
+                        Contact.OwnerId,
+                        LanguageLocaleKey,
+                        TimeZoneSidKey,
+                        LocaleSidKey
+                FROM User WHERE Id =: UserInfo.getUserId()
+        ];
+        contact = userVal.Contact;
+        previousLanguage = contact.Language__c;
+
+        Map<String, SObjectField> fieldMap = Schema.SObjectType.Contact.fields.getMap();
+        helpText_1st_Language = fieldMap.get('Language__c').getDescribe().inlineHelpText;
+        helpText_2nd_Language = fieldMap.get('Second_Choice_Language__c').getDescribe().inlineHelpText;
+        helpText_3rd_Language = fieldMap.get('Third_Choice_Language__c').getDescribe().inlineHelpText;
+
+        notEnrollNow = !((contact.userCommunytyType__c == null || contact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP)) && contact.userCommunityMode__c == CommunityService.USER_MODE_HCP);
+        isStateRequired = false;
+
+        Contact cont = [
+                SELECT Id, Account.Name, Account.Phone, Account.BillingStreet,
+                        Account.BillingCity, Account.BillingState, Account.Fax,
+                        Account.BillingCountry, Account.BillingPostalCode,
+                        Account.BillingCountryCode, Language__c, MailingAddress,
+                        Salutation, MiddleName, Suffix, MailingCountry, MailingCity,
+                        MailingPostalCode, MailingState, MailingStreet, OwnerId,
+                        userCommunytyType__c, userCommunityMode__c, Phone, Fax
+                FROM Contact WHERE Id =: contact.Id
+        ];
+        account = cont.Account;
+        account.BillingCountry = TranslateHelper.getPickListLabel(User.CountryCode, account.BillingCountryCode);
+        oldAccountName = account.Name;
+
+        photolink = userVal.FullPhotoUrl;
+        isProfileView = true;
+        isPasswordsEquals = true;
+
+        tcText = '';
+        Terms_And_Conditions__c portalTC = TermsAndConditions.getPortalTC();
+        if(portalTC != null){
+            tcText = portalTC.T_C_Text__c;
+            tcId = portalTC.Id;
+        }
+
+        isParticipant = contact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT && !contact.UserCommunityIsDelegate__c;
+        if(isParticipant) {
+            participant = [
+                    SELECT Id, Name, First_Name__c, Last_Name__c, Phone__c,
+                            Mailing_Country__c, Mailing_State__c, Mailing_Zip_Postal_Code__c,
+                            Mailing_Country_Code__c, Mailing_State_Code__c
+
+                    FROM Participant__c
+                    WHERE Contact__c = :contact.Id
+            ];
+            updateTranslations();
+        }
+
+        countries = new List<SelectOption>();
+        //countries.add(new SelectOption('', '--None--'));
+        for (LabelValueItem country : CountryStateUtil.getCountries()) {
+            countries.add(new SelectOption(country.label, country.label));
+            countryCodeByName.put(country.label, country.value);
+        }
+    }
+
+    public PageReference changePassword() {
+        try{
+            PageReference pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
+            contact.Is_First_Logon__c = false;
+            update contact;
+//            if(translation.Language__c != null) {
+//                userVal.LanguageLocaleKey = translation.Language__c;
+//                update userVal;
+//            }
+
+            if (tcId!=null) {
+                Terms_And_Conditions_Acceptance__c tca = new Terms_And_Conditions_Acceptance__c();
+                tca.Accepted_Date__c = Datetime.now();
+                tca.Terms_And_Conditions__c = tcId;
+                tca.User__c = UserInfo.getUserId();
+                insert tca;
+            }
+
+            return pr;
+        }catch (Exception e){
+            isProfileView = true;
+            ApexPages.addMessages(e);
+            return null;
+        }
+    }
+
+    public void showProfileAction(){
+        isProfileView = true;
+    }
+
+    public void checkPasswords() {
+        if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
+            Account newClinic = new Account(
+                    Name = account.Name,
+                    BillingCountry = contact.MailingCountry,
+                    BillingCity = contact.MailingCity,
+                    BillingState = contact.MailingState,
+                    BillingStreet = contact.MailingStreet,
+                    BillingPostalCode = contact.MailingPostalCode,
+                    Phone = contact.Phone,
+                    Fax = contact.Fax,
+                    OwnerId = contact.OwnerId
+            );
+            try {
+                insert newClinic;
+                contact.AccountId = newClinic.Id;
+            } catch (Exception exp) {
+                system.debug(exp);
+            }
+        }
+        try {
+            update contact;
+            update userVal;
+        } catch (Exception exp) {}
+
+
+        ApexPages.getMessages().clear();
+        if (!notEnrollNow && String.isBlank(contact.FirstName)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'First Name' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.LastName)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Last Name' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.MailingStreet)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Street Address' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.MailingCity)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'City' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.MailingCountry)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Country' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.MailingState) && states.size() > 1) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'State' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.MailingPostalCode)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'ZIP/Postal Code' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(contact.Phone)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Phone Number' + ERROR_SUFFIX));
+        }
+        if (!notEnrollNow && String.isBlank(account.Name)) {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Institute Name' + ERROR_SUFFIX));
+        }
+
+        try {
+            Site.validatePassword(userVal, newPassword, verifyNewPassword);
+        } catch (Exception e) {
+            ApexPages.addMessages(e);
+        }
+
+        if (!notEnrollNow) {
+            if (ApexPages.getMessages().size() == 0) {
+                List<HCP_Enrollment__c> hcpEnrollments = [SELECT Id,
+                        HCP_Contact__c,
+                        Status__c
+                FROM HCP_Enrollment__c
+                WHERE HCP_Contact__c = :contact.Id AND
+                Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION];
+                for (HCP_Enrollment__c hcpe : hcpEnrollments) {
+                    hcpe.Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+                }
+                if (!hcpEnrollments.isEmpty()) {
+                    update hcpEnrollments;
+                }
+                for (HCP_Enrollment__c hcpe : hcpEnrollments) {
+                    hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+                }
+                if (!hcpEnrollments.isEmpty()) {
+                    update hcpEnrollments;
+                }
+            }
+        }
+
+        if(ApexPages.getMessages().size() == 0) isProfileView = false;
+    }
+
+    public void upload() {
+        ConnectApi.BinaryInput photoFileInput = new ConnectApi.BinaryInput(blobValue, contentType, filename);
+        ConnectApi.UserProfiles.setPhoto(Network.getNetworkId(), userVal.Id, photoFileInput);
+        photolink = ConnectApi.UserProfiles.getPhoto(Network.getNetworkId(), userVal.Id).fullEmailPhotoUrl;
+    }
+
+    public void updatePhotoURL(){
+    }
+
+    public void updateTranslations(){
+        if(isParticipant){
+            //translate country:
+            participant.Mailing_Country__c = CountryStateUtil.getCountryName(participant.Mailing_Country_Code__c);
+            //translate state
+            participant.Mailing_State__c = CountryStateUtil.getStateName(participant.Mailing_Country_Code__c, participant.Mailing_State_Code__c);
+        }
+    }
+
+    public void updateBrowserLanguageAction(){
+        System.debug(contact);
+        if(contact != null && contact.Is_First_Logon__c && contact.Language__c != null && contact.Language__c != ''
+                && (translation.Language__c == null || translation.Language__c == '')) {
+            translation.Language__c = contact.Language__c;
+        } else {
+
+            List<String> browserLanguages = (List<String>)JSON.deserialize(browserLanguage, List<String>.class);
+            String firstLanguage  = browserLanguages.get(0);
+            String secondLanguage = browserLanguages.get(1);
+            String thirdLanguage  = browserLanguages.get(2);
+
+            if (String.isNotBlank(firstLanguage) && TranslateHelper.convertBrowserLanguage(new List<String> { firstLanguage }) != null) {
+                if (String.isBlank(contact.Language__c)) {
+                    contact.Language__c = TranslateHelper.convertBrowserLanguage(new List<String>{
+                            firstLanguage
+                    });
+                }
+            } else {
+                List<Schema.PicklistEntry> entries = Translation__c.Language__c.getDescribe().getPicklistValues();
+                for (PicklistEntry entry : entries) {
+                    if (entry.getValue().startsWithIgnoreCase('en')) {
+                        contact.Language__c = entry.getValue();
+                        break;
+                    }
+                }
+//              contact.Language__c = Translation__c.Language__c.getDescribe().getPicklistValues().get(0).getValue();
+            }
+
+            if (String.isNotBlank(secondLanguage) && TranslateHelper.convertBrowserLanguage(new List<String> { secondLanguage }) != null) {
+                contact.Second_Choice_Language__c = TranslateHelper.convertBrowserLanguage(new List<String> { secondLanguage });
+            }
+
+            if (String.isNotBlank(thirdLanguage) && TranslateHelper.convertBrowserLanguage(new List<String> { thirdLanguage }) != null) {
+                contact.Third_Choice_Language__c = TranslateHelper.convertBrowserLanguage(new List<String> { thirdLanguage });
+            }
+
+            translation.Language__c = contact.Language__c;  //TranslateHelper.convertBrowserLanguage((List<String>)JSON.deserialize(browserLanguage, List<String>.class));
+        }
+        if(translation.Language__c == null) translation.Language__c = userVal.LanguageLocaleKey;
+        updateLanguageAction();
+    }
+
+    public void updateLanguageAction(){
+        try {
+            userVal.LanguageLocaleKey = userVal.Contact.Language__c;
+            update userVal;
+        } catch (Exception e) {
+            ApexPages.addMessages(e);
+            contact.Language__c = previousLanguage;
+            return;
+        }
+
+        update userVal.Contact;
+        updateTranslations();
+    }
+
+    public void translateFieldsAction(){
+        updateTranslations();
+    }
+
+    public void updateStatesAction(){
+        states = new List<SelectOption>();
+        //states.add(new SelectOption('', '--None--'));
+        List<LabelValueItem> statesByCountry = statesByCountryMap.get(countryCodeByName.get(contact.MailingCountry));
+        if (statesByCountry != null) {
+            for (LabelValueItem state : statesByCountry) {
+                states.add(new SelectOption(state.label, state.label));
+            }
+        }
+        isStateRequired = statesByCountry != null && !statesByCountry.isEmpty();
+    }
+}

@@ -1,0 +1,20 @@
+/**
+ * Created by Leonid Bartenev
+ */
+
+.THIS.mode-block {
+    display: inline-block;
+    position: relative;
+    height: 50px;
+    color: white;
+}
+
+.THIS .header-menu-link {
+    padding: 0 10px;
+}
+
+.THIS.mode-block .menu-popup-panel.popupTargetContainer{
+    left: initial;
+    right: 0;
+    width: 180px;
+}

@@ -1,0 +1,87 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS .selfServiceProfileMenuTrigger .trigger-link {
+    padding: 14px 10px !important;
+    padding-right: 0 !important;
+}
+
+.THIS.profile-block {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+
+.THIS.profile-block > div:first-child {
+    padding-right: 20px;
+}
+
+.THIS.profile-block > div:first-child:after {
+    content: '';
+    position: absolute;
+    background-size: 16px 16px;
+    background-image: url(/resource/1568991712000/navigationChevronDown);
+    height: 16px;
+    width: 16px;
+    top: 18px;
+    right: 0px;
+}
+
+.THIS.profile-block .profileName, .THIS.profile-block .triggerDownArrow {
+    display: none !important;
+}
+
+.THIS .selfServiceProfileMenuTrigger .trigger-link:focus {
+    box-shadow: none !important;
+}
+
+.THIS .chevron {
+    width: 12px;
+    opacity: 0.8;
+    margin-left: 5px;
+    cursor: pointer;
+    display: none;
+}
+
+.THIS.profile-block .rrp-menu {
+    position: absolute;
+    border: 1px solid #d9d9d9;
+    border-radius: 0 0 4px 4px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.08), 0 16px 24px 0 rgba(0,0,0,0.16);
+    font-size: 14px;
+    line-height: 22px;
+	padding: 0;
+    top: 50px;
+    right: 0;
+    min-width: 150px;
+    transition: 0.5s;
+    z-index: 2100;
+}
+
+.THIS.profile-block .rrp-menu:focus {
+    outline: none;
+}
+
+.THIS.profile-block .rrp-menu.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.THIS.profile-block .rrp-menu .rrp-menu-item {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 16px;
+    line-height: 24px;
+    color: #444;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.THIS.profile-block .rrp-menu .rrp-menu-item:hover {
+    background-color: #eef5ff;
+    color: #000;
+}

@@ -8,8 +8,8 @@
     <aura:attribute name="changedLevels" type="List" access="private" default="[]"/>
     <aura:attribute name="parentComponent" type="Aura.Component" description="need to refresh parent"/>
     <aura:attribute name="showSpinner" type="Boolean" default="false" access="private"/>
-    <aura:attribute name="saveInProgress" type="Boolean" default="false"/>
-    <aura:attribute name="refreshSDLITrigger" type="Boolean"/>
+    <aura:attribute name="ignoreUpdates" type="Boolean" default="false"/>
+    <aura:attribute name="isCurrentUser" type="Boolean" default="false"/>
 
 
     <!-- methods: -->
@@ -20,35 +20,42 @@
         <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}"/>
         <div class="mti-name">
             <div class="slds-grid">
-                <div class="slds-col slds-size--2-of-4">
-                    {!if(v.delegate.delegateContact.FirstName == null,'',v.delegate.delegateContact.FirstName) + ' ' + v.delegate.delegateContact.LastName}
+                <div class="slds-col slds-size--2-of-4 slds-p-left_none">
+                    {!if(v.isCurrentUser,$Label.c.PG_MT_L_My_Permissions,if(v.delegate.delegateContact.FirstName == null,'',v.delegate.delegateContact.FirstName) + ' ' + v.delegate.delegateContact.LastName)}
                 </div>
                 <aura:if isTrue="{!v.userMode == 'HCP'}">
                     <div class="slds-col slds-size--1-of-4">
                     <c:StudyDelegateLevelItem studyLevel="{!v.delegate.trialLevel}" options="{!v.options}"
                                               changedLevels="{!v.changedLevels}"
-                                              refreshTrigger="{!v.refreshSDLITrigger}"
-                                              showStudyName="false"/>
+                                              showStudyName="false"
+                                              ignoreUpdates="{!v.ignoreUpdates}"/>
                     </div>
                 </aura:if>
             </div>
         </div>
         <div class="{!'mti-email ' + if(v.userMode!='HCP','mti-hcp','')}">
-            {!v.delegate.delegateContact.Email}
+            {!if(v.isCurrentUser,'',v.delegate.delegateContact.Email)}
         </div>
-        <aura:if isTrue="{!v.userMode != 'HCP'}">
+        <aura:if isTrue="{!v.userMode == 'Participant'}">
             <aura:iteration items="{!v.delegate.trialLevels}" var="trialLevel">
                 <c:StudyDelegateLevelItem studyLevel="{!trialLevel}" options="{!v.options}"
-                                          changedLevels="{!v.changedLevels}"
-                                          refreshTrigger="{!v.refreshSDLITrigger}"/>
+                                          changedLevels="{!v.changedLevels}"/>
             </aura:iteration>
         </aura:if>
-        <div class="mti-save-button-container">
-            <button class="apollo-btn tertiary mti-save-button" onclick="{!c.doSaveChanges}"
-                    disabled="{!empty(v.changedLevels)}"
-                    title="{!if(empty(v.changedLevels),$Label.c.PG_MTI_T_No_changes_made,'')}">
-                {!$Label.c.PG_MTI_BTN_Save_Changes}
-            </button>
-        </div>
+        <aura:if isTrue="{!v.userMode == 'PI'}">
+            <aura:iteration items="{!v.delegate.delegateTrials}" var="trial">
+                <c:DelegateTrialCard studyLevels="{!trial}" options="{!v.options}"
+                                          changedLevels="{!v.changedLevels}"/>
+            </aura:iteration>
+        </aura:if>
+        <aura:if isTrue="{!!v.isCurrentUser}">
+            <div class="mti-save-button-container">
+                <button class="apollo-btn tertiary mti-save-button" onclick="{!c.doSaveChanges}"
+                        disabled="{!empty(v.changedLevels)}"
+                        title="{!if(empty(v.changedLevels),$Label.c.PG_MTI_T_No_changes_made,'')}">
+                    {!$Label.c.PG_MTI_BTN_Save_Changes}
+                </button>
+            </div>
+        </aura:if>
     </div>
 </aura:component>

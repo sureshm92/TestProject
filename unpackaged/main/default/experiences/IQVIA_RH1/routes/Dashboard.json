@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "dashboard",
-  "appPageId" : "d9c4a932-5387-4757-867b-fed2cab30e7c",
-  "routeType" : "custom-dashboard",
-  "pageAccess" : "UseParent",
-  "label" : "Dashboard",
-  "id" : "18bc9cf0-9781-40f5-94e0-bdc693f5821f",
-  "type" : "route"
-}

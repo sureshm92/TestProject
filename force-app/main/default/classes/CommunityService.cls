@@ -7,7 +7,6 @@ public without sharing class CommunityService {
     public static final Id COMMUNITY_USER_PROFILE_ID = [SELECT Id FROM Profile WHERE Name = :COMMUNITY_USER_PROFILE_NAME].Id;
     public static final String SPNL_USER_PROFILE_NAME = 'IQVIA SPNL';
     public static final Id SPNL_USER_PROFILE_ID = [SELECT Id FROM Profile WHERE Name =: SPNL_USER_PROFILE_NAME].Id;
-    public static final String COMMUNITY_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
     public static final Id SPNL_ROLE = [SELECT Id FROM UserRole WHERE Name='SPNL'].Id;
 
     public static String COMMUNITY_PARTICIPANT_ACCOUNT_NAME = 'Participant';
@@ -15,6 +14,8 @@ public without sharing class CommunityService {
 
     //community email process
     public static String COMMUNITY_ET_HCP = 'RP1_New_Study_Email'; //email template
+    public static String COMMUNITY_ET_HCP_INVITE = 'RP1_New_Studies_Email'; //email template
+    public static String COMMUNITY_ET_HCP_BY_PI = 'RP1_New_Study_By_PI_Email'; //email template
     public static String COMMUNITY_ET_PI = 'PI1_New_Study_Email'; //email template
     public static String COMMUNITY_ET_PARTICIPANT = 'Patient1_New_Study'; //email template
     public static String COMMUNITY_ET_DELEGATE = 'Delegate_New_Email'; //email template
@@ -61,13 +62,13 @@ public without sharing class CommunityService {
         return CommunityService.getUserContact().Id;
     }
 
-    public String getUserAccessLevel(){
+    public String getUserAccessLevel(String delegateId){
         String accessLevel;
         try {
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
-            accessLevel = [ SELECT Delegate_Level__c
-                            FROM Referring_HCP_Staff__c
-                            WHERE Contact__c = :currentContactId LIMIT 1].Delegate_Level__c;
+            accessLevel = [ SELECT Delegate_Access_Level__c
+                            FROM RP_Delegate_Relationship__c
+                            WHERE Delegate__c = :currentContactId AND Referring_Provider__c = :delegateId LIMIT 1].Delegate_Access_Level__c;
         } catch (Exception ex){
             accessLevel=null;
         }
@@ -123,10 +124,34 @@ public without sharing class CommunityService {
                 WHERE Id IN :userContactIds
         ];
     }
+    
+    /***
+        added by Slav V on Oct 18, 2019
+     */
+    public static Map<Id, Participant__c> getParticipantsByContactIds(Set<Id> contactIds){
+        if (contactIds == null) return null;
+        
+        List<Participant__c> participants = [
+                SELECT Contact__c, First_Name__c, Last_Name__c
+                FROM Participant__c
+                WHERE Contact__c IN :ContactIds
+        ];
+        
+        Map<Id, Participant__c> participantMap = new Map<Id, Participant__c>();
+        
+        for (Participant__c participant : participants) {
+            // IMPORTANT NOTE: if a Contact is linked to more than one Participant
+            // then only the LAST one from the list will retain in the returned Map.
+            // So, if you want to use a specific Participant add the "ORDER BY" clause in the SOQL above
+            participantMap.put(participant.Contact__c, participant);
+        }
 
+         return participantMap;
+    }
+    
     public static List<User> getCommunityUsersByContactIds(Set<Id> contactIds) {
         return [
-                SELECT Id, Name, FirstName, LastName, ContactId, Email
+                SELECT Id, Name, FirstName, LastName, ContactId, Email, IsActive
                 FROM User
                 WHERE
                         //Profile.Name = :COMMUNITY_USER_PROFILE_NAME AND
@@ -154,7 +179,7 @@ public without sharing class CommunityService {
         ];
     }
 
-    public static void createPortalUsers(Set<Id> contactIds){
+    public void createPortalUsers(Set<Id> contactIds){
         List<Contact> contacts = getContacts(contactIds);
         List<User> newPortalUsers = new List<User>();
         for (Contact cont : contacts) newPortalUsers.add(createUser(cont, null, null, null));
@@ -162,7 +187,7 @@ public without sharing class CommunityService {
     }
 
     //Create participant users, fill time zone, locale and language from HCP contact
-    public static void createParticipantUsers(Map<Id, Id> contactIdsMap) {
+    public void createParticipantUsers(Map<Id, Id> contactIdsMap) {
         System.debug('ParticipantContactId -> HCPContactId MAP: ' + contactIdsMap);
         List<Contact> contacts = getContacts(contactIdsMap.keySet());
         List<User> hcpUsers = [
@@ -232,9 +257,10 @@ public without sharing class CommunityService {
 
     public static List<Contact> getContacts(Set<Id> contactIds) {
         return [
-                SELECT Id, Email, FirstName, LastName, Name, Language__c, (SELECT Id, Preferred_Language__c FROM Participants__r)
+                SELECT Id, Email, FirstName, LastName, Name, Language__c, Full_Name__c, Salutation, Suffix
                 FROM Contact
                 WHERE Id = :contactIds
+                //ORDER BY Name
         ];
     }
 
@@ -244,19 +270,27 @@ public without sharing class CommunityService {
                         Name,
                         primaryContact__c,
                         userCommunityMode__c,
+                        userCommunityDelegateId__c,
                         userCommunytyType__c,
                         UserCommunityIsDelegate__c,
                         HCP_DelegateAccessLevel__c,
                         PI_DelegateAccessLevel__c,
                         userCommunity_ShowTour__c,
+                        Current_Participant_Enrollment__c,
                         Last_Session_Id__c,
                         Language__c,
                         Second_Choice_Language__c,
-                        Third_Choice_Language__c,
                         MailingLatitude,
                         MailingLongitude,
                         MailingCountry,
-                        Account.BillingCountry
+                        MailingCity,
+                        MailingPostalCode,
+                        MailingState,
+                        MailingStreet,
+                        Account.BillingCountry,
+                        Account.OwnerId,
+                        PI_My_Studies_Filters__c,
+                        Third_Choice_Language__c
                 FROM Contact
                 WHERE Id = :contactId
         ];
@@ -291,7 +325,7 @@ public without sharing class CommunityService {
         return ![SELECT Id
                     FROM User
                     WHERE ContactId =: contactId
-                        AND Profile.Name =: COMMUNITY_PROFILE_NAME
+                        AND Profile.Name =: COMMUNITY_USER_PROFILE_NAME
         ].isEmpty();
     }
 

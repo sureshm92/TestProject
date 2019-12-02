@@ -5,7 +5,6 @@
     <inlineHelpText>master detail</inlineHelpText>
     <label>Clinical Trial Profile</label>
     <referenceTo>Clinical_Trial_Profile__c</referenceTo>
-    <relationshipLabel>Resource</relationshipLabel>
     <relationshipName>Resource</relationshipName>
     <relationshipOrder>1</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>

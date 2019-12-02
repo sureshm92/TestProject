@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "my-referring-clinics",
-  "appPageId" : "d9c4a932-5387-4757-867b-fed2cab30e7c",
-  "routeType" : "custom-my-referring-clinics",
-  "pageAccess" : "UseParent",
-  "label" : "My Referring Clinics",
-  "id" : "0a5e741a-632a-409e-8dd6-c50967f347eb",
-  "type" : "route"
-}

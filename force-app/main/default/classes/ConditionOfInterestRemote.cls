@@ -2,7 +2,7 @@
  * Created by AlexKetch on 3/21/2019.
  */
 
-public with sharing class ConditionOfInterestRemote {
+public without sharing class ConditionOfInterestRemote {
 
     @AuraEnabled
     public static List<TherapeuticAreaService.CAWrapper> getConditionOfInterest() {
@@ -10,8 +10,9 @@ public with sharing class ConditionOfInterestRemote {
         try {
             TherapeuticAreaService taService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
             Participant__c participant = taService.getParticipant();
-            if (!ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty()) {
-                for (Therapeutic_Area_Patient__c coi : ParticipantDecoupler.getTherapeuticAreaPatients(participant)) {
+            List<Therapeutic_Area_Patient__c> areaPatients = ParticipantDecoupler.getTherapeuticAreaPatients(participant);
+            if (!areaPatients.isEmpty()) {
+                for (Therapeutic_Area_Patient__c coi : areaPatients) {
                     TherapeuticAreaService.CAWrapper caWrapper = new TherapeuticAreaService.CAWrapper ();
                     caWrapper.isSelected = true;
                     caWrapper.coi = coi;
@@ -28,7 +29,7 @@ public with sharing class ConditionOfInterestRemote {
     public static List<Therapeutic_Area_Patient__c> upsertListCoi(List<Therapeutic_Area_Patient__c> cois) {
         try {
             if (!cois.isEmpty()) {
-                upsert cois;
+                ((DatabaseProxy)(ClassFactory.newInstance(DatabaseProxy.class))).upsertRecords(cois, true);
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);

@@ -1,0 +1,52 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="Action_ChangePEStatusByPI" controller="Action_ChangePEStatusByPIRemote">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- private attributes: -->
+    <aura:attribute name="peId" type="String" access="private"/>
+    <aura:attribute name="pe" type="Object"/>
+    <aura:attribute name="status" type="String" access="private"/>
+    <aura:attribute name="reason" type="String" access="private"/>
+    <aura:attribute name="notes" type="String" access="private"/>
+    <aura:attribute name="callback" type="Object" access="private"/>
+    <aura:attribute name="cancelCallback" type="Object" access="private"/>
+    <aura:attribute name="referralDeclineReasons" type="List" access="private"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false" access="private"/>
+
+    <!-- methods: -->
+    <aura:method name="execute" action="{!c.doExecute}" access="public">
+        <aura:attribute name="pe" type="Object"/>
+        <aura:attribute name="status" type="String"/>
+        <aura:attribute name="reason" type="String"/>
+        <aura:attribute name="notes" type="String"/>
+        <aura:attribute name="callback" type="Function"/>
+        <aura:attribute name="cancelCallback" type="Function"/>
+    </aura:method>
+
+    <!-- actions: -->
+    <c:RRActionApprove aura:id="actionApprove" message="{!$Label.c.Poput_ICF}" approveBtnName="{!$Label.c.BTN_Confirm}"/>
+
+    <!-- component body: -->
+    <aura:if isTrue="{!v.isInitialized}">
+        <!--select referral decline reason dialog: -->
+        <c:Popup aura:id="selectReferralDeclineReasonDialog" title="{!$Label.c.PG_ACPE_T_Select_decline_reason}" size="small">
+            <c:RRSpinner aura:id="spinner"/>
+            <div class="full-width rr-form-element">
+                <div class="label">{!$Label.c.PG_ACPE_L_Select_decline_reason}</div>
+                <c:rrSelect value="{!v.reason}" options="{!v.referralDeclineReasons}" placeholder="{!$Label.c.PG_ACPE_L_Select_decline_reason}" useSentenceFont="false"/>
+            </div>
+            <div class="full-width rr-form-element">
+                <lightning:input label="{!$Label.c.PG_ACPE_L_Notes + ' (' + if(v.reason == 'Other', $Label.c.PG_ACPE_L_required, $Label.c.PG_ACPE_L_optional) + ')'}" value="{!v.notes}"/>
+            </div>
+            <aura:set attribute="footerButtons">
+                <button class="apollo-btn primary" onclick="{!c.doUpdatePE}" disabled="{!empty(v.reason) || and(v.reason == 'Other', empty(v.notes))}">{!$Label.c.BTN_OK}</button>
+                <button class="apollo-btn tertiary" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
+            </aura:set>
+        </c:Popup>
+
+    </aura:if>
+</aura:component>

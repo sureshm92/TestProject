@@ -1,5 +1,5 @@
 /**
- * Created by Igor Malyuta on 26.08.2019.
+ * Created by Igor Malyuta on 19.09.2019.
  */
 
 import {LightningElement, api, track} from 'lwc';
@@ -8,6 +8,7 @@ export default class UiIndeterminatedCheckbox extends LightningElement {
 
     @api keyId;
     @api fieldLabel;
+    @api hideCheckBox = false;
     @track cssClass = 'checkbox';
 
     handleClick(event) {
@@ -58,7 +59,5 @@ export default class UiIndeterminatedCheckbox extends LightningElement {
     setState(value, indeterminate) {
         this.fieldValue = value;
         this.indeterminate = indeterminate;
-
-        console.log('UiIndeterminatedCheckbox {Value: ' + this.fieldValue + ' indeterminate: ' + this.indeterminate);
     }
 }

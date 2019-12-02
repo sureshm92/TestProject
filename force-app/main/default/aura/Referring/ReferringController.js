@@ -26,7 +26,8 @@
             trialId: trialId,
             peId: peId,
             hcpeId: hcpeId,
-            userMode: communityService.getUserMode()
+            userMode: communityService.getUserMode(),
+            delegateId : communityService.getDelegateId()
         }, function (returnValue) {
             debugger;
             var initData = JSON.parse(returnValue);
@@ -174,17 +175,18 @@
     doSaveParticipant: function (component) {
         debugger;
         var participant = component.get('v.participant');
+        console.log('participant', JSON.parse(JSON.stringify(participant)));
+
         var trial = component.get('v.trial');
         var hcpeId = component.get('v.hcpeId');
         var pEnrollment = component.get('v.pEnrollment');
         var spinner = component.find('mainSpinner');
         spinner.show();
-
         communityService.executeAction(component, 'saveParticipant', {
-            trialId: trial.Id,
             hcpeId: hcpeId,
             pEnrollmentJSON: JSON.stringify(pEnrollment),
-            participantJSON: JSON.stringify(participant)
+            participantJSON: JSON.stringify(participant),
+            delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             component.set('v.currentState', 'Refer Success');
         }, null, function () {

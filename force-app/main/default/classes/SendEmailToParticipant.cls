@@ -27,6 +27,12 @@ public without sharing class SendEmailToParticipant {
             TaskService.TASK_TYPE_MEDICATION => EMAIL_TEMPLATE_MEDICATION_TASK_DELEGATE
     };
 
+    public static final String PATIENT_SUMMARY_DOCUMENT = 'Patient_Summary_Document';
+    public static final String PATIENT_PLAIN_SUMMARY = 'Patient_Plain_Summary';
+    public static final String PATIENT_LOGIN = 'Patient_Log_In_Template';
+    public static final String PATIENT_CREATED_DATE = 'Patient_CreatedDate_Template';
+    public static final String PATIENT_VISITS_AVAILABLE = 'Patient_Visits_Become_Availiable';
+
     @InvocableMethod(Label='Send Email To Participant with Delegates')
     public static void sendEmailNotificationWithDelegates(List<Task> tasks) {
         for (Task task : tasks) {
@@ -36,31 +42,6 @@ public without sharing class SendEmailToParticipant {
 
     public static void sendEmailReminderForTask(Task task) {
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-        if (task.WhatId != null && task.WhatId.getSobjectType() == Participant_Study_Enrollment__c.getSObjectType() && task.Task_Type__c != null) {
-            System.debug('WhatId != null');
-            Participant_Study_Enrollment__c pse = [
-                    SELECT
-                            Id,
-                            Participant__c,
-                            Participant__r.Contact__c,
-                            Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c
-                    FROM Participant_Study_Enrollment__c
-                    WHERE Id = :task.WhatId
-            ];
-            addPatientToEmailListIfAvailable(
-                    emailMessages,
-                    pse.Participant__r.Contact__r,
-                    PATIENT_EMAIL_REMINDERS_TEMPLATES_MAP.get(task.Task_Type__c),
-                    task.WhatId
-            );
-            addMessagesForDelegates(
-                    emailMessages,
-                    PatientDelegateService.getDelegatedContactIds(pse.Participant__r.Contact__c),
-                    PATIENT_DELEGATE_EMAIL_REMINDERS_TEMPLATES_MAP.get(task.Task_Type__c),
-                    task.WhatId
-            );
-        }
-
         if (task.Task_Type__c == 'Not Selected') {
             User user = [
                     SELECT
@@ -83,9 +64,31 @@ public without sharing class SendEmailToParticipant {
                     task.Id
             );
 
+        } else if (task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
+            emailMessages.addAll(sendEmailSurveyNotification(task));
+        } else if (task.WhatId != null && task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType() && task.Task_Type__c != null) {
+            Participant_Enrollment__c pe = [
+                    SELECT
+                            Id,
+                            Participant__c,
+                            Participant__r.Contact__c,
+                            Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c
+                    FROM Participant_Enrollment__c
+                    WHERE Id = :task.WhatId
+            ];
+            addPatientToEmailListIfAvailable(
+                    emailMessages,
+                    pe.Participant__r.Contact__r,
+                    PATIENT_EMAIL_REMINDERS_TEMPLATES_MAP.get(task.Task_Type__c),
+                    task.WhatId
+            );
+            addMessagesForDelegates(
+                    emailMessages,
+                    PatientDelegateService.getDelegatedContactIds(pe.Participant__r.Contact__c),
+                    PATIENT_DELEGATE_EMAIL_REMINDERS_TEMPLATES_MAP.get(task.Task_Type__c),
+                    task.WhatId
+            );
         }
-
-        if (task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) emailMessages.addAll(sendEmailSurveyNotification(task));
 
         SendEmailTemplate.sendEmailMessages(emailMessages);
         System.debug('EMAIL MESSAGES: ' + emailMessages.size());
@@ -93,7 +96,7 @@ public without sharing class SendEmailToParticipant {
 
     public static List<Messaging.SingleEmailMessage> sendEmailSurveyNotification(Task task) {
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-        if(task.Reminder_Schedule__c == null) return emailMessages;
+        if (task.Reminder_Schedule__c == null) return emailMessages;
 
         Map<Id, Contact> contactMap = new Map<Id, Contact>([
                 SELECT Id, Participant_Opt_In_Status_Emails__c
@@ -104,13 +107,13 @@ public without sharing class SendEmailToParticipant {
         Integer firstReminderDay = (Integer) task.Reminder_Schedule__r.First_Reminder_day__c;
         Datetime startDT = Datetime.newInstanceGmt(task.Start_Date__c, task.Reminder_Date__c.timeGmt());
         Datetime firstReminderDate = startDT;
-        if(firstReminderDay > 0) {
+        if (firstReminderDay > 0) {
             firstReminderDate = DateTimeConverterUtil.addDaysInUserTimeZone(startDT, task.WhoId, firstReminderDay);
         }
 
         String template;
         if (task.Reminder_Date__c == firstReminderDate) {
-            if(task.Reminder_Schedule__r.Use_Final_Template__c) {
+            if (task.Reminder_Schedule__r.Use_Final_Template__c) {
                 template = EMAIL_TEMPLATE_SURVEY_FINAL_REMINDER_TASK;
             } else {
                 template = EMAIL_TEMPLATE_SURVEY_REMINDER_TASK;
@@ -125,13 +128,13 @@ public without sharing class SendEmailToParticipant {
             }
         }
 
-        if(template != null) {
+        if (template != null) {
             if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)) {
                 addPatientToEmailListIfAvailable(
                         emailMessages,
                         contactMap.get(task.WhoId),
                         template,
-                        task.Description
+                        task.Survey_Invitation__c
                 );
             }
             if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
@@ -139,12 +142,42 @@ public without sharing class SendEmailToParticipant {
                         emailMessages,
                         PatientDelegateService.getDelegatedContactIds(contactMap.get(task.WhoId).Id),
                         template,
-                        task.Description
+                        task.Survey_Invitation__c
                 );
             }
         }
 
         return emailMessages;
+    }
+
+    public static void sendParticipantLoginNotification(List<Contact> contacts, Boolean isOneYear) {
+        String template = isOneYear ? PATIENT_CREATED_DATE : PATIENT_LOGIN;
+
+        List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
+        for (Contact con : contacts) {
+            addPatientToEmailListIfAvailable(
+                    emailMessages,
+                    con,
+                    template,
+                    con.Current_Participant_Enrollment__c
+            );
+        }
+
+        SendEmailTemplate.sendEmailMessages(emailMessages);
+    }
+
+    public static void sendPlainSummaryNotifications(List<Contact> contacts, Map<Id, Id> peIdByContact, String nameOfEmailTemplate) {
+        List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
+        for (Contact con : contacts) {
+            addPatientToEmailListIfAvailable(
+                    emailMessages,
+                    con,
+                    nameOfEmailTemplate,
+                    peIdByContact.get(con.Id)
+            );
+        }
+
+        SendEmailTemplate.sendEmailMessages(emailMessages);
     }
 
     private static void addPatientToEmailListIfAvailable(List<Messaging.SingleEmailMessage> emailMessages, Contact patientContact, String emailTemplate, Id whatId) {

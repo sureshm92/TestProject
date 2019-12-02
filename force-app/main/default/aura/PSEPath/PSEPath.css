@@ -4,19 +4,25 @@
 .THIS {
 }
 
-.THIS .path-panel{
-    background-color: #F8F9FB;
-    border: 1px solid #D9D9D9;
-    border-radius: 5px;
+.THIS .path-panel .path-section{
+    padding-bottom: 25px;
 }
 
-.THIS .path-panel .path-section{
-    border-bottom: 1px solid #D9D9D9;
+.THIS .path-panel .path-section-pi {
     padding-bottom: 10px;
 }
 
+.THIS .vpi-status-btns {
+    padding: 0 0 25px 15px;
+    justify-content: center;
+}
+
+.THIS .vpi-status-btns .slds-col {
+    text-align: center;
+}
+
 .THIS .path-panel .collapse-section{
-    padding: 10px;
+    padding: 10px 0 0;
     font-size: 14px;
     line-height: 22px;
     transition: 0.6s;
@@ -25,4 +31,14 @@
 
 .THIS .path-panel .collapse-section.opened{
     background-color: white;
+}
+
+@media all and (max-width: 768px) {
+    .THIS .vpi-status-btns .apollo-btn {
+        width: 100%;
+    }
+    
+    .THIS .vpi-status-btns {
+        padding: 0 15px 25px 15px;
+    }
 }

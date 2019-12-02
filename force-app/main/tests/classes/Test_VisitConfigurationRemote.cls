@@ -1,4 +1,4 @@
-@IsTest
+@IsTest(IsParallel=true)
 public with sharing class Test_VisitConfigurationRemote {
 
     @IsTest
@@ -14,13 +14,13 @@ public with sharing class Test_VisitConfigurationRemote {
         };
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubFactory.newInstance(CTPSelector.class)
+        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubBuilder.newInstance(CTPSelector.class)
                 .when('getCtpById')
                 .then(ctp)
                 .when('getVisitsByCtpId')
                 .then(visits2)
-                .getInstance()
-        );
+                .build()
+       );
 
         Test.startTest();
         List<Visit__c> visits = VisitConfigurationRemote.getRelatedPlannedVisits(ctp[0].Id);
@@ -36,11 +36,11 @@ public with sharing class Test_VisitConfigurationRemote {
         };
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubFactory.newInstance(CTPSelector.class)
+        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubBuilder.newInstance(CTPSelector.class)
                 .when('getCtpById')
                 .then(ctp)
-                .getInstance()
-        );
+                .build()
+       );
 
         Test.startTest();
         List<Visit__c> visits = VisitConfigurationRemote.getRelatedPlannedVisits(ctp[0].Id);
@@ -72,11 +72,11 @@ public with sharing class Test_VisitConfigurationRemote {
         };
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
+        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubBuilder.newInstance(DatabaseProxy.class)
                 .when('updateRecord')
                 .then(null)
-                .getInstance()
-        );
+                .build()
+       );
 
         Test.startTest();
         VisitConfigurationRemote.updateCtp(ctp[0].Visit_Plan__c, ctp[0].Id);
@@ -102,11 +102,11 @@ public with sharing class Test_VisitConfigurationRemote {
     @IsTest
     static void deleteVisit_test() {
 
-        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
+        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubBuilder.newInstance(DatabaseProxy.class)
                 .when('deleteRecord')
                 .then(null)
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
         VisitConfigurationRemote.deleteVisit(null);
         Test.stopTest();

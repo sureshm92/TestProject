@@ -1,0 +1,13 @@
+/**
+ * Created by Igor Malyuta on 16.09.2019.
+ */
+
+.THIS.mt-panel {
+    padding: 20px 20px 0;
+    min-height: 250px;
+}
+
+.THIS .expire-line {
+    display: flex;
+    padding-top: 28px;
+}

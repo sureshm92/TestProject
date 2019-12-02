@@ -1,4 +1,4 @@
-public with sharing class ParticipantDecoupler {
+public without sharing class ParticipantDecoupler {
 
     @TestVisible
     private static Map<Id, List<Therapeutic_Area_Patient__c>> therapeuticAreaPatientsByParticipantIds = new Map<Id, List<Therapeutic_Area_Patient__c>>();
@@ -6,9 +6,18 @@ public with sharing class ParticipantDecoupler {
     private static Map<Id, List<Resource_Action__c>> resourceActionsByParticipantIds = new Map<Id, List<Resource_Action__c>>();
 
     public static List<Therapeutic_Area_Patient__c> getTherapeuticAreaPatients(Participant__c participant) {
-        return therapeuticAreaPatientsByParticipantIds.get(participant.Id) == null ?
-                participant.Therapeutic_Area_Patients__r :
-                therapeuticAreaPatientsByParticipantIds.get(participant.Id);
+        if (!therapeuticAreaPatientsByParticipantIds.containsKey(participant.Id)) {
+            List<Therapeutic_Area_Patient__c> areaPatient = [
+                    SELECT
+                            Condition_Of_Interest_Order__c,
+                            Therapeutic_Area__c,
+                            Therapeutic_Area__r.Name
+                    FROM Therapeutic_Area_Patient__c WHERE Participant__c = :participant.Id
+            ];
+
+            therapeuticAreaPatientsByParticipantIds.put(participant.Id, areaPatient);
+        }
+        return therapeuticAreaPatientsByParticipantIds.get(participant.Id);
     }
     public static List<Resource_Action__c> getResourceActions(Participant__c participant) {
         return resourceActionsByParticipantIds.get(participant.Id) == null ?

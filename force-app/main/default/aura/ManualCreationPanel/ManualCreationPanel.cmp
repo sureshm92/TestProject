@@ -1,0 +1,76 @@
+<!--
+ - Created by Igor Malyuta on 16.09.2019.
+ -->
+
+<aura:component description="ManualCreationPanel" controller="ManualCreationPanelRemote"
+                implements="forceCommunity:availableForAllPageTypes,force:appHostable">
+
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js, $Resource.moment_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="initialized" type="Boolean"/>
+    <aura:attribute name="taskPanelWrapper" type="Object"/>
+    <aura:attribute name="adHocWrapper" type="Object"/>
+    <aura:attribute name="filter" type="ManualTaskFilter"/>
+    <aura:attribute name="patientStatusOptions" type="List"/>
+    <aura:attribute name="selectedTab" type="String" default="task"/>
+    <aura:attribute name="isValid" type="Boolean" default="false"/>
+
+    <aura:handler name="change" value="{!v.filter.statuses}" action="{!c.checkValid}"/>
+
+    <aura:method name="setValidity" action="{!c.checkValid}">
+        <aura:attribute name="childValidity" type="Boolean"/>
+    </aura:method>
+
+    <!-- component body -->
+    <lightning:card class="main-panel">
+        <c:RRSpinner aura:id="spinner" size="medium"/>
+        <aura:if isTrue="{!not(v.initialized)}">
+            <div style="height: 200px"></div>
+        </aura:if>
+        <aura:if isTrue="{!v.initialized}">
+            <!-- Tabs -->
+            <lightning:tabset selectedTabId="task">
+                <lightning:tab label="Task" id="task" onactive="{!c.handleActiveTab}">
+                    <c:ManualTask aura:id="manTask" parent="{!this}" wrapper="{!v.taskPanelWrapper}"/>
+                </lightning:tab>
+                <lightning:tab label="Survey" id="adHoc" onactive="{!c.handleActiveTab}">
+                    <c:ManualAdHocSurvey aura:id="manAdhoc" parent="{!this}" wrapper="{!v.adHocWrapper}"/>
+                </lightning:tab>
+            </lightning:tabset>
+            <!-- Filter section -->
+            <lightning:accordion aura:id="accordion" activeSectionName="Filter" allowMultipleSectionsOpen="true">
+                <lightning:accordionSection name="Filter" label="Filters for recipients" class="accordion-content">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size--1-of-2">
+                            <lightning:checkboxGroup aura:id="field"
+                                                     name="patientStatus" label="Set Patient Status"
+                                                     options="{!v.patientStatusOptions}"
+                                                     value="{!v.filter.statuses}" required="true"/>
+                            <div style="padding: 10px"></div>
+                            <c:ManualTaskLookup label="Therapeutic Area" selection="{!v.filter.areas}"
+                                                objType="therapeutic"/>
+<!--                            <c:ManualTaskLookup label="Select Sponsor" selection="{!v.filter.sponsors}"-->
+<!--                                                objType="sponsor"/>-->
+                            <c:ManualTaskLookup label="Study" selection="{!v.filter.studies}" objType="study"/>
+                        </div>
+                        <div class="slds-col slds-size--1-of-2">
+                            <div style="padding: 52.5px"></div>
+                            <c:ManualTaskLookup label="Select country" selection="{!v.filter.countries}"
+                                                objType="countries"/>
+                            <c:ManualTaskLookup label="Select Site" selection="{!v.filter.sites}" objType="site"/>
+                        </div>
+                    </div>
+                </lightning:accordionSection>
+            </lightning:accordion>
+            <!-- Controls buttons -->
+            <div class="slds-text-align_right slds-p-right_small">
+                <lightning:button variant="brand" label="Create" onclick="{!c.createClick}"
+                                  disabled="{!not(v.isValid)}"/>
+                <lightning:button label="Reset" onclick="{!c.resetClick}"/>
+            </div>
+        </aura:if>
+    </lightning:card>
+
+</aura:component>

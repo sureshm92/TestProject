@@ -1,0 +1,25 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS{
+    max-width: 290px;
+    padding: 40px 0;
+    margin: auto;
+}
+
+.THIS  a {
+    color:white;
+    text-decoration: none;
+}
+.THIS  a:not(.no-float) {
+    float: right;
+}
+
+.THIS  a:hover {
+    color:white;
+    text-decoration: none;
+}
+
+.THIS label.uiLabel-hidden {
+    display:none;
+}

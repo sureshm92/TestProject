@@ -13,6 +13,7 @@ public with sharing class TriggerHandlerExecutor {
         handlerPool = new Map<System.Type, TriggerHandler>();
         bypassHandlerTypes = new Set<System.Type>();
         bypassHandlerTypesByEvent = new Map<System.Type, Set<TriggerOperation>>();
+        ClassFactory.setCacheable(false);
     }
 
     private TriggerHandlerExecutor() {

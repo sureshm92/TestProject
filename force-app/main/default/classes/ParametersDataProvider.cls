@@ -40,8 +40,6 @@ public without sharing class ParametersDataProvider {
                     initParamsFromContact(sourceId);
                 } else if(sourceId.getSobjectType() == User.getSObjectType()){
                     initParamsFromUser(sourceId);
-                } else if(sourceId.getSobjectType() == Participant_Study_Enrollment__c.getSObjectType()){
-                    initParamsFromPSE(sourceId);
                 } else if(sourceId.getSobjectType() == Task.getSObjectType()){
                     initParamsFromTask(sourceId);
                 }
@@ -54,11 +52,18 @@ public without sharing class ParametersDataProvider {
         }
         
         String clinicalResearchCommunityURL = 'IQVIA Clinical Research Community at https://www.clinicalresearch.com';
-        if(outputMode == 'HTML') clinicalResearchCommunityURL = '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>';
+        Id networkId = Network.getNetworkId();
+        Auth.AuthConfiguration authConfig = new Auth.AuthConfiguration(networkId,'');
+        String clinicalResearchCommunityForgotPasswordURL = 'IQVIA Clinical Research Community Forgot password at' + authConfig.getForgotPasswordUrl();
+        if(outputMode == 'HTML') {
+            clinicalResearchCommunityURL = '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>';
+            clinicalResearchCommunityForgotPasswordURL = authConfig.getForgotPasswordUrl();
+        }
         parameters.put('CRCommunityURL', clinicalResearchCommunityURL);
         parameters.put('RecipientName', getUserName());
         parameters.put('RecipientFirstName', recipientFirstName);
-        
+        parameters.put('ForgotPasswordURL', clinicalResearchCommunityForgotPasswordURL);
+
         if(isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT){
             Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientId);
             if(participant != null){
@@ -66,50 +71,6 @@ public without sharing class ParametersDataProvider {
             }
         }
         System.debug('PARAMS: ' + JSON.serializePretty(parameters));
-    }
-    
-    private void initParamsFromPSE(Id sourceId){
-        Participant_Study_Enrollment__c pse = [
-                SELECT Id, Name,
-                        Participant__r.Contact__c,
-                        Participant__r.Contact__r.Name,
-                        Participant__r.Contact__r.FirstName,
-                        Participant__r.Contact__r.LastName,
-                        Participant__r.Contact__r.Salutation,
-                        Participant__r.Contact__r.Language__c,
-                        Participant__r.Preferred_Language__c,
-                        Participant__r.First_Name__c,
-                        Participant__r.Last_Name__c,
-                        Study_Site__r.Name,
-                        Study_Site__r.Principal_Investigator__r.Name,
-                        Study_Site__r.Principal_Investigator__r.FirstName,
-                        Study_Site__r.Principal_Investigator__r.LastName,
-                        Study_Site__r.Principal_Investigator__r.Salutation,
-                        Study_Site__r.Principal_Investigator__r.Language__c,
-                        Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
-                        Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                        Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
-                        Study_Site__r.Study_Site_Phone__c
-                FROM Participant_Study_Enrollment__c
-                WHERE Id =: sourceId
-        ];
-        
-        parameters = new Map<String, String>{
-                'PIName' => getFullContactName(pse.Study_Site__r.Principal_Investigator__r),
-                'PILanguage' => pse.Study_Site__r.Principal_Investigator__r.Language__c,
-                'ParticipantName' => getFullParticipantName(pse.Participant__r),
-                'ParticipantLanguage' => getParticipantLanguage(pse.Participant__r)
-        };
-        
-        TranslateHelper.translate(pse, getUserLanguage());
-        
-        parameters.putAll(new Map<String, String>{
-                'PSEName' => pse.Name,
-                'StudyName' => pse.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                'StudyTitle' => pse.Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
-                'StudySiteName' => pse.Study_Site__r.Name,
-                'SitePhoneNumber' => pse.Study_Site__r.Study_Site_Phone__c
-        });
     }
     
     private void initParamsFromPE(Id sourceId){
@@ -129,7 +90,7 @@ public without sharing class ParametersDataProvider {
                         Participant__r.Contact__r.LastName,
                         Participant__r.Contact__r.Salutation,
                         Participant__r.Contact__r.Language__c,
-                        Participant__r.Preferred_Language__c,
+                        Participant__r.Language_Preference_Code__c,
                         Participant__r.First_Name__c,
                         Participant__r.Last_Name__c,
                         Participant_Contact__r.FirstName,
@@ -145,6 +106,8 @@ public without sharing class ParametersDataProvider {
                         Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
                         Study_Site__r.Study_Site_Phone__c,
                         Is_Virtual_Study_Site__c,
+                        IsSubjectIDverifiedInSDH__c,
+                        Motivational_Message_Id__c,
                         HCP__c
                 FROM Participant_Enrollment__c
                 WHERE Id =: sourceId OR Participant__r.Contact__c =: sourceId LIMIT 1
@@ -296,9 +259,12 @@ public without sharing class ParametersDataProvider {
                         FirstName,
                         LastName,
                         Salutation,
+                        RP_Invited_By_PI__c,
                         Language__c,
                         userCommunityMode__c,
-                        UserCommunityIsDelegate__c
+                        UserCommunityIsDelegate__c,
+                        OwnerId,
+                        Owner.ContactId
                 FROM Contact
                 WHERE Id =: contactId
         ];
@@ -311,22 +277,44 @@ public without sharing class ParametersDataProvider {
             parameters.put('PIName', getFullContactName(cnt));
             parameters.put('PILanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_HCP){
+            List<HCP_Enrollment__c> hcpe = [
+                    SELECT Id, Name,
+                            HCP_Contact__r.Name,
+                            HCP_Contact__r.FirstName,
+                            HCP_Contact__r.LastName,
+                            HCP_Contact__r.Salutation,
+                            HCP_Contact__r.Language__c,
+                            Study_Site__r.Name,
+                            Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
+                            Study_Site__r.Principal_Investigator__c,
+                            Study_Site__r.Principal_Investigator__r.Language__c,
+                            Study_Site__r.Principal_Investigator__r.Name,
+                            Study_Site__r.Principal_Investigator__r.FirstName,
+                            Study_Site__r.Principal_Investigator__r.LastName,
+                            Study_Site__r.Principal_Investigator__r.Salutation,
+                            Study_Site__r.Study_Site_Phone__c,
+                            HCP_Contact__c
+                    FROM HCP_Enrollment__c
+                    WHERE HCP_Contact__c = :cnt.Id AND
+                    ( Status__c = :HCPEnrollmentService.HCP_S_INVITATION_SENT OR Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION )
+                    ORDER BY CreatedDate DESC LIMIT 1
+            ];
+            if (!hcpe.isEmpty()) {
+                initParamsFromHCPE(hcpe[0].Id);
+            }
             parameters.put('HCPName', getFullContactName(cnt));
             parameters.put('HCPLanguage', cnt.Language__c);
         }else if(userMode == CommunityService.USER_MODE_PARTICIPANT){
             parameters.put('ParticipantLanguage', cnt.Language__c);
 
             if(isDelegate) {
-                Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(cnt.Id);
-                parameters.put('ParticipantName', participant.Full_Name__c);
-                parameters.put('ParticipantFirstName', participant.First_Name__c);
+                Participant_Enrollment__c pe = ContactService.getCurrentPE(contactId);
+                parameters.put('ParticipantName', pe.Participant__r.Full_Name__c);
+                parameters.put('ParticipantFirstName', pe.Participant__r.First_Name__c);
                 parameters.put('UserName', getCommunityUserName(contactId));
-
-                List<Participant_Enrollment__c> enrollment = [
-                        SELECT Id, Clinical_Trial_Profile__r.Study_Code_Name__c
-                        FROM Participant_Enrollment__c WHERE Participant__c = :participant.Id
-                ];
-                parameters.put('StudyName', enrollment.get(0).Clinical_Trial_Profile__r.Study_Code_Name__c);
+                parameters.put('StudyName', pe.Clinical_Trial_Profile__r.Study_Code_Name__c);
             }else{
                 initParamsFromPE(contactId);
             }
@@ -380,7 +368,9 @@ public without sharing class ParametersDataProvider {
                 SELECT toLabel(Delegate_Level__c),
                         Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
                         Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                        Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c
+                        Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
+                        Study_Site__r.Principal_Investigator__r.Full_Name__c,
+                        Study_Site__r.Name
                 FROM Site_Staff__c
                 WHERE Site_Contact__c = :cnt.Id
         ];
@@ -388,25 +378,24 @@ public without sharing class ParametersDataProvider {
         for (Site_Staff__c PIDelegate : siteStaffs) {
             DelegateLevelWrapper dlw = new DelegateLevelWrapper();
             dlw.level = PIDelegate.Delegate_Level__c;
-            dlw.studyName = PIDelegate.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
+            dlw.studyName = PIDelegate.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c +
+                    ' (' + PIDelegate.Study_Site__r.Name + ')';
             delegateLevelsPI.add(dlw);
         }
         delegateLevelsPI.sort();
         
         //delegated by HCP
-        List<Referring_HCP_Staff__c> hcpStaffs = [
-                SELECT toLabel(Delegate_Level__c),
-                        HCP_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
-                        HCP_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                        HCP_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c
-                FROM Referring_HCP_Staff__c
-                WHERE Contact__c = :cnt.Id
+        List<RP_Delegate_Relationship__c> rpDelegates = [
+                SELECT toLabel(Delegate_Access_Level__c),
+                        Referring_Provider__r.Full_Name__c
+                FROM RP_Delegate_Relationship__c
+                WHERE Delegate__c = :cnt.Id
         ];
-        TranslateHelper.translate(hcpStaffs, cnt.Language__c);
-        for (Referring_HCP_Staff__c HCPDelegate : hcpStaffs) {
+        TranslateHelper.translate(rpDelegates, cnt.Language__c);
+        for (RP_Delegate_Relationship__c delegate : rpDelegates) {
             DelegateLevelWrapper dlw = new DelegateLevelWrapper();
-            dlw.level = HCPDelegate.Delegate_Level__c;
-            dlw.studyName = HCPDelegate.HCP_Enrollment__r.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
+            dlw.level = delegate.Delegate_Access_Level__c;
+            dlw.studyName = delegate.Referring_Provider__r.Full_Name__c;
             delegateLevelsHCP.add(dlw);
         }
         delegateLevelsHCP.sort();
@@ -427,7 +416,7 @@ public without sharing class ParametersDataProvider {
     
     private String getParticipantLanguage(Participant__c participant){
         String participantLanguage = participant.Contact__r.Language__c;
-        if(participant.Contact__c == null) participantLanguage = participant.Preferred_Language__c;
+        if(participant.Contact__c == null) participantLanguage = participant.Language_Preference_Code__c;
         return participantLanguage;
     }
     
@@ -476,5 +465,4 @@ public without sharing class ParametersDataProvider {
             }
         }
     }
-  
 }

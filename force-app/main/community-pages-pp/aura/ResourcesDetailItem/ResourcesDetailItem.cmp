@@ -1,0 +1,106 @@
+<!--
+ - Created by Yehor Dobrovolskyi on 20.02.2019.020.
+ -->
+
+<aura:component description="ResourcesDetailItem" controller="ResourceRemote">
+
+    <aura:attribute name="resourceWrapper" type="ResourceService.ResourceWrapper"/>
+    <aura:attribute name="StudyDocumentRecordTypeName" type="String" default="Study_Document"
+                    description="constant variable" access="private"/>
+    <aura:attribute name="lang" type="String"/>
+
+    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+    <aura:handler name="render" value="{!this}" action="{!c.doRender}"/>
+
+    <div class="resource-container">
+
+        <aura:if isTrue="{!v.resourceWrapper.resource.RecordType.DeveloperName == 'Article'}">
+            <div class="{!or(v.resourceWrapper.resource.Image__c == null, v.resourceWrapper.resource.Image__c == '') ? 'display-none' : 'bitmap'}">
+                <img src="{!v.resourceWrapper.resource.Image__c}" alt="{!$Label.c.Resources_Image_Unavailable}"/>
+            </div>
+            <aura:set attribute="else">
+                <div class="ah-video-iframe">
+                    <iframe class="my_iframe"
+                            frameborder="0"
+                            src="{!and(v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName, v.resourceWrapper.resource.Video__c == null) ?
+                            ('/apex/RRPDFViewer?resourceId=' + v.resourceWrapper.resource.Id + '&amp;language=' + v.lang )
+                            : v.resourceWrapper.resource.Video__c}">
+                    </iframe>
+                </div>
+            </aura:set>
+        </aura:if>
+
+        <div class="resource-description">
+            <aura:if isTrue="{!!empty(v.resourceWrapper.headerFieldWrappers)}">
+                <aura:iteration items="{!v.resourceWrapper.headerFieldWrappers}" var="field">
+                    <div class="{!field.cssClassName}">
+                        <lightning:formattedRichText value="{!field.valueField}"/>
+                    </div>
+                </aura:iteration>
+            </aura:if>
+            <div class="resource-expiration-date">
+                {!(v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName ? $Label.c.Resources_Version_Date + ': ' : $Label.c.Resources_Expires + ': ')}
+                <aura:if isTrue="{!v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName}">
+                    <ui:outputDate value="{!v.resourceWrapper.resource.Version_Date__c}" format="dd-MMM-y"/>
+                    <aura:set attribute="else">
+                        <aura:if isTrue="{!v.resourceWrapper.resource.Expiration_Date__c}">
+                            <ui:outputDate value="{!v.resourceWrapper.resource.Expiration_Date__c}" format="dd-MMM-y"/>
+                            <aura:set attribute="else">
+                                None
+                            </aura:set>
+                        </aura:if>
+                    </aura:set>
+                </aura:if>
+            </div>
+            <div class="{!v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName ? 'display-none' : 'resource-description-footer'}">
+                <div class="resources-icon icon-like" onclick="{!c.doLike}">
+                    <aura:if isTrue="{!v.resourceWrapper.isVoted}">
+                        <c:RRIcon iconName="icon-like-brand-new" color="blue" class="resources-icon-like"/>
+                        <aura:set attribute="else">
+                            <c:RRIcon iconName="icon-like-brand-new" class="resources-icon-like"/>
+                        </aura:set>
+                    </aura:if>
+                </div>
+
+                <div class="resources-icon" onclick="{!c.doFavorite}">
+                    <aura:if isTrue="{!v.resourceWrapper.isFavorite}">
+                        <c:RRIcon iconName="icon-star-brand-new" color="blue" class="resources-icon-star"/>
+                        <aura:set attribute="else">
+                            <c:RRIcon iconName="icon-star" class="resources-icon-star"/>
+                        </aura:set>
+                    </aura:if>
+                </div>
+                <aura:if isTrue="{!v.resourceWrapper.isShareable}">
+                    <div class="resources-icon-social">
+                        <c:SocialSharing
+                                facebookIconClass="resources-icon-like"
+                                facebookIconName="facebook"
+                                mailBoxIconName="email"
+                                mailBoxIconClass="resources-icon-like"
+                                twitterIconName="twitter"
+                                twitterIconClass="resources-icon-like"
+                                linkedInIconName="linked-in"
+                                linkedInIconClass="resources-icon-like"
+                                linkToShare="{!v.resourceWrapper.resource.article_external_link__c}"
+                                mailSendMessage="{!v.resourceWrapper.shareMessage}"
+                                whatId="{!v.resourceWrapper.resource.Id}"
+                        />
+                    </div>
+                </aura:if>
+            </div>
+            <aura:if isTrue="{!v.resourceWrapper.resource.Updated_Date__c != null}">
+                <div class="resource-content-updated">
+                    {!$Label.c.Resources_Content_Has_Been_Updated}
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!!empty(v.resourceWrapper.bodyFieldWrappers)}">
+                <aura:iteration items="{!v.resourceWrapper.bodyFieldWrappers}" var="field">
+                    <div class="{!field.cssClassName}">
+                        <lightning:formattedRichText value="{!field.valueField}"/>
+                    </div>
+                </aura:iteration>
+            </aura:if>
+        </div>
+    </div>
+
+</aura:component>

@@ -1,0 +1,101 @@
+<!--
+ - Created by Nikita Abrazhevitch on 20-Aug-19.
+ -->
+
+<aura:component description="Action_ManageLocationDetails" controller = "StudyListViewController">
+
+    <!-- attributes: -->
+    <aura:attribute name="studySite" type="Object"/>
+    <aura:attribute name="studySiteAccounts" type="List"/>
+    <aura:attribute name="callback" type="Object" access="private"/>
+    <aura:attribute name="locationWasChanged" type="Boolean" default="false"/>
+    <aura:attribute name="checkedAccount" type="Account"/>
+
+    <!-- methods: -->
+    <aura:method name="execute" action="{!c.doExecute}">
+        <aura:attribute name="studySiteWrapper" type="Object"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <!-- component body -->
+    <div class="mrc-invite-popup">
+        <c:Popup aura:id="manageLocation" title="{!$Label.c.SS_Manage_Location_Details}" size="large" showScroll="true">
+            <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
+            <div class="slds-grid slds-grid_vertical">
+                <div class="slds-grid slds-wrap location-title-btn">
+                    <div class="slds-col my-location-label">{!$Label.c.SS_My_Locations}</div>
+                    <div class="slds-col slds-grid slds-grid_align-end">
+                        <button data-site-id="{!v.studySite.site.Id}"
+                                id="addNewLocation"
+                                class="apollo-btn secondary"      
+                                onclick="{!c.editAccountAddress}">
+                            <span>+</span> {!$Label.c.SS_New_Location}
+                        </button>
+                    </div>
+                </div>
+                <aura:if isTrue="{!v.studySiteAccounts}">
+                    <div class="slds-grid slds-wrap">
+                        <aura:iteration items="{!v.studySiteAccounts}" var="account"
+                                        indexVar="accIndex">
+                            <div class="slds-grid slds-col slds-size--1-of-1">
+                                <div class="locationContainer slds-grid slds-wrap">
+                                    <div class="slds-col slds-size--12-of-12 slds-grid slds-wrap"
+                                         style="height:100%;">
+                                        <div class="slds-col-size--1-of-1 slds-grid slds-wrap popup-account-name">
+                                            <div class="slds-col slds-size--1-of-2 slds-grid">
+                                                {!account.Name + ' ' + $Label.c.SS_Location}
+                                            </div>
+                                            <div class="slds-col slds-size--1-of-2 slds-grid slds-grid_align-end edit-btn"
+                                                 onclick="{!c.editAccountAddress}" data-index="{!accIndex}">
+                                                {!$Label.c.SS_Btn_Edit}
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size--1-of-12 slds-grid slds-grid--vertical-align-center slds-grid--align-center"
+                                             style="height:50%;">
+                                            <lightning:input aura:id="radioBtn"
+                                                             class="slds-grid" type="radio"
+                                                             value="{!account}"
+                                                             checked="{!account.Id == v.studySite.Site__c}"
+                                                             onchange="{!c.changeRadioMarker}"/>
+                                        </div>
+                                        <div class="slds-col slds-size--3-of-12 manage-location-info">
+                                            <div class="ss-info-headers">{!$Label.c.SS_Address}</div>
+                                            <div class="ss-info-address">{!account.BillingStreet}</div>
+                                            <div class="ss-info-address">{!if(account.BillingCity!=null, account.BillingCity + ', ', '') + account.BillingStateCode + ' ' + account.BillingPostalCode}</div>
+                                        </div>
+                                        <div class="slds-col slds-size_4-of-12 manage-location-info">
+                                            <div class="ss-info-headers">{!$Label.c.SS_Driving_Instructions}</div>
+                                            <div class="driving-instructions">
+                                                <c:uiLimitTextByLines maxLines="3" background="#f8f9fb">
+                                                    {!account.Driving_Directions__c}
+                                                </c:uiLimitTextByLines>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_4-of-12 manage-location-info">
+                                            <div class="ss-info-headers">{!$Label.c.SS_Parking_Instructions}</div>
+                                            <div class="driving-instructions">
+                                                <c:uiLimitTextByLines maxLines="3" background="#f8f9fb">
+                                                    {!account.Parking_Instructions__c}
+                                                </c:uiLimitTextByLines>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:iteration>
+                    </div>
+                </aura:if>
+            </div>
+            <aura:set attribute="footerButtons">
+                <button class="apollo-btn secondary"
+                        onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
+                <button class="apollo-btn primary"
+                        onclick="{!c.changeStudySiteAddress}"
+                        disabled="{!!v.locationWasChanged}"
+                        title="{!v.locationWasChanged ? $Label.c.SS_Save_Changes : $Label.c.SS_No_Changes_Message}">{!$Label.c.SS_Use_This_Address}</button>
+            </aura:set>
+        </c:Popup>
+    </div>
+
+    <c:Action_EditLocation aura:id="editLocation"/>
+</aura:component>

@@ -1,110 +1,68 @@
 ({
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
+        debugger;
         if (communityService.getUserMode() !== "PI") communityService.navigateToPage('');
-        component.set('v.userMode', communityService.getUserMode());
-       // var isFilterActive = (communityService.getUrlParameter('showPending') === 'true');
         var trialId = communityService.getUrlParameter('id');
         var ssId = communityService.getUrlParameter('ssId');
-        communityService.executeAction(component, 'getClinicDetail', {
+        communityService.executeAction(component, 'getInitData', {
             trialId: trialId ? trialId : null,
-            userMode: component.get('v.userMode'),
-            ssId : ssId ? ssId : null,
-            studyWasChanged: component.get('v.studyWasChanged')
+            ssId : ssId ? ssId : null
         }, function (returnValue) {
+            debugger;
             var initData = JSON.parse(returnValue);
+            component.set('v.skipUpdate', true);
             console.log('FILTER DATA>>',initData);
-            component.set("v.referringClinics", initData.referringClinics);
-            component.set("v.filteredReferringClinics", initData.referringClinics);
-            component.set("v.summaryContainers", initData.summrayContainers);
-            component.set("v.filterInfo", initData.filterInfo);
-            component.set('v.studySitePickList',initData.studySitePickList);
-            component.set('v.studyPickList',initData.studyPickList);
+            component.set("v.filterData", initData.referringClinicsFilter.filterData);
+            component.set("v.filterValues", initData.referringClinicsFilter.filterValues);
+            component.set("v.sortData", initData.referringClinicsFilter.sortData);
+            component.set("v.paginationData", initData.paginationData);
+            component.set("v.filteredReferringClinics", initData.filteredReferringClinics);
             component.set('v.trialId',initData.trialId);
             component.set('v.ssId',initData.ssId);
-            helper.clearInviteFields(component, event, helper);
-            component.set("v.studySitesForInvitation",initData.studySitesForInvitation);
-            /*if (isFilterActive) {
-                var filterInfo = component.get("v.filterInfo");
-                filterInfo.isActive = true;
-                component.set("v.filterInfo", filterInfo);
-                helper.sortByPending(component, event, helper);
-            }*/
+            component.set('v.skipUpdate', false);
             component.set("v.showSpinner", false);
+            component.set("v.isInitialized", true);
         })
     },
 
-    showPendingPhysicans: function (component, event, helper) {
-        helper.sortByPending(component, event, helper);
-    },
-    doShowInviteRP: function (component, event, helper) {
-        component.find('invite-rp').show();
-    },
-    doClearInviteAndHide: function (component, event, helper) {
-        helper.clearInviteFields(component, event, helper)
-        component.find('invite-rp').hide();
-    },
-    doInviteRP: function (component, event, helper) {
-        var rpData = component.get('v.rpData');
-        component.find('modalSpinner').show();
-        communityService.executeAction(component, 'inviteHCP', {
-            firstName: rpData.firstName,
-            lastName: rpData.lastName,
-            clinicName: rpData.clinicName,
-            phone: rpData.phone,
-            studySiteId: rpData.studySiteId,
-            protocolId: rpData.protocolId,
+    doUpdateRecords: function (component){
+        debugger;
+        if(component.get('v.skipUpdate')) return;
+        var spinner = component.find('recordListSpinner');
+        spinner.show();
+        var filterValues = component.get('v.filterValues');
+        var sortDataJSON = JSON.stringify(component.get('v.sortData'));
+        var paginationDataJSON = JSON.stringify(component.get('v.paginationData'));
+        var trialId = component.get('v.trialId');
+        var trialChanged = trialId !== filterValues.trialId;
+        communityService.executeAction(component, 'searchReferringClinics', {
+            filterValuesJSON: JSON.stringify(filterValues),
+            sortDataJSON: sortDataJSON,
+            paginationDataJSON: paginationDataJSON,
+            trialChanged: trialChanged
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
-            component.find('modalSpinner').hide();
-            helper.clearInviteFields(component, event, helper)
-            component.find('invite-rp').hide();
-            communityService.showToast("success", "success",  $A.get("$Label.c.TST_Request_to_invite_a_referring_provider"));
+            debugger;
+            component.set('v.skipUpdate', true);
+            if(trialChanged){
+                component.set("v.filterData.studySitePickList", initData.referringClinicsFilter.filterData.studySitePickList);
+            }
+            component.set("v.filterValues.statusFilter", initData.referringClinicsFilter.filterValues.statusFilter);
+            component.set("v.filterValues.trialId", initData.referringClinicsFilter.filterValues.trialId);
+            component.set("v.filterValues.ssId", initData.referringClinicsFilter.filterValues.ssId);
+            component.set('v.paginationData.allRecordsCount', initData.paginationData.allRecordsCount);
+            component.set('v.paginationData.currentPage', initData.paginationData.currentPage);
+            component.set('v.paginationData.currentPageCount', initData.paginationData.currentPageCount);
+            component.set("v.filteredReferringClinics", initData.filteredReferringClinics);
+            component.set('v.trialId',initData.trialId);
+            component.set('v.ssId',initData.ssId);
+            component.set('v.skipUpdate', false);
+            spinner.hide();
         })
-
-    },
-    doSelectStudy: function (component, event, helper) {
-        var siteId = event.getSource().get('v.value');
-        component.set('v.rpData.studySiteId', siteId.Id);
-        component.set('v.rpData.protocolId', siteId.protocolId);
-    },
-    checkReqFields : function (component, event, helper) {
-        var rpData = component.get('v.rpData');
-        var inputPattern = new RegExp('[!+@#$%^&*(),.?":{}|<>]','g');
-        var phonePattern = new RegExp('[!@#$%^&*,.?":{}|<>]','g');
-        var reqFieldsFilled = (inputPattern.test(rpData.firstName) || !rpData.firstName.trim()) ||
-                              (inputPattern.test(rpData.lastName) || !rpData.lastName.trim()) ||
-                              (phonePattern.test(rpData.phone) || !rpData.phone.trim()) ||
-                              (inputPattern.test(rpData.clinicName) || !rpData.clinicName.trim());
-        component.set('v.reqFieldsFilled',reqFieldsFilled);
     },
 
-    filterData: function(component,event,helper){
-        if(component.get('v.filterWasChanged')) {
-            component.set("v.showSpinner", true);
-            var trialId = component.get('v.trialId');
-            var ssId = component.get('v.ssId');
-            communityService.executeAction(component, 'getClinicDetail', {
-                trialId: trialId ? trialId : null,
-                userMode: component.get('v.userMode'),
-                ssId: ssId ? ssId : null,
-                studyWasChanged: component.get('v.studyWasChanged')
-            }, function (returnValue) {
-                var initData = JSON.parse(returnValue);
-                component.set('v.studySitePickList', initData.studySitePickList);
-                component.set('v.studyPickList', initData.studyPickList);
-                component.set("v.referringClinics", initData.referringClinics);
-                component.set("v.filteredReferringClinics", initData.referringClinics);
-                component.set("v.summaryContainers", initData.summrayContainers);
-                component.set("v.filterInfo", initData.filterInfo);
-                component.set('v.trialId', initData.trialId);
-                component.set('v.ssId', initData.ssId);
-                component.set('v.filterWasChanged', false);
-                component.set('v.studyWasChanged', false);
-                helper.clearInviteFields(component, event, helper)
-                component.set("v.studySitesForInvitation", initData.studySitesForInvitation);
-                component.set("v.showSpinner", false);
-            })
-        }
-    },
+    doShowInviteRP: function (component, event, helper) {
+        component.find('inviteRPAction').execute();//component.find('invite-rp').show();
+    }
 })

@@ -47,7 +47,7 @@
             <!-- Share dialog -->
             <c:ShareModal aura:id="shareModal" parent="{!this}" needRefresh="false"/>
             <!-- top bar -->
-            <div class="{!'sdv-top-bar ' + if(v.multiMode, 'multi-mode', '')}" id="stickyBar" aura:id="stickyBar">
+            <div class="{!'sdv-top-bar ' + if(v.multiMode, 'multi-mode', '')}" >
                 <div class="navigation rr-width-limiter side-padding">
                     <aura:if isTrue="{!v.userMode == 'Participant'}">
                         <aura:if isTrue="{!v.state != 'ALUMNI'}">
@@ -76,7 +76,7 @@
                     </aura:if>
                 </div>
 
-                <div class="rr-all-content sticky-bar" id="stickyPositionTarget">
+                <div class="rr-all-content">
                     <c:RRAnchor aura:id="tabsTarget"/>
                     <aura:if isTrue="{!!empty(v.studyDetail.tabs)}">
                         <div class="tabs">
@@ -87,8 +87,7 @@
                                         <aura:if isTrue="{!v.userMode != 'HCP'}">
                                             <aura:iteration items="{!v.studyDetail.tabs}" var="tab">
                                                 <c:RRTabSetItem tabId="{!tab.id}" currentTab="{!v.currentTab}"
-                                                                iconName="{!tab.iconName}" title="{!tab.title}"
-                                                                studyId="{!v.studyDetail.trial.Id}"/>
+                                                                title="{!tab.title}"/>
                                             </aura:iteration>
                                         </aura:if>
                                     </aura:set>
@@ -97,14 +96,14 @@
                                         <div class="actions-buttons">
                                             <aura:iteration items="{!v.currentActions}" var="action">
                                                 <div style="position: relative;">
-                                                    <aura:if isTrue="{!action.id != 'share'}">
+                                                  <!--  <aura:if isTrue="{!action.id != 'share'}">
                                                         <button class="{!'apollo-btn text ico-in-top small-font sdv-btn'}"
                                                                 disabled="{!action.disabled}" id="{!action.id}"
                                                                 onclick="{!c.doAction}" title="{!action.disableReason}">
                                                             <c:RRIcon iconName="{!action.iconName}"/>
                                                             {!action.label}
                                                         </button>
-                                                    </aura:if>
+                                                    </aura:if> -->
                                                     <aura:if isTrue="{!and(action.id == 'share',!empty(v.studyDetail.trial.NCT_Number__c))}">
                                                         <div class="share-icons">
                                                             <aura:iteration items="{!v.shareButtons}" var="shareButton">
@@ -185,16 +184,16 @@
 
             <div id="sd-selected-tab-container" style="position: relative">
                 <div class="rr-width-limiter side-padding rr-min-body-height">
-                    <div class="{!if(v.currentTab == 'tab-about-the-study', 'visible-tab', 'invisible-tab')}">
-                        <c:StudyDetailAboutStudy studyDetail="{!v.studyDetail}" userMode="{!v.userMode}"
-                                                 parent="{!this}"/>
-                    </div>
-                    <!--                    <aura:if isTrue="{!v.isMRRTabInitialized}">-->
-                    <!--                        <div class="{!if(v.currentTab == 'tab-medical-record-review-log', 'visible-tab', 'invisible-tab')}">-->
-                    <!--                            <c:MedicalRecordReviewLog showStatistics="false"/>-->
-                    <!--                        </div>-->
-                    <!--                    </aura:if>-->
-                    <aura:if isTrue="{!v.currentTab == 'tab-reports'}">
+                    <aura:if isTrue="{!notequals(v.state, 'ALUMNI')}">
+                        <div class="{!if(v.currentTab == 'tab-about-the-study', 'visible-tab', 'invisible-tab')}">
+                            <aura:if isTrue="{!!empty(v.studyDetail)}">
+                                <c:StudyDetailAboutStudy studyDetail="{!v.studyDetail}" userMode="{!v.userMode}"
+                                                         parent="{!this}"/>
+                            </aura:if>
+                        </div>
+                    </aura:if>
+
+                    <aura:if isTrue="{!and(v.currentTab == 'tab-reports', !empty(v.studyDetail.trial))}">
                         <c:Reports trialId="{!v.studyDetail.trial.Id}"/>
                     </aura:if>
 

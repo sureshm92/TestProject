@@ -1,0 +1,29 @@
+<!--
+ - Created by dmytro.fedchyshyn on 28.08.2019.
+ -->
+
+<aura:component description="VendorsTable">
+
+    <aura:attribute name="vendors" type="Object[]"/>
+    <aura:attribute name="hasDefault" type="Boolean"/>
+    <aura:attribute name="selectedVendor" type="Object"/>
+
+    <div class="slds-scrollable--y vendor-table">
+        <c:RRTable>
+            <tbody>
+            <aura:iteration var="vendor" items="{!v.vendors}" indexVar="ind">
+                <tr>
+                    <td class="slds-grid slds-grid_vertical-align-center" data-ind="{!vendor.Link_Vendor__c}">
+                        <div class="slds-col slds-p-around--none slds-size--1-of-12">
+                            <lightning:input aura:id="checkBoxBtn" type="checkbox" label=""
+                                             onchange="{!c.makeUnique}" value="{!vendor}"/>
+                        </div>
+                        <div class="slds-col slds-p-around--none slds-size--11-of-12 vendor-name"
+                             title="{!vendor.Name}">{!vendor.Name}</div>
+                    </td>
+                </tr>
+            </aura:iteration>
+            </tbody>
+        </c:RRTable>
+    </div>
+</aura:component>

@@ -1,4 +1,4 @@
-@IsTest
+@IsTest(IsParallel=true)
 public class Test_ClassFactory {
 
     @IsTest
@@ -21,18 +21,18 @@ public class Test_ClassFactory {
         valueToReturnByName.testingString = 'Stubbed Value By Name';
         Test.startTest();
         ClassFactory.putStubTypeByClassName(ClassFactory.class,
-                StubFactory.newInstance(ClassFactory.class)
+                StubBuilder.newInstance(ClassFactory.class)
                         .when('getClassForTestingClassFactory')
                         .then(valueToReturnByType)
-                        .getInstance()
-        );
+                .build()
+       );
         ClassFactory testClassByType = (ClassFactory) ClassFactory.newInstance(ClassFactory.class);
         ClassFactory.putStubTypeByClassName('ClassFactory',
-                StubFactory.newInstance('ClassFactory')
+                StubBuilder.newInstance('ClassFactory')
                         .when('getClassForTestingClassFactory')
                         .then(valueToReturnByName)
-                        .getInstance()
-        );
+                .build()
+       );
         ClassFactory testClassByName = (ClassFactory) ClassFactory.newInstance('ClassFactory');
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory testClassWithoutStub = (ClassFactory) ClassFactory.newInstance(ClassFactory.class);

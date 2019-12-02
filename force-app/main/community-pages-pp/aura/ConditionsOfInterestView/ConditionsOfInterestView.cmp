@@ -1,0 +1,94 @@
+<!--
+ - Created by Vitalii Aheienko on 9/10/2019.
+ -->
+
+<aura:component description="ConditionsOfInterestView" controller="ConditionsOfInterestViewRemote">
+
+    <aura:attribute name="taps" type="Object[]"/>
+    <aura:attribute name="searchResults" type="Object[]"/>
+    <aura:attribute name="filterText" type="String" default=""/>
+    <aura:attribute name="participantId" type="String"/>
+    <aura:attribute name="initialized" type="Boolean" default="false"/>
+    <aura:attribute name="showDropdown" type="Boolean" default="false"/>
+
+    <aura:registerEvent name="updateSearchEvent" type="c:UpdateConditionsOfInterestSearchEvt"/>
+
+    <aura:handler name="change" value="{!v.taps}" action="{!c.doInit}"/>
+
+    <div class="slds-grid slds-wrap">
+        <div style="width: 100%">
+            <div class="label-default">
+                <label>{!$Label.c.TrialSearch_Conditions_of_interest}</label>
+            </div>
+            <div class="slds-grid slds-grid_vertical">
+                <aura:if isTrue="{!!empty(v.taps)}">
+                    <aura:iteration items="{!v.taps}" var="tap" indexVar="arrayInd">
+                        <div class="checkbox-container">
+                            <lightning:input type="checkbox" label="{!tap.Therapeutic_Area__r.Name}" checked="{!tap.checked}"/>
+                        </div>
+                    </aura:iteration>
+                </aura:if>
+            </div>
+            <!--Search for another condition-->
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <div class="slds-combobox_container">
+                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open"
+                             aura:id="searchContainer"
+                             aria-expanded="false"
+                             aria-haspopup="listbox"
+                             role="combobox">
+                            <!--Search field-->
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                <lightning:input type="search" aura:id="search" autocomplete="off"
+                                                 disabled="{!v.taps.length >= 7}"
+                                                 placeholder="{!$Label.c.TrialSearch_Search_for_another_condition}"
+                                                 onfocus="{!c.onFocus}"
+                                                 onblur="{!c.onBlur}"
+                                                 onchange="{!c.doSearch}"/>
+                            </div>
+                            <!--Dropdown-->
+                            <aura:if isTrue="{!v.showDropdown}">
+                                <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                        <aura:iteration items="{!v.searchResults}" var="searchItem">
+                                            <li role="presentation" class="slds-listbox__item">
+                                                <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option"
+                                                     id="{!searchItem.Id}" onclick="{!c.handleSelection}">
+                                                    <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                                    <span class="slds-media__body">
+                                                <span class="slds-truncate" title="{!searchItem.Name}">{!searchItem.Name}</span>
+                                            </span>
+                                                </div>
+                                            </li>
+                                        </aura:iteration>
+                                    </ul>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Enrollment Status Area-->
+            <div class="label-default margin-top">
+                <label>{!$Label.c.TrialSearch_Enrollment_Status}</label>
+            </div>
+            <div class="slds-grid slds-grid_vertical">
+                 <div class="checkbox-container">
+                	<lightning:input aura:id="enrolling" type="checkbox" label="{!$Label.c.TrialSearch_Enrolling}" checked="true"/>
+                </div>
+                <div class="checkbox-container">
+                	<lightning:input aura:id="notYetEnrolling" type="checkbox" label="{!$Label.c.TrialSearch_Not_Yet_Enrolling}" checked="true"/>
+                </div>
+            </div>
+
+            <div class="margin-top">
+                <lightning:button class="apollo-btn secondary" onclick="{!c.updateSearchResults}" label="{!$Label.c.TrialSearch_Update_Search_Results}"/>
+            </div>
+        </div>
+    </div>
+
+
+
+</aura:component>

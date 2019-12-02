@@ -19,14 +19,14 @@ public without sharing class CTPSelector {
                         ,Patient_Portal_Name__c
                         ,Visit_Schedule__c
                         ,Visit_Number__c
-                        ,icons__c
+                        ,Icons__c
                 FROM Visit__c
                 WHERE Visit_Plan__c = :visitPlanId
                 ORDER BY Visit_Number__c
         ];
     }
 
-    public List<Icon_Details__c> getIconDetailsByVisitPlanInCTP(Id ctpId) {
+    public List<Icon_Details__c> getIconDetailsByVisitPlanInCTP(Id planId) {
         return [
                 SELECT Id
                         ,Name
@@ -34,11 +34,7 @@ public without sharing class CTPSelector {
                         ,Description__c
                         ,Custom_Icon__c
                 FROM Icon_Details__c
-                WHERE Visit_Plan__c IN (
-                        SELECT Visit_Plan__c
-                        FROM Clinical_Trial_Profile__c
-                        WHERE Id = :ctpId
-                )
+                WHERE Visit_Plan__c =: planId
         ];
     }
 

@@ -2,21 +2,11 @@
  * Created by Yehor Dobrovolskyi
  */
 public inherited sharing class VisitReportContainerRemote {
-    public static final List<Object> FORMAT_PARAMETERS = new List<Object>{
-            '',
-            ')',
-            '(BMI)',
-            'Blood urea nitrogen (',
-            'Alanine aminotransferase (',
-            'Aspartate aminotransferase ('
-    };
-    public static final List<Object> FORMAT_EMPTY_PARAMETERS = new List<Object>{
-            '',
-            '',
-            '',
-            '',
-            '',
-            ''
+    static Set<String> differentLabNames = new Set<String>{
+            'Body_Mass_Index',
+            'BUN',
+            'AST',
+            'ALT'
     };
     public static final String IQVIA_LOGO = 'IQVIA';
     private static String base64PNG = 'data:image/png;base64,';
@@ -37,15 +27,13 @@ public inherited sharing class VisitReportContainerRemote {
     }
 
     @AuraEnabled
-    public static String getReportDataWrappers() {
-        List<VisitReportContainerRemote.ReportDataWrapper> reportDataWrappers = new List<VisitReportContainerRemote.ReportDataWrapper>();
+    public static ReportDataWrapper getReportDataWrappers(Id peId) {
         try {
             VisitReportService visitReportService = ((VisitReportService) ClassFactory.newInstance(VisitReportService.class));
-            reportDataWrappers = visitReportService.getReportDataWrapper();
+            return visitReportService.getReportDataWrapper(peId);
         } catch (Exception e) {
-            AuraHelper.throwException(e);
+            return (ReportDataWrapper) AuraHelper.throwException(e);
         }
-        return JSON.serialize(reportDataWrappers);
     }
 
     public class ReportDataWrapper {
@@ -66,7 +54,7 @@ public inherited sharing class VisitReportContainerRemote {
         @AuraEnabled
         public String studySiteName;
         @AuraEnabled
-        public String peId;
+        public String notAvailableMessage;
     }
 
     public class ReportDataTableWrapper {
@@ -88,71 +76,57 @@ public inherited sharing class VisitReportContainerRemote {
         @AuraEnabled
         public String descriptionLab;
 
-        public LabsNameDescriptionWrapper(Visit_Result_TypeM__mdt visitResultTypeM) {
-
-            this.nameLabs = String.format(TranslateHelper.getLabelValue(visitResultTypeM.DeveloperName), FORMAT_PARAMETERS);
-            this.descriptionLab = TranslateHelper.getLabelValue(visitResultTypeM.Description_Label_Api_Name__c);
-        }
-
-        public LabsNameDescriptionWrapper(Visit_Result_TypeM__mdt visitResultTypeM, String languageToTranslate) {
-
-            this.nameLabs = String.format(TranslateHelper.getLabelValue(visitResultTypeM.DeveloperName, languageToTranslate), FORMAT_PARAMETERS);
-            this.descriptionLab = TranslateHelper.getLabelValue(visitResultTypeM.Description_Label_Api_Name__c, languageToTranslate);
+        public LabsNameDescriptionWrapper(Visit_Result_TypeM__mdt visitResultTypeM, String language) {
+            this.nameLabs = differentLabNames.contains(visitResultTypeM.DeveloperName)
+                    ? TranslateHelper.getLabelValue(visitResultTypeM.DeveloperName + '_Name_Labs', language)
+                    : TranslateHelper.getLabelValue(visitResultTypeM.DeveloperName, language);
+            this.descriptionLab = TranslateHelper.getLabelValue(visitResultTypeM.Description_Label_Api_Name__c, language);
         }
     }
 
-    public class VisitDataWrapper {
+    public virtual class VisitDataWrapper{
         @AuraEnabled
         public String value;
+    }
+
+    public class VisitHeaderWrapper extends VisitDataWrapper{
         @AuraEnabled
         public Double minValue;
         @AuraEnabled
         public Double maxValue;
         @AuraEnabled
         public Boolean isShowRange;
+
+        public VisitHeaderWrapper(Visit_Result__c visitResult) {
+            this.value = TranslateHelper.getLabelValue(visitResult.Result_Type__c);
+            this.minValue = visitResult.Min_Value__c;
+            this.maxValue = visitResult.Max_Value__c;
+            this.isShowRange = true;
+        }
+
+        public VisitHeaderWrapper(String value) {
+            this.value = TranslateHelper.getLabelValue(value);
+            this.isShowRange = false;
+        }
+    }
+
+    public class VisitDateColumnWrapper extends VisitDataWrapper{
+        public VisitDateColumnWrapper(Date resultDate) {
+            //this.value = DateService.format(resultDate, 'MMM, D YYYY');
+            this.value = resultDate.format();
+        }
+    }
+
+    public class VisitValueWrapper extends VisitDataWrapper {
         @AuraEnabled
         public String measurement;
 
-        public VisitDataWrapper(Visit_Result__c visitResult) {
-            this.value = String.format(TranslateHelper.getLabelValue(visitResult.Result_Type__c), FORMAT_EMPTY_PARAMETERS);
-            if (visitResult.Min_Value__c != null) {
-                this.minValue = visitResult.Min_Value__c.setScale(4, RoundingMode.HALF_UP).stripTrailingZeros();
-                this.isShowRange = true;
-            }
-            if (visitResult.Max_Value__c != null) {
-                this.maxValue = visitResult.Max_Value__c.setScale(4, RoundingMode.HALF_UP).stripTrailingZeros();
-                this.isShowRange = true;
-            }
-            this.measurement = visitResult.Measurement__c;
-        }
-
-        public VisitDataWrapper(Visit_Result__c visitResult, String languageToTranslate) {
-            this.value = String.format(TranslateHelper.getLabelValue(visitResult.Result_Type__c, languageToTranslate), FORMAT_EMPTY_PARAMETERS);
-            if (visitResult.Min_Value__c != null) {
-                this.minValue = visitResult.Min_Value__c.setScale(4, RoundingMode.HALF_UP).stripTrailingZeros();
-                this.isShowRange = true;
-            }
-            if (visitResult.Max_Value__c != null) {
-                this.maxValue = visitResult.Max_Value__c.setScale(4, RoundingMode.HALF_UP).stripTrailingZeros();
-                this.isShowRange = true;
-            }
-            this.measurement = visitResult.Measurement__c;
-        }
-
-
-        public VisitDataWrapper(String value, String measurement, String languageToTranslate) {
-            this.value = TranslateHelper.getLabelValue(value, languageToTranslate);
+        public VisitValueWrapper(Decimal value, String measurement) {
+            this.value = value.toPlainString();
             this.measurement = measurement;
         }
-
-        public VisitDataWrapper(String value) {
-            this.value = String.format(TranslateHelper.getLabelValue(value), FORMAT_EMPTY_PARAMETERS);
-            this.isShowRange = false;
-        }
-
-        public VisitDataWrapper(String value, String languageToTranslate) {
-            this.value = String.format(TranslateHelper.getLabelValue(value, languageToTranslate), FORMAT_EMPTY_PARAMETERS);
-            this.isShowRange = false;
+        public VisitValueWrapper(String value) {
+            this.value = value;
         }
     }
 }

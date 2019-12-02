@@ -1,44 +1,45 @@
-<aura:component controller="ParticipantVisitsRemote" description="StudyVisitsPreviewPanel">
+<aura:component controller="ParticipantVisitsRemote" description="StudyVisitsPreviewPanel" >
 
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
+    <aura:attribute name="initialized" type="Boolean"/>
     <aura:attribute name="visitWrappers" type="PatientVisitService.VisitWrapper[]"/>
-
-    <c:RRActionApprove aura:id="popup"
-                       dialogTitle="{!$Label.c.Home_Page_StudyVisit_Btn}"
-                       message="{!$Label.c.StudyVisit_Popup_Text}"
-                       approveBtnName="{!$Label.c.BTN_OK}"
-                       cancelBtnName="{!$Label.c.BTN_Cancel}"/>
 
     <div class="sv-panel rr-white-panel">
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
-        <div class="sv-header">
-            <div class="sv-title">{!$Label.c.Home_Page_StudyVisit_Title}</div>
-            <button class="apollo-btn primary sv-btn" onclick="{!c.onTravel}">
-                {!$Label.c.Home_Page_StudyVisit_Btn}
-            </button>
-        </div>
-        <div class="sv-body">
-            <aura:if isTrue="{!!empty(v.visitWrappers)}">
-                <c:RRTable>
-                    <tr>
-                        <th>{!$Label.c.Home_Page_StudyVisit_Visit}</th>
-                        <th>{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
-                        <th>{!$Label.c.Home_Page_StudyVisit_WhToEx}</th>
-                    </tr>
-                    <aura:iteration var="visitWrapper" items="{!v.visitWrappers}">
+
+        <aura:if isTrue="{!v.initialized}">
+            <div class="sv-header">
+                <div class="sv-title">{!$Label.c.Home_Page_StudyVisit_Title}</div>
+                <div class="apollo-btn">
+                    <c:TravelSupport/>
+                </div>
+            </div>
+            <div class="sv-body">
+                <aura:if isTrue="{!!empty(v.visitWrappers)}">
+                    <c:RRTable>
                         <tr>
-                            <td>{!visitWrapper.visit.Visit__r.Patient_Portal_Name__c}</td>
-                            <td>{!visitWrapper.visit.Visit_Schedule__c}</td>
-                            <td><c:RRIconSplitter class="svl-icon" value="{!visitWrapper.icons}" numOfIconsToDisplay="3"/></td>
+                            <th>{!$Label.c.Home_Page_StudyVisit_Visit}</th>
+                            <th>{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
+                            <th>{!$Label.c.Home_Page_StudyVisit_WhToEx}</th>
                         </tr>
-                    </aura:iteration>
-                </c:RRTable>
-            </aura:if>
-            <c:EmptyListStub targetList="{!v.visitWrappers}" iconName="none"/>
-        </div>
-        <div class="sv-footer">
-            <c:RRLink page="study-workspace?tab=tab-visits" label="{!$Label.c.Resources_See_All}"/>
-        </div>
+                        <aura:iteration var="visitWrapper" items="{!v.visitWrappers}">
+                            <tr>
+                                <td>{!visitWrapper.visit.Visit__r.Patient_Portal_Name__c}</td>
+                                <td>{!visitWrapper.visit.Visit_Schedule__c}</td>
+                                <td>
+                                    <c:RRIconSplitter class="svl-icon" value="{!visitWrapper.icons}"
+                                                      numOfIconsToDisplay="3"/>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </c:RRTable>
+                </aura:if>
+                <c:EmptyListStub targetList="{!v.visitWrappers}" iconName="none" message="{!$Label.c.PG_VP_L_No_Items_display}"/>
+            </div>
+            <div class="sv-footer">
+                <c:RRLink page="study-workspace?tab=tab-visits" label="{!$Label.c.Resources_See_All}"/>
+            </div>
+        </aura:if>
     </div>
 </aura:component>

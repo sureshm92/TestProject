@@ -1,0 +1,40 @@
+<!--
+ - Created by Yehor Dobrovolskyi on 20.02.2019.020.
+ -->
+
+<aura:component description="ResourcesDetailContainer" implements="forceCommunity:availableForAllPageTypes"
+                controller="ResourcesDetailRemote">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <aura:attribute name="resourceWrapper" type="ResourceService.ResourceWrapper"/>
+    <aura:attribute name="resourceType" type="String" default="Article"/>
+    <aura:attribute name="backStudy" type="String"/>
+    <aura:attribute name="smallTitle" type="String" default="&nbsp;"/>
+    <aura:attribute name="bigTitle" type="String" default="&nbsp;"/>
+    <aura:attribute name="errorMessage" type="String" default=""/>
+    <aura:attribute name="lang" type="String"/>
+
+
+    <div>
+        <c:RRTopBar backLabel="{!v.backStudy == '' ? $Label.c.Link_Back_To_Home : $Label.c.Link_Back_To_Resources}"
+                    backPage="{!v.backStudy}"
+                    smallTitle="{!v.smallTitle}"
+                    bigTitle="{!v.bigTitle}"/>
+        <c:RRSpinner aura:id="spinner" showSpinner="true" fixed="true" size="medium"/>
+
+        <aura:if isTrue="{!v.errorMessage}">
+            <div class="resource-error-message resource-detail-block">
+                {!v.errorMessage}
+            </div>
+            <aura:set attribute="else">
+                <div class="resource-detail-block">
+                    <c:ResourcesDetailItem resourceWrapper ="{!v.resourceWrapper}" lang="{!v.lang}"/>
+                </div>
+            </aura:set>
+        </aura:if>
+        <div class="rr-width-limiter side-padding footer-resource">
+            <c:CommunityFooter/>
+        </div>
+    </div>
+</aura:component>

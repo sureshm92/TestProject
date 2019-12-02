@@ -7,7 +7,7 @@ window.communityService = (function () {
     var isInitializedFlag = false;
     var isTCAcceptedFlag;
     var communityMode;
-    var communityTypes;
+    var communityDelegateId;
     var communityURLPathPrefix;
     var isDelegate;
     var stickyBarEnabled = true;
@@ -21,6 +21,9 @@ window.communityService = (function () {
     var preventedCookies = [];
     var participantState;
     var baseUrl;
+    var currentUserMode;
+    var allUserModes;
+    var showPastStudies
 
     //community service functions:
     var service = {
@@ -29,12 +32,11 @@ window.communityService = (function () {
             service.executeAction(component, 'getCommunityData', null, function (returnValue) {
                 console.log('Mode data: ' + returnValue);
                 var communityData = JSON.parse(returnValue);
-
                 preventedCookies = communityData.preventedCookies;
                 service.deleteCookies(preventedCookies);
                 console.log('preventedCookies: ' + JSON.stringify(preventedCookies));
-                communityTypes = communityData.communityTypes;
                 communityMode = communityData.communityMode;
+                communityDelegateId = communityData.communityDelegateId;
                 isDelegate = communityData.isDelegate;
                 communityURLPathPrefix = communityData.pathPrefix;
                 isTCAcceptedFlag = communityData.isTCAccepted;
@@ -42,16 +44,17 @@ window.communityService = (function () {
                 participantState = communityData.state;
                 baseUrl = communityData.baseUrl;
                 isInitializedFlag = true;
+                allUserModes = communityData.allUserModes;
+                currentUserMode = communityData.currentUserMode;
+                showPastStudies = communityData.showPastStudies;
                 service.setCookie('RRLanguage', communityData.language, 365);
                 console.log('CommunityService initialized:');
-                console.log('user mode: ' + communityMode);
-                console.log('community types: ' + JSON.stringify(communityTypes));
                 console.log('is TC accepted: ' + isTCAcceptedFlag);
                 console.log('URL path prefix: ' + communityURLPathPrefix);
                 if (!service.isTCAccepted()) {
                     service.navigateToPage('terms-and-conditions?ret=' + service.createRetString());
                 } else {
-                    $A.get("e.c:EventCommunityInitialized").fire();
+                    $A.get('e.c:EventCommunityInitialized').fire();
                 }
             })
         },
@@ -106,6 +109,22 @@ window.communityService = (function () {
         },
 
         //Getters/setters:
+        isShowPastStudies: function(){
+            return showPastStudies;
+        },
+
+        getCurrentCommunityMode: function(){
+            return currentUserMode;
+        },
+
+        setCurrentCommunityMode: function(mode){
+            currentUserMode = mode
+        },
+
+        getAllUserModes: function(){
+            return allUserModes
+        },
+
         getParticipantState: function(){
             return participantState;
         },
@@ -120,19 +139,16 @@ window.communityService = (function () {
             isTCAcceptedFlag = true;
         },
         getUserMode: function () {
-            return communityMode
+            return currentUserMode.userMode
         },
-        setUserMode: function (userMode) {
-            communityMode = userMode;
+        getDelegateId: function () {
+            return currentUserMode.currentHCPDelegate
         },
         isDelegate: function(){
             return isDelegate;
         },
         getCommunityURLPathPrefix: function () {
             return communityURLPathPrefix
-        },
-        getCommunityTypes: function () {
-            return communityTypes
         },
 
         isInitialized: function () {
@@ -299,7 +315,7 @@ window.communityService = (function () {
             setTimeout(
                 function () {
                     var mainBarHeight = 50;
-                    if (communityTypes.length > 1 && window.innerWidth <= 550) mainBarHeight = 80;
+                    if (allUserModes.length > 1 && window.innerWidth <= 550) mainBarHeight = 80;
                     document.getElementById('stickyBar').classList.remove('sticky');
                     var stickyBar = document.getElementById('stickyPositionTarget');
                     stickyBarTop = stickyBar.offsetTop - mainBarHeight;

@@ -13,20 +13,20 @@
     <aura:attribute name="task" type="Task"/>
     <aura:attribute name="owner" type="Boolean" default="true"/>
     <aura:attribute name="editAvailable" type="Boolean"/>
-    <aura:attribute name="notReferral" type="Boolean"/>
-    <aura:attribute name="todayDate" type="Date"/>
+    <aura:attribute name="isEnrolled" type="Boolean"/>
+    <aura:attribute name="jsonState" type="String"/>
 
     <!-- Reminder picklist value -->
-    <aura:attribute name="reminderSetMode" type="String" default="Email"/>
+    <aura:attribute name="reminderSetMode" type="String" default="Disabled"/>
     <aura:attribute name="frequencyMode" type="String" default="By_Date"/>
 
     <aura:attribute name="reminderEnabled" type="Boolean" default="false"/>
     <aura:attribute name="frequencyEnabled" type="Boolean" default="false"/>
-    <aura:attribute name="reminderDateEnabled" type="Boolean"/>
+    <aura:attribute name="reminderDateEnabled" type="Boolean" default="false"/>
     <aura:attribute name="isValidFields" type="Boolean" default="true"/>
 
     <!-- handlers: -->
-    <aura:handler name="change" value="{!v.task.ActivityDate}" action="{!c.doCheckFields}"/>
+    <aura:handler name="change" value="{!v.initData.activityDate}" action="{!c.doCheckFields}"/>
     <aura:handler name="change" value="{!v.initData.reminderDate}" action="{!c.doCheckFields}"/>
 
     <c:RRSpinner aura:id="spinner" fixed="true" size="medium" showSpinner="true"/>
@@ -40,63 +40,8 @@
                     smallTitle=""
                     bigTitle="{!if(v.editMode, $Label.c.TTL_Edit_Task, $Label.c.TTL_Create_Task)}">
 
-            <!--Create Task-->
-            <aura:if isTrue="{!not(v.editMode)}">
-                <div class="buttons-area">
-                    <div class="rr-width-limiter buttons-block">
-                        <div class="pe-button red" onclick="{!c.doCancel}">
-                            <div>
-                                <c:RRIcon iconName="icon-close-circle"/>
-                                {!$Label.c.BTN_Cancel}
-                            </div>
-                        </div>
-                        <div class="pe-button blue" onclick="{!c.doSave}">
-                            <div>
-                                <c:RRIcon iconName="icon-check-circle"/>
-                                {!$Label.c.BTN_Save_Task}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </aura:if>
-
-            <!-- Edit Task -->
-            <aura:if isTrue="{!v.editMode}">
-                <div class="buttons-area">
-                    <div class="rr-width-limiter buttons-block">
-                        <aura:if isTrue="{!v.owner}">
-                            <div class="pe-button blue" onclick="{!c.doSave}">
-                                <div>
-                                    <c:RRIcon iconName="icon-check-circle"/>
-                                    {!$Label.c.BTN_Save_Task}
-                                </div>
-                            </div>
-                            <aura:set attribute="else">
-                                <div class="pe-button red" onclick="{!c.doCancel}">
-                                    <div>
-                                        <c:RRIcon iconName="icon-close-circle"/>
-                                        {!$Label.c.BTN_Cancel}
-                                    </div>
-                                </div>
-                            </aura:set>
-                        </aura:if>
-                        <div class="pe-button orange" onclick="{!c.doIgnoreTask}">
-                            <div>
-                                <c:RRIcon iconName="icon-stop" color="orange"/>
-                                {!$Label.c.BTN_Ignore}
-                            </div>
-                        </div>
-                        <div class="pe-button green" onclick="{!c.doMarkAsCompleted}">
-                            <div>
-                                <c:RRIcon iconName="icon-check-circle"/>
-                                {!$Label.c.BTN_Mark_As_Completed}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </aura:if>
         </c:RRTopBar>
-
+        <c:action_TimeZoneCheck/>
         <!-- Task Panel -->
         <div class="te-task-panel">
             <div class="rr-white-panel padding slds-col" style="min-height: 250px;">
@@ -115,15 +60,15 @@
                 <div class="slds-grid slds-gutters slds-wrap">
                     <!-- Due Date -->
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                        <lightning:input aura:id="field" type="date" min="{!v.todayDate}"
-                                         label="{!$Label.c.Due_Date}" value="{!v.task.ActivityDate}"
+                        <lightning:input aura:id="field" type="date" min="{!v.initData.today}"
+                                         label="{!$Label.c.Due_Date}" value="{!v.initData.activityDate}"
                                          disabled="{!not(v.editAvailable)}" onchange="{!c.onChangeDueDate}"/>
                     </div>
                     <!-- Task Type -->
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                         <aura:if isTrue="{!not(v.initData.createdByAdmin)}">
-                            <aura:if isTrue="{!v.notReferral}">
-                                <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}" required="true"
+                            <aura:if isTrue="{!v.isEnrolled}">
+                                <lightning:select name="taskTypeSelect" label="{!$Label.c.Task_Type}"
                                                   value="{!v.task.Task_Type__c}">
                                     <aura:iteration items="{!v.initData.taskTypeList}" var="type">
                                         <option value="{!type.value}">{!type.label}</option>
@@ -143,7 +88,7 @@
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-col slds-size_1-of-2">
                             <lightning:input type="date" label="{!$Label.c.Reminder_Date}"
-                                             value="{!if(empty(v.task.Reminder_Date__c),$Label.c.None, v.task.Reminder_Date__c)}"
+                                             value="{!if(empty(v.initData.reminderDate),$Label.c.None, v.initData.reminderDate)}"
                                              disabled="true"/>
                         </div>
                     </div>
@@ -204,11 +149,67 @@
                                              value="{!v.initData.reminderDate}"
                                              onchange="{!c.onChangeReminderDate}"
                                              disabled="{!or(v.task.Is_Reminder_Sent__c, !v.reminderDateEnabled)}"
-                                             min="{!v.todayDate}"
-                                             max="{!if(v.task.ActivityDate,v.task.ActivityDate,'')}"/>
+                                             min="{!v.initData.today}"
+                                             max="{!if(v.initData.activityDate, v.initData.activityDate, '')}"/>
                         </div>
                     </div>
                 </aura:if>
+                
+            <!--Create Task-->
+            <aura:if isTrue="{!not(v.editMode)}">
+                <div class="buttons-area">
+                    <div class="rr-width-limiter buttons-block">
+                        <div class="apollo-btn secondary" onclick="{!c.doCancel}">
+                            <div>
+                                
+                                {!$Label.c.BTN_Cancel}
+                            </div>
+                        </div>
+                        <div class="apollo-btn primary" onclick="{!c.doSave}">
+                            <div>
+                               
+                                {!$Label.c.BTN_Save_Task}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+
+            <!-- Edit Task -->
+            <aura:if isTrue="{!v.editMode}">
+                <div class="buttons-area">
+                    <div class="rr-width-limiter buttons-block">
+                        <aura:if isTrue="{!v.owner}">
+                            <div class="apollo-btn secondary" onclick="{!c.doSave}">
+                                <div>
+                               <!--     <c:RRIcon iconName="icon-check-circle"/> -->
+                                    {!$Label.c.BTN_Save_Task}
+                                </div>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="apollo-btn secondary" onclick="{!c.doCancel}">
+                                    <div>
+                                    <!--    <c:RRIcon iconName="icon-close-circle"/> -->
+                                        {!$Label.c.BTN_Cancel}
+                                    </div>
+                                </div>
+                            </aura:set>
+                        </aura:if>
+                        <div class="apollo-btn secondary" onclick="{!c.doIgnoreTask}">
+                            <div>
+                            <!--    <c:RRIcon iconName="icon-stop" color="orange"/> -->
+                                {!$Label.c.BTN_Ignore}
+                            </div>
+                        </div>
+                        <div class="apollo-btn secondary" onclick="{!c.doMarkAsCompleted}">
+                            <div>
+                          <!--      <c:RRIcon iconName="icon-check-circle"/> -->
+                                {!$Label.c.BTN_Mark_As_Completed}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
             </div>
         </div>
     </aura:if>

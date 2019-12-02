@@ -5,6 +5,17 @@
 public with sharing class ParticipantVisitsRemote {
 
     @AuraEnabled
+    public static Boolean isStudySiteHasVisits(){
+        try {
+            return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class))
+                    .getVisitWrappers(PatientVisitService.VISIT_MODE_ALL, null).size() > 0 ? true : false;
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+
+    @AuraEnabled
     public static List<PatientVisitService.VisitWrapper> getVisitsPreview() {
         try {
             return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class)).getVisitWrappers(PatientVisitService.VISIT_MODE_CURRENT, 3);
@@ -28,17 +39,19 @@ public with sharing class ParticipantVisitsRemote {
     public static String getVisitsLegend(String iconNames) {
         try {
             List<Legend> legends = new List<Legend>();
-            ParticipantService.ParticipantState state = ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
-            if(String.isNotBlank(iconNames) && state.ctp != null && state.ctp.Visit_Plan__c != null) {
+            ParticipantService.ParticipantState state =
+                    ((ParticipantService) ClassFactory.newInstance(ParticipantService.class)).getState();
+            if(String.isNotBlank(iconNames) && state.pe != null && state.pe.Visit_Plan__c != null) {
                 String query = 'SELECT Id, ' +
                         'Name, ' +
                         'Label__c, ' +
                         'Description__c ' +
                         'FROM Icon_Details__c ' +
                         'WHERE Name IN (' + CollectionUtil.joinByComa(CollectionUtil.wrapInApostrophes(iconNames.split(';'))) + ') ' +
-                            'AND Visit_Plan__c = \'' + state.ctp.Visit_Plan__c + '\'';
-                List<Icon_Details__c> iconsDetails = ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(query, true);
-                TranslateHelper.translate(iconsDetails, IRBParticipantService.getIRBLanguageMode(state.pe.Id).languageToTranslate);
+                            'AND Visit_Plan__c = \'' + state.pe.Visit_Plan__c + '\'';
+                List<Icon_Details__c> iconsDetails =
+                        ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(query, true);
+                TranslateHelper.translate(iconsDetails, IRBParticipantService.getSuitableLanguageForIRBTranslation(state.pe.Id));
 
                 for (Icon_Details__c iconDetails : iconsDetails) {
                     Legend leg = new Legend();

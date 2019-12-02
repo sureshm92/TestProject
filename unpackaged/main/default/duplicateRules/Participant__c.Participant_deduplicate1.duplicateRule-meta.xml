@@ -10,7 +10,7 @@
         <matchingRule>Participant_deduplicate_matching_rule</matchingRule>
         <objectMapping xsi:nil="true"/>
     </duplicateRuleMatchRules>
-    <isActive>true</isActive>
+    <isActive>false</isActive>
     <masterLabel>Participant deduplicate1</masterLabel>
     <securityOption>BypassSharingRules</securityOption>
     <sortOrder>1</sortOrder>

@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Action_Link__c</field>
-        <value xsi:type="xsd:string">settings?</value>
+        <value xsi:type="xsd:string">account-settings</value>
     </values>
     <values>
         <field>Comments_Label__c</field>

@@ -6,6 +6,7 @@
 
     <!-- attributes: -->
     <aura:attribute name="participantState" type="Object"/>
+    <aura:attribute name="initialized" type="Boolean"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -19,9 +20,18 @@
                 <c:RRNPathItem label="{!$Label.c.Navigation_Home}"/>
             </c:RRNavigationPath>
         </div>
-        <div class="hp-welcome-msg">{!v.participantState.welcomeMessage}</div>
-
-        <aura:if isTrue="{!!empty(v.participantState.pe)}">
+        <div style="display: flex;">
+            <div class="hp-welcome-msg" style="width: 110%">{!v.participantState.welcomeMessage}</div>
+            <aura:if isTrue="{!and(v.participantState.value == 'ALUMNI', !v.participantState.participant.Marketing_Flag__c)}">
+                <div  style="width: 20%">
+                    <button class="{!'apollo-btn primary dark'}" onclick="{!c.navigateToTrialSearchPage}">
+                        <c:RRIcon iconName="search-results"/>
+                        {!$Label.c.TrialSearch_Find_Another_Study}
+                    </button>
+                </div>
+            </aura:if>
+        </div>
+        <aura:if isTrue="{!v.initialized}">
             <div class="slds-grid slds-gutters slds-wrap">
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                     <div class="slds-grid slds-grid_vertical slds-gutters">
@@ -49,6 +59,9 @@
                         <div class="slds-col">
                             <c:OpenTaskPreviewPanel/>
                         </div>
+<!--                        <div class="slds-col">-->
+<!--                            <c:directMessager/>-->
+<!--                        </div>-->
                         <aura:if isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}">
                             <div class="slds-col">
                                 <c:UpcomingVisitsPreviewPanel/>
@@ -59,19 +72,13 @@
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
                     <aura:if isTrue="{!v.participantState.value != 'ALUMNI'}">
                         <c:ParticipantStatePanel/>
-                        <c:VisitResultsDashboardCard
-                                ctpId="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"/>
-                        <!--Hidden until the next release-->
-                        <!--                        <c:RRPanel>-->
-                        <!--                            <aura:set attribute="header">My Results</aura:set>-->
-                        <!--                            <img src="{!$Resource.tmpimages +'/myresults.JPG'}"/>-->
-                        <!--                        </c:RRPanel>-->
+                        <c:VisitResultsDashboardCard ctpId="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"/>
                     </aura:if>
                     <c:ResourceDashboardCard/>
                 </div>
             </div>
             <c:ParticipantIRBChecker peId="{!v.participantState.pe.Id}"/>
         </aura:if>
-        <div style="height: 30px"/>
+        <div style="height: 30px"></div>
     </div>
 </aura:component>

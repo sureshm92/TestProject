@@ -3,7 +3,6 @@
  */
 @IsTest
 public with sharing class Test_VisitResultsRemote {
-
     @TestSetup
     static void setup() {
         TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreateStatusHistoryHandler.class);
@@ -58,18 +57,18 @@ public with sharing class Test_VisitResultsRemote {
         };
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubFactory.newInstance(CTPSelector.class)
+        ClassFactory.putStubTypeByClassName(CTPSelector.class, StubBuilder.newInstance(CTPSelector.class)
                 .when('getCtpById')
                 .then(ctp)
                 .when('getVisitsByCtpId')
                 .then(visits2)
-                .getInstance()
+                .build()
         );
         TestData.loadTestData();
 
         Test.startTest();
         TestData testData = new TestData();
-        testData.createPSE();
+        testData.updatePEStatusEnrollmentSuccess();
         System.runAs(testData.participantUser) {
             VisitResultsRemote.InitDataWrapper wrapper = VisitResultsRemote.getInitData('');
             System.assert(wrapper != null);
@@ -85,10 +84,10 @@ public with sharing class Test_VisitResultsRemote {
         };
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubFactory.newInstance(VisitResultsService.class)
+        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubBuilder.newInstance(VisitResultsService.class)
                 .when('getVisitResultsGroupNames')
                 .then(visitResultGroupNames)
-                .getInstance()
+                .build()
         );
 
         Test.startTest();
@@ -104,10 +103,10 @@ public with sharing class Test_VisitResultsRemote {
         VisitResultsService.VisitResultsContainer container = new VisitResultsService.VisitResultsContainer(patientVisit, null, 'Vitals');
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubFactory.newInstance(VisitResultsService.class)
+        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubBuilder.newInstance(VisitResultsService.class)
                 .when('getVisitResultsContainer')
                 .then(container)
-                .getInstance()
+                .build()
         );
 
         Test.startTest();
@@ -125,10 +124,10 @@ public with sharing class Test_VisitResultsRemote {
         };
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubFactory.newInstance(VisitResultsService.class)
+        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubBuilder.newInstance(VisitResultsService.class)
                 .when('getVisitResultWrappersForDashboard')
                 .then(wrappers)
-                .getInstance()
+                .build()
         );
 
         Test.startTest();
@@ -145,7 +144,7 @@ public with sharing class Test_VisitResultsRemote {
 
         Test.startTest();
         TestData testData = new TestData();
-        testData.createPSE();
+        testData.updatePEStatusEnrollmentSuccess();
         testData.participant.Contact__c = null;
         update testData.participant;
         try {
@@ -164,10 +163,10 @@ public with sharing class Test_VisitResultsRemote {
     static void getVisitResultsGroupNamesWithException_test() {
         Boolean isExceptionThrown = false;
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubFactory.newInstance(VisitResultsService.class)
+        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubBuilder.newInstance(VisitResultsService.class)
                 .when('getVisitResultsGroupNames')
                 .then(new AuraHandledException('exception'))
-                .getInstance()
+                .build()
         );
         Test.startTest();
         try {
@@ -185,10 +184,10 @@ public with sharing class Test_VisitResultsRemote {
     static void getVisitResultsContainerWithException_test() {
         Boolean isExceptionThrown = false;
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubFactory.newInstance(VisitResultsService.class)
+        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubBuilder.newInstance(VisitResultsService.class)
                 .when('getVisitResultsContainer')
                 .then(new AuraHandledException('exception'))
-                .getInstance()
+                .build()
         );
         Test.startTest();
         try {
@@ -206,10 +205,10 @@ public with sharing class Test_VisitResultsRemote {
     static void getVisitResultWrappersForDashboardWithException_test() {
         Boolean isExceptionThrown = false;
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubFactory.newInstance(VisitResultsService.class)
+        ClassFactory.putStubTypeByClassName(VisitResultsService.class, StubBuilder.newInstance(VisitResultsService.class)
                 .when('getVisitResultWrappersForDashboard')
                 .then(new AuraHandledException('exception'))
-                .getInstance()
+                .build()
         );
         Test.startTest();
         try {
@@ -229,17 +228,17 @@ public with sharing class Test_VisitResultsRemote {
         Contact contact = (Contact) TestDataFactory.getSObject(Contact.getSObjectType());
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
+        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubBuilder.newInstance(DatabaseProxy.class)
                 .when('updateRecord')
                 .then(null)
-                .getInstance()
+                .build()
         );
 
         TestData.loadTestData();
 
         Test.startTest();
         TestData testData = new TestData();
-        testData.createPSE();
+        testData.updatePEStatusEnrollmentSuccess();
         testData.participant.Contact__c = contact.Id;
         update testData.participant;
         System.runAs(testData.participantUser) {
@@ -255,10 +254,10 @@ public with sharing class Test_VisitResultsRemote {
         Contact contact = (Contact) TestDataFactory.getSObject(Contact.getSObjectType());
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
+        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubBuilder.newInstance(DatabaseProxy.class)
                 .when('updateRecord')
                 .then(new AuraHandledException('error'))
-                .getInstance()
+                .build()
         );
         TestData.loadTestData();
 

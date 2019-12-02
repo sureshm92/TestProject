@@ -53,7 +53,7 @@
             </div>
             <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
                 <aura:if isTrue="{!!v.studySiteWrapper.hasActiveHCPE}">
-                    <button class="apollo-btn tertiary btn-request-to-refer"
+                    <button class="apollo-btn secondary"
                             onclick="{!c.requestToRefer}"
                             disabled="{!v.studySiteWrapper.actions.requestToRefer.disabled}"
                             title="{!v.studySiteWrapper.actions.requestToRefer.disableReason}">
@@ -61,7 +61,7 @@
                     </button>
                     <aura:set attribute="else">
                         <button data-hcpe-Id="{!v.studySiteWrapper.hcpe.Id}"
-                                class="apollo-btn tertiary btn-refer-patient"
+                                class="apollo-btn secondary"
                                 disabled="{!v.studySiteWrapper.actions.refer.disabled}"
                                 title="{!v.studySiteWrapper.actions.refer.disableReason}"
                                 onclick="{!c.navigateToReferring}">

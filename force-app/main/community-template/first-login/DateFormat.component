@@ -1,0 +1,22 @@
+<!--
+ - Created by Nargiz Mamedova on 10/11/2019.
+ -->
+
+<apex:component id="DateFormat">
+    <apex:attribute name="curUser" type="User" description="curUser"/>
+
+    <div class="section-header" style="margin-top: 30px">{!$Label.PG_Login_H_Date_Format}</div>
+    <apex:outputPanel>
+        <div class="slds-grid slds-wrap slds-gutters">
+            <div id="langSelectContainer" class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <label>{!$Label.PG_AS_F_Preferred_Timezone}</label>
+                <apex:inputField styleClass="slds-input" value="{!curUser.TimeZoneSidKey}"/>
+            </div>
+            <div id="langSelectContainer" class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+                <label>{!$Label.PG_AS_F_Locale_For_Date_Format}</label>
+                <apex:inputField styleClass="slds-input" value="{!curUser.LocaleSidKey}"/>
+            </div>
+            <div class="slds-col cp-language-blank slds-medium-size_1-of-3"/>
+        </div>
+    </apex:outputPanel>
+</apex:component>

@@ -39,6 +39,7 @@ global without sharing class TermsAndConditions {
         return null;
     }
     
+    @AuraEnabled
     public static Boolean isTCAccepted(Id tcId){
         return getTCA(tcId) != null;
     }
