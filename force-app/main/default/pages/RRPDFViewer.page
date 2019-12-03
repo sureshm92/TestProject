@@ -17,7 +17,7 @@
             let bytes = new Uint8Array(byteNumbers); //use this if data is raw bytes else directly pass resData
             let blob = new window.Blob([bytes], {type : 'application/pdf'});
             if (ie || oldIE || ieEDGE) {
-                window.navigator.msSaveBlob(blob, fileName);
+                window.navigator.msSaveBlob(blob, fileName + '.pdf');
             } else {
                 let fileURL = URL.createObjectURL(blob);
                 let plugin = document.getElementById("plugin");
