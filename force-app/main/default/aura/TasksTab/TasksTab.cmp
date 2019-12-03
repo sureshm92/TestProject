@@ -113,6 +113,7 @@
                 </div>
             </aura:if>
         </div>
+        <c:action_TimeZoneCheck/>
     </aura:if>
 
 </aura:component>
