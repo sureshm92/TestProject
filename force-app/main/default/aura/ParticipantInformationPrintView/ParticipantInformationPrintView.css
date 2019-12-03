@@ -195,9 +195,6 @@
     }
 }
 
-/**
- * Created by Leonid Bartenev
- */
 
 .THIS .rr-form-element + .rr-form-element{
     margin-top: 0;
@@ -237,7 +234,7 @@
 
 @media print
 {
-  .THIS  div{
+  .THIS  div:not(#healthCareProvider):not(.healthcare-container){
         page-break-inside: avoid;
     }
 }
