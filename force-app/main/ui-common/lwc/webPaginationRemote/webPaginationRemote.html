@@ -1,0 +1,22 @@
+<!--
+ - Created by Yulia Yakushenkova on 12/2/2019.
+ -->
+
+<!-- Web Pagination Remote -->
+<template>
+    <div if:true={positiveTotalPages}>
+        <div class="rrp-container">
+            <div class="buttons">
+                <button class={previousBtnCss} onclick={prevPageClick}>
+                    <c-web-icon icon-name="icon-chevron-left" icon-color="#333333"></c-web-icon>
+                </button>
+                <button class={nextBtnCss} onclick={nextPageClick}>
+                    <c-web-icon icon-name="icon-chevron-right" icon-color="#333333"></c-web-icon>
+                </button>
+            </div>
+            <div class="info">
+                {currentPagesOfTotalPages}
+            </div>
+        </div>
+    </div>
+</template>
