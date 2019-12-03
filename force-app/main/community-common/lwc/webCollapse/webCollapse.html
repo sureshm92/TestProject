@@ -8,9 +8,9 @@
         <div class="label-block">
             <div class="label" onclick={doSwitch}>
                 <c-web-icon icon-name="icon-chevron-right"></c-web-icon>
-                <span slot="label">{label}</span>
+                {label}
             </div>
         </div>
-        <span name="body"></span>
+        <slot name="body"></slot>
     </div>
 </template>
