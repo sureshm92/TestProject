@@ -31,6 +31,8 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_PT_PATIENT_ON_HOLD_VT_TYPE = 'Message_to_PT_Patient_On_Hold_VT_Type';
     static public String MESSAGE_TO_PT_NEW_STUDY_HCP_VT_TYPE = 'Message_to_PT_New_Study_HCP_VT_Type';
     static public String MESSAGE_TO_PT_NEW_STUDY_eRP_VT_TYPE = 'Message_to_PT_New_Study_eRP_VT_Type';
+    static public String MESSAGE_TO_PT_NEW_COI_CTP_TYPE = 'Message_to_PT_New_COI_Ctp_Type';
+    static public String MESSAGE_TO_PT_COI_CTP_START_ENROLL_TYPE = 'Message_to_PT_COI_Ctp_Start_Enroll_Type';
 
     static public String EMAIL_STATUS_SKIPPED = 'Skipped';
     static public String EMAIL_STATUS_FAILED = 'Failed';
@@ -53,6 +55,7 @@ public without sharing class NotificationService {
     }
 
     public static String checkPatientNotificationType(Participant_Enrollment__c peForCheck, Boolean notContains) {
+
         if (notContains) return MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE;
 
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_DECLINED) {
