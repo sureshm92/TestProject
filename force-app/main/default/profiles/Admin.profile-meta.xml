@@ -7305,7 +7305,7 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Batch_Control_Panel</tab>
-        <visibility>DefaultOn</visibility>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>CTE__c</tab>

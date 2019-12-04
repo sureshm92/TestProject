@@ -52,6 +52,8 @@ public without sharing class ParticipantIRBCheckerRemote {
         }
         languages = languages.removeEnd(', ');
 
+        if(String.isEmpty(studyCodeName)) studyCodeName = Label.StudyStub;
+
         String message = Label.PP_IRB_LangList.replace('##StudyCodeName', studyCodeName);
         return message.replace('##LangList', languages);
     }

@@ -82,7 +82,6 @@ public without sharing class SendEmailTemplate {
             emailToSend.setToAddresses(email.getToAddresses());
             emailToSend.setPlainTextBody(email.getPlainTextBody());
             emailToSend.setHtmlBody(email.getHtmlBody());
-            emailToSend.setPlainTextBody(email.getPlainTextBody());
             emailToSend.setSubject(email.getSubject());
             emailToSend.setOrgWideEmailAddressId(getOrgWideEmailId(fromId));
             msgListToBeSend.add(emailToSend);

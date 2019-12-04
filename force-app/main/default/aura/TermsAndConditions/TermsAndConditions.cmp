@@ -9,6 +9,7 @@
     <aura:attribute name="ctpId" type="String"/>
     <aura:attribute name="titleCode" type="String"/>
     <aura:attribute name="title" type="String"/>
+    <aura:attribute name="userMode" type="String"/>
 
     <!-- component body: -->
     <div>
@@ -37,16 +38,14 @@
                     <button class="apollo-btn primary" onclick="{!c.doGoBack}">{!$Label.c.BTN_OK}</button>
                     <aura:set attribute="else">
                         <aura:if isTrue="{!!v.isPortalTC}">
-                            <button class="apollo-btn secondary" onclick="{!c.doGoBack}">{!$Label.c.BTN_Back}</button>
+                            <aura:if isTrue="{!or(notequals(v.userMode, 'Participant'), and(equals(v.userMode, 'Participant'), v.tcData.isAccepted))}">
+                                <button class="apollo-btn secondary" onclick="{!c.doGoBack}">{!$Label.c.BTN_Back}</button>
+                            </aura:if>
                         </aura:if>
                         <button class="apollo-btn primary" onclick="{!c.doAccept}">{!$Label.c.BTN_I_Accept}</button>
                     </aura:set>
                 </aura:if>
             </c:RRBottomBar>
-
         </div>
-        <!--div class="rr-width-limiter" style="padding: 0 15px; margin-bottom: 72px">
-            <c:CommunityFooter />
-        </div-->
     </div>
 </aura:component>
