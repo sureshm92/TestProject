@@ -79,7 +79,7 @@ RunTestINT4.0:
   except:
     - merge_requests
 
-  stage: RunTestINT3.2
+  stage: RunTestINT4.0
   script:
     - echo "$INT" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
