@@ -1,0 +1,65 @@
+<!--
+ - Created by Kryvolap on 04.12.2019.
+ -->
+
+<aura:component description="ReferHealthcareProviderPrintView" controller="ReferHealthcareProviderRemote">
+    <aura:attribute name="pe" type="Object"/>
+    <aura:attribute name="healthCareProviders" type="List"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.pe}" action="{!c.doInit}"/>
+
+    <div class="healthcare-container">
+        <table>
+            <tr>
+                <td class="helthcare-info-header">
+                    <div class="header">{!$Label.c.HealthCare_Provider}</div>
+                    <div class="healthcare-info">{!$Label.c.HealCare_Provider_Message}
+                    </div>
+                </td>
+                <td class="referring-provider-header">
+                    <aura:if isTrue="{!v.pe.HCP_Contact_HCPEnroll__r.Name}">
+                        <div class="rp-label">{!$Label.c.HealthCare_Provider_RP}</div>
+                        <div class="healthcare-info">{!v.pe.HCP_Contact_HCPEnroll__r.Name}</div>
+                    </aura:if>
+                </td>
+            </tr>
+        </table>
+
+        <div class="healthcare-providers-list">
+            <table>
+            <aura:iteration items="{!v.healthCareProviders}" var="hcProvider" indexVar="index">
+                <tr class="healthcare-form-container">
+                    <td class="email-col">
+                        <lightning:input class="healthcare-input" type="text" required="false"
+                                         label="{!$Label.c.HealthCare_Providers_Email}" value="{!hcProvider.Email__c}"
+                                         disabled="true"/>
+                    </td>
+                    <td class="first-name-col">
+                        <lightning:input class="healthcare-input" type="text" required="false"
+                                         label="{!$Label.c.HealthCare_Providers_First_Name}"
+                                         value="{!hcProvider.First_Name__c}"
+                                         disabled="true"/>
+                    </td>
+                    <td class="last-name-col">
+                        <lightning:input class="healthcare-input" type="text" required="false"
+                                         label="{!$Label.c.HealthCare_Providers_Last_Name}"
+                                         value="{!hcProvider.Last_Name__c}"
+                                         disabled="true"/>
+                    </td>
+                    <td class="button-col" >
+                        <aura:if isTrue="{!!hcProvider.Id || hcProvider.Status__c == 'No Sharing'}">
+                            <button class="apollo-btn secondary" style="margin-top:23px"
+                                    disabled="true">{!$Label.c.HealthCare_Provider_Connect}</button>
+                        </aura:if>
+                        <aura:if isTrue="{!hcProvider.Id &amp;&amp; hcProvider.Status__c != 'No Sharing'}">
+                            <button class="apollo-btn secondary" style="margin-top:23px" >{!$Label.c.HealthCare_Provider_Stop_Sharing}</button>
+                        </aura:if>
+                    </td>
+                </tr>
+            </aura:iteration>
+            </table>
+        </div>
+    </div>
+
+</aura:component>
