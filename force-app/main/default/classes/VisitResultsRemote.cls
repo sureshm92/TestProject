@@ -17,6 +17,7 @@ public inherited sharing class VisitResultsRemote {
             }
             wrapper.isResultsExist = !VisitResultSharingService.processResults().isEmpty();
             wrapper.visitResultsGroupNames = ((VisitResultsService) ClassFactory.newInstance(VisitResultsService.class)).getVisitResultsGroupNames(visitResultsMode);
+            wrapper.isDelegate = PatientDelegateService.getInstance().isDelegate();
             return wrapper;
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -77,6 +78,8 @@ public inherited sharing class VisitResultsRemote {
 
         @AuraEnabled
         public Contact contact;
+        @AuraEnabled
+        public Boolean isDelegate;
         @AuraEnabled
         public Boolean isVisitResultsAvailable;
         @AuraEnabled
