@@ -15,18 +15,14 @@
 ##### 3) Approve Org Wide Email Address:
 
    Go to mail boxes updates@cp.clinicalresearch.com & patientupdates@cp.clinicalresearch.com and approve both. Don't forget remove this emails from Email box. Ask about how to get access to this mailbox
-    
-##### 4) Setup Scratch Org before push:
-
-   1. Go to **Survey Settings** and enable 
    
-##### 5) Push project to Scratch org:
+##### 4) Push project to Scratch org:
 
    ```sh
    push-scratch-org.bat
    ```
 
-##### 6) Publish community:
+##### 5) Publish community:
 
    Go to Setup > All Communities > Open Community Builder > press "Publish"
   
