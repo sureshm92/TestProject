@@ -112,8 +112,7 @@
                     </aura:if>
                 </div>
             </aura:if>
+            <c:action_TimeZoneCheck/>
         </div>
-        <c:action_TimeZoneCheck/>
     </aura:if>
-
 </aura:component>
