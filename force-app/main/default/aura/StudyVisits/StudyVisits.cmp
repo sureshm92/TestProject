@@ -22,7 +22,7 @@
 
     <div class="{!'sv-body ' + if(v.initialized, '', 'hidden')}">
         <div class="tt-title">
-            {!$Label.c.Home_Page_StudyVisit_Title}
+            {!v.visitMode == v.visitModeCurrent ? $Label.c.Home_Page_StudyVisit_Title : $Label.c.Home_Page_StudyVisit_Tab_Past_Visits}
             <div class="apollo-btn">
                 <c:TravelSupport/>
             </div>

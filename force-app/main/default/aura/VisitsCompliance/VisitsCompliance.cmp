@@ -3,6 +3,7 @@
     <!-- ATTRIBUTES -->
 
     <aura:attribute name="contactId" type="Id" required="true"/>
+    <aura:attribute name="isDelegate" type="Boolean" default="false" required="true"/>
     <aura:attribute name="isVisitResultsExist" type="Boolean" default="false" required="true"/>
     <aura:attribute name="isVisitResultsAvailable" type="Boolean" default="false" required="true"/>
     <aura:attribute name="isOptIn" type="Boolean" default="false" required="true"/>
@@ -34,15 +35,20 @@
 
                     <!-- shareback set to opt-out at the Patient level -->
 
-                    <lightning:layout class="slds-p-around--large" horizontalAlign="center" verticalAlign="start">
-                        <lightning:layoutItem size="12" class=" visit-assessment-inf" flexibility="shrink">
-                            <div aura:id="opt-in-body" style="white-space: pre" >
-                                <p>{!$Label.c.Visit_Results_Tab_If_Is_Not_Opt_In + ' '}
-                                    <span class="to-modal-link" onclick="{!c.openOptInModal}"> {!$Label.c.Visit_Results_Tab_Linked_Text}</span>
-                                    {!$Label.c.Visit_Results_Tab_If_Is_Not_Opt_In_2}  </p>
-                            </div>
-                        </lightning:layoutItem>
-                    </lightning:layout>
+                        <lightning:layout class="slds-p-around--large" horizontalAlign="center" verticalAlign="start">
+                            <lightning:layoutItem size="12" class=" visit-assessment-inf" flexibility="shrink">
+                                <div aura:id="opt-in-body" style="white-space: pre" >
+                                    <aura:if isTrue="{!!v.isDelegate}">
+                                        <p>{!$Label.c.Visit_Results_Tab_If_Is_Not_Opt_In + ' '}
+                                            <span class="to-modal-link" onclick="{!c.openOptInModal}"> {!$Label.c.Visit_Results_Tab_Linked_Text}</span>
+                                            {!$Label.c.Visit_Results_Tab_If_Is_Not_Opt_In_2}  </p>
+                                        <aura:set attribute="else">
+                                            <p>{!$Label.c.Visit_Results_Tab_If_Is_Not_Opt_In_Delegate}</p>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </lightning:layoutItem>
+                        </lightning:layout>
 
                     <!-- -->
 
