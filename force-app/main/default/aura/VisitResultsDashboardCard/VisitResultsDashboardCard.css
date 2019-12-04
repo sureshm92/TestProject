@@ -59,9 +59,9 @@
 }
 
 .THIS .visit-result-item-name {
-    color: #999999;
-    font-size: 20px;
-    font-weight: 500;
+    color: #595959;
+    font-size: 18px;
+    font-weight: 600;
     width: 100%;
     line-height: 22px;
     height: 22px;
@@ -79,12 +79,13 @@
 }
 
 .THIS .visit-result-item-measurement {
+    color: #444;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     font-family: "Proxima Nova";
-    font-weight: 500;
-    font-size: 20px;
+    font-weight: 400;
+    font-size: 16px;
     line-height: 22px;
     margin-top: 5px;
 }
