@@ -62,3 +62,12 @@
     margin: 0;
     flex: 0 0 33%;
 }
+
+@media (max-width: 768px){
+    .THIS > .slds-grid > [class*="slds-medium-size_"] {
+        width: 100%;
+    }  
+    .THIS > div:nth-child(2) {
+        flex-direction: column;
+    }
+}

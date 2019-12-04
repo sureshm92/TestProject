@@ -718,7 +718,7 @@ select.rr-select-error,
     line-height: 20px;
     user-select: none;
     min-width: 100px;
-    display: inline-flex;
+	display: inline-flex;
     align-items: center;
     justify-content: center;
 }
@@ -1420,6 +1420,10 @@ input[type=password]::-ms-clear
 @media all and (max-width: 1023px){
     .rr-large-down-hide{
         display: none!important;
+    }
+    .apollo-btn{
+     	display: inline-block;
+        text-align: center;
     }
 }
 
