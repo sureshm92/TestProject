@@ -4,19 +4,31 @@
 
 public without sharing class ChangePasswordPageController {
     public User user {get; set;}
+    public Contact contact {get; set;}
+
     public String browserLanguage {get; set;}
 
-    public ChangePasswordPageController(){
+    public Boolean isParticipant {get; set;}
+
+    public ChangePasswordPageController() {
         user = [
                 SELECT Id,
                         Contact.Is_First_Logon__c,
                         Contact.Language__c,
+                        Contact.Second_Choice_Language__c,
+                        Contact.Third_Choice_Language__c,
                         Contact.userCommunityMode__c,
+                        Contact.userCommunytyType__c,
                         Contact.UserCommunityIsDelegate__c,
                         LanguageLocaleKey
                 FROM User
                 WHERE Id =: UserInfo.getUserId()
         ];
+
+        contact = user.Contact;
+
+        isParticipant = contact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT && !contact.UserCommunityIsDelegate__c;
+
     }
 
     public void updateBrowserLanguageAction(){
