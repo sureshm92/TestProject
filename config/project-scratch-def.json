@@ -21,6 +21,13 @@
         },
         "languageSettings": {
             "enableTranslationWorkbench": true
+        },
+        "nameSettings": {
+            "enableMiddleName": true,
+            "enableNameSuffix": true
+        },
+        "surveySettings": {
+            "enableSurvey": true
         }
     }
 }

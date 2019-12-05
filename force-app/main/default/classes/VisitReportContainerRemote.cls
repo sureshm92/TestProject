@@ -79,7 +79,7 @@ public inherited sharing class VisitReportContainerRemote {
         @AuraEnabled public String measurement;
         
         public VisitHeaderWrapper(Visit_Result__c visitResult) {
-            this.value = TranslateHelper.getLabelValue(visitResult.Result_Type__c) + 'XX';
+            this.value = TranslateHelper.getLabelValue(visitResult.Result_Type__c);
             this.minValue = visitResult.Min_Value__c;
             this.maxValue = visitResult.Max_Value__c;
             this.isShowRange = true;
