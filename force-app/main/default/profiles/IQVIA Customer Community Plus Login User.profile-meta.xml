@@ -23,10 +23,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ActionScheduler</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Action_ChangeHCPStatusByPIRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
