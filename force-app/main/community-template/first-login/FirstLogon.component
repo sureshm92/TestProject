@@ -2,7 +2,8 @@
  - Created by Nargiz Mamedova on 10/11/2019.
  -->
 
-<apex:component id="FirstLogon" controller="FirstLogonController" language="{!userVal.Contact.Language__c}" allowDML="true">
+<apex:component id="FirstLogon" controller="FirstLogonController" language="{!currUser.Contact.Language__c}"
+                allowDML="true">
     <style>
         .all-content {
             height: 100%;
@@ -207,96 +208,103 @@
             left: -130px;
         }
     </style>
-    <div class="rr-header-content">
-        <div class="rr-width-limiter side-padding header-block">
-            <apex:outputPanel rendered="{!isParticipant}">
-                <img src="{!$Resource.PH_logo + '/Patient_Portal_Logo.svg'}" class="logo-block"/>
-            </apex:outputPanel>
-            <apex:outputPanel rendered="{!!isParticipant}">
-                <img src="{!$Resource.rr_community_icons + '/Referral_Hub_Logo.svg'}" class="logo-block"/>
-            </apex:outputPanel>
+    <apex:outputPanel id="test" styleClass="rr-all-content">
+        <div class="rr-header-content">
+            <div class="rr-width-limiter side-padding header-block">
+                <apex:outputPanel rendered="{!isParticipant}">
+                    <img src="{!$Resource.PH_logo + '/Patient_Portal_Logo.svg'}" class="logo-block"/>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!!isParticipant}">
+                    <img src="{!$Resource.rr_community_icons + '/Referral_Hub_Logo.svg'}" class="logo-block"/>
+                </apex:outputPanel>
+            </div>
         </div>
-    </div>
-    <div class="rr-header-margin"/>
-    <div class="rr-header-content current-state">
-        <div class="rr-width-limiter">
-            <table class="line-tabs">
-                <tr>
-                    <td>
-                        <div class="thick-line selected"></div>
-                        <div class="line-info selected">{!$Label.PG_Login_H_Profile_Information}</div>
-                    </td>
-                    <td>
-                        <div class="{!'thick-line ' + IF(isProfileView, '', 'selected')}"></div>
-                        <div class="{!'line-info ' + IF(isProfileView, '', 'selected')}">{!$Label.PG_Login_H_Terms_And_Conditions}</div>
-                    </td>
-                </tr>
-            </table>
+        <div class="rr-header-margin"/>
+        <div class="rr-header-content current-state">
+            <div class="rr-width-limiter">
+                <table class="line-tabs">
+                    <tr>
+                        <td>
+                            <div class="thick-line selected"></div>
+                            <div class="line-info selected">{!$Label.PG_Login_H_Profile_Information}</div>
+                        </td>
+                        <td>
+                            <div class="{!'thick-line ' + IF(isProfileView, '', 'selected')}"></div>
+                            <div class="{!'line-info ' + IF(isProfileView, '', 'selected')}">
+                                {!$Label.PG_Login_H_Terms_And_Conditions}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
-    </div>
-    <div class="rr-body-content" style="height: 72px"></div>
+        <div class="rr-body-content" style="height: 72px"></div>
 
-    <apex:outputPanel id="info-block" styleClass="rr-body-content body-content " rendered="{!isProfileView}">
-        <div class="rr-width-limiter cp-information-container">
-            <div class="main-header">{!$Label.PG_Login_H_Profile_Information}</div>
-            <c:ProfileIcon/>
-            <div class="rr-width-limiter side-padding">
-                <!-- LoginInfo -->
-                <c:LoginInfo isPasswordsEquals="{!isPasswordsEquals}" newPassword="{!newPassword}" verifyNewPassword="{!verifyNewPassword}" translation="{!translation}" userVal="{!userVal}"/>
+        <apex:outputPanel id="info-block" styleClass="rr-body-content body-content " rendered="{!isProfileView}">
+            <div class="rr-width-limiter cp-information-container">
+                <div class="main-header">{!$Label.PG_Login_H_Profile_Information}</div>
+                <c:ProfileIcon/>
+                <div class="rr-width-limiter side-padding">
+                    <!-- LoginInfo -->
+                    <c:LoginInfo isPasswordsEquals="{!isPasswordsEquals}" newPassword="{!newPassword}"
+                                 verifyNewPassword="{!verifyNewPassword}" translation="{!translation}"
+                                 userVal="{!currUser}"/>
 
-                <!-- ContactInfo -->
-                <c:ContactInfo isParticipant="{!isParticipant}" contact="{!contact}"
-                               notEnrollNow="{!notEnrollNow}" account="{!account}" participant="{!participant}"
-                               isStateRequired="{!isStateRequired}" states="{!states}" countries="{!countries}"/>
-                <apex:actionFunction name="updateStates" action="{!updateStatesAction}" />
+                    <!-- ContactInfo -->
+                    <c:ContactInfo isParticipant="{!isParticipant}" contact="{!contact}"
+                                   notEnrollNow="{!notEnrollNow}" account="{!account}" participant="{!participant}"
+                                   isStateRequired="{!isStateRequired}" states="{!states}" countries="{!countries}"/>
+                    <apex:actionFunction name="updateStates" action="{!updateStatesAction}"/>
 
-                <!-- Preferred Language -->
-                <c:PreferredLanguage language_="{!userVal}"/>
-                <apex:actionFunction name="updatePage" action="{!updateLanguageAction}"/>
+                    <!-- Preferred Language -->
+                    <c:PreferredLanguage language_="{!currUser}"/>
+                    <apex:actionFunction name="updatePage" action="{!updateLanguageAction}"/>
 
-                <!-- Date Format -->
-                <c:DateFormat curUser="{!userVal}"/>
+                    <!-- Date Format -->
+                    <c:DateFormat curUser="{!currUser}"/>
 
-                <!-- SAVE Button: -->
-                <div class="cp-save-btn-container">
-                    <apex:commandButton action="{!checkPasswords}" value="{!$Label.PG_Login_BTN_Save_And_Continue}"
-                                        styleClass="apollo-btn primary cp-save-btn"/>
+                    <!-- SAVE Button: -->
+                    <div class="cp-save-btn-container">
+                        <apex:commandButton action="{!checkPasswords}" value="{!$Label.PG_Login_BTN_Save_And_Continue}"
+                                            styleClass="apollo-btn primary cp-save-btn"/>
+                    </div>
+                    <div class="cp-info-titile"
+                         style="color: #000; text-align: center">{!$Label.PG_Login_T_This_Site_Optimized_For}</div>
+                    <div style="height: 80px"></div>
                 </div>
-                <div class="cp-info-titile" style="color: #000; text-align: center">{!$Label.PG_Login_T_This_Site_Optimized_For}</div>
+            </div>
+        </apex:outputPanel>
+
+        <!-- TC block: -->
+        <apex:outputPanel styleClass="rr-body-content body-content" rendered="{!!isProfileView}">
+            <div class="rr-width-limiter side-padding">
+                <!--div class="alert">Text along the line "We are glade you have decided to join as"...</div-->
+                <apex:messages styleClass="lg-error-alert"/>
+                <div class="main-header">{!$Label.PG_TC_H_Terms_And_Conditions}</div>
+                <div class="terms-and-conditions">
+                    <apex:outputText value=" {!tcText}" escape="false"/>
+                </div>
                 <div style="height: 80px"></div>
             </div>
-        </div>
-    </apex:outputPanel>
-
-    <!-- TC block: -->
-    <apex:outputPanel styleClass="rr-body-content body-content" rendered="{!!isProfileView}">
-        <div class="rr-width-limiter side-padding">
-            <!--div class="alert">Text along the line "We are glade you have decided to join as"...</div-->
-            <apex:messages styleClass="lg-error-alert"/>
-            <div class="main-header">{!$Label.PG_TC_H_Terms_And_Conditions}</div>
-            <div class="terms-and-conditions">
-                <apex:outputText value=" {!tcText}" escape="false"/>
-            </div>
-            <div style="height: 80px"></div>
-        </div>
-        <div class="rr-bottom-bar-area">
-            <div class="rr-bottom-bar">
-                <div class="rr-bottom-bar-line"></div>
-                <div class="rr-width-limiter bar-content side-padding"
-                     style="justify-content: space-between">
-                    <div class="tc-accept-text">{!$Label.PG_TC_H_Do_You_Accept}</div>
-                    <apex:commandButton action="{!showProfileAction}" value="{!$Label.BTN_Back}"
-                                        styleClass="apollo-btn secondary"/>
-                    <apex:commandButton action="{!changePassword}" value="{!$Label.BTN_I_Accept}"
-                                        styleClass="apollo-btn primary"/>
+            <div class="rr-bottom-bar-area">
+                <div class="rr-bottom-bar">
+                    <div class="rr-bottom-bar-line"></div>
+                    <div class="rr-width-limiter bar-content side-padding"
+                         style="justify-content: space-between">
+                        <div class="tc-accept-text">{!$Label.PG_TC_H_Do_You_Accept}</div>
+                        <apex:commandButton action="{!showProfileAction}" value="{!$Label.BTN_Back}"
+                                            styleClass="apollo-btn secondary"/>
+                        <apex:commandButton action="{!setPassword}" value="{!$Label.BTN_I_Accept}"
+                                            styleClass="apollo-btn primary"/>
+                    </div>
                 </div>
             </div>
+        </apex:outputPanel>
+        <div class="footer">
+            <div class="rr-width-limiter side-padding">
+                <div class="copyright">{!$Label.Footer_T_Copyright}</div>
+            </div>
         </div>
+        <apex:outputPanel style="display:block; height: 72px" rendered="{!!isProfileView}"></apex:outputPanel>
     </apex:outputPanel>
-    <div class="footer">
-        <div class="rr-width-limiter side-padding">
-            <div class="copyright">{!$Label.Footer_T_Copyright}</div>
-        </div>
-    </div>
-    <apex:outputPanel style="display:block; height: 72px" rendered="{!!isProfileView}"></apex:outputPanel>
 </apex:component>
