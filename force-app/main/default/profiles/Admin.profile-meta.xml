@@ -223,6 +223,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ChangePasswordControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ChangePasswordPageController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -887,6 +891,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>RemoteCallHttpCalloutMock</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RemoteCall_SendPEToStudyHub</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ReportsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -968,6 +980,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SObjectHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SSTravelVendorsConfigResponse</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1487,6 +1503,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_ParticipantVisitRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ParticipantVisitsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1527,6 +1547,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_RemoteCall</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ResourceContentClassService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1560,6 +1584,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_SendEmailToParticipant</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_SettingStoreService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1628,6 +1656,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_TrialSurveyTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_UISObjectLoojupRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1760,6 +1792,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TriggerHandlerExecutor</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UISobjectLookupRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -6366,6 +6402,9 @@
         <layout>Score__c-Score Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Setting_Store__c-Setting Store Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Site_Staff__c-PI Profile Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -7245,7 +7284,7 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Batch_Control_Panel</tab>
-        <visibility>DefaultOn</visibility>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>CTE__c</tab>

@@ -20,7 +20,7 @@ if %ERRORLEVEL% == 0 (
     call sfdx force:user:permset:assign --permsetname PP_Visits_Configuration_Edit
     call sfdx force:user:permset:assign --permsetname PP_Visits_Results_Sharing_Edit
     call sfdx force:user:permset:assign --permsetname Patient_Portal_Edit_Study_Settings
-    call sfdx force:user:permset:assign --permsetname PP_Admin_Panel
+    call sfdx force:user:permset:assign --permsetname PP_Batch_Control_Panel
     call sfdx force:user:permset:assign --permsetname PP_Participant_BL
     call sfdx force:user:permset:assign --permsetname SurveyCreator
 

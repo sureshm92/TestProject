@@ -137,7 +137,7 @@ public inherited sharing class VisitReportService {
         if (VisitReportService.VISIT_RECORD_TYPE_LABS.equalsIgnoreCase(visitResultGroupM.Visit_Results_Mode__c)) {
             reportHeaderWrappers.add(new VisitReportContainerRemote.VisitHeaderWrapper(visitResult));
         } else {
-            reportHeaderWrappers.add(new VisitReportContainerRemote.VisitHeaderWrapper(visitResult.Result_Type__c));
+            reportHeaderWrappers.add(new VisitReportContainerRemote.VisitHeaderWrapper(visitResult.Result_Type__c, visitResult.Measurement__c));
         }
         reportRowWrappers.add(new VisitReportContainerRemote.VisitValueWrapper(visitResult.Actual_Value__c, visitResult.Measurement__c));
     }
