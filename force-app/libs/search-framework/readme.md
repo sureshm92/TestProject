@@ -1,3 +1,3 @@
-## Actions queue
+## Search framework
 
 Add module description here!

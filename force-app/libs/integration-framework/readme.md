@@ -1,3 +1,3 @@
-## Actions queue
+## Integration framework
 
 Add module description here!

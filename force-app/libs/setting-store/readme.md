@@ -1,3 +1,3 @@
-## Actions queue
+## Setting store
 
 Add module description here!

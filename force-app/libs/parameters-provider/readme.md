@@ -1,3 +1,3 @@
-## Actions queue
+## Parameters provider
 
 Add module description here!

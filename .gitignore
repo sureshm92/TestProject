@@ -6,7 +6,6 @@
 sfdx
 IlluminatedCloud
 *.iml
-*.md
 output
 tmp
 ant/dist

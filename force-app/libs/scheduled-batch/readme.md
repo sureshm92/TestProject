@@ -1,3 +1,3 @@
-## Actions queue
+## Scheduled batch
 
 Add module description here!
