@@ -118,7 +118,9 @@
                     </tbody>
                 </table>
             </template>
-            <c-web-empty-list target-list={jobs}></c-web-empty-list>
+            <template if:false={jobs}>
+                <div class="empty-message">There are no items to display</div>
+            </template>
 
             <!-- Add Batch on Panel -->
             <template if:true={showAddNew}>
