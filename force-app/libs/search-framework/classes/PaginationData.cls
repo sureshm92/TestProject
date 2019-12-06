@@ -21,7 +21,7 @@ public without sharing class PaginationData {
     public PaginationData(Integer pageRecordsCount) {
         this.pageRecordsCount = pageRecordsCount;
         currentPage = 1;
-        recordCountVariants =new List<LabelValueItem>{
+        recordCountVariants = new List<LabelValueItem>{
                 new LabelValueItem('5', '5'),
                 new LabelValueItem('10', '10'),
                 new LabelValueItem('25', '25'),
