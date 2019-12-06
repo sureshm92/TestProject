@@ -5,7 +5,7 @@
                 "type": "OrgWideEmailAddress",
                 "referenceId": "OrgWideEmailAddressRH"
             },
-            "Address": "updates@cp.clinicalresearch.com",
+            "Address": "updates@cp.clinicalresearch.com_dummy",
             "DisplayName": "IQVIA Referral Hub",
             "IsAllowAllProfiles": true
         },
@@ -15,7 +15,7 @@
                 "type": "OrgWideEmailAddress",
                 "referenceId": "OrgWideEmailAddressPP"
             },
-            "Address": "patientupdates@cp.clinicalresearch.com",
+            "Address": "patientupdates@cp.clinicalresearch.com_dummy",
             "DisplayName": "IQVIA Patient Portal",
             "IsAllowAllProfiles": true
         }
