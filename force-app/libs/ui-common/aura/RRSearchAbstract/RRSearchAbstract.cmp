@@ -3,7 +3,7 @@
  -->
 
 <aura:component description="RRSearchAbstract" extensible="true" abstract="true">
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doValueChange}"/>
+    <ltng:require scripts="{!$Resource.LightningUtils/LightningUtils.js}" afterScriptsLoaded="{!c.doValueChange}"/>
 
     <!-- attributes: -->
     <aura:attribute name="label" type="String" access="global"/>

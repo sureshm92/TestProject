@@ -8,8 +8,7 @@
             <field>Participant_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>patientupdates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Patient_dropped_out</template>
     </alerts>
 </Workflow>
