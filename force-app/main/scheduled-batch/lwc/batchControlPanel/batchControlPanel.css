@@ -62,3 +62,9 @@ th {
     justify-content: flex-end;
     margin-top: 20px;
 }
+
+.empty-message {
+    margin-top: 1em;
+    font-size: 1rem;
+    color: #999;
+}
