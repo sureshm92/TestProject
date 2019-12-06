@@ -11,28 +11,27 @@ private class Test_SettingStoreService {
             this.value = value;
         }
     }
-
     @IsTest
     static void testGetInUserContext() {
-        TestedClass testInstance = new TestedClass('Test');
-        SettingStoreService.save('TestingClass', testInstance, TestedClass.class);
-        TestedClass settings = (TestedClass) SettingStoreService.get('TestingClass');
-        System.assertEquals(testInstance.value, settings.value);
+        TestedClass testedClass = new TestedClass('Test');
+        SettingStoreService.save('TestingClass', testedClass, TestedClass.class);
+        TestedClass restoredClass = (TestedClass) SettingStoreService.get('TestingClass');
+        System.assertEquals(testedClass.value, restoredClass.value);
     }
 
     @IsTest
     static void testGetOrgDefault() {
-        TestedClass testInstance = new TestedClass('Test');
-        SettingStoreService.saveOrgDefault('TestingClass', testInstance, TestedClass.class);
-        TestedClass noSettings = (TestedClass) SettingStoreService.getOrgDefault('TestingClass');
-        System.assertEquals(testInstance.value, noSettings.value);
+        TestedClass testedClass = new TestedClass('Test');
+        SettingStoreService.saveOrgDefault('TestingClass', testedClass, TestedClass.class);
+        TestedClass restoredClass = (TestedClass) SettingStoreService.getOrgDefault('TestingClass');
+        System.assertEquals(testedClass.value, restoredClass.value);
     }
 
     @IsTest
     static void testGetWithUserIdPassed() {
-        TestedClass testInstance = new TestedClass('Test');
-        SettingStoreService.save('TestingClass', UserInfo.getUserId(), testInstance, TestedClass.class);
-        TestedClass noSettings = (TestedClass) SettingStoreService.get('TestingClass', UserInfo.getUserId());
-        System.assertEquals(testInstance.value, noSettings.value);
+        TestedClass testedClass = new TestedClass('Test');
+        SettingStoreService.save('TestingClass', UserInfo.getUserId(), testedClass, TestedClass.class);
+        TestedClass restoredClass = (TestedClass) SettingStoreService.get('TestingClass', UserInfo.getUserId());
+        System.assertEquals(testedClass.value, restoredClass.value);
     }
 }
