@@ -1,0 +1,52 @@
+<!--
+ - Created by Nargiz Mamedova on 12/6/2019.
+ -->
+
+<aura:component description="StudyConfiguration" implements="flexipage:availableForAllPageTypes">
+
+    <div class="panel">
+        <div class="vrs-panel" style="position: relative;">
+            <div class="group-container">
+                <div class="group-title">Visit Configuration</div>
+                <div class="global-data">
+                    <div class="global-element">
+                        <lightning:input type="toggle" label="Visit Schedule"
+                                         name="visitScheduleToggle" variant="label-hidden"/>
+                        <div style="margin-left: 10px">Visit Schedule</div>
+                    </div>
+                    <div class="global-element">
+                        <lightning:input type="toggle" label="Status Timeline"
+                                         name="statusTimelineToggle" variant="label-hidden"/>
+                        <div style="margin-left: 10px">Status Timeline</div>
+                    </div>
+                </div>
+                <div class="group-title">Study Documents Configuration</div>
+                <div class="global-data">
+                    <div class="global-element">
+                        <lightning:input type="toggle" label="Study Documents"
+                                         name="studyDocumentsToggle" variant="label-hidden"/>
+                        <div style="margin-left: 10px">Study Documents</div>
+                    </div>
+                    <div class="global-element">
+                        <lightning:input type="toggle" label="Video and Articles"
+                                         name="videoArticlesToggle" variant="label-hidden"/>
+                        <div style="margin-left: 10px">Video and Articles</div>
+                    </div>
+                </div>
+                <div class="group-title">Others</div>
+                <div class="global-data">
+                    <div class="global-element">
+                        <lightning:input type="toggle"  label="Travel Vendor"
+                                         name="travelVendorToggle" variant="label-hidden"/>
+                        <div style="margin-left: 10px">Travel Vendor</div>
+                    </div>
+                    <div class="global-element">
+                        <lightning:input type="toggle"  label="Tasks"
+                                         name="tasksToggle" variant="label-hidden"/>
+                        <div style="margin-left: 10px">Tasks</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>
