@@ -8,6 +8,7 @@ call sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
 
 echo Pushing project in progress...
 call sfdx force:source:push -f
+call sfdx force:org:open -p /lightning/setup/DeployStatus/home
 
 if %ERRORLEVEL% == 0 (
     echo Post setup in progress...
