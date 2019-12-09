@@ -7,6 +7,7 @@ echo Creating OrgWideEmailSddresses...
 call sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
 
 echo Pushing project in progress...
+call sfdx force:org:open -p /lightning/setup/DeployStatus/home
 call sfdx force:source:push -f
 
 if %ERRORLEVEL% == 0 (
