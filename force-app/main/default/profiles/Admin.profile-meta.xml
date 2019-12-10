@@ -679,6 +679,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>NotificationAvailabilityService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>NotificationService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2961,6 +2965,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact_Topic__c.Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact_Topic__c.Topic__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>DirectMessageEvent__e.ConversationID__c</field>
         <readable>true</readable>
@@ -4117,6 +4131,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Notification_Target__mdt.Email_Template_Delegate__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Notification_Target__mdt.Email_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4163,6 +4182,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Notification__c.Recipient__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Notification__c.Topic__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5922,6 +5946,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Topic__c.TopicId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Tracking_Information__c.Current_Other_Outcome_Measures__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6288,6 +6317,9 @@
         <layout>Contact_Therapeutic_Area__c-Contact Therapeutic Area Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Contact_Topic__c-Contact Topic Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Drug_Usage__c-Drug Usage Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6514,6 +6546,9 @@
         <recordType>Therapeutic_Area__c.Therapeutic_Area</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Topic__c-Topic Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Tracking_Information__c-Tracking Information Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6655,6 +6690,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Contact_Therapeutic_Area__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Contact_Topic__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -7060,6 +7104,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Therapeutic_Area__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Topic__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

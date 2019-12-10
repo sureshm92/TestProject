@@ -43,27 +43,46 @@ public without sharing class NotificationAvailabilityService {
                     objectsByIds.put(pe.Id, pe);
                 }
             }
+            if (st == 'Clinical_Trial_Profile__c') {
+                List<Clinical_Trial_Profile__c> listCTP = [
+                        SELECT Id,
+                                Suppress_Participant_Emails__c
+                        FROM Clinical_Trial_Profile__c
+                        WHERE Id IN:objectsByStrings.get(st)
+                ];
+                for (Clinical_Trial_Profile__c ctp : listCTP) {
+                    objectsByIds.put(ctp.Id, ctp);
+                }
+            }
+
             //TODO for other objects passing in WhatID
         }
-
-
     }
 
-    public Boolean isAvailable(String whatId, String recipientType) {
+    public Boolean isAvailable(String whatId, String recipientType, String notificationTarget) {
         Boolean checkForNotification = false;
-        if (recipientType == 'Participant') {
-            Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
-            if (pe.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c
-                    && !pe.Study_Site__r.Suppress_Participant_Emails__c
-                    && !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c
-                    && !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c) {
-                checkForNotification = true;
+        Id objId = whatId;
+        String objType = String.valueOf(objId.getSobjectType());
+        if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_PARTICIPANT) {
+            if (objType == 'Participant_Enrollment__c') {
+                Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
+                if (pe.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c
+                        && !pe.Study_Site__r.Suppress_Participant_Emails__c
+                        && !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c
+                        && !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c) {
+                    checkForNotification = true;
+                }
+            }else if(objType == 'Clinical_Trial_Profile__c'){
+                Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) objectsByIds.get(Id.valueOf(whatId));
+                if (!ctp.Suppress_Participant_Emails__c) checkForNotification = true;
             }
         }
-        if (recipientType == 'HCP') {
-            Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
-            if (pe.HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c) {
-                checkForNotification = true;
+        if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_HCP) {
+            if (objType == 'Participant_Enrollment__c') {
+                Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
+                if (pe.HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c) {
+                    checkForNotification = true;
+                }
             }
         }
         return checkForNotification;

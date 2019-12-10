@@ -39,6 +39,43 @@ public without sharing class NotificationService {
     static public String EMAIL_STATUS_SENT = 'Sent';
     static public String EMAIL_STATUS_PENDING = 'Pending';
 
+    static public String NOTIFICATION_TARGET_TYPE_EMAIL = 'Email';
+    static public String NOTIFICATION_TARGET_TYPE_SMS = 'SMS';
+    static public String NOTIFICATION_TARGET_TYPE_PUSH = 'Push';
+
+    static public String NOTIFICATION_RECIPIENT_TYPE_PARTICIPANT = 'Participant';
+    static public String NOTIFICATION_RECIPIENT_TYPE_HCP = 'HCP';
+    static public String NOTIFICATION_RECIPIENT_TYPE_PI = 'PI';
+    static public String NOTIFICATION_RECIPIENT_TYPE_EXTERNAL_EMAIL = 'External Email';
+
+    private static Map<String, Notification_Type__mdt> notificationTypeByDevNameMap = new Map<String, Notification_Type__mdt>();
+
+    static {
+        List<Notification_Type__mdt> notifTypes = [
+                SELECT Id, DeveloperName, Recipient_Type__c,(
+                        SELECT Id, Email_Template__c, Email_Template_Delegate__c, Target_Type__c,
+                                Message_Body__c
+                        FROM Notification_Targets__r)
+                FROM Notification_Type__mdt
+        ];
+        for(Notification_Type__mdt noType: notifTypes) notificationTypeByDevNameMap.put(noType.DeveloperName, noType);
+    }
+
+
+    public static Notification_Type__mdt getNotificationType(String notificationType){
+        return notificationTypeByDevNameMap.get(notificationType);
+    }
+
+    public static Notification_Target__mdt getTargetByNotification (String notificationType, String notificationTarget){
+        Notification_Type__mdt notificationTypeMDT = notificationTypeByDevNameMap.get(notificationType);
+        if(notificationTypeMDT != null) {
+            for (Notification_Target__mdt nt: notificationTypeMDT.Notification_Targets__r) {
+                if (nt.Target_Type__c == notificationTarget) return nt;
+            }
+        }
+        return null;
+    }
+
     public static String checkHCPNotificationType(Participant_Enrollment__c peForCheck, Boolean notContains) {
         if (notContains) return MESSAGE_TO_HCP_REFERRAL_STATUS_UPDATE_TYPE;
 
@@ -86,4 +123,85 @@ public without sharing class NotificationService {
         }
         return null;
     }
+
+    public static Topic__c getTopicOrCreateNew(Id ctpId) {
+        List<Topic__c> topicList = [SELECT Id, TopicId__c FROM Topic__c WHERE TopicId__c =: ctpId];
+        if (topicList.isEmpty()){
+            topicList.add(new Topic__c(TopicId__c = ctpId));
+            try {
+                insert topicList;
+            } catch (DmlException e) {
+            }
+        }
+        return topicList[0];
+    }
+
+    public static List<Topic__c> getTopicListOrCreateNewByCOI(List<Therapeutic_Area_Patient__c> cois) {
+        List<Id> taIds = new List<Id>();
+        for(Therapeutic_Area_Patient__c ta: cois) taIds.add(ta.Therapeutic_Area__c);
+        List<Topic__c> topicList = [SELECT Id, TopicId__c FROM Topic__c WHERE TopicId__c =: taIds];
+        List<Id> topicIds = new List<Id>();
+        for(Topic__c t: topicList) topicIds.add(t.TopicId__c);
+        for (Therapeutic_Area_Patient__c tap: cois){
+            if (!topicIds.contains(tap.Therapeutic_Area__c)) topicList.add(new Topic__c(TopicId__c = tap.Therapeutic_Area__c));
+        }
+        try {
+            insert topicList;
+        } catch (DmlException e) {
+        }
+        return topicList;
+    }
+
+    public static List<Topic__c> getTopicListOrCreateNew(List<Clinical_Trial_Profile__c> ctpList) {
+        List<Id> taIds = new List<Id>();
+
+        for (Clinical_Trial_Profile__c ctp: ctpList) taIds.add(ctp.Therapeutic_Area__c);
+
+        List<Topic__c> topics = [SELECT Id, TopicId__c FROM Topic__c WHERE TopicId__c =: taIds];
+        List<Id> topIds = new List<Id>();
+
+        for (Topic__c top: topics) topIds.add(top.TopicId__c);
+
+        List<Topic__c> newTopics = new List<Topic__c>();
+
+        for (Clinical_Trial_Profile__c ctp: ctpList) {
+            if (ctp.Therapeutic_Area__c != null && !topIds.contains(ctp.Therapeutic_Area__c)){
+                newTopics.add(new Topic__c(TopicId__c = ctp.Therapeutic_Area__c));
+            }
+        }
+        try {
+            insert newTopics;
+            topics.addAll(newTopics);
+        } catch (DmlException e) {
+        }
+
+        return topics;
+    }
+
+    public static List<Topic__c> getTopicListOrCreateNewByCTPId(List<Clinical_Trial_Profile__c> ctpList) {
+        List<Id> ctpIds = new List<Id>();
+
+        for (Clinical_Trial_Profile__c ctp: ctpList) ctpIds.add(ctp.Id);
+
+        List<Topic__c> topics = [SELECT Id, TopicId__c FROM Topic__c WHERE TopicId__c =:ctpIds];
+        List<Id> topIds = new List<Id>();
+
+        for (Topic__c top: topics) topIds.add(top.TopicId__c);
+
+        List<Topic__c> newTopics = new List<Topic__c>();
+
+        for (Clinical_Trial_Profile__c ctp: ctpList) {
+            if (!topIds.contains(ctp.Id)){
+                newTopics.add(new Topic__c(TopicId__c = ctp.Id));
+            }
+        }
+        try {
+            insert newTopics;
+            topics.addAll(newTopics);
+        } catch (DmlException e) {
+        }
+
+        return topics;
+    }
+
 }
