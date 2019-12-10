@@ -151,6 +151,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_MassEmailDelegate</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_MassEmailPatient</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_MigratePicklistToCheckbox</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -216,6 +224,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>CTCTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CTPNotificationTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1011,6 +1023,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SMSService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SObjectHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1524,6 +1540,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_MyTemRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_NotificationService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -4269,6 +4289,11 @@
         <editable>false</editable>
         <field>Notification_Target__mdt.Notification_Type__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Notification_Target__mdt.Org_Wide_Email_Adress__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
