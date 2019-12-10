@@ -61,24 +61,24 @@ private class Test_TrialItemRemote {
         System.assert(true, isExceptionThrown);
     }
 
-    @IsTest
-    static void createTrialNotificationWithException_test() {
-        Clinical_Trial_Profile__c ctp = [SELECT Id FROM Clinical_Trial_Profile__c LIMIT 1];
-        Boolean isExceptionThrown = false;
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(TrialSearchHelper.class, StubBuilder.newInstance(TrialSearchHelper.class)
-                .when('createTrialNotification')
-                .then(new AuraHandledException(''))
-                .build()
-        );
-        try{
-            TrialItemRemote.createTrialNotification(ctp.Id);
-        } catch (AuraHandledException e){
-            isExceptionThrown = true;
-            System.assert(e.getTypeName() == 'System.AuraHandledException');
-        }
-        System.assert(true, isExceptionThrown);
-    }
+//    @IsTest
+//    static void createTrialNotificationWithException_test() {
+//        Clinical_Trial_Profile__c ctp = [SELECT Id FROM Clinical_Trial_Profile__c LIMIT 1];
+//        Boolean isExceptionThrown = false;
+//        ClassFactory.clearStubTypesByClassNamesMap();
+//        ClassFactory.putStubTypeByClassName(TrialSearchHelper.class, StubBuilder.newInstance(TrialSearchHelper.class)
+//                .when('createTrialNotification')
+//                .then(new AuraHandledException(''))
+//                .build()
+//        );
+//        try{
+//            TrialItemRemote.createTrialNotification(ctp.Id);
+//        } catch (AuraHandledException e){
+//            isExceptionThrown = true;
+//            System.assert(e.getTypeName() == 'System.AuraHandledException');
+//        }
+//        System.assert(true, isExceptionThrown);
+//    }
 
 
     private static List<Trial_Notification__c> selectTrialNotifications() {
