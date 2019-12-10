@@ -22,15 +22,10 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap){
             updateClinicalTrialProfile(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
-            CTPSendNotificationService ctpService = (CTPSendNotificationService) ClassFactory.newInstance(CTPSendNotificationService.class);
-            ctpService.updateRelatedTrialNotifications(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
-            ctpService.removeSentNotifications();
             updateNextNotifyDateByCTP((List<Clinical_Trial_Profile__c>)newList);
         }
 
         public override void beforeDelete(List<SObject> oldList) {
-            CTPSendNotificationService ctpService = (CTPSendNotificationService) ClassFactory.newInstance(CTPSendNotificationService.class);
-            ctpService.removeRelatedTrialNotificationsOnDelete(oldList);
         }
     }
 
