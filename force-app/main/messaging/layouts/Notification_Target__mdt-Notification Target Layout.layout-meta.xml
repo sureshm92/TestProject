@@ -34,10 +34,6 @@
                 <behavior>Edit</behavior>
                 <field>Email_Template_Delegate__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Org_Wide_Email_Adress__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
