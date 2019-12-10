@@ -59,6 +59,7 @@ public without sharing class TherapeuticAreaPatientService {
     private static void deleteTherapeuticAreaPatientFromPE(List<Participant_Enrollment__c> deleteList) {
         Set<Id> participantId = new Set<Id>();
         List<Therapeutic_Area_Patient__c> deleteAreaPatients = new List<Therapeutic_Area_Patient__c>();
+        Set<Id> deleteIds = new Set<Id>();
         for (Participant_Enrollment__c enrollment : deleteList) {
             participantId.add(enrollment.Participant__c);
         }
@@ -68,8 +69,10 @@ public without sharing class TherapeuticAreaPatientService {
                 List<Participant_Enrollment__c> participantEnrollments = TherapeuticAreaPatientService.selectPEnrollmentsByIds(deleteList);
                 for (Therapeutic_Area_Patient__c areaPatient : areaPatients) {
                     for (Participant_Enrollment__c participantEnrollment : participantEnrollments) {
-                        if (areaPatient.Therapeutic_Area__c == participantEnrollment.Clinical_Trial_Profile__r.Therapeutic_Area__c) {
+                        if (areaPatient.Therapeutic_Area__c == participantEnrollment.Clinical_Trial_Profile__r.Therapeutic_Area__c &&
+                                !deleteIds.contains(areaPatient.Id)) {
                             deleteAreaPatients.add(areaPatient);
+                            deleteIds.add(areaPatient.Id);
                         }
                     }
                 }

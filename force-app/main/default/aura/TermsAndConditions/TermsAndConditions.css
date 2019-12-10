@@ -3,7 +3,7 @@
 }
 
 .THIS .main-header {
-    font-size: 2.5rem;
+    font-size: 24px;
     font-weight: 600;
     line-height: 64px;
     text-align: center;
@@ -12,7 +12,7 @@
 }
 
 .THIS .tc-accept-text {
-    color: #666666;
+    color: #444;
     margin-right: auto;
 }
 

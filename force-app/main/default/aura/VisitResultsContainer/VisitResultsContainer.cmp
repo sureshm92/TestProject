@@ -36,6 +36,7 @@
                 </aura:iteration>
                 <aura:set attribute="else">
                     <c:VisitsCompliance contactId="{!v.initData.contact.Id}" isVisitResultsExist="{!v.initData.isResultsExist}"
+                                        isDelegate="{!v.initData.isDelegate}"
                                         isVisitResultsAvailable="{!v.initData.isVisitResultsAvailable}"
                                         isOptIn="{!v.initData.contact.Visit_Results_Opt_In__c}" optInChanged="{!v.optInChanged}"/>
                 </aura:set>

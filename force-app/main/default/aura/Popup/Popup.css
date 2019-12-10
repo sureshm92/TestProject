@@ -126,8 +126,7 @@
 }
 
 .THIS .p-buttons-container .opt-in-popup-button+.opt-in-popup-button {
-    margin-left: 0;
-    margin-right: 5px;
+    margin-left: 10px;
 }
 
 .THIS #p-modal .p-container{
