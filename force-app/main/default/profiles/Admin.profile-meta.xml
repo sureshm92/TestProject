@@ -1119,6 +1119,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StudyConfigurationRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudyDetailAboutStudyRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2707,6 +2711,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Study_Documents_Are_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Study_Phase__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2747,6 +2756,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Tasks_Are_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Terms_And_Conditions_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2758,6 +2772,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Therapeutic_Area__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Travel_Vendor_Is_Available__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2777,12 +2796,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Video_And_Articles_Are_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Visit_Data_Shareback__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Visit_Plan__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Visit_Schedule_Is_Available__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
