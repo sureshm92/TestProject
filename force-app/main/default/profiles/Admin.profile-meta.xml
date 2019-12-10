@@ -1099,6 +1099,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StudyConfigurationRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudyDetailAboutStudyRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
