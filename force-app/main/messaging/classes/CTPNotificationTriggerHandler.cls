@@ -20,14 +20,17 @@ public with sharing class CTPNotificationTriggerHandler {
 
     @TestVisible
     private static void createNotificationCTPWasCreated(List<Clinical_Trial_Profile__c> newList, Map<Id, SObject> oldMap) {
-
-        List<Topic__c> topicList = NotificationService.getTopicListOrCreateNew(newList);
+        List<Clinical_Trial_Profile__c> listForTrigger = new List<Clinical_Trial_Profile__c>();
+        for(Clinical_Trial_Profile__c ctp: newList){
+            if (ctp.Therapeutic_Area__c !=null) listForTrigger.add(ctp);
+        }
+        List<Topic__c> topicList = NotificationService.getTopicListOrCreateNew(listForTrigger);
         Map<Id, Topic__c> topicByTopicIdMap = new Map<Id, Topic__c>();
         for (Topic__c t: topicList) topicByTopicIdMap.put(t.TopicId__c, t);
 
         List<Notification__c> notificationsForSubs = new List<Notification__c>();
         Topic__c topic = new Topic__c();
-        for (Clinical_Trial_Profile__c ctp: newList){
+        for (Clinical_Trial_Profile__c ctp: listForTrigger){
             topic = topicByTopicIdMap.get(ctp.Therapeutic_Area__c);
             notificationsForSubs.add(new Notification__c(
                     Topic__c = topic.Id,
