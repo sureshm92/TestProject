@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-.THIS.mode-block {
+.THIS.menu-block {
     display: inline-block;
     position: relative;
     height: 50px;
@@ -13,8 +13,16 @@
     padding: 0 10px;
 }
 
-.THIS.mode-block .menu-popup-panel.popupTargetContainer{
+.THIS.menu-block .menu-popup-panel.popupTargetContainer{
     left: initial;
     right: 0;
     width: 180px;
+}
+
+.THIS.menu-block.rtl .menu-popup-panel.popupTargetContainer{
+    left: 0;
+}
+
+.THIS.menu-block.rtl li{
+    text-align: right!important;
 }

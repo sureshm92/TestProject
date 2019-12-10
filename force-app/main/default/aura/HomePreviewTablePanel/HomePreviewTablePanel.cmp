@@ -2,12 +2,12 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="HomePreviewTablePanel" >
+<aura:component description="HomePreviewTablePanel" extends="c:CommunityContext">
 
     <aura:attribute name="title" type="String"/>
     <aura:attribute name="footer" type="Aura.Component[]"/>
 
-    <div class="rr-white-panel hptp-panel">
+    <div class="{!'rr-white-panel hptp-panel ' + if(v.isArabic, 'rtl', '')}">
         <div class="hptp-title">{!v.title}</div>
         <div class="hptp-body">{!v.body}</div>
         <div class="hptp-footer">{!v.footer}</div>

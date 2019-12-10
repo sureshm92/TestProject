@@ -7,11 +7,15 @@
     align-items: stretch;
 }
 
+.THIS.hptp-panel.rtl{
+    direction: rtl;
+}
+
 .THIS .hptp-title{
     font-size: 18px;
     font-weight: 600;
     line-height: 27px;
-    padding: 16px 0 16px 16px;
+    padding: 16px;
 }
 
 .THIS .hptp-body{

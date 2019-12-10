@@ -7,6 +7,12 @@
     padding: 4px 10px;
 }
 
+.THIS.rr-table.rtl,
+.THIS.rr-table.rtl th,
+.THIS.rr-table.rtl td{
+    text-align: right;
+}
+
 .THIS.rr-table td{
     color: #595959;
     padding: 4px 10px;

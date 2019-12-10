@@ -1,5 +1,5 @@
 <aura:component controller="ResourceRemote" description="ResourceDashboardCard"
-                implements="forceCommunity:availableForAllPageTypes">
+                implements="forceCommunity:availableForAllPageTypes" extends="c:CommunityContext">
 
     <!--ATTRIBUTES-->
     <aura:attribute name="videoResource" type="Object"/>
@@ -12,7 +12,7 @@
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
 
     <!--COMPONENT BODY-->
-    <div class="rr-white-panel resource-card">
+    <div class="{!'rr-white-panel resource-card ' + if(v.isArabic, 'rtl', '')}">
 
         <header class="resource-card-title">
             {!$Label.c.PG_L_Resources}

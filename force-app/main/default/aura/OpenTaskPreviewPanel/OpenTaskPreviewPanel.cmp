@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="OpenTaskPreviewPanel" controller="TasksRemote">
+<aura:component description="OpenTaskPreviewPanel" controller="TasksRemote" extends="c:CommunityContext">
 
     <!-- attributes: -->
     <aura:attribute name="tasks" type="Task[]"/>
