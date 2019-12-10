@@ -198,35 +198,39 @@ public without sharing class ManualCreationPanelRemote {
     //Inner logic:------------------------------------------------------------------------------------------------------
     @TestVisible
     private static Boolean createInvitationAndTask(AdHocWrapper wrapper, ManualTaskFilter filter) {
-        Survey survey = [SELECT Id, Name FROM Survey WHERE Id =: wrapper.selectedSurvey];
-        List<Reminder_Schedule__c> rsList = [SELECT Id FROM Reminder_Schedule__c WHERE Id =: wrapper.selectedRS];
-        Reminder_Schedule__c rs = rsList.isEmpty() ? null : rsList.get(0);
+        try {
+            Survey survey = [SELECT Id, Name FROM Survey WHERE Id = :wrapper.selectedSurvey];
+            List<Reminder_Schedule__c> rsList = [SELECT Id FROM Reminder_Schedule__c WHERE Id = :wrapper.selectedRS];
+            Reminder_Schedule__c rs = rsList.isEmpty() ? null : rsList.get(0);
 
-        List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
-        Id communityId = CommunityService.getCommunityId(null);
-        for (Id contactId : filter.getContactsWithPE().keySet()) {
-            for(Participant_Enrollment__c pe : filter.getContactsWithPE().get(contactId)) {
-                newInvitations.add(SurveyService.getInstance().generateInvitation(
-                        survey,
-                        rs,
-                        wrapper.daysToExpire,
-                        wrapper.expireOnAlumni,
-                        pe.Id,
-                        communityId
-                ));
+            List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
+            Id communityId = CommunityService.getCommunityId(null);
+            Map<Id, List<Participant_Enrollment__c>> contactsWithPE = filter.getContactsWithPE();
+            for (Id contactId : contactsWithPE.keySet()) {
+                for (Participant_Enrollment__c pe : contactsWithPE.get(contactId)) {
+                    newInvitations.add(SurveyService.getInstance().generateInvitation(
+                            survey,
+                            rs,
+                            wrapper.daysToExpire,
+                            wrapper.expireOnAlumni,
+                            pe.Id,
+                            communityId
+                    ));
+                }
             }
+
+            if (!newInvitations.isEmpty()) {
+                insert newInvitations;
+
+                Map<Id, String> invitationsVisible = new Map<Id, String>();
+                for (SurveyInvitation inv : newInvitations) invitationsVisible.put(inv.Id, wrapper.neededResponse);
+
+                Batch_CreateSurveyTasks.launch(invitationsVisible);
+                return true;
+            }
+        } catch (Exception e) {
+            return (Boolean) AuraHelper.throwException(e);
         }
-
-        if (!newInvitations.isEmpty()) {
-            insert newInvitations;
-
-            Map<Id, String> invitationsVisible = new Map<Id, String>();
-            for (SurveyInvitation inv : newInvitations) invitationsVisible.put(inv.Id, wrapper.neededResponse);
-
-            Batch_CreateSurveyTasks.launch(invitationsVisible);
-            return true;
-        }
-
         return false;
     }
 }

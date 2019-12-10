@@ -8,8 +8,7 @@
             <recipient>Case_team_notification</recipient>
             <type>group</type>
         </recipients>
-        <senderAddress>patientupdates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/New_Case_created</template>
     </alerts>
     <alerts>
@@ -20,8 +19,7 @@
             <field>Email_address__c</field>
             <type>email</type>
         </recipients>
-        <senderAddress>patientupdates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Request_For_Information</template>
     </alerts>
     <rules>

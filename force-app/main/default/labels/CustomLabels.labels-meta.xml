@@ -10480,6 +10480,13 @@ Please check your CAPS lock key.</value>
         <value>Search for Study</value>
     </labels>
     <labels>
+        <fullName>StudyStub</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>StudyStub</shortDescription>
+        <value>This study</value>
+    </labels>
+    <labels>
         <fullName>StudyVisit_Ad_hoc_Visit</fullName>
         <language>en_US</language>
         <protected>true</protected>

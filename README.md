@@ -6,27 +6,19 @@
    sfdx force:auth:web:login -d -a devHubAlias
    ```
 
-##### 2) Create Scratch Org:
+##### 2) Create Scratch Org(Windows):
 
    ```sh
    create-scratch-org.bat scratchOrgAlias
    ```
 
-##### 3) Approve Org Wide Email Address:
-
-   Go to mail boxes updates@cp.clinicalresearch.com & patientupdates@cp.clinicalresearch.com and approve both. Don't forget remove this emails from Email box. Ask about how to get access to this mailbox
-    
-##### 4) Setup Scratch Org before push:
-
-   1. Go to **Survey Settings** and enable 
-   
-##### 5) Push project to Scratch org:
+##### Create Scratch Org(Mac/Linux):
 
    ```sh
-   push-scratch-org.bat
+   sh create-scratch-org.sh scratchOrgAlias
    ```
 
-##### 6) Publish community:
+##### 3) Publish community:
 
    Go to Setup > All Communities > Open Community Builder > press "Publish"
   

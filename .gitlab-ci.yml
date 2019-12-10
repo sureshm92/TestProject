@@ -11,13 +11,10 @@ stages:
   - DeployINF3.2
   - RunTestINF3.2
 
-  # 3.1.1 INT:
-  - DeployINT3.1.1
-  - RunTestINT3.1.1
+  # 4.0 INT:
+  - DeployINT4.0
+  - RunTestINT4.0
 
-  # 3.1.1 INF:
-  - DeployINF3.1.1
-  - RunTestINF3.1.1
 
 cache:
   paths:
@@ -39,16 +36,54 @@ VALIDATE:
   stage: VALIDATE
   script:
     - sfdx update
-    - echo "$INTOneOne" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT1.1 -d
+    - echo "$INT" > sfdx-auth-url
+    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
     - sfdx --version
     - cd Nodejs
     - node convert.js
     - cd ..
     - rm -rf output
     - sfdx force:source:convert -d output
-    - sfdx force:mdapi:deploy -d output -u INT1.1 -c -w 60
-    - echo "validate INT1.1 success"
+    - sfdx force:mdapi:deploy -d output -u INT -c -w 60
+    - echo "validate INT success"
+
+
+# 4.0 INT: ---------------------------------------------------------------------
+DeployINT4.0:
+  tags:
+    - shell
+  only:
+    - INT4.0
+  except:
+    - merge_requests
+
+  stage: DeployINT4.0
+  script:
+    - sfdx update
+    - echo "$INT" > sfdx-auth-url
+    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
+    - sfdx --version
+    - cd Nodejs
+    - node convert.js
+    - cd ..
+    - rm -rf output
+    - sfdx force:source:convert -d output
+    - sfdx force:mdapi:deploy -d output -u INT  -w 60
+    - echo "deploy INT success"
+
+RunTestINT4.0:
+  tags:
+    - shell
+  only:
+    - INT4.0
+  except:
+    - merge_requests
+
+  stage: RunTestINT4.0
+  script:
+    - echo "$INT" > sfdx-auth-url
+    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
+    - sfdx force:apex:test:run -u INT --testlevel=RunLocalTests -w 60
 
 
 # 3.2 INT: ---------------------------------------------------------------------
@@ -125,79 +160,4 @@ RunTestINF3.2:
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF3.2 -d
     - sfdx force:apex:test:run -u INF3.2 --testlevel=RunLocalTests -w 60
 
-
-# 3.1.1 INT: -------------------------------------------------------------------
-DeployINT3.1.1:
-  tags:
-    - shell
-  only:
-    - Sprint-RH3.1.1-PP1.1.1
-  except:
-    - merge_requests
-
-  stage: DeployINT3.1.1
-  script:
-    - echo "$INTOneOne" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT1.1 -d
-    - echo "test1"
-    - sfdx --version
-    - cd Nodejs
-    - node convert.js
-    - cd ..
-    - rm -rf output
-    - sfdx force:source:convert -d output
-    - sfdx force:mdapi:deploy -d output -u INT1.1  -w 60
-    - echo "deploy Int1.1 success"
-
-RunTestINT3.1.1:
-  tags:
-    - shell
-  only:
-    - Sprint-RH3.1.1-PP1.1.1
-  except:
-    - merge_requests
-
-  stage: RunTestINT3.1.1
-  script:
-    - echo "$INTOneOne" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT1.1 -d
-    - sfdx force:apex:test:run -u INT1.1 --testlevel=RunLocalTests -w 60
-
-
-# 3.1.1 INF: -------------------------------------------------------------------
-DeployINF3.1.1:
-  tags:
-    - shell
-  only:
-    - RH3.1.1-PP1.1.1INF3.1.1
-  except:
-    - merge_requests
-
-  stage: DeployINF3.1.1
-  script:
-    - echo "$INFOneOne" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF1.1 -d
-    - echo "test1"
-    - sfdx --version
-    - cd Nodejs
-    - node convert.js
-    - cd ..
-    - rm -rf output
-    - sfdx force:source:convert -d output
-    - sfdx force:mdapi:deploy -d output -u INF1.1  -w 60
-    - echo "deploy InF1.1 success"
-
-RunTestINF3.1.1:
-  tags:
-    - shell
-  only:
-    - RH3.1.1-PP1.1.1INF3.1.1
-  except:
-    - merge_requests
-
-  stage: RunTestINF3.1.1
-  script:
-    - echo "$INFOneOne" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF1.1 -d
-    - sfdx force:apex:test:run -u INF1.1 --testlevel=RunLocalTests -w 60
 
