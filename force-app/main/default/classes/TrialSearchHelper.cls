@@ -13,9 +13,9 @@ public with sharing class TrialSearchHelper {
     private static final String QUEUE = 'Queue';
     private static final String PEH_CASE_QUEUE_NAME = 'PEH Case Queue';
 
-   static {
-       ClassFactory.setCacheable(true);
-   }
+    static {
+        ClassFactory.setCacheable(true);
+    }
 
     private DatabaseProxy proxy {
         get {
@@ -101,17 +101,50 @@ public with sharing class TrialSearchHelper {
         ((DatabaseProxy) (ClassFactory.newInstance(DatabaseProxy.class))).upsertRecord(caseContact, true);
     }
 
-    public void createTrialNotification(Id ctpId) {
-        Clinical_Trial_Profile__c ctp = this.getClinicalTrialProfileById(ctpId);
+    public void createSubscribeConnection(Id ctpId) {
+        Topic__c topic = NotificationService.getTopicOrCreateNew(ctpId);
         CommunityService communityService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
-        PatientDelegateService delegateService = (PatientDelegateService) ClassFactory.newInstance(PatientDelegateService.class);
-        Trial_Notification__c notification = new Trial_Notification__c(
-                Participant__c = delegateService.getParticipant().First_Name__c
-                , Contact__c = communityService.getCurrentContactId()
-                , Clinical_Trial_Profile__c = ctp.Id
-                , CTP_Name__c = ctp.Study_Code_Name__c
-        );
-        proxy.upsertRecord(notification, true);
+        Id conId = communityService.getCurrentContactId();
+        List<Contact_Topic__c> subAlreadyExist = [
+                SELECT Id, Contact__c
+                FROM Contact_Topic__c
+                WHERE Contact__c = :conId
+        ];
+        if (subAlreadyExist.isEmpty()) {
+            subAlreadyExist.add(new Contact_Topic__c(
+                    Contact__c = conId,
+                    Topic__c = topic.Id
+            ));
+            try {
+                insert subAlreadyExist;
+            } catch (DmlException e) {
+            }
+        }
+    }
+
+    public void createSubscribeConnectionByCOI(List<Therapeutic_Area_Patient__c> cois) {
+        List<Topic__c> topics = NotificationService.getTopicListOrCreateNewByCOI(cois);
+        CommunityService communityService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
+        Id conId = communityService.getCurrentContactId();
+        List<Contact_Topic__c> subAlreadyExist = [
+                SELECT Id, Contact__c, Topic__c
+                FROM Contact_Topic__c
+                WHERE Contact__c = :conId
+        ];
+        List<Id> topicsAlreadyExist = new List<Id>();
+        for(Contact_Topic__c ct: subAlreadyExist) topicsAlreadyExist.add(ct.Topic__c);
+        List<Contact_Topic__c> newContactTopics = new List<Contact_Topic__c>();
+        for(Topic__c t: topics){
+            if(!topicsAlreadyExist.contains(t.Id)){
+                newContactTopics.add(new Contact_Topic__c(
+                        Contact__c = conId,
+                        Topic__c = t.Id));
+            }
+        }
+        try {
+            insert newContactTopics;
+        } catch (DmlException e) {
+        }
     }
 
     public Boolean isCtpEnrolling(Clinical_Trial_Profile__c ctp) {

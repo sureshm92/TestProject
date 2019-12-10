@@ -6,7 +6,7 @@
         component.find('mainSpinner').show();
         let trial = component.get('v.trialTDO');
         if (!trial.isEnrollingCTP) {
-            communityService.executeAction(component, 'createTrialNotification', {
+            communityService.executeAction(component, 'createSubscribeConnectionEnroll', {
                 ctpId: trial.ctp.Id
             }, function () {
                 component.find('mainSpinner').hide();
