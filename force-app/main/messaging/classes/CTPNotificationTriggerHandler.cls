@@ -32,11 +32,13 @@ public with sharing class CTPNotificationTriggerHandler {
         Topic__c topic = new Topic__c();
         for (Clinical_Trial_Profile__c ctp: listForTrigger){
             topic = topicByTopicIdMap.get(ctp.Therapeutic_Area__c);
-            notificationsForSubs.add(new Notification__c(
-                    Topic__c = topic.Id,
-                    WhatId__c = ctp.Id,
-                    Notification_Type__c = NotificationService.MESSAGE_TO_PT_NEW_COI_CTP_TYPE
-            ));
+            if(topic != null) {
+                notificationsForSubs.add(new Notification__c(
+                        Topic__c = topic.Id,
+                        WhatId__c = ctp.Id,
+                        Notification_Type__c = NotificationService.MESSAGE_TO_PT_NEW_COI_CTP_TYPE
+                ));
+            }
         }
         try {
             insert notificationsForSubs;

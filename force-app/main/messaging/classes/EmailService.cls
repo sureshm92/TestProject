@@ -13,7 +13,7 @@ public without sharing class EmailService {
     public static void send(List<Notification__c> notifications) {
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
         for (Notification__c n : notifications) {
-            Notification_Target__mdt currentTarget = NotificationService.getNotificationType(n.Notification_Type__c).Notification_Targets__r;
+            Notification_Target__mdt currentTarget = NotificationService.getTargetByNotification(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
             emailMessages.add(createEmail(getEmailTemplateId(currentTarget.Email_Template__c), n.Recipient__c, n.WhatId__c));
         }
         List<Messaging.SendEmailResult> resultList = Messaging.sendEmail(emailMessages, false);
