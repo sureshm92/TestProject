@@ -10,6 +10,9 @@ public without sharing class NotificationTriggerHandler {
 
         public override void beforeInsert(List<SObject> newList) {
             checkFieldsForNotification(newList);
+        }
+
+        public override void afterInsert(List<SObject> newList) {
             sendNotificationToRecipient(newList);
         }
     }
@@ -26,10 +29,10 @@ public without sharing class NotificationTriggerHandler {
 
     @TestVisible
     private static void sendNotificationToRecipient(List<Notification__c> newList) {
-        System.debug('BEFORE AND AFTER BATCH <<<<< ' + JSON.serializePretty(newList));
         List<Notification__c> notificationsForMassEmail = new List<Notification__c>();
         List<Notification__c> nonTopicNotifications = new List<Notification__c>();
         List<Id> whatIds = new List<Id>();
+
         for (Notification__c n : newList) {
             whatIds.add(n.WhatId__c);
             if (n.Recipient__c == null && n.Topic__c != null) {
@@ -43,12 +46,12 @@ public without sharing class NotificationTriggerHandler {
         List<Notification__c> emailNotifications = new List<Notification__c>();
         List<Notification__c> smsNotifications = new List<Notification__c>();
         List<Notification__c> pushNotifications = new List<Notification__c>();
+        List<Send_Result__c> sendResults = new List<Send_Result__c>();
+
         for (Notification__c n : nonTopicNotifications) {
             Notification_Type__mdt notificationType = NotificationService.getNotificationType(n.Notification_Type__c);
-            Boolean isAllSkipped = true;
             for(Notification_Target__mdt nt: notificationType.Notification_Targets__r){
                 if (availabilityService.isAvailable(n.WhatId__c, notificationType.Recipient_Type__c, nt.Target_Type__c)) {
-                    isAllSkipped = false;
                     if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL) {
                         emailNotifications.add(n);
                     } else if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_SMS) {
@@ -56,13 +59,14 @@ public without sharing class NotificationTriggerHandler {
                     } else if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_PUSH) {
                         pushNotifications.add(n);
                     }
+               }else{
+                    sendResults.add(new Send_Result__c(
+                            Notification__c = n.Id,
+                            Target_Type__c = nt.Target_Type__c,
+                            Status__c = NotificationService.STATUS_SKIPPED));
                 }
             }
-            if(isAllSkipped) {
-                n.Email_Status__c = NotificationService.EMAIL_STATUS_SKIPPED;
-            } else {
-                n.Email_Status__c = NotificationService.EMAIL_STATUS_SENT;
-            }
+            insert sendResults;
         }
 
         EmailService.send(emailNotifications);

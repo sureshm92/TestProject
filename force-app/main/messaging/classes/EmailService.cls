@@ -6,6 +6,9 @@ public without sharing class EmailService {
     public class SendEmailTemplateException extends Exception {
     }
 
+    public static final String COMMUNITY_ORG_WIDE_ADDRESS_REFERRAL = 'IQVIA Referral Hub';
+    public static final String COMMUNITY_ORG_WIDE_ADDRESS_PATIENT = 'IQVIA Patient Portal';
+
     private static final Map<String, Id> templateNameIdMap = new Map<String, Id>();
     private static final Map<String, Id> orgWideEmailAddressesMap = new Map<String, Id>();
 
@@ -48,23 +51,50 @@ public without sharing class EmailService {
         return newEmail;
     }
 
+    public static String getOrgWideEmailAddressByContactId(Id contactId) {
+        String userMode = CommunityService.getContactUserMode(contactId);
+        if (userMode != null && userMode.equalsIgnoreCase(CommunityService.USER_MODE_PARTICIPANT)) {
+            return COMMUNITY_ORG_WIDE_ADDRESS_PATIENT;
+        } else {
+            return COMMUNITY_ORG_WIDE_ADDRESS_REFERRAL;
+        }
+    }
+
     public static void send(List<Notification__c> notifications) {
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
+        List<Send_Result__c> sendResults = new List<Send_Result__c>();
         for (Notification__c n : notifications) {
-            Notification_Target__mdt currentTarget = NotificationService.getTargetByNotification(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
-            emailMessages.add(createEmail(getEmailTemplateId(currentTarget.Email_Template__c), n.Recipient__c, n.WhatId__c));
+            Notification_Target__mdt emailTarget = NotificationService.getNotificationTarget(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
+            emailMessages.add(createEmail(getEmailTemplateId(emailTarget.Email_Template__c), n.Recipient__c, n.WhatId__c));
+            sendResults.add(new Send_Result__c(
+                    Target_Type__c = NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
+                    Notification__c = n.Id
+            ));
         }
         List<Messaging.SendEmailResult> resultList = Messaging.sendEmail(emailMessages, false);
-        List<Notification__c> notificationList = new List<Notification__c>(notifications);
-        for (Integer i = 0; i < notificationList.size(); i++) {
+        for(Integer i=0; i<resultList.size();i++) {
             if (!resultList[i].success) {
-                notificationList[i].Email_Status__c = NotificationService.EMAIL_STATUS_FAILED;
+                sendResults[i].Status__c = NotificationService.STATUS_FAILED;
+                sendResults[i].Error__c = JSON.serializePretty(resultList[i].errors);
+            } else {
+                sendResults[i].Status__c = NotificationService.STATUS_SENT;
             }
         }
+
+        insert sendResults;
     }
-    public static Messaging.SingleEmailMessage createEmail(String templateDeveloperName, Id contactId, Id whatId) {
-        return createEmail(getEmailTemplateId(templateDeveloperName), contactId, whatId);
+
+    public static void sendEmail(String emailTemplate, Id recipientId, Id whatId){
+        Messaging.SingleEmailMessage sem = createEmail(getEmailTemplateId(emailTemplate), recipientId, whatId);
+        Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{sem}, false);
     }
+
+    public static Messaging.SingleEmailMessage createEmail(Id emailTemplateId, Id contactId, Id whatId) {
+        String orgWideEmAddress = getOrgWideEmailAddressByContactId(contactId);
+        return createEmail(emailTemplateId, contactId, whatId, null, orgWideEmAddress);
+    }
+
+
 
 
 }
