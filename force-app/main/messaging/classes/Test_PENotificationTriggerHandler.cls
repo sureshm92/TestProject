@@ -9,8 +9,8 @@ private class Test_PENotificationTriggerHandler {
 //        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.class);
 //        TestData.loadTestData();
 //    }
-//    @IsTest
-//    static void testCheckHCPNotificationType() {
+    @IsTest
+    static void testCheckHCPNotificationType() {
 //        Participant_Enrollment__c pe = [
 //                SELECT Id,
 //                        Participant_Status__c
@@ -25,7 +25,7 @@ private class Test_PENotificationTriggerHandler {
 //        notificationHCPTypeStr = NotificationService.checkHCPNotificationType(pe, false);
 //        Test.stopTest();
 //        System.assertEquals('Message_to_HCP_Patient_Declined_Type', notificationHCPTypeStr);
-//    }
+    }
 //
 //    @IsTest
 //    static void testCheckPatientNotificationType() {
