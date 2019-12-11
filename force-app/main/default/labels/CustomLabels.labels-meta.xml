@@ -1000,6 +1000,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Undo exclusion and refer to this study</value>
     </labels>
     <labels>
+        <fullName>BTN_Upload_Patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Upload Patient</shortDescription>
+        <value>Upload Participants</value>
+    </labels>
+    <labels>
         <fullName>BTN_View</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10178,7 +10185,7 @@ Please check your CAPS lock key.</value>
         <value>Location Name</value>
     </labels>
     <labels>
-        <fullName>SS_Manage_Location_Details</fullName>
+        <fullName>SS_Success_Save_Message</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Manage Location Details</shortDescription>
@@ -10288,6 +10295,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>SS Success Save Message</shortDescription>
         <value>Study Site information was successfully saved</value>
+    </labels>
+    <labels>
+        <fullName>SS_Upload_Participants</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SS Upload Participants</shortDescription>
+        <value>Upload Participants</value>
     </labels>
     <labels>
         <fullName>SS_Use_This_Address</fullName>
