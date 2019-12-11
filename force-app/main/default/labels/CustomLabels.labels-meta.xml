@@ -10185,7 +10185,7 @@ Please check your CAPS lock key.</value>
         <value>Location Name</value>
     </labels>
     <labels>
-        <fullName>SS_Success_Save_Message</fullName>
+        <fullName>SS_Manage_Location_Details</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Manage Location Details</shortDescription>
