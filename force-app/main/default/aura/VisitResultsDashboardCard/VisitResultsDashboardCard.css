@@ -47,7 +47,8 @@
     padding: 5px;
     height: 100%;
     text-align: center;
-    display: grid;
+    display: flex;
+    flex-direction: column;
 }
 
 .THIS .visit-result-item-value {
@@ -79,7 +80,6 @@
 
 .THIS .visit-result-item-measurement {
     color: #444;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     font-family: "Proxima Nova";
