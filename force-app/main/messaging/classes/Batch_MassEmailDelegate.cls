@@ -31,8 +31,8 @@ public without sharing class Batch_MassEmailDelegate implements Database.Batchab
             notificationsForMassEmailDelegate.add(new Notification__c(
                     WhatId__c = notification.WhatId__c,
                     Recipient__c = delId,
-                    Notification_Type__c = notification.Notification_Type__c,
-                    Email_Status__c = NotificationService.EMAIL_STATUS_PENDING));
+                    Notification_Type__c = notification.Notification_Type__c
+                    ));
         }
 
         try {

@@ -9940,6 +9940,13 @@ Please check your CAPS lock key.</value>
         <value>Your recipient will receive a link to this article or video on ClinicalResearch.com</value>
     </labels>
     <labels>
+        <fullName>Resources_toggle_off</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources_toggle_off</shortDescription>
+        <value>No items to display</value>
+    </labels>
+    <labels>
         <fullName>Respiratory_Rate</fullName>
         <language>en_US</language>
         <protected>false</protected>
