@@ -201,6 +201,9 @@
 
         <!-- ManageLocationDetails dialog -->
         <c:Action_ManageLocationDetails aura:id="actionManageLocationDetails"/>
+
+        <!-- UploadParticipants dialog -->
+        <c:Action_UploadParticipants aura:id="actionUploadParticipants"/>
     </aura:if>
 
 </aura:component>
