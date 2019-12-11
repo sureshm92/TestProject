@@ -13,6 +13,9 @@
         "StateAndCountryPicklist"
     ],
     "settings": {
+        "apexSettings": {
+            "enableDisableParallelApexTesting": true
+        },
         "experienceBundleSettings": {
             "enableExperienceBundleMetadata": true
         },
@@ -28,6 +31,9 @@
         },
         "surveySettings": {
             "enableSurvey": true
+        },
+        "sessionSettings": {
+            "enableCacheAndAutocomplete": false
         }
     }
 }
