@@ -47,6 +47,23 @@ public inherited sharing class PatientVisitService {
         return visits;
     }
 
+    public static List<Patient_Visit__c> getPatientCardVisits(Id peId) {
+        String filter = DatabaseService.fieldEqual('Participant_Enrollment__c', peId)
+                + 'AND Is_Adhoc__c = FALSE AND Visit__c != NULL';
+        String order = 'Visit_Number__c ASC NULLS LAST';
+        List<Patient_Visit__c> patientVisits = (List<Patient_Visit__c>) DatabaseService.query(
+                new List<String>{
+                        'Id',
+                        'Completed_Date__c',
+                        'Status__c',
+                        'Planned_Date__c',
+                        'Visit_Number__c',
+                        'Visit__r.Patient_Portal_Name__c'
+                }, Patient_Visit__c.getSObjectType(), filter, order, null
+        );
+
+        return patientVisits;
+    }
 
     private List<VisitWrapper> getVisitWrappers(List<Patient_Visit__c> visits) {
         List<VisitWrapper> visitWrappers = new List<VisitWrapper>();

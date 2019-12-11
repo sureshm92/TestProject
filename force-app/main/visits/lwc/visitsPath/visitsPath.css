@@ -1,0 +1,159 @@
+/**
+ * Created by Igor Malyuta on 06.12.2019.
+ */
+.path-panel {
+    background-color: #ffffff;
+}
+
+.path-panel .path-section {
+    padding: 30px 5px 25px;
+}
+
+.path {
+    max-width: 660px;
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
+    padding-top: 14px;
+}
+
+.path::-webkit-scrollbar {
+    display: none;
+}
+
+.width-basis {
+    flex-basis: auto;
+}
+
+.state {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    min-width: 135px;
+}
+
+.state-label {
+    text-align: center;
+    font-size: 1rem;
+    color: #999;
+}
+
+@media only screen and (max-width: 600px) {
+    .path {
+        max-width: 300px;
+        overflow-x: scroll;
+        -ms-overflow-style: none;
+        scroll-behavior: smooth;
+        padding-top: 14px;
+    }
+
+    .state .state-label {
+        display: block;
+        font-weight: 600;
+    }
+}
+
+.line-div {
+    height: 22px;
+    border-top: 2px solid;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.path .state:first-child .line-div:first-child {
+    border-top-color: transparent;
+}
+
+.path .state:last-child .line-div:last-child {
+    border-top-color: transparent;
+}
+
+.line-div.neutral {
+    border-top-color: #b5b5b5;
+}
+
+.line-div.success {
+    border-top-color: #00c221;
+}
+
+.line-div.planned {
+    border-top-color: #005ff1 !important;
+}
+
+.state-ico-wrapper {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    position: absolute;
+    top: -10px;
+    left: -9px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.state .state-ico-wrapper {
+    width: 28px;
+    height: 28px;
+    top: -15px;
+    left: -14px;
+}
+
+.state.neutral .state-ico-wrapper {
+    background-color: #b5b5b5 !important;
+}
+
+.state.success .state-ico-wrapper {
+    background-color: #00c221 !important;
+}
+
+.state.planned .state-ico-wrapper {
+    background-color: #005ff1 !important;
+}
+
+.arrow-left {
+    opacity: 0;
+    transition: opacity 300ms;
+    -webkit-transition: opacity 300ms;
+    min-width: 30px;
+    margin-left: 5px;
+}
+
+.arrow-right {
+    opacity: 0;
+    transition: opacity 300ms;
+    -webkit-transition: opacity 300ms;
+    min-width: 30px;
+    margin-right: 5px;
+}
+
+@media not print {
+    .state-label {
+        display: none;
+    }
+
+    .state.neutral .cweb-icon {
+        display: none;
+    }
+}
+
+.success .state-label {
+    color: #000;
+}
+
+@media all and (min-width: 1024px) {
+    .state-label {
+        display: block;
+    }
+
+    .width-basis {
+        flex-basis: 0;
+    }
+
+    .state-ico-wrapper {
+        width: 28px;
+        height: 28px;
+        top: -15px;
+        left: -14px;
+    }
+}

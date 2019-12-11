@@ -1,0 +1,66 @@
+<!--
+ - Created by Igor Malyuta on 06.12.2019.
+ -->
+
+<!-- Visits Path -->
+<template>
+    <div class="path-panel">
+        <c-web-spinner fixed="true"></c-web-spinner>
+        <div class="path-section">
+            <div class="slds-grid slds-gutters_xxx-small">
+                <template if:true={cardItems}>
+                    <div class="slds-col arrow-left">
+                        <div onclick={handleScrollLeft}>
+                            <c-web-icon icon-name="icon-chevron-left" icon-color="#686868"></c-web-icon>
+                        </div>
+                    </div>
+                    <div class="slds-col">
+                        <div class="slds-grid path">
+                            <template for:each={cardItems} for:item="cardItem">
+                                <div key={cardItem.id} class={cardItem.state}>
+                                    <div class="slds-grid">
+                                        <div class={cardItem.left}></div>
+                                        <div class={cardItem.right} style="position: relative">
+                                            <div class="state-ico-wrapper">
+                                                <c-web-icon icon-name={cardItem.icon} icon-color="white"></c-web-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="state-label">{cardItem.visitName}</div>
+                                    <div class="state-label">
+                                        <template if:true={cardItem.isCompleted}>{cardItem.complDate}</template>
+                                        <template if:false={cardItem.isCompleted}>
+                                            <a data-id={cardItem.id} onclick={handleOpenDialog}>
+                                                <template if:true={cardItem.planDate}>
+                                                    <lightning-formatted-date-time
+                                                            value={cardItem.planDate}></lightning-formatted-date-time>
+                                                </template>
+                                                <template if:false={cardItem.planDate}>{labels.addLabel}</template>
+                                            </a>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="slds-col arrow-right">
+                        <div onclick={handleScrollRight}>
+                            <c-web-icon icon-name="icon-chevron-right" icon-color="#686868"></c-web-icon>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+    <!-- Add/Change Visit Planned Date -->
+    <c-web-popup show-header="true" show-footer="true" custom-buttons="true" title="Select Planned Date">
+        <div slot="body">
+            <lightning-input type="date" label="Planned Date" value={planDate}
+                             onchange={handleDateChange}></lightning-input>
+        </div>
+        <div slot="footerButtons">
+            <button class="apollo-btn tertiary" onclick={handleHideDialog}>{labels.cancelBTNLabel}</button>
+            <button class="apollo-btn primary" onclick={savePlannedDate}>{labels.saveBTNLabel}</button>
+        </div>
+    </c-web-popup>
+</template>
