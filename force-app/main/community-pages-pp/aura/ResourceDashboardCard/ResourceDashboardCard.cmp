@@ -12,20 +12,13 @@
     <aura:handler name="init" value="this" action="{!c.doInit}"/>
 
     <!--COMPONENT BODY-->
-    <div class="{!'rr-white-panel resource-card ' + if(v.isArabic, 'rtl', '')}">
-
-        <header class="resource-card-title">
-            {!$Label.c.PG_L_Resources}
-        </header>
-
+    <c:HomePreviewTablePanel title="{!$Label.c.PG_L_Resources}">
+        <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="small"/>
         <aura:if isTrue="{!v.initialized}">
-
             <aura:if isTrue="{!!empty(v.noTAMessage)}">
-
                 <div class="resource-noTAMessage">
                     <aura:unescapedHtml value="{!v.noTAMessage}"/>
                 </div>
-
                 <aura:set attribute="else">
                     <div class="resource-content">
                         <lightning:layout horizontalAlign="center" multipleRows="true">
@@ -42,17 +35,15 @@
                         </lightning:layout>
                     </div>
                 </aura:set>
-
             </aura:if>
-
-            <footer class="resource-footer">
-                <a class="cRRLink rr-link" onclick="{!c.navigateToPage}">{!$Label.c.Resources_See_All}</a>
-            </footer>
-
         </aura:if>
-
-        <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="small"/>
-
-    </div>
+        <aura:set attribute="footer">
+            <c:RRLink page="study-workspace?tab=tab-resources">
+                {!$Label.c.PG_L_See_All}
+                <aura:if isTrue="{!v.isArabic}"><c:RRIcon iconName="icon-chevron-left"/></aura:if>
+                <aura:if isTrue="{!!v.isArabic}"><c:RRIcon iconName="icon-chevron-right"/></aura:if>
+            </c:RRLink>
+        </aura:set>
+    </c:HomePreviewTablePanel>
 
 </aura:component>

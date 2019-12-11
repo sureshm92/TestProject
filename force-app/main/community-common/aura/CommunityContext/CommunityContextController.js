@@ -3,6 +3,6 @@
  */
 ({
     doInit: function (component, event, helper) {
-        //todo
+        component.set('v.isArabic', communityService.getLanguage() === 'ar');
     }
 })

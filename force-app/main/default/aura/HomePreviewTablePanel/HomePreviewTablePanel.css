@@ -61,13 +61,3 @@
     font-size: 1rem;
 }
 
-.THIS .hptp-footer .cRRLink.rr-link:after {
- 	content: '';
-    position: absolute;
-    background-size: 14px 14px;
-    background-image: url(/resource/1569526732000/ChevronRightBlue);
-    height: 14px;
-    width: 14px;
-    top: 10px;
-    right: 0px; 
-}

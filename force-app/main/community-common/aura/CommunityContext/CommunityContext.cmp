@@ -7,7 +7,7 @@
                   scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
 
-    <aura:attribute name="isArabic" type="Boolean" default="true" />
+    <aura:attribute name="isArabic" type="Boolean"/>
 
     {!v.body}
 </aura:component>
