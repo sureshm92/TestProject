@@ -25,6 +25,9 @@
                 component.set('v.conditionOfInterestList', coiSaveWrapperList);
                 component.set('v.showSpinner', false);
             });
+            communityService.executeAction(component, 'createSubscribeConnection', {
+                cois: coiList
+            });
         }
     },
 

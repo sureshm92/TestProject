@@ -8,8 +8,7 @@
             <field>HCP_Contact_HCPEnroll__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/RP2_Patient_Accepted</template>
     </alerts>
     <alerts>
@@ -20,8 +19,7 @@
             <field>HCP_Contact_HCPEnroll__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/RP4_Patient_Declined</template>
     </alerts>
     <alerts>
@@ -32,8 +30,7 @@
             <field>HCP_Contact_HCPEnroll__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/RP3_Patient_On_Hold</template>
     </alerts>
     <alerts>
@@ -44,8 +41,7 @@
             <field>HCP_Contact_HCPEnroll__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/RP10_Patient_Status_Changed</template>
     </alerts>
     <alerts>
@@ -56,8 +52,7 @@
             <field>PI_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/PI5_New_Referrals_Accepted_Need_Contact</template>
     </alerts>
     <alerts>
@@ -68,8 +63,7 @@
             <field>PI_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/PI4_New_Patient_Referral_Pending</template>
     </alerts>
     <alerts>
@@ -80,8 +74,7 @@
             <field>PI_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>updates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/PI2_New_Patient_Referral</template>
     </alerts>
     <alerts>
@@ -92,8 +85,7 @@
             <field>Participant_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>patientupdates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Patient9_Referral_Status_Update</template>
     </alerts>
     <alerts>
@@ -104,8 +96,7 @@
             <field>Participant_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>patientupdates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Patient13_PI_declined_referral</template>
     </alerts>
     <alerts>
@@ -116,8 +107,7 @@
             <field>Participant_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>patientupdates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Patient7_Clinical_Study_Referral_On_Hold</template>
     </alerts>
     <alerts>
@@ -128,8 +118,7 @@
             <field>Participant_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>patientupdates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Patient4_VT_HCP_New_C_S_Referral</template>
     </alerts>
     <alerts>
@@ -140,8 +129,7 @@
             <field>Participant_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>patientupdates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Patient15_VT_PI_New_C_S_Referral</template>
     </alerts>
     <alerts>
@@ -152,8 +140,7 @@
             <field>Participant_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>patientupdates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Patient14_VT_PI_declined_referral</template>
     </alerts>
     <alerts>
@@ -164,8 +151,7 @@
             <field>Participant_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>patientupdates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Patient8_VT_CRS_on_hold</template>
     </alerts>
     <alerts>
@@ -176,8 +162,7 @@
             <field>Participant_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>patientupdates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Patient_Welcome_to_the_Study</template>
     </alerts>
     <alerts>
@@ -188,8 +173,7 @@
             <field>Participant_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>patientupdates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Patient3_VT_ePR_New_C_S_Referral</template>
     </alerts>
     <fieldUpdates>
@@ -227,7 +211,7 @@
             <name>Email_to_HCP_Patient_Accepted</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <description>HCP receives email that patient has been been accepted</description>
         <formula>ISPICKVAL( Participant_Status__c , &quot;Referral Accepted&quot;) &amp;&amp;   HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
@@ -238,7 +222,7 @@
             <name>Email_to_HCP_Patient_Declined</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <description>HCP receives email that patient they referred has been been declined.</description>
         <formula>ISPICKVAL( Participant_Status__c , &quot;Referral Declined&quot;) &amp;&amp;  HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
@@ -249,7 +233,7 @@
             <name>Email_to_HCP_Patient_On_Hold</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <description>HCP receives email that patient status was placed on hold</description>
         <formula>ISPICKVAL(Participant_Status__c, &quot;Referral On Hold&quot;) &amp;&amp;  HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
@@ -260,7 +244,7 @@
             <name>Email_to_HCP_Patient_Status_Update</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <description>HCP receives email that patient has status update</description>
         <formula>ISCHANGED(Participant_Status__c) &amp;&amp;  NOT( ISPICKVAL(Participant_Status__c, &quot;Referral Sent to PI&quot;) ) &amp;&amp;    NOT( ISPICKVAL(Participant_Status__c, &quot;Referral Accepted&quot;) )   &amp;&amp;    NOT( ISPICKVAL(Participant_Status__c, &quot;Referral On Hold&quot;) )  &amp;&amp;    NOT( ISPICKVAL(Participant_Status__c, &quot;Referral Declined&quot;) ) &amp;&amp;   NOT(ISPICKVAL(Participant_Status__c, &quot;Excluded from Referring&quot;) ) &amp;&amp;   NOT( ISPICKVAL(Participant_Status__c, &quot;Failed Referral&quot;) ) &amp;&amp;  NOT( ISPICKVAL(Participant_Status__c, &quot;Failed Review&quot;) ) &amp;&amp;   HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c</formula>
         <triggerType>onAllChanges</triggerType>
@@ -330,7 +314,7 @@
             <name>Email_to_Patient_Declined</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <description>Patient receives email that they have been declined from trial.</description>
         <formula>ISPICKVAL( Participant_Status__c , &quot;Referral Declined&quot;) &amp;&amp;   NOT(Is_Virtual_Study_Site__c) &amp;&amp;   NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp;   NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp;   NOT(Participant__r.IsCountry_NOT_Eligible_for_Emails__c) &amp;&amp;   Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
@@ -341,7 +325,7 @@
             <name>Email_to_Patient_On_hold</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <description>Patient receives email that they have been put On Hold from trial.</description>
         <formula>ISPICKVAL( Participant_Status__c , &quot;Referral On Hold&quot;)  &amp;&amp;  NOT(Is_Virtual_Study_Site__c)  &amp;&amp;   NOT(Study_Site__r.Suppress_Participant_Emails__c)  &amp;&amp;   NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp;   NOT(Participant__r.IsCountry_NOT_Eligible_for_Emails__c)  &amp;&amp;  Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
@@ -352,7 +336,7 @@
             <name>Email_to_Participants_Status_Updates</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <description>patient receives email that there has been a change made to their status</description>
         <formula>IsChanged(Participant_Status__c) &amp;&amp; NOT( ISPICKVAL ( Participant_Status__c , &quot;Referral Sent to PI&quot;))  &amp;&amp;   NOT( ISPICKVAL ( Participant_Status__c , &quot;Referral Accepted&quot;))  &amp;&amp;   NOT( ISPICKVAL ( Participant_Status__c , &quot;Referral On Hold&quot;))  &amp;&amp;   NOT( ISPICKVAL ( Participant_Status__c , &quot;Referral Declined&quot;))  &amp;&amp;    NOT(Is_Virtual_Study_Site__c)  &amp;&amp; Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c</formula>
         <triggerType>onAllChanges</triggerType>
@@ -363,7 +347,7 @@
             <name>Email_to_VT_HCP_Patient_New</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <description>Patient  receives email that they have been referred to a clinical research study by HCP</description>
         <formula>ISPICKVAL( Participant_Status__c , &quot;Referral Sent to PI&quot;) &amp;&amp; Is_Virtual_Study_Site__c = True &amp;&amp; NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp;  ISPICKVAL( Referral_Source__c , &quot;HCP&quot;)</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
@@ -385,7 +369,7 @@
             <name>Email_to_VT_Patient_Clinical_research_study_referral_on_hold</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <description>Patient receives email that they have been put On Hold from trial.</description>
         <formula>ISPICKVAL( Participant_Status__c , &quot;Referral On Hold&quot;) &amp;&amp; Is_Virtual_Study_Site__c  = True   &amp;&amp; NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Participant__r.IsCountry_NOT_Eligible_for_Emails__c)</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
@@ -396,7 +380,7 @@
             <name>Email_to_VT_Patient_Clinical_research_study_referral_declined</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <description>Patient receives email that they have been declined from trial.</description>
         <formula>ISPICKVAL( Participant_Status__c , &quot;Referral Declined&quot;) &amp;&amp;  Is_Virtual_Study_Site__c = True &amp;&amp;  NOT(Study_Site__r.Suppress_Participant_Emails__c)  &amp;&amp;  NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp;  NOT(Participant__r.IsCountry_NOT_Eligible_for_Emails__c)</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
@@ -407,7 +391,7 @@
             <name>email_to_VT_ePR_Patient_New_Study</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <description>Patient  receives email that they have been referred to a clinical research study by eRP</description>
         <formula>OR(ISPICKVAL( Participant_Status__c , &quot;Referral Sent to PI&quot;),AND(ISPICKVAL( Participant_Status__c , &quot;Referral Accepted&quot;),IsAutoaccepted__c = True)) &amp;&amp; Is_Virtual_Study_Site__c = True &amp;&amp; NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(ISPICKVAL( Referral_Source__c , &quot;HCP&quot;)) &amp;&amp; NOT(ISPICKVAL( Referral_Source__c , &quot;PI&quot;))</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
