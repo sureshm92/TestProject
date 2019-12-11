@@ -57,16 +57,16 @@ public with sharing class PENotificationTriggerHandler {
                 listNotificationForHCP.add(new Notification__c(
                         Recipient__c = pe.HCP_Contact_HCPEnroll__c,
                         WhatId__c = pe.Id,
-                        Notification_Type__c = notifyHCPType,
-                        Email_Status__c = NotificationService.EMAIL_STATUS_PENDING));
+                        Notification_Type__c = notifyHCPType
+                        ));
             }
 
             if (notifyPTType != null) {
                 listNotificationForPatient.add(new Notification__c(
                         Recipient__c = pe.Participant__r.Contact__c,
                         WhatId__c = pe.Id,
-                        Notification_Type__c = notifyPTType,
-                        Email_Status__c = NotificationService.EMAIL_STATUS_PENDING));
+                        Notification_Type__c = notifyPTType
+                        ));
             }
         }
 
