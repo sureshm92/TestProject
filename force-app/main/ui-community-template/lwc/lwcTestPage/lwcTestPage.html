@@ -4,17 +4,8 @@
 
 <!-- Lwc Test Page -->
 <template>
-    <lightning-card title="Lightning Web Components" class="slds-p-around_medium">
-        <lightning-button label="Show popup" onclick={handleShow}></lightning-button>
-        <c-web-popup show-header="true" title="LWC-POPUP"
-                     show-footer="true"
-                     custom-buttons="true"
-                     show-close="true">
-            <div slot="body"><h2>Popup MESSAGE</h2></div>
-            <div slot="footerButtons">
-                <button class="apollo-btn primary" onclick={doShare}>Share</button>
-                <button class="apollo-btn tertiary" onclick={doCancel}>Cancel</button>
-            </div>
-        </c-web-popup>
-    </lightning-card>
+    <c-trial-search-comm-page></c-trial-search-comm-page>
+<!--    <lightning-card title="Lightning Web Components" class="slds-p-around_medium">-->
+
+<!--    </lightning-card>-->
 </template>
