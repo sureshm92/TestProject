@@ -19,4 +19,6 @@ StudyName = Clinical_Trial_Profile__r.Study_Title__c</value>
         <field>Title_label__c</field>
         <value xsi:type="xsd:string">AL_Title_Welcome_Study</value>
     </values>
+
+
 </CustomMetadata>

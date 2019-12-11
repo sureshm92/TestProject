@@ -18,10 +18,10 @@ public with sharing class TrialItemRemote {
     }
 
     @AuraEnabled
-    public static void createTrialNotification(Id ctpId){
+    public static void createSubscribeConnectionEnroll(Id ctpId){
         try {
             TrialSearchHelper helper = (TrialSearchHelper) ClassFactory.newInstance(TrialSearchHelper.class);
-            helper.createTrialNotification(ctpId);
+            helper.createSubscribeConnection(ctpId);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }

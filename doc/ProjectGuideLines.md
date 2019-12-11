@@ -169,6 +169,7 @@ public without sharing class AlertTriggerHandler {
     2) main - в ней содержится все что связано с проектом
 
 #### Структура папки force-app/lib:
+- ***action-queue*** - асинхронный запауск и повторная обработка действий которые выполнились с ошибкой
 - ***integration-framework*** - ядро для выполнения вызовов во внешнюю систему с логированием
 - ***mock-framework*** - ядро для выпонения мок тестирования
 - ***parameters-provider***

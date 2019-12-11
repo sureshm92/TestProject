@@ -1,32 +1,34 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Trial_Search_Match_Email}"
                          recipientType="Contact"
-                         relatedToType="Trial_Notification__c"
-                         language="{!relatedTo.Contact__r.Language__c}">
+                         relatedToType="Clinical_Trial_Profile__c"
+                         language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody >
-         <c:EmailTemplate recipientId="{!relatedTo.Contact__c}"
+         <c:EmailTemplate recipientId="{!recipient.Id}"
                          sourceId="{!relatedTo.Id}"
                          parametersProvider="Email_Template_Parameters_From_TN"
                          header="{!$Label.Trial_Search_Message_Header}"
                          title="{!$Label.Email_Title_PH}"
-                         greeting="{!$Label.Email_Contact_Greeting}"
+                         greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Trial_Message}"
                          signature="{!$Label.Email_Signature_New}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
+             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
+                               buttonURL="{!'/s/trial-search'}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
 
-        <c:EmailTemplateText recipientId="{!relatedTo.Contact__c}"
+        <c:EmailTemplateText recipientId="{!recipient.Id}"
                              sourceId="{!relatedTo.Id}"
                              parametersProvider="Email_Template_Parameters_From_TN"
                              header="{!$Label.Trial_Search_Message_Header}"
                              title="{!$Label.Email_Title_PH}"
-                             greeting="{!$Label.Email_Contact_Greeting}"
+                             greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Trial_Message}"
                              signature="{!$Label.Email_Signature_New}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
+                                  buttonURL="{!'/s/trial-search'}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 
