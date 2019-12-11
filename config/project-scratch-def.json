@@ -32,8 +32,10 @@
         "surveySettings": {
             "enableSurvey": true
         },
-        "sessionSettings": {
-            "enableCacheAndAutocomplete": false
+        "securitySettings": {
+            "sessionSettings": {
+                "enableCacheAndAutocomplete": false
+            }
         }
     }
 }
