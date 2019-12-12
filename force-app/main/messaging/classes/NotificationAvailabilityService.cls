@@ -54,6 +54,17 @@ public without sharing class NotificationAvailabilityService {
                     objectsByIds.put(ctp.Id, ctp);
                 }
             }
+            if (st == 'HCP_Enrollment__c') {
+                List<HCP_Enrollment__c> hcpeList = [
+                        SELECT Id,
+                               HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c
+                        FROM HCP_Enrollment__c
+                        WHERE Id IN:objectsByStrings.get(st)
+                ];
+                for (HCP_Enrollment__c hcpe : hcpeList) {
+                    objectsByIds.put(hcpe.Id, hcpe);
+                }
+            }
 
             //TODO for other objects passing in WhatID
         }
@@ -81,6 +92,11 @@ public without sharing class NotificationAvailabilityService {
             if (objType == 'Participant_Enrollment__c') {
                 Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
                 if (pe.HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c) {
+                    checkForNotification = true;
+                }
+            } else if(objType == 'HCP_Enrollment__c'){
+                HCP_Enrollment__c hcpe = (HCP_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
+                if (hcpe.HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c) {
                     checkForNotification = true;
                 }
             }

@@ -182,7 +182,12 @@ public without sharing class HCPEnrollmentService {
                 insert new PI_RP_Relationship__c(PI_Contact__c = ssMap.values()[0].Principal_Investigator__c, RP_Contact__c = hcpe.HCP_Contact__c);
             }
             upsert upsertList;
-            ReferHealthcareProviderRemote.sendNotificationForRPInvite(hcpe.Id, hcpe.HCP_Contact__c);
+            /*ReferHealthcareProviderRemote.sendNotificationForRPInvite(hcpe.Id, hcpe.HCP_Contact__c);*/
+            insert new Notification__c(
+                    Name = 'Notify Test6',
+                    Notification_Type__c = 'Message_to_HCP_Approved_for_Study_Site',
+                    Recipient__c = hcpe.HCP_Contact__c,
+                    WhatId__c = hcpe.Id);
             return HCP_S_ACTIVATED;
         }
     }
