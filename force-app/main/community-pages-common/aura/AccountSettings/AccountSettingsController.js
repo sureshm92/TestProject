@@ -172,6 +172,15 @@
         });
     },
 
+    doSwitchOptInSMS: function (component, event, helper) {
+        var initData = component.get('v.initData');
+        communityService.executeAction(component, 'changeOptInSMS', {
+            participantOptInStatusSMS: initData.myContact.Participant_Opt_In_Status_SMS__c
+        }, function () {
+            //do nothing
+        });
+    },
+
     doSwitchOptInCookies: function (component, event, helper) {
         var initData = component.get('v.initData');
         communityService.executeAction(component, 'changeOptInCookies', {

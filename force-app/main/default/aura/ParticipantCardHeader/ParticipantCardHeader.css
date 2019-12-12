@@ -11,6 +11,10 @@
     justify-content: space-between;
 }
 
+.THIS.rtl > div{
+    flex-direction: row-reverse;
+}
+
 .THIS .psec-title-link{
     font-size: 1rem;
     color: #3294fe;
@@ -60,4 +64,12 @@
     font-weight: 600;
     color: #000;
     display: inline-block;
+}
+
+.THIS.rtl .vpi-tile-title{
+    direction: rtl;
+}
+
+.THIS.rtl .objective-text{
+    direction: rtl;
 }

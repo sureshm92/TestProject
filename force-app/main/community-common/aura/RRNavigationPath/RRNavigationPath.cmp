@@ -2,10 +2,10 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="RRNavigationPath">
+<aura:component description="RRNavigationPath" extends="c:CommunityContext">
  
     <!-- component body: -->
-    <div class="navigation-path">
+    <div class="{!'navigation-path ' + if(v.isArabic, 'rtl', '')}">
         <aura:if isTrue="{!!empty(v.body)}">
             <aura:iteration items="{!v.body}" var="navItem" indexVar="ind">
                 {!navItem}
