@@ -223,10 +223,24 @@ public class StudyActionsPI extends StudyActions{
                 },
                 'secondary'
         ));
-        
+
         actions.put(ACT_ADD_PATIENT, new Action(
                 ACT_ADD_PATIENT,
                 LABEL_ADD_PATIENT,
+                'icon-user-add',
+                new List<DisableReason>{
+                        level2AndLowReason,
+                        hcpLockedByAdmin,
+                        studySiteOnHoldReason,
+                        studySiteNotAcceptedReason,
+                        studyNoLongerEnrollingReason,
+                        tcAcceptanceRequiredReason
+                }
+        ));
+
+        actions.put(ACT_UPLOAD_PATIENT, new Action(
+                ACT_UPLOAD_PATIENT,
+                LABEL_UPLOAD_PATIENT,
                 'icon-user-add',
                 new List<DisableReason>{
                         level2AndLowReason,
@@ -307,6 +321,7 @@ public class StudyActionsPI extends StudyActions{
         }
         //if(!actions.get(ACT_ADD_PATIENT).disabled)studyListViewItemActions.add(actions.get(ACT_ADD_PATIENT));
         if(!actions.get(ACT_ADD_PATIENT).disabled) studySitePiActions.add(actions.get(ACT_ADD_PATIENT));
+        if(!actions.get(ACT_UPLOAD_PATIENT).disabled) studySitePiActions.add(actions.get(ACT_UPLOAD_PATIENT));
 
         //prepare bottom bar actions:
         if(openToReceiveReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
@@ -324,6 +339,7 @@ public class StudyActionsPI extends StudyActions{
         //prepare study detail actions list:
         if(study.Terms_And_Conditions_ID__c != null) studyDetailActions.add(actions.get(ACT_VIEW_TC));
         studyDetailActions.add(actions.get(ACT_ADD_PATIENT));
+        //studyDetailActions.add(actions.get(ACT_UPLOAD_PATIENT));
     
         
     }

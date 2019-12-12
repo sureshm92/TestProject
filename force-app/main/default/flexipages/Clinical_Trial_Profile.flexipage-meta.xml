@@ -28,6 +28,13 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
+            <componentName>StudyConfiguration</componentName>
+        </componentInstances>
+        <name>Facet-uvza5rqjjcc</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
             <componentName>VisitResultSharingPanel</componentName>
         </componentInstances>
         <name>Facet-d7d2eebb-1596-432e-9b7d-1ce0193cd73d</name>
@@ -104,6 +111,17 @@
             <componentInstanceProperties>
                 <name>title</name>
                 <value>Standard.Tab.detail</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>Facet-uvza5rqjjcc</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Study Configuration</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
         </componentInstances>
