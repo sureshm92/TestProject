@@ -4,3 +4,4 @@ update hcpeList;
 Study_Site__c[] ssList = [SELECT Id FROM Study_Site__c];
 for(Study_Site__c ss : ssList) ss.Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED;
 update ssList;
+SystemService.markAsScratchOrg();
