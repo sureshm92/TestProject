@@ -9,9 +9,19 @@ public with sharing class Action_UploadParticipantsRemote {
 
     public static final List<String> HEADER_COLUMNS = new List<String> { 'FirstName', 'LastName', 'MiddleName', 'Initials', 'Gender', 'DateOfBirth', 'Email', 'Phone', 'Country', 'State', 'City', 'Street', 'PostalCode', 'Language' };
 
+    @AuraEnabled
+    public static List<LabelValueItem> getParticipantsStatuses() {
+        List<LabelValueItem> participantStatuses = new List<LabelValueItem>();
+
+        for (Schema.PicklistEntry field :  Participant_Enrollment__c.Participant_Status__c.getDescribe().getPicklistValues()){
+            participantStatuses.add(new LabelValueItem(field.getLabel(), field.getValue()));
+        }
+
+        return participantStatuses;
+    }
 
     @AuraEnabled
-    public static void uploadParticipants(List<String> csvFileLines, String fileName, String studySiteId) {
+    public static void uploadParticipants(List<String> csvFileLines, String fileName, String studySiteId, String selectedStatus) {
         try {
             Map<String, Integer> headerIndexes = new Map<String, Integer>();
             List<String> csvHeaderData = csvFileLines[0].toUpperCase().split(',');

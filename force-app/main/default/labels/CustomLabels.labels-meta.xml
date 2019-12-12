@@ -671,6 +671,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Ignore</value>
     </labels>
     <labels>
+        <fullName>BTN_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Import</shortDescription>
+        <value>Import</value>
+    </labels>
+    <labels>
         <fullName>BTN_Invite</fullName>
         <language>en_US</language>
         <protected>false</protected>
