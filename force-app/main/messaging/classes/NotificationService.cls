@@ -34,10 +34,10 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_PT_NEW_COI_CTP_TYPE = 'Message_to_PT_New_COI_Ctp_Type';
     static public String MESSAGE_TO_PT_COI_CTP_START_ENROLL_TYPE = 'Message_to_PT_COI_Ctp_Start_Enroll_Type';
 
-    static public String EMAIL_STATUS_SKIPPED = 'Skipped';
-    static public String EMAIL_STATUS_FAILED = 'Failed';
-    static public String EMAIL_STATUS_SENT = 'Sent';
-    static public String EMAIL_STATUS_PENDING = 'Pending';
+    static public String STATUS_SKIPPED = 'Skipped';
+    static public String STATUS_FAILED = 'Failed';
+    static public String STATUS_SENT = 'Sent';
+    static public String STATUS_PENDING = 'Pending';
 
     static public String NOTIFICATION_TARGET_TYPE_EMAIL = 'Email';
     static public String NOTIFICATION_TARGET_TYPE_SMS = 'SMS';
@@ -54,7 +54,7 @@ public without sharing class NotificationService {
         List<Notification_Type__mdt> notifTypes = [
                 SELECT Id, DeveloperName, Recipient_Type__c,(
                         SELECT Id, Email_Template__c, Email_Template_Delegate__c, Target_Type__c,
-                                Message_Body__c
+                                Message_Body__c, Org_Wide_Email_Address__c
                         FROM Notification_Targets__r)
                 FROM Notification_Type__mdt
         ];
@@ -66,7 +66,7 @@ public without sharing class NotificationService {
         return notificationTypeByDevNameMap.get(notificationType);
     }
 
-    public static Notification_Target__mdt getTargetByNotification (String notificationType, String notificationTarget){
+    public static Notification_Target__mdt getNotificationTarget (String notificationType, String notificationTarget){
         Notification_Type__mdt notificationTypeMDT = notificationTypeByDevNameMap.get(notificationType);
         if(notificationTypeMDT != null) {
             for (Notification_Target__mdt nt: notificationTypeMDT.Notification_Targets__r) {
