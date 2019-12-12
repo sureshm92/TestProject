@@ -12,7 +12,7 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <!-- component body: -->
-    <c:HomePreviewTablePanel title="{!$Label.c.PG_L_Open_Task_List + '  ' + $Locale.language}">
+    <c:HomePreviewTablePanel title="{!$Label.c.PG_L_Open_Task_List}">
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
         <aura:if isTrue="{!v.initialized}">
             <aura:if isTrue="{!!empty(v.tasks)}">
