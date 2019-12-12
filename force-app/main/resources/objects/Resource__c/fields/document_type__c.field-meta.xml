@@ -21,6 +21,11 @@
                 <default>false</default>
                 <label>Document</label>
             </value>
+            <value>
+                <fullName>Certificate</fullName>
+                <default>false</default>
+                <label>Certificate</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

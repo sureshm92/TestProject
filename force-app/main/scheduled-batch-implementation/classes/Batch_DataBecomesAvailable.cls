@@ -57,27 +57,24 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
         }
         List<Visit_Result__c> listOfResult =
                 VisitResultSharingService.getAvailableVisitResults(patientVisits, true, mapOfCTPByShare);
+        List<Notification__c> notifications = new List<Notification__c>();
 
-        List<SendEmailTemplate.EmailMessageWrapper> messageWrappers = new List<SendEmailTemplate.EmailMessageWrapper>();
         Set<Patient_Visit__c> updatedPatientVisits = new Set<Patient_Visit__c>();
         Set<Id> recipientIds = new Set<Id>();
         for(Visit_Result__c visitResultObj : listOfResult){
             Contact recipient = visitResultObj.Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__r;
-            if(recipient.Participant_Opt_In_Status_Emails__c && !recipientIds.contains(recipient.Id)){
+            if(!recipientIds.contains(recipient.Id)){
                 recipientIds.add(recipient.Id);
-                messageWrappers.add(new SendEmailTemplate.EmailMessageWrapper(
-                        recipient.Id,
-                        visitResultObj.Patient_Visit__r.Participant_Enrollment__c,
-                        SendEmailToParticipant.PATIENT_VISITS_AVAILABLE
+                notifications.add(new Notification__c(
+                        Recipient__c = recipient.Id,
+                        WhatId__c = visitResultObj.Patient_Visit__r.Participant_Enrollment__r.toString(),
+                        Notification_Type__c = NotificationService.MESSAGE_TO_PT_DATA_AVAILABLE_TYPE
                 ));
             }
             Patient_Visit__c patientVisit = visitResultObj.Patient_Visit__r;
             patientVisit.Notified__c = true;
             updatedPatientVisits.add(patientVisit);
-        }
-
-        if(!messageWrappers.isEmpty()) {
-            SendEmailTemplate.sendEmailMessages(messageWrappers);
+            insert notifications;
             update new List<Patient_Visit__c>(updatedPatientVisits);
         }
     }
