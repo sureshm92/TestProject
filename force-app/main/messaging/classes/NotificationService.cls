@@ -33,6 +33,7 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_PT_NEW_STUDY_eRP_VT_TYPE = 'Message_to_PT_New_Study_eRP_VT_Type';
     static public String MESSAGE_TO_PT_NEW_COI_CTP_TYPE = 'Message_to_PT_New_COI_Ctp_Type';
     static public String MESSAGE_TO_PT_COI_CTP_START_ENROLL_TYPE = 'Message_to_PT_COI_Ctp_Start_Enroll_Type';
+    static public  String MESSAGE_TO_PT_DATA_AVAILABLE_TYPE = 'Message_to_PT_Data_Available_Type';
 
     static public String STATUS_SKIPPED = 'Skipped';
     static public String STATUS_FAILED = 'Failed';
@@ -52,7 +53,7 @@ public without sharing class NotificationService {
 
     static {
         List<Notification_Type__mdt> notifTypes = [
-                SELECT Id, DeveloperName, Recipient_Type__c,(
+                SELECT Id, DeveloperName, Org_Wide_Email_Address__c, Recipient_Type__c,(
                         SELECT Id, Email_Template__c, Email_Template_Delegate__c, Target_Type__c,
                                 Message_Body__c, Org_Wide_Email_Address__c
                         FROM Notification_Targets__r)
