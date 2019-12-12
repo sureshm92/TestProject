@@ -32,6 +32,14 @@ public without sharing class StudySiteTriggerHandler {
         }
         
     }
+
+    public class CreateHCPEnrollmentsForRPInWhiteListHandler extends TriggerHandler{
+
+        public override void afterInsert(List<SObject> newList) {
+            createHCPEnrollmentsForRPInWhiteList(newList);
+        }
+
+    }
     
     public class CreateStatusHistoryHandler extends TriggerHandler{
     
@@ -235,5 +243,32 @@ public without sharing class StudySiteTriggerHandler {
                 site.Override_Study_Site_Recruitment_Status__c = 'PI cannot accept referrals based on Site status';
             }
         }
+    }
+
+    private static void createHCPEnrollmentsForRPInWhiteList(List<Study_Site__c> newList){
+        Set<Id> PIds = new Set<Id>();
+        for(Integer i = 0, j = newList.size(); i < j; i++){
+            PIds.add(newList[i].Principal_Investigator__c);
+        }
+        List<PI_RP_Relationship__c> prrList = [
+                SELECT Id,
+                        PI_Contact__c,
+                        RP_Contact__c,
+                        RP_Contact__r.AccountId
+                FROM PI_RP_Relationship__c
+                WHERE PI_Contact__c IN :PIds
+        ];
+        List<HCP_enrollment__c> enrollmentsList = new List<HCP_Enrollment__c>();
+        for(PI_RP_Relationship__c prr : prrList){
+            for(Study_Site__c ss : newList){
+                enrollmentsList.add(new HCP_Enrollment__c(
+                        HCP_Contact__c = prr.RP_Contact__c,
+                        HCP_Account__c = prr.RP_Contact__r.AccountId,
+                        Status__c = HCPEnrollmentService.HCP_S_ACTIVATED,
+                        Study_Site__c = ss.Id
+                ));
+            }
+        }
+        insert enrollmentsList;
     }
 }

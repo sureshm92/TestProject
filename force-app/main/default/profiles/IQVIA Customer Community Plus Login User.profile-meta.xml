@@ -607,6 +607,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MCloudSMSSender</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MailForTests</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -4140,6 +4144,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>PI_RP_Relationship__c.PI_Contact__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>PI_RP_Relationship__c.RP_Contact__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>PSE_Status_History__c.Status__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -6297,6 +6311,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Onboarding_Tour__mdt-Onboarding Tour Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PI_RP_Relationship__c-PI RP Relationship Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>PSE_Status_History__c-PSE Status History Layout</layout>
