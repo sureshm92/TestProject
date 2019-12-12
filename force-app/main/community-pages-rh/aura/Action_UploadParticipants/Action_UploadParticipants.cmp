@@ -8,7 +8,10 @@
     <ltng:require scripts="{!$Resource.xlsxmin}"/>
 
     <aura:attribute name="FileList" type="Object"/>
+    <aura:attribute name="participantStatuses" type="List"/>
+    <aura:attribute name="selectedStatus" type="String"/>
     <aura:attribute name="studySiteId" type="String"/>
+    <aura:attribute name="reqFieldsFilled" type="Boolean"/>
     <aura:attribute name="fileName" type="String"/>
     <aura:attribute name="fileType" type="String"/>
     <aura:attribute name="fileBody" type="String"/>
@@ -21,23 +24,42 @@
 
 
     <div class="mrc-invite-popup">
-        <c:Popup aura:id="uploadParticipantsDialog" title="{!$Label.c.SS_Upload_Participants}" size="small">
-            <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
+        <c:Popup aura:id="uploadParticipantsDialog" title="{!$Label.c.SS_Upload_Participants}" size="medium">
             <div class="slds-grid slds-grid_vertical">
                 <div class="slds-grid slds-wrap slds-scrollable">
                     <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small">
-                            Import File (.CSV, .XLS &amp; .XLSX):
+                            <div class="input-fields-labels"><abbr class="slds-required" title="required">* </abbr><b>Add File (.CSV, .XLS &amp; .XLSX):</b></div>
                             <ui:outputURL aura:id="oURL" value="{!$Resource.PARTICIPANTS_TEMPLATE}" label="Sample Template"/>
                         </div>
                     </div>
                 </div>
-
                 <div class="slds-grid slds-wrap slds-scrollable">
-                    <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
+                    <div class="slds-size_2-of-2 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small">
                             <lightning:input aura:id="file-input" type="file" files="{!v.FileList}" accept=".xls, .xlsx, .csv"
                                              name="file" multiple="false" onchange="{!c.upload}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-wrap slds-scrollable">
+                    <div class="slds-size_2-of-2 slds-p-horizontal_x-medium">
+                        <div class="slds-m-around--small">
+                            <div class="input-fields-labels"><b>Select Patient Status</b></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-wrap slds-scrollable">
+                    <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
+                        <div class="slds-m-around--small">
+                            <div class="input-fields-labels"><abbr class="slds-required" title="required">* </abbr>{!$Label.c.PG_AP_F_Patient_Status}</div>
+                            <c:rrSelect id="statusesPicklist"
+                                        options="{!v.participantStatuses}"
+                                        value="{!v.selectedStatus}"
+                                        class="delegate-select"
+                                        placeholder="{!$Label.c.PG_AC_Select}"
+                                        useSentenceFont="false"/>
+
                         </div>
                     </div>
                 </div>
@@ -47,6 +69,11 @@
                 <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
                 <button class="apollo-btn secondary" onclick="{!c.doCancel}">
                     {!$Label.c.BTN_Cancel}
+                </button>
+                <button class="apollo-btn primary" onclick="{!c.doImport}"
+                        disabled="{!!v.reqFieldsFilled}"
+                        title="{!empty(v.selectedStatus)||empty(v.fileName) ? $Label.c.PG_MRC_RF_Not_all_Req_Fields : ''}">
+                    {!$Label.c.BTN_Import}
                 </button>
             </aura:set>
 

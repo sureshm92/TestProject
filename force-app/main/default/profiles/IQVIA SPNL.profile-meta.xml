@@ -1139,6 +1139,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StudyConfigurationRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudyDetailAboutStudyRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -2868,6 +2872,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Participant_Opt_In_Status_Emails__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Participant_Opt_In_Status_SMS__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

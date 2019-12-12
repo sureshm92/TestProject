@@ -42,6 +42,10 @@
     display: flex;
 }
 
+.THIS .layout-header.rtl{
+    flex-direction: row-reverse;
+}
+
 .THIS .title-logo{
     /*height: 39px;*/
     width: 165px;

@@ -10,6 +10,7 @@
             //component.find('spinner').hide();
             component.set('v.isInitialized', true);
             component.set('v.showModeSwitcher', communityService.getAllUserModes().length > 1);
+            component.set('v.isArabic', communityService.getLanguage() === 'ar' );
         }else{
             communityService.initialize(component);
         }

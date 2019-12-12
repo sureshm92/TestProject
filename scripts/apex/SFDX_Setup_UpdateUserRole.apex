@@ -4,3 +4,4 @@ user.UserRoleId = userRole.Id;
 user.CountryCode = 'US';
 user.StateCode = 'CA';
 update user;
+

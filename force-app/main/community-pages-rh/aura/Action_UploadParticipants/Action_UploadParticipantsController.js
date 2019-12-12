@@ -4,14 +4,27 @@
 ({
 
     doExecute: function (component, event, helper) {
+        component.find('modalSpinner').show();
         var params = event.getParam('arguments');
         component.find('uploadParticipantsDialog').show();
         component.set('v.studySiteId', params.studySiteId);
         if (params.callback) component.set('v.callback', $A.getCallback(params.callback));
+
+        communityService.executeAction(component, 'getParticipantsStatuses', {
+        }, function (returnValue) {
+            component.find('modalSpinner').hide();
+            component.set('v.participantStatuses', returnValue);
+        });
     },
 
     doCancel: function (component, event, helper) {
         component.find('uploadParticipantsDialog').cancel();
+    },
+
+    doImport: function (component, event, helper) {
+        helper.uploadPaticipants(component, component.get('v.fileBody'),
+            component.get('v.fileName'), component.get('v.studySiteId'),
+            component.get('v.selectedStatus'));
     },
 
     upload: function(component, event, helper) {
@@ -53,7 +66,8 @@
                 return;
             }
 
-            helper.uploadPaticipants(component, stringArray, fileName, component.get('v.studySiteId'));
+            component.set('v.fileBody', stringArray);
+            component.set('v.fileName', fileName);
         };
 
         reader.readAsArrayBuffer(file);
