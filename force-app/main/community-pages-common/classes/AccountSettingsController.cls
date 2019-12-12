@@ -122,6 +122,17 @@ public without sharing class AccountSettingsController {
     }
 
     @AuraEnabled
+    public static void changeOptInSMS(Boolean participantOptInStatusSMS) {
+        try {
+            Contact currentContact = getCurrentContact();
+            currentContact.Participant_Opt_In_Status_SMS__c = participantOptInStatusSMS;
+            update currentContact;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
+    @AuraEnabled
     public static void changeOptInCookies(Boolean rrCookieAllowed, Boolean rrLanguageAllowed) {
         try {
             Contact currentContact = getCurrentContact();
@@ -173,6 +184,7 @@ public without sharing class AccountSettingsController {
                         primaryContact__r.AccountId,
                         HasOptedOutOfEmail,
                         Participant_Opt_In_Status_Emails__c,
+                        Participant_Opt_In_Status_SMS__c,
                         HCP_Opt_In_Patient_Status_Emails__c,
                         HCP_Opt_In_Study_Emails__c,
                         HCP_Opt_In_Referral_Status_Emails__c,
