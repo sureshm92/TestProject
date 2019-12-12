@@ -9954,6 +9954,13 @@ Please check your CAPS lock key.</value>
         <value>Your recipient will receive a link to this article or video on ClinicalResearch.com</value>
     </labels>
     <labels>
+        <fullName>Resources_toggle_off</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resources_toggle_off</shortDescription>
+        <value>No items to display</value>
+    </labels>
+    <labels>
         <fullName>Respiratory_Rate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11422,6 +11429,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>TrialSearch Toast Alert Me When Trial Start</shortDescription>
         <value>Thank you for your interest in {0}. We will contact you when the clinical research study begins enrollment.</value>
+    </labels>
+    <labels>
+        <fullName>Thank_you_for_your_Interest</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>COI Toast Alert Me When CTP appears</shortDescription>
+        <value>Thank you for your interest in {0}. We will contact you when the clinical research study would be created for this.</value>
     </labels>
     <labels>
         <fullName>TrialSearch_Toast_Contact_The_Study</fullName>
