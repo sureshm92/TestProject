@@ -65,7 +65,8 @@ public without sharing class EmailService {
         List<Send_Result__c> sendResults = new List<Send_Result__c>();
         for (Notification__c n : notifications) {
             Notification_Target__mdt emailTarget = NotificationService.getNotificationTarget(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
-            emailMessages.add(createEmail(getEmailTemplateId(emailTarget.Email_Template__c), n.Recipient__c, n.WhatId__c));
+            Notification_Type__mdt emailType = NotificationService.getNotificationType(n.Notification_Type__c);
+            emailMessages.add(createEmail(getEmailTemplateId(emailTarget.Email_Template__c), n.Recipient__c, n.WhatId__c, emailType.Org_Wide_Email_Address__c));
             sendResults.add(new Send_Result__c(
                     Target_Type__c = NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
                     Notification__c = n.Id
@@ -85,12 +86,12 @@ public without sharing class EmailService {
     }
 
     public static void sendEmail(String emailTemplate, Id recipientId, Id whatId){
-        Messaging.SingleEmailMessage sem = createEmail(getEmailTemplateId(emailTemplate), recipientId, whatId);
+        String orgWideEmAddress = getOrgWideEmailAddressByContactId(recipientId);
+        Messaging.SingleEmailMessage sem = createEmail(getEmailTemplateId(emailTemplate), recipientId, whatId, orgWideEmAddress);
         Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{sem}, false);
     }
 
-    public static Messaging.SingleEmailMessage createEmail(Id emailTemplateId, Id contactId, Id whatId) {
-        String orgWideEmAddress = getOrgWideEmailAddressByContactId(contactId);
+    public static Messaging.SingleEmailMessage createEmail(Id emailTemplateId, Id contactId, Id whatId, String orgWideEmAddress) {
         return createEmail(emailTemplateId, contactId, whatId, null, orgWideEmAddress);
     }
 
