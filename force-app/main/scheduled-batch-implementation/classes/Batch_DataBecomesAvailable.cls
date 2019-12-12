@@ -67,7 +67,7 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
                 recipientIds.add(recipient.Id);
                 notifications.add(new Notification__c(
                         Recipient__c = recipient.Id,
-                        WhatId__c = visitResultObj.Patient_Visit__r.Participant_Enrollment__r.toString(),
+                        WhatId__c = visitResultObj.Patient_Visit__r.Participant_Enrollment__c,
                         Notification_Type__c = NotificationService.MESSAGE_TO_PT_DATA_AVAILABLE_TYPE
                 ));
             }
