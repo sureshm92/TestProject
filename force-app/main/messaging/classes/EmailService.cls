@@ -46,7 +46,7 @@ public without sharing class EmailService {
         newEmail.setSaveAsActivity(false);
         newEmail.setWhatId(whatId);
         Id orgWideEmailAddressId = getOrgWideEmailAddressId(orgWideEmAddress);
-        if (orgWideEmailAddressId != null) newEmail.setOrgWideEmailAddressId(orgWideEmailAddressId);
+        if (orgWideEmailAddressId != null && !SystemService.isScratchOrg()) newEmail.setOrgWideEmailAddressId(orgWideEmailAddressId);
         if (ccAddresses != null) newEmail.setCcAddresses(ccAddresses);
         return newEmail;
     }
@@ -86,8 +86,7 @@ public without sharing class EmailService {
     }
 
     public static void sendEmail(String emailTemplate, Id recipientId, Id whatId){
-        String orgWideEmAddress = getOrgWideEmailAddressByContactId(recipientId);
-        Messaging.SingleEmailMessage sem = createEmail(getEmailTemplateId(emailTemplate), recipientId, whatId, orgWideEmAddress);
+        Messaging.SingleEmailMessage sem = createEmail(getEmailTemplateId(emailTemplate), recipientId, whatId, null);
         Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{sem}, false);
     }
 
