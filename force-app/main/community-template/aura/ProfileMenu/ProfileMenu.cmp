@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="ProfileMenu" controller="RRProfileController">
+<aura:component description="ProfileMenu" controller="RRProfileController" extends="c:CommunityContext">
 
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String"/>
@@ -14,7 +14,7 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <!-- component body: -->
-    <c:uiHeaderMenu aura:id="menu" class="mode-block">
+    <c:uiHeaderMenu aura:id="menu" class="{!'menu-block ' + if(v.isArabic, 'rtl ', '')}">
         <aura:set attribute="title">
             <lightning:avatar src="{!v.user.SmallPhotoUrl}"
                               alternativeText="{!if(v.userMode=='Participant', v.participantName, v.user.Contact.FirstName + ' ' + v.user.Contact.LastName)}"

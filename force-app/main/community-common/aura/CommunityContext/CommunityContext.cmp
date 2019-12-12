@@ -1,0 +1,13 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="CommunityContext" extensible="true" abstract="true">
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+
+    <aura:attribute name="isArabic" type="Boolean"/>
+
+    {!v.body}
+</aura:component>
