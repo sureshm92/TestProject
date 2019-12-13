@@ -6,7 +6,7 @@ public with sharing class ManualTaskFilter {
 
     private static final String QUERY =
             'SELECT Id, Participant__r.Contact__c, Participant__r.Mailing_Country_Code__c ' +
-                    'FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE ';
+                    'FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE AND ';
 
     private static final String THERAPEUTIC_QUERY = 'SELECT Participant__c FROM Therapeutic_Area_Patient__c WHERE ';
 

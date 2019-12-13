@@ -117,7 +117,9 @@ public without sharing class ParticipantService {
     private Boolean showVisits() {
         if (participantState.pe != null) {
             List<Patient_Visit__c> patientVisit = [
-                    SELECT Id FROM Patient_Visit__c WHERE Participant_Enrollment__c = :participantState.pe.Id
+                    SELECT Id
+                    FROM Patient_Visit__c
+                    WHERE Participant_Enrollment__c = :participantState.pe.Id AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c = TRUE
             ];
             return !patientVisit.isEmpty();
         }
