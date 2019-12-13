@@ -86,23 +86,23 @@ public without sharing class UserTriggerHandler {
     private static void createCompleteYourProfileTask(List<User> newList){
         Set<Id> userContactIds = new Set<Id>();
         for(User user : newList) if(user.ContactId != null) userContactIds.add(user.ContactId);
-        List<Participant__c> participants = [
-                SELECT Id, Contact__c
-                FROM Participant__c
-                WHERE Contact__c IN: userContactIds
+        List<Participant_Enrollment__c> participantEnrollments = [
+                SELECT Id, Participant_Contact__c, Participant__c
+                FROM Participant_Enrollment__c
+                WHERE Participant_Contact__c IN: userContactIds AND Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE
         ];
-        Map<Id, Participant__c> participantsByContactIdMap = new Map<Id, Participant__c>();
-        for(Participant__c participant : participants){
-            participantsByContactIdMap.put(participant.Contact__c, participant);
+        Map<Id, Id> participantIdByContactIdMap = new Map<Id, Id>();
+        for(Participant_Enrollment__c pe : participantEnrollments){
+            participantIdByContactIdMap.put(pe.Participant_Contact__c, pe.Participant__c);
         }
     
         List<Task> tasksForInsert = new List<Task>();
         for(User user : newList){
             if(user.ProfileId == CommunityService.COMMUNITY_USER_PROFILE_ID){
                 if(user.ContactId != null){
-                    Participant__c participant = participantsByContactIdMap.get(user.ContactId);
+                    Id participant = participantIdByContactIdMap.get(user.ContactId);
                     if(participant != null){
-                        tasksForInsert.add(TaskService.getInstance().createCompleteYourProfileTask(user.Id, participant.Id, user.ContactId));
+                        tasksForInsert.add(TaskService.getInstance().createCompleteYourProfileTask(user.Id, participant, user.ContactId));
                     }
                 }
             }

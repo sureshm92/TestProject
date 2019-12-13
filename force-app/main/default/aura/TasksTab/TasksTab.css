@@ -12,6 +12,14 @@
     margin-bottom: 25px;
 }
 
+.THIS .error-message {
+    padding: 40px 0;
+    color: #999999;
+    font-size: 17px;
+    line-height: 26px;
+    text-align: center;
+}
+
 .THIS .tt-title {
     font-size: 18px;
     font-weight: 500;
