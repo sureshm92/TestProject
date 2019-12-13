@@ -567,7 +567,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         for (Clinical_Trial_Profile__c ctp : ctpMap.values()) visitPlanIds.add(ctp.Visit_Plan__c);
         for (Participant_Enrollment__c pe : enrollments) visitPlanIds.add(pe.Visit_Plan__c);
         Map<Id, Visit_Plan__c> visitPlansMap = new Map<Id, Visit_Plan__c>([
-                SELECT Id, (SELECT Id, Name, Visit_Number__c, Visit_Schedule__c FROM Visits__r)
+                SELECT Id, (SELECT Id, Name, Visit_Number__c, Visit_Schedule__c, Patient_Portal_Name__c FROM Visits__r)
                 FROM Visit_Plan__c
                 WHERE Id IN :visitPlanIds
         ]);

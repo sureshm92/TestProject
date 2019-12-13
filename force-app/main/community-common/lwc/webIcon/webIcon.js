@@ -3,7 +3,6 @@
  */
 
 import {LightningElement, api} from 'lwc';
-import {loadStyle} from 'lightning/platformResourceLoader';
 import rrIcons from '@salesforce/resourceUrl/rr_community_icons';
 import rrImages from '@salesforce/resourceUrl/rr_community_images';
 
