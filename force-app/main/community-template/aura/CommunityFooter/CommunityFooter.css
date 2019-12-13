@@ -7,6 +7,10 @@
     overflow: hidden;
 }
 
+.THIS.rrc-footer.rtl{
+    direction: rtl;
+}
+
 .THIS .cf-margin-cutter{
     display: flex;
     justify-content: space-between;

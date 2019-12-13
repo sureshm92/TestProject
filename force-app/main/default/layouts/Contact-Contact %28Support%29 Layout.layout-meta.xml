@@ -36,6 +36,10 @@
                 <behavior>Edit</behavior>
                 <field>Third_Choice_Language__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Participant_Opt_In_Status_SMS__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

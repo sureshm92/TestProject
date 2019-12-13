@@ -671,6 +671,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Ignore</value>
     </labels>
     <labels>
+        <fullName>BTN_Import</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Import</shortDescription>
+        <value>Import</value>
+    </labels>
+    <labels>
         <fullName>BTN_Invite</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2265,6 +2272,15 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             We hope you find this information helpful.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Summary_Certificate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Summary Certificate</shortDescription>
+        <value>A new reward certificate from ##StudyName clinical research study is  now available on the IQVIA Patient Portal.   
+
+Please login to the IQVIA Patient Portal to view this information.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Summary_Document</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2663,6 +2679,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <value>An IQVIA Patient Portal user shared this with you</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Summary_Certificate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Summary Certificate</shortDescription>
+        <value>A new certificate is now available</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Summary_Document</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2861,6 +2884,17 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <value>Sincerely,
 
             The IQVIA Patient Portal Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Summary_Certificate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature Summary Certificate</shortDescription>
+        <value>Congratulations on your certificate.
+
+Sincerely,
+
+The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Summary_Document</fullName>
@@ -3093,6 +3127,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Email Subject Status Has Changed</shortDescription>
         <value>Your referral status has changed</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Summary_Certificate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Summary Certificate</shortDescription>
+        <value>A new certificate is now available</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Summary_Document</fullName>

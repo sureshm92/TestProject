@@ -623,6 +623,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MCloudSMSSender</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MailForTests</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1132,6 +1136,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>StudyClinicDashboardRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyConfigurationRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -2869,6 +2877,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Participant_Opt_In_Status_Emails__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Participant_Opt_In_Status_SMS__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
