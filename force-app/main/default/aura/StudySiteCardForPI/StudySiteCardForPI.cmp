@@ -11,6 +11,10 @@
     <aura:attribute name="userMode" type="String" description="HCP/PI/Patient"/>
     <aura:attribute name="refresh" type="Boolean" default="false"/>
     <aura:attribute name="studyListViewComponent" type="Aura.Component"/>
+    <aura:attribute name="addParticipantInfo" type="Object"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <!-- component body: -->
     <div class="slds-p-horizontal_medium slds-p-bottom_small" style="height: 397px;">
@@ -120,7 +124,7 @@
                     <div class="slds-col slds-size_1-of-1">
                         <div class="slds-col slds-grid slds-size_1-of-1 slds-medium-size_7-of-7 slds-grid--align-end ss-info-buttons">
                             <aura:iteration items="{!v.siteWrapper.actions}" var="action">
-                                <aura:if isTrue="{!action.id != 'addPatient' &amp;&amp; action.id != 'uploadPatient'}">
+                                <aura:if isTrue="{!(action.id != 'addPatient' &amp;&amp; action.id != 'uploadPatient') || (action.id == 'addPatient' &amp;&amp; action.disabled == true)}">
                                     <button id="{!action.id}"
                                             value="{!siteWrappIndx}"
                                             class="apollo-btn secondary slds-align-bottom"
@@ -131,22 +135,24 @@
                                 </aura:if>
                             </aura:iteration>
 
-                            <c:uiHeaderMenu aura:id="menuId" class="mode-block">
-                                <aura:set attribute="title">
-                                    <div class="apollo-btn secondary slds-align-bottom">
-                                        <div title="Add Participant">Add a Participant</div>
-                                    	<c:RRIcon color="blue" iconName="icon-chevron-down" class="chevron"/>
-                                    </div>
-                                </aura:set>
-                                <aura:iteration items="{!v.siteWrapper.actions}" var="action">
-                                    <aura:if isTrue="{!action.id == 'addPatient'}">
-                                        <c:uiMenuItem label="{!action.label}" onclick="{!c.doAction}" itemValue="{!action.id}"/>
-                                    </aura:if>
-                                    <aura:if isTrue="{!action.id == 'uploadPatient'}">
-                                        <c:uiMenuItem label="{!action.label}" onclick="{!c.doAction}" itemValue="{!action.id}"/>
-                                    </aura:if>
-                                </aura:iteration>
-                            </c:uiHeaderMenu>
+                            <aura:if isTrue="{!v.addParticipantInfo.disabled == false}">
+                                <c:uiHeaderMenu aura:id="menuId" class="mode-block">
+                                    <aura:set attribute="title">
+                                        <div class="apollo-btn primary slds-align-bottom">
+                                            <div title="Add Participant">{!v.addParticipantInfo.label}</div>
+                                            <c:RRIcon color="blue" iconName="icon-chevron-down" class="chevron"/>
+                                        </div>
+                                    </aura:set>
+                                    <aura:iteration items="{!v.siteWrapper.actions}" var="action">
+                                        <aura:if isTrue="{!action.id == 'addPatient'}">
+                                            <c:uiMenuItem label="{!action.label}" onclick="{!c.doAction}" itemValue="{!action.id}"/>
+                                        </aura:if>
+                                        <aura:if isTrue="{!action.id == 'uploadPatient'}">
+                                            <c:uiMenuItem label="{!action.label}" onclick="{!c.doAction}" itemValue="{!action.id}"/>
+                                        </aura:if>
+                                    </aura:iteration>
+                                </c:uiHeaderMenu>
+                            </aura:if>
                         </div>
                     </div>
                 </div>

@@ -66,10 +66,10 @@ public without sharing class NotificationTriggerHandler {
                             Status__c = NotificationService.STATUS_SKIPPED));
                 }
             }
-            insert sendResults;
+
         }
-        System.debug('emailNotifications>>>>'+emailNotifications);
-        System.debug('sendResults>>>>'+sendResults);
+        insert sendResults;
+
         EmailService.send(emailNotifications);
         SMSService.send(smsNotifications);
         if (notificationsForMassEmail.size() > 0) {
