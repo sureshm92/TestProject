@@ -54,7 +54,7 @@
     </div>
     <!-- Add/Change Visit Planned Date -->
     <c-web-popup show-header="true" show-footer="true" custom-buttons="true" title="Select Planned Date">
-        <div slot="body">
+        <div slot="body" style="position: absolute">
             <lightning-input type="date" label="Planned Date" value={planDate}
                              onchange={handleDateChange}></lightning-input>
         </div>
