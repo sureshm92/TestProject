@@ -22,6 +22,7 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap){
             updateClinicalTrialProfile(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
+            deleteTravelVendors(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
             updateNextNotifyDateByCTP((List<Clinical_Trial_Profile__c>)newList);
         }
 
@@ -66,6 +67,23 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
                 ctp.Override_Description__c = ctp.Detailed_Description__c;
             }
         }
+    }
+
+    private static void deleteTravelVendors(List<Clinical_Trial_Profile__c> newList, Map<Id, Clinical_Trial_Profile__c> oldMap){
+        List<Id> ctpIdsForUpdate = new List<Id>();
+        for (Clinical_Trial_Profile__c ctp : newList){
+            Clinical_Trial_Profile__c ctpOld = oldMap.get(ctp.Id);
+            if(!ctp.Travel_Vendor_Is_Available__c && ctpOld.Travel_Vendor_Is_Available__c) {
+                ctpIdsForUpdate.add(ctp.Id);
+            }
+        }
+
+        List<TravelVendorSettings__c> travelVendorSettingsToDelete = [
+                SELECT Id
+                FROM TravelVendorSettings__c
+                WHERE Study_Site__r.Clinical_Trial_Profile__c IN: ctpIdsForUpdate
+        ];
+        delete travelVendorSettingsToDelete;
     }
 
     private static void updateNextNotifyDateByCTP(List<Clinical_Trial_Profile__c> trialProfiles){

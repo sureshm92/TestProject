@@ -198,15 +198,19 @@
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-visits'}">
-                        <c:StudyVisits visitMode="{!v.visitMode}"/>
+                        <c:StudyVisits visitMode="{!v.visitMode}"
+                                       travelVendorAvailable="{!v.studyDetail.trial.Travel_Vendor_Is_Available__c}"
+                                       visitPlanAvailable="{!v.studyDetail.trial.Visit_Schedule_Is_Available__c}"/>
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-tasks'}">
-                        <c:TasksTab taskMode="{!v.taskMode}"/>
+                        <c:TasksTab taskMode="{!v.taskMode}" isAvailable="{!v.studyDetail.trial.Tasks_Are_Available__c}"/>
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-resources'}">
-                        <c:ResourceContainer resourceMode="{!v.resourceMode}"/>
+                        <c:ResourceContainer resourceMode="{!v.resourceMode}"
+                                             studyDocumentsAvailable="{!v.studyDetail.trial.Study_Documents_Are_Available__c}"
+                                             videoArticlesAvailable="{!v.studyDetail.trial.Video_And_Articles_Are_Available__c}"/>
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-lab-results'}">

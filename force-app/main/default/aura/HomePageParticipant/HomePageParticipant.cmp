@@ -56,15 +56,17 @@
                                 </div>
                             </aura:if>
                         </div>
-                        <div class="slds-col">
-                            <c:OpenTaskPreviewPanel/>
-                        </div>
+                        <aura:if isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Tasks_Are_Available__c, v.participantState.value == 'ALUMNI')}">
+                            <div class="slds-col">
+                                <c:OpenTaskPreviewPanel/>
+                            </div>
+                        </aura:if>
 <!--                        <div class="slds-col">-->
 <!--                            <c:directMessager/>-->
 <!--                        </div>-->
-                        <aura:if isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}">
+                        <aura:if isTrue="{!and(and(v.participantState.isPremium, v.participantState.showVisits), v.participantState.pe.Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c)}">
                             <div class="slds-col">
-                                <c:UpcomingVisitsPreviewPanel/>
+                                <c:UpcomingVisitsPreviewPanel travelVendorAvailable="{!v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c}"/>
                             </div>
                         </aura:if>
                     </div>
@@ -74,7 +76,9 @@
                         <c:ParticipantStatePanel/>
                         <c:VisitResultsDashboardCard ctpId="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"/>
                     </aura:if>
-                    <c:ResourceDashboardCard/>
+                    <aura:if isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c, v.participantState.value == 'ALUMNI')}">
+                        <c:ResourceDashboardCard/>
+                    </aura:if>
                 </div>
             </div>
             <c:ParticipantIRBChecker peId="{!v.participantState.pe.Id}"/>
