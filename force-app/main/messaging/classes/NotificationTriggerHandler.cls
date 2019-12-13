@@ -68,7 +68,7 @@ public without sharing class NotificationTriggerHandler {
             }
             insert sendResults;
         }
-
+        System.debug('emailNotifications>>>>'+emailNotifications);
         EmailService.send(emailNotifications);
         SMSService.send(smsNotifications);
         if (notificationsForMassEmail.size() > 0) {

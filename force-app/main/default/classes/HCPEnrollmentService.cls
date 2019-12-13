@@ -163,11 +163,13 @@ public without sharing class HCPEnrollmentService {
             }
             List<HCP_Enrollment__c> upsertList = new List<HCP_Enrollment__c>();
             List<HCP_Enrollment__c> hcpEnrollmentList = getEnrollmentsForPIByTrialIds(trailIds);
-            for(HCP_Enrollment__c enrollment : hcpEnrollmentList){
-                if(enrollment.HCP_Contact__c == hcpe.HCP_Contact__c && enrollment.Status__c != HCP_S_ACTIVATED){
-                    enrollment.Status__c = HCP_S_ACTIVATED;
+            for (HCP_Enrollment__c enrollment : hcpEnrollmentList) {
+                if (enrollment.HCP_Contact__c == hcpe.HCP_Contact__c) {
                     ssMap.remove(enrollment.Study_Site__c);
-                    upsertList.add(enrollment);
+                    if (enrollment.Status__c != HCP_S_ACTIVATED) {
+                        enrollment.Status__c = HCP_S_ACTIVATED;
+                        upsertList.add(enrollment);
+                    }
                 }
             }
             for(Id ssId : ssMap.keySet()){
@@ -184,7 +186,6 @@ public without sharing class HCPEnrollmentService {
             upsert upsertList;
             /*ReferHealthcareProviderRemote.sendNotificationForRPInvite(hcpe.Id, hcpe.HCP_Contact__c);*/
             insert new Notification__c(
-                    Name = 'Notify Test6',
                     Notification_Type__c = 'Message_to_HCP_Approved_for_Study_Site',
                     Recipient__c = hcpe.HCP_Contact__c,
                     WhatId__c = hcpe.Id);
