@@ -3,6 +3,16 @@
  */
 
 ({
+    doInit: function (component, event, helper) {
+        var actions = component.get("v.siteWrapper").actions;
+        actions.forEach(function(action, index) {
+            if ('addPatient' == action.id) {
+                console.log(action);
+                component.set("v.addParticipantInfo", action);
+            }
+        });
+    },
+
     trimChanges: function (component, event, helper) {
         var val = event.getSource().get('v.value');
         event.getSource().set('v.value', val.trim());
@@ -70,7 +80,7 @@
             if (event.getSource().get('v.itemValue')) {
                 actionId = event.getSource().get('v.itemValue');
             } else {
-            	actionId = event.getSource().getLocalId();
+                actionId = event.getSource().getLocalId();
             }
         }
         switch (actionId) {
