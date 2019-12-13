@@ -623,10 +623,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MCloudSMSSender</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>MailForTests</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -2542,6 +2538,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Referral__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Relevant_Links_Are_Available__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

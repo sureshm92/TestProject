@@ -2,11 +2,16 @@
  - Created by Nargiz Mamedova on 10/21/2019.
  -->
 
-<aura:component description="EmptyPage" implements="flexipage:availableForAllPageTypes" controller="EmptyPagePanelRemote" access="global">
+<aura:component description="EmptyPage" implements="force:hasRecordId, flexipage:availableForAllPageTypes"
+                controller="EmptyPagePanelRemote" access="global">
+    <!-- attributes: -->
     <aura:attribute name="featureName" type="String" access="global"/>
     <aura:attribute name="hasAccess" type="Boolean"/>
 
+    <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="c:TaskToggleEvent" action="{!c.doInit}"/>
+
     <aura:if isTrue="{!!v.hasAccess}">
         <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>
     </aura:if>

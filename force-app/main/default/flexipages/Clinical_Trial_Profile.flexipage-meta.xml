@@ -70,6 +70,13 @@
                 <value>true</value>
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
+            <visibilityRule>
+                <criteria>
+                    <leftValue>{!Record.Tasks_Are_Available__c}</leftValue>
+                    <operator>EQUAL</operator>
+                    <rightValue>true</rightValue>
+                </criteria>
+            </visibilityRule>
         </componentInstances>
         <componentInstances>
             <componentInstanceProperties>
@@ -77,13 +84,6 @@
                 <value>Trial_Surveys</value>
             </componentInstanceProperties>
             <componentName>EmptyPage</componentName>
-            <visibilityRule>
-                <criteria>
-                    <leftValue>{!$User.Profile.Name}</leftValue>
-                    <operator>NE</operator>
-                    <rightValue>System Administrator</rightValue>
-                </criteria>
-            </visibilityRule>
         </componentInstances>
         <name>Facet-c3fbf587-d0ce-4805-a8ed-0e5ab2b44e13</name>
         <type>Facet</type>
