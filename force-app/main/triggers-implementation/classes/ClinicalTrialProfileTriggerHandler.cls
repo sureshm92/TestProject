@@ -84,6 +84,7 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
                 WHERE Study_Site__r.Clinical_Trial_Profile__c IN: ctpIdsForUpdate
         ];
         delete travelVendorSettingsToDelete;
+        SettingStoreService.deleteSettings('TravelVendorSetupFilter' , ctpIdsForUpdate);
     }
 
     private static void updateNextNotifyDateByCTP(List<Clinical_Trial_Profile__c> trialProfiles){
