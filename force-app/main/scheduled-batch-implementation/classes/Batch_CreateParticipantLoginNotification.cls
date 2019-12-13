@@ -13,7 +13,6 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
                         Participant_Opt_In_Status_Emails__c
                 FROM Contact
                 WHERE Next_Notify_Date__c <=: Datetime.now().dateGmt()
-                AND Participant_Opt_In_Status_Emails__c = TRUE
                 AND Current_Participant_Enrollment__c != NULL
         ]);
     }
@@ -22,18 +21,22 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
         List<Id> cntIds = new List<Id>();
         for (Contact cnt : contacts) cntIds.add(cnt.Id);
         Map<Id, Integer> conIdsAndNearestNotifyDate = ParticipantService.getNearestLogOutNotification(cntIds);
-
+        List<Notification__c> notifications = new List<Notification__c>();
         List<Contact> listOfContactEmails = new List<Contact>();
         for(Contact cnt : contacts) {
             if(conIdsAndNearestNotifyDate.containsKey(cnt.Id)) {
                 cnt.Next_Notify_Date__c = Datetime.now().addDays(conIdsAndNearestNotifyDate.get(cnt.Id)).dateGmt();
                 listOfContactEmails.add(cnt);
+                notifications.add(new Notification__c(
+                        Recipient__c = cnt.Id,
+                        WhatId__c = null,
+                        Notification_Type__c = NotificationService.MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE));
             }
         }
 
         if (!listOfContactEmails.isEmpty()) {
             update listOfContactEmails;
-            SendEmailToParticipant.sendParticipantLoginNotification(listOfContactEmails, false);
+            insert notifications;
         }
     }
 
