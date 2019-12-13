@@ -9,6 +9,9 @@
     <!-- attributes: -->
     <aura:attribute name="ctp" type="Object"/>
 
+    <!-- application events: -->
+    <aura:registerEvent name="appEvent" type="c:TaskToggleEvent"/>
+
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" showSpinner="true"/>
     <div class="panel">
@@ -57,6 +60,12 @@
                                          onchange="{!c.saveCTP}" checked="{!v.ctp.Tasks_Are_Available__c}"
                                          variant="label-hidden"/>
                         <div style="margin-left: 10px">Tasks</div>
+                    </div>
+                    <div class="global-element">
+                        <lightning:input type="toggle"  label="Relevant Links" name="RelevantLinksToggle"
+                                         onchange="{!c.saveCTP}" checked="{!v.ctp.Relevant_Links_Are_Available__c}"
+                                         variant="label-hidden"/>
+                        <div style="margin-left: 10px">Relevant Links</div>
                     </div>
                 </div>
             </div>
