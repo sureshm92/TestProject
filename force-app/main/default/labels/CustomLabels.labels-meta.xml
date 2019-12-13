@@ -503,6 +503,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Activate</value>
     </labels>
     <labels>
+        <fullName>BTN_Activate_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Activate All</shortDescription>
+        <value>Activate All</value>
+    </labels>
+    <labels>
         <fullName>BTN_Add_Patient</fullName>
         <language>en_US</language>
         <protected>false</protected>
