@@ -4,9 +4,18 @@
 
 public without sharing class NotificationAvailabilityService {
 
+    private Map<Id, Contact> contactByIdMap;
+
     private Map<Id, SObject> objectsByIds;
 
     public NotificationAvailabilityService(List<String> whatIds) {
+        contactByIdMap = new Map<Id, Contact>();
+        List<Contact> contacts = [
+                SELECT Id,
+                        Participant_Opt_In_Status_Emails__c
+                FROM Contact];
+        for (Contact con : contacts) contactByIdMap.put(con.Id, con);
+
         Map<String, List<Id>> objectsByStrings;
         objectsByIds = new Map<Id, SObject>();
         objectsByStrings = new Map<String, List<Id>>();
@@ -62,7 +71,7 @@ public without sharing class NotificationAvailabilityService {
         Boolean checkForNotification = false;
         String objType = null;
         Id objId;
-        if(whatId != null) {
+        if (whatId != null) {
             objId = whatId;
             objType = String.valueOf(objId.getSobjectType());
         }
@@ -75,12 +84,12 @@ public without sharing class NotificationAvailabilityService {
                         && !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c) {
                     checkForNotification = true;
                 }
-            }else if(objType == 'Clinical_Trial_Profile__c'){
+            } else if (objType == 'Clinical_Trial_Profile__c') {
                 Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) objectsByIds.get(Id.valueOf(whatId));
                 if (!ctp.Suppress_Participant_Emails__c) checkForNotification = true;
-            }else if(objType == null){
-                Contact contact = CommunityService.getContactById(contactId);
-                if(contact.Participant_Opt_In_Status_Emails__c) checkForNotification = true;
+            } else if (objType == null) {
+                Contact contact = contactByIdMap.get(contactId);
+                if (contact.Participant_Opt_In_Status_Emails__c) checkForNotification = true;
             }
         }
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_HCP) {

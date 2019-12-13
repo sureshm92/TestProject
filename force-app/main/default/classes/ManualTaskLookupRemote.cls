@@ -122,7 +122,7 @@ public with sharing class ManualTaskLookupRemote {
                     FIND :searchTerm
                     IN ALL FIELDS
                             RETURNING
-                            Clinical_Trial_Profile__c (Id, Name, Study_Code_Name__c WHERE id NOT IN :selectedIds)
+                            Clinical_Trial_Profile__c (Id, Name, Study_Code_Name__c WHERE id NOT IN :selectedIds AND Tasks_Are_Available__c = TRUE)
                     LIMIT :MAX_RESULTS
             ];
 
@@ -158,7 +158,7 @@ public with sharing class ManualTaskLookupRemote {
                     FIND :searchTerm
                     IN ALL FIELDS
                             RETURNING
-                            Study_Site__c (Id, Name WHERE id NOT IN :selectedIds)
+                            Study_Site__c (Id, Name WHERE id NOT IN :selectedIds AND Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE)
                     LIMIT :MAX_RESULTS
             ];
 
