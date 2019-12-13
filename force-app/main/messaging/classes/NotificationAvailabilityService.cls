@@ -33,6 +33,7 @@ public without sharing class NotificationAvailabilityService {
                 List<Participant_Enrollment__c> listPE = [
                         SELECT Id, Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
                                 Study_Site__r.Suppress_Participant_Emails__c,
+                                Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c,
                                 Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                                 Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
                                 HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c
@@ -104,6 +105,14 @@ public without sharing class NotificationAvailabilityService {
             } else if(objType == 'HCP_Enrollment__c'){
                 HCP_Enrollment__c hcpe = (HCP_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
                 if (hcpe.HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c) {
+                    checkForNotification = true;
+                }
+            }
+        }
+        if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_PI) {
+            if (objType == 'Participant_Enrollment__c') {
+                Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
+                if (pe.Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c) {
                     checkForNotification = true;
                 }
             }

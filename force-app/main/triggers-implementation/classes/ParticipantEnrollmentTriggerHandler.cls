@@ -701,17 +701,28 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     @TestVisible
     private static void sendEmailIfSSWasChanged(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<Notification__c> notificationList = new List<Notification__c>();
+        List<Id> peIds = new List<Id>();
         for (Participant_Enrollment__c pe : newList) {
             if (pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c) {
-                notificationList.add(new Notification__c(
-                        Notification_Type__c = 'Message_SS_Was_Changed_For_Participant',
-                        Recipient__c = pe.Participant_Contact__c,
-                        WhatId__c = pe.Id));
-                notificationList.add(new Notification__c(
-                        Notification_Type__c = 'Message_SS_Was_Changed_For_PI',
-                        Recipient__c = pe.Study_Site__r.Principal_Investigator__c,
-                        WhatId__c = pe.Id));
+                peIds.add(pe.Id);
             }
+        }
+        for (Participant_Enrollment__c pe : [
+                SELECT Id,
+                        Study_Site__c,
+                        Study_Site__r.Principal_Investigator__c,
+                        Participant_Contact__c
+                FROM Participant_Enrollment__c
+                WHERE Id IN :peIds
+        ]) {
+            notificationList.add(new Notification__c(
+                    Notification_Type__c = 'Message_SS_Was_Changed_For_Participant',
+                    Recipient__c = pe.Participant_Contact__c,
+                    WhatId__c = pe.Id));
+            notificationList.add(new Notification__c(
+                    Notification_Type__c = 'Message_SS_Was_Changed_For_PI',
+                    Recipient__c = pe.Study_Site__r.Principal_Investigator__c,
+                    WhatId__c = pe.Id));
         }
         System.debug('notificationList>>>'+notificationList);
         if(!notificationList.isEmpty()) insert notificationList;
