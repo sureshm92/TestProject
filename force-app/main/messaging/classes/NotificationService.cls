@@ -35,6 +35,7 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_PT_COI_CTP_START_ENROLL_TYPE = 'Message_to_PT_COI_Ctp_Start_Enroll_Type';
     static public  String MESSAGE_TO_PT_DATA_AVAILABLE_TYPE = 'Message_to_PT_Data_Available_Type';
     static public String MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE = 'Message_to_PT_StdDoc_Certificate_Type';
+    static public String MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE = 'Message_to_PT_has_not_Logged_In_Type';
 
     static public String STATUS_SKIPPED = 'Skipped';
     static public String STATUS_FAILED = 'Failed';
