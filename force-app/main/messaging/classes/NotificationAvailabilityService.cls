@@ -4,11 +4,12 @@
 
 public without sharing class NotificationAvailabilityService {
 
-    private static Map<Id, Contact> contactByIdMap;
+    private Map<Id, Contact> contactByIdMap;
 
     private Map<Id, SObject> objectsByIds;
 
     public NotificationAvailabilityService(List<String> whatIds) {
+        contactByIdMap = new Map<Id, Contact>();
         List<Contact> contacts = [
                 SELECT Id,
                         Participant_Opt_In_Status_Emails__c
