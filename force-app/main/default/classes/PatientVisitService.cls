@@ -49,7 +49,7 @@ public inherited sharing class PatientVisitService {
 
     public static List<Patient_Visit__c> getPatientCardVisits(Id peId) {
         String filter = DatabaseService.fieldEqual('Participant_Enrollment__c', peId)
-                + 'AND Is_Adhoc__c = FALSE AND Visit__c != NULL';
+                + 'AND Is_Adhoc__c = FALSE ';
         String order = 'Visit_Number__c ASC NULLS LAST';
         List<Patient_Visit__c> patientVisits = (List<Patient_Visit__c>) DatabaseService.query(
                 new List<String>{
@@ -57,11 +57,12 @@ public inherited sharing class PatientVisitService {
                         'Completed_Date__c',
                         'Status__c',
                         'Planned_Date__c',
-                        'Visit_Number__c',
-                        'Visit__r.Patient_Portal_Name__c'
+                        'Portal_Name__c',
+                        'Visit_Number__c'
                 }, Patient_Visit__c.getSObjectType(), filter, order, null
         );
 
+        TranslateHelper.translate(patientVisits, IRBParticipantService.getSuitableLanguageForIRBTranslation(peId));
         return patientVisits;
     }
 

@@ -4302,7 +4302,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Notification_Target__mdt.Email_Template_Delegate__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -4317,6 +4317,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Notification_Target__mdt.Notification_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Notification_Target__mdt.Org_Wide_Email_Address__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4337,7 +4342,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Notification_Type__mdt.Recipient_Type__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -5207,6 +5212,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Patient_Visit__c.Planned_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Visit__c.Portal_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

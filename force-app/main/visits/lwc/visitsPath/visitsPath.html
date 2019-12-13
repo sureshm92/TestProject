@@ -11,11 +11,11 @@
                 <template if:true={cardItems}>
                     <div class="slds-col arrow-left">
                         <div onclick={handleScrollLeft}>
-                            <c-web-icon icon-name="icon-chevron-left" icon-color="#686868"></c-web-icon>
+                            <c-web-icon icon-name="icon-chevron-left" icon-color="#b5b4b5"></c-web-icon>
                         </div>
                     </div>
                     <div class="slds-col">
-                        <div class="slds-grid path">
+                        <div class="slds-grid vis-path">
                             <template for:each={cardItems} for:item="cardItem">
                                 <div key={cardItem.id} class={cardItem.state}>
                                     <div class="slds-grid">
@@ -45,7 +45,7 @@
                     </div>
                     <div class="slds-col arrow-right">
                         <div onclick={handleScrollRight}>
-                            <c-web-icon icon-name="icon-chevron-right" icon-color="#686868"></c-web-icon>
+                            <c-web-icon icon-name="icon-chevron-right" icon-color="#b5b4b5"></c-web-icon>
                         </div>
                     </div>
                 </template>

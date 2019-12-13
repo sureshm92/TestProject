@@ -9,15 +9,16 @@
     padding: 30px 5px 25px;
 }
 
-.path {
+.vis-path {
     max-width: 660px;
     overflow-x: scroll;
     -ms-overflow-style: none;
     scroll-behavior: smooth;
     padding-top: 14px;
+    position: relative;
 }
 
-.path::-webkit-scrollbar {
+.vis-path::-webkit-scrollbar {
     display: none;
 }
 
@@ -37,21 +38,6 @@
     color: #999;
 }
 
-@media only screen and (max-width: 600px) {
-    .path {
-        max-width: 300px;
-        overflow-x: scroll;
-        -ms-overflow-style: none;
-        scroll-behavior: smooth;
-        padding-top: 14px;
-    }
-
-    .state .state-label {
-        display: block;
-        font-weight: 600;
-    }
-}
-
 .line-div {
     height: 22px;
     border-top: 2px solid;
@@ -59,11 +45,11 @@
     padding-left: 0;
 }
 
-.path .state:first-child .line-div:first-child {
+.vis-path .state:first-child .line-div:first-child {
     border-top-color: transparent;
 }
 
-.path .state:last-child .line-div:last-child {
+.vis-path .state:last-child .line-div:last-child {
     border-top-color: transparent;
 }
 
@@ -76,7 +62,7 @@
 }
 
 .line-div.planned {
-    border-top-color: #005ff1 !important;
+    border-top-color: #005ff1;
 }
 
 .state-ico-wrapper {
@@ -113,35 +99,53 @@
 
 .arrow-left {
     opacity: 0;
-    transition: opacity 300ms;
-    -webkit-transition: opacity 300ms;
+    transition: opacity 200ms;
+    -webkit-transition: opacity 200ms;
     min-width: 30px;
     margin-left: 5px;
 }
 
 .arrow-right {
     opacity: 0;
-    transition: opacity 300ms;
-    -webkit-transition: opacity 300ms;
+    transition: opacity 200ms;
+    -webkit-transition: opacity 200ms;
     min-width: 30px;
     margin-right: 5px;
-}
-
-@media not print {
-    .state-label {
-        display: none;
-    }
-
-    .state.neutral .cweb-icon {
-        display: none;
-    }
 }
 
 .success .state-label {
     color: #000;
 }
 
-@media all and (min-width: 1024px) {
+@media only screen and (max-width: 600px) {
+    .vis-path {
+        max-width: 300px;
+        overflow-x: scroll;
+        -ms-overflow-style: none;
+        scroll-behavior: smooth;
+        padding-top: 14px;
+    }
+
+    .state .state-label {
+        display: block;
+        font-weight: 600;
+    }
+}
+
+@media all and (max-width: 768px) {
+    .path-section {
+        padding: 30px 5px 25px;
+        max-width: 500px;
+    }
+
+    .vis-path {
+        max-width: 400px;
+        overflow-x: scroll;
+        -ms-overflow-style: none;
+        scroll-behavior: smooth;
+        padding-top: 14px;
+    }
+
     .state-label {
         display: block;
     }
