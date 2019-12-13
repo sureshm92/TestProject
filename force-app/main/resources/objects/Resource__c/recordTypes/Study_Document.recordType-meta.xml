@@ -189,6 +189,10 @@
     <picklistValues>
         <picklist>document_type__c</picklist>
         <values>
+            <fullName>Certificate</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Document</fullName>
             <default>false</default>
         </values>
