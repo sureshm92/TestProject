@@ -38,7 +38,7 @@
         var fileName = file.name.split('.')[0];
 
         if (fileTypes.indexOf(extension) == -1) {
-            communityService.showToast('error', 'error', "ERROR: file format must be .CSV, .XLS or .XLSX; also, the field names must match the ones provided in the Sample Template. Please correct the problem and try again.");
+            communityService.showToast('error', 'error', "ERROR: File format not correct. Please use the provided template.");
             component.find('modalSpinner').hide();
 
             return;
@@ -68,6 +68,7 @@
 
             component.set('v.fileBody', stringArray);
             component.set('v.fileName', fileName);
+            component.find('modalSpinner').hide();
         };
 
         reader.readAsArrayBuffer(file);
