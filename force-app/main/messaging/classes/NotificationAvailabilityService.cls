@@ -70,10 +70,14 @@ public without sharing class NotificationAvailabilityService {
         }
     }
 
-    public Boolean isAvailable(String whatId, String recipientType, String notificationTarget) {
+    public Boolean isAvailable(String whatId, String recipientType, String notificationTarget, Id contactId) {
         Boolean checkForNotification = false;
-        Id objId = whatId;
-        String objType = String.valueOf(objId.getSobjectType());
+        String objType = null;
+        Id objId;
+        if(whatId != null) {
+            objId = whatId;
+            objType = String.valueOf(objId.getSobjectType());
+        }
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_PARTICIPANT) {
             if (objType == 'Participant_Enrollment__c') {
                 Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
@@ -86,6 +90,9 @@ public without sharing class NotificationAvailabilityService {
             }else if(objType == 'Clinical_Trial_Profile__c'){
                 Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) objectsByIds.get(Id.valueOf(whatId));
                 if (!ctp.Suppress_Participant_Emails__c) checkForNotification = true;
+            }else if(objType == null){
+                Contact contact = CommunityService.getContactById(contactId);
+                if(contact.Participant_Opt_In_Status_Emails__c) checkForNotification = true;
             }
         }
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_HCP) {

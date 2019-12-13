@@ -418,6 +418,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Add Another Provider</value>
     </labels>
     <labels>
+        <fullName>Add_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Add Date</shortDescription>
+        <value>Add Date</value>
+    </labels>
+    <labels>
         <fullName>Admin</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -9993,13 +10000,6 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>resource send emial soical</shortDescription>
         <value>Your recipient will receive a link to this article or video on ClinicalResearch.com</value>
-    </labels>
-    <labels>
-        <fullName>Resources_toggle_off</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources_toggle_off</shortDescription>
-        <value>No items to display</value>
     </labels>
     <labels>
         <fullName>Respiratory_Rate</fullName>

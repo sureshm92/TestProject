@@ -6,6 +6,7 @@
     doInit: function (component, event, helper) {
         let action = component.get('c.getPermission');
         action.setParams({
+            ctpId : component.get('v.recordId'),
             feature : component.get('v.featureName')
         });
         action.setCallback(this,function(response) {

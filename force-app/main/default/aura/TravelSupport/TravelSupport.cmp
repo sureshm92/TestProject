@@ -15,14 +15,14 @@
     <aura:attribute name="selectedVendor" type="Object"/>
     <aura:attribute name="studySiteId" type="String"/>
     <aura:attribute name="showPopup" type="Boolean" default="false"/>
-
+    <aura:attribute name="isAvailable" type="Boolean" default="true"/>
 
     <aura:attribute name="htmlMessage" type="String"/>
     <aura:attribute name="message" type="String" default="{!$Label.c.StudyVisit_Popup_Text}"/>
 
     <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
 
-    <aura:if isTrue="{!!empty(v.vendors)}">
+    <aura:if isTrue="{!and(!empty(v.vendors), v.isAvailable)}">
         <button class="apollo-btn primary sv-btn" onclick="{!c.show}">
             {!$Label.c.Home_Page_StudyVisit_Btn}
         </button>

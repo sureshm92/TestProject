@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 11.04.2019.
  */
 
-public with sharing class ParticipantVisitsRemote {
+public without sharing class ParticipantVisitsRemote {
 
     @AuraEnabled
     public static Boolean isStudySiteHasVisits(){
@@ -33,6 +33,25 @@ public with sharing class ParticipantVisitsRemote {
             AuraHelper.throwException(e);
         }
         return null;
+    }
+
+    @AuraEnabled(Cacheable = true)
+    public static List<Patient_Visit__c> getCardPatientVisits() {
+        try {
+            return PatientVisitService.getPatientCardVisits(ParticipantService.getParticipantState().pe.Id);
+        } catch (Exception e) {
+            return (List<Patient_Visit__c>) AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
+    public static void updatePatientVisit(String visit) {
+        try {
+            Patient_Visit__c patientVisit = (Patient_Visit__c) JSON.deserialize(visit, Patient_Visit__c.class);
+            update patientVisit;
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
     }
 
     @AuraEnabled

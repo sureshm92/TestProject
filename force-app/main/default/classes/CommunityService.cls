@@ -264,7 +264,7 @@ public without sharing class CommunityService {
         ];
     }
 
-    private static Contact getContactById(Id contactId) {
+    public static Contact getContactById(Id contactId) {
         return [
                 SELECT Id,
                         Name,
@@ -290,7 +290,8 @@ public without sharing class CommunityService {
                         Account.BillingCountry,
                         Account.OwnerId,
                         PI_My_Studies_Filters__c,
-                        Third_Choice_Language__c
+                        Third_Choice_Language__c,
+                        Participant_Opt_In_Status_Emails__c
                 FROM Contact
                 WHERE Id = :contactId
         ];
