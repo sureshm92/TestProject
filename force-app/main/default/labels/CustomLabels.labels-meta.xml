@@ -418,6 +418,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Add Another Provider</value>
     </labels>
     <labels>
+        <fullName>Add_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Add Date</shortDescription>
+        <value>Add Date</value>
+    </labels>
+    <labels>
         <fullName>Admin</fullName>
         <language>en_US</language>
         <protected>true</protected>
