@@ -8,6 +8,10 @@
     color: #999999;
 }
 
+.THIS.navigation-path.rtl{
+    direction: rtl;
+}
+
 .THIS.navigation-path .path-item{
     display: inline-flex;
     align-items: center;

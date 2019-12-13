@@ -1,17 +1,20 @@
 .THIS.resource-card {
-	min-height: 308px;
-	min-width: 100%;
-	position: relative;
+    min-height: 308px;
+    min-width: 100%;
+    position: relative;
 }
 
 .THIS .resource-card-title {
-	color: #000000;
-	font-size: 1.125rem;
-	font-weight: 600;
-	line-height: 27px;
-	margin: 16px 0 16px 16px;
+    color: #000000;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 27px;
+    margin: 16px;
 }
 
+.THIS.rtl .resource-card-title{
+    direction: rtl;
+}
 
 .THIS .resource-content > .slds-wrap > .slds-col:nth-child(1) .resource-error-message:after {
     content: '';
@@ -21,7 +24,7 @@
     height: 35px;
     width: 35px;
     top: 50px;
-    right: 42%; 
+    right: 42%;
     opacity: .3;
 }
 
@@ -33,12 +36,12 @@
     height: 35px;
     width: 35px;
     top: 50px;
-    right: 39%; 
+    right: 39%;
     opacity: .3;
 }
 
 .THIS .resource-footer {
-	display: flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
@@ -49,35 +52,35 @@
 }
 
 .THIS .resource-footer .cRRLink.rr-link {
- 	padding-right: 16px;
+    padding-right: 16px;
     position: relative;
     font-size: 1rem;
 }
 
 
 .THIS .resource-footer .cRRLink.rr-link:after {
- 	content: '';
+    content: '';
     position: absolute;
     background-size: 14px 14px;
     background-image: url(/resource/1569526732000/ChevronRightBlue);
     height: 14px;
     width: 14px;
     top: 10px;
-    right: 0px; 
+    right: 0px;
 }
 
 .THIS .resource-noTAMessage {
-	display: block;
-	text-align: center;
-	padding-top: 15%;
-	height: 300px;
-	color: #999999;
-	font-size: 17px;
-	line-height: 26px;
+    display: block;
+    text-align: center;
+    padding-top: 15%;
+    height: 300px;
+    color: #999999;
+    font-size: 17px;
+    line-height: 26px;
 }
 
 @media (max-width: 1024px) {
-	.THIS .resource-card-title {
-		margin-left: 2%;
-	}
+    .THIS .resource-card-title {
+        margin-left: 2%;
+    }
 }

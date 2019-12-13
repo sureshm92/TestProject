@@ -14,6 +14,7 @@
     <aura:attribute name="sidebarFooter" type="Aura.Component[]"/>
     <aura:attribute name="showSideMenu" type="Boolean" default="false"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+    <aura:attribute name="isArabic" type="Boolean"/>
 
     <aura:attribute name="allModes" type="Object[]"/>
     <aura:attribute name="currentMode" type="Object"/>
@@ -29,7 +30,7 @@
     <div class="{!'rr-all-content ' + $Browser.formFactor + ' ' + if(v.showSideMenu, ' bodyShift ', ' ') + if(v.availableModes.length > 1, ' with-selector ', '')}">
         <div class="{!'rr-header-content ' + if(v.showModeSwitcher, ' multi-mode', '')}">
             <aura:if isTrue="{!v.isInitialized}">
-                <div class="layout-header rr-width-limiter side-padding">
+                <div class="{!'layout-header rr-width-limiter side-padding ' + if(v.isArabic, 'rtl', 'xxxxx')}">
                     <div class="menu-btn" onclick="{!c.switchSideMenu}">
                         <img src="{!$Resource.rr_community_icons + '/menu_btn.png'}" class="chevron" style="height: 32px; width: 32px"/>
                     </div>

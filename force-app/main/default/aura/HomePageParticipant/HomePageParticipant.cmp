@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="HomePageParticipant" controller="HomePageParticipantRemote">
+<aura:component description="HomePageParticipant" controller="HomePageParticipantRemote" extends="c:CommunityContext">
 
     <!-- attributes: -->
     <aura:attribute name="participantState" type="Object"/>
@@ -14,7 +14,7 @@
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true" showSpinner="true"/>
 
-    <div>
+    <div class="{!if(v.isArabic, ' rtl ', '')}">
         <div style="margin-bottom: 8px">
             <c:RRNavigationPath>
                 <c:RRNPathItem label="{!$Label.c.Navigation_Home}"/>
@@ -32,7 +32,7 @@
             </aura:if>
         </div>
         <aura:if isTrue="{!v.initialized}">
-            <div class="slds-grid slds-gutters slds-wrap">
+            <div class="main-layout slds-grid slds-gutters slds-wrap">
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                     <div class="slds-grid slds-grid_vertical slds-gutters">
                         <div class="slds-col">
