@@ -4095,6 +4095,13 @@ The IQVIA Patient Portal Support Team</value>
         <value>My Studies</value>
     </labels>
     <labels>
+        <fullName>Home_Page_RelevantLinks_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RelevantLinks_Title</shortDescription>
+        <value>Relevant Links</value>
+    </labels>
+    <labels>
         <fullName>Home_Page_StudyVisit_Btn</fullName>
         <language>en_US</language>
         <protected>false</protected>
