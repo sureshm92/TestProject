@@ -61,14 +61,14 @@
                                 <c:OpenTaskPreviewPanel/>
                             </div>
                         </aura:if>
-<!--                        <div class="slds-col">-->
-<!--                            <c:directMessager/>-->
-<!--                        </div>-->
                         <aura:if isTrue="{!and(and(v.participantState.isPremium, v.participantState.showVisits), v.participantState.pe.Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c)}">
                             <div class="slds-col">
                                 <c:UpcomingVisitsPreviewPanel travelVendorAvailable="{!v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c}"/>
                             </div>
                         </aura:if>
+<!--                        <div class="slds-col">-->
+<!--                            <c:RelevantLinks/>-->
+<!--                        </div>-->
                     </div>
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
