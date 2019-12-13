@@ -83,6 +83,7 @@ public without sharing class VisitPlanRemote {
                         Visit_Schedule__c
                 FROM Visit__c
                 WHERE Visit_Plan__c = :planId
+                ORDER BY Visit_Number__c NULLS LAST
         ];
     }
 

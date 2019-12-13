@@ -14,7 +14,8 @@ private class Test_VisitService {
                 Visit_Schedule__c = 'Week1',
                 Icons__c = 'icon-ecg',
                 Order__c = 1,
-                Visit_Plan__c = vp.Id
+                Visit_Plan__c = vp.Id,
+                Patient_Portal_Name__c = 'PPName'
         );
         insert testvisit;
         TestData.loadTestData();
@@ -61,7 +62,8 @@ private class Test_VisitService {
                 Visit_Schedule__c = 'Week1',
                 Icons__c = 'icon-ecg',
                 Order__c = 1,
-                Visit_Plan__c = vp.Id
+                Visit_Plan__c = vp.Id,
+                Patient_Portal_Name__c = 'PPName'
         );
         insert testvisit;
         TestData.loadTestData();
