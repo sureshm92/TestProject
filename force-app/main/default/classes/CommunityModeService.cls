@@ -9,6 +9,7 @@ public without sharing class CommunityModeService {
         @AuraEnabled public String userMode;
         @AuraEnabled public Id currentHCPDelegate;
         @AuraEnabled public Id currentPE;
+        @AuraEnabled public Id delegateContactId;
         @AuraEnabled public Boolean isDelegate = false;
         @AuraEnabled public String label;
         
