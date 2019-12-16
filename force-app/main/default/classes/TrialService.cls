@@ -5,7 +5,7 @@
 public without sharing class TrialService {
     
     public static final String STATUS_ACTIVELY_ENROLLING = 'Actively Enrolling';
-    public static final String STATUS_NO_LONGER_ENROLLING = 'No Longer Enrolling';
+    public static final String STATUS_NO_LONGER_ENROLLING = 'No_Longer_Enrolling';
     
     private static final List<String> CTP_FIELDS = new List<String>{
             'Id',
