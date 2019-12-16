@@ -5428,6 +5428,13 @@ View study documents and other resources including articles and videos related t
         <value>Patient Status</value>
     </labels>
     <labels>
+        <fullName>PG_AP_F_Patient_Status_Select</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP F Patient Status Select</shortDescription>
+        <value>Select Patient Status</value>
+    </labels>
+    <labels>
         <fullName>PG_AP_F_Phone_Type</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -10315,7 +10322,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Upload Participants</shortDescription>
-        <value>Upload Participants</value>
+        <value>Import Participants</value>
     </labels>
     <labels>
         <fullName>SS_Use_This_Address</fullName>

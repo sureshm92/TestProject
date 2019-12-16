@@ -47,7 +47,7 @@
                 <div class="slds-grid slds-wrap slds-scrollable">
                     <div class="slds-size_2-of-2 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small">
-                            <div class="input-fields-labels"><b>Select Status for Participants</b></div>
+                            <div class="input-fields-labels"><b>{!$Label.c.PG_AP_F_Patient_Status_Select}</b></div>
                         </div>
                     </div>
                 </div>
@@ -61,7 +61,6 @@
                                         class="delegate-select"
                                         placeholder="{!$Label.c.PG_AC_Select}"
                                         useSentenceFont="false"/>
-                            <div>All participants will be imported with selected status</div>
                         </div>
                     </div>
                 </div>
