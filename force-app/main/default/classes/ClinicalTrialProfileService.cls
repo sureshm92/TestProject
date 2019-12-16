@@ -1,10 +1,12 @@
 public with sharing class ClinicalTrialProfileService {
 
+    public static String STATUS_COMPLETED = 'Completed';
+
     public void deleteRelatedToStudyDocuments(List<Clinical_Trial_Profile__c> newList, Map<Id, Clinical_Trial_Profile__c> oldMap) {
         List<Clinical_Trial_Profile__c> completedTrials = new List<Clinical_Trial_Profile__c>();
         for (Clinical_Trial_Profile__c t : newList) {
             if (t.Status__c != oldMap.get(t.Id).Status__c) {
-                if (t.Status__c == 'Completed') {
+                if (t.Status__c == STATUS_COMPLETED) {
                     completedTrials.add(t);
                 }
             }
