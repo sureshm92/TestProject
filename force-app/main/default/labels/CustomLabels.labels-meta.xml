@@ -2744,13 +2744,6 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <value>This is a task reminder</value>
     </labels>
     <labels>
-        <fullName>Email_Header_Thank_You_For_Your_Interest</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Header Thank You For Your Interest</shortDescription>
-        <value>Thank you for your interest in using the</value>
-    </labels>
-    <labels>
         <fullName>Email_Header_Thank_you_for_submitting_a_request</fullName>
         <language>en_US</language>
         <protected>true</protected>
