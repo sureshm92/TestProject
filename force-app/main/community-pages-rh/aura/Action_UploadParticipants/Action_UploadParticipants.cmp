@@ -38,7 +38,14 @@
                 <div class="slds-grid slds-wrap slds-scrollable">
                     <div class="slds-size_2-of-2 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small">
-                            <div class="input-fields-labels" style="color: blue;">{!v.fullFileName}</div>
+                            <div class="input-fields-labels" style="color: blue;">
+                                {!v.fullFileName}
+                                <aura:if isTrue="{!!empty(v.fullFileName)}">
+                                    <a href="javascript:void(0)" onclick="{!c.doClearFile}">
+                                        <c:RRIcon color="blue" iconName="icon-close"/>
+                                    </a>
+                                </aura:if>
+                            </div>
                             <lightning:input aura:id="file-input" type="file" files="{!v.FileList}" accept=".xls, .xlsx, .csv"
                                              name="file" multiple="false" onchange="{!c.upload}"/>
                         </div>
