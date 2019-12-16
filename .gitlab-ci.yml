@@ -56,7 +56,7 @@ DeployINT3.2:
   tags:
     - shell
   only:
-    - Sprint-RH3.2-PP1.2-Refactoring
+    - HOTFIX_RH3.2-PP1.2
   except:
     - merge_requests
 
@@ -78,7 +78,7 @@ RunTestINT3.2:
   tags:
     - shell
   only:
-    - Sprint-RH3.2-PP1.2-Refactoring
+    - HOTFIX_RH3.2-PP1.2
   except:
     - merge_requests
 
