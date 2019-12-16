@@ -1901,6 +1901,29 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming medication dosage for the clinical research study: ##StudyName.  If you have any questions regarding this medication, please contact the Study Team. Please login for additional details.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Once_at_Trial_Completion_DGT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Once at Trial Completion DGT</shortDescription>
+        <value>Congratulations, ##PatientFirstName has successfully completed the
+##StudyName clinical research study.   
+
+Thank you for participating. Your contribution to the clinical research study has been very important.
+
+Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Once_at_Trial_Completion_PT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Once at Trial Completion PT</shortDescription>
+        <value>Congratulations, you have successfully completed ##StudyName clinical research study.   
+
+Thank you for participating. Your contribution to the clinical research study has been very important.
+
+Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_PI1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2495,6 +2518,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <protected>true</protected>
         <shortDescription>Email Header Medication Task Reminder</shortDescription>
         <value>This is a medication reminder</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Once_at_Trial_Completion</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Once at Trial Completion</shortDescription>
+        <value>Thank you for completing your clinical research study</value>
     </labels>
     <labels>
         <fullName>Email_Header_PI2</fullName>
@@ -11295,6 +11325,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>Test Label With Param</shortDescription>
         <value>For this: ##param1, use this: ##zzz</value>
+    </labels>
+    <labels>
+        <fullName>Thank_you_for_your_Interest</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>COI Toast Alert Me When CTP appears</shortDescription>
+        <value>Thank you for your interest in {0}. We will contact you when the clinical research study would be created for this.</value>
     </labels>
     <labels>
         <fullName>Toast_Changes_Successfully</fullName>
