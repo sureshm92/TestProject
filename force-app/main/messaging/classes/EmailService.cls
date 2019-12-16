@@ -69,7 +69,7 @@ public without sharing class EmailService {
             emailMessages.add(createEmail(getEmailTemplateId(emailTarget.Email_Template__c), n.Recipient__c, n.WhatId__c, emailType.Org_Wide_Email_Address__c));
             sendResults.add(new Send_Result__c(
                     Target_Type__c = NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
-                    NotificationId__c = n.Id
+                    Notification__c = n.Id
             ));
         }
         List<Messaging.SendEmailResult> resultList = Messaging.sendEmail(emailMessages, false);
