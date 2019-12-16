@@ -10,7 +10,7 @@ export default class WebIcon extends LightningElement {
 
     @api iconName;
     @api iconColor = '#CCCCCC';
-    @api classCss;
+    @api iconSize = 'default';//default/small/big
     @api printMode = false;
 
     get icon() {
@@ -22,6 +22,6 @@ export default class WebIcon extends LightningElement {
     }
 
     get svgClass() {
-        return (this.classCss !== undefined ? this.classCss : 'rr-icon-default');
+        return 'rr-icon-' + this.iconSize;
     }
 }

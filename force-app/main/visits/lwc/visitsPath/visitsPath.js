@@ -30,7 +30,7 @@ export default class VisitsPath extends LightningElement {
     };
 
     @track patientVisits;
-    @track cardItems = [];
+    @track pathItems = [];
 
     @track selectedPV = {
         Id: null,
@@ -39,19 +39,35 @@ export default class VisitsPath extends LightningElement {
     @track planDate = null;
 
     pathContainer;
+    elementWidth;
     centredIndex;
     maxScrollValue;
     scrollStep;
     nextScrollLeft;
     nextScrollRight;
+    fromLeftCorner;
+    fromRightCorner;
 
     renderedCallback() {
+        switch (formFactor) {
+            case 'Medium':
+                this.elementWidth = 145;
+                break;
+            case 'Small':
+                this.elementWidth = 250;
+                break;
+            default:
+                this.elementWidth = 125;
+        }
+
         this.pathContainer = this.template.querySelector('.vis-path');
+        this.maxScrollValue = this.pathContainer.scrollWidth - this.pathContainer.clientWidth;
+        if (this.pathContainer.scrollWidth > this.pathContainer.clientWidth) this.doScrollInto(this.centredIndex);
+
         let context = this;
         setTimeout(function () {
-            if (context.cardItems.length > 0) {
+            if (context.pathItems.length > 0) {
                 context.calculateWidth();
-                context.doScrollInto();
 
                 window.addEventListener('touchmove', function () {
                     context.changeArrowsStyle();
@@ -76,9 +92,11 @@ export default class VisitsPath extends LightningElement {
     constructPathItems() {
         if (this.patientVisits) {
             for (let i = 0; i < this.patientVisits.length; i++) {
+                let visitName =
+                    this.patientVisits[i].Portal_Name__c ? this.patientVisits[i].Portal_Name__c : this.patientVisits[i].Name;
                 let item = {
                     id: this.patientVisits[i].Id,
-                    visitName: this.patientVisits[i].Portal_Name__c,
+                    visitName: visitName,
                     isCompleted: this.patientVisits[i].Status__c === 'Completed'
                 };
 
@@ -89,16 +107,16 @@ export default class VisitsPath extends LightningElement {
                     item.planDate = this.patientVisits[i].Planned_Date__c ? this.patientVisits[i].Planned_Date__c : null;
                 }
 
-                this.cardItems.push(item);
+                this.pathItems.push(item);
             }
 
-            this.centredIndex = this.cardItems.length - 1;
-            for (let i = this.cardItems.length - 1; i >= 0; i--) {
-                let current = this.cardItems[i];
+            this.centredIndex = this.pathItems.length - 1;
+            for (let i = this.pathItems.length - 1; i >= 0; i--) {
+                let current = this.pathItems[i];
                 let state;
                 if (i > 0) {
                     let prevIndex = i - 1;
-                    let prev = this.cardItems[prevIndex];
+                    let prev = this.pathItems[prevIndex];
                     if (current.isCompleted) {
                         state = stateSucc;
                         current.state = stateClass + state;
@@ -109,7 +127,7 @@ export default class VisitsPath extends LightningElement {
                         prev.right = lineClass + state;
                     } else if (prev.isCompleted) {
                         if (prevIndex - 1 > 1) {
-                            if (!this.cardItems[prevIndex - 1].isCompleted) {
+                            if (!this.pathItems[prevIndex - 1].isCompleted) {
                                 state = stateNeutral;
                                 current.icon = iconNeutral;
                                 current.state = stateClass + state;
@@ -131,7 +149,7 @@ export default class VisitsPath extends LightningElement {
                         current.left = lineClass + state;
                         prev.right = lineClass + state;
                     }
-                    if (i === this.cardItems.length - 1) current.right = lineClass + state;
+                    if (i === this.pathItems.length - 1) current.right = lineClass + state;
                 } else {
                     current.icon = current.isCompleted ? iconSucc : iconPlanned;
                     state = current.isCompleted ? stateSucc : statePlan;
@@ -140,8 +158,9 @@ export default class VisitsPath extends LightningElement {
                     if (state === statePlan) this.centredIndex = i;
                 }
 
-                this.cardItems[i] = current;
+                this.pathItems[i] = current;
             }
+            this.centredIndex++;
         }
     }
 
@@ -149,7 +168,7 @@ export default class VisitsPath extends LightningElement {
     handleOpenDialog(event) {
         let eventItemId = event.currentTarget.dataset.id;
 
-        this.cardItems.forEach(item => {
+        this.pathItems.forEach(item => {
             if (item.id === eventItemId) {
                 this.selectedPV.Id = item.id;
                 this.planDate = item.Planned_Date__c;
@@ -177,14 +196,13 @@ export default class VisitsPath extends LightningElement {
         updatePV({visit: JSON.stringify(this.selectedPV)})
             .then(() => {
                 let tmpItems = [];
-                context.cardItems.forEach(item => {
+                context.pathItems.forEach(item => {
                     let tmpItem = item;
                     if (item.id === context.selectedPV.Id) tmpItem.planDate = context.planDate;
 
                     tmpItems.push(tmpItem);
                 });
-                context.cardItems = tmpItems;
-
+                context.pathItems = tmpItems;
                 spinner.hide();
             })
             .catch(error => {
@@ -194,37 +212,46 @@ export default class VisitsPath extends LightningElement {
 
     //Scroll Arrows handlers:-------------------------------------------------------------------------------------------
     handleScrollLeft() {
-        this.pathContainer.scrollLeft -= this.nextScrollLeft;
+        if (this.fromRightCorner) {
+            this.doScrollInto(this.pathItems.length - (formFactor === 'Small' ? 1 : 2));
+            this.nextScrollRight = this.scrollStep;
+            this.fromRightCorner = false;
+        } else {
+            this.pathContainer.scrollLeft -= this.nextScrollLeft;
+        }
 
         let context = this;
         setTimeout(function () {
             context.nextScrollLeft = context.scrollStep;
-            if((context.pathContainer.scrollLeft - context.nextScrollLeft) < context.scrollStep) {
+            if ((context.pathContainer.scrollLeft - context.nextScrollLeft) < (context.scrollStep / 2)) {
                 context.nextScrollLeft = context.maxScrollValue;
-                context.nextScrollRight = context.scrollStep;
             }
             context.changeArrowsStyle();
-        },450);
+        }, 450);
     }
 
     handleScrollRight() {
-        this.pathContainer.scrollLeft += this.nextScrollRight;
+        if (this.fromLeftCorner) {
+            this.doScrollInto(2);
+            this.nextScrollLeft = this.scrollStep;
+            this.fromLeftCorner = false;
+        } else {
+            this.pathContainer.scrollLeft += this.nextScrollRight;
+        }
 
         let context = this;
         setTimeout(function () {
             context.nextScrollRight = context.scrollStep;
-            if((context.maxScrollValue - (context.pathContainer.scrollLeft + context.nextScrollRight)) < context.nextScrollRight) {
+            if ((context.maxScrollValue - (context.pathContainer.scrollLeft + context.nextScrollRight)) < (context.scrollStep / 2)) {
                 context.nextScrollRight = context.maxScrollValue;
-                context.nextScrollLeft = context.scrollStep;
             }
             context.changeArrowsStyle();
-        },450);
+        }, 450);
     }
 
     //Scroll logic:-----------------------------------------------------------------------------------------------------
     calculateWidth() {
-        this.maxScrollValue = this.pathContainer.scrollWidth - this.pathContainer.clientWidth;
-        this.scrollStep = Math.floor(this.maxScrollValue / (formFactor === 'Small' ? 3 : 2));
+        this.scrollStep = this.elementWidth;
         this.nextScrollLeft = this.scrollStep;
         this.nextScrollRight = this.scrollStep;
 
@@ -243,14 +270,20 @@ export default class VisitsPath extends LightningElement {
         let arrLeft = 1;
         let arrRight = 1;
 
-        if (this.isRightScrollEnd()) arrRight = 0;
-        if (this.isLeftScrollEnd()) arrLeft = 0;
+        if (this.isRightScrollEnd()) {
+            arrRight = 0;
+            this.fromRightCorner = true;
+        }
+        if (this.isLeftScrollEnd()) {
+            arrLeft = 0;
+            this.fromLeftCorner = true;
+        }
 
         this.template.querySelector('.arrow-left').style.opacity = arrLeft;
         this.template.querySelector('.arrow-right').style.opacity = arrRight;
     }
 
-    doScrollInto() {
-        this.pathContainer.scrollLeft = this.maxScrollValue / this.centredIndex;
+    doScrollInto(index) {
+        this.pathContainer.scrollLeft = (index * this.elementWidth) - (this.elementWidth / 2) - (this.pathContainer.clientWidth / 2);
     }
 }
