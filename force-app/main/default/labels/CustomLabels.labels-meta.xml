@@ -1207,7 +1207,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Community Email Logo</shortDescription>
-        <value>https://infohotfix-iqviaconnect.cs128.force.com/servlet/servlet.ImageServer?id=0153N00000090CH&amp;oid=00D3N0000008aUa</value>
+        <value>https://lh3.googleusercontent.com/EmuOHokKYGwyHoopMnBD54_g8Nw-hnyk7OahOiY7_koTc-V2v2QSkyF7rHoymubsZdQx1V5Krf3yNMipVhifs34bVD6jk0KZtnJal5jaSROMRoWDEKCZ4PBPmWswXtdD0cXO-JkmZ5_C1kUppz9M03uolxkkE_7R2gG9xFO5PYC4AZtobSrqr8sP0PQIK2rsu6YWsK25qgarqFm4aWGl-My3kfUyPGrejgjtMb-FwHfAt4KBr0kwYnOoEbue7YMlDqTlUUtYdT5X7y2DEwkL4BIyzPvYBcmB7m6b4LBBdh3UnxZwuUmJ7V0RcY2FKjmLfY_dGjAXlKVDKAAsLqr1TRbRDEE9CGGBmpe4gYOWT4Cp6Q0A7Y5O8VgI_3IxIVEyWinm0SfBwalH5WlSt78mEbfkJn78mpatq9UKBJXDIvVxfz9_3esXSddGbpOS6Gx5i_PbfpH9fAHvHLaQOQ1OMywK-KHP8hLCasUMmlyeQTBh91IrEPLPo7115kbdhHdPXy--f01NFF-Kv34beTnutGC2JSzYsgSn5UwpZ8RExKozt6I1SHtfX2ePAjC_wp9n-nJ7KkLmqVxLTyiqTxEgc8qd4jn3yj7Mx80erZWQU5HRb1nXKDZibefn6UzNhYmI5jWXHOGh6vIyivycKxDKSnUBl_rmpGbAjjwiCHKcPRN3MWbxGPIAPFp3NqGfCQ=w1920-h937-ft</value>
     </labels>
     <labels>
         <fullName>CommunityPrivatePolicyLink</fullName>
@@ -4100,6 +4100,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Home Page Label</shortDescription>
         <value>My Studies</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_RelevantLinks_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RelevantLinks_Title</shortDescription>
+        <value>Relevant Links</value>
     </labels>
     <labels>
         <fullName>Home_Page_StudyVisit_Btn</fullName>

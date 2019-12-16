@@ -16,34 +16,9 @@
         <label>Ukranian</label>
     </customValue>
     <customValue>
-        <fullName>en_UK</fullName>
+        <fullName>ar</fullName>
         <default>false</default>
-        <isActive>false</isActive>
-        <label>English (UK)</label>
-    </customValue>
-    <customValue>
-        <fullName>es_US</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Spanish (US)/espanol (EU)</label>
-    </customValue>
-    <customValue>
-        <fullName>fr_CA</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>French (Canada)</label>
-    </customValue>
-    <customValue>
-        <fullName>fr</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>fr</label>
-    </customValue>
-    <customValue>
-        <fullName>en_PH</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>en_PH</label>
+        <label>Arabic</label>
     </customValue>
     <customValue>
         <fullName>ko</fullName>
@@ -106,12 +81,6 @@
         <label>Español</label>
     </customValue>
     <customValue>
-        <fullName>ar</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Arabic</label>
-    </customValue>
-    <customValue>
         <fullName>en_AU</fullName>
         <default>false</default>
         <isActive>false</isActive>
@@ -140,6 +109,36 @@
         <default>false</default>
         <isActive>false</isActive>
         <label>Italiano</label>
+    </customValue>
+    <customValue>
+        <fullName>en_PH</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>en_PH</label>
+    </customValue>
+    <customValue>
+        <fullName>fr</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>fr</label>
+    </customValue>
+    <customValue>
+        <fullName>fr_CA</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>French (Canada)</label>
+    </customValue>
+    <customValue>
+        <fullName>en_UK</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>English (UK)</label>
+    </customValue>
+    <customValue>
+        <fullName>es_US</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Spanish (US)/espanol (EU)</label>
     </customValue>
     <masterLabel>Languages</masterLabel>
     <sorted>false</sorted>
