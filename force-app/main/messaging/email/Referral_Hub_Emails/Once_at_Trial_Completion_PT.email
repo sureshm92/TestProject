@@ -1,0 +1,29 @@
+<messaging:emailTemplate subject="Trial Complete for Participant"
+                         recipientType="Contact"
+                         relatedToType="Participant_Enrollment__c">
+    <messaging:htmlEmailBody>
+        <c:EmailTemplate recipientId="{!recipient.Id}"
+                         parametersProvider="Email_Template_Parameters_From_PE"
+                         sourceId="{!relatedTo.Id}"
+                         header="{!$Label.Email_Header_Once_at_Trial_Completion}"
+                         title="{!$Label.Email_Title_PH}"
+                         greeting="{!$Label.Email_User_Greeting_FirstName}"
+                         body="{!$Label.Email_Body_Once_at_Trial_Completion_PT}"
+                         signature="{!$Label.Email_Signature_Summary_Certificate}">
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
+        </c:EmailTemplate>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody>
+        <c:EmailTemplateText recipientId="{!recipient.Id}"
+                             parametersProvider="Email_Template_Parameters_From_PE"
+                             sourceId="{!relatedTo.Id}"
+                             header="{!$Label.Email_Header_Once_at_Trial_Completion}"
+                             title="{!$Label.Email_Title_PH}"
+                             greeting="{!$Label.Email_User_Greeting_FirstName}"
+                             body="{!$Label.Email_Body_Once_at_Trial_Completion_PT}"
+                             signature="{!$Label.Email_Signature_Summary_Certificate}">
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
+        </c:EmailTemplateText>
+    </messaging:plainTextEmailBody>
+</messaging:emailTemplate>
