@@ -61,7 +61,7 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
                     ctp.Override_Status_Updated_By__c != 'IQVIA SPNL'){
                 ctp.Override_Recruitment_Status__c = 'Enrollment Closed';
             } else if(ctp.Recruitment_Status__c == 'Discontinued'){
-                ctp.Override_Recruitment_Status__c = 'No Longer Enrolling';
+                ctp.Override_Recruitment_Status__c = TrialService.STATUS_NO_LONGER_ENROLLING;
             } else if(ctp.Recruitment_Status__c == 'In Development' ||
                     ctp.Recruitment_Status__c == 'On Hold' ||
                     ctp.Recruitment_Status__c == 'Planning'){
