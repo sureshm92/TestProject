@@ -10,7 +10,7 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
     private List<List<String>> csvLines = new List<List<String>>();
     private Map<String, Integer> headerIndexes = new Map<String, Integer>();
     private String selectedStatus;
-    private String studySiteId;
+    private Study_Site__c studySiteDetails;
     private Boolean headerFailed;
     private Integer totalRecordCount = 0;
 
@@ -21,10 +21,11 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
     private Set<String> listOfFailedRecordsWithMsg = new Set<String>();
 
     public UploadParticipantsBatch(List<List<String>> csvFileLines, String header, String studySiteId, String selectedStatus, Boolean headerFailed, Map<String, Integer> headerIndexes) {
-        Integer totalRowCount = csvFileLines.size() - 1;
+        Integer totalRowCount = csvFileLines.size();
         this.headerIndexes = headerIndexes;
         this.selectedStatus = selectedStatus;
-        this.studySiteId = studySiteId;
+
+        studySiteDetails = [SELECT Id, Principal_Investigator__c, Clinical_Trial_Profile__c FROM Study_Site__c WHERE Id = :studySiteId];
 
         listOfFailedRecordsWithMsg.add('Row Index, Failed Reason');
         String line = header.trim().removeEnd(',').trim().removeEnd(',');
@@ -97,8 +98,12 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
 
                 totalRecordCount++;
                 system.debug('ITERATION #: ' + totalRecordCount);
+                system.debug(csvRecordData);
 
+                system.debug(headerIndexes.get('FIRST NAME'));
+                system.debug(csvRecordData[headerIndexes.get('FIRST NAME')]);
                 FirstName = headerIndexes.get('FIRST NAME') != null && csvRecordData[headerIndexes.get('FIRST NAME')] != null ? csvRecordData[headerIndexes.get('FIRST NAME')].trim() : '';
+                system.debug(FirstName);
                 MiddleName = headerIndexes.get('MIDDLE NAME') != null && csvRecordData[headerIndexes.get('MIDDLE NAME')] != null ? csvRecordData[headerIndexes.get('MIDDLE NAME')].trim() : '';
                 LastName = headerIndexes.get('LAST NAME') != null && csvRecordData[headerIndexes.get('LAST NAME')] != null ? csvRecordData[headerIndexes.get('LAST NAME')].trim() : '';
                 Nickname = headerIndexes.get('NICKNAME') != null && csvRecordData[headerIndexes.get('NICKNAME')] != null ? csvRecordData[headerIndexes.get('NICKNAME')].trim() : '';
@@ -168,7 +173,6 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                                     MailingState = State,
                                     MailingCountry = Country,
                                     MailingPostalCode = PostalCode);
-                    insert participantContact;
                     Database.SaveResult saveRes = Database.insert(participantContact);
                     if (!saveRes.isSuccess()) {
                         Database.Error error = saveRes.getErrors().get(0);
@@ -194,8 +198,9 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
 
                     Participant_Enrollment__c participantEnrollment =
                             new Participant_Enrollment__c(Participant_Status__c = selectedStatus,
-                                    Study_Site__c = studySiteId,
-                                    Participant_Contact__c = participantContact.Id);
+                                    Study_Site__c = studySiteDetails.Id,
+                                    Participant_Contact__c = participantContact.Id,
+                                    PI_Contact__c = studySiteDetails.Principal_Investigator__c);
 
                     contactsById.put(participantContact.Id, participantContact);
                     participantsByContact.put(participantContact.Id, participant);
@@ -215,16 +220,32 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                     if (participantsByContact.get(participantContact.Id) != null) {
                         participantEnrollment.Participant__c = participantsByContact.get(participantContact.Id).Id;
                     }
+
                 }
 
                 if (!participantEnrollmentsByContact.isEmpty()) {
                     insert participantEnrollmentsByContact.values();
                 }
+
+                List<Participant_Study_Enrollment__c> partStdEnrolls = new List<Participant_Study_Enrollment__c>();
+                for (Contact participantContact : contactsById.values()) {
+                    Participant_Enrollment__c participantEnrollment = participantEnrollmentsByContact.get(participantContact.Id);
+                    partStdEnrolls.add(new Participant_Study_Enrollment__c(Clinical_Trial_Profile__c = studySiteDetails.Clinical_Trial_Profile__c,
+                            Participant__c = participantEnrollment.Participant__c,
+                            Participant_Contact__c = participantContact.Id,
+                            Participant_Enrollment__c = participantEnrollment.Id,
+                            PI_Contact__c = studySiteDetails.Principal_Investigator__c,
+                            Study_Site__c = studySiteDetails.Id));
+                }
+
+                if (!partStdEnrolls.isEmpty()) {
+                    insert partStdEnrolls;
+                }
             }
 
             system.debug('HEAP SIZE IS: ' + limits.getHeapSize() + ' enforced is: ' + limits.getLimitHeapSize() + 'on totalRecordCount: ' + totalRecordCount);
         } catch (Exception exp) {
-            system.debug('ERROR during CSV parsing: ' + exp.getMessage());
+            system.debug('ERROR during CSV parsing: ' + exp.getMessage() + ' ' + exp.getStackTraceString());
         }
     }
 
