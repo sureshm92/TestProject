@@ -61,7 +61,7 @@ public without sharing class NotificationTriggerHandler {
                     }
                }else{
                     sendResults.add(new Send_Result__c(
-                            NotificationId__c = n.Id,
+                            Notification__c = n.Id,
                             Target_Type__c = nt.Target_Type__c,
                             Status__c = NotificationService.STATUS_SKIPPED));
                 }

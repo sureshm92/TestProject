@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>NotificationId__c</fullName>
+    <fullName>Notification__c</fullName>
     <externalId>false</externalId>
-    <label>NotificationId</label>
+    <label>Notification</label>
     <referenceTo>Notification__c</referenceTo>
     <relationshipLabel>Send Results</relationshipLabel>
     <relationshipName>Send_Results</relationshipName>
@@ -12,3 +12,4 @@
     <type>MasterDetail</type>
     <writeRequiresMasterRead>false</writeRequiresMasterRead>
 </CustomField>
+
