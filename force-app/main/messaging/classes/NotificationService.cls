@@ -56,7 +56,7 @@ public without sharing class NotificationService {
 
     static {
         List<Notification_Type__mdt> notifTypes = [
-                SELECT Id, DeveloperName, Org_Wide_Email_Address__c, Recipient_Type__c,(
+                SELECT Id, DeveloperName, Recipient_Type__c,(
                         SELECT Id, Email_Template__c, Email_Template_Delegate__c, Target_Type__c,
                                 Message_Body__c, Org_Wide_Email_Address__c
                         FROM Notification_Targets__r)

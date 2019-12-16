@@ -3,6 +3,10 @@
     <label>Patient Declined VT Email</label>
     <protected>false</protected>
     <values>
+        <field>Email_Template_Delegate__c</field>
+        <value xsi:type="xsd:string">Patient14_VT_PI_declined_referral</value>
+    </values>
+    <values>
         <field>Email_Template__c</field>
         <value xsi:type="xsd:string">Patient14_VT_PI_declined_referral</value>
     </values>
@@ -13,6 +17,10 @@
     <values>
         <field>Notification_Type__c</field>
         <value xsi:type="xsd:string">Message_to_PT_Patient_Declined_VT_Type</value>
+    </values>
+    <values>
+        <field>Org_Wide_Email_Address__c</field>
+        <value xsi:type="xsd:string">IQVIA Patient Portal</value>
     </values>
     <values>
         <field>Target_Type__c</field>
