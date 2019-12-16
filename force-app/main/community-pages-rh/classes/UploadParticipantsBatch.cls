@@ -16,11 +16,13 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
 
     private String emailError = '';
     Boolean valid = true;
+    private DateTime uploadTime;
 
     private Set<String> listOfFailedRecords = new Set<String>();
     private Set<String> listOfFailedRecordsWithMsg = new Set<String>();
 
     public UploadParticipantsBatch(List<List<String>> csvFileLines, String header, String studySiteId, String selectedStatus, Boolean headerFailed, Map<String, Integer> headerIndexes) {
+        uploadTime = DateTime.now();
         Integer totalRowCount = csvFileLines.size();
         this.headerIndexes = headerIndexes;
         this.selectedStatus = selectedStatus;
@@ -254,15 +256,50 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
             List<String> finalEmails = null;
 
             system.debug('HEAP SIZE IS: ' + limits.getHeapSize() + ' enforced is: ' + limits.getLimitHeapSize() + 'on totalRecordCount: ' + totalRecordCount);
-            /*sendNotificationEmail(listOfFailedRecords,
-                                  listOfFailedRecordsWithMsg);*/
+            sendNotificationEmail(listOfFailedRecords,
+                    listOfFailedRecordsWithMsg,
+                    studySiteDetails.Principal_Investigator__c,
+                    uploadTime);
         } catch (Exception exp) {
             system.debug('ERROR during sending file with failed records: ' + exp.getMessage());
         }
     }
 
-    /*private static void sendNotificationEmail(List<String> listOfFailedRecords, List<String> listOfFailedRecordsWithMsg) {
+    private static void sendNotificationEmail(Set<String> listOfFailedRecords, Set<String> listOfFailedRecordsWithMsg, String piContactId, DateTime uploadTime) {
+        OrgWideEmailAddress owea = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName = 'IQVIA Referral Hub' LIMIT 1];
+        String formattedDate = uploadTime.format('MM/dd/yyyy hh:mm a', UserInfo.getTimeZone().toString());
 
-    }*/
+        Messaging.SingleEmailMessage adminEmailToSend = new Messaging.SingleEmailMessage();
+        adminEmailToSend.setToAddresses(new List<String> { '' });
+        adminEmailToSend.setOrgWideEmailAddressId(owea.id);
+        adminEmailToSend.setSubject('Upload participants completed - ' + formattedDate);
+
+        String failedRecordsCSV = '';
+        for (String failedRecord : listOfFailedRecords) {
+            failedRecordsCSV = failedRecordsCSV + failedRecord + '\n';
+        }
+
+        String failedRecordsCSVMsgs = '';
+        for (String failedRecordMsg : listOfFailedRecordsWithMsg) {
+            failedRecordsCSVMsgs = failedRecordsCSVMsgs + failedRecordMsg + '\n';
+        }
+
+        Messaging.EmailFileAttachment failedRecordsEfa = new Messaging.EmailFileAttachment();
+        failedRecordsEfa.setFileName('ProcessOutput_Records_' + formattedDate + '.csv');
+        failedRecordsEfa.setBody(Blob.valueOf(failedRecordsCSV));
+
+        Messaging.EmailFileAttachment failedMsgsEfa = new Messaging.EmailFileAttachment();
+        failedMsgsEfa.setFileName('ProcessOutput_Details_' + formattedDate + '.csv');
+        failedMsgsEfa.setBody(Blob.valueOf(failedRecordsCSVMsgs));
+
+        adminEmailToSend.setHtmlBody('');
+        adminEmailToSend.setPlainTextBody('');
+
+        adminEmailToSend.setFileAttachments(new List<Messaging.EmailFileAttachment> { failedRecordsEfa, failedMsgsEfa });
+
+        if (!Test.isRunningTest()) {
+            Messaging.sendEmail(new Messaging.SingleEmailMessage[] { adminEmailToSend });
+        }
+    }
 
 }
