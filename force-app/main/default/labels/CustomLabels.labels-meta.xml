@@ -2716,6 +2716,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <value>An IQVIA™ Referral Hub user shared this with you</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Thank_You_For_Your_Interest</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Thank You For Your Interest</shortDescription>
+        <value>Thank you for your interest in using the</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Share_PH</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -11507,13 +11514,6 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>TrialSearch Toast Alert Me When Trial Start</shortDescription>
         <value>Thank you for your interest in {0}. We will contact you when the clinical research study begins enrollment.</value>
-    </labels>
-    <labels>
-        <fullName>Thank_you_for_your_Interest</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>COI Toast Alert Me When CTP appears</shortDescription>
-        <value>Thank you for your interest in {0}. We will contact you when the clinical research study would be created for this.</value>
     </labels>
     <labels>
         <fullName>TrialSearch_Toast_Contact_The_Study</fullName>
