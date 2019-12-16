@@ -32,6 +32,10 @@
     scroll-behavior: smooth;
 }
 
+.THIS.nav-menu.rtl{
+    flex-direction: row-reverse;
+}
+
 .THIS.nav-menu.right{
     margin-left: 20px;
 }

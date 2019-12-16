@@ -63,7 +63,8 @@ public without sharing class HCPEnrollmentService {
             HCP_S_APPROVAL_PENDING => new Map<String, String>{
                     StudyActions.ACT_HCP_APPROVE => HCP_S_ACTIVATION_PENDING_O,
                     StudyActions.ACT_HCP_ON_HOLD => HCP_S_ON_HOLD_APPROVAL,
-                    StudyActions.ACT_HCP_DECLINE => HCP_S_DECLINED_APPROVAL
+                    StudyActions.ACT_HCP_DECLINE => HCP_S_DECLINED_APPROVAL,
+                    StudyActions.ACT_HCP_ACTIVATE_FOR_ALL => HCP_S_ACTIVATED
             },
             HCP_S_DECLINED_APPROVAL => new Map<String, String>{
                     StudyActions.ACT_HCP_APPROVE => HCP_S_ACTIVATION_PENDING_O,
@@ -82,7 +83,8 @@ public without sharing class HCPEnrollmentService {
             HCP_S_ACTIVATION_PENDING => new Map<String, String>{
                     StudyActions.ACT_HCP_ACTIVATE => HCP_S_ACTIVATED,
                     StudyActions.ACT_HCP_ON_HOLD => HCP_S_ON_HOLD_ACTIVATION,
-                    StudyActions.ACT_HCP_DECLINE => HCP_S_DECLINE_ACTIVATION
+                    StudyActions.ACT_HCP_DECLINE => HCP_S_DECLINE_ACTIVATION,
+                    StudyActions.ACT_HCP_ACTIVATE_FOR_ALL => HCP_S_ACTIVATED
             },
             HCP_S_ACTIVATED_A => new Map<String, String>{
                     StudyActions.ACT_HCP_ON_HOLD => HCP_S_ON_HOLD_ACTIVATION,
@@ -132,24 +134,63 @@ public without sharing class HCPEnrollmentService {
 
     public static String changeStatus(Id hcpeId, String userMode, String actionId, String value) {
         HCP_Enrollment__c hcpe = getHCPEnrollmentById(hcpeId, userMode);
-        String newStatus = HCP_CHANGE_STATUS_MAP.get(hcpe.Status__c).get(actionId);
-        if(newStatus == null) throw new CommunityServiceException('Invalid action');
-        if(hcpe.Status__c == HCP_S_ACTIVATION_PENDING_O && newStatus == HCP_S_ACTIVATED){
-            hcpe.Completed_Orientation__c = true;
-            hcpe.Orientation_Date__c = Date.valueOf(value);
-        }
-        hcpe.Status__c = newStatus;
-        if (String.isNotEmpty(value)) {
-            if (actionId == StudyActions.ACT_HCP_ON_HOLD) {
-                hcpe.On_Hold_Reason__c = value;
-            } else if (actionId == StudyActions.ACT_HCP_DECLINE) {
-                hcpe.Declining_Reason__c = value;
-            } else if (actionId == StudyActions.ACT_HCP_DEACTIVATE) {
-                hcpe.Deactivation_Reason__c = value;
+        if(actionId != StudyActions.ACT_HCP_ACTIVATE_FOR_ALL) {
+            String newStatus = HCP_CHANGE_STATUS_MAP.get(hcpe.Status__c).get(actionId);
+            if (newStatus == null) throw new CommunityServiceException('Invalid action');
+            if (hcpe.Status__c == HCP_S_ACTIVATION_PENDING_O && newStatus == HCP_S_ACTIVATED) {
+                hcpe.Completed_Orientation__c = true;
+                hcpe.Orientation_Date__c = Date.valueOf(value);
             }
+            hcpe.Status__c = newStatus;
+            if (String.isNotEmpty(value)) {
+                if (actionId == StudyActions.ACT_HCP_ON_HOLD) {
+                    hcpe.On_Hold_Reason__c = value;
+                } else if (actionId == StudyActions.ACT_HCP_DECLINE) {
+                    hcpe.Declining_Reason__c = value;
+                } else if (actionId == StudyActions.ACT_HCP_DEACTIVATE) {
+                    hcpe.Deactivation_Reason__c = value;
+                }
+            }
+            update hcpe;
+            return newStatus;
+        } else {
+            List<Study_Site__c> ssList = StudySiteService.getStudySitesForPI();
+            Map<Id, Study_Site__c> ssMap = new Map<Id, Study_Site__c>();
+            Set<Id> trailIds = new Set<Id>();
+            for(Study_Site__c ss : ssList){
+                trailIds.add(ss.Clinical_Trial_Profile__c);
+                ssMap.put(ss.Id, ss);
+            }
+            List<HCP_Enrollment__c> upsertList = new List<HCP_Enrollment__c>();
+            List<HCP_Enrollment__c> hcpEnrollmentList = getEnrollmentsForPIByTrialIds(trailIds);
+            for (HCP_Enrollment__c enrollment : hcpEnrollmentList) {
+                if (enrollment.HCP_Contact__c == hcpe.HCP_Contact__c) {
+                    ssMap.remove(enrollment.Study_Site__c);
+                    if (enrollment.Status__c != HCP_S_ACTIVATED) {
+                        enrollment.Status__c = HCP_S_ACTIVATED;
+                        upsertList.add(enrollment);
+                    }
+                }
+            }
+            for(Id ssId : ssMap.keySet()){
+                upsertList.add(new HCP_Enrollment__c(
+                        HCP_Contact__c = hcpe.HCP_Contact__c,
+                        HCP_Account__c = hcpe.HCP_Contact__r.AccountId,
+                        Status__c = ssMap.get(ssId).Clinical_Trial_Profile__r.Orientation_Required__c ? HCP_S_ACTIVATION_PENDING_O : HCP_S_ACTIVATED,
+                        Study_Site__c = ssId
+                ));
+            }
+            if(!upsertList.isEmpty()){
+                insert new PI_RP_Relationship__c(PI_Contact__c = ssMap.values()[0].Principal_Investigator__c, RP_Contact__c = hcpe.HCP_Contact__c);
+            }
+            upsert upsertList;
+            /*ReferHealthcareProviderRemote.sendNotificationForRPInvite(hcpe.Id, hcpe.HCP_Contact__c);*/
+            insert new Notification__c(
+                    Notification_Type__c = 'Message_to_HCP_Approved_for_Study_Site',
+                    Recipient__c = hcpe.HCP_Contact__c,
+                    WhatId__c = hcpe.Id);
+            return HCP_S_ACTIVATED;
         }
-        update hcpe;
-        return newStatus;
     }
 
     private static final List<String> HCPE_COMMON_FIELDS = new List<String>{

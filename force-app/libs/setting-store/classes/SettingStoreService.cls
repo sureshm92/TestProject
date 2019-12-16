@@ -55,4 +55,17 @@ public without sharing class SettingStoreService {
     public static void save(String developerName, Object sourceObject, Type type){
         save(developerName, UserInfo.getUserId(), sourceObject, type);
     }
+
+    public static void deleteSettings(String featureName, List<Id> recordIds){
+        List<String> developerNames = new List<String>();
+        for(Id id : recordIds) {
+            developerNames.add(featureName + id);
+        }
+        List<Setting_Store__c> settingStores = [
+                SELECT Id, Developer_Name__c, User__c, Type__c, Body__c
+                FROM Setting_Store__c
+                WHERE Developer_Name__c IN: developerNames
+        ];
+        delete settingStores;
+    }
 }

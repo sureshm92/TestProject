@@ -14,10 +14,5 @@
                 });
             });
         }
-    },
-
-    navigateToPage: function (component, event, helper) {
-        var trialId = component.get('v.trialId');
-        communityService.navigateToPage('study-workspace?tab=tab-resources');
     }
 })

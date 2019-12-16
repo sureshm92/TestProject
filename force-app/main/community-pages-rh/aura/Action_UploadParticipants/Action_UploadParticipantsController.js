@@ -4,20 +4,33 @@
 ({
 
     doExecute: function (component, event, helper) {
+        component.find('modalSpinner').show();
         var params = event.getParam('arguments');
         component.find('uploadParticipantsDialog').show();
         component.set('v.studySiteId', params.studySiteId);
         if (params.callback) component.set('v.callback', $A.getCallback(params.callback));
+
+        communityService.executeAction(component, 'getParticipantsStatuses', {
+        }, function (returnValue) {
+            component.find('modalSpinner').hide();
+            component.set('v.participantStatuses', returnValue);
+        });
     },
 
     doCancel: function (component, event, helper) {
+        helper.clearFields(component, event, helper);
         component.find('uploadParticipantsDialog').cancel();
+    },
+
+    doImport: function (component, event, helper) {
+        helper.uploadPaticipants(component, component.get('v.fileBody'),
+            component.get('v.fileName'), component.get('v.studySiteId'),
+            component.get('v.selectedStatus'));
+        helper.clearFields(component, event, helper);
     },
 
     upload: function(component, event, helper) {
         component.find('modalSpinner').show();
-        var toastEvent = $A.get("e.force:showToast");
-
         var fileTypes = ['csv', 'xls', 'xlsx'];
 
         var file = component.get("v.FileList")[0];
@@ -25,7 +38,7 @@
         var fileName = file.name.split('.')[0];
 
         if (fileTypes.indexOf(extension) == -1) {
-            communityService.showToast('error', 'error', "ERROR: file format must be .CSV, .XLS or .XLSX; also, the field names must match the ones provided in the Sample Template. Please correct the problem and try again.");
+            communityService.showToast('error', 'error', "ERROR: File format not correct. Please use the provided template.");
             component.find('modalSpinner').hide();
 
             return;
@@ -53,7 +66,12 @@
                 return;
             }
 
-            helper.uploadPaticipants(component, stringArray, fileName, component.get('v.studySiteId'));
+            component.set('v.fileBody', stringArray);
+            component.set('v.fileName', fileName);
+            component.set('v.fileType', extension);
+            component.set('v.fullFileName', fileName + '.' + extension);
+
+            component.find('modalSpinner').hide();
         };
 
         reader.readAsArrayBuffer(file);

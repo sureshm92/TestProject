@@ -115,9 +115,11 @@ public without sharing class ParticipantService {
 
     @TestVisible
     private Boolean showVisits() {
-        if (participantState.pe != null) {
+        if (participantState.pe != null && participantState.ctp.Visit_Schedule_Is_Available__c) {
             List<Patient_Visit__c> patientVisit = [
-                    SELECT Id FROM Patient_Visit__c WHERE Participant_Enrollment__c = :participantState.pe.Id
+                    SELECT Id
+                    FROM Patient_Visit__c
+                    WHERE Participant_Enrollment__c = :participantState.pe.Id
             ];
             return !patientVisit.isEmpty();
         }

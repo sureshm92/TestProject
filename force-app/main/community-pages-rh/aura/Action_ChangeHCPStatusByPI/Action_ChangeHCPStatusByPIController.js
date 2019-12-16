@@ -70,6 +70,10 @@
                 component.set("v.changeStatusText", ($A.get("$Label.c.PG_ACPE_L_Please_confirm_that_you_want_to_activate") + '\n ' + drName));
                 component.set("v.primaryBtnLabel", $A.get("$Label.c.BTN_Yes_Activate"));
                 break;
+            case 'hcpActivateForAll':
+                component.set("v.changeStatusText", ($A.get("$Label.c.PG_ACPE_L_Please_confirm_that_you_want_to_activate") + '\n ' + drName));
+                component.set("v.primaryBtnLabel", $A.get("$Label.c.BTN_Yes_Activate"));
+                break;
             case 'hcpOrientationAttendedAndActivate':
                 component.set("v.showDatePicker", true);
                 component.set("v.changeStatusText", ($A.get("$Label.c.PG_ACPE_L_Please_confirm_your_Orientation_Attended_date_Activate") + '\n ' + drName));

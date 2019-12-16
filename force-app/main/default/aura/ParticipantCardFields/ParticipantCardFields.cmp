@@ -2,14 +2,14 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="ParticipantCardFields">
+<aura:component description="ParticipantCardFields" extends="c:CommunityContext">
 
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String"/>
     <aura:attribute name="pe" type="Object"/>
 
     <!-- component body: -->
-    <div class="vpi-clip-item-borders">
+    <div class="{!'vpi-clip-item-borders ' + if(v.isArabic, 'rtl', '')}">
         <div class="vpi-fields">
 
             <!-- PI fields: -->

@@ -12,7 +12,9 @@ public with sharing class StudyConfigurationRemote {
                             Study_Documents_Are_Available__c ,
                             Video_And_Articles_Are_Available__c,
                             Travel_Vendor_Is_Available__c,
-                            Tasks_Are_Available__c
+                            Travel_Support_On_Relevant_Links__c,
+                            Tasks_Are_Available__c,
+                            Relevant_Links_Are_Available__c
                     FROM Clinical_Trial_Profile__c
                     WHERE Id =: ctpId];
             return ctp;

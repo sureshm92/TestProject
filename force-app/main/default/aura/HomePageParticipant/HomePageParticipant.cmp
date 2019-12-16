@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="HomePageParticipant" controller="HomePageParticipantRemote">
+<aura:component description="HomePageParticipant" controller="HomePageParticipantRemote" extends="c:CommunityContext">
 
     <!-- attributes: -->
     <aura:attribute name="participantState" type="Object"/>
@@ -14,7 +14,7 @@
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true" showSpinner="true"/>
 
-    <div>
+    <div class="{!if(v.isArabic, ' rtl ', '')}">
         <div style="margin-bottom: 8px">
             <c:RRNavigationPath>
                 <c:RRNPathItem label="{!$Label.c.Navigation_Home}"/>
@@ -32,7 +32,7 @@
             </aura:if>
         </div>
         <aura:if isTrue="{!v.initialized}">
-            <div class="slds-grid slds-gutters slds-wrap">
+            <div class="main-layout slds-grid slds-gutters slds-wrap">
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                     <div class="slds-grid slds-grid_vertical slds-gutters">
                         <div class="slds-col">
@@ -56,15 +56,19 @@
                                 </div>
                             </aura:if>
                         </div>
-                        <div class="slds-col">
-                            <c:OpenTaskPreviewPanel/>
-                        </div>
-<!--                        <div class="slds-col">-->
-<!--                            <c:directMessager/>-->
-<!--                        </div>-->
+                        <aura:if isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Tasks_Are_Available__c, v.participantState.value == 'ALUMNI')}">
+                            <div class="slds-col">
+                                <c:OpenTaskPreviewPanel/>
+                            </div>
+                        </aura:if>
                         <aura:if isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}">
                             <div class="slds-col">
-                                <c:UpcomingVisitsPreviewPanel/>
+                                <c:UpcomingVisitsPreviewPanel travelVendorAvailable="{!v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c}"/>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.participantState.pe.Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c}">
+                            <div class="slds-col">
+                                <c:RelevantLinks travelVendorsAvailable="{!v.participantState.pe.Clinical_Trial_Profile__r.Travel_Support_On_Relevant_Links__c}"/>
                             </div>
                         </aura:if>
                     </div>
@@ -74,7 +78,9 @@
                         <c:ParticipantStatePanel/>
                         <c:VisitResultsDashboardCard ctpId="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"/>
                     </aura:if>
-                    <c:ResourceDashboardCard/>
+                    <aura:if isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c, v.participantState.value == 'ALUMNI')}">
+                        <c:ResourceDashboardCard/>
+                    </aura:if>
                 </div>
             </div>
             <c:ParticipantIRBChecker peId="{!v.participantState.pe.Id}"/>

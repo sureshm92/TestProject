@@ -33,6 +33,11 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_PT_NEW_STUDY_eRP_VT_TYPE = 'Message_to_PT_New_Study_eRP_VT_Type';
     static public String MESSAGE_TO_PT_NEW_COI_CTP_TYPE = 'Message_to_PT_New_COI_Ctp_Type';
     static public String MESSAGE_TO_PT_COI_CTP_START_ENROLL_TYPE = 'Message_to_PT_COI_Ctp_Start_Enroll_Type';
+    static public  String MESSAGE_TO_PT_DATA_AVAILABLE_TYPE = 'Message_to_PT_Data_Available_Type';
+    static public String MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE = 'Message_to_PT_StdDoc_Certificate_Type';
+    static public String MESSAGE_TO_PT_NEW_STDDOC_TYPE = 'Message_to_PT_New_StdDoc_Type';
+    static public String MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE = 'Message_to_PT_has_not_Logged_In_Type';
+    static public String MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE = 'Message_to_PT_CTP_Trial_Complete_Type';
 
     static public String STATUS_SKIPPED = 'Skipped';
     static public String STATUS_FAILED = 'Failed';

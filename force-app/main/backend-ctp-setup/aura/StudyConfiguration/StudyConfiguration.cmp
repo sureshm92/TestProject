@@ -9,6 +9,9 @@
     <!-- attributes: -->
     <aura:attribute name="ctp" type="Object"/>
 
+    <!-- application events: -->
+    <aura:registerEvent name="appEvent" type="c:TaskToggleEvent"/>
+
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" showSpinner="true"/>
     <div class="panel">
@@ -47,16 +50,26 @@
                 <div class="group-title">Others</div>
                 <div class="global-data">
                     <div class="global-element">
-                        <lightning:input type="toggle"  label="Travel Vendor" name="travelVendorToggle"
+                        <lightning:input type="toggle"  label="Travel Support" name="travelVendorToggle"
                                          onchange="{!c.saveCTP}" checked="{!v.ctp.Travel_Vendor_Is_Available__c}"
                                          variant="label-hidden"/>
-                        <div style="margin-left: 10px">Travel Vendor</div>
+                        <div style="margin-left: 10px; margin-right: 20px">Travel Support</div>
+                        <lightning:input type="checkbox"  label="Travel Support On Relevant Links" name="travelSupportRelevantCheckbox"
+                                         onchange="{!c.saveCTP}" checked="{!v.ctp.Travel_Support_On_Relevant_Links__c}"
+                                         variant="label-hidden" disabled="{!!v.ctp.Travel_Vendor_Is_Available__c}"/>
+                        <div>Travel Support On Relevant Links</div>
                     </div>
                     <div class="global-element">
                         <lightning:input type="toggle"  label="Tasks" name="tasksToggle"
                                          onchange="{!c.saveCTP}" checked="{!v.ctp.Tasks_Are_Available__c}"
                                          variant="label-hidden"/>
                         <div style="margin-left: 10px">Tasks</div>
+                    </div>
+                    <div class="global-element">
+                        <lightning:input type="toggle"  label="Relevant Links" name="RelevantLinksToggle"
+                                         onchange="{!c.saveCTP}" checked="{!v.ctp.Relevant_Links_Are_Available__c}"
+                                         variant="label-hidden"/>
+                        <div style="margin-left: 10px">Relevant Links</div>
                     </div>
                 </div>
             </div>

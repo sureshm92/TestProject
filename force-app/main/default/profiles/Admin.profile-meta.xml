@@ -935,6 +935,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>RelevantLinksRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>RemoteCall</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2546,6 +2550,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Relevant_Links_Are_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Responsible_Party_Organization__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2672,6 +2681,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Therapeutic_Area__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Travel_Support_On_Relevant_Links__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2872,6 +2886,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Participant_Opt_In_Status_Emails__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Participant_Opt_In_Status_SMS__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4296,6 +4315,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>PI_RP_Relationship__c.PI_Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PI_RP_Relationship__c.RP_Contact__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>PSE_Status_History__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5082,6 +5111,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Patient_Visit__c.Participant_Study_Enrollment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Visit__c.Planned_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Visit__c.Portal_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6487,6 +6526,9 @@
         <layout>Onboarding_Tour__mdt-Onboarding Tour Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>PI_RP_Relationship__c-PI RP Relationship Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>PSE_Status_History__c-PSE Status History Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6944,6 +6986,14 @@
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>PI_RP_Relationship__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions> <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>

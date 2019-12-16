@@ -5,7 +5,7 @@
 <aura:component description="CommunityNavigation" extends="c:AbstractNavigation">
 
     <!-- component body: -->
-    <ul class="{!'nav-menu ' + if(v.scrollRequired, v.scrollDirection, '')}" aura:id="navMenu">
+    <ul class="{!'nav-menu ' + if(v.isArabic, 'rtl ', ' ') + if(v.scrollRequired, v.scrollDirection, '')}" aura:id="navMenu">
         <aura:iteration items="{!v.menuItems}" var="item" >
             <li class="{!item.page == v.currentPage ? 'nav-item active' : 'nav-item'}" data-page-name="{!item.page}" onclick="{!c.onClick}">{!item.label}</li>
         </aura:iteration>
