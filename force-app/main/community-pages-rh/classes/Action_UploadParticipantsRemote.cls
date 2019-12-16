@@ -4,8 +4,8 @@
 
 public with sharing class Action_UploadParticipantsRemote {
 
-    public static final List<String> HEADER_COLUMNS = new List<String> { 'First Name', 'Middle Name', 'Last Name', 'Nickname', 'Sex', 'Date of Birth', 'Email Address', 'Phone', 'Phone Type', 'Phone2', 'Phone Type2', 'Street Address', 'City', 'State', 'Postal Code', 'Country', 'Language' };
-    public static final List<String> MANDATORY_HEADER_COLUMNS = new List<String> { 'First Name', 'Last Name', 'Phone', 'Country', 'State', 'Postal Code' };
+    public static final List<String> HEADER_COLUMNS = new List<String> { 'FIRST NAME', 'MIDDLE NAME', 'LAST NAME', 'NICKNAME', 'SEX', 'DATE OF BIRTH', 'EMAIL ADDRESS', 'PHONE', 'PHONE TYPE', 'PHONE2', 'PHONE TYPE2', 'STREET ADDRESS', 'CITY', 'STATE', 'POSTAL CODE', 'COUNTRY', 'LANGUAGE' };
+    public static final List<String> MANDATORY_HEADER_COLUMNS = new List<String> { 'FIRST NAME', 'LAST NAME', 'PHONE', 'COUNTRY', 'STATE', 'POSTAL CODE' };
 
     @AuraEnabled
     public static List<LabelValueItem> getParticipantsStatuses() {
@@ -30,14 +30,14 @@ public with sharing class Action_UploadParticipantsRemote {
                         String columnName = csvHeaderData[indx].trim();
                         system.debug('Header: ' + columnName);
                         if (HEADER_COLUMNS.contains(columnName)) {
-                            headerIndexes.put(columnName, indx);
+                            headerIndexes.put(columnName.toUpperCase(), indx);
                         }
                     }
                 }
             }
 
             Integer totalRowCount = 0;
-            Map<Integer, List<String>> groupedCSVLines = new Map<Integer, List<String>>();
+            Map<Integer, List<String>> finalCSVLines = new Map<Integer, List<String>>();
             if (csvFileLines.size() != 0 && !headerFailed) {
                 for (Integer rowIndex = 1; rowIndex < csvFileLines.size(); rowIndex++) {
                     List<String> line = csvFileLines.get(rowIndex).trim().removeEnd(',').trim().removeEnd(',').split(',');
@@ -51,11 +51,11 @@ public with sharing class Action_UploadParticipantsRemote {
                         }
                     }
 
-                    groupedCSVLines.put(totalRowCount, line);
+                    finalCSVLines.put(totalRowCount, line);
                 }
             }
 
-            Database.executeBatch(new UploadParticipantsBatch(groupedCSVLines.values(), csvFileLines.get(0), studySiteId, selectedStatus, headerFailed, headerIndexes), 25);
+            Database.executeBatch(new UploadParticipantsBatch(finalCSVLines.values(), csvFileLines.get(0), studySiteId, selectedStatus, headerFailed, headerIndexes), 25);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }

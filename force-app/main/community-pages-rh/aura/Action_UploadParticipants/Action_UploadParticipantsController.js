@@ -18,6 +18,7 @@
     },
 
     doCancel: function (component, event, helper) {
+        helper.clearFields(component, event, helper);
         component.find('uploadParticipantsDialog').cancel();
     },
 
@@ -29,8 +30,6 @@
 
     upload: function(component, event, helper) {
         component.find('modalSpinner').show();
-        var toastEvent = $A.get("e.force:showToast");
-
         var fileTypes = ['csv', 'xls', 'xlsx'];
 
         var file = component.get("v.FileList")[0];
@@ -68,6 +67,9 @@
 
             component.set('v.fileBody', stringArray);
             component.set('v.fileName', fileName);
+            component.set('v.fileType', extension);
+            component.set('v.fullFileName', fileName + '.' + extension);
+
             component.find('modalSpinner').hide();
         };
 
