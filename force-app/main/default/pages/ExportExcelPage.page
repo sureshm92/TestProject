@@ -1,4 +1,7 @@
 <apex:page sidebar="false" showHeader="false" controller="ExcelController" contentType="application/vnd.ms-excel#ExportExcel.xls" cache="true">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    </head>
     <!-- pe -->
     <apex:dataTable value="{!peList}" var="pe">
         <apex:repeat value="{!$ObjectType.Participant_Enrollment__c.FieldSets.ExportExcel}" var="field">
@@ -8,15 +11,15 @@
         </apex:repeat>
     </apex:dataTable>
 
-    <!-- hcpe -->
-    <br/>
-    <br/>
-    <apex:dataTable value="{!hcpeList}" var="hcpe">
-        <apex:repeat value="{!$ObjectType.HCP_Enrollment__c.FieldSets.ExportExcel}" var="field">
-            <apex:column headerValue="{!field.label}">
-                <apex:outputField value="{!hcpe[field.fieldPath]}"/>
-            </apex:column>
-        </apex:repeat>
-    </apex:dataTable>
+<!--    &lt;!&ndash; hcpe &ndash;&gt;-->
+<!--    <br/>-->
+<!--    <br/>-->
+<!--    <apex:dataTable value="{!hcpeList}" var="hcpe">-->
+<!--        <apex:repeat value="{!$ObjectType.HCP_Enrollment__c.FieldSets.ExportExcel}" var="field">-->
+<!--            <apex:column headerValue="{!field.label}">-->
+<!--                <apex:outputField value="{!hcpe[field.fieldPath]}"/>-->
+<!--            </apex:column>-->
+<!--        </apex:repeat>-->
+<!--    </apex:dataTable>-->
 
 </apex:page>

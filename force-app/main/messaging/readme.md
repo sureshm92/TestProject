@@ -15,15 +15,6 @@ Choose that one you need for external parameters
 in your message
 - **Description**: put here short description about logic of this message
 - **Recipient Type**: PI, HCP, Participant, External Email (if this message for external user outside of SalesForce system)
-- **Org Wide Email Address**: (for email only) 
-for **HCP** Recipient Type use this:
-```
-IQVIA Referral Hub
-```
-for **Participant, PI** Recipient Type use this:
-```
-IQVIA Patient Portal
-```
 
 1) In Setup -> Custom Metadata Types -> Notification Target click **Manage Records**
 2) Click **New**
@@ -39,8 +30,19 @@ Choose that one you created previously to link them
 - **Email Template**: RP2_Patient_Accepted 
 (template name in the system)
 - **Email Template Delegate**: (if template for delegate has differences)  
+- **Org Wide Email Address**: (for email only) 
+
+for **HCP** Recipient Type use this:
+```
+IQVIA Referral Hub
+```
+for **Participant, PI** Recipient Type use this:
+```
+IQVIA Patient Portal
+```
 
 ### Do not forget
+After creation **remove your type and target** from default metadata directory to messaging/customMetadata
 
 Write down in NotificationService class your new Notification Type for using later in your code
 ```

@@ -643,6 +643,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Export</value>
     </labels>
     <labels>
+        <fullName>BTN_Export_All</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Export All</shortDescription>
+        <value>Export All</value>
+    </labels>
+    <labels>
         <fullName>BTN_Find_study_sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5511,6 +5518,13 @@ View study documents and other resources including articles and videos related t
         <protected>true</protected>
         <shortDescription>PG AP F Patient Status</shortDescription>
         <value>Patient Status</value>
+    </labels>
+    <labels>
+        <fullName>PG_AP_F_Patient_Status_Select</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP F Patient Status Select</shortDescription>
+        <value>Select Patient Status</value>
     </labels>
     <labels>
         <fullName>PG_AP_F_Phone_Type</fullName>
@@ -10393,7 +10407,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Upload Participants</shortDescription>
-        <value>Upload Participants</value>
+        <value>Import Participants</value>
     </labels>
     <labels>
         <fullName>SS_Use_This_Address</fullName>
