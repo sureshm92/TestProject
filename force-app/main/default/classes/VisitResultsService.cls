@@ -141,10 +141,10 @@ public inherited sharing class VisitResultsService {
                 this.maxValue = visitResult.Max_Value__c;
                 String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
                 if(measurementNamesMap != null && measurementNamesMap.containsKey(measurementLowerCase)){
-                    this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/','/<br/>');
+                    this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/',' / ');
                 }
                 else{
-                    this.measurement = visitResult.Measurement__c.replace('/','/<br/>');
+                    this.measurement = visitResult.Measurement__c.replace('/',' / ');
                 }
             }
         }
@@ -159,10 +159,10 @@ public inherited sharing class VisitResultsService {
                 this.value = visitResult.Actual_Value__c;
                 String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
                 if(measurementNamesMap != null && measurementNamesMap.containsKey(measurementLowerCase)){
-                    this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/','/<br/>');
+                    this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/',' / ');
                 }
                 else{
-                    this.measurement = visitResult.Measurement__c.replace('/','/<br/>');
+                    this.measurement = visitResult.Measurement__c.replace('/',' / ');
                 }
             }
         }
