@@ -26,6 +26,7 @@
         helper.uploadPaticipants(component, component.get('v.fileBody'),
             component.get('v.fileName'), component.get('v.studySiteId'),
             component.get('v.selectedStatus'));
+        helper.clearFields(component, event, helper);
     },
 
     upload: function(component, event, helper) {
