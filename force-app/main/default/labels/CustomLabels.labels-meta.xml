@@ -503,6 +503,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Activate</value>
     </labels>
     <labels>
+        <fullName>BTN_Activate_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Activate All</shortDescription>
+        <value>Activate All</value>
+    </labels>
+    <labels>
         <fullName>BTN_Add_Patient</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4093,6 +4100,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Home Page Label</shortDescription>
         <value>My Studies</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_RelevantLinks_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RelevantLinks_Title</shortDescription>
+        <value>Relevant Links</value>
     </labels>
     <labels>
         <fullName>Home_Page_StudyVisit_Btn</fullName>

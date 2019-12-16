@@ -66,8 +66,9 @@ public without sharing class NotificationTriggerHandler {
                             Status__c = NotificationService.STATUS_SKIPPED));
                 }
             }
-            insert sendResults;
+
         }
+        insert sendResults;
 
         EmailService.send(emailNotifications);
         SMSService.send(smsNotifications);

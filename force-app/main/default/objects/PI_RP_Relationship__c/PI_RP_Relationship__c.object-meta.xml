@@ -152,14 +152,15 @@
     <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>ControlledByParent</externalSharingModel>
-    <label>Send Result</label>
+    <externalSharingModel>Private</externalSharingModel>
+    <label>PI RP Relationship</label>
     <nameField>
-        <label>Send Result Name</label>
-        <type>Text</type>
+        <displayFormat>PRR-{000000}</displayFormat>
+        <label>PRR</label>
+        <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Send Results</pluralLabel>
+    <pluralLabel>PI RP Relationships</pluralLabel>
     <searchLayouts/>
-    <sharingModel>ControlledByParent</sharingModel>
+    <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
