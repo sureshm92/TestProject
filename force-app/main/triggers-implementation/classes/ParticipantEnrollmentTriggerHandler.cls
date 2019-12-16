@@ -716,11 +716,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 WHERE Id IN :peIds
         ]) {
             notificationList.add(new Notification__c(
-                    Notification_Type__c = 'Message_SS_Was_Changed_For_Participant',
+                    Notification_Type__c = 'Message_to_PT_SS_Was_Changed_Type',
                     Recipient__c = pe.Participant_Contact__c,
                     WhatId__c = pe.Id));
             notificationList.add(new Notification__c(
-                    Notification_Type__c = 'Message_SS_Was_Changed_For_PI',
+                    Notification_Type__c = 'Message_to_PI_SS_Was_Changed_Type',
                     Recipient__c = pe.Study_Site__r.Principal_Investigator__c,
                     WhatId__c = pe.Id));
         }
