@@ -629,6 +629,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Export</value>
     </labels>
     <labels>
+        <fullName>BTN_Export_All</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Export All</shortDescription>
+        <value>Export All</value>
+    </labels>
+    <labels>
         <fullName>BTN_Find_study_sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
