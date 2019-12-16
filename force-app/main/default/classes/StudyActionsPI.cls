@@ -103,6 +103,20 @@ public class StudyActionsPI extends StudyActions{
                 },
                 'green'
         ));
+        actions.put(ACT_HCP_ACTIVATE_FOR_All, new Action(
+                ACT_HCP_ACTIVATE_FOR_ALL,
+                LABEL_HCP_ACTIVATE_FOR_ALL,
+                null,
+                new List<DisableReason>{
+                        level2AndLowReason,
+                        hcpLockedByAdmin,
+                        studySiteOnHoldReason,
+                        studySiteNotAcceptedReason,
+                        studyNoLongerEnrollingReason,
+                        tcAcceptanceRequiredReason
+                },
+                'green'
+        ));
         actions.put(ACT_HCP_APPROVE, new Action(
                 ACT_HCP_APPROVE,
                 LABEL_HCP_APPROVE,

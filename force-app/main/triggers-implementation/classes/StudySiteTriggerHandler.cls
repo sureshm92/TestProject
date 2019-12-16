@@ -32,6 +32,14 @@ public without sharing class StudySiteTriggerHandler {
         }
         
     }
+
+    public class CreateHCPEnrollmentsForRPInWhiteListHandler extends TriggerHandler{
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createHCPEnrollmentsForRPInWhiteList(newList, (Map<Id, Study_Site__c>)oldMap);
+        }
+
+    }
     
     public class CreateStatusHistoryHandler extends TriggerHandler{
     
@@ -235,5 +243,57 @@ public without sharing class StudySiteTriggerHandler {
                 site.Override_Study_Site_Recruitment_Status__c = 'PI cannot accept referrals based on Site status';
             }
         }
+    }
+
+    private static void createHCPEnrollmentsForRPInWhiteList(List<Study_Site__c> newList, Map<Id, Study_Site__c> oldMap){
+        Set<Id> PIds = new Set<Id>();
+        Set<Id> ssIds = new Set<Id>();
+        for(Study_Site__c ss : newList){
+            if(ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_ACCEPTED &&
+                    ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_ACCEPTED_A &&
+                    ss.Override_PI_Referral_Status__c != oldMap.get(ss.id).Override_PI_Referral_Status__c){
+                PIds.add(ss.Principal_Investigator__c);
+                ssIds.add(ss.Id);
+            }
+        }
+        List<PI_RP_Relationship__c> prrList = [
+                SELECT Id,
+                        PI_Contact__c,
+                        RP_Contact__c,
+                        RP_Contact__r.AccountId
+                FROM PI_RP_Relationship__c
+                WHERE PI_Contact__c IN :PIds
+        ];
+        Set<Id> hcpIds = new Set<Id>();
+        for(PI_RP_Relationship__c rpp : prrList){
+            hcpIds.add(rpp.RP_Contact__c);
+        }
+        List<HCP_Enrollment__c> enrollmentList = [
+                SELECt ID,
+                        Name,
+                        Study_Site__c,
+                        HCP_Contact__c
+                FROM HCP_Enrollment__c
+                WHERE Study_Site__c IN :ssIds AND HCP_Contact__c IN :hcpIds
+        ];
+        Set<String> exceptionList = new Set<String>();
+        for(HCP_Enrollment__c enroll : enrollmentList){
+            exceptionList.add(enroll.HCP_Contact__c + '' + enroll.Study_Site__c);
+        }
+        List<HCP_enrollment__c> enrollmentsList = new List<HCP_Enrollment__c>();
+        for(PI_RP_Relationship__c prr : prrList){
+            for(Study_Site__c ss : newList){
+                if(!exceptionList.contains(prr.RP_Contact__c +''+ ss.Id)) {
+                    enrollmentsList.add(new HCP_Enrollment__c(
+                            HCP_Contact__c = prr.RP_Contact__c,
+                            HCP_Account__c = prr.RP_Contact__r.AccountId,
+                            Status__c = HCPEnrollmentService.HCP_S_ACTIVATED,
+                            Study_Site__c = ss.Id
+                    ));
+                }
+            }
+        }
+        System.debug('enrollmentsList>>>'+enrollmentsList);
+        if(!enrollmentList.isEmpty()) insert enrollmentsList;
     }
 }
