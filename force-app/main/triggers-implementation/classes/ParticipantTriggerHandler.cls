@@ -208,13 +208,7 @@ public without sharing class ParticipantTriggerHandler {
 
     @TestVisible
     private static Id getParticipantAccountId(){
-        return DatabaseService.getInstance().queryImpl(
-                new List<String>{
-                    'Id'
-                },
-                Account.getSObjectType(),
-                DatabaseService.fieldEqual('Name', CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME)
-        ).get(0).Id;
+        return [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE].Id;
     }
     
     private static void checkDuplicates(List<Participant__c> newList){
