@@ -724,7 +724,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     Recipient__c = pe.Study_Site__r.Principal_Investigator__c,
                     WhatId__c = pe.Id));
         }
-        System.debug('notificationList>>>'+notificationList);
         if(!notificationList.isEmpty()) insert notificationList;
     }
 }
