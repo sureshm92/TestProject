@@ -1,5 +1,7 @@
 ## Messaging framework
+
 ##### Manual for creating message:
+
 1) In Setup -> Custom Metadata Types -> Notification Type click **Manage Records**
 2) Click **New**
 
@@ -25,6 +27,7 @@ IQVIA Patient Portal
 
 1) In Setup -> Custom Metadata Types -> Notification Target click **Manage Records**
 2) Click **New**
+
 #####How to create: 
 
 - **Notification Target Name**: HCP_Patient_Accepted_Email
@@ -37,13 +40,14 @@ Choose that one you created previously to link them
 (template name in the system)
 - **Email Template Delegate**: (if template for delegate has differences)  
 
-
 ### Do not forget
+
 Write down in NotificationService class your new Notification Type for using later in your code
 ```
 static public String MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE = 'Message_to_PT_has_not_Logged_In_Type';
 ```
 #####How to use it in your logic to send email
+
 1) create Notification for each Contact you need
 ```
 Notification__c notification = new Notification__c();
@@ -51,5 +55,5 @@ Notification__c notification = new Notification__c();
 #####Where: 
 
 - **Recipient__c**: Id field on Contact
-- **WhatId__c**: String field where you can put any SObject Id for addition parameters. For example Participant_Enrollment Id.
+- **WhatId__c**: String field where you can put any SObject Id for addition parameters. For example Participant Enrollment Id.
 - **Notification_Type__c**: Notification Type that you created previously the name ViewFlowUsageAndFlowEventData from Admin.profile

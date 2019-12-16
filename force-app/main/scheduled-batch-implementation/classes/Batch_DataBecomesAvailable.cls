@@ -74,9 +74,9 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
             Patient_Visit__c patientVisit = visitResultObj.Patient_Visit__r;
             patientVisit.Notified__c = true;
             updatedPatientVisits.add(patientVisit);
-            insert notifications;
             update new List<Patient_Visit__c>(updatedPatientVisits);
         }
+        insert notifications;
     }
 
     public override Type getType() {
