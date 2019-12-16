@@ -20,11 +20,11 @@ private class Test_VisitService {
         insert testvisit;
         TestData.loadTestData();
         TestData testData = new TestData();
-        testData.updatePEStatusEnrollmentSuccess();
-
-        insert VisitService.createPatientVisit(testvisit, testData.pe.Id);
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
         Test.startTest();
+        testData.updatePEStatusEnrollmentSuccess();
+        insert VisitService.createPatientVisit(testvisit, testData.pe.Id);
+        
         List<Visit__c> visits;
         System.runAs(testData.participantUser) {
             visits = VisitService.getInstance().getVisits(null);
@@ -68,11 +68,12 @@ private class Test_VisitService {
         insert testvisit;
         TestData.loadTestData();
         TestData testData = new TestData();
-        testData.updatePEStatusEnrollmentSuccess();
 
-        insert VisitService.createPatientVisit(testvisit, testData.pe.Id);
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
         Test.startTest();
+        testData.updatePEStatusEnrollmentSuccess();
+        insert VisitService.createPatientVisit(testvisit, testData.pe.Id);
+
         List<Visit__c> visits;
         System.runAs(testData.participantUser) {
             visits = VisitService.getInstance().getPreviewVisits();
