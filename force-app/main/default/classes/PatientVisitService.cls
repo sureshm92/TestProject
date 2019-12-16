@@ -54,6 +54,7 @@ public inherited sharing class PatientVisitService {
         List<Patient_Visit__c> patientVisits = (List<Patient_Visit__c>) DatabaseService.query(
                 new List<String>{
                         'Id',
+                        'Name',
                         'Completed_Date__c',
                         'Status__c',
                         'Planned_Date__c',

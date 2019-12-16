@@ -1,0 +1,27 @@
+<messaging:emailTemplate subject="Test SS Changed on PE"
+                         recipientType="User"
+                         relatedToType="Participant_Enrollment__c"
+                         language="{!relatedTo.Participant_Contact__r.Language__c}">
+
+    <messaging:htmlEmailBody >
+        <c:EmailTemplate userType="Participant"
+                         sourceId="{!relatedTo.Id}"
+                         header="Test SS Changed on PE Participant"
+                         title="Test SS Changed on PE Participant"
+                         greeting="Test SS Changed on PE Participant"
+                         body="Test SS Changed on PE Participant"
+                         signature="Test SS Changed on PE Participant">
+        </c:EmailTemplate>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailTemplateText userType="Participant"
+                             sourceId="{!relatedTo.Id}"
+                             header="Test SS Changed on PE Participant"
+                             title="Test SS Changed on PE Participant"
+                             greeting="Test SS Changed on PE Participant"
+                             body="Test SS Changed on PE Participant"
+                             signature="Test SS Changed on PE Participant">
+        </c:EmailTemplateText>
+    </messaging:plainTextEmailBody> 
+</messaging:emailTemplate>
