@@ -3373,6 +3373,13 @@ The IQVIA Patient Portal Support Team</value>
         <value>Can not create participant</value>
     </labels>
     <labels>
+        <fullName>Error_Message_Can_Not_Use_Visit_Plan</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error Message Can Not Use Visit Plan</shortDescription>
+        <value>Participant's visit plan is not available for that study site. Please determine if participant's visit plan can still be changed or if the study site is not appropriate for this participant and proceed accordingly.</value>
+    </labels>
+    <labels>
         <fullName>Error_Message_Participant_Duplicate</fullName>
         <language>en_US</language>
         <protected>true</protected>
