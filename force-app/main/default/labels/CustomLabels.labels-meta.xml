@@ -11649,6 +11649,20 @@ Please check your CAPS lock key.</value>
         <value>Update Participant</value>
     </labels>
     <labels>
+        <fullName>VPN_AddDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>VPN AddDate</shortDescription>
+        <value>Add visit date</value>
+    </labels>
+    <labels>
+        <fullName>VPN_Sel_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>VPN Sel Date</shortDescription>
+        <value>Select date</value>
+    </labels>
+    <labels>
         <fullName>VR_ALT</fullName>
         <language>en_US</language>
         <protected>true</protected>

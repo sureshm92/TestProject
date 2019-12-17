@@ -1763,6 +1763,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_UploadParticipantsRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_UserService</apexClass>
         <enabled>true</enabled>
     </classAccesses>

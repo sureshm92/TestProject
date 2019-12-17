@@ -21,7 +21,7 @@ public without sharing class BatchControlPanelRemote {
     };
 
     @AuraEnabled(Cacheable = true)
-    public static String getData() {
+    public static PanelWrapper getData() {
         try {
             List<ApexClass> batches = (List<ApexClass>) [FIND :SCHEDULED_EXTENDS IN ALL FIELDS RETURNING ApexClass(Id, Name)][0];
             List<String> batchNames = new List<String>();
@@ -49,15 +49,15 @@ public without sharing class BatchControlPanelRemote {
                 wrapper.intervalMods.add(ple.value);
             }
 
-            wrapper.jobWrappers = (List<JobWrapper>) JSON.deserialize(getJobs(), List<JobWrapper>.class);
-            return JSON.serialize(wrapper);
+            wrapper.jobWrappers = getJobs();
+            return wrapper;
         } catch (Exception e) {
-            return (String) AuraHelper.throwException(e);
+            return (PanelWrapper) AuraHelper.throwException(e);
         }
     }
 
     @AuraEnabled
-    public static String getJobs() {
+    public static List<JobWrapper> getJobs() {
         try {
             List<Batch_Detail__c> batchDetails = [
                     SELECT
@@ -125,9 +125,9 @@ public without sharing class BatchControlPanelRemote {
                 jobWrappers.add(new JobWrapper(detail, scheduledBatches, runningBatches, completedJobs, abortedJobs));
             }
 
-            return JSON.serialize(jobWrappers);
+            return jobWrappers;
         } catch (Exception e) {
-            return (String) AuraHelper.throwException(e);
+            return (List<JobWrapper>) AuraHelper.throwException(e);
         }
     }
 
@@ -135,8 +135,8 @@ public without sharing class BatchControlPanelRemote {
     public static JobWrapper getState(String jobName) {
         try {
             JobWrapper wrapper;
-            for (JobWrapper jw : (List<JobWrapper>) JSON.deserialize(getJobs(), List<JobWrapper>.class)) {
-                if (jw.jobName.equals(jobName)) {
+            for (JobWrapper jw : getJobs()) {
+                if (jw.detail.Name.equals(jobName)) {
                     wrapper = jw;
                     break;
                 }
@@ -150,48 +150,49 @@ public without sharing class BatchControlPanelRemote {
     }
 
     @AuraEnabled
-    public static String addBatch(String detail) {
+    public static PanelWrapper addBatch(Batch_Detail__c detail) {
         try {
-            Batch_Detail__c batchDetail = (Batch_Detail__c) JSON.deserialize(detail, Batch_Detail__c.class);
-            insert batchDetail;
-
-            if(batchDetail.First_launch_DT__c != null && batchDetail.First_launch_DT__c > Datetime.now().addMinutes(1)) {
-                Integer minutes = Batch_ScheduledAbstract.getMinutesByMode(
-                        batchDetail.Interval_Mode__c, batchDetail.Relaunch_Interval__c.intValue());
-                System.scheduleBatch((Database.Batchable<SObject>)
-                        Type.forName(batchDetail.Name).newInstance(),
-                        batchDetail.Name,
-                        minutes,
-                        batchDetail.Scope_Size__c.intValue()
-                );
-            }
+            insert detail;
 
             return getData();
         } catch (Exception e) {
-            return (String) AuraHelper.throwException(e);
+            return (PanelWrapper) AuraHelper.throwException(e);
         }
     }
 
     @AuraEnabled
-    public static String deleteBatch(String detailId) {
+    public static PanelWrapper deleteBatch(String detailId) {
         try {
             delete [SELECT Id FROM Batch_Detail__c WHERE Id = :detailId];
 
             return getData();
         } catch (Exception e) {
-            return (String) AuraHelper.throwException(e);
+            return (PanelWrapper) AuraHelper.throwException(e);
         }
     }
 
     @AuraEnabled
-    public static void runBatch(String jobName) {
+    public static Boolean runBatch(String wrapper) {
         try {
-            JobWrapper jobWrapper = getState(jobName);
-            if (jobWrapper.jobId == null) {
-                Database.executeBatch((Database.Batchable<SObject>) Type.forName(jobWrapper.jobName).newInstance());
+            JobWrapper jobWrapper = (JobWrapper) JSON.deserialize(wrapper, JobWrapper.class);
+            if (getState(jobWrapper.detail.Name).jobId == null) {
+                if(jobWrapper.nextSchedule != null) {
+                    Integer minutes = (Integer) (jobWrapper.nextSchedule.getTime() - Datetime.now().getTime()) / 60000;
+                    if(minutes <= 0) return false;
+
+                    System.scheduleBatch((Database.Batchable<SObject>)
+                            Type.forName(jobWrapper.detail.Name).newInstance(),
+                            jobWrapper.detail.Name,
+                            minutes,
+                            jobWrapper.detail.Scope_Size__c.intValue()
+                    );
+                } else {
+                    Database.executeBatch((Database.Batchable<SObject>) Type.forName(jobWrapper.detail.Name).newInstance());
+                }
             }
+            return true;
         } catch (Exception e) {
-            AuraHelper.throwException(e);
+            return (Boolean) AuraHelper.throwException(e);
         }
     }
 
@@ -207,17 +208,14 @@ public without sharing class BatchControlPanelRemote {
 
     public class JobWrapper {
         @AuraEnabled public String css;
-        @AuraEnabled public String label;
+        @AuraEnabled public Batch_Detail__c detail;
         @AuraEnabled public String jobId;
-        @AuraEnabled public String detailId;
-        @AuraEnabled public String jobName;
         @AuraEnabled public AsyncApexJob prevJob;
         @AuraEnabled public Datetime prevLaunch;
         @AuraEnabled public Datetime nextLaunch;
+        @AuraEnabled public Datetime nextSchedule;
         @AuraEnabled public String state;
         @AuraEnabled public Boolean isStopped;
-        @AuraEnabled public String intervalMode;
-        @AuraEnabled public Integer interval;
 
         public JobWrapper(
                 Batch_Detail__c detail,
@@ -226,32 +224,28 @@ public without sharing class BatchControlPanelRemote {
                 Map<String, AsyncApexJob> completedJobs,
                 Map<String, AsyncApexJob> abortedJobs
         ) {
-            this.jobName = detail.Name;
-            this.detailId = detail.Id;
-            this.label = detail.Panel_Label__c;
-            this.intervalMode = detail.Interval_Mode__c;
-            this.interval = (Integer) detail.Relaunch_Interval__c;
+            this.detail = detail;
 
             isStopped = true;
-            if (completedJobs.containsKey(jobName)) {
-                prevJob = completedJobs.get(jobName);
-                prevLaunch = completedJobs.get(jobName).CompletedDate;
+            if (completedJobs.containsKey(detail.Name)) {
+                prevJob = completedJobs.get(detail.Name);
+                prevLaunch = completedJobs.get(detail.Name).CompletedDate;
                 Long prevExecutionMs = System.now().getTime() - prevJob.CompletedDate.getTime();
                 isStopped = prevExecutionMs > 30000;
             }
 
-            if (asyncBatches.containsKey(jobName)) {
+            if (asyncBatches.containsKey(detail.Name)) {
                 css = CSS_RUNNING;
-                jobId = asyncBatches.get(jobName).Id;
+                jobId = asyncBatches.get(detail.Name).Id;
                 state = STATE_RUNNING;
                 isStopped = false;
-            } else if (scheduledBatches.containsKey(jobName)) {
+            } else if (scheduledBatches.containsKey(detail.Name)) {
                 css = CSS_RUNNING;
-                jobId = scheduledBatches.get(jobName).Id;
+                jobId = scheduledBatches.get(detail.Name).Id;
                 state = STATE_SCHEDULED;
                 isStopped = false;
-                nextLaunch = scheduledBatches.get(jobName).NextFireTime;
-            } else if (abortedJobs.containsKey(jobName) || (completedJobs.isEmpty() && abortedJobs.isEmpty()) || isStopped) {
+                nextLaunch = scheduledBatches.get(detail.Name).NextFireTime;
+            } else if (abortedJobs.containsKey(detail.Name) || (completedJobs.isEmpty() && abortedJobs.isEmpty()) || isStopped) {
                 state = STATE_STOPPED;
                 css = CSS_STOPPED;
             } else {
