@@ -98,7 +98,8 @@ public with sharing class CTPNotificationTriggerHandler {
                 SELECT Id,
                         Participant__c,
                         Participant__r.Contact__c,
-                        Clinical_Trial_Profile__c
+                        Clinical_Trial_Profile__c,
+                        Participant_Status__c
                 FROM Participant_Enrollment__c
                 WHERE Clinical_Trial_Profile__c IN :completedCTPIds
                 AND (Participant_Status__c NOT IN :PEStatusState.STATUSES_FAILED
@@ -112,9 +113,9 @@ public with sharing class CTPNotificationTriggerHandler {
             participantIds.add(pe.Participant__c);
             if(ctpIdsByPE.containsKey(pe.Clinical_Trial_Profile__c)) ctpIdsByPE.get(pe.Clinical_Trial_Profile__c).add(pe);
             else ctpIdsByPE.put(pe.Clinical_Trial_Profile__c, new List<Participant_Enrollment__c>{pe});
-            //pe.Participant_Status__c = PEStatusState.PE_STATUS_TRIAL_COMPLETE;
+            pe.Participant_Status__c = PEStatusState.PE_STATUS_TRIAL_COMPLETE;
         }
-        insert participantContacts;
+        update participantContacts;
 
         Map<Id, List<Id>> partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(participantIds);
 
