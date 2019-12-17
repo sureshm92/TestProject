@@ -6011,6 +6011,13 @@ View study documents and other resources including articles and videos related t
         <value>updates about your referral status</value>
     </labels>
     <labels>
+        <fullName>PG_AS_L_Opt_In_Participant_Status_SMS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS L Opt In Participant Status SMS</shortDescription>
+        <value>I want to receive SMS on my phone number</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_L_Opt_In_Visit_Results</fullName>
         <language>en_US</language>
         <protected>true</protected>

@@ -17,6 +17,12 @@ public with sharing class PENotificationTriggerHandler {
         }
     }
 
+    public class SendEmailIfSSWasChanged extends TriggerHandler {
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            sendEmailIfSSWasChanged((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
+
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
@@ -72,5 +78,34 @@ public with sharing class PENotificationTriggerHandler {
 
         if (listNotificationForHCP != null) insert listNotificationForHCP;
         if (listNotificationForPatient != null) insert listNotificationForPatient;
+    }
+
+    @TestVisible
+    private static void sendEmailIfSSWasChanged(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+        List<Notification__c> notificationList = new List<Notification__c>();
+        List<Id> peIds = new List<Id>();
+        for (Participant_Enrollment__c pe : newList) {
+            if (pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c) {
+                peIds.add(pe.Id);
+            }
+        }
+        for (Participant_Enrollment__c pe : [
+                SELECT Id,
+                        Study_Site__c,
+                        Study_Site__r.Principal_Investigator__c,
+                        Participant_Contact__c
+                FROM Participant_Enrollment__c
+                WHERE Id IN :peIds
+        ]) {
+            notificationList.add(new Notification__c(
+                    Notification_Type__c = NotificationService.MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE,
+                    Recipient__c = pe.Participant_Contact__c,
+                    WhatId__c = pe.Id));
+            notificationList.add(new Notification__c(
+                    Notification_Type__c = NotificationService.MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE,
+                    Recipient__c = pe.Study_Site__r.Principal_Investigator__c,
+                    WhatId__c = pe.Id));
+        }
+        if(!notificationList.isEmpty()) insert notificationList;
     }
 }
