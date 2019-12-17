@@ -26,7 +26,7 @@
                             <div class="label">{!$Label.c.PS_Enrollment_Date}</div>
                             <div class="value">
                                 <div class="rp-max-length">
-                                    <ui:outputDate format="MM-dd-yyyy" value="{!v.pe.Enrolled_Date__c}" />
+                                    <ui:outputDate format="MM-dd-yyyy" value="{!v.pe.Enrolled_Date__c}"/>
                                 </div>
                             </div>
                         </div>
@@ -45,11 +45,13 @@
                         <c:VisitSummaryReportLink peId="{!v.pe.Id}"/>
                     </div>
                 </aura:if>
-                <aura:iteration items="{!v.resources}" var="resourceWrapper">
-                    <div class="resource-item">
-                        <c:ResourceLink resourceWrapper="{!resourceWrapper}"/>
-                    </div>
-                </aura:iteration>
+                <aura:if isTrue="{!v.ctp.Study_Documents_Are_Available__c}">
+                    <aura:iteration items="{!v.resources}" var="resourceWrapper">
+                        <div class="resource-item">
+                            <c:ResourceLink resourceWrapper="{!resourceWrapper}"/>
+                        </div>
+                    </aura:iteration>
+                </aura:if>
             </div>
         </div>
     </div>
