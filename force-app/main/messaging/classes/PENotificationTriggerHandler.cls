@@ -33,6 +33,7 @@ public with sharing class PENotificationTriggerHandler {
                 SELECT Id,
                         HCP_Contact_HCPEnroll__c,
                         Participant__r.Contact__c,
+                        Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                         Participant_Status__c,
                         Is_Virtual_Study_Site__c,
                         Referral_Source__c,
@@ -57,6 +58,15 @@ public with sharing class PENotificationTriggerHandler {
                 notifyPTType =
                         pe.Is_Virtual_Study_Site__c ? NotificationService.checkPatientNotificationVTType(pe)
                                 : NotificationService.checkPatientNotificationType(pe, !NotificationService.participantStatusListForPT.contains(pe.Participant_Status__c));
+                //Forming additional notification for Enrollment Success
+                if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+                        && pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
+                    listNotificationForPatient.add(new Notification__c(
+                            Recipient__c = pe.Participant__r.Contact__c,
+                            WhatId__c = pe.Id,
+                            Notification_Type__c = NotificationService.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE
+                    ));
+                }
             }
 
             if (notifyHCPType != null) {

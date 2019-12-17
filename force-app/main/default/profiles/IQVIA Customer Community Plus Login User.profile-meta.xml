@@ -47,6 +47,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Action_UploadParticipantsRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AddPatientByPIRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1739,6 +1743,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_UploadParticipantsRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_UserService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1881,6 +1889,10 @@
     <classAccesses>
         <apexClass>UpdateDelegatesBatchTest</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UploadParticipantsBatch</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>UserService</apexClass>
@@ -6514,6 +6526,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Participant_Enrollment__c-Participant Profile Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Participant_Site_History__c-Participant Site History Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Participant_Status_Integration__mdt-Participant Status Integration Layout</layout>

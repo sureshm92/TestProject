@@ -1032,7 +1032,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>BTN Upload Patient</shortDescription>
-        <value>Upload Participants</value>
+        <value>Import Participant File</value>
     </labels>
     <labels>
         <fullName>BTN_View</fullName>
@@ -3371,6 +3371,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>Error Message Can Not Create Participant</shortDescription>
         <value>Can not create participant</value>
+    </labels>
+    <labels>
+        <fullName>Error_Message_Can_Not_Use_Visit_Plan</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error Message Can Not Use Visit Plan</shortDescription>
+        <value>Participant's visit plan is not available for that study site. Please determine if participant's visit plan can still be changed or if the study site is not appropriate for this participant and proceed accordingly.</value>
     </labels>
     <labels>
         <fullName>Error_Message_Participant_Duplicate</fullName>
@@ -11647,6 +11654,20 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Update Participant</shortDescription>
         <value>Update Participant</value>
+    </labels>
+    <labels>
+        <fullName>VPN_AddDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>VPN AddDate</shortDescription>
+        <value>Add visit date</value>
+    </labels>
+    <labels>
+        <fullName>VPN_Sel_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>VPN Sel Date</shortDescription>
+        <value>Select date</value>
     </labels>
     <labels>
         <fullName>VR_ALT</fullName>

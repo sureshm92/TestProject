@@ -8,8 +8,8 @@ import formFactor from '@salesforce/client/formFactor';
 import addLabel from '@salesforce/label/c.Add_Date';
 import saveBTNLabel from '@salesforce/label/c.BTN_Save';
 import cancelBTNLabel from '@salesforce/label/c.BTN_Cancel';
-import selDate from '@salesforce/label/c.Select_Planned_Date';
-import planDate from '@salesforce/label/c.Planned_Date';
+import planDate from '@salesforce/label/c.VPN_AddDate';
+import selDate from '@salesforce/label/c.VPN_Sel_Date';
 
 import getCardVisits from '@salesforce/apex/ParticipantVisitsRemote.getCardPatientVisits';
 import updatePV from '@salesforce/apex/ParticipantVisitsRemote.updatePatientVisit';

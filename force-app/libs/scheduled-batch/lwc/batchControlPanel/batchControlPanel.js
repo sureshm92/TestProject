@@ -19,20 +19,21 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     @track notAddedBatches;
     @track showAddNew;
     mods;
+
     @track jobs;
+    @track jobMap = new Map();
+
     @track initialized = false;
     @track inProcess = false;
     spinner;
 
     //Add new batch
     @track batchDetail;
-
     @track batchClass;
     @track batchLabel;
     @track batchIntervalMode;
     @track batchInterval;
     @track batchScopeSize;
-    @track launchTime;
 
     connectedCallback() {
         this.resetInputFields();
@@ -45,15 +46,43 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
                     this.inProcess = true;
                     getJobs()
                         .then(data => {
-                            let jobs = JSON.parse(data);
-                            this.jobs = jobs.length > 0 ? jobs : undefined;
+                            if(this.jobs) {
+                                this.jobMap.clear();
+                                let context = this;
+                                this.jobs.forEach(function (job) {
+                                    context.jobMap.set(job.detail.Id, job);
+                                });
+
+                                data.forEach(function (job) {
+                                    if (context.jobMap.has(job.detail.Id)) {
+                                        let jw = context.jobMap.get(job.detail.Id);
+                                        jw.css = job.css;
+                                        jw.detail = job.detail;
+                                        jw.jobId = job.jobId;
+                                        jw.prevJob = job.prevJob;
+                                        jw.prevLaunch = job.prevLaunch;
+                                        jw.nextLaunch = job.nextLaunch;
+                                        jw.state = job.state;
+                                        jw.isStopped = job.isStopped;
+                                        context.jobMap.set(job.detail.Id, jw);
+                                    } else {
+                                        context.jobMap.set(job.detail.Id, job);
+                                    }
+                                });
+
+                                let tmpJobs = [];
+                                this.jobMap.forEach(function (value) {
+                                    tmpJobs.push(value);
+                                });
+
+                                this.jobs = tmpJobs;
+                            }
 
                             this.inProcess = false;
                         })
                         .catch(error => {
                             console.log('Interval refresh error: ' + JSON.stringify(error));
                         });
-
                 }
             }
         }, 1500);
@@ -62,11 +91,33 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     @wire(getData)
     wireData({data}) {
         if (data) {
-            let wrapper = JSON.parse(data);
+            let wrapper = data;
             this.notAddedBatches = wrapper.availableBatches;
             this.showAddNew = this.notAddedBatches.length > 0;
             this.mods = wrapper.intervalMods;
-            this.jobs = wrapper.jobWrappers.length > 0 ? wrapper.jobWrappers : undefined;
+
+            let context = this;
+            wrapper.jobWrappers.forEach(function (jw) {
+                let job = {
+                    css: jw.css,
+                    detail: jw.detail,
+                    jobId: jw.jobId,
+                    prevJob: jw.prevJob,
+                    prevLaunch: jw.prevLaunch,
+                    nextLaunch: jw.nextLaunch,
+                    state: jw.state,
+                    isStopped: jw.isStopped,
+                    nextSchedule: null
+                };
+                context.jobMap.set(job.detail.Id, job);
+            });
+
+            if(this.jobMap.size > 0) {
+                this.jobs = [];
+                this.jobMap.forEach(function (value) {
+                    context.jobs.push(value);
+                });
+            }
 
             this.resetInputFields();
             if (!this.initialized) this.initialized = true;
@@ -101,20 +152,49 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     }
 
     //Batch Action Handlers: -------------------------------------------------------------------------------------------
+    handleSetLaunchTime(event) {
+        let jobDetailId = event.currentTarget.dataset.id;
+        let nextDT = event.target.value;
+
+        try {
+            let tmpJobs = [];
+            this.jobs.forEach(function (job) {
+                if (job.detail.Id === jobDetailId) job.nextSchedule = nextDT;
+                tmpJobs.push(job);
+            });
+            this.jobs = tmpJobs;
+        } catch (e) {
+            console.log('Error' + JSON.stringify(e));
+        }
+    }
+
     handleRun(event) {
         let jobName = event.target.value;
+        let wrapper;
+        this.jobs.forEach(function (job) {
+            if (job.detail.Name === jobName) wrapper = job;
+        });
         this.spinner.show();
         this.inProcess = true;
 
-        runBatch({jobName: jobName})
-            .then(() => {
-                this.waitStateChange(jobName, 'RUNNING,SCHEDULED', this.spinner, () => {
-                    this.showToast('', 'Batch launched successfully!', 'success');
+        if (wrapper) {
+            runBatch({wrapper: JSON.stringify(wrapper)})
+                .then((data) => {
+                    if(data) {
+                        this.waitStateChange(jobName, 'RUNNING,SCHEDULED', this.spinner, () => {
+                            this.showToast('', 'Batch launched successfully!', 'success');
+                        });
+                    } else {
+                        alert('Only future are supported!');
+                        this.spinner.hide();
+                    }
+
+                })
+                .catch(error => {
+                    console.log('Error in: handleRun(' + jobName + ') ' + JSON.stringify(error));
+                    this.spinner.hide();
                 });
-            })
-            .catch(error => {
-                console.log('Error in: handleRun(' + jobName + ') ' + JSON.stringify(error));
-            });
+        }
     }
 
     handleStop(event) {
@@ -140,7 +220,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
 
         deleteBatch({detailId: detailId})
             .then(data => {
-                let wrapper = JSON.parse(data);
+                let wrapper = data;
                 this.notAddedBatches = wrapper.availableBatches;
                 this.showAddNew = this.notAddedBatches.length > 0;
                 this.jobs = wrapper.jobWrappers.length > 0 ? wrapper.jobWrappers : undefined;
@@ -170,7 +250,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     //Create Record Handlers: ------------------------------------------------------------------------------------------
     handleClassChange(event) {
         this.batchDetail.Name = event.target.value;
-        this.batchDetail.Panel_Label__c = this.batchDetail.Name.substring(6,this.batchDetail.Name.length);
+        this.batchDetail.Panel_Label__c = this.batchDetail.Name.substring(6, this.batchDetail.Name.length);
     }
 
     handleLabelChange(event) {
@@ -189,31 +269,25 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
         this.batchDetail.Scope_Size__c = event.target.value;
     }
 
-    handleLaunchDTChange(event) {
-        this.batchDetail.First_launch_DT__c = event.target.value;
-    }
-
     handleAddBatch(event) {
         if (!this.batchDetail.Name || !this.batchDetail.Panel_Label__c) {
             this.showToast('Failed', 'Please fill required fields');
             return;
         }
 
-        if(!this.batchDetail.Relaunch_Interval__c || this.batchDetail.Relaunch_Interval__c === 0) {
+        if (!this.batchDetail.Relaunch_Interval__c || this.batchDetail.Relaunch_Interval__c === 0) {
             this.batchDetail.Relaunch_Interval__c = 10;
         }
-        if(!this.batchDetail.Scope_Size__c || this.batchDetail.Scope_Size__c === 0) {
+        if (!this.batchDetail.Scope_Size__c || this.batchDetail.Scope_Size__c === 0) {
             this.batchDetail.Scope_Size__c = 200;
         }
 
         this.inProcess = true;
         this.spinner.show();
 
-        addBatch({
-            detail: JSON.stringify(this.batchDetail)
-        })
+        addBatch({detail: this.batchDetail})
             .then(data => {
-                let wrapper = JSON.parse(data);
+                let wrapper = data;
                 this.notAddedBatches = wrapper.availableBatches;
                 this.jobs = wrapper.jobWrappers.length > 0 ? wrapper.jobWrappers : undefined;
 
@@ -247,7 +321,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     resetInputFields() {
         this.batchDetail = {
             objectApiName: 'Batch_Detail__c',
-            Interval_Mode__c:'Minutes',
+            Interval_Mode__c: 'Minutes',
             Relaunch_Interval__c: 10,
             Scope_Size__c: 200
         };
@@ -261,7 +335,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
                 if (waitedState.indexOf(wrapper.state) !== -1) {
                     let jobList = this.jobs;
                     for (let i = 0; i < jobList.length; i++) {
-                        if (jobList[i].jobName === jobName) {
+                        if (jobList[i].detail.Name === jobName) {
                             jobList[i] = wrapper;
                             break;
                         }
