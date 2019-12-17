@@ -38,6 +38,8 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_PT_NEW_STDDOC_TYPE = 'Message_to_PT_New_StdDoc_Type';
     static public String MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE = 'Message_to_PT_has_not_Logged_In_Type';
     static public String MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE = 'Message_to_PT_CTP_Trial_Complete_Type';
+    static public String MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE = 'Message_to_PT_SS_Was_Changed_Type';
+    static public String MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE = 'Message_to_PI_SS_Was_Changed_Type';
 
     static public String STATUS_SKIPPED = 'Skipped';
     static public String STATUS_FAILED = 'Failed';
@@ -57,7 +59,7 @@ public without sharing class NotificationService {
 
     static {
         List<Notification_Type__mdt> notifTypes = [
-                SELECT Id, DeveloperName, Org_Wide_Email_Address__c, Recipient_Type__c,(
+                SELECT Id, DeveloperName, Recipient_Type__c,(
                         SELECT Id, Email_Template__c, Email_Template_Delegate__c, Target_Type__c,
                                 Message_Body__c, Org_Wide_Email_Address__c
                         FROM Notification_Targets__r)
@@ -209,4 +211,19 @@ public without sharing class NotificationService {
         return topics;
     }
 
+    public static void sendSimpleNotification(Map<Id, List<Id>> recipientIdsByWhatIds, String notificationType) {
+        if(String.isBlank(notificationType)) return;
+        List<Notification__c> notifications = new List<Notification__c>();
+        for(Id whatId : recipientIdsByWhatIds.keySet()){
+            for(Id contactId : recipientIdsByWhatIds.get(whatId)){
+                notifications.add(
+                        new Notification__c(
+                                Recipient__c = contactId,
+                                WhatId__c = whatId,
+                                Notification_Type__c = notificationType)
+                );
+            }
+        }
+        insert notifications;
+    }
 }

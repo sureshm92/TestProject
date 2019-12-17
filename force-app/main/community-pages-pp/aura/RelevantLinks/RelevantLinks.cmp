@@ -5,7 +5,6 @@
 <aura:component description="RelevantLinks" controller="RelevantLinksRemote"
                 implements="forceCommunity:availableForAllPageTypes">
 
-    <aura:attribute name="ctpId" type="String" required="true"/>
     <aura:attribute name="vendors" type="Object[]"/>
     <aura:attribute name="studySiteId" type="String"/>
     <aura:attribute name="travelVendorsAvailable" type="Boolean" default="true"/>

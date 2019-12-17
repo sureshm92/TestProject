@@ -15,6 +15,7 @@
     <aura:attribute name="fileName" type="String"/>
     <aura:attribute name="fileType" type="String"/>
     <aura:attribute name="fileBody" type="String"/>
+    <aura:attribute name="fullFileName" type="String"/>
 
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
@@ -25,18 +26,26 @@
 
     <div class="mrc-invite-popup">
         <c:Popup aura:id="uploadParticipantsDialog" title="{!$Label.c.SS_Upload_Participants}" size="medium">
+            <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
             <div class="slds-grid slds-grid_vertical">
                 <div class="slds-grid slds-wrap slds-scrollable">
                     <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small">
-                            <div class="input-fields-labels"><abbr class="slds-required" title="required">* </abbr><b>Add File (.CSV, .XLS &amp; .XLSX):</b></div>
-                            <ui:outputURL aura:id="oURL" value="{!$Resource.PARTICIPANTS_TEMPLATE}" label="Sample Template"/>
+                            <div class="input-fields-labels"><abbr class="slds-required" title="required">* </abbr><b>Add File:</b><span style="float: right;"><ui:outputURL aura:id="oURL" value="{!$Resource.PARTICIPANTS_TEMPLATE}" label="Download Template"/></span></div>
                         </div>
                     </div>
                 </div>
                 <div class="slds-grid slds-wrap slds-scrollable">
                     <div class="slds-size_2-of-2 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small">
+                            <div class="input-fields-labels" style="color: blue;">
+                                {!v.fullFileName}
+                                <aura:if isTrue="{!!empty(v.fullFileName)}">
+                                    <a href="javascript:void(0)" onclick="{!c.doClearFile}">
+                                        <c:RRIcon color="blue" iconName="icon-close"/>
+                                    </a>
+                                </aura:if>
+                            </div>
                             <lightning:input aura:id="file-input" type="file" files="{!v.FileList}" accept=".xls, .xlsx, .csv"
                                              name="file" multiple="false" onchange="{!c.upload}"/>
                         </div>
@@ -45,7 +54,7 @@
                 <div class="slds-grid slds-wrap slds-scrollable">
                     <div class="slds-size_2-of-2 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small">
-                            <div class="input-fields-labels"><b>Select Patient Status</b></div>
+                            <div class="input-fields-labels"><b>{!$Label.c.PG_AP_F_Patient_Status_Select}</b></div>
                         </div>
                     </div>
                 </div>
@@ -59,19 +68,17 @@
                                         class="delegate-select"
                                         placeholder="{!$Label.c.PG_AC_Select}"
                                         useSentenceFont="false"/>
-
                         </div>
                     </div>
                 </div>
             </div>
 
             <aura:set attribute="footerButtons">
-                <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
                 <button class="apollo-btn secondary" onclick="{!c.doCancel}">
                     {!$Label.c.BTN_Cancel}
                 </button>
                 <button class="apollo-btn primary" onclick="{!c.doImport}"
-                        disabled="{!!v.reqFieldsFilled}"
+                        disabled="{!empty(v.selectedStatus)||empty(v.fileName)}"
                         title="{!empty(v.selectedStatus)||empty(v.fileName) ? $Label.c.PG_MRC_RF_Not_all_Req_Fields : ''}">
                     {!$Label.c.BTN_Import}
                 </button>

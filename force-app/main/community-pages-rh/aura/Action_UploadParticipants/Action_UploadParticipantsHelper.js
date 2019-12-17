@@ -18,6 +18,7 @@
 
     clearFields: function (component, event, helper) {
         component.set("v.FileList", []);
+        component.set("v.fullFileName", '');
         component.set("v.fileName", '');
         component.set("v.fileType", '');
         component.set("v.fileBody", '');

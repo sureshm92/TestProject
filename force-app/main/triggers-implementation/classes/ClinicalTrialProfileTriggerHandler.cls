@@ -14,6 +14,7 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap){
             overrideStatusChangedBy(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
             populateOverrideFields(newList);
+            populateDateOnTrialComplete(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
         }
 
         public override void afterInsert(List<SObject> newList) {
@@ -154,5 +155,15 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
         }
 
         if(!forUpdateContacts.isEmpty()) update forUpdateContacts;
+    }
+
+    private static void populateDateOnTrialComplete(List<SObject> newList, Map<Id, Clinical_Trial_Profile__c> oldMap) {
+        for(Object obj : newList){
+            Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) obj;
+            if(oldMap != null && ctp.Status__c == ClinicalTrialProfileService.STATUS_COMPLETED
+                && oldMap.get(ctp.Id).Status__c != ctp.Status__c) {
+                ctp.Trial_Complete__c = Date.today();
+            }
+        }
     }
 }

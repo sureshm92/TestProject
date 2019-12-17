@@ -3,6 +3,10 @@
     <label>Patient Status Update Email</label>
     <protected>false</protected>
     <values>
+        <field>Email_Template_Delegate__c</field>
+        <value xsi:type="xsd:string">Patient9_Referral_Status_Update</value>
+    </values>
+    <values>
         <field>Email_Template__c</field>
         <value xsi:type="xsd:string">Patient9_Referral_Status_Update</value>
     </values>
@@ -13,6 +17,10 @@
     <values>
         <field>Notification_Type__c</field>
         <value xsi:type="xsd:string">Message_to_PT_Ref_Status_Update_Type</value>
+    </values>
+    <values>
+        <field>Org_Wide_Email_Address__c</field>
+        <value xsi:type="xsd:string">IQVIA Patient Portal</value>
     </values>
     <values>
         <field>Target_Type__c</field>
