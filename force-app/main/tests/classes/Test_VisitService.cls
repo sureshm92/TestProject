@@ -14,16 +14,17 @@ private class Test_VisitService {
                 Visit_Schedule__c = 'Week1',
                 Icons__c = 'icon-ecg',
                 Order__c = 1,
-                Visit_Plan__c = vp.Id
+                Visit_Plan__c = vp.Id,
+                Patient_Portal_Name__c = 'PPName'
         );
         insert testvisit;
         TestData.loadTestData();
         TestData testData = new TestData();
-        testData.updatePEStatusEnrollmentSuccess();
-
-        insert VisitService.createPatientVisit(testvisit, testData.pe.Id);
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
         Test.startTest();
+        testData.updatePEStatusEnrollmentSuccess();
+        insert VisitService.createPatientVisit(testvisit, testData.pe.Id);
+
         List<Visit__c> visits;
         System.runAs(testData.participantUser) {
             visits = VisitService.getInstance().getVisits(null);
@@ -61,16 +62,18 @@ private class Test_VisitService {
                 Visit_Schedule__c = 'Week1',
                 Icons__c = 'icon-ecg',
                 Order__c = 1,
-                Visit_Plan__c = vp.Id
+                Visit_Plan__c = vp.Id,
+                Patient_Portal_Name__c = 'PPName'
         );
         insert testvisit;
         TestData.loadTestData();
         TestData testData = new TestData();
-        testData.updatePEStatusEnrollmentSuccess();
 
-        insert VisitService.createPatientVisit(testvisit, testData.pe.Id);
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
         Test.startTest();
+        testData.updatePEStatusEnrollmentSuccess();
+        insert VisitService.createPatientVisit(testvisit, testData.pe.Id);
+
         List<Visit__c> visits;
         System.runAs(testData.participantUser) {
             visits = VisitService.getInstance().getPreviewVisits();

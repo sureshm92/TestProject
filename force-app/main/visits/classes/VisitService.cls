@@ -29,7 +29,8 @@ public inherited sharing class VisitService {
                 Visit__c = visit.Id,
                 Visit_Schedule__c = visit.Visit_Schedule__c,
                 Visit_Number__c = visit.Visit_Number__c,
-                Participant_Enrollment__c = peId
+                Participant_Enrollment__c = peId,
+                Portal_Name__c = visit.Patient_Portal_Name__c
         );
     }
     private List<Visit__c> getVisits(String filter, Integer limitNumber) {

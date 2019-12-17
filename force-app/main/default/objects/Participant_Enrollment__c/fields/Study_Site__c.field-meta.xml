@@ -4,12 +4,22 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
     <label>Study Site</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>Study on Study Site does not Study on Participant Enrollment.</errorMessage>
+        <filterItems>
+            <field>Study_Site__c.Clinical_Trial_Profile__c</field>
+            <operation>equals</operation>
+            <valueField>$Source.Clinical_Trial_Profile__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
     <referenceTo>Study_Site__c</referenceTo>
     <relationshipLabel>Participant Enrollments</relationshipLabel>
     <relationshipName>Participant_Profile</relationshipName>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
-
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Lookup</type>
 </CustomField>

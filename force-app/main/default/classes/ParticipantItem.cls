@@ -18,7 +18,6 @@ public class ParticipantItem {
 
     public ParticipantItem(ParticipantService.ParticipantState participantState) {
         this.pe = participantState.pe;
-        Boolean isPEInParticipationFlow = PEStatusState.PE_STATUS_GROUP_PARTICIPATION_FLOW.contains(participantState.pe.Participant_Status__c);
-        this.showParticipationSteps = isPEInParticipationFlow;
+        this.showParticipationSteps = PEStatusState.PE_STATUS_GROUP_PARTICIPATION_FLOW.contains(participantState.pe.Participant_Status__c);
     }
 }

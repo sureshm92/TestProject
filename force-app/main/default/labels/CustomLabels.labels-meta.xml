@@ -418,6 +418,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Add Another Provider</value>
     </labels>
     <labels>
+        <fullName>Add_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Add Date</shortDescription>
+        <value>Add Date</value>
+    </labels>
+    <labels>
         <fullName>Admin</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -494,6 +501,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>BTN Activate</shortDescription>
         <value>Activate</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Activate_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Activate All</shortDescription>
+        <value>Activate All</value>
     </labels>
     <labels>
         <fullName>BTN_Add_Patient</fullName>
@@ -627,6 +641,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>BTN Export</shortDescription>
         <value>Export</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Export_All</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Export All</shortDescription>
+        <value>Export All</value>
     </labels>
     <labels>
         <fullName>BTN_Find_study_sites</fullName>
@@ -1193,7 +1214,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Community Email Logo</shortDescription>
-        <value>https://infohotfix-iqviaconnect.cs128.force.com/servlet/servlet.ImageServer?id=0153N00000090CH&amp;oid=00D3N0000008aUa</value>
+        <value>https://lh3.googleusercontent.com/EmuOHokKYGwyHoopMnBD54_g8Nw-hnyk7OahOiY7_koTc-V2v2QSkyF7rHoymubsZdQx1V5Krf3yNMipVhifs34bVD6jk0KZtnJal5jaSROMRoWDEKCZ4PBPmWswXtdD0cXO-JkmZ5_C1kUppz9M03uolxkkE_7R2gG9xFO5PYC4AZtobSrqr8sP0PQIK2rsu6YWsK25qgarqFm4aWGl-My3kfUyPGrejgjtMb-FwHfAt4KBr0kwYnOoEbue7YMlDqTlUUtYdT5X7y2DEwkL4BIyzPvYBcmB7m6b4LBBdh3UnxZwuUmJ7V0RcY2FKjmLfY_dGjAXlKVDKAAsLqr1TRbRDEE9CGGBmpe4gYOWT4Cp6Q0A7Y5O8VgI_3IxIVEyWinm0SfBwalH5WlSt78mEbfkJn78mpatq9UKBJXDIvVxfz9_3esXSddGbpOS6Gx5i_PbfpH9fAHvHLaQOQ1OMywK-KHP8hLCasUMmlyeQTBh91IrEPLPo7115kbdhHdPXy--f01NFF-Kv34beTnutGC2JSzYsgSn5UwpZ8RExKozt6I1SHtfX2ePAjC_wp9n-nJ7KkLmqVxLTyiqTxEgc8qd4jn3yj7Mx80erZWQU5HRb1nXKDZibefn6UzNhYmI5jWXHOGh6vIyivycKxDKSnUBl_rmpGbAjjwiCHKcPRN3MWbxGPIAPFp3NqGfCQ=w1920-h937-ft</value>
     </labels>
     <labels>
         <fullName>CommunityPrivatePolicyLink</fullName>
@@ -1894,6 +1915,29 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming medication dosage for the clinical research study: ##StudyName.  If you have any questions regarding this medication, please contact the Study Team. Please login for additional details.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Once_at_Trial_Completion_DGT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Once at Trial Completion DGT</shortDescription>
+        <value>Congratulations, ##PatientFirstName has successfully completed the
+##StudyName clinical research study.   
+
+Thank you for participating. Your contribution to the clinical research study has been very important.
+
+Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Once_at_Trial_Completion_PT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Once at Trial Completion PT</shortDescription>
+        <value>Congratulations, you have successfully completed ##StudyName clinical research study.   
+
+Thank you for participating. Your contribution to the clinical research study has been very important.
+
+Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_PI1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2272,6 +2316,15 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
             We hope you find this information helpful.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Summary_Certificate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Summary Certificate</shortDescription>
+        <value>A new reward certificate from ##StudyName clinical research study is  now available on the IQVIA Patient Portal.   
+
+Please login to the IQVIA Patient Portal to view this information.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Summary_Document</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2481,6 +2534,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <value>This is a medication reminder</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Once_at_Trial_Completion</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Once at Trial Completion</shortDescription>
+        <value>Thank you for completing your clinical research study</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_PI2</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2668,6 +2728,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <protected>true</protected>
         <shortDescription>Email Header Share PH</shortDescription>
         <value>An IQVIA Patient Portal user shared this with you</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Summary_Certificate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Summary Certificate</shortDescription>
+        <value>A new certificate is now available</value>
     </labels>
     <labels>
         <fullName>Email_Header_Summary_Document</fullName>
@@ -2868,6 +2935,17 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <value>Sincerely,
 
             The IQVIA Patient Portal Support Team</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Summary_Certificate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature Summary Certificate</shortDescription>
+        <value>Congratulations on your certificate.
+
+Sincerely,
+
+The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Summary_Document</fullName>
@@ -3100,6 +3178,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Email Subject Status Has Changed</shortDescription>
         <value>Your referral status has changed</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Summary_Certificate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Summary Certificate</shortDescription>
+        <value>A new certificate is now available</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Summary_Document</fullName>
@@ -4052,6 +4137,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Home Page Label</shortDescription>
         <value>My Studies</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_RelevantLinks_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RelevantLinks_Title</shortDescription>
+        <value>Relevant Links</value>
     </labels>
     <labels>
         <fullName>Home_Page_StudyVisit_Btn</fullName>
@@ -5917,6 +6009,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG AS L Opt In Participant Status Emails</shortDescription>
         <value>updates about your referral status</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_L_Opt_In_Participant_Status_SMS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS L Opt In Participant Status SMS</shortDescription>
+        <value>I want to receive SMS on my phone number</value>
     </labels>
     <labels>
         <fullName>PG_AS_L_Opt_In_Visit_Results</fullName>
@@ -9331,6 +9430,13 @@ Please check your CAPS lock key.</value>
         <value>Patient</value>
     </labels>
     <labels>
+        <fullName>Planned_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Planned Date</shortDescription>
+        <value>Planned Date</value>
+    </labels>
+    <labels>
         <fullName>Platelet_Count</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9961,13 +10067,6 @@ Please check your CAPS lock key.</value>
         <value>Your recipient will receive a link to this article or video on ClinicalResearch.com</value>
     </labels>
     <labels>
-        <fullName>Resources_toggle_off</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resources_toggle_off</shortDescription>
-        <value>No items to display</value>
-    </labels>
-    <labels>
         <fullName>Respiratory_Rate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10449,6 +10548,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>Search For Sites</shortDescription>
         <value>Search For Sites</value>
+    </labels>
+    <labels>
+        <fullName>Select_Planned_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select Planned Date</shortDescription>
+        <value>Select Planned Date</value>
     </labels>
     <labels>
         <fullName>Selected_Icons</fullName>
@@ -11270,6 +11376,13 @@ Please check your CAPS lock key.</value>
         <value>For this: ##param1, use this: ##zzz</value>
     </labels>
     <labels>
+        <fullName>Thank_you_for_your_Interest</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>COI Toast Alert Me When CTP appears</shortDescription>
+        <value>Thank you for your interest in {0}. We will contact you when the clinical research study would be created for this.</value>
+    </labels>
+    <labels>
         <fullName>Toast_Changes_Successfully</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11436,13 +11549,6 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>TrialSearch Toast Alert Me When Trial Start</shortDescription>
         <value>Thank you for your interest in {0}. We will contact you when the clinical research study begins enrollment.</value>
-    </labels>
-    <labels>
-        <fullName>Thank_you_for_your_Interest</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>COI Toast Alert Me When CTP appears</shortDescription>
-        <value>Thank you for your interest in {0}. We will contact you when the clinical research study would be created for this.</value>
     </labels>
     <labels>
         <fullName>TrialSearch_Toast_Contact_The_Study</fullName>

@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="OpenTaskPreviewPanel" controller="TasksRemote">
+<aura:component description="OpenTaskPreviewPanel" controller="TasksRemote" extends="c:CommunityContext">
 
     <!-- attributes: -->
     <aura:attribute name="tasks" type="Task[]"/>
@@ -47,7 +47,11 @@
             <c:EmptyListStub targetList="{!v.tasks}" iconName="none" message="{!$Label.c.PG_VP_L_No_Items_display}"/>
         </aura:if>
         <aura:set attribute="footer">
-            <c:RRLink page="study-workspace?tab=tab-tasks" label="{!$Label.c.PG_L_See_All}"/>
+            <c:RRLink page="study-workspace?tab=tab-tasks">
+                {!$Label.c.PG_L_See_All}
+                <aura:if isTrue="{!v.isArabic}"><c:RRIcon iconName="icon-chevron-left"/></aura:if>
+                <aura:if isTrue="{!!v.isArabic}"><c:RRIcon iconName="icon-chevron-right"/></aura:if>
+            </c:RRLink>
         </aura:set>
     </c:HomePreviewTablePanel>
 

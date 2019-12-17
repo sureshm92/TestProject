@@ -215,7 +215,6 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
             .then(data => {
                 let wrapper = JSON.parse(data);
                 this.notAddedBatches = wrapper.availableBatches;
-                this.showAddNew = this.notAddedBatches.length > 0;
                 this.jobs = wrapper.jobWrappers.length > 0 ? wrapper.jobWrappers : undefined;
 
                 this.inProcess = false;
@@ -227,6 +226,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
             .finally(() => {
                 this.spinner.hide();
                 this.template.querySelector('c-web-modal').hide();
+                this.showAddNew = this.notAddedBatches.length > 0;
             });
     }
 

@@ -2,8 +2,8 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="RRTable">
-    <table class="rr-table">
+<aura:component description="RRTable" extends="c:CommunityContext">
+    <table class="{!'rr-table ' + if(v.isArabic, 'rtl', '')}">
         {!v.body}
     </table>
 </aura:component>

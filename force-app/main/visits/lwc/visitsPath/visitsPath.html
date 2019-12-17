@@ -1,0 +1,76 @@
+<!--
+ - Created by Igor Malyuta on 06.12.2019.
+ -->
+
+<!-- Visits Path -->
+<template>
+    <div class="path-panel">
+        <c-web-spinner fixed="true"></c-web-spinner>
+        <template if:false={isVisitsEmpty}>
+            <div class="path-section">
+                <div class="slds-grid">
+                    <div class="slds-col arrow-left">
+                        <div onclick={handleScrollLeft}>
+                            <c-web-icon icon-name="icon-chevron-left" icon-color="#b5b4b5"></c-web-icon>
+                        </div>
+                    </div>
+                    <div class="slds-col">
+                        <div class="slds-grid vis-path">
+                            <template for:each={pathItems} for:item="pathItem">
+                                <div key={pathItem.id} class={pathItem.state}>
+                                    <div class="slds-grid">
+                                        <div class={pathItem.left}></div>
+                                        <div class={pathItem.right} style="position: relative">
+                                            <div class="state-ico-wrapper">
+                                                <c-web-icon icon-name={pathItem.icon} icon-color="white"></c-web-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="state-label">{pathItem.visitName}</div>
+                                    <div class="state-label">
+                                        <template if:true={pathItem.isCompleted}>{pathItem.complDate}</template>
+                                        <template if:false={pathItem.isCompleted}>
+                                            <template if:true={pathItem.planDate}>
+                                                <div class="date-edit">
+                                                    <lightning-formatted-date-time
+                                                            value={pathItem.planDate}></lightning-formatted-date-time>
+                                                    <div data-id={pathItem.id} onclick={handleOpenDialog}>
+                                                        <c-web-icon icon-name="icon-edit" icon-color="#686868"
+                                                                    icon-size="small"></c-web-icon>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                            <template if:false={pathItem.planDate}>
+                                                <a data-id={pathItem.id}
+                                                   onclick={handleOpenDialog}>{labels.addLabel}</a>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="slds-col arrow-right">
+                        <div onclick={handleScrollRight}>
+                            <c-web-icon icon-name="icon-chevron-right" icon-color="#b5b4b5"></c-web-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template if:true={isVisitsEmpty}>
+            <c-web-empty-list target-list={pathItems}></c-web-empty-list>
+        </template>
+    </div>
+    <!-- Add/Change Visit Planned Date -->
+    <c-web-popup show-header="true" show-footer="true" custom-buttons="true" title={labels.selDate}>
+        <div slot="body">
+            <lightning-input type="date" label={labels.planDate} value={planDate}
+                             onchange={handleDateChange}></lightning-input>
+        </div>
+        <div slot="footerButtons">
+            <button class="apollo-btn tertiary" onclick={handleHideDialog}>{labels.cancelBTNLabel}</button>
+            <button class="apollo-btn primary" onclick={savePlannedDate}>{labels.saveBTNLabel}</button>
+        </div>
+    </c-web-popup>
+</template>

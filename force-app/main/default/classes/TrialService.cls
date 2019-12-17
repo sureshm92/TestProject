@@ -5,7 +5,7 @@
 public without sharing class TrialService {
     
     public static final String STATUS_ACTIVELY_ENROLLING = 'Actively Enrolling';
-    public static final String STATUS_NO_LONGER_ENROLLING = 'No Longer Enrolling';
+    public static final String STATUS_NO_LONGER_ENROLLING = 'No_Longer_Enrolling';
     
     private static final List<String> CTP_FIELDS = new List<String>{
             'Id',
@@ -36,7 +36,12 @@ public without sharing class TrialService {
             'Share_URL__c',
             'Patient_Portal_Enabled__c',
             'Visit_Data_Shareback__c',
-            'Therapeutic_Area__r.Name'
+            'Therapeutic_Area__r.Name',
+            'Study_Documents_Are_Available__c',
+            'Video_And_Articles_Are_Available__c',
+            'Tasks_Are_Available__c',
+            'Travel_Vendor_Is_Available__c',
+            'Visit_Schedule_Is_Available__c'
     };
     
     private static TrialService instance;

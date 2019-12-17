@@ -46,7 +46,7 @@ public without sharing class EmailService {
         newEmail.setSaveAsActivity(false);
         newEmail.setWhatId(whatId);
         Id orgWideEmailAddressId = getOrgWideEmailAddressId(orgWideEmAddress);
-        if (orgWideEmailAddressId != null) newEmail.setOrgWideEmailAddressId(orgWideEmailAddressId);
+        if (orgWideEmailAddressId != null && !SystemService.isScratchOrg()) newEmail.setOrgWideEmailAddressId(orgWideEmailAddressId);
         if (ccAddresses != null) newEmail.setCcAddresses(ccAddresses);
         return newEmail;
     }
@@ -65,7 +65,7 @@ public without sharing class EmailService {
         List<Send_Result__c> sendResults = new List<Send_Result__c>();
         for (Notification__c n : notifications) {
             Notification_Target__mdt emailTarget = NotificationService.getNotificationTarget(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
-            emailMessages.add(createEmail(getEmailTemplateId(emailTarget.Email_Template__c), n.Recipient__c, n.WhatId__c));
+            emailMessages.add(createEmail(getEmailTemplateId(emailTarget.Email_Template__c), n.Recipient__c, n.WhatId__c, emailTarget.Org_Wide_Email_Address__c));
             sendResults.add(new Send_Result__c(
                     Target_Type__c = NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
                     Notification__c = n.Id
@@ -85,12 +85,11 @@ public without sharing class EmailService {
     }
 
     public static void sendEmail(String emailTemplate, Id recipientId, Id whatId){
-        Messaging.SingleEmailMessage sem = createEmail(getEmailTemplateId(emailTemplate), recipientId, whatId);
+        Messaging.SingleEmailMessage sem = createEmail(getEmailTemplateId(emailTemplate), recipientId, whatId, null);
         Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{sem}, false);
     }
 
-    public static Messaging.SingleEmailMessage createEmail(Id emailTemplateId, Id contactId, Id whatId) {
-        String orgWideEmAddress = getOrgWideEmailAddressByContactId(contactId);
+    public static Messaging.SingleEmailMessage createEmail(Id emailTemplateId, Id contactId, Id whatId, String orgWideEmAddress) {
         return createEmail(emailTemplateId, contactId, whatId, null, orgWideEmAddress);
     }
 

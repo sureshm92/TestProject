@@ -166,20 +166,6 @@ public without sharing class SendEmailToParticipant {
         SendEmailTemplate.sendEmailMessages(emailMessages);
     }
 
-    public static void sendPlainSummaryNotifications(List<Contact> contacts, Map<Id, Id> peIdByContact, String nameOfEmailTemplate) {
-        List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-        for (Contact con : contacts) {
-            addPatientToEmailListIfAvailable(
-                    emailMessages,
-                    con,
-                    nameOfEmailTemplate,
-                    peIdByContact.get(con.Id)
-            );
-        }
-
-        SendEmailTemplate.sendEmailMessages(emailMessages);
-    }
-
     private static void addPatientToEmailListIfAvailable(List<Messaging.SingleEmailMessage> emailMessages, Contact patientContact, String emailTemplate, Id whatId) {
         if (patientContact.Participant_Opt_In_Status_Emails__c) {
             emailMessages.add(SendEmailTemplate.createEmail(emailTemplate, patientContact.Id, whatId));

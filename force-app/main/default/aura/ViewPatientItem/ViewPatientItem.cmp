@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="ViewPatientItem" controller="ReferralProfileRemote">
+<aura:component description="ViewPatientItem" controller="ReferralProfileRemote" extends="c:CommunityContext">
     <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
                   scripts="{!join(',', $Resource.rr_community_js)}"/>
 
@@ -26,7 +26,7 @@
     <aura:handler name="change" value="{!v.detailCollapsed}" action="{!c.doLoadHistoryOnOpen}"/>
 
     <!-- component body: -->
-    <div class="rr-white-panel padding" style="position: relative">
+    <div class="{!'rr-white-panel padding ' + if(v.isArabic, ' rtl', '')}" style="position: relative">
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
         <aura:if isTrue="{!empty(v.pe)}">
             <div style="height: 250px"></div>

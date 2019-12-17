@@ -86,6 +86,7 @@ public abstract class StudyActions {
     public static final String ACT_HCP_DECLINE = 'hcpDecline';
     public static final String ACT_HCP_APPROVE = 'hcpApprove';
     public static final String ACT_HCP_ACTIVATE = 'hcpActivate';
+    public static final String ACT_HCP_ACTIVATE_FOR_ALL = 'hcpActivateForAll';
     public static final String ACT_HCP_ORIENTATION_ATTENDED_AND_ACTIVATE = 'hcpOrientationAttendedAndActivate';
     public static final String ACT_HCP_DEACTIVATE = 'hcpDeactivate';
     public static final String ACT_HCP_LINK_STUDY_SITES = 'linkToStudySites';
@@ -127,6 +128,7 @@ public abstract class StudyActions {
     public static final String LABEL_HCP_DEACTIVATE = Label.BTN_Deactivate;
     public static final String LABEL_HCP_APPROVE = Label.BTN_Approve;
     public static final String LABEL_HCP_ACTIVATE = Label.BTN_Activate;
+    public static final String LABEL_HCP_ACTIVATE_FOR_ALL = Label.BTN_Activate_All;
     public static final String LABEL_HCP_ORIENTATION_ATTENDED_AND_ACTIVATE = Label.BTN_Orientation_attended_activate;
     public static final String LABEL_HCP_LINK_STUDY_SITES = Label.Studies_FindSitesForStudy;
 
