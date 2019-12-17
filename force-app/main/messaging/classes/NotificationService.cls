@@ -94,9 +94,6 @@ public without sharing class NotificationService {
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_DECLINED) {
             return MESSAGE_TO_HCP_PATIENT_DECLINED_TYPE;
         }
-        if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ON_HOLD) {
-            return MESSAGE_TO_HCP_PATIENT_ON_HOLD_TYPE;
-        }
         return null;
     }
 
@@ -109,10 +106,6 @@ public without sharing class NotificationService {
         }
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ON_HOLD) {
             return MESSAGE_TO_PT_PATIENT_ON_HOLD_TYPE;
-        }
-        if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
-                && peForCheck.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
-            return MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE;
         }
         return null;
     }
