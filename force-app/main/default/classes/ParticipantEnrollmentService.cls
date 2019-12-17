@@ -484,7 +484,7 @@ public without sharing class ParticipantEnrollmentService {
 
         } else{
             List<Id> delegatedParticipants = PatientDelegateService.getDelegatedParticipantIds(CommunityService.getUserContact().Id);
-            if(delegatedParticipants.size() > 0){
+            if(delegatedParticipants != null && delegatedParticipants.size() > 0){
                 delegatesFilter = ' OR ' + DatabaseService.fieldInValues('Participant__c', delegatedParticipants);
             }
             return '( ' +
