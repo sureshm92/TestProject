@@ -166,19 +166,6 @@ public without sharing class SendEmailToParticipant {
         SendEmailTemplate.sendEmailMessages(emailMessages);
     }
 
-    public static void sendPlainSummaryNotifications(List<Contact> contacts, Map<Id, Id> peIdByContact, String nameOfEmailTemplate) {
-        List<Notification__c> notifications = new List<Notification__c>();
-        Id peId;
-        for(Contact con: contacts){
-            peId = peIdByContact.get(con.Id);
-            notifications.add(new Notification__c(
-                    Recipient__c = con.Id,
-                    WhatId__c = peId,
-                    Notification_Type__c = NotificationService.MESSAGE_TO_PT_NEW_STDDOC_TYPE
-            ));
-        }
-    }
-
     private static void addPatientToEmailListIfAvailable(List<Messaging.SingleEmailMessage> emailMessages, Contact patientContact, String emailTemplate, Id whatId) {
         if (patientContact.Participant_Opt_In_Status_Emails__c) {
             emailMessages.add(SendEmailTemplate.createEmail(emailTemplate, patientContact.Id, whatId));
