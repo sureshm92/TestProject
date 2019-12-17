@@ -88,6 +88,7 @@ public without sharing class ParticipantTriggerHandler {
             if(participant.Contact__c != null){
                 contacts.add(new Contact(
                         Id = participant.Contact__c,
+                        FirstName = null,
                         LastName = participant.Name
                 ));
             }

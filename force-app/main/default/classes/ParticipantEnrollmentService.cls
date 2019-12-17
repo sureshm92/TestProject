@@ -483,8 +483,9 @@ public without sharing class ParticipantEnrollmentService {
                         ') ';
 
         } else{
-            if(PatientDelegateService.getInstance().isDelegate()){
-                delegatesFilter = ' OR Participant__c = \'' + PatientDelegateService.getInstance().getParticipant().Id + '\' ';
+            List<Id> delegatedParticipants = PatientDelegateService.getDelegatedParticipantIds(CommunityService.getUserContact().Id);
+            if(delegatedParticipants.size() > 0){
+                delegatesFilter = ' OR ' + DatabaseService.fieldInValues('Participant__c', delegatedParticipants);
             }
             return '( ' +
                     '   Participant__r.Contact__c = \'' + CommunityService.getUserContact().Id + '\' ' +
