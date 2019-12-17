@@ -43,6 +43,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Action_SendSMS</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Action_SendSiteRequestByHCPRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -951,6 +955,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>RemoteCall_SendSMS</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ReportsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1752,6 +1760,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_UISObjectLoojupRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_UploadParticipantsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
