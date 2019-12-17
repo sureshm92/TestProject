@@ -7,11 +7,13 @@
     <!-- attributes: -->
     <aura:attribute name="tasks" type="Task[]"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
+    <aura:attribute name="isAlumni" type="Boolean" default="false"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <!-- component body: -->
+    <aura:if isTrue="{!or(!v.isAlumni, !empty(v.tasks))}">
     <c:HomePreviewTablePanel title="{!$Label.c.PG_L_Open_Task_List}">
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
         <aura:if isTrue="{!v.initialized}">
@@ -54,5 +56,6 @@
             </c:RRLink>
         </aura:set>
     </c:HomePreviewTablePanel>
+    </aura:if>
 
 </aura:component>
