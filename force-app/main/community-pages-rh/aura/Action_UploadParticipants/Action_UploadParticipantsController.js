@@ -4,7 +4,7 @@
 ({
 
     doExecute: function (component, event, helper) {
-        component.find('modalSpinner').show();
+        component.find('upModalSpinner').show();
         var params = event.getParam('arguments');
         component.find('uploadParticipantsDialog').show();
         component.set('v.studySiteId', params.studySiteId);
@@ -12,7 +12,7 @@
 
         communityService.executeAction(component, 'getParticipantsStatuses', {
         }, function (returnValue) {
-            component.find('modalSpinner').hide();
+            component.find('upModalSpinner').hide();
             component.set('v.participantStatuses', returnValue);
         });
     },
@@ -22,15 +22,25 @@
         component.find('uploadParticipantsDialog').cancel();
     },
 
+    doClearFile: function (component, event, helper) {
+        component.set("v.FileList", []);
+        component.set("v.fullFileName", '');
+        component.set("v.fileName", '');
+        component.set("v.fileType", '');
+        component.set("v.fileBody", '');
+    },
+
     doImport: function (component, event, helper) {
-        helper.uploadPaticipants(component, component.get('v.fileBody'),
-            component.get('v.fileName'), component.get('v.studySiteId'),
-            component.get('v.selectedStatus'));
-        helper.clearFields(component, event, helper);
+        helper.uploadPaticipants(component,
+            component.get('v.fileBody'),
+            component.get('v.fileName'),
+            component.get('v.studySiteId'),
+            component.get('v.selectedStatus'),
+            helper);
     },
 
     upload: function(component, event, helper) {
-        component.find('modalSpinner').show();
+        component.find('upModalSpinner').show();
         var fileTypes = ['csv', 'xls', 'xlsx'];
 
         var file = component.get("v.FileList")[0];
@@ -39,7 +49,7 @@
 
         if (fileTypes.indexOf(extension) == -1) {
             communityService.showToast('error', 'error', "ERROR: File format not correct. Please use the provided template.");
-            component.find('modalSpinner').hide();
+            component.find('upModalSpinner').hide();
 
             return;
         }
@@ -61,7 +71,7 @@
 
             if (stringArray.length > 45005 || length > 4100226) {
                 communityService.showToast('error', 'error', "ERROR: file contains more than 45,000 records; you may split the file. Please correct the problem and try again.");
-                component.find('modalSpinner').hide();
+                component.find('upModalSpinner').hide();
 
                 return;
             }
@@ -71,7 +81,7 @@
             component.set('v.fileType', extension);
             component.set('v.fullFileName', fileName + '.' + extension);
 
-            component.find('modalSpinner').hide();
+            component.find('upModalSpinner').hide();
         };
 
         reader.readAsArrayBuffer(file);
