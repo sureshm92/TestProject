@@ -119,17 +119,17 @@ public with sharing class CTPNotificationTriggerHandler {
 
         Map<Id, List<Id>> partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(participantIds);
 
-        Map<Id, List<Id>> ctpIdsByContactIds = new Map<Id, List<Id>>();
+        Map<Id, List<Id>> contactIdsByCTPIds = new Map<Id, List<Id>>();
         for(Id ctp : ctpIdsByPE.keySet()) {
-            if(!ctpIdsByContactIds.containsKey(ctp)) ctpIdsByContactIds.put(ctp, new List<Id>());
+            if(!contactIdsByCTPIds.containsKey(ctp)) contactIdsByCTPIds.put(ctp, new List<Id>());
             for(Participant_Enrollment__c pe : ctpIdsByPE.get(ctp)) {
-                ctpIdsByContactIds.get(ctp).add(pe.Participant__r.Contact__c);
+                contactIdsByCTPIds.get(ctp).add(pe.Participant__r.Contact__c);
                 if(partPerDelegateIds.containsKey(pe.Participant__c)) {
-                    ctpIdsByContactIds.get(ctp).addAll(partPerDelegateIds.get(pe.Participant__c));
+                    contactIdsByCTPIds.get(ctp).addAll(partPerDelegateIds.get(pe.Participant__c));
                 }
             }
         }
 
-        NotificationService.sendSimpleNotification(ctpIdsByContactIds, NotificationService.MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE);
+        NotificationService.sendSimpleNotification(contactIdsByCTPIds, NotificationService.MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE);
     }
 }
