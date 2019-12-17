@@ -643,6 +643,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Export</value>
     </labels>
     <labels>
+        <fullName>BTN_Export_All</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Export All</shortDescription>
+        <value>Export All</value>
+    </labels>
+    <labels>
         <fullName>BTN_Find_study_sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5513,6 +5520,13 @@ View study documents and other resources including articles and videos related t
         <value>Patient Status</value>
     </labels>
     <labels>
+        <fullName>PG_AP_F_Patient_Status_Select</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP F Patient Status Select</shortDescription>
+        <value>Select Patient Status</value>
+    </labels>
+    <labels>
         <fullName>PG_AP_F_Phone_Type</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -5995,6 +6009,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG AS L Opt In Participant Status Emails</shortDescription>
         <value>updates about your referral status</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_L_Opt_In_Participant_Status_SMS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS L Opt In Participant Status SMS</shortDescription>
+        <value>I want to receive SMS on my phone number</value>
     </labels>
     <labels>
         <fullName>PG_AS_L_Opt_In_Visit_Results</fullName>
@@ -10393,7 +10414,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Upload Participants</shortDescription>
-        <value>Upload Participants</value>
+        <value>Import Participants</value>
     </labels>
     <labels>
         <fullName>SS_Use_This_Address</fullName>

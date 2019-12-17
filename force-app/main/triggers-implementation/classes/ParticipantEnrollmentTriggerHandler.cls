@@ -95,8 +95,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
-
-
     // Handlers: On study ----------------------------------------------------------------------------------------------
     public class DeactivateDeceasedUsersHandler extends TriggerHandler {
 
