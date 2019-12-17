@@ -237,7 +237,7 @@ public without sharing class StudySiteTriggerHandler {
         }
     }
 
-    private static void createHCPEnrollmentsForRPInWhiteList(List<Study_Site__c> newList, Map<Id, Study_Site__c> oldMap){
+    /*private static void createHCPEnrollmentsForRPInWhiteList(List<Study_Site__c> newList, Map<Id, Study_Site__c> oldMap){
         Set<Id> PIds = new Set<Id>();
         Set<Id> ssIds = new Set<Id>();
         System.debug('ssList>>'+ newList);
@@ -288,5 +288,5 @@ public without sharing class StudySiteTriggerHandler {
         }
         System.debug('enrollmentsList>>>'+enrollmentsList);
         if(!enrollmentsList.isEmpty()) insert enrollmentsList;
-    }
+    }*/
 }
