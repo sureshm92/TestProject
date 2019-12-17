@@ -204,7 +204,7 @@
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-tasks'}">
-                        <c:TasksTab taskMode="{!v.taskMode}" isAvailable="{!v.studyDetail.trial.Tasks_Are_Available__c}"/>
+                        <c:TasksTab taskMode="{!v.taskMode}" tasksAvailable="{!v.studyDetail.trial.Tasks_Are_Available__c}" emptyTrial="{!empty(v.studyDetail.trial)}"/>
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-resources'}">
