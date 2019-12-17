@@ -11,15 +11,12 @@ public with sharing class Action_SendSMS implements Action{
         this.message = message;
         this.phoneNumber = phoneNumber;
     }
-
+//
     public void execute() {
-        try {
-            RemoteCall_SendSMS remoteCallSendSMS = new RemoteCall_SendSMS(phoneNumber, message);
-        } catch (Exception e){
-            throw new Action_SendSMS_Exception('SendSMS Action failed');
-        }
+//        RemoteCall_SendSMS remoteCallSendSMS = new RemoteCall_SendSMS(phoneNumber, message);
+//        if(!remoteCallSendSMS.log.Success__c) throw new Action_SendSMS_Exception('SendSMS Action failed');
     }
-
+//
     public Type getType() {
         return Action_SendSMS.class;
     }
