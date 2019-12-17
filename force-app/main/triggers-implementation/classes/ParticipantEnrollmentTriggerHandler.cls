@@ -20,7 +20,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     public class CheckVisitPlanFromStudySiteHandler extends TriggerHandler {
 
-        public override void beforeInsert(List<SObject> newList, Map<Id) {
+        public override void beforeInsert(List<SObject> newList) {
             new ParticipantEnrollmentTriggerHandler(newList).checkVisitPlanFromStudySite(newList, null);
         }
 
