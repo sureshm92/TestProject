@@ -18,6 +18,24 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
+    public class CheckVisitPlanFromStudySiteHandler extends TriggerHandler {
+
+        public override void beforeInsert(List<SObject> newList, Map<Id) {
+            new ParticipantEnrollmentTriggerHandler(newList).checkVisitPlanFromStudySite(newList, null);
+        }
+
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            new ParticipantEnrollmentTriggerHandler(newList).checkVisitPlanFromStudySite(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
+
+    public class StudySiteHistoryHandler extends TriggerHandler {
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            new ParticipantEnrollmentTriggerHandler(newList).studySiteHistory(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
+
     public class CreateUsersOrSendNotificationsHandler extends TriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
@@ -237,6 +255,45 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
 
         if (!participantContacts.isEmpty()) update participantContacts;
+    }
+
+
+    @TestVisible
+    private void studySiteHistory(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+        for (Participant_Enrollment__c pe : newList) {
+            if (oldMap != null && pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c) {
+
+            }
+        }
+    }
+
+    @TestVisible
+    private void checkVisitPlanFromStudySite(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+        Set<Id> studySiteIds = new Set<Id>();
+        for (Participant_Enrollment__c pe : newList) {
+            studySiteIds.add(pe.Study_Site__c);
+        }
+
+        if (!studySiteIds.isEmpty()) {
+            Map<Id, Set<Id>> visitPlansBySSId = new Map<Id, Set<Id>>();
+            List<StudySiteVisitPlan__c> visitPlans = [SELECT Id, Study_Site__c, Visit_Plan__c FROM StudySiteVisitPlan__c WHERE Study_Site__c IN :studySiteIds];
+            for (StudySiteVisitPlan__c visitPlan : visitPlans) {
+                Set<Id> visitPlIds = visitPlansBySSId.get(visitPlan.Study_Site__c);
+                if (visitPlIds == null) {
+                    visitPlIds = new Set<Id>();
+                    visitPlansBySSId.put(visitPlan.Study_Site__c, visitPlIds);
+                }
+
+                visitPlIds.add(visitPlan.Visit_Plan__c);
+            }
+
+            for (Participant_Enrollment__c pe : newList) {
+                if (visitPlansBySSId.get(pe.Study_Site__c) == null || visitPlansBySSId.get(pe.Study_Site__c).IsEmpty() ||
+                        !visitPlansBySSId.get(pe.Study_Site__c).contains(pe.Visit_Plan__c)) {
+                    pe.addError(Label.Error_Message_Can_Not_Use_Visit_Plan);
+                }
+            }
+        }
     }
 
     @TestVisible
