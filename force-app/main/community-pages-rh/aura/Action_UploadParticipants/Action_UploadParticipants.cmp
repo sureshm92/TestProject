@@ -26,7 +26,7 @@
 
     <div class="mrc-invite-popup">
         <c:Popup aura:id="uploadParticipantsDialog" title="{!$Label.c.SS_Upload_Participants}" size="medium">
-            <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
+            <c:RRSpinner aura:id="upModalSpinner" size="medium" showSpinner="false"/>
             <div class="slds-grid slds-grid_vertical">
                 <div class="slds-grid slds-wrap slds-scrollable">
                     <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">

@@ -8,6 +8,8 @@ import formFactor from '@salesforce/client/formFactor';
 import addLabel from '@salesforce/label/c.Add_Date';
 import saveBTNLabel from '@salesforce/label/c.BTN_Save';
 import cancelBTNLabel from '@salesforce/label/c.BTN_Cancel';
+import selDate from '@salesforce/label/c.Select_Planned_Date';
+import planDate from '@salesforce/label/c.Planned_Date';
 
 import getCardVisits from '@salesforce/apex/ParticipantVisitsRemote.getCardPatientVisits';
 import updatePV from '@salesforce/apex/ParticipantVisitsRemote.updatePatientVisit';
@@ -26,9 +28,14 @@ export default class VisitsPath extends LightningElement {
     labels = {
         addLabel,
         saveBTNLabel,
-        cancelBTNLabel
+        cancelBTNLabel,
+        selDate,
+        planDate
     };
 
+    spinner;
+
+    @track isVisitsEmpty = false;
     @track patientVisits;
     @track pathItems = [];
 
@@ -49,6 +56,8 @@ export default class VisitsPath extends LightningElement {
     fromRightCorner;
 
     renderedCallback() {
+        this.spinner = this.template.querySelector('c-web-spinner');
+
         switch (formFactor) {
             case 'Medium':
                 this.elementWidth = 145;
@@ -61,29 +70,34 @@ export default class VisitsPath extends LightningElement {
         }
 
         this.pathContainer = this.template.querySelector('.vis-path');
-        this.maxScrollValue = this.pathContainer.scrollWidth - this.pathContainer.clientWidth;
-        if (this.pathContainer.scrollWidth > this.pathContainer.clientWidth) this.doScrollInto(this.centredIndex);
+        if(this.pathContainer) {
+            this.maxScrollValue = this.pathContainer.scrollWidth - this.pathContainer.clientWidth;
+            if (this.pathContainer.scrollWidth > this.pathContainer.clientWidth) this.doScrollInto(this.centredIndex);
 
-        let context = this;
-        setTimeout(function () {
-            if (context.pathItems.length > 0) {
-                context.calculateWidth();
-
-                window.addEventListener('touchmove', function () {
-                    context.changeArrowsStyle();
-                });
-                window.addEventListener('resize', function () {
+            let context = this;
+            setTimeout(function () {
+                if (context.pathItems.length > 0) {
                     context.calculateWidth();
-                });
-            }
-        }, 150);
+
+                    window.addEventListener('touchmove', function () {
+                        context.changeArrowsStyle();
+                    });
+                    window.addEventListener('resize', function () {
+                        context.calculateWidth();
+                    });
+                }
+            }, 150);
+        }
     }
 
     @wire(getCardVisits)
     wireVisits({data, error}) {
         if (data) {
             this.patientVisits = data;
+            this.isVisitsEmpty = data.length === 0;
             this.constructPathItems();
+
+            if(this.spinner) this.spinner.hide();
         } else if (error) {
             console.log('Error: ' + JSON.stringify(error));
         }
