@@ -10,6 +10,7 @@
             component.set('v.ctp', ctp);
             component.find('spinner').hide();
         });
+
     },
 
     saveCTP: function (component, event, helper) {
@@ -23,6 +24,11 @@
         if(source === 'statusTimelineToggle') {
             let stValue = component.find('stToggle').get('v.checked');
             component.find('vsToggle').set('v.checked', !stValue);
+        }
+        if(source === 'travelVendorToggle') {
+            if (!component.get('v.ctp.Travel_Vendor_Is_Available__c').val)  {
+                component.set('v.ctp.Travel_Support_On_Relevant_Links__c', false);
+            }
         }
 
         component.find('spinner').show();

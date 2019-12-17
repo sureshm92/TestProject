@@ -329,6 +329,7 @@ public without sharing class ParticipantEnrollmentService {
             'Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c',
             'Clinical_Trial_Profile__r.Tasks_Are_Available__c',
             'Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c',
+            'Clinical_Trial_Profile__r.Travel_Support_On_Relevant_Links__c',
             'Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c',
             'Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c',
             'CreatedDate',

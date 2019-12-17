@@ -55,6 +55,10 @@
                 <behavior>Edit</behavior>
                 <field>Relevant_Links_Are_Available__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Travel_Support_On_Relevant_Links__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
