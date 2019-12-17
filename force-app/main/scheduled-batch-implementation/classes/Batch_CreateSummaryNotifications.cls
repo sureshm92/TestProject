@@ -88,8 +88,8 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                             res, pe, contentLangByResId.get(res.Resource__c), contact.userCommunityMode__c, isDelegate)) {
                         if (needNotify(contact, res.Resource__c)) {
                             contactToNotify.add(contact);
-                            if(!peIdByContactIds.containsKey(contact.Id)) peIdByContactIds.put(contact.Id, new List<Id>{pe.Id});
-                            else peIdByContactIds.get(contact.Id).add(pe.Id);
+                            if(!peIdByContactIds.containsKey(contact.Id)) peIdByContactIds.put(pe.Id, new List<Id>{contact.Id});
+                            else peIdByContactIds.get(pe.Id).add(contact.Id);
 
                             if (!resIdsByContactId.containsKey(contact.Id)) {
                                 List<String> resNotificationIds = contact.Resource_Notifications__c != null ?
