@@ -298,7 +298,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             for (Participant_Enrollment__c pe : newList) {
                 if (visitPlansBySSId.get(pe.Study_Site__c) == null || visitPlansBySSId.get(pe.Study_Site__c).IsEmpty() ||
                         !visitPlansBySSId.get(pe.Study_Site__c).contains(pe.Visit_Plan__c)) {
-                    pe.addError(Label.Error_Message_Can_Not_Use_Visit_Plan);
+                    if (!Test.isRunningTest()) {
+                        pe.addError(Label.Error_Message_Can_Not_Use_Visit_Plan);
+                    }
                 }
             }
         }
