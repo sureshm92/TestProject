@@ -269,8 +269,10 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
         OrgWideEmailAddress owea = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName = 'IQVIA Referral Hub' LIMIT 1];
         String formattedDate = uploadTime.format('MM/dd/yyyy hh:mm a', UserInfo.getTimeZone().toString());
 
+        User usr = [SELECT Id, Email FROM User WHERE ContactId = :piContactId LIMIT 1];
+
         Messaging.SingleEmailMessage adminEmailToSend = new Messaging.SingleEmailMessage();
-        adminEmailToSend.setToAddresses(new List<String> { '' });
+        adminEmailToSend.setToAddresses(new List<String> { usr.Email });
         adminEmailToSend.setOrgWideEmailAddressId(owea.id);
         adminEmailToSend.setSubject('Upload participants completed - ' + formattedDate);
 
