@@ -26,6 +26,10 @@
                 <behavior>Edit</behavior>
                 <field>Recipient_Type__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Org_Wide_Email_Address__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
