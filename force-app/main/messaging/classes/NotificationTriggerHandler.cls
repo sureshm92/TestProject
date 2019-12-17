@@ -95,13 +95,13 @@ public without sharing class NotificationTriggerHandler {
 
     private static void createHCPEnrollmentsForRPInWhiteList(List<Study_Site__c> newList, Map<Id, Study_Site__c> oldMap){
         Set<Id> PIds = new Set<Id>();
-        Set<Id> ssIds = new Set<Id>();
+        Map<Id, Study_Site__c> acceptedStudySites = new Map<Id,Study_Site__c>();
         for(Study_Site__c ss : newList){
-            if(ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_ACCEPTED &&
-                    ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_ACCEPTED_A &&
+            if((ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_ACCEPTED ||
+                    ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_ACCEPTED_A) &&
                     ss.Override_PI_Referral_Status__c != oldMap.get(ss.id).Override_PI_Referral_Status__c){
                 PIds.add(ss.Principal_Investigator__c);
-                ssIds.add(ss.Id);
+                acceptedStudySites.put(ss.Id,ss);
             }
         }
         List<PI_RP_Relationship__c> prrList = [
@@ -122,7 +122,7 @@ public without sharing class NotificationTriggerHandler {
                         Study_Site__c,
                         HCP_Contact__c
                 FROM HCP_Enrollment__c
-                WHERE Study_Site__c IN :ssIds AND HCP_Contact__c IN :hcpIds
+                WHERE Study_Site__c IN :acceptedStudySites.keySet() AND HCP_Contact__c IN :hcpIds
         ];
         Set<String> exceptionList = new Set<String>();
         for(HCP_Enrollment__c enroll : enrollmentList){
@@ -130,7 +130,7 @@ public without sharing class NotificationTriggerHandler {
         }
         List<HCP_enrollment__c> enrollmentsList = new List<HCP_Enrollment__c>();
         for(PI_RP_Relationship__c prr : prrList){
-            for(Study_Site__c ss : newList){
+            for(Study_Site__c ss : acceptedStudySites.values()){
                 if(!exceptionList.contains(prr.RP_Contact__c +''+ ss.Id)) {
                     enrollmentsList.add(new HCP_Enrollment__c(
                             HCP_Contact__c = prr.RP_Contact__c,
@@ -141,7 +141,7 @@ public without sharing class NotificationTriggerHandler {
                 }
             }
         }
-        if(!enrollmentList.isEmpty()) insert enrollmentsList;
+        if(!enrollmentsList.isEmpty()) insert enrollmentsList;
     }
 
     @TestVisible
