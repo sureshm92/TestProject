@@ -13,7 +13,7 @@
         }, function (returnValue) {
             component.find('upModalSpinner').hide();
             communityService.showSuccessToast('',  "Participant record import is processing. You will be notified via email when the process has complete");
-            helper.clearFields();
+            helper.clearFields(component, undefined, helper);
 
             component.find('uploadParticipantsDialog').hide();
         }, function (returnValue) {

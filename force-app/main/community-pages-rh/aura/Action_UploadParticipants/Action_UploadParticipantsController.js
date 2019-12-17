@@ -7,7 +7,8 @@
         component.find('upModalSpinner').show();
         var params = event.getParam('arguments');
         component.find('uploadParticipantsDialog').show();
-        component.set('v.studySiteId', params.studySiteId);
+        var studySiteId = params["studySiteId"];
+        component.set('v.studySiteId', studySiteId);
         if (params.callback) component.set('v.callback', $A.getCallback(params.callback));
 
         communityService.executeAction(component, 'getParticipantsStatuses', {
