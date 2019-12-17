@@ -152,7 +152,7 @@
                                                  class="slds-col ah-toggle"
                                                  checked="{!v.initData.myContact.Participant_Opt_In_Status_SMS__c}"
                                                  onchange="{!c.doSwitchOptInSMS}"/>
-                                {!$Label.c.PG_AS_L_Opt_In_Participant_Status_Emails}
+                                {!$Label.c.PG_AS_L_Opt_In_Participant_Status_SMS}
                             </div>
                             <div style="height: 25px"></div>
                             <div class="as-email-preference">
