@@ -211,4 +211,19 @@ public without sharing class NotificationService {
         return topics;
     }
 
+    public static void sendSimpleNotification(Map<Id, List<Id>> recipientIdsByWhatIds, String notificationType) {
+        if(String.isBlank(notificationType)) return;
+        List<Notification__c> notifications = new List<Notification__c>();
+        for(Id whatId : recipientIdsByWhatIds.keySet()){
+            for(Id contactId : recipientIdsByWhatIds.get(whatId)){
+                notifications.add(
+                        new Notification__c(
+                                Recipient__c = contactId,
+                                WhatId__c = whatId,
+                                Notification_Type__c = notificationType)
+                );
+            }
+        }
+        insert notifications;
+    }
 }

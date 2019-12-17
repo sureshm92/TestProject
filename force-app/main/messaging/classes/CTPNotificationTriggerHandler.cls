@@ -13,6 +13,7 @@ public with sharing class CTPNotificationTriggerHandler {
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createNotificationEnrollStarted(newList, oldMap);
+            createNotificationCTPTrialCompleted(newList);
         }
     }
 
@@ -84,6 +85,51 @@ public with sharing class CTPNotificationTriggerHandler {
             } catch (DmlException e) {
             }
         }
+    }
 
+    @TestVisible
+    private static void createNotificationCTPTrialCompleted(List<Clinical_Trial_Profile__c> newCTPs) {
+        List<Id> completedCTPIds = new List<Id>();
+        for(Clinical_Trial_Profile__c ctp : newCTPs) {
+            if(ctp.Status__c == ClinicalTrialProfileService.STATUS_COMPLETED) completedCTPIds.add(ctp.Id);
+        }
+
+        List<Participant_Enrollment__c> participantContacts = [
+                SELECT Id,
+                        Participant__c,
+                        Participant__r.Contact__c,
+                        Clinical_Trial_Profile__c,
+                        Participant_Status__c
+                FROM Participant_Enrollment__c
+                WHERE Clinical_Trial_Profile__c IN :completedCTPIds
+                AND (Participant_Status__c NOT IN :PEStatusState.STATUSES_FAILED
+                OR Participant_Status__c NOT IN :PEStatusState.PE_STATUS_GROUP_ALUMNI)
+        ];
+
+        Map<Id, List<Participant_Enrollment__c>> ctpIdsByPE = new Map<Id, List<Participant_Enrollment__c>>();
+
+        List<Id> participantIds = new List<Id>();
+        for(Participant_Enrollment__c pe : participantContacts) {
+            participantIds.add(pe.Participant__c);
+            if(ctpIdsByPE.containsKey(pe.Clinical_Trial_Profile__c)) ctpIdsByPE.get(pe.Clinical_Trial_Profile__c).add(pe);
+            else ctpIdsByPE.put(pe.Clinical_Trial_Profile__c, new List<Participant_Enrollment__c>{pe});
+            pe.Participant_Status__c = PEStatusState.PE_STATUS_TRIAL_COMPLETE;
+        }
+        update participantContacts;
+
+        Map<Id, List<Id>> partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(participantIds);
+
+        Map<Id, List<Id>> contactIdsByCTPIds = new Map<Id, List<Id>>();
+        for(Id ctp : ctpIdsByPE.keySet()) {
+            if(!contactIdsByCTPIds.containsKey(ctp)) contactIdsByCTPIds.put(ctp, new List<Id>());
+            for(Participant_Enrollment__c pe : ctpIdsByPE.get(ctp)) {
+                contactIdsByCTPIds.get(ctp).add(pe.Participant__r.Contact__c);
+                if(partPerDelegateIds.containsKey(pe.Participant__c)) {
+                    contactIdsByCTPIds.get(ctp).addAll(partPerDelegateIds.get(pe.Participant__c));
+                }
+            }
+        }
+
+        NotificationService.sendSimpleNotification(contactIdsByCTPIds, NotificationService.MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE);
     }
 }
