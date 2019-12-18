@@ -4,75 +4,99 @@
 
 <aura:component description="StudyConfiguration" implements="force:hasRecordId, flexipage:availableForAllPageTypes"
                 controller="StudyConfigurationRemote">
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="ctp" type="Object"/>
+    <aura:attribute name="user_has_permission" type="String" default="Edit"/>
+    <aura:attribute name="noVisitPlansMessage" type="Boolean" default="true"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <!-- application events: -->
     <aura:registerEvent name="appEvent" type="c:TaskToggleEvent"/>
 
     <!-- component body: -->
-    <c:RRSpinner aura:id="spinner" showSpinner="true"/>
-    <div class="panel">
-        <div class="vrs-panel" style="position: relative;">
-            <div class="group-container">
-                <div class="group-title">Visit Configuration</div>
-                <div class="global-data">
-                    <div class="global-element">
-                        <lightning:input aura:id="stToggle" type="toggle" label="Status Timeline" name="statusTimelineToggle"
-                                         checked="{!not(v.ctp.Visit_Schedule_Is_Available__c)}" onchange="{!c.saveCTP}"
-                                         variant="label-hidden"/>
-                        <div style="margin-left: 10px">Status Timeline</div>
+    <aura:if isTrue="{!v.user_has_permission != 'Disabled'}">
+        <aura:set attribute="else">
+            <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>
+        </aura:set>
+        <c:RRSpinner aura:id="spinner" showSpinner="true"/>
+        <div class="panel">
+            <div class="vrs-panel" style="position: relative;">
+                <div class="group-container">
+                    <div class="group-title">Visit Configuration</div>
+                    <div class="global-data">
+                        <div class="global-element">
+                            <lightning:input aura:id="stToggle" type="toggle" label="Status Timeline"
+                                             name="statusTimelineToggle"
+                                             checked="{!not(v.ctp.Visit_Schedule_Is_Available__c)}"
+                                             onchange="{!c.saveCTP}"
+                                             variant="label-hidden"/>
+                            <div style="margin-left: 10px">Status Timeline</div>
+                        </div>
+                        <div class="global-element">
+                            <lightning:input aura:id="vsToggle" type="toggle" label="Visit Schedule"
+                                             name="visitScheduleToggle"
+                                             checked="{!v.ctp.Visit_Schedule_Is_Available__c}" onchange="{!c.saveCTP}"
+                                             variant="label-hidden"/>
+                            <div style="margin-left: 10px;  margin-right: 20px">Visit Schedule</div>
+                            <aura:if isTrue="{!and(v.ctp.Visit_Schedule_Is_Available__c, v.noVisitPlansMessage)}">
+                                <lightning:icon iconName="utility:warning" alternativeText="Warning!"
+                                                variant="warning"
+                                                size="small"/>
+                                <p style="font-size: 11px; padding: 5px;">{!$Label.c.PP_VPC_SS_Empty_VP}</p>
+                            </aura:if>
+                        </div>
                     </div>
-                    <div class="global-element">
-                        <lightning:input aura:id="vsToggle" type="toggle" label="Visit Schedule" name="visitScheduleToggle"
-                                         checked="{!v.ctp.Visit_Schedule_Is_Available__c}" onchange="{!c.saveCTP}"
-                                         variant="label-hidden"/>
-                        <div style="margin-left: 10px">Visit Schedule</div>
+                    <div class="group-title">Study Documents Configuration</div>
+                    <div class="global-data">
+                        <div class="global-element">
+                            <lightning:input type="toggle" label="Study Documents" name="studyDocumentsToggle"
+                                             onchange="{!c.saveCTP}" checked="{!v.ctp.Study_Documents_Are_Available__c}"
+                                             variant="label-hidden"/>
+                            <div style="margin-left: 10px">Study Documents</div>
+                        </div>
+                        <div class="global-element">
+                            <lightning:input type="toggle" label="Video and Articles" name="videoArticlesToggle"
+                                             onchange="{!c.saveCTP}"
+                                             checked="{!v.ctp.Video_And_Articles_Are_Available__c}"
+                                             variant="label-hidden"/>
+                            <div style="margin-left: 10px">Video and Articles</div>
+                        </div>
+                    </div>
+                    <div class="group-title">Others</div>
+                    <div class="global-data">
+                        <div class="global-element">
+                            <lightning:input type="toggle" label="Travel Support" name="travelVendorToggle"
+                                             onchange="{!c.saveCTP}" checked="{!v.ctp.Travel_Vendor_Is_Available__c}"
+                                             variant="label-hidden"/>
+                            <div style="margin-left: 10px; margin-right: 20px">Travel Support</div>
+                            <lightning:input type="checkbox" label="Travel Support On Relevant Links"
+                                             name="travelSupportRelevantCheckbox"
+                                             onchange="{!c.saveCTP}"
+                                             checked="{!v.ctp.Travel_Support_On_Relevant_Links__c}"
+                                             variant="label-hidden" disabled="{!!v.ctp.Travel_Vendor_Is_Available__c}"/>
+                            <div>Travel Support On Relevant Links</div>
+                        </div>
+                        <div class="global-element">
+                            <lightning:input type="toggle" label="Tasks" name="tasksToggle"
+                                             onchange="{!c.saveCTP}" checked="{!v.ctp.Tasks_Are_Available__c}"
+                                             variant="label-hidden"/>
+                            <div style="margin-left: 10px">Tasks</div>
+                        </div>
+                        <div class="global-element">
+                            <lightning:input type="toggle" label="Relevant Links" name="RelevantLinksToggle"
+                                             onchange="{!c.saveCTP}" checked="{!v.ctp.Relevant_Links_Are_Available__c}"
+                                             variant="label-hidden"/>
+                            <div style="margin-left: 10px">Relevant Links</div>
+                        </div>
                     </div>
                 </div>
-                <div class="group-title">Study Documents Configuration</div>
-                <div class="global-data">
-                    <div class="global-element">
-                        <lightning:input type="toggle" label="Study Documents" name="studyDocumentsToggle"
-                                         onchange="{!c.saveCTP}" checked="{!v.ctp.Study_Documents_Are_Available__c}"
-                                         variant="label-hidden"/>
-                        <div style="margin-left: 10px">Study Documents</div>
-                    </div>
-                    <div class="global-element">
-                        <lightning:input type="toggle" label="Video and Articles" name="videoArticlesToggle"
-                                         onchange="{!c.saveCTP}" checked="{!v.ctp.Video_And_Articles_Are_Available__c}"
-                                         variant="label-hidden"/>
-                        <div style="margin-left: 10px">Video and Articles</div>
-                    </div>
-                </div>
-                <div class="group-title">Others</div>
-                <div class="global-data">
-                    <div class="global-element">
-                        <lightning:input type="toggle"  label="Travel Support" name="travelVendorToggle"
-                                         onchange="{!c.saveCTP}" checked="{!v.ctp.Travel_Vendor_Is_Available__c}"
-                                         variant="label-hidden"/>
-                        <div style="margin-left: 10px; margin-right: 20px">Travel Support</div>
-                        <lightning:input type="checkbox"  label="Travel Support On Relevant Links" name="travelSupportRelevantCheckbox"
-                                         onchange="{!c.saveCTP}" checked="{!v.ctp.Travel_Support_On_Relevant_Links__c}"
-                                         variant="label-hidden" disabled="{!!v.ctp.Travel_Vendor_Is_Available__c}"/>
-                        <div>Travel Support On Relevant Links</div>
-                    </div>
-                    <div class="global-element">
-                        <lightning:input type="toggle"  label="Tasks" name="tasksToggle"
-                                         onchange="{!c.saveCTP}" checked="{!v.ctp.Tasks_Are_Available__c}"
-                                         variant="label-hidden"/>
-                        <div style="margin-left: 10px">Tasks</div>
-                    </div>
-                    <div class="global-element">
-                        <lightning:input type="toggle"  label="Relevant Links" name="RelevantLinksToggle"
-                                         onchange="{!c.saveCTP}" checked="{!v.ctp.Relevant_Links_Are_Available__c}"
-                                         variant="label-hidden"/>
-                        <div style="margin-left: 10px">Relevant Links</div>
-                    </div>
-                </div>
+                <aura:if isTrue="{!v.user_has_permission == 'View'}">
+                    <div class="overlay"></div>
+                </aura:if>
             </div>
         </div>
-    </div>
+    </aura:if>
 </aura:component>
