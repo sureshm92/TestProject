@@ -1,7 +1,7 @@
 ### Post Deployment Steps 4.0
 
 1) **Related JIRA Task Number Here**. Step description here ... 
-2) ** Use the next descripiton for steps:
+2) **Use the next descripiton for steps:**
       * Go to Setup > Click.. > Edit > ..choose/move etc > Click Save
       * Explain the verification step e.x - Make screenshots this setting
 
