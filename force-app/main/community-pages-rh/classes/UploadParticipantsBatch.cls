@@ -102,10 +102,7 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                 system.debug('ITERATION #: ' + totalRecordCount);
                 system.debug(csvRecordData);
 
-                system.debug(headerIndexes.get('FIRST NAME'));
-                system.debug(csvRecordData[headerIndexes.get('FIRST NAME')]);
                 FirstName = headerIndexes.get('FIRST NAME') != null && csvRecordData[headerIndexes.get('FIRST NAME')] != null ? csvRecordData[headerIndexes.get('FIRST NAME')].trim() : '';
-                system.debug(FirstName);
                 MiddleName = headerIndexes.get('MIDDLE NAME') != null && csvRecordData[headerIndexes.get('MIDDLE NAME')] != null ? csvRecordData[headerIndexes.get('MIDDLE NAME')].trim() : '';
                 LastName = headerIndexes.get('LAST NAME') != null && csvRecordData[headerIndexes.get('LAST NAME')] != null ? csvRecordData[headerIndexes.get('LAST NAME')].trim() : '';
                 Nickname = headerIndexes.get('NICKNAME') != null && csvRecordData[headerIndexes.get('NICKNAME')] != null ? csvRecordData[headerIndexes.get('NICKNAME')].trim() : '';
@@ -179,6 +176,7 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                     if (!saveRes.isSuccess()) {
                         Database.Error error = saveRes.getErrors().get(0);
                         listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
+                        system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
                     }
 
                     Participant__c participant =
@@ -213,12 +211,15 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
             }
 
             if (!contactsById.isEmpty()) {
+                system.debug('!contactsById.isEmpty()');
                 if (!participantsByContact.isEmpty()) {
+                    system.debug('!participantsByContact.isEmpty()');
                     List<Database.SaveResult> saveReses = Database.insert(participantsByContact.values());
                     for (Database.SaveResult saveRes : saveReses) {
                         if (!saveRes.isSuccess()) {
                             Database.Error error = saveRes.getErrors().get(0);
                             listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
+                            system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
                         }
                     }
                 }
@@ -232,11 +233,13 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                 }
 
                 if (!participantEnrollmentsByContact.isEmpty()) {
+                    system.debug('!participantEnrollmentsByContact.isEmpty()');
                     List<Database.SaveResult> saveReses = Database.insert(participantEnrollmentsByContact.values());
                     for (Database.SaveResult saveRes : saveReses) {
                         if (!saveRes.isSuccess()) {
                             Database.Error error = saveRes.getErrors().get(0);
                             listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
+                            system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
                         }
                     }
                 }
@@ -253,11 +256,13 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                 }
 
                 if (!partStdEnrolls.isEmpty()) {
+                    system.debug('!partStdEnrolls.isEmpty()');
                     List<Database.SaveResult> saveReses = Database.insert(partStdEnrolls);
                     for (Database.SaveResult saveRes : saveReses) {
                         if (!saveRes.isSuccess()) {
                             Database.Error error = saveRes.getErrors().get(0);
                             listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Study Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
+                            system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
                         }
                     }
                 }
