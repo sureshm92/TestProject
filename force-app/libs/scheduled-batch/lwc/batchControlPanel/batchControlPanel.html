@@ -9,9 +9,9 @@
             <c-web-spinner></c-web-spinner>
             <template if:true={jobs}>
                 <!-- Batch Table -->
-                <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+                <table class="bcp-table">
                     <thead>
-                    <tr class="slds-line-height_reset">
+                    <tr class="slds-line-height_reset jobs-header-row">
                         <th scope="col">
                             <div class="slds-truncate" title="Job Name" style="text-align: left">Job Name</div>
                         </th>
@@ -37,11 +37,11 @@
                     </thead>
                     <tbody>
                     <template for:each={jobs} for:item="job">
-                        <tr key={job.jobName} class="slds-hint-parent bcp-table">
+                        <tr key={job.detail.Name} class="slds-hint-parent bcp-table-row">
                             <td data-label="Job Name" class="batch-name-col">
                                 <!-- Record Detail -->
-                                <a href="javascript:void(0);" data-id={job.detailId}
-                                   onclick={handleEditDetail}>{job.label}</a>
+                                <a href="javascript:void(0);" data-id={job.detail.Id}
+                                   onclick={handleEditDetail}>{job.detail.Panel_Label__c}</a>
                             </td>
                             <td><span class={job.css}>{job.state}</span></td>
                             <td>
@@ -72,21 +72,30 @@
                                                                    hour="numeric" minute="numeric" second="numeric"
                                                                    weekday="long"></lightning-formatted-date-time>
                                 </template>
+                                <template if:true={job.isStopped}>
+                                    <template if:false={job.nextLaunch}>
+                                        <div class="nextSchedule">
+                                            <lightning-input type="datetime" label="" variant="label-hidden"
+                                                             data-id={job.detail.Id} value={job.nextSchedule}
+                                                             onchange={handleSetLaunchTime}></lightning-input>
+                                        </div>
+                                    </template>
+                                </template>
                             </td>
-                            <td>{job.intervalMode}</td>
-                            <td>{job.interval}</td>
+                            <td>{job.detail.Interval_Mode__c}</td>
+                            <td>{job.detail.Relaunch_Interval__c}</td>
                             <td>
                                 <template if:true={job.isStopped}>
                                     <lightning-button-icon title="Run"
-                                                           value={job.jobName}
+                                                           value={job.detail.Name}
                                                            icon-name="utility:play"
                                                            icon-class="slds-text-color_success"
                                                            size="small"
                                                            variant="border-filled"
                                                            alternative-text="Run Batch"
                                                            onclick={handleRun}></lightning-button-icon>
-                                    <lightning-button-icon title={job.jobName}
-                                                           value={job.detailId}
+                                    <lightning-button-icon title={job.detail.Name}
+                                                           value={job.detail.Id}
                                                            icon-name="utility:delete"
                                                            icon-class="slds-text-color--weak"
                                                            class="slds-p-left--small"
@@ -97,14 +106,14 @@
                                 </template>
                                 <template if:false={job.isStopped}>
                                     <lightning-button-icon title="Stop"
-                                                           value={job.jobName}
+                                                           value={job.detail.Name}
                                                            icon-name="utility:stop"
                                                            icon-class="slds-text-color_error"
                                                            size="small"
                                                            variant="border-filled"
                                                            alternative-text="Stop Batch"
                                                            onclick={handleStop}></lightning-button-icon>
-                                    <lightning-button-icon title={job.jobName}
+                                    <lightning-button-icon title={job.detail.Name}
                                                            icon-name="utility:delete"
                                                            class="slds-p-left--small"
                                                            size="small"
@@ -152,9 +161,6 @@
                                              value={batchDetail.Scope_Size__c}
                                              onchange={handleScopeChange}
                                              step="1" min="1" max="200"></lightning-input>
-                            <lightning-input type="datetime" label="Select first launch time"
-                                             value={batchDetail.First_launch_DT__c}
-                                             onchange={handleLaunchDTChange}></lightning-input>
                         </lightning-record-edit-form>
                     </div>
                     <div slot="footer">

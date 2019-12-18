@@ -63,9 +63,9 @@
         </template>
     </div>
     <!-- Add/Change Visit Planned Date -->
-    <c-web-popup show-header="true" show-footer="true" custom-buttons="true" title={labels.selDate}>
+    <c-web-popup show-header="true" show-footer="true" custom-buttons="true" title={labels.planDate}>
         <div slot="body">
-            <lightning-input type="date" label={labels.planDate} value={planDate}
+            <lightning-input type="date" label={labels.selDate} value={planDate}
                              onchange={handleDateChange}></lightning-input>
         </div>
         <div slot="footerButtons">

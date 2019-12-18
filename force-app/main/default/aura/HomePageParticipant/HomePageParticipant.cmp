@@ -58,7 +58,7 @@
                         </div>
                         <aura:if isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Tasks_Are_Available__c, v.participantState.value == 'ALUMNI')}">
                             <div class="slds-col">
-                                <c:OpenTaskPreviewPanel/>
+                                <c:OpenTaskPreviewPanel isAlumni="{!v.participantState.value == 'ALUMNI'}"/>
                             </div>
                         </aura:if>
                         <aura:if isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}">

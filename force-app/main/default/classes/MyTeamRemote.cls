@@ -410,12 +410,9 @@ public without sharing class MyTeamRemote {
                 contactDelegate.MailingStateCode = participant.Mailing_State_Code__c;
                 insert contactDelegate;
                 insert CommunityService.createUser(contactDelegate, null, null, null);
-            } else {
-                if (CommunityService.isUserInCommunity(contactDelegate.Id)) {
-                    throw new PatientDelegateService.PatientDelegateServiceException(Label.PG_PST_L_Delegates_CantAssign);
-                }
-                CommunityService.setUserToCommunity(contactDelegate.Id);
-                sendEmailNotification(contactDelegate);
+            } else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
+                    CommunityService.setUserToCommunity(contactDelegate.Id);
+                    sendEmailNotification(contactDelegate);
             }
             PatientDelegateService.getInstance().createPatientDelegate(contactDelegate);
         } catch (Exception e) {
