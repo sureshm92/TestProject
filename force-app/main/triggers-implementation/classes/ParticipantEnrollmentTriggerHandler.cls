@@ -262,9 +262,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     private void studySiteHistory(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<Participant_Site_History__c> participantSiteHistories = new List<Participant_Site_History__c>();
         for (Participant_Enrollment__c pe : newList) {
-            if (oldMap != null && pe.Study_Site__c != null && pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c) {
+            if (oldMap != null && oldMap.get(pe.Id).Study_Site__c != null && pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c) {
                 Participant_Site_History__c participantSiteHistory =
-                        new Participant_Site_History__c(Study_Site__c = pe.Study_Site__c,
+                        new Participant_Site_History__c(Study_Site__c = oldMap.get(pe.Id).Study_Site__c,
                                                         Participant_Enrollment__c = pe.Id);
                 participantSiteHistories.add(participantSiteHistory);
             }
