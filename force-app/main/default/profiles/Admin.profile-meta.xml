@@ -203,6 +203,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_SendDelaySMS</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_UpdateActivityDateTimeOldUsers</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -628,6 +632,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>LookupSearchResult</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MCloudSMSSender</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -4275,6 +4283,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Notification__c.Recipient__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Notification__c.Time_Delay_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
