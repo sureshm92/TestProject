@@ -6,9 +6,9 @@
 <template>
     <div class="path-panel">
         <c-web-spinner fixed="true"></c-web-spinner>
-        <div class="path-section">
-            <div class="slds-grid">
-                <template if:true={pathItems}>
+        <template if:false={isVisitsEmpty}>
+            <div class="path-section">
+                <div class="slds-grid">
                     <div class="slds-col arrow-left">
                         <div onclick={handleScrollLeft}>
                             <c-web-icon icon-name="icon-chevron-left" icon-color="#b5b4b5"></c-web-icon>
@@ -35,12 +35,14 @@
                                                     <lightning-formatted-date-time
                                                             value={pathItem.planDate}></lightning-formatted-date-time>
                                                     <div data-id={pathItem.id} onclick={handleOpenDialog}>
-                                                        <c-web-icon icon-name="icon-edit" icon-color="#686868" icon-size="small"></c-web-icon>
+                                                        <c-web-icon icon-name="icon-edit" icon-color="#686868"
+                                                                    icon-size="small"></c-web-icon>
                                                     </div>
                                                 </div>
                                             </template>
                                             <template if:false={pathItem.planDate}>
-                                                <a data-id={pathItem.id} onclick={handleOpenDialog}>{labels.addLabel}</a>
+                                                <a data-id={pathItem.id}
+                                                   onclick={handleOpenDialog}>{labels.addLabel}</a>
                                             </template>
                                         </template>
                                     </div>
@@ -53,14 +55,17 @@
                             <c-web-icon icon-name="icon-chevron-right" icon-color="#b5b4b5"></c-web-icon>
                         </div>
                     </div>
-                </template>
+                </div>
             </div>
-        </div>
+        </template>
+        <template if:true={isVisitsEmpty}>
+            <c-web-empty-list target-list={pathItems}></c-web-empty-list>
+        </template>
     </div>
     <!-- Add/Change Visit Planned Date -->
-    <c-web-popup show-header="true" show-footer="true" custom-buttons="true" title="Select Planned Date">
+    <c-web-popup show-header="true" show-footer="true" custom-buttons="true" title={labels.planDate}>
         <div slot="body">
-            <lightning-input type="date" label="Planned Date" value={planDate}
+            <lightning-input type="date" label={labels.selDate} value={planDate}
                              onchange={handleDateChange}></lightning-input>
         </div>
         <div slot="footerButtons">

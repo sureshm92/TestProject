@@ -47,6 +47,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Action_UploadParticipantsRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AddPatientByPIRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -931,6 +935,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>RelevantLinksRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>RemoteCall</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1739,6 +1747,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_UploadParticipantsRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_UserService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1880,6 +1892,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>UpdateDelegatesBatchTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UploadParticipantsBatch</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -2673,6 +2689,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Therapeutic_Area__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Travel_Support_On_Relevant_Links__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6529,6 +6550,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Participant_Enrollment__c-Participant Profile Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Participant_Site_History__c-Participant Site History Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Participant_Status_Integration__mdt-Participant Status Integration Layout</layout>

@@ -10,21 +10,24 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
     private List<List<String>> csvLines = new List<List<String>>();
     private Map<String, Integer> headerIndexes = new Map<String, Integer>();
     private String selectedStatus;
-    private String studySiteId;
+    private Study_Site__c studySiteDetails;
     private Boolean headerFailed;
     private Integer totalRecordCount = 0;
 
     private String emailError = '';
     Boolean valid = true;
+    private DateTime uploadTime;
 
     private Set<String> listOfFailedRecords = new Set<String>();
     private Set<String> listOfFailedRecordsWithMsg = new Set<String>();
 
     public UploadParticipantsBatch(List<List<String>> csvFileLines, String header, String studySiteId, String selectedStatus, Boolean headerFailed, Map<String, Integer> headerIndexes) {
-        Integer totalRowCount = csvFileLines.size() - 1;
+        uploadTime = DateTime.now();
+        Integer totalRowCount = csvFileLines.size();
         this.headerIndexes = headerIndexes;
         this.selectedStatus = selectedStatus;
-        this.studySiteId = studySiteId;
+
+        studySiteDetails = [SELECT Id, Principal_Investigator__c, Clinical_Trial_Profile__c FROM Study_Site__c WHERE Id = :studySiteId];
 
         listOfFailedRecordsWithMsg.add('Row Index, Failed Reason');
         String line = header.trim().removeEnd(',').trim().removeEnd(',');
@@ -97,8 +100,12 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
 
                 totalRecordCount++;
                 system.debug('ITERATION #: ' + totalRecordCount);
+                system.debug(csvRecordData);
 
+                system.debug(headerIndexes.get('FIRST NAME'));
+                system.debug(csvRecordData[headerIndexes.get('FIRST NAME')]);
                 FirstName = headerIndexes.get('FIRST NAME') != null && csvRecordData[headerIndexes.get('FIRST NAME')] != null ? csvRecordData[headerIndexes.get('FIRST NAME')].trim() : '';
+                system.debug(FirstName);
                 MiddleName = headerIndexes.get('MIDDLE NAME') != null && csvRecordData[headerIndexes.get('MIDDLE NAME')] != null ? csvRecordData[headerIndexes.get('MIDDLE NAME')].trim() : '';
                 LastName = headerIndexes.get('LAST NAME') != null && csvRecordData[headerIndexes.get('LAST NAME')] != null ? csvRecordData[headerIndexes.get('LAST NAME')].trim() : '';
                 Nickname = headerIndexes.get('NICKNAME') != null && csvRecordData[headerIndexes.get('NICKNAME')] != null ? csvRecordData[headerIndexes.get('NICKNAME')].trim() : '';
@@ -168,11 +175,10 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                                     MailingState = State,
                                     MailingCountry = Country,
                                     MailingPostalCode = PostalCode);
-                    insert participantContact;
                     Database.SaveResult saveRes = Database.insert(participantContact);
                     if (!saveRes.isSuccess()) {
                         Database.Error error = saveRes.getErrors().get(0);
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
                     }
 
                     Participant__c participant =
@@ -194,8 +200,9 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
 
                     Participant_Enrollment__c participantEnrollment =
                             new Participant_Enrollment__c(Participant_Status__c = selectedStatus,
-                                    Study_Site__c = studySiteId,
-                                    Participant_Contact__c = participantContact.Id);
+                                    Study_Site__c = studySiteDetails.Id,
+                                    Participant_Contact__c = participantContact.Id,
+                                    PI_Contact__c = studySiteDetails.Principal_Investigator__c);
 
                     contactsById.put(participantContact.Id, participantContact);
                     participantsByContact.put(participantContact.Id, participant);
@@ -207,7 +214,13 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
 
             if (!contactsById.isEmpty()) {
                 if (!participantsByContact.isEmpty()) {
-                    insert participantsByContact.values();
+                    List<Database.SaveResult> saveReses = Database.insert(participantsByContact.values());
+                    for (Database.SaveResult saveRes : saveReses) {
+                        if (!saveRes.isSuccess()) {
+                            Database.Error error = saveRes.getErrors().get(0);
+                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
+                        }
+                    }
                 }
 
                 for (Contact participantContact : contactsById.values()) {
@@ -215,16 +228,44 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                     if (participantsByContact.get(participantContact.Id) != null) {
                         participantEnrollment.Participant__c = participantsByContact.get(participantContact.Id).Id;
                     }
+
                 }
 
                 if (!participantEnrollmentsByContact.isEmpty()) {
-                    insert participantEnrollmentsByContact.values();
+                    List<Database.SaveResult> saveReses = Database.insert(participantEnrollmentsByContact.values());
+                    for (Database.SaveResult saveRes : saveReses) {
+                        if (!saveRes.isSuccess()) {
+                            Database.Error error = saveRes.getErrors().get(0);
+                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
+                        }
+                    }
+                }
+
+                List<Participant_Study_Enrollment__c> partStdEnrolls = new List<Participant_Study_Enrollment__c>();
+                for (Contact participantContact : contactsById.values()) {
+                    Participant_Enrollment__c participantEnrollment = participantEnrollmentsByContact.get(participantContact.Id);
+                    partStdEnrolls.add(new Participant_Study_Enrollment__c(Clinical_Trial_Profile__c = studySiteDetails.Clinical_Trial_Profile__c,
+                            Participant__c = participantEnrollment.Participant__c,
+                            Participant_Contact__c = participantContact.Id,
+                            Participant_Enrollment__c = participantEnrollment.Id,
+                            PI_Contact__c = studySiteDetails.Principal_Investigator__c,
+                            Study_Site__c = studySiteDetails.Id));
+                }
+
+                if (!partStdEnrolls.isEmpty()) {
+                    List<Database.SaveResult> saveReses = Database.insert(partStdEnrolls);
+                    for (Database.SaveResult saveRes : saveReses) {
+                        if (!saveRes.isSuccess()) {
+                            Database.Error error = saveRes.getErrors().get(0);
+                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Study Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
+                        }
+                    }
                 }
             }
 
             system.debug('HEAP SIZE IS: ' + limits.getHeapSize() + ' enforced is: ' + limits.getLimitHeapSize() + 'on totalRecordCount: ' + totalRecordCount);
         } catch (Exception exp) {
-            system.debug('ERROR during CSV parsing: ' + exp.getMessage());
+            system.debug('ERROR during CSV parsing: ' + exp.getMessage() + ' ' + exp.getStackTraceString());
         }
     }
 
@@ -233,15 +274,52 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
             List<String> finalEmails = null;
 
             system.debug('HEAP SIZE IS: ' + limits.getHeapSize() + ' enforced is: ' + limits.getLimitHeapSize() + 'on totalRecordCount: ' + totalRecordCount);
-            /*sendNotificationEmail(listOfFailedRecords,
-                                  listOfFailedRecordsWithMsg);*/
+            sendNotificationEmail(listOfFailedRecords,
+                    listOfFailedRecordsWithMsg,
+                    studySiteDetails.Principal_Investigator__c,
+                    uploadTime);
         } catch (Exception exp) {
             system.debug('ERROR during sending file with failed records: ' + exp.getMessage());
         }
     }
 
-    /*private static void sendNotificationEmail(List<String> listOfFailedRecords, List<String> listOfFailedRecordsWithMsg) {
+    private static void sendNotificationEmail(Set<String> listOfFailedRecords, Set<String> listOfFailedRecordsWithMsg, String piContactId, DateTime uploadTime) {
+        OrgWideEmailAddress owea = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName = 'IQVIA Referral Hub' LIMIT 1];
+        String formattedDate = uploadTime.format('MM/dd/yyyy hh:mm a', UserInfo.getTimeZone().toString());
 
-    }*/
+        User usr = [SELECT Id, Email FROM User WHERE ContactId = :piContactId LIMIT 1];
+
+        Messaging.SingleEmailMessage adminEmailToSend = new Messaging.SingleEmailMessage();
+        adminEmailToSend.setToAddresses(new List<String> { usr.Email });
+        adminEmailToSend.setOrgWideEmailAddressId(owea.id);
+        adminEmailToSend.setSubject('Upload participants completed - ' + formattedDate);
+
+        String failedRecordsCSV = '';
+        for (String failedRecord : listOfFailedRecords) {
+            failedRecordsCSV = failedRecordsCSV + failedRecord + '\n';
+        }
+
+        String failedRecordsCSVMsgs = '';
+        for (String failedRecordMsg : listOfFailedRecordsWithMsg) {
+            failedRecordsCSVMsgs = failedRecordsCSVMsgs + failedRecordMsg + '\n';
+        }
+
+        Messaging.EmailFileAttachment failedRecordsEfa = new Messaging.EmailFileAttachment();
+        failedRecordsEfa.setFileName('ProcessOutput_Records_' + formattedDate + '.csv');
+        failedRecordsEfa.setBody(Blob.valueOf(failedRecordsCSV));
+
+        Messaging.EmailFileAttachment failedMsgsEfa = new Messaging.EmailFileAttachment();
+        failedMsgsEfa.setFileName('ProcessOutput_Details_' + formattedDate + '.csv');
+        failedMsgsEfa.setBody(Blob.valueOf(failedRecordsCSVMsgs));
+
+        adminEmailToSend.setHtmlBody('');
+        adminEmailToSend.setPlainTextBody('');
+
+        adminEmailToSend.setFileAttachments(new List<Messaging.EmailFileAttachment> { failedRecordsEfa, failedMsgsEfa });
+
+        if (!Test.isRunningTest()) {
+            Messaging.sendEmail(new Messaging.SingleEmailMessage[] { adminEmailToSend });
+        }
+    }
 
 }

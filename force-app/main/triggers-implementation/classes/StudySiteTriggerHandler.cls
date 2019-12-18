@@ -32,14 +32,6 @@ public without sharing class StudySiteTriggerHandler {
         }
         
     }
-
-    public class CreateHCPEnrollmentsForRPInWhiteListHandler extends TriggerHandler{
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createHCPEnrollmentsForRPInWhiteList(newList, (Map<Id, Study_Site__c>)oldMap);
-        }
-
-    }
     
     public class CreateStatusHistoryHandler extends TriggerHandler{
     
@@ -245,13 +237,14 @@ public without sharing class StudySiteTriggerHandler {
         }
     }
 
-    private static void createHCPEnrollmentsForRPInWhiteList(List<Study_Site__c> newList, Map<Id, Study_Site__c> oldMap){
+    /*private static void createHCPEnrollmentsForRPInWhiteList(List<Study_Site__c> newList, Map<Id, Study_Site__c> oldMap){
         Set<Id> PIds = new Set<Id>();
         Set<Id> ssIds = new Set<Id>();
+        System.debug('ssList>>'+ newList);
         for(Study_Site__c ss : newList){
-            if(ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_ACCEPTED &&
-                    ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_ACCEPTED_A &&
-                    ss.Override_PI_Referral_Status__c != oldMap.get(ss.id).Override_PI_Referral_Status__c){
+            if((ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_ACCEPTED ||
+                    ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_ACCEPTED_A) &&
+                    ss.Override_PI_Referral_Status__c != oldMap.get(ss.Id).Override_PI_Referral_Status__c){
                 PIds.add(ss.Principal_Investigator__c);
                 ssIds.add(ss.Id);
             }
@@ -294,6 +287,6 @@ public without sharing class StudySiteTriggerHandler {
             }
         }
         System.debug('enrollmentsList>>>'+enrollmentsList);
-        if(!enrollmentList.isEmpty()) insert enrollmentsList;
-    }
+        if(!enrollmentsList.isEmpty()) insert enrollmentsList;
+    }*/
 }

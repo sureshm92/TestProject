@@ -643,6 +643,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Export</value>
     </labels>
     <labels>
+        <fullName>BTN_Export_All</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Export All</shortDescription>
+        <value>Export All</value>
+    </labels>
+    <labels>
         <fullName>BTN_Find_study_sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1025,7 +1032,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>BTN Upload Patient</shortDescription>
-        <value>Upload Participants</value>
+        <value>Import Participant File</value>
     </labels>
     <labels>
         <fullName>BTN_View</fullName>
@@ -1908,6 +1915,29 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming medication dosage for the clinical research study: ##StudyName.  If you have any questions regarding this medication, please contact the Study Team. Please login for additional details.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Once_at_Trial_Completion_DGT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Once at Trial Completion DGT</shortDescription>
+        <value>Congratulations, ##PatientFirstName has successfully completed the
+##StudyName clinical research study.   
+
+Thank you for participating. Your contribution to the clinical research study has been very important.
+
+Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Once_at_Trial_Completion_PT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Once at Trial Completion PT</shortDescription>
+        <value>Congratulations, you have successfully completed ##StudyName clinical research study.   
+
+Thank you for participating. Your contribution to the clinical research study has been very important.
+
+Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_PI1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2502,6 +2532,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <protected>true</protected>
         <shortDescription>Email Header Medication Task Reminder</shortDescription>
         <value>This is a medication reminder</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Once_at_Trial_Completion</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Once at Trial Completion</shortDescription>
+        <value>Thank you for completing your clinical research study</value>
     </labels>
     <labels>
         <fullName>Email_Header_PI2</fullName>
@@ -3334,6 +3371,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>Error Message Can Not Create Participant</shortDescription>
         <value>Can not create participant</value>
+    </labels>
+    <labels>
+        <fullName>Error_Message_Can_Not_Use_Visit_Plan</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error Message Can Not Use Visit Plan</shortDescription>
+        <value>Participant's visit plan is not available for that study site. Please determine if participant's visit plan can still be changed or if the study site is not appropriate for this participant and proceed accordingly.</value>
     </labels>
     <labels>
         <fullName>Error_Message_Participant_Duplicate</fullName>
@@ -5483,6 +5527,13 @@ View study documents and other resources including articles and videos related t
         <value>Patient Status</value>
     </labels>
     <labels>
+        <fullName>PG_AP_F_Patient_Status_Select</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP F Patient Status Select</shortDescription>
+        <value>Select Patient Status</value>
+    </labels>
+    <labels>
         <fullName>PG_AP_F_Phone_Type</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -5965,6 +6016,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG AS L Opt In Participant Status Emails</shortDescription>
         <value>updates about your referral status</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_L_Opt_In_Participant_Status_SMS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS L Opt In Participant Status SMS</shortDescription>
+        <value>I want to receive SMS on my phone number</value>
     </labels>
     <labels>
         <fullName>PG_AS_L_Opt_In_Visit_Results</fullName>
@@ -9379,6 +9437,13 @@ Please check your CAPS lock key.</value>
         <value>Patient</value>
     </labels>
     <labels>
+        <fullName>Planned_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Planned Date</shortDescription>
+        <value>Planned Date</value>
+    </labels>
+    <labels>
         <fullName>Platelet_Count</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10363,7 +10428,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SS Upload Participants</shortDescription>
-        <value>Upload Participants</value>
+        <value>Import Participants</value>
     </labels>
     <labels>
         <fullName>SS_Use_This_Address</fullName>
@@ -10490,6 +10555,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>Search For Sites</shortDescription>
         <value>Search For Sites</value>
+    </labels>
+    <labels>
+        <fullName>Select_Planned_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select Planned Date</shortDescription>
+        <value>Select Planned Date</value>
     </labels>
     <labels>
         <fullName>Selected_Icons</fullName>
@@ -11311,6 +11383,13 @@ Please check your CAPS lock key.</value>
         <value>For this: ##param1, use this: ##zzz</value>
     </labels>
     <labels>
+        <fullName>Thank_you_for_your_Interest</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>COI Toast Alert Me When CTP appears</shortDescription>
+        <value>Thank you for your interest in {0}. We will contact you when the clinical research study would be created for this.</value>
+    </labels>
+    <labels>
         <fullName>Toast_Changes_Successfully</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11479,13 +11558,6 @@ Please check your CAPS lock key.</value>
         <value>Thank you for your interest in {0}. We will contact you when the clinical research study begins enrollment.</value>
     </labels>
     <labels>
-        <fullName>Thank_you_for_your_Interest</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>COI Toast Alert Me When CTP appears</shortDescription>
-        <value>Thank you for your interest in {0}. We will contact you when the clinical research study would be created for this.</value>
-    </labels>
-    <labels>
         <fullName>TrialSearch_Toast_Contact_The_Study</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -11582,6 +11654,20 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Update Participant</shortDescription>
         <value>Update Participant</value>
+    </labels>
+    <labels>
+        <fullName>VPN_AddDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>VPN AddDate</shortDescription>
+        <value>Add visit date</value>
+    </labels>
+    <labels>
+        <fullName>VPN_Sel_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>VPN Sel Date</shortDescription>
+        <value>Select date</value>
     </labels>
     <labels>
         <fullName>VR_ALT</fullName>

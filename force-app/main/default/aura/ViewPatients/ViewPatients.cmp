@@ -28,16 +28,24 @@
 
                 <div class="vp-navigation">
                     <aura:if isTrue="{!empty(v.parent)}">
-                        <aura:if isTrue="{!v.userMode == 'PI'}">
-                            <c:RRNavigationPath>
-                                <c:RRNPathItem label="{!$Label.c.PG_RP_L_My_Referrals}"/>
-                            </c:RRNavigationPath>
-                            <aura:set attribute="else">
+                            <aura:if isTrue="{!v.userMode == 'PI'}">
+                                <div class="navigation-breadcrumbs">
                                 <c:RRNavigationPath>
-                                    <c:RRNPathItem label="{!$Label.c.PG_VP_L_My_Patients}"/>
+                                    <c:RRNPathItem label="{!$Label.c.PG_RP_L_My_Referrals}"/>
                                 </c:RRNavigationPath>
-                            </aura:set>
-                        </aura:if>
+                                <aura:set attribute="else">
+                                    <c:RRNavigationPath>
+                                        <c:RRNPathItem label="{!$Label.c.PG_VP_L_My_Patients}"/>
+                                    </c:RRNavigationPath>
+                                </aura:set>
+                                </div>
+                            </aura:if>
+                        <div class="vp-export-btn">
+                            <button class="apollo-btn secondary" onclick="{!c.doExport}">
+                                    {!$Label.c.BTN_Export_All}
+                            </button>
+                        </div>
+
                     </aura:if>
                 </div>
             <aura:if isTrue="{!v.userMode == 'HCP'}">

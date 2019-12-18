@@ -170,7 +170,13 @@ public class TestData {
                 Patient_Portal_Enabled__c = true,
                 Shareback_Settings_On_Participant_Level__c = true,
                 Shareback_Availability_Timing__c = 1,
-                Visit_Data_Shareback__c = true
+                Visit_Data_Shareback__c = true,
+                Visit_Schedule_Is_Available__c = true,
+                Tasks_Are_Available__c = true,
+                Study_Documents_Are_Available__c = true,
+                Video_And_Articles_Are_Available__c = true,
+                Travel_Vendor_Is_Available__c = true,
+                Relevant_Links_Are_Available__c = true
         );
         insert study;
     

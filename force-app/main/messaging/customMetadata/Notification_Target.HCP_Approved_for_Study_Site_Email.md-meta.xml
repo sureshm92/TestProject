@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>Email_to_HCP_Approved_for_Study_Site</label>
+    <label>HCP Approved for Study Site Email</label>
     <protected>false</protected>
     <values>
         <field>Email_Template_Delegate__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">RP1_New_Studies_Email</value>
     </values>
     <values>
         <field>Email_Template__c</field>
@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Org_Wide_Email_Address__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">IQVIA Referral Hub</value>
     </values>
     <values>
         <field>Target_Type__c</field>
