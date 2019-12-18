@@ -1,5 +1,5 @@
 /**
- * Created by D.Yasinskyi on 07.05.2018
+ * Created by D.Yasinskyi on 07.05.2018 test
  */
 public without sharing class AccountSettingsController {
 
