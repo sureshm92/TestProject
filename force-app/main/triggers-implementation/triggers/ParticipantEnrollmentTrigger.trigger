@@ -12,7 +12,8 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c (before insert
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.SendCalloutOnEligibilityPassedHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class);
-    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.SendEmailIfSSWasChanged.class);
+    TriggerHandlerExecutor.execute(PENotificationTriggerHandler.SendEmailIfSSWasChanged.class);
+    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class);
 
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class);
@@ -22,4 +23,5 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c (before insert
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.SetCurrentEnrollmentHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.UpdatePEHistoryOnAutoAcceptedHandler.class);
     TriggerHandlerExecutor.execute(PENotificationTriggerHandler.CreateNotificationHandler.class);
+    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class);
 }

@@ -73,7 +73,7 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
 
         Map<Id, List<String>> resIdsByContactId = new Map<Id, List<String>>();
         List<Contact> contactToNotify = new List<Contact>();
-        Map<Id, Id> peIdByContact = new Map<Id, Id>();
+        Map<Id, List<Id>> peIdByContactIds = new Map<Id, List<Id>>();
         for (Participant_Enrollment__c pe : enrollment) {
             List<Contact> peContacts = new List<Contact>();
             peContacts.add(pe.Participant_Contact__r);
@@ -88,7 +88,8 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                             res, pe, contentLangByResId.get(res.Resource__c), contact.userCommunityMode__c, isDelegate)) {
                         if (needNotify(contact, res.Resource__c)) {
                             contactToNotify.add(contact);
-                            peIdByContact.put(contact.Id, pe.Id);
+                            if(!peIdByContactIds.containsKey(contact.Id)) peIdByContactIds.put(pe.Id, new List<Id>{contact.Id});
+                            else peIdByContactIds.get(pe.Id).add(contact.Id);
 
                             if (!resIdsByContactId.containsKey(contact.Id)) {
                                 List<String> resNotificationIds = contact.Resource_Notifications__c != null ?
@@ -103,8 +104,7 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
         }
 
         if (!contactToNotify.isEmpty()) {
-            SendEmailToParticipant.sendPlainSummaryNotifications(
-                    contactToNotify, peIdByContact, SendEmailToParticipant.PATIENT_PLAIN_SUMMARY);
+            NotificationService.sendSimpleNotification(peIdByContactIds, NotificationService.MESSAGE_TO_PT_NEW_STDDOC_TYPE);
 
             List<Contact> contactsToUpdate = new List<Contact>();
             for (Contact con : contactToNotify) {

@@ -17,6 +17,12 @@ public with sharing class PENotificationTriggerHandler {
         }
     }
 
+    public class SendEmailIfSSWasChanged extends TriggerHandler {
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            sendEmailIfSSWasChanged((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
+
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
@@ -27,6 +33,7 @@ public with sharing class PENotificationTriggerHandler {
                 SELECT Id,
                         HCP_Contact_HCPEnroll__c,
                         Participant__r.Contact__c,
+                        Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                         Participant_Status__c,
                         Is_Virtual_Study_Site__c,
                         Referral_Source__c,
@@ -51,6 +58,15 @@ public with sharing class PENotificationTriggerHandler {
                 notifyPTType =
                         pe.Is_Virtual_Study_Site__c ? NotificationService.checkPatientNotificationVTType(pe)
                                 : NotificationService.checkPatientNotificationType(pe, !NotificationService.participantStatusListForPT.contains(pe.Participant_Status__c));
+                //Forming additional notification for Enrollment Success
+                if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+                        && pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
+                    listNotificationForPatient.add(new Notification__c(
+                            Recipient__c = pe.Participant__r.Contact__c,
+                            WhatId__c = pe.Id,
+                            Notification_Type__c = NotificationService.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE
+                    ));
+                }
             }
 
             if (notifyHCPType != null) {
@@ -72,5 +88,34 @@ public with sharing class PENotificationTriggerHandler {
 
         if (listNotificationForHCP != null) insert listNotificationForHCP;
         if (listNotificationForPatient != null) insert listNotificationForPatient;
+    }
+
+    @TestVisible
+    private static void sendEmailIfSSWasChanged(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+        List<Notification__c> notificationList = new List<Notification__c>();
+        List<Id> peIds = new List<Id>();
+        for (Participant_Enrollment__c pe : newList) {
+            if (pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c) {
+                peIds.add(pe.Id);
+            }
+        }
+        for (Participant_Enrollment__c pe : [
+                SELECT Id,
+                        Study_Site__c,
+                        Study_Site__r.Principal_Investigator__c,
+                        Participant_Contact__c
+                FROM Participant_Enrollment__c
+                WHERE Id IN :peIds
+        ]) {
+            notificationList.add(new Notification__c(
+                    Notification_Type__c = NotificationService.MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE,
+                    Recipient__c = pe.Participant_Contact__c,
+                    WhatId__c = pe.Id));
+            notificationList.add(new Notification__c(
+                    Notification_Type__c = NotificationService.MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE,
+                    Recipient__c = pe.Study_Site__r.Principal_Investigator__c,
+                    WhatId__c = pe.Id));
+        }
+        if(!notificationList.isEmpty()) insert notificationList;
     }
 }

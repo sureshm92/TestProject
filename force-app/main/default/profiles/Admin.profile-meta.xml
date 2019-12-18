@@ -43,6 +43,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Action_SendSMS</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Action_SendSiteRequestByHCPRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -951,6 +955,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>RemoteCall_SendSMS</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ReportsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1224,6 +1232,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SurveyService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SystemService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1691,6 +1703,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_SystemService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Task</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1744,6 +1760,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_UISObjectLoojupRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_UploadParticipantsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1888,6 +1908,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>UpdateDelegatesBatchTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>UploadParticipantsBatch</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -6544,6 +6568,9 @@
         <layout>Participant_Enrollment__c-Participant Profile Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Participant_Site_History__c-Participant Site History Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Participant_Status_Integration__mdt-Participant Status Integration Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6991,15 +7018,16 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>PI_RP_Relationship__c</object>
+        <object>Notification__c</object>
         <viewAllRecords>true</viewAllRecords>
-    </objectPermissions> <objectPermissions>
+    </objectPermissions>
+    <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>Notification__c</object>
+        <object>PI_RP_Relationship__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -7027,6 +7055,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Participant_Enrollment__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Participant_Site_History__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

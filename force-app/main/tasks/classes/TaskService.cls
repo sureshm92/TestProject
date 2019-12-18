@@ -380,7 +380,33 @@ public without sharing class TaskService {
 
     public List<Task> filterCurrentStudyTasks(List<Task> tasks) {
         Participant_Enrollment__c currentPE = ParticipantService.getInstance().getState().pe;
-        if(currentPE == null) return tasks;
+        if(currentPE == null) {
+            List<Id> participantsIds = new List<Id>();
+            for (Task t : tasks) {
+                if (t.WhatId != null && t.WhatId.getSobjectType() == Participant__c.getSObjectType()) {
+                    participantsIds.add(t.WhatId);
+                }
+            }
+
+            List<Participant_Enrollment__c> participantsPE = [
+                    SELECT Id, Clinical_Trial_Profile__r.Tasks_Are_Available__c, Participant__c
+                    FROM Participant_Enrollment__c
+                    WHERE Participant__c IN: participantsIds AND Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE
+            ];
+            List<Id> participantsIdsToShow = new List<Id>();
+
+            for(Participant_Enrollment__c participantEnrollment : participantsPE){
+                participantsIdsToShow.add(participantEnrollment.Participant__c);
+            }
+
+            List<Task> tasksToShow = new List<Task>();
+            for (Task t : tasks) {
+                if (t.WhatId != null && t.WhatId.getSobjectType() == Participant__c.getSObjectType()){
+                    if(participantsIdsToShow.contains(t.WhatId)) tasksToShow.add(t);
+                }
+            }
+            return tasksToShow;
+        }
 
         Set<Id> invIds = new Set<Id>();
         for (Task t : tasks) {

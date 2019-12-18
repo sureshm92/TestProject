@@ -26,7 +26,7 @@
 
     <div class="mrc-invite-popup">
         <c:Popup aura:id="uploadParticipantsDialog" title="{!$Label.c.SS_Upload_Participants}" size="medium">
-            <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false"/>
+            <c:RRSpinner aura:id="upModalSpinner" size="medium" showSpinner="false"/>
             <div class="slds-grid slds-grid_vertical">
                 <div class="slds-grid slds-wrap slds-scrollable">
                     <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
@@ -38,7 +38,14 @@
                 <div class="slds-grid slds-wrap slds-scrollable">
                     <div class="slds-size_2-of-2 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small">
-                            <div class="input-fields-labels" style="color: blue;">{!v.fullFileName}</div>
+                            <div class="input-fields-labels" style="color: blue;">
+                                {!v.fullFileName}
+                                <aura:if isTrue="{!!empty(v.fullFileName)}">
+                                    <a href="javascript:void(0)" onclick="{!c.doClearFile}">
+                                        <c:RRIcon color="blue" iconName="icon-close"/>
+                                    </a>
+                                </aura:if>
+                            </div>
                             <lightning:input aura:id="file-input" type="file" files="{!v.FileList}" accept=".xls, .xlsx, .csv"
                                              name="file" multiple="false" onchange="{!c.upload}"/>
                         </div>
@@ -47,7 +54,7 @@
                 <div class="slds-grid slds-wrap slds-scrollable">
                     <div class="slds-size_2-of-2 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small">
-                            <div class="input-fields-labels"><b>Select Status for Participants</b></div>
+                            <div class="input-fields-labels"><b>{!$Label.c.PG_AP_F_Patient_Status_Select}</b></div>
                         </div>
                     </div>
                 </div>
@@ -61,7 +68,6 @@
                                         class="delegate-select"
                                         placeholder="{!$Label.c.PG_AC_Select}"
                                         useSentenceFont="false"/>
-                            <div>All participants will be imported with selected status</div>
                         </div>
                     </div>
                 </div>

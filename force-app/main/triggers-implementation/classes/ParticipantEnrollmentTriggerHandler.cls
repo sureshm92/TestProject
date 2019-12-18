@@ -18,6 +18,24 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
+    public class CheckVisitPlanFromStudySiteHandler extends TriggerHandler {
+
+        public override void beforeInsert(List<SObject> newList) {
+            new ParticipantEnrollmentTriggerHandler(newList).checkVisitPlanFromStudySite(newList, null);
+        }
+
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            new ParticipantEnrollmentTriggerHandler(newList).checkVisitPlanFromStudySite(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
+
+    public class StudySiteHistoryHandler extends TriggerHandler {
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            new ParticipantEnrollmentTriggerHandler(newList).studySiteHistory(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
+
     public class CreateUsersOrSendNotificationsHandler extends TriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
@@ -92,12 +110,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             updatePEHistoryOnAutoAccepted((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
-        }
-    }
-
-    public class SendEmailIfSSWasChanged extends TriggerHandler {
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            sendEmailIfSSWasChanged((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
 
@@ -243,6 +255,55 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
 
         if (!participantContacts.isEmpty()) update participantContacts;
+    }
+
+
+    @TestVisible
+    private void studySiteHistory(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+        List<Participant_Site_History__c> participantSiteHistories = new List<Participant_Site_History__c>();
+        for (Participant_Enrollment__c pe : newList) {
+            if (oldMap != null && pe.Study_Site__c != null && pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c) {
+                Participant_Site_History__c participantSiteHistory =
+                        new Participant_Site_History__c(Study_Site__c = pe.Study_Site__c,
+                                                        Participant_Enrollment__c = pe.Id);
+                participantSiteHistories.add(participantSiteHistory);
+            }
+        }
+
+        if (!participantSiteHistories.isEmpty()) {
+            insert participantSiteHistories;
+        }
+    }
+
+    @TestVisible
+    private void checkVisitPlanFromStudySite(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+        Set<Id> studySiteIds = new Set<Id>();
+        for (Participant_Enrollment__c pe : newList) {
+            studySiteIds.add(pe.Study_Site__c);
+        }
+
+        if (!studySiteIds.isEmpty()) {
+            Map<Id, Set<Id>> visitPlansBySSId = new Map<Id, Set<Id>>();
+            List<StudySiteVisitPlan__c> visitPlans = [SELECT Id, Study_Site__c, Visit_Plan__c FROM StudySiteVisitPlan__c WHERE Study_Site__c IN :studySiteIds];
+            for (StudySiteVisitPlan__c visitPlan : visitPlans) {
+                Set<Id> visitPlIds = visitPlansBySSId.get(visitPlan.Study_Site__c);
+                if (visitPlIds == null) {
+                    visitPlIds = new Set<Id>();
+                    visitPlansBySSId.put(visitPlan.Study_Site__c, visitPlIds);
+                }
+
+                visitPlIds.add(visitPlan.Visit_Plan__c);
+            }
+
+            for (Participant_Enrollment__c pe : newList) {
+                if (pe.Visit_Plan__c != null && (visitPlansBySSId.get(pe.Study_Site__c) == null || visitPlansBySSId.get(pe.Study_Site__c).IsEmpty() ||
+                        !visitPlansBySSId.get(pe.Study_Site__c).contains(pe.Visit_Plan__c))) {
+                    if (!Test.isRunningTest()) {
+                        pe.addError(Label.Error_Message_Can_Not_Use_Visit_Plan);
+                    }
+                }
+            }
+        }
     }
 
     @TestVisible
@@ -696,34 +757,5 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         for (List<Id> delegatedContactIds : delegatedContactIdsByParticipantIdMap.values()) selectedContactIds.addAll(delegatedContactIds);
         if (!selectedContactIds.isEmpty())
             ContactService.updateCurrentPEOnContacts(selectedContactIds);
-    }
-
-    @TestVisible
-    private static void sendEmailIfSSWasChanged(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
-        List<Notification__c> notificationList = new List<Notification__c>();
-        List<Id> peIds = new List<Id>();
-        for (Participant_Enrollment__c pe : newList) {
-            if (pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c) {
-                peIds.add(pe.Id);
-            }
-        }
-        for (Participant_Enrollment__c pe : [
-                SELECT Id,
-                        Study_Site__c,
-                        Study_Site__r.Principal_Investigator__c,
-                        Participant_Contact__c
-                FROM Participant_Enrollment__c
-                WHERE Id IN :peIds
-        ]) {
-            notificationList.add(new Notification__c(
-                    Notification_Type__c = 'Message_to_PT_SS_Was_Changed_Type',
-                    Recipient__c = pe.Participant_Contact__c,
-                    WhatId__c = pe.Id));
-            notificationList.add(new Notification__c(
-                    Notification_Type__c = 'Message_to_PI_SS_Was_Changed_Type',
-                    Recipient__c = pe.Study_Site__r.Principal_Investigator__c,
-                    WhatId__c = pe.Id));
-        }
-        if(!notificationList.isEmpty()) insert notificationList;
     }
 }
