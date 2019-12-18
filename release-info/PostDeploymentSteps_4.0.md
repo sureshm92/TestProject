@@ -5,7 +5,7 @@
       * Go to Setup > Click.. > Edit > ..choose/move etc > Click Save
       * Explain the verification step e.x - Make screenshots this setting
 
-               **Example:** *  
+ **Example:** 
 * a)  Go to Setup > Public  Groups > Click on the “Case team notification” public group > Edit 
 * b)  In “Search” picklist choose “Users” and move: Diane Cloose from column “Available Members” to the “Selected Members” > click Save
 * c)  Verification step: Make screenshots this setting
