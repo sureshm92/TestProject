@@ -7651,7 +7651,7 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>IntegrationLog__c</tab>
-        <visibility>Hidden</visibility>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Integration_Patient_Referral__c</tab>

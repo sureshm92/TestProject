@@ -4251,7 +4251,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Notification__c.Delay_Status__c</field>
+        <field>Notification__c.Time_Delay_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
