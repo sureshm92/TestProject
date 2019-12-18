@@ -1,5 +1,5 @@
 @echo off
-
+set startTime=%Time%
 echo Creating scratch org...
 call sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a %1
 
@@ -32,5 +32,5 @@ if %ERRORLEVEL% == 0 (
     call sfdx force:user:permset:assign --permsetname PP_Participant_BL
     call sfdx force:user:permset:assign --permsetname SurveyCreator
 
-    echo Push completed successfully!
+    echo Push completed successfully! %startTime% - %Time%
 ) else (echo Push not completed properly, check logs and try again)

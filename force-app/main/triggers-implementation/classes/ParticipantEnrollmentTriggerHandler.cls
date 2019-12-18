@@ -160,6 +160,14 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
 
     }
+    
+    public class CreateParticipantForDelegateHandler extends TriggerHandler{
+    
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createParticipantForDelegate(newList, (Map<Id, Participant_Enrollment__c>)oldMap);
+        }
+        
+    }
 
     // Logic: ----------------------------------------------------------------------------------------------------------
 
