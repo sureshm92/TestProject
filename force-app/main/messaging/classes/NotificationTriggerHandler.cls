@@ -44,34 +44,46 @@ public without sharing class NotificationTriggerHandler {
 
         NotificationAvailabilityService availabilityService = new NotificationAvailabilityService(whatIds);
         List<Notification__c> emailNotifications = new List<Notification__c>();
-        List<Notification__c> smsNotifications = new List<Notification__c>();
+        List<Notification__c> smsNotificationsAsync = new List<Notification__c>();
+        List<Notification__c> smsNotificationsSync = new List<Notification__c>();
         List<Notification__c> pushNotifications = new List<Notification__c>();
         List<Send_Result__c> sendResults = new List<Send_Result__c>();
 
         for (Notification__c n : nonTopicNotifications) {
             Notification_Type__mdt notificationType = NotificationService.getNotificationType(n.Notification_Type__c);
             for(Notification_Target__mdt nt: notificationType.Notification_Targets__r){
-                if (availabilityService.isAvailable(n.WhatId__c, notificationType.Recipient_Type__c, nt.Target_Type__c, n.Recipient__c)) {
+
                     if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL) {
-                        emailNotifications.add(n);
+                        if (availabilityService.isAvailable(n.WhatId__c, notificationType.Recipient_Type__c, nt.Target_Type__c, n.Recipient__c)) {
+                            emailNotifications.add(n);
+                        }else{
+                            sendResults.add(new Send_Result__c(
+                                    Notification__c = n.Id,
+                                    Target_Type__c = nt.Target_Type__c,
+                                    Status__c = NotificationService.STATUS_SKIPPED));
+                        }
                     } else if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_SMS) {
-                        smsNotifications.add(n);
+                        if (availabilityService.isAvailableForSMS(n.Recipient__c)) {
+                            if(n.Time_Delay_Status__c == NotificationService.DELAY_STATUS_CREATED) smsNotificationsAsync.add(n);
+                            if(n.Time_Delay_Status__c == NotificationService.DELAY_STATUS_PENDING) smsNotificationsSync.add(n);
+                        }else{
+                            sendResults.add(new Send_Result__c(
+                                    Notification__c = n.Id,
+                                    Target_Type__c = nt.Target_Type__c,
+                                    Status__c = NotificationService.STATUS_SKIPPED));
+                        }
                     } else if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_PUSH) {
                         pushNotifications.add(n);
                     }
-               }else{
-                    sendResults.add(new Send_Result__c(
-                            Notification__c = n.Id,
-                            Target_Type__c = nt.Target_Type__c,
-                            Status__c = NotificationService.STATUS_SKIPPED));
-                }
             }
 
         }
         insert sendResults;
-
         EmailService.send(emailNotifications);
-        SMSService.send(smsNotifications);
+
+        SMSService.sendAsync(smsNotificationsAsync);
+        //SMSService.send(smsNotificationsSync);
+
         if (notificationsForMassEmail.size() > 0) {
             for (Notification__c n : notificationsForMassEmail) {
                 Database.executeBatch(new Batch_MassEmailPatient(n));

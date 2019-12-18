@@ -4,19 +4,18 @@
 
 public with sharing class Action_SendSMS implements Action{
     public class Action_SendSMS_Exception extends Exception{}
-    public String message;
-    public String phoneNumber;
+    public Map<String, String> messageByPhone = new Map<String, String>();
 
-    public Action_SendSMS(String phoneNumber, String message){
-        this.message = message;
-        this.phoneNumber = phoneNumber;
+    public Action_SendSMS(Map<String, String> messageByPhone){
+       this.messageByPhone = messageByPhone;
     }
-//
+
     public void execute() {
-//        RemoteCall_SendSMS remoteCallSendSMS = new RemoteCall_SendSMS(phoneNumber, message);
-//        if(!remoteCallSendSMS.log.Success__c) throw new Action_SendSMS_Exception('SendSMS Action failed');
+        RemoteCall_SendSMS remoteCallSendSMS = new RemoteCall_SendSMS(messageByPhone);
+        remoteCallSendSMS.execute();
+        if(!remoteCallSendSMS.log.Success__c) throw new Action_SendSMS_Exception(remoteCallSendSMS.log.Error_Message__c);
     }
-//
+
     public Type getType() {
         return Action_SendSMS.class;
     }
