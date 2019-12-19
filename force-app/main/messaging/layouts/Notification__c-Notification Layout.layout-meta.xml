@@ -28,7 +28,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Delay_Status__c</field>
+                <field>Time_Delay_Status__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

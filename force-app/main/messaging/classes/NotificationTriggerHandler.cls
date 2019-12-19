@@ -52,7 +52,7 @@ public without sharing class NotificationTriggerHandler {
         for (Notification__c n : nonTopicNotifications) {
             Notification_Type__mdt notificationType = NotificationService.getNotificationType(n.Notification_Type__c);
             for(Notification_Target__mdt nt: notificationType.Notification_Targets__r){
-
+//
                     if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL) {
                         if (availabilityService.isAvailable(n.WhatId__c, notificationType.Recipient_Type__c, nt.Target_Type__c, n.Recipient__c)) {
                             emailNotifications.add(n);
