@@ -6,19 +6,26 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
 
     public class MessageWrapper {
         public String message;
-        public String phoneNumber;
+        public String phone;
+
+        public MessageWrapper(String phone, String message){
+            this.message = message;
+            this.phone = phone;
+        }
     }
 
-    public MessageWrapper messageWrapper;
+    public List<MessageWrapper> messageWrapperList;
 
-    public RemoteCall_SendSMS(String phoneNumber, String message) {
-        this.endPointURL = 'callout:ServiceNowAndStudyHub';
+    public RemoteCall_SendSMS(Map<String, String> messageByPhone) {
+        this.endPointURL = 'callout:MulesoftSMS';
         this.httpMethod = METHOD_POST;
         this.headersMap.putAll(new Map<String, String>{
                 'Content-Type' => 'application/json'
         });
-        this.messageWrapper.message = message;
-        this.messageWrapper.phoneNumber = phoneNumber;
+        messageWrapperList = new List<MessageWrapper>();
+        for(String phoneNumber : messageByPhone.keySet()){
+            messageWrapperList.add(new MessageWrapper(phoneNumber,messageByPhone.get(phoneNumber)));
+        }
     }
 
     public override Type getType() {
@@ -26,7 +33,7 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
     }
 
     protected override String buildRequestBody() {
-        return JSON.serializePretty(messageWrapper, true);
+        return JSON.serializePretty(messageWrapperList, true);
     }
 
     protected override Object parseResponse(String responseBody) {

@@ -27,13 +27,18 @@ public with sharing class PENotificationTriggerHandler {
 
     @TestVisible
     private static void createNotificationByStatus(List<Participant_Enrollment__c> newList, Map<Id, SObject> oldMap) {
+
         List<Notification__c> listNotificationForHCP = new List<Notification__c>();
         List<Notification__c> listNotificationForPatient = new List<Notification__c>();
+        List<Id> participantsIds = new List<Id>();
+        List<Notification__c> listNotificationForPI = new List<Notification__c>();
         List<Participant_Enrollment__c> listPE = [
                 SELECT Id,
                         HCP_Contact_HCPEnroll__c,
+                        Participant__c,
                         Participant__r.Contact__c,
                         Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
+                        Study_Site__r.Principal_Investigator__r.Id,
                         Participant_Status__c,
                         Is_Virtual_Study_Site__c,
                         Referral_Source__c,
@@ -61,10 +66,21 @@ public with sharing class PENotificationTriggerHandler {
                 //Forming additional notification for Enrollment Success
                 if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
                         && pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
+                    participantsIds.add(pe.Participant__c);
                     listNotificationForPatient.add(new Notification__c(
                             Recipient__c = pe.Participant__r.Contact__c,
                             WhatId__c = pe.Id,
                             Notification_Type__c = NotificationService.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE
+                    ));
+                }
+                //Forming additional notification for PI
+                if (pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI
+                        || (pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ACCEPTED
+                        && pe.IsAutoaccepted__c)) {
+                    listNotificationForPI.add(new Notification__c(
+                            Recipient__c = pe.Study_Site__r.Principal_Investigator__r.Id,
+                            WhatId__c = pe.Id,
+                            Notification_Type__c = NotificationService.MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE
                     ));
                 }
             }
@@ -78,6 +94,7 @@ public with sharing class PENotificationTriggerHandler {
             }
 
             if (notifyPTType != null) {
+                participantsIds.add(pe.Participant__c);
                 listNotificationForPatient.add(new Notification__c(
                         Recipient__c = pe.Participant__r.Contact__c,
                         WhatId__c = pe.Id,
@@ -86,8 +103,26 @@ public with sharing class PENotificationTriggerHandler {
             }
         }
 
+        //get Delegates for Participant
+        if (listNotificationForPatient != null) {
+//            Map<Id, List<Id>> partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(participantsIds);
+//            for (Notification__c n: listNotificationForPatient) {
+//                if (partPerDelegateIds.containsKey(n.Recipient__c)) {
+//                    for(Id id: partPerDelegateIds.get(n.Recipient__c)) {
+//                        listNotificationForPatient.add(new Notification__c(
+//                                Recipient__c = id,
+//                                WhatId__c = n.WhatId__c,
+//                                Notification_Type__c = n.Notification_Type__c
+//                        ));
+//                    }
+//                }
+//            }
+//            System.debug
+            insert listNotificationForPatient;
+        }
+
         if (listNotificationForHCP != null) insert listNotificationForHCP;
-        if (listNotificationForPatient != null) insert listNotificationForPatient;
+        if (listNotificationForPI != null) insert listNotificationForPI;
     }
 
     @TestVisible

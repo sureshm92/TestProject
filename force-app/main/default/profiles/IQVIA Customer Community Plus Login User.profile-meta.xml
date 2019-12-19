@@ -43,6 +43,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Action_SendSMS</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Action_SendSiteRequestByHCPRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -627,6 +631,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MCloudSMSSender</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MailForTests</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -944,6 +952,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>RemoteCall_SendPEToStudyHub</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RemoteCall_SendSMS</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -4236,6 +4248,11 @@
         <editable>false</editable>
         <field>Notification_Type__mdt.Recipient_Type__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Notification__c.Time_Delay_Status__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>

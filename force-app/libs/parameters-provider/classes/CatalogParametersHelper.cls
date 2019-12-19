@@ -6,14 +6,14 @@ public class CatalogParametersHelper {
 
     public class ParametersProviderException extends Exception {
     }
-//    private static Map<String, Parameters_Provider__mdt> ppByNameMap = new Map<String, Parameters_Provider__mdt>();
-//    static {
-//        List<Parameters_Provider__mdt> ppList = [
-//                SELECT Id, DeveloperName, Parameters__c, Source_Object_Type__c
-//                FROM Parameters_Provider__mdt
-//        ];
-//        for(Parameters_Provider__mdt pp: ppList) ppByNameMap.put(pp.DeveloperName, pp);
-//    }
+    private static Map<String, Parameters_Provider__mdt> ppByNameMap = new Map<String, Parameters_Provider__mdt>();
+    static {
+        List<Parameters_Provider__mdt> ppList = [
+                SELECT Id, DeveloperName, Parameters__c, Source_Object_Type__c
+                FROM Parameters_Provider__mdt
+        ];
+        for(Parameters_Provider__mdt pp: ppList) ppByNameMap.put(pp.DeveloperName, pp);
+    }
 
     public static String getErrorInParameters(SObjectType sObjectType, String parameters) {
         if (String.isEmpty(parameters)) return null;
@@ -97,11 +97,15 @@ public class CatalogParametersHelper {
         return prepareMergeFields(TranslateHelper.getLabelValue(labelName, language), parameters);
     }
 
-//    public static String prepareLabel(String labelName, Id whatId, String paramProviderName, String language) {
-//        Parameters_Provider__mdt pp = ppByNameMap.get(paramProviderName);
-//
-//        return prepareLabel();
-//    }
+    public static String prepareLabel(String labelName, Id whatId, String paramProviderName, String language) {
+        System.debug('<<<<<' + labelName);
+        System.debug('<<<<<' + whatId);
+        System.debug('<<<<< STRING ' + paramProviderName);
+        System.debug('<<<<<' + language);
+        Parameters_Provider__mdt pp = ppByNameMap.get(paramProviderName);
+        Map<String, String> parameters = getParamsValueMap(whatId, pp, language);
+        return prepareLabel(labelName, parameters, language);
+    }
 
     public static String prepareMergeFields(String sourceString, Map<String, String> parameters) {
         if (sourceString == null) return null;
