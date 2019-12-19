@@ -83,4 +83,8 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
     public override Type getType() {
         return Batch_DataBecomesAvailable.class;
     }
+
+    public override String getBatchDescription() {
+        return 'This job sends Emails and SMS when new Visit Data becomes available';
+    }
 }
