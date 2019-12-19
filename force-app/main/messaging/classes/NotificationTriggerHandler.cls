@@ -78,9 +78,9 @@ public without sharing class NotificationTriggerHandler {
 
         }
         insert sendResults;
-        if (emailNotifications != null) EmailService.send(emailNotifications);
-        if (smsNotificationsAsync != null) SMSService.sendAsync(smsNotificationsAsync);
-        if (smsNotificationsSync != null) SMSService.send(smsNotificationsSync);
+        EmailService.send(emailNotifications);
+        SMSService.sendAsync(smsNotificationsAsync);
+        SMSService.send(smsNotificationsSync);
 
         if (notificationsForMassEmail.size() > 0) {
             for (Notification__c n : notificationsForMassEmail) {
