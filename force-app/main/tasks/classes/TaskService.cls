@@ -114,10 +114,12 @@ public without sharing class TaskService {
     }
 
     public List<Task> getOpenTasks() {
+        expireSurveyTasksByExpiredInvitations(getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER));
         return filterCurrentStudyTasks(getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER));
     }
 
     public List<Task> getPreviewTasks() {
+        expireSurveyTasksByExpiredInvitations(getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER + ' LIMIT 5'));
         return filterCurrentStudyTasks(getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER + ' LIMIT 5'));
     }
 
@@ -344,22 +346,27 @@ public without sharing class TaskService {
     }
 
     public class TaskConfig {
-        public Datetime activityDate;
-        public String code;
-        public Id invitation;
-        public String originator;
-        public Id ownerId;
-        public String priority;
-        public Datetime reminderDatetime;
-        public Datetime reminderGMT;
-        public Id reminderSchedule;
-        public Date startDate;
-        public String status;
-        public String subject;
-        public String type;
-        public String visibility;
-        public Id whatId;
-        public Id whoId;
+        @AuraEnabled public Datetime activityDate;
+        @AuraEnabled public String code;
+        @AuraEnabled public Id invitation;
+        @AuraEnabled public String originator;
+        @AuraEnabled public Id ownerId;
+        @AuraEnabled public String priority;
+        @AuraEnabled public Date reminderDate;
+        @AuraEnabled public Datetime reminderDatetime;
+        @AuraEnabled public Datetime reminderGMT;
+        @AuraEnabled public Id reminderSchedule;
+        @AuraEnabled public Date startDate;
+        @AuraEnabled public Date endTime;
+        @AuraEnabled public String status;
+        @AuraEnabled public String subject;
+        @AuraEnabled public String type;
+        @AuraEnabled public String visibility;
+        @AuraEnabled public Id whatId;
+        @AuraEnabled public Id whoId;
+
+        public TaskConfig() {
+        }
 
         public TaskConfig(Id ownerId) {
             this.ownerId = ownerId;
@@ -441,4 +448,21 @@ public without sharing class TaskService {
         return filteredList;
     }
 
+    public void expireSurveyTasksByExpiredInvitations(List<Task> tasks) {
+        List<Id> invitationsIds = new List<Id>();
+        for (Task t : tasks) {
+            if (t.Survey_Invitation__c != null) invitationsIds.add(t.Survey_Invitation__c);
+        }
+
+        Map<Id, Boolean> invitationStateById = SurveyService.getInstance().isInvitationsExpired(invitationsIds);
+        List<Task> expiredTasks = new List<Task>();
+        for (Task t : tasks) {
+            if (invitationStateById.containsKey(t.Survey_Invitation__c) && invitationStateById.get(t.Survey_Invitation__c)) {
+                t.Status = TaskService.TASK_STATUS_EXPIRED;
+                t.WhatId = null;
+                expiredTasks.add(t);
+            }
+        }
+        update expiredTasks;
+    }
 }

@@ -25,7 +25,6 @@
     },
 
     saveElement: function (component) {
-        debugger;
         const deleteCOI = component.get('v.conditionsOfInterest');
         const conditionsOfInterestTemp = component.get('v.conditionsOfInterestTemp');
         let deleteCoiId = [];

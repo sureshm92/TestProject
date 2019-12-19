@@ -1,9 +1,6 @@
 /**
  * Created by Leonid Bartenev
  */
-/**
- * Created by Leonid Bartenev
- */
 ({
     setTabInitialized: function (component) {
         switch (component.get('v.currentTab')) {

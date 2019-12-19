@@ -13,7 +13,6 @@ private class Test_VisitResultSharingPanelRemote {
         TestData testData = new TestData();
         VisitResultSharingPanelRemote.InitData initData = VisitResultSharingPanelRemote.getInitData(testData.ctp.Id);
         VisitResultSharingPanelRemote.saveSharingRules(JSON.serialize(initData.options), JSON.serialize(initData.groups), testData.ctp.Id);
-        VisitResultSharingPanelRemote.permissonSetCheck();
         Test.stopTest();
     }
 }

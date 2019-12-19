@@ -8,6 +8,8 @@ private without sharing class Test_ContactService {
 
     @IsTest
     private static void defaultPEOnContact() {
+        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
+
         Account participantsAccount = new Account(
                 Name = 'Participant'
         );

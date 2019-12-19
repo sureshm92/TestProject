@@ -2,11 +2,13 @@
  - Created by Igor Malyuta on 01.03.2019.
  -->
 
-<aura:component description="Manual_Task"  implements="forceCommunity:availableForAllPageTypes,force:appHostable">
+<aura:component description="Manual_Task" implements="forceCommunity:availableForAllPageTypes,force:appHostable">
 
     <!--attributes: -->
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="wrapper" type="Object"/>
+
+    <aura:attribute name="taskConfig" type="TaskService.TaskConfig"/>
     <aura:attribute name="priorities" type="List"/>
     <aura:attribute name="visibility" type="List"/>
     <aura:attribute name="showNumbersAdd" type="String" default="false"/>
@@ -15,45 +17,45 @@
     <aura:attribute name="isValid" type="Boolean" default="false"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <aura:handler name="change" value="{!v.wrapper.task.Subject}" action="{!c.doCheckFields}"/>
-    <aura:handler name="change" value="{!v.wrapper.task.Start_Date__c}" action="{!c.doCheckFields}"/>
-    <aura:handler name="change" value="{!v.wrapper.task.ActivityDate}" action="{!c.doCheckFields}"/>
-    <aura:handler name="change" value="{!v.wrapper.task.ReminderDateTime}" action="{!c.doCheckFields}"/>
+    <aura:handler name="change" value="{!v.taskConfig.subject}" action="{!c.doCheckFields}"/>
+    <aura:handler name="change" value="{!v.taskConfig.startDate}" action="{!c.doCheckFields}"/>
+    <aura:handler name="change" value="{!v.taskConfig.endTime}" action="{!c.doCheckFields}"/>
+    <aura:handler name="change" value="{!v.taskConfig.reminderDate}" action="{!c.doCheckFields}"/>
     <aura:handler name="change" value="{!v.dayRemind}" action="{!c.doCheckFields}"/>
 
     <!-- component body -->
     <div class="mt-panel">
         <!-- Task Subject -->
-        <lightning:input aura:id="field" label="Enter Subject" value="{!v.wrapper.task.Subject}" required="true"/>
+        <lightning:input aura:id="field" label="Enter Subject" value="{!v.taskConfig.subject}" required="true"/>
         <div class="slds-grid slds-gutters">
             <div class="slds-col slds-size--1-of-2">
                 <!-- Task Priority -->
-                <lightning:select label="Set Priority for the Task:" value="{!v.wrapper.task.Priority}">
+                <lightning:select label="Set Priority for the Task:" value="{!v.taskConfig.priority}">
                     <aura:iteration items="{!v.priorities}" var="prior">
                         <option label="{!prior.label}" value="{!prior.value}"></option>
                     </aura:iteration>
                 </lightning:select>
                 <!-- Start Date -->
                 <lightning:input aura:id="field" type="date" label="Set Task Start Date"
-                                 value="{!v.wrapper.task.Start_Date__c}"
+                                 value="{!v.taskConfig.startDate}"
                                  required="true" onchange="{!c.onDaysChange}" min="{!v.todayDate}"/>
                 <!-- Due Date -->
                 <lightning:input aura:id="field" type="date" label="Set Task Due Date"
-                                 value="{!v.wrapper.task.ActivityDate}"
-                                 onchange="{!c.onDaysChange}" min="{!v.wrapper.task.Start_Date__c}"
-                                 disabled="{!empty(v.wrapper.task.Start_Date__c)}"/>
+                                 value="{!v.taskConfig.endTime}"
+                                 onchange="{!c.onDaysChange}" min="{!v.taskConfig.startDate}"
+                                 disabled="{!empty(v.taskConfig.startDate)}"/>
             </div>
             <div class="slds-col slds-size--1-of-2">
                 <!-- Task Visibility -->
-                <lightning:select label="Make this Task visible to:" value="{!v.wrapper.task.Visible_For__c}">
+                <lightning:select label="Make this Task visible to:" value="{!v.taskConfig.visibility}">
                     <aura:iteration items="{!v.visibility}" var="visible">
                         <option label="{!visible.label}" value="{!visible.value}"></option>
                     </aura:iteration>
                 </lightning:select>
                 <!-- Reminder Mode -->
                 <lightning:select label="Set Task Reminder" value="{!v.showNumbersAdd}">
-                    <aura:if isTrue="{!not(empty(v.wrapper.task.ActivityDate))}">
-                        <aura:if isTrue="{!not(v.wrapper.task.ActivityDate == v.todayDate)}">
+                    <aura:if isTrue="{!not(empty(v.taskConfig.endTime))}">
+                        <aura:if isTrue="{!not(v.taskConfig.endTime == v.todayDate)}">
                             <option value="true">Number of days before the Task due date</option>
                         </aura:if>
                     </aura:if>
@@ -66,10 +68,10 @@
                         </span>
                     <aura:set attribute="else">
                         <lightning:input aura:id="field" type="date" label="Reminder Date"
-                                         value="{!v.wrapper.task.ReminderDateTime}"
+                                         value="{!v.taskConfig.reminderDate}"
                                          onchange="{!c.onDaysChange}"
-                                         min="{!v.wrapper.task.Start_Date__c}"
-                                         max="{!v.wrapper.task.ActivityDate}"/>
+                                         min="{!v.taskConfig.startDate}"
+                                         max="{!v.taskConfig.endTime}"/>
                     </aura:set>
                 </aura:if>
             </div>
