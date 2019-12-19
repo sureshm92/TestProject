@@ -19,7 +19,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     @track notAddedBatches;
     @track showAddNew;
     mods;
-    batchDetailsByClassName;
+    minScheduledDate;
 
     @track jobs;
     @track jobMap = new Map();
@@ -93,6 +93,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     wireData({data}) {
         if (data) {
             this.mods = data.intervalMods;
+            this.minScheduledDate = new Date();
             this.initPageContent(data);
 
             this.resetInputFields();
@@ -275,6 +276,9 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     }
 
     handleAddJobClick(event) {
+        this.batchDetail.Name = this.notAddedBatches[0];
+        this.batchDetail.Panel_Label__c = this.batchDetail.Name.substring(6, this.batchDetail.Name.length);
+
         this.template.querySelector('c-web-modal').show();
     }
 
@@ -325,7 +329,6 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     initPageContent(data) {
         this.notAddedBatches = data.availableBatches;
         this.showAddNew = this.notAddedBatches.length > 0;
-        this.batchDetailsByClassName = data.batchNamesWithDescriptions;
         this.jobMap.clear();
 
         let context = this;
@@ -340,7 +343,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
                 state: jw.state,
                 isStopped: jw.isStopped,
                 nextSchedule: null,
-                description: context.batchDetailsByClassName[jw.detail.Name]
+                description: jw.description
             };
             context.jobMap.set(job.detail.Id, job);
         });
