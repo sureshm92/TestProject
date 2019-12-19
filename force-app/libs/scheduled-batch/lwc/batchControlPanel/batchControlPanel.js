@@ -19,6 +19,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     @track notAddedBatches;
     @track showAddNew;
     mods;
+    batchDetailsByClassName;
 
     @track jobs;
     @track jobMap = new Map();
@@ -91,33 +92,8 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     @wire(getData)
     wireData({data}) {
         if (data) {
-            let wrapper = data;
-            this.notAddedBatches = wrapper.availableBatches;
-            this.showAddNew = this.notAddedBatches.length > 0;
-            this.mods = wrapper.intervalMods;
-
-            let context = this;
-            wrapper.jobWrappers.forEach(function (jw) {
-                let job = {
-                    css: jw.css,
-                    detail: jw.detail,
-                    jobId: jw.jobId,
-                    prevJob: jw.prevJob,
-                    prevLaunch: jw.prevLaunch,
-                    nextLaunch: jw.nextLaunch,
-                    state: jw.state,
-                    isStopped: jw.isStopped,
-                    nextSchedule: null
-                };
-                context.jobMap.set(job.detail.Id, job);
-            });
-
-            if(this.jobMap.size > 0) {
-                this.jobs = [];
-                this.jobMap.forEach(function (value) {
-                    context.jobs.push(value);
-                });
-            }
+            this.mods = data.intervalMods;
+            this.initPageContent(data);
 
             this.resetInputFields();
             if (!this.initialized) this.initialized = true;
@@ -220,11 +196,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
 
         deleteBatch({detailId: detailId})
             .then(data => {
-                let wrapper = data;
-                this.notAddedBatches = wrapper.availableBatches;
-                this.showAddNew = this.notAddedBatches.length > 0;
-                this.jobs = wrapper.jobWrappers.length > 0 ? wrapper.jobWrappers : undefined;
-
+                this.initPageContent(data);
                 this.inProcess = false;
             })
             .catch(error => {
@@ -287,9 +259,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
 
         addBatch({detail: this.batchDetail})
             .then(data => {
-                let wrapper = data;
-                this.notAddedBatches = wrapper.availableBatches;
-                this.jobs = wrapper.jobWrappers.length > 0 ? wrapper.jobWrappers : undefined;
+                this.initPageContent(data);
 
                 this.inProcess = false;
                 this.resetInputFields();
@@ -350,5 +320,36 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
                     }, 500);
                 }
             });
+    }
+
+    initPageContent(data) {
+        this.notAddedBatches = data.availableBatches;
+        this.showAddNew = this.notAddedBatches.length > 0;
+        this.batchDetailsByClassName = data.batchNamesWithDescriptions;
+        this.jobMap.clear();
+
+        let context = this;
+        data.jobWrappers.forEach(function (jw) {
+            let job = {
+                css: jw.css,
+                detail: jw.detail,
+                jobId: jw.jobId,
+                prevJob: jw.prevJob,
+                prevLaunch: jw.prevLaunch,
+                nextLaunch: jw.nextLaunch,
+                state: jw.state,
+                isStopped: jw.isStopped,
+                nextSchedule: null,
+                description: context.batchDetailsByClassName[jw.detail.Name]
+            };
+            context.jobMap.set(job.detail.Id, job);
+        });
+
+        if(this.jobMap.size > 0) {
+            this.jobs = [];
+            this.jobMap.forEach(function (value) {
+                context.jobs.push(value);
+            });
+        }
     }
 }
