@@ -151,6 +151,16 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
         this.jobs.forEach(function (job) {
             if (job.detail.Name === jobName) wrapper = job;
         });
+
+        let currentInput;
+        this.template.querySelectorAll('.scheduleDT').forEach(input => {
+            if(input.dataset.id === wrapper.detail.Id) currentInput = input;
+        });
+        if(currentInput && !currentInput.checkValidity()) {
+            this.showToast('','Only future date/time are supported!', 'warning');
+            return;
+        }
+
         this.spinner.show();
         this.inProcess = true;
 
@@ -162,7 +172,6 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
                             this.showToast('', 'Batch launched successfully!', 'success');
                         });
                     } else {
-                        alert('Only future are supported!');
                         this.spinner.hide();
                     }
 
