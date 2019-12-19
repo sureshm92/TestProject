@@ -45,7 +45,6 @@ public without sharing class NotificationTriggerHandler {
         NotificationAvailabilityService availabilityService = new NotificationAvailabilityService(whatIds);
         List<Notification__c> emailNotifications = new List<Notification__c>();
         List<Notification__c> smsNotificationsAsync = new List<Notification__c>();
-        List<Notification__c> smsNotificationsSync = new List<Notification__c>();
         List<Notification__c> pushNotifications = new List<Notification__c>();
         List<Send_Result__c> sendResults = new List<Send_Result__c>();
 
@@ -64,7 +63,6 @@ public without sharing class NotificationTriggerHandler {
                 } else if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_SMS) {
                     if (availabilityService.isAvailableForSMS(n.Recipient__c)) {
                         if (n.Time_Delay_Status__c == NotificationService.DELAY_STATUS_CREATED) smsNotificationsAsync.add(n);
-                        if (n.Time_Delay_Status__c == NotificationService.DELAY_STATUS_PENDING) smsNotificationsSync.add(n);
                     } else {
                         sendResults.add(new Send_Result__c(
                                 Notification__c = n.Id,
@@ -80,7 +78,6 @@ public without sharing class NotificationTriggerHandler {
         insert sendResults;
         EmailService.send(emailNotifications);
         SMSService.sendAsync(smsNotificationsAsync);
-        SMSService.send(smsNotificationsSync);
 
         if (notificationsForMassEmail.size() > 0) {
             for (Notification__c n : notificationsForMassEmail) {
