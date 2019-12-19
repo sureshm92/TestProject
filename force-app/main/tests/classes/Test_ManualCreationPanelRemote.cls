@@ -16,24 +16,19 @@ private class Test_ManualCreationPanelRemote {
         ManualTaskFilter filter = new ManualTaskFilter();
         filter.statuses = new List<String>{PEStatusState.PE_ST_REFERRED};
 
-        ManualTaskRemote.TaskPanelWrapper taskPanelWrapper = new ManualTaskRemote.TaskPanelWrapper();
-        taskPanelWrapper.task.Subject = 'Test';
-        taskPanelWrapper.task.Start_Date__c = System.today();
-        taskPanelWrapper.task.ActivityDate = System.today();
-        taskPanelWrapper.task.Reminder_Date__c = System.now();
-        taskPanelWrapper.task.Visible_For__c = 'Owner;Delegates';
+        TaskService.TaskConfig taskConfig = new TaskService.TaskConfig();
+        taskConfig.subject = 'Test';
+        taskConfig.startDate = System.today();
+        taskConfig.endTime = System.today();
+        taskConfig.reminderDate = System.today();
+        taskConfig.visibility = 'Owner;Delegates';
 
         ManualCreationPanelRemote.AdHocWrapper adHocWrapper = new ManualCreationPanelRemote.AdHocWrapper();
         adHocWrapper.selectedRS = schedule.Id;
 
         Test.startTest();
         ManualCreationPanelRemote.getInitData();
-        ManualCreationPanelRemote.createTasks(
-                JSON.serialize(taskPanelWrapper),
-                JSON.serialize(adHocWrapper),
-                JSON.serialize(filter),
-                'task'
-        );
+        ManualCreationPanelRemote.createTasks(taskConfig, adHocWrapper, filter, 'task');
         ManualCreationPanelRemote.searchReminderScheduleByValue(schedule.Id);
         ManualCreationPanelRemote.searchReminderSchedule('RS', '');
         Test.stopTest();
