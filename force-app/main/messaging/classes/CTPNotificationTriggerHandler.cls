@@ -37,7 +37,8 @@ public with sharing class CTPNotificationTriggerHandler {
                 notificationsForSubs.add(new Notification__c(
                         Topic__c = topic.Id,
                         WhatId__c = ctp.Id,
-                        Notification_Type__c = NotificationService.MESSAGE_TO_PT_NEW_COI_CTP_TYPE
+                        Notification_Type__c = NotificationService.MESSAGE_TO_PT_NEW_COI_CTP_TYPE,
+                        Time_Delay_Status__c = NotificationService.DELAY_STATUS_CREATED
                 ));
             }
         }
@@ -76,7 +77,8 @@ public with sharing class CTPNotificationTriggerHandler {
                 notificationsForSubs.add(new Notification__c(
                         Topic__c = topic.Id,
                         WhatId__c = ctp.Id,
-                        Notification_Type__c = NotificationService.MESSAGE_TO_PT_COI_CTP_START_ENROLL_TYPE
+                        Notification_Type__c = NotificationService.MESSAGE_TO_PT_COI_CTP_START_ENROLL_TYPE,
+                        Time_Delay_Status__c = NotificationService.DELAY_STATUS_CREATED
                 ));
             }
 

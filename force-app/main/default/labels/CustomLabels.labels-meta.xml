@@ -1032,7 +1032,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>BTN Upload Patient</shortDescription>
-        <value>Upload Participants</value>
+        <value>Import Participant File</value>
     </labels>
     <labels>
         <fullName>BTN_View</fullName>
@@ -2723,13 +2723,6 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <value>An IQVIA™ Referral Hub user shared this with you</value>
     </labels>
     <labels>
-        <fullName>Email_Header_Thank_You_For_Your_Interest</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Header Thank You For Your Interest</shortDescription>
-        <value>Thank you for your interest in using the</value>
-    </labels>
-    <labels>
         <fullName>Email_Header_Share_PH</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2756,6 +2749,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <protected>true</protected>
         <shortDescription>Email Header Task Reminder Type Not Selected</shortDescription>
         <value>This is a task reminder</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Thank_You_For_Your_Interest</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Thank You For Your Interest</shortDescription>
+        <value>Thank you for your interest in using the</value>
     </labels>
     <labels>
         <fullName>Email_Header_Thank_you_for_submitting_a_request</fullName>
@@ -3371,6 +3371,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>Error Message Can Not Create Participant</shortDescription>
         <value>Can not create participant</value>
+    </labels>
+    <labels>
+        <fullName>Error_Message_Can_Not_Use_Visit_Plan</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error Message Can Not Use Visit Plan</shortDescription>
+        <value>Participant's visit plan is not available for that study site. Please determine if participant's visit plan can still be changed or if the study site is not appropriate for this participant and proceed accordingly.</value>
     </labels>
     <labels>
         <fullName>Error_Message_Participant_Duplicate</fullName>
@@ -6009,6 +6016,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG AS L Opt In Participant Status Emails</shortDescription>
         <value>updates about your referral status</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_L_Opt_In_Participant_Status_SMS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS L Opt In Participant Status SMS</shortDescription>
+        <value>I want to receive SMS on my phone number</value>
     </labels>
     <labels>
         <fullName>PG_AS_L_Opt_In_Visit_Results</fullName>
@@ -9423,6 +9437,13 @@ Please check your CAPS lock key.</value>
         <value>Patient</value>
     </labels>
     <labels>
+        <fullName>Planned_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Planned Date</shortDescription>
+        <value>Planned Date</value>
+    </labels>
+    <labels>
         <fullName>Platelet_Count</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10536,6 +10557,13 @@ Please check your CAPS lock key.</value>
         <value>Search For Sites</value>
     </labels>
     <labels>
+        <fullName>Select_Planned_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select Planned Date</shortDescription>
+        <value>Select Planned Date</value>
+    </labels>
+    <labels>
         <fullName>Selected_Icons</fullName>
         <categories>Selected Icons</categories>
         <language>en_US</language>
@@ -11626,6 +11654,20 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Update Participant</shortDescription>
         <value>Update Participant</value>
+    </labels>
+    <labels>
+        <fullName>VPN_AddDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>VPN AddDate</shortDescription>
+        <value>Add visit date</value>
+    </labels>
+    <labels>
+        <fullName>VPN_Sel_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>VPN Sel Date</shortDescription>
+        <value>Select date</value>
     </labels>
     <labels>
         <fullName>VR_ALT</fullName>

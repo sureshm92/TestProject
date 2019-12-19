@@ -48,6 +48,10 @@ Write down in NotificationService class your new Notification Type for using lat
 ```
 static public String MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE = 'Message_to_PT_has_not_Logged_In_Type';
 ```
+##
+####Classes for sending notifications are meant to send notifications. Not to do anything else.
+##
+
 #####How to use it in your logic to send email
 
 1) create Notification for each Contact you need
@@ -58,4 +62,7 @@ Notification__c notification = new Notification__c();
 
 - **Recipient__c**: Id field on Contact
 - **WhatId__c**: String field where you can put any SObject Id for addition parameters. For example Participant Enrollment Id.
-- **Notification_Type__c**: Notification Type that you created previously the name ViewFlowUsageAndFlowEventData from Admin.profile
+- **Notification_Type__c**: Notification Type that you created previously
+- **Time_Delay_Status__c**: Picklist field where value **Created** means that logic sends notification immediately. 
+**Pending** status means that logic will send notification later. **Complete** status overrides Pending 
+status when notification is sent successfully.

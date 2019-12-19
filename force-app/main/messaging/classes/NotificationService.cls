@@ -33,16 +33,24 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_PT_NEW_STUDY_eRP_VT_TYPE = 'Message_to_PT_New_Study_eRP_VT_Type';
     static public String MESSAGE_TO_PT_NEW_COI_CTP_TYPE = 'Message_to_PT_New_COI_Ctp_Type';
     static public String MESSAGE_TO_PT_COI_CTP_START_ENROLL_TYPE = 'Message_to_PT_COI_Ctp_Start_Enroll_Type';
-    static public  String MESSAGE_TO_PT_DATA_AVAILABLE_TYPE = 'Message_to_PT_Data_Available_Type';
+    static public String MESSAGE_TO_PT_DATA_AVAILABLE_TYPE = 'Message_to_PT_Data_Available_Type';
     static public String MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE = 'Message_to_PT_StdDoc_Certificate_Type';
     static public String MESSAGE_TO_PT_NEW_STDDOC_TYPE = 'Message_to_PT_New_StdDoc_Type';
     static public String MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE = 'Message_to_PT_has_not_Logged_In_Type';
     static public String MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE = 'Message_to_PT_CTP_Trial_Complete_Type';
+    static public String MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE = 'Message_to_PT_SS_Was_Changed_Type';
+    static public String MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE = 'Message_to_PI_SS_Was_Changed_Type';
+    static public String MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE = 'Message_to_PT_Enrollment_Success_Type';
+    static public String MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE = 'Message_to_PI_New_Patient_Referral_Type';
 
     static public String STATUS_SKIPPED = 'Skipped';
     static public String STATUS_FAILED = 'Failed';
     static public String STATUS_SENT = 'Sent';
     static public String STATUS_PENDING = 'Pending';
+
+    static public String DELAY_STATUS_PENDING = 'Pending';
+    static public String DELAY_STATUS_CREATED = 'Created';
+    static public String DELAY_STATUS_COMPLETE = 'Complete';
 
     static public String NOTIFICATION_TARGET_TYPE_EMAIL = 'Email';
     static public String NOTIFICATION_TARGET_TYPE_SMS = 'SMS';
@@ -57,24 +65,28 @@ public without sharing class NotificationService {
 
     static {
         List<Notification_Type__mdt> notifTypes = [
-                SELECT Id, DeveloperName, Recipient_Type__c,(
+                SELECT Id, DeveloperName, Recipient_Type__c,
+                        Parameters_Provider__r.Source_Object_Type__c,
+                        Parameters_Provider__r.Parameters__c,
+                        Parameters_Provider__r.DeveloperName, (
                         SELECT Id, Email_Template__c, Email_Template_Delegate__c, Target_Type__c,
                                 Message_Body__c, Org_Wide_Email_Address__c
-                        FROM Notification_Targets__r)
+                        FROM Notification_Targets__r
+                )
                 FROM Notification_Type__mdt
         ];
-        for(Notification_Type__mdt noType: notifTypes) notificationTypeByDevNameMap.put(noType.DeveloperName, noType);
+        for (Notification_Type__mdt noType : notifTypes) notificationTypeByDevNameMap.put(noType.DeveloperName, noType);
     }
 
 
-    public static Notification_Type__mdt getNotificationType(String notificationType){
+    public static Notification_Type__mdt getNotificationType(String notificationType) {
         return notificationTypeByDevNameMap.get(notificationType);
     }
 
-    public static Notification_Target__mdt getNotificationTarget (String notificationType, String notificationTarget){
+    public static Notification_Target__mdt getNotificationTarget(String notificationType, String notificationTarget) {
         Notification_Type__mdt notificationTypeMDT = notificationTypeByDevNameMap.get(notificationType);
-        if(notificationTypeMDT != null) {
-            for (Notification_Target__mdt nt: notificationTypeMDT.Notification_Targets__r) {
+        if (notificationTypeMDT != null) {
+            for (Notification_Target__mdt nt : notificationTypeMDT.Notification_Targets__r) {
                 if (nt.Target_Type__c == notificationTarget) return nt;
             }
         }
@@ -89,9 +101,6 @@ public without sharing class NotificationService {
         }
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_DECLINED) {
             return MESSAGE_TO_HCP_PATIENT_DECLINED_TYPE;
-        }
-        if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ON_HOLD) {
-            return MESSAGE_TO_HCP_PATIENT_ON_HOLD_TYPE;
         }
         return null;
     }
@@ -120,6 +129,10 @@ public without sharing class NotificationService {
                 && peForCheck.Referral_Source__c == 'HCP') {
             return MESSAGE_TO_PT_NEW_STUDY_HCP_VT_TYPE;
         }
+        if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+                && peForCheck.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
+            return MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE;
+        }
         if (peForCheck.Referral_Source__c != 'HCP' && peForCheck.Referral_Source__c != 'PI'
                 && (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI
                 || (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ACCEPTED
@@ -130,8 +143,8 @@ public without sharing class NotificationService {
     }
 
     public static Topic__c getTopicOrCreateNew(Id ctpId) {
-        List<Topic__c> topicList = [SELECT Id, TopicId__c FROM Topic__c WHERE TopicId__c =: ctpId];
-        if (topicList.isEmpty()){
+        List<Topic__c> topicList = [SELECT Id, TopicId__c FROM Topic__c WHERE TopicId__c = :ctpId];
+        if (topicList.isEmpty()) {
             topicList.add(new Topic__c(TopicId__c = ctpId));
             try {
                 insert topicList;
@@ -143,11 +156,11 @@ public without sharing class NotificationService {
 
     public static List<Topic__c> getTopicListOrCreateNewByCOI(List<Therapeutic_Area_Patient__c> cois) {
         List<Id> taIds = new List<Id>();
-        for(Therapeutic_Area_Patient__c ta: cois) taIds.add(ta.Therapeutic_Area__c);
-        List<Topic__c> topicList = [SELECT Id, TopicId__c FROM Topic__c WHERE TopicId__c =: taIds];
+        for (Therapeutic_Area_Patient__c ta : cois) taIds.add(ta.Therapeutic_Area__c);
+        List<Topic__c> topicList = [SELECT Id, TopicId__c FROM Topic__c WHERE TopicId__c = :taIds];
         List<Id> topicIds = new List<Id>();
-        for(Topic__c t: topicList) topicIds.add(t.TopicId__c);
-        for (Therapeutic_Area_Patient__c tap: cois){
+        for (Topic__c t : topicList) topicIds.add(t.TopicId__c);
+        for (Therapeutic_Area_Patient__c tap : cois) {
             if (!topicIds.contains(tap.Therapeutic_Area__c)) topicList.add(new Topic__c(TopicId__c = tap.Therapeutic_Area__c));
         }
         try {
@@ -160,17 +173,17 @@ public without sharing class NotificationService {
     public static List<Topic__c> getTopicListOrCreateNew(List<Clinical_Trial_Profile__c> ctpList) {
         List<Id> taIds = new List<Id>();
 
-        for (Clinical_Trial_Profile__c ctp: ctpList) taIds.add(ctp.Therapeutic_Area__c);
+        for (Clinical_Trial_Profile__c ctp : ctpList) taIds.add(ctp.Therapeutic_Area__c);
 
-        List<Topic__c> topics = [SELECT Id, TopicId__c FROM Topic__c WHERE TopicId__c =: taIds];
+        List<Topic__c> topics = [SELECT Id, TopicId__c FROM Topic__c WHERE TopicId__c = :taIds];
         List<Id> topIds = new List<Id>();
 
-        for (Topic__c top: topics) topIds.add(top.TopicId__c);
+        for (Topic__c top : topics) topIds.add(top.TopicId__c);
 
         List<Topic__c> newTopics = new List<Topic__c>();
 
-        for (Clinical_Trial_Profile__c ctp: ctpList) {
-            if (ctp.Therapeutic_Area__c != null && !topIds.contains(ctp.Therapeutic_Area__c)){
+        for (Clinical_Trial_Profile__c ctp : ctpList) {
+            if (ctp.Therapeutic_Area__c != null && !topIds.contains(ctp.Therapeutic_Area__c)) {
                 newTopics.add(new Topic__c(TopicId__c = ctp.Therapeutic_Area__c));
             }
         }
@@ -186,17 +199,17 @@ public without sharing class NotificationService {
     public static List<Topic__c> getTopicListOrCreateNewByCTPId(List<Clinical_Trial_Profile__c> ctpList) {
         List<Id> ctpIds = new List<Id>();
 
-        for (Clinical_Trial_Profile__c ctp: ctpList) ctpIds.add(ctp.Id);
+        for (Clinical_Trial_Profile__c ctp : ctpList) ctpIds.add(ctp.Id);
 
-        List<Topic__c> topics = [SELECT Id, TopicId__c FROM Topic__c WHERE TopicId__c =:ctpIds];
+        List<Topic__c> topics = [SELECT Id, TopicId__c FROM Topic__c WHERE TopicId__c = :ctpIds];
         List<Id> topIds = new List<Id>();
 
-        for (Topic__c top: topics) topIds.add(top.TopicId__c);
+        for (Topic__c top : topics) topIds.add(top.TopicId__c);
 
         List<Topic__c> newTopics = new List<Topic__c>();
 
-        for (Clinical_Trial_Profile__c ctp: ctpList) {
-            if (!topIds.contains(ctp.Id)){
+        for (Clinical_Trial_Profile__c ctp : ctpList) {
+            if (!topIds.contains(ctp.Id)) {
                 newTopics.add(new Topic__c(TopicId__c = ctp.Id));
             }
         }
@@ -210,15 +223,17 @@ public without sharing class NotificationService {
     }
 
     public static void sendSimpleNotification(Map<Id, List<Id>> recipientIdsByWhatIds, String notificationType) {
-        if(String.isBlank(notificationType)) return;
+        if (String.isBlank(notificationType)) return;
         List<Notification__c> notifications = new List<Notification__c>();
-        for(Id whatId : recipientIdsByWhatIds.keySet()){
-            for(Id contactId : recipientIdsByWhatIds.get(whatId)){
+        for (Id whatId : recipientIdsByWhatIds.keySet()) {
+            for (Id contactId : recipientIdsByWhatIds.get(whatId)) {
                 notifications.add(
                         new Notification__c(
                                 Recipient__c = contactId,
                                 WhatId__c = whatId,
-                                Notification_Type__c = notificationType)
+                                Notification_Type__c = notificationType,
+                                Time_Delay_Status__c = NotificationService.DELAY_STATUS_CREATED
+                        )
                 );
             }
         }
