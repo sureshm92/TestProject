@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="Trial Complete for Participant"
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Trial_Complete_for_Participant2}"
                          recipientType="Contact"
                          relatedToType="Participant_Enrollment__c">
     <messaging:htmlEmailBody>
