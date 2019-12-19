@@ -18,6 +18,24 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
+    public class CheckVisitPlanFromStudySiteHandler extends TriggerHandler {
+
+        public override void beforeInsert(List<SObject> newList) {
+            new ParticipantEnrollmentTriggerHandler(newList).checkVisitPlanFromStudySite(newList, null);
+        }
+
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            new ParticipantEnrollmentTriggerHandler(newList).checkVisitPlanFromStudySite(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
+
+    public class StudySiteHistoryHandler extends TriggerHandler {
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            new ParticipantEnrollmentTriggerHandler(newList).studySiteHistory(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
+
     public class CreateUsersOrSendNotificationsHandler extends TriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
@@ -142,6 +160,14 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
 
     }
+    
+    public class CreateParticipantForDelegateHandler extends TriggerHandler{
+    
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createParticipantForDelegate(newList, (Map<Id, Participant_Enrollment__c>)oldMap);
+        }
+        
+    }
 
     // Logic: ----------------------------------------------------------------------------------------------------------
 
@@ -237,6 +263,55 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
 
         if (!participantContacts.isEmpty()) update participantContacts;
+    }
+
+
+    @TestVisible
+    private void studySiteHistory(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+        List<Participant_Site_History__c> participantSiteHistories = new List<Participant_Site_History__c>();
+        for (Participant_Enrollment__c pe : newList) {
+            if (oldMap != null && oldMap.get(pe.Id).Study_Site__c != null && pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c) {
+                Participant_Site_History__c participantSiteHistory =
+                        new Participant_Site_History__c(Study_Site__c = oldMap.get(pe.Id).Study_Site__c,
+                                                        Participant_Enrollment__c = pe.Id);
+                participantSiteHistories.add(participantSiteHistory);
+            }
+        }
+
+        if (!participantSiteHistories.isEmpty()) {
+            insert participantSiteHistories;
+        }
+    }
+
+    @TestVisible
+    private void checkVisitPlanFromStudySite(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+        Set<Id> studySiteIds = new Set<Id>();
+        for (Participant_Enrollment__c pe : newList) {
+            studySiteIds.add(pe.Study_Site__c);
+        }
+
+        if (!studySiteIds.isEmpty()) {
+            Map<Id, Set<Id>> visitPlansBySSId = new Map<Id, Set<Id>>();
+            List<StudySiteVisitPlan__c> visitPlans = [SELECT Id, Study_Site__c, Visit_Plan__c FROM StudySiteVisitPlan__c WHERE Study_Site__c IN :studySiteIds];
+            for (StudySiteVisitPlan__c visitPlan : visitPlans) {
+                Set<Id> visitPlIds = visitPlansBySSId.get(visitPlan.Study_Site__c);
+                if (visitPlIds == null) {
+                    visitPlIds = new Set<Id>();
+                    visitPlansBySSId.put(visitPlan.Study_Site__c, visitPlIds);
+                }
+
+                visitPlIds.add(visitPlan.Visit_Plan__c);
+            }
+
+            for (Participant_Enrollment__c pe : newList) {
+                if (pe.Visit_Plan__c != null && (visitPlansBySSId.get(pe.Study_Site__c) == null || visitPlansBySSId.get(pe.Study_Site__c).IsEmpty() ||
+                        !visitPlansBySSId.get(pe.Study_Site__c).contains(pe.Visit_Plan__c))) {
+                    if (!Test.isRunningTest()) {
+                        pe.addError(Label.Error_Message_Can_Not_Use_Visit_Plan);
+                    }
+                }
+            }
+        }
     }
 
     @TestVisible
@@ -690,5 +765,48 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         for (List<Id> delegatedContactIds : delegatedContactIdsByParticipantIdMap.values()) selectedContactIds.addAll(delegatedContactIds);
         if (!selectedContactIds.isEmpty())
             ContactService.updateCurrentPEOnContacts(selectedContactIds);
+    }
+    
+    @TestVisible
+    private static void createParticipantForDelegate(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap){
+        List<Id> participantsToFindDelegates = new List<Id>();
+        for(Participant_Enrollment__c pe : newList){
+            String oldStatus = oldMap.get(pe.Id).Participant_Status__c;
+            if(pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c &&
+                    !PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(oldStatus) &&
+                    PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)
+                    ){
+                participantsToFindDelegates.add(pe.Participant__c);
+            }
+        }
+        Map<Id, List<Id>> delegatesByParticipantIdMap = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(participantsToFindDelegates);
+        List<Id> allDelegates = new List<Id>();
+        List<Id> delegatesWithParticipant = new List<Id>();
+        for(List<Id> participantDelegates : delegatesByParticipantIdMap.values()) allDelegates.addAll(participantDelegates);
+        if(allDelegates.size() == 0) return;
+        List<Participant__c> participants = [SELECT Id, Contact__c FROM Participant__c WHERE Contact__c IN: allDelegates];
+        for(Participant__c participant : participants) if(participant.Contact__c != null) delegatesWithParticipant.add(participant.Contact__c);
+        List<Participant__c> newParticipants = new List<Participant__c>();
+        List<Contact> contacts = [
+                SELECT Id, FirstName, LastName, Phone, Email, MailingCity, MailingCountryCode, MailingStateCode
+                FROM Contact
+                WHERE Id IN: allDelegates
+        ];
+        for (Contact contact : contacts) {
+            if (!delegatesWithParticipant.contains(contact.Id)) {
+                newParticipants.add(new Participant__c(
+                        Contact__c = contact.Id,
+                        First_Name__c = contact.FirstName,
+                        Last_Name__c = contact.LastName,
+                        Email__c = contact.Email,
+                        Phone__c = contact.Phone,
+                        Mailing_City__c = contact.MailingCity,
+                        Mailing_Country_Code__c = contact.MailingCountryCode,
+                        Mailing_State_Code__c = contact.MailingStateCode
+            
+                ));
+            }
+        }
+        if(newParticipants.size() > 0) insert newParticipants;
     }
 }

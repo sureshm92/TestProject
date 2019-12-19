@@ -12,7 +12,8 @@ public without sharing class NotificationAvailabilityService {
         contactByIdMap = new Map<Id, Contact>();
         List<Contact> contacts = [
                 SELECT Id,
-                        Participant_Opt_In_Status_Emails__c
+                        Participant_Opt_In_Status_Emails__c,
+                        Participant_Opt_In_Status_SMS__c
                 FROM Contact];
         for (Contact con : contacts) contactByIdMap.put(con.Id, con);
 
@@ -126,6 +127,12 @@ public without sharing class NotificationAvailabilityService {
                 }
             }
         }
+        return checkForNotification;
+    }
+    public Boolean isAvailableForSMS(Id contactId){
+        Boolean checkForNotification = false;
+        Contact contact = contactByIdMap.get(contactId);
+        if (contact.Participant_Opt_In_Status_SMS__c) checkForNotification = true;
         return checkForNotification;
     }
 }

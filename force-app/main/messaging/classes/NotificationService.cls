@@ -41,11 +41,16 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE = 'Message_to_PT_SS_Was_Changed_Type';
     static public String MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE = 'Message_to_PI_SS_Was_Changed_Type';
     static public String MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE = 'Message_to_PT_Enrollment_Success_Type';
+    static public String MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE = 'Message_to_PI_New_Patient_Referral_Type';
 
     static public String STATUS_SKIPPED = 'Skipped';
     static public String STATUS_FAILED = 'Failed';
     static public String STATUS_SENT = 'Sent';
     static public String STATUS_PENDING = 'Pending';
+
+    static public String DELAY_STATUS_PENDING = 'Pending';
+    static public String DELAY_STATUS_CREATED = 'Created';
+    static public String DELAY_STATUS_COMPLETE = 'Complete';
 
     static public String NOTIFICATION_TARGET_TYPE_EMAIL = 'Email';
     static public String NOTIFICATION_TARGET_TYPE_SMS = 'SMS';
@@ -60,7 +65,10 @@ public without sharing class NotificationService {
 
     static {
         List<Notification_Type__mdt> notifTypes = [
-                SELECT Id, DeveloperName, Recipient_Type__c, (
+                SELECT Id, DeveloperName, Recipient_Type__c,
+                        Parameters_Provider__r.Source_Object_Type__c,
+                        Parameters_Provider__r.Parameters__c,
+                        Parameters_Provider__r.DeveloperName, (
                         SELECT Id, Email_Template__c, Email_Template_Delegate__c, Target_Type__c,
                                 Message_Body__c, Org_Wide_Email_Address__c
                         FROM Notification_Targets__r
@@ -223,7 +231,9 @@ public without sharing class NotificationService {
                         new Notification__c(
                                 Recipient__c = contactId,
                                 WhatId__c = whatId,
-                                Notification_Type__c = notificationType)
+                                Notification_Type__c = notificationType,
+                                Time_Delay_Status__c = NotificationService.DELAY_STATUS_CREATED
+                        )
                 );
             }
         }

@@ -58,7 +58,7 @@ public without sharing class TherapeuticAreaPatientService {
 
     private static void deleteTherapeuticAreaPatientFromPE(List<Participant_Enrollment__c> deleteList) {
         Set<Id> participantId = new Set<Id>();
-        List<Therapeutic_Area_Patient__c> deleteAreaPatients = new List<Therapeutic_Area_Patient__c>();
+        Set<Therapeutic_Area_Patient__c> deleteAreaPatients = new Set<Therapeutic_Area_Patient__c>();
         for (Participant_Enrollment__c enrollment : deleteList) {
             participantId.add(enrollment.Participant__c);
         }
@@ -75,7 +75,11 @@ public without sharing class TherapeuticAreaPatientService {
                 }
             }
             if (!deleteAreaPatients.isEmpty()) {
-                delete deleteAreaPatients;
+                try{
+                    delete new List<Therapeutic_Area_Patient__c>(deleteAreaPatients);
+                }catch (Exception e){
+                    System.debug('Error ' + e.getStackTraceString());
+                }
             }
         }
     }

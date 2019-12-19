@@ -10,7 +10,8 @@
     <aura:attribute name="completedTasks" type="List"/>
     <aura:attribute name="emptyTaskLabel" type="String"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
-    <aura:attribute name="isAvailable" type="Boolean" default="true"/>
+    <aura:attribute name="tasksAvailable" type="Boolean" default="true"/>
+    <aura:attribute name="emptyTrial" type="Boolean" default="true"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -19,7 +20,7 @@
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true" showSpinner="true"/>
 
     <aura:if isTrue="{!v.initialized}">
-        <aura:if isTrue="{!v.isAvailable}">
+        <aura:if isTrue="{!or(v.tasksAvailable, and(v.emptyTrial, or(!empty(v.openTasks), !empty(v.completedTasks))))}">
             <div>
                 <!-- open tasks: -->
                 <aura:if isTrue="{!v.taskMode == 'Open'}">

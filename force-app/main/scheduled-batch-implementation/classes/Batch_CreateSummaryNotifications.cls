@@ -73,7 +73,7 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
 
         Map<Id, List<String>> resIdsByContactId = new Map<Id, List<String>>();
         List<Contact> contactToNotify = new List<Contact>();
-        Map<Id, List<Id>> peIdByContactIds = new Map<Id, List<Id>>();
+        List<Notification__c> notifications = new List<Notification__c>();
         for (Participant_Enrollment__c pe : enrollment) {
             List<Contact> peContacts = new List<Contact>();
             peContacts.add(pe.Participant_Contact__r);
@@ -88,8 +88,10 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                             res, pe, contentLangByResId.get(res.Resource__c), contact.userCommunityMode__c, isDelegate)) {
                         if (needNotify(contact, res.Resource__c)) {
                             contactToNotify.add(contact);
-                            if(!peIdByContactIds.containsKey(contact.Id)) peIdByContactIds.put(pe.Id, new List<Id>{contact.Id});
-                            else peIdByContactIds.get(pe.Id).add(contact.Id);
+                            notifications.add(new Notification__c(Recipient__c = contact.Id,
+                                    WhatId__c = pe.Id,
+                                    Notification_Type__c = NotificationService.MESSAGE_TO_PT_NEW_STDDOC_TYPE,
+                                    Time_Delay_Status__c = NotificationService.DELAY_STATUS_PENDING));
 
                             if (!resIdsByContactId.containsKey(contact.Id)) {
                                 List<String> resNotificationIds = contact.Resource_Notifications__c != null ?
@@ -102,10 +104,8 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                 }
             }
         }
-
+        if(!notifications.isEmpty()) insert notifications;
         if (!contactToNotify.isEmpty()) {
-            NotificationService.sendSimpleNotification(peIdByContactIds, NotificationService.MESSAGE_TO_PT_NEW_STDDOC_TYPE);
-
             List<Contact> contactsToUpdate = new List<Contact>();
             for (Contact con : contactToNotify) {
                 if (!resIdsByContactId.containsKey(con.Id)) continue;
@@ -114,7 +114,6 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                 resIdsByContactId.remove(con.Id);
                 contactsToUpdate.add(con);
             }
-
             update contactsToUpdate;
         }
     }
@@ -128,7 +127,6 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
         if (contact.Resource_Notifications__c == null || !contact.Resource_Notifications__c.contains(resourceId)) {
             notify = true;
         }
-
         return notify;
     }
 }

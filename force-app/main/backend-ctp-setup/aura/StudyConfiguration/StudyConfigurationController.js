@@ -6,8 +6,10 @@
     doInit: function (component, event, helper) {
         communityService.executeAction(component, 'getInitData', {
             ctpId : component.get('v.recordId')
-         }, function (ctp) {
-            component.set('v.ctp', ctp);
+         }, function (initData) {
+            component.set('v.ctp', initData.ctp);
+            component.set('v.user_has_permission', initData.user_has_permission);
+            component.set('v.noVisitPlansMessage', initData.noVisitPlansMessage);
             component.find('spinner').hide();
         });
 
