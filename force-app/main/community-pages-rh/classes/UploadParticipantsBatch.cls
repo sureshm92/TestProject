@@ -286,13 +286,16 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
             sendNotificationEmail(listOfFailedRecords,
                     listOfFailedRecordsWithMsg,
                     studySiteDetails.Principal_Investigator__c,
-                    uploadTime);
+                    uploadTime,
+                    studySiteDetails,
+                    totalRecordCount,
+                    errorRecordCount);
         } catch (Exception exp) {
             system.debug('ERROR during sending file with failed records: ' + exp.getMessage());
         }
     }
 
-    private static void sendNotificationEmail(Set<String> listOfFailedRecords, Set<String> listOfFailedRecordsWithMsg, String piContactId, DateTime uploadTime) {
+    private static void sendNotificationEmail(Set<String> listOfFailedRecords, Set<String> listOfFailedRecordsWithMsg, String piContactId, DateTime uploadTime, Study_Site__c studySiteDetails, Integer totalRecordCount, Integer errorRecordCount) {
         String formattedDate = uploadTime.format('MM/dd/yyyy hh:mm a', UserInfo.getTimeZone().toString());
 
         OrgWideEmailAddress owea = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName = 'IQVIA Referral Hub' LIMIT 1];
