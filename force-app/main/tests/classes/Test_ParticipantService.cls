@@ -143,7 +143,7 @@ public class Test_ParticipantService {
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
         DatabaseService.setMock(new DatabaseServiceMock());
-
+        insert new Account(Name = 'Participant');
         Test.startTest();
         ParticipantService.createParticipantAndUpdatePE(getParticipant(), getPE(null));
         Test.stopTest();
