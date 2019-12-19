@@ -4,7 +4,7 @@
 
 public class Batch_CreateAdminTasks implements Database.Batchable<PEByContactWrapper>, Database.Stateful {
 
-    private Task adminTask;
+    private TaskService.TaskConfig taskConfig;
     private Map<Id, List<Participant_Enrollment__c>> contactsWithPE;
     private Map<Id, List<Participant_Enrollment__c>> failedContactsWithPE;
 
@@ -12,11 +12,11 @@ public class Batch_CreateAdminTasks implements Database.Batchable<PEByContactWra
     private Integer taskCreated;
     private Integer launchCount;
 
-    public Batch_CreateAdminTasks(Map<Id, List<Participant_Enrollment__c>> contactsWithPE, Task adminTask, Id userId,
-            Integer taskCreated, Integer launchCount) {
+    public Batch_CreateAdminTasks(Map<Id, List<Participant_Enrollment__c>> contactsWithPE, TaskService.TaskConfig taskConfig,
+            Id userId, Integer taskCreated, Integer launchCount) {
         this.contactsWithPE = contactsWithPE;
         this.failedContactsWithPE = new Map<Id, List<Participant_Enrollment__c>>();
-        this.adminTask = adminTask;
+        this.taskConfig = taskConfig;
         this.userId = userId;
         this.taskCreated = taskCreated;
         this.launchCount = launchCount;
@@ -37,7 +37,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<PEByContactWra
 
         try {
             List<User> users = [
-                    SELECT Id, ContactId, Name
+                    SELECT Id, ContactId, Name, TimeZoneSidKey
                     FROM User
                     WHERE ContactId IN :peByContactIds.keySet()
                     AND IsActive = TRUE
@@ -47,14 +47,31 @@ public class Batch_CreateAdminTasks implements Database.Batchable<PEByContactWra
             List<Task> tasks = new List<Task>();
             for (User user : users) {
                 for(Participant_Enrollment__c pe : peByContactIds.get(user.ContactId)) {
+                    Datetime activityDT;
+                    if(taskConfig.endTime != null) {
+                        activityDT = DateTimeConverterUtil.getUserDT(
+                                taskConfig.endTime,
+                                Time.newInstance(0, 0, 0, 0),
+                                TimeZone.getTimeZone(user.TimeZoneSidKey)
+                        );
+                    }
+                    Datetime reminderDT;
+                    if(taskConfig.reminderDate != null) {
+                        reminderDT = DateTimeConverterUtil.getUserDT(
+                                taskConfig.reminderDate,
+                                Time.newInstance(0,0,0,0),
+                                TimeZone.getTimeZone(user.TimeZoneSidKey)
+                        );
+                    }
+
                     tasks.add(new Task(
                             OwnerId = user.Id,
-                            Subject = adminTask.Subject,
-                            Priority = adminTask.Priority,
-                            Start_Date__c = adminTask.Start_Date__c,
-                            Activity_Datetime__c = adminTask.Activity_Datetime__c,
-                            ReminderDateTime = adminTask.ReminderDateTime,
-                            Visible_For__c = adminTask.Visible_For__c,
+                            Subject = taskConfig.subject,
+                            Priority = taskConfig.priority,
+                            Start_Date__c = taskConfig.startDate,
+                            Activity_Datetime__c = activityDT,
+                            ReminderDateTime = reminderDT,
+                            Visible_For__c = taskConfig.visibility,
                             WhatId = pe.Id,
                             Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED
                     ));
@@ -70,7 +87,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<PEByContactWra
     public void finish(Database.BatchableContext param1) {
         if (!failedContactsWithPE.isEmpty() && launchCount < 3) {
             Database.executeBatch(
-                    new Batch_CreateAdminTasks(failedContactsWithPE, adminTask, userId, taskCreated, ++launchCount));
+                    new Batch_CreateAdminTasks(failedContactsWithPE, taskConfig, userId, taskCreated, ++launchCount));
         } else {
             //Send email to Admin
             try {
@@ -81,7 +98,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<PEByContactWra
                 });
                 emailMessage.setSubject('Batch Create Admin Task');
 
-                String messageBody = 'Task Subject: ' + adminTask.Subject + '\n';
+                String messageBody = 'Task Subject: ' + taskConfig.subject + '\n';
                 messageBody += 'Task(s) created = ' + taskCreated
                         + '. Task(s) failed = '
                         + (failedContactsWithPE.isEmpty() ? '0' : '' + (failedContactsWithPE.values().size() + '\n'));
@@ -107,7 +124,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<PEByContactWra
         }
     }
 
-    public static void launch(Map<Id, List<Participant_Enrollment__c>> contactsWithPE, Task adminTask) {
+    public static void launch(Map<Id, List<Participant_Enrollment__c>> contactsWithPE, TaskService.TaskConfig adminTask) {
         Database.executeBatch(new Batch_CreateAdminTasks(contactsWithPE, adminTask, UserInfo.getUserId(), 0, 1));
     }
 

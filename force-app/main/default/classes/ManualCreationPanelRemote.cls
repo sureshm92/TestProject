@@ -49,19 +49,15 @@ public without sharing class ManualCreationPanelRemote {
     }
 
     @AuraEnabled
-    public static Boolean createTasks(String taskPanelWrapper, String adHocWrapper, String filter, String activeTab) {
+    public static Boolean createTasks(String config, AdHocWrapper adHocWrapper, ManualTaskFilter filter, String activeTab) {
         try {
-            ManualTaskFilter manFilter = (ManualTaskFilter) JSON.deserialize(filter, ManualTaskFilter.class);
-
             if (activeTab.equals('task')) {
-                ManualTaskRemote.TaskPanelWrapper taskWrapper =
-                        (ManualTaskRemote.TaskPanelWrapper) JSON.deserialize(taskPanelWrapper, ManualTaskRemote.TaskPanelWrapper.class);
-                return ManualTaskRemote.createTasks(taskWrapper.task, manFilter);
+                TaskService.TaskConfig taskConfig = (TaskService.TaskConfig) JSON.deserialize(config, TaskService.TaskConfig.class);
+                System.debug('>>>' + JSON.serializePretty(taskConfig));
+                return ManualTaskRemote.createTasks(taskConfig, filter);
             } else if (activeTab.equals('adHoc')) {
-                AdHocWrapper adHWrapper = (AdHocWrapper) JSON.deserialize(adHocWrapper, AdHocWrapper.class);
-                return createInvitationAndTask(adHWrapper, manFilter);
+                return createInvitationAndTask(adHocWrapper, filter);
             }
-
             return false;
         } catch (Exception e) {
             return (Boolean) AuraHelper.throwException(e);
