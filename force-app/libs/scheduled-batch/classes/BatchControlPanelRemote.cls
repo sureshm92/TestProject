@@ -13,7 +13,6 @@ public without sharing class BatchControlPanelRemote {
     private static final String CSS_STOPPED = 'bcp-state-stopped';
 
     public static final String SCHEDULED_EXTENDS = 'extends Batch_ScheduledAbstract';
-    public static final String DESCRIPTION_METHOD_MARK = 'getBatchDescription';
     public static final List<String> ASYNC_STATUSES = new List<String>{
             'Holding',
             'Queued',
