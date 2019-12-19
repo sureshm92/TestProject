@@ -129,4 +129,8 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
         }
         return notify;
     }
+
+    public override String getBatchDescription() {
+        return 'This job sends Emails and SMS when new Study Document is available';
+    }
 }

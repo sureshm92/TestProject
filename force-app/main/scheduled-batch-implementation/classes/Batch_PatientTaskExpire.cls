@@ -29,7 +29,7 @@ public with sharing class Batch_PatientTaskExpire extends Batch_ScheduledAbstrac
     }
 
     public override String getBatchDescription() {
-        return 'This job set the task status to expired, provided that their end date matches the current one or their invitation has expired (only for the "survey" type)';
+        return 'This job sets the task status to expired, provided that their end date matches the current one or their invitation has expired (only for the "survey" type)';
     }
 
 }
