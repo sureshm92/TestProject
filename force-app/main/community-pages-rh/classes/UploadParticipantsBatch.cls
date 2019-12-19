@@ -303,10 +303,10 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
 
         Messaging.SingleEmailMessage adminEmailToSend = new Messaging.SingleEmailMessage();
         adminEmailToSend.setTemplateId(importParticipantsTemplateId);
-        adminEmailToSend.setTargetObjectId(studySiteDetails.Id);
+        adminEmailToSend.setTargetObjectId(piContactId);
         adminEmailToSend.setSaveAsActivity(false);
         adminEmailToSend.setOrgWideEmailAddressId(owea.Id);
-        adminEmailToSend.setWhatId(piContactId);
+        adminEmailToSend.setWhatId(studySiteDetails.Id);
 
         String failedRecordsCSV = '';
         for (String failedRecord : listOfFailedRecords) {
