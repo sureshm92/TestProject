@@ -4,6 +4,10 @@
 
 public without sharing class NotificationAvailabilityService {
 
+    private static final String PARTICIPANT_ENROLLMENT_OBJ_NAME = 'Participant_Enrollment__c';
+    private static final String CLINICAL_TRIAL_PROFILE_OBJ_NAME = 'Clinical_Trial_Profile__c';
+    private static final String HCP_ENROLLMENT_OBJ_NAME = 'HCP_Enrollment__c';
+
     private Map<Id, Contact> contactByIdMap;
 
     private Map<Id, SObject> objectsByIds;
@@ -39,7 +43,7 @@ public without sharing class NotificationAvailabilityService {
 
         //Map <Id, SObject>
         for (String st : objectsByStrings.keySet()) {
-            if (st == 'Participant_Enrollment__c') {
+            if (st == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
                 List<Participant_Enrollment__c> listPE = [
                         SELECT Id, Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
                                 Study_Site__r.Suppress_Participant_Emails__c,
@@ -54,7 +58,7 @@ public without sharing class NotificationAvailabilityService {
                     objectsByIds.put(pe.Id, pe);
                 }
             }
-            if (st == 'Clinical_Trial_Profile__c') {
+            if (st == CLINICAL_TRIAL_PROFILE_OBJ_NAME) {
                 List<Clinical_Trial_Profile__c> listCTP = [
                         SELECT Id,
                                 Suppress_Participant_Emails__c
@@ -65,7 +69,7 @@ public without sharing class NotificationAvailabilityService {
                     objectsByIds.put(ctp.Id, ctp);
                 }
             }
-            if (st == 'HCP_Enrollment__c') {
+            if (st == HCP_ENROLLMENT_OBJ_NAME) {
                 List<HCP_Enrollment__c> hcpeList = [
                         SELECT Id,
                                HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c
@@ -90,7 +94,7 @@ public without sharing class NotificationAvailabilityService {
             objType = String.valueOf(objId.getSobjectType());
         }
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_PARTICIPANT) {
-            if (objType == 'Participant_Enrollment__c') {
+            if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
                 Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
                 if (pe.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c
                         && !pe.Study_Site__r.Suppress_Participant_Emails__c
@@ -98,7 +102,7 @@ public without sharing class NotificationAvailabilityService {
                         && !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c) {
                     checkForNotification = true;
                 }
-            } else if (objType == 'Clinical_Trial_Profile__c') {
+            } else if (objType == CLINICAL_TRIAL_PROFILE_OBJ_NAME) {
                 Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) objectsByIds.get(Id.valueOf(whatId));
                 if (!ctp.Suppress_Participant_Emails__c) checkForNotification = true;
             } else if (objType == null) {
@@ -107,12 +111,12 @@ public without sharing class NotificationAvailabilityService {
             }
         }
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_HCP) {
-            if (objType == 'Participant_Enrollment__c') {
+            if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
                 Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
                 if (pe.HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c) {
                     checkForNotification = true;
                 }
-            } else if(objType == 'HCP_Enrollment__c'){
+            } else if(objType == HCP_ENROLLMENT_OBJ_NAME){
                 HCP_Enrollment__c hcpe = (HCP_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
                 if (hcpe.HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c) {
                     checkForNotification = true;
@@ -120,7 +124,7 @@ public without sharing class NotificationAvailabilityService {
             }
         }
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_PI) {
-            if (objType == 'Participant_Enrollment__c') {
+            if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
                 Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
                 if (pe.Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c) {
                     checkForNotification = true;
