@@ -62,7 +62,7 @@ public without sharing class DateTimeConverterUtil {
         Date gmtDate = moment.date().addDays(days);
         Datetime gmtDT = Datetime.newInstanceGmt(gmtDate, gmtTime);
 
-        return gmtDT;
+        return getUserDatetime(tz, gmtDT);
     }
 
     public static Datetime addDaysInUserTimeZone(Datetime moment, Id contactId, Integer days) {
@@ -71,5 +71,10 @@ public without sharing class DateTimeConverterUtil {
 
     public static Boolean isSameMoment(Datetime firstDT, TimeZone firstTZ, Datetime secondDT, TimeZone secondTZ) {
         return convertUserDatetimeToGMT(firstDT, firstTZ) == convertUserDatetimeToGMT(secondDT, secondTZ);
+    }
+
+    public static Datetime getUserDT(Date d, Time t, TimeZone tz) {
+        Datetime gmtTime = Datetime.newInstanceGmt(d, t);
+        return Datetime.newInstance(gmtTime.getTime() - tz.getOffset(Datetime.now()));
     }
 }

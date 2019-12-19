@@ -28,7 +28,7 @@ private class Test_ManualCreationPanelRemote {
 
         Test.startTest();
         ManualCreationPanelRemote.getInitData();
-        ManualCreationPanelRemote.createTasks(taskConfig, adHocWrapper, filter, 'task');
+        ManualCreationPanelRemote.createTasks(JSON.serialize(taskConfig), adHocWrapper, filter, 'task');
         ManualCreationPanelRemote.searchReminderScheduleByValue(schedule.Id);
         ManualCreationPanelRemote.searchReminderSchedule('RS', '');
         Test.stopTest();
