@@ -1,5 +1,5 @@
 <messaging:emailTemplate
-        subject="Trial Complete for Delegate"
+        subject="{!$Label.Email_Subject_Trial_Complete_for_Delegate}"
         recipientType="Contact"
         relatedToType="Participant_Enrollment__c">
     <messaging:htmlEmailBody>

@@ -45,4 +45,8 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
     public override Type getType() {
         return Batch_CreateParticipantLoginNotification.class;
     }
+
+    public override String getBatchDescription() {
+        return 'This job sends Emails and SMS when participant does not login in community X days';
+    }
 }

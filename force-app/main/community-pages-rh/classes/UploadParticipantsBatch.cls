@@ -11,8 +11,8 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
     private Map<String, Integer> headerIndexes = new Map<String, Integer>();
     private String selectedStatus;
     private Study_Site__c studySiteDetails;
-    private Boolean headerFailed;
     private Integer totalRecordCount = 0;
+    private Integer errorRecordCount = 0;
 
     private String emailError = '';
     Boolean valid = true;
@@ -27,7 +27,7 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
         this.headerIndexes = headerIndexes;
         this.selectedStatus = selectedStatus;
 
-        studySiteDetails = [SELECT Id, Principal_Investigator__c, Clinical_Trial_Profile__c FROM Study_Site__c WHERE Id = :studySiteId];
+        studySiteDetails = [SELECT Id, Name, Principal_Investigator__c, Clinical_Trial_Profile__c FROM Study_Site__c WHERE Id = :studySiteId];
 
         listOfFailedRecordsWithMsg.add('Row Index, Failed Reason');
         String line = header.trim().removeEnd(',').trim().removeEnd(',');
@@ -174,38 +174,42 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                                     MailingPostalCode = PostalCode);
                     Database.SaveResult saveRes = Database.insert(participantContact);
                     if (!saveRes.isSuccess()) {
+                        errorRecordCount++;
                         Database.Error error = saveRes.getErrors().get(0);
                         listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
                         system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
                     }
 
-                    Participant__c participant =
-                            new Participant__c(First_Name__c = FirstName,
-                                    Last_Name__c = LastName,
-                                    Middle_Name__c = MiddleName,
-                                    Gender__c = Sex,
-                                    Date_of_Birth__c = DateOfBirth,
-                                    Email__c = EmailAddress,
-                                    Phone__c = Phone,
-                                    Phone_Type__c = PhoneType,
-                                    Contact__c = participantContact.Id,
-                                    Language_Preference__c  = Language,
-                                    Mailing_Street__c = StreetAddress,
-                                    Mailing_City__c = City,
-                                    Mailing_State__c = State,
-                                    Mailing_Country__c = Country,
-                                    Mailing_Zip_Postal_Code__c = PostalCode);
+                    if (participantContact.Id != null) {
+                        Participant__c participant =
+                                new Participant__c(First_Name__c = FirstName,
+                                        Last_Name__c = LastName,
+                                        Middle_Name__c = MiddleName,
+                                        Gender__c = Sex,
+                                        Date_of_Birth__c = DateOfBirth,
+                                        Email__c = EmailAddress,
+                                        Phone__c = Phone,
+                                        Phone_Type__c = PhoneType,
+                                        Contact__c = participantContact.Id,
+                                        Language_Preference__c = Language,
+                                        Mailing_Street__c = StreetAddress,
+                                        Mailing_City__c = City,
+                                        Mailing_State__c = State,
+                                        Mailing_Country__c = Country,
+                                        Mailing_Zip_Postal_Code__c = PostalCode);
 
-                    Participant_Enrollment__c participantEnrollment =
-                            new Participant_Enrollment__c(Participant_Status__c = selectedStatus,
-                                    Study_Site__c = studySiteDetails.Id,
-                                    Participant_Contact__c = participantContact.Id,
-                                    PI_Contact__c = studySiteDetails.Principal_Investigator__c);
+                        Participant_Enrollment__c participantEnrollment =
+                                new Participant_Enrollment__c(Participant_Status__c = selectedStatus,
+                                        Study_Site__c = studySiteDetails.Id,
+                                        Participant_Contact__c = participantContact.Id,
+                                        PI_Contact__c = studySiteDetails.Principal_Investigator__c);
 
-                    contactsById.put(participantContact.Id, participantContact);
-                    participantsByContact.put(participantContact.Id, participant);
-                    participantEnrollmentsByContact.put(participantContact.Id, participantEnrollment);
+                        contactsById.put(participantContact.Id, participantContact);
+                        participantsByContact.put(participantContact.Id, participant);
+                        participantEnrollmentsByContact.put(participantContact.Id, participantEnrollment);
+                    }
                 } else {
+                    errorRecordCount++;
                     listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
                 }
             }
@@ -282,22 +286,27 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
             sendNotificationEmail(listOfFailedRecords,
                     listOfFailedRecordsWithMsg,
                     studySiteDetails.Principal_Investigator__c,
-                    uploadTime);
+                    uploadTime,
+                    studySiteDetails,
+                    totalRecordCount,
+                    errorRecordCount);
         } catch (Exception exp) {
             system.debug('ERROR during sending file with failed records: ' + exp.getMessage());
         }
     }
 
-    private static void sendNotificationEmail(Set<String> listOfFailedRecords, Set<String> listOfFailedRecordsWithMsg, String piContactId, DateTime uploadTime) {
-        OrgWideEmailAddress owea = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName = 'IQVIA Referral Hub' LIMIT 1];
+    private static void sendNotificationEmail(Set<String> listOfFailedRecords, Set<String> listOfFailedRecordsWithMsg, String piContactId, DateTime uploadTime, Study_Site__c studySiteDetails, Integer totalRecordCount, Integer errorRecordCount) {
         String formattedDate = uploadTime.format('MM/dd/yyyy hh:mm a', UserInfo.getTimeZone().toString());
 
-        User usr = [SELECT Id, Email FROM User WHERE ContactId = :piContactId LIMIT 1];
+        OrgWideEmailAddress owea = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName = 'IQVIA Referral Hub' LIMIT 1];
+        Id importParticipantsTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName = :SendEmailTemplate.EMAIL_TEMPLATE_PATIENT_IMPORT LIMIT 1].Id;
 
         Messaging.SingleEmailMessage adminEmailToSend = new Messaging.SingleEmailMessage();
-        adminEmailToSend.setToAddresses(new List<String> { usr.Email });
-        adminEmailToSend.setOrgWideEmailAddressId(owea.id);
-        adminEmailToSend.setSubject('Upload participants completed - ' + formattedDate);
+        adminEmailToSend.setTemplateId(importParticipantsTemplateId);
+        adminEmailToSend.setTargetObjectId(piContactId);
+        adminEmailToSend.setSaveAsActivity(false);
+        adminEmailToSend.setOrgWideEmailAddressId(owea.Id);
+        adminEmailToSend.setWhatId(studySiteDetails.Id);
 
         String failedRecordsCSV = '';
         for (String failedRecord : listOfFailedRecords) {
@@ -317,13 +326,28 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
         failedMsgsEfa.setFileName('ProcessOutput_Details_' + formattedDate + '.csv');
         failedMsgsEfa.setBody(Blob.valueOf(failedRecordsCSVMsgs));
 
-        adminEmailToSend.setHtmlBody('');
-        adminEmailToSend.setPlainTextBody('');
+        Savepoint sp = Database.setSavepoint();
+        Messaging.sendEmail(new Messaging.SingleEmailMessage[] { adminEmailToSend });
+        Database.rollback(sp);
 
-        adminEmailToSend.setFileAttachments(new List<Messaging.EmailFileAttachment> { failedRecordsEfa, failedMsgsEfa });
+        String htmlBody = adminEmailToSend.getHtmlBody();
+        htmlBody = htmlBody.replace('##SucRecCount', '' + (totalRecordCount - errorRecordCount));
+        htmlBody = htmlBody.replace('##TotalRecCount', '' + totalRecordCount);
+        String plainBody = adminEmailToSend.getPlainTextBody();
+        plainBody = plainBody.replace('##SucRecCount', '' + (totalRecordCount - errorRecordCount));
+        plainBody = plainBody.replace('##TotalRecCount', '' + totalRecordCount);
+
+        Messaging.SingleEmailMessage emailToSend = new Messaging.SingleEmailMessage();
+        emailToSend.setToAddresses(adminEmailToSend.getToAddresses());
+        emailToSend.setPlainTextBody(plainBody);
+        emailToSend.setHtmlBody(htmlBody);
+        emailToSend.setSubject(adminEmailToSend.getSubject());
+        emailToSend.setOrgWideEmailAddressId(owea.Id);
+
+        emailToSend.setFileAttachments(new List<Messaging.EmailFileAttachment> { failedRecordsEfa, failedMsgsEfa });
 
         if (!Test.isRunningTest()) {
-            Messaging.sendEmail(new Messaging.SingleEmailMessage[] { adminEmailToSend });
+            Messaging.sendEmail(new Messaging.SingleEmailMessage[] { emailToSend });
         }
     }
 

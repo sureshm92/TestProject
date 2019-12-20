@@ -9,13 +9,17 @@
             userMode: communityService.getUserMode(),
             invitationId : communityService.getUrlParameter('inv')
         }, function (response) {
-            var sw = JSON.parse(response);
-            component.set('v.codeName', sw.studyCodeName);
-            component.set('v.link', sw.url);
-            component.set('v.surveyName', sw.name);
+            if(response === 'expired') {
+                communityService.showInfoToast('', $A.get('$Label.c.Invitation_Expired'));
+                communityService.navigateToHome();
+            } else {
+                var sw = JSON.parse(response);
+                component.set('v.codeName', sw.studyCodeName);
+                component.set('v.link', sw.url);
+                component.set('v.surveyName', sw.name);
+            }
         }, function () {
             communityService.navigateToHome();
-            //component.find('spinner').hide();
         });
     },
 
