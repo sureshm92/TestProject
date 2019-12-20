@@ -47,6 +47,8 @@ public without sharing class Action_ChangeHCPStatusByPIRemote {
                 message += Label.TST_put_On_Hold + ' '  + hcpEnrollment.HCP_Contact__r.Name + '.';
             }else if(actionId == StudyActions.ACT_HCP_ORIENTATION_ATTENDED_AND_ACTIVATE){
                 message += Label.TST_attended_orientation_and_activated + ' '  + hcpEnrollment.HCP_Contact__r.Name + '.';
+            } else if (actionId == StudyActions.ACT_HCP_ACTIVATE_FOR_ALL) {
+                message += Label.TST_activated + ' ' + hcpEnrollment.HCP_Contact__r.Name + ' ' + Label.Accepted_For_All_Study_Sites + '.';
             }
             return  message;
         } catch (Exception ex) {
