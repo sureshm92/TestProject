@@ -2,7 +2,7 @@
  * Created by Olga Skrynnikova on 11/22/2019.
  */
 
-public with sharing class PENotificationTriggerHandler {
+public without sharing class PENotificationTriggerHandler {
 
     // Handlers: -------------------------------------------------------------------------------------------------------
 
