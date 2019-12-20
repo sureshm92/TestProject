@@ -12,7 +12,7 @@
                 new: '',
                 reNew: ''
             };
-            debugger;
+
             component.set('v.initData', initData);
             component.set('v.participant', initData.participant);
             component.set('v.participantHasUpdateTasks', initData.participantHasUpdateTasks);

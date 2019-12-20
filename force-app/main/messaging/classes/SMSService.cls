@@ -17,7 +17,7 @@ public with sharing class SMSService {
         List <Id> conIds = new List<Id>();
         for (Notification__c n : notifications) conIds.add(n.Recipient__c);
         Map<Id, Contact> contactMap = new Map<Id, Contact>([
-                SELECT Id, Phone
+                SELECT Id, Phone, Language__c
                 FROM Contact
                 WHERE Id IN :conIds
         ]);

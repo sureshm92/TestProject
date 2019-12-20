@@ -12,6 +12,7 @@
     <aura:attribute name="initialized" type="Boolean"/>
     <aura:attribute name="taskPanelWrapper" type="Object"/>
     <aura:attribute name="adHocWrapper" type="Object"/>
+    <aura:attribute name="taskConfig" type="Object"/>
     <aura:attribute name="filter" type="ManualTaskFilter"/>
     <aura:attribute name="patientStatusOptions" type="List"/>
     <aura:attribute name="selectedTab" type="String" default="task"/>
@@ -33,7 +34,7 @@
             <!-- Tabs -->
             <lightning:tabset selectedTabId="task">
                 <lightning:tab label="Task" id="task" onactive="{!c.handleActiveTab}">
-                    <c:ManualTask aura:id="manTask" parent="{!this}" wrapper="{!v.taskPanelWrapper}"/>
+                    <c:ManualTask aura:id="manTask" parent="{!this}" taskConfig="{!v.taskConfig}" wrapper="{!v.taskPanelWrapper}"/>
                 </lightning:tab>
                 <lightning:tab label="Survey" id="adHoc" onactive="{!c.handleActiveTab}">
                     <c:ManualAdHocSurvey aura:id="manAdhoc" parent="{!this}" wrapper="{!v.adHocWrapper}"/>
