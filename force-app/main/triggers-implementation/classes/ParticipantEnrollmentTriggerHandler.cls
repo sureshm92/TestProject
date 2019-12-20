@@ -287,7 +287,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     private void checkVisitPlanFromStudySite(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         Set<Id> studySiteIds = new Set<Id>();
         for (Participant_Enrollment__c pe : newList) {
-            if (PEStatusState.PE_STATUS_GROUP_VISIT_PLAN_CHECK.contains(pe.Participant_Status__c)) {
+            Boolean needsVisitPlanCheck = oldMap != null && oldMap.get(pe.Id).Study_Site__c != null && oldMap.get(pe.Id).Study_Site__c != pe.Study_Site__c;
+            if (needsVisitPlanCheck && PEStatusState.PE_STATUS_GROUP_VISIT_PLAN_CHECK.contains(pe.Participant_Status__c)) {
                 pe.Visit_Plan__c = null;
             } else {
                 studySiteIds.add(pe.Study_Site__c);

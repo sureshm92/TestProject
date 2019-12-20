@@ -58,12 +58,18 @@ public without sharing class TaskEditRemote {
 
                 TimeZone timezone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
                 if (task.Activity_Datetime__c != null) {
-                    wrapper.activityDate =
-                            DateTimeConverterUtil.getUserDatetime(timezone, task.Activity_Datetime__c).date();
+                    wrapper.activityDate = DateTimeConverterUtil.getUserDT(
+                            task.Activity_Datetime__c.date(),
+                            task.Activity_Datetime__c.time(),
+                            timezone
+                    ).date();
                 }
                 if (task.ReminderDateTime != null) {
-                    wrapper.reminderDate =
-                            DateTimeConverterUtil.getUserDatetime(timezone, task.ReminderDateTime).date();
+                    wrapper.reminderDate = DateTimeConverterUtil.getUserDT(
+                            task.ReminderDateTime.date(),
+                            task.ReminderDateTime.time(),
+                            timezone
+                    ).date();
                 }
 
                 wrapper.createdByAdmin = createdByAdmin(task);
@@ -92,17 +98,16 @@ public without sharing class TaskEditRemote {
 
             TimeZone timezone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
             if (taskWrapper.activityDate != null) {
-                Datetime dateTimeGMT = Datetime.newInstanceGmt(
+                taskToUpsert.Activity_Datetime__c = Datetime.newInstanceGmt(
                         taskWrapper.activityDate.year(),
                         taskWrapper.activityDate.month(),
                         taskWrapper.activityDate.day()
                 );
-                taskToUpsert.Activity_Datetime__c = DateTimeConverterUtil.convertUserDatetimeToGMT(dateTimeGMT, timezone);
             }
             if (taskWrapper.reminderDate != null) {
                 taskToUpsert.Reminder_Date__c = taskWrapper.reminderDate;
                 taskToUpsert.ReminderDateTime =
-                        DateTimeConverterUtil.convertUserDatetimeToGMT(taskToUpsert.Reminder_Date__c, timezone);
+                        Datetime.newInstanceGmt(taskToUpsert.Reminder_Date__c.dateGmt(), taskToUpsert.Reminder_Date__c.timeGmt());
             }
 
             upsert taskToUpsert;

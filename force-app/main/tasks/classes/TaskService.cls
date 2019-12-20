@@ -232,19 +232,20 @@ public without sharing class TaskService {
                 tsc.reminderSchedule = inv.Reminder_Schedule__c;
 
                 TimeZone userTZ = userTimezoneMap.get(tsc.ownerId);
-                Datetime userDatetime = DateTimeConverterUtil.getUserDatetime(userTZ, Datetime.now());
+                Datetime userDatetime =
+                        DateTimeConverterUtil.getUserDT(Date.today(), Time.newInstance(0,0,0,0), userTZ);
 
                 tsc.startDate = userDatetime.date();
                 if (inv.ExpireDateTime__c != null) {
                     Date expiryDate = inv.ExpireDateTime__c.date();
                     Integer daysBetween = Date.today().daysBetween(expiryDate);
-                    tsc.activityDate = DateTimeConverterUtil.addDaysInUserTimeZone(userDatetime, userTZ, daysBetween);
+                    tsc.activityDate = userDatetime.addDays(daysBetween);
                 }
 
                 if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {
                     Integer firstReminderDay = (Integer) inv.Reminder_Schedule__r.First_Reminder_day__c;
-                    tsc.reminderDatetime = DateTimeConverterUtil.addDaysInUserTimeZone(userDatetime, userTZ, firstReminderDay);
-                    tsc.reminderGMT = DateTimeConverterUtil.convertUserDatetimeToGMT(tsc.reminderDatetime, userTZ);
+                    tsc.reminderDatetime = userDatetime.addDays(firstReminderDay);
+                    tsc.reminderGMT = Datetime.newInstanceGmt(tsc.reminderDatetime.dateGmt(), tsc.reminderDatetime.timeGmt());
                 }
                 tsc.subject = subject;
                 tsc.type = TASK_TYPE_SURVEY;
