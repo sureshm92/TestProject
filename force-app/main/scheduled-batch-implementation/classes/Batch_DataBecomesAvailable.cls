@@ -69,7 +69,7 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
                         Recipient__c = recipient.Id,
                         WhatId__c = visitResultObj.Patient_Visit__r.Participant_Enrollment__c,
                         Notification_Type__c = NotificationService.MESSAGE_TO_PT_DATA_AVAILABLE_TYPE,
-                        Time_Delay_Status__c = NotificationService.DELAY_STATUS_PENDING
+                        Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                 ));
             }
             Patient_Visit__c patientVisit = visitResultObj.Patient_Visit__r;

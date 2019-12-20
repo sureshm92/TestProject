@@ -50,11 +50,6 @@ public without sharing class NotificationService {
     static public String STATUS_SKIPPED = 'Skipped';
     static public String STATUS_FAILED = 'Failed';
     static public String STATUS_SENT = 'Sent';
-    static public String STATUS_PENDING = 'Pending';
-
-    static public String DELAY_STATUS_PENDING = 'Pending';
-    static public String DELAY_STATUS_CREATED = 'Created';
-    static public String DELAY_STATUS_COMPLETE = 'Complete';
 
     static public String NOTIFICATION_TARGET_TYPE_EMAIL = 'Email';
     static public String NOTIFICATION_TARGET_TYPE_SMS = 'SMS';
@@ -105,6 +100,9 @@ public without sharing class NotificationService {
         }
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_DECLINED) {
             return MESSAGE_TO_HCP_PATIENT_DECLINED_TYPE;
+        }
+        if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ON_HOLD) {
+            return MESSAGE_TO_HCP_PATIENT_ON_HOLD_TYPE;
         }
         return null;
     }
@@ -236,7 +234,7 @@ public without sharing class NotificationService {
                                 Recipient__c = contactId,
                                 WhatId__c = whatId,
                                 Notification_Type__c = notificationType,
-                                Time_Delay_Status__c = NotificationService.DELAY_STATUS_CREATED
+                                Status__c = NotificationService.NOTIFICATION_STATUS_CREATED
                         )
                 );
             }
@@ -275,7 +273,7 @@ public without sharing class NotificationService {
                     }
                 } else if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_SMS) {
                     if (availabilityService.isAvailableForSMS(n.Recipient__c)) {
-                        if (n.Time_Delay_Status__c == NotificationService.DELAY_STATUS_CREATED) smsNotifications.add(n);
+                        if (n.Status__c == NotificationService.NOTIFICATION_STATUS_CREATED) smsNotifications.add(n);
                     } else {
                         sendResults.add(new Send_Result__c(
                                 Notification__c = n.Id,
