@@ -226,9 +226,12 @@ public without sharing class BatchControlPanelRemote {
                 Map<String, AsyncApexJob> abortedJobs
         ) {
             this.detail = detail;
-            Batch_ScheduledAbstract instance = (Batch_ScheduledAbstract) Type.forName(detail.Name).newInstance();
-            if(!String.isEmpty(instance.getBatchDescription())) description = instance.getBatchDescription();
-
+            Type bType = Type.forName(detail.Name);
+            if(bType != null){
+                Batch_ScheduledAbstract instance = (Batch_ScheduledAbstract) bType.newInstance();
+                description = instance.getBatchDescription();
+            }
+        
             isStopped = true;
             if (completedJobs.containsKey(detail.Name)) {
                 prevJob = completedJobs.get(detail.Name);
