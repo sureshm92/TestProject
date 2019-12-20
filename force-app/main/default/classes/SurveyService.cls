@@ -133,8 +133,18 @@ public without sharing class SurveyService {
     }
 
     public Boolean isInvitationExpired(Id invitationId) {
-        SurveyInvitation invitation = [SELECT ExpireDateTime__c, Is_Expired__c FROM SurveyInvitation WHERE Id = :invitationId];
-        return (invitation.Is_Expired__c || invitation.ExpireDateTime__c <= Datetime.now());
+        return isInvitationsExpired(new List<Id>{invitationId}).get(invitationId);
+    }
+
+    public Map<Id, Boolean> isInvitationsExpired(List<Id> invitationIds) {
+        List<SurveyInvitation> invitations = [
+                SELECT ExpireDateTime__c, Is_Expired__c FROM SurveyInvitation WHERE Id IN: invitationIds
+        ];
+        Map<Id, Boolean> invitationStateById = new Map<Id, Boolean>();
+        for(SurveyInvitation inv : invitations) {
+            invitationStateById.put(inv.Id, (inv.Is_Expired__c || inv.ExpireDateTime__c <= Datetime.now()));
+        }
+        return invitationStateById;
     }
 
     public Boolean expireInvitation(List<Id> invitationIds) {
@@ -157,6 +167,12 @@ public without sharing class SurveyService {
             }
 
             update invitations;
+
+            List<Task> tasksForExpire = [SELECT Id, Status FROM Task WHERE Survey_Invitation__c IN:invitationIds];
+            for(Task t : tasksForExpire) t.Status = TaskService.TASK_STATUS_EXPIRED;
+
+            update tasksForExpire;
+
             return true;
         }
 

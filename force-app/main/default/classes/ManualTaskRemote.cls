@@ -4,24 +4,9 @@
 
 public with sharing class ManualTaskRemote {
 
-    public static Boolean createTasks(Task newTask, ManualTaskFilter filter) {
+    public static Boolean createTasks(TaskService.TaskConfig taskConfig, ManualTaskFilter filter) {
         try {
-            if(newTask.ActivityDate != null) {
-                newTask.Activity_Datetime__c = Datetime.newInstanceGmt(
-                        newTask.ActivityDate,
-                        Time.newInstance(Datetime.now().hourGmt(), 0, 0, 0));
-            }
-
-            if(newTask.ReminderDateTime != null) {
-                newTask.ReminderDateTime = Datetime.newInstanceGmt(
-                        newTask.ReminderDateTime.yearGmt(),
-                        newTask.ReminderDateTime.monthGmt(),
-                        newTask.ReminderDateTime.dayGmt(),
-                        Datetime.now().hourGmt(), 0, 0
-                );
-            }
-
-            Batch_CreateAdminTasks.launch(filter.getContactsWithPE(), newTask);
+            Batch_CreateAdminTasks.launch(filter.getContactsWithPE(), taskConfig);
             return true;
         } catch (Exception e) {
             return (Boolean) AuraHelper.throwException(e);
@@ -29,14 +14,15 @@ public with sharing class ManualTaskRemote {
     }
 
     public class TaskPanelWrapper {
-        @AuraEnabled public Task task;
+        @AuraEnabled public TaskService.TaskConfig taskConfig;
         @AuraEnabled public Date nowDate;
         @AuraEnabled public List<LabelValueItem> priorities;
         @AuraEnabled public List<LabelValueItem> visibility;
 
         public TaskPanelWrapper() {
-            task = new Task();
-            task.Priority = 'Normal';
+            taskConfig = new TaskService.TaskConfig();
+            taskConfig.priority = 'Normal';
+            taskConfig.visibility = 'Owner;Delegates';
 
             nowDate = Date.today();
 

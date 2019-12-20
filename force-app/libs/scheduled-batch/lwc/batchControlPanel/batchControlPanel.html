@@ -42,6 +42,14 @@
                                 <!-- Record Detail -->
                                 <a href="javascript:void(0);" data-id={job.detail.Id}
                                    onclick={handleEditDetail}>{job.detail.Panel_Label__c}</a>
+                                <!-- Batch functionality description -->
+                                <template if:true={job.description}>
+                                    <lightning-helptext
+                                            class="slds-p-left--xx-small"
+                                            style="position: relative; top: -4px;"
+                                            content={job.description}
+                                            icon-name="utility:info"></lightning-helptext>
+                                </template>
                             </td>
                             <td><span class={job.css}>{job.state}</span></td>
                             <td>
@@ -76,7 +84,8 @@
                                     <template if:false={job.nextLaunch}>
                                         <div class="nextSchedule">
                                             <lightning-input type="datetime" label="" variant="label-hidden"
-                                                             data-id={job.detail.Id} value={job.nextSchedule}
+                                                             class="scheduleDT" data-id={job.detail.Id}
+                                                             min={minScheduledDate} value={job.nextSchedule}
                                                              onchange={handleSetLaunchTime}></lightning-input>
                                         </div>
                                     </template>

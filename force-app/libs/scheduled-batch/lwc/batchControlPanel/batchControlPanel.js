@@ -19,6 +19,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     @track notAddedBatches;
     @track showAddNew;
     mods;
+    minScheduledDate;
 
     @track jobs;
     @track jobMap = new Map();
@@ -91,33 +92,9 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     @wire(getData)
     wireData({data}) {
         if (data) {
-            let wrapper = data;
-            this.notAddedBatches = wrapper.availableBatches;
-            this.showAddNew = this.notAddedBatches.length > 0;
-            this.mods = wrapper.intervalMods;
-
-            let context = this;
-            wrapper.jobWrappers.forEach(function (jw) {
-                let job = {
-                    css: jw.css,
-                    detail: jw.detail,
-                    jobId: jw.jobId,
-                    prevJob: jw.prevJob,
-                    prevLaunch: jw.prevLaunch,
-                    nextLaunch: jw.nextLaunch,
-                    state: jw.state,
-                    isStopped: jw.isStopped,
-                    nextSchedule: null
-                };
-                context.jobMap.set(job.detail.Id, job);
-            });
-
-            if(this.jobMap.size > 0) {
-                this.jobs = [];
-                this.jobMap.forEach(function (value) {
-                    context.jobs.push(value);
-                });
-            }
+            this.mods = data.intervalMods;
+            this.minScheduledDate = new Date();
+            this.initPageContent(data);
 
             this.resetInputFields();
             if (!this.initialized) this.initialized = true;
@@ -174,6 +151,16 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
         this.jobs.forEach(function (job) {
             if (job.detail.Name === jobName) wrapper = job;
         });
+
+        let currentInput;
+        this.template.querySelectorAll('.scheduleDT').forEach(input => {
+            if(input.dataset.id === wrapper.detail.Id) currentInput = input;
+        });
+        if(currentInput && !currentInput.checkValidity()) {
+            this.showToast('','Only future date/time are supported!', 'warning');
+            return;
+        }
+
         this.spinner.show();
         this.inProcess = true;
 
@@ -185,7 +172,6 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
                             this.showToast('', 'Batch launched successfully!', 'success');
                         });
                     } else {
-                        alert('Only future are supported!');
                         this.spinner.hide();
                     }
 
@@ -220,11 +206,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
 
         deleteBatch({detailId: detailId})
             .then(data => {
-                let wrapper = data;
-                this.notAddedBatches = wrapper.availableBatches;
-                this.showAddNew = this.notAddedBatches.length > 0;
-                this.jobs = wrapper.jobWrappers.length > 0 ? wrapper.jobWrappers : undefined;
-
+                this.initPageContent(data);
                 this.inProcess = false;
             })
             .catch(error => {
@@ -287,9 +269,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
 
         addBatch({detail: this.batchDetail})
             .then(data => {
-                let wrapper = data;
-                this.notAddedBatches = wrapper.availableBatches;
-                this.jobs = wrapper.jobWrappers.length > 0 ? wrapper.jobWrappers : undefined;
+                this.initPageContent(data);
 
                 this.inProcess = false;
                 this.resetInputFields();
@@ -305,6 +285,9 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     }
 
     handleAddJobClick(event) {
+        this.batchDetail.Name = this.notAddedBatches[0];
+        this.batchDetail.Panel_Label__c = this.batchDetail.Name.substring(6, this.batchDetail.Name.length);
+
         this.template.querySelector('c-web-modal').show();
     }
 
@@ -350,5 +333,35 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
                     }, 500);
                 }
             });
+    }
+
+    initPageContent(data) {
+        this.notAddedBatches = data.availableBatches;
+        this.showAddNew = this.notAddedBatches.length > 0;
+        this.jobMap.clear();
+
+        let context = this;
+        data.jobWrappers.forEach(function (jw) {
+            let job = {
+                css: jw.css,
+                detail: jw.detail,
+                jobId: jw.jobId,
+                prevJob: jw.prevJob,
+                prevLaunch: jw.prevLaunch,
+                nextLaunch: jw.nextLaunch,
+                state: jw.state,
+                isStopped: jw.isStopped,
+                nextSchedule: null,
+                description: jw.description
+            };
+            context.jobMap.set(job.detail.Id, job);
+        });
+
+        if(this.jobMap.size > 0) {
+            this.jobs = [];
+            this.jobMap.forEach(function (value) {
+                context.jobs.push(value);
+            });
+        }
     }
 }

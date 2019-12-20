@@ -2,7 +2,7 @@
  * Created by Olga Skrynnikova on 11/22/2019.
  */
 
-public with sharing class PENotificationTriggerHandler {
+public without sharing class PENotificationTriggerHandler {
 
     // Handlers: -------------------------------------------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ public with sharing class PENotificationTriggerHandler {
 
         List<Notification__c> listNotificationForHCP = new List<Notification__c>();
         List<Notification__c> listNotificationForPatient = new List<Notification__c>();
-        List<Id> participantsIds = new List<Id>();
+        List<Id> participantConIds = new List<Id>();
         List<Notification__c> listNotificationForPI = new List<Notification__c>();
         List<Participant_Enrollment__c> listPE = [
                 SELECT Id,
@@ -66,7 +66,7 @@ public with sharing class PENotificationTriggerHandler {
                 //Forming additional notification for Enrollment Success
                 if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
                         && pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
-                    participantsIds.add(pe.Participant__c);
+                    participantConIds.add(pe.Participant__r.Contact__c);
                     listNotificationForPatient.add(new Notification__c(
                             Recipient__c = pe.Participant__r.Contact__c,
                             WhatId__c = pe.Id,
@@ -94,7 +94,7 @@ public with sharing class PENotificationTriggerHandler {
             }
 
             if (notifyPTType != null) {
-                participantsIds.add(pe.Participant__c);
+                participantConIds.add(pe.Participant__r.Contact__c);
                 listNotificationForPatient.add(new Notification__c(
                         Recipient__c = pe.Participant__r.Contact__c,
                         WhatId__c = pe.Id,
@@ -104,25 +104,30 @@ public with sharing class PENotificationTriggerHandler {
         }
 
         //get Delegates for Participant
+        List<Notification__c> listNotificationForDelegate = new List<Notification__c>();
         if (listNotificationForPatient != null) {
-//            Map<Id, List<Id>> partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(participantsIds);
-//            for (Notification__c n: listNotificationForPatient) {
-//                if (partPerDelegateIds.containsKey(n.Recipient__c)) {
-//                    for(Id id: partPerDelegateIds.get(n.Recipient__c)) {
-//                        listNotificationForPatient.add(new Notification__c(
-//                                Recipient__c = id,
-//                                WhatId__c = n.WhatId__c,
-//                                Notification_Type__c = n.Notification_Type__c
-//                        ));
-//                    }
-//                }
-//            }
-//            System.debug
-            insert listNotificationForPatient;
+            Map<Id, List<Contact>> conDelegatesByPartConMap = PatientDelegateService.getDelegatedCntsByParticipantCnt(
+                    participantConIds, new List<String>{'Id'});
+            for (Notification__c n : listNotificationForPatient) {
+                if (conDelegatesByPartConMap.containsKey(n.Recipient__c)) {
+                    for(Contact conDel: conDelegatesByPartConMap.get(n.Recipient__c)) {
+                        listNotificationForDelegate.add(new Notification__c(
+                                Recipient__c = conDel.Id,
+                                WhatId__c = n.WhatId__c,
+                                Notification_Type__c = n.Notification_Type__c
+                        ));
+                    }
+                }
+            }
         }
 
-        if (listNotificationForHCP != null) insert listNotificationForHCP;
-        if (listNotificationForPI != null) insert listNotificationForPI;
+        List<Notification__c> notificationForInsert = new List<Notification__c>();
+        if (listNotificationForPatient != null) notificationForInsert.addAll(listNotificationForPatient);
+        if (listNotificationForDelegate != null) notificationForInsert.addAll(listNotificationForDelegate);
+        if (listNotificationForHCP != null) notificationForInsert.addAll(listNotificationForHCP);
+        if (listNotificationForPI != null) notificationForInsert.addAll(listNotificationForPI);
+
+        insert notificationForInsert;
     }
 
     @TestVisible

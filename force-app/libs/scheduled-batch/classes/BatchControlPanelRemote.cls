@@ -216,6 +216,7 @@ public without sharing class BatchControlPanelRemote {
         @AuraEnabled public Datetime nextSchedule;
         @AuraEnabled public String state;
         @AuraEnabled public Boolean isStopped;
+        @AuraEnabled public String description;
 
         public JobWrapper(
                 Batch_Detail__c detail,
@@ -225,6 +226,8 @@ public without sharing class BatchControlPanelRemote {
                 Map<String, AsyncApexJob> abortedJobs
         ) {
             this.detail = detail;
+            Batch_ScheduledAbstract instance = (Batch_ScheduledAbstract) Type.forName(detail.Name).newInstance();
+            if(!String.isEmpty(instance.getBatchDescription())) description = instance.getBatchDescription();
 
             isStopped = true;
             if (completedJobs.containsKey(detail.Name)) {

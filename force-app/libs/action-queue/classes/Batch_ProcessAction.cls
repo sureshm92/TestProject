@@ -2,7 +2,11 @@
  * Created by Nargiz Mamedova on 12/3/2019.
  */
 
-public with sharing class Batch_ProcessAction extends Batch_ScheduledAbstract{
+public with sharing class Batch_ProcessAction extends Batch_ScheduledAbstract implements Database.AllowsCallouts{
+
+    public override String getBatchDescription(){
+        return 'This job runs new actions and reruns failed actions';
+    }
 
     public Database.QueryLocator start(Database.BatchableContext param1) {
         Datetime currentTime = System.now();

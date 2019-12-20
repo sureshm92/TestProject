@@ -112,14 +112,14 @@ public with sharing class ActionExecutor {
         executeAsyncImpl(JSON.serialize(act));
     }
 
-    @Future(callout=true)
+    @Future(Callout=true)
     private static void executeAsyncImpl(String actionJSON, String actionTypeStr){
         Type actionType = Type.forName(actionTypeStr);
         Action action = (Action) JSON.deserialize(actionJSON, actionType);
         execute(action);
     }
 
-    @Future(callout=true)
+    @Future(Callout=true)
     private static void executeAsyncImpl(String actionJSON){
         execute((Action__c) JSON.deserialize(actionJSON, Action__c.class));
     }
