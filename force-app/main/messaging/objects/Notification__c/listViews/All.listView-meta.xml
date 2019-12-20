@@ -5,7 +5,8 @@
     <columns>Notification_Type__c</columns>
     <columns>WhatId__c</columns>
     <columns>Recipient__c</columns>
+    <columns>Status__c</columns>
     <columns>Topic__c</columns>
-    <filterScope>Mine</filterScope>
+    <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>
