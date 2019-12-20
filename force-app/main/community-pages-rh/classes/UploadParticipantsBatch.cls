@@ -298,6 +298,7 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
     private static void sendNotificationEmail(Set<String> listOfFailedRecords, Set<String> listOfFailedRecordsWithMsg, String piContactId, DateTime uploadTime, Study_Site__c studySiteDetails, Integer totalRecordCount, Integer errorRecordCount) {
         String formattedDate = uploadTime.format('MM/dd/yyyy hh:mm a', UserInfo.getTimeZone().toString());
 
+        User piUser = [SELECT Id, Email, Contact.Email FROM User WHERE ContactId = :piContactId LIMIT 1];
         OrgWideEmailAddress owea = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName = 'IQVIA Referral Hub' LIMIT 1];
         Id importParticipantsTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName = :SendEmailTemplate.EMAIL_TEMPLATE_PATIENT_IMPORT LIMIT 1].Id;
 
@@ -338,7 +339,7 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
         plainBody = plainBody.replace('##TotalRecCount', '' + totalRecordCount);
 
         Messaging.SingleEmailMessage emailToSend = new Messaging.SingleEmailMessage();
-        emailToSend.setToAddresses(adminEmailToSend.getToAddresses());
+        emailToSend.setToAddresses(new List<String> { (piUser.Email != null ? piUser.Email : piUser.Contact.Email) });
         emailToSend.setPlainTextBody(plainBody);
         emailToSend.setHtmlBody(htmlBody);
         emailToSend.setSubject(adminEmailToSend.getSubject());
