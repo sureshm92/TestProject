@@ -31,7 +31,7 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
                         Recipient__c = cnt.Id,
                         WhatId__c = null,
                         Notification_Type__c = NotificationService.MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE,
-                        Time_Delay_Status__c = NotificationService.DELAY_STATUS_PENDING
+                        Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                 ));
             }
         }

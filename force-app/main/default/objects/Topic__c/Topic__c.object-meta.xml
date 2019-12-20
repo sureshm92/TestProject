@@ -155,8 +155,9 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>Topic</label>
     <nameField>
+        <displayFormat>TOPIC-{0000}</displayFormat>
         <label>Topic Name</label>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Topics</pluralLabel>
     <searchLayouts/>

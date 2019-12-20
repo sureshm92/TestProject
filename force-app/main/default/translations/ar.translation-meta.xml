@@ -5561,10 +5561,6 @@
         <name>Resources_social</name>
     </customLabels>
     <customLabels>
-        <label><!-- Resources_toggle_off --></label>
-        <name>Resources_toggle_off</name>
-    </customLabels>
-    <customLabels>
         <label><!-- Respiratory Rate --></label>
         <name>Respiratory_Rate</name>
     </customLabels>

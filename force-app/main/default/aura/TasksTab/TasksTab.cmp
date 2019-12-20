@@ -20,7 +20,7 @@
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true" showSpinner="true"/>
 
     <aura:if isTrue="{!v.initialized}">
-        <aura:if isTrue="{!or(v.tasksAvailable, and(v.emptyTrial, or(!empty(v.openTasks), !empty(v.completedTasks))))}">
+        <aura:if isTrue="{!or(v.tasksAvailable, v.emptyTrial)}">
             <div>
                 <!-- open tasks: -->
                 <aura:if isTrue="{!v.taskMode == 'Open'}">
