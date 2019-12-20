@@ -10,7 +10,7 @@ public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObj
      * Description of the purpose of this batch to display on the panel
      */
     public virtual String getBatchDescription() {
-        return '';
+        return null;
     }
 
     public virtual void finish(Database.BatchableContext param1) {
