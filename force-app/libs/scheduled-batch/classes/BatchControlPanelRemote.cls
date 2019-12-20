@@ -13,7 +13,6 @@ public without sharing class BatchControlPanelRemote {
     private static final String CSS_STOPPED = 'bcp-state-stopped';
 
     public static final String SCHEDULED_EXTENDS = 'extends Batch_ScheduledAbstract';
-    public static final String DESCRIPTION_METHOD_MARK = 'getBatchDescription';
     public static final List<String> ASYNC_STATUSES = new List<String>{
             'Holding',
             'Queued',
@@ -24,17 +23,11 @@ public without sharing class BatchControlPanelRemote {
     @AuraEnabled(Cacheable = true)
     public static PanelWrapper getData() {
         try {
-            PanelWrapper wrapper = new PanelWrapper();
-            List<ApexClass> batches = (List<ApexClass>) [FIND :SCHEDULED_EXTENDS IN ALL FIELDS RETURNING ApexClass(Id, Name, Body)][0];
-            wrapper.batchNamesWithDescriptions = new Map<String, String>();
+            List<ApexClass> batches = (List<ApexClass>) [FIND :SCHEDULED_EXTENDS IN ALL FIELDS RETURNING ApexClass(Id, Name)][0];
+            List<String> batchNames = new List<String>();
             for (ApexClass batch : batches) {
                 if (batch.Name.equals('BatchControlPanelRemote')) continue;
-
-                String description;
-                Batch_ScheduledAbstract instance = (Batch_ScheduledAbstract) Type.forName(batch.Name).newInstance();
-                if(!String.isEmpty(instance.getBatchDescription())) description = instance.getBatchDescription();
-
-                wrapper.batchNamesWithDescriptions.put(batch.Name, description);
+                batchNames.add(batch.Name);
             }
 
             List<Batch_Detail__c> batchDetails = [
@@ -45,8 +38,9 @@ public without sharing class BatchControlPanelRemote {
             List<String> panelBatchNames = new List<String>();
             for (Batch_Detail__c bc : batchDetails) panelBatchNames.add(bc.Name);
 
+            PanelWrapper wrapper = new PanelWrapper();
             wrapper.availableBatches = new List<String>();
-            for (String batchName : wrapper.batchNamesWithDescriptions.keySet()) {
+            for (String batchName : batchNames) {
                 if (!panelBatchNames.contains(batchName)) wrapper.availableBatches.add(batchName);
             }
 
@@ -232,6 +226,8 @@ public without sharing class BatchControlPanelRemote {
                 Map<String, AsyncApexJob> abortedJobs
         ) {
             this.detail = detail;
+            Batch_ScheduledAbstract instance = (Batch_ScheduledAbstract) Type.forName(detail.Name).newInstance();
+            if(!String.isEmpty(instance.getBatchDescription())) description = instance.getBatchDescription();
 
             isStopped = true;
             if (completedJobs.containsKey(detail.Name)) {
@@ -267,6 +263,5 @@ public without sharing class BatchControlPanelRemote {
         @AuraEnabled public List<String> availableBatches;
         @AuraEnabled public List<String> intervalMods;
         @AuraEnabled public List<JobWrapper> jobWrappers;
-        @AuraEnabled public Map<String, String> batchNamesWithDescriptions;
     }
 }

@@ -84,7 +84,8 @@
                                     <template if:false={job.nextLaunch}>
                                         <div class="nextSchedule">
                                             <lightning-input type="datetime" label="" variant="label-hidden"
-                                                             data-id={job.detail.Id} value={job.nextSchedule}
+                                                             class="scheduleDT" data-id={job.detail.Id}
+                                                             min={minScheduledDate} value={job.nextSchedule}
                                                              onchange={handleSetLaunchTime}></lightning-input>
                                         </div>
                                     </template>
