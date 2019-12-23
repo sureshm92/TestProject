@@ -10,7 +10,7 @@
             visit = {
                 sobjectType: 'Visit__c',
                 Icons__c: ''
-            }
+            };
             component.set('v.mode', 'new');
         }else{
             component.set('v.mode', 'edit')
@@ -23,6 +23,12 @@
         let modal = component.find('modal');
         modal.set('v.cancelCallback', params.cancelCallback);
         modal.show();
+    },
+
+    checkValid: function (component, event, helper) {
+        let visit = component.get('v.visit');
+        // return (!visit.Name || !visit.Icons__c || (visit.Visit_Number__c < 1));
+        return false;
     },
 
     saveVisit: function (component, event, helper) {
