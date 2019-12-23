@@ -10,40 +10,40 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     public class PrepareAdditionalFieldsHandler extends TriggerHandler {
 
         public override void beforeInsert(List<SObject> newList) {
-            new ParticipantEnrollmentTriggerHandler(newList).prepareAdditionalFields(newList, null);
+            prepareAdditionalFields(newList, null);
         }
 
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            new ParticipantEnrollmentTriggerHandler(newList).prepareAdditionalFields(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            prepareAdditionalFields(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
 
     public class CheckVisitPlanFromStudySiteHandler extends TriggerHandler {
 
         public override void beforeInsert(List<SObject> newList) {
-            new ParticipantEnrollmentTriggerHandler(newList).checkVisitPlanFromStudySite(newList, null);
+            checkVisitPlanFromStudySite(newList, null);
         }
 
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            new ParticipantEnrollmentTriggerHandler(newList).checkVisitPlanFromStudySite(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            checkVisitPlanFromStudySite(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
 
     public class StudySiteHistoryHandler extends TriggerHandler {
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            new ParticipantEnrollmentTriggerHandler(newList).studySiteHistory(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            studySiteHistory(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
 
     public class CreateUsersOrSendNotificationsHandler extends TriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
-            new ParticipantEnrollmentTriggerHandler(newList).createUsersOrSendNotifications(newList, null);
+            createUsersOrSendNotifications(newList, null);
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            new ParticipantEnrollmentTriggerHandler(newList).createUsersOrSendNotifications(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+            createUsersOrSendNotifications(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
 
@@ -171,55 +171,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     // Logic: ----------------------------------------------------------------------------------------------------------
 
-
-    private Map<Id, Study_Site__c> ssMap;
-    private Map<Id, HCP_Enrollment__c> hcpeMap;
-    private Map<Id, Participant__c> participantMap;
-
-    public ParticipantEnrollmentTriggerHandler(List<Participant_Enrollment__c> newList) {
-        List<Id> ssIds = new List<Id>();
-        List<Id> hcpeIds = new List<Id>();
-        List<Id> participantIds = new List<Id>();
-        for (Participant_Enrollment__c pe : newList) {
-            if (pe.Study_Site__c != null) ssIds.add(pe.Study_Site__c);
-            if (pe.HCP__c != null) hcpeIds.add(pe.HCP__c);
-            if (pe.Participant__c != null) participantIds.add(pe.Participant__c);
-        }
-        ssMap = new Map<Id, Study_Site__c>([
-                SELECT Id, Principal_Investigator__c,
-                        Principal_Investigator__r.Name,
-                        Principal_Investigator__r.Full_Name__c,
-                        Principal_Investigator__r.Phone,
-                        Suppress_Participant_Emails__c,
-                        Clinical_Trial_Profile__c,
-                        Clinical_Trial_Profile__r.Study_Code_Name__c,
-                        Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                        Clinical_Trial_Profile__r.Shareback_Settings_On_Participant_Level__c,
-                        Clinical_Trial_Profile__r.Visit_Data_Shareback__c,
-                        Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
-                        Clinical_Trial_Profile__r.NCT_Number__c
-                FROM Study_Site__c
-                WHERE Id IN:ssIds
-        ]);
-        hcpeMap = new Map<Id, HCP_Enrollment__c>([
-                SELECT Id, HCP_Contact__c
-                FROM HCP_Enrollment__c
-                WHERE Id IN:hcpeIds
-        ]);
-        participantMap = new Map<Id, Participant__c>([
-                SELECT Id,
-                        Contact__c,
-                        Full_Name__c,
-                        Contact__r.Visit_Results_Opt_In__c,
-                        Name,
-                        IsCountry_NOT_Eligible_for_Emails__c
-                FROM Participant__c
-                WHERE Id IN:participantIds
-        ]);
-    }
-
     @TestVisible
-    private void prepareAdditionalFields(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+    private static void prepareAdditionalFields(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<Contact> participantContacts = new List<Contact>();
         for (Participant_Enrollment__c pe : newList) {
             String nctNumber;
@@ -227,7 +180,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             Boolean visitOpt = false;
 
             if (pe.Study_Site__c != null) {
-                Study_Site__c ss = ssMap.get(pe.Study_Site__c);
+                Study_Site__c ss = (Study_Site__c)PETriggerBuffer.getSObject(pe.Study_Site__c);
                 if (ss != null) {
                     pe.PI_Contact__c = ss.Principal_Investigator__c;
                     pe.Clinical_Trial_Profile__c = ss.Clinical_Trial_Profile__c;
@@ -236,11 +189,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 }
             }
             if (pe.HCP__c != null) {
-                HCP_Enrollment__c hcpe = hcpeMap.get(pe.HCP__c);
+                HCP_Enrollment__c hcpe = (HCP_Enrollment__c)PETriggerBuffer.getSObject(pe.HCP__c);
                 if (hcpe != null) pe.HCP_Contact_HCPEnroll__c = hcpe.HCP_Contact__c;
             }
             if (pe.Participant__c != null) {
-                Participant__c participant = participantMap.get(pe.Participant__c);
+                Participant__c participant = (Participant__c)PETriggerBuffer.getSObject(pe.Participant__c);
                 if (participant != null) {
                     pe.Participant_Contact__c = participant.Contact__c;
                     if (oldMap == null) {
@@ -267,7 +220,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
 
     @TestVisible
-    private void studySiteHistory(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+    private static void studySiteHistory(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<Participant_Site_History__c> participantSiteHistories = new List<Participant_Site_History__c>();
         for (Participant_Enrollment__c pe : newList) {
             if (oldMap != null && oldMap.get(pe.Id).Study_Site__c != null && pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c) {
@@ -284,7 +237,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     }
 
     @TestVisible
-    private void checkVisitPlanFromStudySite(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+    private static void checkVisitPlanFromStudySite(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         Set<Id> studySiteIds = new Set<Id>();
         for (Participant_Enrollment__c pe : newList) {
             Boolean needsVisitPlanCheck = oldMap != null && oldMap.get(pe.Id).Study_Site__c != null && oldMap.get(pe.Id).Study_Site__c != pe.Study_Site__c;
@@ -320,7 +273,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     }
 
     @TestVisible
-    private void createUsersOrSendNotifications(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+    private static void createUsersOrSendNotifications(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         Map<Id, Id> toCreateUser = new Map<Id, Id>();
         Map<Id, String> notificationMapEPR = new Map<Id, String>();
         Map<Id, String> notificationMapPI = new Map<Id, String>();
@@ -331,7 +284,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         Map<Id, User> usersByContactId = new Map<Id, User>();
         Set<Id> participantContactIds = new Set<Id>();
         for (Participant_Enrollment__c pe : newList) {
-            Participant__c participant = participantMap.get(pe.Participant__c);
+            Participant__c participant = (Participant__c)PETriggerBuffer.getSObject(pe.Participant__c);
             if (participant != null && participant.Contact__c != null) participantContactIds.add(participant.Contact__c);
         }
         for (User usr : CommunityService.getCommunityUsersByContactIds(participantContactIds)) usersByContactId.put(usr.ContactId, usr);
@@ -339,9 +292,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         //process PE items:
         List<Alert__c> alertsForInsert = new List<Alert__c>();
         for (Participant_Enrollment__c newPE : newList) {
-            Study_Site__c ss = ssMap.get(newPE.Study_Site__c);
-            HCP_Enrollment__c hcpe = hcpeMap.get(newPE.HCP__c);
-            Participant__c participant = participantMap.get(newPE.Participant__c);
+            Study_Site__c ss = (Study_Site__c)PETriggerBuffer.getSObject(newPE.Study_Site__c);
+            HCP_Enrollment__c hcpe = (HCP_Enrollment__c)PETriggerBuffer.getSObject(newPE.HCP__c);
+            Participant__c participant = (Participant__c)PETriggerBuffer.getSObject(newPE.Participant__c);
             User participantUser;
             if (participant != null && participant.Contact__c != null) participantUser = usersByContactId.get(participant.Contact__c);
             Boolean updateCriteria = true;
