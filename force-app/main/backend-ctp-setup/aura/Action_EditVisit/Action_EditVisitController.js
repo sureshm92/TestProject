@@ -25,12 +25,6 @@
         modal.show();
     },
 
-    checkValid: function (component, event, helper) {
-        let visit = component.get('v.visit');
-        // return (!visit.Name || !visit.Icons__c || (visit.Visit_Number__c < 1));
-        return false;
-    },
-
     saveVisit: function (component, event, helper) {
         let callback = component.get('v.callback');
         if (callback) callback(component.get('v.visit'));
