@@ -10,7 +10,7 @@
             visit = {
                 sobjectType: 'Visit__c',
                 Icons__c: ''
-            }
+            };
             component.set('v.mode', 'new');
         }else{
             component.set('v.mode', 'edit')

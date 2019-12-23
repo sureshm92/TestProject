@@ -43,7 +43,7 @@
             <lightning:button variant="neutral" type="button" label="{!$Label.c.BTN_Cancel}"
                               onclick="{!c.cancelClick}"/>
             <lightning:button variant="brand" type="button" label="{!if(v.mode == 'new', 'Add Visit', 'Save Visit')}"
-                              disabled="{!or(empty(v.visit.Name), empty(v.visit.Icons__c))}"
+                              disabled="{!or(or(empty(v.visit.Name), empty(v.visit.Icons__c)), lessthan(v.visit.Visit_Number__c, 1))}"
                               onclick="{!c.saveVisit}"/>
         </aura:set>
     </c:uiModal>
