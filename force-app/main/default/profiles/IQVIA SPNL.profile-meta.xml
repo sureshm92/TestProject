@@ -3166,6 +3166,21 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Excel_Export_Field_Label__mdt.Field_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Excel_Export_Field_Label__mdt.Label_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Excel_Export_Field_Label__mdt.SObject_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Execution_History__c.Detail__c</field>
         <readable>true</readable>
@@ -6485,6 +6500,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Event-Event Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Excel_Export_Field_Label__mdt-Excel Export Field Label Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Execution_History__c-Execution History Layout</layout>
