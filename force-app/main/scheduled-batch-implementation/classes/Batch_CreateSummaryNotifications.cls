@@ -91,7 +91,7 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                             notifications.add(new Notification__c(Recipient__c = contact.Id,
                                     WhatId__c = pe.Id,
                                     Notification_Type__c = NotificationService.MESSAGE_TO_PT_NEW_STDDOC_TYPE,
-                                    Time_Delay_Status__c = NotificationService.DELAY_STATUS_PENDING));
+                                    Status__c = NotificationService.NOTIFICATION_STATUS_PENDING));
 
                             if (!resIdsByContactId.containsKey(contact.Id)) {
                                 List<String> resNotificationIds = contact.Resource_Notifications__c != null ?
@@ -128,5 +128,9 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
             notify = true;
         }
         return notify;
+    }
+
+    public override String getBatchDescription() {
+        return 'This job sends Emails and SMS when new Study Document is available';
     }
 }

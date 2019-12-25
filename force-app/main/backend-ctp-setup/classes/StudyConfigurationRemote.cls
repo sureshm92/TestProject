@@ -3,11 +3,19 @@
  */
 
 public with sharing class StudyConfigurationRemote {
+    public static final String FEATURE_STUDY_CONFIGURATION = 'CTP';
+
+    public class InitData {
+        @AuraEnabled public Clinical_Trial_Profile__c ctp;
+        @AuraEnabled public String user_has_permission = 'no perm';
+        @AuraEnabled public Boolean noVisitPlansMessage = false;
+    }
 
     @AuraEnabled
-    public static Clinical_Trial_Profile__c getInitData(Id ctpId) {
+    public static InitData getInitData(Id ctpId) {
+        InitData initData = new InitData();
         try {
-            Clinical_Trial_Profile__c ctp = [
+            initData.ctp = [
                     SELECT Id, Visit_Schedule_Is_Available__c,
                             Study_Documents_Are_Available__c ,
                             Video_And_Articles_Are_Available__c,
@@ -17,9 +25,12 @@ public with sharing class StudyConfigurationRemote {
                             Relevant_Links_Are_Available__c
                     FROM Clinical_Trial_Profile__c
                     WHERE Id =: ctpId];
-            return ctp;
+            initData.user_has_permission = GetPermissions.getViewMode(FEATURE_STUDY_CONFIGURATION);
+            List<Study_Site__c> allSSList = [SELECT Id, (SELECT Id FROM StudySiteVisitPlans__r) FROM Study_Site__c WHERE Clinical_Trial_Profile__c =: ctpId];
+            for(Study_Site__c ss : allSSList) if(ss.StudySiteVisitPlans__r.isEmpty()) initData.noVisitPlansMessage = true;
+            return initData;
         } catch (Exception e) {
-            return (Clinical_Trial_Profile__c) AuraHelper.throwException(e);
+            return (InitData) AuraHelper.throwException(e);
         }
     }
 

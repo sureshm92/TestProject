@@ -19,10 +19,10 @@
             {!v.contact.Email}
         </div>
         <div class="mti-button-container">
-            <button class="apollo-btn tertiary" onclick="{!c.doEdit}"
+            <!--button class="apollo-btn tertiary" onclick="{!c.doEdit}"
                     title="{!$Label.c.Button_Edit_Details}">
                 {!$Label.c.Button_Edit_Details}
-            </button>
+            </button-->
             <button class="apollo-btn tertiary" onclick="{!c.doRemove}"
                     title="{!$Label.c.Button_Remove}">
                 {!$Label.c.Button_Remove}

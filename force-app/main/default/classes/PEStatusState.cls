@@ -163,6 +163,25 @@ public without sharing class PEStatusState {
              PE_STATUS_DECEASED
     };
 
+    public static final List<String> PE_STATUS_GROUP_VISIT_PLAN_CHECK = new List<String>{
+            PE_STATUS_FAILED_REFERRAL,
+            PE_STATUS_FAILED_REVIEW,
+            PE_STATUS_PENDING_REFERRAL,
+            PE_STATUS_REFERRAL_SENT_TO_PI,
+            PE_STATUS_REFERRAL_ACCEPTED,
+            PE_STATUS_REFERRAL_ON_HOLD,
+            PE_STATUS_REFERRAL_DECLINED,
+            PE_STATUS_EXCLUDED_FROM_REFERRING,
+            PE_STATUS_CONTACT_SUCCESSFUL,
+            PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS,
+            PE_STATUS_CONTACT_FAILED,
+            PE_STATUS_ELIGIBILITY_PASSED,
+            PE_STATUS_ELIGIBILITY_FAILED,
+            PE_STATUS_SCREENING_COMPLETE,
+            PE_STATUS_SCREENING_IN_PROGRESS,
+            PE_STATUS_SCREENING_FAILED
+    };
+
     public static List<String> PE_STATUS_GROUP_IN_PROGRESS_ALL;
     public static List<String> PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL;
 

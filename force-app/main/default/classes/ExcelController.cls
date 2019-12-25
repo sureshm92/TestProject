@@ -52,6 +52,32 @@ public class ExcelController {
         System.debug('FILTER: ' + filter);
         return ParticipantEnrollmentService.getPEnrolmentsCommonCustomFields(userMode, peFields, filter, delegateId);
     }
+    public List<FieldWrapper> getPEFieldsList() {
+        List<FieldWrapper> result = new List<FieldWrapper>();
+        Map<String, String> fieldLabelsMap = new Map<String, String>();
+        for(Excel_Export_Field_Label__mdt fieldLabelSetting : [SELECT
+                Field_Name__c, Label_Name__c
+                FROM Excel_Export_Field_Label__mdt
+                WHERE SObject_Name__c='Participant_Enrollment__c']){
+            TranslateHelper.prepareLabelFields(fieldLabelSetting, new Set<String>{'Label_Name__c'});
+            fieldLabelsMap.put(fieldLabelSetting.Field_Name__c, fieldLabelSetting.Label_Name__c);
+        }
+        for(FieldSetMember fsm : peFSMList){
+            String path = fsm.getFieldPath();
+            FieldWrapper fw = new FieldWrapper();
+            fw.fieldPath = path;
+            if(fieldLabelsMap.containsKey(path)){
+                fw.label = fieldLabelsMap.get(path);
+            }
+            else{
+                fw.label = fsm.getLabel();
+            }
+            result.add(fw);
+
+        }
+
+        return result;
+    }
 
     public List<HCP_Enrollment__c> getHCPEList(){
         if(!USER_MODES_FOR_REPORTS.contains(userMode)) return new List<HCP_Enrollment__c>();
@@ -66,6 +92,17 @@ public class ExcelController {
         
         System.debug('FILTER: ' + filter);
         return HCPEnrollmentService.getHCPEnrollmentsCommonCustomFields(userMode, delegateId, hcpeFields, filter, false);
+    }
+
+    public class FieldWrapper{
+        public String label;
+        public String fieldPath;
+        public String getLabel(){
+            return label;
+        }
+        public String getFieldPath(){
+            return fieldPath;
+        }
     }
     
 }

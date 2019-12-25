@@ -145,6 +145,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>About the Study</value>
     </labels>
     <labels>
+        <fullName>Accepted_For_All_Study_Sites</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Accepted For All Study Sites</shortDescription>
+        <value>as a Referring Provider for all your existing and future study sites</value>
+    </labels>
+    <labels>
         <fullName>AccountSettings_Cookie_Autocomplete</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1994,6 +2001,15 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
             Please login to the IQVIA Patient Portal to check your clinical research trial matches at any time.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Participant_Import_Completed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Participant Import Completed</shortDescription>
+        <value>##SucRecCount of ##TotalRecCount participant records were successfully imported for ##StudyTitle.
+
+            If there were any records that were not able to be imported, they are in the attached file. Corrections may be made in that file and it can be re-imported.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Patient0</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2490,6 +2506,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <protected>true</protected>
         <shortDescription>Email Header Created Date</shortDescription>
         <value>We haven&#39;t heard from you in a while</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Import_Participants_Completed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Import Participants Completed</shortDescription>
+        <value>Participant records were imported</value>
     </labels>
     <labels>
         <fullName>Email_Header_Initial_Delegate</fullName>
@@ -3019,6 +3042,13 @@ The IQVIA Patient Portal Support Team</value>
         <value>Follow-up on a clinical research study</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Import_Participants</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Import Participants</shortDescription>
+        <value>Participant import has been completed.</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_Initial</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3377,7 +3407,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Error Message Can Not Use Visit Plan</shortDescription>
-        <value>Participant's visit plan is not available for that study site. Please determine if participant's visit plan can still be changed or if the study site is not appropriate for this participant and proceed accordingly.</value>
+        <value>Participant&#39;s visit plan is not available for that study site. Please determine if participant&#39;s visit plan can still be changed or if the study site is not appropriate for this participant and proceed accordingly.</value>
     </labels>
     <labels>
         <fullName>Error_Message_Participant_Duplicate</fullName>
@@ -3385,6 +3415,46 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>Error Message Participant Duplicate</shortDescription>
         <value>This patient has already been referred to this study.</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Investigator_Name</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Investigator Name</shortDescription>
+        <value>Investigator Name</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_1_Completed_by</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening 1 Completed by</shortDescription>
+        <value>Pre-screening 1 Completed by</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_1_Status</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening 1 Status</shortDescription>
+        <value>Pre-screening 1 Status</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_2_status</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening 2 status</shortDescription>
+        <value>Pre-screening 2 status</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_Date</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening Date</shortDescription>
+        <value>Pre-screening Date</value>
     </labels>
     <labels>
         <fullName>FD_PE_Field_Arm_Cohort</fullName>

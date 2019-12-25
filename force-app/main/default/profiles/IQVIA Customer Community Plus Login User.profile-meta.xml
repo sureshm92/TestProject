@@ -16,11 +16,11 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Action</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ActionExecutor</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Action_ChangeHCPStatusByPIRemote</apexClass>
@@ -44,7 +44,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Action_SendSMS</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Action_SendSiteRequestByHCPRemote</apexClass>
@@ -52,7 +52,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Action_UploadParticipantsRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>AddPatientByPIRemote</apexClass>
@@ -84,7 +84,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ApprovedLangSearchResponse</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ArticleService</apexClass>
@@ -100,7 +100,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>BatchControlPanelRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>BatchException</apexClass>
@@ -128,7 +128,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_CreateNewRPDelegates</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_CreateParticipantLoginNotification</apexClass>
@@ -160,11 +160,11 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_MassEmailDelegate</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_MassEmailPatient</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_MigratePicklistToCheckbox</apexClass>
@@ -172,7 +172,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_MoveTaskInvitations</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_PEToPSE</apexClass>
@@ -192,6 +192,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_ProcessAction</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_ProcessNotifications</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -204,7 +208,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_UpdateActivityDateTimeOldUsers</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_UpdateNotifyDateOldUsers</apexClass>
@@ -236,7 +240,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>CTPNotificationTriggerHandler</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>CTPSelector</apexClass>
@@ -256,11 +260,11 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ChangePasswordControllerTest</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ChangePasswordPageController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ChangeStatusModalController</apexClass>
@@ -448,7 +452,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>EmailService</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>EmailTemplateController</apexClass>
@@ -464,7 +468,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>EmptyPagePanelRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ExcelController</apexClass>
@@ -484,7 +488,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>FileUploadController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>FillTAOnParticipantsBatchHandler</apexClass>
@@ -496,7 +500,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>FirstLogonController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ForgotPasswordController</apexClass>
@@ -520,7 +524,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>HCPTrialBuilder</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>HelpController</apexClass>
@@ -548,11 +552,11 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Injector</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>IntegrationPatientReferralTriggerHandler</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>IntegrationPatientTriggerHandler</apexClass>
@@ -564,7 +568,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>IntegrationVisitResultService</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>IntegrationVisitResultTriggerHandler</apexClass>
@@ -588,7 +592,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>LanguageSearchLookup</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>LanguageSwitcherRemote</apexClass>
@@ -632,7 +636,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>MCloudSMSSender</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>MailForTests</apexClass>
@@ -640,7 +644,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ManualCreationPanelRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ManualTaskFilter</apexClass>
@@ -716,15 +720,15 @@
     </classAccesses>
     <classAccesses>
         <apexClass>NotificationAvailabilityService</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>NotificationService</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>NotificationTriggerHandler</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>OnboardingSlideTourRemote</apexClass>
@@ -732,7 +736,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PENotificationTriggerHandler</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>PEStatusState</apexClass>
@@ -744,11 +748,11 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PIStudiesFilter</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>PITrialBuilder</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>PSEService</apexClass>
@@ -768,7 +772,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PaginationData</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ParametersDataProvider</apexClass>
@@ -788,7 +792,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantDuplicateService</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantEnrollmentFactory</apexClass>
@@ -812,7 +816,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantInformationRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantItem</apexClass>
@@ -832,7 +836,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantTrialBuilder</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantTriggerHandler</apexClass>
@@ -844,7 +848,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PastStudiesController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Path</apexClass>
@@ -860,7 +864,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PatientDelegateTriggerHandler</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>PatientIntegrationException</apexClass>
@@ -888,7 +892,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ProfileIconController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>QualityCheckController</apexClass>
@@ -924,7 +928,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ReferHealthcareProviderRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ReferralNetworkService</apexClass>
@@ -936,27 +940,31 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ReferringClinicsFilter</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ReferringRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>RelevantLinksRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>RemoteCall</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>RemoteCallHttpCalloutMock</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>RemoteCall_SendPEToStudyHub</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>RemoteCall_SendSMS</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ReportsRemote</apexClass>
@@ -1040,7 +1048,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SMSService</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>SObjectHelper</apexClass>
@@ -1048,11 +1056,11 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SSTravelVendorsConfigResponse</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>SSVisitConfigSearchResponse</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>SchemaUtil</apexClass>
@@ -1068,11 +1076,11 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SearchFilter</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>SearchService</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>SelectStateModalController</apexClass>
@@ -1088,7 +1096,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SettingStoreService</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ShareModalController</apexClass>
@@ -1112,7 +1120,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SiteStaffTriggerHandler</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>SitesSearchRemote</apexClass>
@@ -1124,7 +1132,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>StubBuilder</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>StubFactory</apexClass>
@@ -1152,7 +1160,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>StudyConfigurationRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>StudyDetailAboutStudyRemote</apexClass>
@@ -1176,15 +1184,15 @@
     </classAccesses>
     <classAccesses>
         <apexClass>StudyResourceVisibilityService</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>StudySiteFilter</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>StudySiteItem</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>StudySiteLookupRemote</apexClass>
@@ -1192,7 +1200,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>StudySiteSearchLookup</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>StudySiteService</apexClass>
@@ -1232,6 +1240,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SurveyService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SystemService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1280,15 +1292,15 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Action</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ActionExecutor</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ActionSuccess</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_AddPatientByPIRemote</apexClass>
@@ -1308,11 +1320,11 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_AlertsRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ApprovedLangRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ArticleService</apexClass>
@@ -1332,15 +1344,15 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_CopyEnrollmentHistory</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_CreateParticipantNotification</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_CreateSummaryNotifications</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_CreateSurveyTasks</apexClass>
@@ -1352,7 +1364,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_MigratePicklistToCheckbox</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_PSECreateInvitation</apexClass>
@@ -1360,7 +1372,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_PatientTaskReminder</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_ReviewOnboardingFAQ</apexClass>
@@ -1368,7 +1380,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_UpdateActivityDateTime</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_UpdateNotifyDateOldUsers</apexClass>
@@ -1376,7 +1388,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_UpdatePESourceType</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_CTCTriggerHandler</apexClass>
@@ -1420,7 +1432,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ContactService</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ContentDocumentLinkTriggerHandler</apexClass>
@@ -1432,7 +1444,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_CountryLookupRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_DatabaseProxy</apexClass>
@@ -1444,43 +1456,43 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_DelegateLevelWrapper</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_DeploymentContext</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_DistanceHelper</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_DuplicateContactController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_EditLocationRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_EmailActionBtnController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_EmailTemplateController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ExcelController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ExternalParticipantHttpMock</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ExternalParticipantRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_FillTAOnParticipantsBatchHandler</apexClass>
@@ -1488,15 +1500,15 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_FirstLogonController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_HelpController</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_HomePageParticipantRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_IconPlanetVisitInfoEditRemote</apexClass>
@@ -1504,11 +1516,11 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ImportPatientsCSV</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_IntegrationPatientReferralHandler</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_IntegrationPatientTriggerHandler</apexClass>
@@ -1532,7 +1544,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_LanguageSwitcherRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_LeadConversion</apexClass>
@@ -1564,15 +1576,15 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_NotificationService</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_NotificationTriggerHandler</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_PENotificationTriggerHandler</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_PSEService</apexClass>
@@ -1596,7 +1608,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ParticipantVisitRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ParticipantVisitsRemote</apexClass>
@@ -1616,7 +1628,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_PatientVisitSchedule</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_PlatformEventService</apexClass>
@@ -1640,7 +1652,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_RemoteCall</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ResourceContentClassService</apexClass>
@@ -1680,7 +1692,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_SettingStoreService</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_StudyActionParticipant</apexClass>
@@ -1688,7 +1700,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_StudySiteVisitConfigRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_SurveyResponseTriggerHandler</apexClass>
@@ -1696,6 +1708,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_SurveyService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_SystemService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1724,7 +1740,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_TravelSupportHelper</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_TravelVendorPanelRemote</apexClass>
@@ -1736,11 +1752,11 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_TrialSearchContainerRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_TrialSearchHelper</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_TrialSearchWhereClauseFactory</apexClass>
@@ -1752,11 +1768,11 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_UISObjectLoojupRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_UploadParticipantsRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_UserService</apexClass>
@@ -1772,7 +1788,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_VisitResultCountryLookupRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_VisitResultMService</apexClass>
@@ -1780,7 +1796,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_VisitResultSharingPanelRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_VisitResultSharingService</apexClass>
@@ -1836,7 +1852,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TravelSupportHelper</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>TravelSupportRemote</apexClass>
@@ -1844,19 +1860,19 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TravelVendorPanelRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>TrialBuilder</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>TrialDetail</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>TrialFactory</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>TrialItemRemote</apexClass>
@@ -1868,11 +1884,11 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TrialSearchHelper</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>TrialSearchWhereClauseFactory</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>TrialService</apexClass>
@@ -1892,7 +1908,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>UISobjectLookupRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>UpdateDelegatesBatch</apexClass>
@@ -1904,7 +1920,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>UploadParticipantsBatch</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>UserService</apexClass>
@@ -1916,7 +1932,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ValueStateItem</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ViewPatientsRemote</apexClass>
@@ -1936,7 +1952,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>VisitPlanSearchLookup</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>VisitReportContainerRemote</apexClass>
@@ -1984,19 +2000,19 @@
     </classAccesses>
     <classAccesses>
         <apexClass>XLF_PatternListRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>XLF_RemoteActionResult</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>XLF_TweakerHelper</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>XLF_TweakerRemote</apexClass>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </classAccesses>
     <custom>true</custom>
     <fieldPermissions>
@@ -2566,6 +2582,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Relevant_Links_Are_Available__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Responsible_Party_Organization__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2696,6 +2717,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Travel_Support_On_Relevant_Links__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Travel_Vendor_Is_Available__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2787,7 +2813,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Full_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3138,6 +3164,21 @@
         <editable>true</editable>
         <field>Event.Visible_For__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Excel_Export_Field_Label__mdt.Field_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Excel_Export_Field_Label__mdt.Label_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Excel_Export_Field_Label__mdt.SObject_Name__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -4241,6 +4282,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Notification_Type__mdt.Org_Wide_Email_Address__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Notification_Type__mdt.Parameters_Provider__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4248,11 +4294,6 @@
         <editable>false</editable>
         <field>Notification_Type__mdt.Recipient_Type__c</field>
         <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Notification__c.Time_Delay_Status__c</field>
-        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -4263,6 +4304,11 @@
         <editable>true</editable>
         <field>Notification__c.Recipient__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Notification__c.Status__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -5123,6 +5169,16 @@
         <editable>true</editable>
         <field>Patient_Visit__c.Participant_Study_Enrollment__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Patient_Visit__c.Planned_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Patient_Visit__c.Portal_Name__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -6444,6 +6500,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Event-Event Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Excel_Export_Field_Label__mdt-Excel Export Field Label Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Execution_History__c-Execution History Layout</layout>

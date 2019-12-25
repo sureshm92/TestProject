@@ -42,15 +42,14 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE = 'Message_to_PI_SS_Was_Changed_Type';
     static public String MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE = 'Message_to_PT_Enrollment_Success_Type';
     static public String MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE = 'Message_to_PI_New_Patient_Referral_Type';
-
+    
+    static public String NOTIFICATION_STATUS_PENDING = 'Pending';
+    static public String NOTIFICATION_STATUS_PROCESSED = 'Processed';
+    static public String NOTIFICATION_STATUS_CREATED = 'Created';
+    
     static public String STATUS_SKIPPED = 'Skipped';
     static public String STATUS_FAILED = 'Failed';
     static public String STATUS_SENT = 'Sent';
-    static public String STATUS_PENDING = 'Pending';
-
-    static public String DELAY_STATUS_PENDING = 'Pending';
-    static public String DELAY_STATUS_CREATED = 'Created';
-    static public String DELAY_STATUS_COMPLETE = 'Complete';
 
     static public String NOTIFICATION_TARGET_TYPE_EMAIL = 'Email';
     static public String NOTIFICATION_TARGET_TYPE_SMS = 'SMS';
@@ -101,6 +100,9 @@ public without sharing class NotificationService {
         }
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_DECLINED) {
             return MESSAGE_TO_HCP_PATIENT_DECLINED_TYPE;
+        }
+        if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ON_HOLD) {
+            return MESSAGE_TO_HCP_PATIENT_ON_HOLD_TYPE;
         }
         return null;
     }
@@ -232,11 +234,62 @@ public without sharing class NotificationService {
                                 Recipient__c = contactId,
                                 WhatId__c = whatId,
                                 Notification_Type__c = notificationType,
-                                Time_Delay_Status__c = NotificationService.DELAY_STATUS_CREATED
+                                Status__c = NotificationService.NOTIFICATION_STATUS_CREATED
                         )
                 );
             }
         }
         insert notifications;
+    }
+    
+    @Future(Callout=true)
+    public static void sendNotificationsAsync(String notificationsJSON){
+        sendNotifications((List<Notification__c>)JSON.deserialize(notificationsJSON, List<Notification__c>.class));
+    }
+    
+    public static void sendNotifications(List<Notification__c> notifications) {
+        List<Id> whatIds = new List<Id>();
+        for (Notification__c n : notifications) whatIds.add(n.WhatId__c);
+        NotificationAvailabilityService availabilityService = new NotificationAvailabilityService(whatIds);
+        List<Notification__c> emailNotifications = new List<Notification__c>();
+        List<Notification__c> smsNotifications = new List<Notification__c>();
+        List<Notification__c> pushNotifications = new List<Notification__c>();
+        List<Send_Result__c> sendResults = new List<Send_Result__c>();
+        
+        for (Notification__c n : notifications) {
+            //TODO add check contact available time, if not available set status to 'Pending', else set 'Processed'
+            //TODO Now 'Processed'
+            n.Status__c = NOTIFICATION_STATUS_PROCESSED;
+            Notification_Type__mdt notificationType = NotificationService.getNotificationType(n.Notification_Type__c);
+            for (Notification_Target__mdt nt : notificationType.Notification_Targets__r) {
+                if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL) {
+                    if (availabilityService.isAvailable(n.WhatId__c, notificationType.Recipient_Type__c, nt.Target_Type__c, n.Recipient__c)) {
+                        emailNotifications.add(n);
+                    } else {
+                        sendResults.add(new Send_Result__c(
+                                Notification__c = n.Id,
+                                Target_Type__c = nt.Target_Type__c,
+                                Status__c = NotificationService.STATUS_SKIPPED));
+                    }
+                } else if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_SMS) {
+                    if (availabilityService.isAvailableForSMS(n.Recipient__c)) {
+                        if (n.Status__c == NotificationService.NOTIFICATION_STATUS_CREATED) smsNotifications.add(n);
+                    } else {
+                        sendResults.add(new Send_Result__c(
+                                Notification__c = n.Id,
+                                Target_Type__c = nt.Target_Type__c,
+                                Status__c = NotificationService.STATUS_SKIPPED));
+                    }
+                } else if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_PUSH) {
+                    pushNotifications.add(n);
+                }
+            }
+        
+        }
+        insert sendResults;
+        update notifications;
+        EmailService.send(emailNotifications);
+        if (smsNotifications != null) SMSService.send(smsNotifications);
+        
     }
 }
