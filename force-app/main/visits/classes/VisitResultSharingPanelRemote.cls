@@ -45,6 +45,8 @@ public without sharing class VisitResultSharingPanelRemote {
         @AuraEnabled public Integer showAfterDays;
         @AuraEnabled public String whenToShow;
         @AuraEnabled public Boolean inPatientPortal;
+        @AuraEnabled public String countrySelectionType;
+        @AuraEnabled public String selectedCountries;
     }
 
     public class InitData {
@@ -56,6 +58,12 @@ public without sharing class VisitResultSharingPanelRemote {
                 new LabelValueItem('Enabled for selected countries', TYPE_COUNTRIES),
                 new LabelValueItem('Disabled for selected countries', TYPE_COUNTRIES_DISABLED)
         };
+        @AuraEnabled public List<LabelValueItem> typeSelectCountryLevelList = new List<LabelValueItem>{
+                new LabelValueItem('Disabled for all countries', TYPE_DISABLED),
+                new LabelValueItem('Enabled for all countries', TYPE_ALL),
+                new LabelValueItem('Enabled for selected countries', TYPE_COUNTRIES)
+                //new LabelValueItem('Disabled for selected countries', TYPE_COUNTRIES_DISABLED)
+        };
         @AuraEnabled public List<LabelValueItem> participantDefaultLVList = new List<LabelValueItem>{
                 new LabelValueItem('Opt in', 'Opt in'),
                 new LabelValueItem('Opt out', 'Opt out')
@@ -63,7 +71,8 @@ public without sharing class VisitResultSharingPanelRemote {
         @AuraEnabled public List<LabelValueItem> ssSelectionTypeLVList = new List<LabelValueItem>{
                 new LabelValueItem('Enabled for all study sites', TYPE_ALL),
                 new LabelValueItem('Enabled for selected study sites', TYPE_STUDY_SITES),
-                new LabelValueItem('Disabled for selected study sites', TYPE_STUDY_SITES_DISABLED)
+                new LabelValueItem('Disabled for selected study sites', TYPE_STUDY_SITES_DISABLED),
+                new LabelValueItem('Disabled for all study sites', TYPE_DISABLED)
         };
         @AuraEnabled public List<LabelValueItem> whenToShowLVList = new List<LabelValueItem>{
                 new LabelValueItem('Immediate', 'Immediate'),
@@ -132,12 +141,21 @@ public without sharing class VisitResultSharingPanelRemote {
             }
             String ssSelectionType;
             if (studySites.size() == selectedSSIds.size()) {
-                ssSelectionType = TYPE_ALL;
+                ssSelectionType = ctp.Shareback_Settings_on_StudySites__c ? TYPE_ALL : TYPE_DISABLED;
             } else if (ctp.Shareback_Settings_on_StudySites__c) {
                 ssSelectionType = TYPE_STUDY_SITES;
             } else {
                 ssSelectionType = TYPE_STUDY_SITES_DISABLED;
             }
+
+            String selectionCountryType;
+            if(ctp.Shareback_Settings_On_Country_Level__c) {
+                selectionCountryType = ctp.Shareback_Settings_Country__c != null ? TYPE_COUNTRIES : TYPE_ALL;
+            } else {
+                //selectionCountryType = ctp.Shareback_Settings_Country__c != null ? TYPE_COUNTRIES_DISABLED : TYPE_DISABLED;
+                selectionCountryType = TYPE_DISABLED;
+            }
+
 
             initData.options = new OptionsWrapper();
             initData.options.globalShareBck = ctp.Visit_Data_Shareback__c;
@@ -148,6 +166,8 @@ public without sharing class VisitResultSharingPanelRemote {
             initData.options.showAfterDays = (Integer) ctp.Shareback_Availability_Timing__c;
             initData.options.whenToShow = ctp.Shareback_Availability_Timing__c > 0 ? 'After' : 'Immediate';
             initData.options.inPatientPortal = ctp.Patient_Portal_Enabled__c;
+            initData.options.countrySelectionType = selectionCountryType;
+            initData.options.selectedCountries = ctp.Shareback_Settings_Country__c == null ? '' : ctp.Shareback_Settings_Country__c;
 
             return initData;
         } catch (Exception e) {
@@ -176,6 +196,9 @@ public without sharing class VisitResultSharingPanelRemote {
                 ctp.Shareback_Settings_On_Participant_Level__c = optionsWrapper.participantDefault.equals('Opt in');
                 ctp.Shareback_Settings_on_StudySites__c =
                         optionsWrapper.ssSelectionType.equals(TYPE_ALL) || optionsWrapper.ssSelectionType.equals(TYPE_STUDY_SITES);
+                ctp.Shareback_Settings_On_Country_Level__c =
+                        optionsWrapper.countrySelectionType.equals(TYPE_ALL) || optionsWrapper.countrySelectionType.equals(TYPE_COUNTRIES);
+                ctp.Shareback_Settings_Country__c = optionsWrapper.selectedCountries != null ? optionsWrapper.selectedCountries : '';
 
                 ssIds = optionsWrapper.selectedSSIds.split(';');
                 updateVRTSharing(groupsList, VisitResultSharingService.getTypeVRSharingMap(ctp), ctpId);
@@ -225,26 +248,5 @@ public without sharing class VisitResultSharingPanelRemote {
         }
         if (!forDeletionSharings.isEmpty()) delete forDeletionSharings;
         upsert typeVRSharingMap.values();
-    }
-
-    public static String permissonSetCheck() {
-        List <PermissionSetAssignment> permSet = [
-                SELECT PermissionSet.Name
-                FROM PermissionSetAssignment
-                WHERE Assignee.Id = :UserInfo.getUserId()
-        ];
-        String user_has_permission;
-        for (PermissionSetAssignment psa : permSet) {
-            if (psa.PermissionSet.Name == 'Patient_Portal_Edit_Study_Settings') {
-                user_has_permission = 'edit';
-                break;
-            } else if (psa.PermissionSet.Name == 'Patient_Portal_Read_Study_Settings') {
-                user_has_permission = 'read';
-                break;
-            } else {
-                user_has_permission = 'no perm';
-            }
-        }
-        return user_has_permission;
     }
 }
