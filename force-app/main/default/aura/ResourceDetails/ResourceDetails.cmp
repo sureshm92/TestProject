@@ -1,0 +1,102 @@
+<!--
+ - Created by Slav on 24.12.2019.
+ -->
+
+<aura:component description="Resource Details Page with Upload" implements="lightning:actionOverride,lightning:isUrlAddressable,force:lightningQuickAction" controller="ResourceDetailsRemote">
+    <!--  server to client  -->
+    <aura:attribute name="recordId" type="String" description="Contains newly created Resource Id"/>
+    <aura:attribute name="res" type="Resource__c"/>
+
+    <aura:attribute name="docTypes" type="String[]"/>
+    <aura:attribute name="languages" type="String[]"/>
+    <aura:attribute name="videoHelpText" type="String"/>
+    <aura:attribute name="developerName" type="String"/>
+    <aura:attribute name="redirect" type="String" description="If this value is NOT null it means that selected RecordType is not Study Document"/>
+
+    <aura:attribute name="isInfo" type="Boolean"/>
+    <aura:attribute name="isSuccess" type="Boolean"/>
+    <aura:attribute name="isError" type="Boolean"/>
+    <aura:attribute name="message" type="String"/>
+
+    <!--  client to server  -->
+    <aura:attribute name="res_title" type="String"/>
+    <aura:attribute name="res_doctype" type="String"/>
+    <aura:attribute name="res_description" type="String"/>
+    <aura:attribute name="res_video" type="String"/>
+    <aura:attribute name="res_language" type="String"/>
+    <aura:attribute name="res_version" type="Date"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.select}"/>
+
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container slds-container_medium">
+
+            <header class="slds-modal__header">
+                <h3 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
+                    New Resource: {!v.developerName}
+                </h3>
+            </header>
+
+            <aura:if isTrue="{!v.redirect == null}">
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div class="slds-grid slds-wrap slds-gutters" style="padding:20px;">
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="title" type="text" name="title" label="Title" value="{!v.res_title}" required="true"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:select aura:id="doctype" label="Document type" name="type_select" value="{!v.res_doctype}"  required="true">
+                                <aura:iteration items="{!v.docTypes}" var="docType">
+                                    <option value="{!docType}" selected="{!docType==v.res_doctype}">{!docType}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:textarea aura:id="description" name="description" label="Description" value="{!v.res_description}" required="true"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Video Link</label>
+                            <lightning:helptext content="{!v.videoHelpText}"/>
+                            <lightning:textarea aura:id="video" name="video" label="Video Link" variant="label-hidden" value="{!v.res_video}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:select aura:id="language" label="Language" name="lang_select" value="{!v.res_language}" required="true">
+                                <aura:iteration items="{!v.languages}" var="lang">
+                                    <option value="{!lang}" selected="{!lang==v.res_language}">{!lang}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="version" type="date" name="version" label="Version Date" value="{!v.res_version}" required="true"/>
+                        </div>
+                        <div class="slds-col slds-size_2-of-2" style="margin-top:40px; margin-bottom:-22px">
+                            <lightning:fileUpload label="Upload file" name="fileUploader" recordId="{!v.recordId}" multiple="true" accept=".pdf, .png" onuploadfinished="{!c.uploadComplete}" />
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+
+            <aura:if isTrue="{!v.isInfo}">
+                <ui:message title="Info" severity="info">
+                    {!v.message}
+                </ui:message>
+            </aura:if>
+            <aura:if isTrue="{!v.isSuccess}">
+                <ui:message title="Success" severity="confirm">
+                    {!v.message}
+                </ui:message>
+            </aura:if>
+            <aura:if isTrue="{!v.isError}">
+                <ui:message title="Error" severity="error">
+                    {!v.message}
+                </ui:message>
+            </aura:if>
+
+            <footer class="slds-modal__footer" style="padding:15px;">
+                <button aura:id="close" class="slds-button slds-button_neutral" onclick="{!c.closeModal}">Close</button>
+                <button aura:id="reset" class="slds-button slds-button_neutral" onclick="{!c.reset}">New</button>
+                <button aura:id="save" class="slds-button slds-button_brand" onclick="{!c.save}">Save</button>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"/>
+</aura:component>
