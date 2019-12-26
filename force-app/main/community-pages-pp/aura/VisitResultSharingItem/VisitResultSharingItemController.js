@@ -4,7 +4,8 @@
 ({
     doCountryChanged: function (component, event, hepler) {
         var visitResult = component.get('v.visitResult');
-        if(!visitResult.countryCodes){
+        if(component.get('v.globalType') === 'Disabled') return;
+        if(!visitResult.countryCodes || (!component.get('v.countries') && component.get('v.globalType') !== 'All')){
             visitResult.type = 'All';
             component.set('v.visitResult', visitResult);
         }
@@ -22,6 +23,15 @@
         visitResult.countryCodes = null;
         visitResult.type = 'All';
         component.set('v.visitResult', visitResult);
-    }
+    },
 
-})
+    doGlobalTypeChanged: function (component, event, helper) {
+        var globalType = component.get('v.globalType');
+        if(globalType !== 'Disabled') return;
+
+        var visitResult = component.get('v.visitResult');
+        visitResult.countryCodes = null;
+        visitResult.type = globalType;
+        component.set('v.visitResult', visitResult);
+    }
+});
