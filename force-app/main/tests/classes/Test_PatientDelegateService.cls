@@ -118,18 +118,36 @@ public class Test_PatientDelegateService {
 
     @IsTest
     static void resetDelegateTest() {
-        refreshTestData();
 
-        CommunityService.setMock(new CommunityServiceMock());
+        TestData.loadTestData();
+        TestData testData = new TestData();
 
-        Test.startTest();
-        PatientDelegateService.getInstance().resetDelegate(firstDelegateContact.Id);
-        Test.stopTest();
+        Contact delegateContact = new Contact(
+                FirstName = 'Joseph',
+                LastName = 'Davis',
+                Email = 'jdavis@somemail.com'
+        );
+        upsert delegateContact;
+
+        //Patient_Delegates:
+        Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
+                Contact__c = delegateContact.Id,
+                Contact__r = delegateContact,
+                Participant__c = testData.participant.Id,
+                Participant__r = testData.participant
+        );
+        upsert patientDelegate;
+
+        System.runAs(testData.participantUser){
+            Test.startTest();
+            PatientDelegateService.getInstance().resetDelegate(delegateContact.Id);
+            Test.stopTest();
+        }
 
         Contact contactFromDB = [
                 SELECT userCommunityMode__c, userCommunytyType__c
                 FROM Contact
-                WHERE Id = :firstDelegateContact.Id
+                WHERE Id = :delegateContact.Id
         ].get(0);
         System.assertEquals(null, contactFromDB.userCommunityMode__c);
         System.assertEquals(null, contactFromDB.userCommunytyType__c);
