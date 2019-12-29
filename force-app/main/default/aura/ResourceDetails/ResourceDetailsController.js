@@ -33,11 +33,11 @@
     			    component.set("v.developerName", returnValue.developerName);
     			    component.set("v.redirect", returnValue.redirect);
     			    if (returnValue.redirect != null) {
-//                      $A.enqueueAction(component.get("c.redirect"));
-                        component.set('v.isError', true);
-        			    component.set("v.message", returnValue.message);
-                        $A.util.addClass(component.find("reset"), "slds-hide");			// hide New button
-                        $A.util.addClass(component.find("save"), "slds-hide");			// hide Save button
+                        $A.enqueueAction(component.get("c.redirect"));
+//                        component.set('v.isError', true);
+//        			    component.set("v.message", returnValue.message);
+//                        $A.util.addClass(component.find("reset"), "slds-hide");			// hide New button
+//                        $A.util.addClass(component.find("save"), "slds-hide");			// hide Save button
                     } else {
                         component.set('v.isInfo', true);
                         component.set('v.message', 'Fill in the required fields and click Save. The File Upload will be enabled after successful save');
@@ -118,6 +118,9 @@
         // return to the previous window                            //
         //----------------------------------------------------------//
         closeModal: function (component, event, helper) {
-            window.history.back();
-        }
+//            window.history.back(3);
+          $A.get("e.force:closeQuickAction").fire();
+        },
+
+        
 });
