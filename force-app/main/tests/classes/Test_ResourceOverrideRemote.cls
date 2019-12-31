@@ -54,10 +54,13 @@ public class Test_ResourceOverrideRemote {
         response = ResourceOverrideRemote.saveResource(recTypeArticle.Id, null, resource);
         System.assertEquals(response.get('isError'), true);
     
+        ResourceOverrideRemote.updateContentDocument(null, 'Test file', resource.Id);
+    
         resource.Id                         = null;
         resource.Language__c                = 'en_US';
         response = ResourceOverrideRemote.saveResource(recTypeArticle.Id, null, resource);
         System.assertNotEquals(response.get('isError'), true);
+    
     }
 
 }

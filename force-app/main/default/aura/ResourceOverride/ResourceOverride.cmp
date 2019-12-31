@@ -351,7 +351,7 @@
                     </aura:if>
                 </div>
                 <span style="float:left; margin-top:-22px">
-                    <lightning:fileUpload name="fileUploader" recordId="{!v.recordId}" multiple="true" variant="label-hidden" onuploadfinished="{!c.uploadComplete}" />
+                    <lightning:fileUpload name="fileUploader" recordId="{!v.recordId}" multiple="false" variant="label-hidden" onuploadfinished="{!c.uploadComplete}" />
                 </span>
                 <button aura:id="close" class="slds-button slds-button_neutral" onclick="{!c.closeModal}">Close</button>
                 <button aura:id="reset" class="slds-button slds-button_neutral" onclick="{!c.reset}">New</button>

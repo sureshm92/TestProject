@@ -241,6 +241,40 @@ public with sharing class ResourceOverrideRemote {
     }
 
     /**
+     * updateContentDocument()
+     *
+     * @param documentId
+     * @param fileName
+     * @param language
+     *
+     * @return
+     */
+    @AuraEnabled
+    public static  Map<String, Object> updateContentDocument (String documentId, String fileName, String recordId) {
+        Map<String, Object> response = new Map<String, Object>();
+        response.put('isError', false);
+        try {
+            ContentDocument document = [
+                    SELECT  Id
+                    FROM    ContentDocument
+                    WHERE   Id =: documentId
+            ];
+            Resource__c resource = [
+                    SELECT Name, Language__c
+                    FROM   Resource__c
+                    WHERE  Id = :recordId
+            ];
+            document.Title = resource.Language__c;
+            update document;
+            response.put('message', 'File [' + fileName + '] has been successfully uploaded and attached to Resource [' + resource.Name + ']');
+        }catch (Exception e) {
+            response.put('isError', true);
+            response.put('message', e.getMessage() + ' ' + e.getStackTraceString());
+        }
+        return response;
+    }
+
+    /**
      * isRelevant()
      *
      * @param wrapper

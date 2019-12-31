@@ -58,8 +58,32 @@
         //----------------------------------------------------------//
         // File Upload handler                                      //
         //----------------------------------------------------------//
-        uploadComplete: function (component, event) {
+        uploadComplete: function (component, event, helper) {
+            helper.resetMessages(component);
             var uploadedFiles = event.getParam("files");
+            var apexMethod = component.get("c.updateContentDocument");
+            apexMethod.setParams({
+                documentId : uploadedFiles[0].documentId,
+                fileName   : uploadedFiles[0].name,
+                recordId   : component.get('v.recordId')
+            });
+            apexMethod.setCallback (this, function(response) {
+                if (response.getState() === "SUCCESS") {
+                    var returnValue = response.getReturnValue();
+                    if (returnValue.isError) {
+                        component.set('v.isError', true);
+                    } else {
+                        component.set('v.isSuccess', true);
+                    }
+                    component.set('v.message', returnValue.message);
+                } else {
+                    var errors = response.getError();
+                    component.set('v.isError', true);
+                    component.set('v.message', errors[0].message);
+                }
+            })
+            $A.enqueueAction(apexMethod);
+
         },
 
         //----------------------------------------------------------//
