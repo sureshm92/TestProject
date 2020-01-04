@@ -8,6 +8,7 @@
     <aura:attribute name="record"                   type="Resource__c" description="Recource__c values to send to remote"/>
 
     <!--  metadata  -->
+    <aura:attribute name="resourceName"             type="String"/>
     <aura:attribute name="docTypes"                 type="String[]"/>
     <aura:attribute name="languageNames"            type="String[]"/>
     <aura:attribute name="languageLabels"           type="String[]"/>
@@ -48,6 +49,10 @@
     <aura:attribute name="article_external_link__c" type="String"/>
     <aura:attribute name="Remove_sharing__c"        type="Boolean"      default="false"/>
 
+    <!--  upload  -->
+    <aura:attribute name="availableLanguages"       type="String[]"/>
+    <aura:attribute name="uploadLanguage"           type="String"/>
+
     <!--  message panel  -->
     <aura:attribute name="isInfo"                   type="Boolean"/>
     <aura:attribute name="isSuccess"                type="Boolean"/>
@@ -62,6 +67,9 @@
             <header class="slds-modal__header">
                 <h3 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
                     New Resource: {!v.recTypeName}
+                    <aura:if isTrue="{!v.resourceName != null}">
+                        [{!v.resourceName}]
+                    </aura:if>
                 </h3>
             </header>
 
@@ -350,8 +358,15 @@
                         </ui:message>
                     </aura:if>
                 </div>
-                <span style="float:left; margin-top:-22px">
-                    <lightning:fileUpload name="fileUploader" recordId="{!v.recordId}" multiple="false" variant="label-hidden" onuploadfinished="{!c.uploadComplete}" />
+                <span style="float:left; margin-top:-22px;">
+                    <lightning:fileUpload name="fileUploader" recordId="{!v.recordId}" multiple="false" variant="label-hidden" disabled="{!v.availableLanguages.length==0}" onuploadfinished="{!c.uploadComplete}" />
+                </span>
+                <span style="float:left; padding-left:10px; margin-top:-19px;">
+                    <lightning:select aura:id="availableLanguages" value="{!v.uploadLanguage}" variant="label-hidden" disabled="{!v.recordId==null || v.availableLanguages.length==0}">
+                        <aura:iteration items="{!v.availableLanguages}" var="availableLanguage">
+                            <option value="{!availableLanguage}">{!availableLanguage}</option>
+                        </aura:iteration>
+                    </lightning:select>
                 </span>
                 <button aura:id="close" class="slds-button slds-button_neutral" onclick="{!c.closeModal}">Close</button>
                 <button aura:id="reset" class="slds-button slds-button_neutral" onclick="{!c.reset}">New</button>

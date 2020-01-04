@@ -44,6 +44,11 @@
     			    } else {
     			        component.set('v.isSuccess', true);
     			        component.set('v.recordId', returnValue.recordId);
+    			        component.set('v.resourceName', returnValue.resourceName);
+    			        component.set('v.availableLanguages', returnValue.availableLanguages);
+    			        if (returnValue.availableLanguages.length > 0) {
+    			            component.set('v.uploadLanguage', returnValue.availableLanguages[0]);
+    			        }
     			    }
                     component.set('v.message', returnValue.message);
     			} else {
@@ -65,7 +70,8 @@
             apexMethod.setParams({
                 documentId : uploadedFiles[0].documentId,
                 fileName   : uploadedFiles[0].name,
-                recordId   : component.get('v.recordId')
+                recordId   : component.get('v.recordId'),
+                language   : component.get('v.uploadLanguage')
             });
             apexMethod.setCallback (this, function(response) {
                 if (response.getState() === "SUCCESS") {
@@ -74,6 +80,10 @@
                         component.set('v.isError', true);
                     } else {
                         component.set('v.isSuccess', true);
+    			        component.set('v.availableLanguages', returnValue.availableLanguages);
+    			        if (returnValue.availableLanguages.length > 0) {
+    			            component.set('v.uploadLanguage', returnValue.availableLanguages[0]);
+    			        }
                     }
                     component.set('v.message', returnValue.message);
                 } else {

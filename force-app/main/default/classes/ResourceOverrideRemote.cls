@@ -150,6 +150,22 @@ public with sharing class ResourceOverrideRemote {
     }
 
     /**
+     * getLanguageLabel()
+     *
+     * @param languageName
+     *
+     * @return
+     */
+    private static String getLanguageLabel (String languageName) {
+        Integer index = 0;
+        for (String name : languageNames) {
+            if (name == languageName) return languageLabels[index];
+            index++;
+        }
+        return languageName;
+    }
+    
+    /**
      * buildQuery()
      *
      * @param recordId
@@ -220,6 +236,7 @@ public with sharing class ResourceOverrideRemote {
                     resource.Language__c = getLanguageName(resource.Language__c);   // replaces language label with name
                     update resource;
                     response.put('recordId', resource.Id);
+                    response.put('availableLanguages', getAvailableLanguages(resource.Id));
                     response.put('message', 'Resource successfully updated: [' + resource.Name + ']');
                 }
             } else if (resource != null) {
@@ -230,6 +247,8 @@ public with sharing class ResourceOverrideRemote {
                     insert resource;
                     resource = [SELECT Name FROM Resource__c WHERE Id = :resource.Id];
                     response.put('recordId', resource.Id);
+                    response.put('resourceName', resource.Name);
+                    response.put('availableLanguages', getAvailableLanguages(resource.Id));
                     response.put('message', 'New Resource successfully created: [' + resource.Name + ']. You can now upload files which will be attached to this Resource.');
                 }
             }
@@ -250,7 +269,7 @@ public with sharing class ResourceOverrideRemote {
      * @return
      */
     @AuraEnabled
-    public static  Map<String, Object> updateContentDocument (String documentId, String fileName, String recordId) {
+    public static  Map<String, Object> updateContentDocument (String documentId, String fileName, String recordId, String language) {
         Map<String, Object> response = new Map<String, Object>();
         response.put('isError', false);
         try {
@@ -264,16 +283,49 @@ public with sharing class ResourceOverrideRemote {
                     FROM   Resource__c
                     WHERE  Id = :recordId
             ];
-            document.Title = resource.Language__c;
+            document.Title = getLanguageName(language);
             update document;
-            response.put('message', 'File [' + fileName + '] has been successfully uploaded and attached to Resource [' + resource.Name + ']');
-        }catch (Exception e) {
+            response.put('availableLanguages', getAvailableLanguages(recordId));
+            response.put('message', 'File [' + fileName + '] -> [' + language + '] successfully uploaded and attached to Resource [' + resource.Name + ']');
+        } catch (Exception e) {
             response.put('isError', true);
             response.put('message', e.getMessage() + ' ' + e.getStackTraceString());
         }
         return response;
     }
 
+    /**
+     * getAvailableLanguages()
+     *
+     * @param recordId
+     *
+     * @return
+     */
+    private static  List<String> getAvailableLanguages (String recordId) {
+        List<String> uploadedLanguages = new List<String>();
+        List<String> availableLanguages = new List<String>();
+
+        if (String.isNotBlank(recordId)) {
+            List<ContentDocumentLink> uploadedFiles = [
+                    SELECT ContentDocument.Title
+                    FROM ContentDocumentLink
+                    WHERE LinkedEntityId = :recordId
+            ];
+    
+            for (ContentDocumentLink docLink : uploadedFiles) {
+                uploadedLanguages.add(docLink.ContentDocument.Title);
+            }
+    
+            for (String languageName : languageNames) {
+                if (!uploadedLanguages.contains(languageName)) {
+                    availableLanguages.add(getLanguageLabel(languageName));
+                }
+            }
+        }
+
+        return availableLanguages;
+    }
+    
     /**
      * isRelevant()
      *
