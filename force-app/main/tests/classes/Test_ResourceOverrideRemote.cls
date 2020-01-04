@@ -54,7 +54,7 @@ public class Test_ResourceOverrideRemote {
         response = ResourceOverrideRemote.saveResource(recTypeArticle.Id, null, resource);
         System.assertEquals(response.get('isError'), true);
     
-        ResourceOverrideRemote.updateContentDocument(null, 'Test file', resource.Id);
+        ResourceOverrideRemote.updateContentDocument(null, 'Test file', resource.Id, 'en_US');
     
         resource.Id                         = null;
         resource.Language__c                = 'en_US';
