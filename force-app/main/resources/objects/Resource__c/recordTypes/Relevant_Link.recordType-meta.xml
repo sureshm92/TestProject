@@ -84,10 +84,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>AS</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>AT</fullName>
             <default>false</default>
         </values>
@@ -324,10 +320,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>FM</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>FO</fullName>
             <default>false</default>
         </values>
@@ -400,19 +392,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>GU</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>GW</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>GY</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>HK</fullName>
             <default>false</default>
         </values>
         <values>
@@ -604,10 +588,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>MH</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>MK</fullName>
             <default>false</default>
         </values>
@@ -625,10 +605,6 @@
         </values>
         <values>
             <fullName>MO</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>MP</fullName>
             <default>false</default>
         </values>
         <values>
@@ -760,19 +736,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>PR</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>PS</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>PT</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PW</fullName>
             <default>false</default>
         </values>
         <values>
@@ -956,10 +924,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>UM</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>US</fullName>
             <default>true</default>
         </values>
@@ -985,10 +949,6 @@
         </values>
         <values>
             <fullName>VG</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>VI</fullName>
             <default>false</default>
         </values>
         <values>
