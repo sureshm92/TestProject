@@ -22,15 +22,12 @@
         if(source === 'visitScheduleToggle') {
             let vsValue = component.find('vsToggle').get('v.checked');
             component.find('stToggle').set('v.checked', !vsValue);
+            if(vsValue === false) component.set('v.ctp.Travel_Vendor_Is_Available__c', false);
         }
         if(source === 'statusTimelineToggle') {
             let stValue = component.find('stToggle').get('v.checked');
             component.find('vsToggle').set('v.checked', !stValue);
-        }
-        if(source === 'travelVendorToggle') {
-            if (!component.get('v.ctp.Travel_Vendor_Is_Available__c').val)  {
-                component.set('v.ctp.Travel_Support_On_Relevant_Links__c', false);
-            }
+            if(stValue === true) component.set('v.ctp.Travel_Vendor_Is_Available__c', false);
         }
 
         component.find('spinner').show();

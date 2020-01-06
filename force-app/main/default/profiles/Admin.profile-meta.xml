@@ -2726,11 +2726,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Clinical_Trial_Profile__c.Travel_Support_On_Relevant_Links__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Travel_Vendor_Is_Available__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5421,6 +5416,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Resource__c.Countries__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Resource__c.Country__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5507,6 +5507,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Resource__c.URL_Part__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6674,6 +6679,10 @@
         <recordType>Resource__c.Article</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Resource__c-Relevant Link</layout>
+        <recordType>Resource__c.Relevant_Link</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Resource__c-Study Document</layout>
         <recordType>Resource__c.Study_Document</recordType>
     </layoutAssignments>
@@ -7603,6 +7612,11 @@
     <recordTypeVisibilities>
         <default>true</default>
         <recordType>Resource__c.Article</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Resource__c.Relevant_Link</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

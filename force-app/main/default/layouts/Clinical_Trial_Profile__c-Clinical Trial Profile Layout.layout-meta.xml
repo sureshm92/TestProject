@@ -57,10 +57,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Travel_Support_On_Relevant_Links__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Payment_Is_Available__c</field>
             </layoutItems>
         </layoutColumns>
