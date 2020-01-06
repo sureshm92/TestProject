@@ -43,22 +43,79 @@
     border-radius: 2px;
 }
 
+.THIS .rcei-name-ss-and-pi {
+    font-weight: 600;
+    color: #000;
+}
+
+.THIS .buttonmenu{
+    display: block;
+}
+
+.THIS .buttonmenu button {
+    background: #297DFD;
+    box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16), 0 4px 4px 0 rgba(0, 0, 0, 0.04), 0 8px 16px 0 rgba(41, 125, 253, 0.32);
+    color: #FFFFFF;
+    font-size: 1rem;
+    padding: 6px 16px;
+    padding: 9px 16px;
+    border-radius: 4px;
+    border: 1px;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 20px;
+    user-select: none;
+    min-width: 100px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .THIS .rcei-left .rcei-details {
-    color: #297DFD;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 16px;
-    cursor: pointer;
-    display: inline-block;
-    padding: 3px 8px;
-	margin: -3px 0 0 -8px;
+color: #297DFD;
+font-size: 14px;
+font-weight: 500;
+line-height: 16px;
+cursor: pointer;
+display: inline-block;
+padding: 3px 8px;
+margin: -3px 0 0 -8px;
 }
 
 .THIS .rcei-left .rcei-details:hover {
-    background-color: #eef5ff;
-    transition: .25s;
-    border-radius: 4px;
-   
+background-color: #eef5ff;
+transition: .25s;
+border-radius: 4px;
+
+}
+.THIS .button-menu{
+    max-height: 34px;
+    font-size: 16px;
+}
+
+.THIS .button-menu button{
+    color:#FFFFFF;
+}
+
+.THIS .button-menu .button-menu-item{
+    font-size: 16px;
+}
+
+.THIS .slds-dropdown_left{
+    left: auto;
+    right: 0;
+}
+
+.THIS .last-iteration .slds-dropdown_left{
+    top:-95px;
+}
+
+.THIS .cUiHeaderMenu .menu-popup-panel.popupTargetContainer{
+    position: fixed !important;
+    left: auto;
+    text-align-last: left;
+    margin-left: 10px;
 }
 
 /*================================body-right===========*/

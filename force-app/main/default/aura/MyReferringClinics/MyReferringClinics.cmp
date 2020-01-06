@@ -54,9 +54,9 @@
                                    sortVariants="{!v.sortData.sortVariants}"
                                    allRecordsCount="{!v.paginationData.allRecordsCount}"
                                    currentPageCount="{!v.paginationData.currentPageCount}"
-                                   itemTitle="{!$Label.c.PG_MRZ_L_clinics}">
+                                   itemTitle="{!$Label.c.PG_MRZ_L_Referring_Providers}">
 
-                        <c:rrSelect value="{!v.filterValues.statusFilter}" options="{!v.filterData.statusOptions}" placeholder="{!v.filterData.statusFilterPlaceholder}" otherOptionLabel="{!$Label.c.PG_MRZ_L_No_filter}"/>
+                        <c:rrSelect value="{!v.filterValues.statusFilter}" options="{!v.filterData.statusOptions}" placeholder="{!v.filterData.statusFilterPlaceholder}" otherOptionLabel="{!$Label.c.PG_MRZ_L_All_Statuses}"/>
                         <c:rrSelect value="{!v.filterValues.trialId}" options="{!v.filterData.studyPickList}" useSentenceFont="false" placeholder="{!$Label.c.PG_VP_L_Studies}" onchange="{!c.studyStatusChange}"/>
                         <c:rrSelect value="{!v.filterValues.ssId}" options="{!v.filterData.studySitePickList}" useSentenceFont="false" placeholder="{!$Label.c.PG_VP_L_Study_sites}" onchange="{!c.statusChange}"/>
                     </c:FilterPanel>
