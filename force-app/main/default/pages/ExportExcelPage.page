@@ -4,7 +4,7 @@
     </head>
     <!-- pe -->
     <apex:dataTable value="{!peList}" var="pe">
-        <apex:repeat value="{!$ObjectType.Participant_Enrollment__c.FieldSets.ExportExcel}" var="field">
+        <apex:repeat value="{!peFieldsList}" var="field">
             <apex:column headerValue="{!field.label}">
                 <apex:outputField value="{!pe[field.fieldPath]}"/>
             </apex:column>
