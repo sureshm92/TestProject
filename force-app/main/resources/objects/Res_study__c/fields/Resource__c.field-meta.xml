@@ -5,7 +5,7 @@
     <label>Resource</label>
     <lookupFilter>
         <active>true</active>
-        <booleanFilter>1 OR 2</booleanFilter>
+        <booleanFilter>1 OR 2 OR 3</booleanFilter>
         <errorMessage>Only Study Specific Resource can be added.</errorMessage>
         <filterItems>
             <field>Resource__c.Content_Class__c</field>
@@ -17,10 +17,16 @@
             <operation>equals</operation>
             <value>Study Document</value>
         </filterItems>
+        <filterItems>
+            <field>Resource__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Relevant Link</value>
+        </filterItems>
         <infoMessage>Only Study Specific Resource can be added.</infoMessage>
         <isOptional>false</isOptional>
     </lookupFilter>
     <referenceTo>Resource__c</referenceTo>
+    <relationshipLabel>Study Resources</relationshipLabel>
     <relationshipName>Study</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>

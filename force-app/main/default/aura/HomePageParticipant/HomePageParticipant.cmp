@@ -74,7 +74,7 @@
                         </aura:if>
                         <aura:if isTrue="{!v.participantState.pe.Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c}">
                             <div class="slds-col">
-                                <c:RelevantLinks travelVendorsAvailable="{!v.participantState.pe.Clinical_Trial_Profile__r.Travel_Support_On_Relevant_Links__c}"/>
+                                <c:RelevantLinks/>
                             </div>
                         </aura:if>
                     </div>
