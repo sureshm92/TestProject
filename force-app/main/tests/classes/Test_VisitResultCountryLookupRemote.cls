@@ -11,8 +11,8 @@ private class Test_VisitResultCountryLookupRemote {
         TestData.createTCAcceptance();
         Test.startTest();
         TestData testData = new TestData();
-        VisitResultSharingCountryLookupRemote.searchCountries('','',true, false, testData.ctp.Id);
-        VisitResultSharingCountryLookupRemote.searchResultsByValue('US', true);
+        VisitResultSharingCountryLookupRemote.searchCountries('','',true, false, testData.ctp.Id, '');
+        VisitResultSharingCountryLookupRemote.searchResultsByValue('US', true, '');
         Test.stopTest();
     }
 }

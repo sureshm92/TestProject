@@ -217,6 +217,18 @@ public without sharing class MyTeamRemote {
             } else {
                 delegateContacts = PatientDelegateService.getInstance().getDelegates();
             }
+            if(delegateContacts != null && delegateContacts.size() > 0){
+                Map<Id, Contact> delegateContactsMap = new Map<Id, Contact>();
+                for(Contact d : delegateContacts) if(d.Id != null) delegateContactsMap.put(d.Id, d);
+                Participant__c[] participants = [SELECT Id, Contact__c, First_Name__c, Last_Name__c FROM Participant__c WHERE Contact__c IN: delegateContacts];
+                for(Participant__c participant : participants){
+                    Contact dc = delegateContactsMap.get(participant.Contact__c);
+                    if(dc != null){
+                        dc.FirstName = participant.First_Name__c;
+                        dc.LastName = participant.Last_Name__c;
+                    }
+                }
+            }
             
             for (Contact patientDelegate : delegateContacts) {
                 DelegateWrapper dw = new DelegateWrapper();

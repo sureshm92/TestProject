@@ -5,10 +5,15 @@
 <aura:component description="Action_EditVisit">
 
     <aura:attribute name="visit" type="Object" default="{}"/>
+    <aura:attribute name="isValid" type="Boolean"/>
     <aura:attribute name="icons" type="List"/>
     <aura:attribute name="mode" type="String"/>
     <aura:attribute name="callback" type="Object"/>
     <aura:attribute name="cancelCallback" type="Object"/>
+
+    <aura:handler name="change" value="{!v.visit.Name}" action="{!c.checkValidity}"/>
+    <aura:handler name="change" value="{!v.visit.Icons__c}" action="{!c.checkValidity}"/>
+    <aura:handler name="change" value="{!v.visit.Visit_Number__c}" action="{!c.checkValidity}"/>
 
     <aura:method name="execute" action="{!c.doExecute}">
         <aura:attribute name="visit" type="Object"/>
@@ -43,7 +48,7 @@
             <lightning:button variant="neutral" type="button" label="{!$Label.c.BTN_Cancel}"
                               onclick="{!c.cancelClick}"/>
             <lightning:button variant="brand" type="button" label="{!if(v.mode == 'new', 'Add Visit', 'Save Visit')}"
-                              disabled="{!or(empty(v.visit.Name), empty(v.visit.Icons__c))}"
+                              disabled="{!v.isValid}"
                               onclick="{!c.saveVisit}"/>
         </aura:set>
     </c:uiModal>

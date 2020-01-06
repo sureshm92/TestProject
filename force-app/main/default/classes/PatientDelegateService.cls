@@ -213,17 +213,25 @@ public without sharing class PatientDelegateService {
     }
 
     public void resetDelegate(Id contactId) {
-        Contact delegateContact = new Contact(
-                Id = contactId,
-                userCommunityMode__c = null,
-                userCommunytyType__c = null
-        );
-        update delegateContact;
+        List<Patient_Delegate__c> pdList = [
+                SELECT Id FROM Patient_Delegate__c
+                WHERE Participant__r.Contact__c !=: CommunityService.getInstance().getCurrentContactId()
+                AND Contact__c =: contactId
+        ];
+        if(pdList.size() == 0){
+            Contact delegateContact = new Contact(
+                    Id = contactId,
+                    userCommunityMode__c = null,
+                    userCommunytyType__c = null
+            );
+            update delegateContact;
+        }
 
         List<Patient_Delegate__c> patientDelegate = [
                 SELECT Id
                 FROM Patient_Delegate__c
-                WHERE Contact__c = :contactId
+                WHERE Participant__r.Contact__c =: CommunityService.getInstance().getCurrentContactId()
+                        AND Contact__c = :contactId
         ];
         delete patientDelegate;
     }
