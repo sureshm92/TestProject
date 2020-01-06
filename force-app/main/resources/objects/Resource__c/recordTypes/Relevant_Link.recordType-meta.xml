@@ -1129,10 +1129,6 @@
             <fullName>ru</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>uk</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>X3rd_Party_Source__c</picklist>
