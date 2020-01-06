@@ -4223,6 +4223,34 @@ The IQVIA Patient Portal Support Team</value>
         <value>My Studies</value>
     </labels>
     <labels>
+        <fullName>Home_Page_Payments_Balance</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>Balance</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Payments_Card_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>Card Status</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Payments_Pending_Payments</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>Pending Payments</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Payments_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Payments_Title</shortDescription>
+        <value>Payments</value>
+    </labels>
+    <labels>
         <fullName>Home_Page_RelevantLinks_Title</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4291,41 +4319,6 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>StudyVisit_Title</shortDescription>
         <value>Study Visits</value>
-    </labels>
-    <labels>
-        <fullName>Home_Page_Payments_Title</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Payments_Title</shortDescription>
-        <value>Payments</value>
-    </labels>
-    <labels>
-        <fullName>Home_Page_Payments_Card_Status</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Column header</shortDescription>
-        <value>Card Status</value>
-    </labels>
-    <labels>
-        <fullName>Home_Page_Payments_Balance</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Column header</shortDescription>
-        <value>Balance</value>
-    </labels>
-    <labels>
-        <fullName>Home_Page_Payments_Pending_Payments</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Column header</shortDescription>
-        <value>Pending Payments</value>
-    </labels>
-    <labels>
-        <fullName>Manage_My_Payments</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Manage My Payments</shortDescription>
-        <value>Manage My Payments</value>
     </labels>
     <labels>
         <fullName>Home_Page_StudyVisit_Visit</fullName>
@@ -4515,6 +4508,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>MRN Internal Id</shortDescription>
         <value>MRN/Internal ID</value>
+    </labels>
+    <labels>
+        <fullName>Manage_My_Payments</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Manage My Payments</shortDescription>
+        <value>Manage My Payments</value>
     </labels>
     <labels>
         <fullName>Medical_Record_Review</fullName>
@@ -9659,6 +9659,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>RBC Count Description</shortDescription>
         <value>Red blood cells (RBCs or erythrocytes) are cells in your blood that contain hemoglobin, which carries oxygen throughout your body. RBC count is the total number of red blood cells that are present in your blood sample. RBC count is measured to check your general health and to check for conditions that influence your body’s red blood cell production. Low RBC count can lead to signs of anemia, such as tiredness. High RBC count can cause dizziness and headache.</value>
+    </labels>
+    <labels>
+        <fullName>RCEI_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RCEI Site</shortDescription>
+        <value>Site</value>
     </labels>
     <labels>
         <fullName>RH_Window_Title</fullName>

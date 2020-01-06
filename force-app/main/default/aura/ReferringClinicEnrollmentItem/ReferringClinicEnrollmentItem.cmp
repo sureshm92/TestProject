@@ -15,8 +15,8 @@
         <div class="rcei-left slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
 
             <div class="rcei-info">
-                <div class="rcei-name">Site: <span
-                            class="rcei-name-ss-and-pi">{!v.enrollmentData.enrollment.Study_Site__r.Name}</span></div>
+                <div class="rcei-name">{!$Label.c.RCEI_Site}:
+                    <span class="rcei-name-ss-and-pi">{!v.enrollmentData.enrollment.Study_Site__r.Name}</span></div>
                 <div class="{! 'rcei-status status-' + v.enrollmentData.status}">{!v.enrollmentData.statusLabel}</div>
             </div>
             <div class="rcei-info">
