@@ -18,21 +18,26 @@ private class Test_TaskService {
 
     @IsTest
     static void getTasksTest() {
-        ParticipantService.setMock(new ParticipantServiceMock());
-        TaskService.getInstance().getOpenTasks();
-        TaskService.getInstance().getPreviewTasks();
-        Task task = new Task();
-        task.Subject = 'Test';
-        insert task;
+        //ParticipantService.setMock(new ParticipantServiceMock());
+        TestData.loadTestData();
+        TestData testData = new TestData();
+        System.runAs(testData.participantUser){
+            Test.startTest();
+            TaskService.getInstance().getOpenTasks();
+            TaskService.getInstance().getPreviewTasks();
+            Task task = new Task();
+            task.Subject = 'Test';
+            insert task;
 
-        TaskService.getInstance().getTask(task.Id);
-        TaskService.getInstance().getCompletedTasks();
-        TaskService.getInstance().ignoreTask(task.Id);
-        TaskService.getInstance().completeTask(task.Id);
-        TaskService.getInstance().completeTask(task);
-        TaskService.getInstance().createCompleteYourProfileTask(null, null, null);
-        TaskService.getInstance().getOpenTasksFilter();
-        TaskService.getInstance().completeCYPTaskForParticipant();
+            TaskService.getInstance().getTask(task.Id);
+            TaskService.getInstance().getCompletedTasks();
+            TaskService.getInstance().ignoreTask(task.Id);
+            TaskService.getInstance().completeTask(task.Id);
+            TaskService.getInstance().completeTask(task);
+            TaskService.getInstance().createCompleteYourProfileTask(null, null, null);
+            TaskService.getInstance().getOpenTasksFilter();
+            TaskService.getInstance().completeCYPTaskForParticipant();
+            Test.stopTest();
+        }
     }
-
 }

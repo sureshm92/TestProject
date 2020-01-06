@@ -26,6 +26,11 @@
                 <default>false</default>
                 <label>Study Document</label>
             </value>
+            <value>
+                <fullName>Relevant_Link</fullName>
+                <default>false</default>
+                <label>Relevant Link</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

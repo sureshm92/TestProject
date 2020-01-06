@@ -3424,6 +3424,46 @@ The IQVIA Patient Portal Support Team</value>
         <value>This patient has already been referred to this study.</value>
     </labels>
     <labels>
+        <fullName>Export_Excel_Investigator_Name</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Investigator Name</shortDescription>
+        <value>Investigator Name</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_1_Completed_by</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening 1 Completed by</shortDescription>
+        <value>Pre-screening 1 Completed by</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_1_Status</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening 1 Status</shortDescription>
+        <value>Pre-screening 1 Status</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_2_status</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening 2 status</shortDescription>
+        <value>Pre-screening 2 status</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_Date</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening Date</shortDescription>
+        <value>Pre-screening Date</value>
+    </labels>
+    <labels>
         <fullName>FD_PE_Field_Arm_Cohort</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4251,6 +4291,41 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>StudyVisit_Title</shortDescription>
         <value>Study Visits</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Payments_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Payments_Title</shortDescription>
+        <value>Payments</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Payments_Card_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>Card Status</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Payments_Balance</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>Balance</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Payments_Pending_Payments</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>Pending Payments</value>
+    </labels>
+    <labels>
+        <fullName>Manage_My_Payments</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Manage My Payments</shortDescription>
+        <value>Manage My Payments</value>
     </labels>
     <labels>
         <fullName>Home_Page_StudyVisit_Visit</fullName>

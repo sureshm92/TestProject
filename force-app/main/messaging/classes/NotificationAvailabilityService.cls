@@ -104,7 +104,7 @@ public without sharing class NotificationAvailabilityService {
                 }
             } else if (objType == CLINICAL_TRIAL_PROFILE_OBJ_NAME) {
                 Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) objectsByIds.get(Id.valueOf(whatId));
-                if (!ctp.Suppress_Participant_Emails__c) checkForNotification = true;
+                if (!ctp.Suppress_Participant_Emails__c && contactByIdMap.get(contactId).Participant_Opt_In_Status_Emails__c) checkForNotification = true;
             } else if (objType == null) {
                 Contact contact = contactByIdMap.get(contactId);
                 if (contact.Participant_Opt_In_Status_Emails__c) checkForNotification = true;

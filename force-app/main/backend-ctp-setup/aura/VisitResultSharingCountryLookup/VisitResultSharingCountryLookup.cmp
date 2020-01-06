@@ -10,6 +10,9 @@
     <aura:attribute name="isMultiEntry" type="Boolean" default="true"/>
     <aura:attribute name="minTermLength" type="Integer" default="0"/>
     <aura:attribute name="ctpId" type="String"/>
+    <aura:attribute name="selectedCountries" type="String" default=""/>
+
+    <aura:handler name="change" value="{!v.selectedCountries}" action="{!c.doValueChange}"/>
 
     <!-- methods: -->
     <aura:method name="searchByTerm" action="{!c.doSearchByTerm}" access="public">

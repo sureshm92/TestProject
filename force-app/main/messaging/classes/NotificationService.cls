@@ -286,10 +286,10 @@ public without sharing class NotificationService {
             }
         
         }
-        insert sendResults;
-        update notifications;
         EmailService.send(emailNotifications);
         if (smsNotifications != null) SMSService.send(smsNotifications);
-        
+
+        insert sendResults;
+        update notifications;
     }
 }

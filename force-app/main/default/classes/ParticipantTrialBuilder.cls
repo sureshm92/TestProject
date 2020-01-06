@@ -99,18 +99,24 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                 ));
             }
 
-            tabs.add(new TrialDetail.StudyTab(
-                    'tab-tasks',
-                    'task',
-                    Label.PG_SW_Tab_Tasks,
-                    backHomeAction
-            ));
-            tabs.add(new TrialDetail.StudyTab(
-                    'tab-resources',
-                    'resources',
-                    Label.PG_SW_Tab_Resources,
-                    backHomeAction
-            ));
+            if(participantState.ctp.Tasks_Are_Available__c) {
+                tabs.add(new TrialDetail.StudyTab(
+                        'tab-tasks',
+                        'task',
+                        Label.PG_SW_Tab_Tasks,
+                        backHomeAction
+                ));
+            }
+
+            if(participantState.ctp.Study_Documents_Are_Available__c || participantState.ctp.Video_And_Articles_Are_Available__c){
+                tabs.add(new TrialDetail.StudyTab(
+                        'tab-resources',
+                        'resources',
+                        Label.PG_SW_Tab_Resources,
+                        backHomeAction
+                ));
+            }
+
             if (participantState.showVisits) {
                 tabs.add(new TrialDetail.StudyTab(
                         'tab-lab-results',

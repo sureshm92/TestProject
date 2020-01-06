@@ -32,8 +32,11 @@ public class VisitResultSharingCountryLookupRemote {
     
     @AuraEnabled(Cacheable = true)
     public static List<LookupSearchResult> searchCountries(String searchTerm, String value, Boolean includeStates,
-            Boolean isInclude,String ctpId) {
+            Boolean isInclude, String ctpId, String countries) {
         try {
+            List<String> selectedCountries = new List<String>();
+            if (String.isNotBlank(countries)) selectedCountries = countries.split(';');
+
             String icon = isInclude ? INCLUDE_ICON : EXCLUDE_ICON;
 
             List<String> selectedIds = new List<String>();
@@ -48,7 +51,7 @@ public class VisitResultSharingCountryLookupRemote {
                 }
             }
 
-            List<String> availableCountyStateCodes = getAvailableCountyStateCodes(ctpId, includeStates);
+            List<String> availableCountyStateCodes = getAvailableCountyStateCodes(ctpId, includeStates, selectedCountries);
             List<LookupSearchResult> results = new List<LookupSearchResult>();
             for (String label : allCountryStatesMap.keySet()) {
                 CountryStateWrapper countryStateWrapper = allCountryStatesMap.get(label);
@@ -73,16 +76,19 @@ public class VisitResultSharingCountryLookupRemote {
     }
     
     @AuraEnabled(Cacheable = true)
-    public static List<LookupSearchResult> searchResultsByValue(String value, Boolean isInclude){
+    public static List<LookupSearchResult> searchResultsByValue(String value, Boolean isInclude, String countries){
         try{
             String icon = isInclude ? INCLUDE_ICON : EXCLUDE_ICON;
 
             List<LookupSearchResult> resList = new List<LookupSearchResult>();
             if(String.isBlank(value)) return resList;
             List<String> items = value.split(';');
-            for(String item : items){
+            List<String> globalCountries = String.isBlank(countries) ? new List<String>() : countries.split(';');
+            for (String item : items) {
                 List<String> countryState = item.split('-');
                 String countryCode = countryState[0];
+                if(!globalCountries.isEmpty() && !globalCountries.contains(countryCode)) continue;
+
                 String stateCode = 'XXXX';
                 if(countryState.size() > 1) stateCode = countryState[1];
                 String  countryLabel = CountryStateUtil.getCountryName(countryCode);
@@ -101,14 +107,13 @@ public class VisitResultSharingCountryLookupRemote {
         }
     }
 
-    private static List<String> getAvailableCountyStateCodes(String ctpId, Boolean includeStates) {
-        List<Study_Site__c> studySites = [
-                SELECT
-                        Site__r.BillingCountryCode,
-                        Site__r.BillingState
-                FROM Study_Site__c
-                WHERE Clinical_Trial_Profile__c = :ctpId
-        ];
+    private static List<String> getAvailableCountyStateCodes(String ctpId, Boolean includeStates, List<String> selectedCountries) {
+
+        List<String> fields = new List<String>{'Site__r.BillingCountryCode', 'Site__r.BillingState'};
+        String filter = DatabaseService.fieldEqual('Clinical_Trial_Profile__c', ctpId) +
+                (!selectedCountries.isEmpty() ? (' AND ' + DatabaseService.fieldInValues('Site__r.BillingCountryCode', selectedCountries)) : '');
+
+        List<Study_Site__c> studySites = (List<Study_Site__c>)DatabaseService.query(fields, Study_Site__c.getSObjectType(), filter);
 
         List<String> codes = new List<String>();
         for(Study_Site__c ss : studySites) {
