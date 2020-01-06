@@ -5411,6 +5411,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Resource__c.Countries__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Resource__c.Country__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5497,6 +5502,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Resource__c.URL_Part__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6664,6 +6674,10 @@
         <recordType>Resource__c.Article</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Resource__c-Relevant Link</layout>
+        <recordType>Resource__c.Relevant_Link</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Resource__c-Study Document</layout>
         <recordType>Resource__c.Study_Document</recordType>
     </layoutAssignments>
@@ -7593,6 +7607,11 @@
     <recordTypeVisibilities>
         <default>true</default>
         <recordType>Resource__c.Article</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Resource__c.Relevant_Link</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
