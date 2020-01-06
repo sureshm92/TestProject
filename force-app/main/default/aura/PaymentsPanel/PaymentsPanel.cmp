@@ -1,0 +1,30 @@
+<!--
+ - Created by Olga Skrynnikova on 12/20/2019.
+ -->
+
+<aura:component description="PaymentsPanel" controller="PaymentsRemote" >
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <aura:attribute name="initialized" type="Boolean"/>
+
+    <div class="sv-panel rr-white-panel">
+        <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
+
+        <aura:if isTrue="{!v.initialized}">
+            <div class="sv-header">
+                <div class="sv-title">{!$Label.c.Home_Page_Payments_Title}</div>
+            </div>
+            <div class="sv-body">
+                    <c:RRTable>
+                        <tr>
+                            <th>{!$Label.c.Home_Page_Payments_Card_Status}</th>
+                            <th>{!$Label.c.Home_Page_Payments_Balance}</th>
+                            <th>{!$Label.c.Home_Page_Payments_Pending_Payments}</th>
+                        </tr>
+                    </c:RRTable>
+            </div>
+            <div class="sv-footer">
+                <c:RRLink page="" label="{!$Label.c.Manage_My_Payments}"/>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>
