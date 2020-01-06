@@ -248,7 +248,6 @@
         <relatedList>RelatedNoteList</relatedList>
     </relatedLists>
     <relatedLists>
-        <fields>ACTIVITY.SUBJECT</fields>
         <fields>EMAIL_STATUS.CREATED_DATE</fields>
         <fields>EMAIL_STATUS.FIRST_OPEN_DATE</fields>
         <fields>EMAIL_STATUS.TIMES_OPENED</fields>
