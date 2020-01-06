@@ -145,6 +145,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>About the Study</value>
     </labels>
     <labels>
+        <fullName>Accepted_For_All_Study_Sites</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Accepted For All Study Sites</shortDescription>
+        <value>as a Referring Provider for all your existing and future study sites</value>
+    </labels>
+    <labels>
         <fullName>AccountSettings_Cookie_Autocomplete</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3408,6 +3415,46 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>Error Message Participant Duplicate</shortDescription>
         <value>This patient has already been referred to this study.</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Investigator_Name</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Investigator Name</shortDescription>
+        <value>Investigator Name</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_1_Completed_by</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening 1 Completed by</shortDescription>
+        <value>Pre-screening 1 Completed by</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_1_Status</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening 1 Status</shortDescription>
+        <value>Pre-screening 1 Status</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_2_status</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening 2 status</shortDescription>
+        <value>Pre-screening 2 status</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_Date</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening Date</shortDescription>
+        <value>Pre-screening Date</value>
     </labels>
     <labels>
         <fullName>FD_PE_Field_Arm_Cohort</fullName>

@@ -232,19 +232,20 @@ public without sharing class TaskService {
                 tsc.reminderSchedule = inv.Reminder_Schedule__c;
 
                 TimeZone userTZ = userTimezoneMap.get(tsc.ownerId);
-                Datetime userDatetime = DateTimeConverterUtil.getUserDatetime(userTZ, Datetime.now());
+                Datetime userDatetime =
+                        DateTimeConverterUtil.getUserDT(Date.today(), Time.newInstance(0,0,0,0), userTZ);
 
                 tsc.startDate = userDatetime.date();
                 if (inv.ExpireDateTime__c != null) {
                     Date expiryDate = inv.ExpireDateTime__c.date();
                     Integer daysBetween = Date.today().daysBetween(expiryDate);
-                    tsc.activityDate = DateTimeConverterUtil.addDaysInUserTimeZone(userDatetime, userTZ, daysBetween);
+                    tsc.activityDate = userDatetime.addDays(daysBetween);
                 }
 
                 if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {
                     Integer firstReminderDay = (Integer) inv.Reminder_Schedule__r.First_Reminder_day__c;
-                    tsc.reminderDatetime = DateTimeConverterUtil.addDaysInUserTimeZone(userDatetime, userTZ, firstReminderDay);
-                    tsc.reminderGMT = DateTimeConverterUtil.convertUserDatetimeToGMT(tsc.reminderDatetime, userTZ);
+                    tsc.reminderDatetime = userDatetime.addDays(firstReminderDay);
+                    tsc.reminderGMT = Datetime.newInstanceGmt(tsc.reminderDatetime.dateGmt(), tsc.reminderDatetime.timeGmt());
                 }
                 tsc.subject = subject;
                 tsc.type = TASK_TYPE_SURVEY;
@@ -276,7 +277,7 @@ public without sharing class TaskService {
         if (taskConfig.originator != null) task.Originator__c = taskConfig.originator;
         if (taskConfig.reminderDatetime != null) {
             task.Reminder_Date__c = taskConfig.reminderDatetime;
-            if(taskConfig.reminderGMT != null) task.ReminderDateTime = taskConfig.reminderGMT;
+            if (taskConfig.reminderGMT != null) task.ReminderDateTime = taskConfig.reminderGMT;
         }
         if (taskConfig.reminderSchedule != null) task.Reminder_Schedule__c = taskConfig.reminderSchedule;
         if (taskConfig.startDate != null) task.Start_Date__c = taskConfig.startDate;
@@ -386,66 +387,43 @@ public without sharing class TaskService {
     }
 
     public List<Task> filterCurrentStudyTasks(List<Task> tasks) {
-        Participant_Enrollment__c currentPE = ParticipantService.getInstance().getState().pe;
-        if(currentPE == null) {
-            List<Id> participantsIds = new List<Id>();
-            for (Task t : tasks) {
-                if (t.WhatId != null && t.WhatId.getSobjectType() == Participant__c.getSObjectType()) {
-                    participantsIds.add(t.WhatId);
-                }
-            }
-
-            List<Participant_Enrollment__c> participantsPE = [
-                    SELECT Id, Clinical_Trial_Profile__r.Tasks_Are_Available__c, Participant__c
-                    FROM Participant_Enrollment__c
-                    WHERE Participant__c IN: participantsIds AND Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE
-            ];
-            List<Id> participantsIdsToShow = new List<Id>();
-
-            for(Participant_Enrollment__c participantEnrollment : participantsPE){
-                participantsIdsToShow.add(participantEnrollment.Participant__c);
-            }
-
-            List<Task> tasksToShow = new List<Task>();
-            for (Task t : tasks) {
-                if (t.WhatId != null && t.WhatId.getSobjectType() == Participant__c.getSObjectType()){
-                    if(participantsIdsToShow.contains(t.WhatId)) tasksToShow.add(t);
-                }
-            }
-            return tasksToShow;
-        }
-
         Set<Id> invIds = new Set<Id>();
         for (Task t : tasks) {
             if (t.Task_Type__c == TASK_TYPE_SURVEY && t.Survey_Invitation__c != null) invIds.add(t.Survey_Invitation__c);
         }
-        List<SurveyInvitation> invitations = [
+
+        Map<Id, SurveyInvitation> invitations = new Map<Id, SurveyInvitation>([
                 SELECT Id, Participant_Enrollment__c
                 FROM SurveyInvitation
-                WHERE Id IN:invIds AND Participant_Enrollment__c =: currentPE.Id
-        ];
-        Set<Id> peIds = new Set<Id>();
-        Set<Id> invFilterIds = new Set<Id>();
-        for (SurveyInvitation inv : invitations) {
-            peIds.add(inv.Participant_Enrollment__c);
-            invFilterIds.add(inv.Id);
+                WHERE Id IN:invIds AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE
+        ]);
+        Map<Id, Participant_Enrollment__c> enrollments;
+        ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
+        if (participantState.value == ParticipantService.ParticipantStates.ALUMNI) {
+            enrollments = new Map<Id, Participant_Enrollment__c>([
+                    SELECT Id, Clinical_Trial_Profile__r.Tasks_Are_Available__c, Participant__c
+                    FROM Participant_Enrollment__c
+                    WHERE Participant_Contact__c = :CommunityService.getInstance().getCurrentContactId()
+                    AND Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE
+            ]);
+        } else {
+            enrollments = new Map<Id, Participant_Enrollment__c>();
+            if (participantState.ctp.Tasks_Are_Available__c) enrollments.put(participantState.pe.Id, participantState.pe);
         }
 
-        List<Task> filteredList = new List<Task>();
+        List<Task> tasksToShow = new List<Task>();
         for (Task t : tasks) {
-            if (t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
-                if (t.WhatId == currentPE.Id) {
-                    filteredList.add(t);
+            if (t.WhatId == null) {
+                if (t.Survey_Invitation__c != null && invitations.keySet().contains(t.Survey_Invitation__c)) {
+                    tasksToShow.add(t);
+                } else {
+                    tasksToShow.add(t);
                 }
-            } else if (t.Task_Type__c == TASK_TYPE_SURVEY && t.Survey_Invitation__c != null) {
-                if (invFilterIds.contains(t.Survey_Invitation__c)) {
-                    filteredList.add(t);
-                }
-            } else if (t.Task_Type__c != TASK_TYPE_SURVEY) {
-                filteredList.add(t);
+            } else if (t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
+                if (enrollments.keySet().contains(t.WhatId)) tasksToShow.add(t);
             }
         }
-        return filteredList;
+        return tasksToShow;
     }
 
     public void expireSurveyTasksByExpiredInvitations(List<Task> tasks) {

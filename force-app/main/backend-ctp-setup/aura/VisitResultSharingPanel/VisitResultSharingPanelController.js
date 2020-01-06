@@ -34,10 +34,31 @@
 
     doSSSelectionTypeChanged: function (component, event, helper) {
         var options = component.get('v.options');
-        if (options.ssSelectionType !== 'All') {
+        if (options.ssSelectionType !== 'All' && options.ssSelectionType !== 'Disabled') {
             component.find('ssSelectLookup').focus();
         } else {
             options.selectedSSIds = '';
+            component.set('v.options', options);
+        }
+    },
+
+    doCountrySelectionTypeChange: function (component, event, helper) {
+        var options = component.get('v.options');
+        if (options.countrySelectionType !== 'All' && options.countrySelectionType !== 'Disabled') {
+            component.find('shareBackCountryLookup').focus();
+        }
+        else {
+            options.ssSelectionType = options.countrySelectionType;
+            options.selectedSSIds = '';
+            options.selectedCountries = '';
+            component.set('v.options', options);
+        }
+    },
+
+    doCountrySelectionChange: function (component, event, helper) {
+        var options = component.get('v.options');
+        if (!options.selectedCountries) {
+            options.countrySelectionType = 'All';
             component.set('v.options', options);
         }
     },

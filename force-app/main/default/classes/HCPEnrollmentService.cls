@@ -158,8 +158,10 @@ public without sharing class HCPEnrollmentService {
             Map<Id, Study_Site__c> ssMap = new Map<Id, Study_Site__c>();
             Set<Id> trailIds = new Set<Id>();
             for(Study_Site__c ss : ssList){
-                trailIds.add(ss.Clinical_Trial_Profile__c);
-                ssMap.put(ss.Id, ss);
+                if(StudySiteService.STATUS_GROUP_ACCEPTED.contains(ss.Override_PI_Referral_Status__c)) {
+                    trailIds.add(ss.Clinical_Trial_Profile__c);
+                    ssMap.put(ss.Id, ss);
+                }
             }
             List<HCP_Enrollment__c> upsertList = new List<HCP_Enrollment__c>();
             List<HCP_Enrollment__c> hcpEnrollmentList = getEnrollmentsForPIByTrialIds(trailIds);
@@ -180,7 +182,7 @@ public without sharing class HCPEnrollmentService {
                         Study_Site__c = ssId
                 ));
             }
-            if(!upsertList.isEmpty()){
+            if(!upsertList.isEmpty() && !ssMap.values().isEmpty()){
                 insert new PI_RP_Relationship__c(PI_Contact__c = ssMap.values()[0].Principal_Investigator__c, RP_Contact__c = hcpe.HCP_Contact__c);
             }
             upsert upsertList;

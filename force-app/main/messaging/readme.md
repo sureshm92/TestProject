@@ -63,6 +63,6 @@ Notification__c notification = new Notification__c();
 - **Recipient__c**: Id field on Contact
 - **WhatId__c**: String field where you can put any SObject Id for addition parameters. For example Participant Enrollment Id.
 - **Notification_Type__c**: Notification Type that you created previously
-- **Time_Delay_Status__c**: Picklist field where value **Created** means that logic sends notification immediately. 
-**Pending** status means that logic will send notification later. **Complete** status overrides Pending 
+- **Status__c**: Picklist field where value **Created** means that logic sends notification immediately. 
+**Pending** status means that logic will send notification later. (for example in Batch logic) **Processing** status overrides Pending 
 status when notification is sent successfully.

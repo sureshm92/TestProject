@@ -52,8 +52,6 @@
                             <div style="padding: 10px"></div>
                             <c:ManualTaskLookup label="Therapeutic Area" selection="{!v.filter.areas}"
                                                 objType="therapeutic"/>
-<!--                            <c:ManualTaskLookup label="Select Sponsor" selection="{!v.filter.sponsors}"-->
-<!--                                                objType="sponsor"/>-->
                             <c:ManualTaskLookup label="Study" selection="{!v.filter.studies}" objType="study"/>
                         </div>
                         <div class="slds-col slds-size--1-of-2">

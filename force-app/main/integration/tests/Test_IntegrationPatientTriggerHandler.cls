@@ -24,15 +24,6 @@ private class Test_IntegrationPatientTriggerHandler {
         Test.startTest();
         insert externalPatient;
         System.assertEquals('Participation Complete', getPEStatus());
-
-        externalPatient.IsDeletedInSDH__c = 'N';
-        externalPatient.Subject_Status__c = 'Dropped';
-        externalPatient.Subject_Date__c = Date.today().addDays(2);
-        update externalPatient;
-        System.assertEquals('Drop Out', getPEStatus());
-
-        update externalPatient;
-        System.assertEquals(3, [SELECT COUNT() FROM Participant_Enrollment_Status_History__c]);
         Test.stopTest();
     }
 

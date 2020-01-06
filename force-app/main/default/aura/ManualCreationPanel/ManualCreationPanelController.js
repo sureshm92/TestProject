@@ -44,8 +44,8 @@
         component.find('spinner').show();
         communityService.executeAction(component, 'createTasks', {
             config: JSON.stringify(component.get('v.taskConfig')),
-            adHocWrapper: component.get('v.adHocWrapper'),
-            filter: component.get('v.filter'),
+            adHoc: JSON.stringify(component.get('v.adHocWrapper')),
+            filter: JSON.stringify(component.get('v.filter')),
             activeTab: component.get('v.selectedTab')
         }, function (found) {
             if (found)
