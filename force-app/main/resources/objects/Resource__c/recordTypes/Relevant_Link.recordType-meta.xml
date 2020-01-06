@@ -1122,19 +1122,11 @@
     <picklistValues>
         <picklist>Language__c</picklist>
         <values>
-            <fullName>ar</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>en_US</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>ru</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>uk</fullName>
             <default>false</default>
         </values>
     </picklistValues>
