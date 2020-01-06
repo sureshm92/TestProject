@@ -4246,6 +4246,41 @@ The IQVIA Patient Portal Support Team</value>
         <value>Study Visits</value>
     </labels>
     <labels>
+        <fullName>Home_Page_Payments_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Payments_Title</shortDescription>
+        <value>Payments</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Payments_Card_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>Card Status</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Payments_Balance</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>Balance</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Payments_Pending_Payments</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>Pending Payments</value>
+    </labels>
+    <labels>
+        <fullName>Manage_My_Payments</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Manage My Payments</shortDescription>
+        <value>Manage My Payments</value>
+    </labels>
+    <labels>
         <fullName>Home_Page_StudyVisit_Visit</fullName>
         <language>en_US</language>
         <protected>false</protected>
