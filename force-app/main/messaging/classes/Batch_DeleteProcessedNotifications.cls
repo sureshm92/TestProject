@@ -34,7 +34,7 @@ public without sharing class Batch_DeleteProcessedNotifications extends Batch_Sc
     }
     
     public override Type getType() {
-        return Batch_ProcessNotifications.class;
+        return Batch_DeleteProcessedNotifications.class;
     }
     
     public override virtual String getBatchDescription() {
