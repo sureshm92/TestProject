@@ -6,6 +6,7 @@
     <!-- attributes: -->
     <aura:attribute name="enrollmentData" type="Object" required="true"/>
     <aura:attribute name="parent" type="Aura.Component" required="true"/>
+    <aura:attribute name="isLastElement" type="Boolean" default="false"/>
 
     <!-- component body: -->
     <c:InfoModal aura:id="infoModal"/>
@@ -14,30 +15,70 @@
         <div class="rcei-left slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
 
             <div class="rcei-info">
-                <div class="rcei-name">{!v.enrollmentData.enrollment.HCP_Contact__r.Salutation + ' ' + v.enrollmentData.enrollment.HCP_Contact__r.FirstName + ' ' + v.enrollmentData.enrollment.HCP_Contact__r.LastName + ' - ' + v.enrollmentData.enrollment.Study_Site__r.Name}</div>
-
+                <div class="rcei-name">Site: <span
+                            class="rcei-name-ss-and-pi">{!v.enrollmentData.enrollment.Study_Site__r.Name}</span></div>
                 <div class="{! 'rcei-status status-' + v.enrollmentData.status}">{!v.enrollmentData.statusLabel}</div>
             </div>
-            <div class="rcei-details" onclick="{!c.showPopUpInfo}">
-                {!$Label.c.PG_RSSEI_L_Status_Details}
+            <div class="rcei-info">
+                <div class="rcei-name">{!$Label.c.Primary_Investigator}:
+                    <span class="rcei-name-ss-and-pi">{!v.enrollmentData.enrollment.Study_Site__r.Principal_Investigator__r.Salutation + ' ' + v.enrollmentData.enrollment.Study_Site__r.Principal_Investigator__r.Name}</span>
+                </div>
             </div>
+            <!--<div class="rcei-details" onclick="{!c.showPopUpInfo}">
+                {!$Label.c.PG_RSSEI_L_Status_Details}
+            </div>-->
         </div>
 
         <div class="rcei-right slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12">
             <div class="{!'slds-grid slds-wrap slds-gutters' + if(!$Browser.isPhone, ' slds-grid--align-end', '')}">
                 <aura:iteration items="{!v.enrollmentData.buttonList}" var="action">
-                    <div class="slds-col">
-                        <button id="{!action.id}"
-                                disabled="{!action.disabled}"
-                                title="{!action.disableReason}"
-                                class="{!'apollo-btn secondary slds-size_1-of-2 slds-medium-size_4-of-12 slds-large-size_4-of-12 ' + action.cssClass}"
-                                tabindex="-1"
-                                onclick="{!c.doAction}">
-                            {!action.label}
-                        </button>
-                    </div>
+                    <aura:if isTrue="{!action.id != 'hcpActivate' &amp;&amp; action.id != 'hcpActivateForAll'}">
+                        <div class="slds-col">
+                            <button id="{!action.id}"
+                                    disabled="{!action.disabled}"
+                                    title="{!action.disableReason}"
+                                    class="{!'apollo-btn secondary slds-size_1-of-2 slds-medium-size_4-of-12 slds-large-size_4-of-12 ' + action.cssClass}"
+                                    tabindex="-1"
+                                    onclick="{!c.doAction}">
+                                {!action.label}
+                            </button>
+                        </div>
+                    </aura:if>
+                    <aura:if isTrue="{!action.id == 'hcpActivate' &amp;&amp; v.enrollmentData.status != 'Activation Pending'}">
+                        <div class="slds-col">
+                            <button id="{!action.id}"
+                                    disabled="{!action.disabled}"
+                                    title="{!action.disableReason}"
+                                    class="{!'apollo-btn secondary slds-size_1-of-2 slds-medium-size_4-of-12 slds-large-size_4-of-12 ' + action.cssClass}"
+                                    tabindex="-1"
+                                    onclick="{!c.doAction}">
+                                {!action.label}
+                            </button>
+                        </div>
+                    </aura:if>
                 </aura:iteration>
-
+                <aura:iteration items="{!v.enrollmentData.buttonList}" var="action">
+                    <aura:if isTrue="{!action.id == 'hcpActivate' &amp;&amp; v.enrollmentData.status == 'Activation Pending'}">
+                        <div class="slds-col">
+                            <lightning:buttonMenu
+                                    class="{!'apollo-btn primary button-menu slds-size_1-of-2 slds-medium-size_4-of-12 slds-large-size_4-of-12 ' + action.cssClass + (v.isLastElement ? ' last-iteration' : '')}"
+                                    disabled="{!action.disabled}"
+                                    title="{!action.disableReason}"
+                                    label="{!$Label.c.BTN_Main_Activate}"
+                                    variant="container"
+                                    alternativeText="{!$Label.c.BTN_Main_Activate}"
+                                    onselect="{! c.doAction }">
+                                <aura:iteration items="{!v.enrollmentData.buttonList}" var="action">
+                                    <aura:if isTrue="{!action.id == 'hcpActivate' || action.id == 'hcpActivateForAll'}">
+                                        <lightning:menuItem class="button-menu-item"
+                                                            value="{!action.id}"
+                                                            label="{!action.label}"/>
+                                    </aura:if>
+                                </aura:iteration>
+                            </lightning:buttonMenu>
+                        </div>
+                    </aura:if>
+                </aura:iteration>
             </div>
         </div>
     </div>

@@ -9,6 +9,7 @@
             var initData = JSON.parse(returnValue);
             helper.clearInviteFields(component, event, helper);
             component.set("v.studySitesForInvitation",initData.studySitesForInvitation);
+            component.set("v.PIForInvetation",initData.PIForInvetation);
             component.find('modalSpinner').hide();
         })
     },
@@ -32,6 +33,7 @@
         var protocolId = component.get('v.protocolId');
         var isDuplicate = component.get('v.isDuplicate');
         var hcpContactId = component.get('v.hcpContactId');
+        var piIds = component.get('v.checkboxGroupValues');
         component.find('modalSpinner').show();
         if (!hcpContactId) {
             communityService.executeAction(component, 'inviteNewHCP', {
@@ -42,6 +44,7 @@
                 email: emailS,
                 studySiteId: studySiteId,
                 protocolId: protocolId,
+                piIds: piIds
             }, function (returnValue) {
                 var initData = JSON.parse(returnValue);
                 component.find('modalSpinner').hide();
@@ -51,7 +54,8 @@
             });
         } else {
             communityService.executeAction(component, 'inviteExistingHCP', {
-                hcpContactId: hcpContactId
+                hcpContactId: hcpContactId,
+                piIds: piIds
             }, function (returnValue) {
                 component.find('modalSpinner').hide();
                 if (returnValue != $A.get('$Label.c.RP_Is_Already_Invited')) {
@@ -115,6 +119,20 @@
                     component.find('modalSpinner').hide();
                 }
             });
+        }
+    },
+
+    doSelectAll: function (component, event, helper) {
+        var value = component.get('v.isSelectAllChecked');
+        var val = [];
+        if (value) {
+            var pi = component.get('v.PIForInvetation');
+            for (let i = 0; i < pi.length; i++) {
+                val.push(pi[i].value);
+            }
+            component.set('v.checkboxGroupValues', val);
+        } else {
+            component.set('v.checkboxGroupValues', val);
         }
     },
 })
