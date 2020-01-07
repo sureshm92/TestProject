@@ -403,7 +403,7 @@ public without sharing class TaskService {
             enrollments = new Map<Id, Participant_Enrollment__c>([
                     SELECT Id, Clinical_Trial_Profile__r.Tasks_Are_Available__c, Participant__c
                     FROM Participant_Enrollment__c
-                    WHERE Participant_Contact__c = :CommunityService.getInstance().getCurrentContactId()
+                    WHERE Participant_Contact__c = :participantState.participant.Contact__c
                     AND Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE
             ]);
         } else {
@@ -413,7 +413,7 @@ public without sharing class TaskService {
 
         List<Task> tasksToShow = new List<Task>();
         for (Task t : tasks) {
-            if (t.WhatId == null) {
+            if (t.WhatId == null || t.WhatId.getSobjectType() == SurveyInvitation.getSObjectType()) {
                 if (t.Survey_Invitation__c != null && invitations.keySet().contains(t.Survey_Invitation__c)) {
                     tasksToShow.add(t);
                 } else {

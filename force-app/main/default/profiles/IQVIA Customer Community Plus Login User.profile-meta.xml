@@ -371,6 +371,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ConversationService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ConversationTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CountryLookupRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -671,6 +679,18 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MessagePageRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MessageService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MessageTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MotivationalMessagesRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -741,6 +761,10 @@
     <classAccesses>
         <apexClass>PEStatusState</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PETriggerBuffer</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>PETriggerHandler</apexClass>
@@ -3061,6 +3085,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Conversation__c.haveUnreadForPI__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Conversation__c.haveUnreadForParticipant__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>DirectMessageEvent__e.ConversationID__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4212,6 +4246,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Material_Sent__c.Material_Sent__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Message__c.Message_Content__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6491,6 +6530,9 @@
         <layout>Contact_Topic__c-Contact Topic Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Conversation__c-Conversation Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Drug_Usage__c-Drug Usage Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6558,6 +6600,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Material_Sent__c-Material Sent Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Message_Template__mdt-Message Template Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Message__c-Message Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Motivation_Plan_Message__mdt-Motivation Plan Item Layout</layout>
