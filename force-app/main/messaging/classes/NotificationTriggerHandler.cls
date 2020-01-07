@@ -40,7 +40,7 @@ public without sharing class NotificationTriggerHandler {
             }
         }
         //recipient notifications:
-        if(recipientNotifications.size() > 0) NotificationService.sendNotificationsAsync(JSON.serialize(recipientNotifications));
+        if(!System.isBatch() && !System.isFuture() && recipientNotifications.size() > 0) NotificationService.sendNotificationsAsync(JSON.serialize(recipientNotifications));
         //topic notifications:
         if (notificationsForMassEmail.size() > 0) {
             for (Notification__c n : notificationsForMassEmail) {
