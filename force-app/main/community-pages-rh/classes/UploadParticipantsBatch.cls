@@ -13,6 +13,7 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
     private Study_Site__c studySiteDetails;
     private Integer totalRecordCount = 0;
     private Integer errorRecordCount = 0;
+    private Account participantAccount;
 
     private String emailError = '';
     Boolean valid = true;
@@ -55,6 +56,7 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
         }
 
         if (valid) {
+            participantAccount = [SELECT Id FROM Account WHERE Name = 'Participant' LIMIT 1];
             csvLines = csvFileLines;
         }
     }
@@ -162,6 +164,7 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                     Contact participantContact =
                             new Contact(FirstName = FirstName,
                                     LastName = LastName,
+                                    AccountId = participantAccount.Id,
                                     MiddleName = MiddleName,
                                     Birthdate = Date.valueOf(DateOfBirth),
                                     Email = EmailAddress,
