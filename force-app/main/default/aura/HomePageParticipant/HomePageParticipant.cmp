@@ -72,9 +72,9 @@
                                 <c:UpcomingVisitsPreviewPanel travelVendorAvailable="{!v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c}"/>
                             </div>
                         </aura:if>
-                        <aura:if isTrue="{!v.participantState.pe.Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c}">
+                        <aura:if isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c, v.participantState.value == 'ALUMNI')}">
                             <div class="slds-col">
-                                <c:RelevantLinks/>
+                                <c:RelevantLinks isAlumni="{!v.participantState.value == 'ALUMNI'}"/>
                             </div>
                         </aura:if>
                     </div>
