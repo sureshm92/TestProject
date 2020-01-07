@@ -6,7 +6,7 @@
         communityService.executeAction(component, 'getInitData', {
             'ctpId': component.get('v.recordId')
         }, function (initData) {
-            component.set('v.user_has_permission', initData.user_has_permission);
+            component.set('v.userPermission', initData.userPermission);
             component.set('v.initData', initData);
             component.set('v.groups', initData.groups);
             component.set('v.typeSelectLVList', initData.typeSelectLVList);
