@@ -34,8 +34,9 @@ public without sharing class NotificationTriggerHandler {
         for (Notification__c n : newList) {
             if (n.Recipient__c == null && n.Topic__c != null) {
                 notificationsForMassEmail.add(n);
-            } else if ( n.Status__c == NotificationService.NOTIFICATION_STATUS_CREATED) {
+            } else if(!System.isBatch()){
                 recipientNotifications.add(n);
+
             }
         }
         //recipient notifications:
