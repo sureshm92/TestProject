@@ -30,11 +30,11 @@ public with sharing class SMSService {
             String message = CatalogParametersHelper.prepareLabel(smsTarget.Message_Body__c, n.WhatId__c, messageType.Parameters_Provider__r.DeveloperName, recipient.Language__c);
             if(phoneNumber !=null) messageByPhone.put(phoneNumber, message);
 
-            if (sendAsync) {
+            if (sendAsync && phoneNumber !=null) {
                 MCloudSMSSender.sendSMSAsync(new List<String>{
                         phoneNumber
                 }, message);
-            } else {
+            } else if (phoneNumber !=null){
                 MCloudSMSSender mCloudSMSSender = new MCloudSMSSender();
                 mCloudSMSSender.sendSMS(new List<String>{
                         phoneNumber

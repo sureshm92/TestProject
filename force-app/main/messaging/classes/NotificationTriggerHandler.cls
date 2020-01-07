@@ -24,6 +24,9 @@ public without sharing class NotificationTriggerHandler {
             if (NotificationService.getNotificationType(n.Notification_Type__c) == null) {
                 n.addError('Wrong type of Notification ' + n.Notification_Type__c);
             }
+            if (n.Recipient__c == null && n.Topic__c == null) {
+                n.addError('Recipient can not be null while topic is null ' + n.Notification_Type__c);
+            }
         }
     }
 
