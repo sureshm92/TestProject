@@ -81,9 +81,10 @@
 
 ## IV. Post-Deployment steps:
 
-1. Admin Panel
-    1. Go to App Launcher > Click on Admin Panel item > Click on an icon and run all a bathes in queue
-    2. Verification step: Make screenshot this setting.
+1. Batch Control Panel
+    1. Go to Setup > Users > Permission Sets > Choose "PP: Batch Control Panel" and assign it to your user
+    2. Go to App Launcher > Click on Batch Control Panel item > Click on an icon and run all a bathes in queue
+    3. Verification step: Make screenshot this setting.
 
 2. Run the batch
     1. Go to Developer Console > Debug > Open execute Anonymous > Insert Batch_UpdateScreeningIds.run();> Execute

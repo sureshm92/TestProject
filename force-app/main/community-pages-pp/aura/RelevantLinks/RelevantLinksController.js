@@ -4,12 +4,11 @@
 
 ({
     doInit: function (component, event, helper) {
-        component.find('spinner').show();
         communityService.executeAction(component, 'getInitData', {},
-            function (vendors) {
-            component.set('v.vendors', vendors);
+            function (links) {
+            component.set('v.links', links);
+            console.log('links' + JSON.stringify(links));
+            component.find('spinner').hide();
         });
-
-        component.find('spinner').hide();
     }
 });
