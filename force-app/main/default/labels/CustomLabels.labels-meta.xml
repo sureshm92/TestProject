@@ -4505,6 +4505,13 @@ The IQVIA Patient Portal Support Team</value>
         <value>Select question from here</value>
     </labels>
     <labels>
+        <fullName>Manage_My_Payments</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Manage My Payments</shortDescription>
+        <value>Manage My Payments</value>
+    </labels>
+    <labels>
         <fullName>Medical_Record_Review</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9424,6 +9431,20 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PI Colon</shortDescription>
         <value>PI :</value>
+    </labels>
+    <labels>
+        <fullName>PI_Delegate_PI_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PI Delegate PI Info</shortDescription>
+        <value>Send on behalf of</value>
+    </labels>
+    <labels>
+        <fullName>PI_Delegate_PI_More_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PI Delegate PI More Info</shortDescription>
+        <value>Recipent will be approved to refer participants to the following investigators</value>
     </labels>
     <labels>
         <fullName>PP_Account_Settings_Cookie_Description</fullName>
