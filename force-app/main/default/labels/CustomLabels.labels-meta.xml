@@ -507,14 +507,14 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BTN Activate</shortDescription>
-        <value>Activate</value>
+        <value>Activate RP For This Study Site</value>
     </labels>
     <labels>
         <fullName>BTN_Activate_All</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>BTN Activate All</shortDescription>
-        <value>Activate All</value>
+        <value>Activate RP For All Study Sites</value>
     </labels>
     <labels>
         <fullName>BTN_Add_Patient</fullName>
@@ -739,6 +739,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>BTN MRR</shortDescription>
         <value>Medical record review</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Main_Activate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Main Activate</shortDescription>
+        <value>Activate</value>
     </labels>
     <labels>
         <fullName>BTN_Manage_referrals</fullName>
@@ -3417,6 +3424,46 @@ The IQVIA Patient Portal Support Team</value>
         <value>This patient has already been referred to this study.</value>
     </labels>
     <labels>
+        <fullName>Export_Excel_Investigator_Name</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Investigator Name</shortDescription>
+        <value>Investigator Name</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_1_Completed_by</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening 1 Completed by</shortDescription>
+        <value>Pre-screening 1 Completed by</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_1_Status</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening 1 Status</shortDescription>
+        <value>Pre-screening 1 Status</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_2_status</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening 2 status</shortDescription>
+        <value>Pre-screening 2 status</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_Date</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening Date</shortDescription>
+        <value>Pre-screening Date</value>
+    </labels>
+    <labels>
         <fullName>FD_PE_Field_Arm_Cohort</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4174,6 +4221,34 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Home Page Label</shortDescription>
         <value>My Studies</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Payments_Balance</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>Balance</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Payments_Card_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>Card Status</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Payments_Pending_Payments</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>Pending Payments</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Payments_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Payments_Title</shortDescription>
+        <value>Payments</value>
     </labels>
     <labels>
         <fullName>Home_Page_RelevantLinks_Title</fullName>
@@ -7684,6 +7759,13 @@ Please check your CAPS lock key.</value>
         <value>Passed</value>
     </labels>
     <labels>
+        <fullName>PG_MRZ_L_All_Statuses</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG MRZ L All Statuses</shortDescription>
+        <value>All Statuses</value>
+    </labels>
+    <labels>
         <fullName>PG_MRZ_L_Alphabetical_A_Z</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7726,11 +7808,18 @@ Please check your CAPS lock key.</value>
         <value>Provider Status</value>
     </labels>
     <labels>
+        <fullName>PG_MRZ_L_Referring_Providers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG MRZ L Referring Providers</shortDescription>
+        <value>Referring providers</value>
+    </labels>
+    <labels>
         <fullName>PG_MRZ_L_Search_for_a_referring_clinic</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRZ L Search for a referring clinic</shortDescription>
-        <value>Search for a referring clinic</value>
+        <value>Search for a referring providers</value>
     </labels>
     <labels>
         <fullName>PG_MRZ_L_Search_for_a_study_site</fullName>
@@ -9614,6 +9703,13 @@ Please check your CAPS lock key.</value>
         <value>Potassium is an electrolyte (a mineral) that helps to transport nutrients into cells and waste products out of cells. It  also lets muscles and nerves to communicate with other muscles and nerves. Potassium is measured to check the balance of your electrolytes.</value>
     </labels>
     <labels>
+        <fullName>Primary_Investigator</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Primary Investigator</shortDescription>
+        <value>Primary Investigator</value>
+    </labels>
+    <labels>
         <fullName>Profile_Menu_Account_Settings</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9647,6 +9743,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>RBC Count Description</shortDescription>
         <value>Red blood cells (RBCs or erythrocytes) are cells in your blood that contain hemoglobin, which carries oxygen throughout your body. RBC count is the total number of red blood cells that are present in your blood sample. RBC count is measured to check your general health and to check for conditions that influence your body’s red blood cell production. Low RBC count can lead to signs of anemia, such as tiredness. High RBC count can cause dizziness and headache.</value>
+    </labels>
+    <labels>
+        <fullName>RCEI_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RCEI Site</shortDescription>
+        <value>Site</value>
     </labels>
     <labels>
         <fullName>RH_Window_Title</fullName>
@@ -10690,6 +10793,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>Search For Sites</shortDescription>
         <value>Search For Sites</value>
+    </labels>
+    <labels>
+        <fullName>Select_All_PI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select All PI</shortDescription>
+        <value>Select All</value>
     </labels>
     <labels>
         <fullName>Select_Planned_Date</fullName>

@@ -104,7 +104,7 @@ public with sharing class CTPNotificationTriggerHandler {
                         Participant_Status__c
                 FROM Participant_Enrollment__c
                 WHERE Clinical_Trial_Profile__c IN :completedCTPIds
-                AND (Participant_Status__c NOT IN :PEStatusState.STATUSES_FAILED
+                AND (Participant_Status__c NOT IN :PEStatusState.PE_STATUS_GROUP_FAILED
                 AND Participant_Status__c NOT IN :PEStatusState.PE_STATUS_GROUP_ALUMNI)
         ];
 

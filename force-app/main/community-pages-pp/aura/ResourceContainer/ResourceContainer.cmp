@@ -17,7 +17,7 @@
 
     <!--COMPONENT BODY-->
 
-    <aura:if isTrue="{!v.resourceMode != v.documentsResourceMode}">
+    <aura:if isTrue="{!and(v.resourceMode != v.documentsResourceMode, v.videoArticlesAvailable)}">
         <aura:if isTrue="{!v.noTAMessage != null}">
             <div class="resource-noTAMessage">
                 <aura:unescapedHtml value="{!v.noTAMessage}"/>

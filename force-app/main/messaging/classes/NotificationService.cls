@@ -273,7 +273,7 @@ public without sharing class NotificationService {
                     }
                 } else if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_SMS) {
                     if (availabilityService.isAvailableForSMS(n.Recipient__c)) {
-                        if (n.Status__c == NotificationService.NOTIFICATION_STATUS_CREATED) smsNotifications.add(n);
+                        smsNotifications.add(n);
                     } else {
                         sendResults.add(new Send_Result__c(
                                 Notification__c = n.Id,
@@ -286,10 +286,10 @@ public without sharing class NotificationService {
             }
         
         }
+        if (emailNotifications != null) EmailService.send(emailNotifications);
+        if (smsNotifications != null) SMSService.send(smsNotifications);
+
         insert sendResults;
         update notifications;
-        EmailService.send(emailNotifications);
-        if (smsNotifications != null) SMSService.send(smsNotifications);
-        
     }
 }

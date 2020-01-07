@@ -213,6 +213,8 @@ public without sharing class VisitResultSharingService {
                         Shareback_Availability_Timing__c,
                         Shareback_Settings_On_Participant_Level__c,
                         Shareback_Settings_on_StudySites__c,
+                        Shareback_Settings_On_Country_Level__c,
+                        Shareback_Settings_Country__c,
                         Visit_Data_Shareback__c, (
                         SELECT Id,
                                 Include_Countries__c,

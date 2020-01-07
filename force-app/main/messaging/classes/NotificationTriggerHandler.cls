@@ -24,6 +24,9 @@ public without sharing class NotificationTriggerHandler {
             if (NotificationService.getNotificationType(n.Notification_Type__c) == null) {
                 n.addError('Wrong type of Notification ' + n.Notification_Type__c);
             }
+            if (n.Recipient__c == null && n.Topic__c == null) {
+                n.addError('Recipient can not be null while topic is null ' + n.Notification_Type__c);
+            }
         }
     }
 
@@ -34,12 +37,13 @@ public without sharing class NotificationTriggerHandler {
         for (Notification__c n : newList) {
             if (n.Recipient__c == null && n.Topic__c != null) {
                 notificationsForMassEmail.add(n);
-            } else if ( n.Status__c == NotificationService.NOTIFICATION_STATUS_CREATED) {
+            } else if(!System.isBatch()){
                 recipientNotifications.add(n);
+
             }
         }
         //recipient notifications:
-        if(recipientNotifications.size() > 0) NotificationService.sendNotificationsAsync(JSON.serialize(recipientNotifications));
+        if(!System.isBatch() && !System.isFuture() && recipientNotifications.size() > 0) NotificationService.sendNotificationsAsync(JSON.serialize(recipientNotifications));
         //topic notifications:
         if (notificationsForMassEmail.size() > 0) {
             for (Notification__c n : notificationsForMassEmail) {

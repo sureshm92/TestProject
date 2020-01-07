@@ -907,6 +907,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PaymentsRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PlatformEventService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2560,6 +2564,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Payment_Is_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Prescreen__c</field>
         <readable>true</readable>
@@ -2741,11 +2750,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Clinical_Trial_Profile__c.Travel_Support_On_Relevant_Links__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Travel_Vendor_Is_Available__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2837,7 +2841,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Full_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3198,6 +3202,21 @@
         <editable>true</editable>
         <field>Event.Visible_For__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Excel_Export_Field_Label__mdt.Field_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Excel_Export_Field_Label__mdt.Label_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Excel_Export_Field_Label__mdt.SObject_Name__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -6527,6 +6546,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Event-Event Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Excel_Export_Field_Label__mdt-Excel Export Field Label Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Execution_History__c-Execution History Layout</layout>

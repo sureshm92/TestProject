@@ -61,7 +61,7 @@
     onFocus: function (component, event, helper) {
         if (!helper.isSelectionAllowed(component)) return;
         component.set('v.hasFocus', true);
-        if (component.get('v.minTermLength') == 0) helper.search(component);
+        if (component.get('v.minTermLength') === 0) helper.search(component);
     },
 
     onBlur: function (component, event, helper) {

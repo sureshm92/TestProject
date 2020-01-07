@@ -3,12 +3,12 @@
     <fullName>ExportExcel</fullName>
     <description>For export Excel only</description>
     <displayedFields>
-        <field>Referral_ID__c</field>
+        <field>Name</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>
     <displayedFields>
-        <field>Name</field>
+        <field>Referred_Date__c</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>
@@ -69,11 +69,6 @@
     </displayedFields>
     <displayedFields>
         <field>Referral_Source__c</field>
-        <isFieldManaged>false</isFieldManaged>
-        <isRequired>false</isRequired>
-    </displayedFields>
-    <displayedFields>
-        <field>Referred_Date__c</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>
