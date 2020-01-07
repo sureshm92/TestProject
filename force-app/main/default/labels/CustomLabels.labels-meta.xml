@@ -4435,6 +4435,76 @@ The IQVIA Patient Portal Support Team</value>
         <value>MRN/Internal ID</value>
     </labels>
     <labels>
+        <fullName>MS_Attach_File</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Attach File</shortDescription>
+        <value>Attach File</value>
+    </labels>
+    <labels>
+        <fullName>MS_Attachment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Attachment</shortDescription>
+        <value>Attachment</value>
+    </labels>
+    <labels>
+        <fullName>MS_Char_Limit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Char Limit</shortDescription>
+        <value>500 Character Limit</value>
+    </labels>
+    <labels>
+        <fullName>MS_Empty_Chat</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Empty Chat</shortDescription>
+        <value>Select add button to start a new conversation. Your conversation will appear here.</value>
+    </labels>
+    <labels>
+        <fullName>MS_Empty_Conversations</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Empty Conversations</shortDescription>
+        <value>Your list of conversation threads will appear here.</value>
+    </labels>
+    <labels>
+        <fullName>MS_Input_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Input Placeholder</shortDescription>
+        <value>Type your message here…</value>
+    </labels>
+    <labels>
+        <fullName>MS_Messages</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Messages</shortDescription>
+        <value>Messages</value>
+    </labels>
+    <labels>
+        <fullName>MS_New_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS New Mess</shortDescription>
+        <value>New Message</value>
+    </labels>
+    <labels>
+        <fullName>MS_Select</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Select</shortDescription>
+        <value>Select:</value>
+    </labels>
+    <labels>
+        <fullName>MS_Select_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Select Placeholder</shortDescription>
+        <value>Select question from here</value>
+    </labels>
+    <labels>
         <fullName>Medical_Record_Review</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4510,6 +4580,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Navigation Medical Record Review Log</shortDescription>
         <value>Medical Record Review Log</value>
+    </labels>
+    <labels>
+        <fullName>Navigation_Messages</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation Messages</shortDescription>
+        <value>Messages</value>
     </labels>
     <labels>
         <fullName>Navigation_My_Patients</fullName>
@@ -9342,6 +9419,13 @@ Please check your CAPS lock key.</value>
         <value>Study Sites</value>
     </labels>
     <labels>
+        <fullName>PI_Colon</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PI Colon</shortDescription>
+        <value>PI :</value>
+    </labels>
+    <labels>
         <fullName>PP_Account_Settings_Cookie_Description</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10863,6 +10947,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>StudyVisit Variable</shortDescription>
         <value>Variable</value>
+    </labels>
+    <labels>
+        <fullName>Study_Team</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Team</shortDescription>
+        <value>Study Team</value>
     </labels>
     <labels>
         <fullName>Success</fullName>

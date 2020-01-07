@@ -116,6 +116,12 @@
             'past-studies':{
                 page: 'past-studies',
                 label: $A.get('$Label.c.Navigation_Past_Studies')
+            },
+
+            'messages': {
+                page: 'messages',
+                label: $A.get('$Label.c.Navigation_Messages'),
+                icon: 'icon-envelope'
             }
         };
 
@@ -128,8 +134,8 @@
             participantTabs.push(this.allPagesMap['resources']);
         }
         if(communityService.isShowPastStudies()) participantTabs.push(this.allPagesMap['past-studies']);
+        participantTabs.push(this.allPagesMap['messages']);
         participantTabs.push(this.allPagesMap['help']);
-
 
         this.itemsMap = {
 
@@ -141,6 +147,7 @@
                 this.allPagesMap['my-referrals'],
                 //this.allPagesMap['my-referring-clinics'],
                 this.allPagesMap['reports'],
+                this.allPagesMap['messages'],
                 this.allPagesMap['help']
             ],
 
