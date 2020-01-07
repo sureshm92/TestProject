@@ -13,13 +13,13 @@
     <aura:attribute name="typeSelectLVList" type="List"/>
     <aura:attribute name="options" type="Object"/>
     <aura:attribute name="dataSnapshot" type="String"/>
-    <aura:attribute name="user_has_permission" type="String"/>
+    <aura:attribute name="userPermission" type="String"/>
 
     <aura:method name="refresh" action="{!c.doInit}"/>
 
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" showSpinner="true"/>
-    <aura:if isTrue="{!v.user_has_permission != 'Disabled'}">
+    <aura:if isTrue="{!v.userPermission != 'Disabled'}">
         <aura:set attribute="else">
             <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>
         </aura:set>
@@ -38,7 +38,7 @@
                                                          onchange="{!c.onChangeGlobal}"/>
                                     </div>
                                 </div>
-                                <aura:if isTrue="{!v.user_has_permission == 'Edit'}">
+                                <aura:if isTrue="{!v.userPermission == 'Edit'}">
 
                                     <div class="slds-col slds-size_1-of-12 slds-align-middle slds-col_bump-left">
                                         <lightning:button aura:id="saveBtn" variant="brand" label="Save"
@@ -81,7 +81,7 @@
                                 </div>
                             </div>
                         </div>
-                        <aura:if isTrue="{!v.user_has_permission == 'View'}">
+                        <aura:if isTrue="{!v.userPermission == 'View'}">
                             <div class="overlay"></div>
                         </aura:if>
                     </div>
@@ -180,7 +180,7 @@
                                 </aura:iteration>
                             </div>
                         </aura:iteration>
-                        <aura:if isTrue="{!v.user_has_permission == 'View'}">
+                        <aura:if isTrue="{!v.userPermission == 'View'}">
                             <div class="overlay"></div>
                         </aura:if>
                     </div>
