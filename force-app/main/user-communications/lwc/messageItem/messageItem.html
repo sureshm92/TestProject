@@ -1,0 +1,25 @@
+<!--
+ - Created by Igor Malyuta on 04.01.2020.
+ -->
+
+<!-- Message Item -->
+<template>
+    <div class="ms-item">
+        <div class="ms-item-icon">{initials}</div>
+        <div class="ms-item-content">
+            <div class="ms-item-title">
+                <div class="ms-item-name">{item.message.Sender_Name__c}</div>
+                <div class="ms-item-time">
+                    <lightning-formatted-date-time value={item.message.CreatedDate}
+                                                   year="numeric" month="short" day="2-digit"
+                                                   hour="numeric" minute="numeric"
+                                                   second="numeric"></lightning-formatted-date-time>
+                </div>
+            </div>
+            <div class="ms-item-text">{item.message.Message_Content__c}</div>
+        </div>
+    </div>
+</template>
+<!--        icon-download-brand-new -->
+<!--        attachment attach-file-doc attach-file-pdf attach-file-ppt attach-file-sheet attach-file-txt
+            attach-file-xls attach-file-xml -->

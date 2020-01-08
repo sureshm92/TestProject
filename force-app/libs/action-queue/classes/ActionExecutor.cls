@@ -8,11 +8,12 @@ public with sharing class ActionExecutor {
     public static String ACTION_STATUS_COMPLETED = 'Completed';
     public static String ACTION_STATUS_FAILED = 'Failed';
     public static String ACTION_STATUS_SCHEDULED = 'Scheduled';
+    
     private static Map<String, Action_Execution_Setting__c> actionSettingsMap = new Map<String, Action_Execution_Setting__c>();
     private static Action_Execution_Setting__c orgDefaultSetting = new Action_Execution_Setting__c(
             Relaunch_Interval__c = 5,
             Repetitions_Count__c = 3,
-            Remove_After_Complete__c = false
+            Remove_After_Complete__c = true
     );
 
     static {
@@ -55,9 +56,9 @@ public with sharing class ActionExecutor {
             history.Is_Success__c = false;
         } finally {
             if(!actionSetting.Remove_After_Complete__c || act.Status__c != ACTION_STATUS_COMPLETED) {
-                insert act;
-                history.Action__c = act.Id;
-                insert history;
+                DMLService.insertRecord(act);
+                DMLService.setLookup(history, 'Action__c', act);
+                DMLService.insertRecord(history);
             }
         }
     }
@@ -85,11 +86,11 @@ public with sharing class ActionExecutor {
             }
         } finally {
             if(!actionSetting.Remove_After_Complete__c || act.Status__c != ACTION_STATUS_COMPLETED) {
-                update act;
-                history.Action__c = act.Id;
-                insert history;
+                DMLService.updateRecord(act);
+                DMLService.setLookup(history, 'Action__c', act);
+                DMLService.insertRecord(history);
             } else {
-                delete act;
+                DMLService.deleteRecord(act);
             }
         }
     }
@@ -101,7 +102,7 @@ public with sharing class ActionExecutor {
                 Execution_Time__c = executeTime,
                 Status__c = ACTION_STATUS_PENDING
         );
-        insert act;
+        DMLService.insertRecord(act);
     }
 
      public static void executeAsync(Action action){

@@ -23,16 +23,22 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
         Map<Id, Integer> conIdsAndNearestNotifyDate = ParticipantService.getNearestLogOutNotification(cntIds);
         List<Notification__c> notifications = new List<Notification__c>();
         List<Contact> listOfContactEmails = new List<Contact>();
+        List<Participant__c> participants = [SELECT Id, Contact__c FROM Participant__c WHERE Contact__c IN: cntIds];
+        Map<Id, Participant__c> participantByContactIdMap = new Map<Id, Participant__c>();
+        for(Participant__c p : participants) if (p.Contact__c != null) participantByContactIdMap.put(p.Contact__c, p);
         for(Contact cnt : contacts) {
             if(conIdsAndNearestNotifyDate.containsKey(cnt.Id)) {
                 cnt.Next_Notify_Date__c = Datetime.now().addDays(conIdsAndNearestNotifyDate.get(cnt.Id)).dateGmt();
                 listOfContactEmails.add(cnt);
-                notifications.add(new Notification__c(
-                        Recipient__c = cnt.Id,
-                        WhatId__c = null,
-                        Notification_Type__c = NotificationService.MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE,
-                        Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
-                ));
+                Participant__c p = participantByContactIdMap.get(cnt.Id);
+                if(p != null){
+                    notifications.add(new Notification__c(
+                            Recipient__c = cnt.Id,
+                            WhatId__c = p.Id,
+                            Notification_Type__c = NotificationService.MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE,
+                            Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
+                    ));
+                }
             }
         }
 

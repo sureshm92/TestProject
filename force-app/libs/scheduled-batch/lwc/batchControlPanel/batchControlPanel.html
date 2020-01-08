@@ -12,16 +12,16 @@
                 <table class="bcp-table">
                     <thead>
                     <tr class="slds-line-height_reset jobs-header-row">
-                        <th scope="col">
+                        <th scope="col" class="batch-name-col">
                             <div class="slds-truncate" title="Job Name" style="text-align: left">Job Name</div>
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="state-col">
                             <div class="slds-truncate" title="State">State</div>
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="prev-launch-col">
                             <div class="slds-truncate" title="Previous launch">Previous launch</div>
                         </th>
-                        <th scope="col">
+                        <th scope="col" class="next-launch-col">
                             <div class="slds-truncate" title="Next launch">Next launch</div>
                         </th>
                         <th scope="col">
@@ -31,6 +31,9 @@
                             <div class="slds-truncate" title="Interval">Interval</div>
                         </th>
                         <th scope="col">
+                            <div class="slds-truncate" title="Scope">Scope</div>
+                        </th>
+                        <th scope="col">
                             <div class="slds-truncate" title="Action">Action</div>
                         </th>
                     </tr>
@@ -38,7 +41,7 @@
                     <tbody>
                     <template for:each={jobs} for:item="job">
                         <tr key={job.detail.Name} class="slds-hint-parent bcp-table-row">
-                            <td data-label="Job Name" class="batch-name-col">
+                            <td data-label="Job Name" class="batch-name-col no-wrap">
                                 <!-- Record Detail -->
                                 <a href="javascript:void(0);" data-id={job.detail.Id}
                                    onclick={handleEditDetail}>{job.detail.Panel_Label__c}</a>
@@ -51,8 +54,8 @@
                                             icon-name="utility:info"></lightning-helptext>
                                 </template>
                             </td>
-                            <td><span class={job.css}>{job.state}</span></td>
-                            <td>
+                            <td class="state-col"><span class={job.css}>{job.state}</span></td>
+                            <td class="prev-launch-col">
                                 <template if:true={job.prevLaunch}>
                                     <!-- Apex Jobs page -->
                                     <a href="/lightning/setup/AsyncApexJobs/home">
@@ -73,7 +76,7 @@
                                     </template>
                                 </template>
                             </td>
-                            <td>
+                            <td class="next-launch-col">
                                 <template if:true={job.nextLaunch}>
                                     <lightning-formatted-date-time value={job.nextLaunch}
                                                                    year="numeric" month="numeric" day="2-digit"
@@ -93,7 +96,8 @@
                             </td>
                             <td>{job.detail.Interval_Mode__c}</td>
                             <td>{job.detail.Relaunch_Interval__c}</td>
-                            <td>
+                            <td>{job.detail.Scope_Size__c}</td>
+                            <td class="no-wrap">
                                 <template if:true={job.isStopped}>
                                     <lightning-button-icon title="Run"
                                                            value={job.detail.Name}
