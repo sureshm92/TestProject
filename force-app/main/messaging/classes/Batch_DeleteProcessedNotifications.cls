@@ -5,6 +5,7 @@
 public without sharing class Batch_DeleteProcessedNotifications extends Batch_ScheduledAbstract{
     
     public Database.QueryLocator start(Database.BatchableContext bc) {
+        Datetime removeDT = Datetime.now().addDays(-2);
         return Database.getQueryLocator([
                 SELECT Id,
                         Status__c,
@@ -13,6 +14,7 @@ public without sharing class Batch_DeleteProcessedNotifications extends Batch_Sc
                         (SELECT Id, Status__c FROM Send_Results__r)
                 FROM Notification__c
                 WHERE Status__c =: NotificationService.NOTIFICATION_STATUS_PROCESSED
+                AND LastModifiedDate <=: removeDT
         ]);
     }
     
