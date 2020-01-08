@@ -7,7 +7,7 @@
     <label>HCP Status</label>
     <required>false</required>
     <trackFeedHistory>true</trackFeedHistory>
-
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
@@ -44,9 +44,9 @@
                 <label>Activation Pending</label>
             </value>
             <value>
-                <fullName>Activation Pending Orientation</fullName>
+                <fullName>Orientation Pending</fullName>
                 <default>false</default>
-                <label>Activation Pending Orientation</label>
+                <label>Orientation Pending</label>
             </value>
             <value>
                 <fullName>Declined (Approval)</fullName>
