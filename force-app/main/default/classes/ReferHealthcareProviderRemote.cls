@@ -251,7 +251,7 @@ global without sharing class ReferHealthcareProviderRemote {
             hcpes.add(new HCP_Enrollment__c(
                     HCP_Contact__c = cntList[0].Id,
                     HCP_Account__c = cntList[0].AccountId,
-                    Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION,
+                    Status__c = stdSite.Clinical_Trial_Profile__r.Orientation_Required__c ? HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O : HCPEnrollmentService.HCP_S_ACTIVATED,
                     Study_Site__c = (String.isBlank(stdSite.Id) ? null : stdSite.Id)
             ));
         }
@@ -269,6 +269,15 @@ global without sharing class ReferHealthcareProviderRemote {
             hp.HCP_Enrollment__c = hcpes[0].Id;
             update hp;
         } else {
+            if(!piIds.isEmpty()){
+                List<PI_RP_Relationship__c> piRPList = new List<PI_RP_Relationship__c>();
+                for(String piId : piIds) {
+                    piRPList.add(new PI_RP_Relationship__c(PI_Contact__c = piId, RP_Contact__c = cntList[0].Id));
+                }
+                insert piRPList;
+            } else {
+                insert new PI_RP_Relationship__c(PI_Contact__c = studySitesToInvite[0].Principal_Investigator__c, RP_Contact__c = cntList[0].Id);
+            }
             if (!isNewUser) {
                 for (HCP_Enrollment__c hcpEnrollment : hcpes) {
                     hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;

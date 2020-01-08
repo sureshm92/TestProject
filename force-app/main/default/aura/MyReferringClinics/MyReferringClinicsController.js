@@ -17,7 +17,7 @@
             component.set('v.sortData', initData.referringClinicsFilter.sortData);
             component.set('v.paginationData', initData.paginationData);
             component.set('v.filteredReferringClinics', initData.filteredReferringClinics);
-            console.log('initData.filteredReferringClinics>>>', JSON.parse(JSON.stringify(initData.filteredReferringClinics)));
+            component.set('v.isButtonDisabled', initData.isButtonDisabled);
             component.set('v.trialId',initData.trialId);
             component.set('v.ssId',initData.ssId);
             component.set('v.skipUpdate', false);
