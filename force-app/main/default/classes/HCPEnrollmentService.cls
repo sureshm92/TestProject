@@ -9,7 +9,7 @@ public without sharing class HCPEnrollmentService {
     public final static String HCP_S_NON_RESPONCIVE_A = 'Non-Responsive (Admin)';
     public final static String HCP_S_APPROVAL_PENDING = 'Approval Pending';
     public final static String HCP_S_ACTIVATION_PENDING = 'Activation Pending';
-    public final static String HCP_S_ACTIVATION_PENDING_O = 'Activation Pending Orientation';
+    public final static String HCP_S_ACTIVATION_PENDING_O = 'Orientation Pending';
     public final static String HCP_S_DECLINED_APPROVAL = 'Declined (Approval)';
     public final static String HCP_S_ON_HOLD_APPROVAL = 'On Hold (Approval)';
     public final static String HCP_S_DECLINE_ACTIVATION = 'Declined (Activation)';
