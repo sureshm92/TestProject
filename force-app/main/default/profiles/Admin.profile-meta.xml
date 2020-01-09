@@ -4357,11 +4357,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Notification_Type__mdt.Org_Wide_Email_Address__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Notification_Type__mdt.Parameters_Provider__c</field>
         <readable>true</readable>
     </fieldPermissions>

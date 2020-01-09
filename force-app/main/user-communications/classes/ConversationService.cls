@@ -69,7 +69,7 @@ public without sharing class ConversationService {
         contactsForSharing.add(headRecipientId);
 
         List<Conversation__Share> conversationShares = new List<Conversation__Share>();
-        List<User> usersForSharing = [SELECT Id FROM User WHERE ContactId IN:contactsForSharing];
+        List<User> usersForSharing = [SELECT Id FROM User WHERE ContactId IN:contactsForSharing AND IsActive = TRUE];
         if (!usersForSharing.isEmpty()) {
             for (User user : usersForSharing) {
                 conversationShares.add(new Conversation__Share(
