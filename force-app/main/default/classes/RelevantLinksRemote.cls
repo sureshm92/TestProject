@@ -3,10 +3,17 @@
  */
 
 public without sharing class RelevantLinksRemote {
+    public class InitData{
+        @AuraEnabled public Boolean linksAvailable;
+        @AuraEnabled public List<Resource__c> resources;
+    }
+
     @AuraEnabled
-    public static List<Resource__c> getInitData() {
+    public static InitData getInitData() {
         try {
-            List<Resource__c> resources = new List<Resource__c>();
+            InitData initData = new InitData();
+            initData.resources = new List<Resource__c>();
+            initData.linksAvailable = false;
             List<Participant_Enrollment__c> enrollments;
             ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
             if (ps.value == ParticipantService.ParticipantStates.ALUMNI) {
@@ -22,6 +29,7 @@ public without sharing class RelevantLinksRemote {
                 if (ps.ctp.Relevant_Links_Are_Available__c) enrollments.add(ps.pe);
             }
             List<Id> ctpIds = new List<Id>();
+            if(enrollments.size() > 0) initData.linksAvailable = true;
             for(Participant_Enrollment__c pe : enrollments) ctpIds.add(pe.Clinical_Trial_Profile__c);
             List<Res_study__c> resStudies = [
                     SELECT Id, Resource__r.URL__c, Resource__r.Title__c, Resource__r.Countries__c, Visible_To_Participant__c,
@@ -36,13 +44,13 @@ public without sharing class RelevantLinksRemote {
                     if(rs.Resource__r.Countries__c.contains(pe.Study_Site__r.Site__r.BillingCountryCode)
                             && StudyResourceVisibilityService.isResourceVisibleForPE(rs, pe, ContactService.getPreferredLanguages(),
                             CommunityService.getUserContact().userCommunityMode__c, ps.isDelegate)){
-                        resources.add(rs.Resource__r);
+                        initData.resources.add(rs.Resource__r);
                     }
                 }
             }
-            return resources;
+            return initData;
         } catch (Exception e) {
-            return (List<Resource__c>) AuraHelper.throwException(e);
+            return (InitData) AuraHelper.throwException(e);
         }
     }
 }
