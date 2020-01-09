@@ -119,6 +119,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_CreateBecomeAdultNotification</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_CopyEnrollmentHistory</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2117,6 +2121,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Action__c.Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Age_of_Majority__mdt.Country_Code__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Age_of_Majority__mdt.State_Code__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4976,6 +4990,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant__c.Adult__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant__c.Birth_Year__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -6446,6 +6465,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Action__c-Action Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Age_of_Majority__mdt-Age of Majority Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Alert_Catalog__mdt-Alert Catalog Layout</layout>
