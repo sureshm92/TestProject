@@ -23,7 +23,8 @@ public without sharing class MessageTriggerHandler {
                         haveUnreadForPI__c,
                         Participant_Enrollment__c,
                         Participant_Enrollment__r.Participant_Contact__c,
-                        Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c
+                        Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c,
+                        Participant_Enrollment__r.Study_Site__c
                 FROM Conversation__c
                 WHERE Id IN: conversationIds
         ]);
@@ -58,6 +59,7 @@ public without sharing class MessageTriggerHandler {
             if(conversation.haveUnreadForPI__c) {
                 notificationType = NotificationService.MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE;
                 headRecipientId = conversation.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c;
+
                 notifications.add(new Notification__c(
                         Recipient__c = headRecipientId,
                         WhatId__c = conversation.Participant_Enrollment__c,

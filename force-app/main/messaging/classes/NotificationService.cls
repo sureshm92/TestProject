@@ -288,8 +288,8 @@ public without sharing class NotificationService {
             }
         
         }
-        if (emailNotifications != null) EmailService.send(emailNotifications);
-        if (smsNotifications != null) SMSService.send(smsNotifications);
+        if (!emailNotifications.isEmpty()) EmailService.send(emailNotifications);
+        if (!smsNotifications.isEmpty()) SMSService.send(smsNotifications);
 
         DMLService.insertRecords(sendResults);
         DMLService.updateRecords(notifications);
