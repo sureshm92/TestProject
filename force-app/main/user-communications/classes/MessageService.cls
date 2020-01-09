@@ -13,7 +13,7 @@ public without sharing class MessageService {
                         Sender_Name__c
                 FROM Message__c
                 WHERE Conversation__c = :conId
-                ORDER BY CreatedDate
+                ORDER BY CreatedDate DESC
         ];
     }
 
@@ -26,7 +26,7 @@ public without sharing class MessageService {
                         Sender_Name__c
                 FROM Message__c
                 WHERE Conversation__c IN:conIds
-                ORDER BY CreatedDate
+                ORDER BY CreatedDate DESC
         ];
         Map<Id, List<Message__c>> messagesByConversation = new Map<Id, List<Message__c>>();
         for (Message__c message : messages) {

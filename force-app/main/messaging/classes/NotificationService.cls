@@ -42,6 +42,7 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE = 'Message_to_PI_SS_Was_Changed_Type';
     static public String MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE = 'Message_to_PT_Enrollment_Success_Type';
     static public String MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE = 'Message_to_PI_New_Patient_Referral_Type';
+    static public String MESSAGE_TO_PI_NEW_MESSAGE = 'Message_To_PI_New_Message';
     
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
     static public String NOTIFICATION_STATUS_PROCESSED = 'Processed';
@@ -287,8 +288,8 @@ public without sharing class NotificationService {
             }
         
         }
-        if (emailNotifications != null) EmailService.send(emailNotifications);
-        if (smsNotifications != null) SMSService.send(smsNotifications);
+        if (!emailNotifications.isEmpty()) EmailService.send(emailNotifications);
+        if (!smsNotifications.isEmpty()) SMSService.send(smsNotifications);
 
         DMLService.insertRecords(sendResults);
         DMLService.updateRecords(notifications);

@@ -1730,6 +1730,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>View My Home Page</value>
     </labels>
     <labels>
+        <fullName>Email_Action_View_My_Messages</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Action View My Messages</shortDescription>
+        <value>View My Messages</value>
+    </labels>
+    <labels>
         <fullName>Email_Action_View_My_Patients</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2004,6 +2011,13 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
             The provider cannot refer study participants to your site until you accept their request.
 
             To accept this request, log in to the IQVIA Referral Hub and navigate to “My Referring Clinics.”</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_PI_New_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body PI New Mess</shortDescription>
+        <value>You have a new message in Message Center.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Participant_Answer</fullName>
@@ -2613,6 +2627,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <value>Referring provider pending acceptance</value>
     </labels>
     <labels>
+        <fullName>Email_Header_PI_New_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header PI New Mess</shortDescription>
+        <value>PI New Message</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Patient2</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3131,6 +3152,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Email Subject PI6</shortDescription>
         <value>Reminder to accept a referring provider</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_PI_New_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject PI New Mess</shortDescription>
+        <value>New Message</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Patient2</fullName>

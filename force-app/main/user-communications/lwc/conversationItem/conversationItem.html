@@ -22,9 +22,13 @@
                 <div class="con-time">{item.lastUpdate}</div>
             </div>
             <div class="con-description">{item.description}</div>
-            <div class="con-last-message-part">{item.lastMessagePart}</div>
+            <div class="con-last-message-part" title={item.lastMessagePart}>
+                <c-web-limit-text-by-lines max-lines="2">
+                    <span slot="body">{item.lastMessagePart}</span>
+                </c-web-limit-text-by-lines>
+            </div>
             <template if:true={item.haveAttachment}>
-
+                <c-web-icon icon-name="attachment" icon-color={attachColor} icon-size="small"></c-web-icon>
             </template>
         </div>
     </div>

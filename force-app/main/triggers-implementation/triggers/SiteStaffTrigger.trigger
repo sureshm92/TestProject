@@ -4,4 +4,6 @@
 
 trigger SiteStaffTrigger on Site_Staff__c (before insert, before update, before delete, after insert, after update, after delete, after undelete) {
     TriggerHandlerExecutor.execute(SiteStaffTriggerHandler.DeactivateUserWhenLastDelegationRemovedHandler.class);
+    TriggerHandlerExecutor.execute(SiteStaffTriggerHandler.CreateConversationSharesHandler.class);
+    TriggerHandlerExecutor.execute(SiteStaffTriggerHandler.RemoveConversationSharesHandler.class);
 }
