@@ -14,10 +14,10 @@
 
         <div class="rci-header">
 
-            <c:RRLink label="{!v.clinicWrapper.hcpContact.Salutation + ' ' + v.clinicWrapper.hcpContact.FirstName + ' ' + v.clinicWrapper.hcpContact.LastName}" class="rci-name"/>
+            <c:RRLink label="{!v.clinicWrapper.hcpContact.Salutation + ' ' + v.clinicWrapper.hcpContact.FirstName + ' ' + v.clinicWrapper.hcpContact.LastName + ' ' + (!v.clinicWrapper.isHCPRegistred ? '('+ $Label.c.Not_Registered +')' : '')}" class="rci-name"/>
             <div class="rci-info">
                 <div class="rci-inline">
-                    <span class="info-labels">Account Name:</span>
+                    <span class="info-labels">{!$Label.c.Account_Name}:</span>
                     {!v.clinicWrapper.hcpContact.Account.Name+ ' '}
                     <span class="info-labels">{!$Label.c.PG_RSS_L_Address}:</span>
                         {! if(v.clinicWrapper.hcpContact.Account.BillingStreet == null,'',v.clinicWrapper.hcpContact.Account.BillingStreet + ' ')}

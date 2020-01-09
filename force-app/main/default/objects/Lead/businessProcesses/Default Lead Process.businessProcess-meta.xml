@@ -4,27 +4,31 @@
     <description>Default</description>
     <isActive>true</isActive>
     <values>
-        <fullName>New</fullName>
+        <fullName>Agreed to refer %28not using RH%29</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Agreed to refer %28pending invitation%29</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Agreed to refer and send invitation</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Hot leads</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Not viable</fullName>
+        <default>false</default>
+    </values>
+    <values>
+        <fullName>Open leads</fullName>
         <default>true</default>
     </values>
     <values>
-        <fullName>Nurturing</fullName>
-        <default>false</default>
-    </values>
-    <values>
-        <fullName>Qualified</fullName>
-        <default>false</default>
-    </values>
-    <values>
-        <fullName>Qualified and Send Invitation</fullName>
-        <default>false</default>
-    </values>
-    <values>
-        <fullName>Unqualified</fullName>
-        <default>false</default>
-    </values>
-    <values>
-        <fullName>Working</fullName>
+        <fullName>Warm leads</fullName>
         <default>false</default>
     </values>
 </BusinessProcess>

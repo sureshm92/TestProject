@@ -28,6 +28,7 @@
     <aura:handler name="change" value="{!v.clinicName}" action="{!c.checkReqFields}"/>
     <aura:handler name="change" value="{!v.phone}" action="{!c.checkReqFields}"/>
     <aura:handler name="change" value="{!v.emailS}" action="{!c.checkReqFields}"/>
+    <aura:handler name="change" value="{!v.checkboxGroupValues}" action="{!c.checkSelectAll}"/>
 
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">

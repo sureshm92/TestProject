@@ -8,7 +8,16 @@ public without sharing class MyReferringClinicsController {
         try {
             initData = new InitData(trialId, ssId);
             getInitDataEnrollments(initData);
-
+            if(CommunityService.getUserContact().UserCommunityIsDelegate__c) {
+                initData.isButtonDisabled = Action_InviteRPRemote.getPIForInvetation().isEmpty();
+            } else {
+                initData.isButtonDisabled = false;
+            }
+            /*if(!initData.filteredReferringClinics.isEmpty()) {
+                initData.isButtonDisabled = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getPIStudySitesAccessLevelMap().get(initData.filteredReferringClinics[0].enrollments[0].enrollment.Study_Site__c));
+            } else{
+                initData.isButtonDisabled = false;
+            }*/
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -46,8 +55,12 @@ public without sharing class MyReferringClinicsController {
             }
             clinicEnrolmentMap.get(enroll.HCP_Contact__c).add(enroll);
         }
+        Map<Id,User> usersMap = new Map<Id,User>();
+        for(User u : CommunityService.getCommunityUsersByContactIds(clinicEnrolmentMap.keySet())){
+            usersMap.put(u.ContactId,u);
+        }
         for (Id hcpId : clinicEnrolmentMap.keySet()) {
-            result.add(new ClinicWrapper(clinicEnrolmentMap.get(hcpId)));
+            result.add(new ClinicWrapper(clinicEnrolmentMap.get(hcpId),usersMap.containsKey(hcpId)));
         }
         return result;
     }
@@ -55,6 +68,7 @@ public without sharing class MyReferringClinicsController {
     public class ClinicWrapper {
         public Account clinic;
         public Contact hcpContact;
+        public Boolean isHCPRegistred;
         public List<MyReferringClinicsController.HCPEnrollmentWrapper> enrollments = new List<MyReferringClinicsController.HCPEnrollmentWrapper>();
 
         public ClinicWrapper(List<HCP_Enrollment__c> enrollments) {
@@ -65,6 +79,16 @@ public without sharing class MyReferringClinicsController {
                 }
             }
         }
+
+        public ClinicWrapper(List<HCP_Enrollment__c> enrollments, Boolean isHCPRegistred) {
+            if (enrollments != null && !enrollments.isEmpty()) {
+                this.hcpContact = enrollments[0].HCP_Contact__r;
+                for (HCP_Enrollment__c enrollment : enrollments) {
+                    this.enrollments.add(new HCPEnrollmentWrapper(enrollment));
+                }
+            }
+            this.isHCPRegistred = isHCPRegistred;
+        }
     }
 
     public class HCPEnrollmentWrapper {
@@ -72,12 +96,13 @@ public without sharing class MyReferringClinicsController {
         String status;
         String statusLabel;
         List<StudyActions.Action> buttonList = new List<StudyActions.Action>();
+        //Boolean isHCPRegistred;
         public HCPEnrollmentWrapper(HCP_Enrollment__c hcpEnrollment) {
             Map<String, StudyActions.Action> actionsMap = new StudyActionsPI(hcpEnrollment).actions;
             status = CommunityService.getConvertedStatus(hcpEnrollment.Status__c);
             statusLabel = TranslateHelper.getPickListLabel(HCP_Enrollment__c.Status__c, hcpEnrollment.Status__c);
             enrollment = hcpEnrollment;
-
+            //isHCPRegistred = !hcpEnrollment.HCP_Contact__r.Is_First_Logon__c;
             Map<String, String> actionToStatusesMap = HCPEnrollmentService.HCP_CHANGE_STATUS_MAP.get(hcpEnrollment.Status__c);
             if (actionToStatusesMap != null) {
                 for (String actionId : actionToStatusesMap.keySet()) {
@@ -92,6 +117,7 @@ public without sharing class MyReferringClinicsController {
         public List<MyReferringClinicsController.ClinicWrapper> filteredReferringClinics;
         public String trialId;
         public String ssId;
+        public Boolean isButtonDisabled;
         public InitData(String trialId, String ssId) {
             this.trialId = trialId;
             this.ssId = ssId;
