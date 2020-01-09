@@ -84,6 +84,7 @@ public without sharing class DMLService {
             }
             lookup.updateLookupField();
         }
+        lookups = new List<DMLService.Lookup>();
         
         for(String sObjectType : insertMap.keySet()){
             List<SObject> records = insertMap.get(sObjectType);
