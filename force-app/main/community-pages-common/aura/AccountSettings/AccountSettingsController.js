@@ -84,16 +84,29 @@
     doCountryCodeChanged: function(component, event, helper){
         if(!component.get('v.isInitialized')) return;
         var statesByCountryMap = component.get('v.statesByCountryMap');
+
+        let countryCode;
         if(component.get('v.participant')){
             var participant = component.get('v.participant');
+            countryCode = participant.Mailing_Country_Code__c;
             var states = statesByCountryMap[participant.Mailing_Country_Code__c];
             component.set('v.statesLVList', states);
             component.set('v.participant.Mailing_State_Code__c', null);
         }else{
             var contact = component.get('v.contact');
+            countryCode = contact.MailingCountryCode;
             var states = statesByCountryMap[contact.MailingCountryCode];
             component.set('v.statesLVList', states);
             component.set('v.contact.MailingStateCode', null);
+        }
+
+        if(component.get('v.userMode') === 'Participant') {
+            if(countryCode && countryCode !== 'US') {
+                let data = component.get('v.initData');
+                data.myContact.Participant_Opt_In_Status_SMS__c = false;
+                component.set('v.initData', data);
+                helper.changeSMSOption(component);
+            }
         }
     },
 
@@ -173,12 +186,7 @@
     },
 
     doSwitchOptInSMS: function (component, event, helper) {
-        var initData = component.get('v.initData');
-        communityService.executeAction(component, 'changeOptInSMS', {
-            participantOptInStatusSMS: initData.myContact.Participant_Opt_In_Status_SMS__c
-        }, function () {
-            //do nothing
-        });
+        helper.changeSMSOption(component);
     },
 
     doSwitchOptInCookies: function (component, event, helper) {

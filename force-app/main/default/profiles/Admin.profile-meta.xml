@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
-    <applicationVisibilities>
-        <application>Developer</application>
-        <default>false</default>
-        <visible>true</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>IQVIA_RR_CRM</application>
-        <default>true</default>
-        <visible>true</visible>
-    </applicationVisibilities>
     <classAccesses>
         <apexClass>AccountSettingsController</apexClass>
         <enabled>true</enabled>
@@ -388,6 +378,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>CountryStateUtil</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DMLService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -924,6 +918,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ProfileIconController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ProviderPaymentsService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1480,6 +1478,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_CountryLookupRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_DMLService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -3228,17 +3230,17 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Excel_Export_Field_Label__mdt.Field_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Excel_Export_Field_Label__mdt.Label_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Excel_Export_Field_Label__mdt.SObject_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -5317,6 +5319,26 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Provider_Payment__c.Data_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Provider_Payment__c.Patient_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Provider_Payment__c.Physicians_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Provider_Payment__c.Randomization_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Regex__mdt.Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6714,6 +6736,9 @@
         <layout>Platform_Level_Translatable_Objects__mdt-Platform Level Translatable Object Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Provider_Payment__c-Provider Payment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>RP_Delegate_Relationship__c-RP Delegate Relationship Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -7256,6 +7281,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Point_of_Contact__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Provider_Payment__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
