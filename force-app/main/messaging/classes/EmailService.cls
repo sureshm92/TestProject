@@ -81,7 +81,7 @@ public without sharing class EmailService {
             }
         }
 
-        insert sendResults;
+        DMLService.insertRecords(sendResults);
     }
 
     public static void sendEmail(String emailTemplate, Id recipientId, Id whatId){

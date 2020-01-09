@@ -5316,6 +5316,21 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Provider_Payment__c.Patient_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Provider_Payment__c.Physicians_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Provider_Payment__c.Randomization_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Regex__mdt.Description__c</field>
         <readable>false</readable>
@@ -6712,6 +6727,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Platform_Level_Translatable_Objects__mdt-Platform Level Translatable Object Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Provider_Payment__c-Provider Payment Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>RP_Delegate_Relationship__c-RP Delegate Relationship Layout</layout>

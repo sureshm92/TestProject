@@ -3,7 +3,8 @@
     <fullName>MRR_Survey_Results_URL__c</fullName>
     <externalId>false</externalId>
     <label>MRR Survey  Results URL</label>
-    <required>false</required>
+    <length>131072</length>
     <trackTrending>false</trackTrending>
-    <type>Url</type>
+    <type>LongTextArea</type>
+    <visibleLines>2</visibleLines>
 </CustomField>

@@ -40,6 +40,7 @@ public without sharing class ReferringClinicsFilter implements SearchFilter{
             'HCP_Contact__r.Account.BillingCity',
             'HCP_Contact__r.Account.Phone',
             'HCP_Contact__r.Salutation',
+            'HCP_Contact__r.Is_First_logon__c',
             'HCP_Name__c',
             'Study_Site__r.Id',
             'Study_Site__r.Name',
@@ -70,7 +71,8 @@ public without sharing class ReferringClinicsFilter implements SearchFilter{
     };
 
     private static List<String> REFERRING_CLINICS_SEARCH_FIELDS = new List<String>{
-            'HCP_Contact__r.Name'
+            'HCP_Contact__r.FirstName',
+            'HCP_Contact__r.LastName'
             //'Study_Site__r.Name',
             //'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c'
     };

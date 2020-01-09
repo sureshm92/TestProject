@@ -25,7 +25,11 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
         for (Participant_Enrollment_Status_History__c obj : newList) {
             ids.add(obj.Id);
         }
-        IntegrationService.sendPESHToEPRAsync(ids);
+        if (!System.isBatch() && !System.isFuture()) {
+            IntegrationService.sendPESHToEPRAsync(ids);
+        } else {
+            IntegrationService.sendPESHToEPR(ids);
+        }
     }
 
     @TestVisible

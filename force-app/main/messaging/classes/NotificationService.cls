@@ -249,6 +249,7 @@ public without sharing class NotificationService {
     }
     
     public static void sendNotifications(List<Notification__c> notifications) {
+        DMLService.useDMLBuffer(true);
         List<Id> whatIds = new List<Id>();
         for (Notification__c n : notifications) whatIds.add(n.WhatId__c);
         NotificationAvailabilityService availabilityService = new NotificationAvailabilityService(whatIds);
@@ -290,7 +291,8 @@ public without sharing class NotificationService {
         if (emailNotifications != null) EmailService.send(emailNotifications);
         if (smsNotifications != null) SMSService.send(smsNotifications);
 
-        insert sendResults;
-        update notifications;
+        DMLService.insertRecords(sendResults);
+        DMLService.updateRecords(notifications);
+        DMLService.pushDMLBuffer();
     }
 }

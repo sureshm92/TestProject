@@ -404,6 +404,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Strictly Necessary Cookies</value>
     </labels>
     <labels>
+        <fullName>Account_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Account Name</shortDescription>
+        <value>Account Name</value>
+    </labels>
+    <labels>
         <fullName>Action_View_New_Study_Site</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4802,6 +4809,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>None</shortDescription>
         <value>None</value>
+    </labels>
+    <labels>
+        <fullName>Not_Registered</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Not Registered</shortDescription>
+        <value>Not Registered</value>
     </labels>
     <labels>
         <fullName>OT_DPI_S1_H</fullName>
