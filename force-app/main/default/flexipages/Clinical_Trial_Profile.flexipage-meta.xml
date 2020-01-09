@@ -97,6 +97,13 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
+            <componentName>PaymentVendorPanel</componentName>
+        </componentInstances>
+        <name>Facet-7d2de0ae-6cd0-4cf9-88f6-8a463d4fb83b</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
             <componentName>ApproveLanguageIRB</componentName>
         </componentInstances>
         <name>Facet-46216db2-7a89-4163-9dfd-a02ee2c6dd12</name>
@@ -166,6 +173,17 @@
             <componentInstanceProperties>
                 <name>title</name>
                 <value>Travel Vendor Configuration</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>Facet-7d2de0ae-6cd0-4cf9-88f6-8a463d4fb83b</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Payment Vendor Configuration</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
         </componentInstances>

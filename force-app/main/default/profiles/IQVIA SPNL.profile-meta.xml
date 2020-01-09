@@ -887,6 +887,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PaymentVendorPanelRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PaymentsRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -5235,6 +5239,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>PaymentVendorSettings__c.Payment_Vendor__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PaymentVendorSettings__c.Study_Site__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Point_of_Contact__c.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6657,6 +6671,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Patient_Visit__c-Patient Visit Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PaymentVendorSettings__c-PaymentVendorSettings Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Payment_Vendor__c-Payment Vendor Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Platform_Level_Translatable_Objects__mdt-Platform Level Translatable Object Layout</layout>
