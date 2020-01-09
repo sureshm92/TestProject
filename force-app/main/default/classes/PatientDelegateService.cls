@@ -184,7 +184,7 @@ public without sharing class PatientDelegateService {
             List<Id> conversationIds = new List<Id>();
             for(Conversation__c conversation : patientConversation) conversationIds.add(conversation.Id);
 
-            ConversationService.createConversationSharesForUser(conversationIds, delegateUser.get(0).Id);
+            insert ConversationService.createConversationSharesForUser(conversationIds, delegateUser.get(0).Id);
         }
 
         createPDAlerts(newDelegate);
