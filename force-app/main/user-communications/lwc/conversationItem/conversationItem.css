@@ -9,12 +9,17 @@
     cursor: pointer;
 }
 
-.con-unread {
+.con-unread-place {
+    background: none;
+    min-width: 10px;
+    min-height: 10px;
+    margin-right: 5px;
+}
+.con-unread-bubble {
     background: #297dfd;
     border-radius: 50%;
     width: 10px;
     height: 10px;
-    margin-right: 5px;
 }
 
 .con-icon {

@@ -8,11 +8,6 @@ import communityStyle from '@salesforce/resourceUrl/rr_community_css';
 import proxima from '@salesforce/resourceUrl/proximanova';
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 
-import {updateRecord} from 'lightning/uiRecordApi';
-import ID_FIELD from '@salesforce/schema/Conversation__c.Id';
-import PA_UNREAD from '@salesforce/schema/Conversation__c.haveUnreadForParticipant__c';
-import PI_UNREAD from '@salesforce/schema/Conversation__c.haveUnreadForPI__c';
-
 import messagesLabel from '@salesforce/label/c.MS_Messages';
 import newMessLabel from '@salesforce/label/c.MS_New_Mess';
 import emptyConversationLabel from '@salesforce/label/c.MS_Empty_Conversations';
@@ -110,26 +105,6 @@ export default class MessagesPage extends LightningElement {
             this.creationMode = false;
             this.canStartConversation = this.checkCanStartNewConversation();
             this.changePlusStyle(this.canStartConversation);
-        }
-
-        if (conItem.unread) {
-            markRead({conId: conItem.conversation.Id})
-                .then(() => {
-                    let wrappers = [];
-                    this.conversationWrappers.forEach(conWr => {
-                        let wr = conWr;
-                        try {
-                            if (wr.conversation.Id === conItem.conversation.Id) wr.unread = false;
-                        } catch (e) {
-                            console.log('TRY mark:' + JSON.stringify(e));
-                        }
-                        wrappers.push(wr);
-                    });
-                    this.conversationWrappers = wrappers;
-                })
-                .catch(error => {
-                    console.log('Error in markRead():' + JSON.stringify(error));
-                });
         }
 
         this.changeConversationsBackground(conItem.conversation.Id);
