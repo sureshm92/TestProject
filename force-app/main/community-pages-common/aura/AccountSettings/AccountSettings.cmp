@@ -144,7 +144,7 @@
                                                  onchange="{!c.doSwitchOptInEmail}"/>
                                 {!$Label.c.PG_AS_L_Opt_In_Participant_Status_Emails}
                             </div>
-                            <!-- Toggle for SMS for future -->
+                            <!-- Toggle for SMS -->
                             <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                                 <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
                                                  variant="label-hidden"

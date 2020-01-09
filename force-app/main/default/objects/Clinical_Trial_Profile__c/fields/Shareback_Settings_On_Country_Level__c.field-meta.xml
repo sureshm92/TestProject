@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Travel_Support_On_Relevant_Links__c</fullName>
-    <defaultValue>false</defaultValue>
+    <fullName>Shareback_Settings_On_Country_Level__c</fullName>
+    <defaultValue>true</defaultValue>
     <externalId>false</externalId>
-    <label>Travel Support On Relevant Links</label>
+    <label>Shareback Settings On Country Level</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

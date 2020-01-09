@@ -150,17 +150,19 @@
                     </div>
 
                     <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-resources', '', ' collapsed')}">
-                        <aura:if isTrue="{!v.state != 'ALUMNI'}">
+                        <aura:if isTrue="{!and(v.studyDetail.trial.Study_Documents_Are_Available__c, v.state != 'ALUMNI')}">
                             <button id="changeResourceMode" data-resource-mode="Documents"
                                     class="{!'apollo-btn text ' + if(v.resourceMode == 'Documents', ' current', '')}"
                                     onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Study_Documents}</button>
                         </aura:if>
-                        <button id="changeResourceMode" data-resource-mode="Default"
-                                class="{!'apollo-btn text ' + if(v.resourceMode == 'Default', ' current', '')}"
-                                onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Study_Video_And_Articles}</button>
-                        <button id="changeResourceMode" data-resource-mode="Favorite"
-                                class="{!'apollo-btn text ' + if(v.resourceMode == 'Favorite', ' current', '')}"
-                                onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Favorites}</button>
+                        <aura:if isTrue="{!or(v.state == 'ALUMNI', v.studyDetail.trial.Video_And_Articles_Are_Available__c)}">
+                            <button id="changeResourceMode" data-resource-mode="Default"
+                                    class="{!'apollo-btn text ' + if(v.resourceMode == 'Default', ' current', '')}"
+                                    onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Study_Video_And_Articles}</button>
+                            <button id="changeResourceMode" data-resource-mode="Favorite"
+                                    class="{!'apollo-btn text ' + if(v.resourceMode == 'Favorite', ' current', '')}"
+                                    onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Favorites}</button>
+                        </aura:if>
                     </div>
 
                     <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-lab-results', '', ' collapsed')}">
@@ -204,13 +206,15 @@
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-tasks'}">
-                        <c:TasksTab taskMode="{!v.taskMode}" tasksAvailable="{!v.studyDetail.trial.Tasks_Are_Available__c}" emptyTrial="{!empty(v.studyDetail.trial)}"/>
+                        <c:TasksTab taskMode="{!v.taskMode}"
+                                    tasksAvailable="{!v.studyDetail.trial.Tasks_Are_Available__c}"
+                                    emptyTrial="{!empty(v.studyDetail.trial)}"/>
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-resources'}">
                         <c:ResourceContainer resourceMode="{!v.resourceMode}"
                                              studyDocumentsAvailable="{!v.studyDetail.trial.Study_Documents_Are_Available__c}"
-                                             videoArticlesAvailable="{!v.studyDetail.trial.Video_And_Articles_Are_Available__c}"/>
+                                             videoArticlesAvailable="{!or(v.studyDetail.trial.Video_And_Articles_Are_Available__c, v.state == 'ALUMNI')}"/>
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-lab-results'}">

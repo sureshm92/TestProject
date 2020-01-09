@@ -8,6 +8,20 @@ public without sharing class Action_InviteRPRemote {
     public static String getInviteDetail() {
         InviteDetail inviteDetail = new InviteDetail();
         inviteDetail.studySitesForInvitation = new List<SiteWrapper>();
+        inviteDetail.PIForInvetation = new List<PIOptionWrapper>();
+        Map<Id,String> piOtions = new Map<Id,String>();
+        for (Site_Staff__c sstaff : [
+                SELECT Study_Site__r.Principal_Investigator__c,
+                        Study_Site__r.Principal_Investigator__r.Name
+                FROM Site_Staff__c
+                WHERE Site_Contact__c = :CommunityService.getUserContact().Id AND Delegate_Level__c = 'Level 1'
+        ]){
+            piOtions.put(sstaff.Study_Site__r.Principal_Investigator__c, sstaff.Study_Site__r.Principal_Investigator__r.Name);
+            //inviteDetail.PIForInvetation.add(new PIOptionWrapper(sstaff.Study_Site__r.Principal_Investigator__c, sstaff.Study_Site__r.Principal_Investigator__r.Name));
+        }
+        for(Id i : piOtions.keySet()){
+            inviteDetail.PIForInvetation.add(new PIOptionWrapper(piOtions.get(i), i));
+        }
         /*try {
             List<Study_Site__c> studySitesNotDelegate = StudySiteService.getStudySitesForPI();
             inviteDetail.studySitesForInvitation = new List<SiteWrapper>();
@@ -33,9 +47,9 @@ public without sharing class Action_InviteRPRemote {
     }
 
     @AuraEnabled
-    public static String inviteExistingHCP(String hcpContactId) {
+    public static String inviteExistingHCP(String hcpContactId, List<String> piIds) {
         try {
-            ReferHealthcareProviderRemote.createHCPinPlatform(CommunityService.getUserContact().Id, hcpContactId);
+            ReferHealthcareProviderRemote.createHCPinPlatform(CommunityService.getUserContact().Id, hcpContactId, piIds);
             return Label.TST_Request_to_invite_a_referring_provider;
         } catch (Exception e) {
             return Label.RP_Is_Already_Invited;
@@ -43,7 +57,7 @@ public without sharing class Action_InviteRPRemote {
     }
 
     @AuraEnabled
-    public static void inviteNewHCP(String firstName, String lastName, String phone, String email, String studySiteId, String protocolId){
+    public static void inviteNewHCP(String firstName, String lastName, String phone, String email, String studySiteId, String protocolId, List<String> piIds){
         try{
             List<Group> invitationQueues = [SELECT Id FROM Group WHERE Type = 'Queue' AND Name = :CommunityService.INVITATION_QUEUE];
             AssignmentRule ar = new AssignmentRule();
@@ -88,7 +102,8 @@ public without sharing class Action_InviteRPRemote {
                 l.setOptions(dmlOpts);
                 insert l;
             } else {
-                ReferHealthcareProviderRemote.createHCPinPlatform(null, firstName, lastName, email, phone, piContact);
+               //ReferHealthcareProviderRemote.createHCPinPlatform(null, firstName, lastName, email, phone, piContact);
+                ReferHealthcareProviderRemote.createHCPinPlatform(null, firstName, lastName, email, phone, piContact, piIds);
             }
         }catch(Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -97,6 +112,7 @@ public without sharing class Action_InviteRPRemote {
 
     public class InviteDetail {
         public  List<SiteWrapper> studySitesForInvitation;
+        @AuraEnabled public List<PIOptionWrapper> PIForInvetation;
     }
     public class SiteWrapper{
         public String StudyName;
@@ -115,6 +131,16 @@ public without sharing class Action_InviteRPRemote {
             this.Id = Id;
             this.selected = false;
             this.protocolId = protocolId;
+        }
+    }
+
+    public class PIOptionWrapper{
+        @AuraEnabled public String label;
+        @AuraEnabled public Id value;
+
+        public PIOptionWrapper(String label,Id value){
+            this.label = label;
+            this.value = value;
         }
     }
 }

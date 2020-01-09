@@ -14,23 +14,25 @@
 
         <div class="rci-header">
 
-            <c:RRLink label="{!v.clinicWrapper.clinic.Name}" page="{!'clinic-profile?id=' + v.clinicWrapper.clinic.Id}" class="rci-name"/>
+            <c:RRLink label="{!v.clinicWrapper.hcpContact.Salutation + ' ' + v.clinicWrapper.hcpContact.FirstName + ' ' + v.clinicWrapper.hcpContact.LastName}" class="rci-name"/>
             <div class="rci-info">
                 <div class="rci-inline">
+                    <span class="info-labels">Account Name:</span>
+                    {!v.clinicWrapper.hcpContact.Account.Name+ ' '}
                     <span class="info-labels">{!$Label.c.PG_RSS_L_Address}:</span>
-                        {! if(v.clinicWrapper.clinic.BillingStreet == null,'',v.clinicWrapper.clinic.BillingStreet + ' ')}
-                        {! if(v.clinicWrapper.clinic.BillingCity == '','',v.clinicWrapper.clinic.BillingCity + ' ')}
-                        {! if(empty(v.clinicWrapper.clinic.BillingPostalCode),'',v.clinicWrapper.clinic.BillingPostalCode + ' ')}
+                        {! if(v.clinicWrapper.hcpContact.Account.BillingStreet == null,'',v.clinicWrapper.hcpContact.Account.BillingStreet + ' ')}
+                        {! if(v.clinicWrapper.hcpContact.Account.BillingCity == '','',v.clinicWrapper.hcpContact.Account.BillingCity + ' ')}
+                        {! if(empty(v.clinicWrapper.hcpContact.Account.BillingPostalCode),'',v.clinicWrapper.hcpContact.Account.BillingPostalCode + ' ')}
                 </div>
-                <div class="rci-inline"><span class="info-labels">{!$Label.c.PG_RSS_L_Phone}:</span>{!v.clinicWrapper.clinic.Phone}</div>
+                <div class="rci-inline"><span class="info-labels">{!$Label.c.PG_RSS_L_Phone}:</span>{!v.clinicWrapper.hcpContact.Account.Phone}</div>
             </div>
         </div>
 
-        <aura:iteration items="{!v.enrollmentsByStudy}" var="item">
+        <aura:iteration items="{!v.enrollmentsByStudy}" var="item" indexVar="index">
 
             <div class="rci-study-name">{!item.studyName}</div>
-            <aura:iteration items="{!item.enrollments}" var="enrollment">
-                <c:ReferringClinicEnrollmentItem enrollmentData="{!enrollment}"  parent="{!v.parent}"/>
+            <aura:iteration items="{!item.enrollments}" var="enrollment" indexVar="ind">
+                <c:ReferringClinicEnrollmentItem enrollmentData="{!enrollment}" isLastElement="{!v.enrollmentsByStudy.length == index+1 &amp;&amp; item.enrollments.length == ind +1}" parent="{!v.parent}"/>
             </aura:iteration>
         </aura:iteration>
     </div>
