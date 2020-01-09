@@ -1,0 +1,61 @@
+/**
+ * Created by Igor Malyuta on 04.01.2020.
+ */
+.con-wrapper {
+    padding: 10px;
+    width: 315px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.con-unread-place {
+    background: none;
+    min-width: 10px;
+    min-height: 10px;
+    margin-right: 5px;
+}
+.con-unread-bubble {
+    background: #297dfd;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+}
+
+.con-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.con-content {
+    margin-left: 10px;
+    width: 80%;
+}
+
+.con-title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.con-name {
+    font-weight: bold;
+}
+
+.con-time {
+
+}
+
+.con-description {
+    font-size: 11px;
+}
+
+.con-last-message-part {
+    font-size: 12px;
+}

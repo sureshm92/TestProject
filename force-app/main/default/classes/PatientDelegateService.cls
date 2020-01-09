@@ -178,6 +178,15 @@ public without sharing class PatientDelegateService {
                 DatabaseService.fieldEqual('Contact__c', CommunityService.getUserContact().Id)
         );
 
+        List<User> delegateUser = [SELECT Id FROM User WHERE ContactId = :newDelegate.Id];
+        if(!delegateUser.isEmpty()) {
+            List<Conversation__c> patientConversation = ConversationService.getSharedConversations(UserInfo.getUserId());
+            List<Id> conversationIds = new List<Id>();
+            for(Conversation__c conversation : patientConversation) conversationIds.add(conversation.Id);
+
+            insert ConversationService.createConversationSharesForUser(conversationIds, delegateUser.get(0).Id);
+        }
+
         createPDAlerts(newDelegate);
 
         if (participant.size() == 0) {
@@ -225,6 +234,15 @@ public without sharing class PatientDelegateService {
                     userCommunytyType__c = null
             );
             update delegateContact;
+
+            List<User> delegateUser = [SELECT Id FROM User WHERE ContactId = :delegateContact.Id];
+            if(!delegateUser.isEmpty()) {
+                List<Conversation__c> patientConversation = ConversationService.getSharedConversations(UserInfo.getUserId());
+                List<Id> conversationIds = new List<Id>();
+                for(Conversation__c conversation : patientConversation) conversationIds.add(conversation.Id);
+
+                ConversationService.removeConversationSharesForUser(conversationIds, delegateUser.get(0).Id);
+            }
         }
 
         List<Patient_Delegate__c> patientDelegate = [

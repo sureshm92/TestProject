@@ -155,6 +155,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_DeleteProcessedNotifications</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_IntegrationVisitProcess</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -372,6 +376,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ContentDocumentTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ConversationService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ConversationTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -675,6 +687,18 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MessagePageRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MessageService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MessageTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MotivationalMessagesRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -745,6 +769,10 @@
     <classAccesses>
         <apexClass>PEStatusState</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PETriggerBuffer</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>PETriggerHandler</apexClass>
@@ -1017,6 +1045,10 @@
     <classAccesses>
         <apexClass>ResourceNotifierRemote</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceOverrideRemote</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ResourceReminderRemote</apexClass>
@@ -1673,6 +1705,10 @@
     <classAccesses>
         <apexClass>Test_ResourceNotifierRemote</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourceOverrideRemote</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ResourceReminderService</apexClass>
@@ -2635,6 +2671,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Shareback_Settings_Country__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Shareback_Settings_On_Country_Level__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Shareback_Settings_On_Participant_Level__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -3072,6 +3118,16 @@
         <editable>true</editable>
         <field>Contact_Topic__c.Topic__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Conversation__c.haveUnreadForPI__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Conversation__c.haveUnreadForParticipant__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -4230,6 +4286,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Message__c.Message_Content__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>National_ID__c.Contact__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -5269,6 +5330,21 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Provider_Payment__c.Patient_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Provider_Payment__c.Physicians_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Provider_Payment__c.Randomization_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Regex__mdt.Description__c</field>
         <readable>false</readable>
@@ -5429,6 +5505,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Resource__c.Countries__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Resource__c.Country__c</field>
         <readable>true</readable>
@@ -5517,6 +5598,11 @@
         <editable>true</editable>
         <field>Resource__c.URL_Part__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Resource__c.URL__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -6513,6 +6599,9 @@
         <layout>Contact_Topic__c-Contact Topic Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Conversation__c-Conversation Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Drug_Usage__c-Drug Usage Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6580,6 +6669,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Material_Sent__c-Material Sent Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Message_Template__mdt-Message Template Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Message__c-Message Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Motivation_Plan_Message__mdt-Motivation Plan Item Layout</layout>
@@ -6651,6 +6746,9 @@
         <layout>Platform_Level_Translatable_Objects__mdt-Platform Level Translatable Object Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Provider_Payment__c-Provider Payment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>RP_Delegate_Relationship__c-RP Delegate Relationship Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6684,6 +6782,10 @@
     <layoutAssignments>
         <layout>Resource__c-Article</layout>
         <recordType>Resource__c.Article</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Resource__c-Article</layout>
+        <recordType>Resource__c.Relevant_Link</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Resource__c-Study Document</layout>
@@ -6842,6 +6944,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Clinical_Trial_Profile__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Conversation__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -7220,6 +7331,11 @@
         <default>true</default>
         <recordType>Resource__c.Article</recordType>
         <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Resource__c.Relevant_Link</recordType>
+        <visible>false</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>

@@ -9,7 +9,7 @@ public without sharing class HCPEnrollmentService {
     public final static String HCP_S_NON_RESPONCIVE_A = 'Non-Responsive (Admin)';
     public final static String HCP_S_APPROVAL_PENDING = 'Approval Pending';
     public final static String HCP_S_ACTIVATION_PENDING = 'Activation Pending';
-    public final static String HCP_S_ACTIVATION_PENDING_O = 'Activation Pending Orientation';
+    public final static String HCP_S_ACTIVATION_PENDING_O = 'Orientation Pending';
     public final static String HCP_S_DECLINED_APPROVAL = 'Declined (Approval)';
     public final static String HCP_S_ON_HOLD_APPROVAL = 'On Hold (Approval)';
     public final static String HCP_S_DECLINE_ACTIVATION = 'Declined (Activation)';
@@ -167,11 +167,11 @@ public without sharing class HCPEnrollmentService {
             List<HCP_Enrollment__c> hcpEnrollmentList = getEnrollmentsForPIByTrialIds(trailIds);
             for (HCP_Enrollment__c enrollment : hcpEnrollmentList) {
                 if (enrollment.HCP_Contact__c == hcpe.HCP_Contact__c) {
-                    ssMap.remove(enrollment.Study_Site__c);
                     if (enrollment.Status__c != HCP_S_ACTIVATED) {
-                        enrollment.Status__c = HCP_S_ACTIVATED;
+                        enrollment.Status__c = ssMap.get(enrollment.Study_Site__c).Clinical_Trial_Profile__r.Orientation_Required__c ? HCP_S_ACTIVATION_PENDING_O : HCP_S_ACTIVATED;
                         upsertList.add(enrollment);
                     }
+                    ssMap.remove(enrollment.Study_Site__c);
                 }
             }
             for(Id ssId : ssMap.keySet()){
@@ -214,6 +214,7 @@ public without sharing class HCPEnrollmentService {
             'HCP_Contact__r.Account.BillingCity',
             'HCP_Contact__r.Account.Phone',
             'HCP_Contact__r.Salutation',
+            'HCP_Contact__r.Is_First_logon__c',
             'HCP_Name__c',
             'Study_Site__r.Id',
             'Study_Site__r.Name',

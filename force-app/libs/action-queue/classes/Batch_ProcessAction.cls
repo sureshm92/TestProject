@@ -4,10 +4,6 @@
 
 public with sharing class Batch_ProcessAction extends Batch_ScheduledAbstract implements Database.AllowsCallouts{
 
-    public override String getBatchDescription(){
-        return 'This job runs new actions and reruns failed actions';
-    }
-
     public Database.QueryLocator start(Database.BatchableContext param1) {
         Datetime currentTime = System.now();
         return Database.getQueryLocator([
@@ -25,6 +21,13 @@ public with sharing class Batch_ProcessAction extends Batch_ScheduledAbstract im
     }
 
     public void execute(Database.BatchableContext bc, List<Object> actions) {
+        DMLService.useDMLBuffer(true);
         for(Action__c action : (List<Action__c>) actions) ActionExecutor.execute(action);
+        DMLService.pushDMLBuffer();
     }
+    
+    public override virtual String getBatchDescription() {
+        return 'Execute pending execution actions';
+    }
+
 }

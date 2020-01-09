@@ -747,6 +747,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PETriggerBuffer</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PETriggerHandler</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -884,6 +888,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PatientVisitTriggerHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PaymentVendorPanelRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -3074,6 +3082,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Conversation__c.haveUnreadForPI__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Conversation__c.haveUnreadForParticipant__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>DirectMessageEvent__e.ConversationID__c</field>
         <readable>false</readable>
@@ -4230,6 +4248,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Message__c.Message_Content__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>National_ID__c.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4296,11 +4319,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Notification_Type__mdt.Description__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Notification_Type__mdt.Org_Wide_Email_Address__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5226,6 +5244,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Patient_Visit__c.Visit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PaymentVendorSettings__c.Payment_Vendor__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PaymentVendorSettings__c.Study_Site__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6513,6 +6541,9 @@
         <layout>Contact_Topic__c-Contact Topic Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Conversation__c-Conversation Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Drug_Usage__c-Drug Usage Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6582,6 +6613,12 @@
         <layout>Material_Sent__c-Material Sent Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Message_Template__mdt-Message Template Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Message__c-Message Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Motivation_Plan_Message__mdt-Motivation Plan Item Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6646,6 +6683,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Patient_Visit__c-Patient Visit Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>PaymentVendorSettings__c-PaymentVendorSettings Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Payment_Vendor__c-Payment Vendor Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Platform_Level_Translatable_Objects__mdt-Platform Level Translatable Object Layout</layout>

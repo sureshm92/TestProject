@@ -11,7 +11,15 @@ export default class WebIcon extends LightningElement {
     @api iconName;
     @api iconColor = '#CCCCCC';
     @api iconSize = 'default';//default/small/big
+    @api iconWidth;
+    @api iconHeight;
     @api printMode = false;
+
+    renderedCallback() {
+        let cssClass = this.template.querySelector('.' + this.svgClass);
+        if(this.iconHeight) cssClass.style.height = this.iconHeight + 'px';
+        if(this.iconWidth) cssClass.style.width = this.iconWidth + 'px';
+    }
 
     get icon() {
         return rrIcons + '/icons.svg#' + this.iconName;

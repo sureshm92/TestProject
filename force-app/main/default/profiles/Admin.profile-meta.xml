@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
-    <applicationVisibilities>
-        <application>Developer</application>
-        <default>false</default>
-        <visible>true</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>IQVIA_RR_CRM</application>
-        <default>true</default>
-        <visible>true</visible>
-    </applicationVisibilities>
     <classAccesses>
         <apexClass>AccountSettingsController</apexClass>
         <enabled>true</enabled>
@@ -152,6 +142,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_DataBecomesAvailable</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_DeleteProcessedNotifications</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -375,11 +369,23 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ConversationService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ConversationTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CountryLookupRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>CountryStateUtil</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DMLService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -675,6 +681,18 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MessagePageRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MessageService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MessageTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MotivationalMessagesRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -744,6 +762,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PEStatusState</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PETriggerBuffer</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -887,6 +909,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PaymentVendorPanelRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PaymentsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -900,6 +926,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ProfileIconController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ProviderPaymentsService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1019,6 +1049,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ResourceOverrideRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ResourceReminderRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1060,6 +1094,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SObjectHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SSPaymentVendorsConfigResponse</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1455,6 +1493,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_DMLService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_DatabaseProxy</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1672,6 +1714,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ResourceNotifierRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ResourceOverrideRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2634,6 +2680,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Shareback_Settings_Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Shareback_Settings_On_Country_Level__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Shareback_Settings_On_Participant_Level__c</field>
         <readable>true</readable>
@@ -3074,6 +3130,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Conversation__c.haveUnreadForPI__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Conversation__c.haveUnreadForParticipant__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>DirectMessageEvent__e.ConversationID__c</field>
         <readable>true</readable>
@@ -3186,17 +3252,17 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Excel_Export_Field_Label__mdt.Field_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Excel_Export_Field_Label__mdt.Label_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Excel_Export_Field_Label__mdt.SObject_Name__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -4230,6 +4296,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Message__c.Message_Content__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>National_ID__c.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4296,11 +4367,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Notification_Type__mdt.Description__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Notification_Type__mdt.Org_Wide_Email_Address__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5230,6 +5296,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>PaymentVendorSettings__c.Payment_Vendor__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>PaymentVendorSettings__c.Study_Site__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Point_of_Contact__c.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5266,6 +5342,26 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Post_Install__mdt.HandlerName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Provider_Payment__c.Data_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Provider_Payment__c.Patient_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Provider_Payment__c.Physicians_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Provider_Payment__c.Randomization_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6523,6 +6619,9 @@
         <layout>Contact_Topic__c-Contact Topic Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Conversation__c-Conversation Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Drug_Usage__c-Drug Usage Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6592,6 +6691,12 @@
         <layout>Material_Sent__c-Material Sent Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Message_Template__mdt-Message Template Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Message__c-Message Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Motivation_Plan_Message__mdt-Motivation Plan Item Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6658,7 +6763,16 @@
         <layout>Patient_Visit__c-Patient Visit Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>PaymentVendorSettings__c-PaymentVendorSettings Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Payment_Vendor__c-Payment Vendor Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Platform_Level_Translatable_Objects__mdt-Platform Level Translatable Object Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Provider_Payment__c-Provider Payment Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>RP_Delegate_Relationship__c-RP Delegate Relationship Layout</layout>
@@ -6950,6 +7064,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>Conversation__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>DirectMessageEvent__e</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -7085,6 +7208,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>Message__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>National_ID__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -7184,7 +7316,34 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>PaymentVendorSettings__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Payment_Vendor__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Point_of_Contact__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Provider_Payment__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

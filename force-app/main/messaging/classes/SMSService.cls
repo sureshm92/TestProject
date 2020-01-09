@@ -5,14 +5,6 @@
 public with sharing class SMSService {
 
     public static void send(List<Notification__c> notifications) {
-        send(notifications, false);
-    }
-
-    public static void sendAsync(List<Notification__c> notifications) {
-        send(notifications, true);
-    }
-
-    private static void send(List<Notification__c> notifications, Boolean sendAsync) {
         Map<String, String> messageByPhone = new Map<String, String>();
         List <Id> conIds = new List<Id>();
         for (Notification__c n : notifications) conIds.add(n.Recipient__c);
@@ -28,25 +20,16 @@ public with sharing class SMSService {
             Contact recipient = contactMap.get(n.Recipient__c);
             String phoneNumber = recipient.Phone;
             String message = CatalogParametersHelper.prepareLabel(smsTarget.Message_Body__c, n.WhatId__c, messageType.Parameters_Provider__r.DeveloperName, recipient.Language__c);
-            if(phoneNumber !=null) messageByPhone.put(phoneNumber, message);
-
-            if (sendAsync && phoneNumber !=null) {
-                MCloudSMSSender.sendSMSAsync(new List<String>{
-                        phoneNumber
-                }, message);
-            } else if (phoneNumber !=null){
-                MCloudSMSSender mCloudSMSSender = new MCloudSMSSender();
-                mCloudSMSSender.sendSMS(new List<String>{
+            if(phoneNumber != null) {
+                messageByPhone.put(phoneNumber, message);
+                //TODO For Demo only, to remove!!!
+                new MCloudSMSSender().sendSMS(new List<String>{
                         phoneNumber
                 }, message);
             }
         }
 
         Action_SendSMS actionSendSMS = new Action_SendSMS(messageByPhone);
-        if (sendAsync) {
-            ActionExecutor.executeAsync(actionSendSMS);
-        } else {
-            ActionExecutor.execute(actionSendSMS);
-        }
+        ActionExecutor.execute(actionSendSMS);
     }
 }
