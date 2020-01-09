@@ -18,24 +18,24 @@ public without sharing class ProviderPaymentsService {
                 studySiteIds.add(pe.Study_Site__c);
             }
         }
-        Map<Id, String> billableCodesMap = new Map<Id, String>();
+        Map<Id, Study_Site__c> studySitesMap = new Map<Id, Study_Site__c>();
         for(Study_Site__c ss : [
-                SELECT Id, Billable_Code_CRM_Number__c
+                SELECT Id, Billable_Code_CRM_Number__c, Protocol_ID__c
                 FROM Study_Site__c
                 WHERE Id IN :studySiteIds AND Clinical_Trial_Profile__r.Sponsor_Pays_for_Referral_Activity__c = 'Yes']){
-            billableCodesMap.put(ss.Id, ss.Billable_Code_CRM_Number__c);
+            studySitesMap.put(ss.Id, ss);
         }
         List<Participant_Enrollment__c> peWithReimbursableActivities = new List<Participant_Enrollment__c>();
         Set<Id> hcpContactIds = new Set<Id>();
         for(Participant_Enrollment__c pe : peWithMRRDateUpdatedFromHCP){
-            if(billableCodesMap.containsKey(pe.Study_Site__c)){
+            if(studySitesMap.containsKey(pe.Study_Site__c)){
                 peWithReimbursableActivities.add(pe);
                 hcpContactIds.add(pe.HCP_Contact_HCPEnroll__c);
             }
         }
         if(!peWithReimbursableActivities.isEmpty()){
             Map<Id, Contact> contactMap = new Map<Id, Contact>([SELECT Id, FirstName, LastName FROM Contact WHERE Id IN :hcpContactIds]);
-            createProviderPaymentsForPEs(peWithReimbursableActivities, billableCodesMap, contactMap);
+            createProviderPaymentsForPEs(peWithReimbursableActivities, studySitesMap, contactMap);
         }
 
     }
@@ -50,31 +50,32 @@ public without sharing class ProviderPaymentsService {
                 studySiteIds.add(hcpe.Study_Site__c);
             }
         }
-        Map<Id, String> billableCodesMap = new Map<Id, String>();
+        Map<Id, Study_Site__c> studySitesMap = new Map<Id, Study_Site__c>();
         for(Study_Site__c ss : [
-                SELECT Id, Billable_Code_CRM_Number__c
+                SELECT Id, Billable_Code_CRM_Number__c, Protocol_ID__c
                 FROM Study_Site__c
                 WHERE Id IN :studySiteIds AND Clinical_Trial_Profile__r.Sponsor_Pays_for_Referral_Activity__c = 'Yes']){
-            billableCodesMap.put(ss.Id, ss.Billable_Code_CRM_Number__c);
+            studySitesMap.put(ss.Id, ss);
         }
         List<HCP_Enrollment__c> hcpeWithReimbursableActivities = new List<HCP_Enrollment__c>();
         for(HCP_Enrollment__c hcpe : hcpeWithOrientationDateUpdated){
-            if(billableCodesMap.containsKey(hcpe.Study_Site__c)){
+            if(studySitesMap.containsKey(hcpe.Study_Site__c)){
                 hcpeWithReimbursableActivities.add(hcpe);
             }
         }
         if(!hcpeWithReimbursableActivities.isEmpty()){
-            createProviderPaymentsForHCPEs(hcpeWithReimbursableActivities, billableCodesMap);
+            createProviderPaymentsForHCPEs(hcpeWithReimbursableActivities, studySitesMap);
         }
     }
 
-    private static void createProviderPaymentsForPEs(List<Participant_Enrollment__c> participantEnrollments, Map<Id, String> billableCodesMap, Map<Id, Contact> contactMap){
+    private static void createProviderPaymentsForPEs(List<Participant_Enrollment__c> participantEnrollments, Map<Id, Study_Site__c> studySitesMap, Map<Id, Contact> contactMap){
         List<Provider_Payment__c> paymentsToCreate = new List<Provider_Payment__c>();
         for(Participant_Enrollment__c pe : participantEnrollments){
             Contact hcpContact = contactMap.get(pe.HCP_Contact_HCPEnroll__c);
             Provider_Payment__c payment = new Provider_Payment__c();
             payment.Activity__c = ACTIVITY_TYPE_MRR;
-            payment.Billable_Code__c = billableCodesMap.get(pe.Study_Site__c);
+            payment.Billable_Code__c = studySitesMap.get(pe.Study_Site__c).Billable_Code_CRM_Number__c;
+            payment.Study_Code__c = studySitesMap.get(pe.Study_Site__c).Protocol_ID__c;
             payment.Patient_ID__c = pe.Patient_ID__c;
             payment.Randomization_ID__c = pe.Screening_ID__c;
             payment.Physicians_Name__c = hcpContact.FirstName + ' ' + hcpContact.LastName;
@@ -84,12 +85,13 @@ public without sharing class ProviderPaymentsService {
         insert paymentsToCreate;
     }
 
-    private static void createProviderPaymentsForHCPEs(List<HCP_Enrollment__c> hcpEnrollments, Map<Id, String> billableCodesMap){
+    private static void createProviderPaymentsForHCPEs(List<HCP_Enrollment__c> hcpEnrollments, Map<Id, Study_Site__c> studySitesMap){
         List<Provider_Payment__c> paymentsToCreate = new List<Provider_Payment__c>();
         for(HCP_Enrollment__c hcpe : hcpEnrollments){
             Provider_Payment__c payment = new Provider_Payment__c();
             payment.Activity__c = ACTIVITY_TYPE_ORIENTATION;
-            payment.Billable_Code__c = billableCodesMap.get(hcpe.Study_Site__c);
+            payment.Billable_Code__c = studySitesMap.get(hcpe.Study_Site__c).Billable_Code_CRM_Number__c;
+            payment.Study_Code__c = studySitesMap.get(hcpe.Study_Site__c).Protocol_ID__c;
             payment.Physicians_Name__c = hcpe.HCP_Name__c;
             payment.Activity_Date__c = hcpe.Orientation_Date__c.format();
             paymentsToCreate.add(payment);
