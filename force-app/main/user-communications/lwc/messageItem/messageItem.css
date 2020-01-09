@@ -2,8 +2,9 @@
  * Created by Igor Malyuta on 04.01.2020.
  */
 .ms-item {
-    width: 780px;
+    width: 770px;
     display: flex;
+    padding: 5px 10px;
 }
 
 .ms-item-icon {
@@ -37,4 +38,5 @@
 
 .ms-item-text {
     padding-top: 5px;
+    word-break: break-word;
 }
