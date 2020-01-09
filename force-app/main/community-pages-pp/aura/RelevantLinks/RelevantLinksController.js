@@ -8,7 +8,7 @@
             function (links) {
             component.set('v.links', links);
             console.log('links' + JSON.stringify(links));
-            component.find('spinner').hide();
+            if(!component.get("v.isAlumni") || links.length > 0) component.find('spinner').hide();
         });
     }
 });

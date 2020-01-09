@@ -186,6 +186,13 @@ public without sharing class ContactService {
         return pastWrappersList;
     }
 
+    public static List<Participant_Enrollment__c> getPastEnrollments(Id contactId) {
+        String filter = DatabaseService.fieldEqual('Participant_Contact__c', contactId) +
+                'AND' + DatabaseService.fieldInValues('Participant_Status__c', PEStatusState.PE_STATUS_GROUP_ALUMNI);
+        return (List<Participant_Enrollment__c>) DatabaseService.query(
+                ParticipantEnrollmentService.PE_COMMON_FIELDS, Participant_Enrollment__c.getSObjectType(), filter);
+    }
+
     public static void updateNextNotifyDate(Id cntId, Datetime lastLoginDateByContactId, Boolean isDelegate) {
         Id participantCnt = cntId;
         if (isDelegate) {

@@ -1,10 +1,10 @@
 <messaging:emailTemplate subject="{!$Label.Participant_Not_Logged_In}" 
             recipientType="Contact" 
-            relatedToType="Participant_Enrollment__c">
+            relatedToType="Participant__c">
 
     <messaging:htmlEmailBody >
         <c:EmailTemplate recipientId="{!recipient.Id}"
-                         parametersProvider="Email_Template_Parameters_From_PE"
+                         parametersProvider="PP_Participant"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Patient_Log_In}"
                          title="{!$Label.Email_Title_PH}"
@@ -17,7 +17,7 @@
 
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText recipientId="{!recipient.Id}"
-                             parametersProvider="Email_Template_Parameters_From_PE"
+                             parametersProvider="PP_Participant"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Patient_Log_In}"
                              title="{!$Label.Email_Title_PH}"

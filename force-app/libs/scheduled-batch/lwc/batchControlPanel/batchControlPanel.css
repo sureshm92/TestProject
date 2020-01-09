@@ -40,14 +40,12 @@
 }
 
 .jobs-header-row > th{
-    text-align: center;
-    width: 15%;
+   /* width: 15%;*/
 }
 
 .bcp-table-row > td {
     padding: 5px;
-    text-align: center;
-    width: 30px;
+    /*width: 30px;*/
 }
 
 .slds-form-element__icon {
@@ -65,10 +63,6 @@
     color: #ffffff;
     padding: 2px 7px;
     border-radius: 5px;
-}
-
-.bcp-table-row .batch-name-col {
-    text-align: left;
 }
 
 .bcp-state-stopped {
@@ -97,4 +91,25 @@
 .nextSchedule {
     min-width: 270px;
     margin-top: 4px;
+}
+
+.no-wrap{
+    white-space: nowrap;
+}
+
+.batch-name-col {
+}
+
+.state-col{
+    max-width: 100px;
+}
+
+.prev-launch-col{
+    max-width: 180px;
+}
+
+.next-launch-col{
+    max-width: 300px;
+    width: 200px;
+    padding-right: 20px!important;
 }

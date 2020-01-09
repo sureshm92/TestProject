@@ -168,7 +168,8 @@ a:hover {
 }
 .status-Pending,
 .status-Activation.Pending,
-.status-Approval.Pending {
+.status-Approval.Pending,
+.status-Orientation.Pending{
     color: #FFFFFF;
     background-color: #297DFD;
 }

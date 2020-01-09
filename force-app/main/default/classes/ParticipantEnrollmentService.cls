@@ -309,7 +309,7 @@ public without sharing class ParticipantEnrollmentService {
         return getPEnrolmentsCommon(userMode, filter);
     }
 
-    private static final List<String> PE_COMMON_FIELDS = new List<String>{
+    public static final List<String> PE_COMMON_FIELDS = new List<String>{
             'Id',
             'Clinical_Trial_Profile__r.Profile_Picture__c',
             'Clinical_Trial_Profile__r.Patient_Portal_Enabled__c',

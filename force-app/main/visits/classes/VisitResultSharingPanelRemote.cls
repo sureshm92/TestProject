@@ -50,7 +50,7 @@ public without sharing class VisitResultSharingPanelRemote {
     }
 
     public class InitData {
-        @AuraEnabled public String user_has_permission = 'no perm';
+        @AuraEnabled public String userPermission = TYPE_DISABLED;
         @AuraEnabled public List<VisitResultGroupWrapper> groups;
         @AuraEnabled public List<LabelValueItem> typeSelectLVList = new List<LabelValueItem>{
                 new LabelValueItem('Disabled for all countries', TYPE_DISABLED),
@@ -90,7 +90,7 @@ public without sharing class VisitResultSharingPanelRemote {
 
             InitData initData = new InitData();
             initData.groups = new List<VisitResultGroupWrapper>();
-            initData.user_has_permission = GetPermissions.getViewMode(FEATURE_VISIT_RESULT_SHARING);
+            initData.userPermission = GetPermissions.getViewMode(FEATURE_VISIT_RESULT_SHARING);
 
             List<Visit_Result_GroupM__mdt> resultGroups = [
                     SELECT Id, Label, (SELECT Id, DeveloperName, Label, Visit_Result_Code__c FROM Visit_Result_Types__r)
