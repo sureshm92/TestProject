@@ -6341,6 +6341,20 @@ View study documents and other resources including articles and videos related t
         <value>Participants Waiting For Acceptance</value>
     </labels>
     <labels>
+        <fullName>PG_DBPI_L_Referrals_waiting_for_contact</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI L Referrals Waiting For Contact</shortDescription>
+        <value>Participants Awaiting Contact</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_L_Referrals_waiting_for_first_contact</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI L Referrals Waiting For First Contact</shortDescription>
+        <value>Time Waiting for First Contact</value>
+    </labels>
+    <labels>
         <fullName>PG_DBPI_L_Referrals_waiting_to_be_contacted</fullName>
         <language>en_US</language>
         <protected>false</protected>

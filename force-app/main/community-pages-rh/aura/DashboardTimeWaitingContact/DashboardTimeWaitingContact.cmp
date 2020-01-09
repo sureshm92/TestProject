@@ -1,0 +1,27 @@
+<!--
+ - Created by Alexey Moseev.
+ -->
+
+<aura:component description="DashboardTimeWaitingContact">
+
+    <!-- attributes:-->
+    <aura:attribute name="peList" type="List"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+
+    <!-- component body -->
+
+    <div class="slds-grid slds-wrap db-section" style="margin-top: 20px;">
+        <aura:iteration items="{!v.peList}" var="item" indexVar="ind">
+            <div class="slds-col slds-size--3-of-12" style="text-align: right; margin-bottom: 10px;">
+                {!item.title}
+            </div>
+            <div class="slds-col slds-size--9-of-12" style="margin-bottom: 10px;">
+                <div style="{!'width: ' + item.width +'; background-color: ' + item.color + '; height: 20px; display: inline-block;'}"></div><div style="margin-left: 10px; display: inline-block;">{!'' + item.count + ' Patients'}</div>
+            </div>
+        </aura:iteration>
+    </div>
+    <footer class="slds-card__footer">
+        <div class="slds-text-align_center"><c:RRLink page="my-referrals?filter=pending" class="apollo-btn text">{!$Label.c.BTN_View_all}</c:RRLink></div>
+    </footer>
+
+</aura:component>
