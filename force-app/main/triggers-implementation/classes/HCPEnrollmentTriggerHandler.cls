@@ -56,6 +56,17 @@ public without sharing class HCPEnrollmentTriggerHandler {
             createStatusHistory(newList, (Map<Id, HCP_Enrollment__c>)oldMap);
         }
     }
+
+    public  class CheckReimbursableActivities extends TriggerHandler{
+
+        public override void afterInsert(List<SObject> newList){
+            ProviderPaymentsService.checkHCPEForReimbursableActivities((List<HCP_Enrollment__c>)newList, null);
+        }
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap){
+           ProviderPaymentsService.checkHCPEForReimbursableActivities((List<HCP_Enrollment__c>)newList, (Map<Id, HCP_Enrollment__c>)oldMap);
+        }
+}
     
     // Logic: ----------------------------------------------------------------------------------------------------------
     
