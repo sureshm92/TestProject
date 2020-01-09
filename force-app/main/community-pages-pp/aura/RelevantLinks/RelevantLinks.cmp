@@ -6,12 +6,12 @@
                 implements="forceCommunity:availableForAllPageTypes">
 
     <aura:attribute name="links" type="Object[]"/>
-    <aura:attribute name="isAlumni" type="Boolean"/>
+    <aura:attribute name="isAvailable" type="Boolean"/>
 
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
-    <aura:if isTrue="{!or(!v.isAlumni, !empty(v.links))}">
-        <div class="sv-panel rr-white-panel">
+    <aura:if isTrue="{!v.isAvailable}">
+        <div class="sv-panel rr-white-panel" data-gtm="PNL_RelevantLinks">
             <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
             <div class="sv-header">
                 <div class="sv-title">{!$Label.c.Home_Page_RelevantLinks_Title}</div>
