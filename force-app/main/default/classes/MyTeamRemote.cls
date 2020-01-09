@@ -452,7 +452,7 @@ public without sharing class MyTeamRemote {
         });
 
         if (userMode == CommunityService.USER_MODE_PI) {
-            List<User> delegateUser = [SELECT Id FROM User WHERE ContactId = :delegateContact.Id];
+            List<User> delegateUser = [SELECT Id FROM User WHERE ContactId = :delegateContact.Id AND IsActive = TRUE];
             if(!delegateUser.isEmpty()) {
                 List<Conversation__c> conversations = ConversationService.getSharedConversations(UserInfo.getUserId());
                 List<Id> conversationIds = new List<Id>();
