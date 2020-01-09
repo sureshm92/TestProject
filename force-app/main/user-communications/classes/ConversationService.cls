@@ -83,7 +83,7 @@ public without sharing class ConversationService {
         }
     }
 
-    public static void createConversationSharesForUser(List<Id> conversationIds, Id userId) {
+    public static List<Conversation__Share> createConversationSharesForUser(List<Id> conversationIds, Id userId) {
         List<Conversation__Share> shares = new List<Conversation__Share>();
         for(Id conId : conversationIds) {
             shares.add(new Conversation__Share(
@@ -92,7 +92,7 @@ public without sharing class ConversationService {
                     UserOrGroupId = userId
             ));
         }
-        insert shares;
+        return shares;
     }
 
     public static void removeConversationSharesForUser(List<Id> conversationIds, Id userId) {
