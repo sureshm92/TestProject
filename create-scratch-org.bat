@@ -24,6 +24,7 @@ if %ERRORLEVEL% == 0 (
     call sfdx force:user:permset:assign --permsetname PP_StudySite_Edit
     call sfdx force:user:permset:assign --permsetname PP_Study_Resources_Edit
     call sfdx force:user:permset:assign --permsetname PP_Travel_Vendors_Edit
+    call sfdx force:user:permset:assign --permsetname PP_Payment_Vendors_Edit
     call sfdx force:user:permset:assign --permsetname PP_Trial_Surveys_Edit
     call sfdx force:user:permset:assign --permsetname PP_Visits_Configuration_Edit
     call sfdx force:user:permset:assign --permsetname PP_Visits_Results_Sharing_Edit

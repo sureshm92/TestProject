@@ -35,15 +35,14 @@
                 <c:Action_ChangePEStatusByPI aura:id="changePEStatusByPIAction"/>
                 <!-- Change HCP Status dialog -->
                 <c:Action_ChangeHCPStatusByPI aura:id="changeHCPStatusByPIAction"/>
+                <!-- change PE Information -->
+                <c:Action_ParticipantInformation aura:id="updatePatientInfoAction"/>
             </aura:if>
             <aura:if isTrue="{!v.userMode == 'HCP'}">
                 <c:DashboardHCP hcpData="{!v.hcpData}"/>
             </aura:if>
         </div>
-
    </aura:if>
 
-    <!-- change PE Information -->
-    <c:Action_ParticipantInformation aura:id="updatePatientInfoAction"/>
 
 </aura:component>

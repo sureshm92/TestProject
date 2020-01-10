@@ -17,6 +17,7 @@ public without sharing class ViewPatientsRemote {
     }
 
     public class PEWrapper{
+        public boolean isInvited;
         public ParticipantItem pItem;
         public Map<String, StudyActions.Action> actions;
         public List<StudyActions.Action> participantCardActions;
@@ -25,6 +26,11 @@ public without sharing class ViewPatientsRemote {
         public PEWrapper(Participant_Enrollment__c pe, Map<String, StudyActions.Action> actions){
             this.pItem = new ParticipantItem(pe);
             this.actions = actions;
+        }
+        public PEWrapper(Participant_Enrollment__c pe, Map<String, StudyActions.Action> actions, boolean isInvited){
+            this.pItem = new ParticipantItem(pe);
+            this.actions = actions;
+            this.isInvited = isInvited;
         }
     }
 
@@ -293,11 +299,35 @@ public without sharing class ViewPatientsRemote {
     }
     private static List<PEWrapper> convertToPEWrapperList(List<Participant_Enrollment__c> participantEnrollments, String userMode, String delegateId){
         List<PEWrapper> resultList = new List<PEWrapper>();
-        for(Participant_Enrollment__c pe : participantEnrollments){
-            if(userMode == CommunityService.USER_MODE_HCP){
+        Set<Id> idParticipants = new Set<Id>();
+        Set<Id> idParticipantsOnUser = new Set<Id>();
+        for (Participant_Enrollment__c pe : participantEnrollments) {
+            idParticipants.add(pe.Participant_Contact__c);
+        }
+        Map<Id, User> usersMapId = new Map<Id, User>([
+                                                        SELECT
+                                                                Id,
+                                                                ContactId
+                                                        FROM User
+                                                        WHERE  ContactId
+                                                        IN : idParticipants
+        ]);
+        for (User us : usersMapId.values()) {
+            idParticipantsOnUser.add(us.ContactId);
+        }
+        for (Participant_Enrollment__c pe : participantEnrollments) {
+            if (userMode == CommunityService.USER_MODE_HCP) {
                 resultList.add(new PEWrapper(pe, new StudyActionsHCP(pe, delegateId).actions));
-            }else{
-                resultList.add(new PEWrapper(pe, new StudyActionsPI(pe).actions));
+            } else {
+                if (userMode == CommunityService.USER_MODE_PI) {
+                    if (idParticipantsOnUser.contains(pe.Participant_Contact__c)) {
+                        resultList.add(new PEWrapper(pe, new StudyActionsHCP(pe, delegateId).actions, true));
+                    } else {
+                        resultList.add(new PEWrapper(pe, new StudyActionsHCP(pe, delegateId).actions, false));
+                    }
+                } else {
+                    resultList.add(new PEWrapper(pe, new StudyActionsPI(pe).actions));
+                }
             }
         }
         return resultList;

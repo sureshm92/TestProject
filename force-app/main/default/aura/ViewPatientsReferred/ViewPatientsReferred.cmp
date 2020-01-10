@@ -29,6 +29,7 @@
     <aura:attribute name="header" type="String" default="" access="public"/>
     <aura:attribute name="studyFilterEnabled" type="Boolean" default="false" access="public"/>
     <aura:attribute name="ssId" type="String"/>
+    <aura:attribute name="isInvited" type="boolean"/>
 
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
@@ -70,17 +71,20 @@
                 <aura:if isTrue="{!v.userMode == 'PI'}">
                     <c:rrSelect value="{!v.peFilter.activePE}" options="{!v.peFilterData.activePE}"
                                 placeholder="{!$Label.c.PG_VP_L_Active}" useSentenceFont="false"
-                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container" setValueAsSelected="true"/>
+                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container"
+                                setValueAsSelected="true"/>
                 </aura:if>
                 <aura:if isTrue="{!v.studyFilterEnabled}">
                     <c:rrSelect value="{!v.peFilter.study}" options="{!v.peFilterData.studies}"
                                 placeholder="{!$Label.c.PG_MRRL_L_Studies}" useSentenceFont="false"
-                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-study-filter-container" setValueAsSelected="true"/>
+                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-study-filter-container"
+                                setValueAsSelected="true"/>
                 </aura:if>
                 <aura:if isTrue="{!v.userMode == 'HCP'}">
                     <c:rrSelect value="{!v.peFilter.studySite}" options="{!v.peFilterData.studySites}"
                                 placeholder="{!$Label.c.PG_VP_L_Study_sites}" useSentenceFont="false"
-                                disabled="{!or(not(empty(v.peFilter.searchText)),empty(v.peFilter.study))}" setValueAsSelected="true"/>
+                                disabled="{!or(not(empty(v.peFilter.searchText)),empty(v.peFilter.study))}"
+                                setValueAsSelected="true"/>
                     <c:rrSelect value="{!v.peFilter.referringStatus}" options="{!v.peFilterData.referringStatuses}"
                                 placeholder="{!$Label.c.PG_VP_L_Referral_status}"
                                 disabled="{!not(empty(v.peFilter.searchText))}" setValueAsSelected="true"/>
@@ -91,13 +95,16 @@
                 <aura:if isTrue="{!v.userMode == 'PI'}">
                     <c:rrSelect value="{!v.peFilter.studySite}" options="{!v.peFilterData.studySites}"
                                 placeholder="{!$Label.c.PG_VP_L_Study_sites}" useSentenceFont="false"
-                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container" setValueAsSelected="true"/>
+                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container"
+                                setValueAsSelected="true"/>
                     <c:rrSelect value="{!v.peFilter.source}" options="{!v.peFilterData.source}"
                                 placeholder="{!$Label.c.PG_VP_L_Source}" useSentenceFont="false"
-                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container" setValueAsSelected="true"/>
+                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container"
+                                setValueAsSelected="true"/>
                     <c:rrSelect value="{!v.peFilter.participantStatus}" options="{!v.peFilterData.statuses}"
                                 placeholder="{!$Label.c.PG_VP_L_Participant_Status}" useSentenceFont="false"
-                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container" setValueAsSelected="true"/>
+                                disabled="{!not(empty(v.peFilter.searchText))}" class="fp-ss-filter-container"
+                                setValueAsSelected="true"/>
                     <!--<c:rrSelect value="{!v.peFilter.referringClinic}" options="{!v.peFilterData.referringClinics}"
                                 placeholder="{!$Label.c.PG_DBPI_L_Referring_clinics}" useSentenceFont="false"
                                 disabled="{!not(empty(v.peFilter.searchText))}"/>
@@ -127,7 +134,8 @@
                                        singlePatientView="false"
                                        changeStatusBtnList="{!v.changeStatusBtnList}"
                                        parent="{!this}"
-                                       userMode="{!v.userMode}"/>
+                                       userMode="{!v.userMode}"
+                                       isInvited="{!item.isInvited}"/>
                 </aura:iteration>
             </div>
 
@@ -141,6 +149,8 @@
 
             <!-- change PE Information -->
             <c:Action_ParticipantInformation aura:id="updatePatientInfoAction"/>
+
+            <c:Action_ParticipantMrrResult aura:id="openSearch"/>
 
 
         </aura:if>

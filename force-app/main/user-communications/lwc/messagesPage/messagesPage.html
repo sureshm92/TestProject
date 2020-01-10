@@ -1,0 +1,44 @@
+<!--
+ - Created by Igor Malyuta on 21.12.2019.
+ -->
+
+<!-- Messages Page -->
+<template>
+    <div class="ms-page rr-width-limiter side-padding rr-min-body-height">
+        <div class="ms-container">
+            <c-web-spinner></c-web-spinner>
+            <template if:true={initialized}>
+                <div class="ms-left">
+                    <div class="ms-mes-header">
+                        <div class="ms-title">{labels.messagesLabel}</div>
+                        <div class="ms-btn-new" onclick={handleNewMessageClick}>
+                            <c-web-icon icon-name="icon-plus" icon-color="white"></c-web-icon>
+                        </div>
+                    </div>
+                    <template if:true={hideEmptyStub}>
+                        <template if:true={creationMode}>
+                            <div class="ms-new-mode">{labels.newMessLabel}</div>
+                        </template>
+                        <div class="ms-conversations-board">
+                            <template if:true={conversationWrappers}>
+                                <template for:each={conversationWrappers} for:item="conWr">
+                                    <c-conversation-item key={conWr.conversation.Id} item={conWr} user-mode={userMode}
+                                                         onopenconversation={handleOpenConversation}></c-conversation-item>
+                                </template>
+                            </template>
+                        </div>
+                    </template>
+                    <template if:false={hideEmptyStub}>
+                        <div class="ms-empty-conversations">
+                            <c-web-icon icon-name="icon-list-bulleted" icon-color="#a6a6a6"></c-web-icon>
+                            <div class="ms-empty-conversations-label">{labels.emptyConversationLabel}</div>
+                        </div>
+                    </template>
+                </div>
+                <div class="ms-right">
+                    <c-message-board user-mode={userMode} onconversationupdate={handleMessageSend}></c-message-board>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

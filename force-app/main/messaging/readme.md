@@ -42,7 +42,7 @@ IQVIA Patient Portal
 ```
 
 ### Do not forget
-After creation **remove your type and target** from default metadata directory to messaging/customMetadata
+After creation **move your type and target** from default metadata directory to messaging/customMetadata
 
 Write down in NotificationService class your new Notification Type for using later in your code
 ```

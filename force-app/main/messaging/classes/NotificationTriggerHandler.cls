@@ -21,8 +21,23 @@ public without sharing class NotificationTriggerHandler {
 
     private static void checkFieldsForNotification(List<Notification__c> newList) {
         for (Notification__c n : newList) {
-            if (NotificationService.getNotificationType(n.Notification_Type__c) == null) {
+            Notification_Type__mdt notificationType = NotificationService.getNotificationType(n.Notification_Type__c);
+            if (notificationType == null) {
                 n.addError('Wrong type of Notification ' + n.Notification_Type__c);
+            }else if(notificationType.Parameters_Provider__c != null && n.WhatId__c == null){
+                n.addError('WhatId can not be null. WhatId must be Id of type: ' + notificationType.Parameters_Provider__r.Source_Object_Type__c);
+            }else{
+                try{
+                    Id sourceType = n.WhatId__c;
+                    if((sourceType.getSobjectType() + '').toLowerCase() != notificationType.Parameters_Provider__r.Source_Object_Type__c.toLowerCase()){
+                        n.addError('WhatId must be Id of type: ' + notificationType.Parameters_Provider__r.Source_Object_Type__c + '. Found: ' + sourceType.getSobjectType());
+                    }
+                }catch (Exception e){
+                    n.addError('WhatId is not correct');
+                }
+            }
+            if (n.Recipient__c == null && n.Topic__c == null) {
+                n.addError('Recipient can not be null while topic is null ' + n.Notification_Type__c);
             }
         }
     }
@@ -34,8 +49,9 @@ public without sharing class NotificationTriggerHandler {
         for (Notification__c n : newList) {
             if (n.Recipient__c == null && n.Topic__c != null) {
                 notificationsForMassEmail.add(n);
-            } else if ( n.Status__c == NotificationService.NOTIFICATION_STATUS_CREATED) {
+            } else if(!System.isBatch()){
                 recipientNotifications.add(n);
+
             }
         }
         //recipient notifications:

@@ -1,0 +1,59 @@
+<aura:component description="Action_ParticipantMrrResult" controller="ReferralProfileRemote"
+                extends="c:CommunityContext">
+    <aura:attribute name="pe" type="Participant_Enrollment__c"/>
+    <aura:attribute name="callback" type="Object" access="private"/>
+    <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
+    <aura:attribute name="initialized" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="frameHeight" type="String" default="500px"/>
+    <aura:attribute name="mrrResult" type="String"/>
+    <aura:attribute name="isInvited" type="boolean"/>
+
+    <!-- methods -->
+    <aura:method name="execute" action="{!c.doExecute}" access="public">
+        <aura:attribute name="pe" type="Participant_Enrollment__c"/>
+        <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
+        <aura:attribute name="frameHeight" type="String" default="500px"/>
+        <aura:attribute name="isInvited" type="boolean"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <c:Popup aura:id="dialog" size="large" showScroll="true" showFooter="false">
+        <c:RRSpinner aura:id="spinner" size="medium"/>
+        <aura:if isTrue="{!!v.mrrResult}">
+            <iframe id="mrrGizmoFrame" class="slds-grid slds-gutters" style="{!'height: '+v.frameHeight}"
+                    frameborder="no" width="100%"
+                    src="{!v.pe.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c}"></iframe>
+        </aura:if>
+
+
+        <aura:if isTrue="{!v.mrrResult == 'Fail'}">
+            <div class="mrr-alert fail">
+                <c:RRIcon iconName="icon-close-circle"/>
+                <div class="main-title">{!v.pe.Participant_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Failed}</div>
+                <button class="apollo-btn primary"
+                        disabled="{!v.isInvited}"
+                        onclick="{!c.inviteToPortal}">
+                    {!$Label.c.Invite_Participant_To_Portal}
+                </button>
+                <button class="apollo-btn tertiary"
+                        onclick="{!c.backToParticipant}">{!$Label.c.PG_MRR_BTN_Back_to_My_Participant}</button>
+            </div>
+        </aura:if>
+
+
+        <aura:if isTrue="{!v.mrrResult == 'Pass'}">
+            <div class="mrr-alert pass">
+                <c:RRIcon iconName="icon-check-circle"/>
+                <div class="main-title">{!v.pe.Participant_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Passed}</div>
+                <button class="apollo-btn primary"
+                        onclick="{!c.inviteToPortal}"
+                        disabled="{!v.isInvited}"
+                        title="{!v.actions.referToThisStudy.disableReason}">
+                    {!$Label.c.Invite_Participant_To_Portal}
+                </button>
+                <button class="apollo-btn tertiary"
+                        onclick="{!c.backToParticipant}">{!$Label.c.PG_MRR_BTN_Back_to_My_Participant}</button>
+            </div>
+        </aura:if>
+    </c:Popup>
+</aura:component>
