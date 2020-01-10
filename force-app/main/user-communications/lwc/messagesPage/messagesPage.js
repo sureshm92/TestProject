@@ -6,6 +6,7 @@ import {LightningElement, api, track, wire} from 'lwc';
 import {loadStyle} from 'lightning/platformResourceLoader';
 import communityStyle from '@salesforce/resourceUrl/rr_community_css';
 import proxima from '@salesforce/resourceUrl/proximanova';
+import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 
 import messagesLabel from '@salesforce/label/c.MS_Messages';
 import newMessLabel from '@salesforce/label/c.MS_New_Mess';
@@ -14,6 +15,7 @@ import studyTeamLabel from '@salesforce/label/c.Study_Team';
 import attachmentLabel from '@salesforce/label/c.MS_Attachment';
 
 import getInit from '@salesforce/apex/MessagePageRemote.getInitData';
+import markRead from '@salesforce/apex/MessagePageRemote.markConversationAsRead';
 
 export default class MessagesPage extends LightningElement {
 
@@ -99,13 +101,14 @@ export default class MessagesPage extends LightningElement {
     handleOpenConversation(event) {
         let conItem = event.detail.item;
 
-        if(this.creationMode) {
+        if (this.creationMode) {
             this.creationMode = false;
             this.canStartConversation = this.checkCanStartNewConversation();
             this.changePlusStyle(this.canStartConversation);
         }
+
         this.changeConversationsBackground(conItem.conversation.Id);
-        this.messageBoard.openExisting(conItem.conversation, conItem.messages);
+        this.messageBoard.openExisting(conItem.conversation, conItem.messages, conItem.isPastStudy);
     }
 
     handleMessageSend(event) {
@@ -150,9 +153,9 @@ export default class MessagesPage extends LightningElement {
         if (!this.enrollments || this.enrollments.length < 1) return false;
         if (!this.conversationWrappers) return true;
         if (this.userMode === 'PI' && this.enrollments.length === 1) {
-            if(this.conversationWrappers.length === 1) {
+            if (this.conversationWrappers.length === 1) {
                 let conPEId = this.conversationWrappers[0].conversation.Participant_Enrollment__c;
-                if(this.enrollments[0].Id === conPEId) return false;
+                if (this.enrollments[0].Id === conPEId) return false;
             }
             return true;
         }

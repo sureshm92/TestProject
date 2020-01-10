@@ -12,8 +12,8 @@
                 <div class="ms-item-time">
                     <lightning-formatted-date-time value={item.message.CreatedDate}
                                                    year="numeric" month="short" day="2-digit"
-                                                   hour="numeric" minute="numeric"
-                                                   second="numeric"></lightning-formatted-date-time>
+                                                   hour="numeric" minute="numeric" second="numeric"
+                                                   time-zone={timeZone}></lightning-formatted-date-time>
                 </div>
             </div>
             <div class="ms-item-text">{item.message.Message_Content__c}</div>

@@ -3,6 +3,7 @@
  */
 
 import {LightningElement, api} from 'lwc';
+import profileTZ from '@salesforce/i18n/timeZone';
 import AvatarColorCalculator from 'c/avatarColorCalculator';
 
 export default class MessageItem extends LightningElement {
@@ -20,5 +21,9 @@ export default class MessageItem extends LightningElement {
         initials = ((initials.shift() || '') + (initials.shift() || '')).toUpperCase();
 
         return initials;
+    }
+
+    get timeZone() {
+        return profileTZ;
     }
 }

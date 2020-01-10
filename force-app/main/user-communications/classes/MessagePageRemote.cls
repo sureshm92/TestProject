@@ -36,22 +36,10 @@ public without sharing class MessagePageRemote {
     public static MSPageData getInitData() {
         try {
             MSPageData pageData = new MSPageData();
-            pageData.userMode = CommunityModeService.getCurrentCommunityMode(CommunityModeService.getUserCommunityModes()).userMode;
+            pageData.userMode = CommunityService.getUserContact().userCommunityMode__c;
 
-            List<Conversation__c> conversations = ConversationService.getSharedConversations(UserInfo.getUserId());
-            if (conversations != null && !conversations.isEmpty()) {
-                List<Id> conIds = new List<Id>();
-                for (Conversation__c con : conversations) conIds.add(con.Id);
-
-                Map<Id, List<Message__c>> messagesByConversation = MessageService.getMessagesByConversations(conIds);
-                pageData.conversationWrappers = new List<ConversationWrapper>();
-                for (Conversation__c conversation : conversations) {
-                    pageData.conversationWrappers.add(getConversationWrapper(
-                            pageData.userMode, conversation, messagesByConversation.get(conversation.Id))
-                    );
-                }
-            }
-
+            List<Conversation__c> sharedConversations = ConversationService.getSharedConversations(UserInfo.getUserId());
+            List<Conversation__c> conversations = new List<Conversation__c>();
             if (pageData.userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 //Collect Enrollments
                 ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
@@ -61,6 +49,16 @@ public without sharing class MessagePageRemote {
                         ContactService.getPastEnrollments(participantState.participant.Contact__c);
                 if (!pastEnrollments.isEmpty()) pageData.enrollments.addAll(pastEnrollments);
 
+
+                List<Id> availablePEIds = new List<Id>();
+                for(Participant_Enrollment__c pe : pageData.enrollments) availablePEIds.add(pe.Id);
+
+                if(sharedConversations != null) {
+                    for(Conversation__c con : sharedConversations) {
+                        if(availablePEIds.contains(con.Participant_Enrollment__c)) conversations.add(con);
+                    }
+                }
+
                 //Message Variants
                 List<Message_Template__mdt> messageTemplates = [SELECT Message_Variant__c FROM Message_Template__mdt];
                 if (!messageTemplates.isEmpty()) {
@@ -69,12 +67,28 @@ public without sharing class MessagePageRemote {
                     for (Message_Template__mdt mesTmp : messageTemplates) pageData.messageTemplates.add(mesTmp.Message_Variant__c);
                 }
             } else if (pageData.userMode == CommunityService.USER_MODE_PI) {
+                if(sharedConversations != null) conversations.addAll(sharedConversations);
+
                 //Collect Enrollments
                 pageData.enrollments = [
                         SELECT Id, Participant__r.Full_Name__c
                         FROM Participant_Enrollment__c
                         WHERE Study_Site__r.Principal_Investigator__c = :CommunityService.getInstance().getCurrentContactId()
                 ];
+            }
+
+            if (!conversations.isEmpty()) {
+                List<Id> conIds = new List<Id>();
+                for (Conversation__c con : conversations) conIds.add(con.Id);
+
+                Map<Id, List<Message__c>> messagesByConversation = MessageService.getMessagesByConversations(conIds);
+                pageData.conversationWrappers = new List<ConversationWrapper>();
+
+                for (Conversation__c conversation : conversations) {
+                    pageData.conversationWrappers.add(getConversationWrapper(
+                            pageData.userMode, conversation, messagesByConversation.get(conversation.Id))
+                    );
+                }
             }
 
             return pageData;
@@ -86,46 +100,69 @@ public without sharing class MessagePageRemote {
     @AuraEnabled
     public static ConversationWrapper createConversation(Participant_Enrollment__c enrollment, String messageText) {
         try {
-            String userMode = CommunityModeService.getCurrentCommunityMode(CommunityModeService.getUserCommunityModes()).userMode;
-
+            Contact userContact = CommunityService.getUserContact();
             Conversation__c newConversation = new Conversation__c(Participant_Enrollment__c = enrollment.Id);
-            if(userMode.equals(CommunityService.USER_MODE_PARTICIPANT)) {
+            if(userContact.userCommunityMode__c.equals(CommunityService.USER_MODE_PARTICIPANT)) {
                 newConversation.haveUnreadForPI__c = true;
             } else {
                 newConversation.haveUnreadForParticipant__c = true;
             }
             insert newConversation;
 
-            ConversationService.createConversationShares(newConversation.Id, enrollment);
+            ConversationService.createConversationSharesForMembers(newConversation.Id, enrollment);
 
             insert new Message__c(
                     Conversation__c = newConversation.Id,
                     Message_Content__c = messageText,
-                    Sender_Name__c = enrollment.Participant__r.Full_Name__c
+                    Sender_Name__c = userContact.UserCommunityIsDelegate__c ? userContact.Full_Name__c : enrollment.Participant__r.Full_Name__c
             );
 
             Conversation__c conversation = ConversationService.getConversations(new List<Id>{
                     newConversation.Id
             }).get(0);
             List<Message__c> messages = MessageService.getMessages(conversation.Id);
-            return getConversationWrapper(userMode, conversation, messages);
+            return getConversationWrapper(userContact.userCommunityMode__c, conversation, messages);
         } catch (Exception e) {
             return (ConversationWrapper) AuraHelper.throwException(e);
         }
     }
 
     @AuraEnabled
-    public static void sendMessage(Conversation__c conversation, Message__c message) {
+    public static ConversationWrapper sendMessage(Conversation__c conversation, String messageText) {
         try {
-            String userMode = CommunityModeService.getCurrentCommunityMode(CommunityModeService.getUserCommunityModes()).userMode;
-            if(userMode.equals(CommunityService.USER_MODE_PARTICIPANT)) {
+            Contact userContact = CommunityService.getUserContact();
+            String senderName;
+            if (userContact.userCommunityMode__c.equals(CommunityService.USER_MODE_PARTICIPANT)) {
+                senderName = userContact.UserCommunityIsDelegate__c ?
+                        userContact.Full_Name__c : conversation.Participant_Enrollment__r.Participant__r.Full_Name__c;
                 conversation.haveUnreadForPI__c = true;
             } else {
+                senderName = userContact.Full_Name__c;
                 conversation.haveUnreadForParticipant__c = true;
             }
             update conversation;
 
-            insert message;
+            insert new Message__c(
+                    Conversation__c = conversation.Id,
+                    Message_Content__c = messageText,
+                    Sender_Name__c = senderName
+            );
+
+            List<Message__c> messages = MessageService.getMessages(conversation.Id);
+            return getConversationWrapper(userContact.userCommunityMode__c, conversation, messages);
+        } catch (Exception e) {
+            return (ConversationWrapper) AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
+    public static void markConversationAsRead(Id conId) {
+        try {
+            update new Conversation__c(
+                    Id = conId,
+                    haveUnreadForParticipant__c = false,
+                    haveUnreadForPI__c = false
+            );
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -169,11 +206,10 @@ public without sharing class MessagePageRemote {
                 messageWrapper.message = message;
                 conWr.messages.add(messageWrapper);
             }
-            Message__c lastMessage = messages.get(messages.size() - 1);
+            Message__c lastMessage = messages.get(0);
             conWr.lastUpdate = lastMessage.CreatedDate.date();
             conWr.lastMessagePart = lastMessage.Message_Content__c;
         }
-
         return conWr;
     }
 }

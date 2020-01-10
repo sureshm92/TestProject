@@ -1758,6 +1758,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>View My Home Page</value>
     </labels>
     <labels>
+        <fullName>Email_Action_View_My_Messages</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Action View My Messages</shortDescription>
+        <value>View My Messages</value>
+    </labels>
+    <labels>
         <fullName>Email_Action_View_My_Patients</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2034,6 +2041,13 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
             To accept this request, log in to the IQVIA Referral Hub and navigate to “My Referring Clinics.”</value>
     </labels>
     <labels>
+        <fullName>Email_Body_PI_New_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body PI New Mess</shortDescription>
+        <value>You have a new message in Message Center.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Participant_Answer</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2213,6 +2227,13 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
         <value>The study team has updated your referral status for clinical study: ##StudyName.
 
             To see additional information, log in to the IQVIA Patient Portal, and then go to &quot;My Studies.&quot;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient_Become_Adult</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Patient Become Adult</shortDescription>
+        <value>You has become adult for the clinical research study: ##StudyName. Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient_CreatedDate</fullName>
@@ -2641,6 +2662,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <value>Referring provider pending acceptance</value>
     </labels>
     <labels>
+        <fullName>Email_Header_PI_New_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header PI New Mess</shortDescription>
+        <value>PI New Message</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Patient2</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2667,6 +2695,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <protected>false</protected>
         <shortDescription>Email Header Patient5</shortDescription>
         <value>Thank you for completing your clinical research study</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Patient_Become_Adult</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Patient Become Adult</shortDescription>
+        <value>You has become an adult</value>
     </labels>
     <labels>
         <fullName>Email_Header_Patient_Dropped_Out</fullName>
@@ -3161,6 +3196,13 @@ The IQVIA Patient Portal Support Team</value>
         <value>Reminder to accept a referring provider</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_PI_New_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject PI New Mess</shortDescription>
+        <value>New Message</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_Patient2</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3180,6 +3222,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Email Subject Patient8</shortDescription>
         <value>Clinical research study referral update</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Patient_Become_Adult</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Patient Become Adult</shortDescription>
+        <value>You has become an adult</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Patient_Dropped_Out</fullName>
@@ -4634,6 +4683,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>MetabolicPanel</shortDescription>
         <value>Metabolic Panel</value>
+    </labels>
+    <labels>
+        <fullName>Mob_Phone_Field</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mob Phone Field</shortDescription>
+        <value>Mobile Phone</value>
     </labels>
     <labels>
         <fullName>MyStudy_Associated_Sites_and_Site_Details</fullName>
@@ -6465,6 +6521,20 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG DBPI L Referrals Waiting For Acceptance</shortDescription>
         <value>Participants Waiting For Acceptance</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_L_Referrals_waiting_for_contact</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI L Referrals Waiting For Contact</shortDescription>
+        <value>Participants Awaiting Contact</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_L_Referrals_waiting_for_first_contact</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI L Referrals Waiting For First Contact</shortDescription>
+        <value>Time Waiting for First Contact</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Referrals_waiting_to_be_contacted</fullName>
@@ -11717,6 +11787,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>Toast Contact Inf Not Updated</shortDescription>
         <value>Please update your contact information.</value>
+    </labels>
+    <labels>
+        <fullName>Toast_Enter_Mob_Num</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast Enter Mob Num</shortDescription>
+        <value>Please enter a mobile number.</value>
     </labels>
     <labels>
         <fullName>Toast_ICF</fullName>

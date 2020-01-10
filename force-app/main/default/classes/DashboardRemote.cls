@@ -16,6 +16,11 @@ public class DashboardRemote {
         Integer physiciansWaitingForApproval;
         List<ListItem> physiciansWaitingForApprovalList;
         List<DonutItem> siteRequests = new List<DonutItem>();
+
+        List<BarItem> waitingTimeToContact = new List<BarItem>();
+
+        Integer participantsWaitingContact;
+        List<WaitingContactItem> awaitingToContact = new List<WaitingContactItem>();
     }
     
     class HCPData{
@@ -41,7 +46,45 @@ public class DashboardRemote {
             this.action = action;
         }
     }
-    
+
+    private static String LEESS_5_DAYS = '<5 Days';
+    private static String FROM_6_TO_10_DAYS = '6-10 Days';
+    private static String FROM_11_TO_15_DAYS = '11-15 Days';
+    private static String FROM_16_TO_20_DAYS = '16-20 Days';
+    private static String GREATER_30_DAYS = '>30 Days';
+
+    class BarItem {
+        String color;
+        String width;
+        String title;
+        String count;
+
+        BarItem(String color, String width, String title, String count) {
+            this.color = color;
+            this.width = width;
+            this.title = title;
+            this.count = count;
+        }
+    }
+
+    class WaitingContactItem {
+        String Id;
+        String name;
+        String source;
+        String studyName;
+        String studyId;
+        Integer daysAdded;
+
+        WaitingContactItem(String Id, String name, String source, String studyName, String studyId, Integer daysAdded) {
+            this.Id = Id;
+            this.name = name;
+            this.source = source;
+            this.studyName = studyName;
+            this.studyId = studyId;
+            this.daysAdded = daysAdded;
+        }
+    }
+
     @AuraEnabled
     public static String getInitData(String userMode, String delegateId){
         try{
@@ -100,7 +143,14 @@ public class DashboardRemote {
                         new DonutItem(Label.DI_L_Declined, phDeclined , DonutItem.Type.DECLINED),
                         new DonutItem(Label.DI_L_Pending_approval_activation, phPending , DonutItem.Type.PENDING)
                 });
-        
+
+                // waiting contact in days
+                piData.waitingTimeToContact = prepareWaitingList(userMode, delegateId);
+
+                // awaiting contact
+                piData.awaitingToContact = prepareAwaitingContactList(userMode, delegateId);
+                piData.participantsWaitingContact = piData.awaitingToContact.size();
+
                 return JSON.serialize(piData);
     
             }else if(userMode == CommunityService.USER_MODE_HCP){
@@ -162,7 +212,29 @@ public class DashboardRemote {
         upsert pe;
         return getInitData(CommunityService.USER_MODE_PI, null);
     }
-    
+
+    @AuraEnabled
+    public static String getParticipantData(String userMode, String delegateId, String participantId){
+        System.debug('participantId => ' + participantId);
+        ViewPatientsRemote.InitData initData = new ViewPatientsRemote.InitData();
+        initData.peStatusStateMap = PEStatusState.STATUSES_MAP;
+        initData.peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
+
+        List<Participant_Enrollment__c> pes =
+                ParticipantEnrollmentService.getPEnrolmentsByStatus(
+                        userMode,
+                        new List<String>{ PEStatusState.PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS },
+                        null,
+                        delegateId);
+        for (Participant_Enrollment__c pe : pes) {
+            if (pe.Participant__c == participantId) {
+                initData.currentPageList = new List<ViewPatientsRemote.PEWrapper> { new ViewPatientsRemote.PEWrapper(pe, new StudyActionsPI(pe).actions) };
+            }
+        }
+
+        return JSON.serialize(initData);
+    }
+
     private static List<ListItem> prepareHCPEList(List<HCP_Enrollment__c> hcpeList, String userMode){
         List<ListItem> resList = new List<ListItem>();
         for(HCP_Enrollment__c hcpe : hcpeList){
@@ -196,4 +268,92 @@ public class DashboardRemote {
         return resList;
     }
 
+    private static List<BarItem> prepareWaitingList(String userMode, String delegateId) {
+        List<BarItem> resList = new List<BarItem>();
+
+        List<Participant_Enrollment__c> pes =
+                ParticipantEnrollmentService.getPEnrolmentsByStatus(
+                        userMode,
+                        new List<String>{ PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
+                                          PEStatusState.PE_STATUS_REFERRAL_ACCEPTED },
+                        null,
+                        delegateId);
+        Map<Id, Participant_Enrollment__c> peById = new Map<Id, Participant_Enrollment__c>(pes);
+
+        List<Participant_Enrollment_Status_History__c> peSHs =
+            [SELECT Id,
+                    CreatedDate,
+                    ParticipantEnrollment__c,
+                    Status__c
+             FROM Participant_Enrollment_Status_History__c
+             WHERE ParticipantEnrollment__c IN :peById.keySet() AND
+                   Status__c IN :(new List<String>{ PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
+                                                    PEStatusState.PE_STATUS_REFERRAL_ACCEPTED })
+             ORDER BY CreatedDate DESC];
+
+        Integer maxParticipantsInDays = 0;
+        String daysMaxParticipantsInDays = null;
+        Set<Id> peIdsProcessed = new Set<Id>();
+        Map<String, List<Participant_Enrollment_Status_History__c>> peSHByDays = new Map<String, List<Participant_Enrollment_Status_History__c>> {
+                LEESS_5_DAYS => new List<Participant_Enrollment_Status_History__c>(),
+                FROM_6_TO_10_DAYS => new List<Participant_Enrollment_Status_History__c>(),
+                FROM_11_TO_15_DAYS => new List<Participant_Enrollment_Status_History__c>(),
+                FROM_16_TO_20_DAYS => new List<Participant_Enrollment_Status_History__c>(),
+                GREATER_30_DAYS => new List<Participant_Enrollment_Status_History__c>()
+        };
+        for (Participant_Enrollment_Status_History__c peSH : peSHs) {
+            if (!peIdsProcessed.contains(peSH.ParticipantEnrollment__c)) {
+                Integer daysBetween = peSH.CreatedDate.date().daysBetween(System.today());
+                String days = null;
+                if (5 <= daysBetween) {
+                    days = LEESS_5_DAYS;
+                } else if (daysBetween >= 6 && daysBetween <=10) {
+                    days = FROM_6_TO_10_DAYS;
+                } else if (daysBetween >= 11 && daysBetween <=15) {
+                    days = FROM_11_TO_15_DAYS;
+                } else if (daysBetween >= 16 && daysBetween <=20) {
+                    days = FROM_16_TO_20_DAYS;
+                } else if (daysBetween >= 30) {
+                    days = GREATER_30_DAYS;
+                }
+                List<Participant_Enrollment_Status_History__c> peSHDay = peSHByDays.get(days);
+                peSHDay.add(peSH);
+                if (maxParticipantsInDays < peSHDay.size()) {
+                    maxParticipantsInDays = peSHDay.size();
+                    daysMaxParticipantsInDays = days;
+                }
+            }
+        }
+
+        // 70% width is maxParticipantsInDays
+        resList.add(prepareBarItem('#D8EBF7', LEESS_5_DAYS, peSHByDays.get(LEESS_5_DAYS).size(), maxParticipantsInDays, daysMaxParticipantsInDays));
+        resList.add(prepareBarItem('#B8DDF6', FROM_6_TO_10_DAYS, peSHByDays.get(FROM_6_TO_10_DAYS).size(), maxParticipantsInDays, daysMaxParticipantsInDays));
+        resList.add(prepareBarItem('#83C7F4', FROM_11_TO_15_DAYS, peSHByDays.get(FROM_11_TO_15_DAYS).size(), maxParticipantsInDays, daysMaxParticipantsInDays));
+        resList.add(prepareBarItem('#3D9BD9', FROM_16_TO_20_DAYS, peSHByDays.get(FROM_16_TO_20_DAYS).size(), maxParticipantsInDays, daysMaxParticipantsInDays));
+        resList.add(prepareBarItem('#136BA6', GREATER_30_DAYS, peSHByDays.get(GREATER_30_DAYS).size(), maxParticipantsInDays, daysMaxParticipantsInDays));
+
+        return resList;
+    }
+
+    private static BarItem prepareBarItem(String color, String title, Integer count, Integer maxPInD, String maxD) {
+        String width = title == maxD ? '70%' : count != 0 ? '' + Math.Round(70 / Math.Round(maxPInD / count)) + '%' : '1%';
+        return new BarItem(color, width, title, '' + count);
+    }
+
+    private static List<WaitingContactItem> prepareAwaitingContactList(String userMode, String delegateId) {
+        List<WaitingContactItem> resList = new List<WaitingContactItem>();
+
+        List<Participant_Enrollment__c> pes =
+                ParticipantEnrollmentService.getPEnrolmentsByStatus(
+                        userMode,
+                        new List<String>{ PEStatusState.PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS },
+                        null,
+                        delegateId);
+        for (Participant_Enrollment__c pe : pes) {
+            Integer daysAdded = pe.CreatedDate.date().daysBetween(System.today());
+            resList.add(new WaitingContactItem(pe.Participant__c, pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c, pe.Source_Type__c, pe.Study_Name__c, pe.Study_Site__r.Clinical_Trial_Profile__c, daysAdded));
+        }
+
+        return resList;
+    }
 }

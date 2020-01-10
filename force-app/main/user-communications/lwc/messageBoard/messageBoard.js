@@ -12,6 +12,7 @@ import limitLabel from '@salesforce/label/c.MS_Char_Limit';
 import attFileLabel from '@salesforce/label/c.MS_Attach_File';
 import sendBtnLabel from '@salesforce/label/c.BTN_Send';
 import teamLabel from '@salesforce/label/c.Study_Team';
+import piLabel from '@salesforce/label/c.PI_Colon';
 
 import createConversation from '@salesforce/apex/MessagePageRemote.createConversation';
 import sendMessage from '@salesforce/apex/MessagePageRemote.sendMessage';
@@ -26,7 +27,8 @@ export default class MessageBoard extends LightningElement {
         limitLabel,
         attFileLabel,
         sendBtnLabel,
-        teamLabel
+        teamLabel,
+        piLabel
     };
 
     @api userMode;
@@ -35,6 +37,7 @@ export default class MessageBoard extends LightningElement {
     @track conversation;
     @track messageWrappers;
     @track messageTemplates;
+    @track isPastStudy;
 
     @track isMultipleMode;
     @track selectedEnrollment;
@@ -49,9 +52,10 @@ export default class MessageBoard extends LightningElement {
     }
 
     @api
-    startNew(enrollments) {
+    startNew(enrollments, isPastStudy) {
         this.conversation = null;
         this.messageWrappers = [];
+        if(isPastStudy !== undefined) this.isPastStudy = isPastStudy;
 
         this.enrollments = enrollments;
         this.isMultipleMode = enrollments.length > 1;
@@ -61,9 +65,10 @@ export default class MessageBoard extends LightningElement {
     }
 
     @api
-    openExisting(conversation, messageWrappers) {
+    openExisting(conversation, messageWrappers, isPastStudy) {
         this.conversation = null;
         this.messageWrappers = [];
+        if(isPastStudy !== undefined) this.isPastStudy = isPastStudy;
 
         this.isMultipleMode = false;
         this.conversation = conversation;
@@ -86,6 +91,12 @@ export default class MessageBoard extends LightningElement {
 
     handleMessageText(event) {
         this.messageText = event.target.value;
+        let sendBtn = this.template.querySelector('.ms-send-button');
+        if(this.messageText) {
+            sendBtn.removeAttribute('disabled');
+        } else {
+            sendBtn.setAttribute('disabled', '');
+        }
     }
 
     handleSendClick(event) {
@@ -99,32 +110,25 @@ export default class MessageBoard extends LightningElement {
                             conWr: data
                         }
                     }));
+                    this.clearMessage();
                 })
                 .catch(error => {
                     console.log('Error in createConversation():' + JSON.stringify(error));
                 });
         } else {
-            let senderName;
-            if (this.userMode === 'PI') {
-                senderName = this.selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name;
-            } else {
-                senderName = this.selectedEnrollment.Participant__r.Full_Name__c;
-            }
-            let message = {
-                objectApiName: 'Message__c',
-                Conversation__c: this.conversation.Id,
-                Message_Content__c: this.messageText,
-                Sender_Name__c: senderName
-            };
-            sendMessage({conversation: this.conversation, message: message})
-                .then(() => {
-                    console.log('Success!');
+            sendMessage({conversation: this.conversation, messageText: this.messageText})
+                .then(data => {
+                    this.dispatchEvent(new CustomEvent('conversationupdate', {
+                        detail: {
+                            conWr: data
+                        }
+                    }));
+                    this.clearMessage();
                 })
                 .catch(error => {
                     console.log('Error in sendMessage():' + JSON.stringify(error));
                 });
         }
-
     }
 
     //Picklist Options:-------------------------------------------------------------------------------------------------
@@ -154,7 +158,13 @@ export default class MessageBoard extends LightningElement {
         return options;
     }
 
+    //Service Methods:--------------------------------------------------------------------------------------------------
     get isPIMode() {
         return this.userMode === 'PI';
+    }
+
+    clearMessage() {
+        this.messageText = null;
+        let sendBtn = this.template.querySelector('.ms-send-button').setAttribute('disabled', '');
     }
 }

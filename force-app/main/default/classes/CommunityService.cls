@@ -268,6 +268,7 @@ public without sharing class CommunityService {
         return [
                 SELECT Id,
                         Name,
+                        Full_Name__c,
                         primaryContact__c,
                         userCommunityMode__c,
                         userCommunityDelegateId__c,

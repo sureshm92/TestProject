@@ -5,9 +5,12 @@
 <!-- Conversation Item -->
 <template>
     <div class="con-wrapper" onclick={handleConversationClick}>
-        <template if:true={item.unread}>
-            <div class="con-unread"></div>
-        </template>
+        <div class="con-unread-place">
+            <template if:true={item.unread}>
+                <div class="con-unread-bubble"></div>
+            </template>
+        </div>
+
         <div class="con-icon">
             <template if:false={isPIMode}>
                 <c-web-icon icon-name="icon-study-team" icon-color="#ffffff" icon-height="25" icon-width="20"></c-web-icon>
@@ -22,9 +25,13 @@
                 <div class="con-time">{item.lastUpdate}</div>
             </div>
             <div class="con-description">{item.description}</div>
-            <div class="con-last-message-part">{item.lastMessagePart}</div>
+            <div class="con-last-message-part" title={item.lastMessagePart}>
+                <c-web-limit-text-by-lines max-lines="2">
+                    <span slot="body">{item.lastMessagePart}</span>
+                </c-web-limit-text-by-lines>
+            </div>
             <template if:true={item.haveAttachment}>
-
+                <c-web-icon icon-name="attachment" icon-color={attachColor} icon-size="small"></c-web-icon>
             </template>
         </div>
     </div>

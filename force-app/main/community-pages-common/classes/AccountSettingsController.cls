@@ -180,6 +180,7 @@ public without sharing class AccountSettingsController {
                         MailingState,
                         MailingStateCode,
                         MailingStreet,
+                        MobilePhone,
                         primaryContact__c,
                         primaryContact__r.AccountId,
                         HasOptedOutOfEmail,
