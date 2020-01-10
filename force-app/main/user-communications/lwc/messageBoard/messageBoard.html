@@ -51,8 +51,7 @@
             <div class="ms-board-footer">
                 <template if:true={isPIMode}>
                     <div class="ms-send-pi">
-                        <lightning-input type="text" label="" variant="label-hidden"
-                                         max-length="500"
+                        <lightning-input type="text" label="" variant="label-hidden" max-length="500"
                                          placeholder={labels.inputPlaceholderLabel}
                                          value={messageText} onchange={handleMessageText}></lightning-input>
                         <div class="ms-send-pi-buttons">

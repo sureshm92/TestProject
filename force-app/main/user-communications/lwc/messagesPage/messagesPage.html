@@ -22,8 +22,7 @@
                         <div class="ms-conversations-board">
                             <template if:true={conversationWrappers}>
                                 <template for:each={conversationWrappers} for:item="conWr">
-                                    <c-conversation-item key={conWr.conversation.Id} item={conWr}
-                                                         user-mode={userMode}
+                                    <c-conversation-item key={conWr.conversation.Id} item={conWr} user-mode={userMode}
                                                          onopenconversation={handleOpenConversation}></c-conversation-item>
                                 </template>
                             </template>
