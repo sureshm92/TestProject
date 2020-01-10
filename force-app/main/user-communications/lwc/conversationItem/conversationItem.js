@@ -5,6 +5,8 @@
 import { LightningElement, api, track } from 'lwc';
 import AvatarColorCalculator from 'c/avatarColorCalculator';
 
+import markRead from '@salesforce/apex/MessagePageRemote.markConversationAsRead';
+
 export default class ConversationItem extends LightningElement {
 
     @api item;
@@ -30,6 +32,20 @@ export default class ConversationItem extends LightningElement {
     }
 
     handleConversationClick(event) {
+        if(this.item.unread) {
+            markRead({conId: this.item.conversation.Id})
+                .then(() => {
+                        try {
+                            this.item.unread = false;
+                        } catch (e) {
+                            console.log('TRY mark:' + JSON.stringify(e));
+                        }
+                })
+                .catch(error => {
+                    console.log('Error in markRead():' + JSON.stringify(error));
+                });
+        }
+
         this.dispatchEvent(new CustomEvent('openconversation', {
             detail: {
                 item: this.item

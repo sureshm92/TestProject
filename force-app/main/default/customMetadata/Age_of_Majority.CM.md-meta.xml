@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>Message To PI New Message</label>
+    <label>CM</label>
     <protected>false</protected>
     <values>
-        <field>Description__c</field>
+        <field>Age__c</field>
+        <value xsi:type="xsd:double">21.0</value>
+    </values>
+    <values>
+        <field>Country_Code__c</field>
+        <value xsi:type="xsd:string">CM</value>
+    </values>
+    <values>
+        <field>State_Code__c</field>
         <value xsi:nil="true"/>
-    </values>
-    <values>
-        <field>Parameters_Provider__c</field>
-        <value xsi:type="xsd:string">Email_Template_Parameters_From_PE</value>
-    </values>
-    <values>
-        <field>Recipient_Type__c</field>
-        <value xsi:type="xsd:string">PI</value>
     </values>
 </CustomMetadata>

@@ -32,6 +32,20 @@
             return validSoFar && inputCmp.get('v.validity').valid;
         }, true);
         component.set('v.isAllFieldsValid', allValid);
-    }
+    },
 
+    changeSMSOption: function (component) {
+        var initData = component.get('v.initData');
+        communityService.executeAction(component, 'changeOptInSMS', {
+            participantOptInStatusSMS: initData.myContact.Participant_Opt_In_Status_SMS__c
+        }, function () {
+            if(initData.myContact.Participant_Opt_In_Status_SMS__c) {
+                let contact = component.get('v.contact');
+                if(!contact.MobilePhone) {
+                    communityService.scrollInto('mobileAnchor');
+                    communityService.showInfoToast('', $A.get('$Label.c.Toast_Enter_Mob_Num'));
+                }
+            }
+        });
+    }
 });
