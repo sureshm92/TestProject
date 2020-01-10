@@ -346,7 +346,7 @@ public class DashboardRemote {
         List<Participant_Enrollment__c> pes =
                 ParticipantEnrollmentService.getPEnrolmentsByStatus(
                         userMode,
-                        new List<String>{ PEStatusState.PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS, PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI },
+                        new List<String>{ PEStatusState.PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS },
                         null,
                         delegateId);
         for (Participant_Enrollment__c pe : pes) {
