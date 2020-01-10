@@ -13,7 +13,8 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
                         Participant__r.Adult__c,
                         Participant__r.Mailing_Country_Code__c,
                         Participant__r.Mailing_State_Code__c,
-                        Participant__r.Contact__c
+                        Participant__r.Contact__c,
+                        Study_Site__r.Principal_Investigator__r.Id
                 FROM Participant_Enrollment__c
                 WHERE Participant__r.Adult__c != TRUE
         ]);
@@ -38,6 +39,12 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
                         Recipient__c = pe.Participant__r.Contact__c,
                         WhatId__c = pe.Id,
                         Notification_Type__c = NotificationService.MESSAGE_TO_PT_PATIENT_BECOME_ADULT,
+                        Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
+                ));
+                notifications.add(new Notification__c(
+                        Recipient__c = pe.Study_Site__r.Principal_Investigator__r.Id,
+                        WhatId__c = pe.Id,
+                        Notification_Type__c = NotificationService.MESSAGE_TO_PI_PATIENT_BECOME_ADULT,
                         Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                 ));
             }
