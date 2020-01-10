@@ -148,18 +148,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             sendDropEmails((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
-
-    public class SetCurrentEnrollmentHandler extends TriggerHandler {
-
-        public override void afterInsert(List<SObject> newList) {
-            setupCurrentEnrollment((List<Participant_Enrollment__c>) newList, null);
-        }
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            setupCurrentEnrollment((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
-        }
-
-    }
     
     public class CreateParticipantForDelegateHandler extends TriggerHandler{
     
@@ -700,29 +688,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         update tasksForExpire;
 
         SurveyService.getInstance().expireInvitation(new List<Id>(invitationMap.keySet()));
-    }
-
-    @TestVisible
-    private static void setupCurrentEnrollment(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
-        List<String> targetStatuses = new List<String>(PEStatusState.PE_STATUS_GROUP_ALUMNI);
-        targetStatuses.add(PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI);
-        targetStatuses.add(PEStatusState.PE_STATUS_CONTACT_FAILED);
-        List<Id> selectedParticipantIds = new List<Id>();
-        List<Id> selectedContactIds = new List<Id>();
-        for (Participant_Enrollment__c pe : newList) {
-            if (oldMap == null ||
-                    (oldMap != null && pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c &&
-                            targetStatuses.contains(pe.Participant_Status__c))) {
-                selectedParticipantIds.add(pe.Participant__c);
-                if (pe.Participant_Contact__c != null)
-                    selectedContactIds.add(pe.Participant_Contact__c);
-            }
-        }
-        if (selectedParticipantIds.size() == 0) return;
-        Map<Id, List<Id>> delegatedContactIdsByParticipantIdMap = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(selectedParticipantIds);
-        for (List<Id> delegatedContactIds : delegatedContactIdsByParticipantIdMap.values()) selectedContactIds.addAll(delegatedContactIds);
-        if (!selectedContactIds.isEmpty())
-            ContactService.updateCurrentPEOnContacts(selectedContactIds);
     }
     
     @TestVisible
