@@ -12,6 +12,7 @@
             component.set("v.languageLabels",       returnValue.languageLabels);
             component.set("v.contentClasses",       returnValue.contentClasses);
             component.set("v.thirdPartySources",    returnValue.thirdPartySources);
+            component.set("v.countries",            returnValue.countries);
             component.set("v.videoLinkHelp",        returnValue.videoLinkHelp);
             component.set("v.imageLinkHelp",        returnValue.imageLinkHelp);
             component.set("v.defaultLanguage",      returnValue.defaultLanguage);
@@ -76,6 +77,8 @@
             component.set("v.URL_Part__c",              null);
             component.set("v.article_external_link__c", null);
             component.set("v.Remove_sharing__c",        false);
+            component.set("v.URL__c",                   null);
+            component.set("v.Countries__c",             null);
         },
 
         //----------------------------------------------------------//
@@ -91,6 +94,7 @@
         // build a Resource__c record and assign to the "record"    //
         //----------------------------------------------------------//
         buildRecord: function (component) {
+            debugger;
             var record = {
                 Title__c                    : component.get("v.Title__c"),
                 document_type__c            : component.get("v.document_type__c"),
@@ -115,7 +119,9 @@
                 Byline__c                   : component.get("v.Byline__c"),
                 URL_Part__c                 : component.get("v.URL_Part__c"),
                 article_external_link__c    : component.get("v.article_external_link__c"),
-                Remove_sharing__c           : component.get("v.Remove_sharing__c")
+                Remove_sharing__c           : component.get("v.Remove_sharing__c"),
+                URL__c                      : component.get("v.URL__c"),
+                Countries__c                : component.get("v.Countries__c").join(';')
             };
             component.set("v.record", record);
         },

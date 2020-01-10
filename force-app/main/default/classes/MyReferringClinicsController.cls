@@ -13,11 +13,6 @@ public without sharing class MyReferringClinicsController {
             } else {
                 initData.isButtonDisabled = false;
             }
-            /*if(!initData.filteredReferringClinics.isEmpty()) {
-                initData.isButtonDisabled = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getPIStudySitesAccessLevelMap().get(initData.filteredReferringClinics[0].enrollments[0].enrollment.Study_Site__c));
-            } else{
-                initData.isButtonDisabled = false;
-            }*/
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -55,12 +50,8 @@ public without sharing class MyReferringClinicsController {
             }
             clinicEnrolmentMap.get(enroll.HCP_Contact__c).add(enroll);
         }
-        Map<Id,User> usersMap = new Map<Id,User>();
-        for(User u : CommunityService.getCommunityUsersByContactIds(clinicEnrolmentMap.keySet())){
-            usersMap.put(u.ContactId,u);
-        }
         for (Id hcpId : clinicEnrolmentMap.keySet()) {
-            result.add(new ClinicWrapper(clinicEnrolmentMap.get(hcpId),usersMap.containsKey(hcpId)));
+            result.add(new ClinicWrapper(clinicEnrolmentMap.get(hcpId)));
         }
         return result;
     }
@@ -68,7 +59,6 @@ public without sharing class MyReferringClinicsController {
     public class ClinicWrapper {
         public Account clinic;
         public Contact hcpContact;
-        public Boolean isHCPRegistred;
         public List<MyReferringClinicsController.HCPEnrollmentWrapper> enrollments = new List<MyReferringClinicsController.HCPEnrollmentWrapper>();
 
         public ClinicWrapper(List<HCP_Enrollment__c> enrollments) {
@@ -78,16 +68,6 @@ public without sharing class MyReferringClinicsController {
                     this.enrollments.add(new HCPEnrollmentWrapper(enrollment));
                 }
             }
-        }
-
-        public ClinicWrapper(List<HCP_Enrollment__c> enrollments, Boolean isHCPRegistred) {
-            if (enrollments != null && !enrollments.isEmpty()) {
-                this.hcpContact = enrollments[0].HCP_Contact__r;
-                for (HCP_Enrollment__c enrollment : enrollments) {
-                    this.enrollments.add(new HCPEnrollmentWrapper(enrollment));
-                }
-            }
-            this.isHCPRegistred = isHCPRegistred;
         }
     }
 

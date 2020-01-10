@@ -14,6 +14,7 @@
     <aura:attribute name="languageLabels"           type="String[]"/>
     <aura:attribute name="contentClasses"           type="String[]"/>
     <aura:attribute name="thirdPartySources"        type="String[]"/>
+    <aura:attribute name="countries"                type="List" />
 
     <aura:attribute name="videoLinkHelp"            type="String"/>
     <aura:attribute name="imageLinkHelp"            type="String"/>
@@ -48,6 +49,8 @@
     <aura:attribute name="URL_Part__c"              type="String"/>
     <aura:attribute name="article_external_link__c" type="String"/>
     <aura:attribute name="Remove_sharing__c"        type="Boolean"      default="false"/>
+    <aura:attribute name="URL__c"                   type="String"/>
+    <aura:attribute name="Countries__c"             type="List"/>
 
     <!--  upload  -->
     <aura:attribute name="availableLanguages"       type="String[]"/>
@@ -340,6 +343,29 @@
                 </div>
             </aura:if>
 
+            <!--==================== R E L E V A N T   L I N K ===================-->
+            <aura:if isTrue="{!v.recTypeDevName == 'Relevant_Link'}">
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div aura:id="form" class="slds-grid slds-wrap slds-gutters" style="padding:0px 20px 20px 20px;">
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="title" type="text" name="title" label="Title" value="{!v.Title__c}" required="true"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="url" type="url" name="url" label="URL" value="{!v.URL__c}" required="true"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:dualListbox name="countries"
+                                                   label="Countries"
+                                                   selectedLabel="Selected"
+                                                   sourceLabel="All"
+                                                   options="{!v.countries}"
+                                                   value="{!v.Countries__c}"
+                                                   aura:id="countries"/>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+
             <footer class="slds-modal__footer" style="padding:15px;">
                 <div style="margin:0px">
                     <aura:if isTrue="{!v.isInfo}">
@@ -358,16 +384,18 @@
                         </ui:message>
                     </aura:if>
                 </div>
-                <span style="float:left; margin-top:-22px;">
-                    <lightning:fileUpload name="fileUploader" recordId="{!v.recordId}" multiple="false" variant="label-hidden" disabled="{!v.availableLanguages.length==0}" onuploadfinished="{!c.uploadComplete}" />
-                </span>
-                <span style="float:left; padding-left:10px; margin-top:-19px;">
-                    <lightning:select aura:id="availableLanguages" value="{!v.uploadLanguage}" variant="label-hidden" disabled="{!v.recordId==null || v.availableLanguages.length==0}">
+                <aura:if isTrue="{!v.recTypeDevName == 'Study_Document'}">
+                    <span style="float:left; margin-top:-22px;">
+                        <lightning:fileUpload name="fileUploader" recordId="{!v.recordId}" multiple="false" variant="label-hidden" disabled="{!v.availableLanguages.length==0}" onuploadfinished="{!c.uploadComplete}" />
+                    </span>
+                    <span style="float:left; padding-left:10px; margin-top:-19px;">
+                        <lightning:select aura:id="availableLanguages" value="{!v.uploadLanguage}" variant="label-hidden" disabled="{!v.recordId==null || v.availableLanguages.length==0}">
                         <aura:iteration items="{!v.availableLanguages}" var="availableLanguage">
                             <option value="{!availableLanguage}">{!availableLanguage}</option>
                         </aura:iteration>
                     </lightning:select>
-                </span>
+                    </span>
+                </aura:if>
                 <button aura:id="close" class="slds-button slds-button_neutral" onclick="{!c.closeModal}">Close</button>
                 <button aura:id="reset" class="slds-button slds-button_neutral" onclick="{!c.reset}">New</button>
                 <button aura:id="save" class="slds-button slds-button_brand" onclick="{!c.save}">Save</button>
