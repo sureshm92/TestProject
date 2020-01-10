@@ -87,7 +87,7 @@ public without sharing class ReferringClinicsFilter implements SearchFilter{
 
     public String getFilterString (){
         String filterString = '(' + DatabaseService.fieldEqual('Study_Site__r.Principal_Investigator__c',CommunityService.getUserContact().Id) +
-                '   OR  ' + DatabaseService.fieldInValues('Study_Site__c', DelegateService.getDelegatedStudySiteIds()) +
+                (!DelegateService.getDelegatedStudySiteIds().isEmpty()?'   OR  ' + DatabaseService.fieldInValues('Study_Site__c', DelegateService.getDelegatedStudySiteIds()): '')+
                 ') ';
         if(filterValues.ssId != null && filterValues.ssId != ''){
             filterString += ' AND ' + DatabaseService.fieldEqual( 'Study_Site__c', filterValues.ssId);

@@ -126,7 +126,7 @@ private class Test_LeadConversion {
         Database.LeadConvert lc = new database.LeadConvert();
         lc.setLeadId(testLead.Id);
         lc.setDoNotCreateOpportunity(true);
-        lc.setConvertedStatus('Qualified');
+        lc.setConvertedStatus('Qualified and Send Invitation');
         Database.LeadConvertResult lcr = Database.convertLead(lc);
         System.assert(lcr.isSuccess());
         Test.stopTest();
