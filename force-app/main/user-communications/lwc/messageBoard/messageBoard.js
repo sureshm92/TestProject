@@ -55,7 +55,7 @@ export default class MessageBoard extends LightningElement {
     startNew(enrollments, isPastStudy) {
         this.conversation = null;
         this.messageWrappers = [];
-        if(isPastStudy !== undefined) this.isPastStudy = isPastStudy;
+        if (isPastStudy !== undefined) this.isPastStudy = isPastStudy;
 
         this.enrollments = enrollments;
         this.isMultipleMode = enrollments.length > 1;
@@ -68,7 +68,7 @@ export default class MessageBoard extends LightningElement {
     openExisting(conversation, messageWrappers, isPastStudy) {
         this.conversation = null;
         this.messageWrappers = [];
-        if(isPastStudy !== undefined) this.isPastStudy = isPastStudy;
+        if (isPastStudy) this.isPastStudy = isPastStudy;
 
         this.isMultipleMode = false;
         this.conversation = conversation;
@@ -92,7 +92,7 @@ export default class MessageBoard extends LightningElement {
     handleMessageText(event) {
         this.messageText = event.target.value;
         let sendBtn = this.template.querySelector('.ms-send-button');
-        if(this.messageText) {
+        if (this.messageText) {
             sendBtn.removeAttribute('disabled');
         } else {
             sendBtn.setAttribute('disabled', '');

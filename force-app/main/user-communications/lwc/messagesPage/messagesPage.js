@@ -15,7 +15,6 @@ import studyTeamLabel from '@salesforce/label/c.Study_Team';
 import attachmentLabel from '@salesforce/label/c.MS_Attachment';
 
 import getInit from '@salesforce/apex/MessagePageRemote.getInitData';
-import markRead from '@salesforce/apex/MessagePageRemote.markConversationAsRead';
 
 export default class MessagesPage extends LightningElement {
 
@@ -52,13 +51,6 @@ export default class MessagesPage extends LightningElement {
             if (this.userMode === 'Participant') {
                 this.messageBoard.setTemplates(this.messageTemplates);
             }
-
-            //Select top conversation when page load
-            // if (this.conversationWrappers) {
-            //     let firstConversationWrapper = this.conversationWrappers[0];
-            //     this.messageBoard.openExisting(firstConversationWrapper.conversation, firstConversationWrapper.messages);
-            //     this.changeConversationsBackground(firstConversationWrapper.conversation.Id);
-            // }
         }
     }
 
@@ -79,10 +71,6 @@ export default class MessagesPage extends LightningElement {
             console.log('Error:' + JSON.stringify(error));
             if (this.spinner) this.spinner.hide();
         }
-    }
-
-    get isPIMode() {
-        return this.userMode === 'PI';
     }
 
     //Handlers:---------------------------------------------------------------------------------------------------------
@@ -139,7 +127,7 @@ export default class MessagesPage extends LightningElement {
             context.changeConversationsBackground(conWr.conversation.Id);
         }, 50);
 
-        this.messageBoard.openExisting(conWr.conversation, conWr.messages);
+        this.messageBoard.openExisting(conWr.conversation, conWr.messages, conWr.isPastStudy);
     }
 
     //Service Methods:--------------------------------------------------------------------------------------------------

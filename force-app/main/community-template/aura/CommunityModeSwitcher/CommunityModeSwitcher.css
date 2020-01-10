@@ -3,7 +3,7 @@
  */
 
 .THIS.mode-block .menu-popup-panel{
-    border: 0!important;
+    /*border: 0!important;*/
 }
 
 .THIS.mode-block {
@@ -30,14 +30,21 @@
     cursor: pointer;
 }
 
+
+.THIS .menu-item{
+    border-top: 1px solid #e6e6e6;
+}
+
 .THIS .menu-item.active,
 .THIS .menu-sub-item.active{
-    color: white!important;
-    background-color: #0469a5!important;
+    font-weight: bold!important;
+
+    /*color: white!important;
+    background-color: #0469a5!important;*/
 }
 
 .THIS .menu-item.active svg{
-    fill: white!important;
+    /*fill: white!important;*/
 }
 
 .THIS .menu-item, .THIS .menu-sub-item {
@@ -60,6 +67,12 @@
     opacity: 0;
     height: 0!important;
     padding-top: 0!important;
+}
+
+.THIS .overflow-ellipsis{
+    overflow: hidden;
+    display: block;
+    text-overflow: ellipsis;
 }
 
 @media all and (max-width: 550px) {

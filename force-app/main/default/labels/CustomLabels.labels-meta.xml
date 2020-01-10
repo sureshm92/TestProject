@@ -993,6 +993,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Save and Exit</value>
     </labels>
     <labels>
+        <fullName>BTN_Screener_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN_Screener_Participant</shortDescription>
+        <value>Screen Participant</value>
+    </labels>
+    <labels>
         <fullName>BTN_Screener_Responses</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1489,6 +1496,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>DLIT L Pre-eligibility screening</shortDescription>
         <value>Pre-eligibility screening</value>
+    </labels>
+    <labels>
+        <fullName>DLIT_L_Pre_screen_a_participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Pre-screen participant</shortDescription>
+        <value>Pre-screen  a Participant</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Refer_a_patient_to_a_study_site</fullName>
@@ -4468,6 +4482,20 @@ The IQVIA Patient Portal Support Team</value>
         <value>Sorry! This survey is not available for you due to some reasons.</value>
     </labels>
     <labels>
+        <fullName>Invite_Participant_To_Portal</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Invite_Participant_To_Portal</shortDescription>
+        <value>Invite Participant to Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Invited</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>contact has user</shortDescription>
+        <value>Invited</value>
+    </labels>
+    <labels>
         <fullName>Link_Back_To_Home</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4865,6 +4893,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>None</shortDescription>
         <value>None</value>
+    </labels>
+    <labels>
+        <fullName>Not_Invited</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Not_Invited</shortDescription>
+        <value>Not Invited</value>
     </labels>
     <labels>
         <fullName>Not_Registered</fullName>
@@ -7806,6 +7841,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PG MRRL L Studies</shortDescription>
         <value>Studies</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRR_BTN_Back_to_My_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_MRR_BTN_Back_to_My_Participant</shortDescription>
+        <value>Back to My participants</value>
     </labels>
     <labels>
         <fullName>PG_MRR_BTN_Back_to_My_Studies</fullName>
