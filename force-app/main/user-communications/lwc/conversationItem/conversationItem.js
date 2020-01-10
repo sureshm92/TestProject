@@ -33,10 +33,10 @@ export default class ConversationItem extends LightningElement {
 
     handleConversationClick(event) {
         if(this.item.unread) {
-            markRead({conId: this.item.conversation.Id})
-                .then(() => {
+            markRead({conversation: this.item.conversation})
+                .then((data) => {
                         try {
-                            this.item.unread = false;
+                            this.item = data;
                         } catch (e) {
                             console.log('TRY mark:' + JSON.stringify(e));
                         }
