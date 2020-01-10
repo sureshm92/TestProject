@@ -1,0 +1,36 @@
+<!--
+ - Created by Nargiz Mamedova on 1/9/2020.
+ -->
+
+<aura:component description="Action_AddPaymentVendor">
+    <!-- attributes:-->
+    <aura:attribute name="callback" type="Object" access="private"/>
+    <aura:attribute name="hideForm" type="Boolean" access="private" default="false"/>
+
+    <!--methods: -->
+    <aura:method name="execute" action="{!c.doExecute}">
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <c:uiModal aura:id="addPaymentVendorDialog" size="small" headerText="Add Payment Vendor">
+        <div style="position: relative">
+            <c:RRSpinner aura:id="spinner" size="small"/>
+            <div class="slds-p-horizontal--small">
+                <aura:if isTrue="{!!v.hideForm}">
+                    <lightning:recordEditForm aura:id="editForm" onsuccess="{!c.onSuccess}" onerror="{!c.onError}" objectApiName="Payment_Vendor__c">
+                        <lightning:inputField fieldName="Name"/>
+                        <lightning:inputField fieldName="Link_Vendor__c"/>
+                    </lightning:recordEditForm>
+                </aura:if>
+            </div>
+        </div>
+        <aura:set attribute="footer">
+            <lightning:button variant="neutral" type="button" name="close"
+                              label="{!$Label.c.BTN_Close}"
+                              onclick="{!c.doClose}"/>
+            <lightning:button variant="brand" type="button" name="save"
+                              label="{!$Label.c.BTN_Save}"
+                              onclick="{!c.doSave}"/>
+        </aura:set>
+    </c:uiModal>
+</aura:component>

@@ -404,6 +404,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Strictly Necessary Cookies</value>
     </labels>
     <labels>
+        <fullName>Account_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Account Name</shortDescription>
+        <value>Account Name</value>
+    </labels>
+    <labels>
         <fullName>Action_View_New_Study_Site</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -507,14 +514,14 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BTN Activate</shortDescription>
-        <value>Activate</value>
+        <value>Activate RP For This Study Site</value>
     </labels>
     <labels>
         <fullName>BTN_Activate_All</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>BTN Activate All</shortDescription>
-        <value>Activate All</value>
+        <value>Activate RP For All Study Sites</value>
     </labels>
     <labels>
         <fullName>BTN_Add_Patient</fullName>
@@ -739,6 +746,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>BTN MRR</shortDescription>
         <value>Medical record review</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Main_Activate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Main Activate</shortDescription>
+        <value>Activate</value>
     </labels>
     <labels>
         <fullName>BTN_Manage_referrals</fullName>
@@ -1730,6 +1744,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>View My Home Page</value>
     </labels>
     <labels>
+        <fullName>Email_Action_View_My_Messages</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Action View My Messages</shortDescription>
+        <value>View My Messages</value>
+    </labels>
+    <labels>
         <fullName>Email_Action_View_My_Patients</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2006,6 +2027,13 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
             To accept this request, log in to the IQVIA Referral Hub and navigate to “My Referring Clinics.”</value>
     </labels>
     <labels>
+        <fullName>Email_Body_PI_New_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body PI New Mess</shortDescription>
+        <value>You have a new message in Message Center.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Participant_Answer</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2185,6 +2213,13 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
         <value>The study team has updated your referral status for clinical study: ##StudyName.
 
             To see additional information, log in to the IQVIA Patient Portal, and then go to &quot;My Studies.&quot;</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Patient_Become_Adult</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Patient Become Adult</shortDescription>
+        <value>You has become adult for the clinical research study: ##StudyName. Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient_CreatedDate</fullName>
@@ -2613,6 +2648,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <value>Referring provider pending acceptance</value>
     </labels>
     <labels>
+        <fullName>Email_Header_PI_New_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header PI New Mess</shortDescription>
+        <value>PI New Message</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Patient2</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2639,6 +2681,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <protected>false</protected>
         <shortDescription>Email Header Patient5</shortDescription>
         <value>Thank you for completing your clinical research study</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Patient_Become_Adult</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Patient Become Adult</shortDescription>
+        <value>You has become an adult</value>
     </labels>
     <labels>
         <fullName>Email_Header_Patient_Dropped_Out</fullName>
@@ -3133,6 +3182,13 @@ The IQVIA Patient Portal Support Team</value>
         <value>Reminder to accept a referring provider</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_PI_New_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject PI New Mess</shortDescription>
+        <value>New Message</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_Patient2</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3152,6 +3208,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Email Subject Patient8</shortDescription>
         <value>Clinical research study referral update</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Patient_Become_Adult</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Patient Become Adult</shortDescription>
+        <value>You has become an adult</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Patient_Dropped_Out</fullName>
@@ -3429,6 +3492,46 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>Error Message Participant Duplicate</shortDescription>
         <value>This patient has already been referred to this study.</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Investigator_Name</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Investigator Name</shortDescription>
+        <value>Investigator Name</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_1_Completed_by</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening 1 Completed by</shortDescription>
+        <value>Pre-screening 1 Completed by</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_1_Status</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening 1 Status</shortDescription>
+        <value>Pre-screening 1 Status</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_2_status</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening 2 status</shortDescription>
+        <value>Pre-screening 2 status</value>
+    </labels>
+    <labels>
+        <fullName>Export_Excel_Pre_screening_Date</fullName>
+        <categories>excel export</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Excel Pre-screening Date</shortDescription>
+        <value>Pre-screening Date</value>
     </labels>
     <labels>
         <fullName>FD_PE_Field_Arm_Cohort</fullName>
@@ -4190,6 +4293,34 @@ The IQVIA Patient Portal Support Team</value>
         <value>My Studies</value>
     </labels>
     <labels>
+        <fullName>Home_Page_Payments_Balance</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>Balance</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Payments_Card_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>Card Status</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Payments_Pending_Payments</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Column header</shortDescription>
+        <value>Pending Payments</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Payments_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Payments_Title</shortDescription>
+        <value>Payments</value>
+    </labels>
+    <labels>
         <fullName>Home_Page_RelevantLinks_Title</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4463,6 +4594,83 @@ The IQVIA Patient Portal Support Team</value>
         <value>MRN/Internal ID</value>
     </labels>
     <labels>
+        <fullName>MS_Attach_File</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Attach File</shortDescription>
+        <value>Attach File</value>
+    </labels>
+    <labels>
+        <fullName>MS_Attachment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Attachment</shortDescription>
+        <value>Attachment</value>
+    </labels>
+    <labels>
+        <fullName>MS_Char_Limit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Char Limit</shortDescription>
+        <value>500 Character Limit</value>
+    </labels>
+    <labels>
+        <fullName>MS_Empty_Chat</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Empty Chat</shortDescription>
+        <value>Select add button to start a new conversation. Your conversation will appear here.</value>
+    </labels>
+    <labels>
+        <fullName>MS_Empty_Conversations</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Empty Conversations</shortDescription>
+        <value>Your list of conversation threads will appear here.</value>
+    </labels>
+    <labels>
+        <fullName>MS_Input_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Input Placeholder</shortDescription>
+        <value>Type your message here…</value>
+    </labels>
+    <labels>
+        <fullName>MS_Messages</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Messages</shortDescription>
+        <value>Messages</value>
+    </labels>
+    <labels>
+        <fullName>MS_New_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS New Mess</shortDescription>
+        <value>New Message</value>
+    </labels>
+    <labels>
+        <fullName>MS_Select</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Select</shortDescription>
+        <value>Select:</value>
+    </labels>
+    <labels>
+        <fullName>MS_Select_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Select Placeholder</shortDescription>
+        <value>Select question from here</value>
+    </labels>
+    <labels>
+        <fullName>Manage_My_Payments</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Manage My Payments</shortDescription>
+        <value>Manage My Payments</value>
+    </labels>
+    <labels>
         <fullName>Medical_Record_Review</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4475,6 +4683,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>MetabolicPanel</shortDescription>
         <value>Metabolic Panel</value>
+    </labels>
+    <labels>
+        <fullName>Mob_Phone_Field</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mob Phone Field</shortDescription>
+        <value>Mobile Phone</value>
     </labels>
     <labels>
         <fullName>MyStudy_Associated_Sites_and_Site_Details</fullName>
@@ -4538,6 +4753,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Navigation Medical Record Review Log</shortDescription>
         <value>Medical Record Review Log</value>
+    </labels>
+    <labels>
+        <fullName>Navigation_Messages</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation Messages</shortDescription>
+        <value>Messages</value>
     </labels>
     <labels>
         <fullName>Navigation_My_Patients</fullName>
@@ -4645,11 +4867,11 @@ The IQVIA Patient Portal Support Team</value>
         <value>None</value>
     </labels>
     <labels>
-        <fullName>Not_Invited</fullName>
+        <fullName>Not_Registered</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>contact doesn&#39;t have user</shortDescription>
-        <value>Not Invited</value>
+        <shortDescription>Not Registered</shortDescription>
+        <value>Not Registered</value>
     </labels>
     <labels>
         <fullName>OT_DPI_S1_H</fullName>
@@ -6294,6 +6516,20 @@ View study documents and other resources including articles and videos related t
         <value>Participants Waiting For Acceptance</value>
     </labels>
     <labels>
+        <fullName>PG_DBPI_L_Referrals_waiting_for_contact</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI L Referrals Waiting For Contact</shortDescription>
+        <value>Participants Awaiting Contact</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_L_Referrals_waiting_for_first_contact</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI L Referrals Waiting For First Contact</shortDescription>
+        <value>Time Waiting for First Contact</value>
+    </labels>
+    <labels>
         <fullName>PG_DBPI_L_Referrals_waiting_to_be_contacted</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7642,6 +7878,13 @@ Please check your CAPS lock key.</value>
         <value>Passed</value>
     </labels>
     <labels>
+        <fullName>PG_MRZ_L_All_Statuses</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG MRZ L All Statuses</shortDescription>
+        <value>All Statuses</value>
+    </labels>
+    <labels>
         <fullName>PG_MRZ_L_Alphabetical_A_Z</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7684,11 +7927,18 @@ Please check your CAPS lock key.</value>
         <value>Provider Status</value>
     </labels>
     <labels>
+        <fullName>PG_MRZ_L_Referring_Providers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG MRZ L Referring Providers</shortDescription>
+        <value>Referring providers</value>
+    </labels>
+    <labels>
         <fullName>PG_MRZ_L_Search_for_a_referring_clinic</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRZ L Search for a referring clinic</shortDescription>
-        <value>Search for a referring clinic</value>
+        <value>Search for a referring providers</value>
     </labels>
     <labels>
         <fullName>PG_MRZ_L_Search_for_a_study_site</fullName>
@@ -9384,6 +9634,27 @@ Please check your CAPS lock key.</value>
         <value>Study Sites</value>
     </labels>
     <labels>
+        <fullName>PI_Colon</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PI Colon</shortDescription>
+        <value>PI :</value>
+    </labels>
+    <labels>
+        <fullName>PI_Delegate_PI_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PI Delegate PI Info</shortDescription>
+        <value>Send on behalf of</value>
+    </labels>
+    <labels>
+        <fullName>PI_Delegate_PI_More_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PI Delegate PI More Info</shortDescription>
+        <value>Recipent will be approved to refer participants to the following investigators</value>
+    </labels>
+    <labels>
         <fullName>PP_Account_Settings_Cookie_Description</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9551,6 +9822,13 @@ Please check your CAPS lock key.</value>
         <value>Potassium is an electrolyte (a mineral) that helps to transport nutrients into cells and waste products out of cells. It  also lets muscles and nerves to communicate with other muscles and nerves. Potassium is measured to check the balance of your electrolytes.</value>
     </labels>
     <labels>
+        <fullName>Primary_Investigator</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Primary Investigator</shortDescription>
+        <value>Primary Investigator</value>
+    </labels>
+    <labels>
         <fullName>Profile_Menu_Account_Settings</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9584,6 +9862,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>RBC Count Description</shortDescription>
         <value>Red blood cells (RBCs or erythrocytes) are cells in your blood that contain hemoglobin, which carries oxygen throughout your body. RBC count is the total number of red blood cells that are present in your blood sample. RBC count is measured to check your general health and to check for conditions that influence your body’s red blood cell production. Low RBC count can lead to signs of anemia, such as tiredness. High RBC count can cause dizziness and headache.</value>
+    </labels>
+    <labels>
+        <fullName>RCEI_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RCEI Site</shortDescription>
+        <value>Site</value>
     </labels>
     <labels>
         <fullName>RH_Window_Title</fullName>
@@ -10629,6 +10914,13 @@ Please check your CAPS lock key.</value>
         <value>Search For Sites</value>
     </labels>
     <labels>
+        <fullName>Select_All_PI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select All PI</shortDescription>
+        <value>Select All</value>
+    </labels>
+    <labels>
         <fullName>Select_Planned_Date</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10905,6 +11197,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>StudyVisit Variable</shortDescription>
         <value>Variable</value>
+    </labels>
+    <labels>
+        <fullName>Study_Team</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Team</shortDescription>
+        <value>Study Team</value>
     </labels>
     <labels>
         <fullName>Success</fullName>
@@ -11474,6 +11773,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>Toast Contact Inf Not Updated</shortDescription>
         <value>Please update your contact information.</value>
+    </labels>
+    <labels>
+        <fullName>Toast_Enter_Mob_Num</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast Enter Mob Num</shortDescription>
+        <value>Please enter a mobile number.</value>
     </labels>
     <labels>
         <fullName>Toast_ICF</fullName>

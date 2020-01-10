@@ -71,13 +71,7 @@
                             <lightning:input type="toggle" label="Travel Support" name="travelVendorToggle"
                                              onchange="{!c.saveCTP}" checked="{!v.ctp.Travel_Vendor_Is_Available__c}"
                                              variant="label-hidden"/>
-                            <div style="margin-left: 10px; margin-right: 20px">Travel Support</div>
-                            <lightning:input type="checkbox" label="Travel Support On Relevant Links"
-                                             name="travelSupportRelevantCheckbox"
-                                             onchange="{!c.saveCTP}"
-                                             checked="{!v.ctp.Travel_Support_On_Relevant_Links__c}"
-                                             variant="label-hidden" disabled="{!!v.ctp.Travel_Vendor_Is_Available__c}"/>
-                            <div>Travel Support On Relevant Links</div>
+                            <div style="margin-left: 10px">Travel Support</div>
                         </div>
                         <div class="global-element">
                             <lightning:input type="toggle" label="Tasks" name="tasksToggle"
@@ -90,6 +84,12 @@
                                              onchange="{!c.saveCTP}" checked="{!v.ctp.Relevant_Links_Are_Available__c}"
                                              variant="label-hidden"/>
                             <div style="margin-left: 10px">Relevant Links</div>
+                        </div>
+                        <div class="global-element">
+                            <lightning:input type="toggle" label="Payment" name="PaymentToggle"
+                                             onchange="{!c.saveCTP}" checked="{!v.ctp.Payment_Is_Available__c}"
+                                             variant="label-hidden"/>
+                            <div style="margin-left: 10px">Payment</div>
                         </div>
                     </div>
                 </div>

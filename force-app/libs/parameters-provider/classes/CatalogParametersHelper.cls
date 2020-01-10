@@ -47,6 +47,7 @@ public class CatalogParametersHelper {
         });
         TranslateHelper.translate(sObjects, language);
         Map<String, String> resultMap = new Map<String, String>();
+        if(sObjects.size() == 0) return resultMap;
         for (String paramName : paramsMap.keySet()) {
             String fieldPath = paramsMap.get(paramName);
             Object value = SObjectHelper.getSObjectFieldValue(sObjects[0], fieldPath);
@@ -98,10 +99,6 @@ public class CatalogParametersHelper {
     }
 
     public static String prepareLabel(String labelName, Id whatId, String paramProviderName, String language) {
-        System.debug('<<<<<' + labelName);
-        System.debug('<<<<<' + whatId);
-        System.debug('<<<<< STRING ' + paramProviderName);
-        System.debug('<<<<<' + language);
         Parameters_Provider__mdt pp = ppByNameMap.get(paramProviderName);
         Map<String, String> parameters = getParamsValueMap(whatId, pp, language);
         return prepareLabel(labelName, parameters, language);

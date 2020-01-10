@@ -1,0 +1,406 @@
+<!--
+ - Created by Slav on 24.12.2019.
+ -->
+
+<aura:component description="Resource 'New' Action Override" implements="lightning:actionOverride, lightning:isUrlAddressable, force:lightningQuickAction" controller="ResourceOverrideRemote" access="global">
+    <!--  server to client  -->
+    <aura:attribute name="recordId"                 type="String" description="Contains newly created Resource Id"/>
+    <aura:attribute name="record"                   type="Resource__c" description="Recource__c values to send to remote"/>
+
+    <!--  metadata  -->
+    <aura:attribute name="resourceName"             type="String"/>
+    <aura:attribute name="docTypes"                 type="String[]"/>
+    <aura:attribute name="languageNames"            type="String[]"/>
+    <aura:attribute name="languageLabels"           type="String[]"/>
+    <aura:attribute name="contentClasses"           type="String[]"/>
+    <aura:attribute name="thirdPartySources"        type="String[]"/>
+    <aura:attribute name="countries"                type="List" />
+
+    <aura:attribute name="videoLinkHelp"            type="String"/>
+    <aura:attribute name="imageLinkHelp"            type="String"/>
+    <aura:attribute name="defaultLanguage"          type="String"/>
+    <aura:attribute name="defaultDocType"           type="String"/>
+    <aura:attribute name="recTypeId"                type="String"/>
+    <aura:attribute name="recTypeName"              type="String"/>
+    <aura:attribute name="recTypeDevName"           type="String"/>
+
+    <!--  field values  -->
+    <aura:attribute name="Title__c"                 type="String"/>
+    <aura:attribute name="document_type__c"         type="String"/>
+    <aura:attribute name="Description__c"           type="String"/>
+    <aura:attribute name="Video__c"                 type="String"/>
+    <aura:attribute name="Language__c"              type="String"/>
+    <aura:attribute name="Version_Date__c"          type="Date"/>
+    <aura:attribute name="Subtitle__c"              type="String"/>
+    <aura:attribute name="Image__c"                 type="String"/>
+    <aura:attribute name="Image_Title__c"           type="String"/>
+    <aura:attribute name="Content_Class__c"         type="String"/>
+    <aura:attribute name="Posting_Date__c"          type="Date"/>
+    <aura:attribute name="Expiration_Date__c"       type="Date"/>
+    <aura:attribute name="Updated_Date__c"          type="Date"/>
+    <aura:attribute name="Body__c"                  type="String"/>
+    <aura:attribute name="Author_s_Name__c"         type="String"/>
+    <aura:attribute name="Source__c"                type="String"/>
+    <aura:attribute name="Copyright__c"             type="String"/>
+    <aura:attribute name="X3rd_Party_Source__c"     type="String"/>
+    <aura:attribute name="Therapeutic_Areas__c"     type="String"/>
+    <aura:attribute name="Image_Subtitle__c"        type="String"/>
+    <aura:attribute name="Byline__c"                type="String"/>
+    <aura:attribute name="URL_Part__c"              type="String"/>
+    <aura:attribute name="article_external_link__c" type="String"/>
+    <aura:attribute name="Remove_sharing__c"        type="Boolean"      default="false"/>
+    <aura:attribute name="URL__c"                   type="String"/>
+    <aura:attribute name="Countries__c"             type="List"/>
+
+    <!--  upload  -->
+    <aura:attribute name="availableLanguages"       type="String[]"/>
+    <aura:attribute name="uploadLanguage"           type="String"/>
+
+    <!--  message panel  -->
+    <aura:attribute name="isInfo"                   type="Boolean"/>
+    <aura:attribute name="isSuccess"                type="Boolean"/>
+    <aura:attribute name="isError"                  type="Boolean"/>
+    <aura:attribute name="message"                  type="String"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container slds-container_medium">
+
+            <header class="slds-modal__header">
+                <h3 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
+                    New Resource: {!v.recTypeName}
+                    <aura:if isTrue="{!v.resourceName != null}">
+                        [{!v.resourceName}]
+                    </aura:if>
+                </h3>
+            </header>
+
+            <!--==================== S T U D Y    D O C U M E N T ===================-->
+            <aura:if isTrue="{!v.recTypeDevName == 'Study_Document'}">
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div aura:id="form" class="slds-grid slds-wrap slds-gutters" style="padding:20px;">
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="title" type="text" name="title" label="Title" value="{!v.Title__c}" required="true"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:select aura:id="doctype" label="Document type" name="type_select" value="{!v.document_type__c}"  required="true">
+                                <aura:iteration items="{!v.docTypes}" var="docType">
+                                    <option value="{!docType}" selected="{!docType==v.defaultDocType}">{!docType}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:textarea aura:id="description" name="description" label="Description" value="{!v.Description__c}" required="true"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Video Link</label>
+                            <lightning:helptext content="{!v.videoLinkHelp}"/>
+                            <lightning:textarea aura:id="video" name="video" label="Video Link" variant="label-hidden" value="{!v.Video__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:select aura:id="language" label="Language" name="lang_select" value="{!v.Language__c}" required="true">
+                                <aura:iteration items="{!v.languageLabels}" var="lang">
+                                    <option value="{!lang}" selected="{!lang==v.defaultLanguage}">{!lang}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="version" type="date" name="version" label="Version Date" value="{!v.Version_Date__c}" required="true" />
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+
+            <!--==================== A R T I C L E ===================-->
+            <aura:if isTrue="{!v.recTypeDevName == 'Article'}">
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div aura:id="form" class="slds-grid slds-wrap slds-gutters" style="padding:0px 20px 20px 20px;">
+                        <div class="slds-col slds-size_full" style="padding-top:20px; padding-bottom:5px;">
+                            <h3 class="slds-section__title slds-theme_shade">
+                                <span class="slds-truncate slds-p-horizontal_small" title="Information">Information</span>
+                            </h3>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="title" type="text" name="title" label="Title" value="{!v.Title__c}" required="true"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Image Link</label>
+                            <lightning:helptext content="{!v.imageLinkHelp}"/>
+                            <lightning:textarea aura:id="imagelink" name="imagelink" label="Image Link" variant="label-hidden" value="{!v.Image__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:textarea aura:id="subtitle" name="subtitle" label="Subtitle" value="{!v.Subtitle__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:textarea aura:id="imagetitle" name="imagetitle" label="Image Title" value="{!v.Image_Title__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:select aura:id="contentclass" name="contentclass" label="Content Class"  value="{!v.Content_Class__c}"  required="true">
+                                <option value="">--None--</option>
+                                <aura:iteration items="{!v.contentClasses}" var="contentClass">
+                                    <option value="{!contentClass}">{!contentClass}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="postingdate" type="date" name="postingdate" label="Posting Date" value="{!v.Posting_Date__c}" required="true"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:select aura:id="language" label="Language" name="lang_select" value="{!v.Language__c}" required="true">
+                                <aura:iteration items="{!v.languageLabels}" var="lang">
+                                    <option value="{!lang}" selected="{!lang==v.defaultLanguage}">{!lang}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="expirationdate" type="date" name="expirationdate" label="Expiration Date" value="{!v.Expiration_Date__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2"/>
+
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="updateddate" type="date" name="updateddate" label="Updated Date" value="{!v.Updated_Date__c}"/>
+                        </div>
+
+                        <div class="slds-col slds-size_full" style="padding-top:20px; padding-bottom:5px;">
+                            <h3 class="slds-section__title slds-theme_shade">
+                                <span class="slds-truncate slds-p-horizontal_small" title="Article Details">Article Details</span>
+                            </h3>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:textarea aura:id="description" name="description" label="Description" value="{!v.Description__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2"/>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:textarea aura:id="body" name="body" label="Body" value="{!v.Body__c}" required="true"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="author" type="text" name="author" label="Author's Name" value="{!v.Author_s_Name__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:textarea aura:id="source" name="source" label="Source" value="{!v.Source__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:textarea aura:id="copyright" name="copyright" label="Copyright" value="{!v.Copyright__c}"/>
+                        </div>
+
+                        <div class="slds-col slds-size_full" style="padding-top:20px; padding-bottom:5px;">
+                            <h3 class="slds-section__title slds-theme_shade">
+                                <span class="slds-truncate slds-p-horizontal_small" title="3rd Party Details">3rd Party Details</span>
+                            </h3>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:select aura:id="thirdparty" name="thirdparty" label="3rd Party Source" value="{!v.X3rd_Party_Source__c}" required="true">
+                                <option value="">--None--</option>
+                                <aura:iteration items="{!v.thirdPartySources}" var="thirdPartySource">
+                                    <option value="{!thirdPartySource}">{!thirdPartySource}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:textarea aura:id="sitecore" name="sitecore" label="SiteCore Conditions" value="{!v.Therapeutic_Areas__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:textarea aura:id="imagesubtitle" name="imagesubtitle" label="Image Subtitle" value="{!v.Image_Subtitle__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="byline" type="text" name="byline" label="Byline" value="{!v.Byline__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="urlpart" type="text" name="urlpart" label="URL Part" value="{!v.URL_Part__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="external" type="text" name="external" label="Article External Link" value="{!v.article_external_link__c}"/>
+                        </div>
+
+                        <div class="slds-col slds-size_full" style="padding-top:20px; padding-bottom:5px;">
+                            <h3 class="slds-section__title slds-theme_shade">
+                                <span class="slds-truncate slds-p-horizontal_small" title="System Information">System Information</span>
+                            </h3>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input type="checkbox" aura:id="sharing" name="sharing" label="Remove sharing" value="{!v.Remove_sharing__c}"/>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+
+            <!--==================== V I D E O ===================-->
+            <aura:if isTrue="{!v.recTypeDevName == 'Video'}">
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div aura:id="form" class="slds-grid slds-wrap slds-gutters" style="padding:0px 20px 20px 20px;">
+                        <div class="slds-col slds-size_full" style="padding-top:20px; padding-bottom:5px;">
+                            <h3 class="slds-section__title slds-theme_shade">
+                                <span class="slds-truncate slds-p-horizontal_small" title="Information">Information</span>
+                            </h3>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="title" type="text" name="title" label="Title" value="{!v.Title__c}" required="true"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Image Link</label>
+                            <lightning:helptext content="{!v.imageLinkHelp}"/>
+                            <lightning:textarea aura:id="imagelink" name="imagelink" label="Image Link" variant="label-hidden" value="{!v.Image__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:textarea aura:id="subtitle" name="subtitle" label="Subtitle" value="{!v.Subtitle__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:textarea aura:id="imagetitle" name="imagetitle" label="Image Title" value="{!v.Image_Title__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:select aura:id="contentclass" name="contentclass" label="Content Class"  value="{!v.Content_Class__c}" required="true">
+                                <option value="">--None--</option>
+                                <aura:iteration items="{!v.contentClasses}" var="contentClass">
+                                    <option value="{!contentClass}">{!contentClass}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="postingdate" type="date" name="postingdate" label="Posting Date" value="{!v.Posting_Date__c}" required="true"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:select aura:id="language" label="Language" name="lang_select" value="{!v.Language__c}" required="true">
+                                <aura:iteration items="{!v.languageLabels}" var="lang">
+                                    <option value="{!lang}" selected="{!lang==v.defaultLanguage}">{!lang}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="expirationdate" type="date" name="expirationdate" label="Expiration Date" value="{!v.Expiration_Date__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2"/>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="updateddate" type="date" name="updateddate" label="Updated Date" value="{!v.Updated_Date__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_full" style="padding-top:20px; padding-bottom:5px;">
+                            <h3 class="slds-section__title slds-theme_shade">
+                                <span class="slds-truncate slds-p-horizontal_small" title="Video Details">Video Details</span>
+                            </h3>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;"><span style="color:red">*</span> Video Link</label>
+                            <lightning:helptext content="{!v.videoLinkHelp}"/>
+                            <lightning:textarea aura:id="video" name="video" label="Video Link" variant="label-hidden" value="{!v.Video__c}" required="true"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2"/>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:textarea aura:id="description" name="description" label="Description" value="{!v.Description__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2"/>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:textarea aura:id="body" name="body" label="Body" value="{!v.Body__c}" required="true"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2"/>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="author" type="text" name="author" label="Author's Name" value="{!v.Author_s_Name__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:textarea aura:id="source" name="source" label="Source" value="{!v.Source__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:textarea aura:id="copyright" name="copyright" label="Copyright" value="{!v.Copyright__c}"/>
+                        </div>
+
+                        <div class="slds-col slds-size_full" style="padding-top:20px; padding-bottom:5px;">
+                            <h3 class="slds-section__title slds-theme_shade">
+                                <span class="slds-truncate slds-p-horizontal_small" title="3rd Party Details">3rd Party Details</span>
+                            </h3>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:select aura:id="thirdparty" name="thirdparty" label="3rd Party Source" value="{!v.X3rd_Party_Source__c}">
+                                <option value="">--None--</option>
+                                <aura:iteration items="{!v.thirdPartySources}" var="thirdPartySource">
+                                    <option value="{!thirdPartySource}">{!thirdPartySource}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:textarea aura:id="sitecore" name="sitecore" label="SiteCore Conditions" value="{!v.Therapeutic_Areas__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:textarea aura:id="imagesubtitle" name="imagesubtitle" label="Image Subtitle" value="{!v.Image_Subtitle__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="byline" type="text" name="byline" label="Byline" value="{!v.Byline__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="urlpart" type="text" name="urlpart" label="URL Part" value="{!v.URL_Part__c}"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="external" type="text" name="external" label="Article External Link" value="{!v.article_external_link__c}"/>
+                        </div>
+
+                        <div class="slds-col slds-size_full" style="padding-top:20px; padding-bottom:5px;">
+                            <h3 class="slds-section__title slds-theme_shade">
+                                <span class="slds-truncate slds-p-horizontal_small" title="System Information">System Information</span>
+                            </h3>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input type="checkbox" aura:id="sharing" name="sharing" label="Remove sharing" value="{!v.Remove_sharing__c}"/>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+
+            <!--==================== R E L E V A N T   L I N K ===================-->
+            <aura:if isTrue="{!v.recTypeDevName == 'Relevant_Link'}">
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <div aura:id="form" class="slds-grid slds-wrap slds-gutters" style="padding:0px 20px 20px 20px;">
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="title" type="text" name="title" label="Title" value="{!v.Title__c}" required="true"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:input aura:id="url" type="url" name="url" label="URL" value="{!v.URL__c}" required="true"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning:dualListbox name="countries"
+                                                   label="Countries"
+                                                   selectedLabel="Selected"
+                                                   sourceLabel="All"
+                                                   options="{!v.countries}"
+                                                   value="{!v.Countries__c}"
+                                                   aura:id="countries"/>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+
+            <footer class="slds-modal__footer" style="padding:15px;">
+                <div style="margin:0px">
+                    <aura:if isTrue="{!v.isInfo}">
+                        <ui:message title="Info" severity="info" class="message-info">
+                            {!v.message}
+                        </ui:message>
+                    </aura:if>
+                    <aura:if isTrue="{!v.isSuccess}">
+                        <ui:message title="Success" severity="confirm" class="message-success">
+                            {!v.message}
+                        </ui:message>
+                    </aura:if>
+                    <aura:if isTrue="{!v.isError}">
+                        <ui:message title="Error" severity="error" class="message-error">
+                            {!v.message}
+                        </ui:message>
+                    </aura:if>
+                </div>
+                <aura:if isTrue="{!v.recTypeDevName == 'Study_Document'}">
+                    <span style="float:left; margin-top:-22px;">
+                        <lightning:fileUpload name="fileUploader" recordId="{!v.recordId}" multiple="false" variant="label-hidden" disabled="{!v.availableLanguages.length==0}" onuploadfinished="{!c.uploadComplete}" />
+                    </span>
+                    <span style="float:left; padding-left:10px; margin-top:-19px;">
+                        <lightning:select aura:id="availableLanguages" value="{!v.uploadLanguage}" variant="label-hidden" disabled="{!v.recordId==null || v.availableLanguages.length==0}">
+                        <aura:iteration items="{!v.availableLanguages}" var="availableLanguage">
+                            <option value="{!availableLanguage}">{!availableLanguage}</option>
+                        </aura:iteration>
+                    </lightning:select>
+                    </span>
+                </aura:if>
+                <button aura:id="close" class="slds-button slds-button_neutral" onclick="{!c.closeModal}">Close</button>
+                <button aura:id="reset" class="slds-button slds-button_neutral" onclick="{!c.reset}">New</button>
+                <button aura:id="save" class="slds-button slds-button_brand" onclick="{!c.save}">Save</button>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"/>
+</aura:component>

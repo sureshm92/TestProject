@@ -96,7 +96,7 @@ global without sharing class ReferHealthcareProviderRemote {
             newHP.Status__c = HP_S_INVITED;
             insert newHP;
 
-            createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null, CommunityService.getUserContact(), newHP, null);
+            createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null, CommunityService.getUserContact(), newHP, null, null);
         } else if (!String.isBlank(newHP.Id) && newHP.Status__c == HP_S_NOSHARING) {
             hcpe = [SELECT Id,
                            HCP_Contact__c,
@@ -144,7 +144,7 @@ global without sharing class ReferHealthcareProviderRemote {
         return newHP.Id;
     }
 
-    private static List<Study_Site__c> getStudySitesForMatchedRP(Id hcpContactId) {
+    private static List<Study_Site__c> getStudySitesForMatchedRP(Id hcpContactId, List<String> piIds) {
         try {
             if (String.isBlank(hcpContactId)) {
                 return new List<Study_Site__c>();
@@ -154,12 +154,17 @@ global without sharing class ReferHealthcareProviderRemote {
             for (HCP_Enrollment__c hcpEnrollment : [SELECT Id, Study_Site__c FROM HCP_Enrollment__c WHERE HCP_Contact__c = :hcpContactId]) {
                 hcpEnrollmentByStudySiteId.put(hcpEnrollment.Study_Site__c, hcpEnrollment);
             }
-
-            List<Study_Site__c> studySitesNotDelegate = StudySiteService.getStudySitesForPI();
+            List<Study_Site__c> studySites = new List<Study_Site__c>();
+            if(piIds != null && !piIds.isEmpty()){
+                String filter = ' Principal_Investigator__c IN (\'' + String.join(piIds, '\',\'') + '\')';
+                studySites = StudySiteService.getStudySitesCommon(filter);
+            } else {
+                studySites = StudySiteService.getStudySitesForPI();
+            }
             List<Study_Site__c> studySitesForInvitation = new List<Study_Site__c>();
-            if (studySitesNotDelegate != null && !studySitesNotDelegate.isEmpty()) {
+            if (studySites != null && !studySites.isEmpty()) {
                 Set<Id> studyIds = new Set<Id>();
-                for (Study_Site__c site : studySitesNotDelegate) {
+                for (Study_Site__c site : studySites) {
                     if (!studyIds.contains(site.Id) && StudySiteService.STATUS_GROUP_ACCEPTED.contains(site.Override_PI_Referral_Status__c) &&
                             !hcpEnrollmentByStudySiteId.containsKey(site.Id)) {
                         studySitesForInvitation.add(site);
@@ -167,7 +172,6 @@ global without sharing class ReferHealthcareProviderRemote {
                     }
                 }
             }
-
             return studySitesForInvitation;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -175,14 +179,18 @@ global without sharing class ReferHealthcareProviderRemote {
     }
 
     public static String createHCPinPlatform(String studySiteId, String firstName, String lastName, String email, String phone, Contact piContact) {
-        return createHCPinPlatform(studySiteId, firstName, lastName, email, phone, piContact, null, null);
+        return createHCPinPlatform(studySiteId, firstName, lastName, email, phone, piContact, null, null, null);
     }
 
-    public static String createHCPinPlatform(Id piContactId, Id hcpContactId) {
-        return createHCPinPlatform(null, null, null, null, null, new Contact(Id = piContactId), null, hcpContactId);
+    public static String createHCPinPlatform(String studySiteId, String firstName, String lastName, String email, String phone, Contact piContact, List<String> piIds) {
+        return createHCPinPlatform(studySiteId, firstName, lastName, email, phone, piContact, null, null, piIds);
     }
 
-    public static String createHCPinPlatform(String studySiteId, String firstName, String lastName, String email, String phone, Contact piContact, Healthcare_Provider__c hp, Id hcpContactId) {
+    public static String createHCPinPlatform(Id piContactId, Id hcpContactId, List<String> piIds) {
+        return createHCPinPlatform(null, null, null, null, null, new Contact(Id = piContactId), null, hcpContactId, piIds);
+    }
+
+    public static String createHCPinPlatform(String studySiteId, String firstName, String lastName, String email, String phone, Contact piContact, Healthcare_Provider__c hp, Id hcpContactId, List<String> piIds) {
         Boolean isNewUser = false;
         List<HCP_Enrollment__c> hcpes = new List<HCP_Enrollment__c>();
         List<Study_Site__c> studySitesToInvite = new List<Study_Site__c>();
@@ -219,7 +227,7 @@ global without sharing class ReferHealthcareProviderRemote {
             cntList[0].RP_Invited_By_PI__c = true;
         }
         if (String.isBlank(studySiteId)) {
-            studySitesToInvite = getStudySitesForMatchedRP(cntList[0].Id);
+            studySitesToInvite = getStudySitesForMatchedRP(cntList[0].Id, piIds);
         } else {
             studySitesToInvite.add(new Study_Site__c(Id = studySiteId));
         }
@@ -243,7 +251,7 @@ global without sharing class ReferHealthcareProviderRemote {
             hcpes.add(new HCP_Enrollment__c(
                     HCP_Contact__c = cntList[0].Id,
                     HCP_Account__c = cntList[0].AccountId,
-                    Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION,
+                    Status__c = stdSite.Clinical_Trial_Profile__r.Orientation_Required__c ? HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O : HCPEnrollmentService.HCP_S_ACTIVATED,
                     Study_Site__c = (String.isBlank(stdSite.Id) ? null : stdSite.Id)
             ));
         }
@@ -258,10 +266,18 @@ global without sharing class ReferHealthcareProviderRemote {
                 hcpes[0].Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION;
                 insert hcpes;
             }
-
             hp.HCP_Enrollment__c = hcpes[0].Id;
             update hp;
         } else {
+            if(!piIds.isEmpty()){
+                List<PI_RP_Relationship__c> piRPList = new List<PI_RP_Relationship__c>();
+                for(String piId : piIds) {
+                    piRPList.add(new PI_RP_Relationship__c(PI_Contact__c = piId, RP_Contact__c = cntList[0].Id));
+                }
+                insert piRPList;
+            } else {
+                insert new PI_RP_Relationship__c(PI_Contact__c = studySitesToInvite[0].Principal_Investigator__c, RP_Contact__c = cntList[0].Id);
+            }
             if (!isNewUser) {
                 for (HCP_Enrollment__c hcpEnrollment : hcpes) {
                     hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;

@@ -86,7 +86,7 @@ public abstract class RemoteCall{
             log.Response_Time__c = responseDT;
             log.Call_Duration__c = responseDT.getTime() - requestDT.getTime();
             if(logAutoInsert){
-                insert log;
+                DMLService.insertRecord(log);
             }else if(log.Error_Message__c != null) {
                 throw new RemoteCallException(log.Error_Message__c);
             }

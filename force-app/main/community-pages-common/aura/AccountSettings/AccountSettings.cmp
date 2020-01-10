@@ -144,16 +144,18 @@
                                                  onchange="{!c.doSwitchOptInEmail}"/>
                                 {!$Label.c.PG_AS_L_Opt_In_Participant_Status_Emails}
                             </div>
-                            <!-- Toggle for SMS for future -->
-                            <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
-                                <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
-                                                 variant="label-hidden"
-                                                 messageToggleInactive="{!$Label.c.BTN_Off}"
-                                                 class="slds-col ah-toggle"
-                                                 checked="{!v.initData.myContact.Participant_Opt_In_Status_SMS__c}"
-                                                 onchange="{!c.doSwitchOptInSMS}"/>
-                                {!$Label.c.PG_AS_L_Opt_In_Participant_Status_SMS}
-                            </div>
+                            <!-- Toggle for SMS -->
+                            <aura:if isTrue="{!equals(v.participant.Mailing_Country_Code__c, 'US')}">
+                                <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
+                                    <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
+                                                     variant="label-hidden"
+                                                     messageToggleInactive="{!$Label.c.BTN_Off}"
+                                                     class="slds-col ah-toggle"
+                                                     checked="{!v.initData.myContact.Participant_Opt_In_Status_SMS__c}"
+                                                     onchange="{!c.doSwitchOptInSMS}"/>
+                                    {!$Label.c.PG_AS_L_Opt_In_Participant_Status_SMS}
+                                </div>
+                            </aura:if>
                             <div style="height: 25px"></div>
                             <div class="as-email-preference">
                                 <div class="as-title ">{!$Label.c.PG_AS_L_Conditions_of_Interest}</div>
@@ -341,6 +343,7 @@
 					<div style="height: 45px"></div>
                     <!-- participant contact info: -->
                     <aura:if isTrue="{!and(v.userMode == 'Participant', !v.isDelegate)}">
+                        <!-- Name Section -->
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <lightning:input aura:id="pField" type="text" label="{!$Label.c.PG_AS_F_First_name}"
                                              value="{!v.participant.First_Name__c}" required="true"
@@ -356,11 +359,7 @@
                                              value="{!v.participant.Last_Name__c}" required="true"
                                              onblur="{!c.doCheckFieldsValidity}"/>
                         </div>
-                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
-                            <lightning:input aura:id="pField" type="text" label="{!$Label.c.PG_AS_F_Phone_number}"
-                                             value="{!v.participant.Phone__c}" required="true"
-                                             onblur="{!c.doCheckFieldsValidity}"/>
-                        </div>
+
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <lightning:input aura:id="pField" type="date" label="{!$Label.c.PG_AS_F_Date_of_Birth}"
                                              max="{!v.todayDate}"
@@ -372,6 +371,24 @@
                             <c:rrSelect options="{!v.gendersLVList}" value="{!v.participant.Gender__c}"
                                         placeholder="{!$Label.c.PG_AC_Select}"/>
                         </div>
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12"></div>
+                        <!-- Phone Section -->
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <lightning:input aura:id="pField" type="tel" label="{!$Label.c.PG_AS_F_Phone_number}"
+                                             value="{!v.participant.Phone__c}" required="true"
+                                             onblur="{!c.doCheckFieldsValidity}"/>
+                        </div>
+
+                        <c:RRAnchor aura:id="mobileAnchor" offset="-160"/>
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <lightning:input aura:id="pField" type="tel" label="{!$Label.c.Mob_Phone_Field}"
+                                             value="{!v.contact.MobilePhone}"
+                                             required="{!and(v.initData.myContact.Participant_Opt_In_Status_SMS__c, equals(v.participant.Mailing_Country_Code__c, 'US'))}"
+                                             disabled="{!notequals(v.participant.Mailing_Country_Code__c, 'US')}"
+                                             onblur="{!c.doCheckFieldsValidity}"/>
+                        </div>
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12"></div>
+                        <!-- Country Section -->
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label">
                                 <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_Country}
@@ -397,6 +414,7 @@
                                              value="{!v.participant.Mailing_Zip_Postal_Code__c}"
                                              onblur="{!c.doCheckFieldsValidity}"/>
                         </div>
+
                         <div class="slds-col slds-size_1-of-1 as-buttons-footer">
                             <button class="apollo-btn secondary"
                                     disabled="{!or(and(!v.participantChanged,!v.participantHasUpdateTasks), !v.isAllFieldsValid)}"

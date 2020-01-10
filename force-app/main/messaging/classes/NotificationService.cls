@@ -42,6 +42,8 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE = 'Message_to_PI_SS_Was_Changed_Type';
     static public String MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE = 'Message_to_PT_Enrollment_Success_Type';
     static public String MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE = 'Message_to_PI_New_Patient_Referral_Type';
+    static public String MESSAGE_TO_PI_NEW_MESSAGE = 'Message_To_PI_New_Message';
+    static public String MESSAGE_TO_PT_PATIENT_BECOME_ADULT = 'Message_to_PT_Patient_Become_Adult_Type';
     
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
     static public String NOTIFICATION_STATUS_PROCESSED = 'Processed';
@@ -248,6 +250,7 @@ public without sharing class NotificationService {
     }
     
     public static void sendNotifications(List<Notification__c> notifications) {
+        DMLService.useDMLBuffer(true);
         List<Id> whatIds = new List<Id>();
         for (Notification__c n : notifications) whatIds.add(n.WhatId__c);
         NotificationAvailabilityService availabilityService = new NotificationAvailabilityService(whatIds);
@@ -273,7 +276,7 @@ public without sharing class NotificationService {
                     }
                 } else if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_SMS) {
                     if (availabilityService.isAvailableForSMS(n.Recipient__c)) {
-                        if (n.Status__c == NotificationService.NOTIFICATION_STATUS_CREATED) smsNotifications.add(n);
+                        smsNotifications.add(n);
                     } else {
                         sendResults.add(new Send_Result__c(
                                 Notification__c = n.Id,
@@ -286,10 +289,11 @@ public without sharing class NotificationService {
             }
         
         }
-        insert sendResults;
-        update notifications;
-        EmailService.send(emailNotifications);
-        if (smsNotifications != null) SMSService.send(smsNotifications);
-        
+        if (!emailNotifications.isEmpty()) EmailService.send(emailNotifications);
+        if (!smsNotifications.isEmpty()) SMSService.send(smsNotifications);
+
+        DMLService.insertRecords(sendResults);
+        DMLService.updateRecords(notifications);
+        DMLService.pushDMLBuffer();
     }
 }

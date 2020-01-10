@@ -697,7 +697,7 @@ private class Test_BaseCRCPCommunity {
         Test.startTest();
         System.runAs(piUser) {
             Action_InviteRPRemote.getInviteDetail();
-            Action_InviteRPRemote.inviteNewHCP('test', 'hcp', '12345','test@mail.com.fake', null, 'test-protocol');
+            Action_InviteRPRemote.inviteNewHCP('test', 'hcp', '12345','test@mail.com.fake', null, 'test-protocol',null);
         }
         Test.stopTest();
     }
@@ -838,6 +838,8 @@ private class Test_BaseCRCPCommunity {
         User hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
         Participant__c   participant = [SELECT Id FROM Participant__c WHERE Email__c = 'part1@email.com'];
         Participant_Enrollment__c   mrrPE = [SELECT Id FROM Participant_Enrollment__c WHERE Patient_ID__c = 'SomePatienntId'];
+        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
+
         Test.startTest();
         System.runAs(hcpUser) {
             //MedicalRecordReviewRemote.getHCPEnrolment(study.Id);

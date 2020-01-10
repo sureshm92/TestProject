@@ -8,7 +8,11 @@ public without sharing class MyReferringClinicsController {
         try {
             initData = new InitData(trialId, ssId);
             getInitDataEnrollments(initData);
-
+            if(CommunityService.getUserContact().UserCommunityIsDelegate__c) {
+                initData.isButtonDisabled = Action_InviteRPRemote.getPIForInvetation().isEmpty();
+            } else {
+                initData.isButtonDisabled = false;
+            }
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -41,24 +45,25 @@ public without sharing class MyReferringClinicsController {
         List<MyReferringClinicsController.ClinicWrapper> result = new List<MyReferringClinicsController.ClinicWrapper>();
         Map<Id, List<HCP_Enrollment__c>> clinicEnrolmentMap = new Map<Id, List<HCP_Enrollment__c>>();
         for (HCP_Enrollment__c enroll : enrollments) {
-            if (!clinicEnrolmentMap.containsKey(enroll.HCP_Contact__r.AccountId)) {
-                clinicEnrolmentMap.put(enroll.HCP_Contact__r.AccountId, new List<HCP_Enrollment__c>());
+            if (!clinicEnrolmentMap.containsKey(enroll.HCP_Contact__c)) {
+                clinicEnrolmentMap.put(enroll.HCP_Contact__c, new List<HCP_Enrollment__c>());
             }
-            clinicEnrolmentMap.get(enroll.HCP_Contact__r.AccountId).add(enroll);
+            clinicEnrolmentMap.get(enroll.HCP_Contact__c).add(enroll);
         }
-        for (Id accId : clinicEnrolmentMap.keySet()) {
-            result.add(new ClinicWrapper(clinicEnrolmentMap.get(accId)));
+        for (Id hcpId : clinicEnrolmentMap.keySet()) {
+            result.add(new ClinicWrapper(clinicEnrolmentMap.get(hcpId)));
         }
         return result;
     }
 
     public class ClinicWrapper {
         public Account clinic;
+        public Contact hcpContact;
         public List<MyReferringClinicsController.HCPEnrollmentWrapper> enrollments = new List<MyReferringClinicsController.HCPEnrollmentWrapper>();
 
         public ClinicWrapper(List<HCP_Enrollment__c> enrollments) {
             if (enrollments != null && !enrollments.isEmpty()) {
-                this.clinic = enrollments[0].HCP_Contact__r.Account;
+                this.hcpContact = enrollments[0].HCP_Contact__r;
                 for (HCP_Enrollment__c enrollment : enrollments) {
                     this.enrollments.add(new HCPEnrollmentWrapper(enrollment));
                 }
@@ -71,12 +76,13 @@ public without sharing class MyReferringClinicsController {
         String status;
         String statusLabel;
         List<StudyActions.Action> buttonList = new List<StudyActions.Action>();
+        //Boolean isHCPRegistred;
         public HCPEnrollmentWrapper(HCP_Enrollment__c hcpEnrollment) {
             Map<String, StudyActions.Action> actionsMap = new StudyActionsPI(hcpEnrollment).actions;
             status = CommunityService.getConvertedStatus(hcpEnrollment.Status__c);
             statusLabel = TranslateHelper.getPickListLabel(HCP_Enrollment__c.Status__c, hcpEnrollment.Status__c);
             enrollment = hcpEnrollment;
-
+            //isHCPRegistred = !hcpEnrollment.HCP_Contact__r.Is_First_Logon__c;
             Map<String, String> actionToStatusesMap = HCPEnrollmentService.HCP_CHANGE_STATUS_MAP.get(hcpEnrollment.Status__c);
             if (actionToStatusesMap != null) {
                 for (String actionId : actionToStatusesMap.keySet()) {
@@ -91,6 +97,7 @@ public without sharing class MyReferringClinicsController {
         public List<MyReferringClinicsController.ClinicWrapper> filteredReferringClinics;
         public String trialId;
         public String ssId;
+        public Boolean isButtonDisabled;
         public InitData(String trialId, String ssId) {
             this.trialId = trialId;
             this.ssId = ssId;

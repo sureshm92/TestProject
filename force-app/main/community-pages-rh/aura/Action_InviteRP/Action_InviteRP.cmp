@@ -16,6 +16,9 @@
     <aura:attribute name="isDuplicate" type="Boolean" default="false"/>
     <aura:attribute name="hcpContactId" type="String" default="" access="private"/>
     <aura:attribute name="refreshView" type="Boolean" default="false"/>
+    <aura:attribute name="PIForInvetation" type="List"/>
+    <aura:attribute name="checkboxGroupValues" type="List"/>
+    <aura:attribute name="isSelectAllChecked" type="Boolean" default="false"/>
 
 
     <!-- handlers: -->
@@ -25,6 +28,7 @@
     <aura:handler name="change" value="{!v.clinicName}" action="{!c.checkReqFields}"/>
     <aura:handler name="change" value="{!v.phone}" action="{!c.checkReqFields}"/>
     <aura:handler name="change" value="{!v.emailS}" action="{!c.checkReqFields}"/>
+    <aura:handler name="change" value="{!v.checkboxGroupValues}" action="{!c.checkSelectAll}"/>
 
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
@@ -112,6 +116,22 @@
                             </aura:set>
                         </aura:if>-->
                     </div>
+                    <aura:if isTrue="{!not(empty(v.PIForInvetation))}">
+                        <div class="pi_selection_container">
+                            <div class="pi_selection_header">{!$Label.c.PI_Delegate_PI_Info}:</div>
+                            <div class="pi_selection_info">{!$Label.c.PI_Delegate_PI_More_Info}</div>
+                            <lightning:input aura:id="selectAllCheckbox"
+                                             checked="{!v.isSelectAllChecked}"
+                                             type="checkbox"
+                                             label="{!$Label.c.Select_All_PI}"
+                                             class="select_all_checkbox"
+                                             onchange="{!c.doSelectAll}"/>
+                            <lightning:checkboxGroup
+                                    class="select_checkbox_group"
+                                    value="{!v.checkboxGroupValues}"
+                                    options="{!v.PIForInvetation}"/>
+                        </div>
+                    </aura:if>
                 </div>
             </aura:if>
 
