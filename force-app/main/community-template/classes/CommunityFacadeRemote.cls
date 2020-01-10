@@ -54,10 +54,6 @@ public without sharing class CommunityFacadeRemote {
     public static String getCommunityData() {
         try {
             Contact userContact = CommunityService.getUserContact();
-            if(userContact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT &&
-                    userContact.Current_Participant_Enrollment__c == null) {
-                ContactService.updateCurrentPEOnContacts(new List<Id>{userContact.Id});
-            }
             CommunityData cd = new CommunityData();
             cd.allUserModes = CommunityModeService.getUserCommunityModes();
             cd.currentUserMode = CommunityModeService.getCurrentCommunityMode(cd.allUserModes);
@@ -133,7 +129,10 @@ public without sharing class CommunityFacadeRemote {
             Contact userContact = CommunityService.getUserContact();
             userContact.userCommunityMode__c = mode;
             if(mode == CommunityService.USER_MODE_HCP) userContact.userCommunityDelegateId__c = delegateId;
-            if(mode == CommunityService.USER_MODE_PARTICIPANT) userContact.Current_Participant_Enrollment__c = peId;
+            if(mode == CommunityService.USER_MODE_PARTICIPANT) {
+                userContact.Current_Participant_Enrollment__c = peId;
+                userContact.userCommunityDelegateId__c = delegateId;
+            }
             update userContact;
             return userContact;
         } catch (Exception e) {

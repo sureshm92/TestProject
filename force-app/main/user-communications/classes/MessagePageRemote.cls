@@ -71,7 +71,11 @@ public without sharing class MessagePageRemote {
 
                 //Collect Enrollments
                 pageData.enrollments = [
-                        SELECT Id, Participant__r.Full_Name__c
+                        SELECT
+                                Id,
+                                Clinical_Trial_Profile__r.Study_Code_Name__c,
+                                Participant__r.Full_Name__c,
+                                Participant_Contact__c
                         FROM Participant_Enrollment__c
                         WHERE Study_Site__r.Principal_Investigator__c = :CommunityService.getInstance().getCurrentContactId()
                 ];
@@ -102,9 +106,13 @@ public without sharing class MessagePageRemote {
         try {
             Contact userContact = CommunityService.getUserContact();
             Conversation__c newConversation = new Conversation__c(Participant_Enrollment__c = enrollment.Id);
+
+            String senderName;
             if(userContact.userCommunityMode__c.equals(CommunityService.USER_MODE_PARTICIPANT)) {
+                senderName = userContact.UserCommunityIsDelegate__c ? userContact.Full_Name__c : enrollment.Participant__r.Full_Name__c;
                 newConversation.haveUnreadForPI__c = true;
             } else {
+                senderName = userContact.Full_Name__c;
                 newConversation.haveUnreadForParticipant__c = true;
             }
             insert newConversation;
@@ -114,7 +122,7 @@ public without sharing class MessagePageRemote {
             insert new Message__c(
                     Conversation__c = newConversation.Id,
                     Message_Content__c = messageText,
-                    Sender_Name__c = userContact.UserCommunityIsDelegate__c ? userContact.Full_Name__c : enrollment.Participant__r.Full_Name__c
+                    Sender_Name__c = senderName
             );
 
             Conversation__c conversation = ConversationService.getConversations(new List<Id>{
@@ -156,15 +164,20 @@ public without sharing class MessagePageRemote {
     }
 
     @AuraEnabled
-    public static void markConversationAsRead(Id conId) {
+    public static ConversationWrapper markConversationAsRead(Conversation__c conversation) {
         try {
             update new Conversation__c(
-                    Id = conId,
+                    Id = conversation.Id,
                     haveUnreadForParticipant__c = false,
                     haveUnreadForPI__c = false
             );
+            conversation.haveUnreadForParticipant__c = false;
+            conversation.haveUnreadForPI__c = false;
+
+            List<Message__c> messages = MessageService.getMessages(conversation.Id);
+            return getConversationWrapper(CommunityService.getUserContact().userCommunityMode__c, conversation, messages);
         } catch (Exception e) {
-            AuraHelper.throwException(e);
+            return (ConversationWrapper) AuraHelper.throwException(e);
         }
     }
 

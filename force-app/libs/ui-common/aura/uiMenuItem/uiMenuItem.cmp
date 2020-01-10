@@ -2,12 +2,16 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="uiMenuItem" extends="ui:menuItem">
+<aura:component description="uiMenuItem" extends="ui:menuItem" extensible="true">
 
     <!-- attributes: -->
     <aura:attribute name="itemValue" type="Object" access="public"/>
     <aura:attribute name="isSelected" type="Boolean" access="public"/>
     <aura:attribute name="class" type="String" access="public" default=""/>
+    <aura:attribute name="closeAfterClick" type="Boolean" default="true"/>
+
+    <!-- methods: -->
+    <aura:method name="closeMenu" action="{!c.doCloseMenu}" access="public"/>
 
     <!-- events: -->
     <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
@@ -17,7 +21,7 @@
     <aura:method name="setFocus" action="{!c.setFocus}"/>
 
     <!-- component body: -->
-    <li class="{!v.isSelected ? 'active ' : ' ' + v.class}" onclick="{!c.doOnClick}" title="{!v.label}">
+    <li class="{!(v.isSelected ? 'active ' : ' ') + v.class}" onclick="{!c.doOnClick}" title="{!v.label}">
         <aura:if isTrue="{!empty(v.body)}">
             {!v.label}
             <aura:set attribute="else">

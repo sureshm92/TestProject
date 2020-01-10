@@ -178,13 +178,15 @@ public without sharing class PatientDelegateService {
                 DatabaseService.fieldEqual('Contact__c', CommunityService.getUserContact().Id)
         );
 
-        List<User> delegateUser = [SELECT Id FROM User WHERE ContactId = :newDelegate.Id];
+        List<User> delegateUser = [SELECT Id FROM User WHERE ContactId = :newDelegate.Id AND IsActive = TRUE];
         if(!delegateUser.isEmpty()) {
             List<Conversation__c> patientConversation = ConversationService.getSharedConversations(UserInfo.getUserId());
-            List<Id> conversationIds = new List<Id>();
-            for(Conversation__c conversation : patientConversation) conversationIds.add(conversation.Id);
+            if(patientConversation != null) {
+                List<Id> conversationIds = new List<Id>();
+                for(Conversation__c conversation : patientConversation) conversationIds.add(conversation.Id);
 
-            insert ConversationService.createConversationSharesForUser(conversationIds, delegateUser.get(0).Id);
+                insert ConversationService.createConversationSharesForUser(conversationIds, delegateUser.get(0).Id);
+            }
         }
 
         createPDAlerts(newDelegate);

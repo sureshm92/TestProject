@@ -496,6 +496,34 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Accept</value>
     </labels>
     <labels>
+        <fullName>BTN_Accept_all_participants</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Accept all participants</shortDescription>
+        <value>Accept all participants</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Accept_all_providers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Accept all providers</shortDescription>
+        <value>Accept all providers</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Accept_participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Accept participant</shortDescription>
+        <value>Accept participant</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Accept_provider</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Accept provider</shortDescription>
+        <value>Accept provider</value>
+    </labels>
+    <labels>
         <fullName>BTN_Accept_terms_and_conditions</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -963,6 +991,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>true</protected>
         <shortDescription>BTN Save and Exit</shortDescription>
         <value>Save and Exit</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Screener_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN_Screener_Participant</shortDescription>
+        <value>Screen Participant</value>
     </labels>
     <labels>
         <fullName>BTN_Screener_Responses</fullName>
@@ -1461,6 +1496,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>DLIT L Pre-eligibility screening</shortDescription>
         <value>Pre-eligibility screening</value>
+    </labels>
+    <labels>
+        <fullName>DLIT_L_Pre_screen_a_participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Pre-screen participant</shortDescription>
+        <value>Pre-screen  a Participant</value>
     </labels>
     <labels>
         <fullName>DLIT_L_Refer_a_patient_to_a_study_site</fullName>
@@ -4461,6 +4503,20 @@ The IQVIA Patient Portal Support Team</value>
         <value>Sorry! This survey is not available for you due to some reasons.</value>
     </labels>
     <labels>
+        <fullName>Invite_Participant_To_Portal</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Invite_Participant_To_Portal</shortDescription>
+        <value>Invite Participant to Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Invited</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>contact has user</shortDescription>
+        <value>Invited</value>
+    </labels>
+    <labels>
         <fullName>Link_Back_To_Home</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4858,6 +4914,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>None</shortDescription>
         <value>None</value>
+    </labels>
+    <labels>
+        <fullName>Not_Invited</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Not_Invited</shortDescription>
+        <value>Not Invited</value>
     </labels>
     <labels>
         <fullName>Not_Registered</fullName>
@@ -6495,6 +6558,13 @@ View study documents and other resources including articles and videos related t
         <value>patients from Medical Record Review Log waiting to be referred</value>
     </labels>
     <labels>
+        <fullName>PG_DBPI_L_Providers_waiting_for_activation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI L Providers waiting for activation</shortDescription>
+        <value>Referring Providers Waiting For Activation</value>
+    </labels>
+    <labels>
         <fullName>PG_DBPI_L_Providers_waiting_for_approval_and_activation</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6549,6 +6619,20 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG DBPI L for</shortDescription>
         <value>for</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_L_study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI L study</shortDescription>
+        <value>Study</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_L_study_site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI L study site</shortDescription>
+        <value>Study site</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_My_Patients_Acceptance_Status</fullName>
@@ -7778,6 +7862,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PG MRRL L Studies</shortDescription>
         <value>Studies</value>
+    </labels>
+    <labels>
+        <fullName>PG_MRR_BTN_Back_to_My_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_MRR_BTN_Back_to_My_Participant</shortDescription>
+        <value>Back to My participants</value>
     </labels>
     <labels>
         <fullName>PG_MRR_BTN_Back_to_My_Studies</fullName>

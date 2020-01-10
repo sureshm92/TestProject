@@ -51,7 +51,7 @@ public class DashboardRemote {
     private static String FROM_6_TO_10_DAYS = '6-10 Days';
     private static String FROM_11_TO_15_DAYS = '11-15 Days';
     private static String FROM_16_TO_20_DAYS = '16-20 Days';
-    private static String GREATER_30_DAYS = '>30 Days';
+    private static String GREATER_20_DAYS = '>20 Days';
 
     class BarItem {
         String color;
@@ -299,7 +299,7 @@ public class DashboardRemote {
                 FROM_6_TO_10_DAYS => new List<Participant_Enrollment_Status_History__c>(),
                 FROM_11_TO_15_DAYS => new List<Participant_Enrollment_Status_History__c>(),
                 FROM_16_TO_20_DAYS => new List<Participant_Enrollment_Status_History__c>(),
-                GREATER_30_DAYS => new List<Participant_Enrollment_Status_History__c>()
+                GREATER_20_DAYS => new List<Participant_Enrollment_Status_History__c>()
         };
         for (Participant_Enrollment_Status_History__c peSH : peSHs) {
             if (!peIdsProcessed.contains(peSH.ParticipantEnrollment__c)) {
@@ -313,14 +313,17 @@ public class DashboardRemote {
                     days = FROM_11_TO_15_DAYS;
                 } else if (daysBetween >= 16 && daysBetween <=20) {
                     days = FROM_16_TO_20_DAYS;
-                } else if (daysBetween >= 30) {
-                    days = GREATER_30_DAYS;
+                } else if (daysBetween > 20) {
+                    days = GREATER_20_DAYS;
                 }
+
                 List<Participant_Enrollment_Status_History__c> peSHDay = peSHByDays.get(days);
-                peSHDay.add(peSH);
-                if (maxParticipantsInDays < peSHDay.size()) {
-                    maxParticipantsInDays = peSHDay.size();
-                    daysMaxParticipantsInDays = days;
+                if (peSHDay != null) {
+                    peSHDay.add(peSH);
+                    if (maxParticipantsInDays < peSHDay.size()) {
+                        maxParticipantsInDays = peSHDay.size();
+                        daysMaxParticipantsInDays = days;
+                    }
                 }
             }
         }
@@ -330,7 +333,7 @@ public class DashboardRemote {
         resList.add(prepareBarItem('#B8DDF6', FROM_6_TO_10_DAYS, peSHByDays.get(FROM_6_TO_10_DAYS).size(), maxParticipantsInDays, daysMaxParticipantsInDays));
         resList.add(prepareBarItem('#83C7F4', FROM_11_TO_15_DAYS, peSHByDays.get(FROM_11_TO_15_DAYS).size(), maxParticipantsInDays, daysMaxParticipantsInDays));
         resList.add(prepareBarItem('#3D9BD9', FROM_16_TO_20_DAYS, peSHByDays.get(FROM_16_TO_20_DAYS).size(), maxParticipantsInDays, daysMaxParticipantsInDays));
-        resList.add(prepareBarItem('#136BA6', GREATER_30_DAYS, peSHByDays.get(GREATER_30_DAYS).size(), maxParticipantsInDays, daysMaxParticipantsInDays));
+        resList.add(prepareBarItem('#136BA6', GREATER_20_DAYS, peSHByDays.get(GREATER_20_DAYS).size(), maxParticipantsInDays, daysMaxParticipantsInDays));
 
         return resList;
     }

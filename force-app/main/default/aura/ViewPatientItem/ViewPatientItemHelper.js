@@ -3,7 +3,6 @@
  */
 ({
     preparePathItems: function (component) {
-        console.log('init');
         var statuses = component.get('v.peStatusesPathList');
         var pe = component.get('v.pe');
         var statusesMap = component.get('v.peStatusStateMap');
@@ -23,7 +22,6 @@
         };
         for (var i = 0; i < statuses.length; i++) {
             var num = i + 1;
-            //default values for path item:
             var pathItem = {
                 name: statuses[i],
                 state: 'neutral',
@@ -47,5 +45,5 @@
             }
         }
         component.set('v.pathItems', pathList);
-    }
-})
+    },
+});

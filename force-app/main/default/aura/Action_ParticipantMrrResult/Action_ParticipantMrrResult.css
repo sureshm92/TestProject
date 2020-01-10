@@ -1,0 +1,180 @@
+.THIS .rr-card{
+    margin-top: 50px;
+    border-bottom: 1px solid #d9d9d9;
+    height: 40px;
+}
+
+.THIS .rr-card .rr-card-ico{
+    width: 16px;
+    height: 25px;
+    fill: black;
+    float: left;
+    margin-right: 5px;
+}
+
+.THIS .rr-secondary-text {
+    color: #666666;
+    font-size: 13px;
+    line-height: 17px;
+}
+
+.THIS .rr-primary-text{
+    font-size: 17px;
+    line-height: 21px;
+    font-weight: 600;
+}
+
+.THIS .left-column{
+    border-right: none;
+}
+
+.THIS .right-column{
+    padding-left: 0px;
+}
+
+
+
+.THIS .mrr-padding{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.THIS .small-info-text{
+    color: #444;
+    font-size: 13px;
+    line-height: 18px;
+    margin-top: 8px;
+}
+
+.THIS .mrr-btn-section button{
+    width: 100%;
+    margin: 10px 0 30px 0;
+}
+
+.THIS .mrr-fe{
+    margin-bottom: 20px;
+}
+
+.THIS .left-column .pdf-ico{
+    width: 28px;
+    height: 28px;
+    fill: #333333;
+}
+
+.THIS .apollo-btn.text .download-ico{
+    width: 12px;
+    height: 12px;
+    fill: #3294FE;
+    margin-right: 5px;
+    margin-left: 10px;
+}
+
+.THIS .info-text{
+    font-size: 15px;
+    line-height: 18px;
+    color: #666666;
+}
+
+.THIS .right-bottom-alert{
+    padding-top: 30px;
+    border-top: 2px solid #cccccc;
+    text-align: center;
+
+}
+
+.THIS .right-bottom-alert .info-text{
+    padding: 10px 0;
+}
+
+.THIS .right-bottom-alert button{
+    display: block;
+    margin: 20px auto;
+}
+
+.THIS .mrr-gizmo-frame{
+    width: 100%;
+    height: 500px;
+    border: 0;
+    margin-bottom: 30px;
+}
+
+.THIS .mrr-alert{
+    text-align: center;
+    padding-top: 30px;
+    min-height: 500px;
+}
+
+.THIS .mrr-alert .main-title{
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 48px;
+}
+
+.THIS .mrr-alert.fail .main-title{
+    color: #595959;
+}
+
+.THIS .mrr-alert.pass .main-title, .THIS .green-text{
+    color: #595959;
+}
+
+.THIS .mrr-alert.pass .apollo-btn.tertiary,
+.THIS .mrr-alert.fail .apollo-btn.tertiary {
+    background: none;
+    color: #297dfd;
+}
+
+.THIS .apollo-btn.tertiary:hover,
+.THIS .apollo-btn.tertiary:active:not(:disabled),
+.THIS .apollo-btn.tertiary.selected {
+    background-color: #eef5ff;
+    transition: .25s;
+}
+
+.THIS .mrr-alert .rr-icon-default{
+    width: 64px;
+    height: 64px;
+    display: block;
+    margin: 5px auto;
+}
+
+.THIS .mrr-alert.fail .rr-icon-default{
+    fill: #e20000;
+}
+
+.THIS .mrr-alert.pass .rr-icon-default{
+    fill: #00c221;
+}
+
+.THIS .mrr-alert button{
+    display: block;
+    margin: 20px auto;
+}
+
+/* for large size */
+@media all and (min-width: 1024px){
+    .THIS .mrr-padding{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .THIS .right-column{
+        padding-left: 20px;
+        min-height: 500px;
+    }
+
+    .THIS .left-column{
+        border-right: 1px solid #D9D9D9;
+        padding-right: 30px;
+    }
+}
+
+.THIS .sub-title{
+    font-size: 18px!important;
+}
+/*
+.THIS .apollo-btn primary{
+    background: #297dfd;
+    color: white;
+
+}*/

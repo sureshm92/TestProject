@@ -55,7 +55,7 @@
                         return t
                     }
                 }
-                var data = atob(result);
+                var data = Base64.decode(result)
                 data = data.replace('<h1>', '<h1 class="hide-survey-header">');
                 component.set('v.decodeResults', data);
             }
