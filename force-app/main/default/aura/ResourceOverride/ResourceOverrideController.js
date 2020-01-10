@@ -23,18 +23,10 @@
     		$A.enqueueAction(apexMethod);
     	},
 
-    handleChange: function (component, event) {
-    	    console.log(component.get("v.Countries"));
-    	    var selectedOptionValue = event.getParam("value");
-    	    component.set("v.Countries__c", selectedOptionValue.toString());
-    	    alert(selectedOptionValue.toString());
-    },
-
         //----------------------------------------------------------//
         // saves or updates the new/current record                  //
         //----------------------------------------------------------//
         save: function (component, event, helper) {
-    	    debugger;
             helper.resetMessages(component);
             if (!helper.validateForm(component, event, helper)) return;
             helper.buildRecord(component);
