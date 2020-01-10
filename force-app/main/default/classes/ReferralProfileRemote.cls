@@ -4,7 +4,7 @@
 
 public without sharing class ReferralProfileRemote {
 
-    class InitData{
+    class InitData {
         List<StatusStep> steps = new List<StatusStep>();
         Participant_Enrollment__c enrollment;
         List<LabelValueItem> visitPlanLVList;
@@ -13,7 +13,7 @@ public without sharing class ReferralProfileRemote {
         Boolean isEnrolled;
     }
 
-    class StatusStep{
+    class StatusStep {
         String name;
         String state;
         Boolean isDisabled;
@@ -28,12 +28,12 @@ public without sharing class ReferralProfileRemote {
         List<HistoryItem> history;
     }
 
-    class HistoryItem{
+    class HistoryItem {
         String styleClass;
         Datetime changeDate;
         String message;
         String modifiedBy;
-        HistoryItem (String styleClass, Datetime changeDate, String message, String modifiedBy){
+        HistoryItem(String styleClass, Datetime changeDate, String message, String modifiedBy) {
             this.styleClass = styleClass;
             this.changeDate = changeDate;
             this.message = message;
@@ -41,31 +41,31 @@ public without sharing class ReferralProfileRemote {
         }
     }
 
-    public  static Map<String, String> BTN_STYLE_MAP = new Map<String, String>{
+    public static Map<String, String> BTN_STYLE_MAP = new Map<String, String>{
             PEStatusState.STATUS_STATE_SUCCESS => 'green',
             PEStatusState.STATUS_STATE_IN_PROGRESS => 'orange',
             PEStatusState.STATUS_STATE_FAILURE => 'red'
     };
 
-    public static final Map<String, String> BTN_LABELS_MAP = new Map<String, String> {
+    public static final Map<String, String> BTN_LABELS_MAP = new Map<String, String>{
             PEStatusState.STATUS_STATE_SUCCESS => Label.BTN_Accept,
             PEStatusState.STATUS_STATE_IN_PROGRESS => Label.BTN_On_hold,
             PEStatusState.STATUS_STATE_FAILURE => Label.BTN_Decline
     };
 
-    public class ChangeStatusButton{
+    public class ChangeStatusButton {
         String name;
         String status;
         String style;
         Boolean isDisabled;
 
-        public ChangeStatusButton(String state, String status){
+        public ChangeStatusButton(String state, String status) {
             this.status = status;
             this.isDisabled = false;
             this.style = BTN_STYLE_MAP.get(state);
             this.name = BTN_LABELS_MAP.get(state);
         }
-        public ChangeStatusButton(String state, String status, Boolean isDisabled){
+        public ChangeStatusButton(String state, String status, Boolean isDisabled) {
             this.status = status;
             this.isDisabled = isDisabled;
             this.style = BTN_STYLE_MAP.get(state);
@@ -74,41 +74,41 @@ public without sharing class ReferralProfileRemote {
     }
 
     @AuraEnabled
-    public static String getReferralProfileDetail(String peId, String userMode){
+    public static String getReferralProfileDetail(String peId, String userMode) {
         return getReferralProfileDetail(peId, userMode, null);
     }
 
     @AuraEnabled
-    public static String getReferralProfileDetail(String peId, String userMode, String delegateId){
-        try{
+    public static String getReferralProfileDetail(String peId, String userMode, String delegateId) {
+        try {
             InitData initData = new InitData();
-            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode,delegateId);
-            if(pe == null) throw new CommunityServiceException('Participant enrollment not found');
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId);
+            if (pe == null) throw new CommunityServiceException('Participant enrollment not found');
             initData.enrollment = pe;
             initData.visitPlanLVList = StudySiteService.getVisitPlansLVList(pe.Study_Site__c);
             initData.steps = loadSteps(pe, userMode, delegateId);
             initData.isEnrolled = !PEStatusState.STATUSES_MAP.containsKey(pe.Participant_Status__c) || pe.Participant_Status__c.startsWith('Enrollment');
             return JSON.serialize(initData);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
 
-     @AuraEnabled
-    public static void updateParticipantData(String participantJSON, String perJSON){
-        update (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
-        update (Participant_Enrollment__c)JSON.deserialize(perJSON, Participant_Enrollment__c.class);
-    }
-    
     @AuraEnabled
-    public static String changePEStatus(Id peId, String newStatus, String notes, String userMode){
-        try{
+    public static void updateParticipantData(String participantJSON, String perJSON) {
+        update (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
+        update (Participant_Enrollment__c) JSON.deserialize(perJSON, Participant_Enrollment__c.class);
+    }
+
+    @AuraEnabled
+    public static String changePEStatus(Id peId, String newStatus, String notes, String userMode) {
+        try {
             List<String> statusAndReason = newStatus.split(';');
             String status = statusAndReason[0];
             String reason;
-            if(statusAndReason.size() > 1) reason = statusAndReason[1];
-            Participant_Enrollment__c pe  = new Participant_Enrollment__c(
+            if (statusAndReason.size() > 1) reason = statusAndReason[1];
+            Participant_Enrollment__c pe = new Participant_Enrollment__c(
                     Id = peId,
                     Participant_Status_Last_Changed_Date__c = Datetime.now(),
                     Last_Status_Changed_Notes__c = notes,
@@ -118,15 +118,15 @@ public without sharing class ReferralProfileRemote {
             upsert pe;
             pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode);
             return JSON.serialize(loadSteps(pe, userMode, null));
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-    
+
     @AuraEnabled
-    public static String changePEStatusByBtn(Id peId, String newStatus){
-        try{
-            Participant_Enrollment__c pe  = new Participant_Enrollment__c(
+    public static String changePEStatusByBtn(Id peId, String newStatus) {
+        try {
+            Participant_Enrollment__c pe = new Participant_Enrollment__c(
                     Id = peId,
                     Participant_Status_Last_Changed_Date__c = Datetime.now(),
                     Last_Status_Changed_Notes__c = null,
@@ -135,36 +135,36 @@ public without sharing class ReferralProfileRemote {
             );
             upsert pe;
             return JSON.serialize(pe);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
 
     @AuraEnabled
-    public static String savePEScreeningId(Id peId, String newScreeningId){
-        try{
-            Participant_Enrollment__c pe  = new Participant_Enrollment__c(
+    public static String savePEScreeningId(Id peId, String newScreeningId) {
+        try {
+            Participant_Enrollment__c pe = new Participant_Enrollment__c(
                     Id = peId,
                     Screening_ID__c = newScreeningId
             );
             upsert pe;
             return JSON.serialize(pe);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-    
+
     @AuraEnabled
-    public static String getPEStatusHistory(Id peId, String userMode, String delegateId){
-        try{
+    public static String getPEStatusHistory(Id peId, String userMode, String delegateId) {
+        try {
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId);
             List<StatusStep> steps = loadSteps(pe, userMode, delegateId);
             Map<String, List<HistoryItem>> historyMap = new Map<String, List<HistoryItem>>();
-            for(StatusStep step : steps){
+            for (StatusStep step : steps) {
                 historyMap.put(step.name, step.history);
             }
             return JSON.serialize(historyMap);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
@@ -177,14 +177,14 @@ public without sharing class ReferralProfileRemote {
     private static List<StatusStep> loadSteps(Participant_Enrollment__c pe, String userMode, String delegateId) {
         if (pe == null) return null;
         StudyActions sActions;
-        if(userMode == CommunityService.USER_MODE_PI){
+        if (userMode == CommunityService.USER_MODE_PI) {
             sActions = new StudyActionsPI(pe);
-        }else if(userMode == CommunityService.USER_MODE_HCP){
+        } else if (userMode == CommunityService.USER_MODE_HCP) {
             sActions = new StudyActionsHCP(pe, delegateId);
         }
         Integer i = 1;
         PEStatusState currentState = PEStatusState.STATUSES_MAP.get(pe.Participant_Status__c);
-        if(!PEStatusState.STATUSES_MAP.containsKey(pe.Participant_Status__c)){
+        if (!PEStatusState.STATUSES_MAP.containsKey(pe.Participant_Status__c)) {
             currentState = PEStatusState.STATUSES_MAP.get(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS);
         }
         List<StatusStep> steps = new List<StatusStep>();
@@ -200,7 +200,7 @@ public without sharing class ReferralProfileRemote {
             } else {
                 ss.state = 'neutral';
             }
-            ss.isPassed = i == 1 || i < currentState.order || (i ==  PEStatusState.STATUS_STEPS_LIST.size() && i == currentState.order);
+            ss.isPassed = i == 1 || i < currentState.order || (i == PEStatusState.STATUS_STEPS_LIST.size() && i == currentState.order);
             if (currentState.state != PEStatusState.STATUS_STATE_SUCCESS) {
                 ss.isDisabled = i > currentState.order;
                 ss.isCurrent = i == currentState.order;
@@ -208,14 +208,14 @@ public without sharing class ReferralProfileRemote {
                 ss.isDisabled = i > currentState.order + 1;
                 ss.isCurrent = i == currentState.order + 1;
             }
-            if(userMode == CommunityService.USER_MODE_HCP || userMode == CommunityService.USER_MODE_PI){
+            if (userMode == CommunityService.USER_MODE_HCP || userMode == CommunityService.USER_MODE_PI) {
                 StudyActions.Action changePEStatusByPIAction = sActions.actions.get(StudyActions.ACT_CHANGE_PE_STATUS_BY_PI);
 
-                if(changePEStatusByPIAction != null) {
+                if (changePEStatusByPIAction != null) {
                     ss.isDisabled = ss.isDisabled || changePEStatusByPIAction.disabled;
                     ss.disableReason = changePEStatusByPIAction.disableReason;
                 }
-                if (i == 2 && sActions.studyAccessLevel == DelegateService.DELEGATE_LEVEL_3){
+                if (i == 2 && sActions.studyAccessLevel == DelegateService.DELEGATE_LEVEL_3) {
                     ss.isDisabled = true;
                     ss.disableReason = StudyActions.REASON_LABEL_ACTION_NOT_ALLOWED_ON_ACCESS_LEVEL;
                 }
@@ -231,15 +231,15 @@ public without sharing class ReferralProfileRemote {
             //init select lists
             ss.statusReasonsList = new List<LabelValueItem>();
             ss.statusReasonsList.add(new LabelValueItem(Label.PG_RP_L_Not_selected, null));
-            for(String state : step.states.keySet()){
+            for (String state : step.states.keySet()) {
                 String status = step.states.get(state);
                 List<String> dependedReasons = REASONS_MAP.get(status);
-                if(dependedReasons == null || dependedReasons.size() == 0){
-                    ss.statusReasonsList.add(new LabelValueItem(TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,status), status));
-                }else{
-                    for(String reason : dependedReasons){
-                        ss.statusReasonsList.add(new LabelValueItem(TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,status)
-                                + ' - ' + TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c,reason),
+                if (dependedReasons == null || dependedReasons.size() == 0) {
+                    ss.statusReasonsList.add(new LabelValueItem(TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, status), status));
+                } else {
+                    for (String reason : dependedReasons) {
+                        ss.statusReasonsList.add(new LabelValueItem(TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, status)
+                                + ' - ' + TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c, reason),
                                 status + ';' + reason));
                     }
                 }
@@ -251,25 +251,26 @@ public without sharing class ReferralProfileRemote {
         List<Participant_Enrollment_Status_History__c> historyList = [
                 SELECT Id, Notes__c, Status__c, Reason__c, Date__c, LastModifiedBy.Profile.Name, LastModifiedBy.Name
                 FROM Participant_Enrollment_Status_History__c
-                WHERE ParticipantEnrollment__c =: pe.Id ORDER BY CreatedDate DESC
+                WHERE ParticipantEnrollment__c = :pe.Id
+                ORDER BY CreatedDate DESC
         ];
-        for(Participant_Enrollment_Status_History__c hi : historyList){
+        for (Participant_Enrollment_Status_History__c hi : historyList) {
             PEStatusState state = PEStatusState.STATUSES_MAP.get(hi.Status__c);
-            if(state != null && steps != null && state.order > 0){
-                steps[state.order-1].history.add(new HistoryItem(
+            if (state != null && steps != null && state.order > 0) {
+                steps[state.order - 1].history.add(new HistoryItem(
                         BTN_STYLE_MAP.get(state.state),
                         hi.Date__c,
                         TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, hi.Status__c) +
                                 (hi.Reason__c != null ? ' - ' + TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c, hi.Reason__c) : '') +
-                                (hi.Notes__c != null && userMode == CommunityService.USER_MODE_PI  ? ':  ' + hi.Notes__c : ''),
-                                (hi.LastModifiedBy.Profile.Name == 'System Administrator' || hi.LastModifiedBy.Profile.Name == 'IQVIA SPNL') ? System.Label.Admin_Label : hi.LastModifiedBy.Name
+                                (hi.Notes__c != null && userMode == CommunityService.USER_MODE_PI ? ':  ' + hi.Notes__c : ''),
+                        (hi.LastModifiedBy.Profile.Name == 'System Administrator' || hi.LastModifiedBy.Profile.Name == 'IQVIA SPNL') ? System.Label.Admin_Label : hi.LastModifiedBy.Name
                 ));
             }
         }
         return steps;
     }
 
-    public static List<ChangeStatusButton> createButtonsList(String currentState, Boolean isDisabled){
+    public static List<ChangeStatusButton> createButtonsList(String currentState, Boolean isDisabled) {
         //buttons used only for step 2
         List<ChangeStatusButton> buttonsList = new List<ChangeStatusButton>();
         for (String state : PEStatusState.STATUS_STATE_LIST) {
@@ -281,22 +282,50 @@ public without sharing class ReferralProfileRemote {
         return buttonsList;
     }
 
-    public static List<ChangeStatusButton> createButtonsList(String currentState){
+    public static List<ChangeStatusButton> createButtonsList(String currentState) {
         return createButtonsList(currentState, false);
     }
-    
-    public static String toSentenceFont(String sourceStr){
-        if(String.isEmpty(sourceStr)) return sourceStr;
-        Set<String> excludeWords = new Set<String>{'PI', 'HCP', 'Participant'};
+
+    public static String toSentenceFont(String sourceStr) {
+        if (String.isEmpty(sourceStr)) return sourceStr;
+        Set<String> excludeWords = new Set<String>{
+                'PI', 'HCP', 'Participant'
+        };
         List<String> words = sourceStr.split(' ');
         List<String> processedWords = new List<String>();
-        for(String word : words){
-            if(!excludeWords.contains(word)){
+        for (String word : words) {
+            if (!excludeWords.contains(word)) {
                 word = word.toLowerCase();
             }
             processedWords.add(word);
         }
         processedWords[0] = processedWords[0].capitalize();
         return String.join(processedWords, ' ');
+    }
+    @AuraEnabled
+    public static Participant_Enrollment__c setMRRStatus(String peJSON, String status, String surveyGizmoData) {
+        Participant_Enrollment__c participantEnrollment = (Participant_Enrollment__c) JSON.deserialize(peJSON, Participant_Enrollment__c.class);
+        participantEnrollment.Medical_Record_Review_Status__c = status;
+        participantEnrollment.MRR_Survey_Results_URL__c = surveyGizmoData;
+        participantEnrollment.Medical_Record_Review_Completed_by__c = CommunityService.getUserContact().Id;
+        if (status == 'Pass') {
+            participantEnrollment.Pre_screening_Status__c = 'Pass';
+        } else {
+            participantEnrollment.Pre_screening_Status__c = 'Fail';
+        }
+
+        System.debug('PE: ' + JSON.serialize(participantEnrollment));
+        update participantEnrollment;
+        return participantEnrollment;
+    }
+    @AuraEnabled
+    public static void createUser(String peId) {
+        try {
+            ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{
+                    peId
+            });
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
     }
 }

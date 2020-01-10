@@ -1,6 +1,3 @@
-/**
- * Created by Leonid Bartenev
- */
 .THIS .rr-card{
     margin-top: 50px;
     border-bottom: 1px solid #d9d9d9;
@@ -128,9 +125,9 @@
 }
 
 .THIS .apollo-btn.tertiary:hover,
-.THIS .apollo-btn.tertiary:active:not(:disabled), 
+.THIS .apollo-btn.tertiary:active:not(:disabled),
 .THIS .apollo-btn.tertiary.selected {
-   background-color: #eef5ff;
+    background-color: #eef5ff;
     transition: .25s;
 }
 
@@ -175,3 +172,9 @@
 .THIS .sub-title{
     font-size: 18px!important;
 }
+/*
+.THIS .apollo-btn primary{
+    background: #297dfd;
+    color: white;
+
+}*/

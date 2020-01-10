@@ -38,7 +38,6 @@
                         if(e.data.pdfContent){
                             gizmoData = e.data.pdfContent;
                         }
-                        console.log('gizmoData>>', gizmoData);
                         if(e.data.success){
                             helper.updateMRRStatus(component, 'Pass', gizmoData);
                         }else{

@@ -24,7 +24,6 @@
                 component.set('v.peStatusesPathList', initData.peStatusesPathList);
                 component.set('v.peStatusStateMap', initData.peStatusStateMap);
                 component.set('v.enrollments', initData.peList);
-                console.log('enrollments>>>>>',initData.peList);
                 component.set('v.alreadyEnrolled', initData.alreadyEnrolled);
                 component.set('v.isInitialized', true);
                 //set sticky bar position in browser window

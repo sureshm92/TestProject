@@ -33,7 +33,6 @@
     },
 
     doChangeStatus: function (component, event, helper) {
-        console.log('do change status');
         var rootComponent = component.get('v.parent');
         rootComponent.find('mainSpinner').show();
         var pe = component.get('v.pe');
@@ -56,10 +55,22 @@
         rootComponent.find('updatePatientInfoAction').execute(pe, pathItems, anchor, actions, rootComponent, function (enrollment) {
             component.set('v.pe', enrollment);
             rootComponent.find('updatePatientInfoAction').set('v.pathItems', component.get('v.pathItems'));
-            if(enrollment.Participant_Status__c == 'Enrollment Success'){
+            if (enrollment.Participant_Status__c == 'Enrollment Success') {
                 rootComponent.refresh();
             }
         });
     },
+    doPreScreening: function (component, event, helper) {
+        var rootComponent = component.get('v.parent');
+        var pe = component.get('v.pe');
+        var frameHeight = component.get('v.frameHeight');
+        var isInvited = component.get('v.isInvited');
+        component.set('v.showSpinner', true);
+        rootComponent.find('openSearch').execute(pe, rootComponent, frameHeight, isInvited, function (enrollment) {
+            component.set('v.pe', enrollment);
+            rootComponent.refresh();
+
+        });
+    }
 
 })
