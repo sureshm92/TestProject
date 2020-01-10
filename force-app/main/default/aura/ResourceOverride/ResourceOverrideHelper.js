@@ -94,7 +94,6 @@
         // build a Resource__c record and assign to the "record"    //
         //----------------------------------------------------------//
         buildRecord: function (component) {
-            debugger;
             var record = {
                 Title__c                    : component.get("v.Title__c"),
                 document_type__c            : component.get("v.document_type__c"),

@@ -260,7 +260,11 @@ public with sharing class ResourceOverrideRemote {
                     response.put('recordId', resource.Id);
                     response.put('resourceName', resource.Name);
                     response.put('availableLanguages', getAvailableLanguages(resource.Id));
-                    response.put('message', 'New Resource successfully created: [' + resource.Name + ']. You can now upload files which will be attached to this Resource.');
+                    if(currentRecType == RECORD_TYPE_STUDY_DOCUMENT) {
+                        response.put('message', 'New Resource successfully created: [' + resource.Name + ']. You can now upload files which will be attached to this Resource.');
+                    } else {
+                        response.put('message', 'New Resource successfully created: [' + resource.Name + '].');
+                    }
                 }
             }
         } catch (Exception e) {
