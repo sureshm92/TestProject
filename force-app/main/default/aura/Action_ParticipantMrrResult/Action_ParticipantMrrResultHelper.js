@@ -1,23 +1,18 @@
 ({
     updateMRRStatus: function (component, status, gizmoData) {
-
         var pe = component.get('v.pe');
-        var action = component.get('c.setMRRStatus');
-        action.setParams({
+        communityService.executeAction(component, 'setMRRStatus', {
             peJSON: JSON.stringify(pe),
             status: status,
             surveyGizmoData: gizmoData
+        }, function (returnValue) {
+            component.set("v.mrrResult", status);
+            component.get('v.callback')(pe);
+            ;
+        }, null, function () {
+            communityService.logErrorFromResponse(response);
+            communityService.showErrorToastFromResponse(response);
         });
-        action.setCallback(this, function (response) {
-            if (response.getState() === "SUCCESS") {
-                component.set("v.mrrResult", status);
-                component.get('v.callback')(pe);
-            } else {
-                communityService.logErrorFromResponse(response);
-                communityService.showErrorToastFromResponse(response);
-            }
-        });
-        $A.enqueueAction(action);
     },
 
     addEventListener: function (component, helper) {
