@@ -31,7 +31,7 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
         List<Notification__c> notifications = new List<Notification__c>();
 
         for (Participant_Enrollment__c pe : participantEnrollments) {
-            if(isMajorityParticipants.containsKey(pe.Participant__c)) {
+            if(isMajorityParticipants.containsKey(pe.Participant__c) && !pe.Participant__r.Adult__c) {
                 pe.Participant__r.Adult__c = isMajorityParticipants.get(pe.Participant__c);
                 // put here field and populate for front view (PI should see something like notification)
                 adultParticipants.add(pe.Participant__r);
