@@ -316,11 +316,14 @@ public class DashboardRemote {
                 } else if (daysBetween >= 30) {
                     days = GREATER_30_DAYS;
                 }
+
                 List<Participant_Enrollment_Status_History__c> peSHDay = peSHByDays.get(days);
-                peSHDay.add(peSH);
-                if (maxParticipantsInDays < peSHDay.size()) {
-                    maxParticipantsInDays = peSHDay.size();
-                    daysMaxParticipantsInDays = days;
+                if (peSHDay != null) {
+                    peSHDay.add(peSH);
+                    if (maxParticipantsInDays < peSHDay.size()) {
+                        maxParticipantsInDays = peSHDay.size();
+                        daysMaxParticipantsInDays = days;
+                    }
                 }
             }
         }
