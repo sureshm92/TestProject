@@ -1,0 +1,46 @@
+<!--
+ - Created by Andrii Kryvolap.
+ -->
+
+<aura:component description="DashboardParticipantCard">
+    <!-- attributes:-->
+    <aura:attribute name="pe" type="Object"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+
+    <div class="db-participant-card">
+        <div class="db-participant-card-title">
+            <div>
+                <a class="rr-link only-text" onclick="{!c.doOpenPatientInfo}">{!v.pe.data.Participant__r.First_Name__c + ' ' + v.pe.data.Participant__r.Last_Name__c}</a>
+            </div>
+            <c:uiHeaderMenu aura:id="menuId" class="accept-btn">
+                <aura:set attribute="title">
+                    <div class="apollo-btn secondary slds-align-bottom">
+                        <div>{!$Label.c.BTN_Accept}</div>
+                        <c:RRIcon color="blue" iconName="icon-chevron-down" class="chevron"/>
+                    </div>
+                </aura:set>
+                <c:uiMenuItem label="{!$Label.c.BTN_Accept_participant}" onclick="{!c.doAction}" />
+                <c:uiMenuItem label="{!$Label.c.BTN_Accept_all_participants}" onclick="{!c.doAction}" />
+            </c:uiHeaderMenu>
+
+<!--            <button class="apollo-btn secondary"-->
+<!--                    disabled="{!v.pe.actions.changePEStatusByPI.disabled}"-->
+<!--                    title="{!v.pe.actions.changePEStatusByPI.disableReason}"-->
+<!--                    onclick="{!c.doAccept}"-->
+<!--                    data-pe-id="{!v.pe.data.Id}">-->
+<!--                    {!$Label.c.BTN_Accept}-->
+<!--            </button>-->
+        </div>
+
+        <aura:if isTrue="{!!empty(v.pe.data.HCP__c)}">
+        {!$Label.c.PG_AP_F_Referred_By + ': ' + v.pe.data.HCP__r.HCP_Contact__r.Salutation + ' ' + v.pe.data.HCP__r.HCP_Contact__r.Name}<br/>
+            <aura:set attribute="else">
+            {!$Label.c.PG_AP_F_Referred_By + ': ' + v.pe.data.Source_Type__c}<br/>
+            </aura:set>
+        </aura:if>
+            {!$Label.c.PG_DBPI_L_study + ': '}&nbsp;<c:RRLink label="{!v.pe.data.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}" page="{!'study-workspace?id=' + v.pe.data.Study_Site__r.Clinical_Trial_Profile__c}"/>
+
+    </div>
+
+
+</aura:component>

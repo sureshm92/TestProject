@@ -1,0 +1,42 @@
+<!--
+ - Created by Andrii Kryvolap.
+ -->
+
+<aura:component description="DashboardHCPCard">
+
+    <!-- attributes: -->
+    <aura:attribute name="hcpe" type="Object"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+
+    <!-- component body -->
+        <div class="db-hcp-card">
+            <div class="db-hcp-card-title">
+                <div>
+                    <c:RRLink label="{!v.hcpe.data.HCP_Contact__r.Salutation + ' ' + v.hcpe.data.HCP_Contact__r.Name + ' '}" page=""/>
+                </div>
+                <c:uiHeaderMenu aura:id="menuId" class="accept-btn">
+                    <aura:set attribute="title">
+                        <div class="apollo-btn secondary slds-align-bottom">
+                            <div>{!$Label.c.BTN_Accept}</div>
+                            <c:RRIcon color="blue" iconName="icon-chevron-down" class="chevron"/>
+                        </div>
+                    </aura:set>
+                            <c:uiMenuItem label="{!$Label.c.BTN_Accept_provider}" onclick="{!c.doAction}" />
+                            <c:uiMenuItem label="{!$Label.c.BTN_Accept_all_providers}" onclick="{!c.doAction}" />
+                </c:uiHeaderMenu>
+<!--                <button class="apollo-btn secondary"-->
+<!--                        disabled="{!v.hcpe.action.disabled}"-->
+<!--                        title="{!v.hcpe.action.disableReason}"-->
+<!--                        onclick="{!c.doAction}"-->
+<!--                        data-v.hcpe-id="{!v.hcpe.data.Id}">-->
+<!--                        {!v.hcpe.action.label}-->
+<!--                </button>-->
+            </div>
+             {!$Label.c.PG_DBPI_at + ' '} {!v.hcpe.data.HCP_Contact__r.Account.Name}
+            <br/>
+            {!$Label.c.PG_DBPI_L_study + ': '}&nbsp;<c:RRLink label="{!v.hcpe.data.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}" page="{!'study-workspace?id=' + v.hcpe.data.Study_Site__r.Clinical_Trial_Profile__c}"/><br/>
+            {!$Label.c.PG_DBPI_L_study_site + ': '+ v.hcpe.data.Study_Site__r.Name}
+
+        </div>
+
+</aura:component>
