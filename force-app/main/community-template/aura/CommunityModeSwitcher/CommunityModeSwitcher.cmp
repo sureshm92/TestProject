@@ -19,7 +19,7 @@
                 <c:uiMenuItem label="{!item.label}" onclick="{!c.doSelectItem}"
                               isSelected="{!or(v.currentMode.key == item.key, v.currentMode.groupKey == item.key)}"
                               itemValue="{!item}"
-                              closeAfterClick="{!!item.isGroup}" class="menu-item">
+                              closeAfterClick="{!!item.isGroup}" class="{!'menu-item ' + if(item.isGroup, ' group', '')}">
                     <aura:if isTrue="{!item.isGroup}">
                         <aura:if isTrue="{!item.isOpen}">
                             <c:RRIcon color="black" iconName="icon-chevron-down" class="menu-chevron"/>
@@ -28,12 +28,13 @@
                             </aura:set>
                         </aura:if>
                     </aura:if>
-                    {!item.label}
+                    <div class="overflow-ellipsis">{!item.label}</div>
                 </c:uiMenuItem>
                 <aura:iteration items="{!item.subModes}" var="subItem">
                     <c:uiMenuItem label="{!subItem.label}" onclick="{!c.doSelectItem}"
                                   isSelected="{!v.currentMode.key == subItem.key}"
                                   itemValue="{!subItem}" class="{!'menu-sub-item ' + if(and(item.isGroup, item.isOpen), '', 'hidden')}">
+                        <div class="overflow-ellipsis">{!subItem.label}</div>
                     </c:uiMenuItem>
                 </aura:iteration>
             </aura:iteration>
