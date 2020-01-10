@@ -6,20 +6,71 @@ public without sharing class CommunityModeService {
     
     public class CommunityMode {
         
+        @AuraEnabled public String key;
+        @AuraEnabled public String groupKey;
         @AuraEnabled public String userMode;
         @AuraEnabled public Id currentHCPDelegate;
         @AuraEnabled public Id currentPE;
-        @AuraEnabled public Id delegateContactId;
+        @AuraEnabled public Id currentDelegateId;
         @AuraEnabled public Boolean isDelegate = false;
+        @AuraEnabled public String groupLabel;
         @AuraEnabled public String label;
-        
-        public CommunityMode(String userMode, String label, Id sourceId) {
+        @AuraEnabled public Boolean isGroup = false;
+        @AuraEnabled public List<CommunityMode> subModes = new List<CommunityMode>();
+        @AuraEnabled public Boolean isOpen = false;
+    
+        public CommunityMode(String userMode, String label) {
             this.userMode = userMode;
             this.label = label;
-            if (sourceId != null) {
-                if (sourceId.getSobjectType() == Contact.getSObjectType()) currentHCPDelegate = sourceId;
-                if (sourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) currentPE = sourceId;
+            this.groupLabel = label;
+            generateKey();
+        }
+        
+        public CommunityMode(String userMode, String label, Id delegateId) {
+            this.userMode = userMode;
+            this.label = label;
+            this.groupLabel = label;
+            this.currentHCPDelegate = delegateId;
+            generateKey();
+        }
+    
+        public CommunityMode(String userMode, String label, Id delegateId, Id peId) {
+            this.userMode = userMode;
+            this.label = label;
+            this.groupLabel = label;
+            this.currentPE = peId;
+            this.currentDelegateId = delegateId;
+            generateKey();
+        }
+    
+        public void addSubMode(CommunityMode subMode){
+            isGroup = true;
+            subModes.add(subMode);
+            subMode.groupLabel = label;
+            subMode.groupKey = key;
+        }
+        
+        public void setAsCurrentMode(){
+            Contact userContact = CommunityService.getUserContact();
+            userContact.userCommunityMode__c = userMode;
+            if(userMode == CommunityService.USER_MODE_HCP){
+                userContact.userCommunityDelegateId__c = currentHCPDelegate;
+            }else if (userContact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT){
+                userContact.userCommunityDelegateId__c = currentDelegateId;
+                userContact.Current_Participant_Enrollment__c = currentPE;
             }
+            update userContact;
+        }
+        
+        private void generateKey(){
+            key = userMode;
+            if(userMode == CommunityService.USER_MODE_PARTICIPANT){
+                key += '' + currentDelegateId + currentPE;
+            }
+            if(userMode == CommunityService.USER_MODE_HCP){
+                key += currentHCPDelegate;
+            }
+            groupKey = key;
         }
     
     }
@@ -45,70 +96,128 @@ public without sharing class CommunityModeService {
             modes.add(new CommunityMode(CommunityService.USER_MODE_HCP, itemLabel, delegate.Referring_Provider__c));
         }
 
-        List<Id> availablePEIds = PatientDelegateService.getAvailablePEIdsListByContactIdMap(new List<String>{userContact.Id}).get(userContact.Id);
-        if(availableModes != null && availableModes.contains(CommunityService.USER_MODE_PARTICIPANT)){
-            List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
-    
-            if(availablePEIds != null && availablePEIds.size() > 0){
-                peList.addAll([
-                        SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.Study_Code_Name__c
-                        FROM Participant_Enrollment__c
-                        WHERE Id IN :availablePEIds AND Participant_Contact__c = :userContact.Id
-                ]);
-                peList.addAll([
-                        SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.Study_Code_Name__c
-                        FROM Participant_Enrollment__c
-                        WHERE Id IN :availablePEIds AND Participant_Contact__c != :userContact.Id
-                ]);
-            }
-    
-            if(peList.size() > 0){
-                for(Participant_Enrollment__c pe : peList){
-                    String label = Label.BTN_View + ' ' + pe.Clinical_Trial_Profile__r.Study_Code_Name__c + '';
-                    modes.add(new CommunityMode(CommunityService.USER_MODE_PARTICIPANT, label, pe.Id ));
-                }
-            }else{
-                modes.add(new CommunityMode(CommunityService.USER_MODE_PARTICIPANT, Label.CTL_L_Patricipant_MODE, null));
-            }
-        }
-        
+        modes.addAll(getParticipantModes());
         return modes;
     }
     
     public static CommunityMode getCurrentCommunityMode(List<CommunityMode> allModes){
-        String currentModeKey = getCurrentModeKey();
-        for(CommunityMode communityMode : allModes){
-            if(getModeKey(communityMode) == currentModeKey){
-                return communityMode;
-            }
-        }
-        if(!allModes.isEmpty()){
+        CommunityMode currentMode = getCurrentCommunityMode(); //from DB
+        CommunityMode resMode = findMode(currentMode.key, allModes); // find in available modes
+        if(resMode == null && allModes.size() > 0){
+            allModes[0].setAsCurrentMode();
             return allModes[0];
         }
-        return null;
+        return resMode;
     }
     
-    private static String getCurrentModeKey(){
+    private static CommunityMode getCurrentCommunityMode(){
+        CommunityMode currentMode;
         Contact userContact = CommunityService.getUserContact();
-        String key = userContact.userCommunityMode__c;
-        if(key == CommunityService.USER_MODE_HCP && userContact.userCommunityDelegateId__c != null) {
-            key += userContact.userCommunityDelegateId__c;
+        if(userContact.userCommunityMode__c == CommunityService.USER_MODE_PI){
+            currentMode = new CommunityMode(
+                    CommunityService.USER_MODE_PI,
+                    null);
+        }else if (userContact.userCommunityMode__c == CommunityService.USER_MODE_HCP){
+            currentMode = new CommunityMode(
+                    CommunityService.USER_MODE_HCP,
+                    null,
+                    userContact.userCommunityDelegateId__c);
+        }else{
+            currentMode = new CommunityMode(
+                    CommunityService.USER_MODE_PARTICIPANT,
+                    null,
+                    userContact.userCommunityDelegateId__c,
+                    userContact.Current_Participant_Enrollment__c
+            );
         }
-        if(key == CommunityService.USER_MODE_PARTICIPANT && userContact.Current_Participant_Enrollment__c != null) {
-            key += userContact.Current_Participant_Enrollment__c;
-        }
-        return key;
+        return currentMode;
     }
     
-    private static String getModeKey(CommunityMode communityMode){
-        String key = communityMode.userMode;
-        if(communityMode.userMode == CommunityService.USER_MODE_PARTICIPANT && communityMode.currentPE != null){
-            key += communityMode.currentPE;
+    private static List<CommunityMode> getParticipantModes(){
+        List<CommunityMode> modes = new List<CommunityMode>();
+        List<Participant__c> userParticipant = [
+                SELECT Id, First_Name__c, Last_Name__c, Contact__c
+                FROM Participant__c
+                WHERE Contact__c =: CommunityService.getInstance().getCurrentContactId() LIMIT 1
+        ];
+        List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds(CommunityService.getInstance().getCurrentContactId());
+        if(delegatedParticipantIds == null) delegatedParticipantIds = new List<Id>();
+        List<Participant_Enrollment__c> peList = [
+                SELECT Id, Clinical_Trial_Profile__r.Study_Title__c,
+                        Participant__c,
+                        Participant__r.Contact__c
+                FROM Participant_Enrollment__c
+                WHERE (Participant__c IN :delegatedParticipantIds OR Participant__c IN :userParticipant)
+                AND Participant_Status__c NOT IN :PEStatusState.PE_STATUS_GROUP_ALUMNI
+        ];
+        Map<Id, Participant__c> participantsMap = new Map<Id, Participant__c>([
+                SELECT Id, First_Name__c, Last_Name__c, Contact__c
+                FROM Participant__c
+        ]);
+        Map<Id, List<Participant_Enrollment__c>> peListByParticipantIdMap = new Map<Id, List<Participant_Enrollment__c>>();
+        for(Participant_Enrollment__c pe : peList){
+            List<Participant_Enrollment__c> participantPEList = peListByParticipantIdMap.get(pe.Participant__c);
+            if(participantPEList == null) participantPEList = new List<Participant_Enrollment__c>();
+            participantPEList.add(pe);
+            peListByParticipantIdMap.put(pe.Participant__c, participantPEList);
         }
-        if(communityMode.userMode == CommunityService.USER_MODE_HCP && communityMode.currentHCPDelegate != null){
-            key += communityMode.currentHCPDelegate;
+        if(userParticipant.size() > 0){
+            peList = peListByParticipantIdMap.get(userParticipant[0].Id);
+            
+            CommunityMode mode = new CommunityMode(
+                    CommunityService.USER_MODE_PARTICIPANT,
+                    userParticipant[0].First_Name__c + ' ' + userParticipant[0].Last_Name__c,
+                    userParticipant[0].Contact__c,
+                    null
+            );
+            modes.add(mode);
+            if(peList != null){
+                for(Participant_Enrollment__c pe : peList){
+                    mode.addSubMode(new CommunityMode(
+                            CommunityService.USER_MODE_PARTICIPANT,
+                            pe.Clinical_Trial_Profile__r.Study_Title__c,
+                            pe.Participant__r.Contact__c,
+                            pe.Id
+                    ));
+                }
+            }
         }
-        return key;
+        for(Id participantId : delegatedParticipantIds){
+            Participant__c participant = participantsMap.get(participantId);
+            peList = peListByParticipantIdMap.get(participantId);
+            CommunityMode mode = new CommunityMode(
+                    CommunityService.USER_MODE_PARTICIPANT,
+                    participant.First_Name__c + ' ' + participant.Last_Name__c,
+                    participant.Contact__c,
+                    null
+            );
+            modes.add(mode);
+            if(peList != null){
+                for(Participant_Enrollment__c pe : peList){
+                    mode.addSubMode(new CommunityMode(
+                            CommunityService.USER_MODE_PARTICIPANT,
+                            pe.Clinical_Trial_Profile__r.Study_Title__c,
+                            pe.Participant__r.Contact__c,
+                            pe.Id
+                    ));
+                }
+            }
+        }
+        return modes;
+    }
+    
+    private static CommunityMode findMode(String key, List<CommunityMode> modes){
+        for(CommunityMode communityMode : modes){
+            if(communityMode.key == key){
+                return communityMode;
+            }
+            for(CommunityMode subMode : communityMode.subModes){
+                if(subMode.key == key){
+                    return subMode;
+                }
+            }
+        }
+        return null;
     }
 
 }
