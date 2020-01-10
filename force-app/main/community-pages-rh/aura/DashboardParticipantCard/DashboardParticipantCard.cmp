@@ -20,7 +20,7 @@
                     </div>
                 </aura:set>
                 <c:uiMenuItem label="{!$Label.c.BTN_Accept_participant}" onclick="{!c.doAction}" />
-                <c:uiMenuItem label="{!$Label.c.BTN_Accept_all_participants}" onclick="{!c.doAction}" />
+                <c:uiMenuItem label="{!$Label.c.BTN_Accept_all_participants}" />
             </c:uiHeaderMenu>
 
 <!--            <button class="apollo-btn secondary"-->

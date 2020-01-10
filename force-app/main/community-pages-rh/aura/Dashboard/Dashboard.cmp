@@ -42,10 +42,7 @@
                 <c:DashboardHCP hcpData="{!v.hcpData}"/>
             </aura:if>
         </div>
-
    </aura:if>
 
-    <!-- change PE Information -->
-    <c:Action_ParticipantInformation aura:id="updatePatientInfoAction"/>
 
 </aura:component>
