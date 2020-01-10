@@ -103,9 +103,14 @@ public without sharing class CommunityModeService {
     public static CommunityMode getCurrentCommunityMode(List<CommunityMode> allModes){
         CommunityMode currentMode = getCurrentCommunityMode(); //from DB
         CommunityMode resMode = findMode(currentMode.key, allModes); // find in available modes
+        System.debug('KEY: ' + currentMode.key);
+        System.debug('Find MODE: ' + JSON.serializePretty(resMode));
         if(resMode == null && allModes.size() > 0){
-            allModes[0].setAsCurrentMode();
-            return allModes[0];
+            resMode = getFirstMode(allModes);
+            if(resMode != null){
+                resMode.setAsCurrentMode();
+                return resMode;
+            }
         }
         return resMode;
     }
@@ -208,7 +213,7 @@ public without sharing class CommunityModeService {
     
     private static CommunityMode findMode(String key, List<CommunityMode> modes){
         for(CommunityMode communityMode : modes){
-            if(communityMode.key == key){
+            if(!communityMode.isGroup && communityMode.key == key){
                 return communityMode;
             }
             for(CommunityMode subMode : communityMode.subModes){
@@ -219,5 +224,20 @@ public without sharing class CommunityModeService {
         }
         return null;
     }
+    
+    private static CommunityMode getFirstMode(List<CommunityMode> modes){
+        for(CommunityMode communityMode : modes){
+            if(!communityMode.isGroup){
+                return communityMode;
+            }
+            for(CommunityMode subMode : communityMode.subModes){
+                return subMode;
+            }
+        }
+        return null;
+    }
+
+
+
 
 }
