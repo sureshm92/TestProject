@@ -2,6 +2,10 @@
  * Created by Leonid Bartenev
  */
 
+.THIS.mode-block .menu-popup-panel{
+    border: 0!important;
+}
+
 .THIS.mode-block {
     display: inline-block;
     position: relative;
@@ -18,6 +22,44 @@
     display: inline-block;
     vertical-align: middle;
     font-size: .875rem;
+}
+
+.THIS .menu-chevron {
+    width: 14px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.THIS .menu-item.active,
+.THIS .menu-sub-item.active{
+    color: white!important;
+    background-color: #0469a5!important;
+}
+
+.THIS .menu-item.active svg{
+    fill: white!important;
+}
+
+.THIS .menu-item, .THIS .menu-sub-item {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+
+.THIS .menu-sub-item{
+    padding-left: 22px!important;
+    transition: 300ms;
+}
+
+.THIS .menu-sub-item.hidden{
+    visibility: hidden;
+    opacity: 0;
+    height: 0!important;
+    padding-top: 0!important;
 }
 
 @media all and (max-width: 550px) {
