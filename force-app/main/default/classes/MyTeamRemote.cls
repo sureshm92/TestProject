@@ -455,10 +455,12 @@ public without sharing class MyTeamRemote {
             List<User> delegateUser = [SELECT Id FROM User WHERE ContactId = :delegateContact.Id AND IsActive = TRUE];
             if(!delegateUser.isEmpty()) {
                 List<Conversation__c> conversations = ConversationService.getSharedConversations(UserInfo.getUserId());
-                List<Id> conversationIds = new List<Id>();
-                for(Conversation__c con : conversations) conversationIds.add(con.Id);
+                if(conversations != null) {
+                    List<Id> conversationIds = new List<Id>();
+                    for(Conversation__c con : conversations) conversationIds.add(con.Id);
 
-                insert ConversationService.createConversationSharesForUser(conversationIds, delegateUser.get(0).Id);
+                    insert ConversationService.createConversationSharesForUser(conversationIds, delegateUser.get(0).Id);
+                }
             }
         }
     }
