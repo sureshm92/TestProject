@@ -7,12 +7,6 @@ public without sharing class SendEmailToParticipant {
     public static final String EMAIL_TEMPLATE_NO_TYPE_TASK = 'Patient_Task_Reminder';
     public static final String EMAIL_TEMPLATE_NO_TYPE_TASK_DELEGATE = 'Patient_Task_Reminder_Delegate';
 
-    public static final String EMAIL_TEMPLATE_MEDICATION_TASK = 'Patient_Task_Reminder_Medication';
-    public static final String EMAIL_TEMPLATE_MEDICATION_TASK_DELEGATE = 'Patient_Task_Reminder_Medication_Del';
-
-    public static final String EMAIL_TEMPLATE_VISIT_TASK = 'Patient_Task_Reminder_Visit';
-    public static final String EMAIL_TEMPLATE_VISIT_TASK_DELEGATE = 'Patient_Task_Reminder_Visit_Del';
-
     public static final Map<String, String> PATIENT_EMAIL_REMINDERS_TYPE_MAP = new Map<String, String>{
             TaskService.TASK_TYPE_NOT_SELECTED => NotificationService.MESSAGE_TO_PT_TASK_REMINDER_TYPE,
             TaskService.TASK_TYPE_VISIT => NotificationService.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE,
