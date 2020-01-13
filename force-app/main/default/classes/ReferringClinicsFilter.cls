@@ -72,7 +72,7 @@ public without sharing class ReferringClinicsFilter implements SearchFilter{
     };
 
     private static List<String> REFERRING_CLINICS_SEARCH_FIELDS = new List<String>{
-            'HCP_Full_Name__c'
+            'HCP_Contact__r.Full_Name__c'
             //'Study_Site__r.Name',
             //'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c'
     };
@@ -115,8 +115,16 @@ public without sharing class ReferringClinicsFilter implements SearchFilter{
                     filterValues.statusFilter
             });
         }
-        if(filterValues.searchText != ''){
-            filterString += ' AND ' + DatabaseService.searchFields(REFERRING_CLINICS_SEARCH_FIELDS, filterValues.searchText);
+        if(filterValues.searchText != '' && filterValues.searchText.trim().length()>1){
+            String searchString = 'FIND \'*' + filterValues.searchText +'*\' IN NAME FIELDS RETURNING Contact(Id, Name)';
+            List<List<sObject>> searchList = search.query(searchString);
+            List<Contact>searchHCPContacts = (List<Contact>)searchList[0];
+            List<Id> contactIds = new List<Id>();
+            for(Contact contact : searchHCPContacts){
+                contactIds.add(contact.Id);
+            }
+            filterString += ' AND ' + DatabaseService.fieldInValues('HCP_Contact__c', contactIds);
+            //filterString += ' AND ' + DatabaseService.searchFields(REFERRING_CLINICS_SEARCH_FIELDS, filterValues.searchText);
         }
 
         return filterString;
