@@ -57,7 +57,7 @@ public without sharing class MessageTriggerHandler {
             String notificationType;
             Conversation__c conversation = conversationMap.get(mes.Conversation__c);
             if(conversation.haveUnreadForPI__c) {
-                notificationType = NotificationService.MESSAGE_TO_PI_NEW_MESSAGE;
+                notificationType = NotificationService.MESSAGE_TO_PI_NEW_MESSAGE_TYPE;
                 headRecipientId = conversation.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c;
 
                 notifications.add(new Notification__c(
