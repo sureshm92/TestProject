@@ -134,6 +134,7 @@
             participantTabs.push(this.allPagesMap['resources']);
         }
         if(communityService.getCurrentCommunityMode().hasPastStudies) participantTabs.push(this.allPagesMap['past-studies']);
+        participantTabs.push(this.allPagesMap['messages']);
         participantTabs.push(this.allPagesMap['help']);
 
         this.itemsMap = {
