@@ -2,12 +2,12 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="ParticipantCardFields" extends="c:CommunityContext">
+<aura:component description="ParticipantCardFields" extends="c:CommunityContext" controller="ReferralProfileRemote">
 
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String"/>
     <aura:attribute name="pe" type="Object"/>
-
+    <aura:attribute name="isInvited" type="boolean"/>
     <!-- component body: -->
     <div class="{!'vpi-clip-item-borders ' + if(v.isArabic, 'rtl', '')}">
         <div class="vpi-fields">
@@ -22,6 +22,16 @@
                                   maxWidth="250px"/>
                     </div>
                 </div>
+                <aura:if isTrue="{!v.isInvited}">
+                    <div class="slds-has-block-links--space">
+                    {!$Label.c.Invited}
+                </div>
+                    <aura:set attribute="else">
+                        <div class="slds-has-block-links--space2">
+                            {!$Label.c.Not_Invited}
+                        </div>
+                    </aura:set>
+                </aura:if>
                 <div class="vpi-field">
                     <div class="label">{!$Label.c.PE_Study_Site_Referred_To}</div>
                     <!--<div class="value">

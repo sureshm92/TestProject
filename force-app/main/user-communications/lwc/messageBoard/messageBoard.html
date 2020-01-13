@@ -1,0 +1,89 @@
+<!--
+ - Created by Igor Malyuta on 24.12.2019.
+ -->
+
+<!-- Message Board -->
+<template>
+    <template if:true={hideEmptyStub}>
+        <div class="ms-board">
+            <div class="ms-board-header">
+                <template if:true={isMultipleMode}>
+                    <div class="ms-multi-header">
+                        <template if:false={isPIMode}>
+                            <lightning-combobox
+                                    style="flex-basis: 60%;"
+                                    label={labels.selectLabel}
+                                    value={selectedEnrollment}
+                                    placeholder={labels.selectPlaceholderLabel}
+                                    options={enrollmentsOptions}
+                                    onchange={handleEnrollmentSelect}></lightning-combobox>
+                        </template>
+                        <template if:true={isPIMode}>
+                            <!-- Search input by PE (Participants Name) -->
+                        </template>
+                    </div>
+                </template>
+                <template if:false={isMultipleMode}>
+                    <div class="ms-single-header">
+                        <template if:false={isPIMode}>
+                            <div class="ms-header-name ms-header-team-name">{labels.teamLabel}
+                                <template if:false={isPastStudy}>
+                                    &nbsp;|&nbsp;{labels.piLabel}&nbsp;{selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name}
+                                </template>
+                            </div>
+                        </template>
+                        <template if:true={isPIMode}>
+                            <div class="ms-header-name ms-header-patient-name">{selectedEnrollment.Participant__r.Full_Name__c}</div>
+                            <div class="ms-header-patient-study">
+                                {selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+            <div class="ms-board-body">
+                <template if:true={messageWrappers}>
+                    <template for:each={messageWrappers} for:item="msWr">
+                        <c-message-item key={msWr.message.Id} item={msWr} user-mode={userMode}></c-message-item>
+                    </template>
+                </template>
+            </div>
+            <div class="ms-board-footer">
+                <template if:true={isPIMode}>
+                    <div class="ms-send-pi">
+                        <lightning-input type="text" label="" variant="label-hidden" max-length="500"
+                                         placeholder={labels.inputPlaceholderLabel}
+                                         value={messageText} onchange={handleMessageText}></lightning-input>
+                        <div class="ms-send-pi-buttons">
+                            <div style="flex-grow: 1;">{labels.limitLabel}</div>
+<!--                            <button class="apollo-btn text">{labels.attFileLabel}</button>-->
+                            <button class="apollo-btn primary ms-send-button" onclick={handleSendClick} disabled>
+                                {labels.sendBtnLabel}
+                            </button>
+                        </div>
+                    </div>
+                </template>
+                <template if:false={isPIMode}>
+                    <div class="ms-send-part">
+                        <lightning-combobox
+                                style="flex-basis: 85%;"
+                                label={labels.selectLabel}
+                                value={messageText}
+                                placeholder={labels.selectPlaceholderLabel}
+                                options={messageTemplateOptions}
+                                onchange={handleMessageText}></lightning-combobox>
+                        <button class="apollo-btn primary ms-send-button" onclick={handleSendClick} disabled>
+                            {labels.sendBtnLabel}
+                        </button>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </template>
+    <template if:false={hideEmptyStub}>
+        <div class="ms-empty-chat">
+            <c-web-icon icon-name="icon-message" icon-color="#a6a6a6"></c-web-icon>
+            <div class="ms-empty-chat-label">{labels.emptyChatLabel}</div>
+        </div>
+    </template>
+</template>

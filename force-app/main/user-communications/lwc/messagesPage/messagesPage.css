@@ -1,0 +1,112 @@
+/**
+ * Created by Igor Malyuta on 21.12.2019.
+ */
+.ms-page {
+    padding-top: 30px;
+}
+
+.ms-container {
+    height: 600px;
+    width: 1140px;
+    background-color: #ffffff;
+    border: 1px solid #f3f3f3;
+    display: flex;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.ms-left {
+    display: flex;
+    flex-direction: column;
+    width: 437px;
+    border-right: 1px solid #f3f3f3;
+}
+
+.ms-mes-header {
+    height: 73px;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-bottom: 1px solid #f3f3f3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ms-title {
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 29px;
+    text-align: center;
+}
+
+.ms-btn-new {
+    width: 32px;
+    height: 32px;
+    padding-left: 2.5px;
+    margin-top: -2px;
+    border-radius: 50%;
+    background-color: #0557D5;
+    cursor: pointer;
+}
+
+.ms-new-mode {
+    height: 68px;
+    display: flex;
+    align-items: center;
+    padding-left: 25px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 22px;
+    background-color: rgba(41, 125, 253, 0.08);
+}
+
+.ms-conversations-board {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+.ms-conversations-board::-webkit-scrollbar {
+    width: 7px;
+}
+
+.ms-conversations-board::-webkit-scrollbar-track {
+    background: none;
+}
+
+.ms-conversations-board::-webkit-scrollbar-thumb {
+    background: rgba(155, 155, 155, 0.8);
+    border-radius: 10px;
+}
+
+.ms-conversations-board::-webkit-scrollbar-thumb:hover {
+    background: rgba(85, 85, 85, 0.3);
+}
+
+.ms-empty-conversations {
+    height: 100%;
+    padding-bottom: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ms-empty-conversations-label {
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 26px;
+    text-align: center;
+}
+
+.ms-right {
+    width: 100%;
+}

@@ -1,0 +1,40 @@
+/**
+ * Created by Andrii Kryvolap.
+ */
+.THIS .dqa-view-more{
+    background: #F8F9FB;
+    border-top: solid 1px #E9E9E9;
+    min-height: 49px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.THIS .db-qal-title{
+    color: #000000;
+    font-size: 18px;
+    font-weight: 600;
+}
+.THIS .db-qal-main{
+    padding: 16px;
+}
+.THIS .db-qal-items{
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.THIS ::-webkit-scrollbar{
+    width: 8px;
+}
+.THIS ::-webkit-scrollbar-thumb{
+    width: 8px;
+    border-radius: 4px;
+    background-color: #999999;
+    box-shadow: 0 8px 8px 0 rgba(0,0,0,0.16);
+    height: 100px;
+}
+.THIS ::-webkit-scrollbar-track{
+    display:none;
+}
+.THIS ::-webkit-scrollbar-button{
+    height: 0;
+}

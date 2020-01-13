@@ -8,7 +8,11 @@ public without sharing class MyReferringClinicsController {
         try {
             initData = new InitData(trialId, ssId);
             getInitDataEnrollments(initData);
-
+            if(CommunityService.getUserContact().UserCommunityIsDelegate__c) {
+                initData.isButtonDisabled = Action_InviteRPRemote.getPIForInvetation().isEmpty();
+            } else {
+                initData.isButtonDisabled = false;
+            }
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -72,12 +76,13 @@ public without sharing class MyReferringClinicsController {
         String status;
         String statusLabel;
         List<StudyActions.Action> buttonList = new List<StudyActions.Action>();
+        //Boolean isHCPRegistred;
         public HCPEnrollmentWrapper(HCP_Enrollment__c hcpEnrollment) {
             Map<String, StudyActions.Action> actionsMap = new StudyActionsPI(hcpEnrollment).actions;
             status = CommunityService.getConvertedStatus(hcpEnrollment.Status__c);
             statusLabel = TranslateHelper.getPickListLabel(HCP_Enrollment__c.Status__c, hcpEnrollment.Status__c);
             enrollment = hcpEnrollment;
-
+            //isHCPRegistred = !hcpEnrollment.HCP_Contact__r.Is_First_Logon__c;
             Map<String, String> actionToStatusesMap = HCPEnrollmentService.HCP_CHANGE_STATUS_MAP.get(hcpEnrollment.Status__c);
             if (actionToStatusesMap != null) {
                 for (String actionId : actionToStatusesMap.keySet()) {
@@ -92,6 +97,7 @@ public without sharing class MyReferringClinicsController {
         public List<MyReferringClinicsController.ClinicWrapper> filteredReferringClinics;
         public String trialId;
         public String ssId;
+        public Boolean isButtonDisabled;
         public InitData(String trialId, String ssId) {
             this.trialId = trialId;
             this.ssId = ssId;

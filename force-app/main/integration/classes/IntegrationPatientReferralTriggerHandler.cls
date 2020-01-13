@@ -166,6 +166,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Terms_and_Conditions_Accepted_Date__c = ipr.acceptedTermsAndConditions__c != null ? Date.valueOf(ipr.acceptedTermsAndConditions__c) : null,
                 Referred_Date__c = ipr.Referred_Date__c != null ? Date.valueOf(ipr.Referred_Date__c) : null,
                 Referred_By__c = 'Other',
+                utm_campaign__c = ipr.UTM_campaignName__c,
                 utm_content__c = ipr.UTM_campaignContent__c,
                 utm_medium__c = ipr.UTM_campaignMedium__c,
                 utm_source__c = ipr.UTM_campaignSource__c,

@@ -1,0 +1,67 @@
+<!--
+ - Created by Alexey Moseev.
+ -->
+
+<aura:component description="DashboardPINew">
+
+    <!-- attributes: -->
+    <aura:attribute name="piData" type="Object"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+
+
+    <!-- component body: -->
+    <div class="slds-grid slds-wrap db-section">
+        <div class="slds-col slds-size--1-of-2">
+            <div class="rr-white-panel padding first-panel">
+                <div class="slds-grid slds-wrap db-section">
+                    <div class="slds-col slds-size--1-of-1 db-header">{!$Label.c.PG_DBPI_L_Referrals_waiting_for_first_contact}</div>
+                </div>
+
+                <!-- PI referral acceptance section -->
+                <div class="slds-grid slds-wrap db-section">
+                    <div class="slds-col slds-size--1-of-1">
+                        <div class="rr-large-down-hide">
+                            <c:DashboardTimeWaitingContact peList="{!v.piData.waitingTimeToContact}" parent="{!v.parent}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-col slds-size--1-of-2">
+            <div class="rr-white-panel padding first-panel">
+                <div class="slds-grid slds-wrap db-section">
+                    <div class="slds-col slds-size--1-of-1 db-header">{!'' + v.piData.participantsWaitingContact + ' ' + $Label.c.PG_DBPI_L_Referrals_waiting_for_contact}</div>
+                </div>
+
+                <!-- PI referral acceptance section -->
+                <div class="slds-grid slds-wrap db-section">
+                    <div class="slds-col slds-size--1-of-1">
+                        <div class="rr-large-down-hide">
+                            <c:DashboardWaitingContact peList="{!v.piData.awaitingToContact}" parent="{!v.parent}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-col slds-size--2-of-3">
+        </div>
+        <div class="slds-col slds-size--1-of-3">
+            <div class="db-quick-actions-container">
+                <c:DashboardQuickActionList
+                        parent="{!v.parent}"
+                        itemsList="{!v.piData.physiciansWaitingForApprovalList}"
+                        itemsType="hcpWaitingApproval"
+                        title="{!$Label.c.PG_DBPI_L_Providers_waiting_for_activation}"
+                        viewMoreLink="my-referring-clinics?showPending=true"/>
+                <c:DashboardQuickActionList
+                        parent="{!v.parent}"
+                        itemsList="{!v.piData.waitingAcceptenceList}"
+                        itemsType="participantsWaitingAcceptance"
+                        title="{!$Label.c.PG_DBPI_L_Referrals_waiting_for_acceptance}"
+                        viewMoreLink="my-referrals?filter=pending"/>
+            </div>
+        </div>
+
+    </div>
+
+</aura:component>

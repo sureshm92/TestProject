@@ -9,18 +9,21 @@ public with sharing class ResourceOverrideRemote {
         private Integer onArticle;      // usage on Article page (0-absent, 1-present, 2-required)
         private Integer onDocument;     // usage on Document page (0-absent, 1-present, 2-required)
         private Integer onVideo;        // usage on Video page (0-absent, 1-present, 2-required)
-        public Wrapper (String fieldName, String fieldLabel, Integer onArticle, Integer onDocument, Integer onVideo) {
-            this.fieldName  = fieldName;
-            this.fieldLabel = fieldLabel;
-            this.onArticle  = onArticle;
-            this.onDocument = onDocument;
-            this.onVideo    = onVideo;
+        private Integer onRelevantLink;        // usage on Video page (0-absent, 1-present, 2-required)
+        public Wrapper (String fieldName, String fieldLabel, Integer onArticle, Integer onDocument, Integer onVideo, Integer onRelevantLink) {
+            this.fieldName      = fieldName;
+            this.fieldLabel     = fieldLabel;
+            this.onArticle      = onArticle;
+            this.onDocument     = onDocument;
+            this.onVideo        = onVideo;
+            this.onRelevantLink = onRelevantLink;
         }
     }
     
     private static final String     SOBJECT_NAME                  = 'Resource__c';
     private static final String     RECORD_TYPE_ARTICLE           = 'Article';
     private static final String     RECORD_TYPE_STUDY_DOCUMENT    = 'Study_Document';
+    private static final String     RECORD_TYPE_RELEVANT_LINK     = 'Relevant_Link';
     private static final String     RECORD_TYPE_VIDEO             = 'Video';
     private static final String     ERROR_FIELD_REQUIRED          = 'Value required in field ';
     
@@ -32,6 +35,7 @@ public with sharing class ResourceOverrideRemote {
     private static List<String>     languageLabels;
     private static List<String>     contentClasses;
     private static List<String>     thirdPartySources;
+    private static List<LabelValueItem> countries;
     private static List<Wrapper>    fieldWrappers;
     private static String           currentRecType;
     
@@ -72,33 +76,39 @@ public with sharing class ResourceOverrideRemote {
             thirdPartySources.add(pickListVal.getValue());
         }
 
+        // -------- obtain countries --------
+        countries = SObjectHelper.getPicklistLabelValueList(Resource__c.Countries__c);
+
         fieldWrappers = new List<Wrapper>();
         // -------- Study Document --------
-        fieldWrappers.add(new Wrapper('Title__c',                'Title',                2, 2, 2));
-        fieldWrappers.add(new Wrapper('document_type__c',        'Document type',        0, 2, 0));
-        fieldWrappers.add(new Wrapper('Description__c',          'Description',          1, 2, 1));
-        fieldWrappers.add(new Wrapper('Video__c',                'Video Link',           0, 1, 2));
-        fieldWrappers.add(new Wrapper('Language__c',             'Language',             2, 2, 2));
-        fieldWrappers.add(new Wrapper('Version_Date__c',         'Version Date',         0, 2, 0));
+        fieldWrappers.add(new Wrapper('Title__c',                'Title',                2, 2, 2, 2));
+        fieldWrappers.add(new Wrapper('document_type__c',        'Document type',        0, 2, 0, 0));
+        fieldWrappers.add(new Wrapper('Description__c',          'Description',          1, 2, 1, 0));
+        fieldWrappers.add(new Wrapper('Video__c',                'Video Link',           0, 1, 2, 0));
+        fieldWrappers.add(new Wrapper('Language__c',             'Language',             2, 2, 2, 0));
+        fieldWrappers.add(new Wrapper('Version_Date__c',         'Version Date',         0, 2, 0, 0));
         // -------- Article --------
-        fieldWrappers.add(new Wrapper('Subtitle__c',             'Subtitle',             1, 0, 1));
-        fieldWrappers.add(new Wrapper('Image__c',                'Image Link',           1, 0, 1));
-        fieldWrappers.add(new Wrapper('Image_Title__c',          'Image Title',          1, 0, 1));
-        fieldWrappers.add(new Wrapper('Content_Class__c',        'Content Class',        2, 0, 2));
-        fieldWrappers.add(new Wrapper('Posting_Date__c',         'Posting Date',         2, 0, 2));
-        fieldWrappers.add(new Wrapper('Expiration_Date__c',      'Expiration Date',      1, 0, 1));
-        fieldWrappers.add(new Wrapper('Updated_Date__c',         'Updated Date',         1, 0, 1));
-        fieldWrappers.add(new Wrapper('Body__c',                 'Body',                 2, 0, 1));
-        fieldWrappers.add(new Wrapper('Author_s_Name__c',        'Author\'s Name',       1, 0, 1));
-        fieldWrappers.add(new Wrapper('Source__c',               'Source',               1, 0, 1));
-        fieldWrappers.add(new Wrapper('Copyright__c',            'Copyright',            1, 0, 1));
-        fieldWrappers.add(new Wrapper('X3rd_Party_Source__c',    '3rd Party Source',     1, 0, 1));
-        fieldWrappers.add(new Wrapper('Therapeutic_Areas__c',    'SiteCore Conditions',  1, 0, 1));
-        fieldWrappers.add(new Wrapper('Image_Subtitle__c',       'Image Subtitle',       1, 0, 1));
-        fieldWrappers.add(new Wrapper('Byline__c',               'Byline',               1, 0, 1));
-        fieldWrappers.add(new Wrapper('URL_Part__c',             'URL Part',             1, 0, 1));
-        fieldWrappers.add(new Wrapper('article_external_link__c','Article External Link',1, 0, 1));
-        fieldWrappers.add(new Wrapper('Remove_sharing__c',       'Remove sharing',       1, 0, 1));
+        fieldWrappers.add(new Wrapper('Subtitle__c',             'Subtitle',             1, 0, 1, 0));
+        fieldWrappers.add(new Wrapper('Image__c',                'Image Link',           1, 0, 1, 0));
+        fieldWrappers.add(new Wrapper('Image_Title__c',          'Image Title',          1, 0, 1, 0));
+        fieldWrappers.add(new Wrapper('Content_Class__c',        'Content Class',        2, 0, 2, 0));
+        fieldWrappers.add(new Wrapper('Posting_Date__c',         'Posting Date',         2, 0, 2, 0));
+        fieldWrappers.add(new Wrapper('Expiration_Date__c',      'Expiration Date',      1, 0, 1, 0));
+        fieldWrappers.add(new Wrapper('Updated_Date__c',         'Updated Date',         1, 0, 1, 0));
+        fieldWrappers.add(new Wrapper('Body__c',                 'Body',                 2, 0, 1, 0));
+        fieldWrappers.add(new Wrapper('Author_s_Name__c',        'Author\'s Name',       1, 0, 1, 0));
+        fieldWrappers.add(new Wrapper('Source__c',               'Source',               1, 0, 1, 0));
+        fieldWrappers.add(new Wrapper('Copyright__c',            'Copyright',            1, 0, 1, 0));
+        fieldWrappers.add(new Wrapper('X3rd_Party_Source__c',    '3rd Party Source',     1, 0, 1, 0));
+        fieldWrappers.add(new Wrapper('Therapeutic_Areas__c',    'SiteCore Conditions',  1, 0, 1, 0));
+        fieldWrappers.add(new Wrapper('Image_Subtitle__c',       'Image Subtitle',       1, 0, 1, 0));
+        fieldWrappers.add(new Wrapper('Byline__c',               'Byline',               1, 0, 1, 0));
+        fieldWrappers.add(new Wrapper('URL_Part__c',             'URL Part',             1, 0, 1, 0));
+        fieldWrappers.add(new Wrapper('article_external_link__c','Article External Link',1, 0, 1, 0));
+        fieldWrappers.add(new Wrapper('Remove_sharing__c',       'Remove sharing',       1, 0, 1, 0));
+        // -------- Relevant Link --------
+        fieldWrappers.add(new Wrapper('URL__c',                  'URL',                  0, 0, 0, 2));
+        fieldWrappers.add(new Wrapper('Countries__c',            'Countries',            0, 0, 0, 1));
     }
 
     /**
@@ -197,6 +207,7 @@ public with sharing class ResourceOverrideRemote {
         response.put('languageLabels',      languageLabels);
         response.put('contentClasses',      contentClasses);
         response.put('thirdPartySources',   thirdPartySources);
+        response.put('countries',           countries);
         response.put('defaultLanguage',     'English');
         response.put('defaultDocType',      'Document');
         response.put('recTypeId',           recordTypeId);
@@ -249,7 +260,11 @@ public with sharing class ResourceOverrideRemote {
                     response.put('recordId', resource.Id);
                     response.put('resourceName', resource.Name);
                     response.put('availableLanguages', getAvailableLanguages(resource.Id));
-                    response.put('message', 'New Resource successfully created: [' + resource.Name + ']. You can now upload files which will be attached to this Resource.');
+                    if(currentRecType == RECORD_TYPE_STUDY_DOCUMENT) {
+                        response.put('message', 'New Resource successfully created: [' + resource.Name + ']. You can now upload files which will be attached to this Resource.');
+                    } else {
+                        response.put('message', 'New Resource successfully created: [' + resource.Name + '].');
+                    }
                 }
             }
         } catch (Exception e) {
@@ -340,6 +355,8 @@ public with sharing class ResourceOverrideRemote {
             if (wrapper.onDocument > 0) return true;
         } else if (currentRecType == RECORD_TYPE_VIDEO) {
             if (wrapper.onVideo > 0) return true;
+        } else if (currentRecType == RECORD_TYPE_RELEVANT_LINK) {
+            if (wrapper.onRelevantLink > 0) return true;
         }
         return false;
     }
@@ -369,6 +386,12 @@ public with sharing class ResourceOverrideRemote {
                     }
                 } else if (currentRecType == RECORD_TYPE_VIDEO) {
                     if (wrapper.onVideo == 2) {
+                        response.put('isError', true);
+                        response.put('message', ERROR_FIELD_REQUIRED + '[' + wrapper.fieldLabel + ']');
+                        return false;
+                    }
+                } else if (currentRecType == RECORD_TYPE_RELEVANT_LINK) {
+                    if (wrapper.onRelevantLink == 2) {
                         response.put('isError', true);
                         response.put('message', ERROR_FIELD_REQUIRED + '[' + wrapper.fieldLabel + ']');
                         return false;

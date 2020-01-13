@@ -40,6 +40,7 @@ public without sharing class ReferringClinicsFilter implements SearchFilter{
             'HCP_Contact__r.Account.BillingCity',
             'HCP_Contact__r.Account.Phone',
             'HCP_Contact__r.Salutation',
+            'HCP_Contact__r.Is_First_logon__c',
             'HCP_Name__c',
             'Study_Site__r.Id',
             'Study_Site__r.Name',
@@ -66,11 +67,12 @@ public without sharing class ReferringClinicsFilter implements SearchFilter{
             'Study_Site__r.Is_Virtual_Study_Site__c',
             'Study_Site__r.Study_Site_Type__c',
             'Override_PI_Status__c',
-            'Orientation_Date__c'
+            'Orientation_Date__c',
+            'HCP_Full_Name__c'
     };
 
     private static List<String> REFERRING_CLINICS_SEARCH_FIELDS = new List<String>{
-            'HCP_Contact__r.Name'
+            'HCP_Full_Name__c'
             //'Study_Site__r.Name',
             //'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c'
     };
@@ -85,7 +87,7 @@ public without sharing class ReferringClinicsFilter implements SearchFilter{
 
     public String getFilterString (){
         String filterString = '(' + DatabaseService.fieldEqual('Study_Site__r.Principal_Investigator__c',CommunityService.getUserContact().Id) +
-                '   OR  ' + DatabaseService.fieldInValues('Study_Site__c', DelegateService.getDelegatedStudySiteIds()) +
+                (!DelegateService.getDelegatedStudySiteIds().isEmpty()?'   OR  ' + DatabaseService.fieldInValues('Study_Site__c', DelegateService.getDelegatedStudySiteIds()): '')+
                 ') ';
         if(filterValues.ssId != null && filterValues.ssId != ''){
             filterString += ' AND ' + DatabaseService.fieldEqual( 'Study_Site__c', filterValues.ssId);

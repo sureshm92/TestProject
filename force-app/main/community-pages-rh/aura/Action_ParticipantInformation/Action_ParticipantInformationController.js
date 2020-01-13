@@ -17,9 +17,11 @@
             component.set('v.initialized', false);
             var params = event.getParam('arguments');
             var pe = JSON.parse(JSON.stringify(params.pe));
-            component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
+            if(params.actions)
+                component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
             component.set('v.popUpTitle', pe.Participant__r.Full_Name__c + ' ' + $A.get('$Label.c.PE_Info_PopUp_Title') + ' ' + pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c);
-            component.set('v.pathItems', JSON.parse(JSON.stringify(params.pathItems)));
+            if(params.pathItems)
+                component.set('v.pathItems', JSON.parse(JSON.stringify(params.pathItems)));
             component.set('v.rootComponent', params.rootComponent);
             if (params.callback) component.set('v.callback', params.callback);
             communityService.executeAction(component, 'getSteps', {
