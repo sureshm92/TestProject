@@ -42,7 +42,6 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
         setInterval(() => {
             if (!this.inProcess) {
                 if (this.initialized) {
-                    if (this.spinner === undefined) this.spinner = this.template.querySelector('c-web-spinner');
 
                     this.inProcess = true;
                     getJobs()
@@ -89,6 +88,13 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
         }, 1500);
     }
 
+    renderedCallback() {
+        if (!this.initialized) {
+            this.spinner = this.template.querySelector('c-web-spinner');
+            this.spinner.show();
+        }
+    }
+
     @wire(getData)
     wireData({data}) {
         if (data) {
@@ -97,7 +103,10 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
             this.initPageContent(data);
 
             this.resetInputFields();
-            if (!this.initialized) this.initialized = true;
+            if (!this.initialized) {
+                this.spinner.hide();
+                this.initialized = true;
+            }
         }
     }
 
@@ -278,8 +287,9 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
                 console.log('Error after add batch. ' + JSON.stringify(error));
             })
             .finally(() => {
-                this.spinner.hide();
-                this.template.querySelector('c-web-modal').hide();
+                if(this.spinner) this.spinner.hide();
+                let modal = this.template.querySelector('c-web-modal');
+                if(modal) modal.hide();
                 this.showAddNew = this.notAddedBatches.length > 0;
             });
     }

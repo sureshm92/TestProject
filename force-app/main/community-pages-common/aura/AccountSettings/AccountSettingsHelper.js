@@ -21,6 +21,7 @@
         if(!contact.MailingCountryCode) contact.MailingCountryCode = '';
         if(!contact.MailingStateCode) contact.MailingStateCode = '';
         if(!contact.Phone) contact.Phone = '';
+        if(!contact.MobilePhone) contact.MobilePhone = '';
         component.set('v.contactSnapshot', JSON.stringify(contact));
         component.set('v.contactChanged', false);
     },

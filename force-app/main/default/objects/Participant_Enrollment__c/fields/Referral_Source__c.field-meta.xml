@@ -48,6 +48,16 @@
                 <default>false</default>
                 <label>3rd Party</label>
             </value>
+            <value>
+                <fullName>Autocruitment</fullName>
+                <default>false</default>
+                <label>Autocruitment</label>
+            </value>
+            <value>
+                <fullName>23andMe</fullName>
+                <default>false</default>
+                <label>23andMe</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

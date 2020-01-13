@@ -24,6 +24,7 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_HCP_PATIENT_DECLINED_TYPE = 'Message_to_HCP_Patient_Declined_Type';
     static public String MESSAGE_TO_HCP_PATIENT_ON_HOLD_TYPE = 'Message_to_HCP_Patient_On_Hold_Type';
     static public String MESSAGE_TO_HCP_REFERRAL_STATUS_UPDATE_TYPE = 'Message_to_HCP_Ref_Status_Update_Type';
+
     static public String MESSAGE_TO_PT_PATIENT_DECLINED_TYPE = 'Message_to_PT_Patient_Declined_Type';
     static public String MESSAGE_TO_PT_PATIENT_ON_HOLD_TYPE = 'Message_to_PT_Patient_On_Hold_Type';
     static public String MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE = 'Message_to_PT_Ref_Status_Update_Type';
@@ -39,8 +40,18 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE = 'Message_to_PT_has_not_Logged_In_Type';
     static public String MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE = 'Message_to_PT_CTP_Trial_Complete_Type';
     static public String MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE = 'Message_to_PT_SS_Was_Changed_Type';
-    static public String MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE = 'Message_to_PI_SS_Was_Changed_Type';
     static public String MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE = 'Message_to_PT_Enrollment_Success_Type';
+
+    static public String MESSAGE_TO_PT_SURVEY_REMINDER_TYPE = 'Message_To_PT_Survey_Reminder_Type';
+    static public String MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE = 'Message_To_PT_Survey_Final_Reminder_Type';
+    static public String MESSAGE_TO_PT_TASK_REMINDER_TYPE = 'Message_To_PT_Task_Reminder_Type';
+    static public String MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE = 'Message_To_PT_Task_Reminder_Del_Type';
+    static public String MESSAGE_TO_PT_TASK_REMINDER_MED_TYPE = 'Message_To_PT_Task_Reminder_Med_Type';
+    static public String MESSAGE_TO_PT_TASK_REMINDER_MED_DEL_TYPE = 'Message_To_PT_Task_Reminder_Med_Del_Type';
+    static public String MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE = 'Message_To_PT_Task_Reminder_Vis_Type';
+    static public String MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE = 'Message_To_PT_Task_Reminder_Vis_Del_Type';
+
+    static public String MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE = 'Message_to_PI_SS_Was_Changed_Type';
     static public String MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE = 'Message_to_PI_New_Patient_Referral_Type';
     static public String MESSAGE_TO_PI_NEW_MESSAGE = 'Message_To_PI_New_Message';
     static public String MESSAGE_TO_PT_PATIENT_BECOME_ADULT = 'Message_to_PT_Patient_Become_Adult_Type';
