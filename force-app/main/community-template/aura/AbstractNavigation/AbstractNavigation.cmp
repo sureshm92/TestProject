@@ -18,6 +18,9 @@
     <aura:handler name="change" value="{!v.mode}" action="{!c.doChangeItemsList}"/>
     <aura:handler event="forceCommunity:routeChange" action="{!c.doCurrentPageChange}"/>
 
+    <!-- methods: -->
+    <aura:method name="refresh" access="public" action="{!c.doChangeItemsList}"/>
+
     {!v.body}
 
 </aura:component>

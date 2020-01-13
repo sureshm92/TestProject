@@ -15,7 +15,7 @@
         if(!component.get('v.isNewSession') && this.isToastDisplayed(component.get('v.peId'))) return;
 
         var template = component.get('v.displayText') + ' {0}';
-        var accUrl = 'settings?tab=account-settings';
+        var accUrl = 'account-settings';
         var urlLabel = $A.get('$Label.c.PP_IRB_Button_Review');
 
         var toastEvent = $A.get('e.force:showToast');

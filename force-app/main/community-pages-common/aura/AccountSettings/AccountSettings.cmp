@@ -22,6 +22,10 @@
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private"/>
     <aura:attribute name="statesByCountryMap" type="Map" access="private"/>
     <aura:attribute name="todayDate" type="Date"/>
+
+    <aura:attribute name="phonePattern" type="String"/>
+    <aura:attribute name="phonePlaceholder" type="String" default="+1(XXX)XXX-XXXX"/>
+
     <aura:attribute name="isUpdated" type="Boolean"/>
     <aura:attribute name="closeButtonClicked" type="Boolean" default="false"
                     description="if close button on popap clicked, this value will change"/>
@@ -145,7 +149,7 @@
                                 {!$Label.c.PG_AS_L_Opt_In_Participant_Status_Emails}
                             </div>
                             <!-- Toggle for SMS -->
-                            <aura:if isTrue="{!equals(v.participant.Mailing_Country_Code__c, 'US')}">
+                            <aura:if isTrue="{!or(equals(v.participant.Mailing_Country_Code__c, 'US'), equals(v.contact.MailingCountryCode, 'US'))}">
                                 <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                                     <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
                                                      variant="label-hidden"
@@ -376,6 +380,8 @@
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <lightning:input aura:id="pField" type="tel" label="{!$Label.c.PG_AS_F_Phone_number}"
                                              value="{!v.participant.Phone__c}" required="true"
+                                             pattern="{!v.phonePattern}"
+                                             placeholder="{!v.phonePlaceholder}"
                                              onblur="{!c.doCheckFieldsValidity}"/>
                         </div>
 
@@ -383,6 +389,8 @@
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <lightning:input aura:id="pField" type="tel" label="{!$Label.c.Mob_Phone_Field}"
                                              value="{!v.contact.MobilePhone}"
+                                             placeholder="+1(XXX)XXX-XXXX"
+                                             pattern="{!v.phonePattern}"
                                              required="{!and(v.initData.myContact.Participant_Opt_In_Status_SMS__c, equals(v.participant.Mailing_Country_Code__c, 'US'))}"
                                              disabled="{!notequals(v.participant.Mailing_Country_Code__c, 'US')}"
                                              onblur="{!c.doCheckFieldsValidity}"/>
@@ -434,10 +442,24 @@
                                              value="{!v.contact.LastName}" required="true"
                                              onblur="{!c.doCheckFieldsValidity}"/>
                         </div>
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12"></div>
+
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
-                            <lightning:input aura:id="cField" type="text" label="{!$Label.c.PG_AS_F_Phone_number}"
+                            <lightning:input aura:id="cField" type="tel" label="{!$Label.c.PG_AS_F_Phone_number}"
+                                             pattern="{!v.phonePattern}" placeholder="{!v.phonePlaceholder}"
                                              value="{!v.contact.Phone}" onblur="{!c.doCheckFieldsValidity}"/>
                         </div>
+                        <c:RRAnchor aura:id="mobileAnchor" offset="-160"/>
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                            <lightning:input aura:id="cField" type="tel" label="{!$Label.c.Mob_Phone_Field}"
+                                             value="{!v.contact.MobilePhone}"
+                                             pattern="{!v.phonePattern}" placeholder="{!v.phonePlaceholder}"
+                                             required="{!and(v.initData.myContact.Participant_Opt_In_Status_SMS__c, equals(v.contact.MailingCountryCode, 'US'))}"
+                                             disabled="{!notequals(v.contact.MailingCountryCode, 'US')}"
+                                             onblur="{!c.doCheckFieldsValidity}"/>
+                        </div>
+                        <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12"></div>
+
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <div class="label"><abbr title="required"
                                                      class="slds-required">*</abbr>{!$Label.c.PE_Country}</div>
@@ -461,7 +483,7 @@
                         </div>
                         <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                             <lightning:input aura:id="cField" type="text" label="{!$Label.c.PG_AS_F_Zip_Postal_Code}"
-                                             value="{!v.contact.PhMailingPostalCodeone}"
+                                             value="{!v.contact.MailingPostalCode}"
                                              onblur="{!c.doCheckFieldsValidity}"/>
                         </div>
                         <div class="slds-col slds-size_1-of-1 as-buttons-footer">

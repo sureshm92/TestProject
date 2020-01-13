@@ -51,9 +51,9 @@ private class Test_AccountSettingsController {
         //run test:
         System.runAs(portalUser) {
             AccountSettingsController.getInitData(CommunityService.USER_MODE_PARTICIPANT);
-            AccountSettingsController.updateParticipant(JSON.serialize(participant));
+            AccountSettingsController.updateParticipant(JSON.serialize(con), JSON.serialize(participant));
             try {
-                AccountSettingsController.updateParticipant(null);
+                AccountSettingsController.updateParticipant(null, null);
             } catch (Exception e) {
                 // expected Exception
             }
