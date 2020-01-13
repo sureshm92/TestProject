@@ -102,6 +102,7 @@
                             <div class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_4-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_4-of-12'}">
                                 <button class="{!'apollo-btn secondary'}"
                                         iconPosition="right"
+                                        data-gtm="BTN_CheckScreener"
                                         title="{!$Label.c.BTN_Screener_Responses}"
                                         onclick="{!c.showEditParticipantInformation}"
                                         value="screenerResponsesAnchor">
@@ -114,11 +115,12 @@
                         <aura:if
                                 isTrue="{!empty(v.pe.MRR_Survey_Results_URL__c) &amp;&amp; !v.actions.screenerResponses.disabled}">
                             <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12">
-                                <lightning:button class="slds-button--neutral"
+                                <button class="slds-button--neutral"
+                                                  data-gtm="BTN_DoPreScreening"
                                                   title="{!$Label.c.BTN_Screener_Participant}"
                                                   onclick="{!c.doPreScreening}">
                                     {!$Label.c.BTN_Screener_Participant}
-                                </lightning:button>
+                                </button>
                             </div>
                         </aura:if>
                     </div>
