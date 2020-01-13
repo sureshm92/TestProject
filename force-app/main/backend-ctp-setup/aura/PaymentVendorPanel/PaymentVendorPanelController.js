@@ -56,6 +56,7 @@
         component.find('spinner').show();
         communityService.executeAction(component, 'selectAllInColumn', {
             paymentVendorId: paymentVendorId,
+            allVendorsJSON: JSON.stringify(component.get('v.vendorItems')),
             state: state,
             filterJSON: JSON.stringify(component.get('v.filter')),
             paginationJSON: JSON.stringify(component.get('v.pagination')),
