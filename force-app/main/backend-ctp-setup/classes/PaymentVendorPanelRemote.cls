@@ -51,15 +51,25 @@ public with sharing class PaymentVendorPanelRemote {
 
     @AuraEnabled
     public static SSPaymentVendorsConfigResponse selectAllInColumn(String paymentVendorId, Boolean state, String filterJSON,
-            String paginationJSON, String ssItemsJSON) {
+            String paginationJSON, String ssItemsJSON, String allVendorsJSON) {
         try {
             save(ssItemsJSON);
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             saveFilter(filter);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
-            List<StudySiteItem> allSSItems = SSPaymentVendorsConfigResponse.convertToSSItems(SearchService.search(filter), paymentVendorId);
+            List<LabelValueItem> allPaymentVendors = (List<LabelValueItem>) JSON.deserialize(allVendorsJSON, List<LabelValueItem>.class);
+            List<StudySiteItem> allSSItems = new List<StudySiteItem>();
+            for(LabelValueItem pv : allPaymentVendors) {
+                allSSItems.addAll(SSPaymentVendorsConfigResponse.convertToSSItems(SearchService.search(filter), pv.value));
+            }
             for(StudySiteItem ssItem : allSSItems){
-                for (ValueStateItem assigment : ssItem.assignments) assigment.state = state;
+                for (ValueStateItem assigment : ssItem.assignments) {
+                    if(assigment.value.equals(paymentVendorId)) {
+                        assigment.state = state;
+                    } else if(state) {
+                        assigment.state = !state;
+                    }
+                }
             }
             save(allSSItems);
             return new SSPaymentVendorsConfigResponse(filter, pagination);
