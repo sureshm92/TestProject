@@ -88,6 +88,7 @@ public without sharing class TaskEditRemote {
 
             ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
             taskToUpsert.OwnerId = PatientDelegateService.getInstance().getParticipantUserId();
+            taskToUpsert.WhoId = PatientDelegateService.getInstance().getParticipant().Contact__c;
 
             taskToUpsert.Originator__c = state.isDelegate ? 'Delegate' : 'Participant';
             if (taskToUpsert.Visible_For__c == null) taskToUpsert.Visible_For__c = 'Owner;Delegates';

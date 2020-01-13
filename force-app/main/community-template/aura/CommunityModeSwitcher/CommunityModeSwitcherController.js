@@ -9,7 +9,7 @@
         if(selectedMode.isGroup){
             selectedMode.isOpen = !selectedMode.isOpen;
             component.set('v.allModes', component.get('v.allModes'));
-        }else{
+        }else if(!selectedMode.isSplitter){
             var currentDelegateId = selectedMode.currentDelegateId;
             if(selectedMode.userMode == 'HCP'){
                 currentDelegateId = selectedMode.currentHCPDelegate;
@@ -34,6 +34,7 @@
                     if(modes[i].isGroup) modes[i].isOpen = false;
                 }
                 component.set('v.allModes', modes);
+                component.getEvent('onModeChange').fire();
             });
         }
     }

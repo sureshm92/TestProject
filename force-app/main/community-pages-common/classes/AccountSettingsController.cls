@@ -50,9 +50,14 @@ public without sharing class AccountSettingsController {
     }
 
     @AuraEnabled
-    public static void updateParticipant(String participantJSON) {
+    public static void updateParticipant(String cont, String participantJSON) {
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
+            Contact contact = (Contact) JSON.deserialize(cont, Contact.class);
+            if(participant.Mailing_Country_Code__c != null &&
+                    !participant.Mailing_Country_Code__c.equals('US')) contact.Participant_Opt_In_Status_SMS__c = false;
+            update contact;
+
             TaskService.getInstance().completeCYPTaskForParticipant();
             upsert participant;
         }  catch (Exception e) {
@@ -64,6 +69,7 @@ public without sharing class AccountSettingsController {
     public static void updateContact(String cont) {
         try {
             Contact contact = (Contact) JSON.deserialize(cont, Contact.class);
+            if(!contact.MailingCountryCode.equals('US')) contact.Participant_Opt_In_Status_SMS__c = false;
             update contact;
         }  catch (Exception e) {
             AuraHelper.throwException(e);

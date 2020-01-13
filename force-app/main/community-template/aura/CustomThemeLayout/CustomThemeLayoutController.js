@@ -9,11 +9,16 @@
             component.set('v.currentMode', communityService.getCurrentCommunityMode());
             //component.find('spinner').hide();
             component.set('v.isInitialized', true);
-            component.set('v.showModeSwitcher', communityService.getAllUserModes().length > 1);
+            component.set('v.showModeSwitcher', !(communityService.getAllUserModes().length === 1 && communityService.getAllUserModes()[0].subModes.length <= 1));
             component.set('v.isArabic', communityService.getLanguage() === 'ar' );
         }else{
             communityService.initialize(component);
         }
+    },
+
+    doModeChanged: function (component){
+        component.find('navigation').refresh();
+        component.find('navigationMobile').refresh();
     },
 
    switchSideMenu: function (component) {

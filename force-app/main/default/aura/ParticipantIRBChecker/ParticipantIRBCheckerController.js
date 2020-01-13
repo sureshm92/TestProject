@@ -26,7 +26,7 @@
     },
 
     navigateToSettings : function (component, event, helper) {
-        communityService.navigateToPage('settings?tab=account-settings');
+        communityService.navigateToPage('account-settings');
     },
 
     doLogOut: function (component, event, helper) {
