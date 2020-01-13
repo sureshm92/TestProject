@@ -278,6 +278,26 @@ public without sharing class PatientDelegateService {
         return contacts;
     }
 
+    public static Map<Id, List<Id>> getDelegateContactIdsByPAContactIs(List<Id> participantContIds) {
+        List<Patient_Delegate__c> patientDelegates = [
+                SELECT Id, Contact__c, Participant__r.Contact__c
+                FROM Patient_Delegate__c
+                WHERE Participant__r.Contact__c IN:participantContIds
+        ];
+
+        Map<Id, List<Id>> delContIdsByPAContId = new Map<Id, List<Id>>();
+        if(patientDelegates.isEmpty()) return delContIdsByPAContId;
+
+        for(Patient_Delegate__c pd : patientDelegates) {
+            Id paConId = pd.Participant__r.Contact__c;
+            if(!delContIdsByPAContId.containsKey(paConId)) delContIdsByPAContId.put(paConId, new List<Id>());
+
+            delContIdsByPAContId.get(paConId).add(pd.Contact__c);
+        }
+
+        return delContIdsByPAContId;
+    }
+
     /**
      * @param partContactsIds List with participant contact ids
      * @param delegatedCntFields List with required contact fields

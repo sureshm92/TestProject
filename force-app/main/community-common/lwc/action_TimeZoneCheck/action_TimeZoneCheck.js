@@ -10,7 +10,7 @@ import profileTZ from '@salesforce/i18n/timeZone';
 import toastMessage from '@salesforce/label/c.Toast_TimeZone';
 import linkText from '@salesforce/label/c.PG_Login_L_here_link';
 
-const accUrl = 'settings?tab=account-settings';
+const accUrl = 'account-settings';
 
 export default class ActionTimeZoneCheck extends NavigationMixin(LightningElement) {
 
