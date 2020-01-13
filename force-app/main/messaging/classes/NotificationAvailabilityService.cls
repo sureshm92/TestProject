@@ -12,13 +12,15 @@ public without sharing class NotificationAvailabilityService {
 
     private Map<Id, SObject> objectsByIds;
 
-    public NotificationAvailabilityService(List<String> whatIds) {
+    public NotificationAvailabilityService(List<Id> recipientIds, List<String> whatIds) {
         contactByIdMap = new Map<Id, Contact>();
         List<Contact> contacts = [
                 SELECT Id,
                         Participant_Opt_In_Status_Emails__c,
                         Participant_Opt_In_Status_SMS__c
-                FROM Contact];
+                FROM Contact
+                WHERE Id IN: recipientIds
+        ];
         for (Contact con : contacts) contactByIdMap.put(con.Id, con);
 
         Map<String, List<Id>> objectsByStrings;
