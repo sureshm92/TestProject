@@ -135,4 +135,17 @@
             component.set('v.checkboxGroupValues', val);
         }
     },
+
+    checkSelectAll: function(component, event, helper){
+        var values = component.get('v.checkboxGroupValues');
+        var pi = component.get('v.PIForInvetation');
+        var cmp = component.find('selectAllCheckbox');
+        if(values.length == pi.length){
+            if(cmp.length) cmp[0].set('v.checked', true);
+            else cmp.set('v.checked', true);
+        } else {
+            if(cmp.length) cmp[0].set('v.checked', false);
+            else cmp.set('v.checked', false);
+        }
+    },
 })

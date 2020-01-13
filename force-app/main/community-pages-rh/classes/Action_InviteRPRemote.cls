@@ -8,20 +8,7 @@ public without sharing class Action_InviteRPRemote {
     public static String getInviteDetail() {
         InviteDetail inviteDetail = new InviteDetail();
         inviteDetail.studySitesForInvitation = new List<SiteWrapper>();
-        inviteDetail.PIForInvetation = new List<PIOptionWrapper>();
-        Map<Id,String> piOtions = new Map<Id,String>();
-        for (Site_Staff__c sstaff : [
-                SELECT Study_Site__r.Principal_Investigator__c,
-                        Study_Site__r.Principal_Investigator__r.Name
-                FROM Site_Staff__c
-                WHERE Site_Contact__c = :CommunityService.getUserContact().Id AND Delegate_Level__c = 'Level 1'
-        ]){
-            piOtions.put(sstaff.Study_Site__r.Principal_Investigator__c, sstaff.Study_Site__r.Principal_Investigator__r.Name);
-            //inviteDetail.PIForInvetation.add(new PIOptionWrapper(sstaff.Study_Site__r.Principal_Investigator__c, sstaff.Study_Site__r.Principal_Investigator__r.Name));
-        }
-        for(Id i : piOtions.keySet()){
-            inviteDetail.PIForInvetation.add(new PIOptionWrapper(piOtions.get(i), i));
-        }
+        inviteDetail.PIForInvetation = getPIForInvetation();
         /*try {
             List<Study_Site__c> studySitesNotDelegate = StudySiteService.getStudySitesForPI();
             inviteDetail.studySitesForInvitation = new List<SiteWrapper>();
@@ -108,6 +95,24 @@ public without sharing class Action_InviteRPRemote {
         }catch(Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
+    }
+
+    public static List<PIOptionWrapper> getPIForInvetation(){
+        List<PIOptionWrapper> result = new List<PIOptionWrapper>();
+        Map<Id,String> piOtions = new Map<Id,String>();
+        for (Site_Staff__c sstaff : [
+                SELECT Study_Site__r.Principal_Investigator__c,
+                        Study_Site__r.Principal_Investigator__r.Name
+                FROM Site_Staff__c
+                WHERE Site_Contact__c = :CommunityService.getUserContact().Id AND Delegate_Level__c = 'Level 1'
+        ]){
+            piOtions.put(sstaff.Study_Site__r.Principal_Investigator__c, sstaff.Study_Site__r.Principal_Investigator__r.Name);
+            //inviteDetail.PIForInvetation.add(new PIOptionWrapper(sstaff.Study_Site__r.Principal_Investigator__c, sstaff.Study_Site__r.Principal_Investigator__r.Name));
+        }
+        for(Id i : piOtions.keySet()){
+            result.add(new PIOptionWrapper(piOtions.get(i), i));
+        }
+        return result;
     }
 
     public class InviteDetail {

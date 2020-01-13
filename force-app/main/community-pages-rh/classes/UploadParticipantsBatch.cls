@@ -13,6 +13,8 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
     private Study_Site__c studySiteDetails;
     private Integer totalRecordCount = 0;
     private Integer errorRecordCount = 0;
+    private Account participantAccount;
+    private Id uploaderContactId;
 
     private String emailError = '';
     Boolean valid = true;
@@ -55,6 +57,11 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
         }
 
         if (valid) {
+            User usr = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
+            if (usr != null) {
+                uploaderContactId = usr.ContactId;
+            }
+            participantAccount = [SELECT Id FROM Account WHERE Name = 'Participant' LIMIT 1];
             csvLines = csvFileLines;
         }
     }
@@ -162,6 +169,7 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                     Contact participantContact =
                             new Contact(FirstName = FirstName,
                                     LastName = LastName,
+                                    AccountId = participantAccount.Id,
                                     MiddleName = MiddleName,
                                     Birthdate = Date.valueOf(DateOfBirth),
                                     Email = EmailAddress,
@@ -172,36 +180,57 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                                     MailingState = State,
                                     MailingCountry = Country,
                                     MailingPostalCode = PostalCode);
-                    Database.SaveResult saveRes = Database.insert(participantContact);
-                    if (!saveRes.isSuccess()) {
+
+                    Participant__c participant =
+                            new Participant__c(First_Name__c = FirstName,
+                                    Last_Name__c = LastName,
+                                    Middle_Name__c = MiddleName,
+                                    Gender__c = Sex,
+                                    Date_of_Birth__c = DateOfBirth,
+                                    Email__c = EmailAddress,
+                                    Phone__c = Phone,
+                                    Phone_Type__c = PhoneType,
+                                    Language_Preference_Code__c = Language,
+                                    Mailing_Street__c = StreetAddress,
+                                    Mailing_City__c = City,
+                                    Mailing_State__c = State,
+                                    Mailing_Country__c = Country,
+                                    Mailing_Zip_Postal_Code__c = PostalCode);
+
+                    //Duplicates check
+                    Boolean isDuplicate = false;
+                    ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(participant);
+                    Participant__c participantDuplicate = duplicateService.findDuplicate(participant);
+                    isDuplicate = participantDuplicate != null;
+                    Contact contactDuplicate = duplicateService.findDuplicateContact(participant);
+                    isDuplicate = isDuplicate || contactDuplicate != null;
+
+                    if (!isDuplicate) {
+                        Database.SaveResult saveRes = Database.insert(participantContact);
+                        if (!saveRes.isSuccess()) {
+                            errorRecordCount++;
+                            Database.Error error = saveRes.getErrors().get(0);
+                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
+                            listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
+                            system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
+                        }
+                    } else {
                         errorRecordCount++;
-                        Database.Error error = saveRes.getErrors().get(0);
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
-                        system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
+                        system.debug('ERROR: ' + totalRecordCount + ', ' + 'Duplicate Participant record');
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Duplicate Participant record');
+                        listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
                     }
 
                     if (participantContact.Id != null) {
-                        Participant__c participant =
-                                new Participant__c(First_Name__c = FirstName,
-                                        Last_Name__c = LastName,
-                                        Middle_Name__c = MiddleName,
-                                        Gender__c = Sex,
-                                        Date_of_Birth__c = DateOfBirth,
-                                        Email__c = EmailAddress,
-                                        Phone__c = Phone,
-                                        Phone_Type__c = PhoneType,
-                                        Contact__c = participantContact.Id,
-                                        Language_Preference__c = Language,
-                                        Mailing_Street__c = StreetAddress,
-                                        Mailing_City__c = City,
-                                        Mailing_State__c = State,
-                                        Mailing_Country__c = Country,
-                                        Mailing_Zip_Postal_Code__c = PostalCode);
+                        participant.Contact__c = participantContact.Id;
 
                         Participant_Enrollment__c participantEnrollment =
                                 new Participant_Enrollment__c(Participant_Status__c = selectedStatus,
                                         Study_Site__c = studySiteDetails.Id,
-                                        Participant_Contact__c = participantContact.Id,
+                                        Referred_Date__c = System.today(),
+                                        Participant_Contact__c = participantContact != null ? participantContact.Id : null,
+                                        Referral_Completed_by__c = uploaderContactId,
+                                        Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI,
                                         PI_Contact__c = studySiteDetails.Principal_Investigator__c);
 
                         contactsById.put(participantContact.Id, participantContact);

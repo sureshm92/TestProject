@@ -5,30 +5,32 @@
 <aura:component description="RelevantLinks" controller="RelevantLinksRemote"
                 implements="forceCommunity:availableForAllPageTypes">
 
-    <aura:attribute name="vendors" type="Object[]"/>
     <aura:attribute name="links" type="Object[]"/>
+    <aura:attribute name="isAvailable" type="Boolean"/>
 
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
-    <div class="sv-panel rr-white-panel">
-        <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
-        <div class="sv-header">
-            <div class="sv-title">{!$Label.c.Home_Page_RelevantLinks_Title}</div>
+    <aura:if isTrue="{!v.isAvailable}">
+        <div class="sv-panel rr-white-panel" data-gtm="PNL_RelevantLinks">
+            <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
+            <div class="sv-header">
+                <div class="sv-title">{!$Label.c.Home_Page_RelevantLinks_Title}</div>
+            </div>
+            <div class="sv-body">
+                <c:RRTable>
+                    <tbody>
+                    <aura:iteration var="link" items="{!v.links}" indexVar="ind">
+                        <tr>
+                            <td class="slds-grid slds-grid_vertical-align-center" data-ind="{!link.URL__c}">
+                                <div class="sv-element">
+                                    <lightning:formattedUrl value="{!link.URL__c}" label="{!link.Title__c}"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                    </tbody>
+                </c:RRTable>
+            </div>
         </div>
-        <div class="sv-body">
-            <c:RRTable>
-                <tbody>
-                <aura:iteration var="link" items="{!v.links}" indexVar="ind">
-                    <tr>
-                        <td class="slds-grid slds-grid_vertical-align-center" data-ind="{!link.URL__c}">
-                            <div class="sv-element">
-                                <lightning:formattedUrl value="{!link.URL__c}" label="{!link.Title__c}"/>
-                            </div>
-                        </td>
-                    </tr>
-                </aura:iteration>
-                </tbody>
-            </c:RRTable>
-        </div>
-    </div>
+    </aura:if>
 </aura:component>

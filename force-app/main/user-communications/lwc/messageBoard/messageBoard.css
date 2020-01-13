@@ -1,0 +1,112 @@
+/**
+ * Created by Igor Malyuta on 24.12.2019.
+ */
+.ms-board {
+    height: 100%;
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ms-board-header {
+}
+
+.ms-single-header {
+    height: 73px;
+    padding: 15px 25px 0 25px;
+    border-bottom: 1px solid #f3f3f3;
+}
+
+.ms-multi-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+}
+
+.ms-header-name {
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 500;
+}
+
+.ms-header-name .ms-header-patient-name {
+    font-weight: 600;
+}
+
+.ms-header-name .ms-header-team-name {
+    font-weight: 500;
+}
+
+.ms-header-team-name {
+    padding-top: 10px;
+}
+
+.ms-board-body {
+    height: 425px;
+    padding: 10px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.ms-board-body::-webkit-scrollbar {
+    width: 7px;
+}
+
+.ms-board-body::-webkit-scrollbar-track {
+    background: none;
+}
+
+.ms-board-body::-webkit-scrollbar-thumb {
+    background: rgba(155, 155, 155, 0.8);
+    border-radius: 10px;
+}
+
+.ms-board-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(85, 85, 85, 0.3);
+}
+
+.ms-board-footer {
+    background-color: #f8f9fb;
+    min-height: 100px;
+    padding: 12px 12px 14px 12px;
+}
+
+.ms-send-part {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.ms-send-pi {
+
+}
+
+.ms-send-pi-buttons {
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ms-empty-chat {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ms-empty-chat-label {
+    width: 50%;
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 26px;
+    text-align: center;
+}

@@ -450,6 +450,19 @@ public without sharing class MyTeamRemote {
         ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{
                 delegateContact.Id
         });
+
+        if (userMode == CommunityService.USER_MODE_PI) {
+            List<User> delegateUser = [SELECT Id FROM User WHERE ContactId = :delegateContact.Id AND IsActive = TRUE];
+            if(!delegateUser.isEmpty()) {
+                List<Conversation__c> conversations = ConversationService.getSharedConversations(UserInfo.getUserId());
+                if(conversations != null) {
+                    List<Id> conversationIds = new List<Id>();
+                    for(Conversation__c con : conversations) conversationIds.add(con.Id);
+
+                    insert ConversationService.createConversationSharesForUser(conversationIds, delegateUser.get(0).Id);
+                }
+            }
+        }
     }
     
     private static Contact createDelegateContact(DelegateWrapper delegate, String userMode){
