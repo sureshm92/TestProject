@@ -2250,6 +2250,13 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
         <value>You has become adult for the clinical research study: ##StudyName. Please login for additional details.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Patient_Become_Adult_PI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Patient Become Adult PI</shortDescription>
+        <value>Your participant has become an adult on Study. Please login for additional details.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Patient_CreatedDate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2716,6 +2723,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <protected>true</protected>
         <shortDescription>Email Header Patient Become Adult</shortDescription>
         <value>You has become an adult</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Patient_Become_Adult_PI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Patient Become Adult PI</shortDescription>
+        <value>Your patient has become an adult.</value>
     </labels>
     <labels>
         <fullName>Email_Header_Patient_Dropped_Out</fullName>
@@ -3243,6 +3257,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>Email Subject Patient Become Adult</shortDescription>
         <value>You has become an adult</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Patient_Become_Adult_PI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Patient Become Adult PI</shortDescription>
+        <value>Your patient has become an adult</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Patient_Dropped_Out</fullName>

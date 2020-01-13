@@ -354,7 +354,7 @@ public class DashboardRemote {
                         delegateId);
         for (Participant_Enrollment__c pe : pes) {
             Integer daysAdded = pe.CreatedDate.date().daysBetween(System.today());
-            resList.add(new WaitingContactItem(pe.Participant__c, pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c, pe.Source_Type__c, pe.Study_Name__c, pe.Study_Site__r.Clinical_Trial_Profile__c, daysAdded));
+            resList.add(new WaitingContactItem(pe.Participant__c, pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c, pe.Source_Type__c, pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, pe.Study_Site__r.Clinical_Trial_Profile__c, daysAdded));
         }
 
         return resList;

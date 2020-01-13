@@ -94,7 +94,8 @@
         // build a Resource__c record and assign to the "record"    //
         //----------------------------------------------------------//
         buildRecord: function (component) {
-            debugger;
+            var country = component.get("v.Countries__c").join(';');
+            if(component.get("v.Countries__c").length > 0)
             var record = {
                 Title__c                    : component.get("v.Title__c"),
                 document_type__c            : component.get("v.document_type__c"),
@@ -121,7 +122,7 @@
                 article_external_link__c    : component.get("v.article_external_link__c"),
                 Remove_sharing__c           : component.get("v.Remove_sharing__c"),
                 URL__c                      : component.get("v.URL__c"),
-                Countries__c                : component.get("v.Countries__c").join(';')
+                Countries__c                : country
             };
             component.set("v.record", record);
         },

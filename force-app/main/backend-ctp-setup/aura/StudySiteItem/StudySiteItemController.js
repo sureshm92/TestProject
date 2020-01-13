@@ -26,5 +26,20 @@
         }
         item.emptyAssignments = asgCount === 0;
         component.set('v.item', item);
+    },
+
+    sscRadioStateChange: function (component, event, helper) {
+        var selected = event.getSource().get("v.label");
+        var item = component.get('v.item');
+        var asgCount = 0;
+        var assignments = item.assignments;
+        console.log(selected);
+        console.log(JSON.stringify(assignments));
+        for (var j = 0; j < assignments.length; j++) {
+            if (assignments[j].state) asgCount++;
+            if (assignments[j].value !== selected) assignments[j].state = false;
+        }
+        item.emptyAssignments = asgCount === 0;
+        component.set('v.item', item);
     }
 });

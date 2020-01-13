@@ -55,6 +55,7 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE = 'Message_to_PI_New_Patient_Referral_Type';
     static public String MESSAGE_TO_PI_NEW_MESSAGE = 'Message_To_PI_New_Message';
     static public String MESSAGE_TO_PT_PATIENT_BECOME_ADULT = 'Message_to_PT_Patient_Become_Adult_Type';
+    static public String MESSAGE_TO_PI_PATIENT_BECOME_ADULT = 'Message_to_PI_Patient_Become_Adult_Type';
     
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
     static public String NOTIFICATION_STATUS_PROCESSED = 'Processed';
