@@ -30,7 +30,13 @@
                 </div>
                 <aura:set attribute="else">
                     <aura:if isTrue="{!not(v.isReferral)}">
-                        <div class="vpi-title">{!v.pe.Participant__r.First_Name__c + ' ' + v.pe.Participant__r.Last_Name__c}</div>
+                        <div class="vpi-title">{!v.pe.Participant__r.First_Name__c + ' ' + v.pe.Participant__r.Last_Name__c}
+                            <!--                            For PEH-1366 (Capture of the consulting adult's consent)-->
+                            <!--                            <aura:if isTrue="{!v.userMode == 'PI'}">-->
+                            <!--                            <button class="button-link" onclick="{!c.showPediatricParticipantInformation}">-->
+                            <!--                                <c:RRIcon iconName="icon-link" class="icon-link"/></button>-->
+                            <!--                            </aura:if>-->
+                        </div>
                         <aura:set attribute="else">
                             <aura:if isTrue="{!v.userMode == 'HCP'}">
                                 <c:RRLink class="vpi-title" page="{!'patient-profile?id=' + v.pe.Participant__c}">{!v.pe.Participant__r.First_Name__c + ' ' + v.pe.Participant__r.Last_Name__c}</c:RRLink>

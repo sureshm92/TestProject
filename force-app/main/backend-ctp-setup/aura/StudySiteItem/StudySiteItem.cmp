@@ -7,6 +7,7 @@
     <aura:attribute name="item" type="Object"/>
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="viewMode" type="String"/>
+    <aura:attribute name="isPaymentVendor" type="Boolean" default="false"/>
 
     <tr class="{!if(v.item.emptyAssignments, 'empty-assignments', '')}">
         <th data-label="Country" scope="row">
@@ -26,10 +27,15 @@
 
         <aura:iteration items="{!v.item.assignments}" var="asg">
             <td style="text-align: center">
-                <ui:inputCheckbox value="{!asg.state}"
-                                  label=""
-                                  disabled="{!v.viewMode != 'Edit'}"
-                                  change="{!c.sscCheckboxStateChange}"/>
+                <aura:if isTrue="{!v.isPaymentVendor}">
+                    <ui:inputRadio value="{!asg.state}" label="{!asg.value}" change="{!c.sscRadioStateChange}"/>
+                    <aura:set attribute="else">
+                        <ui:inputCheckbox value="{!asg.state}"
+                                          label=""
+                                          disabled="{!v.viewMode != 'Edit'}"
+                                          change="{!c.sscCheckboxStateChange}"/>
+                    </aura:set>
+                </aura:if>
             </td>
         </aura:iteration>
     </tr>
