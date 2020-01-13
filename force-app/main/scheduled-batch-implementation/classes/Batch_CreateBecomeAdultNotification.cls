@@ -17,6 +17,7 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
                         Study_Site__r.Principal_Investigator__r.Id
                 FROM Participant_Enrollment__c
                 WHERE Participant__r.Adult__c != TRUE
+                AND Study_Site__r.Principal_Investigator__r.Id != NULL
         ]);
     }
 
