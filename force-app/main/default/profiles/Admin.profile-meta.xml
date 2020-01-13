@@ -7819,6 +7819,10 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Provider_Payment__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Referral_Network__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>

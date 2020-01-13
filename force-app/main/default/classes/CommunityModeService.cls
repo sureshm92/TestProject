@@ -229,7 +229,7 @@ public without sharing class CommunityModeService {
     
     private static CommunityMode findMode(String key, List<CommunityMode> modes){
         for(CommunityMode communityMode : modes){
-            if(!communityMode.isGroup && communityMode.key == key){
+            if(!communityMode.isGroup && communityMode.key == key && !communityMode.isSplitter){
                 return communityMode;
             }
             for(CommunityMode subMode : communityMode.subModes){
@@ -243,7 +243,7 @@ public without sharing class CommunityModeService {
     
     private static CommunityMode getFirstMode(List<CommunityMode> modes){
         for(CommunityMode communityMode : modes){
-            if(!communityMode.isGroup){
+            if(!communityMode.isGroup && !communityMode.isSplitter){
                 return communityMode;
             }
             for(CommunityMode subMode : communityMode.subModes){
