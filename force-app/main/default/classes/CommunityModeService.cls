@@ -16,6 +16,8 @@ public without sharing class CommunityModeService {
         @AuraEnabled public String groupLabel;
         @AuraEnabled public String label;
         @AuraEnabled public Boolean isGroup = false;
+        @AuraEnabled public Boolean isSplitter = false;
+        @AuraEnabled public Boolean hasPastStudies = false;
         @AuraEnabled public List<CommunityMode> subModes = new List<CommunityMode>();
         @AuraEnabled public Boolean isOpen = false;
     
@@ -25,7 +27,14 @@ public without sharing class CommunityModeService {
             this.groupLabel = label;
             generateKey();
         }
-        
+    
+        public CommunityMode(String label) {
+            this.isSplitter = true;
+            this.label = label;
+            this.groupLabel = label;
+            generateKey();
+        }
+    
         public CommunityMode(String userMode, String label, Id delegateId) {
             this.userMode = userMode;
             this.label = label;
@@ -48,6 +57,7 @@ public without sharing class CommunityModeService {
             subModes.add(subMode);
             subMode.groupLabel = label;
             subMode.groupKey = key;
+            subMode.hasPastStudies = hasPastStudies;
         }
         
         public void setAsCurrentMode(){
@@ -103,8 +113,6 @@ public without sharing class CommunityModeService {
     public static CommunityMode getCurrentCommunityMode(List<CommunityMode> allModes){
         CommunityMode currentMode = getCurrentCommunityMode(); //from DB
         CommunityMode resMode = findMode(currentMode.key, allModes); // find in available modes
-        System.debug('KEY: ' + currentMode.key);
-        System.debug('Find MODE: ' + JSON.serializePretty(resMode));
         if(resMode == null && allModes.size() > 0){
             resMode = getFirstMode(allModes);
             if(resMode != null){
@@ -140,68 +148,76 @@ public without sharing class CommunityModeService {
     
     private static List<CommunityMode> getParticipantModes(){
         List<CommunityMode> modes = new List<CommunityMode>();
-        List<Participant__c> userParticipant = [
+        List<Participant__c> userParticipants = [
                 SELECT Id, First_Name__c, Last_Name__c, Contact__c
                 FROM Participant__c
                 WHERE Contact__c =: CommunityService.getInstance().getCurrentContactId() LIMIT 1
         ];
+        Participant__c userParticipant;
+        if(userParticipants.size() > 0) userParticipant = userParticipants[0];
         List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds(CommunityService.getInstance().getCurrentContactId());
         if(delegatedParticipantIds == null) delegatedParticipantIds = new List<Id>();
-        List<Participant_Enrollment__c> peList = [
-                SELECT Id, Clinical_Trial_Profile__r.Study_Title__c,
-                        Participant__c,
-                        Participant__r.Contact__c
-                FROM Participant_Enrollment__c
-                WHERE (Participant__c IN :delegatedParticipantIds OR Participant__c IN :userParticipant)
-                AND Participant_Status__c NOT IN :PEStatusState.PE_STATUS_GROUP_ALUMNI
-        ];
+        
         Map<Id, Participant__c> participantsMap = new Map<Id, Participant__c>([
                 SELECT Id, First_Name__c, Last_Name__c, Contact__c
-                FROM Participant__c
+                FROM Participant__c WHERE Id IN: delegatedParticipantIds
         ]);
-        Map<Id, List<Participant_Enrollment__c>> peListByParticipantIdMap = new Map<Id, List<Participant_Enrollment__c>>();
-        for(Participant_Enrollment__c pe : peList){
-            List<Participant_Enrollment__c> participantPEList = peListByParticipantIdMap.get(pe.Participant__c);
-            if(participantPEList == null) participantPEList = new List<Participant_Enrollment__c>();
-            participantPEList.add(pe);
-            peListByParticipantIdMap.put(pe.Participant__c, participantPEList);
-        }
-        if(userParticipant.size() > 0){
-            peList = peListByParticipantIdMap.get(userParticipant[0].Id);
-            
+        Map<Id, List<Participant_Enrollment__c>> peListByParticipantIdMap = getPEMap(
+                userParticipant,
+                delegatedParticipantIds,
+                DatabaseService.fieldNotInValues('Participant_Status__c', PEStatusState.PE_STATUS_GROUP_ALUMNI)
+        );
+        Map<Id, List<Participant_Enrollment__c>> pePastMap = getPEMap(
+                userParticipant,
+                delegatedParticipantIds,
+                DatabaseService.fieldInValues('Participant_Status__c', PEStatusState.PE_STATUS_GROUP_ALUMNI)
+        );
+        //user studies:
+        if(userParticipant != null){
+            List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(userParticipant.Id);
+            List<Participant_Enrollment__c> pastPEList = pePastMap.get(userParticipant.Id);
             CommunityMode mode = new CommunityMode(
                     CommunityService.USER_MODE_PARTICIPANT,
-                    userParticipant[0].First_Name__c + ' ' + userParticipant[0].Last_Name__c,
-                    userParticipant[0].Contact__c,
+                    userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c,
+                    userParticipant.Contact__c,
                     null
             );
+            mode.hasPastStudies = pastPEList != null && pastPEList.size() > 0;
             modes.add(mode);
             if(peList != null){
                 for(Participant_Enrollment__c pe : peList){
                     mode.addSubMode(new CommunityMode(
                             CommunityService.USER_MODE_PARTICIPANT,
-                            pe.Clinical_Trial_Profile__r.Study_Title__c,
+                            pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
                             pe.Participant__r.Contact__c,
                             pe.Id
                     ));
                 }
             }
         }
+        //delegated studies:
+        if(delegatedParticipantIds.size() > 0){
+            CommunityMode splitter = new CommunityMode(null, 'Participants');
+            splitter.isSplitter = true;
+            modes.add(splitter);
+        }
         for(Id participantId : delegatedParticipantIds){
             Participant__c participant = participantsMap.get(participantId);
-            peList = peListByParticipantIdMap.get(participantId);
+            List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(participantId);
+            List<Participant_Enrollment__c> pastPEList = pePastMap.get(participantId);
             CommunityMode mode = new CommunityMode(
                     CommunityService.USER_MODE_PARTICIPANT,
                     participant.First_Name__c + ' ' + participant.Last_Name__c,
                     participant.Contact__c,
                     null
             );
+            mode.hasPastStudies = pastPEList != null && pastPEList.size() > 0;
             modes.add(mode);
             if(peList != null){
                 for(Participant_Enrollment__c pe : peList){
                     mode.addSubMode(new CommunityMode(
                             CommunityService.USER_MODE_PARTICIPANT,
-                            pe.Clinical_Trial_Profile__r.Study_Title__c,
+                            pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
                             pe.Participant__r.Contact__c,
                             pe.Id
                     ));
@@ -235,6 +251,29 @@ public without sharing class CommunityModeService {
             }
         }
         return null;
+    }
+    
+    private static Map<Id, List<Participant_Enrollment__c>> getPEMap(Participant__c userParticipant, List<Id> delegatedParticipantIds, String filter){
+        String baseFilter = ' (' +DatabaseService.fieldInValues('Participant__c', delegatedParticipantIds);
+        if(userParticipant != null) baseFilter += ' OR ' + DatabaseService.fieldEqual('Participant__c', userParticipant.Id);
+        baseFilter += ') ';
+        if(filter != null) baseFilter += ' AND ' + filter;
+        
+        List<Participant_Enrollment__c> peList = (List<Participant_Enrollment__c>)DatabaseService.query(new List<String>{
+                'Id',
+                'Clinical_Trial_Profile__r.Study_Title__c',
+                'Clinical_Trial_Profile__r.Study_Code_Name__c',
+                'Participant__c',
+                'Participant__r.Contact__c'
+        }, Participant_Enrollment__c.getSObjectType(), baseFilter);
+        Map<Id, List<Participant_Enrollment__c>> peMap = new Map<Id, List<Participant_Enrollment__c>>();
+        for(Participant_Enrollment__c pe : peList){
+            List<Participant_Enrollment__c> participantPEList = peMap.get(pe.Participant__c);
+            if(participantPEList == null) participantPEList = new List<Participant_Enrollment__c>();
+            participantPEList.add(pe);
+            peMap.put(pe.Participant__c, participantPEList);
+        }
+        return peMap;
     }
 
 

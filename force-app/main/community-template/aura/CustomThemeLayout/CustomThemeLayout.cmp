@@ -39,11 +39,11 @@
                     </div>
 
                     <div class="navigation-block">
-                        <c:CommunityNavigation mode="{!v.currentMode.userMode}" />
+                        <c:CommunityNavigation aura:id="navigation" mode="{!v.currentMode.userMode}" />
                     </div>
                     <div class="right-block">
                         <aura:if isTrue="{!v.showModeSwitcher}">
-                            <c:CommunityModeSwitcher allModes="{!v.allModes}" currentMode="{!v.currentMode}"/>
+                            <c:CommunityModeSwitcher allModes="{!v.allModes}" currentMode="{!v.currentMode}" onModeChange="{!c.doModeChanged}"/>
                         </aura:if>
                         <c:ProfileMenu userMode="{!v.currentMode.userMode}"/>
                     </div>
@@ -52,7 +52,7 @@
         </div>
         <div class="{!'rr-header-margin ' + if(v.showModeSwitcher, ' multi-mode', '')}"></div>
         <div class="rr-body-content rr-min-body-height">
-            <c:CommunityNavigationMobile showSideMenu="{!v.showSideMenu}" mode="{!v.currentMode.userMode}" class="{!if(v.availableModes.length > 1, ' multi-mode', '')}"/>
+            <c:CommunityNavigationMobile aura:id="navigationMobile" showSideMenu="{!v.showSideMenu}" mode="{!v.currentMode.userMode}" class="{!if(v.availableModes.length > 1, ' multi-mode', '')}"/>
             {!v.body}
         </div>
         <aura:if isTrue="{!v.isInitialized}">
