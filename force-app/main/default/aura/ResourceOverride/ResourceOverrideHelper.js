@@ -94,8 +94,8 @@
         // build a Resource__c record and assign to the "record"    //
         //----------------------------------------------------------//
         buildRecord: function (component) {
-            var country = component.get("v.Countries__c").join(';');
-            if(component.get("v.Countries__c").length > 0)
+            var country = '';
+            if(component.get("v.Countries__c").length > 0) country = component.get("v.Countries__c").join(';');
             var record = {
                 Title__c                    : component.get("v.Title__c"),
                 document_type__c            : component.get("v.document_type__c"),
