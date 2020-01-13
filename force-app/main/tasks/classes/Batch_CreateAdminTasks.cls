@@ -73,6 +73,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<PEByContactWra
                             ReminderDateTime = reminderDT,
                             Visible_For__c = taskConfig.visibility,
                             WhatId = pe.Id,
+                            WhoId = user.ContactId,
                             Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED
                     ));
                 }
