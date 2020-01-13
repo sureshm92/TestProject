@@ -11,9 +11,9 @@
 * c)  Verification step: Make screenshots this setting
 
 **Steps R4.0:**
-1. Community page
-* Go to Setup > All community > Click on Builder button near IQVIA Referral Hub > Click on Gear > Find “Messages” (If the page doesn't exist, create it with next properties)
-* Click on the Gear and New Page
+1) **Community page, PEH-...**
+     * Go to Setup > All community > Click on Builder button near IQVIA Referral Hub > Click on Gear > Find “Messages” (If the page doesn't exist, create it with next properties)
+     * Click on the Gear and New Page
 * Choose standard page
 * Click on button New Blank Page and choose OneColumnLayout
 * Fill in the following fields
