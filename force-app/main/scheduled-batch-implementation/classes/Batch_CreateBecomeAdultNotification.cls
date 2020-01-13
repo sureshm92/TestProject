@@ -28,7 +28,7 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
 
         Map<Id, Boolean> isMajorityParticipants = isAgeOfMajorityMap(prtForCheck);
 
-        List<Participant__c> adultParticipants = new List<Participant__c>();
+        Set<Participant__c> adultParticipants = new Set<Participant__c>();
         List<Notification__c> notifications = new List<Notification__c>();
 
         for (Participant_Enrollment__c pe : participantEnrollments) {
@@ -51,7 +51,7 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
             }
         }
         insert notifications;
-        update adultParticipants;
+        update new List<Participant__c>(adultParticipants);
     }
 
     public override Type getType() {
