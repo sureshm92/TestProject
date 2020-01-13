@@ -73,3 +73,20 @@
 .THIS.rtl .objective-text{
     direction: rtl;
 }
+
+.THIS .button-link {
+    border: none;
+    background: none;
+    padding: 0;
+    margin-left: 5px;
+    outline: none;
+    cursor: pointer;
+}
+
+.THIS .icon-link {
+    fill: #297DFD;
+    cursor: pointer;
+}
+.THIS .icon-link:hover {
+    fill: #686868;
+}

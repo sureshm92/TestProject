@@ -496,6 +496,34 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Accept</value>
     </labels>
     <labels>
+        <fullName>BTN_Accept_all_participants</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Accept all participants</shortDescription>
+        <value>Accept all participants</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Accept_all_providers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Accept all providers</shortDescription>
+        <value>Accept all providers</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Accept_participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Accept participant</shortDescription>
+        <value>Accept participant</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Accept_provider</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Accept provider</shortDescription>
+        <value>Accept provider</value>
+    </labels>
+    <labels>
         <fullName>BTN_Accept_terms_and_conditions</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2222,6 +2250,13 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
         <value>You has become adult for the clinical research study: ##StudyName. Please login for additional details.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Patient_Become_Adult_PI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Patient Become Adult PI</shortDescription>
+        <value>Your participant has become an adult on Study. Please login for additional details.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Patient_CreatedDate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2688,6 +2723,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <protected>true</protected>
         <shortDescription>Email Header Patient Become Adult</shortDescription>
         <value>You has become an adult</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Patient_Become_Adult_PI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Patient Become Adult PI</shortDescription>
+        <value>Your patient has become an adult.</value>
     </labels>
     <labels>
         <fullName>Email_Header_Patient_Dropped_Out</fullName>
@@ -3215,6 +3257,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>Email Subject Patient Become Adult</shortDescription>
         <value>You has become an adult</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Patient_Become_Adult_PI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Patient Become Adult PI</shortDescription>
+        <value>Your patient has become an adult</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Patient_Dropped_Out</fullName>
@@ -6509,6 +6558,13 @@ View study documents and other resources including articles and videos related t
         <value>patients from Medical Record Review Log waiting to be referred</value>
     </labels>
     <labels>
+        <fullName>PG_DBPI_L_Providers_waiting_for_activation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI L Providers waiting for activation</shortDescription>
+        <value>Referring Providers Waiting For Activation</value>
+    </labels>
+    <labels>
         <fullName>PG_DBPI_L_Providers_waiting_for_approval_and_activation</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6563,6 +6619,20 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG DBPI L for</shortDescription>
         <value>for</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_L_study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI L study</shortDescription>
+        <value>Study</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_L_study_site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI L study site</shortDescription>
+        <value>Study site</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_My_Patients_Acceptance_Status</fullName>

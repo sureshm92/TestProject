@@ -55,26 +55,7 @@ public without sharing class ContactService {
             System.debug('EXCEPTION: ' + e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-
-    public static void updateCurrentPEOnContacts(List<Id> contactIds) {
-        List<Contact> contacts = [
-                SELECT Id, Current_Participant_Enrollment__c
-                FROM Contact
-                WHERE Id IN:contactIds
-        ];
-        Map<Id, List<Id>> availablePEIdsByContactIdMap = PatientDelegateService.getAvailablePEIdsListByContactIdMap(contactIds);
-        for (Contact contact : contacts) {
-            List<Id> peIds = availablePEIdsByContactIdMap.get(contact.Id);
-            if (peIds == null) peIds = new List<Id>();
-            if (peIds.size() == 0) {
-                contact.Current_Participant_Enrollment__c = null;
-            } else if (!peIds.contains(contact.Current_Participant_Enrollment__c)) {
-                contact.Current_Participant_Enrollment__c = peIds[0];
-            }
-        }
-        update contacts;
-    }
-
+    
     public static Participant_Enrollment__c getCurrentPE(Id contactId) {
         Contact contact = [
                 SELECT Id,
