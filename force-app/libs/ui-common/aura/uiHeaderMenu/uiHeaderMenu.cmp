@@ -24,6 +24,4 @@
         </ui:menuList>
     </ui:menu>
 
-
-
 </aura:component>

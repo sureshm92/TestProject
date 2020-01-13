@@ -122,12 +122,12 @@
         //init items for every type
         var participantTabs = [];
         participantTabs.push(this.allPagesMap['participant-home']);
-        if(communityService.getParticipantState() !== 'ALUMNI') {
+        if(communityService.getCurrentCommunityMode().currentPE) {
             participantTabs.push(this.allPagesMap['my-study']);
         }else{
             participantTabs.push(this.allPagesMap['resources']);
         }
-        if(communityService.isShowPastStudies()) participantTabs.push(this.allPagesMap['past-studies']);
+        if(communityService.getCurrentCommunityMode().hasPastStudies) participantTabs.push(this.allPagesMap['past-studies']);
         participantTabs.push(this.allPagesMap['help']);
 
 
