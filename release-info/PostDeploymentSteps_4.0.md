@@ -11,7 +11,7 @@
 * c)  Verification step: Make screenshots this setting
 
 **Steps R4.0:**
-1) **Community page, PEH-...**
+1) **Community page, PEH-1228**
      * Go to Setup > All community > Click on Builder button near IQVIA Referral Hub > Click on Gear > Find “Messages” (If the page doesn't exist, create it with next properties)
      * Click on the Gear and New Page
      * Choose standard page
