@@ -95,7 +95,7 @@
         //----------------------------------------------------------//
         buildRecord: function (component) {
             var country = '';
-            if(component.get("v.Countries__c").length > 0) country = component.get("v.Countries__c").join(';');
+            if(component.get('v.recTypeDevName') === 'Relevant_Link') country = component.get("v.Countries__c").join(';');
             var record = {
                 Title__c                    : component.get("v.Title__c"),
                 document_type__c            : component.get("v.document_type__c"),
