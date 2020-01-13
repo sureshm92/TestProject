@@ -7,8 +7,12 @@
             const userData = JSON.parse(returnValue);
             component.set('v.user', userData.user);
             component.set('v.participantName', userData.participantName);
-            component.set('v.isDelegate', userData.isDelegate);
+            component.set('v.isDelegate', communityService.getCurrentCommunityMode().currentDelegateId != null);
         })
+    },
+
+    doRefresh: function(component, event, helper){
+        component.set('v.isDelegate', communityService.getCurrentCommunityMode().currentDelegateId != null);
     },
 
     doSelectItem: function (component, event, helper) {
