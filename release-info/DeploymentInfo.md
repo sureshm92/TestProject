@@ -122,6 +122,7 @@
     10. One column on the layout put Component “VisitReportContainer” and click “Publish”
     11. Verification step: Make screenshot this setting.
 
+
     Go to Setup > All community > Click on Builder button near IQVIA Referral Hub > Click on Gear > Find “Messages” (If the page doesn't exist, create it with next properties)
     
     1. Click on the Gear and New Page
