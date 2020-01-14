@@ -87,7 +87,7 @@ public without sharing class Test_Batch_CreateParticipantNotification {
 //        update con;
 //
 //        Test.startTest();
-//        Database.executeBatch(new Batch_UserAfterOneYearNotification());
+//        Database.executeBatch(new Batch_UserCreatedDateNotification());
 //        Test.stopTest();
 //    }
 //
@@ -109,7 +109,7 @@ public without sharing class Test_Batch_CreateParticipantNotification {
 //                AND Contact.Current_Participant_Enrollment__c != NULL
 //                AND IsActive = TRUE
 //        ];
-//        new Batch_UserAfterOneYearNotification().execute(null, users);
+//        new Batch_UserCreatedDateNotification().execute(null, users);
 //        Test.stopTest();
 //
 //    }
