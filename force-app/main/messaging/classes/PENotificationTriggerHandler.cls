@@ -73,6 +73,15 @@ public without sharing class PENotificationTriggerHandler {
                             Notification_Type__c = NotificationService.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE
                     ));
                 }
+                //Forming additional notification for Drop Out
+                if (pe.Participant_Status__c == PEStatusState.PE_STATUS_DROP_OUT) {
+                    participantConIds.add(pe.Participant__r.Contact__c);
+                    listNotificationForPatient.add(new Notification__c(
+                            Recipient__c = pe.Participant__r.Contact__c,
+                            WhatId__c = pe.Id,
+                            Notification_Type__c = NotificationService.MESSAGE_TO_PT_DROP_OUT_TYPE
+                    ));
+                }
                 //Forming additional notification for PI
                 if (pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI
                         || (pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ACCEPTED

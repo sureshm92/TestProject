@@ -14,16 +14,18 @@ public without sharing class RelevantLinksRemote {
             InitData initData = new InitData();
             initData.resources = new List<Resource__c>();
             initData.linksAvailable = false;
-            List<Participant_Enrollment__c> enrollments;
+            List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c>();
             ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
             if (ps.value == ParticipantService.ParticipantStates.ALUMNI) {
                 List<Id> peIds = PatientDelegateService.getPastPEIdsForContact(CommunityService.getInstance().getCurrentContactId());
-                enrollments = [
-                        SELECT Id, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c,
-                                Study_Site__r.Site__r.BillingCountryCode, Participant_Status__c, Study_Site__r.Approved_Lng__c
-                        FROM Participant_Enrollment__c
-                        WHERE Id IN: peIds AND Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c = TRUE
-                ];
+                if(peIds != null){
+                    enrollments = [
+                            SELECT Id, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c,
+                                    Study_Site__r.Site__r.BillingCountryCode, Participant_Status__c, Study_Site__r.Approved_Lng__c
+                            FROM Participant_Enrollment__c
+                            WHERE Id IN: peIds AND Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c = TRUE
+                    ];
+                }
             } else {
                 enrollments = new List<Participant_Enrollment__c>();
                 if (ps.ctp.Relevant_Links_Are_Available__c) enrollments.add(ps.pe);

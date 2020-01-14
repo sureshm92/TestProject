@@ -149,22 +149,6 @@ public without sharing class SendEmailToParticipant {
         System.debug('EMAIL MESSAGES: ' + emailMessages.size());
     }
 
-    public static void sendParticipantLoginNotification(List<Contact> contacts, Boolean isOneYear) {
-        String template = isOneYear ? PATIENT_CREATED_DATE : PATIENT_LOGIN;
-
-        List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-        for (Contact con : contacts) {
-            addContactToEmailListIfAvailable(
-                    emailMessages,
-                    con,
-                    template,
-                    con.Current_Participant_Enrollment__c
-            );
-        }
-
-        SendEmailTemplate.sendEmailMessages(emailMessages);
-    }
-
     private static void addContactToEmailListIfAvailable(List<Messaging.SingleEmailMessage> emailMessages, Contact patientContact, String emailTemplate, Id whatId) {
         if (patientContact.Participant_Opt_In_Status_Emails__c) {
             emailMessages.add(SendEmailTemplate.createEmail(emailTemplate, patientContact.Id, whatId));
