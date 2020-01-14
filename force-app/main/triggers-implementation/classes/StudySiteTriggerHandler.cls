@@ -285,7 +285,7 @@ public without sharing class StudySiteTriggerHandler {
                     enrollmentsList.add(new HCP_Enrollment__c(
                             HCP_Contact__c = prr.RP_Contact__c,
                             HCP_Account__c = prr.RP_Contact__r.AccountId,
-                            Status__c = HCPEnrollmentService.HCP_S_ACTIVATED,
+                            Status__c = ss.Study_Orientation_Required__c ? HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O : HCPEnrollmentService.HCP_S_ACTIVATED,
                             Study_Site__c = ss.Id
                     ));
                 }

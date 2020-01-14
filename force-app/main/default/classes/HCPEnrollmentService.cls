@@ -140,8 +140,12 @@ public without sharing class HCPEnrollmentService {
             if (hcpe.Status__c == HCP_S_ACTIVATION_PENDING_O && newStatus == HCP_S_ACTIVATED) {
                 hcpe.Completed_Orientation__c = true;
                 hcpe.Orientation_Date__c = Date.valueOf(value);
+                hcpe.Status__c = newStatus;
+            } else if(hcpe.Study_Site__r.Clinical_Trial_Profile__r.Orientation_Required__c && newStatus == HCP_S_ACTIVATED && hcpe.Status__c != HCP_S_ACTIVATION_PENDING_O){
+                hcpe.Status__c = HCP_S_ACTIVATION_PENDING_O;
+            } else {
+                hcpe.Status__c = newStatus;
             }
-            hcpe.Status__c = newStatus;
             if (String.isNotEmpty(value)) {
                 if (actionId == StudyActions.ACT_HCP_ON_HOLD) {
                     hcpe.On_Hold_Reason__c = value;
@@ -225,6 +229,7 @@ public without sharing class HCPEnrollmentService {
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Orientation_Required__c',
             'Study_Site__r.Clinical_Trial_Profile__c',
             'Study_Site__r.Override_PI_Referral_Status__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Override_Recruitment_Status__c',
