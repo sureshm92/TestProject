@@ -141,13 +141,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             hideSurveyTaskForCompletedStatuses((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
-
-    public class SendDropOutEmailHandler extends TriggerHandler {
-
-        protected override void onAfterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            sendDropEmails((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
-        }
-    }
     
     public class CreateParticipantForDelegateHandler extends TriggerHandler{
     
@@ -554,19 +547,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         ];
         for (User u : users) u.IsActive = false;
         update users;
-    }
-
-    @TestVisible
-    private static void sendDropEmails(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
-        List<Messaging.SingleEmailMessage> messages = new List<Messaging.SingleEmailMessage>();
-        for (Participant_Enrollment__c pe : newList) {
-            if (pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c &&
-                    pe.Participant_Status__c == PEStatusState.PE_STATUS_DROP_OUT) {
-                messages.add(SendEmailTemplate.createEmail('Patient_dropped_out', pe.Participant_Contact__c, pe.Id));
-            }
-        }
-
-        SendEmailTemplate.sendEmailMessages(messages);
     }
 
     @TestVisible

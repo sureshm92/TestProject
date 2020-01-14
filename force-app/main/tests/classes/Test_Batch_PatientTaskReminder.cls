@@ -9,15 +9,6 @@ public with sharing class Test_Batch_PatientTaskReminder {
 
         Test.startTest();
         TestData testData = new TestData();
-        insert new Task(
-                Subject = 'Test Name',
-                Task_Type__c = 'Not Selected',
-                Reminder_Date__c = Datetime.now(),
-                Status = 'Open',
-                ReminderDateTime = Datetime.now(),
-                OwnerId = testData.participantUser.Id
-        );
-
         List<Participant__c> participant = [
                 SELECT
                         Id,
@@ -29,6 +20,16 @@ public with sharing class Test_Batch_PatientTaskReminder {
         Contact c = participant.get(0).Contact__r;
         c.Participant_Opt_In_Status_Emails__c = true;
         update c;
+
+        insert new Task(
+                Subject = 'Test Name',
+                Task_Type__c = 'Not Selected',
+                Reminder_Date__c = Datetime.now(),
+                Status = 'Open',
+                ReminderDateTime = Datetime.now(),
+                OwnerId = testData.participantUser.Id,
+                WhoId = c.Id
+        );
 
         List<Task> tasks = [
                 SELECT Id,

@@ -229,7 +229,7 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Batch_UserCreatedDateNotification</apexClass>
+        <apexClass>Batch_UserAfterOneYearNotification</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
