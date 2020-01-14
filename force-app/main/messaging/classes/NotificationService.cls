@@ -305,10 +305,9 @@ public without sharing class NotificationService {
                     pushNotifications.add(n);
                 }
             }
-        
         }
         if (!emailNotifications.isEmpty()) EmailService.send(emailNotifications);
-        if (!smsNotifications.isEmpty()) SMSService.send(smsNotifications);
+        if (!smsNotifications.isEmpty()) SMSService.sendQueueable(smsNotifications);
         
         DMLService.insertRecords(sendResults);
         DMLService.updateRecords(notifications);
