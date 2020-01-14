@@ -3,7 +3,7 @@
  * Refactored by Igor Malyuta on 27-Oct-19
  */
 
-public without sharing class Batch_UserAfterOneYearNotification extends Batch_ScheduledAbstract{
+public without sharing class Batch_UserCreatedDateNotification extends Batch_ScheduledAbstract{
 
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator([
@@ -41,6 +41,6 @@ public without sharing class Batch_UserAfterOneYearNotification extends Batch_Sc
     }
 
     public override Type getType() {
-        return Batch_UserAfterOneYearNotification.class;
+        return Batch_UserCreatedDateNotification.class;
     }
 }
