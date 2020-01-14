@@ -12,36 +12,10 @@
     <!-- component body: -->
     <div class="slds-grid slds-wrap db-section">
         <div class="slds-col slds-size--1-of-2">
-            <div class="rr-white-panel padding first-panel">
-                <div class="slds-grid slds-wrap db-section">
-                    <div class="slds-col slds-size--1-of-1 db-header">{!$Label.c.PG_DBPI_L_Referrals_waiting_for_first_contact}</div>
-                </div>
-
-                <!-- PI referral acceptance section -->
-                <div class="slds-grid slds-wrap db-section">
-                    <div class="slds-col slds-size--1-of-1">
-                        <div class="rr-large-down-hide">
-                            <c:DashboardTimeWaitingContact peList="{!v.piData.waitingTimeToContact}" parent="{!v.parent}"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <c:DashboardTimeWaitingContact dashboardTitle="{!$Label.c.PG_DBPI_L_Referrals_waiting_for_first_contact}" peList="{!v.piData.waitingTimeToContact}" parent="{!v.parent}"/>
         </div>
         <div class="slds-col slds-size--1-of-2">
-            <div class="rr-white-panel padding first-panel">
-                <div class="slds-grid slds-wrap db-section">
-                    <div class="slds-col slds-size--1-of-1 db-header">{!'' + v.piData.participantsWaitingContact + ' ' + $Label.c.PG_DBPI_L_Referrals_waiting_for_contact}</div>
-                </div>
-
-                <!-- PI referral acceptance section -->
-                <div class="slds-grid slds-wrap db-section">
-                    <div class="slds-col slds-size--1-of-1">
-                        <div class="rr-large-down-hide">
-                            <c:DashboardWaitingContact peList="{!v.piData.awaitingToContact}" parent="{!v.parent}"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <c:DashboardWaitingContact dashboardTitle="{!'' + v.piData.participantsWaitingContact + ' ' + $Label.c.PG_DBPI_L_Referrals_waiting_for_contact}" peList="{!v.piData.awaitingToContact}" parent="{!v.parent}"/>
         </div>
         <div class="slds-col slds-size--2-of-3">
         </div>

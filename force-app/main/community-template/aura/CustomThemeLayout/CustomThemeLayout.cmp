@@ -45,7 +45,7 @@
                         <aura:if isTrue="{!v.showModeSwitcher}">
                             <c:CommunityModeSwitcher allModes="{!v.allModes}" currentMode="{!v.currentMode}" onModeChange="{!c.doModeChanged}"/>
                         </aura:if>
-                        <c:ProfileMenu userMode="{!v.currentMode.userMode}"/>
+                        <c:ProfileMenu aura:id="profileMenu" userMode="{!v.currentMode.userMode}"/>
                     </div>
                 </div>
             </aura:if>
