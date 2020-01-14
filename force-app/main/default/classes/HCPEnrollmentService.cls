@@ -140,12 +140,8 @@ public without sharing class HCPEnrollmentService {
             if (hcpe.Status__c == HCP_S_ACTIVATION_PENDING_O && newStatus == HCP_S_ACTIVATED) {
                 hcpe.Completed_Orientation__c = true;
                 hcpe.Orientation_Date__c = Date.valueOf(value);
-                hcpe.Status__c = newStatus;
-            } else if(hcpe.Study_Site__r.Clinical_Trial_Profile__r.Orientation_Required__c && newStatus == HCP_S_ACTIVATED && hcpe.Status__c != HCP_S_ACTIVATION_PENDING_O){
-                hcpe.Status__c = HCP_S_ACTIVATION_PENDING_O;
-            } else {
-                hcpe.Status__c = newStatus;
             }
+            hcpe.Status__c = newStatus;
             if (String.isNotEmpty(value)) {
                 if (actionId == StudyActions.ACT_HCP_ON_HOLD) {
                     hcpe.On_Hold_Reason__c = value;
@@ -229,7 +225,6 @@ public without sharing class HCPEnrollmentService {
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c',
-            'Study_Site__r.Clinical_Trial_Profile__r.Orientation_Required__c',
             'Study_Site__r.Clinical_Trial_Profile__c',
             'Study_Site__r.Override_PI_Referral_Status__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Override_Recruitment_Status__c',
@@ -248,7 +243,7 @@ public without sharing class HCPEnrollmentService {
             'Override_PI_Status__c',
             'Orientation_Date__c'
     };
-    
+
     public static List<HCP_Enrollment__c> getHCPEnrollmentsCommonCustomFields(String userMode, List<String> customFields, String filter, Boolean excludeDelegates){
         return getHCPEnrollmentsCommonCustomFields(userMode, null, customFields, filter, excludeDelegates);
     }
@@ -370,7 +365,7 @@ public without sharing class HCPEnrollmentService {
         if(!String.isEmpty(trialId)) filter += ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + trialId + '\' ';
         return getHCPEnrollmentsCommon(CommunityService.USER_MODE_HCP, delegateId, filter, false);
     }
-    
+
     public static List<Account> getReferringClinics(List<Id> trialIds){
         List<HCP_Enrollment__c> enrollments = getHCPEnrollmentsCommon(
                 CommunityService.USER_MODE_PI,
@@ -387,7 +382,7 @@ public without sharing class HCPEnrollmentService {
         }
         return clinics;
     }
-    
+
     public static List<HCP_Enrollment__c> getHCPEnrollmentsForPI(List<String> statuses, Integer recordsLimit){
         return getHCPEnrollmentsCommon(
                 CommunityService.USER_MODE_PI,
@@ -447,12 +442,12 @@ public without sharing class HCPEnrollmentService {
         if(enrollments.size() > 0) return enrollments[0];
         return null;
     }
-    
+
     public static Integer getHCPEnrollmentsCountForPI(List<String> statuses){
         String filter = ' AND Status__c IN (\'' + String.join(statuses, '\',\'') + '\') ';
         return getHCPECountCommon(CommunityService.USER_MODE_PI, filter, false);
     }
-    
+
     public static Integer getAttendedRequiredCount(String userMode, Boolean attended, String filterAdd){
         return getAttendedRequiredCount(userMode, null, attended, filterAdd);
     }
@@ -463,7 +458,7 @@ public without sharing class HCPEnrollmentService {
         filter += filterAdd;
         return getHCPECountCommon(userMode, delegateId, filter, false);
     }
-    
+
     public static Integer getHCPECountCommon(String userMode, String filter, Boolean excludeDelegates){
         return getHCPECountCommon(userMode, null, filter, excludeDelegates);
     }
