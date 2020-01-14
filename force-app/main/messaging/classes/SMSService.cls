@@ -3,6 +3,19 @@
  */
 
 public with sharing class SMSService {
+    
+    public class SendSMSQueueable implements Queueable{
+        
+        private List<Notification__c> notifications;
+        
+        public SendSMSQueueble(List<Notification__c> notifications){
+            this.notifications = notifications;
+        }
+    
+        public void execute(QueueableContext qc) {
+            send(notifications);
+        }
+    }
 
     public static void send(List<Notification__c> notifications) {
         Map<String, String> messageByPhone = new Map<String, String>();
@@ -32,4 +45,10 @@ public with sharing class SMSService {
         Action_SendSMS actionSendSMS = new Action_SendSMS(messageByPhone);
         ActionExecutor.execute(actionSendSMS);
     }
+    
+    public static void sendQueueable(List<Notification__c> notifications){
+        System.enqueueJob(new SendSMSQueueable(notifications));
+    }
+    
+    
 }
