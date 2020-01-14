@@ -24,7 +24,7 @@ public without sharing class SendEmailToParticipant {
     public static final String PATIENT_LOGIN = 'Patient_Log_In_Template';
     public static final String PATIENT_CREATED_DATE = 'Patient_CreatedDate_Template';
     public static final String PATIENT_VISITS_AVAILABLE = 'Patient_Visits_Become_Availiable';
-    
+
     @InvocableMethod(Label='Send Email To Participant with Delegates')
     public static void sendEmailNotificationWithDelegates(List<Task> tasks) {
         for (Task task : tasks) {
