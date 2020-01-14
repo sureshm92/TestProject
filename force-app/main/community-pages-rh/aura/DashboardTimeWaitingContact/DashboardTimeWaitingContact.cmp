@@ -6,22 +6,30 @@
 
     <!-- attributes:-->
     <aura:attribute name="peList" type="List"/>
+    <aura:attribute name="dashboardTitle" type="String"/>
     <aura:attribute name="parent" type="Aura.Component"/>
 
     <!-- component body -->
 
-    <div class="slds-grid slds-wrap db-section" style="margin-top: 20px;">
-        <aura:iteration items="{!v.peList}" var="item" indexVar="ind">
-            <div class="slds-col slds-size--3-of-12" style="text-align: right; margin-bottom: 10px;">
-                {!item.title}
+    <div class="rr-white-panel db-qal-container">
+        <div class="db-qal-main">
+            <div class="db-qal-title">
+                {!v.dashboardTitle}
             </div>
-            <div class="slds-col slds-size--9-of-12" style="margin-bottom: 10px;">
-                <div style="{!'width: ' + item.width +'; background-color: ' + item.color + '; height: 20px; display: inline-block;'}"></div><div style="margin-left: 10px; display: inline-block;">{!'' + item.count + ' Patients'}</div>
+            <div class="db-qal-items slds-grid slds-wrap db-section"  style="height: 200px; margin-top: 15px;">
+                <aura:iteration items="{!v.peList}" var="item" indexVar="ind">
+                    <div class="slds-col slds-size--3-of-12" style="text-align: right; margin-bottom: 10px;">
+                        {!item.title}
+                    </div>
+                    <div class="slds-col slds-size--9-of-12" style="margin-bottom: 10px;">
+                        <div style="{!'width: ' + item.width +'; background-color: ' + item.color + '; height: 20px; display: inline-block;'}"></div><div style="margin-left: 10px; display: inline-block;">{!'' + item.count + ' Patients'}</div>
+                    </div>
+                </aura:iteration>
             </div>
-        </aura:iteration>
+        </div>
+        <div class="dqa-view-more">
+            <c:RRLink page="my-referrals?filter=pending" class="apollo-btn text">{!$Label.c.BTN_View_all}</c:RRLink>
+        </div>
     </div>
-    <footer class="slds-card__footer">
-        <div class="slds-text-align_center"><c:RRLink page="my-referrals?filter=pending" class="apollo-btn text">{!$Label.c.BTN_View_all}</c:RRLink></div>
-    </footer>
 
 </aura:component>

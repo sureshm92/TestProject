@@ -24,6 +24,13 @@
             <div class="slds-truncate"
                  title="">{!v.item.ss.Study_Site_Number__c}</div>
         </td>
+        <aura:if isTrue="{!v.isPaymentVendor}">
+            <td data-label="None" style="text-align: center">
+                <div class="slds-truncate" title="">
+                    <ui:inputRadio value="{!v.item.emptyAssignments}" label="none" change="{!c.sscRadioStateChange}"/>
+                </div>
+            </td>
+        </aura:if>
 
         <aura:iteration items="{!v.item.assignments}" var="asg">
             <td style="text-align: center">

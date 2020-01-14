@@ -1,5 +1,6 @@
 ({
     doExecute: function (component, event, helper) {
+        component.set('v.mrrResult', 'Update');
         component.set('v.mrrResult', undefined);
         try {
             component.find('spinner').show();

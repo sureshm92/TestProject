@@ -236,7 +236,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_UserCreatedDateNotification</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>CTCService</apexClass>
