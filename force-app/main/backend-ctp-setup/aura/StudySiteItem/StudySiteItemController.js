@@ -36,8 +36,8 @@
         console.log(selected);
         console.log(JSON.stringify(assignments));
         for (var j = 0; j < assignments.length; j++) {
-            if (assignments[j].state) asgCount++;
             if (assignments[j].value !== selected) assignments[j].state = false;
+            if (assignments[j].state) asgCount++;
         }
         item.emptyAssignments = asgCount === 0;
         component.set('v.item', item);

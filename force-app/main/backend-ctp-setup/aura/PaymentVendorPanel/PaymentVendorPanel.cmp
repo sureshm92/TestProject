@@ -125,6 +125,11 @@
                                     </aura:if>
                                 </div>
                             </th>
+                            <th class="cell-wrap" scope="col">
+                                <div data-order="number" class="sorted-column" onclick="{!c.doSort}">
+                                    <div style="text-align: center;">None</div>
+                                </div>
+                            </th>
                             <aura:if isTrue="{!v.vendorItems}">
                                 <aura:iteration items="{!v.vendorItems}" var="pv">
                                     <th class="" scope="col">
