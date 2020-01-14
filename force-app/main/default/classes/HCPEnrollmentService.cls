@@ -140,8 +140,12 @@ public without sharing class HCPEnrollmentService {
             if (hcpe.Status__c == HCP_S_ACTIVATION_PENDING_O && newStatus == HCP_S_ACTIVATED) {
                 hcpe.Completed_Orientation__c = true;
                 hcpe.Orientation_Date__c = Date.valueOf(value);
+                hcpe.Status__c = newStatus;
+            } else if(hcpe.Study_Site__r.Clinical_Trial_Profile__r.Orientation_Required__c && newStatus == HCP_S_ACTIVATED && hcpe.Status__c != HCP_S_ACTIVATION_PENDING_O){
+                hcpe.Status__c = HCP_S_ACTIVATION_PENDING_O;
+            } else {
+                hcpe.Status__c = newStatus;
             }
-            hcpe.Status__c = newStatus;
             if (String.isNotEmpty(value)) {
                 if (actionId == StudyActions.ACT_HCP_ON_HOLD) {
                     hcpe.On_Hold_Reason__c = value;
@@ -154,8 +158,9 @@ public without sharing class HCPEnrollmentService {
             update hcpe;
             return newStatus;
         } else {
-            List<Study_Site__c> ssList = StudySiteService.getStudySitesForPI();
-            Map<Id, Study_Site__c> ssMap = new Map<Id, Study_Site__c>();
+            String filter = ' Principal_Investigator__c = \'' + hcpe.Study_Site__r.Principal_Investigator__c + '\' ';
+            List<Study_Site__c> ssList = StudySiteService.getStudySitesCommon(filter);
+            Map<String, Study_Site__c> ssMap = new Map<String, Study_Site__c>();
             Set<Id> trailIds = new Set<Id>();
             for(Study_Site__c ss : ssList){
                 if(StudySiteService.STATUS_GROUP_ACCEPTED.contains(ss.Override_PI_Referral_Status__c)) {
@@ -164,17 +169,20 @@ public without sharing class HCPEnrollmentService {
                 }
             }
             List<HCP_Enrollment__c> upsertList = new List<HCP_Enrollment__c>();
-            List<HCP_Enrollment__c> hcpEnrollmentList = getEnrollmentsForPIByTrialIds(trailIds);
+            List<String> ssIdsList = new List<String>(ssMap.keySet());
+            List<HCP_Enrollment__c> hcpEnrollmentList = getHCPEnrollmentsCommon(
+                    CommunityService.USER_MODE_PI,
+                    'AND HCP_Contact__c = \'' + hcpe.HCP_Contact__c +'\' AND Study_Site__c IN (\'' + String.join(ssIdsList, '\',\'') + '\') ',
+                    false
+            );
             for (HCP_Enrollment__c enrollment : hcpEnrollmentList) {
-                if (enrollment.HCP_Contact__c == hcpe.HCP_Contact__c) {
                     if (enrollment.Status__c != HCP_S_ACTIVATED) {
                         enrollment.Status__c = ssMap.get(enrollment.Study_Site__c).Clinical_Trial_Profile__r.Orientation_Required__c ? HCP_S_ACTIVATION_PENDING_O : HCP_S_ACTIVATED;
                         upsertList.add(enrollment);
                     }
                     ssMap.remove(enrollment.Study_Site__c);
-                }
             }
-            for(Id ssId : ssMap.keySet()){
+            for(String ssId : ssMap.keySet()){
                 upsertList.add(new HCP_Enrollment__c(
                         HCP_Contact__c = hcpe.HCP_Contact__c,
                         HCP_Account__c = hcpe.HCP_Contact__r.AccountId,
@@ -225,6 +233,7 @@ public without sharing class HCPEnrollmentService {
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c',
+            'Study_Site__r.Clinical_Trial_Profile__r.Orientation_Required__c',
             'Study_Site__r.Clinical_Trial_Profile__c',
             'Study_Site__r.Override_PI_Referral_Status__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Override_Recruitment_Status__c',
