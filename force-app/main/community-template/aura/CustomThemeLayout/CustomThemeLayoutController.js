@@ -19,6 +19,7 @@
     doModeChanged: function (component){
         component.find('navigation').refresh();
         component.find('navigationMobile').refresh();
+        component.find('profileMenu').refresh();
     },
 
    switchSideMenu: function (component) {

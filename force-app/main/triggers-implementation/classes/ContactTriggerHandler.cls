@@ -37,6 +37,10 @@ public without sharing class ContactTriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             populateOverrideFields(newList);
         }
+
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            populateOverrideFields(newList);
+        }
     }
     
     // Logic: ----------------------------------------------------------------------------------------------------------

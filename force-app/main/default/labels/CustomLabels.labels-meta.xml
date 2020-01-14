@@ -2075,7 +2075,7 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Participant Import Completed</shortDescription>
-        <value>##SucRecCount of ##TotalRecCount participant records were successfully imported for ##StudyTitle.
+        <value>##SucRecCount of ##TotalRecCount participant records were successfully imported for ##StudySiteName.
 
             If there were any records that were not able to be imported, they are in the attached file. Corrections may be made in that file and it can be re-imported.</value>
     </labels>
