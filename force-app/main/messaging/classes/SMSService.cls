@@ -4,11 +4,11 @@
 
 public with sharing class SMSService {
     
-    public class SendSMSQueueable implements Queueable{
+    public class SendSMSQueueable implements Queueable, Database.AllowsCallouts{
         
         private List<Notification__c> notifications;
         
-        public SendSMSQueueble(List<Notification__c> notifications){
+        public SendSMSQueueable(List<Notification__c> notifications){
             this.notifications = notifications;
         }
     
