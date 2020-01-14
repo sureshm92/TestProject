@@ -7,12 +7,14 @@ public without sharing class MessageTriggerHandler {
     public class SendEmailHandler extends TriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
-            sendEmails(newList);
+            sendEmails(JSON.serialize(newList));
         }
     }
 
     @TestVisible
-    private static void sendEmails(List<Message__c> messages) {
+    @Future
+    private static void sendEmails(String messagesJSON) {
+        List<Message__c> messages = (List<Message__c>) JSON.deserialize(messagesJSON, (List<Message__c>.class));
         List<Id> conversationIds = new List<Id>();
         for(Message__c mes : messages) conversationIds.add(mes.Conversation__c);
 

@@ -40,7 +40,7 @@
                 </c:RRNavigationPath>
                 <div class="rr-summary-panel slds-grid slds-wrap slds-grid_vertical-stretch slds-gutters_medium">
                     <div class="slds-col slds-size_1-of-1 mrc-invite-btn-container">
-                        <button class="apollo-btn primary mrc-invite-btn" onclick="{!c.doShowInviteRP}" disabled="{!v.isButtonDisabled}">
+                        <button class="apollo-btn primary mrc-invite-btn" data-gtm="BTN_InviteRP" onclick="{!c.doShowInviteRP}" disabled="{!v.isButtonDisabled}">
                             {!$Label.c.PG_MRC_BTN_Invite_Referring_Provider}
                         </button>
                     </div>

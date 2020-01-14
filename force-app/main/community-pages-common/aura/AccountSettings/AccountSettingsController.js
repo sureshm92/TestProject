@@ -3,6 +3,8 @@
         component.find('spinner').show();
         var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         component.set('v.todayDate', todayDate);
+
+        component.set('v.phonePattern', '[+]?[1-9][(][0-9]{3}[)][\\s]?[0-9]{3}[-][0-9]{4}');
         communityService.executeAction(component, 'getInitData', {
             userMode: component.get('v.userMode')
         }, function (returnValue) {
@@ -15,14 +17,18 @@
 
             component.set('v.initData', initData);
             component.set('v.participant', initData.participant);
+            console.log('Participant:' + JSON.stringify(initData.participant));
             component.set('v.participantHasUpdateTasks', initData.participantHasUpdateTasks);
+
             component.set('v.contact', initData.myContact);
+            console.log('Contact:' + JSON.stringify(initData.myContact));
             //TODO check here:
             component.set('v.currentEmail', initData.myContact.Email);
             component.set('v.isDelegate', initData.isDelegate);
             component.set('v.gendersLVList', initData.gendersLVList);
             component.set('v.statesByCountryMap', initData.statesByCountryMap);
             component.set('v.countriesLVList', initData.countriesLVList);
+
             if(initData.participant){
                 component.set('v.statesLVList', initData.statesByCountryMap[initData.participant.Mailing_Country_Code__c]);
                 helper.setParticipantSnapshot(component);
@@ -55,6 +61,7 @@
     doUpdateParticipant: function (component, event, helper) {
         component.find('spinner').show();
         communityService.executeAction(component, 'updateParticipant', {
+            cont: JSON.stringify(component.get('v.contact')),
             participantJSON : JSON.stringify(component.get('v.participant'))
         }, function () {
             component.set('v.participantHasUpdateTasks', false);
@@ -85,28 +92,16 @@
         if(!component.get('v.isInitialized')) return;
         var statesByCountryMap = component.get('v.statesByCountryMap');
 
-        let countryCode;
         if(component.get('v.participant')){
             var participant = component.get('v.participant');
-            countryCode = participant.Mailing_Country_Code__c;
             var states = statesByCountryMap[participant.Mailing_Country_Code__c];
             component.set('v.statesLVList', states);
             component.set('v.participant.Mailing_State_Code__c', null);
         }else{
             var contact = component.get('v.contact');
-            countryCode = contact.MailingCountryCode;
             var states = statesByCountryMap[contact.MailingCountryCode];
             component.set('v.statesLVList', states);
             component.set('v.contact.MailingStateCode', null);
-        }
-
-        if(component.get('v.userMode') === 'Participant') {
-            if(countryCode && countryCode !== 'US') {
-                let data = component.get('v.initData');
-                data.myContact.Participant_Opt_In_Status_SMS__c = false;
-                component.set('v.initData', data);
-                helper.changeSMSOption(component);
-            }
         }
     },
 

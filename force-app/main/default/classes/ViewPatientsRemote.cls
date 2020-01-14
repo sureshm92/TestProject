@@ -321,9 +321,9 @@ public without sharing class ViewPatientsRemote {
             } else {
                 if (userMode == CommunityService.USER_MODE_PI) {
                     if (idParticipantsOnUser.contains(pe.Participant_Contact__c)) {
-                        resultList.add(new PEWrapper(pe, new StudyActionsHCP(pe, delegateId).actions, true));
+                        resultList.add(new PEWrapper(pe, new StudyActionsPI(pe).actions, true));
                     } else {
-                        resultList.add(new PEWrapper(pe, new StudyActionsHCP(pe, delegateId).actions, false));
+                        resultList.add(new PEWrapper(pe, new StudyActionsPI(pe).actions, false));
                     }
                 } else {
                     resultList.add(new PEWrapper(pe, new StudyActionsPI(pe).actions));

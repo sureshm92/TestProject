@@ -11,6 +11,7 @@
                         + "&ret=" + communityService.createRetString());
                 } else {
                     component.set('v.participantState', ps);
+                    component.set('v.isDelegateMode', communityService.getCurrentCommunityMode().currentDelegateId);
                     component.find('spinner').hide();
                 }
                 component.set('v.initialized', true);
