@@ -57,9 +57,15 @@ public with sharing class PaymentVendorPanelRemote {
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             saveFilter(filter);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
-            List<StudySiteItem> allSSItems = SSPaymentVendorsConfigResponse.convertToSSItems(SearchService.search(filter), paymentVendorId);
+            List<StudySiteItem> allSSItems = SSPaymentVendorsConfigResponse.convertToSSItems(SearchService.search(filter), null);
             for(StudySiteItem ssItem : allSSItems){
-                for (ValueStateItem assigment : ssItem.assignments) assigment.state = state;
+                for (ValueStateItem assigment : ssItem.assignments) {
+                    if(assigment.value.equals(paymentVendorId)) {
+                        assigment.state = state;
+                    } else if(state) {
+                        assigment.state = !state;
+                    }
+                }
             }
             save(allSSItems);
             return new SSPaymentVendorsConfigResponse(filter, pagination);

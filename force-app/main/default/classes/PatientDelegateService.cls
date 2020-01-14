@@ -278,6 +278,26 @@ public without sharing class PatientDelegateService {
         return contacts;
     }
 
+    public static Map<Id, List<Id>> getDelegateContactIdsByPAContactIs(List<Id> participantContIds) {
+        List<Patient_Delegate__c> patientDelegates = [
+                SELECT Id, Contact__c, Participant__r.Contact__c
+                FROM Patient_Delegate__c
+                WHERE Participant__r.Contact__c IN:participantContIds
+        ];
+
+        Map<Id, List<Id>> delContIdsByPAContId = new Map<Id, List<Id>>();
+        if(patientDelegates.isEmpty()) return delContIdsByPAContId;
+
+        for(Patient_Delegate__c pd : patientDelegates) {
+            Id paConId = pd.Participant__r.Contact__c;
+            if(!delContIdsByPAContId.containsKey(paConId)) delContIdsByPAContId.put(paConId, new List<Id>());
+
+            delContIdsByPAContId.get(paConId).add(pd.Contact__c);
+        }
+
+        return delContIdsByPAContId;
+    }
+
     /**
      * @param partContactsIds List with participant contact ids
      * @param delegatedCntFields List with required contact fields
@@ -355,36 +375,6 @@ public without sharing class PatientDelegateService {
             if(ownPEIdsForContact == null) ownPEIdsForContact = new List<Id>();
             ownPEIdsForContact.add(pe.Id);
             resultMap.put(pe.Participant__r.Contact__c, ownPEIdsForContact);
-        }
-        Map<Id, List<Id>> participantIdsByDelegatedContactIdMap = getParticipantIdsByDelegatedContactIdMap(contactIds);
-        System.debug('Participant Ids >>> ' + JSON.serializePretty(participantIdsByDelegatedContactIdMap));
-        List<Id> delegatedParticipantIds = new List<Id>();
-        for(List<Id> participantIds : participantIdsByDelegatedContactIdMap.values()) delegatedParticipantIds.addAll(participantIds);
-        String allDelegatedPEFilter = '';
-        if(filter != null) allDelegatedPEFilter = ' WHERE ' + filter;
-        List<Participant__c> allDelegatedParticipants = DatabaseService.query(new List<String>{
-                'Id',
-                ' ( SELECT Id FROM Participant_Profile__r ' + allDelegatedPEFilter + ') '
-        }, Participant__c.getSObjectType(), DatabaseService.fieldInValues('Id', delegatedParticipantIds));
-        System.debug('>>> All participants: ' + JSON.serializePretty(allDelegatedParticipants));
-        Map<Id, List<Id>> peIdsByParticipantIdMap = new Map<Id, List<Id>>();
-        for(Participant__c participant : allDelegatedParticipants){
-            List<Id> peIdsForParticipant = new List<Id>();
-            for(Participant_Enrollment__c pe : participant.Participant_Profile__r) peIdsForParticipant.add(pe.Id);
-            peIdsByParticipantIdMap.put(participant.Id, peIdsForParticipant);
-        }
-        
-        for(Id contactId : participantIdsByDelegatedContactIdMap.keySet()){
-            List<Id> delegatedParticipantIdsForContact = participantIdsByDelegatedContactIdMap.get(contactId);
-            if(delegatedParticipantIds == null) delegatedParticipantIds = new List<Id>();
-            List<Id> delegatedPEIdsForContact = new List<Id>();
-            for(Id participantId : delegatedParticipantIdsForContact){
-                delegatedPEIdsForContact.addAll(peIdsByParticipantIdMap.get(participantId));
-            }
-            List<Id> allPEIdsForContact = resultMap.get(contactId);
-            if(allPEIdsForContact == null) allPEIdsForContact = new List<Id>();
-            allPEIdsForContact.addAll(delegatedPEIdsForContact);
-            resultMap.put(contactId, allPEIdsForContact);
         }
         return resultMap;
     }

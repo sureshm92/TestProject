@@ -16,41 +16,42 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
                         Participant__r.Contact__c,
                         Study_Site__r.Principal_Investigator__r.Id
                 FROM Participant_Enrollment__c
-                WHERE Participant__r.Adult__c != TRUE
+                WHERE Participant__r.Adult__c = FALSE
+                AND Study_Site__r.Principal_Investigator__r.Id != NULL
         ]);
     }
 
     public void execute(Database.BatchableContext param1, List<Participant_Enrollment__c> participantEnrollments) {
         List<Participant__c> prtForCheck = new List<Participant__c>();
         for (Participant_Enrollment__c pe : participantEnrollments)
-            if(String.isNotBlank(pe.Participant__r.Date_of_Birth__c)) prtForCheck.add(pe.Participant__r);
+            if (pe.Participant__r.Date_of_Birth__c.length() > 9) prtForCheck.add(pe.Participant__r);
 
         Map<Id, Boolean> isMajorityParticipants = isAgeOfMajorityMap(prtForCheck);
 
-        List<Participant__c> adultParticipants = new List<Participant__c>();
+        Set<Participant__c> adultParticipants = new Set<Participant__c>();
         List<Notification__c> notifications = new List<Notification__c>();
 
         for (Participant_Enrollment__c pe : participantEnrollments) {
-            if(isMajorityParticipants.containsKey(pe.Participant__c) && !pe.Participant__r.Adult__c) {
+            if (isMajorityParticipants.containsKey(pe.Participant__c) && !pe.Participant__r.Adult__c) {
                 pe.Participant__r.Adult__c = isMajorityParticipants.get(pe.Participant__c);
                 // put here field and populate for front view (PI should see something like notification)
                 adultParticipants.add(pe.Participant__r);
                 notifications.add(new Notification__c(
                         Recipient__c = pe.Participant__r.Contact__c,
                         WhatId__c = pe.Id,
-                        Notification_Type__c = NotificationService.MESSAGE_TO_PT_PATIENT_BECOME_ADULT,
+                        Notification_Type__c = NotificationService.MESSAGE_TO_PT_PATIENT_BECOME_ADULT_TYPE,
                         Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                 ));
                 notifications.add(new Notification__c(
                         Recipient__c = pe.Study_Site__r.Principal_Investigator__r.Id,
                         WhatId__c = pe.Id,
-                        Notification_Type__c = NotificationService.MESSAGE_TO_PI_PATIENT_BECOME_ADULT,
+                        Notification_Type__c = NotificationService.MESSAGE_TO_PI_PATIENT_BECOME_ADULT_TYPE,
                         Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                 ));
             }
         }
         insert notifications;
-        update adultParticipants;
+        update new List<Participant__c>(adultParticipants);
     }
 
     public override Type getType() {
@@ -75,21 +76,34 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
 
         Map<Id, Boolean> resultByPartIds = new Map<Id, Boolean>();
         for (Age_of_Majority__mdt mdt : ageOfMajorities) {
-            Integer[] iterators = new Integer[]{};
+            Integer[] iterators = new Integer[]{
+            };
             for (Participant__c prt : participants) {
-                Date birthDate = Date.newInstance(
-                        Integer.valueOf(prt.Date_of_Birth__c.substring(0, 4)),
-                        Integer.valueOf(prt.Date_of_Birth__c.substring(5, 7)),
-                        Integer.valueOf(prt.Date_of_Birth__c.substring(8, 10)));
-                Integer participantAge =
-                        Date.newInstance(2000, birthDate.month(), birthDate.day()) <
-                                Date.newInstance(2000, Date.today().month(), Date.today().day()) ?
-                                Date.today().year() - birthDate.year() : Date.today().year() - birthDate.year() - 1;
+                if (String.isNotBlank(prt.Date_of_Birth__c)) {
+                    Date birthDate;
+                    try {
+                        birthDate = Date.newInstance(
+                                Integer.valueOf(prt.Date_of_Birth__c.substring(0, 4)),
+                                Integer.valueOf(prt.Date_of_Birth__c.substring(5, 7)),
+                                Integer.valueOf(prt.Date_of_Birth__c.substring(8, 10)));
 
-                if ((prt.Mailing_Country_Code__c == mdt.Country_Code__c
-                        && (prt.Mailing_State_Code__c == mdt.State_Code__c || String.isBlank(mdt.State_Code__c)))
-                        || (String.isBlank(mdt.Country_Code__c))) {
-                    resultByPartIds.put(prt.Id, participantAge >= mdt.Age__c);
+                        Integer participantAge =
+                                Date.newInstance(2000, birthDate.month(), birthDate.day()) <
+                                        Date.newInstance(2000, Date.today().month(), Date.today().day()) ?
+                                        Date.today().year() - birthDate.year() : Date.today().year() - birthDate.year() - 1;
+
+                        if ((prt.Mailing_Country_Code__c == mdt.Country_Code__c
+                                && (prt.Mailing_State_Code__c == mdt.State_Code__c || String.isBlank(mdt.State_Code__c)))
+                                || (String.isBlank(mdt.Country_Code__c))) {
+                            resultByPartIds.put(prt.Id, participantAge >= mdt.Age__c);
+
+                        }
+                    } catch (Exception e) {
+                        resultByPartIds.put(prt.Id, true);
+                        iterators.add(participants.indexOf(prt));
+                    }
+                } else {
+                    resultByPartIds.put(prt.Id, true);
                     iterators.add(participants.indexOf(prt));
                 }
             }

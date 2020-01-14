@@ -164,6 +164,12 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
 
                     listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'mandatory field is empty - Postal Code');
                 }
+                if (String.isEmpty(DateOfBirth) || Date.valueOf(DateOfBirth) > System.today()) {
+                    hasErrors = true;
+                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'Date of Birth, can\'t be empty or in the future');
+
+                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Date of Birth, can\'t be empty or in the future');
+                }
 
                 if (!hasErrors) {
                     Contact participantContact =

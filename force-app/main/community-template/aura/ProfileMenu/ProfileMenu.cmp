@@ -13,6 +13,9 @@
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
+    <!-- methods: -->
+    <aura:method name="refresh" action="{!c.doRefresh}" access="public"/>
+
     <!-- component body: -->
     <c:uiHeaderMenu aura:id="menu" class="{!'menu-block ' + if(v.isArabic, 'rtl ', '')}">
         <aura:set attribute="title">

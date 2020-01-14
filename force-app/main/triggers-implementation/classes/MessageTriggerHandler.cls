@@ -7,12 +7,14 @@ public without sharing class MessageTriggerHandler {
     public class SendEmailHandler extends TriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
-            sendEmails(newList);
+            sendEmails(JSON.serialize(newList));
         }
     }
 
     @TestVisible
-    private static void sendEmails(List<Message__c> messages) {
+    @Future
+    private static void sendEmails(String messagesJSON) {
+        List<Message__c> messages = (List<Message__c>) JSON.deserialize(messagesJSON, (List<Message__c>.class));
         List<Id> conversationIds = new List<Id>();
         for(Message__c mes : messages) conversationIds.add(mes.Conversation__c);
 
@@ -57,7 +59,7 @@ public without sharing class MessageTriggerHandler {
             String notificationType;
             Conversation__c conversation = conversationMap.get(mes.Conversation__c);
             if(conversation.haveUnreadForPI__c) {
-                notificationType = NotificationService.MESSAGE_TO_PI_NEW_MESSAGE;
+                notificationType = NotificationService.MESSAGE_TO_PI_NEW_MESSAGE_TYPE;
                 headRecipientId = conversation.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c;
 
                 notifications.add(new Notification__c(

@@ -2075,7 +2075,7 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Participant Import Completed</shortDescription>
-        <value>##SucRecCount of ##TotalRecCount participant records were successfully imported for ##StudyTitle.
+        <value>##SucRecCount of ##TotalRecCount participant records were successfully imported for ##StudySiteName.
 
             If there were any records that were not able to be imported, they are in the attached file. Corrections may be made in that file and it can be re-imported.</value>
     </labels>
@@ -4711,6 +4711,20 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>MS Select Placeholder</shortDescription>
         <value>Select question from here</value>
+    </labels>
+    <labels>
+        <fullName>MS_Select_Study_Ph</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Select Study Ph</shortDescription>
+        <value>Select Study</value>
+    </labels>
+    <labels>
+        <fullName>MS_Toast_Message_ST_Send</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Toast Message ST Send</shortDescription>
+        <value>Your message was successfully sent to Study Team!</value>
     </labels>
     <labels>
         <fullName>Manage_My_Payments</fullName>
