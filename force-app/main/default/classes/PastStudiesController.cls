@@ -7,7 +7,9 @@ public without sharing class PastStudiesController {
     @AuraEnabled
     public static List<ContactService.PastStudyWrapper> getPastStudyRecords(){
         try{
-            return ContactService.getPastStudyWrappers(CommunityService.getUserContact().Id);
+            Id contactId = CommunityService.getUserContact().userCommunityDelegateId__c;
+            if(contactId == null) contactId = CommunityService.getUserContact().Id;
+            return ContactService.getPastStudyWrappers(contactId);
         }catch (Exception e){
             return (List<ContactService.PastStudyWrapper>)AuraHelper.throwException(e);
         }

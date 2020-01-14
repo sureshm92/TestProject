@@ -21,7 +21,6 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c (before insert
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class);
-    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.SendDropOutEmailHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.UpdatePEHistoryOnAutoAcceptedHandler.class);
     TriggerHandlerExecutor.execute(PENotificationTriggerHandler.CreateNotificationHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class);

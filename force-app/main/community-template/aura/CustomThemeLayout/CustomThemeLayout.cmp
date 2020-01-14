@@ -38,14 +38,14 @@
                         <img src="{!if(v.currentMode.userMode == 'Participant', $Resource.PH_logo + '/Patient_Portal_Logo.svg', $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}" class="title-logo" onclick="{!c.doGoHome}"/>
                     </div>
 
-                    <div class="navigation-block" data-gtm="community_mode_switcher">
+                    <div class="navigation-block">
                         <c:CommunityNavigation aura:id="navigation" mode="{!v.currentMode.userMode}" />
                     </div>
-                    <div class="right-block">
+                    <div class="right-block" data-gtm="community_mode_switcher">
                         <aura:if isTrue="{!v.showModeSwitcher}">
                             <c:CommunityModeSwitcher allModes="{!v.allModes}" currentMode="{!v.currentMode}" onModeChange="{!c.doModeChanged}"/>
                         </aura:if>
-                        <c:ProfileMenu userMode="{!v.currentMode.userMode}"/>
+                        <c:ProfileMenu aura:id="profileMenu" userMode="{!v.currentMode.userMode}"/>
                     </div>
                 </div>
             </aura:if>

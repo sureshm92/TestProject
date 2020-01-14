@@ -179,7 +179,7 @@ public without sharing class CommunityModeService {
             CommunityMode mode = new CommunityMode(
                     CommunityService.USER_MODE_PARTICIPANT,
                     userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c,
-                    userParticipant.Contact__c,
+                    null,
                     null
             );
             mode.hasPastStudies = pastPEList != null && pastPEList.size() > 0;
@@ -189,7 +189,7 @@ public without sharing class CommunityModeService {
                     mode.addSubMode(new CommunityMode(
                             CommunityService.USER_MODE_PARTICIPANT,
                             pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                            pe.Participant__r.Contact__c,
+                            null,
                             pe.Id
                     ));
                 }
