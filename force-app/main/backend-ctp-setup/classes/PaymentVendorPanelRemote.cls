@@ -51,17 +51,13 @@ public with sharing class PaymentVendorPanelRemote {
 
     @AuraEnabled
     public static SSPaymentVendorsConfigResponse selectAllInColumn(String paymentVendorId, Boolean state, String filterJSON,
-            String paginationJSON, String ssItemsJSON, String allVendorsJSON) {
+            String paginationJSON, String ssItemsJSON) {
         try {
             save(ssItemsJSON);
             StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(filterJSON, StudySiteFilter.class);
             saveFilter(filter);
             PaginationData pagination = (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
-            List<LabelValueItem> allPaymentVendors = (List<LabelValueItem>) JSON.deserialize(allVendorsJSON, List<LabelValueItem>.class);
-            List<StudySiteItem> allSSItems = new List<StudySiteItem>();
-            for(LabelValueItem pv : allPaymentVendors) {
-                allSSItems.addAll(SSPaymentVendorsConfigResponse.convertToSSItems(SearchService.search(filter), pv.value));
-            }
+            List<StudySiteItem> allSSItems = SSPaymentVendorsConfigResponse.convertToSSItems(SearchService.search(filter), null);
             for(StudySiteItem ssItem : allSSItems){
                 for (ValueStateItem assigment : ssItem.assignments) {
                     if(assigment.value.equals(paymentVendorId)) {
