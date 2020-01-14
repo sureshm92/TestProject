@@ -19,6 +19,12 @@ public without sharing class SendEmailToParticipant {
             TaskService.TASK_TYPE_MEDICATION => NotificationService.MESSAGE_TO_PT_TASK_REMINDER_MED_DEL_TYPE
     };
 
+    public static final String PATIENT_SUMMARY_DOCUMENT = 'Patient_Summary_Document';
+    public static final String PATIENT_PLAIN_SUMMARY = 'Patient_Plain_Summary';
+    public static final String PATIENT_LOGIN = 'Patient_Log_In_Template';
+    public static final String PATIENT_CREATED_DATE = 'Patient_CreatedDate_Template';
+    public static final String PATIENT_VISITS_AVAILABLE = 'Patient_Visits_Become_Availiable';
+    
     @InvocableMethod(Label='Send Email To Participant with Delegates')
     public static void sendEmailNotificationWithDelegates(List<Task> tasks) {
         for (Task task : tasks) {
@@ -141,22 +147,6 @@ public without sharing class SendEmailToParticipant {
 
         SendEmailTemplate.sendEmailMessages(emailMessages);
         System.debug('EMAIL MESSAGES: ' + emailMessages.size());
-    }
-
-    public static void sendParticipantLoginNotification(List<Contact> contacts, Boolean isOneYear) {
-        String template = isOneYear ? PATIENT_CREATED_DATE : PATIENT_LOGIN;
-
-        List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-        for (Contact con : contacts) {
-            addContactToEmailListIfAvailable(
-                    emailMessages,
-                    con,
-                    template,
-                    con.Current_Participant_Enrollment__c
-            );
-        }
-
-        SendEmailTemplate.sendEmailMessages(emailMessages);
     }
 
     private static void addContactToEmailListIfAvailable(List<Messaging.SingleEmailMessage> emailMessages, Contact patientContact, String emailTemplate, Id whatId) {
