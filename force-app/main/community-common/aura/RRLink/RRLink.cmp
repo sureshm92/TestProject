@@ -10,6 +10,7 @@
     <aura:attribute name="class" type="String"/>
     <aura:attribute name="href" type="String" access="private"/>
     <aura:attribute name="maxWidth" type="String"/>
+    <aura:attribute name="dataGTM" type="String"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -17,6 +18,7 @@
 
     <!-- component body: -->
     <a href="{!v.href}"
+       data-gtm="{!v.dataGTM}"
        class="{!v.class + ' rr-link ' + if(!empty(v.maxWidth), 'limit-width' , '') + if(!empty(v.label), ' only-text', '')}"
        style="{!if(!empty(v.maxWidth), 'max-width: ' + v.maxWidth)}"
        onclick="{!c.onClick}">{!if(empty(v.body), v.label, v.body)}</a>
