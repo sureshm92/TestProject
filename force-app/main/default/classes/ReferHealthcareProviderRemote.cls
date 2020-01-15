@@ -300,7 +300,11 @@ global without sharing class ReferHealthcareProviderRemote {
     }
 
     public static void sendNotificationForRPInvite(Id hcpEnrollId, Id hcpContactId) {
-        SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_HCP_INVITE, new Map<Id, Id> { hcpEnrollId => hcpContactId });
+        insert new Notification__c(
+                Recipient__c = hcpContactId,
+                WhatId__c = hcpEnrollId,
+                Notification_Type__c = NotificationService.MESSAGE_TO_HCP_APPROVED_TYPE
+        );
     }
 
     public final static String HP_S_INVITED = 'Invited';
