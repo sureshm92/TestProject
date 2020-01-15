@@ -13,7 +13,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 9px;
 }
 
 .THIS .sv-title{
@@ -29,5 +28,5 @@
 }
 
 .THIS .sv-element{
-    margin-left: 20px;
+    padding: 4px 10px;
 }
