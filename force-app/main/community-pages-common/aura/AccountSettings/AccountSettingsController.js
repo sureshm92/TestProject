@@ -1,10 +1,8 @@
 ({
     doInit: function (component, event, helper) {
         component.find('spinner').show();
-        var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
-        component.set('v.todayDate', todayDate);
+        if(communityService.getCurrentCommunityMode().currentDelegateId) component.set('v.isDelegate', true);
 
-        component.set('v.phonePattern', '[+]?[1-9][(][0-9]{3}[)][\\s]?[0-9]{3}[-][0-9]{4}');
         communityService.executeAction(component, 'getInitData', {
             userMode: component.get('v.userMode')
         }, function (returnValue) {
@@ -16,26 +14,24 @@
             };
 
             component.set('v.initData', initData);
-            component.set('v.participant', initData.participant);
-            console.log('Participant:' + JSON.stringify(initData.participant));
-            component.set('v.participantHasUpdateTasks', initData.participantHasUpdateTasks);
+            component.set('v.contactChanged', initData.contactChanged);
+            component.set('v.personWrapper', initData.contactSectionData.personWrapper);
+            component.set('v.contactSectionData', initData.contactSectionData);
 
             component.set('v.contact', initData.myContact);
-            console.log('Contact:' + JSON.stringify(initData.myContact));
-            //TODO check here:
             component.set('v.currentEmail', initData.myContact.Email);
-            component.set('v.isDelegate', initData.isDelegate);
-            component.set('v.gendersLVList', initData.gendersLVList);
-            component.set('v.statesByCountryMap', initData.statesByCountryMap);
-            component.set('v.countriesLVList', initData.countriesLVList);
+            // component.set('v.gendersLVList', initData.gendersLVList);
+            // component.set('v.statesByCountryMap', initData.statesByCountryMap);
+            // component.set('v.countriesLVList', initData.countriesLVList);
 
-            if(initData.participant){
-                component.set('v.statesLVList', initData.statesByCountryMap[initData.participant.Mailing_Country_Code__c]);
-                helper.setParticipantSnapshot(component);
-            }else{
-                component.set('v.statesLVList', initData.statesByCountryMap[initData.myContact.MailingCountryCode]);
-                helper.setContactSnapshot(component);
-            }
+            // if(initData.participant){
+            //     component.set('v.statesLVList', initData.statesByCountryMap[initData.participant.Mailing_Country_Code__c]);
+            //     helper.setParticipantSnapshot(component);
+            //     helper.setContactSnapshot(component);
+            // }else{
+            //     component.set('v.statesLVList', initData.statesByCountryMap[initData.myContact.MailingCountryCode]);
+            //     helper.setContactSnapshot(component);
+            // }
             setTimeout($A.getCallback(function() {
                 helper.setFieldsValidity(component);
                 component.showHelpMessageIfInvalid();
@@ -105,14 +101,14 @@
         }
     },
 
-    doParticipantChanged: function(component, event, hepler){
+    doParticipantChanged: function(component, event, helper){
         if(!component.get('v.isInitialized')) return;
         var snapShot = component.get('v.participantSnapshot');
         var currentState = JSON.stringify(component.get('v.participant'));
         component.set('v.participantChanged', snapShot !== currentState);
     },
 
-    doContactChanged: function(component, event, hepler){
+    doContactChanged: function(component, event, helper){
         if(!component.get('v.isInitialized')) return;
         var snapShot = component.get('v.contactSnapshot');
         var currentState = JSON.stringify(component.get('v.contact'));
