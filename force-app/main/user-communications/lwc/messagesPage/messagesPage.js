@@ -6,7 +6,8 @@ import {LightningElement, api, track, wire} from 'lwc';
 import {loadStyle} from 'lightning/platformResourceLoader';
 import communityStyle from '@salesforce/resourceUrl/rr_community_css';
 import proxima from '@salesforce/resourceUrl/proximanova';
-import {ShowToastEvent} from 'lightning/platformShowToastEvent';
+import {CurrentPageReference} from 'lightning/navigation';
+import {registerListener, unregisterAllListeners} from 'c/pubSub';
 
 import messagesLabel from '@salesforce/label/c.MS_Messages';
 import newMessLabel from '@salesforce/label/c.MS_New_Mess';
@@ -35,6 +36,12 @@ export default class MessagesPage extends LightningElement {
 
     @track selectedConWrapper;
 
+
+    connectedCallback() {
+        registerListener('reload', this.handleRefreshEvent, this);
+        this.initializer();
+    }
+
     renderedCallback() {
         if (!this.initialized) {
             this.spinner = this.template.querySelector('c-web-spinner');
@@ -51,27 +58,16 @@ export default class MessagesPage extends LightningElement {
             if (this.userMode === 'Participant') {
                 this.messageBoard.setTemplates(this.messageTemplates);
             }
+
+            this.spinner.hide();
         }
     }
 
-    @wire(getInit)
-    wireInitData({data, error}) {
-        if (data) {
-            this.userMode = data.userMode;
-            this.enrollments = data.enrollments;
-            this.conversationWrappers = data.conversationWrappers;
-            this.canStartConversation = this.checkCanStartNewConversation();
-
-            this.initialized = true;
-            if (this.userMode === 'Participant') this.messageTemplates = data.messageTemplates;
-            if (this.conversationWrappers && this.conversationWrappers.length > 0) this.hideEmptyStub = true;
-
-            if (this.spinner) this.spinner.hide();
-        } else if (error) {
-            console.log('Error:' + JSON.stringify(error));
-            if (this.spinner) this.spinner.hide();
-        }
+    disconnectedCallback() {
+        unregisterAllListeners(this);
     }
+
+    @wire(CurrentPageReference) pageRef;
 
     //Handlers:---------------------------------------------------------------------------------------------------------
     handleNewMessageClick(event) {
@@ -130,7 +126,32 @@ export default class MessagesPage extends LightningElement {
         this.messageBoard.openExisting(conWr.conversation, conWr.messages, conWr.isPastStudy);
     }
 
+    handleRefreshEvent() {
+        if (this.spinner) this.spinner.show();
+        this.initialized = false;
+
+        this.initializer();
+    }
     //Service Methods:--------------------------------------------------------------------------------------------------
+    initializer() {
+        getInit()
+            .then(data => {
+                this.userMode = data.userMode;
+                this.enrollments = data.enrollments;
+
+                this.conversationWrappers = data.conversationWrappers;
+                this.canStartConversation = this.checkCanStartNewConversation();
+
+                this.initialized = true;
+                if (this.userMode === 'Participant') this.messageTemplates = data.messageTemplates;
+                if (this.conversationWrappers && this.conversationWrappers.length > 0) this.hideEmptyStub = true;
+
+            })
+            .catch(error => {
+                console.log('Error in getInit():' + JSON.stringify(error));
+            });
+    }
+
     changePlusStyle(enabled) {
         let newMessBTN = this.template.querySelector('.ms-btn-new');
         newMessBTN.style.opacity = enabled ? 1 : 0.5;

@@ -43,4 +43,5 @@
         </aura:iteration>
     </c:uiHeaderMenu>
 
+    <c:auraPubsub aura:id="pubsub"/>
 </aura:component>
