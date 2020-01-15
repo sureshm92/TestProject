@@ -8,6 +8,11 @@
         <isRequired>false</isRequired>
     </displayedFields>
     <displayedFields>
+        <field>MRN_Id__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
         <field>Referred_Date__c</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>

@@ -29,7 +29,7 @@
         <aura:if isTrue="{!v.mrrResult == 'Fail'}">
             <div class="mrr-alert fail">
                 <c:RRIcon iconName="icon-close-circle"/>
-                <div class="main-title">{!v.pe.Participant_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Failed}</div>
+                <div class="main-title">{!v.pe.Participant__r.Full_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Failed}</div>
                 <button class="apollo-btn primary"
                         data-gtm="BTN_InviteToPP"
                         disabled="{!v.isInvited}"
@@ -46,7 +46,7 @@
         <aura:if isTrue="{!v.mrrResult == 'Pass'}">
             <div class="mrr-alert pass">
                 <c:RRIcon iconName="icon-check-circle"/>
-                <div class="main-title">{!v.pe.Participant_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Passed}</div>
+                <div class="main-title">{!v.pe.Participant__r.Full_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Passed}</div>
                 <button class="apollo-btn primary"
                         onclick="{!c.inviteToPortal}"
                         data-gtm="BTN_InviteToPP"
