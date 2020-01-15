@@ -30,6 +30,7 @@
                     </aura:iteration>
                     </tbody>
                 </c:RRTable>
+                <c:EmptyListStub targetList="{!v.links}" iconName="none" message="{!$Label.c.PG_VP_L_No_Items_display}"/>
             </div>
         </div>
     </aura:if>
