@@ -12,8 +12,7 @@ public without sharing class AccountSettingsController {
             initData.cookieSettings = getCookieSettings();
 
             if (initData.myContact.primaryContact__c == null) {
-                if (userMode == CommunityService.USER_MODE_PARTICIPANT
-                        && !ParticipantService.getInstance().getState().isDelegate) {
+                if (userMode == CommunityService.USER_MODE_PARTICIPANT && !ParticipantService.getInstance().getState().isDelegate) {
                     initData.participant = [
                             SELECT Id, First_Name__c,  Middle_Name__c, Last_Name__c, Phone__c,
                                     Mailing_Zip_Postal_Code__c, Mailing_State__c, Mailing_Country__c,
@@ -31,21 +30,23 @@ public without sharing class AccountSettingsController {
                             initData.participant.Mailing_Country_Code__c,
                             initData.participant.Mailing_State_Code__c
                     );
+
                     //Task for updating profile exists Account
                     List<Task> tasks = TaskService.getInstance().getTasksCommon('Status = \'Open\' AND Task_Code__c = \'Complete_Your_Profile\'');
-                    initData.participantHasUpdateTasks = !tasks.isEmpty();
+                    initData.contactSectionData.participantHasUpdateTasks = !tasks.isEmpty();
                 } else {
-                    initData.institute = getInstituteById(initData.myContact.AccountId);
+                    initData.contactSectionData.institute = getInstituteById(initData.myContact.AccountId);
                 }
             } else {
-                initData.institute = getInstituteById(initData.myContact.primaryContact__r.AccountId);
+                initData.contactSectionData.institute = getInstituteById(initData.myContact.primaryContact__r.AccountId);
             }
+
+            initData.contactSectionData.personWrapper = new PersonWrapper(initData.myContact, initData.participant);
+
             initData.userName = UserInfo.getUserName();
-            initData.isDelegate = PatientDelegateService.getInstance().isDelegate();
             return JSON.serialize(initData, false);
         } catch (Exception e) {
-            System.debug(e);
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (String) AuraHelper.throwException(e);
         }
     }
 
@@ -54,8 +55,9 @@ public without sharing class AccountSettingsController {
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
             Contact contact = (Contact) JSON.deserialize(cont, Contact.class);
-            if(participant.Mailing_Country_Code__c != null &&
-                    !participant.Mailing_Country_Code__c.equals('US')) contact.Participant_Opt_In_Status_SMS__c = false;
+            if (participant.Mailing_Country_Code__c != null && !participant.Mailing_Country_Code__c.equals('US')) {
+                contact.Participant_Opt_In_Status_SMS__c = false;
+            }
             update contact;
 
             TaskService.getInstance().completeCYPTaskForParticipant();
@@ -238,7 +240,7 @@ public without sharing class AccountSettingsController {
                 SELECT Id
                 FROM AssignmentRule
                 WHERE SobjectType = 'Case'
-                AND Active = true
+                AND Active = TRUE
                 LIMIT 1
         ];
     }
@@ -299,16 +301,29 @@ public without sharing class AccountSettingsController {
 
     public class AccountData {
         @AuraEnabled public Contact myContact;
-        @AuraEnabled public Account institute;
-        @AuraEnabled public Participant__c participant;
         @AuraEnabled public String userName;
-        @AuraEnabled public Boolean isDelegate;
-        @AuraEnabled public Boolean participantHasUpdateTasks;
         @AuraEnabled public String message;
+        @AuraEnabled public List<CookieSettings> cookieSettings;
+
+        @AuraEnabled public ContactSectionData contactSectionData = new ContactSectionData();
+
+        @AuraEnabled public Participant__c participant;
+
+        @AuraEnabled public Boolean participantHasUpdateTasks;
+        @AuraEnabled public Account institute;
         @AuraEnabled public List<LabelValueItem> gendersLVList = ParticipantService.getGenderLVList();
         @AuraEnabled public List<LabelValueItem> countriesLVList = CountryStateUtil.getCountries();
         @AuraEnabled public Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
-        @AuraEnabled public List<CookieSettings> cookieSettings;
+
+    }
+
+    public class ContactSectionData {
+        @AuraEnabled public PersonWrapper personWrapper;
+        @AuraEnabled public Account institute;
+        @AuraEnabled public Boolean participantHasUpdateTasks;
+        @AuraEnabled public List<LabelValueItem> gendersLVList = ParticipantService.getGenderLVList();
+        @AuraEnabled public List<LabelValueItem> countriesLVList = CountryStateUtil.getCountries();
+        @AuraEnabled public Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
     }
 
     public class CookieSettings {
@@ -321,5 +336,46 @@ public without sharing class AccountSettingsController {
         public String cookieName { get; set; }
         @AuraEnabled
         public String cookieDescription { get; set; }
+    }
+
+    public class PersonWrapper {
+        @AuraEnabled public String firstName;
+        @AuraEnabled public String middleName;
+        @AuraEnabled public String lastName;
+        @AuraEnabled public String dateBirth;
+        @AuraEnabled public String gender;
+        @AuraEnabled public String homePhone;
+        @AuraEnabled public String mobilePhone;
+        @AuraEnabled public String fax;
+        @AuraEnabled public Boolean optInEmail;
+        @AuraEnabled public Boolean optInSMS;
+        @AuraEnabled public String mailingCC;
+        @AuraEnabled public String mailingSC;
+        @AuraEnabled public String mailingCountry;
+        @AuraEnabled public String mailingStreet;
+        @AuraEnabled public String mailingCity;
+        @AuraEnabled public String mailingState;
+        @AuraEnabled public String zip;
+        @AuraEnabled public Boolean isParticipant;
+
+        public PersonWrapper(Contact contact, Participant__c participant) {
+            isParticipant = participant != null;
+
+            firstName = isParticipant ? participant.First_Name__c : contact.FirstName;
+            lastName = isParticipant ? participant.Last_Name__c : contact.LastName;
+            homePhone = isParticipant ? participant.Phone__c : contact.Phone;
+            mobilePhone = contact.MobilePhone;
+            optInEmail = contact.Participant_Opt_In_Status_Emails__c;
+            optInSMS = contact.Participant_Opt_In_Status_SMS__c;
+            mailingCC = isParticipant ? participant.Mailing_Country_Code__c : contact.MailingCountryCode;
+            mailingSC = isParticipant ? participant.Mailing_State_Code__c : contact.MailingStateCode;
+            zip = isParticipant ? participant.ZIP_Code__c : contact.MailingPostalCode;
+
+            if(isParticipant) {
+                middleName = participant.Middle_Name__c;
+                dateBirth = participant.Date_of_Birth__c;
+                gender = participant.Gender__c;
+            }
+        }
     }
 }

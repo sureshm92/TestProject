@@ -21,8 +21,14 @@
                             <c:RRIcon color="blue" iconName="icon-chevron-down" class="chevron"/>
                         </div>
                     </aura:set>
+                    <aura:if isTrue="{!v.hcpe.data.Status__c !='Orientation Pending'}">
                             <c:uiMenuItem label="{!$Label.c.BTN_Activate}" onclick="{!c.doActivate}" />
                             <c:uiMenuItem label="{!$Label.c.BTN_Activate_All}" onclick="{!c.doActivateAll}" />
+                        <aura:set attribute="else">
+                            <c:uiMenuItem label="{!$Label.c.BTN_Orientation_attended_activate}" onclick="{!c.doActivateOrientation}" />
+                        </aura:set>
+                    </aura:if>
+
                 </c:uiHeaderMenu>
 <!--                <button class="apollo-btn secondary"-->
 <!--                        disabled="{!v.hcpe.action.disabled}"-->
