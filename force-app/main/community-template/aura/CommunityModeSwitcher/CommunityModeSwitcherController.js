@@ -11,7 +11,7 @@
             component.set('v.allModes', component.get('v.allModes'));
         }else if(!selectedMode.isSplitter){
             var currentDelegateId = selectedMode.currentDelegateId;
-            if(selectedMode.userMode == 'HCP'){
+            if(selectedMode.userMode === 'HCP'){
                 currentDelegateId = selectedMode.currentHCPDelegate;
             }
             communityService.executeAction(component, 'changeMode', {
@@ -35,9 +35,9 @@
                 }
                 component.set('v.allModes', modes);
                 component.getEvent('onModeChange').fire();
-                component.getEvent('refreshPage').fire();
+                component.find('pubsub').fireEvent('reload');
             });
         }
     }
 
-})
+});

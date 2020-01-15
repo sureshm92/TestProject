@@ -32,7 +32,7 @@ public without sharing class MessagePageRemote {
         @AuraEnabled public String downloadLink;
     }
 
-    @AuraEnabled(Cacheable = true)
+    @AuraEnabled
     public static MSPageData getInitData() {
         try {
             MSPageData pageData = new MSPageData();

@@ -10,7 +10,6 @@
 
     <!-- events: -->
     <aura:registerEvent access="global" name="onModeChange" type="c:uiEvent"/>
-    <aura:registerEvent access="global" name="refreshPage" type="c:EventCommunityInitialized"/>
 
     <!-- component body: -->
     <c:uiHeaderMenu aura:id="menu" class="mode-block">
@@ -44,4 +43,5 @@
         </aura:iteration>
     </c:uiHeaderMenu>
 
+    <c:auraPubsub aura:id="pubsub"/>
 </aura:component>
