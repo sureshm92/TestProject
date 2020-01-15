@@ -27,7 +27,10 @@
         <aura:if isTrue="{!v.isPaymentVendor}">
             <td data-label="None" style="text-align: center">
                 <div class="slds-truncate" title="">
-                    <ui:inputRadio value="{!v.item.emptyAssignments}" label="none" change="{!c.sscRadioStateChange}"/>
+                    <ui:inputRadio value="{!v.item.emptyAssignments}"
+                            label="none"
+                            change="{!c.sscRadioStateChange}"
+                            disabled="{!v.viewMode != 'Edit'}"/>
                 </div>
             </td>
         </aura:if>
@@ -35,7 +38,10 @@
         <aura:iteration items="{!v.item.assignments}" var="asg">
             <td style="text-align: center">
                 <aura:if isTrue="{!v.isPaymentVendor}">
-                    <ui:inputRadio value="{!asg.state}" label="{!asg.value}" change="{!c.sscRadioStateChange}"/>
+                    <ui:inputRadio value="{!asg.state}"
+                                   label="{!asg.value}"
+                                   disabled="{!v.viewMode != 'Edit'}"
+                                   change="{!c.sscRadioStateChange}"/>
                     <aura:set attribute="else">
                         <ui:inputCheckbox value="{!asg.state}"
                                           label=""
@@ -46,5 +52,4 @@
             </td>
         </aura:iteration>
     </tr>
-
 </aura:component>
