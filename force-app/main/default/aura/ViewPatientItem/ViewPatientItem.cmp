@@ -115,12 +115,11 @@
                         <aura:if
                                 isTrue="{!empty(v.pe.MRR_Survey_Results_URL__c) &amp;&amp; !v.actions.screenerResponses.disabled}">
                             <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12">
-                                <button class="slds-button--neutral"
-                                                  data-gtm="BTN_DoPreScreening"
+                                <lightning:button class="slds-button--neutral"
                                                   title="{!$Label.c.BTN_Screener_Participant}"
                                                   onclick="{!c.doPreScreening}">
                                     {!$Label.c.BTN_Screener_Participant}
-                                </button>
+                                </lightning:button>
                             </div>
                         </aura:if>
                     </div>
