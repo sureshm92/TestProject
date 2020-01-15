@@ -24,14 +24,15 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_HCP_PATIENT_DECLINED_TYPE = 'Message_to_HCP_Patient_Declined_Type';
     static public String MESSAGE_TO_HCP_PATIENT_ON_HOLD_TYPE = 'Message_to_HCP_Patient_On_Hold_Type';
     static public String MESSAGE_TO_HCP_REFERRAL_STATUS_UPDATE_TYPE = 'Message_to_HCP_Ref_Status_Update_Type';
-    
-    static public String MESSAGE_TO_PT_PATIENT_DECLINED_TYPE = 'Message_to_PT_Patient_Declined_Type';
-    static public String MESSAGE_TO_PT_PATIENT_ON_HOLD_TYPE = 'Message_to_PT_Patient_On_Hold_Type';
-    static public String MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE = 'Message_to_PT_Ref_Status_Update_Type';
+
     static public String MESSAGE_TO_PT_PATIENT_DECLINED_VT_TYPE = 'Message_to_PT_Patient_Declined_VT_Type';
     static public String MESSAGE_TO_PT_PATIENT_ON_HOLD_VT_TYPE = 'Message_to_PT_Patient_On_Hold_VT_Type';
     static public String MESSAGE_TO_PT_NEW_STUDY_HCP_VT_TYPE = 'Message_to_PT_New_Study_HCP_VT_Type';
     static public String MESSAGE_TO_PT_NEW_STUDY_eRP_VT_TYPE = 'Message_to_PT_New_Study_eRP_VT_Type';
+
+    static public String MESSAGE_TO_PT_PATIENT_DECLINED_TYPE = 'Message_to_PT_Patient_Declined_Type';
+    static public String MESSAGE_TO_PT_PATIENT_ON_HOLD_TYPE = 'Message_to_PT_Patient_On_Hold_Type';
+    static public String MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE = 'Message_to_PT_Ref_Status_Update_Type';
     static public String MESSAGE_TO_PT_NEW_COI_CTP_TYPE = 'Message_to_PT_New_COI_Ctp_Type';
     static public String MESSAGE_TO_PT_COI_CTP_START_ENROLL_TYPE = 'Message_to_PT_COI_Ctp_Start_Enroll_Type';
     static public String MESSAGE_TO_PT_DATA_AVAILABLE_TYPE = 'Message_to_PT_Data_Available_Type';
@@ -41,6 +42,8 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE = 'Message_to_PT_CTP_Trial_Complete_Type';
     static public String MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE = 'Message_to_PT_SS_Was_Changed_Type';
     static public String MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE = 'Message_to_PT_Enrollment_Success_Type';
+    static public String MESSAGE_TO_PT_ACCESS_LEVEL_CHANGED_TYPE = 'Message_to_PT_Access_Level_Changed_Type';
+    static public String MESSAGE_TO_PT_PATIENT_BECOME_ADULT_TYPE = 'Message_to_PT_Patient_Become_Adult_Type';
     
     static public String MESSAGE_TO_PT_SURVEY_REMINDER_TYPE = 'Message_To_PT_Survey_Reminder_Type';
     static public String MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE = 'Message_To_PT_Survey_Final_Reminder_Type';
@@ -52,10 +55,11 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE = 'Message_To_PT_Task_Reminder_Vis_Del_Type';
     
     static public String MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE = 'Message_to_PI_SS_Was_Changed_Type';
+    static public String MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE = 'Message_To_PI_Accept_New_Study_Type';
     static public String MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE = 'Message_to_PI_New_Patient_Referral_Type';
-    static public String MESSAGE_TO_PI_NEW_MESSAGE_TYPE = 'Message_To_PI_New_Message';
-    static public String MESSAGE_TO_PT_PATIENT_BECOME_ADULT_TYPE = 'Message_to_PT_Patient_Become_Adult_Type';
     static public String MESSAGE_TO_PI_PATIENT_BECOME_ADULT_TYPE = 'Message_to_PI_Patient_Become_Adult_Type';
+    static public String MESSAGE_TO_PI_NEW_MESSAGE_TYPE = 'Message_To_PI_New_Message';
+
     static public String MESSAGE_TO_PT_DROP_OUT_TYPE = 'Message_to_PT_Drop_Out_Type';
     static public String MESSAGE_TO_PT_ONE_YEAR_TYPE = 'Message_to_PT_One_Year_Type';
     static public String MESSAGE_TO_PT_COMPLETE_BL_SURVEY_TYPE = 'Message_to_PT_Complete_BL_Survey_Type';
