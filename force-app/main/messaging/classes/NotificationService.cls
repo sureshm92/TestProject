@@ -58,6 +58,8 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_PI_PATIENT_BECOME_ADULT_TYPE = 'Message_to_PI_Patient_Become_Adult_Type';
     static public String MESSAGE_TO_PT_DROP_OUT_TYPE = 'Message_to_PT_Drop_Out_Type';
     static public String MESSAGE_TO_PT_ONE_YEAR_TYPE = 'Message_to_PT_One_Year_Type';
+    static public String MESSAGE_TO_PT_COMPLETE_BL_SURVEY_TYPE = 'Message_to_PT_Complete_BL_Survey_Type';
+    static public String MESSAGE_TO_HCP_APPROVED_TYPE = 'Message_to_HCP_Approved_for_SS_Type';
     
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
     static public String NOTIFICATION_STATUS_PROCESSED = 'Processed';
