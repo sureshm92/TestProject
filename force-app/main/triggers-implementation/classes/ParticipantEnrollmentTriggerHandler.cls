@@ -344,9 +344,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         insert alertsForInsert;
         if (toCreateUser.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
-        if (notificationMapHCP.size() > 0) NotificationService.sendSimpleNotification(notificationMapHCP, NotificationService.MESSAGE_TO_PT_SOURCE_HCP_TYPE);
-        if (notificationMapPI.size() > 0) NotificationService.sendSimpleNotification(notificationMapPI, NotificationService.MESSAGE_TO_PT_SOURCE_PI_TYPE);
-        if (notificationMapEPR.size() > 0) NotificationService.sendSimpleNotification(notificationMapEPR, NotificationService.MESSAGE_TO_PT_SOURCE_ERP_TYPE);
+        if (notificationMapHCP.size() > 0) NotificationService.sendSimpleNotification(notificationMapHCP, NotificationType.MESSAGE_TO_PT_SOURCE_HCP_TYPE);
+        if (notificationMapPI.size() > 0) NotificationService.sendSimpleNotification(notificationMapPI, NotificationType.MESSAGE_TO_PT_SOURCE_PI_TYPE);
+        if (notificationMapEPR.size() > 0) NotificationService.sendSimpleNotification(notificationMapEPR, NotificationType.MESSAGE_TO_PT_SOURCE_ERP_TYPE);
 
         update contactsForChangeMode;
     }
