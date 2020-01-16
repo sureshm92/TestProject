@@ -87,6 +87,43 @@ public without sharing class EmailService {
         return createEmail(emailTemplateId, contactId, whatId, null, orgWideEmAddress);
     }
 
+    public static void sendExternalEmail(List<Notification__c> notifications) {
+        for (Notification__c n : notifications) {
+            Notification_Target__mdt emailTarget = NotificationService.getNotificationTarget(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
+            sendShareEmail(n.WhatId__c, n.From__c, n.Email__c, emailTarget.Email_Template__c);
+        }
+    }
+
+    public static void sendShareEmail(Id whatId, Id fromId,  String emailAddr, String templateName) {
+        Id shareStudyEmailTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName =:templateName LIMIT 1].Id;
+        List<Messaging.SingleEmailMessage> msgList = new List<Messaging.SingleEmailMessage>();
+        Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+        msg.setTemplateId(shareStudyEmailTemplateId);
+        msg.setWhatId(whatId);
+        msg.setTargetObjectId(fromId);
+        msg.setToAddresses(new List<String>{
+                emailAddr
+        });
+        msgList.add(msg);
+        // Send the emails in a transaction, then roll it back
+        Savepoint sp = Database.setSavepoint();
+        Messaging.sendEmail(msgList); // Dummy email send
+        Database.rollback(sp); // Email will not send as it is rolled Back
+        // Send Actual email
+        List<Messaging.SingleEmailMessage> msgListToBeSend = new List<Messaging.SingleEmailMessage>();
+        for (Messaging.SingleEmailMessage email : msgList) {
+            Messaging.SingleEmailMessage emailToSend = new Messaging.SingleEmailMessage();
+            emailToSend.setToAddresses(email.getToAddresses());
+            emailToSend.setPlainTextBody(email.getPlainTextBody());
+            emailToSend.setHtmlBody(email.getHtmlBody());
+            emailToSend.setSubject(email.getSubject());
+            emailToSend.setOrgWideEmailAddressId(getOrgWideEmailAddressByContactId(fromId));
+            msgListToBeSend.add(emailToSend);
+        }
+        Messaging.sendEmail(msgListToBeSend);
+    }
+
+
 
 
 

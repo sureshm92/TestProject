@@ -97,8 +97,8 @@ public without sharing class HCPEnrollmentTriggerHandler {
         Set<Id> contactIdsWithCreatedUser = new Set<Id>();
         for(User user : CommunityService.getCommunityUsersByContactIds(hcpContactIds)) contactIdsWithCreatedUser.add(user.ContactId);
         Set<Id> contactIdsForCreateUsers = new Set<Id>();
-        Map<Id, Id> contactsForSendNotificationMap = new Map<Id, Id>();
-        Map<Id, Id> contactsForSendNotificationByPiMap = new Map<Id, Id>();
+        Map<Id, List<Id>> contactsForSendNotificationMap = new Map<Id, List<Id>>();
+        Map<Id, List<Id>> contactsForSendNotificationByPiMap = new Map<Id, List<Id>>();
         Map<Id, HCP_Enrollment__c> newMap = new Map<Id, HCP_Enrollment__c>(newList);
         Map<Id,Contact> alreadyCreatedContactsMap = new Map<Id,Contact>([SELECT Id, Is_First_Logon__c FROM Contact WHERE Id IN :hcpContactIds AND Is_First_Logon__c = false]);
         List<Healthcare_Provider__c> hps = [SELECT Id, HCP_Enrollment__c FROM Healthcare_Provider__c WHERE HCP_Enrollment__c IN :newMap.keySet()];
@@ -111,9 +111,9 @@ public without sharing class HCPEnrollmentTriggerHandler {
                     ((oldMap == null) || (oldMap != null && hcpe.Status__c != oldMap.get(hcpe.Id).Status__c))){
                 if(contactIdsWithCreatedUser.contains(hcpe.HCP_Contact__c)){
                     if (hpsByHCPE.get(hcpe.Id) != null || alreadyCreatedContactsMap.containsKey(hcpe.HCP_Contact__c)) {
-                        contactsForSendNotificationByPiMap.put(hcpe.Id, hcpe.HCP_Contact__c);
+                        contactsForSendNotificationByPiMap.put(hcpe.Id, new List<Id>{hcpe.HCP_Contact__c});
                     } else {
-                        contactsForSendNotificationMap.put(hcpe.Id, hcpe.HCP_Contact__c);
+                        contactsForSendNotificationMap.put(hcpe.Id, new List<Id>{hcpe.HCP_Contact__c});
                     }
                 }else{
                     contactIdsForCreateUsers.add(hcpe.HCP_Contact__c);
@@ -122,8 +122,8 @@ public without sharing class HCPEnrollmentTriggerHandler {
         }
 
         if (contactIdsForCreateUsers.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(contactIdsForCreateUsers);
-        if (contactsForSendNotificationMap.size() > 0) SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_HCP, contactsForSendNotificationMap);
-        if (contactsForSendNotificationByPiMap.size() > 0) SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_HCP_BY_PI, contactsForSendNotificationByPiMap);
+        if (contactsForSendNotificationMap.size() > 0) NotificationService.sendSimpleNotification(contactsForSendNotificationMap, NotificationService.MESSAGE_TO_HCP_NEW_STUDY_TYPE);
+        if (contactsForSendNotificationByPiMap.size() > 0) NotificationService.sendSimpleNotification(contactsForSendNotificationByPiMap, NotificationService.MESSAGE_TO_HCP_NEW_STUDY_BY_PI_TYPE);
     }
     
     @TestVisible
