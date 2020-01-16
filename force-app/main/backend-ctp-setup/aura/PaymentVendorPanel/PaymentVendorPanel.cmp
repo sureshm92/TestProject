@@ -125,6 +125,9 @@
                                     </aura:if>
                                 </div>
                             </th>
+                            <th class="" scope="col">
+                                <div style="text-align: center;">None</div>
+                            </th>
                             <aura:if isTrue="{!v.vendorItems}">
                                 <aura:iteration items="{!v.vendorItems}" var="pv">
                                     <th class="" scope="col">

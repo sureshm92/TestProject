@@ -9,9 +9,9 @@
         if(selectedMode.isGroup){
             selectedMode.isOpen = !selectedMode.isOpen;
             component.set('v.allModes', component.get('v.allModes'));
-        }else{
+        }else if(!selectedMode.isSplitter){
             var currentDelegateId = selectedMode.currentDelegateId;
-            if(selectedMode.userMode == 'HCP'){
+            if(selectedMode.userMode === 'HCP'){
                 currentDelegateId = selectedMode.currentHCPDelegate;
             }
             communityService.executeAction(component, 'changeMode', {
@@ -21,7 +21,7 @@
             }, function (contact) {
                 component.set('v.currentMode', selectedMode);
                 communityService.setCurrentCommunityMode(selectedMode);
-                if(communityService.getUserMode() == 'Participant'){
+                if(communityService.getUserMode() === 'Participant'){
                     communityService.navigateToPage(communityService.getFullPageName());
                 }else{
                     communityService.navigateToPage('');
@@ -34,8 +34,10 @@
                     if(modes[i].isGroup) modes[i].isOpen = false;
                 }
                 component.set('v.allModes', modes);
+                component.getEvent('onModeChange').fire();
+                component.find('pubsub').fireEvent('reload');
             });
         }
     }
 
-})
+});

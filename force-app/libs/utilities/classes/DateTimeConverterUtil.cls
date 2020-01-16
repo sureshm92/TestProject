@@ -21,6 +21,19 @@ public without sharing class DateTimeConverterUtil {
         return userMap;
     }
 
+    public static Map<Id, TimeZone> getContactsTimezoneMap(Set<Id> contactIds) {
+        List<User> users = [
+                SELECT Id, ContactId, TimeZoneSidKey
+                FROM User
+                WHERE ContactId IN:contactIds
+                AND IsActive = TRUE
+        ];
+        Map<Id, TimeZone> contactMap = new Map<Id, TimeZone>();
+        for (User u : users) contactMap.put(u.ContactId, TimeZone.getTimeZone(u.TimeZoneSidKey));
+
+        return contactMap;
+    }
+
     public static TimeZone getUserTimeZone(Id contactId) {
         Map<Id, TimeZone> timeZonesByIds = getUsersTimezoneMap(new Set<Id>{contactId});
         if(timeZonesByIds.values().isEmpty()) throw new DateTimeException('Contact has no user!');
@@ -60,9 +73,7 @@ public without sharing class DateTimeConverterUtil {
     public static Datetime addDaysInUserTimeZone(Datetime moment, TimeZone tz, Integer days) {
         Time gmtTime = moment.timeGmt();
         Date gmtDate = moment.date().addDays(days);
-        Datetime gmtDT = Datetime.newInstanceGmt(gmtDate, gmtTime);
-
-        return getUserDatetime(tz, gmtDT);
+        return getUserDT(gmtDate, gmtTime, tz);
     }
 
     public static Datetime addDaysInUserTimeZone(Datetime moment, Id contactId, Integer days) {

@@ -72,19 +72,23 @@ public without sharing class StudySiteTriggerHandler {
         Set<Id> contactIdsWithCreatedUser = new Set<Id>();
         for (User user : CommunityService.getCommunityUsersByContactIds(piContactIds)) contactIdsWithCreatedUser.add(user.ContactId);
         Set<Id> contactIdsForCreateUsers = new Set<Id>();
-        Map<Id, String> contactsForSendNotificationMap = new Map<Id, String>();
+        List<Notification__c> notifications = new List<Notification__c>();
         for(Study_Site__c ss : newList){
             if(ss.Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT && ss.Principal_Investigator__c != null &&
                     (oldMap == null || (oldMap != null && ss.Override_PI_Referral_Status__c != oldMap.get(ss.Id).Override_PI_Referral_Status__c))){
                 if(contactIdsWithCreatedUser.contains(ss.Principal_Investigator__c)){
-                    contactsForSendNotificationMap.put(ss.Id, ss.Principal_Investigator__c);
+                    notifications.add(new Notification__c(
+                            Recipient__c = ss.Principal_Investigator__c,
+                            WhatId__c = ss.Id,
+                            Notification_Type__c = NotificationService.MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE
+                    ));
                 }else{
                     contactIdsForCreateUsers.add(ss.Principal_Investigator__c);
                 }
             }
         }
         if(contactIdsForCreateUsers.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(contactIdsForCreateUsers);
-        if(contactsForSendNotificationMap.size() > 0) SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_PI, contactsForSendNotificationMap);
+        insert notifications;
     }
     
     @TestVisible
@@ -285,7 +289,7 @@ public without sharing class StudySiteTriggerHandler {
                     enrollmentsList.add(new HCP_Enrollment__c(
                             HCP_Contact__c = prr.RP_Contact__c,
                             HCP_Account__c = prr.RP_Contact__r.AccountId,
-                            Status__c = HCPEnrollmentService.HCP_S_ACTIVATED,
+                            Status__c = ss.Study_Orientation_Required__c ? HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O : HCPEnrollmentService.HCP_S_ACTIVATED,
                             Study_Site__c = ss.Id
                     ));
                 }

@@ -141,13 +141,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             hideSurveyTaskForCompletedStatuses((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
-
-    public class SendDropOutEmailHandler extends TriggerHandler {
-
-        protected override void onAfterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            sendDropEmails((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
-        }
-    }
     
     public class CreateParticipantForDelegateHandler extends TriggerHandler{
     
@@ -274,9 +267,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     @TestVisible
     private static void createUsersOrSendNotifications(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         Map<Id, Id> toCreateUser = new Map<Id, Id>();
-        Map<Id, String> notificationMapEPR = new Map<Id, String>();
-        Map<Id, String> notificationMapPI = new Map<Id, String>();
-        Map<Id, String> notificationMapHCP = new Map<Id, String>();
+        Map<Id, List<Id>> notificationMapEPR = new Map<Id, List<Id>>();
+        Map<Id, List<Id>> notificationMapPI = new Map<Id, List<Id>>();
+        Map<Id, List<Id>> notificationMapHCP = new Map<Id, List<Id>>();
         List<Contact> contactsForChangeMode = new List<Contact>();
 
         //get users if exist
@@ -335,11 +328,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 } else {
                     System.debug('NOTIFY USER');
                     if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP) {
-                        notificationMapHCP.put(newPE.Id, participant.Contact__c);
+                        notificationMapHCP.put(newPE.Id, new List<Id>{participant.Contact__c});
                     } else if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI) {
-                        notificationMapPI.put(newPE.Id, participant.Contact__c);
+                        notificationMapPI.put(newPE.Id, new List<Id>{participant.Contact__c});
                     } else {
-                        notificationMapEPR.put(newPE.Id, participant.Contact__c);
+                        notificationMapEPR.put(newPE.Id, new List<Id>{participant.Contact__c});
                     }
                 }
                 contactsForChangeMode.add(new Contact(
@@ -351,9 +344,10 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         insert alertsForInsert;
         if (toCreateUser.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
-        if (notificationMapHCP.size() > 0) SendEmailTemplate.sendEmailNotification(SendEmailTemplate.EMAIL_TEMPLATE_PATIENT_SOURCE_HCP_NEW, notificationMapHCP);
-        if (notificationMapPI.size() > 0) SendEmailTemplate.sendEmailNotification(SendEmailTemplate.EMAIL_TEMPLATE_PATIENT_SOURCE_PI_NEW, notificationMapPI);
-        if (notificationMapEPR.size() > 0) SendEmailTemplate.sendEmailNotification(SendEmailTemplate.EMAIL_TEMPLATE_PATIENT_SOURCE_EPR_NEW, notificationMapEPR);
+        if (notificationMapHCP.size() > 0) NotificationService.sendSimpleNotification(notificationMapHCP, NotificationService.MESSAGE_TO_PT_SOURCE_HCP_TYPE);
+        if (notificationMapPI.size() > 0) NotificationService.sendSimpleNotification(notificationMapPI, NotificationService.MESSAGE_TO_PT_SOURCE_PI_TYPE);
+        if (notificationMapEPR.size() > 0) NotificationService.sendSimpleNotification(notificationMapEPR, NotificationService.MESSAGE_TO_PT_SOURCE_ERP_TYPE);
+
         update contactsForChangeMode;
     }
 
@@ -554,19 +548,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         ];
         for (User u : users) u.IsActive = false;
         update users;
-    }
-
-    @TestVisible
-    private static void sendDropEmails(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
-        List<Messaging.SingleEmailMessage> messages = new List<Messaging.SingleEmailMessage>();
-        for (Participant_Enrollment__c pe : newList) {
-            if (pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c &&
-                    pe.Participant_Status__c == PEStatusState.PE_STATUS_DROP_OUT) {
-                messages.add(SendEmailTemplate.createEmail('Patient_dropped_out', pe.Participant_Contact__c, pe.Id));
-            }
-        }
-
-        SendEmailTemplate.sendEmailMessages(messages);
     }
 
     @TestVisible

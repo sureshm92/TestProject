@@ -61,27 +61,21 @@ public without sharing class EmailService {
     }
 
     public static void send(List<Notification__c> notifications) {
+        NotificationResultService sendResultService = new NotificationResultService(notifications);
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-        List<Send_Result__c> sendResults = new List<Send_Result__c>();
         for (Notification__c n : notifications) {
             Notification_Target__mdt emailTarget = NotificationService.getNotificationTarget(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
             emailMessages.add(createEmail(getEmailTemplateId(emailTarget.Email_Template__c), n.Recipient__c, n.WhatId__c, emailTarget.Org_Wide_Email_Address__c));
-            sendResults.add(new Send_Result__c(
-                    Target_Type__c = NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
-                    Notification__c = n.Id
-            ));
         }
         List<Messaging.SendEmailResult> resultList = Messaging.sendEmail(emailMessages, false);
-        for(Integer i=0; i<resultList.size();i++) {
+        for(Integer i = 0; i < resultList.size(); i++) {
             if (!resultList[i].success) {
-                sendResults[i].Status__c = NotificationService.STATUS_FAILED;
-                sendResults[i].Error__c = JSON.serializePretty(resultList[i].errors);
+                sendResultService.setFailed(notifications[i].Id, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL, JSON.serializePretty(resultList[i].errors));
             } else {
-                sendResults[i].Status__c = NotificationService.STATUS_SENT;
+                sendResultService.setSent(notifications[i].Id, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
             }
         }
-
-        DMLService.insertRecords(sendResults);
+        sendResultService.updateResults();
     }
 
     public static void sendEmail(String emailTemplate, Id recipientId, Id whatId){

@@ -16,7 +16,7 @@ public virtual inherited sharing class ResourceArticleVideoService extends Resou
         }
         String contentClass = ResourceService.RESOURCE_SOURCE_PLATFORM;
         if( pState.value == ParticipantService.ParticipantStates.ALUMNI) contentClass = ResourceService.RESOURCE_SOURCE_THIRD_PARTY;
-        for (Therapeutic_Area_Patient__c tap : ParticipantDecoupler.getTherapeuticAreaPatients(participant)) {
+        for (Therapeutic_Area_Patient__c tap : ParticipantDecoupler.getTherapeuticAreaPatients()) {
             sortedResources.addAll(
                     ResourceTARelatedService.getInstance().init(resourceType, resourceId, contentClass, tap.Therapeutic_Area__c).getResources()
             );
@@ -29,6 +29,6 @@ public virtual inherited sharing class ResourceArticleVideoService extends Resou
     }
 
     protected override virtual Boolean isObjectsToFilterMissing() {
-        return ParticipantDecoupler.getTherapeuticAreaPatients(participant).isEmpty() && pState.ctp == null;
+        return ParticipantDecoupler.getTherapeuticAreaPatients().isEmpty() && pState.ctp == null;
     }
 }

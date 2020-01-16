@@ -6,6 +6,7 @@
 
     <!-- attributes: -->
     <aura:attribute name="participantState" type="Object"/>
+    <aura:attribute name="isDelegateMode" type="Boolean" default="true"/>
     <aura:attribute name="initialized" type="Boolean"/>
 
     <!-- handlers: -->
@@ -22,7 +23,7 @@
         </div>
         <div style="display: flex;">
             <div class="hp-welcome-msg" style="width: 110%">{!v.participantState.welcomeMessage}</div>
-            <aura:if isTrue="{!and(v.participantState.value == 'ALUMNI', !v.participantState.participant.Marketing_Flag__c)}">
+            <aura:if isTrue="{!and(!v.isDelegateMode, !v.participantState.participant.Marketing_Flag__c)}">
                 <div  style="@media screen and (max-width: 600px) {width: 20%;}">
                     <button class="{!'apollo-btn primary dark'}" onclick="{!c.navigateToTrialSearchPage}">
                         <c:RRIcon iconName="search-results"/>
@@ -56,15 +57,15 @@
                                 </div>
                             </aura:if>
                         </div>
-                        <aura:if isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Tasks_Are_Available__c, v.participantState.value == 'ALUMNI')}">
-                            <div class="slds-col">
-                                <c:OpenTaskPreviewPanel isAlumni="{!v.participantState.value == 'ALUMNI'}"/>
-                            </div>
-                        </aura:if>
                         <!-- payments-->
                         <aura:if isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Payment_Is_Available__c, v.participantState.value != 'ALUMNI')}">
                             <div class="slds-col">
                                 <c:PaymentsPanel/>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Tasks_Are_Available__c, v.participantState.value == 'ALUMNI')}">
+                            <div class="slds-col">
+                                <c:OpenTaskPreviewPanel isAlumni="{!v.participantState.value == 'ALUMNI'}"/>
                             </div>
                         </aura:if>
                         <aura:if isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}">

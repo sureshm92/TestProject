@@ -111,6 +111,13 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
+            <componentName>MessageConfigurationPanel</componentName>
+        </componentInstances>
+        <name>Facet-73cec6da-858c-4a63-aac7-db5320c39a9e</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
             <componentInstanceProperties>
                 <name>body</name>
                 <value>Facet-71f78859-04bd-4226-8ba8-4ace3aa5ec77</value>
@@ -195,6 +202,17 @@
             <componentInstanceProperties>
                 <name>title</name>
                 <value>Approved Languages</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>Facet-73cec6da-858c-4a63-aac7-db5320c39a9e</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Messages</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
         </componentInstances>

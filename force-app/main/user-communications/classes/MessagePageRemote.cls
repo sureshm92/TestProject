@@ -32,7 +32,7 @@ public without sharing class MessagePageRemote {
         @AuraEnabled public String downloadLink;
     }
 
-    @AuraEnabled(Cacheable = true)
+    @AuraEnabled
     public static MSPageData getInitData() {
         try {
             MSPageData pageData = new MSPageData();
@@ -70,6 +70,10 @@ public without sharing class MessagePageRemote {
                 if(sharedConversations != null) conversations.addAll(sharedConversations);
 
                 //Collect Enrollments
+                Set<Id> piContactIds = DelegateService.getPIDelegateParents();
+                Id piContactId = piContactIds.isEmpty() ?
+                        CommunityService.getInstance().getCurrentContactId() : piContactIds.iterator().next();
+
                 pageData.enrollments = [
                         SELECT
                                 Id,
@@ -77,7 +81,7 @@ public without sharing class MessagePageRemote {
                                 Participant__r.Full_Name__c,
                                 Participant_Contact__c
                         FROM Participant_Enrollment__c
-                        WHERE Study_Site__r.Principal_Investigator__c = :CommunityService.getInstance().getCurrentContactId()
+                        WHERE Study_Site__r.Principal_Investigator__c = :piContactId
                 ];
             }
 
@@ -104,32 +108,12 @@ public without sharing class MessagePageRemote {
     @AuraEnabled
     public static ConversationWrapper createConversation(Participant_Enrollment__c enrollment, String messageText) {
         try {
-            Contact userContact = CommunityService.getUserContact();
             Conversation__c newConversation = new Conversation__c(Participant_Enrollment__c = enrollment.Id);
-
-            String senderName;
-            if(userContact.userCommunityMode__c.equals(CommunityService.USER_MODE_PARTICIPANT)) {
-                senderName = userContact.UserCommunityIsDelegate__c ? userContact.Full_Name__c : enrollment.Participant__r.Full_Name__c;
-                newConversation.haveUnreadForPI__c = true;
-            } else {
-                senderName = userContact.Full_Name__c;
-                newConversation.haveUnreadForParticipant__c = true;
-            }
             insert newConversation;
 
             ConversationService.createConversationSharesForMembers(newConversation.Id, enrollment);
-
-            insert new Message__c(
-                    Conversation__c = newConversation.Id,
-                    Message_Content__c = messageText,
-                    Sender_Name__c = senderName
-            );
-
-            Conversation__c conversation = ConversationService.getConversations(new List<Id>{
-                    newConversation.Id
-            }).get(0);
-            List<Message__c> messages = MessageService.getMessages(conversation.Id);
-            return getConversationWrapper(userContact.userCommunityMode__c, conversation, messages);
+            newConversation.Participant_Enrollment__r = enrollment;
+            return sendMessage(newConversation, messageText);
         } catch (Exception e) {
             return (ConversationWrapper) AuraHelper.throwException(e);
         }
@@ -141,8 +125,13 @@ public without sharing class MessagePageRemote {
             Contact userContact = CommunityService.getUserContact();
             String senderName;
             if (userContact.userCommunityMode__c.equals(CommunityService.USER_MODE_PARTICIPANT)) {
-                senderName = userContact.UserCommunityIsDelegate__c ?
-                        userContact.Full_Name__c : conversation.Participant_Enrollment__r.Participant__r.Full_Name__c;
+                List<Participant__c> participant = [SELECT Id, Full_Name__c FROM Participant__c WHERE Contact__c = :userContact.Id];
+                if(!participant.isEmpty()) {
+                    senderName = participant.get(0).Full_Name__c;
+                } else {
+                    senderName = userContact.UserCommunityIsDelegate__c ?
+                            userContact.Full_Name__c : conversation.Participant_Enrollment__r.Participant__r.Full_Name__c;
+                }
                 conversation.haveUnreadForPI__c = true;
             } else {
                 senderName = userContact.Full_Name__c;

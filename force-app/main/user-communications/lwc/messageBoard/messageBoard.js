@@ -4,15 +4,21 @@
 
 import {LightningElement, api, track} from 'lwc';
 
+import {ShowToastEvent} from 'lightning/platformShowToastEvent';
+
 import emptyChatLabel from '@salesforce/label/c.MS_Empty_Chat';
+import newMessLabel from '@salesforce/label/c.MS_New_Mess';
 import selectLabel from '@salesforce/label/c.MS_Select';
 import selectPlaceholderLabel from '@salesforce/label/c.MS_Select_Placeholder';
+import selectStudyPlaceholderLabel from '@salesforce/label/c.MS_Select_Study_Ph';
 import inputPlaceholderLabel from '@salesforce/label/c.MS_Input_Placeholder';
 import limitLabel from '@salesforce/label/c.MS_Char_Limit';
 import attFileLabel from '@salesforce/label/c.MS_Attach_File';
 import sendBtnLabel from '@salesforce/label/c.BTN_Send';
 import teamLabel from '@salesforce/label/c.Study_Team';
 import piLabel from '@salesforce/label/c.PI_Colon';
+import toastSTSend from '@salesforce/label/c.MS_Toast_Message_ST_Send';
+import toastPASend from '@salesforce/label/c.MS_Toast_Message_PA_Send';
 
 import createConversation from '@salesforce/apex/MessagePageRemote.createConversation';
 import sendMessage from '@salesforce/apex/MessagePageRemote.sendMessage';
@@ -21,8 +27,10 @@ export default class MessageBoard extends LightningElement {
 
     labels = {
         emptyChatLabel,
+        newMessLabel,
         selectLabel,
         selectPlaceholderLabel,
+        selectStudyPlaceholderLabel,
         inputPlaceholderLabel,
         limitLabel,
         attFileLabel,
@@ -105,12 +113,7 @@ export default class MessageBoard extends LightningElement {
         if (!this.conversation) {
             createConversation({enrollment: this.selectedEnrollment, messageText: this.messageText})
                 .then(data => {
-                    this.dispatchEvent(new CustomEvent('conversationupdate', {
-                        detail: {
-                            conWr: data
-                        }
-                    }));
-                    this.clearMessage();
+                    this.fireSendEvent(data);
                 })
                 .catch(error => {
                     console.log('Error in createConversation():' + JSON.stringify(error));
@@ -118,12 +121,7 @@ export default class MessageBoard extends LightningElement {
         } else {
             sendMessage({conversation: this.conversation, messageText: this.messageText})
                 .then(data => {
-                    this.dispatchEvent(new CustomEvent('conversationupdate', {
-                        detail: {
-                            conWr: data
-                        }
-                    }));
-                    this.clearMessage();
+                    this.fireSendEvent(data);
                 })
                 .catch(error => {
                     console.log('Error in sendMessage():' + JSON.stringify(error));
@@ -166,5 +164,21 @@ export default class MessageBoard extends LightningElement {
     clearMessage() {
         this.messageText = null;
         let sendBtn = this.template.querySelector('.ms-send-button').setAttribute('disabled', '');
+    }
+
+    fireSendEvent(wrapper) {
+        this.dispatchEvent(new CustomEvent('conversationupdate', {
+            detail: {
+                conWr: wrapper
+            }
+        }));
+        this.clearMessage();
+
+        let toastLabel = this.userMode === 'PI' ? toastPASend : toastSTSend;
+        this.dispatchEvent(new ShowToastEvent({
+            title: '',
+            message: toastLabel,
+            variant: 'success'
+        }));
     }
 }

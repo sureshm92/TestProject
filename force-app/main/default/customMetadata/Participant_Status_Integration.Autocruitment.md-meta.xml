@@ -16,6 +16,6 @@
     </values>
     <values>
         <field>Referral_Sources__c</field>
-        <value xsi:type="xsd:string">Autocruitment</value>
+        <value xsi:type="xsd:string">Autocruitment,23andMe</value>
     </values>
 </CustomMetadata>

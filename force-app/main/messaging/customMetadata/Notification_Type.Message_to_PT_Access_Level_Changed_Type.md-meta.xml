@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>Message to HCP Approved for Study Site</label>
+    <label>Message to PT Access Level Changed Type</label>
     <protected>false</protected>
     <values>
         <field>Description__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Send Email when Your Access Level Has Been Changed</value>
     </values>
     <values>
         <field>Parameters_Provider__c</field>
-        <value xsi:type="xsd:string">Email_Template_Parameters_From_HCPE</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Recipient_Type__c</field>
-        <value xsi:type="xsd:string">HCP</value>
+        <value xsi:type="xsd:string">Participant</value>
     </values>
 </CustomMetadata>

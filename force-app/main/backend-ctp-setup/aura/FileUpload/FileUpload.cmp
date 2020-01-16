@@ -1,4 +1,4 @@
-<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="FileUploadController">
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId, lightning:availableForFlowScreens" controller="FileUploadController">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
     <!-- attributes -->
