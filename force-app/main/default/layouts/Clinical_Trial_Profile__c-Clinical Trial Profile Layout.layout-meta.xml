@@ -612,7 +612,7 @@
     <relatedLists>
         <fields>Resource__c.NAME</fields>
         <fields>Resource__c.CUST_RECORDTYPE</fields>
-        <fields>Resource__c.Content_Class__c</fields>
+        <fields>Resource__c.Countries__c</fields>
         <fields>Resource__c.Content_Type__c</fields>
         <fields>Resource__c.Title__c</fields>
         <fields>NAME</fields>
