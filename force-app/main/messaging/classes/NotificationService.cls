@@ -24,6 +24,8 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_HCP_PATIENT_DECLINED_TYPE = 'Message_to_HCP_Patient_Declined_Type';
     static public String MESSAGE_TO_HCP_PATIENT_ON_HOLD_TYPE = 'Message_to_HCP_Patient_On_Hold_Type';
     static public String MESSAGE_TO_HCP_REFERRAL_STATUS_UPDATE_TYPE = 'Message_to_HCP_Ref_Status_Update_Type';
+    static public String MESSAGE_TO_HCP_NEW_STUDY_TYPE = 'Message_to_HCP_New_Study_Type';
+    static public String MESSAGE_TO_HCP_NEW_STUDY_BY_PI_TYPE = 'HCP_New_Study_By_PI_Email';
 
     static public String MESSAGE_TO_PT_PATIENT_DECLINED_VT_TYPE = 'Message_to_PT_Patient_Declined_VT_Type';
     static public String MESSAGE_TO_PT_PATIENT_ON_HOLD_VT_TYPE = 'Message_to_PT_Patient_On_Hold_VT_Type';
@@ -299,7 +301,7 @@ public without sharing class NotificationService {
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                     }
                 } else if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_SMS) {
-                    if (availabilityService.isAvailableForSMS(n.Recipient__c)) {
+                    if (availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c)) {
                         smsNotifications.add(n);
                         sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                     } else {
