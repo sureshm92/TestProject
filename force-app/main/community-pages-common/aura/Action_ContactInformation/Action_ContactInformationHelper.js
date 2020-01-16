@@ -5,12 +5,22 @@
 ({
     setPersonSnapshot: function(component){
         let personWrapper = component.get('v.personWrapper');
-        if(!personWrapper.FirstName) personWrapper.FirstName = '';
-        if(!personWrapper.LastName) personWrapper.LastName = '';
-        if(!personWrapper.MailingCC) personWrapper.MailingCC = '';
-        if(!personWrapper.MailingSC) personWrapper.MailingSC = '';
-        if(!personWrapper.Phone) personWrapper.Phone = '';
-        if(!personWrapper.MobilePhone) personWrapper.MobilePhone = '';
+        if(!personWrapper.firstName) personWrapper.firstName = '';
+        if(!personWrapper.middleName) personWrapper.middleName = '';
+        if(!personWrapper.lastName) personWrapper.lastName = '';
+        if(!personWrapper.dateBirth) personWrapper.dateBirth = '';
+        if(!personWrapper.gender) personWrapper.gender = '';
+        if(!personWrapper.homePhone) personWrapper.homePhone = '';
+        if(!personWrapper.mobilePhone) personWrapper.mobilePhone = '';
+        if(!personWrapper.fax) personWrapper.fax = '';
+        if(!personWrapper.mailingCC) personWrapper.mailingCC = '';
+        if(!personWrapper.mailingSC) personWrapper.mailingSC = '';
+        if(!personWrapper.mailingCountry) personWrapper.mailingCountry = '';
+        if(!personWrapper.mailingStreet) personWrapper.mailingStreet = '';
+        if(!personWrapper.mailingCity) personWrapper.mailingCity = '';
+        if(!personWrapper.mailingState) personWrapper.mailingState = '';
+        if(!personWrapper.zip) personWrapper.zip = '';
+        
         component.set('v.personSnapshot', JSON.stringify(personWrapper));
         component.set('v.isStateChanged', false);
     },

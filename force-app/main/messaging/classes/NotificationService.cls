@@ -24,6 +24,8 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_HCP_PATIENT_DECLINED_TYPE = 'Message_to_HCP_Patient_Declined_Type';
     static public String MESSAGE_TO_HCP_PATIENT_ON_HOLD_TYPE = 'Message_to_HCP_Patient_On_Hold_Type';
     static public String MESSAGE_TO_HCP_REFERRAL_STATUS_UPDATE_TYPE = 'Message_to_HCP_Ref_Status_Update_Type';
+    static public String MESSAGE_TO_HCP_NEW_STUDY_TYPE = 'Message_to_HCP_New_Study_Type';
+    static public String MESSAGE_TO_HCP_NEW_STUDY_BY_PI_TYPE = 'HCP_New_Study_By_PI_Email';
 
     static public String MESSAGE_TO_PT_PATIENT_DECLINED_VT_TYPE = 'Message_to_PT_Patient_Declined_VT_Type';
     static public String MESSAGE_TO_PT_PATIENT_ON_HOLD_VT_TYPE = 'Message_to_PT_Patient_On_Hold_VT_Type';
@@ -58,7 +60,7 @@ public without sharing class NotificationService {
     static public String MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE = 'Message_To_PI_Accept_New_Study_Type';
     static public String MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE = 'Message_to_PI_New_Patient_Referral_Type';
     static public String MESSAGE_TO_PI_PATIENT_BECOME_ADULT_TYPE = 'Message_to_PI_Patient_Become_Adult_Type';
-    static public String MESSAGE_TO_PI_NEW_MESSAGE_TYPE = 'Message_To_PI_New_Message';
+    static public String MESSAGE_TO_PI_NEW_MESSAGE_TYPE = 'Message_To_PI_New_Message_Type';
 
     static public String MESSAGE_TO_PT_DROP_OUT_TYPE = 'Message_to_PT_Drop_Out_Type';
     static public String MESSAGE_TO_PT_ONE_YEAR_TYPE = 'Message_to_PT_One_Year_Type';
@@ -299,7 +301,7 @@ public without sharing class NotificationService {
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                     }
                 } else if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_SMS) {
-                    if (availabilityService.isAvailableForSMS(n.Recipient__c)) {
+                    if (availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c)) {
                         smsNotifications.add(n);
                         sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                     } else {

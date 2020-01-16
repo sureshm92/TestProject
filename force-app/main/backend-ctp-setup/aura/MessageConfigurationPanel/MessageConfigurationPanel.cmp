@@ -1,8 +1,8 @@
 <!--
- - Created by Nargiz Mamedova on 1/9/2020.
+ - Created by Nargiz Mamedova on 1/15/2020.
  -->
 
-<aura:component description="PaymentVendorPanel" controller="PaymentVendorPanelRemote"
+<aura:component description="MessageConfigurationPanel" controller="MessageConfigurationPanelRemote"
                 implements="force:hasRecordId, flexipage:availableForAllPageTypes" extends="c:LightningService">
 
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
@@ -23,7 +23,6 @@
             </aura:set>
             <!--Filters-->
             <aura:if isTrue="{!v.initialized}">
-                <c:Action_AddPaymentVendor aura:id="addPaymentVendorAction"/>
                 <div class="filters-section">
                     <div class="slds-grid slds-wrap slds-gutters form-items">
                         <!--Country Filter-->
@@ -37,15 +36,7 @@
                                                                ctpId="{!v.recordId}"
                                                                isInclude="true"/>
                         </div>
-                        <!--Payment Vendor Filter-->
-                        <div class="slds-col slds-size--1-of-2">
-                            <c:uiSObjectLookup value="{!v.filter.pageFeatureIds}"
-                                               sObjectType="Payment_Vendor__c"
-                                               filter=""
-                                               pillIcon="custom:custom41"
-                                               onchange="{!c.doUpdate}"
-                                               placeholder="Select Payment Vendor"/>
-                        </div>
+                        <div class="slds-col slds-size--1-of-2"/>
                         <!--Study Site Filter-->
                         <div class="slds-col slds-size--1-of-2">
                             <c:IRBStudySitesLookup aura:id="ssLookup"
@@ -59,10 +50,6 @@
                         <aura:if isTrue="{! v.viewMode == 'Edit'}">
                             <div class="slds-col slds-size--1-of-2">
                                 <div class="save-btn">
-                                    <lightning:button onclick="{!c.doAddPaymentVendor}"
-                                                      class="slds-theme_neutral slds-m-left--medium"
-                                                      variant="neutral"
-                                                      label="{!$Label.c.TS_Add_Vendor}"/>
                                     <!--Save changes button-->
                                     <lightning:button variant="brand"
                                                       class="" label="{!$Label.c.BTN_Save}"
@@ -125,9 +112,6 @@
                                     </aura:if>
                                 </div>
                             </th>
-                            <th class="" scope="col">
-                                <div style="text-align: center;">None</div>
-                            </th>
                             <aura:if isTrue="{!v.vendorItems}">
                                 <aura:iteration items="{!v.vendorItems}" var="pv">
                                     <th class="" scope="col">
@@ -150,7 +134,7 @@
                         <tbody>
                         <aura:if isTrue="{!v.ssItems}">
                             <aura:iteration items="{!v.ssItems}" var="item">
-                                <c:StudySiteItem item="{!item}" parent="{!this}" viewMode="{!v.viewMode}" isSingleChoice="true"/>
+                                <c:StudySiteItem item="{!item}" parent="{!this}" viewMode="{!v.viewMode}"/>
                             </aura:iteration>
                         </aura:if>
                         </tbody>
