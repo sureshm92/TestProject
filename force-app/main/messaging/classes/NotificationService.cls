@@ -19,51 +19,17 @@ public without sharing class NotificationService {
             PEStatusState.PE_STATUS_REFERRAL_ON_HOLD,
             PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI
     };
-    
-    static public String MESSAGE_TO_HCP_PATIENT_ACCEPTED_TYPE = 'Message_to_HCP_Patient_Accepted_Type';
-    static public String MESSAGE_TO_HCP_PATIENT_DECLINED_TYPE = 'Message_to_HCP_Patient_Declined_Type';
-    static public String MESSAGE_TO_HCP_PATIENT_ON_HOLD_TYPE = 'Message_to_HCP_Patient_On_Hold_Type';
-    static public String MESSAGE_TO_HCP_REFERRAL_STATUS_UPDATE_TYPE = 'Message_to_HCP_Ref_Status_Update_Type';
-    
-    static public String MESSAGE_TO_PT_PATIENT_DECLINED_TYPE = 'Message_to_PT_Patient_Declined_Type';
-    static public String MESSAGE_TO_PT_PATIENT_ON_HOLD_TYPE = 'Message_to_PT_Patient_On_Hold_Type';
-    static public String MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE = 'Message_to_PT_Ref_Status_Update_Type';
-    static public String MESSAGE_TO_PT_PATIENT_DECLINED_VT_TYPE = 'Message_to_PT_Patient_Declined_VT_Type';
-    static public String MESSAGE_TO_PT_PATIENT_ON_HOLD_VT_TYPE = 'Message_to_PT_Patient_On_Hold_VT_Type';
-    static public String MESSAGE_TO_PT_NEW_STUDY_HCP_VT_TYPE = 'Message_to_PT_New_Study_HCP_VT_Type';
-    static public String MESSAGE_TO_PT_NEW_STUDY_eRP_VT_TYPE = 'Message_to_PT_New_Study_eRP_VT_Type';
-    static public String MESSAGE_TO_PT_NEW_COI_CTP_TYPE = 'Message_to_PT_New_COI_Ctp_Type';
-    static public String MESSAGE_TO_PT_COI_CTP_START_ENROLL_TYPE = 'Message_to_PT_COI_Ctp_Start_Enroll_Type';
-    static public String MESSAGE_TO_PT_DATA_AVAILABLE_TYPE = 'Message_to_PT_Data_Available_Type';
-    static public String MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE = 'Message_to_PT_StdDoc_Certificate_Type';
-    static public String MESSAGE_TO_PT_NEW_STDDOC_TYPE = 'Message_to_PT_New_StdDoc_Type';
-    static public String MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE = 'Message_to_PT_has_not_Logged_In_Type';
-    static public String MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE = 'Message_to_PT_CTP_Trial_Complete_Type';
-    static public String MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE = 'Message_to_PT_SS_Was_Changed_Type';
-    static public String MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE = 'Message_to_PT_Enrollment_Success_Type';
-    
-    static public String MESSAGE_TO_PT_SURVEY_REMINDER_TYPE = 'Message_To_PT_Survey_Reminder_Type';
-    static public String MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE = 'Message_To_PT_Survey_Final_Reminder_Type';
-    static public String MESSAGE_TO_PT_TASK_REMINDER_TYPE = 'Message_To_PT_Task_Reminder_Type';
-    static public String MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE = 'Message_To_PT_Task_Reminder_Del_Type';
-    static public String MESSAGE_TO_PT_TASK_REMINDER_MED_TYPE = 'Message_To_PT_Task_Reminder_Med_Type';
-    static public String MESSAGE_TO_PT_TASK_REMINDER_MED_DEL_TYPE = 'Message_To_PT_Task_Reminder_Med_Del_Type';
-    static public String MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE = 'Message_To_PT_Task_Reminder_Vis_Type';
-    static public String MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE = 'Message_To_PT_Task_Reminder_Vis_Del_Type';
-    
-    static public String MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE = 'Message_to_PI_SS_Was_Changed_Type';
-    static public String MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE = 'Message_to_PI_New_Patient_Referral_Type';
-    static public String MESSAGE_TO_PI_NEW_MESSAGE_TYPE = 'Message_To_PI_New_Message';
-    static public String MESSAGE_TO_PT_PATIENT_BECOME_ADULT_TYPE = 'Message_to_PT_Patient_Become_Adult_Type';
-    static public String MESSAGE_TO_PI_PATIENT_BECOME_ADULT_TYPE = 'Message_to_PI_Patient_Become_Adult_Type';
-    static public String MESSAGE_TO_PT_DROP_OUT_TYPE = 'Message_to_PT_Drop_Out_Type';
-    static public String MESSAGE_TO_PT_ONE_YEAR_TYPE = 'Message_to_PT_One_Year_Type';
+
+    // needs for correct work, don't move!
+    static public String MESSAGE_TO_PI_NEW_MESSAGE_TYPE = 'Message_To_PI_New_Message_Type';
     
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
     static public String NOTIFICATION_STATUS_PROCESSED = 'Processed';
-    static public String NOTIFICATION_STATUS_CREATED = 'Created';
+    static public String NOTIFICATION_STATUS_FAILED = 'Failed';
+    static public String NOTIFICATION_STATUS_IN_PROGRESS = 'In Progress';
     
     static public String STATUS_SKIPPED = 'Skipped';
+    static public String STATUS_IN_PROGRESS = 'In Progress';
     static public String STATUS_FAILED = 'Failed';
     static public String STATUS_SENT = 'Sent';
     
@@ -109,53 +75,53 @@ public without sharing class NotificationService {
     }
     
     public static String checkHCPNotificationType(Participant_Enrollment__c peForCheck, Boolean notContains) {
-        if (notContains) return MESSAGE_TO_HCP_REFERRAL_STATUS_UPDATE_TYPE;
+        if (notContains) return NotificationType.MESSAGE_TO_HCP_REFERRAL_STATUS_UPDATE_TYPE;
         
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ACCEPTED) {
-            return MESSAGE_TO_HCP_PATIENT_ACCEPTED_TYPE;
+            return NotificationType.MESSAGE_TO_HCP_PATIENT_ACCEPTED_TYPE;
         }
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_DECLINED) {
-            return MESSAGE_TO_HCP_PATIENT_DECLINED_TYPE;
+            return NotificationType.MESSAGE_TO_HCP_PATIENT_DECLINED_TYPE;
         }
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ON_HOLD) {
-            return MESSAGE_TO_HCP_PATIENT_ON_HOLD_TYPE;
+            return NotificationType.MESSAGE_TO_HCP_PATIENT_ON_HOLD_TYPE;
         }
         return null;
     }
     
     public static String checkPatientNotificationType(Participant_Enrollment__c peForCheck, Boolean notContains) {
         
-        if (notContains) return MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE;
+        if (notContains) return NotificationType.MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE;
         
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_DECLINED) {
-            return MESSAGE_TO_PT_PATIENT_DECLINED_TYPE;
+            return NotificationType.MESSAGE_TO_PT_PATIENT_DECLINED_TYPE;
         }
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ON_HOLD) {
-            return MESSAGE_TO_PT_PATIENT_ON_HOLD_TYPE;
+            return NotificationType.MESSAGE_TO_PT_PATIENT_ON_HOLD_TYPE;
         }
         return null;
     }
     
     public static String checkPatientNotificationVTType(Participant_Enrollment__c peForCheck) {
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_DECLINED) {
-            return MESSAGE_TO_PT_PATIENT_DECLINED_VT_TYPE;
+            return NotificationType.MESSAGE_TO_PT_PATIENT_DECLINED_VT_TYPE;
         }
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ON_HOLD) {
-            return MESSAGE_TO_PT_PATIENT_ON_HOLD_VT_TYPE;
+            return NotificationType.MESSAGE_TO_PT_PATIENT_ON_HOLD_VT_TYPE;
         }
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI
                 && peForCheck.Referral_Source__c == 'HCP') {
-            return MESSAGE_TO_PT_NEW_STUDY_HCP_VT_TYPE;
+            return NotificationType.MESSAGE_TO_PT_NEW_STUDY_HCP_VT_TYPE;
         }
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
                 && peForCheck.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
-            return MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE;
+            return NotificationType.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE;
         }
         if (peForCheck.Referral_Source__c != 'HCP' && peForCheck.Referral_Source__c != 'PI'
                 && (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI
                 || (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ACCEPTED
                 && peForCheck.IsAutoaccepted__c))) {
-            return MESSAGE_TO_PT_NEW_STUDY_eRP_VT_TYPE;
+            return NotificationType.MESSAGE_TO_PT_NEW_STUDY_eRP_VT_TYPE;
         }
         return null;
     }
@@ -249,8 +215,7 @@ public without sharing class NotificationService {
                         new Notification__c(
                                 Recipient__c = contactId,
                                 WhatId__c = whatId,
-                                Notification_Type__c = notificationType,
-                                Status__c = NotificationService.NOTIFICATION_STATUS_CREATED
+                                Notification_Type__c = notificationType
                         )
                 );
             }
@@ -264,7 +229,6 @@ public without sharing class NotificationService {
     }
     
     public static void sendNotifications(List<Notification__c> notifications) {
-        DMLService.useDMLBuffer(true);
         List<Id> whatIds = new List<Id>();
         List<Id> recipientIds = new List<Id>();
         for (Notification__c n : notifications) {
@@ -275,42 +239,37 @@ public without sharing class NotificationService {
         List<Notification__c> emailNotifications = new List<Notification__c>();
         List<Notification__c> smsNotifications = new List<Notification__c>();
         List<Notification__c> pushNotifications = new List<Notification__c>();
-        List<Send_Result__c> sendResults = new List<Send_Result__c>();
-        
+        NotificationResultService sendResultService = new NotificationResultService(notifications);
+            
         for (Notification__c n : notifications) {
             //TODO add check contact available time, if not available set status to 'Pending', else set 'Processed'
-            //TODO Now 'Processed'
-            n.Status__c = NOTIFICATION_STATUS_PROCESSED;
+            //TODO Now 'In Progress'
             Notification_Type__mdt notificationType = NotificationService.getNotificationType(n.Notification_Type__c);
             for (Notification_Target__mdt nt : notificationType.Notification_Targets__r) {
                 if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL) {
                     if (availabilityService.isAvailable(n.WhatId__c, notificationType.Recipient_Type__c, nt.Target_Type__c, n.Recipient__c)) {
                         emailNotifications.add(n);
+                        sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                     } else {
-                        sendResults.add(new Send_Result__c(
-                                Notification__c = n.Id,
-                                Target_Type__c = nt.Target_Type__c,
-                                Status__c = NotificationService.STATUS_SKIPPED));
+                        sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                     }
                 } else if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_SMS) {
-                    if (availabilityService.isAvailableForSMS(n.Recipient__c)) {
+                    if (availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c)) {
                         smsNotifications.add(n);
+                        sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                     } else {
-                        sendResults.add(new Send_Result__c(
-                                Notification__c = n.Id,
-                                Target_Type__c = nt.Target_Type__c,
-                                Status__c = NotificationService.STATUS_SKIPPED));
+                        sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                     }
                 } else if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_PUSH) {
                     pushNotifications.add(n);
+                    //TODO
                 }
             }
         }
+        sendResultService.updateResults();
+        
         if (!emailNotifications.isEmpty()) EmailService.send(emailNotifications);
         if (!smsNotifications.isEmpty()) SMSService.sendQueueable(smsNotifications);
-        
-        DMLService.insertRecords(sendResults);
-        DMLService.updateRecords(notifications);
-        DMLService.pushDMLBuffer();
     }
+    
 }

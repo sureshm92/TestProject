@@ -2,10 +2,10 @@
  * Created by Julia Kazakevich on 24-Sep-19.
  */
 
-public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbstract{
+public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbstract {
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator([
-                SELECT  Id,
+                SELECT Id,
                         Completed_Date__c,
                         Participant_Enrollment__c,
                         Participant_Enrollment__r.Participant__r.Mailing_Country_Code__c,
@@ -28,7 +28,7 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
                 )
                 FROM Patient_Visit__c
                 WHERE Status__c = 'Completed'
-                      AND Notified__c = FALSE AND Participant_Enrollment__r.Participant_Contact__c != NULL
+                AND Notified__c = FALSE AND Participant_Enrollment__r.Participant_Contact__c != NULL
                 ORDER BY Visit_Number__c, Completed_Date__c
         ]);
     }
@@ -36,11 +36,11 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
     public void execute(Database.BatchableContext param1, List<Patient_Visit__c> patientVisits) {
         Set<Id> setOfCTPIds = new Set<Id>();
         Map<Id, List<Visit_Result_Type_Sharing__c>> mapOfCTPByShare = new Map<Id, List<Visit_Result_Type_Sharing__c>>();
-        for(Patient_Visit__c patVisit : patientVisits){
+        for (Patient_Visit__c patVisit : patientVisits) {
             setOfCTPIds.add(patVisit.Participant_Enrollment__r.Clinical_Trial_Profile__c);
         }
         List<Clinical_Trial_Profile__c> listOfCTP = [
-                SELECT  Id,
+                SELECT Id,
                         Visit_Data_Shareback__c, (
                         SELECT Id,
                                 Include_Countries__c,
@@ -52,7 +52,7 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
                 WHERE Id IN:setOfCTPIds
         ];
 
-        for(Clinical_Trial_Profile__c clinicalTrial : listOfCTP){
+        for (Clinical_Trial_Profile__c clinicalTrial : listOfCTP) {
             mapOfCTPByShare.put(clinicalTrial.Id, clinicalTrial.Visit_Result_Type_Sharings__r);
         }
         List<Visit_Result__c> listOfResult =
@@ -61,22 +61,22 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
 
         Set<Patient_Visit__c> updatedPatientVisits = new Set<Patient_Visit__c>();
         Set<Id> recipientIds = new Set<Id>();
-        for(Visit_Result__c visitResultObj : listOfResult){
+        for (Visit_Result__c visitResultObj : listOfResult) {
             Contact recipient = visitResultObj.Patient_Visit__r.Participant_Enrollment__r.Participant_Contact__r;
-            if(!recipientIds.contains(recipient.Id)){
+            if (!recipientIds.contains(recipient.Id)) {
                 recipientIds.add(recipient.Id);
                 notifications.add(new Notification__c(
                         Recipient__c = recipient.Id,
                         WhatId__c = visitResultObj.Patient_Visit__r.Participant_Enrollment__c,
-                        Notification_Type__c = NotificationService.MESSAGE_TO_PT_DATA_AVAILABLE_TYPE,
+                        Notification_Type__c = NotificationType.MESSAGE_TO_PT_DATA_AVAILABLE_TYPE,
                         Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                 ));
             }
             Patient_Visit__c patientVisit = visitResultObj.Patient_Visit__r;
             patientVisit.Notified__c = true;
             updatedPatientVisits.add(patientVisit);
-            update new List<Patient_Visit__c>(updatedPatientVisits);
         }
+        update new List<Patient_Visit__c>(updatedPatientVisits);
         insert notifications;
     }
 

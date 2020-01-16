@@ -16,6 +16,8 @@ public without sharing class ParticipantService {
         @AuraEnabled public Boolean isDelegate;
         @AuraEnabled public Clinical_Trial_Profile__c ctp;
         @AuraEnabled public Participant__c participant;
+        @AuraEnabled public Id currentUserId;
+        @AuraEnabled public Id currentContactId;
         @AuraEnabled public String welcomeMessage;
         @AuraEnabled public Boolean showTerms;
         @AuraEnabled public Boolean showVisits;
@@ -46,12 +48,15 @@ public without sharing class ParticipantService {
     public ParticipantService() {
         participantState = new ParticipantState();
         Contact userContact = CommunityService.getUserContact();
+        participantState.currentContactId = userContact.userCommunityDelegateId__c;
+        if(participantState.currentContactId == null) participantState.currentContactId = userContact.Id;
+        participantState.isDelegate = userContact.userCommunityDelegateId__c != null;
+        participantState.currentUserId = [SELECT Id FROM User WHERE ContactId =: participantState.currentContactId LIMIT 1].Id;
         if(userContact.Current_Participant_Enrollment__c != null){
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(userContact.Current_Participant_Enrollment__c, CommunityService.USER_MODE_PARTICIPANT);
             if(pe != null){
                 participantState.participant = getParticipant(pe.Participant__c);
                 participantState.pe = pe;
-                participantState.isDelegate = pe.Participant__r.Contact__c != userContact.Id;
                 participantState.ctp = participantState.pe.Clinical_Trial_Profile__r;
                 TranslateHelper.translate(participantState.pe, IRBParticipantService.getSuitableLanguageForIRBTranslation(pe.Id));
                 participantState.showTerms = showTerms();
@@ -66,10 +71,9 @@ public without sharing class ParticipantService {
                 }
             }
         }else{
-            participantState.participant = getParticipant(CommunityService.getUserContact().Id);
+            participantState.participant = getParticipant(participantState.currentContactId);
             //Get participant for delegate
             if(participantState.participant == null){
-                participantState.isDelegate = true;
                 Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(CommunityService.getUserContact().Id);
                 if(participant != null) participantState.participant = getParticipant(participant.Id);
             }

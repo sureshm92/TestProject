@@ -7,6 +7,8 @@ public without sharing class NotificationAvailabilityService {
     private static final String PARTICIPANT_ENROLLMENT_OBJ_NAME = 'Participant_Enrollment__c';
     private static final String CLINICAL_TRIAL_PROFILE_OBJ_NAME = 'Clinical_Trial_Profile__c';
     private static final String HCP_ENROLLMENT_OBJ_NAME = 'HCP_Enrollment__c';
+    private static final String SURVEY_INVITATION_OBJ_NAME = 'SurveyInvitation';
+    private static final String TASK_OBJ_NAME = 'Task';
 
     private Map<Id, Contact> contactByIdMap;
 
@@ -19,7 +21,7 @@ public without sharing class NotificationAvailabilityService {
                         Participant_Opt_In_Status_Emails__c,
                         Participant_Opt_In_Status_SMS__c
                 FROM Contact
-                WHERE Id IN: recipientIds
+                WHERE Id IN:recipientIds
         ];
         for (Contact con : contacts) contactByIdMap.put(con.Id, con);
 
@@ -51,6 +53,7 @@ public without sharing class NotificationAvailabilityService {
                                 Study_Site__r.Suppress_Participant_Emails__c,
                                 Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c,
                                 Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                                Study_Site__r.SMS_Are_Available__c,
                                 Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
                                 HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c
                         FROM Participant_Enrollment__c
@@ -74,7 +77,7 @@ public without sharing class NotificationAvailabilityService {
             if (st == HCP_ENROLLMENT_OBJ_NAME) {
                 List<HCP_Enrollment__c> hcpeList = [
                         SELECT Id,
-                               HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c
+                                HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c
                         FROM HCP_Enrollment__c
                         WHERE Id IN:objectsByStrings.get(st)
                 ];
@@ -107,6 +110,9 @@ public without sharing class NotificationAvailabilityService {
             } else if (objType == CLINICAL_TRIAL_PROFILE_OBJ_NAME) {
                 Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) objectsByIds.get(Id.valueOf(whatId));
                 if (!ctp.Suppress_Participant_Emails__c && contactByIdMap.get(contactId).Participant_Opt_In_Status_Emails__c) checkForNotification = true;
+            } else if (objType == SURVEY_INVITATION_OBJ_NAME || objType == TASK_OBJ_NAME) {
+                Contact contact = contactByIdMap.get(contactId);
+                if (contact.Participant_Opt_In_Status_Emails__c) checkForNotification = true;
             } else if (objType == null) {
                 Contact contact = contactByIdMap.get(contactId);
                 if (contact.Participant_Opt_In_Status_Emails__c) checkForNotification = true;
@@ -118,7 +124,7 @@ public without sharing class NotificationAvailabilityService {
                 if (pe.HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c) {
                     checkForNotification = true;
                 }
-            } else if(objType == HCP_ENROLLMENT_OBJ_NAME){
+            } else if (objType == HCP_ENROLLMENT_OBJ_NAME) {
                 HCP_Enrollment__c hcpe = (HCP_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
                 if (hcpe.HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c) {
                     checkForNotification = true;
@@ -135,10 +141,18 @@ public without sharing class NotificationAvailabilityService {
         }
         return checkForNotification;
     }
-    public Boolean isAvailableForSMS(Id contactId){
+
+    public Boolean isAvailableForSMS(Id contactId, String whatId) {
         Boolean checkForNotification = false;
+        String objType = null;
+        Id objId;
+        if (whatId != null) {
+            objId = whatId;
+            objType = String.valueOf(objId.getSobjectType());
+        }
         Contact contact = contactByIdMap.get(contactId);
-        if (contact.Participant_Opt_In_Status_SMS__c) checkForNotification = true;
+        Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
+        if (contact.Participant_Opt_In_Status_SMS__c && pe.Study_Site__r.SMS_Are_Available__c) checkForNotification = true;
         return checkForNotification;
     }
 }

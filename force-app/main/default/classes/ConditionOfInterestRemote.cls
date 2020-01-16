@@ -8,9 +8,7 @@ public without sharing class ConditionOfInterestRemote {
     public static List<TherapeuticAreaService.CAWrapper> getConditionOfInterest() {
         List<TherapeuticAreaService.CAWrapper> caWrappers = new List<TherapeuticAreaService.CAWrapper>();
         try {
-            TherapeuticAreaService taService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
-            Participant__c participant = taService.getParticipant();
-            List<Therapeutic_Area_Patient__c> areaPatients = ParticipantDecoupler.getTherapeuticAreaPatients(participant);
+            List<Therapeutic_Area_Patient__c> areaPatients = ParticipantDecoupler.getTherapeuticAreaPatients();
             if (!areaPatients.isEmpty()) {
                 for (Therapeutic_Area_Patient__c coi : areaPatients) {
                     TherapeuticAreaService.CAWrapper caWrapper = new TherapeuticAreaService.CAWrapper ();

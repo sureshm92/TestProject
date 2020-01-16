@@ -12,10 +12,9 @@ public without sharing class AccountSettingsController {
             initData.cookieSettings = getCookieSettings();
 
             if (initData.myContact.primaryContact__c == null) {
-                if (userMode == CommunityService.USER_MODE_PARTICIPANT
-                        && !ParticipantService.getInstance().getState().isDelegate) {
+                if (userMode == CommunityService.USER_MODE_PARTICIPANT && !ParticipantService.getInstance().getState().isDelegate) {
                     initData.participant = [
-                            SELECT Id, First_Name__c,  Middle_Name__c, Last_Name__c, Phone__c,
+                            SELECT Id, First_Name__c, Middle_Name__c, Last_Name__c, Phone__c,
                                     Mailing_Zip_Postal_Code__c, Mailing_State__c, Mailing_Country__c,
                                     Mailing_Country_Code__c, Mailing_State_Code__c,
                                     Gender__c, Date_of_Birth__c, Initials__c
@@ -31,21 +30,23 @@ public without sharing class AccountSettingsController {
                             initData.participant.Mailing_Country_Code__c,
                             initData.participant.Mailing_State_Code__c
                     );
+
                     //Task for updating profile exists Account
                     List<Task> tasks = TaskService.getInstance().getTasksCommon('Status = \'Open\' AND Task_Code__c = \'Complete_Your_Profile\'');
-                    initData.participantHasUpdateTasks = !tasks.isEmpty();
+                    initData.contactSectionData.participantHasUpdateTasks = !tasks.isEmpty();
                 } else {
-                    initData.institute = getInstituteById(initData.myContact.AccountId);
+                    initData.contactSectionData.institute = getInstituteById(initData.myContact.AccountId);
                 }
             } else {
-                initData.institute = getInstituteById(initData.myContact.primaryContact__r.AccountId);
+                initData.contactSectionData.institute = getInstituteById(initData.myContact.primaryContact__r.AccountId);
             }
+
+            initData.contactSectionData.personWrapper = new PersonWrapper(initData.myContact, initData.participant);
+
             initData.userName = UserInfo.getUserName();
-            initData.isDelegate = PatientDelegateService.getInstance().isDelegate();
             return JSON.serialize(initData, false);
         } catch (Exception e) {
-            System.debug(e);
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            return (String) AuraHelper.throwException(e);
         }
     }
 
@@ -54,13 +55,14 @@ public without sharing class AccountSettingsController {
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
             Contact contact = (Contact) JSON.deserialize(cont, Contact.class);
-            if(participant.Mailing_Country_Code__c != null &&
-                    !participant.Mailing_Country_Code__c.equals('US')) contact.Participant_Opt_In_Status_SMS__c = false;
+            if (participant.Mailing_Country_Code__c != null && !participant.Mailing_Country_Code__c.equals('US')) {
+                contact.Participant_Opt_In_Status_SMS__c = false;
+            }
             update contact;
 
             TaskService.getInstance().completeCYPTaskForParticipant();
             upsert participant;
-        }  catch (Exception e) {
+        } catch (Exception e) {
             AuraHelper.throwException(e);
         }
     }
@@ -69,9 +71,22 @@ public without sharing class AccountSettingsController {
     public static void updateContact(String cont) {
         try {
             Contact contact = (Contact) JSON.deserialize(cont, Contact.class);
-            if(!contact.MailingCountryCode.equals('US')) contact.Participant_Opt_In_Status_SMS__c = false;
+            if (!contact.MailingCountryCode.equals('US')) contact.Participant_Opt_In_Status_SMS__c = false;
             update contact;
-        }  catch (Exception e) {
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
+    public static void updatePerson(String wrapperJSON) {
+        try {
+            PersonWrapper wrapper = (PersonWrapper) JSON.deserialize(wrapperJSON, PersonWrapper.class);
+            update wrapper.convertToContact();
+
+            Participant__c participant = wrapper.convertToParticipant();
+            if (participant != null) update participant;
+        } catch (Exception e) {
             AuraHelper.throwException(e);
         }
     }
@@ -100,7 +115,7 @@ public without sharing class AccountSettingsController {
     @AuraEnabled
     public static Boolean changeOptInVisitResults(String contactId, Boolean isOptIn) {
         try {
-            if(!PatientDelegateService.getInstance().isDelegate()) {
+            if (!PatientDelegateService.getInstance().isDelegate()) {
                 ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
                         .updateRecord(new Contact(Id = contactId, Visit_Results_Opt_In__c = isOptIn), true);
                 return isOptIn;
@@ -153,14 +168,14 @@ public without sharing class AccountSettingsController {
     @TestVisible
     private static Contact fillParticipantContact(Contact pContact) {
         List<Participant__c> pList = [
-                SELECT  First_Name__c,
+                SELECT First_Name__c,
                         Middle_Name__c,
                         Last_Name__c,
                         Initials__c,
                         Gender__c,
                         Date_of_Birth__c
-                FROM    Participant__c
-                WHERE   Contact__c = :pContact.Id
+                FROM Participant__c
+                WHERE Contact__c = :pContact.Id
         ];
         if (!pList.isEmpty()) {
             pContact.FirstName = pList[0].First_Name__c;
@@ -215,7 +230,7 @@ public without sharing class AccountSettingsController {
         List<AssignmentRule> ars = getCaseAssignmentRule();
 
         Database.DMLOptions dmlOptions = new Database.DMLOptions();
-        if(!ars.isEmpty()) dmlOptions.assignmentRuleHeader.AssignmentRuleId = ars[0].Id;
+        if (!ars.isEmpty()) dmlOptions.assignmentRuleHeader.AssignmentRuleId = ars[0].Id;
 
         Case newCase = new Case();
         newCase.Status = 'New';
@@ -238,7 +253,7 @@ public without sharing class AccountSettingsController {
                 SELECT Id
                 FROM AssignmentRule
                 WHERE SobjectType = 'Case'
-                AND Active = true
+                AND Active = TRUE
                 LIMIT 1
         ];
     }
@@ -299,16 +314,29 @@ public without sharing class AccountSettingsController {
 
     public class AccountData {
         @AuraEnabled public Contact myContact;
-        @AuraEnabled public Account institute;
-        @AuraEnabled public Participant__c participant;
         @AuraEnabled public String userName;
-        @AuraEnabled public Boolean isDelegate;
-        @AuraEnabled public Boolean participantHasUpdateTasks;
         @AuraEnabled public String message;
+        @AuraEnabled public List<CookieSettings> cookieSettings;
+
+        @AuraEnabled public ContactSectionData contactSectionData = new ContactSectionData();
+
+        @AuraEnabled public Participant__c participant;
+
+        @AuraEnabled public Boolean participantHasUpdateTasks;
+        @AuraEnabled public Account institute;
         @AuraEnabled public List<LabelValueItem> gendersLVList = ParticipantService.getGenderLVList();
         @AuraEnabled public List<LabelValueItem> countriesLVList = CountryStateUtil.getCountries();
         @AuraEnabled public Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
-        @AuraEnabled public List<CookieSettings> cookieSettings;
+
+    }
+
+    public class ContactSectionData {
+        @AuraEnabled public PersonWrapper personWrapper;
+        @AuraEnabled public Account institute;
+        @AuraEnabled public Boolean participantHasUpdateTasks;
+        @AuraEnabled public List<LabelValueItem> gendersLVList = ParticipantService.getGenderLVList();
+        @AuraEnabled public List<LabelValueItem> countriesLVList = CountryStateUtil.getCountries();
+        @AuraEnabled public Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
     }
 
     public class CookieSettings {
@@ -321,5 +349,102 @@ public without sharing class AccountSettingsController {
         public String cookieName { get; set; }
         @AuraEnabled
         public String cookieDescription { get; set; }
+    }
+
+    public class PersonWrapper {
+        @AuraEnabled public Id contactId;
+        @AuraEnabled public Id participantId;
+        @AuraEnabled public String firstName;
+        @AuraEnabled public String middleName;
+        @AuraEnabled public String lastName;
+        @AuraEnabled public String dateBirth;
+        @AuraEnabled public String gender;
+        @AuraEnabled public String homePhone;
+        @AuraEnabled public String mobilePhone;
+        @AuraEnabled public String fax;
+        @AuraEnabled public Boolean optInEmail;
+        @AuraEnabled public Boolean optInSMS;
+        @AuraEnabled public String mailingCC;
+        @AuraEnabled public String mailingSC;
+        @AuraEnabled public String mailingCountry;
+        @AuraEnabled public String mailingStreet;
+        @AuraEnabled public String mailingCity;
+        @AuraEnabled public String mailingState;
+        @AuraEnabled public String zip;
+        @AuraEnabled public Boolean isParticipant;
+
+        public PersonWrapper(Contact contact, Participant__c participant) {
+            contactId = contact.Id;
+            isParticipant = participant != null;
+            if (isParticipant) participantId = participant.Id;
+
+            firstName = isParticipant ? participant.First_Name__c : contact.FirstName;
+            lastName = isParticipant ? participant.Last_Name__c : contact.LastName;
+            homePhone = isParticipant ? participant.Phone__c : contact.Phone;
+            mobilePhone = contact.MobilePhone;
+            fax = contact.Fax;
+            optInEmail = contact.Participant_Opt_In_Status_Emails__c;
+            optInSMS = contact.Participant_Opt_In_Status_SMS__c;
+            mailingCC = isParticipant ? participant.Mailing_Country_Code__c : contact.MailingCountryCode;
+            mailingSC = isParticipant ? participant.Mailing_State_Code__c : contact.MailingStateCode;
+            mailingCountry = contact.MailingCountry;
+            mailingStreet = contact.MailingStreet;
+            mailingCity = contact.MailingCity;
+            mailingState = contact.MailingState;
+            zip = isParticipant ? participant.Mailing_Zip_Postal_Code__c : contact.MailingPostalCode;
+
+            if (isParticipant) {
+                middleName = participant.Middle_Name__c;
+                dateBirth = participant.Date_of_Birth__c;
+                gender = participant.Gender__c;
+            }
+        }
+
+        public Contact convertToContact() {
+            Contact personContact = new Contact(Id = contactId);
+//            personContact.Participant_Opt_In_Status_Emails__c = optInEmail;
+//            personContact.Participant_Opt_In_Status_SMS__c = optInSMS && isOptInSMS();
+            personContact.MobilePhone = mobilePhone;
+
+            if (isParticipant) return personContact;
+
+            personContact.FirstName = firstName;
+            personContact.LastName = lastName;
+            personContact.Phone = homePhone;
+            personContact.Fax = fax;
+            personContact.MailingCountryCode = mailingCC;
+            personContact.MailingStateCode = mailingSC;
+            personContact.MailingCountry = mailingCountry;
+            personContact.MailingStreet = mailingStreet;
+            personContact.MailingCity = mailingCity;
+            personContact.MailingState = mailingState;
+            personContact.MailingPostalCode = zip;
+
+            return personContact;
+        }
+
+        public Participant__c convertToParticipant() {
+            if (!isParticipant) return null;
+
+            Participant__c personParticipant = new Participant__c(Id = participantId);
+            personParticipant.First_Name__c = firstName;
+            personParticipant.Middle_Name__c = middleName;
+            personParticipant.Last_Name__c = lastName;
+            personParticipant.Phone__c = homePhone;
+            personParticipant.Mailing_Country_Code__c = mailingCC;
+            personParticipant.Mailing_State_Code__c = mailingSC;
+
+            personParticipant.Date_of_Birth__c = dateBirth;
+            personParticipant.Gender__c = gender;
+            personParticipant.Mailing_Zip_Postal_Code__c = zip;
+
+            return personParticipant;
+        }
+
+        public Boolean isOptInSMS() {
+            if (mailingCC == null || !mailingCC.equals('US')) return false;
+
+            return true;
+        }
     }
 }
