@@ -6,7 +6,7 @@
 
     <!-- attributes: -->
     <aura:attribute name="participantState" type="Object"/>
-    <aura:attribute name="isDelegateMode" type="Boolean" default="true"/>
+    <aura:attribute name="showTrialSearch" type="Boolean" default="false" access="private"/>
     <aura:attribute name="initialized" type="Boolean"/>
 
     <!-- handlers: -->
@@ -23,7 +23,7 @@
         </div>
         <div style="display: flex;">
             <div class="hp-welcome-msg" style="width: 110%">{!v.participantState.welcomeMessage}</div>
-            <aura:if isTrue="{!and(!v.isDelegateMode, !v.participantState.participant.Marketing_Flag__c)}">
+            <aura:if isTrue="{!v.showTrialSearch}">
                 <div  style="@media screen and (max-width: 600px) {width: 20%;}">
                     <button class="{!'apollo-btn primary dark'}" onclick="{!c.navigateToTrialSearchPage}">
                         <c:RRIcon iconName="search-results"/>
