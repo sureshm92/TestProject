@@ -34,9 +34,10 @@ public without sharing class RelevantLinksRemote {
             if(enrollments.size() > 0) initData.linksAvailable = true;
             for(Participant_Enrollment__c pe : enrollments) ctpIds.add(pe.Clinical_Trial_Profile__c);
             List<Res_study__c> resStudies = [
-                    SELECT Id, Resource__r.URL__c, Resource__r.Title__c, Resource__r.Countries__c, Visible_To_Participant__c,
-                            Active_On_Status__c, Expires_On_Status__c, Visible_To_Delegates__c,
-                            Active_After_Days__c, Expires_After_Days__c, Visible_In_Alumni__c
+                    SELECT Id, Resource__r.URL__c, Resource__r.Title__c, Resource__r.Countries__c,
+                            Resource__r.Languages__c, Resource__r.Content_Type__c,
+                            Expires_After_Days__c, Expires_On_Status__c, Active_On_Status__c,  Active_After_Days__c,
+                            Visible_To_Participant__c, Visible_To_Delegates__c, Visible_In_Alumni__c
                     FROM Res_study__c
                     WHERE Clinical_Trial_Profile__c IN: ctpIds
                     AND Resource__r.Content_Type__c = 'Relevant_Link'
