@@ -109,7 +109,7 @@
             },
 
             'resources':{
-                page: 'study-workspace?tab=tab-resources',
+                page: 'study-workspace',
                 label: $A.get('$Label.c.Navigation_Resources')
             },
 
@@ -166,6 +166,19 @@
         if(!this.itemsMap) this.initItemsMap();
         var page = this.allPagesMap[pageName];
         if(page) document.title = page.label;
+    },
+
+    updateCurrentPage: function (component) {
+        try {
+            var helper = this;
+            var menuItems = component.get('v.menuItems');
+            var currentPageName = communityService.getPageName();
+            helper.updateDocumentTitle(component, currentPageName);
+            //document.title = $A.get('$Label.c.RH_Window_Title');
+            component.set('v.currentPage', currentPageName);
+        } catch (e) {
+            console.error(e);
+        }
     }
 
 })

@@ -22,21 +22,14 @@
             });
             setTimeout(scrollEnableCheckHandler, 300); 
             window.addEventListener('resize', scrollEnableCheckHandler);
+            helper.updateCurrentPage(component);
         } catch (e) {
             console.error(e);
         }
     },
 
     doCurrentPageChange: function (component, event, helper) {
-        try {
-            var menuItems = component.get('v.menuItems');
-            var currentPageName = communityService.getFullPageName();
-            helper.updateDocumentTitle(component, currentPageName);
-            //document.title = $A.get('$Label.c.RH_Window_Title');
-            component.set('v.currentPage', currentPageName);
-        } catch (e) {
-            console.error(e);
-        }
+        helper.updateCurrentPage(component);
     },
 
     onClick: function (component, event, helper) {
