@@ -80,7 +80,7 @@ public without sharing class StudySiteTriggerHandler {
                     notifications.add(new Notification__c(
                             Recipient__c = ss.Principal_Investigator__c,
                             WhatId__c = ss.Id,
-                            Notification_Type__c = NotificationService.MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE
+                            Notification_Type__c = NotificationType.MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE
                     ));
                 }else{
                     contactIdsForCreateUsers.add(ss.Principal_Investigator__c);
