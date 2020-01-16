@@ -19,6 +19,9 @@ public without sharing class NotificationService {
             PEStatusState.PE_STATUS_REFERRAL_ON_HOLD,
             PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI
     };
+
+    // needs for correct work, don't move!
+    static public String MESSAGE_TO_PI_NEW_MESSAGE_TYPE = 'Message_To_PI_New_Message_Type';
     
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
     static public String NOTIFICATION_STATUS_PROCESSED = 'Processed';

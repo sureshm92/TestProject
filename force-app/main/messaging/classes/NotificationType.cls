@@ -2,7 +2,7 @@
  * Created by Yulia Yakushenkova on 1/16/2020.
  */
 
-public with sharing class NotificationType {
+public without sharing class NotificationType {
 /**
  *  MESSAGE TO PATIENT
  */
@@ -55,7 +55,7 @@ public with sharing class NotificationType {
     static public String MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE = 'Message_To_PI_Accept_New_Study_Type';
     static public String MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE = 'Message_to_PI_New_Patient_Referral_Type';
     static public String MESSAGE_TO_PI_PATIENT_BECOME_ADULT_TYPE = 'Message_to_PI_Patient_Become_Adult_Type';
-    static public String MESSAGE_TO_PI_NEW_MESSAGE_TYPE = 'Message_To_PI_New_Message_Type';
+    //static public String MESSAGE_TO_PI_NEW_MESSAGE_TYPE = 'Message_To_PI_New_Message_Type';
 
 /**
  *  MESSAGE TO HCP
