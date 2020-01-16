@@ -20,6 +20,7 @@ public without sharing class CommunityModeService {
         @AuraEnabled public Boolean hasPastStudies = false;
         @AuraEnabled public List<CommunityMode> subModes = new List<CommunityMode>();
         @AuraEnabled public Boolean isOpen = false;
+        @AuraEnabled public String participantState;
     
         public CommunityMode(String userMode, String label) {
             this.userMode = userMode;
@@ -43,11 +44,20 @@ public without sharing class CommunityModeService {
             generateKey();
         }
     
-        public CommunityMode(String userMode, String label, Id delegateId, Id peId) {
+        public CommunityMode(String userMode, String label, Id delegateId, Participant_Enrollment__c pe) {
             this.userMode = userMode;
             this.label = label;
             this.groupLabel = label;
-            this.currentPE = peId;
+            if(pe != null) {
+                this.currentPE = pe.Id;
+                if(PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(pe.Participant_Status__c)) {
+                    participantState = ParticipantService.ParticipantStates.REFERRAL + '';
+                }else{
+                    participantState = ParticipantService.ParticipantStates.PARTICIPANT + '';
+                }
+            }else{
+                this.participantState = ParticipantService.ParticipantStates.ALUMNI + '';
+            }
             this.currentDelegateId = delegateId;
             generateKey();
         }
@@ -82,6 +92,8 @@ public without sharing class CommunityModeService {
             }
             groupKey = key;
         }
+        
+        
     
     }
     
@@ -140,7 +152,7 @@ public without sharing class CommunityModeService {
                     CommunityService.USER_MODE_PARTICIPANT,
                     null,
                     userContact.userCommunityDelegateId__c,
-                    userContact.Current_Participant_Enrollment__c
+                    new Participant_Enrollment__c(Id = userContact.Current_Participant_Enrollment__c)
             );
         }
         return currentMode;
@@ -190,7 +202,7 @@ public without sharing class CommunityModeService {
                             CommunityService.USER_MODE_PARTICIPANT,
                             pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
                             null,
-                            pe.Id
+                            pe
                     ));
                 }
             }
@@ -219,7 +231,7 @@ public without sharing class CommunityModeService {
                             CommunityService.USER_MODE_PARTICIPANT,
                             pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
                             pe.Participant__r.Contact__c,
-                            pe.Id
+                            pe
                     ));
                 }
             }
@@ -264,7 +276,8 @@ public without sharing class CommunityModeService {
                 'Clinical_Trial_Profile__r.Study_Title__c',
                 'Clinical_Trial_Profile__r.Study_Code_Name__c',
                 'Participant__c',
-                'Participant__r.Contact__c'
+                'Participant__r.Contact__c',
+                'Participant_Status__c'
         }, Participant_Enrollment__c.getSObjectType(), baseFilter);
         Map<Id, List<Participant_Enrollment__c>> peMap = new Map<Id, List<Participant_Enrollment__c>>();
         for(Participant_Enrollment__c pe : peList){
