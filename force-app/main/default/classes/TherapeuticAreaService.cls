@@ -82,8 +82,8 @@ public without sharing class TherapeuticAreaService {
 
     public List<TherapeuticAreaService.CAWrapper> getCOIWrappers(List<Therapeutic_Area__c> therapeuticAreas) {
         List<TherapeuticAreaService.CAWrapper> caWrappers = new List<TherapeuticAreaService.CAWrapper>();
-        CommunityService cService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
-        String participantId = cService.getParticipantId();
+        String participantId = ParticipantService.getInstance().getState().participant.Id;
+        
         for (Therapeutic_Area__c areaPatient : therapeuticAreas) {
             TherapeuticAreaService.CAWrapper caWrapper = new TherapeuticAreaService.CAWrapper ();
             caWrapper.isSelected = false;
