@@ -5605,6 +5605,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.Languages__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Resource__c.Likes__c</field>
         <readable>true</readable>
@@ -6017,6 +6022,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Referral__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.SMS_Are_Available__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
