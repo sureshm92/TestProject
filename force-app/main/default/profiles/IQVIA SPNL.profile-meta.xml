@@ -685,6 +685,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MessageConfigurationPanelRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MessagePageRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1098,6 +1102,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SObjectHelper</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SSMessageConfigResponse</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -5842,6 +5850,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.SMS_Are_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Cleaned_Study_Key__c</field>
         <readable>true</readable>
@@ -5889,6 +5902,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Is_Virtual_Study_Site__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Messages_Are_Available__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
