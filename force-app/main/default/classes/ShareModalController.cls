@@ -9,16 +9,23 @@ public without sharing class ShareModalController {
             if (fromId == null) fromId = CommunityService.getUserContact().Id;
 
             Id sourceId = whatId;
+            String type;
             if (sourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
-                SendEmailTemplate.sendShareEmail(whatId, fromId, email, 'Share_Study_From_PE_Template');
+                type = NotificationType.MESSAGE_TO_EXUS_SHARED_STUDY_BY_PE_TYPE;
             } else if (sourceId.getSobjectType() == HCP_Enrollment__c.getSObjectType()) {
-                SendEmailTemplate.sendShareEmail(whatId, fromId, email, 'Share_Study_From_HCPE_Template');
-            } else if(sourceId.getSobjectType() == Clinical_Trial_Profile__c.getSObjectType()){
-                SendEmailTemplate.sendShareEmail(whatId, fromId, email, 'Share_Social_Study_Template');
+                type = NotificationType.MESSAGE_TO_EXUS_SHARE_STUDY_BY_HCP_TYPE;
+            } else if (sourceId.getSobjectType() == Clinical_Trial_Profile__c.getSObjectType()) {
+                type = NotificationType.MESSAGE_TO_EXUS_SHARE_SOCIAL_STUDY_TYPE;
             } else if (sourceId.getSobjectType() == Resource__c.getSObjectType()) {
-                SendEmailTemplate.sendShareEmail(whatId, fromId, email, CommunityService.COMMUNITY_ET_SHARE_RESOURCE);
+                type = NotificationType.MESSAGE_TO_EXUS_SHARE_RESOURCES_TYPE;
             }
-
+            Notification__c notification = new Notification__c(
+                    WhatId__c = whatId,
+                    Email__c = email,
+                    From__c = fromId,
+                    Notification_Type__c = type
+            );
+            insert notification;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }

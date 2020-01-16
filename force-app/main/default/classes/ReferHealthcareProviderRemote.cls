@@ -303,7 +303,7 @@ global without sharing class ReferHealthcareProviderRemote {
         insert new Notification__c(
                 Recipient__c = hcpContactId,
                 WhatId__c = hcpEnrollId,
-                Notification_Type__c = NotificationService.MESSAGE_TO_HCP_APPROVED_TYPE
+                Notification_Type__c = NotificationType.MESSAGE_TO_HCP_APPROVED_TYPE
         );
     }
 
