@@ -188,7 +188,7 @@
                 <div class="rr-width-limiter side-padding rr-min-body-height">
                     <aura:if isTrue="{!notequals(v.state, 'ALUMNI')}">
                         <div class="{!if(v.currentTab == 'tab-about-the-study', 'visible-tab', 'invisible-tab')}">
-                            <aura:if isTrue="{!!empty(v.studyDetail)}">
+                            <aura:if isTrue="{!!empty(v.studyDetail.trial)}">
                                 <c:StudyDetailAboutStudy studyDetail="{!v.studyDetail}" userMode="{!v.userMode}"
                                                          parent="{!this}"/>
                             </aura:if>

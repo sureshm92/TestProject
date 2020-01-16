@@ -46,6 +46,7 @@ public without sharing class CommunityService {
 
     //hold contact instance:
     private static Contact userContact;
+    private static Id userId = UserInfo.getUserId();
     
     private static CommunityService instance;
     
@@ -98,6 +99,11 @@ public without sharing class CommunityService {
     //for debug under internal user
     public static void setDummyUserContact(Id contactId){
         userContact = getContactById(contactId);
+        userId = [SELECT Id FROM User WHERE ContactId =: contactId LIMIT 1].Id;
+    }
+    
+    public static Id getUserId(){
+        return userId;
     }
 
     public String getParticipantId() {
