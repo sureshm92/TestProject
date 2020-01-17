@@ -152,7 +152,7 @@ public without sharing class NotificationAvailabilityService {
         }
         Contact contact = contactByIdMap.get(contactId);
         Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
-        if (contact.Participant_Opt_In_Status_SMS__c && pe.Study_Site__r.SMS_Are_Available__c) checkForNotification = true;
+        if (contact.Participant_Opt_In_Status_SMS__c && (pe.Study_Site__r.SMS_Are_Available__c != null && pe.Study_Site__r.SMS_Are_Available__c)) checkForNotification = true;
         return checkForNotification;
     }
 }
