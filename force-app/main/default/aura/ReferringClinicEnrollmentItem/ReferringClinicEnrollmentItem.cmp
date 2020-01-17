@@ -58,7 +58,7 @@
                     </aura:if>
                 </aura:iteration>
                 <aura:iteration items="{!v.enrollmentData.buttonList}" var="action">
-                    <aura:if isTrue="{!action.id == 'hcpActivate' &amp;&amp; (v.enrollmentData.status == 'Activation Pending' || v.enrollmentData.status == 'Approval Pending')}">
+                    <aura:if isTrue="{!action.id == 'hcpActivate' &amp;&amp; v.enrollmentData.status == 'Activation Pending'}">
                         <div class="slds-col">
                             <lightning:buttonMenu
                                     class="{!'apollo-btn primary button-menu slds-size_1-of-2 slds-medium-size_4-of-12 slds-large-size_4-of-12 ' + action.cssClass + (v.isLastElement ? ' last-iteration' : '')}"
