@@ -12,6 +12,11 @@
                 } else {
                     component.set('v.participantState', ps);
                     component.set('v.isDelegateMode', communityService.getCurrentCommunityMode().currentDelegateId);
+                    component.set('v.showTrialSearch',
+                        !communityService.getCurrentCommunityMode().currentDelegateId &&
+                        !ps.participant.Marketing_Flag__c &&
+                        !ps.pe
+                        );
                     component.find('spinner').hide();
                 }
                 component.set('v.initialized', true);
