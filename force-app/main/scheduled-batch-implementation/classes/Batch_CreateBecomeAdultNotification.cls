@@ -42,14 +42,14 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
                     notifications.add(new Notification__c(
                             Recipient__c = pe.Participant__r.Contact__c,
                             WhatId__c = pe.Id,
-                            Notification_Type__c = NotificationType.MESSAGE_TO_PT_PATIENT_BECOME_ADULT_TYPE,
+                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_PATIENT_BECOME_ADULT_TYPE,
                             Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                     ));
                     if (String.isNotBlank(pe.Study_Site__r.Principal_Investigator__r.Id)) {
                         notifications.add(new Notification__c(
                                 Recipient__c = pe.Study_Site__r.Principal_Investigator__r.Id,
                                 WhatId__c = pe.Id,
-                                Notification_Type__c = NotificationType.MESSAGE_TO_PI_PATIENT_BECOME_ADULT_TYPE,
+                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_PATIENT_BECOME_ADULT_TYPE,
                                 Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                         ));
                     }

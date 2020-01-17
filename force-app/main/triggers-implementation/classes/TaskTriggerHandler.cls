@@ -128,7 +128,7 @@ public without sharing class TaskTriggerHandler {
                         notifications.add(new Notification__c(
                                 Recipient__c = usersByIds.get(task.OwnerId).ContactId,
                                 WhatId__c = task.Survey_Invitation__c,
-                                Notification_Type__c = NotificationType.MESSAGE_TO_PT_COMPLETE_BL_SURVEY_TYPE
+                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_COMPLETE_BL_SURVEY_TYPE
                         ));
                     }
                     if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)
@@ -138,7 +138,7 @@ public without sharing class TaskTriggerHandler {
                             notifications.add(new Notification__c(
                                     Recipient__c = delContactId,
                                     WhatId__c = task.Survey_Invitation__c,
-                                    Notification_Type__c = NotificationType.MESSAGE_TO_PT_COMPLETE_BL_SURVEY_TYPE
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_COMPLETE_BL_SURVEY_TYPE
                             ));
                         }
                     }
