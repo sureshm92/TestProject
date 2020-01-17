@@ -134,6 +134,8 @@ public class ReferralNetworkService {
                     ));
                 }
             }
+
+            insert notifications;
         }
     }
 }
