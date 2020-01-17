@@ -174,7 +174,7 @@
                 </div>
                 <c:rrSelect aura:id="pField" options="{!v.statesLVList}" disabled="{!empty(v.statesLVList)}"
                             value="{!v.personWrapper.mailingSC}"
-                            placeholder="{!$Label.c.PG_AC_Select}" required="{!equals(v.personWrapper.mailingCC, 'US')}"
+                            placeholder="{!$Label.c.PG_AC_Select}" required="{!not(empty(v.statesLVList))}"
                             useSentenceFont="false"
                             onchange="{!c.doCheckFieldsValidity}"/>
             </div>
