@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
-    <applicationVisibilities>
-        <application>Developer</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>IQVIA_RR_CRM</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
     <classAccesses>
         <apexClass>AccountSettingsController</apexClass>
         <enabled>true</enabled>
@@ -119,16 +109,16 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Batch_CreateBecomeAdultNotification</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Batch_CopyEnrollmentHistory</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_CreateAdminTasks</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_CreateBecomeAdultNotification</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_CreateNewRPDelegates</apexClass>
@@ -156,6 +146,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_DeleteProcessedNotifications</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_HCPEStatusUpdate</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -383,16 +377,16 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ConversationTriggerHandler</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>CountryLookupRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>CountryStateUtil</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DMLService</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>DashboardRemote</apexClass>
@@ -687,6 +681,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MessageConfigurationPanelRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MessagePageRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -751,6 +749,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>NotificationResultService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>NotificationService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -809,6 +811,14 @@
     <classAccesses>
         <apexClass>ParametersDataProvider</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParametersProviderService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParametrizedMessageService</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ParticipantDecoupler</apexClass>
@@ -915,6 +925,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PaymentVendorPanelRemote</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PaymentsRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -929,6 +943,10 @@
     <classAccesses>
         <apexClass>ProfileIconController</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ProviderPaymentsService</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>QualityCheckController</apexClass>
@@ -1093,6 +1111,14 @@
     <classAccesses>
         <apexClass>SObjectHelper</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SSMessageConfigResponse</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SSPaymentVendorsConfigResponse</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>SSTravelVendorsConfigResponse</apexClass>
@@ -1383,6 +1409,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_BatchHCPEStatusUpdate</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_Batch_CopyEnrollmentHistory</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1485,6 +1515,10 @@
     <classAccesses>
         <apexClass>Test_CountryLookupRemote</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_DMLService</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_DatabaseProxy</apexClass>
@@ -1685,6 +1719,10 @@
     <classAccesses>
         <apexClass>Test_RRPDFViewerController</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ReferralProfileRemote</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ReferringRemote</apexClass>
@@ -3358,6 +3396,11 @@
         <editable>true</editable>
         <field>HCP_Enrollment__c.HCP_Enrollment_Key__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>HCP_Enrollment__c.HCP_Full_Name__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -5295,6 +5338,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>PaymentVendorSettings__c.Payment_Vendor__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>PaymentVendorSettings__c.Study_Site__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Point_of_Contact__c.Contact__c</field>
         <readable>true</readable>
@@ -5332,6 +5385,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Post_Install__mdt.HandlerName__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Provider_Payment__c.Data_Status__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5553,6 +5611,16 @@
         <editable>true</editable>
         <field>Resource__c.Language__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.Languages__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Resource__c.Languages__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -5861,6 +5929,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Study_Site__c.Messages_Are_Available__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Study_Site__c.Orientation__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5961,6 +6034,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Study_Site__c.SMS_Are_Available__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Study_Site__c.SPNL_LN_assignment__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5978,6 +6056,11 @@
         <editable>false</editable>
         <field>Study_Site__c.Sponsor_Pays_for_Referral_Activity__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Study_Orientation_Required__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -6748,6 +6831,12 @@
         <layout>Patient_Visit__c-Patient Visit Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>PaymentVendorSettings__c-PaymentVendorSettings Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Payment_Vendor__c-Payment Vendor Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Platform_Level_Translatable_Objects__mdt-Platform Level Translatable Object Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -7396,15 +7485,7 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>Admin_Panel</tab>
-        <visibility>DefaultOff</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>Alert__c</tab>
-        <visibility>Hidden</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>Batch_Control_Panel</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -7429,10 +7510,6 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Integration_Patient_Referral__c</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>Manual_Creation_Panel</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -7462,6 +7539,10 @@
     <tabVisibilities>
         <tab>Patient_Visit__c</tab>
         <visibility>DefaultOff</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Provider_Payment__c</tab>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Referral_Network__c</tab>
@@ -7504,10 +7585,6 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>Translation_Import_Export</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
         <tab>Translation__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
@@ -7534,10 +7611,6 @@
     <tabVisibilities>
         <tab>Visit__c</tab>
         <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>XLF_Tweaker</tab>
-        <visibility>Hidden</visibility>
     </tabVisibilities>
     <userLicense>Customer Community Plus Login</userLicense>
     <userPermissions>

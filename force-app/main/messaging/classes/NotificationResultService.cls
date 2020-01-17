@@ -32,23 +32,16 @@ public without sharing class NotificationResultService {
     }
     
     public void setFailed(Id notificationId, String targetType, String errorMessage){
-        setResultStatus(notificationId, targetType, SEND_RESULT_STATUS_FAILED, errorMessage);
+        Send_Result__c sendResult = getSendResult(notificationId, targetType);
+        sendResult.Status__c = SEND_RESULT_STATUS_SENT;
+
     }
     
     public void setSent(Id notificationId, String targetType){
-        setResultStatus(notificationId, targetType, SEND_RESULT_STATUS_SENT, null);
+        getSendResult(notificationId, targetType).Status__c = SEND_RESULT_STATUS_SENT;
     }
     
-    public void updateResults(){
-        List<Send_Result__c> results = new List<Send_Result__c>();
-        for(List<Send_Result__c> nResults : sendResultsMap.values()){
-            results.addAll(nResults);
-        }
-        upsert results;
-        updateNotificationsStatus();
-    }
-    
-    private void setResultStatus(Id notificationId, String targetType, String status, String errorMessage){
+    public Send_Result__c getSendResult(Id notificationId, String targetType){
         List<Send_Result__c> sendResults = sendResultsMap.get(notificationId);
         if(sendResultsMap == null) sendResults = new List<Send_Result__c>();
         Send_Result__c result;
@@ -65,6 +58,21 @@ public without sharing class NotificationResultService {
             );
             sendResults.add(result);
         }
+        return result;
+    }
+    
+    
+    public void updateResults(){
+        List<Send_Result__c> results = new List<Send_Result__c>();
+        for(List<Send_Result__c> nResults : sendResultsMap.values()){
+            results.addAll(nResults);
+        }
+        upsert results;
+        updateNotificationsStatus();
+    }
+    
+    private void setResultStatus(Id notificationId, String targetType, String status, String errorMessage){
+        Send_Result__c result = getSendResult(notificationId, targetType);
         result.Status__c = status;
         result.Error__c = errorMessage;
     }
