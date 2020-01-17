@@ -107,7 +107,7 @@ public class ReferralNetworkService {
             }
 
             String networkNamesString = String.join(new List<String>(networkNamesMap.keySet()), ';');
-            Map<Id, List<Id>> contactIdByStudySiteIds = new Map<Id, List<Id>>();
+            Map<Id, Set<Id>> contactIdByStudySiteIds = new Map<Id, Set<Id>>();
             for (Contact currContact : [
                     SELECT Id, SitesInterested__c
                     FROM Contact
@@ -118,7 +118,7 @@ public class ReferralNetworkService {
                 for (String networkName : currContact.SitesInterested__c.split(';')) {
                     if (networkNamesMap.containsKey(networkName)) {
                         Id networkId = networkNamesMap.get(networkName);
-                        Set<Id> studySiteIds = new Set<Id>(networkIdToStudySiteList.get(networkId));
+                        List<Id> studySiteIds = networkIdToStudySiteList.get(networkId);
                         contactIdByStudySiteIds.get(currContact.Id).addAll(studySiteIds);
                     }
                 }
