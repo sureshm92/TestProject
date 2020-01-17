@@ -87,8 +87,8 @@ public without sharing class TaskEditRemote {
             Task taskToUpsert = (Task) JSON.deserialize(paramTask, Task.class);
 
             ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
-            taskToUpsert.OwnerId = PatientDelegateService.getInstance().getParticipantUserId();
-            taskToUpsert.WhoId = PatientDelegateService.getInstance().getParticipant().Contact__c;
+            taskToUpsert.OwnerId = ParticipantService.getInstance().getState().currentUserId;
+            taskToUpsert.WhoId = ParticipantService.getInstance().getState().currentContactId;
 
             taskToUpsert.Originator__c = state.isDelegate ? 'Delegate' : 'Participant';
             if (taskToUpsert.Visible_For__c == null) taskToUpsert.Visible_For__c = 'Owner;Delegates';

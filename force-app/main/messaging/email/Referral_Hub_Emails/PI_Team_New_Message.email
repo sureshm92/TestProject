@@ -1,11 +1,11 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_PI_New_Mess}"
-                         recipientType="User"
+                         recipientType="Contact"
                          relatedToType="Participant_Enrollment__c"
                          language="{!relatedTo.Study_Site__r.Principal_Investigator__r.Language__c}">
 
     <messaging:htmlEmailBody >
-        <c:EmailTemplate userType="PI"
-                         sourceId="{!relatedTo.Id}"
+        <c:EmailTemplate sourceId="{!relatedTo.Id}"
+                         recipientId="{!recipient.Id}"
                          parametersProvider="Email_Template_Parameters_From_PE"
                          header="{!$Label.Email_Header_PI_New_Mess}"
                          title="{!$Label.Email_Title}"
@@ -18,8 +18,8 @@
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody>
-        <c:EmailTemplateText userType="PI"
-                             sourceId="{!relatedTo.Id}"
+        <c:EmailTemplateText sourceId="{!relatedTo.Id}"
+                             recipientId="{!recipient.Id}"
                              parametersProvider="Email_Template_Parameters_From_PE"
                              header="{!$Label.Email_Header_PI_New_Mess}"
                              title="{!$Label.Email_Title}"

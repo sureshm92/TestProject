@@ -5,7 +5,6 @@
 public without sharing class MessageTriggerHandler {
 
     public class SendEmailHandler extends TriggerHandler {
-
         public override void afterInsert(List<SObject> newList) {
             sendEmails(JSON.serialize(newList));
         }
@@ -38,8 +37,7 @@ public without sharing class MessageTriggerHandler {
             piContactIds.add(con.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c);
         }
 
-//        Map<Id, List<Contact>> delegatedCntsByParticipant =
-//                PatientDelegateService.getDelegatedCntsByParticipantCnt(participantConIds, new List<String>());
+        Map<Id, List<Id>> delegatesByPAConId = PatientDelegateService.getDelegateContactIdsByPAContactIs(participantConIds);
 
         List<Site_Staff__c> siteStaff = [
                 SELECT Site_Contact__c, Study_Site__r.Principal_Investigator__c
@@ -56,16 +54,16 @@ public without sharing class MessageTriggerHandler {
         List<Notification__c> notifications = new List<Notification__c>();
         for(Message__c mes : messages) {
             Id headRecipientId;
-            String notificationType;
+            String notType;
             Conversation__c conversation = conversationMap.get(mes.Conversation__c);
             if(conversation.haveUnreadForPI__c) {
-                notificationType = NotificationService.MESSAGE_TO_PI_NEW_MESSAGE_TYPE;
+                notType = NotificationType.MESSAGE_TO_PI_NEW_MESSAGE_TYPE;
                 headRecipientId = conversation.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c;
 
                 notifications.add(new Notification__c(
                         Recipient__c = headRecipientId,
                         WhatId__c = conversation.Participant_Enrollment__c,
-                        Notification_Type__c = notificationType
+                        Notification_Type__c = notType
                 ));
 
                 List<Id> staffContactIds = staffContactByPI.get(headRecipientId);
@@ -74,12 +72,30 @@ public without sharing class MessageTriggerHandler {
                         notifications.add(new Notification__c(
                                 Recipient__c = staffConId,
                                 WhatId__c = conversation.Participant_Enrollment__c,
-                                Notification_Type__c = notificationType
+                                Notification_Type__c = notType
                         ));
                     }
                 }
             } else if(conversation.haveUnreadForParticipant__c) {
+                notType = NotificationType.MESSAGE_TO_PT_NEW_MESSAGE_TYPE;
+                headRecipientId = conversation.Participant_Enrollment__r.Participant_Contact__c;
 
+                notifications.add(new Notification__c(
+                        Recipient__c = headRecipientId,
+                        WhatId__c = conversation.Participant_Enrollment__c,
+                        Notification_Type__c = notType
+                ));
+
+                List<Id> delegateIds = delegatesByPAConId.get(headRecipientId);
+                if(delegateIds != null) {
+                    for(Id delConId : delegateIds) {
+                        notifications.add(new Notification__c(
+                                Recipient__c = delConId,
+                                WhatId__c = conversation.Participant_Enrollment__c,
+                                Notification_Type__c = notType
+                        ));
+                    }
+                }
             }
         }
 

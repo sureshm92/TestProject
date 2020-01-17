@@ -7,6 +7,7 @@
         helper.enqueue(component, 'c.getSearchCTPs', {})
             .then(function (data) {
                 console.log('data ', data);
+                if(!data.isAllowed) communityService.navigateToHome();
                 component.set('v.trialTDOs', data.trialTDOs);
                 component.set('v.taps', data.taps);
                 component.set('v.participant', data.participant);
