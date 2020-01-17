@@ -20,6 +20,8 @@ public without sharing class ConversationService {
     }
 
     public static List<Conversation__c> getConversations(List<Id> conIds) {
+        String filter = DatabaseService.fieldInValues('Id', conIds)
+                + 'AND Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c = TRUE ';
         return (List<Conversation__c>) DatabaseService.query(new List<String>{
                 'haveUnreadForParticipant__c', 'haveUnreadForPI__c', 'Id', 'OwnerId',
                 'Participant_Enrollment__c',
@@ -27,8 +29,9 @@ public without sharing class ConversationService {
                 'Participant_Enrollment__r.Participant__r.Full_Name__c',
                 'Participant_Enrollment__r.Participant_Status__c',
                 'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Name',
-                'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Title'
-        }, Conversation__c.getSObjectType(), DatabaseService.fieldInValues('Id', conIds), 'CreatedDate DESC', null);
+                'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Title',
+                'Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c'
+        }, Conversation__c.getSObjectType(), filter, 'CreatedDate DESC', null);
     }
 
     public static Integer getUnreadConversationCount(Id userId, String userMode) {

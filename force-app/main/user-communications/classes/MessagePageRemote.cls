@@ -43,13 +43,18 @@ public without sharing class MessagePageRemote {
             if (pageData.userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 //Collect Enrollments
                 ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
-                pageData.enrollments = new List<Participant_Enrollment__c>();
-                if (participantState.pe != null) pageData.enrollments.add(participantState.pe);
+                List<Participant_Enrollment__c> participantEnrollments = new List<Participant_Enrollment__c>();
+                if (participantState.pe != null) participantEnrollments.add(participantState.pe);
                 List<Participant_Enrollment__c> pastEnrollments =
                         ContactService.getPastEnrollments(participantState.participant.Contact__c);
-                if (!pastEnrollments.isEmpty()) pageData.enrollments.addAll(pastEnrollments);
+                if (!pastEnrollments.isEmpty()) participantEnrollments.addAll(pastEnrollments);
 
+                pageData.enrollments = new List<Participant_Enrollment__c>();
+                for(Participant_Enrollment__c pe : participantEnrollments) {
+                    if(pe.Study_Site__r.Messages_Are_Available__c) pageData.enrollments.add(pe);
+                }
 
+                //Collect Conversations
                 List<Id> availablePEIds = new List<Id>();
                 for(Participant_Enrollment__c pe : pageData.enrollments) availablePEIds.add(pe.Id);
 
@@ -67,6 +72,7 @@ public without sharing class MessagePageRemote {
                     for (Message_Template__mdt mesTmp : messageTemplates) pageData.messageTemplates.add(mesTmp.Message_Variant__c);
                 }
             } else if (pageData.userMode == CommunityService.USER_MODE_PI) {
+                //Collect Conversations
                 if(sharedConversations != null) conversations.addAll(sharedConversations);
 
                 //Collect Enrollments
@@ -82,9 +88,9 @@ public without sharing class MessagePageRemote {
                                 Participant_Contact__c
                         FROM Participant_Enrollment__c
                         WHERE Study_Site__r.Principal_Investigator__c = :piContactId
+                        AND Study_Site__r.Messages_Are_Available__c = TRUE
                 ];
             }
-
             if (!conversations.isEmpty()) {
                 List<Id> conIds = new List<Id>();
                 for (Conversation__c con : conversations) conIds.add(con.Id);
