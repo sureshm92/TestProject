@@ -1,0 +1,7 @@
+<!--
+ - Created by Olga Skrynnikova on 1/17/2020.
+ -->
+
+<design:component label="ResourceUpload">
+    <design:attribute label="ResourceId" name="recordId"/>
+</design:component>

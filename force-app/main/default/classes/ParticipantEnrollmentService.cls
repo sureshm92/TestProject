@@ -430,6 +430,8 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Principal_Investigator__r.Language__c',
             'Study_Site__r.Study_Site_Phone__c',
             'Study_Site__r.Visit_Results_Sharing__c',
+            'Study_Site__r.Messages_Are_Available__c',
+            'Study_Site__r.SMS_Are_Available__c',
             'Screening_ID__c'
     };
 
