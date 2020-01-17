@@ -12,6 +12,7 @@
                 component.set('v.participant', data.participant);
                 component.set('v.formData', data.formData);
                 component.set('v.isInit', true);
+                component.set('v.initializedTaps', true);
                 component.find('mainSpinner').hide();
             }, function (err) {
                 if (err && err[0].message) {
@@ -24,30 +25,33 @@
             component.find('mainSpinner').hide();
         });
         if (!String.format) {
-            String.format = function(format) {
+            String.format = function (format) {
                 var args = Array.prototype.slice.call(arguments, 1);
-                return format.replace(/{(\d+)}/g, function(match, number) {
+                return format.replace(/{(\d+)}/g, function (match, number) {
                     return typeof args[number] != 'undefined' ? args[number] : match;
                 });
             };
         }
     },
 
-    handleUpdateSearchEvent : function (component, event, helper) {
+    handleUpdateSearchEvent: function (component, event, helper) {
         component.find('mainSpinner').show();
-        let taps = event.getParam('settings');
+        let taps = event.getParams().taps;
         let isEnrolling = event.getParam('enrolling');
-        let isNotYetEnrolling = event.getParam('notYetEnrolling');
+        let isNotYetEnrolling = event.getParam('not_yet_enrolling');
+
+        console.log('In container ' + JSON.stringify(taps));
+
         helper.enqueue(component, 'c.getFilterSearchCTPs', {
-            'taps' : taps,
-            'isEnrolling' : isEnrolling,
-            'isNotYetEnrolling' : isNotYetEnrolling
+            'taps': taps,
+            'isEnrolling': isEnrolling,
+            'isNotYetEnrolling': isNotYetEnrolling
         })
             .then(function (data) {
                 console.log('data ', data);
                 component.set('v.trialTDOs', data.trialTDOs);
                 component.set('v.isInit', true);
-                // component.set('v.taps', data.taps);
+                //component.set('v.taps', data.taps);
                 component.find('mainSpinner').hide();
             }, function (err) {
                 if (err && err[0].message) {
