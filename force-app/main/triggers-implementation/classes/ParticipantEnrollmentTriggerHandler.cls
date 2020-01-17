@@ -329,19 +329,19 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         notifications.add(new Notification__c(
                                 Recipient__c = participant.Contact__c,
                                 WhatId__c = newPE.Id,
-                                Notification_Type__c = NotificationType.MESSAGE_TO_PT_SOURCE_HCP_TYPE
+                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE
                         ));
                     } else if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI) {
                         notifications.add(new Notification__c(
                                 Recipient__c = participant.Contact__c,
                                 WhatId__c = newPE.Id,
-                                Notification_Type__c = NotificationType.MESSAGE_TO_PT_SOURCE_PI_TYPE
+                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE
                         ));
                     } else {
                         notifications.add(new Notification__c(
                                 Recipient__c = participant.Contact__c,
                                 WhatId__c = newPE.Id,
-                                Notification_Type__c = NotificationType.MESSAGE_TO_PT_SOURCE_ERP_TYPE
+                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE
                         ));
                     }
                 }

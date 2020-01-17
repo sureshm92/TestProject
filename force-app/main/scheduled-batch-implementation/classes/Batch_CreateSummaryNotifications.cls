@@ -92,7 +92,7 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                             notifications.add(new Notification__c(
                                     Recipient__c = contact.Id,
                                     WhatId__c = pe.Id,
-                                    Notification_Type__c = NotificationType.MESSAGE_TO_PT_NEW_STDDOC_TYPE
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_STDDOC_TYPE
                             ));
 
                             if (!resIdsByContactId.containsKey(contact.Id)) {

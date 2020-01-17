@@ -75,53 +75,53 @@ public without sharing class NotificationService {
     }
     
     public static String checkHCPNotificationType(Participant_Enrollment__c peForCheck, Boolean notContains) {
-        if (notContains) return NotificationType.MESSAGE_TO_HCP_REFERRAL_STATUS_UPDATE_TYPE;
+        if (notContains) return NotificationCatalog.MESSAGE_TO_HCP_REFERRAL_STATUS_UPDATE_TYPE;
         
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ACCEPTED) {
-            return NotificationType.MESSAGE_TO_HCP_PATIENT_ACCEPTED_TYPE;
+            return NotificationCatalog.MESSAGE_TO_HCP_PATIENT_ACCEPTED_TYPE;
         }
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_DECLINED) {
-            return NotificationType.MESSAGE_TO_HCP_PATIENT_DECLINED_TYPE;
+            return NotificationCatalog.MESSAGE_TO_HCP_PATIENT_DECLINED_TYPE;
         }
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ON_HOLD) {
-            return NotificationType.MESSAGE_TO_HCP_PATIENT_ON_HOLD_TYPE;
+            return NotificationCatalog.MESSAGE_TO_HCP_PATIENT_ON_HOLD_TYPE;
         }
         return null;
     }
     
     public static String checkPatientNotificationType(Participant_Enrollment__c peForCheck, Boolean notContains) {
         
-        if (notContains) return NotificationType.MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE;
+        if (notContains) return NotificationCatalog.MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE;
         
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_DECLINED) {
-            return NotificationType.MESSAGE_TO_PT_PATIENT_DECLINED_TYPE;
+            return NotificationCatalog.MESSAGE_TO_PT_PATIENT_DECLINED_TYPE;
         }
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ON_HOLD) {
-            return NotificationType.MESSAGE_TO_PT_PATIENT_ON_HOLD_TYPE;
+            return NotificationCatalog.MESSAGE_TO_PT_PATIENT_ON_HOLD_TYPE;
         }
         return null;
     }
     
     public static String checkPatientNotificationVTType(Participant_Enrollment__c peForCheck) {
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_DECLINED) {
-            return NotificationType.MESSAGE_TO_PT_PATIENT_DECLINED_VT_TYPE;
+            return NotificationCatalog.MESSAGE_TO_PT_PATIENT_DECLINED_VT_TYPE;
         }
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ON_HOLD) {
-            return NotificationType.MESSAGE_TO_PT_PATIENT_ON_HOLD_VT_TYPE;
+            return NotificationCatalog.MESSAGE_TO_PT_PATIENT_ON_HOLD_VT_TYPE;
         }
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI
                 && peForCheck.Referral_Source__c == 'HCP') {
-            return NotificationType.MESSAGE_TO_PT_NEW_STUDY_HCP_VT_TYPE;
+            return NotificationCatalog.MESSAGE_TO_PT_NEW_STUDY_HCP_VT_TYPE;
         }
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
                 && peForCheck.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
-            return NotificationType.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE;
+            return NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE;
         }
         if (peForCheck.Referral_Source__c != 'HCP' && peForCheck.Referral_Source__c != 'PI'
                 && (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI
                 || (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ACCEPTED
                 && peForCheck.IsAutoaccepted__c))) {
-            return NotificationType.MESSAGE_TO_PT_NEW_STUDY_eRP_VT_TYPE;
+            return NotificationCatalog.MESSAGE_TO_PT_NEW_STUDY_eRP_VT_TYPE;
         }
         return null;
     }
