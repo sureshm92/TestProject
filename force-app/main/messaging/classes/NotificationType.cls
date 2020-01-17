@@ -68,6 +68,7 @@ public without sharing class NotificationType {
     static public String MESSAGE_TO_HCP_NEW_STUDY_TYPE = 'Message_to_HCP_New_Study_Type';
     static public String MESSAGE_TO_HCP_NEW_STUDY_BY_PI_TYPE = 'HCP_New_Study_By_PI_Email';
     static public String MESSAGE_TO_HCP_APPROVED_TYPE = 'Message_to_HCP_Approved_for_SS_Type';
+    static public String MESSAGE_TO_HCP_REFERRAL_NETWORK_TYPE = 'Message_to_HCP_Referral_Network_Type';
 
 /**
  *  MESSAGE TO EXTERNAL USERS

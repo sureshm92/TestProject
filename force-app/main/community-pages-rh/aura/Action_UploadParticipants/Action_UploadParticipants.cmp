@@ -37,7 +37,7 @@
                 </div>
                 <div class="slds-grid slds-wrap slds-scrollable">
                     <div class="slds-size_2-of-2 slds-p-horizontal_x-medium">
-                        <div class="slds-m-around--small">
+                        <div class="slds-m-around--small" data-gtm="pnl_UploadNewParticipants_importFile">
                             <div class="input-fields-labels" style="color: blue;">
                                 {!v.fullFileName}
                                 <aura:if isTrue="{!!empty(v.fullFileName)}">
@@ -60,7 +60,7 @@
                 </div>
                 <div class="slds-grid slds-wrap slds-scrollable">
                     <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
-                        <div class="slds-m-around--small">
+                        <div class="slds-m-around--small" data-gtm="pnl_UploadNewParticipants_status">
                             <div class="input-fields-labels"><abbr class="slds-required" title="required">* </abbr>{!$Label.c.PG_AP_F_Patient_Status}</div>
                             <c:rrSelect id="statusesPicklist"
                                         options="{!v.participantStatuses}"
@@ -74,10 +74,11 @@
             </div>
 
             <aura:set attribute="footerButtons">
-                <button class="apollo-btn secondary" onclick="{!c.doCancel}">
+                <button class="apollo-btn secondary" data-gtm="btn_UploadNewParticipants_cancel" onclick="{!c.doCancel}">
                     {!$Label.c.BTN_Cancel}
                 </button>
                 <button class="apollo-btn primary" onclick="{!c.doImport}"
+                        data-gtm="btn_UploadNewParticipants_import"
                         disabled="{!empty(v.selectedStatus)||empty(v.fileName)}"
                         title="{!empty(v.selectedStatus)||empty(v.fileName) ? $Label.c.PG_MRC_RF_Not_all_Req_Fields : ''}">
                     {!$Label.c.BTN_Import}
