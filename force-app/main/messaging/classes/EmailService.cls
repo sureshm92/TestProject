@@ -130,9 +130,4 @@ public without sharing class EmailService {
         msgList.add(msg);
         return msg;
     }
-
-
-
-
-
 }
