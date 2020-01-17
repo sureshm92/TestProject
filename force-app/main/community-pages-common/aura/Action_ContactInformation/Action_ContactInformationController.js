@@ -61,8 +61,6 @@
     },
 
     doCheckFieldsValidity: function(component, event, helper){
-        helper.setFieldsValidity(component);
-
         let personWrapper = component.get('v.personWrapper');
         if(personWrapper.mailingCC !== component.get('v.previousCC')) {
             let statesByCountryMap = component.get('v.statesByCountryMap');
@@ -75,6 +73,8 @@
             component.set('v.reRender', false);
             component.set('v.reRender', true);
         }
+
+        helper.setFieldsValidity(component);
     },
 
     doShowHelpMessageIfInvalid: function (component) {
