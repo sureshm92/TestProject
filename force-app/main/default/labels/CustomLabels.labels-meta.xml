@@ -2008,6 +2008,13 @@ Thank you for participating. Your contribution to the clinical research study ha
 Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_PA_New_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body PA New Mess</shortDescription>
+        <value>You have a new message in Message Center.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_PI1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2648,6 +2655,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <value>Thank you for completing your clinical research study</value>
     </labels>
     <labels>
+        <fullName>Email_Header_PA_New_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header PA New Mess</shortDescription>
+        <value>Participant New Message</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_PI2</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3180,6 +3194,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>Email_Subject_Medication_Task_Reminder Delegate</shortDescription>
         <value>Your Patient has a medication reminder</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_PA_New_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject PA New Mess</shortDescription>
+        <value>New Message</value>
     </labels>
     <labels>
         <fullName>Email_Subject_PI1</fullName>
@@ -4718,6 +4739,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>MS Select Study Ph</shortDescription>
         <value>Select Study</value>
+    </labels>
+    <labels>
+        <fullName>MS_Toast_Message_PA_Send</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Toast Message PA Send</shortDescription>
+        <value>Your message was successfully sent to Participant!</value>
     </labels>
     <labels>
         <fullName>MS_Toast_Message_ST_Send</fullName>

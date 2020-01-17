@@ -318,9 +318,12 @@ public without sharing class MyTeamRemote {
         }
     }
     private static void sendEmailNotification(Contact delegateContact) {
-        Map<Id, String> toSendNotificationMap = new Map<Id, String>();
-        toSendNotificationMap.put(delegateContact.Id, delegateContact.Id);
-        SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_DELEGATE, toSendNotificationMap);
+        Notification__c notification = new Notification__c(
+                Recipient__c = delegateContact.Id,
+                WhatId__c = delegateContact.Id,
+                Notification_Type__c = NotificationType.MESSAGE_TO_PT_ACCESS_LEVEL_CHANGED_TYPE
+        );
+        insert notification;
     }
     
     private static void sendEmailNotificationWelcome(Contact delegateContact) {

@@ -59,7 +59,7 @@ public without sharing class ConversationService {
             if(ss.Site_Contact__c != userContact.Id) contactsForSharing.add(ss.Site_Contact__c);
         }
 
-        if(userContact.UserCommunityIsDelegate__c) {
+        if(userContact.UserCommunityIsDelegate__c && userContact.Id != enrollment.Participant_Contact__c) {
             Id headSenderId = userContact.userCommunityMode__c.equals(CommunityService.USER_MODE_PARTICIPANT) ?
                     enrollment.Participant_Contact__c : enrollment.Study_Site__r.Principal_Investigator__c;
             contactsForSharing.add(headSenderId);

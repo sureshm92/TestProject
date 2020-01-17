@@ -107,27 +107,33 @@ public class ReferralNetworkService {
             }
 
             String networkNamesString = String.join(new List<String>(networkNamesMap.keySet()), ';');
-
-            Map<Id, Set<Id>> contactIdToStudySiteIds = new Map<Id, Set<Id>>();
+            Map<Id, Set<Id>> contactIdByStudySiteIds = new Map<Id, Set<Id>>();
             for (Contact currContact : [
                     SELECT Id, SitesInterested__c
                     FROM Contact
                     WHERE (SitesInterested__c != NULL)
                     AND (SitesInterested__c INCLUDES (:networkNamesString))
             ]) {
-                contactIdToStudySiteIds.put(currContact.Id, new Set<Id>());
+                contactIdByStudySiteIds.put(currContact.Id, new Set<Id>());
                 for (String networkName : currContact.SitesInterested__c.split(';')) {
                     if (networkNamesMap.containsKey(networkName)) {
                         Id networkId = networkNamesMap.get(networkName);
                         List<Id> studySiteIds = networkIdToStudySiteList.get(networkId);
-                        contactIdToStudySiteIds.get(currContact.Id).addAll(studySiteIds);
+                        contactIdByStudySiteIds.get(currContact.Id).addAll(studySiteIds);
                     }
                 }
             }
 
-            System.debug('contactIdToStudySiteIds: ' + JSON.serializePretty(contactIdToStudySiteIds));
-
-            SendEmailTemplate.sendEmailNotification('RP11_Referral_Network_SS_Added', contactIdToStudySiteIds);
+            List<Notification__c> notifications = new List<Notification__c>();
+            for (Id contactId : contactIdByStudySiteIds.keySet()) {
+                for (Id SSId : contactIdByStudySiteIds.get(contactId)) {
+                    notifications.add(new Notification__c(
+                            Recipient__c = contactId,
+                            WhatId__c = SSId,
+                            Notification_Type__c = NotificationType.MESSAGE_TO_HCP_REFERRAL_NETWORK_TYPE
+                    ));
+                }
+            }
         }
     }
 }

@@ -28,7 +28,7 @@ public without sharing class Batch_UserCreatedDateNotification extends Batch_Sch
                 notifications.add(new Notification__c(
                         Recipient__c = contactObj.Id,
                         WhatId__c = contactObj.Current_Participant_Enrollment__c,
-                        Notification_Type__c = NotificationService.MESSAGE_TO_PT_ONE_YEAR_TYPE,
+                        Notification_Type__c = NotificationType.MESSAGE_TO_PT_ONE_YEAR_TYPE,
                         Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                 ));
                 if(contactObj.Next_Profile_Update_DT__c != null) {

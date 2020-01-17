@@ -13,15 +13,7 @@ public without sharing class CommunityService {
     public static String COMMUNITY_DELEGATE_ACCOUNT_NAME = 'Delegate';
 
     //community email process
-    public static String COMMUNITY_ET_HCP = 'RP1_New_Study_Email'; //email template
-    public static String COMMUNITY_ET_HCP_INVITE = 'RP1_New_Studies_Email'; //email template
-    public static String COMMUNITY_ET_HCP_BY_PI = 'RP1_New_Study_By_PI_Email'; //email template
-    public static String COMMUNITY_ET_PI = 'PI1_New_Study_Email'; //email template
-    public static String COMMUNITY_ET_PARTICIPANT = 'Patient1_New_Study'; //email template
-    public static String COMMUNITY_ET_DELEGATE = 'Delegate_New_Email'; //email template
     public static String COMMUNITY_ET_DELEGATE_WELCOME = 'Initial_Email'; //email template
-    public static String COMMUNITY_ET_SHARE_STUDY = 'Share_Study_Template'; //email template
-    public static String COMMUNITY_ET_SHARE_RESOURCE = 'Share_Resources'; //email template
 
     // org wide email address
     public static final String COMMUNITY_ORG_WIDE_ADDRESS_REFERRAL = 'IQVIA Referral Hub';

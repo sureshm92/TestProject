@@ -21,6 +21,7 @@ if [ $? = 0 ] ; then
     sfdx force:user:permset:assign --permsetname PP_Approved_Languages_Edit
     sfdx force:user:permset:assign --permsetname PP_CTP_Edit
     sfdx force:user:permset:assign --permsetname PP_Manual_Creation_Panel
+    sfdx force:user:permset:assign --permsetname PP_Message_Configuration_Edit
     sfdx force:user:permset:assign --permsetname PP_StudySite_Edit
     sfdx force:user:permset:assign --permsetname PP_Study_Resources_Edit
     sfdx force:user:permset:assign --permsetname PP_Travel_Vendors_Edit

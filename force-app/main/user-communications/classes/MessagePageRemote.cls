@@ -32,7 +32,7 @@ public without sharing class MessagePageRemote {
         @AuraEnabled public String downloadLink;
     }
 
-    @AuraEnabled(Cacheable = true)
+    @AuraEnabled
     public static MSPageData getInitData() {
         try {
             MSPageData pageData = new MSPageData();
@@ -123,7 +123,9 @@ public without sharing class MessagePageRemote {
     public static ConversationWrapper sendMessage(Conversation__c conversation, String messageText) {
         try {
             Contact userContact = CommunityService.getUserContact();
+
             String senderName;
+            Boolean needUpdate = false;
             if (userContact.userCommunityMode__c.equals(CommunityService.USER_MODE_PARTICIPANT)) {
                 List<Participant__c> participant = [SELECT Id, Full_Name__c FROM Participant__c WHERE Contact__c = :userContact.Id];
                 if(!participant.isEmpty()) {
@@ -132,12 +134,19 @@ public without sharing class MessagePageRemote {
                     senderName = userContact.UserCommunityIsDelegate__c ?
                             userContact.Full_Name__c : conversation.Participant_Enrollment__r.Participant__r.Full_Name__c;
                 }
-                conversation.haveUnreadForPI__c = true;
+                if(!conversation.haveUnreadForPI__c) {
+                    conversation.haveUnreadForPI__c = true;
+                    needUpdate = true;
+                }
             } else {
                 senderName = userContact.Full_Name__c;
-                conversation.haveUnreadForParticipant__c = true;
+                if(!conversation.haveUnreadForParticipant__c) {
+                    conversation.haveUnreadForParticipant__c = true;
+                    needUpdate = true;
+                }
             }
-            update conversation;
+
+            if(needUpdate) update conversation;
 
             insert new Message__c(
                     Conversation__c = conversation.Id,
