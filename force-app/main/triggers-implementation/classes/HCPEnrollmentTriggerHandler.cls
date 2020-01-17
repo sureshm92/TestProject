@@ -122,8 +122,8 @@ public without sharing class HCPEnrollmentTriggerHandler {
         }
 
         if (contactIdsForCreateUsers.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(contactIdsForCreateUsers);
-        if (contactsForSendNotificationMap.size() > 0) NotificationService.sendSimpleNotification(contactsForSendNotificationMap, NotificationType.MESSAGE_TO_HCP_NEW_STUDY_TYPE);
-        if (contactsForSendNotificationByPiMap.size() > 0) NotificationService.sendSimpleNotification(contactsForSendNotificationByPiMap, NotificationType.MESSAGE_TO_HCP_NEW_STUDY_BY_PI_TYPE);
+        if (contactsForSendNotificationMap.size() > 0) NotificationService.sendSimpleNotification(contactsForSendNotificationMap, NotificationCatalog.MESSAGE_TO_HCP_NEW_STUDY_TYPE);
+        if (contactsForSendNotificationByPiMap.size() > 0) NotificationService.sendSimpleNotification(contactsForSendNotificationByPiMap, NotificationCatalog.MESSAGE_TO_HCP_NEW_STUDY_BY_PI_TYPE);
     }
     
     @TestVisible

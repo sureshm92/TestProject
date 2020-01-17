@@ -2,7 +2,7 @@
  * Created by Yulia Yakushenkova on 1/16/2020.
  */
 
-public without sharing class NotificationType {
+public without sharing class NotificationCatalog {
 /**
  *  MESSAGE TO PATIENT
  */

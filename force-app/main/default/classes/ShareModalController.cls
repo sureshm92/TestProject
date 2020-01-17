@@ -11,13 +11,13 @@ public without sharing class ShareModalController {
             Id sourceId = whatId;
             String type;
             if (sourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
-                type = NotificationType.MESSAGE_TO_EXUS_SHARED_STUDY_BY_PE_TYPE;
+                type = NotificationCatalog.MESSAGE_TO_EXUS_SHARED_STUDY_BY_PE_TYPE;
             } else if (sourceId.getSobjectType() == HCP_Enrollment__c.getSObjectType()) {
-                type = NotificationType.MESSAGE_TO_EXUS_SHARE_STUDY_BY_HCP_TYPE;
+                type = NotificationCatalog.MESSAGE_TO_EXUS_SHARE_STUDY_BY_HCP_TYPE;
             } else if (sourceId.getSobjectType() == Clinical_Trial_Profile__c.getSObjectType()) {
-                type = NotificationType.MESSAGE_TO_EXUS_SHARE_SOCIAL_STUDY_TYPE;
+                type = NotificationCatalog.MESSAGE_TO_EXUS_SHARE_SOCIAL_STUDY_TYPE;
             } else if (sourceId.getSobjectType() == Resource__c.getSObjectType()) {
-                type = NotificationType.MESSAGE_TO_EXUS_SHARE_RESOURCES_TYPE;
+                type = NotificationCatalog.MESSAGE_TO_EXUS_SHARE_RESOURCES_TYPE;
             }
             Notification__c notification = new Notification__c(
                     WhatId__c = whatId,
