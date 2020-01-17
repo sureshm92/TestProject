@@ -4,12 +4,15 @@
 <aura:component description="TrialSearchContainer" implements="forceCommunity:availableForAllPageTypes"
                 controller="TrialSearchContainerRemote" extends="c:LightningService">
 
+    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+
     <aura:attribute name="trialTDOs" type="List"/>
     <aura:attribute name="taps" type="List"/>
     <aura:attribute name="participant" type="Participant__c" access="public"/>
     <aura:attribute name="formData" type="Object" access="public"/>
 
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="updateSearchEvent" event="c:UpdateConditionsOfInterestSearchEvt" action="{!c.handleUpdateSearchEvent}"/>
 
     <c:RRSpinner aura:id="mainSpinner" showSpinner="true" size="medium" fixed="true"/>

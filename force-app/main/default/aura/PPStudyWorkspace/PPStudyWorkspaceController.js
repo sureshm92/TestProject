@@ -16,7 +16,7 @@
 
         if(communityService.isInitialized()){
             component.set('v.userMode', communityService.getUserMode());
-            component.set('v.state', communityService.getParticipantState());
+            component.set('v.state', communityService.getCurrentCommunityMode().participantState);
             component.set('v.multiMode', communityService.getAllUserModes().length > 1);
             component.set('v.currentTab', tabId);
             component.set('v.taskMode', taskMode);
@@ -27,6 +27,16 @@
                 userMode: communityService.getUserMode()
             }, function (returnValue) {
                 var trialDetail = JSON.parse(returnValue);
+                debugger;
+                //find tab
+                var selectedTabId = trialDetail.tabs[0].id;
+                for(var i = 0; i < trialDetail.tabs.length; i++){
+                    if(tabId === trialDetail.tabs[i].id){
+                        selectedTabId = tabId;
+                        break;
+                    }
+                }
+                component.set('v.currentTab', selectedTabId);
                 if(trialDetail.isTCAccepted !== null) {
                     if(!trialDetail.isTCAccepted) {
                         communityService.navigateToPage('trial-terms-and-conditions?id='
@@ -38,7 +48,7 @@
 
                 component.set('v.studyDetail', trialDetail);
                 //get sticky bar position in browser window
-                if(!component.get('v.isInitialized')) communityService.setStickyBarPosition();
+                //if(!component.get('v.isInitialized')) communityService.setStickyBarPosition();
                 component.set('v.isInitialized', true);
                 if(trialDetail.trial !== null) component.set('v.shareButtons', trialDetail.shareActions);
 

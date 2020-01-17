@@ -4406,6 +4406,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Notification__c.Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Notification__c.From__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Notification__c.Notification_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5592,6 +5602,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Resource__c.Language__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.Languages__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

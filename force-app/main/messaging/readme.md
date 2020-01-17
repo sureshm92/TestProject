@@ -44,7 +44,7 @@ IQVIA Patient Portal
 ### Do not forget
 After creation **move your type and target** from default metadata directory to messaging/customMetadata
 
-Write down in NotificationService class your new Notification Type for using later in your code
+Write down in NotificationType class your new Notification Type for using later in your code
 ```
 static public String MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE = 'Message_to_PT_has_not_Logged_In_Type';
 ```
@@ -66,3 +66,6 @@ Notification__c notification = new Notification__c();
 - **Status__c**: Picklist field where value **Created** means that logic sends notification immediately. 
 **Pending** status means that logic will send notification later. (for example in Batch logic) **Processing** status overrides Pending 
 status when notification is sent successfully.
+
+####Attention: 
+- To send Email and SMS run Batch_ProcessNotification.

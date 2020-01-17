@@ -41,8 +41,12 @@ public without sharing class StudyResourceVisibilityService {
                     Boolean isLangContains = false;
                     for(String lng : pe.Study_Site__r.Approved_Lng__c.split(';')) {
                         if(contentLangs.contains(lng)) {
-                            isLangContains = true;
-                            break;
+                            if(resStudy.Resource__r.Content_Type__c == 'Relevant_Link' && !resStudy.Resource__r.Languages__c.contains(lng)){
+                                isLangContains = false;
+                            } else {
+                                isLangContains = true;
+                                break;
+                            }
                         }
                     }
                     isVisible = isVisible && isLangContains;
