@@ -66,8 +66,6 @@ public without sharing class CommunityFacadeRemote {
             cd.preventedCookies = getPreventedCookies(userContact.Id);
             cd.isDelegate = userContact.UserCommunityIsDelegate__c;
             cd.baseUrl = Site.getBaseUrl();
-
-            cd.showPastStudies = ContactService.getPastStudyWrappers(userContact.Id).size() > 0;
             
             return JSON.serialize(cd);
         } catch (Exception e) {
