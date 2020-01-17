@@ -38,8 +38,9 @@ public without sharing class MyReferringClinicsController {
     }
 
     private static void getInitDataEnrollments(InitData initData) {
-        List<HCP_Enrollment__c> enrollments = SearchService.search(initData.referringClinicsFilter, initData.paginationData);
+        List<HCP_Enrollment__c> enrollments = SearchService.search(initData.referringClinicsFilter);
         initData.filteredReferringClinics = getEnrollmentWrappers(enrollments);
+        initData.paginationData.setRecordsCount(initData.filteredReferringClinics.size());
     }
     private static List<MyReferringClinicsController.ClinicWrapper> getEnrollmentWrappers(List<HCP_Enrollment__c> enrollments) {
         List<MyReferringClinicsController.ClinicWrapper> result = new List<MyReferringClinicsController.ClinicWrapper>();
@@ -53,6 +54,7 @@ public without sharing class MyReferringClinicsController {
         for (Id hcpId : clinicEnrolmentMap.keySet()) {
             result.add(new ClinicWrapper(clinicEnrolmentMap.get(hcpId)));
         }
+
         return result;
     }
 

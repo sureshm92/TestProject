@@ -48,7 +48,7 @@ public without sharing class SearchService{
     
     private List<SObject> queryRecords(SearchFilter filter){
         if(filter.getQueryType() == QUERY_TYPE_SOQL){
-            return  DatabaseService.query(filter.getFields(), filter.getSObjectType(), filter.getFilterString());
+            return  DatabaseService.query(filter.getFields(), filter.getSObjectType(), filter.getFilterString(),filter.getOrderBy(),null,null);
         } else{
             //TODO
             return null;

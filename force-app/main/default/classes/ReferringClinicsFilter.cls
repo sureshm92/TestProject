@@ -198,8 +198,8 @@ public without sharing class ReferringClinicsFilter implements SearchFilter{
             sortVariants = new List<LabelValueItem>{
                     new LabelValueItem(Label.PG_MRZ_L_Last_Added, 'CreatedDate DESC'),
                     new LabelValueItem(Label.PG_MRZ_L_Last_Modified, 'LastModifiedDate DESC'),
-                    new LabelValueItem(Label.PG_MRZ_L_Alphabetical_A_Z, 'Study_Site__r.Name ASC'),
-                    new LabelValueItem(Label.PG_MRZ_L_Alphabetical_Z_A, 'Study_Site__r.Name DESC')
+                    new LabelValueItem(Label.PG_MRZ_L_Alphabetical_A_Z, 'HCP_Contact__r.Name ASC'),
+                    new LabelValueItem(Label.PG_MRZ_L_Alphabetical_Z_A, 'HCP_Contact__r.Name DESC')
             };
             sortType = 'CreatedDate DESC';
         }
