@@ -246,22 +246,24 @@ public without sharing class NotificationService {
             //TODO Now 'In Progress'
             Notification_Type__mdt notificationType = NotificationService.getNotificationType(n.Notification_Type__c);
             for (Notification_Target__mdt nt : notificationType.Notification_Targets__r) {
-                if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL) {
+                if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_EMAIL) {
                     if (availabilityService.isAvailable(n.WhatId__c, notificationType.Recipient_Type__c, nt.Target_Type__c, n.Recipient__c)) {
                         emailNotifications.add(n);
                         sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                     } else {
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                     }
-                } else if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_SMS) {
+                } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_SMS) {
                     if (availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c)) {
                         smsNotifications.add(n);
                         sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                     } else {
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                     }
-                } else if (nt.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_PUSH) {
+                } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_PUSH) {
                     pushNotifications.add(n);
+                    //TODO
+                } else if (nt.Target_Type__c == NOTIFICATION_RECIPIENT_TYPE_EXTERNAL_EMAIL){
                     //TODO
                 }
             }
