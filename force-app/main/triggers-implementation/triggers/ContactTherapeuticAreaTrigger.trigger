@@ -3,11 +3,5 @@
  */
 
 trigger ContactTherapeuticAreaTrigger on Contact_Therapeutic_Area__c (after insert, after delete) {
-    if (Trigger.isAfter && Trigger.isInsert) {
-        ReferralNetworkService.syncContactInterestedTopics(Trigger.new);
-    }
-
-    if (Trigger.isAfter && Trigger.isDelete) {
-        ReferralNetworkService.syncContactInterestedTopics(Trigger.old);
-    }
+    TriggerHandlerExecutor.execute(ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class);
 }
