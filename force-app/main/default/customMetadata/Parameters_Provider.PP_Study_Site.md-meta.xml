@@ -4,7 +4,9 @@
     <protected>false</protected>
     <values>
         <field>Parameters__c</field>
-        <value xsi:type="xsd:string">StudyTitle = Name</value>
+        <value xsi:type="xsd:string">
+            StudyTitle = Name
+            ReferralNetworkName = ReferralNetworkId__r.Name</value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>

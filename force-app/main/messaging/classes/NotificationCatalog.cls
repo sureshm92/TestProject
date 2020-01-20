@@ -2,7 +2,7 @@
  * Created by Yulia Yakushenkova on 1/16/2020.
  */
 
-public without sharing class NotificationType {
+public without sharing class NotificationCatalog {
 /**
  *  MESSAGE TO PATIENT
  */
@@ -47,6 +47,7 @@ public without sharing class NotificationType {
     static public String MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE = 'Message_to_PT_CTP_Trial_Complete_Type';
     static public String MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE = 'Message_to_PT_SS_Was_Changed_Type';
     static public String MESSAGE_TO_PT_ACCESS_LEVEL_CHANGED_TYPE = 'Message_to_PT_Access_Level_Changed_Type';
+    static public String MESSAGE_TO_PT_NEW_MESSAGE_TYPE = 'Message_To_PT_New_Message_Type';
 
 /**
  *  MESSAGE TO PI
@@ -55,7 +56,7 @@ public without sharing class NotificationType {
     static public String MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE = 'Message_To_PI_Accept_New_Study_Type';
     static public String MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE = 'Message_to_PI_New_Patient_Referral_Type';
     static public String MESSAGE_TO_PI_PATIENT_BECOME_ADULT_TYPE = 'Message_to_PI_Patient_Become_Adult_Type';
-    //static public String MESSAGE_TO_PI_NEW_MESSAGE_TYPE = 'Message_To_PI_New_Message_Type';
+    static public String MESSAGE_TO_PI_NEW_MESSAGE_TYPE = 'Message_To_PI_New_Message_Type';
 
 /**
  *  MESSAGE TO HCP
@@ -67,6 +68,7 @@ public without sharing class NotificationType {
     static public String MESSAGE_TO_HCP_NEW_STUDY_TYPE = 'Message_to_HCP_New_Study_Type';
     static public String MESSAGE_TO_HCP_NEW_STUDY_BY_PI_TYPE = 'HCP_New_Study_By_PI_Email';
     static public String MESSAGE_TO_HCP_APPROVED_TYPE = 'Message_to_HCP_Approved_for_SS_Type';
+    static public String MESSAGE_TO_HCP_REFERRAL_NETWORK_TYPE = 'Message_to_HCP_Referral_Network_Type';
 
 /**
  *  MESSAGE TO EXTERNAL USERS

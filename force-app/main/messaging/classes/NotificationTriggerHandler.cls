@@ -49,24 +49,20 @@ public without sharing class NotificationTriggerHandler {
     private static void sendNotificationToRecipient(List<Notification__c> newList) {
         List<Notification__c> notificationsForMassEmail = new List<Notification__c>();
         List<Notification__c> recipientNotifications = new List<Notification__c>();
-        List<Notification__c> notificationExternalEmail = new List<Notification__c>();
         for (Notification__c n : newList) {
             if (n.Recipient__c == null && n.Topic__c != null) {
                 notificationsForMassEmail.add(n);
             } else if(!System.isBatch()){
                 recipientNotifications.add(n);
-            } else if (n.Email__c != null && n.Recipient__c == null) {
-                notificationExternalEmail.add(n);
             }
         }
         //recipient notifications:
-        if(!System.isBatch() && !System.isFuture() && recipientNotifications.size() > 0) NotificationService.sendNotifications(recipientNotifications);
+        if(!System.isBatch() && !System.isFuture() && recipientNotifications.size() > 0) NotificationService.sendNotificationsAsync(JSON.serialize(recipientNotifications));
         //topic notifications:
         if (notificationsForMassEmail.size() > 0) {
             for (Notification__c n : notificationsForMassEmail) {
                 Database.executeBatch(new Batch_MassEmailPatient(n));
             }
         }
-        if (!notificationExternalEmail.isEmpty()) EmailService.sendExternalEmail(notificationExternalEmail);
     }
 }

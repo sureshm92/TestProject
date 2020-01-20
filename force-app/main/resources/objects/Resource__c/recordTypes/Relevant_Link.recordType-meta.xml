@@ -1166,9 +1166,5 @@
             <fullName>Document</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>Video</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
 </RecordType>

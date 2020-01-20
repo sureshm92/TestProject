@@ -377,10 +377,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ConversationTriggerHandler</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>CountryLookupRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
