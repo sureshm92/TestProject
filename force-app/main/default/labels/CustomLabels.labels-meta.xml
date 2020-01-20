@@ -4482,6 +4482,14 @@ The IQVIA Patient Portal Support Team</value>
         <value>What Took Place</value>
     </labels>
     <labels>
+        <fullName>Home_Page_Travel_Support_Details_Tab</fullName>
+        <categories>Home Page</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page Travel Support Details Tab</shortDescription>
+        <value>Travel Support Details</value>
+    </labels>
+    <labels>
         <fullName>IRB_Padding_Info</fullName>
         <language>en_US</language>
         <protected>false</protected>
