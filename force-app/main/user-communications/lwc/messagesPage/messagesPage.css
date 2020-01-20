@@ -8,10 +8,7 @@
 .ms-container {
     height: 600px;
     width: 1140px;
-    background-color: #ffffff;
-    border: 1px solid #f3f3f3;
     display: flex;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .ms-left {

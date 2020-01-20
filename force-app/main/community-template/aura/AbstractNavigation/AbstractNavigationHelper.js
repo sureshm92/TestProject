@@ -115,7 +115,8 @@
 
             'past-studies':{
                 page: 'past-studies',
-                label: $A.get('$Label.c.Navigation_Past_Studies')
+                label: $A.get('$Label.c.Navigation_Past_Studies'),
+                icon: 'plan-check-in-square'
             },
 
             'messages': {
