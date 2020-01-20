@@ -26,7 +26,7 @@ private without sharing class Test_ReferringRemote {
                     Mailing_Country_Code__c = 'US',
                     Mailing_State_Code__c = 'AL'
             );
-            ReferringRemote.saveParticipant(testDataInstance.hcpEnrollment.Id, JSON.serialize(pe), JSON.serialize(participant), null);
+            ReferringRemote.saveParticipant(testDataInstance.hcpEnrollment.Id, JSON.serialize(pe), JSON.serialize(participant), null, null);
         }
         Test.stopTest();
     }

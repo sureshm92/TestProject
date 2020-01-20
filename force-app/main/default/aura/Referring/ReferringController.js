@@ -63,7 +63,6 @@
                 else{
                     component.set('v.currentState', 'No Active Sites');
                 }
-
             }else{
                 component.set('v.currentState', 'Select Source')
             }
@@ -172,6 +171,14 @@
         helper.checkFields(component);
     },
 
+    doNeedsGuardian: function (component, event, helper) {
+        let participant = component.get('v.participant');
+        if (participant.Health_care_proxy_is_needed__c) {
+            helper.setDelegate(component);
+        }
+        component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
+    },
+
     checkNeedsGuardian: function (component, event, helper) {
         var spinner = component.find('mainSpinner');
         spinner.show();
@@ -179,6 +186,14 @@
             participantJSON: JSON.stringify(participant)
         }, function (returnValue) {
             component.set('v.needsGuardian', returnValue);
+            let participant = component.get('v.participant');
+            participant.Health_care_proxy_is_needed__c = returnValue;
+            participant.Adult__c = !participant.Health_care_proxy_is_needed__c;
+            component.set('v.participant', participant);
+            if (returnValue) {
+                helper.setDelegate(component);
+            }
+            spinner.hide();
         }, null, function () {
             spinner.hide();
         });
@@ -188,6 +203,8 @@
         debugger;
         var participant = component.get('v.participant');
         console.log('participant', JSON.parse(JSON.stringify(participant)));
+        var delegateParticipant = component.get('v.participant');
+        console.log('delegateParticipant', JSON.parse(JSON.stringify(delegateParticipant)));
 
         var trial = component.get('v.trial');
         var hcpeId = component.get('v.hcpeId');
@@ -198,6 +215,7 @@
             hcpeId: hcpeId,
             pEnrollmentJSON: JSON.stringify(pEnrollment),
             participantJSON: JSON.stringify(participant),
+            participantDelegateJSON: JSON.stringify(delegateParticipant),
             delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             component.set('v.currentState', 'Refer Success');

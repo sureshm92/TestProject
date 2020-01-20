@@ -57,6 +57,13 @@
         component.set('v.countryInitialized', true);
     },
 
+    setDelegate: function (component) {
+        var delegateParticipant = {
+            sobjectType: 'Participant__c',
+        };
+        component.set('v.delegateParticipant', delegateParticipant);
+    },
+
     checkFields: function (component) {
         var participant = component.get('v.participant');
         var pEnrollment = component.get('v.pEnrollment');

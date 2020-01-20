@@ -110,7 +110,9 @@ public without sharing class ReferringRemote {
                                                           FROM Age_of_Majority__mdt];
             Map<String, Integer> ageByCountryCode = new Map<String, Integer>();
             for (Age_of_Majority__mdt ageOfMajority : ageOfMajorities) {
-                ageByCountryCode.put(ageOfMajority.Country_Code__c, ageOfMajority.Age__c);
+                if (ageOfMajority.Age__c != null) {
+                    ageByCountryCode.put(ageOfMajority.Country_Code__c, ageOfMajority.Age__c.intValue());
+                }
             }
 
             Date birthDate = Date.valueOf(participant.Date_of_Birth__c);
@@ -126,9 +128,13 @@ public without sharing class ReferringRemote {
     }
 
     @AuraEnabled
-    public static void saveParticipant(Id hcpeId, String pEnrollmentJSON, String participantJSON, String delegateId){
+    public static void saveParticipant(Id hcpeId, String pEnrollmentJSON, String participantJSON, String participantDelegateJSON, String delegateId) {
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
+            Participant__c participantDelegate;
+            if (!String.isBlank(participantDelegateJSON)) {
+                participantDelegate = (Participant__c) JSON.deserialize(participantDelegateJSON, Participant__c.class);
+            }
             participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
             Participant_Enrollment__c enrollment = (Participant_Enrollment__c)
                     JSON.deserialize(pEnrollmentJSON, Participant_Enrollment__c.class);

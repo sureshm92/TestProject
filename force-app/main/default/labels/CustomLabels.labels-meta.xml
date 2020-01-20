@@ -8791,6 +8791,13 @@ Please check your CAPS lock key.</value>
         <value>Have you had a discussion with your patient about participating in a clinical study?</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Health_care_proxy_is_needed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Health care proxy is needed</shortDescription>
+        <value>Health care proxy is needed.</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_IQVIA_may_also_contact_your_patient_to_ensure_that_your_patient_has_con</fullName>
         <language>en_US</language>
         <protected>false</protected>
