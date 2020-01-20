@@ -36,25 +36,9 @@ public without sharing class PatientDelegateService {
                 DatabaseService.fieldEqual('Contact__c', CommunityService.getInstance().getCurrentContactId())
         );
         isDelegate = participantsPDList.size() > 0;
-        if (isDelegate) {
-            participant = participantsPDList[0].Participant__r;
-        } else {
-            List<Participant__c> participants = DatabaseService.query(
-                    new List<String>{
-                            'Id',
-                            'First_Name__c',
-                            'Last_Name__c',
-                            'Full_Name__c',
-                            'Contact__c',
-                            'Contact__r.Participant_Opt_In_Status_Emails__c'
-                    },
-                    Participant__c.getSObjectType(),
-                    DatabaseService.fieldEqual('Contact__c', CommunityService.getInstance().getCurrentContactId())
-            );
-            if (participants.size() > 0) participant = participants[0];
-        }
+        participant = ParticipantContext.getCurrentParticipant();
         if (participant != null) {
-            List<Patient_Delegate__c> delegatesPDList = getPDelegates(participant.Contact__c);
+            List<Patient_Delegate__c> delegatesPDList = getPDelegates(UserContext.getUserContact().Id);
             for (Patient_Delegate__c pd : delegatesPDList) delegates.add(pd.Contact__r);
         }
     }

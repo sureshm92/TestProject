@@ -35,8 +35,8 @@ public without sharing class CommunityFacadeRemote {
         Boolean isNewSession;
         String baseUrl;
         Boolean showPastStudies;
-        List<CommunityModeService.CommunityMode> allUserModes;
-        CommunityModeService.CommunityMode currentUserMode;
+        List<CommunityMode> allUserModes;
+        CommunityMode currentUserMode;
     }
     
     private class CommunityType{
@@ -55,8 +55,8 @@ public without sharing class CommunityFacadeRemote {
         try {
             Contact userContact = CommunityService.getUserContact();
             CommunityData cd = new CommunityData();
-            cd.allUserModes = CommunityModeService.getUserCommunityModes();
-            cd.currentUserMode = CommunityModeService.getCurrentCommunityMode(cd.allUserModes);
+            cd.allUserModes = UserContext.getAllUserModes();
+            cd.currentUserMode = UserContext.getCurrentUserMode();
             cd.isTCAccepted = isTCAccepted();
             cd.communityMode = userContact.userCommunityMode__c;
             cd.communityDelegateId = userContact.userCommunityDelegateId__c!=null?userContact.userCommunityDelegateId__c:'';

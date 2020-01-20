@@ -488,6 +488,7 @@ public without sharing class MyTeamRemote {
         delegateContact.AccountId = currentUser.Contact.AccountId;
         delegateContact.userCommunityMode__c = userMode;
         delegateContact.userCommunityIsDelegate__c = true;
+        delegateContact.Current_Participant_Enrollment__c = ParticipantContext.getCurrentPEId();
         delegateContact.Language__c = UserInfo.getLanguage();
         delegateContact.MailingCity = currentUser.Contact.MailingCity;
         delegateContact.MailingCountry = currentUser.Contact.MailingCountry;
