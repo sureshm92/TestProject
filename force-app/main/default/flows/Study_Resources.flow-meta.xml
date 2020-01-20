@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <actionCalls>
+        <name>BackNnRecord</name>
+        <label>BackNnRecord</label>
+        <locationX>347</locationX>
+        <locationY>1108</locationY>
+        <actionName>c:NavigateToRecord</actionName>
+        <actionType>component</actionType>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>recordId</assignToReference>
+            <name>recordId</name>
+        </outputParameters>
+    </actionCalls>
     <choices>
         <name>Article</name>
         <choiceText>Article</choiceText>
         <dataType>String</dataType>
+        <value>
+            <stringValue>Article</stringValue>
+        </value>
     </choices>
     <choices>
         <name>Certificate</name>
@@ -18,7 +39,7 @@
         <choiceText>Choose existing resource</choiceText>
         <dataType>String</dataType>
         <value>
-            <stringValue>Existing</stringValue>
+            <stringValue>Exist</stringValue>
         </value>
     </choices>
     <choices>
@@ -33,11 +54,17 @@
         <name>RelevantLink</name>
         <choiceText>Relevant Link</choiceText>
         <dataType>String</dataType>
+        <value>
+            <stringValue>Relevant Link</stringValue>
+        </value>
     </choices>
     <choices>
         <name>Study_Document_recordtype</name>
         <choiceText>Study Document</choiceText>
         <dataType>String</dataType>
+        <value>
+            <stringValue>Study Document</stringValue>
+        </value>
     </choices>
     <choices>
         <name>StudyDocument</name>
@@ -56,6 +83,9 @@
         <name>Video</name>
         <choiceText>Video</choiceText>
         <dataType>String</dataType>
+        <value>
+            <stringValue>Video</stringValue>
+        </value>
     </choices>
     <constants>
         <name>Content_Class</name>
@@ -67,12 +97,78 @@
     <decisions>
         <name>Current_or_new_resource</name>
         <label>Current or new resource</label>
-        <locationX>759</locationX>
-        <locationY>186</locationY>
+        <locationX>763</locationX>
+        <locationY>225</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
+            <name>New_Res_Study_Doc</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Pick_option</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Choose_record_type_recource</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Study Document</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Study_Doc_c</targetReference>
+            </connector>
+            <label>New Res Study Doc</label>
+        </rules>
+        <rules>
             <name>New_Res</name>
-            <conditionLogic>or</conditionLogic>
+            <conditionLogic>1 AND 2</conditionLogic>
+            <conditions>
+                <leftValueReference>Pick_option</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Choose_record_type_recource</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Article</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Article_type_record</targetReference>
+            </connector>
+            <label>New Res Article</label>
+        </rules>
+        <rules>
+            <name>Exist_res</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Pick_option</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Exist</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Exist_Res_c</targetReference>
+            </connector>
+            <label>Exist Res</label>
+        </rules>
+        <rules>
+            <name>New_Res_Relevant_Link</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Choose_record_type_recource</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Relevant Link</stringValue>
+                </rightValue>
+            </conditions>
             <conditions>
                 <leftValueReference>Pick_option</leftValueReference>
                 <operator>EqualTo</operator>
@@ -81,24 +177,31 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Record_Type</targetReference>
+                <targetReference>Relevant_Link_recordType</targetReference>
             </connector>
-            <label>New Res</label>
+            <label>New Res Relevant Link</label>
         </rules>
         <rules>
-            <name>Exist_res</name>
-            <conditionLogic>or</conditionLogic>
+            <name>New_Res_Video</name>
+            <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>Pick_option</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Existing</stringValue>
+                    <elementReference>New</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Choose_record_type_recource</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Video</stringValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Exist_Res_c</targetReference>
+                <targetReference>Video_type_record</targetReference>
             </connector>
-            <label>Exist Res</label>
+            <label>New Res Video</label>
         </rules>
     </decisions>
     <dynamicChoiceSets>
@@ -116,6 +219,22 @@
         <displayField xsi:nil="true"/>
         <object xsi:nil="true"/>
         <picklistField>Content_Type__c</picklistField>
+        <picklistObject>Resource__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>ContentClass_picklist</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Content_Class__c</picklistField>
+        <picklistObject>Resource__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>Countries_multipicklist</name>
+        <dataType>Multipicklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Countries__c</picklistField>
         <picklistObject>Resource__c</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
@@ -144,6 +263,14 @@
         <picklistObject>Resource__c</picklistObject>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
+        <name>Languages_c_multipicklist</name>
+        <dataType>Multipicklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Languages__c</picklistField>
+        <picklistObject>Resource__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
         <name>Recources_Name_second</name>
         <dataType>String</dataType>
         <displayField>Title__c</displayField>
@@ -163,6 +290,19 @@
         <sortOrder>Asc</sortOrder>
         <valueField>Name</valueField>
     </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>x3rdPartySource_picklist</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>X3rd_Party_Source__c</picklistField>
+        <picklistObject>Resource__c</picklistObject>
+    </dynamicChoiceSets>
+    <formulas>
+        <name>CTPId</name>
+        <dataType>String</dataType>
+        <expression>{!ClinicalTrialProfileId.Id}</expression>
+    </formulas>
     <interviewLabel>Study Resources {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Study_Resources</label>
     <processMetadataValues>
@@ -179,10 +319,147 @@
     </processMetadataValues>
     <processType>Flow</processType>
     <recordCreates>
+        <name>Create_record_article</name>
+        <label>Create record article</label>
+        <locationX>286</locationX>
+        <locationY>605</locationY>
+        <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
+        <connector>
+            <targetReference>Create_Study_Res</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Author_s_Name__c</field>
+            <value>
+                <elementReference>Author_s_Name_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Body__c</field>
+            <value>
+                <elementReference>Body_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Byline__c</field>
+            <value>
+                <elementReference>Byline_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Content_Class__c</field>
+            <value>
+                <elementReference>Content_Class_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Copyright__c</field>
+            <value>
+                <elementReference>Copyright_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description__c</field>
+            <value>
+                <elementReference>Description_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Expiration_Date__c</field>
+            <value>
+                <elementReference>Expiration_Date_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Image_Subtitle__c</field>
+            <value>
+                <elementReference>Image_Subtitle_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Image_Title__c</field>
+            <value>
+                <elementReference>Image_Title_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Image__c</field>
+            <value>
+                <elementReference>Image_Link_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Language__c</field>
+            <value>
+                <elementReference>Language_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Posting_Date__c</field>
+            <value>
+                <elementReference>Posting_Date_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Remove_sharing__c</field>
+            <value>
+                <elementReference>Remove_sharing_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Source__c</field>
+            <value>
+                <elementReference>Source_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subtitle__c</field>
+            <value>
+                <elementReference>Subtitle_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Therapeutic_Areas__c</field>
+            <value>
+                <elementReference>SiteCore_Conditions_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Title__c</field>
+            <value>
+                <elementReference>Title_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>URL_Part__c</field>
+            <value>
+                <elementReference>URL_Part_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Updated_Date__c</field>
+            <value>
+                <elementReference>Updated_Date_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>X3rd_Party_Source__c</field>
+            <value>
+                <elementReference>X3rd_Party_Source_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>article_external_link__c</field>
+            <value>
+                <elementReference>Article_External_Link_field_recordtypeArticle</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Resource__c</object>
+    </recordCreates>
+    <recordCreates>
         <name>Create_Res</name>
         <label>Create Res</label>
-        <locationX>432</locationX>
-        <locationY>459</locationY>
+        <locationX>787</locationX>
+        <locationY>629</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Study_Res</targetReference>
@@ -226,10 +503,200 @@
         <object>Resource__c</object>
     </recordCreates>
     <recordCreates>
+        <name>Create_Res_0</name>
+        <label>Create Res</label>
+        <locationX>597</locationX>
+        <locationY>609</locationY>
+        <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
+        <connector>
+            <targetReference>Create_Study_Res</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Content_Type__c</field>
+            <value>
+                <stringValue>Study_Document</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Countries__c</field>
+            <value>
+                <elementReference>Countries_field_RecordType</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Languages__c</field>
+            <value>
+                <elementReference>Languages_field_RecordType</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Title__c</field>
+            <value>
+                <elementReference>Title_URL_field_RecordType</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>URL__c</field>
+            <value>
+                <elementReference>URL_field_urlRecordType</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Resource__c</object>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Res_Video</name>
+        <label>Create Res Video</label>
+        <locationX>50</locationX>
+        <locationY>604</locationY>
+        <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
+        <connector>
+            <targetReference>Create_Study_Res</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Author_s_Name__c</field>
+            <value>
+                <elementReference>Author_s_Name_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Body__c</field>
+            <value>
+                <elementReference>Body_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Byline__c</field>
+            <value>
+                <elementReference>Byline_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Content_Class__c</field>
+            <value>
+                <elementReference>Content_Class_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Content_Type__c</field>
+            <value>
+                <stringValue>Study_Document</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Copyright__c</field>
+            <value>
+                <elementReference>Copyright_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Description__c</field>
+            <value>
+                <elementReference>Description_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Expiration_Date__c</field>
+            <value>
+                <elementReference>Expiration_Date_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Image_Subtitle__c</field>
+            <value>
+                <elementReference>Image_Subtitle_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Image_Title__c</field>
+            <value>
+                <elementReference>Image_Title_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Image__c</field>
+            <value>
+                <elementReference>Image_Link_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Language__c</field>
+            <value>
+                <elementReference>Language_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Posting_Date__c</field>
+            <value>
+                <elementReference>Posting_Date_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Remove_sharing__c</field>
+            <value>
+                <elementReference>Remove_sharing_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Source__c</field>
+            <value>
+                <elementReference>Source_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subtitle__c</field>
+            <value>
+                <elementReference>Subtitle_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Therapeutic_Areas__c</field>
+            <value>
+                <elementReference>SiteCore_Conditions_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Title__c</field>
+            <value>
+                <stringValue>Title_field_recordtypeArticle_0</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>URL_Part__c</field>
+            <value>
+                <elementReference>URL_Part_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Updated_Date__c</field>
+            <value>
+                <elementReference>Updated_Date_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Video__c</field>
+            <value>
+                <elementReference>Video_Link_field</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>X3rd_Party_Source__c</field>
+            <value>
+                <elementReference>X3rd_Party_Source_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>article_external_link__c</field>
+            <value>
+                <elementReference>Article_External_Link_field_recordtypeArticle_0</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Resource__c</object>
+    </recordCreates>
+    <recordCreates>
         <name>Create_Study_Res</name>
         <label>Create Study Res</label>
-        <locationX>574</locationX>
-        <locationY>708</locationY>
+        <locationX>613</locationX>
+        <locationY>1260</locationY>
         <connector>
             <targetReference>Upload_File</targetReference>
         </connector>
@@ -302,12 +769,12 @@
         <object>Res_study__c</object>
     </recordCreates>
     <recordCreates>
-        <name>StudyDoc2</name>
-        <label>StudyDoc2</label>
-        <locationX>1033</locationX>
-        <locationY>681</locationY>
+        <name>Create_Study_Res_0</name>
+        <label>Create Study Res</label>
+        <locationX>969</locationX>
+        <locationY>1108</locationY>
         <connector>
-            <targetReference>Upload_File</targetReference>
+            <targetReference>BackNnRecord</targetReference>
         </connector>
         <inputAssignments>
             <field>Active_After_Days__c</field>
@@ -318,7 +785,7 @@
         <inputAssignments>
             <field>Active_On_Status__c</field>
             <value>
-                <elementReference>RecourcesName</elementReference>
+                <elementReference>ActiveOnStatus</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -342,7 +809,7 @@
         <inputAssignments>
             <field>Resource__c</field>
             <value>
-                <elementReference>RecourcesName</elementReference>
+                <elementReference>Recources_for_StudyRes</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -378,10 +845,170 @@
         <object>Res_study__c</object>
     </recordCreates>
     <screens>
+        <name>Article_type_record</name>
+        <label>Article</label>
+        <locationX>286</locationX>
+        <locationY>431</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Create_record_article</targetReference>
+        </connector>
+        <fields>
+            <name>Title_field_recordtypeArticle</name>
+            <dataType>String</dataType>
+            <fieldText>Title</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Image_Link_field_recordtypeArticle</name>
+            <fieldText>Image Link</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Subtitle_field_recordtypeArticle</name>
+            <dataType>String</dataType>
+            <fieldText>Subtitle</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Image_Title_field_recordtypeArticle</name>
+            <dataType>String</dataType>
+            <fieldText>Image Title</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Content_Class_field_recordtypeArticle</name>
+            <choiceReferences>ContentClass_picklist</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Content Class</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Language_field_recordtypeArticle</name>
+            <choiceReferences>Languageobject</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Language</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Posting_Date_field_recordtypeArticle</name>
+            <dataType>Date</dataType>
+            <fieldText>Posting Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Expiration_Date_field_recordtypeArticle</name>
+            <dataType>Date</dataType>
+            <fieldText>Expiration Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Updated_Date_field_recordtypeArticle</name>
+            <dataType>Date</dataType>
+            <fieldText>Updated Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Description_field_recordtypeArticle</name>
+            <fieldText>Description</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Body_field_recordtypeArticle</name>
+            <fieldText>Body</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Author_s_Name_field_recordtypeArticle</name>
+            <dataType>String</dataType>
+            <fieldText>Author&#39;s Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Source_field_recordtypeArticle</name>
+            <dataType>String</dataType>
+            <fieldText>Source</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Copyright_field_recordtypeArticle</name>
+            <dataType>String</dataType>
+            <fieldText>Copyright</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>X3rd_Party_Source_field_recordtypeArticle</name>
+            <choiceReferences>x3rdPartySource_picklist</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>3rd Party Source</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>SiteCore_Conditions_field_recordtypeArticle</name>
+            <dataType>String</dataType>
+            <fieldText>SiteCore Conditions</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Image_Subtitle_field_recordtypeArticle</name>
+            <dataType>String</dataType>
+            <fieldText>Image Subtitle</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Byline_field_recordtypeArticle</name>
+            <dataType>String</dataType>
+            <fieldText>Byline</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>URL_Part_field_recordtypeArticle</name>
+            <dataType>String</dataType>
+            <fieldText>URL Part</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Article_External_Link_field_recordtypeArticle</name>
+            <fieldText>Article External Link</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Remove_sharing_field_recordtypeArticle</name>
+            <dataType>Boolean</dataType>
+            <fieldText>Remove sharing</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
         <name>Choose</name>
         <label>Choose</label>
-        <locationX>765</locationX>
-        <locationY>52</locationY>
+        <locationX>771</locationX>
+        <locationY>50</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -403,13 +1030,13 @@
     <screens>
         <name>Exist_Res_c</name>
         <label>Exist Res</label>
-        <locationX>1027</locationX>
-        <locationY>185</locationY>
+        <locationX>971</locationX>
+        <locationY>434</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Create_Study_Res</targetReference>
+            <targetReference>Create_Study_Res_0</targetReference>
         </connector>
         <fields>
             <name>Study_Recources</name>
@@ -444,14 +1071,14 @@
     </screens>
     <screens>
         <name>Record_Type</name>
-        <label>Record Type</label>
-        <locationX>249</locationX>
-        <locationY>219</locationY>
+        <label>Choose Record Type Recource</label>
+        <locationX>298</locationX>
+        <locationY>50</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Study_Doc_c</targetReference>
+            <targetReference>Study_Resource</targetReference>
         </connector>
         <fields>
             <name>Choose_record_type_recource</name>
@@ -460,9 +1087,51 @@
             <choiceReferences>Study_Document_recordtype</choiceReferences>
             <choiceReferences>Video</choiceReferences>
             <dataType>String</dataType>
-            <defaultSelectedChoiceReference>Study_Document_recordtype</defaultSelectedChoiceReference>
             <fieldText>Choose record type recource</fieldText>
             <fieldType>RadioButtons</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Relevant_Link_recordType</name>
+        <label>Relevant Link</label>
+        <locationX>597</locationX>
+        <locationY>439</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Create_Res_0</targetReference>
+        </connector>
+        <fields>
+            <name>URL_field_urlRecordType</name>
+            <fieldText>URL</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Title_URL_field_RecordType</name>
+            <dataType>String</dataType>
+            <fieldText>Title</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Countries_field_RecordType</name>
+            <choiceReferences>Countries_multipicklist</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Countries</fieldText>
+            <fieldType>MultiSelectPicklist</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Languages_field_RecordType</name>
+            <choiceReferences>Languages_c_multipicklist</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Languages</fieldText>
+            <fieldType>MultiSelectPicklist</fieldType>
             <isRequired>false</isRequired>
         </fields>
         <showFooter>true</showFooter>
@@ -471,8 +1140,8 @@
     <screens>
         <name>Study_Doc_c</name>
         <label>Study Doc</label>
-        <locationX>432</locationX>
-        <locationY>322</locationY>
+        <locationX>786</locationX>
+        <locationY>428</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -532,8 +1201,8 @@
     <screens>
         <name>Study_Resource</name>
         <label>Study Resource</label>
-        <locationX>487</locationX>
-        <locationY>52</locationY>
+        <locationX>513</locationX>
+        <locationY>50</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -563,15 +1232,15 @@
                 </value>
             </inputParameters>
             <inputParameters>
-                <name>recordId</name>
-                <value>
-                    <elementReference>recordId</elementReference>
-                </value>
-            </inputParameters>
-            <inputParameters>
                 <name>required</name>
                 <value>
                     <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>recordId</name>
+                <value>
+                    <elementReference>recordId</elementReference>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
@@ -668,11 +1337,14 @@
     <screens>
         <name>Upload_File</name>
         <label>Upload File</label>
-        <locationX>859</locationX>
-        <locationY>851</locationY>
+        <locationX>347</locationX>
+        <locationY>1260</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
+        <connector>
+            <targetReference>BackNnRecord</targetReference>
+        </connector>
         <fields>
             <name>Upload</name>
             <fieldText>&lt;p&gt;Choose file for upload&amp;nbsp;&lt;/p&gt;</fieldText>
@@ -689,15 +1361,185 @@
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
+            <outputParameters>
+                <assignToReference>Recources_for_StudyRes</assignToReference>
+                <name>recordId</name>
+            </outputParameters>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>Video_type_record</name>
+        <label>Video</label>
+        <locationX>50</locationX>
+        <locationY>218</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Create_Res_Video</targetReference>
+        </connector>
+        <fields>
+            <name>Title_field_recordtypeArticle_0</name>
+            <dataType>String</dataType>
+            <fieldText>Title</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Image_Link_field_recordtypeArticle_0</name>
+            <fieldText>Image Link</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Subtitle_field_recordtypeArticle_0</name>
+            <dataType>String</dataType>
+            <fieldText>Subtitle</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Image_Title_field_recordtypeArticle_0</name>
+            <dataType>String</dataType>
+            <fieldText>Image Title</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Content_Class_field_recordtypeArticle_0</name>
+            <choiceReferences>ContentClass_picklist</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Content Class</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Language_field_recordtypeArticle_0</name>
+            <choiceReferences>Languageobject</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Language</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Posting_Date_field_recordtypeArticle_0</name>
+            <dataType>Date</dataType>
+            <fieldText>Posting Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Expiration_Date_field_recordtypeArticle_0</name>
+            <dataType>Date</dataType>
+            <fieldText>Expiration Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Updated_Date_field_recordtypeArticle_0</name>
+            <dataType>Date</dataType>
+            <fieldText>Updated Date</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Video_Link_field</name>
+            <fieldText>Video Link</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Description_field_recordtypeArticle_0</name>
+            <fieldText>Description</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Body_field_recordtypeArticle_0</name>
+            <fieldText>Body</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>Author_s_Name_field_recordtypeArticle_0</name>
+            <dataType>String</dataType>
+            <fieldText>Author&#39;s Name</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Source_field_recordtypeArticle_0</name>
+            <dataType>String</dataType>
+            <fieldText>Source</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Copyright_field_recordtypeArticle_0</name>
+            <dataType>String</dataType>
+            <fieldText>Copyright</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>X3rd_Party_Source_field_recordtypeArticle_0</name>
+            <choiceReferences>x3rdPartySource_picklist</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>3rd Party Source</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
+            <name>SiteCore_Conditions_field_recordtypeArticle_0</name>
+            <dataType>String</dataType>
+            <fieldText>SiteCore Conditions</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Image_Subtitle_field_recordtypeArticle_0</name>
+            <dataType>String</dataType>
+            <fieldText>Image Subtitle</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Byline_field_recordtypeArticle_0</name>
+            <dataType>String</dataType>
+            <fieldText>Byline</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>URL_Part_field_recordtypeArticle_0</name>
+            <dataType>String</dataType>
+            <fieldText>URL Part</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Article_External_Link_field_recordtypeArticle_0</name>
+            <fieldText>Article External Link</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <isRequired>false</isRequired>
+        </fields>
+        <fields>
+            <name>Remove_sharing_field_recordtypeArticle_0</name>
+            <dataType>Boolean</dataType>
+            <fieldText>Remove sharing</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>180</locationX>
-        <locationY>52</locationY>
+        <locationX>50</locationX>
+        <locationY>135</locationY>
         <connector>
-            <targetReference>Study_Resource</targetReference>
+            <targetReference>Record_Type</targetReference>
         </connector>
     </start>
     <status>Active</status>
@@ -710,6 +1552,14 @@
         <objectType>Resource__c</objectType>
     </variables>
     <variables>
+        <name>ClinicalTrialProfileId</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Clinical_Trial_Profile__c</objectType>
+    </variables>
+    <variables>
         <name>Created_resource</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
@@ -718,11 +1568,32 @@
         <objectType>Resource__c</objectType>
     </variables>
     <variables>
+        <name>currentCTPvar13</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Clinical_Trial_Profile__c</objectType>
+    </variables>
+    <variables>
+        <name>IdfirstRecord</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <elementReference>recordId</elementReference>
+        </value>
+    </variables>
+    <variables>
         <name>recordId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
-        <isOutput>false</isOutput>
+        <isOutput>true</isOutput>
+        <value>
+            <elementReference>recordId</elementReference>
+        </value>
     </variables>
     <variables>
         <name>Recources_for_StudyRes</name>
@@ -739,6 +1610,16 @@
         <isOutput>true</isOutput>
         <value>
             <elementReference>RecourcesName</elementReference>
+        </value>
+    </variables>
+    <variables>
+        <name>ResDoc_doc</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue>Recource Doc</stringValue>
         </value>
     </variables>
     <variables>
