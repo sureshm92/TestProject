@@ -2,8 +2,9 @@
  - Created by Olga Skrynnikova on 1/17/2020.
  -->
 
-<aura:component description="ButtonForFlow" implements="force:lightningQuickAction, lightning:actionOverride">
+<aura:component description="ButtonForFlow" implements="force:lightningQuickAction, lightning:actionOverride, force:hasRecordId">
         <aura:attribute name="isOpen" type="Boolean" default="false" access="private"/>
+        <aura:attribute name="recordId" type="String"/>
         <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
         <aura:if isTrue="{!v.isOpen}">
