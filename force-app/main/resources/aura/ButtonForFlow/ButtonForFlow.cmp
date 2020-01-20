@@ -2,11 +2,14 @@
  - Created by Olga Skrynnikova on 1/17/2020.
  -->
 
-<aura:component description="ButtonForFlow" implements="force:lightningQuickAction, lightning:actionOverride, force:hasRecordId">
+<aura:component description="ButtonForFlow" implements="force:lightningQuickAction,lightning:actionOverride,force:hasRecordId,lightning:hasPageReference,lightning:isUrlAddressable">
         <aura:attribute name="isOpen" type="Boolean" default="false" access="private"/>
         <aura:attribute name="recordId" type="String"/>
+        <aura:attribute name="pageReference" type="Object" />
         <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
+    	<lightning:navigation aura:id="navService"/>
+    	
         <aura:if isTrue="{!v.isOpen}">
                 <div style="height: 640px;">
                         <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
@@ -23,4 +26,3 @@
                 </div>
         </aura:if>
 </aura:component>
-
