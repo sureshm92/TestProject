@@ -26,7 +26,7 @@ public without sharing class RRProfileController {
             result.participantName = participantForCurrentUser[0].First_Name__c + ' ' + participantForCurrentUser[0].Last_Name__c;
         }
 
-        result.isDelegate = PatientDelegateService.getInstance().isDelegate();
+        result.isDelegate = ParticipantContext.isCurrentDelegate();
         return JSON.serialize(result);
     }
 
