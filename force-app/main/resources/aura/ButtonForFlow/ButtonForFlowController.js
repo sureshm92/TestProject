@@ -6,7 +6,8 @@
     doInit : function(component, event, helper) {
         component.set('v.isOpen', true);
         var flow = component.find('flow');
-        flow.startFlow('Study_Resources');
+        let recordId = component.get('v.recordId');
+        flow.startFlow('Study_Resources', recordId);
     },
 
     closeFlowModal : function(component, event, helper) {
