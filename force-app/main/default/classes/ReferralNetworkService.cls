@@ -130,10 +130,12 @@ public class ReferralNetworkService {
                     notifications.add(new Notification__c(
                             Recipient__c = contactId,
                             WhatId__c = SSId,
-                            Notification_Type__c = NotificationType.MESSAGE_TO_HCP_REFERRAL_NETWORK_TYPE
+                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_HCP_REFERRAL_NETWORK_TYPE
                     ));
                 }
             }
+
+            insert notifications;
         }
     }
 }

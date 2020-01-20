@@ -5,6 +5,8 @@
                 "type": "Study_Site__c",
                 "referenceId": "ss1"
             },
+            "SMS_Are_Available__c": true,
+            "Messages_Are_Available__c": true,
             "Approved_Lng__c": "en_US;ru",
             "Name": "Test SS1",
             "Clinical_Trial_Profile__c": "@ctp1",
@@ -19,6 +21,8 @@
                 "type": "Study_Site__c",
                 "referenceId": "ss2"
             },
+            "SMS_Are_Available__c": true,
+            "Messages_Are_Available__c": true,
             "Approved_Lng__c": "en_US;ru",
             "Name": "Test SS2",
             "Clinical_Trial_Profile__c": "@ctp2",
