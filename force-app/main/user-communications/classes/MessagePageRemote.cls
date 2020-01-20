@@ -185,6 +185,15 @@ public without sharing class MessagePageRemote {
         }
     }
 
+    @AuraEnabled
+    public static Integer getUnreadCount() {
+        try {
+            return ConversationService.getUnreadConversationCount(UserInfo.getUserId(), CommunityService.getUserContact().userCommunityMode__c);
+        } catch (Exception e) {
+            return (Integer) AuraHelper.throwException(e);
+        }
+    }
+
     private static ConversationWrapper getConversationWrapper(String userMode, Conversation__c conversation, List<Message__c> messages) {
         ConversationWrapper conWr = new ConversationWrapper();
         conWr.conversation = conversation;
