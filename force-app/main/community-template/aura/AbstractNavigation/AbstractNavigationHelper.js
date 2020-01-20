@@ -127,7 +127,6 @@
 
         //init items for every type
         var participantTabs = [];
-        debugger;
         participantTabs.push(this.allPagesMap['participant-home']);
         if(communityService.getCurrentCommunityMode().currentPE) {
             participantTabs.push(this.allPagesMap['my-study']);
