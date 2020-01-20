@@ -100,6 +100,32 @@ public without sharing class ReferringRemote {
     }
 
     @AuraEnabled
+    public static Boolean checkNeedsGuardian(String participantJSON) {
+        Boolean needsGuardian = false;
+        Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
+        if (!String.isEmpty(participant.Date_of_Birth__c)) {
+            List<Age_of_Majority__mdt> ageOfMajorities = [SELECT Country_Code__c,
+                                                                 State_Code__c,
+                                                                 Age__c
+                                                          FROM Age_of_Majority__mdt];
+            Map<String, Integer> ageByCountryCode = new Map<String, Integer>();
+            for (Age_of_Majority__mdt ageOfMajority : ageOfMajorities) {
+                ageByCountryCode.put(ageOfMajority.Country_Code__c, ageOfMajority.Age__c);
+            }
+
+            Date birthDate = Date.valueOf(participant.Date_of_Birth__c);
+            Integer participantAge =
+                    Date.newInstance(2000, birthDate.month(), birthDate.day()) <
+                            Date.newInstance(2000, Date.today().month(), Date.today().day()) ?
+                            Date.today().year() - birthDate.year() : Date.today().year() - birthDate.year() - 1;
+
+            return participantAge >= ageByCountryCode.get(participant.Mailing_Country_Code__c);
+        }
+
+        return needsGuardian;
+    }
+
+    @AuraEnabled
     public static void saveParticipant(Id hcpeId, String pEnrollmentJSON, String participantJSON, String delegateId){
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);

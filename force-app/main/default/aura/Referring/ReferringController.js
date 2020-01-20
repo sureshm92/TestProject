@@ -172,6 +172,18 @@
         helper.checkFields(component);
     },
 
+    checkNeedsGuardian: function (component, event, helper) {
+        var spinner = component.find('mainSpinner');
+        spinner.show();
+        communityService.executeAction(component, 'checkNeedsGuardian', {
+            participantJSON: JSON.stringify(participant)
+        }, function (returnValue) {
+            component.set('v.needsGuardian', returnValue);
+        }, null, function () {
+            spinner.hide();
+        });
+    },
+
     doSaveParticipant: function (component) {
         debugger;
         var participant = component.get('v.participant');
