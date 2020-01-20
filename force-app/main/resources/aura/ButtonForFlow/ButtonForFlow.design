@@ -1,0 +1,7 @@
+<!--
+ - Created by Olga Skrynnikova on 1/20/2020.
+ -->
+
+<design:component>
+    <design:attribute label="CTPId" name="recordId"/>
+</design:component>

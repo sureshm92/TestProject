@@ -1,0 +1,7 @@
+<!--
+ - Created by Olga Skrynnikova on 1/20/2020.
+ -->
+
+<aura:component description="NavigateToRecord" implements="force:lightningQuickAction, lightning:availableForFlowActions">
+    <aura:attribute name="recordId" type="String" />
+</aura:component>
