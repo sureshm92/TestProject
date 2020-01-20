@@ -24,14 +24,14 @@ public without sharing class CommunityMode {
         this.userMode = userMode;
         this.label = label;
         this.groupLabel = label;
-        generateKey();
+        init();
     }
     
     public CommunityMode(String label) {
         this.isSplitter = true;
         this.label = label;
         this.groupLabel = label;
-        generateKey();
+        init();
     }
     
     public CommunityMode(String userMode, String label, Id delegateId) {
@@ -39,7 +39,7 @@ public without sharing class CommunityMode {
         this.label = label;
         this.groupLabel = label;
         this.currentHCPDelegate = delegateId;
-        generateKey();
+        init();
     }
     
     public CommunityMode(String userMode, String label, Id delegateId, Participant_Enrollment__c pe) {
@@ -57,7 +57,7 @@ public without sharing class CommunityMode {
             this.participantState = ParticipantService.ParticipantStates.ALUMNI + '';
         }
         this.currentDelegateId = delegateId;
-        generateKey();
+        init();
     }
     
     public void addSubMode(CommunityMode subMode){
@@ -79,13 +79,20 @@ public without sharing class CommunityMode {
         update userContact;
     }
     
-    private void generateKey(){
+    private void init(){
         Id currentDelId = currentDelegateId;
         Id whatId;
-        if(userMode == CommunityService.USER_MODE_HCP) currentDelId = currentHCPDelegate;
-        if(userMode == CommunityService.USER_MODE_PARTICIPANT) whatId = currentPE;
+        if(userMode == CommunityService.USER_MODE_HCP) {
+            currentDelId = currentHCPDelegate;
+            isDelegate = currentHCPDelegate != null;
+        }
+        if(userMode == CommunityService.USER_MODE_PARTICIPANT) {
+            whatId = currentPE;
+            isDelegate = currentDelegateId != null;
+        }
         key = CommunityModeService.generateModeKey(userMode, currentDelId, whatId);
         groupKey = key;
+        
     }
 
 }

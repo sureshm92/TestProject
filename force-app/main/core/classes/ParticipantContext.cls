@@ -19,6 +19,11 @@ public without sharing class ParticipantContext {
         return currentParticipant;
     }
     
+    public static Participant__c getOwnParticipant(){
+        init();
+        return ownParticipant;
+    }
+    
     public static Participant_Enrollment__c getCurrentPE(){
         init();
         return currentPE;
