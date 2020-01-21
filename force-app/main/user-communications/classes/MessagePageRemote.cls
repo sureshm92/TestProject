@@ -126,6 +126,15 @@ public without sharing class MessagePageRemote {
     }
 
     @AuraEnabled
+    public static void sendMultipleMessage(List<String> peIds, String messageText) {
+        try {
+//            [SELECT Id FROM Conversation__c WHERE P]
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
     public static ConversationWrapper sendMessage(Conversation__c conversation, String messageText) {
         try {
             Contact userContact = CommunityService.getUserContact();
@@ -204,7 +213,7 @@ public without sharing class MessagePageRemote {
                     FROM Participant_Enrollment__c
                     WHERE PI_Contact__c = :CommunityService.getInstance().getCurrentContactId()
                     AND Study_Site__r.Messages_Are_Available__c = TRUE
-                    AND Participant__r.Full_Name__c LIKE :searchTerm
+                    AND (Participant__r.First_Name__c LIKE :searchTerm OR Participant__r.Last_Name__c LIKE :searchTerm)
                     AND Id NOT IN:selectedIds
             ];
 
