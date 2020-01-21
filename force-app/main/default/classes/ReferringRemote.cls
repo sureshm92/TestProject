@@ -131,11 +131,13 @@ public without sharing class ReferringRemote {
     public static void saveParticipant(Id hcpeId, String pEnrollmentJSON, String participantJSON, String participantDelegateJSON, String delegateId) {
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
+            participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
             Participant__c participantDelegate;
             if (!String.isBlank(participantDelegateJSON)) {
                 participantDelegate = (Participant__c) JSON.deserialize(participantDelegateJSON, Participant__c.class);
+                participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
             }
-            participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
+
             Participant_Enrollment__c enrollment = (Participant_Enrollment__c)
                     JSON.deserialize(pEnrollmentJSON, Participant_Enrollment__c.class);
             enrollment.Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI;
@@ -152,6 +154,11 @@ public without sharing class ReferringRemote {
             enrollment.Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
 
             ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participant, enrollment);
+
+            if (participantDelegate != null) {
+                Participant_Enrollment__c delegateEnrollment = enrollment.clone(false, true, false, false);
+                ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participantDelegate, delegateEnrollment);
+            }
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }

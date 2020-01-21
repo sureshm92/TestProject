@@ -18,6 +18,7 @@
     <aura:attribute name="studySitesPending" type="List"/>
     <aura:attribute name="studySiteMarkers" type="List"/>
     <aura:attribute name="participant" type="Object"/>
+    <aura:attribute name="delegateParticipant" type="Object"/>
     <aura:attribute name="emailRepeat" type="String"/>
     <aura:attribute name="emailDelegateRepeat" type="String"/>
     <aura:attribute name="allRequiredCompleted" type="Boolean" default="false"/>
@@ -475,12 +476,12 @@
                                                 </div>
                                             </div>
                                             <div class="rr-form-element">
-                                                <lightning:input aura:id="emailField" type="email" label="{!$Label.c.PG_AS_F_Email_address}" value="{!v.delegateParticipant.Email__c}"
+                                                <lightning:input aura:id="emailDelegateField" type="email" label="{!$Label.c.PG_AS_F_Email_address}" value="{!v.delegateParticipant.Email__c}"
                                                                  required="true" onblur="{!c.doCheckfields}"
                                                                  messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"/>
                                             </div>
                                             <div class="rr-form-element">
-                                                <lightning:input aura:id="emailRepeatField" type="email" label="{!$Label.c.PG_Ref_L_Re_enter_email_address}" value="{!v.emailDelegateRepeat}"
+                                                <lightning:input aura:id="emailDelegateRepeatField" type="email" label="{!$Label.c.PG_Ref_L_Re_enter_email_address}" value="{!v.emailDelegateRepeat}"
                                                                  required="true" onblur="{!c.doCheckfields}"
                                                                  messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"/>
                                             </div>
