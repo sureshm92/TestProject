@@ -5,7 +5,7 @@
 public without sharing class Batch_DeleteProcessedNotifications extends Batch_ScheduledAbstract{
     
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        Datetime removeDT = Datetime.now().addDays(-2);
+        Datetime removeDT = Datetime.now();
         return Database.getQueryLocator([
                 SELECT Id,
                         Status__c,
