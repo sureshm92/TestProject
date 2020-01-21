@@ -16,6 +16,7 @@ public without sharing class ReferringRemote {
         public Map<String, StudyActions.Action> actions;
         public List<LabelValueItem> countries;
         public List<LabelValueItem> genders;
+        public List<LabelValueItem> phoneTypes;
         public Map<String, List<LabelValueItem>> statesByCountryMap;
         public String delegateAccessLevel;
     }
@@ -90,6 +91,7 @@ public without sharing class ReferringRemote {
 //            initData.studies.add(aw);
         initData.countries = CountryStateUtil.getCountries();
         initData.genders = ParticipantService.getGenderLVList();
+        initData.phoneTypes = ParticipantService.getPhoneTypeLVList();
         initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
         initData.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);
         return JSON.serialize(initData);
@@ -100,7 +102,7 @@ public without sharing class ReferringRemote {
     }
 
     @AuraEnabled
-    public static Boolean checkNeedsGuardian(String participantJSON) {
+    public static String checkNeedsGuardian(String participantJSON) {
         Boolean needsGuardian = false;
         Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
         if (!String.isEmpty(participant.Date_of_Birth__c)) {
@@ -121,10 +123,10 @@ public without sharing class ReferringRemote {
                             Date.newInstance(2000, Date.today().month(), Date.today().day()) ?
                             Date.today().year() - birthDate.year() : Date.today().year() - birthDate.year() - 1;
 
-            return participantAge >= ageByCountryCode.get(participant.Mailing_Country_Code__c);
+            return '' + (participantAge >= ageByCountryCode.get(participant.Mailing_Country_Code__c));
         }
 
-        return needsGuardian;
+        return '' + needsGuardian;
     }
 
     @AuraEnabled

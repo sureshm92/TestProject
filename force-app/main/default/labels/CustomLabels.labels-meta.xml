@@ -6242,6 +6242,13 @@ View study documents and other resources including articles and videos related t
         <value>Daytime phone number</value>
     </labels>
     <labels>
+        <fullName>PG_AS_F_Phone_Type</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F Phone Type</shortDescription>
+        <value>Daytime phone number</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Placeholder_Enter_text</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8784,6 +8791,13 @@ Please check your CAPS lock key.</value>
         <value>Congratulations!</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Delegate_Information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Delegate Information</shortDescription>
+        <value>Delegate_Information</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Have_you_had_a_discussion_with_your_patient_about_participating_in_a_cl</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8795,7 +8809,8 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L Health care proxy is needed</shortDescription>
-        <value>Health care proxy is needed.</value>
+        <value>My patient would like to create a delegate user at this point.
+            (Required if patient is under age of majority or unable to make legal decisions.)</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_IQVIA_may_also_contact_your_patient_to_ensure_that_your_patient_has_con</fullName>
@@ -8826,13 +8841,6 @@ Please check your CAPS lock key.</value>
         <value>My patient agrees to the &lt;a href=&quot;/privacy-policy&quot; target=&quot;_blank&quot;&gt;Privacy Policy&lt;/a&gt; and &lt;a href=&quot;/terms-and-conditions&quot; target=&quot;_blank&quot;&gt;Terms of Use&lt;/a&gt;</value>
     </labels>
     <labels>
-        <fullName>PG_Ref_L_Needs_Guardian</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG Ref L Needs Guardian</shortDescription>
-        <value>Needs Guardian:</value>
-    </labels>
-    <labels>
         <fullName>PG_Ref_L_New_Patient</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8845,6 +8853,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PG Ref L OR</shortDescription>
         <value>OR</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Participant_Information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Participant Information</shortDescription>
+        <value>Participant Information</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>

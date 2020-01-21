@@ -26,6 +26,7 @@
     <aura:attribute name="agreePolicy" type="Boolean" default="false"/>
     <aura:attribute name="actions" type="Object" access="private"/>
     <aura:attribute name="genders" type="List"/>
+    <aura:attribute name="phoneTypes" type="List"/>
     <aura:attribute name="todayDate" type="Date"/>
     <aura:attribute name="markers" type="Object[]"/>
     <aura:attribute name="accessUserLevel" type="String"/>
@@ -369,8 +370,8 @@
                                 <div class="slds-grid slds-wrap">
                                     <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-6"></div>
                                     <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-6">
-                                        <div class="rr-form-element" style="margin-top: 45px">
-                                            <label>{!$Label.c.PG_Ref_L_All_fields_are_required}</label>
+                                        <div class="rr-form-element" style="size: 16px; margin-top: 65px;">
+                                            <label>{!$Label.c.PG_Ref_L_Participant_Information}</label>
                                         </div>
                                         <div class="rr-form-element">
                                             <lightning:input type="text" label="{!$Label.c.PE_Patient_Id}"
@@ -418,6 +419,12 @@
                                             <lightning:input type="text" label="{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}" value="{!v.participant.Phone__c}"
                                                              required="true"  onblur="{!c.doCheckfields}"/>
                                         </div>
+                                        <div class="rr-form-element">
+                                            <div class="label">
+                                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Phone_Type}
+                                            </div>
+                                            <c:rrSelect options="{!v.phoneTypes}" value="{!v.participant.Phone_Type__c}" useSentenceFont="false"/>
+                                        </div>
                                         <div class="slds-grid slds-gutters slds-wrap rr-form-element">
                                             <div class="slds-col slds-size--1-of-1 slds-medium-size_8-of-12">
                                                 <div class="label">
@@ -446,8 +453,8 @@
                                             <div class="label rr-cb-label">{!$Label.c.PG_Ref_L_Health_care_proxy_is_needed}</div>
                                         </div>
                                         <aura:if isTrue="{!v.needsGuardian}">
-                                            <div class="rr-form-element" style="margin-top: 15px">
-                                                <label>{!$Label.c.PG_Ref_L_Needs_Guardian}</label>
+                                            <div class="rr-form-element" style="size: 16px; margin-top: 15px">
+                                                <label>{!$Label.c.PG_Ref_L_Delegate_Information}</label>
                                             </div>
                                             <div class="rr-form-element">
                                                 <lightning:input type="text" label="{!$Label.c.PG_AS_F_First_name}" value="{!v.delegateParticipant.First_Name__c}"
@@ -488,6 +495,12 @@
                                             <div class="rr-form-element">
                                                 <lightning:input type="text" label="{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}" value="{!v.delegateParticipant.Phone__c}"
                                                                  required="true"  onblur="{!c.doCheckfields}"/>
+                                            </div>
+                                            <div class="rr-form-element">
+                                                <div class="label">
+                                                    <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Phone_Type}
+                                                </div>
+                                                <c:rrSelect options="{!v.phoneTypes}" value="{!v.delegateParticipant.Phone_Type__c}" useSentenceFont="false"/>
                                             </div>
                                         </aura:if>
                                         <div class="rr-form-element slds-no-label">

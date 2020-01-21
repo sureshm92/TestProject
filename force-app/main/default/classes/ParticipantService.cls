@@ -199,6 +199,14 @@ public without sharing class ParticipantService {
         return genders;
     }
 
+    public static List<LabelValueItem> getPhoneTypeLVList() {
+        List<LabelValueItem> phoneTypes = new List<LabelValueItem>();
+        phoneTypes.add(new LabelValueItem(Label.Gender_Male, 'Home'));
+        phoneTypes.add(new LabelValueItem(Label.Gender_Female, 'Work'));
+        phoneTypes.add(new LabelValueItem(Label.Gender_Female, 'Mobile'));
+        return phoneTypes;
+    }
+
     public static Map<Id, Integer> getNearestLogOutNotification(List<Id> participantContIds) {
         List<Participant_Enrollment__c> enrollments = [
                 SELECT
