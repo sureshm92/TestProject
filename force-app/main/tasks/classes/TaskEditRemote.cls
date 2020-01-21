@@ -177,7 +177,7 @@ public without sharing class TaskEditRemote {
     }
     private static Boolean emailEnabledForOneRelatedContact(Boolean emailPreferencesIsOn, List<Contact> delegates) {
         if (emailPreferencesIsOn) return true;
-        if (PatientDelegateService.getInstance().isDelegate()) {
+        if (ParticipantContext.isCurrentDelegate()) {
             for (Contact delegate : delegates) {
                 if (delegate.Participant_Opt_In_Status_Emails__c) return true;
             }

@@ -7,6 +7,7 @@
 
     doChangeItemsList: function (component, event, helper) {
         try {
+            //if(communityService.isInitialized()) return;
             helper.initItemsMap();
             var userMode = component.get('v.mode');
             var menuItems = helper.itemsMap[userMode];

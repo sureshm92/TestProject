@@ -105,6 +105,17 @@ public inherited sharing class PatientVisitService {
         return tasksByVisitIds;
     }
 
+    public static Patient_Visit__c createPatientVisit(Visit__c visit, Id peId){
+        return new Patient_Visit__c(
+                Name = visit.Name,
+                Visit__c = visit.Id,
+                Visit_Schedule__c = visit.Visit_Schedule__c,
+                Visit_Number__c = visit.Visit_Number__c,
+                Participant_Enrollment__c = peId,
+                Portal_Name__c = visit.Patient_Portal_Name__c
+        );
+    }
+
     public class VisitWrapper {
 
         @AuraEnabled
