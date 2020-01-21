@@ -6,6 +6,7 @@ public without sharing class ParticipantContext {
     
     private static Participant__c currentParticipant;
     private static Contact currentContact;
+    private static User currentUser;
     private static Participant_Enrollment__c currentPE;
     private static Boolean initialized = false;
     private static Participant__c ownParticipant;
@@ -21,6 +22,16 @@ public without sharing class ParticipantContext {
     
     public static Id getCurrentParticipantId(){
         if(getCurrentParticipant() != null) return getCurrentParticipant().Id;
+        return null;
+    }
+    
+    public static User getCurrentUser(){
+        init();
+        return currentUser;
+    }
+    
+    public static Id getCurrentUserId(){
+        if(getCurrentUser() != null) return getCurrentUser().Id;
         return null;
     }
     
@@ -49,6 +60,12 @@ public without sharing class ParticipantContext {
         return currentContact;
     }
     
+    public static Id getCurrentContactId(){
+        init();
+        if(getCurrentContact() != null) return getCurrentContact().Id;
+        return null;
+    }
+    
     private static void init(){
         if(initialized) return;
         String userMode = UserContext.getCurrentUserMode().userMode;
@@ -60,6 +77,7 @@ public without sharing class ParticipantContext {
             }else{
                 currentContact = UserContext.getUserContact();
             }
+            currentUser = [SELECT Id, FirstName, LastName, Name FROM User WHERE ContactId =: currentContact.Id];
             //current PT
             currentParticipant = ParticipantService.getParticipant(currentContact.Id);
             //current PE
