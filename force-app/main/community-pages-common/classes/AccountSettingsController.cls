@@ -131,7 +131,7 @@ public without sharing class AccountSettingsController {
     @AuraEnabled
     public static Boolean changeOptInVisitResults(String contactId, Boolean isOptIn) {
         try {
-            if (!PatientDelegateService.getInstance().isDelegate()) {
+            if (!ParticipantContext.isCurrentDelegate()) {
                 ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
                         .updateRecord(new Contact(Id = contactId, Visit_Results_Opt_In__c = isOptIn), true);
                 return isOptIn;

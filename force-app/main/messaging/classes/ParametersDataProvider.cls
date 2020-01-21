@@ -311,10 +311,12 @@ public without sharing class ParametersDataProvider {
 
             if(isDelegate) {
                 Participant_Enrollment__c pe = ContactService.getCurrentPE(contactId);
-                parameters.put('ParticipantName', pe.Participant__r.Full_Name__c);
-                parameters.put('ParticipantFirstName', pe.Participant__r.First_Name__c);
+                if(pe != null){
+                    parameters.put('ParticipantName', pe.Participant__r.Full_Name__c);
+                    parameters.put('ParticipantFirstName', pe.Participant__r.First_Name__c);
+                    parameters.put('StudyName', pe.Clinical_Trial_Profile__r.Study_Code_Name__c);
+                }
                 parameters.put('UserName', getCommunityUserName(contactId));
-                parameters.put('StudyName', pe.Clinical_Trial_Profile__r.Study_Code_Name__c);
             }else{
                 initParamsFromPE(contactId);
             }

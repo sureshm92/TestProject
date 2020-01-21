@@ -10,7 +10,7 @@ public without sharing class HelpController {
         try{
             UserContact userContact = new UserContact();
             userContact.currentContact = CommunityService.getUserContact();
-            userContact.isDelegate = PatientDelegateService.getInstance().isDelegate();
+            userContact.isDelegate = ParticipantContext.isCurrentDelegate();
             HelpInitData initData = new HelpInitData();
             initData.userContact = userContact;
             initData.helpTopicSettings = new List<HelpController.HelpTopicWrapper>();
