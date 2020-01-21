@@ -63,9 +63,14 @@ public without sharing class EmailService {
     public static void send(List<Notification__c> notifications) {
         NotificationResultService sendResultService = new NotificationResultService(notifications);
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
+        List<Notification__c> notificationShareEmail = new List<Notification__c>();
         for (Notification__c n : notifications) {
-            Notification_Target__mdt emailTarget = NotificationService.getNotificationTarget(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
-            emailMessages.add(createEmail(getEmailTemplateId(emailTarget.Email_Template__c), n.Recipient__c, n.WhatId__c, emailTarget.Org_Wide_Email_Address__c));
+            if (n.Email__c != null && n.Recipient__c == null) {
+                notificationShareEmail.add(n);
+            } else {
+                Notification_Target__mdt emailTarget = NotificationService.getNotificationTarget(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
+                emailMessages.add(createEmail(getEmailTemplateId(emailTarget.Email_Template__c), n.Recipient__c, n.WhatId__c, emailTarget.Org_Wide_Email_Address__c));
+            }
         }
         List<Messaging.SendEmailResult> resultList = Messaging.sendEmail(emailMessages, false);
         for(Integer i = 0; i < resultList.size(); i++) {
@@ -76,6 +81,7 @@ public without sharing class EmailService {
             }
         }
         sendResultService.updateResults();
+        if (!notificationShareEmail.isEmpty()) EmailService.sendEmailToExternalUser(notificationShareEmail);
     }
 
     public static void sendEmail(String emailTemplate, Id recipientId, Id whatId){
@@ -87,14 +93,31 @@ public without sharing class EmailService {
         return createEmail(emailTemplateId, contactId, whatId, null, orgWideEmAddress);
     }
 
-    public static void sendExternalEmail(List<Notification__c> notifications) {
+    public static void sendEmailToExternalUser(List<Notification__c> notifications) {
+        List<Messaging.SingleEmailMessage> msges = new List<Messaging.SingleEmailMessage>();
         for (Notification__c n : notifications) {
             Notification_Target__mdt emailTarget = NotificationService.getNotificationTarget(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
-            sendShareEmail(n.WhatId__c, n.From__c, n.Email__c, emailTarget.Email_Template__c);
+            msges.add(createMessage(n.WhatId__c, n.From__c, n.Email__c, emailTarget.Email_Template__c));
         }
+
+        // Send the emails in a transaction, then roll it back
+        Savepoint sp = Database.setSavepoint();
+        Database.rollback(sp); // Email will not send as it is rolled Back
+        // Send Actual email
+        List<Messaging.SingleEmailMessage> msgListToBeSend = new List<Messaging.SingleEmailMessage>();
+        for (Messaging.SingleEmailMessage email : msges) {
+            Messaging.SingleEmailMessage emailToSend = new Messaging.SingleEmailMessage();
+            emailToSend.setToAddresses(email.getToAddresses());
+            emailToSend.setPlainTextBody(email.getPlainTextBody());
+            emailToSend.setHtmlBody(email.getHtmlBody());
+            emailToSend.setSubject(email.getSubject());
+            emailToSend.setOrgWideEmailAddressId(getOrgWideEmailAddressByContactId(email.targetObjectId));
+            msgListToBeSend.add(emailToSend);
+        }
+        Messaging.sendEmail(msgListToBeSend);
     }
 
-    public static void sendShareEmail(Id whatId, Id fromId,  String emailAddr, String templateName) {
+    public static Messaging.SingleEmailMessage createMessage(Id whatId, Id fromId,  String emailAddr, String templateName) {
         Id shareStudyEmailTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName =:templateName LIMIT 1].Id;
         List<Messaging.SingleEmailMessage> msgList = new List<Messaging.SingleEmailMessage>();
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
@@ -105,26 +128,6 @@ public without sharing class EmailService {
                 emailAddr
         });
         msgList.add(msg);
-        // Send the emails in a transaction, then roll it back
-        Savepoint sp = Database.setSavepoint();
-        Messaging.sendEmail(msgList); // Dummy email send
-        Database.rollback(sp); // Email will not send as it is rolled Back
-        // Send Actual email
-        List<Messaging.SingleEmailMessage> msgListToBeSend = new List<Messaging.SingleEmailMessage>();
-        for (Messaging.SingleEmailMessage email : msgList) {
-            Messaging.SingleEmailMessage emailToSend = new Messaging.SingleEmailMessage();
-            emailToSend.setToAddresses(email.getToAddresses());
-            emailToSend.setPlainTextBody(email.getPlainTextBody());
-            emailToSend.setHtmlBody(email.getHtmlBody());
-            emailToSend.setSubject(email.getSubject());
-            emailToSend.setOrgWideEmailAddressId(getOrgWideEmailAddressByContactId(fromId));
-            msgListToBeSend.add(emailToSend);
-        }
-        Messaging.sendEmail(msgListToBeSend);
+        return msg;
     }
-
-
-
-
-
 }

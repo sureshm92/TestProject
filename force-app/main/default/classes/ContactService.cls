@@ -92,6 +92,7 @@ public without sharing class ContactService {
                         Resource__c,
                         Resource__r.Title__c,
                         Resource__r.RecordType.DeveloperName,
+                        Resource__r.Content_Type__c,
                         Visible_In_Alumni__c,
                         Visible_To_Delegates__c,
                         Clinical_Trial_Profile__c,

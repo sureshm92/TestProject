@@ -36,7 +36,10 @@ public without sharing class ConversationService {
 
     public static Integer getUnreadConversationCount(Id userId, String userMode) {
         Integer unreadCount = 0;
-        for(Conversation__c conversation : getSharedConversations(userId)) {
+        List<Conversation__c> sharedConversations = getSharedConversations(userId);
+        if(sharedConversations == null || sharedConversations.isEmpty()) return unreadCount;
+
+        for (Conversation__c conversation : sharedConversations) {
             if(conversation.haveUnreadForPI__c && userMode.equals(CommunityService.USER_MODE_PI)) unreadCount++;
             if(conversation.haveUnreadForParticipant__c && userMode.equals(CommunityService.USER_MODE_PARTICIPANT)) unreadCount++;
         }

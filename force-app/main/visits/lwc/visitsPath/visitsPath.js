@@ -237,16 +237,14 @@ export default class VisitsPath extends LightningElement {
         let context = this;
         setTimeout(function () {
             context.nextScrollLeft = context.scrollStep;
-            if ((context.pathContainer.scrollLeft - context.nextScrollLeft) < (context.scrollStep / 2)) {
-                context.nextScrollLeft = context.maxScrollValue;
-            }
+            context.checkCloserIsNeeded(context);
             context.changeArrowsStyle();
         }, 450);
     }
 
     handleScrollRight() {
         if (this.fromLeftCorner) {
-            this.doScrollInto(2);
+            this.doScrollInto((formFactor === 'Large' ? 4 : 2));
             this.nextScrollLeft = this.scrollStep;
             this.fromLeftCorner = false;
         } else {
@@ -256,9 +254,7 @@ export default class VisitsPath extends LightningElement {
         let context = this;
         setTimeout(function () {
             context.nextScrollRight = context.scrollStep;
-            if ((context.maxScrollValue - (context.pathContainer.scrollLeft + context.nextScrollRight)) < (context.scrollStep / 2)) {
-                context.nextScrollRight = context.maxScrollValue;
-            }
+            context.checkCloserIsNeeded(context);
             context.changeArrowsStyle();
         }, 450);
     }
@@ -295,6 +291,15 @@ export default class VisitsPath extends LightningElement {
 
         this.template.querySelector('.arrow-left').style.opacity = arrLeft;
         this.template.querySelector('.arrow-right').style.opacity = arrRight;
+    }
+
+    checkCloserIsNeeded(context) {
+        if ((context.maxScrollValue - (context.pathContainer.scrollLeft + context.nextScrollRight)) < (context.scrollStep / 2)) {
+            context.nextScrollRight = context.maxScrollValue;
+        }
+        if ((context.pathContainer.scrollLeft - context.nextScrollLeft) < (context.scrollStep / 2)) {
+            context.nextScrollLeft = context.maxScrollValue;
+        }
     }
 
     doScrollInto(index) {

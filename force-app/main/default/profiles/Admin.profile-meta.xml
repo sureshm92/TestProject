@@ -749,6 +749,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>NotificationCatalog</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>NotificationResultService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1409,6 +1413,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_BatchDataBecomesAvailable</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_BatchHCPEStatusUpdate</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1638,6 +1646,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ManualTaskRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_MessagePageRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
