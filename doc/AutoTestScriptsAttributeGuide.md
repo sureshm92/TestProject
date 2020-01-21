@@ -7,11 +7,11 @@
 
 Naming convetion:
 
-BTN_XXX - button, обозначение кнопок 
-DDL_XXX - drop down list, обозначение пиклистов
-FLD_XXX - field, поле ввода
-NAV_XXX - navigation, навигация
-PNL_XXX - panel, панель
-LNK_XXX - link, ссылка
-CBX_XXX - checkbox, чекбокс
-RDO_XXX - radio button
+- BTN_XXX - button, обозначение кнопок 
+- DDL_XXX - drop down list, обозначение пиклистов
+- FLD_XXX - field, поле ввода
+- NAV_XXX - navigation, навигация
+- PNL_XXX - panel, панель
+- LNK_XXX - link, ссылка
+- CBX_XXX - checkbox, чекбокс
+- RDO_XXX - radio button
