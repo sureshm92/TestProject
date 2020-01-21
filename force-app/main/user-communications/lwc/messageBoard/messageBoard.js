@@ -12,6 +12,7 @@ import selectLabel from '@salesforce/label/c.MS_Select';
 import selectPlaceholderLabel from '@salesforce/label/c.MS_Select_Placeholder';
 import selectStudyPlaceholderLabel from '@salesforce/label/c.MS_Select_Study_Ph';
 import inputPlaceholderLabel from '@salesforce/label/c.MS_Input_Placeholder';
+import recipientsPlaceholder from '@salesforce/label/c.MS_Input_PI_Recipients_Placeholder';
 import limitLabel from '@salesforce/label/c.MS_Char_Limit';
 import attFileLabel from '@salesforce/label/c.MS_Attach_File';
 import sendBtnLabel from '@salesforce/label/c.BTN_Send';
@@ -22,6 +23,7 @@ import toastPASend from '@salesforce/label/c.MS_Toast_Message_PA_Send';
 
 import createConversation from '@salesforce/apex/MessagePageRemote.createConversation';
 import sendMessage from '@salesforce/apex/MessagePageRemote.sendMessage';
+import searchParticipant from '@salesforce/apex/MessagePageRemote.searchParticipant';
 
 export default class MessageBoard extends LightningElement {
 
@@ -31,6 +33,7 @@ export default class MessageBoard extends LightningElement {
         selectLabel,
         selectPlaceholderLabel,
         selectStudyPlaceholderLabel,
+        recipientsPlaceholder,
         inputPlaceholderLabel,
         limitLabel,
         attFileLabel,
@@ -50,6 +53,9 @@ export default class MessageBoard extends LightningElement {
     @track isMultipleMode;
     @track selectedEnrollment;
     @track selectedEnrollments;
+
+    @track recipientSelections = [];
+
     @track messageText;
     @track hideEmptyStub;
 
@@ -86,6 +92,29 @@ export default class MessageBoard extends LightningElement {
         this.hideEmptyStub = true;
     }
 
+    //Search Handlers:--------------------------------------------------------------------------------------------------
+    handleSearch(event) {
+        searchParticipant(event.detail)
+            .then(results => {
+                this.template.querySelector('c-web-lookup').setSearchResults(results);
+            })
+            .catch(error => {
+                this.notifyUser(
+                    'Lookup Error',
+                    'An error occurred while searching with the lookup field.',
+                    'error'
+                );
+                // eslint-disable-next-line no-console
+                console.error('Lookup error', JSON.stringify(error));
+            });
+    }
+
+    handleSelectionChange() {
+        let lookUpResult = this.template.querySelector('c-web-lookup').getSelection();
+        this.selectedEnrollments = lookUpResult.map(res => res.id);
+        console.log('Selection change. PEIds:' + JSON.stringify(this.selectedEnrollments));
+    }
+
     //Handlers:---------------------------------------------------------------------------------------------------------
     handleEnrollmentSelect(event) {
         let peId = event.target.value;
@@ -107,6 +136,10 @@ export default class MessageBoard extends LightningElement {
         }
     }
 
+    handleInputEnter(event) {
+        if(this.messageText && event.keyCode === 13) this.handleSendClick();
+    }
+
     handleSendClick(event) {
         //Add opportunity for Attach
 
@@ -116,7 +149,7 @@ export default class MessageBoard extends LightningElement {
                     this.fireSendEvent(data);
                 })
                 .catch(error => {
-                    console.log('Error in createConversation():' + JSON.stringify(error));
+                    console.error('Error in createConversation():' + JSON.stringify(error));
                 });
         } else {
             sendMessage({conversation: this.conversation, messageText: this.messageText})
@@ -124,7 +157,7 @@ export default class MessageBoard extends LightningElement {
                     this.fireSendEvent(data);
                 })
                 .catch(error => {
-                    console.log('Error in sendMessage():' + JSON.stringify(error));
+                    console.error('Error in sendMessage():' + JSON.stringify(error));
                 });
         }
     }
@@ -163,7 +196,7 @@ export default class MessageBoard extends LightningElement {
 
     clearMessage() {
         this.messageText = null;
-        let sendBtn = this.template.querySelector('.ms-send-button').setAttribute('disabled', '');
+        this.template.querySelector('.ms-send-button').setAttribute('disabled', '');
     }
 
     fireSendEvent(wrapper) {
@@ -175,10 +208,10 @@ export default class MessageBoard extends LightningElement {
         this.clearMessage();
 
         let toastLabel = this.userMode === 'PI' ? toastPASend : toastSTSend;
-        this.dispatchEvent(new ShowToastEvent({
-            title: '',
-            message: toastLabel,
-            variant: 'success'
-        }));
+        this.notifyUser('', toastLabel, 'success');
+    }
+
+    notifyUser(title, message, variant) {
+        this.dispatchEvent(new ShowToastEvent({title, message, variant}));
     }
 }

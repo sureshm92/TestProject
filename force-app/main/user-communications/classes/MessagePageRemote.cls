@@ -50,17 +50,17 @@ public without sharing class MessagePageRemote {
                 if (!pastEnrollments.isEmpty()) participantEnrollments.addAll(pastEnrollments);
 
                 pageData.enrollments = new List<Participant_Enrollment__c>();
-                for(Participant_Enrollment__c pe : participantEnrollments) {
-                    if(pe.Study_Site__r.Messages_Are_Available__c) pageData.enrollments.add(pe);
+                for (Participant_Enrollment__c pe : participantEnrollments) {
+                    if (pe.Study_Site__r.Messages_Are_Available__c) pageData.enrollments.add(pe);
                 }
 
                 //Collect Conversations
-                List<Id> availablePEIds = new List<Id>();
+                Set<Id> availablePEIds = new Set<Id>();
                 for(Participant_Enrollment__c pe : pageData.enrollments) availablePEIds.add(pe.Id);
 
-                if(sharedConversations != null) {
-                    for(Conversation__c con : sharedConversations) {
-                        if(availablePEIds.contains(con.Participant_Enrollment__c)) conversations.add(con);
+                if (sharedConversations != null) {
+                    for (Conversation__c con : sharedConversations) {
+                        if (availablePEIds.contains(con.Participant_Enrollment__c)) conversations.add(con);
                     }
                 }
 
@@ -73,7 +73,7 @@ public without sharing class MessagePageRemote {
                 }
             } else if (pageData.userMode == CommunityService.USER_MODE_PI) {
                 //Collect Conversations
-                if(sharedConversations != null) conversations.addAll(sharedConversations);
+                if (sharedConversations != null) conversations.addAll(sharedConversations);
 
                 //Collect Enrollments
                 Set<Id> piContactIds = DelegateService.getPIDelegateParents();
@@ -134,25 +134,25 @@ public without sharing class MessagePageRemote {
             Boolean needUpdate = false;
             if (userContact.userCommunityMode__c.equals(CommunityService.USER_MODE_PARTICIPANT)) {
                 List<Participant__c> participant = [SELECT Id, Full_Name__c FROM Participant__c WHERE Contact__c = :userContact.Id];
-                if(!participant.isEmpty()) {
+                if (!participant.isEmpty()) {
                     senderName = participant.get(0).Full_Name__c;
                 } else {
                     senderName = userContact.UserCommunityIsDelegate__c ?
                             userContact.Full_Name__c : conversation.Participant_Enrollment__r.Participant__r.Full_Name__c;
                 }
-                if(!conversation.haveUnreadForPI__c) {
+                if (!conversation.haveUnreadForPI__c) {
                     conversation.haveUnreadForPI__c = true;
                     needUpdate = true;
                 }
             } else {
                 senderName = userContact.Full_Name__c;
-                if(!conversation.haveUnreadForParticipant__c) {
+                if (!conversation.haveUnreadForParticipant__c) {
                     conversation.haveUnreadForParticipant__c = true;
                     needUpdate = true;
                 }
             }
 
-            if(needUpdate) update conversation;
+            if (needUpdate) update conversation;
 
             insert new Message__c(
                     Conversation__c = conversation.Id,
@@ -194,6 +194,37 @@ public without sharing class MessagePageRemote {
         }
     }
 
+    @AuraEnabled(Cacheable = true)
+    public static List<LookupSearchResult> searchParticipant(String searchTerm, List<String> selectedIds) {
+        try {
+            searchTerm = '%' + searchTerm + '%';
+
+            List<Participant_Enrollment__c> enrollments = [
+                    SELECT Id, Participant__r.Full_Name__c, Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+                    FROM Participant_Enrollment__c
+                    WHERE PI_Contact__c = :CommunityService.getInstance().getCurrentContactId()
+                    AND Study_Site__r.Messages_Are_Available__c = TRUE
+                    AND Participant__r.Full_Name__c LIKE :searchTerm
+                    AND Id NOT IN:selectedIds
+            ];
+
+            List<LookupSearchResult> results = new List<LookupSearchResult>();
+            for (Participant_Enrollment__c pe : enrollments) {
+                results.add(new LookupSearchResult(
+                        pe.Id,
+                        'Participant_Enrollment__c',
+                        'standard:avatar',
+                        pe.Participant__r.Full_Name__c,
+                        'Study • ' + pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c)
+                );
+            }
+
+            return results;
+        } catch (Exception e) {
+            return (List<LookupSearchResult>) AuraHelper.throwException(e);
+        }
+    }
+
     private static ConversationWrapper getConversationWrapper(String userMode, Conversation__c conversation, List<Message__c> messages) {
         ConversationWrapper conWr = new ConversationWrapper();
         conWr.conversation = conversation;
@@ -201,13 +232,13 @@ public without sharing class MessagePageRemote {
         String conTitle;
         String conFullName;
         String conDescription;
-        if(userMode == CommunityService.USER_MODE_PARTICIPANT) {
+        if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             conWr.unread = conversation.haveUnreadForParticipant__c;
             Contact piContact = conversation.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r;
             conTitle = Label.Study_Team;
             conFullName = piContact.Name;
 
-            if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(conversation.Participant_Enrollment__r.Participant_Status__c)) {
+            if (PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(conversation.Participant_Enrollment__r.Participant_Status__c)) {
                 conWr.isPastStudy = true;
                 conDescription = conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
             } else {
