@@ -1122,10 +1122,6 @@
     <picklistValues>
         <picklist>Language__c</picklist>
         <values>
-            <fullName>en_UK</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>en_US</fullName>
             <default>false</default>
         </values>
@@ -1136,10 +1132,6 @@
     </picklistValues>
     <picklistValues>
         <picklist>Languages__c</picklist>
-        <values>
-            <fullName>en_UK</fullName>
-            <default>false</default>
-        </values>
         <values>
             <fullName>en_US</fullName>
             <default>false</default>
