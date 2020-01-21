@@ -6414,7 +6414,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS L Opt In Participant Status Emails</shortDescription>
-        <value>updates about your referral status</value>
+        <value>Updates about your referral status</value>
     </labels>
     <labels>
         <fullName>PG_AS_L_Opt_In_Participant_Status_SMS</fullName>
