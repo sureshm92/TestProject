@@ -77,52 +77,77 @@ public without sharing class TaskService {
     public static void setMock(StubProvider mock) {
         instance = (TaskService) Test.createStub(TaskService.class, mock);
     }
+    
+    public List<Task> getTasksCommon(String filter){
+        return getTasksCommon(filter,  null);
+    }
 
-    public List<Task> getTasksCommon(String filter) {
-        List<Task> tasks = new List<Task>();
-        String query = 'SELECT ' + String.join(DEFAULT_FIELDS, ',') + ' FROM Task WHERE ';
-        String ownerFilter = 'OwnerId = \'' + UserInfo.getUserId() + '\'';
-
-        String queryFilter;
-        if (filter == null) {
-            queryFilter = ownerFilter;
-        } else {
-            queryFilter = ownerFilter + ' AND '
-                    + filter.replace('\'' + TASK_VISIBILITY_DELEGATES + '\'', '\'' + TASK_VISIBILITY_OWNER + '\'');
+    public List<Task> getTasksCommon(String filter, String sortOrder) {
+        String commonFilter = '';
+        String ownerVisibility = ' AND Visible_For__c INCLUDES (\'' + TASK_VISIBILITY_OWNER + '\') ';
+        String delegatesVisibility = ' AND Visible_For__c INCLUDES (\'' + TASK_VISIBILITY_DELEGATES + '\') ';
+        Contact userContact = CommunityService.getUserContact();
+        if(userContact.userCommunityDelegateId__c == null && userContact.Current_Participant_Enrollment__c == null){
+            //own alumni
+            commonFilter = '(' +
+                    'OwnerId = \'' + CommunityService.getUserId() + '\'' + ownerVisibility +
+                    ')';
+        }else if(userContact.userCommunityDelegateId__c == null && userContact.Current_Participant_Enrollment__c != null){
+            //own current PE
+            commonFilter = '(' +
+                    'OwnerId = \'' + CommunityService.getUserId() + '\' ' +
+                    'AND (WhatId = \'' + userContact.Current_Participant_Enrollment__c + '\' OR WhatId = NULL OR What.Type = \'SurveyInvitation\')' +
+                    ownerVisibility +
+                    ')';
+        }else if(userContact.userCommunityDelegateId__c != null && userContact.Current_Participant_Enrollment__c == null){
+            //delegated alumni
+            commonFilter = '(' +
+                    '(OwnerId = \'' + CommunityService.getUserId() + '\' AND (WhatId = NULL OR What.Type = \'SurveyInvitation\') ' + ownerVisibility + ') OR ' +
+                    '(OwnerId = \'' + userContact.userCommunityDelegateId__c + '\' ' + delegatesVisibility + ')' +
+                    ')';
+        }else{
+            //delegated PE
+            commonFilter = '(' +
+                    '(OwnerId = \'' + CommunityService.getUserId() + '\' AND (WhatId = NULL OR What.Type = \'SurveyInvitation\') ' + ownerVisibility + ') OR ' +
+                    '(OwnerId = \'' + userContact.userCommunityDelegateId__c + '\'' +
+                    delegatesVisibility + ' AND (WhatId = \'' + userContact.Current_Participant_Enrollment__c + '\' OR WhatId = NULL OR What.Type = \'SurveyInvitation\'))' +
+                    ')';
         }
-        System.debug('getTaskCommonOwner: ' + query + queryFilter);
-        tasks.addAll((List<Task>) DatabaseService.query(query + queryFilter));
-
-        Boolean isDelegate = ParticipantService.getInstance().getState().isDelegate;
-        if (isDelegate) {
-            ownerFilter = 'OwnerId = \'' + PatientDelegateService.getInstance().getParticipantUserId() + '\'';
-            if (filter == null) {
-                queryFilter = ownerFilter;
-            } else {
-                queryFilter = ownerFilter + ' AND ' + filter;
-            }
-            System.debug('getTaskCommonDelegate: ' + query + queryFilter);
-            tasks.addAll((List<Task>) DatabaseService.query(query + queryFilter));
-        }
-
+        if(filter != null) commonFilter += ' AND ' + filter;
+        if(sortOrder != null) commonFilter += ' ' + sortOrder;
+        List<Task> tasks = (List<Task>) DatabaseService.query(DEFAULT_FIELDS, Task.getSObjectType(), commonFilter);
         TaskTriggerHandler.processDefaultFieldValues(tasks);
         return tasks;
     }
 
     public List<Task> getCompletedTasks() {
-        return filterCurrentStudyTasks(getTasksCommon(getCompletedTasksFilter() + getVisibilityFilter() + ' ORDER BY Completed_Date__c DESC'));
+        List<String> statusFilter = new List<String>{
+                TASK_STATUS_IGNORED,
+                TASK_STATUS_COMPLETED
+        };
+        String completedTaskFilter =  ' (Status IN (\'' + String.join(statusFilter, '\',\'') + '\') ' +
+                ' OR (Status = \'' + TASK_STATUS_EXPIRED + '\' AND Task_Type__c = \'' + TASK_TYPE_SURVEY + '\')) ';
+        return getTasksCommon(completedTaskFilter, ' ORDER BY Completed_Date__c DESC');
     }
 
     public List<Task> getOpenTasks() {
-        expireSurveyTasksByExpiredInvitations(getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER));
-        return filterCurrentStudyTasks(getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER));
+        expireSurveyTasksByExpiredInvitations(getTasksCommon(getOpenTasksFilter()));
+        return getTasksCommon(getOpenTasksFilter(), OPEN_TASKS_ORDER);
     }
 
     public List<Task> getPreviewTasks() {
-        expireSurveyTasksByExpiredInvitations(getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER + ' LIMIT 5'));
-        return filterCurrentStudyTasks(getTasksCommon(getOpenTasksFilter() + getVisibilityFilter() + OPEN_TASKS_ORDER + ' LIMIT 5'));
+        expireSurveyTasksByExpiredInvitations(getTasksCommon(getOpenTasksFilter()));
+        return getTasksCommon(getOpenTasksFilter(), OPEN_TASKS_ORDER + ' LIMIT 5');
     }
-
+    
+    public String getOpenTasksFilter(){
+        List<String> statusFilter = new List<String>{
+                TASK_STATUS_OPEN,
+                TASK_STATUS_IN_PROGRESS
+        };
+        return DatabaseService.fieldInValues('Status', statusFilter);
+    }
+    
     public Task getTask(Id taskId) {
         List<Task> tasks = getTasksCommon(' Id = \'' + taskId + '\' ');
         if (tasks.size() == 0) throw new TaskServiceException('Task not found: ' + taskId);
@@ -300,21 +325,7 @@ public without sharing class TaskService {
                 Visible_For__c = TASK_VISIBILITY_OWNER
         );
     }
-
-    private String getVisibilityFilter() {
-        String role = ParticipantService.getParticipantState().isDelegate ? TASK_VISIBILITY_DELEGATES : TASK_VISIBILITY_OWNER;
-        return ' AND Visible_For__c INCLUDES (\'' + role + '\') ';
-    }
-
-    public String getOpenTasksFilter() {
-        List<String> statusFilter = new List<String>{
-                TASK_STATUS_OPEN,
-                TASK_STATUS_IN_PROGRESS
-        };
-        return DatabaseService.fieldInValues('Status', statusFilter)
-                + 'AND Survey_Invitation__r.Is_Expired__c != TRUE ';
-    }
-
+    
     public void completeCYPTaskForParticipant() {
         List<Task> tasks = getTasksCommon('Task_Code__c =\'' +
                 TASK_CODE_COMPLETE_YOUR_PROFILE + '\' AND ' + getOpenTasksFilter());
@@ -323,16 +334,7 @@ public without sharing class TaskService {
             update tasks[0];
         }
     }
-
-    private String getCompletedTasksFilter() {
-        List<String> statusFilter = new List<String>{
-                TASK_STATUS_IGNORED,
-                TASK_STATUS_COMPLETED
-        };
-        return ' (Status IN (\'' + String.join(statusFilter, '\',\'') + '\') ' +
-                'OR (Status = \'' + TASK_STATUS_EXPIRED + '\' AND Task_Type__c = \'' + TASK_TYPE_SURVEY + '\')) ';
-    }
-
+    
     public Map<Id, Id> getContactUserIdsMap(Set<Id> contactIds) {
         List<User> users = [
                 SELECT Id, ContactId
@@ -385,47 +387,7 @@ public without sharing class TaskService {
             this.visibility = visibility;
         }
     }
-
-    public List<Task> filterCurrentStudyTasks(List<Task> tasks) {
-        Set<Id> invIds = new Set<Id>();
-        for (Task t : tasks) {
-            if (t.Task_Type__c == TASK_TYPE_SURVEY && t.Survey_Invitation__c != null) invIds.add(t.Survey_Invitation__c);
-        }
-
-        Map<Id, SurveyInvitation> invitations = new Map<Id, SurveyInvitation>([
-                SELECT Id, Participant_Enrollment__c
-                FROM SurveyInvitation
-                WHERE Id IN:invIds AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE
-        ]);
-        Map<Id, Participant_Enrollment__c> enrollments;
-        ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
-        if (participantState.value == ParticipantService.ParticipantStates.ALUMNI) {
-            enrollments = new Map<Id, Participant_Enrollment__c>([
-                    SELECT Id, Clinical_Trial_Profile__r.Tasks_Are_Available__c, Participant__c
-                    FROM Participant_Enrollment__c
-                    WHERE Participant_Contact__c = :participantState.participant.Contact__c
-                    AND Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE
-            ]);
-        } else {
-            enrollments = new Map<Id, Participant_Enrollment__c>();
-            if (participantState.ctp.Tasks_Are_Available__c) enrollments.put(participantState.pe.Id, participantState.pe);
-        }
-
-        List<Task> tasksToShow = new List<Task>();
-        for (Task t : tasks) {
-            if (t.WhatId == null || t.WhatId.getSobjectType() == SurveyInvitation.getSObjectType()) {
-                if (t.Survey_Invitation__c != null && invitations.keySet().contains(t.Survey_Invitation__c)) {
-                    tasksToShow.add(t);
-                } else {
-                    tasksToShow.add(t);
-                }
-            } else if (t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
-                if (enrollments.keySet().contains(t.WhatId)) tasksToShow.add(t);
-            }
-        }
-        return tasksToShow;
-    }
-
+    
     public void expireSurveyTasksByExpiredInvitations(List<Task> tasks) {
         List<Id> invitationsIds = new List<Id>();
         for (Task t : tasks) {

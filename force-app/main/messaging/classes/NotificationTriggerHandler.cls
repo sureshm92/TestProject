@@ -36,8 +36,11 @@ public without sharing class NotificationTriggerHandler {
                     n.addError('WhatId is not correct');
                 }
             }
-            if (n.Recipient__c == null && n.Topic__c == null) {
-                n.addError('Recipient can not be null while topic is null ' + n.Notification_Type__c);
+            if (n.Recipient__c == null && (n.Topic__c == null || n.Email__c == null)) {
+                n.addError('Recipient can not be null while Topic or Email is null ' + n.Notification_Type__c);
+            }
+            if (n.Email__c != null && n.Recipient__c != null) {
+                n.addError('Recipient can not be not null while Email is not null ' + n.Notification_Type__c);
             }
         }
     }
@@ -51,7 +54,6 @@ public without sharing class NotificationTriggerHandler {
                 notificationsForMassEmail.add(n);
             } else if(!System.isBatch()){
                 recipientNotifications.add(n);
-
             }
         }
         //recipient notifications:

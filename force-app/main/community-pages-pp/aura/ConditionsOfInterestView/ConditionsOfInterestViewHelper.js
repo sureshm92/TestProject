@@ -66,7 +66,7 @@
         let updateEvt = component.getEvent('updateSearchEvent');
         updateEvt.setParam('settings', checkedTaps);
         updateEvt.setParam('enrolling', component.find('enrolling').get("v.checked"));
-        updateEvt.setParam('notYetEnrolling', component.find('notYetEnrolling').get("v.checked"));
+        updateEvt.setParam('not_yet_enrolling', component.find('notYetEnrolling').get("v.checked"));
         updateEvt.fire();
     },
 

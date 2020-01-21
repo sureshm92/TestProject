@@ -19,7 +19,8 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                         Visible_To_Delegates__c,
                         Visible_To_Participant__c,
                         Visible_To_PI__c,
-                        Visible_To_RP__c
+                        Visible_To_RP__c,
+                        Resource__r.Content_Type__c
                 FROM Res_study__c
                 WHERE Notify_On_Availability__c = TRUE
                 AND Visible_To_Participant__c = TRUE
@@ -88,10 +89,11 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                             res, pe, contentLangByResId.get(res.Resource__c), contact.userCommunityMode__c, isDelegate)) {
                         if (needNotify(contact, res.Resource__c)) {
                             contactToNotify.add(contact);
-                            notifications.add(new Notification__c(Recipient__c = contact.Id,
+                            notifications.add(new Notification__c(
+                                    Recipient__c = contact.Id,
                                     WhatId__c = pe.Id,
-                                    Notification_Type__c = NotificationService.MESSAGE_TO_PT_NEW_STDDOC_TYPE,
-                                    Status__c = NotificationService.NOTIFICATION_STATUS_PENDING));
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_STDDOC_TYPE
+                            ));
 
                             if (!resIdsByContactId.containsKey(contact.Id)) {
                                 List<String> resNotificationIds = contact.Resource_Notifications__c != null ?

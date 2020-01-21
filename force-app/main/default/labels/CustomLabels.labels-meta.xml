@@ -2008,6 +2008,13 @@ Thank you for participating. Your contribution to the clinical research study ha
 Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_PA_New_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body PA New Mess</shortDescription>
+        <value>You have a new message in Message Center.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_PI1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2648,6 +2655,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <value>Thank you for completing your clinical research study</value>
     </labels>
     <labels>
+        <fullName>Email_Header_PA_New_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header PA New Mess</shortDescription>
+        <value>Participant New Message</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_PI2</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3180,6 +3194,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>Email_Subject_Medication_Task_Reminder Delegate</shortDescription>
         <value>Your Patient has a medication reminder</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_PA_New_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject PA New Mess</shortDescription>
+        <value>New Message</value>
     </labels>
     <labels>
         <fullName>Email_Subject_PI1</fullName>
@@ -6340,6 +6361,13 @@ View study documents and other resources including articles and videos related t
         <value>Email Preferences</value>
     </labels>
     <labels>
+        <fullName>PG_AS_H_SMS_Preferences</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS H SMS Preferences</shortDescription>
+        <value>SMS Preferences</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_H_Privacy_Rights</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6379,7 +6407,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS L Opt In Participant Status Emails</shortDescription>
-        <value>updates about your referral status</value>
+        <value>Updates about your referral status</value>
     </labels>
     <labels>
         <fullName>PG_AS_L_Opt_In_Participant_Status_SMS</fullName>
@@ -6451,6 +6479,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG AS T Participant Email Preferences</shortDescription>
         <value>Emails that notify you of required action, allow you to reset your password, or inform you of important system updates will always be sent.  Additionally, you can choose to receive any of the following types of emails:</value>
+    </labels>
+    <labels>
+        <fullName>Participant_SMS_Preferences_Blocked_From_SS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Participant SMS Preferences are blocked from SS</shortDescription>
+        <value>SMS that notify you are bloked from Study Site. For Additional information contact our support team.</value>
     </labels>
     <labels>
         <fullName>PG_AS_T_Please_Review_Contact_information</fullName>

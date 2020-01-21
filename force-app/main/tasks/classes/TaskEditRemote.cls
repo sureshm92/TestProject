@@ -87,8 +87,8 @@ public without sharing class TaskEditRemote {
             Task taskToUpsert = (Task) JSON.deserialize(paramTask, Task.class);
 
             ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
-            taskToUpsert.OwnerId = PatientDelegateService.getInstance().getParticipantUserId();
-            taskToUpsert.WhoId = PatientDelegateService.getInstance().getParticipant().Contact__c;
+            taskToUpsert.OwnerId = ParticipantService.getInstance().getState().currentUserId;
+            taskToUpsert.WhoId = ParticipantService.getInstance().getState().currentContactId;
 
             taskToUpsert.Originator__c = state.isDelegate ? 'Delegate' : 'Participant';
             if (taskToUpsert.Visible_For__c == null) taskToUpsert.Visible_For__c = 'Owner;Delegates';
@@ -177,7 +177,7 @@ public without sharing class TaskEditRemote {
     }
     private static Boolean emailEnabledForOneRelatedContact(Boolean emailPreferencesIsOn, List<Contact> delegates) {
         if (emailPreferencesIsOn) return true;
-        if (PatientDelegateService.getInstance().isDelegate()) {
+        if (ParticipantContext.isCurrentDelegate()) {
             for (Contact delegate : delegates) {
                 if (delegate.Participant_Opt_In_Status_Emails__c) return true;
             }

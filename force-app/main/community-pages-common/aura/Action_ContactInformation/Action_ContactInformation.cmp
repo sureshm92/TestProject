@@ -2,14 +2,15 @@
  - Created by Igor Malyuta on 13.01.2020.
  -->
 
-<aura:component description="Action_ContactInformation">
-    
+<aura:component description="Action_ContactInformation" controller="AccountSettingsController">
+
     <aura:attribute name="userMode" type="String"/>
     <aura:attribute name="contactSectionData" type="Object"/>
 
     <aura:attribute name="isDelegate" type="Boolean"/>
     <aura:attribute name="personWrapper" type="Object"/>
     <aura:attribute name="institute" type="Object"/>
+    <aura:attribute name="previousCC" type="String"/>
 
     <aura:attribute name="personSnapshot" type="String"/>
     <aura:attribute name="isStateChanged" type="Boolean"/>
@@ -18,16 +19,25 @@
 
     <aura:attribute name="todayDate" type="Date"/>
     <aura:attribute name="gendersLVList" type="List"/>
-    <aura:attribute name="countriesLVList" type="List"/>
-    <aura:attribute name="statesLVList" type="List"/>
+    <aura:attribute name="countriesLVList" type="LabelValueItem[]"/>
+    <aura:attribute name="statesLVList" type="LabelValueItem[]"/>
     <aura:attribute name="statesByCountryMap" type="Map"/>
     <aura:attribute name="phonePattern" type="String"/>
     <aura:attribute name="phonePlaceholder" type="String" default="+1(XXX)XXX-XXXX"/>
+    <aura:attribute name="reRender" type="Boolean" default="true"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.personWrapper}" action="{!c.doStateChanged}"/>
-    <aura:handler name="change" value="{!v.personWrapper.mailingCC}" action="{!c.doCountryCodeChanged}"/>
-    
+
+    <aura:registerEvent name="onEdit" type="c:uiEvent"/>
+
+    <!-- Methods: -->
+    <aura:method name="scrollOnMobileField" action="{!c.doScrollInto}" access="public">
+        <aura:attribute name="smsOptIn" type="Boolean"/>
+    </aura:method>
+    <aura:method name="showHelpMessageIfInvalid" action="{!c.doShowHelpMessageIfInvalid}"/>
+
+    <c:RRSpinner aura:id="spinner" size="medium" fixed="true"/>
     <div class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start">
         <aura:if isTrue="{!v.userMode == 'PI' || v.userMode == 'HCP'}">
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
@@ -133,15 +143,17 @@
                                  onblur="{!c.doCheckFieldsValidity}"/>
             </div>
 
-            <c:RRAnchor aura:id="mobileAnchor" offset="-160"/>
+            <c:RRAnchor aura:id="mobileAnchor" offset="-50"/>
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
-                <lightning:input aura:id="pField" type="tel" label="{!$Label.c.Mob_Phone_Field}"
-                                 value="{!v.personWrapper.mobilePhone}"
-                                 placeholder="{!v.phonePlaceholder}"
-                                 pattern="{!v.phonePattern}"
-                                 required="{!and(v.personWrapper.optInSMS, equals(v.personWrapper.mailingCC, 'US'))}"
-                                 disabled="{!notequals(v.personWrapper.mailingCC, 'US')}"
-                                 onblur="{!c.doCheckFieldsValidity}"/>
+                <aura:if isTrue="{!v.reRender}">
+                    <lightning:input aura:id="pField" type="tel" label="{!$Label.c.Mob_Phone_Field}"
+                                     value="{!v.personWrapper.mobilePhone}"
+                                     placeholder="{!v.phonePlaceholder}"
+                                     pattern="{!v.phonePattern}"
+                                     required="{!and(v.personWrapper.optInSMS, equals(v.personWrapper.mailingCC, 'US'))}"
+                                     disabled="{!notequals(v.personWrapper.mailingCC, 'US')}"
+                                     onblur="{!c.doCheckFieldsValidity}"/>
+                </aura:if>
             </div>
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3"></div>
 
@@ -155,12 +167,15 @@
             </div>
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
                 <div class="label">
-                    <aura:if isTrue="{!!empty(v.statesLVList)}"><abbr title="required" class="slds-required">*</abbr>
-                    </aura:if>{!$Label.c.PE_State}
+                    <aura:if isTrue="{!not(empty(v.statesLVList))}">
+                        <abbr title="required" class="slds-required">*</abbr>
+                    </aura:if>
+                    {!$Label.c.PE_State}
                 </div>
                 <c:rrSelect aura:id="pField" options="{!v.statesLVList}" disabled="{!empty(v.statesLVList)}"
                             value="{!v.personWrapper.mailingSC}"
-                            placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false"
+                            placeholder="{!$Label.c.PG_AC_Select}" required="{!not(empty(v.statesLVList))}"
+                            useSentenceFont="false"
                             onchange="{!c.doCheckFieldsValidity}"/>
             </div>
             <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
@@ -173,9 +188,8 @@
                 <button class="apollo-btn secondary"
                         disabled="{!or(
                             and(not(v.isStateChanged),not(v.participantHasUpdateTasks)),
-                            not(v.isAllFieldsValid))
-                            }"
-                        onclick="{!c.doUpdateParticipant}">
+                            not(v.isAllFieldsValid))}"
+                        onclick="{!c.doUpdatePerson}">
                     {!if(v.participantHasUpdateTasks, $Label.c.BTN_Account_Settings_Save_Updates,$Label.c.BTN_Save)}
                 </button>
             </div>

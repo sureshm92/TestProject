@@ -61,27 +61,27 @@ public without sharing class EmailService {
     }
 
     public static void send(List<Notification__c> notifications) {
+        NotificationResultService sendResultService = new NotificationResultService(notifications);
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
-        List<Send_Result__c> sendResults = new List<Send_Result__c>();
+        List<Notification__c> notificationShareEmail = new List<Notification__c>();
         for (Notification__c n : notifications) {
-            Notification_Target__mdt emailTarget = NotificationService.getNotificationTarget(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
-            emailMessages.add(createEmail(getEmailTemplateId(emailTarget.Email_Template__c), n.Recipient__c, n.WhatId__c, emailTarget.Org_Wide_Email_Address__c));
-            sendResults.add(new Send_Result__c(
-                    Target_Type__c = NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL,
-                    Notification__c = n.Id
-            ));
-        }
-        List<Messaging.SendEmailResult> resultList = Messaging.sendEmail(emailMessages, false);
-        for(Integer i=0; i<resultList.size();i++) {
-            if (!resultList[i].success) {
-                sendResults[i].Status__c = NotificationService.STATUS_FAILED;
-                sendResults[i].Error__c = JSON.serializePretty(resultList[i].errors);
+            if (n.Email__c != null && n.Recipient__c == null) {
+                notificationShareEmail.add(n);
             } else {
-                sendResults[i].Status__c = NotificationService.STATUS_SENT;
+                Notification_Target__mdt emailTarget = NotificationService.getNotificationTarget(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
+                emailMessages.add(createEmail(getEmailTemplateId(emailTarget.Email_Template__c), n.Recipient__c, n.WhatId__c, emailTarget.Org_Wide_Email_Address__c));
             }
         }
-
-        DMLService.insertRecords(sendResults);
+        List<Messaging.SendEmailResult> resultList = Messaging.sendEmail(emailMessages, false);
+        for(Integer i = 0; i < resultList.size(); i++) {
+            if (!resultList[i].success) {
+                sendResultService.setFailed(notifications[i].Id, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL, JSON.serializePretty(resultList[i].errors));
+            } else {
+                sendResultService.setSent(notifications[i].Id, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
+            }
+        }
+        sendResultService.updateResults();
+        if (!notificationShareEmail.isEmpty()) EmailService.sendEmailToExternalUser(notificationShareEmail);
     }
 
     public static void sendEmail(String emailTemplate, Id recipientId, Id whatId){
@@ -93,7 +93,41 @@ public without sharing class EmailService {
         return createEmail(emailTemplateId, contactId, whatId, null, orgWideEmAddress);
     }
 
+    public static void sendEmailToExternalUser(List<Notification__c> notifications) {
+        List<Messaging.SingleEmailMessage> msges = new List<Messaging.SingleEmailMessage>();
+        for (Notification__c n : notifications) {
+            Notification_Target__mdt emailTarget = NotificationService.getNotificationTarget(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
+            msges.add(createMessage(n.WhatId__c, n.From__c, n.Email__c, emailTarget.Email_Template__c));
+        }
 
+        // Send the emails in a transaction, then roll it back
+        Savepoint sp = Database.setSavepoint();
+        Database.rollback(sp); // Email will not send as it is rolled Back
+        // Send Actual email
+        List<Messaging.SingleEmailMessage> msgListToBeSend = new List<Messaging.SingleEmailMessage>();
+        for (Messaging.SingleEmailMessage email : msges) {
+            Messaging.SingleEmailMessage emailToSend = new Messaging.SingleEmailMessage();
+            emailToSend.setToAddresses(email.getToAddresses());
+            emailToSend.setPlainTextBody(email.getPlainTextBody());
+            emailToSend.setHtmlBody(email.getHtmlBody());
+            emailToSend.setSubject(email.getSubject());
+            emailToSend.setOrgWideEmailAddressId(getOrgWideEmailAddressByContactId(email.targetObjectId));
+            msgListToBeSend.add(emailToSend);
+        }
+        Messaging.sendEmail(msgListToBeSend);
+    }
 
-
+    public static Messaging.SingleEmailMessage createMessage(Id whatId, Id fromId,  String emailAddr, String templateName) {
+        Id shareStudyEmailTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName =:templateName LIMIT 1].Id;
+        List<Messaging.SingleEmailMessage> msgList = new List<Messaging.SingleEmailMessage>();
+        Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+        msg.setTemplateId(shareStudyEmailTemplateId);
+        msg.setWhatId(whatId);
+        msg.setTargetObjectId(fromId);
+        msg.setToAddresses(new List<String>{
+                emailAddr
+        });
+        msgList.add(msg);
+        return msg;
+    }
 }

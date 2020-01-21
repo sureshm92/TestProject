@@ -3,9 +3,10 @@
                          relatedToType="Study_Site__c"
                          language="{!relatedTo.Principal_Investigator__r.Language__c}">
 
-    <messaging:htmlEmailBody>
+    <messaging:htmlEmailBody >
         <c:EmailTemplate userType="PI"
                          sourceId="{!relatedTo.Id}"
+                         parametersProvider="PP_Study_Site"
                          header="{!$Label.Email_Header_Review_and_accept_a_new_study}"
                          title="{!$Label.Email_Title}"
                          greeting="{!$Label.Email_User_Greeting}"
@@ -16,9 +17,10 @@
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody>
+    <messaging:plainTextEmailBody >
         <c:EmailTemplateText userType="PI"
                              sourceId="{!relatedTo.Id}"
+                             parametersProvider="PP_Study_Site"
                              header="{!$Label.Email_Header_Review_and_accept_a_new_study}"
                              title="{!$Label.Email_Title}"
                              greeting="{!$Label.Email_User_Greeting}"

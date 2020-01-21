@@ -61,7 +61,7 @@ public without sharing class HCPEnrollmentService {
             },
             //Approval Flow [PI] - Orientation Required
             HCP_S_APPROVAL_PENDING => new Map<String, String>{
-                    StudyActions.ACT_HCP_APPROVE => HCP_S_ACTIVATION_PENDING_O,
+                    StudyActions.ACT_HCP_ACTIVATE => HCP_S_ACTIVATED,
                     StudyActions.ACT_HCP_ON_HOLD => HCP_S_ON_HOLD_APPROVAL,
                     StudyActions.ACT_HCP_DECLINE => HCP_S_DECLINED_APPROVAL,
                     StudyActions.ACT_HCP_ACTIVATE_FOR_ALL => HCP_S_ACTIVATED
@@ -196,7 +196,7 @@ public without sharing class HCPEnrollmentService {
             upsert upsertList;
             /*ReferHealthcareProviderRemote.sendNotificationForRPInvite(hcpe.Id, hcpe.HCP_Contact__c);*/
             insert new Notification__c(
-                    Notification_Type__c = NotificationService.MESSAGE_TO_HCP_APPROVED_TYPE,
+                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_HCP_APPROVED_TYPE,
                     Recipient__c = hcpe.HCP_Contact__c,
                     WhatId__c = hcpe.Id);
             return HCP_S_ACTIVATED;

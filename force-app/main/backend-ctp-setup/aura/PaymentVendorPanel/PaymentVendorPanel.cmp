@@ -125,10 +125,8 @@
                                     </aura:if>
                                 </div>
                             </th>
-                            <th class="cell-wrap" scope="col">
-                                <div data-order="number" class="sorted-column" onclick="{!c.doSort}">
-                                    <div style="text-align: center;">None</div>
-                                </div>
+                            <th class="" scope="col">
+                                <div style="text-align: center;">None</div>
                             </th>
                             <aura:if isTrue="{!v.vendorItems}">
                                 <aura:iteration items="{!v.vendorItems}" var="pv">
@@ -152,7 +150,7 @@
                         <tbody>
                         <aura:if isTrue="{!v.ssItems}">
                             <aura:iteration items="{!v.ssItems}" var="item">
-                                <c:StudySiteItem item="{!item}" parent="{!this}" viewMode="{!v.viewMode}" isPaymentVendor="true"/>
+                                <c:StudySiteItem item="{!item}" parent="{!this}" viewMode="{!v.viewMode}" isSingleChoice="true"/>
                             </aura:iteration>
                         </aura:if>
                         </tbody>

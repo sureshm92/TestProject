@@ -53,6 +53,7 @@ public without sharing class NotificationAvailabilityService {
                                 Study_Site__r.Suppress_Participant_Emails__c,
                                 Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c,
                                 Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                                Study_Site__r.SMS_Are_Available__c,
                                 Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
                                 HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c
                         FROM Participant_Enrollment__c
@@ -141,10 +142,15 @@ public without sharing class NotificationAvailabilityService {
         return checkForNotification;
     }
 
-    public Boolean isAvailableForSMS(Id contactId) {
-        Boolean checkForNotification = false;
+    public Boolean isAvailableForSMS(Id contactId, String whatId) {
+        Boolean isAvailable = true;
+        Id objId = whatId;
         Contact contact = contactByIdMap.get(contactId);
-        if (contact.Participant_Opt_In_Status_SMS__c) checkForNotification = true;
-        return checkForNotification;
+        isAvailable = isAvailable && contact.Participant_Opt_In_Status_SMS__c;
+        if(objId.getSobjectType() == Participant_Enrollment__c.getSObjectType()){
+            Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
+            isAvailable = isAvailable && pe.Study_Site__r.SMS_Are_Available__c;
+        }
+        return isAvailable;
     }
 }

@@ -37,8 +37,7 @@ public with sharing class CTPNotificationTriggerHandler {
                 notificationsForSubs.add(new Notification__c(
                         Topic__c = topic.Id,
                         WhatId__c = ctp.Id,
-                        Notification_Type__c = NotificationService.MESSAGE_TO_PT_NEW_COI_CTP_TYPE,
-                        Status__c = NotificationService.NOTIFICATION_STATUS_CREATED
+                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_COI_CTP_TYPE
                 ));
             }
         }
@@ -77,8 +76,7 @@ public with sharing class CTPNotificationTriggerHandler {
                 notificationsForSubs.add(new Notification__c(
                         Topic__c = topic.Id,
                         WhatId__c = ctp.Id,
-                        Notification_Type__c = NotificationService.MESSAGE_TO_PT_COI_CTP_START_ENROLL_TYPE,
-                        Status__c = NotificationService.NOTIFICATION_STATUS_CREATED
+                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_COI_CTP_START_ENROLL_TYPE
                 ));
             }
 
@@ -121,17 +119,29 @@ public with sharing class CTPNotificationTriggerHandler {
 
         Map<Id, List<Id>> partPerDelegateIds = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(participantIds);
 
-        Map<Id, List<Id>> contactIdsByCTPIds = new Map<Id, List<Id>>();
+        List<Notification__c> notifications = new List<Notification__c>();
         for(Id ctp : ctpIdsByPE.keySet()) {
-            if(!contactIdsByCTPIds.containsKey(ctp)) contactIdsByCTPIds.put(ctp, new List<Id>());
             for(Participant_Enrollment__c pe : ctpIdsByPE.get(ctp)) {
-                contactIdsByCTPIds.get(ctp).add(pe.Participant__r.Contact__c);
+                notifications.add(
+                        new Notification__c(
+                                Recipient__c = pe.Participant__r.Contact__c,
+                                WhatId__c = ctp,
+                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE
+                        )
+                );
                 if(partPerDelegateIds.containsKey(pe.Participant__c)) {
-                    contactIdsByCTPIds.get(ctp).addAll(partPerDelegateIds.get(pe.Participant__c));
+                    for(Id delegateId : partPerDelegateIds.get(pe.Participant__c)) {
+                        notifications.add(
+                                new Notification__c(
+                                        Recipient__c = delegateId,
+                                        WhatId__c = ctp,
+                                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE
+                                )
+                        );
+                    }
                 }
             }
         }
-
-        NotificationService.sendSimpleNotification(contactIdsByCTPIds, NotificationService.MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE);
+        insert notifications;
     }
 }
