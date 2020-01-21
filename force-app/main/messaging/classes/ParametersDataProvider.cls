@@ -25,6 +25,7 @@ public without sharing class ParametersDataProvider {
         this.userMode = userType;
         this.recipientName = recipientName;
         this.recipientId = recipientId;
+        this.multiplePIMessage = multiplePIMessage;
         this.recipientLanguage = recipientLanguage;
         this.parametersProviderName = parametersProviderName;
         parameters = new Map<String, String>();
