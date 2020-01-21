@@ -40,7 +40,7 @@ public without sharing class VisitTriggerHandler {
                 List<Participant_Enrollment__c> vpPEList = peListByVisitPlanIdMap.get(visit.Visit_Plan__c);
                 if(vpPEList == null) continue;
                 for(Participant_Enrollment__c pe : vpPEList){
-                    patientVisits.add(VisitService.createPatientVisit(visit, pe.Id));
+                    patientVisits.add(PatientVisitService.createPatientVisit(visit, pe.Id));
                 }
             }
             if(patientVisits.size() > 0) insert patientVisits;

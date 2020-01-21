@@ -602,7 +602,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             Visit_Plan__c vp = visitPlansMap.get(vpId);
             if (vp == null) continue;
             for (Visit__c visit : vp.Visits__r) {
-                patientVisits.add(VisitService.createPatientVisit(visit, pe.Id));
+                patientVisits.add(PatientVisitService.createPatientVisit(visit, pe.Id));
             }
         }
         if (patientVisits.size() > 0) insert patientVisits;
