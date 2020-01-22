@@ -27,7 +27,7 @@
 
 
         <aura:if isTrue="{!v.mrrResult == 'Fail'}">
-            <div class="mrr-alert fail">
+            <div class="mrr-alert fail" id="anchor">
                 <c:RRIcon iconName="icon-close-circle"/>
                 <div class="main-title">{!v.pe.Participant__r.Full_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Failed}</div>
                 <button class="apollo-btn primary"
@@ -44,7 +44,7 @@
 
 
         <aura:if isTrue="{!v.mrrResult == 'Pass'}">
-            <div class="mrr-alert pass">
+            <div class="mrr-alert pass" id="anchor">
                 <c:RRIcon iconName="icon-check-circle"/>
                 <div class="main-title">{!v.pe.Participant__r.Full_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Passed}</div>
                 <button class="apollo-btn primary"

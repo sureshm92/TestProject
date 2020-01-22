@@ -36,6 +36,7 @@
                 spinner.hide();
             })
         }
+
     },
 
     doGoHome: function () {
