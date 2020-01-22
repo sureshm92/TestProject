@@ -12,6 +12,7 @@
     },
 
     doExecute: function (component, event, helper) {
+        console.log('parti', component.get('v.participant'));
         try {
             component.find('spinner').show();
             component.set('v.initialized', false);
@@ -19,7 +20,7 @@
             var pe = JSON.parse(JSON.stringify(params.pe));
             if(params.actions)
                 component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
-            component.set('v.popUpTitle', pe.Participant__r.Full_Name__c + ' ' + $A.get('$Label.c.PE_Info_PopUp_Title') + ' ' + pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c);
+            component.set('v.popUpTitle', pe.Participant__r.Full_Name__c);
             if(params.pathItems)
                 component.set('v.pathItems', JSON.parse(JSON.stringify(params.pathItems)));
             component.set('v.rootComponent', params.rootComponent);
@@ -40,7 +41,9 @@
                     component.find('spinner').hide();
                     component.set('v.anchor', params.anchorScroll);
                     component.set('v.pe', returnValue.enrollment);
+                    console.log('pe', JSON.parse(JSON.stringify(component.get('v.pe'))));
                     component.set('v.participant', pe.Participant__r);
+                    console.log('parti11', component.get('v.participant'));
                     formComponent.createDataStamp();
                     formComponent.checkFields();
                     setTimeout(function () {
@@ -52,6 +55,7 @@
                     }), 200
                 }), 15);
             });
+            console.log('parti', component.get('v.participant'));
             component.find('dialog').show();
         } catch (e) {
             console.error(e);
@@ -102,5 +106,22 @@
     doPrint: function (component, event, helper) {
         var pe = component.get('v.pe');
         window.open('patient-info-pv?id=' + pe.Id, '_blank');
+    },
+    doCancel: function (component, event, helper) {
+        var comp = component.find('dialog');
+        comp.hide();
+    },
+    forParticipantDetails: function (component, event, helper) {
+        component.set('v.checkTabs', 'participantDetails');
+    },
+    forOtherTabs: function (component, event,helper) {
+        component.set('v.checkTabs', 'otherTabs');
+    },
+    doUpdateCancel: function (component, event, helper) {
+        var action = component.get('c.doUpdate');
+        $A.enqueueAction(action);
+        var comp = component.find('dialog');
+        comp.hide();
+
     }
 });
