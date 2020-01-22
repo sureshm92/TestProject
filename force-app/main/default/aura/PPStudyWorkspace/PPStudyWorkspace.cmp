@@ -134,14 +134,6 @@
                         </aura:if>
                     </div>
 
-                    <!--                    <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-visits', '', ' collapsed')}">-->
-                    <!--                        <button id="changeVisitMode" data-visit-mode="Current"-->
-                    <!--                                class="{!'apollo-btn text ' + if(v.visitMode == 'Current', ' current', '')}"-->
-                    <!--                                onclick="{!c.doAction}">{!$Label.c.Home_Page_StudyVisit_Tab_Study_Visits}</button>-->
-                    <!--                        <button id="changeVisitMode" data-visit-mode="Past"-->
-                    <!--                                class="{!'apollo-btn text ' + if(v.visitMode == 'Past', ' current', '')}"-->
-                    <!--                                onclick="{!c.doAction}">{!$Label.c.Home_Page_StudyVisit_Tab_Past_Visits}</button>-->
-                    <!--                    </div>-->
                     <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-visits', '', ' collapsed')}">
                         <button id="changeVisitMode" data-visit-mode="VisitDetails"
                                 class="{!'apollo-btn text ' + if(v.visitMode == 'VisitDetails', ' current', '')}"
