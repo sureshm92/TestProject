@@ -1131,6 +1131,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Languages__c</picklist>
+        <values>
+            <fullName>en_US</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ru</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>X3rd_Party_Source__c</picklist>
         <values>
             <fullName>HealthDay</fullName>
@@ -1153,10 +1164,6 @@
         </values>
         <values>
             <fullName>Document</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Video</fullName>
             <default>false</default>
         </values>
     </picklistValues>

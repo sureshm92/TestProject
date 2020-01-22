@@ -7,7 +7,7 @@
     <aura:attribute name="item" type="Object"/>
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="viewMode" type="String"/>
-    <aura:attribute name="isPaymentVendor" type="Boolean" default="false"/>
+    <aura:attribute name="isSingleChoice" type="Boolean" default="false"/>
 
     <tr class="{!if(v.item.emptyAssignments, 'empty-assignments', '')}">
         <th data-label="Country" scope="row">
@@ -24,18 +24,24 @@
             <div class="slds-truncate"
                  title="">{!v.item.ss.Study_Site_Number__c}</div>
         </td>
-        <aura:if isTrue="{!v.isPaymentVendor}">
+        <aura:if isTrue="{!v.isSingleChoice}">
             <td data-label="None" style="text-align: center">
                 <div class="slds-truncate" title="">
-                    <ui:inputRadio value="{!v.item.emptyAssignments}" label="none" change="{!c.sscRadioStateChange}"/>
+                    <ui:inputRadio value="{!v.item.emptyAssignments}"
+                            label="none"
+                            change="{!c.sscRadioStateChange}"
+                            disabled="{!v.viewMode != 'Edit'}"/>
                 </div>
             </td>
         </aura:if>
 
         <aura:iteration items="{!v.item.assignments}" var="asg">
             <td style="text-align: center">
-                <aura:if isTrue="{!v.isPaymentVendor}">
-                    <ui:inputRadio value="{!asg.state}" label="{!asg.value}" change="{!c.sscRadioStateChange}"/>
+                <aura:if isTrue="{!v.isSingleChoice}">
+                    <ui:inputRadio value="{!asg.state}"
+                                   label="{!asg.value}"
+                                   disabled="{!v.viewMode != 'Edit'}"
+                                   change="{!c.sscRadioStateChange}"/>
                     <aura:set attribute="else">
                         <ui:inputCheckbox value="{!asg.state}"
                                           label=""
@@ -46,5 +52,4 @@
             </td>
         </aura:iteration>
     </tr>
-
 </aura:component>

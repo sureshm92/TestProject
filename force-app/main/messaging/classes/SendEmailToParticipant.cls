@@ -8,15 +8,15 @@ public without sharing class SendEmailToParticipant {
     public static final String EMAIL_TEMPLATE_NO_TYPE_TASK_DELEGATE = 'Patient_Task_Reminder_Delegate';
 
     public static final Map<String, String> PATIENT_EMAIL_REMINDERS_TYPE_MAP = new Map<String, String>{
-            TaskService.TASK_TYPE_NOT_SELECTED => NotificationService.MESSAGE_TO_PT_TASK_REMINDER_TYPE,
-            TaskService.TASK_TYPE_VISIT => NotificationService.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE,
-            TaskService.TASK_TYPE_MEDICATION => NotificationService.MESSAGE_TO_PT_TASK_REMINDER_MED_TYPE
+            TaskService.TASK_TYPE_NOT_SELECTED => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_TYPE,
+            TaskService.TASK_TYPE_VISIT => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE,
+            TaskService.TASK_TYPE_MEDICATION => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_TYPE
     };
 
     public static final Map<String, String> PATIENT_DELEGATE_EMAIL_REMINDERS_TYPE_MAP = new Map<String, String>{
-            TaskService.TASK_TYPE_NOT_SELECTED => NotificationService.MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE,
-            TaskService.TASK_TYPE_VISIT => NotificationService.MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE,
-            TaskService.TASK_TYPE_MEDICATION => NotificationService.MESSAGE_TO_PT_TASK_REMINDER_MED_DEL_TYPE
+            TaskService.TASK_TYPE_NOT_SELECTED => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE,
+            TaskService.TASK_TYPE_VISIT => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE,
+            TaskService.TASK_TYPE_MEDICATION => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_DEL_TYPE
     };
 
     public static final String PATIENT_SUMMARY_DOCUMENT = 'Patient_Summary_Document';
@@ -58,15 +58,15 @@ public without sharing class SendEmailToParticipant {
 
             if (task.Reminder_Date__c == firstReminderDate) {
                 patientNotificationType = task.Reminder_Schedule__r.Use_Final_Template__c ?
-                        NotificationService.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE :
-                        NotificationService.MESSAGE_TO_PT_SURVEY_REMINDER_TYPE;
+                        NotificationCatalog.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE :
+                        NotificationCatalog.MESSAGE_TO_PT_SURVEY_REMINDER_TYPE;
             } else {
                 Integer secondReminderDay = (Integer) task.Reminder_Schedule__r.Second_Reminder_day__c;
                 if (secondReminderDay != null) {
                     Datetime secondReminderDate =
                             DateTimeConverterUtil.addDaysInUserTimeZone(startDT, timeZoneByContact.get(task.WhoId), secondReminderDay);
                     if (task.Reminder_Date__c == secondReminderDate) {
-                        patientNotificationType = NotificationService.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE;
+                        patientNotificationType = NotificationCatalog.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE;
                     }
                 }
             }

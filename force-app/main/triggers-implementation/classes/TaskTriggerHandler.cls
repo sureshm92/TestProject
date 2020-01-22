@@ -81,7 +81,7 @@ public without sharing class TaskTriggerHandler {
     @TestVisible
     private static void processSendImmediateEmails(List<Task> tasks) {
         Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(tasks);
-        List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
+        List<Notification__c> notifications = new List<Notification__c>();
 
         Set<Id> ownerIds = new Set<Id>();
         for (Task t : [SELECT OwnerId FROM Task WHERE Id IN:tasks]) ownerIds.add(t.OwnerId);
@@ -124,21 +124,28 @@ public without sharing class TaskTriggerHandler {
                         whatId = task.Survey_Invitation__c;
                     }
                     if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)
-                            && usersByIds.get(task.OwnerId).Contact.Participant_Opt_In_Status_Emails__c) {
-                        emailMessages.add(SendEmailTemplate.createEmail(
-                                card.Immediate_Email_Template__c, usersByIds.get(task.OwnerId).ContactId, whatId));
+                            && card.Immediate_Email_Template__c != null) {
+                        notifications.add(new Notification__c(
+                                Recipient__c = usersByIds.get(task.OwnerId).ContactId,
+                                WhatId__c = task.Survey_Invitation__c,
+                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_COMPLETE_BL_SURVEY_TYPE
+                        ));
                     }
-                    if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
+                    if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)
+                            && card.Immediate_Email_Template__c != null) {
                         if (!delegatesCntByPartCnt.containsKey(usersByIds.get(task.OwnerId).ContactId)) continue;
                         for (Id delContactId : delegatesCntByPartCnt.get(usersByIds.get(task.OwnerId).ContactId)) {
-                            emailMessages.add(SendEmailTemplate.createEmail(
-                                    card.Immediate_Email_Template__c, delContactId, whatId));
+                            notifications.add(new Notification__c(
+                                    Recipient__c = delContactId,
+                                    WhatId__c = task.Survey_Invitation__c,
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_COMPLETE_BL_SURVEY_TYPE
+                            ));
                         }
                     }
                 }
             }
         }
-        if (emailMessages.size() > 0) SendEmailTemplate.sendEmailMessages(emailMessages);
+        if (notifications.size() > 0) insert notifications;
     }
 
     public static void processDefaultFieldValues(List<Task> tasks) {

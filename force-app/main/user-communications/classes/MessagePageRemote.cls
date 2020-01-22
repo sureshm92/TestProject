@@ -32,7 +32,7 @@ public without sharing class MessagePageRemote {
         @AuraEnabled public String downloadLink;
     }
 
-    @AuraEnabled(Cacheable = true)
+    @AuraEnabled
     public static MSPageData getInitData() {
         try {
             MSPageData pageData = new MSPageData();
@@ -43,13 +43,18 @@ public without sharing class MessagePageRemote {
             if (pageData.userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 //Collect Enrollments
                 ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
-                pageData.enrollments = new List<Participant_Enrollment__c>();
-                if (participantState.pe != null) pageData.enrollments.add(participantState.pe);
+                List<Participant_Enrollment__c> participantEnrollments = new List<Participant_Enrollment__c>();
+                if (participantState.pe != null) participantEnrollments.add(participantState.pe);
                 List<Participant_Enrollment__c> pastEnrollments =
                         ContactService.getPastEnrollments(participantState.participant.Contact__c);
-                if (!pastEnrollments.isEmpty()) pageData.enrollments.addAll(pastEnrollments);
+                if (!pastEnrollments.isEmpty()) participantEnrollments.addAll(pastEnrollments);
 
+                pageData.enrollments = new List<Participant_Enrollment__c>();
+                for(Participant_Enrollment__c pe : participantEnrollments) {
+                    if(pe.Study_Site__r.Messages_Are_Available__c) pageData.enrollments.add(pe);
+                }
 
+                //Collect Conversations
                 List<Id> availablePEIds = new List<Id>();
                 for(Participant_Enrollment__c pe : pageData.enrollments) availablePEIds.add(pe.Id);
 
@@ -67,6 +72,7 @@ public without sharing class MessagePageRemote {
                     for (Message_Template__mdt mesTmp : messageTemplates) pageData.messageTemplates.add(mesTmp.Message_Variant__c);
                 }
             } else if (pageData.userMode == CommunityService.USER_MODE_PI) {
+                //Collect Conversations
                 if(sharedConversations != null) conversations.addAll(sharedConversations);
 
                 //Collect Enrollments
@@ -82,9 +88,9 @@ public without sharing class MessagePageRemote {
                                 Participant_Contact__c
                         FROM Participant_Enrollment__c
                         WHERE Study_Site__r.Principal_Investigator__c = :piContactId
+                        AND Study_Site__r.Messages_Are_Available__c = TRUE
                 ];
             }
-
             if (!conversations.isEmpty()) {
                 List<Id> conIds = new List<Id>();
                 for (Conversation__c con : conversations) conIds.add(con.Id);
@@ -123,7 +129,9 @@ public without sharing class MessagePageRemote {
     public static ConversationWrapper sendMessage(Conversation__c conversation, String messageText) {
         try {
             Contact userContact = CommunityService.getUserContact();
+
             String senderName;
+            Boolean needUpdate = false;
             if (userContact.userCommunityMode__c.equals(CommunityService.USER_MODE_PARTICIPANT)) {
                 List<Participant__c> participant = [SELECT Id, Full_Name__c FROM Participant__c WHERE Contact__c = :userContact.Id];
                 if(!participant.isEmpty()) {
@@ -132,12 +140,19 @@ public without sharing class MessagePageRemote {
                     senderName = userContact.UserCommunityIsDelegate__c ?
                             userContact.Full_Name__c : conversation.Participant_Enrollment__r.Participant__r.Full_Name__c;
                 }
-                conversation.haveUnreadForPI__c = true;
+                if(!conversation.haveUnreadForPI__c) {
+                    conversation.haveUnreadForPI__c = true;
+                    needUpdate = true;
+                }
             } else {
                 senderName = userContact.Full_Name__c;
-                conversation.haveUnreadForParticipant__c = true;
+                if(!conversation.haveUnreadForParticipant__c) {
+                    conversation.haveUnreadForParticipant__c = true;
+                    needUpdate = true;
+                }
             }
-            update conversation;
+
+            if(needUpdate) update conversation;
 
             insert new Message__c(
                     Conversation__c = conversation.Id,
@@ -167,6 +182,15 @@ public without sharing class MessagePageRemote {
             return getConversationWrapper(CommunityService.getUserContact().userCommunityMode__c, conversation, messages);
         } catch (Exception e) {
             return (ConversationWrapper) AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
+    public static Integer getUnreadCount() {
+        try {
+            return ConversationService.getUnreadConversationCount(UserInfo.getUserId(), CommunityService.getUserContact().userCommunityMode__c);
+        } catch (Exception e) {
+            return (Integer) AuraHelper.throwException(e);
         }
     }
 

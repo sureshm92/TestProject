@@ -6,7 +6,7 @@
 
         if (!communityService.isInitialized()) return;
         var userMode = communityService.getUserMode();
-        if(userMode === 'Participant' && communityService.isDelegate()) communityService.navigateToHome();
+        if(userMode === 'Participant' && communityService.getCurrentCommunityMode().isDelegate) communityService.navigateToHome();
 
         component.set('v.userMode', userMode);
 

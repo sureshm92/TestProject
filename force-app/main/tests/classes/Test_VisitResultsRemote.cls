@@ -44,7 +44,10 @@ public with sharing class Test_VisitResultsRemote {
 
     @IsTest
     static void getInitData_test() {
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SetCurrentEnrollmentHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
+        TriggerHandlerExecutor.bypassHandler(ContactReferralNetworkTriggerHandler.SyncContactInterestedSites.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class);
+
         List<Clinical_Trial_Profile__c> ctp = new List<Clinical_Trial_Profile__c>{
                 (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType(),
                         new Map<String, Object>{
@@ -140,7 +143,10 @@ public with sharing class Test_VisitResultsRemote {
 
     @IsTest
     static void getInitDataWithException_test() {
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SetCurrentEnrollmentHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ContactReferralNetworkTriggerHandler.SyncContactInterestedSites.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
+
         Boolean isExceptionThrown = false;
         TestData.loadTestData();
 
@@ -227,7 +233,10 @@ public with sharing class Test_VisitResultsRemote {
 
     @IsTest
     static void changeOptInOnTrue_test() {
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SetCurrentEnrollmentHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ContactReferralNetworkTriggerHandler.SyncContactInterestedSites.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
+
         Contact contact = (Contact) TestDataFactory.getSObject(Contact.getSObjectType());
 
         ClassFactory.clearStubTypesByClassNamesMap();
@@ -254,7 +263,10 @@ public with sharing class Test_VisitResultsRemote {
 
     @IsTest
     static void changeOptInWithException_test() {
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SetCurrentEnrollmentHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ContactReferralNetworkTriggerHandler.SyncContactInterestedSites.class);
+        TriggerHandlerExecutor.bypassHandler(ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
+
         Contact contact = (Contact) TestDataFactory.getSObject(Contact.getSObjectType());
 
         ClassFactory.clearStubTypesByClassNamesMap();

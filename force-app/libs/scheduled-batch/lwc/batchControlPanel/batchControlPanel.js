@@ -96,7 +96,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     }
 
     @wire(getData)
-    wireData({data}) {
+    wireData({data, error}) {
         if (data) {
             this.mods = data.intervalMods;
             this.minScheduledDate = new Date();
@@ -107,6 +107,8 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
                 this.spinner.hide();
                 this.initialized = true;
             }
+        } else if(error) {
+            console.log('Wire error:' + JSON.stringify(error));
         }
     }
 

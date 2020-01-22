@@ -70,7 +70,7 @@ public without sharing class PENotificationTriggerHandler {
                     listNotificationForPatient.add(new Notification__c(
                             Recipient__c = pe.Participant__r.Contact__c,
                             WhatId__c = pe.Id,
-                            Notification_Type__c = NotificationService.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE
+                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE
                     ));
                 }
                 //Forming additional notification for Drop Out
@@ -79,7 +79,7 @@ public without sharing class PENotificationTriggerHandler {
                     listNotificationForPatient.add(new Notification__c(
                             Recipient__c = pe.Participant__r.Contact__c,
                             WhatId__c = pe.Id,
-                            Notification_Type__c = NotificationService.MESSAGE_TO_PT_DROP_OUT_TYPE
+                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DROP_OUT_TYPE
                     ));
                 }
                 //Forming additional notification for PI
@@ -89,7 +89,7 @@ public without sharing class PENotificationTriggerHandler {
                     listNotificationForPI.add(new Notification__c(
                             Recipient__c = pe.Study_Site__r.Principal_Investigator__r.Id,
                             WhatId__c = pe.Id,
-                            Notification_Type__c = NotificationService.MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE
+                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE
                     ));
                 }
             }
@@ -157,11 +157,11 @@ public without sharing class PENotificationTriggerHandler {
                 WHERE Id IN :peIds
         ]) {
             notificationList.add(new Notification__c(
-                    Notification_Type__c = NotificationService.MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE,
+                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE,
                     Recipient__c = pe.Participant_Contact__c,
                     WhatId__c = pe.Id));
             notificationList.add(new Notification__c(
-                    Notification_Type__c = NotificationService.MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE,
+                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE,
                     Recipient__c = pe.Study_Site__r.Principal_Investigator__c,
                     WhatId__c = pe.Id));
         }

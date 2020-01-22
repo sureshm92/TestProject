@@ -4,146 +4,46 @@
 
 public without sharing class CommunityModeService {
     
-    public class CommunityMode {
-        
-        @AuraEnabled public String key;
-        @AuraEnabled public String groupKey;
-        @AuraEnabled public String userMode;
-        @AuraEnabled public Id currentHCPDelegate;
-        @AuraEnabled public Id currentPE;
-        @AuraEnabled public Id currentDelegateId;
-        @AuraEnabled public Boolean isDelegate = false;
-        @AuraEnabled public String groupLabel;
-        @AuraEnabled public String label;
-        @AuraEnabled public Boolean isGroup = false;
-        @AuraEnabled public Boolean isSplitter = false;
-        @AuraEnabled public Boolean hasPastStudies = false;
-        @AuraEnabled public List<CommunityMode> subModes = new List<CommunityMode>();
-        @AuraEnabled public Boolean isOpen = false;
-    
-        public CommunityMode(String userMode, String label) {
-            this.userMode = userMode;
-            this.label = label;
-            this.groupLabel = label;
-            generateKey();
-        }
-    
-        public CommunityMode(String label) {
-            this.isSplitter = true;
-            this.label = label;
-            this.groupLabel = label;
-            generateKey();
-        }
-    
-        public CommunityMode(String userMode, String label, Id delegateId) {
-            this.userMode = userMode;
-            this.label = label;
-            this.groupLabel = label;
-            this.currentHCPDelegate = delegateId;
-            generateKey();
-        }
-    
-        public CommunityMode(String userMode, String label, Id delegateId, Id peId) {
-            this.userMode = userMode;
-            this.label = label;
-            this.groupLabel = label;
-            this.currentPE = peId;
-            this.currentDelegateId = delegateId;
-            generateKey();
-        }
-    
-        public void addSubMode(CommunityMode subMode){
-            isGroup = true;
-            subModes.add(subMode);
-            subMode.groupLabel = label;
-            subMode.groupKey = key;
-            subMode.hasPastStudies = hasPastStudies;
-        }
-        
-        public void setAsCurrentMode(){
-            Contact userContact = CommunityService.getUserContact();
-            userContact.userCommunityMode__c = userMode;
-            if(userMode == CommunityService.USER_MODE_HCP){
-                userContact.userCommunityDelegateId__c = currentHCPDelegate;
-            }else if (userContact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT){
-                userContact.userCommunityDelegateId__c = currentDelegateId;
-                userContact.Current_Participant_Enrollment__c = currentPE;
-            }
-            update userContact;
-        }
-        
-        private void generateKey(){
-            key = userMode;
-            if(userMode == CommunityService.USER_MODE_PARTICIPANT){
-                key += '' + currentDelegateId + currentPE;
-            }
-            if(userMode == CommunityService.USER_MODE_HCP){
-                key += currentHCPDelegate;
-            }
-            groupKey = key;
-        }
-    
-    }
+    public static final String USER_MODE_HCP = 'HCP';
+    public static final String USER_MODE_PI = 'PI';
+    public static final String USER_MODE_PARTICIPANT = 'Participant';
     
     
-    public static List<CommunityMode> getUserCommunityModes() {
+    public static List<CommunityMode> getUserCommunityModes(Id contactId) {
         List<CommunityMode> modes = new List<CommunityMode>();
-        Contact userContact = CommunityService.getUserContact();
+        Contact userContact = ContactService.getContact(contactId);
         String availableModes = userContact.userCommunytyType__c == null ? '' : userContact.userCommunytyType__c;
-        if ((availableModes != null && availableModes.contains(CommunityService.USER_MODE_PI))
+        if ((availableModes != null && availableModes.contains(USER_MODE_PI))
                 || !DelegateService.getPIDelegateParents().isEmpty()) {
-            modes.add(new CommunityMode(CommunityService.USER_MODE_PI, Label.CTL_L_PI_MODE, null));
+            modes.add(new CommunityMode(USER_MODE_PI, Label.CTL_L_PI_MODE, null));
         }
 
-        if (availableModes != null && availableModes.contains(CommunityService.USER_MODE_HCP)) {
-            modes.add(new CommunityMode(CommunityService.USER_MODE_HCP, Label.CTL_L_HCP_MODE, null));
+        if (availableModes != null && availableModes.contains(USER_MODE_HCP)) {
+            modes.add(new CommunityMode(USER_MODE_HCP, Label.CTL_L_HCP_MODE, null));
         }
+        //TODO contactId param into DelegateService.getHCPDelegates()
         for (RP_Delegate_Relationship__c delegate : DelegateService.getHCPDelegates()) {
             String rpFullName = (delegate.Referring_Provider__r.Salutation != null?delegate.Referring_Provider__r.Salutation + ' ':'') +
                     delegate.Referring_Provider__r.Full_Name__c +
                     (delegate.Referring_Provider__r.Suffix != null?' ' + delegate.Referring_Provider__r.Suffix:'');
             String itemLabel = Label.CTL_L_HCP_DELEGATE_MODE.replaceAll('##RPName', rpFullName);
-            modes.add(new CommunityMode(CommunityService.USER_MODE_HCP, itemLabel, delegate.Referring_Provider__c));
+            modes.add(new CommunityMode(USER_MODE_HCP, itemLabel, delegate.Referring_Provider__c));
         }
 
         modes.addAll(getParticipantModes());
         return modes;
     }
     
-    public static CommunityMode getCurrentCommunityMode(List<CommunityMode> allModes){
-        CommunityMode currentMode = getCurrentCommunityMode(); //from DB
-        CommunityMode resMode = findMode(currentMode.key, allModes); // find in available modes
+    public static CommunityMode getCurrentCommunityMode(Contact contact, List<CommunityMode> allModes){
+        CommunityMode resMode = findMode(generateModeKey(contact), allModes);
         if(resMode == null && allModes.size() > 0){
             resMode = getFirstMode(allModes);
             if(resMode != null){
-                resMode.setAsCurrentMode();
+                resMode.setAsCurrentMode(contact);
                 return resMode;
             }
         }
         return resMode;
-    }
-    
-    private static CommunityMode getCurrentCommunityMode(){
-        CommunityMode currentMode;
-        Contact userContact = CommunityService.getUserContact();
-        if(userContact.userCommunityMode__c == CommunityService.USER_MODE_PI){
-            currentMode = new CommunityMode(
-                    CommunityService.USER_MODE_PI,
-                    null);
-        }else if (userContact.userCommunityMode__c == CommunityService.USER_MODE_HCP){
-            currentMode = new CommunityMode(
-                    CommunityService.USER_MODE_HCP,
-                    null,
-                    userContact.userCommunityDelegateId__c);
-        }else{
-            currentMode = new CommunityMode(
-                    CommunityService.USER_MODE_PARTICIPANT,
-                    null,
-                    userContact.userCommunityDelegateId__c,
-                    userContact.Current_Participant_Enrollment__c
-            );
-        }
-        return currentMode;
     }
     
     private static List<CommunityMode> getParticipantModes(){
@@ -177,7 +77,7 @@ public without sharing class CommunityModeService {
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(userParticipant.Id);
             List<Participant_Enrollment__c> pastPEList = pePastMap.get(userParticipant.Id);
             CommunityMode mode = new CommunityMode(
-                    CommunityService.USER_MODE_PARTICIPANT,
+                    USER_MODE_PARTICIPANT,
                     userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c,
                     null,
                     null
@@ -187,10 +87,10 @@ public without sharing class CommunityModeService {
             if(peList != null){
                 for(Participant_Enrollment__c pe : peList){
                     mode.addSubMode(new CommunityMode(
-                            CommunityService.USER_MODE_PARTICIPANT,
+                            USER_MODE_PARTICIPANT,
                             pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
                             null,
-                            pe.Id
+                            pe
                     ));
                 }
             }
@@ -206,7 +106,7 @@ public without sharing class CommunityModeService {
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(participantId);
             List<Participant_Enrollment__c> pastPEList = pePastMap.get(participantId);
             CommunityMode mode = new CommunityMode(
-                    CommunityService.USER_MODE_PARTICIPANT,
+                    USER_MODE_PARTICIPANT,
                     participant.First_Name__c + ' ' + participant.Last_Name__c,
                     participant.Contact__c,
                     null
@@ -216,10 +116,10 @@ public without sharing class CommunityModeService {
             if(peList != null){
                 for(Participant_Enrollment__c pe : peList){
                     mode.addSubMode(new CommunityMode(
-                            CommunityService.USER_MODE_PARTICIPANT,
+                            USER_MODE_PARTICIPANT,
                             pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
                             pe.Participant__r.Contact__c,
-                            pe.Id
+                            pe
                     ));
                 }
             }
@@ -264,7 +164,8 @@ public without sharing class CommunityModeService {
                 'Clinical_Trial_Profile__r.Study_Title__c',
                 'Clinical_Trial_Profile__r.Study_Code_Name__c',
                 'Participant__c',
-                'Participant__r.Contact__c'
+                'Participant__r.Contact__c',
+                'Participant_Status__c'
         }, Participant_Enrollment__c.getSObjectType(), baseFilter);
         Map<Id, List<Participant_Enrollment__c>> peMap = new Map<Id, List<Participant_Enrollment__c>>();
         for(Participant_Enrollment__c pe : peList){
@@ -275,6 +176,17 @@ public without sharing class CommunityModeService {
         }
         return peMap;
     }
+    
+    public static String generateModeKey(String userMode, Id currentDelegateId, Id currentWhatId){
+        return userMode + '_' + currentDelegateId + '_' + currentWhatId; 
+    }
+    
+    public static String generateModeKey(Contact contact){
+        Id currentWhatId;
+        if(contact.userCommunityMode__c == USER_MODE_PARTICIPANT) currentWhatId = contact.Current_Participant_Enrollment__c;
+        return generateModeKey(contact.userCommunityMode__c, contact.userCommunityDelegateId__c, currentWhatId);
+    }
+ 
 
 
 

@@ -35,7 +35,7 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
                     notifications.add(new Notification__c(
                             Recipient__c = cnt.Id,
                             WhatId__c = p.Id,
-                            Notification_Type__c = NotificationService.MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE,
+                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE,
                             Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                     ));
                 }

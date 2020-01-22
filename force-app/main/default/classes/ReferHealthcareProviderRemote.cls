@@ -254,7 +254,6 @@ global without sharing class ReferHealthcareProviderRemote {
             cntList[0].userCommunityMode__c = CommunityService.USER_MODE_HCP;
         }
         update cntList[0];
-
         for (Study_Site__c stdSite : studySitesToInvite) {
             hcpes.add(new HCP_Enrollment__c(
                     HCP_Contact__c = cntList[0].Id,
@@ -288,12 +287,11 @@ global without sharing class ReferHealthcareProviderRemote {
             }
             if (!isNewUser) {
                 for (HCP_Enrollment__c hcpEnrollment : hcpes) {
-                    hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+                    hcpEnrollment.Status__c = hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Orientation_Required__c ? HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O : HCPEnrollmentService.HCP_S_ACTIVATED;
                 }
                 if (!hcpes.isEmpty()) {
                     insert hcpes;
-
-                    sendNotificationForRPInvite(hcpes[0].Id, hcpContactId);
+                    sendNotificationForRPInvite(hcpes[0].Id, hcpContactId, piIds);
                 } else {
                     throw new AuraHandledException(Label.RP_Is_Already_Invited);
                 }
@@ -307,8 +305,12 @@ global without sharing class ReferHealthcareProviderRemote {
         return hcpes[0].Id;
     }
 
-    public static void sendNotificationForRPInvite(Id hcpEnrollId, Id hcpContactId) {
-        SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_HCP_INVITE, new Map<Id, Id> { hcpEnrollId => hcpContactId });
+    public static void sendNotificationForRPInvite(Id hcpEnrollId, Id hcpContactId, List<String> piIds) {
+        insert new Notification__c(
+                Recipient__c = hcpContactId,
+                WhatId__c = hcpEnrollId,
+                Notification_Type__c = piIds.isEmpty() ? NotificationCatalog.MESSAGE_TO_HCP_APPROVED_TYPE : NotificationCatalog.MESSAGE_TO_HCP_APPROVED_TO_MULTIPI_TYPE
+        );
     }
 
     public final static String HP_S_INVITED = 'Invited';
