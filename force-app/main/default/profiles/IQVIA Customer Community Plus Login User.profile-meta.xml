@@ -757,10 +757,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>NotificationType</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>OnboardingSlideTourRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>

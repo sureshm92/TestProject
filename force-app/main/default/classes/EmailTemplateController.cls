@@ -47,6 +47,7 @@ global without sharing class EmailTemplateController {
     global Id sourceRecordId {get; set;}
     global Boolean replaceLineBreaksOnHTMLBreaks {get; set;}
     global Boolean showDelegateTableValue {get; set;}
+    global Boolean multiplePIMessageValue {get; set;}
     global Boolean hasPIRPDelegationRecords {
         get{
             return !getDataProvider().delegateLevelsPI.isEmpty() || !getDataProvider().delegateLevelsHCP.isEmpty();
@@ -133,7 +134,7 @@ global without sharing class EmailTemplateController {
     
     public ParametersDataProvider getDataProvider(){
         if (dataProvider == null) {
-            dataProvider = new ParametersDataProvider(sourceRecordId, emailRecipientName, emailRecipientId, emailRecipientLanguage, emailParametersProvider, userCommunityType, outputMode);
+            dataProvider = new ParametersDataProvider(sourceRecordId, emailRecipientName, emailRecipientId, emailRecipientLanguage, emailParametersProvider, userCommunityType, outputMode, multiplePIMessageValue);
         }
         return dataProvider;
     }
