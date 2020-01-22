@@ -47,6 +47,9 @@
                                 <template if:false={isPastStudy}>
                                     &nbsp;|&nbsp;{labels.piLabel}&nbsp;{selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name}
                                 </template>
+                                <template if:true={isPastStudy}>
+                                    &nbsp;|&nbsp;{selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                                </template>
                             </div>
                         </template>
                         <template if:true={isPIMode}>
@@ -74,7 +77,8 @@
                                          max-length="500"
                                          placeholder={labels.inputPlaceholderLabel}
                                          value={messageText}
-                                         onchange={handleMessageText} onkeypress={handleInputEnter}></lightning-input>
+                                         onchange={handleMessageText}
+                                         onkeypress={handleInputEnter}></lightning-input>
                         <div class="ms-send-pi-buttons">
                             <div style="flex-grow: 1;">{labels.limitLabel}</div>
                             <!--                            <button class="apollo-btn text">{labels.attFileLabel}</button>-->

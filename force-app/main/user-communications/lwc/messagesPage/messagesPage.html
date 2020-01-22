@@ -36,7 +36,9 @@
                     </template>
                 </div>
                 <div class="ms-right">
-                    <c-message-board user-mode={userMode} onconversationupdate={handleMessageSend}></c-message-board>
+                    <c-message-board user-mode={userMode}
+                                     onconversationupdate={handleMessageSend}
+                                     onmultiplymailing={handleRefreshEvent}></c-message-board>
                 </div>
             </template>
         </div>

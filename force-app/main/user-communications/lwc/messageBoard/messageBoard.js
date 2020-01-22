@@ -24,6 +24,7 @@ import toastPASend from '@salesforce/label/c.MS_Toast_Message_PA_Send';
 import createConversation from '@salesforce/apex/MessagePageRemote.createConversation';
 import sendMessage from '@salesforce/apex/MessagePageRemote.sendMessage';
 import searchParticipant from '@salesforce/apex/MessagePageRemote.searchParticipant';
+import sendMultipleMessage from '@salesforce/apex/MessagePageRemote.sendMultipleMessage';
 
 export default class MessageBoard extends LightningElement {
 
@@ -92,6 +93,15 @@ export default class MessageBoard extends LightningElement {
         this.hideEmptyStub = true;
     }
 
+    @api
+    closeBoard() {
+        this.hideEmptyStub = false;
+        this.conversation = null;
+        this.messageWrappers = null;
+        this.enrollments = null;
+        this.isMultipleMode = false;
+    }
+
     //Search Handlers:--------------------------------------------------------------------------------------------------
     handleSearch(event) {
         searchParticipant(event.detail)
@@ -112,7 +122,6 @@ export default class MessageBoard extends LightningElement {
     handleSelectionChange() {
         let lookUpResult = this.template.querySelector('c-web-lookup').getSelection();
         this.selectedEnrollments = lookUpResult.map(res => res.id);
-        console.log('Selection change. PEIds:' + JSON.stringify(this.selectedEnrollments));
     }
 
     //Handlers:---------------------------------------------------------------------------------------------------------
@@ -142,23 +151,32 @@ export default class MessageBoard extends LightningElement {
 
     handleSendClick(event) {
         //Add opportunity for Attach
-
-        if (!this.conversation) {
-            createConversation({enrollment: this.selectedEnrollment, messageText: this.messageText})
-                .then(data => {
-                    this.fireSendEvent(data);
+        if(this.userMode === 'PI' && this.isMultipleMode && this.selectedEnrollments) {
+            sendMultipleMessage({peIds: this.selectedEnrollments, messageText: this.messageText})
+                .then(() => {
+                    this.fireMultipleSendEvent();
                 })
                 .catch(error => {
-                    console.error('Error in createConversation():' + JSON.stringify(error));
+                    console.error('Error in sendMultipleMessage():' + JSON.stringify(error));
                 });
         } else {
-            sendMessage({conversation: this.conversation, messageText: this.messageText})
-                .then(data => {
-                    this.fireSendEvent(data);
-                })
-                .catch(error => {
-                    console.error('Error in sendMessage():' + JSON.stringify(error));
-                });
+            if (!this.conversation) {
+                createConversation({enrollment: this.selectedEnrollment, messageText: this.messageText})
+                    .then(data => {
+                        this.fireSendEvent(data);
+                    })
+                    .catch(error => {
+                        console.error('Error in createConversation():' + JSON.stringify(error));
+                    });
+            } else {
+                sendMessage({conversation: this.conversation, messageText: this.messageText})
+                    .then(data => {
+                        this.fireSendEvent(data);
+                    })
+                    .catch(error => {
+                        console.error('Error in sendMessage():' + JSON.stringify(error));
+                    });
+            }
         }
     }
 
@@ -209,6 +227,10 @@ export default class MessageBoard extends LightningElement {
 
         let toastLabel = this.userMode === 'PI' ? toastPASend : toastSTSend;
         this.notifyUser('', toastLabel, 'success');
+    }
+
+    fireMultipleSendEvent() {
+        this.dispatchEvent(new CustomEvent('multiplymailing'));
     }
 
     notifyUser(title, message, variant) {
