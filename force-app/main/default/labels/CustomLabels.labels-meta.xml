@@ -6250,6 +6250,13 @@ View study documents and other resources including articles and videos related t
         <value>Daytime phone number</value>
     </labels>
     <labels>
+        <fullName>PG_AS_F_Phone_Type</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F Phone Type</shortDescription>
+        <value>Phone Type</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Placeholder_Enter_text</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8806,11 +8813,26 @@ Please check your CAPS lock key.</value>
         <value>Congratulations!</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Delegate_Information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Delegate Information</shortDescription>
+        <value>Delegate Information</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Have_you_had_a_discussion_with_your_patient_about_participating_in_a_cl</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L Have you had a discussion with your patient about participating in a cl</shortDescription>
         <value>Have you had a discussion with your patient about participating in a clinical study?</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Health_care_proxy_is_needed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Health care proxy is needed</shortDescription>
+        <value>My patient would like to create a delegate user at this point.
+            (Required if patient is under age of majority or unable to make legal decisions.)</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_IQVIA_may_also_contact_your_patient_to_ensure_that_your_patient_has_con</fullName>
@@ -8831,7 +8853,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L My patient agrees to share their contact details with IQVIA, the study</shortDescription>
-        <value>My patient, or patient&#39;s representative if patient is a juvenile, agrees to share the patient&#39;s contact details with IQVIA, the study doctors, and other affiliated companies so that they may contact my patient regarding this clinical study.</value>
+        <value>My patient, and/or patient&#39;s legal guardian if applicable, agrees to share the contact information above and patient&#39;s pre-screener data with IQVIA, the study doctors, and other affiliates so that they may contact the patient and/or their delegate regarding applicable clinical studies.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_My_patient_agrees_to_the_privacy_policy</fullName>
@@ -8853,6 +8875,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PG Ref L OR</shortDescription>
         <value>OR</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Participant_Information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Participant Information</shortDescription>
+        <value>Participant Information</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
@@ -9919,6 +9948,27 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Patient</shortDescription>
         <value>Patient</value>
+    </labels>
+    <labels>
+        <fullName>Phone_Type_Home</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Phone Type Home</shortDescription>
+        <value>Home</value>
+    </labels>
+    <labels>
+        <fullName>Phone_Type_Mobile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Phone Type Mobile</shortDescription>
+        <value>Mobile</value>
+    </labels>
+    <labels>
+        <fullName>Phone_Type_Work</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Phone Type Work</shortDescription>
+        <value>Work</value>
     </labels>
     <labels>
         <fullName>Planned_Date</fullName>
