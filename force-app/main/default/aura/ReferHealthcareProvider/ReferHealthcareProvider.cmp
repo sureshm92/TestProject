@@ -7,6 +7,8 @@
     <aura:attribute name="healthCareProviders" type="List"/>
     <aura:attribute name="actionDisabled" type="Boolean" default="false"/>
     <aura:attribute name="printMode" type="Boolean" default="false"/>
+    <aura:attribute name="fromActionParticipant" type="Boolean" default="false"/>
+    <aura:attribute name="refProvider" type="Object"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.pe}" action="{!c.doInit}"/>
@@ -18,18 +20,25 @@
 
     <div class="slds-grid slds-wrap healthcare-container">
         <div class="slds-grid slds-wrap slds-size--1-of-1">
-            <div class="slds-col slds-size--3-of-4">
+                <aura:if isTrue="{!!v.fromActionParticipant}">
                 <div class="header">{!$Label.c.HealthCare_Provider}</div>
+                </aura:if>
                 <div class="healthcare-info">{!$Label.c.HealCare_Provider_Message}
                 </div>
-            </div>
-            <div class="slds-col slds-size--1-of-4 referring-provider-header">
+                <aura:if isTrue="{!v.fromActionParticipant}">
+                <div class="referring">{!$Label.c.Referring_Provider}</div>
+                    <div class="slds-grid slds-wrap slds-size--1-of-1">
+                    <c:ReferHealthcareProviderForm healthCareProvider = "{!hcProvider}" index = "{!index}" refProvider="{!v.refProvider}" parent="{!this}"
+                                                   pe="{!v.pe}" actionDisabled="{!v.actionDisabled}" printMode="{!v.printMode}"/>
+                    </div>
+                </aura:if>
+            <!--<div class="slds-col slds-size&#45;&#45;1-of-4 referring-provider-header">
                 <aura:if isTrue="{!v.pe.HCP_Contact_HCPEnroll__r.Name}">
                     <div class="rp-label">{!$Label.c.HealthCare_Provider_RP}</div>
                     <div class="healthcare-info">{!v.pe.HCP_Contact_HCPEnroll__r.Name}</div>
                 </aura:if>
-            </div>
-        </div>
+            </div>-->
+        <div class="referring">{!$Label.c.Other_Providers}</div>
         <div class="slds-grid slds-wrap slds-size--1-of-1">
             <aura:iteration items="{!v.healthCareProviders}" var="hcProvider" indexVar="index">
                 <c:ReferHealthcareProviderForm healthCareProvider = "{!hcProvider}" index = "{!index}" parent="{!this}"
@@ -37,7 +46,11 @@
             </aura:iteration>
         </div>
         <aura:if isTrue="{!!v.actionDisabled}">
-            <button class="apollo-btn secondary" onclick="{!c.doAddProvider}">{!$Label.c.Add_Another_Provider}</button>
+            <button class="apollo-btn secondary slds-box" onclick="{!c.doAddProvider}">{!$Label.c.Add_Another_Provider}
+                <c:RRIcon class='rr-icon--left' color="#297dfd"
+                          iconName="icon-plus"/>
+            </button>
         </aura:if>
+        </div>
     </div>
 </aura:component>

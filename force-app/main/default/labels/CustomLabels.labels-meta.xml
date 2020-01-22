@@ -117,6 +117,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Welcome to the Patient Portal!</value>
     </labels>
     <labels>
+        <fullName>ARM</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ARM</shortDescription>
+        <value>ARM</value>
+    </labels>
+    <labels>
         <fullName>AST</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -888,6 +895,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Pre-eligibility Screening</value>
     </labels>
     <labels>
+        <fullName>BTN_Participant_Details</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN_Participant_Details</shortDescription>
+        <value>Participant Details</value>
+    </labels>
+    <labels>
         <fullName>BTN_Participant_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -970,6 +984,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>BTN Save</shortDescription>
         <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Save_All_Tabs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN_Save_All_Tabs</shortDescription>
+        <value>Save All Tabs and Close</value>
     </labels>
     <labels>
         <fullName>BTN_Save_Task</fullName>
@@ -1103,6 +1124,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>Download Consent</shortDescription>
         <value>Download Consent</value>
+    </labels>
+    <labels>
+        <fullName>BTN_View_Participant_Details</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN_View_Participant_Details</shortDescription>
+        <value>View Participant Details</value>
     </labels>
     <labels>
         <fullName>BTN_View_all</fullName>
@@ -2008,13 +2036,6 @@ Thank you for participating. Your contribution to the clinical research study ha
 Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
     </labels>
     <labels>
-        <fullName>Email_Body_PA_New_Mess</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body PA New Mess</shortDescription>
-        <value>You have a new message in Message Center.</value>
-    </labels>
-    <labels>
         <fullName>Email_Body_PI1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2655,13 +2676,6 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <value>Thank you for completing your clinical research study</value>
     </labels>
     <labels>
-        <fullName>Email_Header_PA_New_Mess</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Header PA New Mess</shortDescription>
-        <value>Participant New Message</value>
-    </labels>
-    <labels>
         <fullName>Email_Header_PI2</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3194,13 +3208,6 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>Email_Subject_Medication_Task_Reminder Delegate</shortDescription>
         <value>Your Patient has a medication reminder</value>
-    </labels>
-    <labels>
-        <fullName>Email_Subject_PA_New_Mess</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Subject PA New Mess</shortDescription>
-        <value>New Message</value>
     </labels>
     <labels>
         <fullName>Email_Subject_PI1</fullName>
@@ -4489,6 +4496,13 @@ The IQVIA Patient Portal Support Team</value>
         <value>Changes will be saved as you go to the next page!</value>
     </labels>
     <labels>
+        <fullName>IWRSIWRS_ID</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IWRSIWRS_ID</shortDescription>
+        <value>IWRSIWRS ID</value>
+    </labels>
+    <labels>
         <fullName>Icons_package_not_found</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4739,13 +4753,6 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>MS Select Study Ph</shortDescription>
         <value>Select Study</value>
-    </labels>
-    <labels>
-        <fullName>MS_Toast_Message_PA_Send</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MS Toast Message PA Send</shortDescription>
-        <value>Your message was successfully sent to Participant!</value>
     </labels>
     <labels>
         <fullName>MS_Toast_Message_ST_Send</fullName>
@@ -5429,6 +5436,13 @@ View study documents and other resources including articles and videos related t
         <value>Originator</value>
     </labels>
     <labels>
+        <fullName>Other_Providers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Other_Providers</shortDescription>
+        <value>Other Providers</value>
+    </labels>
+    <labels>
         <fullName>PES_L_All_Steps</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5905,6 +5919,20 @@ View study documents and other resources including articles and videos related t
         <value>contact IQVIA</value>
     </labels>
     <labels>
+        <fullName>PG_AP_F_Alternative_Phone_Number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_AP_F_Alternative_Phone_Number</shortDescription>
+        <value>Alternative Telephone Number</value>
+    </labels>
+    <labels>
+        <fullName>PG_AP_F_Alternative_Phone_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_AP_F_Alternative_Phone_Type</shortDescription>
+        <value>Alternative Phone Type</value>
+    </labels>
+    <labels>
         <fullName>PG_AP_F_Patient_Status</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6228,6 +6256,13 @@ View study documents and other resources including articles and videos related t
         <value>New password</value>
     </labels>
     <labels>
+        <fullName>PG_AS_F_Nickname</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_AS_F_Nickname</shortDescription>
+        <value>Nickname</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Old_password</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6235,11 +6270,25 @@ View study documents and other resources including articles and videos related t
         <value>Old password</value>
     </labels>
     <labels>
+        <fullName>PG_AS_F_Participation_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_AS_F_Participation_Information</shortDescription>
+        <value>Participation Information</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Phone_number</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Phone number</shortDescription>
         <value>Daytime phone number</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Phone_Type</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS F Phone Type</shortDescription>
+        <value>Phone Type</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Placeholder_Enter_text</fullName>
@@ -6361,13 +6410,6 @@ View study documents and other resources including articles and videos related t
         <value>Email Preferences</value>
     </labels>
     <labels>
-        <fullName>PG_AS_H_SMS_Preferences</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PG AS H SMS Preferences</shortDescription>
-        <value>SMS Preferences</value>
-    </labels>
-    <labels>
         <fullName>PG_AS_H_Privacy_Rights</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6407,7 +6449,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS L Opt In Participant Status Emails</shortDescription>
-        <value>Updates about your referral status</value>
+        <value>updates about your referral status</value>
     </labels>
     <labels>
         <fullName>PG_AS_L_Opt_In_Participant_Status_SMS</fullName>
@@ -6479,13 +6521,6 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG AS T Participant Email Preferences</shortDescription>
         <value>Emails that notify you of required action, allow you to reset your password, or inform you of important system updates will always be sent.  Additionally, you can choose to receive any of the following types of emails:</value>
-    </labels>
-    <labels>
-        <fullName>Participant_SMS_Preferences_Blocked_From_SS</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Participant SMS Preferences are blocked from SS</shortDescription>
-        <value>SMS that notify you are bloked from Study Site. For Additional information contact our support team.</value>
     </labels>
     <labels>
         <fullName>PG_AS_T_Please_Review_Contact_information</fullName>
@@ -8798,11 +8833,26 @@ Please check your CAPS lock key.</value>
         <value>Congratulations!</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Delegate_Information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Delegate Information</shortDescription>
+        <value>Delegate Information</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Have_you_had_a_discussion_with_your_patient_about_participating_in_a_cl</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L Have you had a discussion with your patient about participating in a cl</shortDescription>
         <value>Have you had a discussion with your patient about participating in a clinical study?</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Health_care_proxy_is_needed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Health care proxy is needed</shortDescription>
+        <value>My patient would like to create a delegate user at this point.
+            (Required if patient is under age of majority or unable to make legal decisions.)</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_IQVIA_may_also_contact_your_patient_to_ensure_that_your_patient_has_con</fullName>
@@ -8823,7 +8873,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L My patient agrees to share their contact details with IQVIA, the study</shortDescription>
-        <value>My patient, or patient&#39;s representative if patient is a juvenile, agrees to share the patient&#39;s contact details with IQVIA, the study doctors, and other affiliated companies so that they may contact my patient regarding this clinical study.</value>
+        <value>My patient, and/or patient&#39;s legal guardian if applicable, agrees to share the contact information above and patient&#39;s pre-screener data with IQVIA, the study doctors, and other affiliates so that they may contact the patient and/or their delegate regarding applicable clinical studies.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_My_patient_agrees_to_the_privacy_policy</fullName>
@@ -8845,6 +8895,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PG Ref L OR</shortDescription>
         <value>OR</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Participant_Information</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Participant Information</shortDescription>
+        <value>Participant Information</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
@@ -9913,6 +9970,27 @@ Please check your CAPS lock key.</value>
         <value>Patient</value>
     </labels>
     <labels>
+        <fullName>Phone_Type_Home</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Phone Type Home</shortDescription>
+        <value>Home</value>
+    </labels>
+    <labels>
+        <fullName>Phone_Type_Mobile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Phone Type Mobile</shortDescription>
+        <value>Mobile</value>
+    </labels>
+    <labels>
+        <fullName>Phone_Type_Work</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Phone Type Work</shortDescription>
+        <value>Work</value>
+    </labels>
+    <labels>
         <fullName>Planned_Date</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10163,6 +10241,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>Referring</shortDescription>
         <value>Referring</value>
+    </labels>
+    <labels>
+        <fullName>Referring_Provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Referring_Provider</shortDescription>
+        <value>Referring Provider</value>
     </labels>
     <labels>
         <fullName>Reminder_3rd_Party_No_TA</fullName>
@@ -11088,6 +11173,13 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>Sodium Description</shortDescription>
         <value>Sodium is an electrolyte (a mineral) that can be found in all bodily fluids. It is important for proper functioning of your muscles and nerves. Sodium is measured to evaluate the balance of your electrolytes.</value>
+    </labels>
+    <labels>
+        <fullName>Source_ID</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Source_ID</shortDescription>
+        <value>Source ID</value>
     </labels>
     <labels>
         <fullName>Studies_FindSitesForStudy</fullName>
