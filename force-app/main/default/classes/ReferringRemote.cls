@@ -123,7 +123,11 @@ public without sharing class ReferringRemote {
                             Date.newInstance(2000, Date.today().month(), Date.today().day()) ?
                             Date.today().year() - birthDate.year() : Date.today().year() - birthDate.year() - 1;
 
-            needsGuardian = participantAge >= ageByCountryCode.get(participant.Mailing_Country_Code__c);
+            if (ageByCountryCode.get(participant.Mailing_Country_Code__c) != null) {
+                needsGuardian = participantAge < ageByCountryCode.get(participant.Mailing_Country_Code__c);
+            } else {
+                needsGuardian = participantAge < 18;
+            }
         }
 
         return '' + needsGuardian;
