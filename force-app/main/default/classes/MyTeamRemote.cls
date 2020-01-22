@@ -320,6 +320,7 @@ public without sharing class MyTeamRemote {
     private static void sendEmailNotification(Contact delegateContact) {
         Notification__c notification = new Notification__c(
                 Recipient__c = delegateContact.Id,
+                WhatId__c = delegateContact.Id,
                 Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_ACCESS_LEVEL_CHANGED_TYPE
         );
         insert notification;
