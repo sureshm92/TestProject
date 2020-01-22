@@ -325,7 +325,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                             participant.Contact__c != null;
             System.debug('FILTER CRITERIA: ' + filterCriteria);
             if (filterCriteria) {
-                if (participantUser == null) {
+                if (participantUser == null && participant.Adult__c) {
                     System.debug('CREATE USER');
                     Id hcpContact;
                     if (hcpe != null) hcpContact = hcpe.HCP_Contact__c;

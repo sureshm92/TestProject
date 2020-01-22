@@ -5169,6 +5169,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Emancipation_in_progress__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.First_Name__c</field>
         <readable>true</readable>
@@ -5181,6 +5186,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Gender__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Health_care_proxy_is_needed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
