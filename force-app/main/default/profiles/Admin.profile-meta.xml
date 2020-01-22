@@ -377,6 +377,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ConversationTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CountryLookupRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -681,10 +685,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MessageConfigurationPanelRemote</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>MessagePageRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -749,14 +749,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>NotificationCatalog</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>NotificationResultService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>NotificationService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -814,14 +806,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ParametersDataProvider</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ParametersProviderService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ParametrizedMessageService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1121,10 +1105,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>SSMessageConfigResponse</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>SSPaymentVendorsConfigResponse</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1417,10 +1397,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Test_BatchDataBecomesAvailable</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Test_BatchHCPEStatusUpdate</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1650,10 +1626,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_ManualTaskRemote</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Test_MessagePageRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -4465,16 +4437,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Notification__c.Email__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Notification__c.From__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Notification__c.Notification_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5154,6 +5116,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Alternative_Phone_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Alternative_Phone_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.Birth_Year__c</field>
         <readable>true</readable>
@@ -5200,6 +5172,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant__c.Emancipation_in_progress__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant__c.First_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5211,6 +5188,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Gender__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Health_care_proxy_is_needed__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5289,6 +5271,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Nickname__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.PSE_Count__c</field>
         <readable>true</readable>
@@ -5316,6 +5303,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.Study_Enrollment_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Suffix__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5664,16 +5656,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Resource__c.Languages__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Resource__c.Languages__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Resource__c.Likes__c</field>
         <readable>true</readable>
@@ -5979,11 +5961,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Study_Site__c.Messages_Are_Available__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Orientation__c</field>
         <readable>true</readable>
@@ -6081,11 +6058,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Referral__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Study_Site__c.SMS_Are_Available__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8659,6 +8631,10 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ViewSetup</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>ViewUserPII</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>

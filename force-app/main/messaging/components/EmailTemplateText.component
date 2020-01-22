@@ -19,6 +19,7 @@
     <apex:attribute name="body" assignTo="{!bodyValue}" type="String" description=""/>
     <apex:attribute name="signature" assignTo="{!signatureValue}" type="String" description=""/>
     <apex:attribute name="preSignature" assignTo="{!preSignatureValue}" type="String" description=""/>
+    <apex:attribute name="multiplePIMessage" assignTo="{!multiplePIMessageValue}" type="Boolean" default="false" description="send message with all PI names to new RP"/>
 
     <!-- component body: -->
     {!headerValue}

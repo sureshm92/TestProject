@@ -50,6 +50,7 @@
     border-radius: 2px;
     background-color: #FFFFFF;
     margin-right: 10px;
+    flex-shrink: 0;
 }
 
 .THIS .disclaimer {

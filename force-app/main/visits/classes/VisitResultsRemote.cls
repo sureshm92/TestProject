@@ -49,7 +49,7 @@ public inherited sharing class VisitResultsRemote {
     @AuraEnabled
     public static Boolean changeOptInOnTrue(Id contactId) {
         try {
-            if(!PatientDelegateService.getInstance().isDelegate()) {
+            if(!ParticipantContext.isCurrentDelegate()) {
                 ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
                         .updateRecord(new Contact(Id = contactId, Visit_Results_Opt_In__c = true), true);
                 return true;

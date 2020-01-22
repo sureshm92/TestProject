@@ -143,16 +143,14 @@ public without sharing class NotificationAvailabilityService {
     }
 
     public Boolean isAvailableForSMS(Id contactId, String whatId) {
-        Boolean checkForNotification = false;
-        String objType = null;
-        Id objId;
-        if (whatId != null) {
-            objId = whatId;
-            objType = String.valueOf(objId.getSobjectType());
-        }
+        Boolean isAvailable = true;
+        Id objId = whatId;
         Contact contact = contactByIdMap.get(contactId);
-        Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
-        if (contact.Participant_Opt_In_Status_SMS__c && (pe.Study_Site__r.SMS_Are_Available__c != null && pe.Study_Site__r.SMS_Are_Available__c)) checkForNotification = true;
-        return checkForNotification;
+        isAvailable = isAvailable && contact.Participant_Opt_In_Status_SMS__c;
+        if(objId.getSobjectType() == Participant_Enrollment__c.getSObjectType()){
+            Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
+            isAvailable = isAvailable && pe.Study_Site__r.SMS_Are_Available__c;
+        }
+        return isAvailable;
     }
 }

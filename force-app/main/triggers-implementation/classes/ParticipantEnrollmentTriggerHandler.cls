@@ -29,6 +29,17 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
+    public class AddPaymentInformationHandler extends TriggerHandler{
+
+        public override void afterInsert(List<SObject> newList) {
+            getPaymentInformation(newList);
+        }
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            getPaymentInformationOnStatusChange(newList);
+        }
+    }
+
     public class StudySiteHistoryHandler extends TriggerHandler {
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -314,7 +325,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                             participant.Contact__c != null;
             System.debug('FILTER CRITERIA: ' + filterCriteria);
             if (filterCriteria) {
-                if (participantUser == null) {
+                if (participantUser == null && participant.Adult__c) {
                     System.debug('CREATE USER');
                     Id hcpContact;
                     if (hcpe != null) hcpContact = hcpe.HCP_Contact__c;
@@ -378,6 +389,49 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 pe.Participant_Status_Last_Changed_Date__c = Datetime.now();
             }
         }
+    }
+
+    @TestVisible
+    private static void getPaymentInformation(List<Participant_Enrollment__c> newList) {
+        Map<Id, Participant_Enrollment__c> newMap = new Map<Id, Participant_Enrollment__c>();
+        newMap.putAll(newList);
+        List<Participant_Enrollment__c> peList = [
+                SELECT Study_Site__c, Participant__r.Status__c, Participant__r.Balance__c,
+                        Participant__r.First_Name__c, Participant__r.Last_Name__c, Participant__r.Email__c
+                FROM Participant_Enrollment__c
+                WHERE Id IN: newMap.keySet()
+        ];
+        Set<Id> ssIds = new Set<Id>();
+        for(Participant_Enrollment__c pe : peList) ssIds.add(pe.Study_Site__c);
+
+        List<PaymentVendorSettings__c> paymentVendorSettings = [
+                SELECT Id, Payment_Vendor__r.Payment_Vendor_Id__c, Study_Site__c
+                FROM PaymentVendorSettings__c
+                WHERE Study_Site__c IN: ssIds
+        ];
+        Map<Id, PaymentVendorSettings__c> pvsBySsIds = new Map<Id, PaymentVendorSettings__c>();
+        for(PaymentVendorSettings__c pvs : paymentVendorSettings) pvsBySsIds.put(pvs.Study_Site__c, pvs);
+
+        for(Participant_Enrollment__c pe : peList) {
+            if(pvsBySsIds.keySet().contains(pe.Study_Site__c)){
+                Participant__c participant = pe.Participant__r;
+                Action_GetCardDetails actionGetCardDetails = new Action_GetCardDetails(
+                        pvsBySsIds.get(pe.Study_Site__c).Payment_Vendor__r.Payment_Vendor_Id__c,
+                        participant);
+                ActionExecutor.executeAsync(actionGetCardDetails);
+            }
+        }
+    }
+
+    @TestVisible
+    private static void getPaymentInformationOnStatusChange(List<Participant_Enrollment__c> newList) {
+        List<Participant_Enrollment__c> peToUpdate = new List<Participant_Enrollment__c>();
+        for(Participant_Enrollment__c participantEnrollment : newList){
+            if(participantEnrollment.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) {
+                peToUpdate.add(participantEnrollment);
+            }
+        }
+        getPaymentInformation(peToUpdate);
     }
 
     @TestVisible
@@ -602,7 +656,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             Visit_Plan__c vp = visitPlansMap.get(vpId);
             if (vp == null) continue;
             for (Visit__c visit : vp.Visits__r) {
-                patientVisits.add(VisitService.createPatientVisit(visit, pe.Id));
+                patientVisits.add(PatientVisitService.createPatientVisit(visit, pe.Id));
             }
         }
         if (patientVisits.size() > 0) insert patientVisits;

@@ -74,8 +74,9 @@
 
     doSwitchOptInEmail: function (component, event, helper) {
         let initData = component.get('v.initData');
+        let optInEmail = component.get('v.personWrapper.optInEmail');
         communityService.executeAction(component, 'changeOptInEmail', {
-            participantOptInStatusEmail: initData.myContact.Participant_Opt_In_Status_Emails__c,
+            participantOptInStatusEmail: optInEmail,
             hcpOptInPatientEmail: initData.myContact.HCP_Opt_In_Patient_Status_Emails__c,
             hcpOptInStudyEmail: initData.myContact.HCP_Opt_In_Study_Emails__c,
             hcpOptInRefStatusEmail: initData.myContact.HCP_Opt_In_Referral_Status_Emails__c

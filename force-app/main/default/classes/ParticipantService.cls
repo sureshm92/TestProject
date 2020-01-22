@@ -81,7 +81,7 @@ public without sharing class ParticipantService {
         participantState.welcomeMessage = getWelcomeMessage();
     }
     
-    private Participant__c getParticipant(Id sourceId){
+    public static Participant__c getParticipant(Id sourceId){
         List<Participant__c> participants = [
                 SELECT Id,
                         First_Name__c,
@@ -197,6 +197,14 @@ public without sharing class ParticipantService {
         genders.add(new LabelValueItem(Label.Gender_Male, 'Male'));
         genders.add(new LabelValueItem(Label.Gender_Female, 'Female'));
         return genders;
+    }
+
+    public static List<LabelValueItem> getPhoneTypeLVList() {
+        List<LabelValueItem> phoneTypes = new List<LabelValueItem>();
+        phoneTypes.add(new LabelValueItem(Label.Phone_Type_Home, 'Home'));
+        phoneTypes.add(new LabelValueItem(Label.Phone_Type_Work, 'Work'));
+        phoneTypes.add(new LabelValueItem(Label.Phone_Type_Mobile, 'Mobile'));
+        return phoneTypes;
     }
 
     public static Map<Id, Integer> getNearestLogOutNotification(List<Id> participantContIds) {

@@ -12,6 +12,7 @@ public without sharing class ParametersDataProvider {
     public Map<String, String> parameters;
     public String userMode;
     public Boolean isDelegate = false;
+    public Boolean multiplePIMessage = false;
     public List<DelegateLevelWrapper> delegateLevelsPI = new List<DelegateLevelWrapper>();
     public List<DelegateLevelWrapper> delegateLevelsHCP = new List<DelegateLevelWrapper>();
     public String recipientName;
@@ -20,10 +21,11 @@ public without sharing class ParametersDataProvider {
     public String recipientLanguage;
     public String parametersProviderName;
     
-    public ParametersDataProvider(Id sourceId, String recipientName, Id recipientId, String recipientLanguage, String parametersProviderName, String userType, String outputMode){
+    public ParametersDataProvider(Id sourceId, String recipientName, Id recipientId, String recipientLanguage, String parametersProviderName, String userType, String outputMode, Boolean multiplePIMessage){
         this.userMode = userType;
         this.recipientName = recipientName;
         this.recipientId = recipientId;
+        this.multiplePIMessage = multiplePIMessage;
         this.recipientLanguage = recipientLanguage;
         this.parametersProviderName = parametersProviderName;
         parameters = new Map<String, String>();
@@ -33,7 +35,7 @@ public without sharing class ParametersDataProvider {
                 if (sourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
                     initParamsFromPE(sourceId);
                 } else if (sourceId.getSobjectType() == HCP_Enrollment__c.getSObjectType()) {
-                    initParamsFromHCPE(sourceId);
+                    initParamsFromHCPE(sourceId, multiplePIMessage);
                 } else if (sourceId.getSobjectType() == Study_Site__c.getSObjectType()) {
                     initParamsFromSS(sourceId);
                 } else if(sourceId.getSobjectType() == Contact.getSObjectType()){
@@ -145,34 +147,69 @@ public without sharing class ParametersDataProvider {
         });
     }
     
-    private void initParamsFromHCPE(Id hcpeId){
-        HCP_Enrollment__c hcpe = [
-                SELECT Id, Name,
-                        HCP_Contact__r.Name,
-                        HCP_Contact__r.FirstName,
-                        HCP_Contact__r.LastName,
-                        HCP_Contact__r.Salutation,
-                        HCP_Contact__r.Language__c,
-                        Study_Site__r.Name,
-                        Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
-                        Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                        Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
-                        Study_Site__r.Principal_Investigator__c,
-                        Study_Site__r.Principal_Investigator__r.Language__c,
-                        Study_Site__r.Principal_Investigator__r.Name,
-                        Study_Site__r.Principal_Investigator__r.FirstName,
-                        Study_Site__r.Principal_Investigator__r.LastName,
-                        Study_Site__r.Principal_Investigator__r.Salutation,
-                        Study_Site__r.Study_Site_Phone__c,
-                        HCP_Contact__c
-                FROM HCP_Enrollment__c
-                WHERE Id = :hcpeId
-        ];
-        
+    private void initParamsFromHCPE(Id hcpeId, Boolean multiplePIMessage){
+        HCP_Enrollment__c hcpe;
+        String piNames;
+        if(!multiplePIMessage) {
+            hcpe = [SELECT Id,
+                            Name,
+                            HCP_Contact__r.Name,
+                            HCP_Contact__r.FirstName,
+                            HCP_Contact__r.LastName,
+                            HCP_Contact__r.Salutation,
+                            HCP_Contact__r.Language__c,
+                            Study_Site__r.Name,
+                            Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
+                            Study_Site__r.Principal_Investigator__c,
+                            Study_Site__r.Principal_Investigator__r.Language__c,
+                            Study_Site__r.Principal_Investigator__r.Name,
+                            Study_Site__r.Principal_Investigator__r.FirstName,
+                            Study_Site__r.Principal_Investigator__r.LastName,
+                            Study_Site__r.Principal_Investigator__r.Salutation,
+                            Study_Site__r.Study_Site_Phone__c,
+                            HCP_Contact__c
+                    FROM HCP_Enrollment__c
+                    WHERE Id = :hcpeId ];
+        } else {
+            Map<Id,HCP_Enrollment__c> hcpeMap = new Map<Id,HCP_Enrollment__c>([SELECT Id,
+                    Name,
+                    HCP_Contact__r.Name,
+                    HCP_Contact__r.FirstName,
+                    HCP_Contact__r.LastName,
+                    HCP_Contact__r.Salutation,
+                    HCP_Contact__r.Language__c,
+                    Study_Site__r.Name,
+                    Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
+                    Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                    Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
+                    Study_Site__r.Principal_Investigator__c,
+                    Study_Site__r.Principal_Investigator__r.Language__c,
+                    Study_Site__r.Principal_Investigator__r.Name,
+                    Study_Site__r.Principal_Investigator__r.FirstName,
+                    Study_Site__r.Principal_Investigator__r.LastName,
+                    Study_Site__r.Principal_Investigator__r.Salutation,
+                    Study_Site__r.Study_Site_Phone__c,
+                    HCP_Contact__c
+            FROM HCP_Enrollment__c
+            WHERE HCP_Contact__c = :recipientId]);
+            hcpe = hcpeMap.get(hcpeId);
+            Map<Id,Contact> piMap = new Map<Id,Contact>();
+            for(HCP_Enrollment__c hcpEnrollment : hcpeMap.values()){
+                piMap.put(hcpEnrollment.Study_Site__r.Principal_Investigator__c,hcpEnrollment.Study_Site__r.Principal_Investigator__r);
+            }
+            for(Contact c : piMap.values()){
+                piNames += getFullContactName(c) + ', ';
+            }
+            if(piNames != null) {
+                piNames = piNames.removeEnd(', ');
+            }
+        }
         parameters = new Map<String, String>{
                 'GuestName' => TranslateHelper.getLabelValue('Email_Guest_User_Name'),
                 'GuestLanguage' => hcpe.HCP_Contact__r.Language__c,
-                'PIName' =>  getFullContactName(hcpe.Study_Site__r.Principal_Investigator__r),
+                'PIName' =>  multiplePIMessage ? piNames : getFullContactName(hcpe.Study_Site__r.Principal_Investigator__r),
                 'HCPName' => getFullContactName(hcpe.HCP_Contact__r),
                 'PILanguage' => hcpe.Study_Site__r.Principal_Investigator__r.Language__c,
                 'HCPLanguage' => hcpe.HCP_Contact__r.Language__c
@@ -302,7 +339,7 @@ public without sharing class ParametersDataProvider {
                     ORDER BY CreatedDate DESC LIMIT 1
             ];
             if (!hcpe.isEmpty()) {
-                initParamsFromHCPE(hcpe[0].Id);
+                initParamsFromHCPE(hcpe[0].Id, false);
             }
             parameters.put('HCPName', getFullContactName(cnt));
             parameters.put('HCPLanguage', cnt.Language__c);
@@ -311,10 +348,12 @@ public without sharing class ParametersDataProvider {
 
             if(isDelegate) {
                 Participant_Enrollment__c pe = ContactService.getCurrentPE(contactId);
-                parameters.put('ParticipantName', pe.Participant__r.Full_Name__c);
-                parameters.put('ParticipantFirstName', pe.Participant__r.First_Name__c);
+                if(pe != null){
+                    parameters.put('ParticipantName', pe.Participant__r.Full_Name__c);
+                    parameters.put('ParticipantFirstName', pe.Participant__r.First_Name__c);
+                    parameters.put('StudyName', pe.Clinical_Trial_Profile__r.Study_Code_Name__c);
+                }
                 parameters.put('UserName', getCommunityUserName(contactId));
-                parameters.put('StudyName', pe.Clinical_Trial_Profile__r.Study_Code_Name__c);
             }else{
                 initParamsFromPE(contactId);
             }

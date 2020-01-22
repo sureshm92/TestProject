@@ -12,3 +12,7 @@
     height: 40px;
     width: 40px;
 }
+.THIS.rr-icon--left{
+    margin-left: -90px;
+    position: absolute;
+}

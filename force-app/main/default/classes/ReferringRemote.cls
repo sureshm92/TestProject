@@ -16,6 +16,7 @@ public without sharing class ReferringRemote {
         public Map<String, StudyActions.Action> actions;
         public List<LabelValueItem> countries;
         public List<LabelValueItem> genders;
+        public List<LabelValueItem> phoneTypes;
         public Map<String, List<LabelValueItem>> statesByCountryMap;
         public String delegateAccessLevel;
     }
@@ -90,6 +91,7 @@ public without sharing class ReferringRemote {
 //            initData.studies.add(aw);
         initData.countries = CountryStateUtil.getCountries();
         initData.genders = ParticipantService.getGenderLVList();
+        initData.phoneTypes = ParticipantService.getPhoneTypeLVList();
         initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
         initData.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);
         return JSON.serialize(initData);
@@ -100,10 +102,44 @@ public without sharing class ReferringRemote {
     }
 
     @AuraEnabled
-    public static void saveParticipant(Id hcpeId, String pEnrollmentJSON, String participantJSON, String delegateId){
+    public static String checkNeedsGuardian(String participantJSON) {
+        Boolean needsGuardian = false;
+        Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
+        if (!String.isEmpty(participant.Date_of_Birth__c)) {
+            List<Age_of_Majority__mdt> ageOfMajorities = [SELECT Country_Code__c,
+                                                                 State_Code__c,
+                                                                 Age__c
+                                                          FROM Age_of_Majority__mdt];
+            Map<String, Integer> ageByCountryCode = new Map<String, Integer>();
+            for (Age_of_Majority__mdt ageOfMajority : ageOfMajorities) {
+                if (ageOfMajority.Age__c != null) {
+                    ageByCountryCode.put(ageOfMajority.Country_Code__c, ageOfMajority.Age__c.intValue());
+                }
+            }
+
+            Date birthDate = Date.valueOf(participant.Date_of_Birth__c);
+            Integer participantAge =
+                    Date.newInstance(2000, birthDate.month(), birthDate.day()) <
+                            Date.newInstance(2000, Date.today().month(), Date.today().day()) ?
+                            Date.today().year() - birthDate.year() : Date.today().year() - birthDate.year() - 1;
+
+            needsGuardian = participantAge >= ageByCountryCode.get(participant.Mailing_Country_Code__c);
+        }
+
+        return '' + needsGuardian;
+    }
+
+    @AuraEnabled
+    public static void saveParticipant(Id hcpeId, String pEnrollmentJSON, String participantJSON, String participantDelegateJSON, String delegateId) {
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
             participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
+            Participant__c participantDelegate;
+            if (!String.isBlank(participantDelegateJSON)) {
+                participantDelegate = (Participant__c) JSON.deserialize(participantDelegateJSON, Participant__c.class);
+                participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
+            }
+
             Participant_Enrollment__c enrollment = (Participant_Enrollment__c)
                     JSON.deserialize(pEnrollmentJSON, Participant_Enrollment__c.class);
             enrollment.Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI;
@@ -120,6 +156,16 @@ public without sharing class ReferringRemote {
             enrollment.Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
 
             ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participant, enrollment);
+
+            if (participantDelegate != null) {
+                Participant_Enrollment__c delegateEnrollment = enrollment.clone(false, true, false, false);
+                ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participantDelegate, delegateEnrollment);
+                Participant__c readyDelegateParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participantDelegate.Id];
+                Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
+                ptDelegateRef.Participant__c = participant.Id;
+                ptDelegateRef.Contact__c = readyDelegateParticipant.Contact__c;
+                insert ptDelegateRef;
+            }
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
