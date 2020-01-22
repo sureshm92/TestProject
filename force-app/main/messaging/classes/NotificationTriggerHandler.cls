@@ -36,7 +36,7 @@ public without sharing class NotificationTriggerHandler {
                     n.addError('WhatId is not correct');
                 }
             }
-            if (n.Recipient__c == null && (n.Topic__c == null || n.Email__c == null)) {
+            if (n.Recipient__c == null && n.Topic__c == null && n.Email__c == null) {
                 n.addError('Recipient can not be null while Topic or Email is null ' + n.Notification_Type__c);
             }
             if (n.Email__c != null && n.Recipient__c != null) {
