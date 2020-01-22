@@ -172,41 +172,17 @@
         helper.checkFields(component);
     },
 
+    doCheckDateOfBith: function (component, event, helper) {
+        helper.checkFields(component);
+        helper.checkParticipantNeedsGuardian(component, helper);
+    },
+
     doNeedsGuardian: function (component, event, helper) {
         let participant = component.get('v.participant');
         if (participant.Health_care_proxy_is_needed__c) {
             helper.setDelegate(component);
         }
         component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
-    },
-
-    checkNeedsGuardian: function (component, event, helper) {
-        debugger;
-        var spinner = component.find('mainSpinner');
-        spinner.show();
-        console.log('checkNeedsGuardian - START');
-        communityService.executeAction(component, 'checkNeedsGuardian', {
-            participantJSON: JSON.stringify(participant)
-        }, function (returnValue) {
-            console.log('checkNeedsGuardian - SUCCESS');
-            component.set('v.needsGuardian', returnValue);
-            var participant = component.get('v.participant');
-            participant.Health_care_proxy_is_needed__c = returnValue;
-            participant.Adult__c = !participant.Health_care_proxy_is_needed__c;
-            component.set('v.participant', participant);
-            if (returnValue) {
-                console.log('checkNeedsGuardian - returnValue: ' + returnValue);
-                helper.setDelegate(component);
-            }
-            spinner.hide();
-            console.log('checkNeedsGuardian - CLOSE SPINNER1');
-        }, function (returnValue) {
-            console.log('checkNeedsGuardian - ERROR: ' + returnValue);
-            spinner.hide();
-        }, function () {
-            console.log('checkNeedsGuardian - CLOSE SPINNER2');
-            spinner.hide();
-        });
     },
 
     doSaveParticipant: function (component) {

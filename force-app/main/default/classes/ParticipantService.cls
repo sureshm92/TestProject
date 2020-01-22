@@ -201,9 +201,9 @@ public without sharing class ParticipantService {
 
     public static List<LabelValueItem> getPhoneTypeLVList() {
         List<LabelValueItem> phoneTypes = new List<LabelValueItem>();
-        phoneTypes.add(new LabelValueItem(Label.Gender_Male, 'Home'));
-        phoneTypes.add(new LabelValueItem(Label.Gender_Female, 'Work'));
-        phoneTypes.add(new LabelValueItem(Label.Gender_Female, 'Mobile'));
+        phoneTypes.add(new LabelValueItem(Label.Phone_Type_Home, 'Home'));
+        phoneTypes.add(new LabelValueItem(Label.Phone_Type_Work, 'Work'));
+        phoneTypes.add(new LabelValueItem(Label.Phone_Type_Mobile, 'Mobile'));
         return phoneTypes;
     }
 

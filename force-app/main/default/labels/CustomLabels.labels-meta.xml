@@ -6246,7 +6246,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Phone Type</shortDescription>
-        <value>Daytime phone number</value>
+        <value>Phone Type</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Placeholder_Enter_text</fullName>
@@ -8795,7 +8795,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L Delegate Information</shortDescription>
-        <value>Delegate_Information</value>
+        <value>Delegate Information</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Have_you_had_a_discussion_with_your_patient_about_participating_in_a_cl</fullName>
@@ -8831,7 +8831,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L My patient agrees to share their contact details with IQVIA, the study</shortDescription>
-        <value>My patient, or patient&#39;s representative if patient is a juvenile, agrees to share the patient&#39;s contact details with IQVIA, the study doctors, and other affiliated companies so that they may contact my patient regarding this clinical study.</value>
+        <value>My patient, and/or patient&#39;s legal guardian if applicable, agrees to share the contact information above and patient&#39;s pre-screener data with IQVIA, the study doctors, and other affiliates so that they may contact the patient and/or their delegate regarding applicable clinical studies.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_My_patient_agrees_to_the_privacy_policy</fullName>
@@ -9926,6 +9926,27 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Patient</shortDescription>
         <value>Patient</value>
+    </labels>
+    <labels>
+        <fullName>Phone_Type_Home</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Phone Type Home</shortDescription>
+        <value>Home</value>
+    </labels>
+    <labels>
+        <fullName>Phone_Type_Mobile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Phone Type Mobile</shortDescription>
+        <value>Mobile</value>
+    </labels>
+    <labels>
+        <fullName>Phone_Type_Work</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Phone Type Work</shortDescription>
+        <value>Work</value>
     </labels>
     <labels>
         <fullName>Planned_Date</fullName>

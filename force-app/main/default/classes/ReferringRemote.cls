@@ -123,7 +123,7 @@ public without sharing class ReferringRemote {
                             Date.newInstance(2000, Date.today().month(), Date.today().day()) ?
                             Date.today().year() - birthDate.year() : Date.today().year() - birthDate.year() - 1;
 
-            return '' + (participantAge >= ageByCountryCode.get(participant.Mailing_Country_Code__c));
+            needsGuardian = participantAge >= ageByCountryCode.get(participant.Mailing_Country_Code__c);
         }
 
         return '' + needsGuardian;
@@ -160,6 +160,11 @@ public without sharing class ReferringRemote {
             if (participantDelegate != null) {
                 Participant_Enrollment__c delegateEnrollment = enrollment.clone(false, true, false, false);
                 ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participantDelegate, delegateEnrollment);
+                Participant__c readyDelegateParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participantDelegate.Id];
+                Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
+                ptDelegateRef.Participant__c = participant.Id;
+                ptDelegateRef.Contact__c = readyDelegateParticipant.Contact__c;
+                insert ptDelegateRef;
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);

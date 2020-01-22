@@ -138,6 +138,29 @@
         }
     },
 
+    checkParticipantNeedsGuardian: function (component, helper) {
+        var spinner = component.find('mainSpinner');
+        spinner.show();
+        var participant = component.get('v.participant');
+        communityService.executeAction(component, 'checkNeedsGuardian', {
+            participantJSON: JSON.stringify(participant)
+        }, function (returnValue) {
+            var isNeedGuardian = (returnValue == 'true');
+            console.log('checkNeedsGuardian - SUCCESS: ' + isNeedGuardian);
+            component.set('v.needsGuardian', isNeedGuardian);
+
+            participant.Health_care_proxy_is_needed__c = isNeedGuardian;
+            participant.Adult__c = !participant.Health_care_proxy_is_needed__c;
+            component.set('v.participant', participant);
+
+            if (isNeedGuardian) {
+                helper.setDelegate(component);
+            }
+        }, null, function () {
+            spinner.hide();
+        });
+    },
+
     checkSites: function(component){
         var studySites = component.get("v.studySites");
         if(studySites.length>0){
