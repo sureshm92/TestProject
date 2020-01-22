@@ -4402,7 +4402,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Travel Support</shortDescription>
-        <value>Travel Support</value>
+        <value>Add New Booking</value>
     </labels>
     <labels>
         <fullName>Home_Page_StudyVisit_Completed_On</fullName>
@@ -4410,6 +4410,22 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>Home Page StudyVisit Completed On</shortDescription>
         <value>Completed On</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_StudyVisit_Filter_Current_Visits</fullName>
+        <categories>Home Page</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page StudyVisit Filter Current Visits</shortDescription>
+        <value>Current</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_StudyVisit_Filter_Past_Visits</fullName>
+        <categories>Home Page</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page StudyVisit Filter Past Visits</shortDescription>
+        <value>Past</value>
     </labels>
     <labels>
         <fullName>Home_Page_StudyVisit_No_Reminder_Date</fullName>
@@ -4433,6 +4449,14 @@ The IQVIA Patient Portal Support Team</value>
         <value>Visit Schedule</value>
     </labels>
     <labels>
+        <fullName>Home_Page_StudyVisit_Show_Filter_Visits</fullName>
+        <categories>Home Page</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page StudyVisit Show Filter Visits</shortDescription>
+        <value>Show</value>
+    </labels>
+    <labels>
         <fullName>Home_Page_StudyVisit_Status</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4451,14 +4475,14 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Home Page StudyVisit Tab Study Visits</shortDescription>
-        <value>Study Visits</value>
+        <value>Study Visit Details</value>
     </labels>
     <labels>
         <fullName>Home_Page_StudyVisit_Title</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>StudyVisit_Title</shortDescription>
-        <value>Study Visits</value>
+        <value>Study Visit Details</value>
     </labels>
     <labels>
         <fullName>Home_Page_StudyVisit_Visit</fullName>
@@ -4482,12 +4506,84 @@ The IQVIA Patient Portal Support Team</value>
         <value>What Took Place</value>
     </labels>
     <labels>
+        <fullName>Home_Page_Travel_Support_Action_Col</fullName>
+        <categories>Home Page</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page Travel Support Action Col</shortDescription>
+        <value>Action</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Travel_Support_Booking_Date_Col</fullName>
+        <categories>Home Page</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page Travel Support Booking Date Col</shortDescription>
+        <value>Booking Date</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Travel_Support_Booking_Status_Col</fullName>
+        <categories>Home Page</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page Travel Support Booking Status Col</shortDescription>
+        <value>Booking Status</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Travel_Support_Booking_Time_Col</fullName>
+        <categories>Home Page</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page Travel Support Booking Time Col</shortDescription>
+        <value>Booking Time</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Travel_Support_Bookings_Col</fullName>
+        <categories>Home Page</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page Travel Support Bookings Col</shortDescription>
+        <value>Booking</value>
+    </labels>
+    <labels>
         <fullName>Home_Page_Travel_Support_Details_Tab</fullName>
         <categories>Home Page</categories>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Home Page Travel Support Details Tab</shortDescription>
         <value>Travel Support Details</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Travel_Support_Filter_Confirmed</fullName>
+        <categories>Home Page</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page Travel Support Filter Confirmed</shortDescription>
+        <value>Confirmed</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Travel_Support_Filter_Declined</fullName>
+        <categories>Home Page</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page Travel Support Filter Declined</shortDescription>
+        <value>Declined</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Travel_Support_Filter_Pending</fullName>
+        <categories>Home Page</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page Travel Support Filter Pending</shortDescription>
+        <value>Pending</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_VisitTab_Filter_Show_All</fullName>
+        <categories>Home Page</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page VisitTab Filter Show All</shortDescription>
+        <value>All</value>
     </labels>
     <labels>
         <fullName>IRB_Padding_Info</fullName>

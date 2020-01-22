@@ -25,7 +25,7 @@
     <!--change-->
     <aura:attribute name="resourceImagePath" type="String" access="private"/>
     <aura:attribute name="resourceMode" type="String" default="Default"/>
-    <aura:attribute name="visitMode" type="String" default="Current"/>
+    <aura:attribute name="visitMode" type="String" default="VisitDetails"/>
     <aura:attribute name="taskMode" type="String" default="Open"/>
     <aura:attribute name="labResultsMode" type="String" default="Vitals"/>
     <aura:attribute name="isShare" type="Boolean"/>
@@ -47,7 +47,7 @@
             <!-- Share dialog -->
             <c:ShareModal aura:id="shareModal" parent="{!this}" needRefresh="false"/>
             <!-- top bar -->
-            <div class="{!'sdv-top-bar ' + if(v.multiMode, 'multi-mode', '')}" >
+            <div class="{!'sdv-top-bar ' + if(v.multiMode, 'multi-mode', '')}">
                 <div class="navigation rr-width-limiter side-padding">
                     <aura:if isTrue="{!v.userMode == 'Participant'}">
                         <aura:if isTrue="{!v.state != 'ALUMNI'}">
@@ -96,18 +96,20 @@
                                         <div class="actions-buttons">
                                             <aura:iteration items="{!v.currentActions}" var="action">
                                                 <div style="position: relative;">
-                                                  <!--  <aura:if isTrue="{!action.id != 'share'}">
-                                                        <button class="{!'apollo-btn text ico-in-top small-font sdv-btn'}"
-                                                                disabled="{!action.disabled}" id="{!action.id}"
-                                                                onclick="{!c.doAction}" title="{!action.disableReason}">
-                                                            <c:RRIcon iconName="{!action.iconName}"/>
-                                                            {!action.label}
-                                                        </button>
-                                                    </aura:if> -->
-                                                    <aura:if isTrue="{!and(action.id == 'share',!empty(v.studyDetail.trial.NCT_Number__c))}">
+                                                    <!--  <aura:if isTrue="{!action.id != 'share'}">
+                                                          <button class="{!'apollo-btn text ico-in-top small-font sdv-btn'}"
+                                                                  disabled="{!action.disabled}" id="{!action.id}"
+                                                                  onclick="{!c.doAction}" title="{!action.disableReason}">
+                                                              <c:RRIcon iconName="{!action.iconName}"/>
+                                                              {!action.label}
+                                                          </button>
+                                                      </aura:if> -->
+                                                    <aura:if
+                                                            isTrue="{!and(action.id == 'share',!empty(v.studyDetail.trial.NCT_Number__c))}">
                                                         <div class="share-icons">
                                                             <aura:iteration items="{!v.shareButtons}" var="shareButton">
-                                                                <div class="share-ico" id="{!shareButton.id}" onclick="{!c.doAction}">
+                                                                <div class="share-ico" id="{!shareButton.id}"
+                                                                     onclick="{!c.doAction}">
                                                                     <c:RRIcon iconName="{!shareButton.iconName}"/>
                                                                 </div>
                                                             </aura:iteration>
@@ -127,17 +129,26 @@
                         <button class="apollo-btn text" data-anchor="inclusionExclusionAnchor"
                                 onclick="{!c.doScrollInto}">{!$Label.c.PG_SW_Link_Inclusion_Exclusion_Criteria}</button>
                         <aura:if isTrue="{!v.userMode == 'Participant'}">
-                            <button class="apollo-btn text" data-anchor="studySiteAnchor" onclick="{!c.doScrollInto}">{!$Label.c.PG_VP_L_Study_site}</button>
+                            <button class="apollo-btn text" data-anchor="studySiteAnchor"
+                                    onclick="{!c.doScrollInto}">{!$Label.c.PG_VP_L_Study_site}</button>
                         </aura:if>
                     </div>
 
+                    <!--                    <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-visits', '', ' collapsed')}">-->
+                    <!--                        <button id="changeVisitMode" data-visit-mode="Current"-->
+                    <!--                                class="{!'apollo-btn text ' + if(v.visitMode == 'Current', ' current', '')}"-->
+                    <!--                                onclick="{!c.doAction}">{!$Label.c.Home_Page_StudyVisit_Tab_Study_Visits}</button>-->
+                    <!--                        <button id="changeVisitMode" data-visit-mode="Past"-->
+                    <!--                                class="{!'apollo-btn text ' + if(v.visitMode == 'Past', ' current', '')}"-->
+                    <!--                                onclick="{!c.doAction}">{!$Label.c.Home_Page_StudyVisit_Tab_Past_Visits}</button>-->
+                    <!--                    </div>-->
                     <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-visits', '', ' collapsed')}">
-                        <button id="changeVisitMode" data-visit-mode="Current"
-                                class="{!'apollo-btn text ' + if(v.visitMode == 'Current', ' current', '')}"
+                        <button id="changeVisitMode" data-visit-mode="VisitDetails"
+                                class="{!'apollo-btn text ' + if(v.visitMode == 'VisitDetails', ' current', '')}"
                                 onclick="{!c.doAction}">{!$Label.c.Home_Page_StudyVisit_Tab_Study_Visits}</button>
-                        <button id="changeVisitMode" data-visit-mode="Past"
-                                class="{!'apollo-btn text ' + if(v.visitMode == 'Past', ' current', '')}"
-                                onclick="{!c.doAction}">{!$Label.c.Home_Page_StudyVisit_Tab_Past_Visits}</button>
+                        <button id="changeVisitMode" data-visit-mode="TravelSupportDetails"
+                                class="{!'apollo-btn text ' + if(v.visitMode == 'TravelSupportDetails', ' current', '')}"
+                                onclick="{!c.doAction}">{!$Label.c.Home_Page_Travel_Support_Details_Tab}</button>
                     </div>
 
                     <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-tasks', '', ' collapsed')}">
@@ -150,12 +161,14 @@
                     </div>
 
                     <div class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-resources', '', ' collapsed')}">
-                        <aura:if isTrue="{!and(v.studyDetail.trial.Study_Documents_Are_Available__c, v.state != 'ALUMNI')}">
+                        <aura:if
+                                isTrue="{!and(v.studyDetail.trial.Study_Documents_Are_Available__c, v.state != 'ALUMNI')}">
                             <button id="changeResourceMode" data-resource-mode="Documents"
                                     class="{!'apollo-btn text ' + if(v.resourceMode == 'Documents', ' current', '')}"
                                     onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Study_Documents}</button>
                         </aura:if>
-                        <aura:if isTrue="{!or(v.state == 'ALUMNI', v.studyDetail.trial.Video_And_Articles_Are_Available__c)}">
+                        <aura:if
+                                isTrue="{!or(v.state == 'ALUMNI', v.studyDetail.trial.Video_And_Articles_Are_Available__c)}">
                             <button id="changeResourceMode" data-resource-mode="Default"
                                     class="{!'apollo-btn text ' + if(v.resourceMode == 'Default', ' current', '')}"
                                     onclick="{!c.doAction}">{!$Label.c.Resource_Tab_Study_Video_And_Articles}</button>
@@ -199,10 +212,11 @@
                         <c:Reports trialId="{!v.studyDetail.trial.Id}"/>
                     </aura:if>
 
-                    <aura:if isTrue="{!v.currentTab == 'tab-visits'}">
-                        <c:StudyVisits visitMode="{!v.visitMode}"
-                                       travelVendorAvailable="{!v.studyDetail.trial.Travel_Vendor_Is_Available__c}"
-                                       visitPlanAvailable="{!v.studyDetail.trial.Visit_Schedule_Is_Available__c}"/>
+                    <aura:if isTrue="{!and(v.currentTab == 'tab-visits', v.visitMode == 'VisitDetails')}">
+                        <c:StudyVisits visitPlanAvailable="{!v.studyDetail.trial.Visit_Schedule_Is_Available__c}"/>
+                    </aura:if>
+                    <aura:if isTrue="{!and(v.currentTab == 'tab-visits', v.visitMode == 'TravelSupportDetails')}">
+                        <c:TravelSupportDetails travelSupportAvailable="{!v.studyDetail.trial.Travel_Vendor_Is_Available__c}"/>
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-tasks'}">
