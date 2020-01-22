@@ -26,7 +26,7 @@ public without sharing class NotificationTriggerHandler {
                 n.addError('Wrong type of Notification ' + n.Notification_Type__c);
             }else if(notificationType.Parameters_Provider__c != null && n.WhatId__c == null){
                 n.addError('WhatId can not be null. WhatId must be Id of type: ' + notificationType.Parameters_Provider__r.Source_Object_Type__c);
-            }else{
+            }else if (notificationType.Parameters_Provider__c != null && n.WhatId__c != null) {
                 try{
                     Id sourceType = n.WhatId__c;
                     if((sourceType.getSobjectType() + '').toLowerCase() != notificationType.Parameters_Provider__r.Source_Object_Type__c.toLowerCase()){
