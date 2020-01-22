@@ -107,7 +107,6 @@ public without sharing class EmailService {
 
     public static Messaging.SingleEmailMessage createMessage(Id whatId, Id fromId,  String emailAddr, String templateName) {
         EmailTemplate shareStudyEmailTemplate = [SELECT Id, Subject, Body  FROM EmailTemplate WHERE DeveloperName =:templateName LIMIT 1];
-        System.debug('<<<<<<<shareStudyEmailTemplate' + JSON.serializePretty(shareStudyEmailTemplate));
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
         msg.setTemplateId(shareStudyEmailTemplate.Id);
         msg.setWhatId(whatId);
@@ -117,8 +116,8 @@ public without sharing class EmailService {
         });
         msg.setSaveAsActivity(false);
         msg.setSubject(shareStudyEmailTemplate.subject);
-//        msg.setPlainTextBody(shareStudyEmailTemplate.body);
-//        msg.setHtmlBody(shareStudyEmailTemplate.body);
+        msg.setPlainTextBody(shareStudyEmailTemplate.body);
+        msg.setHtmlBody(shareStudyEmailTemplate.body);
         return msg;
     }
 }

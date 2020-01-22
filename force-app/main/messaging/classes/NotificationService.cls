@@ -20,6 +20,12 @@ public without sharing class NotificationService {
             PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI
     };
 
+    static public List<String> notificationTypeFirstEmail = new List<String>{
+            NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE,
+            NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE,
+            NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE
+    };
+
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
     static public String NOTIFICATION_STATUS_PROCESSED = 'Processed';
     static public String NOTIFICATION_STATUS_FAILED = 'Failed';
@@ -73,7 +79,7 @@ public without sharing class NotificationService {
 
     public static String checkHCPNotificationType(Participant_Enrollment__c peForCheck, Boolean notContains) {
         if (notContains) return NotificationCatalog.MESSAGE_TO_HCP_REFERRAL_STATUS_UPDATE_TYPE;
-        
+
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ACCEPTED) {
             return NotificationCatalog.MESSAGE_TO_HCP_PATIENT_ACCEPTED_TYPE;
         }
@@ -87,9 +93,9 @@ public without sharing class NotificationService {
     }
 
     public static String checkPatientNotificationType(Participant_Enrollment__c peForCheck, Boolean notContains) {
-        
+
         if (notContains) return NotificationCatalog.MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE;
-        
+
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_DECLINED) {
             return NotificationCatalog.MESSAGE_TO_PT_PATIENT_DECLINED_TYPE;
         }
@@ -245,11 +251,16 @@ public without sharing class NotificationService {
             for (Notification_Target__mdt nt : notificationType.Notification_Targets__r) {
                 if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_EMAIL) {
                     if (n.Recipient__c != null) {
-                        if (availabilityService.isAvailable(n.WhatId__c, notificationType.Recipient_Type__c, nt.Target_Type__c, n.Recipient__c)) {
+                        if (!notificationTypeFirstEmail.contains(n.Notification_Type__c)) {
+                            if (availabilityService.isAvailable(n.WhatId__c, notificationType.Recipient_Type__c, nt.Target_Type__c, n.Recipient__c)) {
+                                emailNotifications.add(n);
+                                sendResultService.setInProgress(n.Id, nt.Target_Type__c);
+                            } else {
+                                sendResultService.setSkipped(n.Id, nt.Target_Type__c);
+                            }
+                        } else {
                             emailNotifications.add(n);
                             sendResultService.setInProgress(n.Id, nt.Target_Type__c);
-                        } else {
-                            sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                         }
                     } else if (n.Recipient__c == null) emailNotifications.add(n);
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_SMS) {
