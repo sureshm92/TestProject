@@ -23,11 +23,11 @@
                     </div>
                 </div>
                 <aura:if isTrue="{!v.isInvited}">
-                    <div class="slds-has-block-links--space">
+                    <div class="slds-has-block-links--space" data-gtm="Label_Invited">
                     {!$Label.c.Invited}
                 </div>
                     <aura:set attribute="else">
-                        <div class="slds-has-block-links--space2">
+                        <div class="slds-has-block-links--space2" data-gtm="Label_Not_Invited">
                             {!$Label.c.Not_Invited}
                         </div>
                     </aura:set>
