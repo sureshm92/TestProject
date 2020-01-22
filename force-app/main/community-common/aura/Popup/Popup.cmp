@@ -34,6 +34,7 @@
     <aura:method name="showSpinner" action="{!c.showSpinner}"/>
     <aura:method name="hideSpinner" action="{!c.hideSpinner}"/>
 
+
     <div>
         <div id="p-modal" class="{!if(v.showModal, 'transition-show', '')}">
             <div class="{! 'p-container ' + v.size}">
