@@ -162,12 +162,31 @@ public without sharing class ReferringRemote {
             ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participant, enrollment);
 
             if (participantDelegate != null) {
+                Contact newContact = new Contact();
+                newContact.LastName = participant.Last_Name__c;
+                newContact.Email = participant.Email__c;
+                newContact.AccountId = DatabaseService.getInstance()
+                        .queryImpl(
+                            new List<String>{
+                                    'Id'
+                            },
+                            Account.getSObjectType(),
+                            DatabaseService.fieldEqual('Name', CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME)
+                        ).get(0).Id;
+                newContact.Language__c = participant.Preferred_Language__c;
+                newContact.Second_Choice_Language__c = '';
+                newContact.Third_Choice_Language__c = '';
+                newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
+                newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
+                insert newContact;
+
+                participantDelegate.Contact__c = newContact.Id;
                 Participant_Enrollment__c delegateEnrollment = enrollment.clone(false, true, false, false);
                 ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participantDelegate, delegateEnrollment);
-                Participant__c readyDelegateParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participantDelegate.Id];
+
                 Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                 ptDelegateRef.Participant__c = participant.Id;
-                ptDelegateRef.Contact__c = readyDelegateParticipant.Contact__c;
+                ptDelegateRef.Contact__c = newContact.Id;
                 insert ptDelegateRef;
             }
         } catch (Exception e) {
