@@ -4482,6 +4482,14 @@ The IQVIA Patient Portal Support Team</value>
         <value>What Took Place</value>
     </labels>
     <labels>
+        <fullName>Home_Page_Travel_Support_Details_Tab</fullName>
+        <categories>Home Page</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Home Page Travel Support Details Tab</shortDescription>
+        <value>Travel Support Details</value>
+    </labels>
+    <labels>
         <fullName>IRB_Padding_Info</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6368,6 +6376,13 @@ View study documents and other resources including articles and videos related t
         <value>Email Preferences</value>
     </labels>
     <labels>
+        <fullName>PG_AS_H_SMS_Preferences</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS H SMS Preferences</shortDescription>
+        <value>SMS Preferences</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_H_Privacy_Rights</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6407,7 +6422,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS L Opt In Participant Status Emails</shortDescription>
-        <value>updates about your referral status</value>
+        <value>Updates about your referral status</value>
     </labels>
     <labels>
         <fullName>PG_AS_L_Opt_In_Participant_Status_SMS</fullName>
@@ -6479,6 +6494,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG AS T Participant Email Preferences</shortDescription>
         <value>Emails that notify you of required action, allow you to reset your password, or inform you of important system updates will always be sent.  Additionally, you can choose to receive any of the following types of emails:</value>
+    </labels>
+    <labels>
+        <fullName>Participant_SMS_Preferences_Blocked_From_SS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Participant SMS Preferences are blocked from SS</shortDescription>
+        <value>SMS that notify you are bloked from Study Site. For Additional information contact our support team.</value>
     </labels>
     <labels>
         <fullName>PG_AS_T_Please_Review_Contact_information</fullName>

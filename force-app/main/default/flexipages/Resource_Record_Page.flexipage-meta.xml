@@ -129,7 +129,7 @@
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
             <visibilityRule>
-                <booleanFilter>1 OR 2</booleanFilter>
+                <booleanFilter>1 OR 2 OR 3</booleanFilter>
                 <criteria>
                     <leftValue>{!Record.Content_Class__c}</leftValue>
                     <operator>EQUAL</operator>
@@ -139,6 +139,11 @@
                     <leftValue>{!Record.Content_Type__c}</leftValue>
                     <operator>EQUAL</operator>
                     <rightValue>Study_Document</rightValue>
+                </criteria>
+                <criteria>
+                    <leftValue>{!Record.RecordType.DeveloperName}</leftValue>
+                    <operator>EQUAL</operator>
+                    <rightValue>Relevant_Link</rightValue>
                 </criteria>
             </visibilityRule>
         </componentInstances>

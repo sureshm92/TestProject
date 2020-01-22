@@ -81,7 +81,7 @@ public without sharing class ParticipantService {
         participantState.welcomeMessage = getWelcomeMessage();
     }
     
-    private Participant__c getParticipant(Id sourceId){
+    public static Participant__c getParticipant(Id sourceId){
         List<Participant__c> participants = [
                 SELECT Id,
                         First_Name__c,

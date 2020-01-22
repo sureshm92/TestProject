@@ -12,28 +12,44 @@ public without sharing class AccountSettingsController {
             initData.cookieSettings = getCookieSettings();
 
             if (initData.myContact.primaryContact__c == null) {
-                if (userMode == CommunityService.USER_MODE_PARTICIPANT && !ParticipantService.getInstance().getState().isDelegate) {
-                    initData.participant = [
-                            SELECT Id, First_Name__c, Middle_Name__c, Last_Name__c, Phone__c,
-                                    Mailing_Zip_Postal_Code__c, Mailing_State__c, Mailing_Country__c,
-                                    Mailing_Country_Code__c, Mailing_State_Code__c,
-                                    Gender__c, Date_of_Birth__c, Initials__c
-                            FROM Participant__c
-                            WHERE Contact__c = :initData.myContact.Id
-                    ][0];
-                    //translate country:
-                    initData.participant.Mailing_Country__c =
-                            CountryStateUtil.getCountryName(initData.participant.Mailing_Country_Code__c);
+                if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
+                    if (!ParticipantService.getInstance().getState().isDelegate) {
+                        initData.participant = [
+                                SELECT Id, First_Name__c, Middle_Name__c, Last_Name__c, Phone__c,
+                                        Mailing_Zip_Postal_Code__c, Mailing_State__c, Mailing_Country__c,
+                                        Mailing_Country_Code__c, Mailing_State_Code__c,
+                                        Gender__c, Date_of_Birth__c, Initials__c
+                                FROM Participant__c
+                                WHERE Contact__c = :initData.myContact.Id
+                        ][0];
+                        //translate country:
+                        initData.participant.Mailing_Country__c =
+                                CountryStateUtil.getCountryName(initData.participant.Mailing_Country_Code__c);
 
-                    //translate state
-                    initData.participant.Mailing_State__c = CountryStateUtil.getStateName(
-                            initData.participant.Mailing_Country_Code__c,
-                            initData.participant.Mailing_State_Code__c
-                    );
+                        //translate state
+                        initData.participant.Mailing_State__c = CountryStateUtil.getStateName(
+                                initData.participant.Mailing_Country_Code__c,
+                                initData.participant.Mailing_State_Code__c
+                        );
 
-                    //Task for updating profile exists Account
-                    List<Task> tasks = TaskService.getInstance().getTasksCommon('Status = \'Open\' AND Task_Code__c = \'Complete_Your_Profile\'');
-                    initData.contactSectionData.participantHasUpdateTasks = !tasks.isEmpty();
+                        //Task for updating profile exists Account
+                        List<Task> tasks = TaskService.getInstance().getTasksCommon('Status = \'Open\' AND Task_Code__c = \'Complete_Your_Profile\'');
+                        initData.contactSectionData.participantHasUpdateTasks = !tasks.isEmpty();
+                    }
+
+                    ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
+                    List<Participant_Enrollment__c> participantEnrollments = new List<Participant_Enrollment__c>();
+                    if (participantState.pe != null) participantEnrollments.add(participantState.pe);
+                    List<Participant_Enrollment__c> pastEnrollments =
+                            ContactService.getPastEnrollments(participantState.participant.Contact__c);
+                    if(pastEnrollments != null) participantEnrollments.addAll(pastEnrollments);
+                    for (Participant_Enrollment__c p: participantEnrollments) {
+                        if (p.Study_Site__r.SMS_Are_Available__c) {
+                            initData.isSMSAvailableFromSS = true;
+                            break;
+                        }
+                    }
+
                 } else {
                     initData.contactSectionData.institute = getInstituteById(initData.myContact.AccountId);
                 }
@@ -115,7 +131,7 @@ public without sharing class AccountSettingsController {
     @AuraEnabled
     public static Boolean changeOptInVisitResults(String contactId, Boolean isOptIn) {
         try {
-            if (!PatientDelegateService.getInstance().isDelegate()) {
+            if (!ParticipantContext.isCurrentDelegate()) {
                 ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
                         .updateRecord(new Contact(Id = contactId, Visit_Results_Opt_In__c = isOptIn), true);
                 return isOptIn;
@@ -317,17 +333,10 @@ public without sharing class AccountSettingsController {
         @AuraEnabled public String userName;
         @AuraEnabled public String message;
         @AuraEnabled public List<CookieSettings> cookieSettings;
-
+        @AuraEnabled public Boolean isSMSAvailableFromSS = false;
         @AuraEnabled public ContactSectionData contactSectionData = new ContactSectionData();
 
         @AuraEnabled public Participant__c participant;
-
-        @AuraEnabled public Boolean participantHasUpdateTasks;
-        @AuraEnabled public Account institute;
-        @AuraEnabled public List<LabelValueItem> gendersLVList = ParticipantService.getGenderLVList();
-        @AuraEnabled public List<LabelValueItem> countriesLVList = CountryStateUtil.getCountries();
-        @AuraEnabled public Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
-
     }
 
     public class ContactSectionData {

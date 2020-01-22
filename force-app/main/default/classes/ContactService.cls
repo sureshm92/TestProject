@@ -206,4 +206,39 @@ public without sharing class ContactService {
         if(!String.isEmpty(contact.Third_Choice_Language__c)) preferredLaguages.add(contact.Third_Choice_Language__c);
         return preferredLaguages;
     }
+    
+    public static Contact getContact(Id contactId){
+        if(contactId == null) return null;
+        return [
+                SELECT Id,
+                        Name,
+                        Full_Name__c,
+                        primaryContact__c,
+                        userCommunityMode__c,
+                        userCommunityDelegateId__c,
+                        userCommunytyType__c,
+                        UserCommunityIsDelegate__c,
+                        HCP_DelegateAccessLevel__c,
+                        PI_DelegateAccessLevel__c,
+                        userCommunity_ShowTour__c,
+                        Current_Participant_Enrollment__c,
+                        Last_Session_Id__c,
+                        Language__c,
+                        Second_Choice_Language__c,
+                        MailingLatitude,
+                        MailingLongitude,
+                        MailingCountry,
+                        MailingCity,
+                        MailingPostalCode,
+                        MailingState,
+                        MailingStreet,
+                        Account.BillingCountry,
+                        Account.OwnerId,
+                        PI_My_Studies_Filters__c,
+                        Third_Choice_Language__c,
+                        Participant_Opt_In_Status_Emails__c
+                FROM Contact
+                WHERE Id = :contactId
+        ];
+    }
 }

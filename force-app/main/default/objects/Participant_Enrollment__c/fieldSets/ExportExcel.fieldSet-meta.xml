@@ -13,6 +13,11 @@
         <isRequired>false</isRequired>
     </displayedFields>
     <displayedFields>
+        <field>Patient_ID__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
         <field>Referred_Date__c</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>

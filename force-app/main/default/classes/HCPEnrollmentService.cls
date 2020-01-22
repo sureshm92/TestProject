@@ -61,7 +61,7 @@ public without sharing class HCPEnrollmentService {
             },
             //Approval Flow [PI] - Orientation Required
             HCP_S_APPROVAL_PENDING => new Map<String, String>{
-                    StudyActions.ACT_HCP_APPROVE => HCP_S_ACTIVATION_PENDING_O,
+                    StudyActions.ACT_HCP_ACTIVATE => HCP_S_ACTIVATED,
                     StudyActions.ACT_HCP_ON_HOLD => HCP_S_ON_HOLD_APPROVAL,
                     StudyActions.ACT_HCP_DECLINE => HCP_S_DECLINED_APPROVAL,
                     StudyActions.ACT_HCP_ACTIVATE_FOR_ALL => HCP_S_ACTIVATED

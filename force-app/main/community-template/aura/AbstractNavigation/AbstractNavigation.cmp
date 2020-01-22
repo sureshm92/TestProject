@@ -14,8 +14,6 @@
     <aura:attribute name="scrollDirection" type="String" access="public" default="left"/>
 
     <!-- handlers: -->
-    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
-    <aura:handler name="change" value="{!v.mode}" action="{!c.doChangeItemsList}"/>
     <aura:handler event="forceCommunity:routeChange" action="{!c.doCurrentPageChange}"/>
 
     <!-- methods: -->
