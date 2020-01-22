@@ -52,6 +52,7 @@
                 sobjectType: 'Participant__c'
             });
             component.set('v.genders', initData.genders);
+            component.set('v.phoneTypes', initData.phoneTypes);
             component.set('v.counries', initData.countries);
             component.set('v.statesByCountyMap', initData.statesByCountryMap);
             component.set('v.markers',helper.fillMarkers(component));
@@ -63,7 +64,6 @@
                 else{
                     component.set('v.currentState', 'No Active Sites');
                 }
-
             }else{
                 component.set('v.currentState', 'Select Source')
             }
@@ -172,10 +172,25 @@
         helper.checkFields(component);
     },
 
+    doCheckDateOfBith: function (component, event, helper) {
+        helper.checkFields(component);
+        helper.checkParticipantNeedsGuardian(component, helper);
+    },
+
+    doNeedsGuardian: function (component, event, helper) {
+        let participant = component.get('v.participant');
+        if (participant.Health_care_proxy_is_needed__c) {
+            helper.setDelegate(component);
+        }
+        component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
+    },
+
     doSaveParticipant: function (component) {
         debugger;
         var participant = component.get('v.participant');
         console.log('participant', JSON.parse(JSON.stringify(participant)));
+        var delegateParticipant = component.get('v.participant');
+        console.log('delegateParticipant', JSON.parse(JSON.stringify(delegateParticipant)));
 
         var trial = component.get('v.trial');
         var hcpeId = component.get('v.hcpeId');
@@ -186,6 +201,7 @@
             hcpeId: hcpeId,
             pEnrollmentJSON: JSON.stringify(pEnrollment),
             participantJSON: JSON.stringify(participant),
+            participantDelegateJSON: JSON.stringify(delegateParticipant),
             delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             component.set('v.currentState', 'Refer Success');
