@@ -5,6 +5,9 @@
 <aura:component description="PaymentsPanel" controller="PaymentsRemote" >
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
     <aura:attribute name="initialized" type="Boolean"/>
+    <aura:attribute name="participant" type="Participant__c"/>
+    <aura:attribute name="pendingPayments" type="String"/>
+    <aura:attribute name="href" type="String"/>
 
     <div class="sv-panel rr-white-panel" data-gtm="PNL_PaymentsPanel">
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
@@ -21,15 +24,19 @@
                             <th>{!$Label.c.Home_Page_Payments_Pending_Payments}</th>
                         </tr>
                         <tr>
-                            <td>Active</td>
-                            <td>0.00 $</td>
-                            <td>0.00 $</td>
+                            <td>{!v.participant.Status__c}</td>
+                            <td>{!v.participant.Balance__c} $</td>
+                            <td>{!v.pendingPayments} $</td>
                         </tr>
-
                     </c:RRTable>
             </div>
             <div class="sv-footer">
-                <c:RRLink page="" label="{!$Label.c.Manage_My_Payments}" dataGTM="LNK_ManagePayments"/>
+                <a href="{!v.href}"
+                   class="link rr-link"
+                   data-gtm="LNK_ManagePayments">{!$Label.c.Manage_My_Payments}
+                    <aura:if isTrue="{!v.isArabic}"><c:RRIcon iconName="icon-chevron-left"/></aura:if>
+                    <aura:if isTrue="{!!v.isArabic}"><c:RRIcon iconName="icon-chevron-right"/></aura:if>
+                </a>
             </div>
         </aura:if>
     </div>
