@@ -189,7 +189,7 @@
         debugger;
         var participant = component.get('v.participant');
         console.log('participant', JSON.parse(JSON.stringify(participant)));
-        var delegateParticipant = component.get('v.participant');
+        var delegateParticipant = component.get('v.delegateParticipant');
         console.log('delegateParticipant', JSON.parse(JSON.stringify(delegateParticipant)));
 
         var trial = component.get('v.trial');
