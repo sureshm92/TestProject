@@ -11,23 +11,24 @@
     <aura:attribute name="currentVisits" type="PatientVisitService.VisitWrapper[]"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="visitModeCurrent" type="String" access="private" default="Current"/>
-    <aura:attribute name="visitMode" type="String" default="{!v.visitModeCurrent}"/>
+    <aura:attribute name="visitMode" type="String" default="All"/>
+    <aura:attribute name="options" type="List"/>
     <aura:attribute name="iconNames" type="String" default=""/>
     <aura:attribute name="isHasVisits" type="Boolean" default="true"/>
-    <aura:attribute name="travelVendorAvailable" type="Boolean" default="true"/>
     <aura:attribute name="visitPlanAvailable" type="Boolean" default="true"/>
 
     <!--HANDLERS-->
-    <aura:handler name="change" value="{!v.visitMode}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.visitMode}" action="{!c.getVisits}"/>
 
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="true" fixed="true"/>
 
     <div class="{!'sv-body ' + if(v.initialized, '', 'hidden')}">
         <div class="tt-title">
             {!$Label.c.Home_Page_StudyVisit_Title}
-            <div class="apollo-btn">
-                <c:TravelSupport isAvailable="{!and(v.travelVendorAvailable, v.visitPlanAvailable)}"/>
-            </div>
+        </div>
+        <div class="select-container">{!$Label.c.Home_Page_StudyVisit_Show_Filter_Visits}
+            <c:rrSelect value="{!v.visitMode}" options="{!v.options}" setValueAsSelected="All" class="select-list"
+                        iconColor="#666666"/>
         </div>
 
         <aura:if isTrue="{!v.visitPlanAvailable}">
@@ -37,10 +38,10 @@
                         <tr>
                             <th class="sv-t-name">{!$Label.c.Home_Page_StudyVisit_Visit}</th>
                             <th class="sv-t-time">{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
-                            <th class="sv-t-icons">{!v.visitMode == v.visitModeCurrent ? $Label.c.Home_Page_StudyVisit_WhToEx : $Label.c.Home_Page_StudyVisit_What_Took_Place}</th>
-                            <th class="{!v.visitMode == v.visitModeCurrent ? 'sv-t-status' : 'invisible'}">{!$Label.c.Home_Page_StudyVisit_Status}</th>
-                            <th class="{!v.visitMode == v.visitModeCurrent ? '' : 'invisible'}">{!$Label.c.Home_Page_StudyVisit_Reminder}</th>
-                            <th class="{!v.visitMode == v.visitModeCurrent ? 'invisible' : 'sv-t-completed-date'}">{!$Label.c.Home_Page_StudyVisit_Completed_On}</th>
+                            <th class="sv-t-icons">{!or(v.visitMode == v.visitModeCurrent, v.visitMode == 'All') ? $Label.c.Home_Page_StudyVisit_WhToEx : $Label.c.Home_Page_StudyVisit_What_Took_Place}</th>
+                            <th class="{!or(v.visitMode == v.visitModeCurrent, v.visitMode == 'All') ? 'sv-t-status' : 'invisible'}">{!$Label.c.Home_Page_StudyVisit_Status}</th>
+                            <th class="{!or(v.visitMode == v.visitModeCurrent, v.visitMode == 'All') ? '' : 'invisible'}">{!$Label.c.Home_Page_StudyVisit_Reminder}</th>
+                            <th class="{!or(v.visitMode == v.visitModeCurrent, v.visitMode == 'All') ? 'invisible' : 'sv-t-completed-date'}">{!$Label.c.Home_Page_StudyVisit_Completed_On}</th>
                         </tr>
                         <aura:iteration var="visitWrapper" items="{!v.currentVisits}">
                             <tr>
@@ -53,8 +54,9 @@
                                                       value="{!visitWrapper.icons}"/>
                                 </td>
                                 <td class="{!visitWrapper.visit.Is_Adhoc__c ? 'sv-t-icons' : 'invisible'}">{!$Label.c.StudyVisit_Variable}</td>
-                                <td class="{!v.visitMode == v.visitModeCurrent ? 'sv-t-status' : 'invisible'}">{!visitWrapper.visit.Status__c}</td>
-                                <td class="{!v.visitMode == v.visitModeCurrent ? 'sv-t-reminder' : 'invisible'}"
+                                <td class="{!or(v.visitMode == v.visitModeCurrent, v.visitMode == 'All') ? 'sv-t-status' : 'invisible'}">{!visitWrapper.visit.Status__c}</td>
+                                <aura:if isTrue="{!and(or(v.visitMode == v.visitModeCurrent, v.visitMode == 'All'), visitWrapper.visit.Status__c == 'Completed')}"><td></td></aura:if>
+                                <td class="{!and(or(v.visitMode == v.visitModeCurrent, v.visitMode == 'All'), visitWrapper.visit.Status__c != 'Completed') ? 'sv-t-reminder' : 'invisible'}"
                                     data-visit-id="{!visitWrapper.visit.Id}"
                                     data-task-id="{!visitWrapper.task.Id}"
                                     onclick="{!c.createEditTask}">
@@ -70,7 +72,7 @@
                                         </aura:set>
                                     </aura:if>
                                 </td>
-                                <td class="{!v.visitMode == v.visitModeCurrent ? 'invisible' : 'sv-t-completed-date'}">{!visitWrapper.completedDate}</td>
+                                <td class="{!or(v.visitMode == v.visitModeCurrent, v.visitMode == 'All') ? 'invisible' : 'sv-t-completed-date'}">{!visitWrapper.completedDate}</td>
                             </tr>
                         </aura:iteration>
                     </c:RRTable>
