@@ -100,6 +100,7 @@ public without sharing class ProviderPaymentsService {
             payment.Provider_State__c = providerContact.MailingState;
             payment.Provider_Country__c = providerContact.MailingCountry;
             payment.Provider_Postal_Code__c = providerContact.MailingPostalCode;
+            payment.Provider_ID__c = providerContact.Provider_ID__c;
             paymentsToCreate.add(payment);
         }
         insert paymentsToCreate;
@@ -120,6 +121,7 @@ public without sharing class ProviderPaymentsService {
             payment.Provider_State__c = hcpContact.MailingState;
             payment.Provider_Country__c = hcpContact.MailingCountry;
             payment.Provider_Postal_Code__c = hcpContact.MailingPostalCode;
+            payment.Provider_ID__c = hcpContact.Provider_ID__c;
             paymentsToCreate.add(payment);
         }
         insert paymentsToCreate;
