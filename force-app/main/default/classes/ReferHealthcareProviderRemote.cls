@@ -299,7 +299,6 @@ global without sharing class ReferHealthcareProviderRemote {
             } else {
                 if (!hcpes.isEmpty()) {
                     insert hcpes;
-                    sendNotificationForRPInvite(hcpes[0].Id, hcpContactId, piIds);
                 }
             }
         }
