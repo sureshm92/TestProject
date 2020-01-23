@@ -238,10 +238,7 @@ global without sharing class ReferHealthcareProviderRemote {
         } else {
             studySitesToInvite.add(new Study_Site__c(Id = studySiteId));
         }
-        system.debug('1322');
-
         List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id> { cntList[0].Id });
-        system.debug('13223232');
         if (usrs.isEmpty()) {
             isNewUser = true;
             ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id> { cntList[0].Id });
@@ -292,18 +289,17 @@ global without sharing class ReferHealthcareProviderRemote {
                 }
                 if (!hcpes.isEmpty()) {
                     insert hcpes;
-                    sendNotificationForRPInvite(hcpes[0].Id, hcpContactId, piIds);
+                    sendNotificationForRPInvite(hcpes[0].Id, cntList[0].Id, piIds);
                 } else {
                     throw new AuraHandledException(Label.RP_Is_Already_Invited);
                 }
             } else {
                 if (!hcpes.isEmpty()) {
                     insert hcpes;
-                    sendNotificationForRPInvite(hcpes[0].Id, hcpContactId, piIds);
+                    sendNotificationForRPInvite(hcpes[0].Id, cntList[0].Id, piIds);
                 }
             }
         }
-
         return hcpes[0].Id;
     }
 
