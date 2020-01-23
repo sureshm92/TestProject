@@ -163,8 +163,9 @@ public without sharing class ReferringRemote {
 
             if (participantDelegate != null) {
                 Contact newContact = new Contact();
-                newContact.LastName = participant.Last_Name__c;
-                newContact.Email = participant.Email__c;
+                newContact.FirstName = participantDelegate.First_Name__c;
+                newContact.LastName = participantDelegate.Last_Name__c;
+                newContact.Email = participantDelegate.Email__c;
                 newContact.AccountId = DatabaseService.getInstance()
                         .queryImpl(
                             new List<String>{
@@ -173,7 +174,7 @@ public without sharing class ReferringRemote {
                             Account.getSObjectType(),
                             DatabaseService.fieldEqual('Name', CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME)
                         ).get(0).Id;
-                newContact.Language__c = participant.Preferred_Language__c;
+                newContact.Language__c = UserInfo.getLanguage();
                 newContact.Second_Choice_Language__c = '';
                 newContact.Third_Choice_Language__c = '';
                 newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
@@ -181,6 +182,7 @@ public without sharing class ReferringRemote {
                 insert newContact;
 
                 participantDelegate.Contact__c = newContact.Id;
+                participantDelegate.Adult__c = true;
                 Participant_Enrollment__c delegateEnrollment = enrollment.clone(false, true, false, false);
                 ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participantDelegate, delegateEnrollment);
 
