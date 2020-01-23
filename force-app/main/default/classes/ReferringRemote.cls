@@ -141,7 +141,9 @@ public without sharing class ReferringRemote {
             Participant__c participantDelegate;
             if (!String.isBlank(participantDelegateJSON)) {
                 participantDelegate = (Participant__c) JSON.deserialize(participantDelegateJSON, Participant__c.class);
-                participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
+                if (participantDelegate != null) {
+                    participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
+                }
             }
 
             Participant_Enrollment__c enrollment = (Participant_Enrollment__c)
