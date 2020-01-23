@@ -4817,6 +4817,13 @@ The IQVIA Patient Portal Support Team</value>
         <value>Your list of conversation threads will appear here.</value>
     </labels>
     <labels>
+        <fullName>MS_Input_PI_Recipients_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Input PI Recipients Placeholder</shortDescription>
+        <value>Type Participants Name here...</value>
+    </labels>
+    <labels>
         <fullName>MS_Input_Placeholder</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6519,6 +6526,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG AS H Privacy Rights</shortDescription>
         <value>Privacy Rights</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_H_SMS_Preferences</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG AS H SMS Preferences</shortDescription>
+        <value>SMS Preferences</value>
     </labels>
     <labels>
         <fullName>PG_AS_L_Conditions_of_Interest</fullName>
@@ -10058,6 +10072,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Participant Not Logged In</shortDescription>
         <value>We miss you</value>
+    </labels>
+    <labels>
+        <fullName>Participant_SMS_Preferences_Blocked_From_SS</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Participant SMS Preferences are blocked from SS</shortDescription>
+        <value>SMS that notify you are bloked from Study Site. For Additional information contact our support team.</value>
     </labels>
     <labels>
         <fullName>Participant_Visits_Available</fullName>
