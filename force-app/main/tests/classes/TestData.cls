@@ -19,7 +19,7 @@ public class TestData {
     private static Terms_And_Conditions__c studyTC;
     public TestData(){
         participant = [
-                SELECT Id, Name, Last_Name__c
+                SELECT Id, Name
                 FROM Participant__c
                 WHERE Last_Name__c = 'ParticipantTD'
         ];
