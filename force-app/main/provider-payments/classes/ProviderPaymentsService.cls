@@ -34,7 +34,7 @@ public without sharing class ProviderPaymentsService {
             }
         }
         if(!peWithReimbursableActivities.isEmpty()){
-            Map<Id, Contact> contactMap = new Map<Id, Contact>([SELECT Id, FirstName, LastName FROM Contact WHERE Id IN :hcpContactIds]);
+            Map<Id, Contact> contactMap = new Map<Id, Contact>([SELECT Id, FirstName, LastName, MailingPostalCode, MailingCountry, MailingState, MailingCity, MailingStreet FROM Contact WHERE Id IN :hcpContactIds]);
             createProviderPaymentsForPEs(peWithReimbursableActivities, studySitesMap, contactMap);
         }
 
@@ -58,13 +58,16 @@ public without sharing class ProviderPaymentsService {
             studySitesMap.put(ss.Id, ss);
         }
         List<HCP_Enrollment__c> hcpeWithReimbursableActivities = new List<HCP_Enrollment__c>();
+        Set<Id> hcpContactIds = new Set<Id>();
         for(HCP_Enrollment__c hcpe : hcpeWithOrientationDateUpdated){
             if(studySitesMap.containsKey(hcpe.Study_Site__c)){
+                hcpContactIds.add(hcpe.HCP_Contact__c);
                 hcpeWithReimbursableActivities.add(hcpe);
             }
         }
         if(!hcpeWithReimbursableActivities.isEmpty()){
-            createProviderPaymentsForHCPEs(hcpeWithReimbursableActivities, studySitesMap);
+            Map<Id, Contact> contactMap = new Map<Id, Contact>([SELECT Id, FirstName, LastName, MailingPostalCode, MailingCountry, MailingState, MailingCity, MailingStreet FROM Contact WHERE Id IN :hcpContactIds]);
+            createProviderPaymentsForHCPEs(hcpeWithReimbursableActivities, studySitesMap, contactMap);
         }
     }
 
@@ -80,20 +83,32 @@ public without sharing class ProviderPaymentsService {
             payment.Randomization_ID__c = pe.Screening_ID__c;
             payment.Physicians_Name__c = hcpContact.FirstName + ' ' + hcpContact.LastName;
             payment.Activity_Date__c = pe.Medical_Record_Review_Completed_Date__c.format('MM/dd/yyyy');
+            payment.Referral_Id__c = pe.Name;
+            payment.Provider_Street_Address__c = hcpContact.MailingStreet;
+            payment.Provider_City__c = hcpContact.MailingCity;
+            payment.Provider_State__c = hcpContact.MailingState;
+            payment.Provider_Country__c = hcpContact.MailingCountry;
+            payment.Provider_Postal_Code__c = hcpContact.MailingPostalCode;
             paymentsToCreate.add(payment);
         }
         insert paymentsToCreate;
     }
 
-    private static void createProviderPaymentsForHCPEs(List<HCP_Enrollment__c> hcpEnrollments, Map<Id, Study_Site__c> studySitesMap){
+    private static void createProviderPaymentsForHCPEs(List<HCP_Enrollment__c> hcpEnrollments, Map<Id, Study_Site__c> studySitesMap, Map<Id, Contact> contactMap){
         List<Provider_Payment__c> paymentsToCreate = new List<Provider_Payment__c>();
         for(HCP_Enrollment__c hcpe : hcpEnrollments){
+            Contact hcpContact = contactMap.get(hcpe.HCP_Contact__c);
             Provider_Payment__c payment = new Provider_Payment__c();
             payment.Activity__c = ACTIVITY_TYPE_ORIENTATION;
             payment.Billable_Code__c = studySitesMap.get(hcpe.Study_Site__c).Billable_Code_CRM_Number__c;
             payment.Study_Code__c = studySitesMap.get(hcpe.Study_Site__c).Protocol_ID__c;
             payment.Physicians_Name__c = hcpe.HCP_Name__c;
             payment.Activity_Date__c = hcpe.Orientation_Date__c.format();
+            payment.Provider_Street_Address__c = hcpContact.MailingStreet;
+            payment.Provider_City__c = hcpContact.MailingCity;
+            payment.Provider_State__c = hcpContact.MailingState;
+            payment.Provider_Country__c = hcpContact.MailingCountry;
+            payment.Provider_Postal_Code__c = hcpContact.MailingPostalCode;
             paymentsToCreate.add(payment);
         }
         insert paymentsToCreate;
