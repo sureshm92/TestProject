@@ -7,6 +7,7 @@ private class Test_Batch_CreateSummaryNotifications {
 
     @IsTest
     static void testBehavior() {
+        TriggerHandlerExecutor.bypassHandler(NotificationTriggerHandler.class);
         Resource__c resource = new Resource__c(
                 Content_Type__c = 'Study_Document',
                 Description__c = 'testBehavior',
