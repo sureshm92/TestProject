@@ -93,15 +93,9 @@ public class TasksRemote {
     }
 
     private static void createOriginatorsList(List<OpenTask> tasks) {
-        Id participantId;
         Set<Id> delegateIds = new Set<Id>(PatientDelegateService.getInstance().getDelegatedUsersIds());
-        if (ParticipantService.getParticipantState().isDelegate) {
-            participantId = PatientDelegateService.getInstance().getParticipantUserId();
-        } else {
-            participantId = UserInfo.getUserId();
-        }
         for (OpenTask taskWrapper : tasks) {
-            if (taskWrapper.openTask.CreatedById == participantId) {
+            if (taskWrapper.openTask.CreatedById == ParticipantContext.getCurrentUserId()) {
                 taskWrapper.originator = Label.Patient;
             } else if (delegateIds.contains(taskWrapper.openTask.CreatedById)) {
                 taskWrapper.originator = Label.Delegate;

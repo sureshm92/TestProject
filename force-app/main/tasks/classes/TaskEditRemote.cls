@@ -144,18 +144,14 @@ public without sharing class TaskEditRemote {
     }
 
     private static Boolean checkEmailPreferencesIsOn() {
-        PatientDelegateService delegateService = PatientDelegateService.getInstance();
-        if (delegateService.isDelegate()) {
-            return delegateService.getDelegateContact(CommunityService.getUserContact().Id).Participant_Opt_In_Status_Emails__c;
-        }
-        return delegateService.getParticipant().Contact__r.Participant_Opt_In_Status_Emails__c;
+        return ParticipantContext.getCurrentContact().Participant_Opt_In_Status_Emails__c;
     }
 
     private static String checkEmailPermissions(Boolean emailPreferencesIsOn, List<Contact> delegates) {
         String errorMessage = '';
 
         if (!emailEnabledForAllRelatedContacts(
-                PatientDelegateService.getInstance().getParticipant().Contact__r.Participant_Opt_In_Status_Emails__c,
+                ParticipantContext.getCurrentContact().Participant_Opt_In_Status_Emails__c,
                 delegates
         )) {
             errorMessage = Label.Task_Reminders_Missing;
@@ -197,14 +193,6 @@ public without sharing class TaskEditRemote {
     private static Boolean createdByAdmin(Task task) {
         Set<Id> delegateIds = new Set<Id>(PatientDelegateService.getInstance().getDelegatedUsersIds());
         Boolean createdByDelegate = delegateIds.isEmpty() ? false : delegateIds.contains(task.CreatedById);
-
-        Id participantId;
-        if (ParticipantService.getInstance().getState().isDelegate) {
-            participantId = PatientDelegateService.getInstance().getParticipantUserId();
-        } else {
-            participantId = UserInfo.getUserId();
-        }
-
-        return (task.CreatedById != participantId && !createdByDelegate);
+        return (task.CreatedById != ParticipantContext.getCurrentUserId() && !createdByDelegate);
     }
 }
