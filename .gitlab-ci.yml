@@ -40,7 +40,7 @@ VALIDATE:
   stage: VALIDATE
   script:
     - sfdx update
-    - echo "$INT" > sfdx-auth-url
+    - echo "$INTTreeTwo" > sfdx-auth-url
     - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INTTreeTwo -d
     - sfdx --version
     - cd Nodejs
