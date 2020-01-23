@@ -215,7 +215,7 @@ public without sharing class HCPEnrollmentTriggerHandler {
     private static void sendNotificationForActivatedHCPE(List<HCP_Enrollment__c> newList, Map<Id, HCP_Enrollment__c> oldMap) {
         Map<Id, HCP_Enrollment__c> hcpeMapWithUpdatedStatuses = new Map<Id, HCP_Enrollment__c>();
         for (HCP_Enrollment__c hcpe : newList) {
-            if (hcpe.Status__c == HCPEnrollmentService.HCP_S_ACTIVATED && hcpe.Status__c != oldMap.get(hcpe.Id).Status__c) {
+            if ((hcpe.Status__c == HCPEnrollmentService.HCP_S_ACTIVATED || hcpe.Status__c == HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O )&& hcpe.Status__c != oldMap.get(hcpe.Id).Status__c) {
                 hcpeMapWithUpdatedStatuses.put(hcpe.Id, hcpe);
             }
         }
@@ -229,9 +229,7 @@ public without sharing class HCPEnrollmentTriggerHandler {
                     WHERE HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c = true AND ID IN :hcpeMapWithUpdatedStatuses.keySet()
             ]) {
                 if (!mapHCPEByHcpContact.containsKey(hcpe.HCP_Contact__c)) {
-                    mapHCPEByHcpContact.put(hcpe.HCP_Contact__c, new List<HCP_Enrollment__c>{
-                            hcpe
-                    });
+                    mapHCPEByHcpContact.put(hcpe.HCP_Contact__c, new List<HCP_Enrollment__c>{ hcpe });
                 } else {
                     mapHCPEByHcpContact.get(hcpe.HCP_Contact__c).add(hcpe);
                 }
@@ -245,7 +243,7 @@ public without sharing class HCPEnrollmentTriggerHandler {
                             WhatId__c = mapHCPEByHcpContact.get(hcpeContact)[0].Id,
                             Notification_Type__c = NotificationCatalog.MESSAGE_TO_HCP_APPROVED_TYPE
                     ));
-                } else {
+                } else if (!mapHCPEByHcpContact.get(hcpeContact).isEmpty()){
                     hcpIds.add(hcpeContact);
                 }
             }
@@ -258,11 +256,17 @@ public without sharing class HCPEnrollmentTriggerHandler {
                 ];
                 Map<Id, Id> whiteMapRP = new Map<Id, Id>();
                 Map<Id, Id> singleActivationMap = new Map<Id, Id>();
-                for (PI_RP_Relationship__c piRpRel : piRpRelationships) {
-                    if (mapHCPEByHcpContact.get(piRpRel.RP_Contact__c)[0].Study_Site_PI_Contact__c == piRpRel.PI_Contact__c) {
-                        whiteMapRP.put(piRpRel.RP_Contact__c, mapHCPEByHcpContact.get(piRpRel.RP_Contact__c)[0].Id);
-                    } else {
-                        singleActivationMap.put(piRpRel.RP_Contact__c, mapHCPEByHcpContact.get(piRpRel.RP_Contact__c)[0].Id);
+                if(!piRpRelationships.isEmpty()) {
+                    for (PI_RP_Relationship__c piRpRel : piRpRelationships) {
+                        if (mapHCPEByHcpContact.get(piRpRel.RP_Contact__c)[0].Study_Site_PI_Contact__c == piRpRel.PI_Contact__c) {
+                            whiteMapRP.put(piRpRel.RP_Contact__c, mapHCPEByHcpContact.get(piRpRel.RP_Contact__c)[0].Id);
+                        } else {
+                            singleActivationMap.put(piRpRel.RP_Contact__c, mapHCPEByHcpContact.get(piRpRel.RP_Contact__c)[0].Id);
+                        }
+                    }
+                } else {
+                    for(Id hcpId : hcpIds){
+                        singleActivationMap.put(hcpId, mapHCPEByHcpContact.get(hcpId)[0].Id);
                     }
                 }
                 if (!whiteMapRP.isEmpty()) {

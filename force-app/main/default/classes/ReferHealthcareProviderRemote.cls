@@ -95,8 +95,13 @@ global without sharing class ReferHealthcareProviderRemote {
             newHP.Participant_Enrollment__c = peId;
             newHP.Status__c = HP_S_INVITED;
             insert newHP;
-
-            createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null, CommunityService.getUserContact(), newHP, null, null);
+            system.debug('132');
+            try {
+                createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null, CommunityService.getUserContact(), newHP, null, null);
+            }
+            catch (Exception e){
+                throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            }
         } else if (!String.isBlank(newHP.Id) && newHP.Status__c == HP_S_NOSHARING) {
             hcpe = [SELECT Id,
                            HCP_Contact__c,
@@ -191,6 +196,7 @@ global without sharing class ReferHealthcareProviderRemote {
     }
 
     public static String createHCPinPlatform(String studySiteId, String firstName, String lastName, String email, String phone, Contact piContact, Healthcare_Provider__c hp, Id hcpContactId, List<String> piIds) {
+        system.debug('qwersqwers');
         Boolean isNewUser = false;
         List<HCP_Enrollment__c> hcpes = new List<HCP_Enrollment__c>();
         List<Study_Site__c> studySitesToInvite = new List<Study_Site__c>();
@@ -218,6 +224,7 @@ global without sharing class ReferHealthcareProviderRemote {
                     Email = email,
                     AccountId = newAcc.Id,
                     Language__c = UserInfo.getLanguage(),
+                    HCP_Opt_In_Referral_Status_Emails__c = true,
                     RP_Invited_By_PI__c = true,
                     //MailingCountry = studySite.Site__r.BillingCountry));
                     MailingCountry = piContact.MailingCountry,
@@ -231,8 +238,10 @@ global without sharing class ReferHealthcareProviderRemote {
         } else {
             studySitesToInvite.add(new Study_Site__c(Id = studySiteId));
         }
+        system.debug('1322');
 
         List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id> { cntList[0].Id });
+        system.debug('13223232');
         if (usrs.isEmpty()) {
             isNewUser = true;
             ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id> { cntList[0].Id });
@@ -290,6 +299,7 @@ global without sharing class ReferHealthcareProviderRemote {
             } else {
                 if (!hcpes.isEmpty()) {
                     insert hcpes;
+                    sendNotificationForRPInvite(hcpes[0].Id, hcpContactId, piIds);
                 }
             }
         }

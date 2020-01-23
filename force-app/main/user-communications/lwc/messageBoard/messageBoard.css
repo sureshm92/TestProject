@@ -20,9 +20,57 @@
 
 .ms-multi-header {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    height: 100px;
+    min-height: 100px;
+}
+
+.ms-multi-header-pa {
+    align-self: center;
+    width: 80%;
+}
+
+.ms-multi-header-pi {
+    align-self: center;
+    width: 80%;
+    padding-top: 20px;
+}
+
+.ms-pi-new-mess {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.ms-pi-multi-recipient {
+    /*height: 100px;*/
+    /*overflow-y: auto;*/
+    border: 1px solid #d4d1d1;
+    border-radius: 5px;
+    padding: 4px;
+}
+
+.ms-pi-multi-recipient::-webkit-scrollbar {
+    width: 7px;
+}
+
+.ms-pi-multi-recipient::-webkit-scrollbar-track {
+    background: none;
+}
+
+.ms-pi-multi-recipient::-webkit-scrollbar-thumb {
+    background: rgba(155, 155, 155, 0.8);
+    border-radius: 10px;
+}
+
+.ms-pi-multi-recipient::-webkit-scrollbar-thumb:hover {
+    background: rgba(85, 85, 85, 0.3);
+}
+
+.pill {
+    padding: 3px;
+    background: #0768FD;
+    color: white;
+    border: none;
 }
 
 .ms-header-name {

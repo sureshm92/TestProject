@@ -57,6 +57,13 @@
         component.set('v.countryInitialized', true);
     },
 
+    setDelegate: function (component) {
+        var delegateParticipant = {
+            sobjectType: 'Participant__c',
+        };
+        component.set('v.delegateParticipant', delegateParticipant);
+    },
+
     checkFields: function (component) {
         var participant = component.get('v.participant');
         var pEnrollment = component.get('v.pEnrollment');
@@ -71,39 +78,89 @@
         var selectedState = participant.Mailing_State_Code__c;
         var states = component.get('v.states');
 
+        //Guardian (Participant delegate)
+        var needsDelegate = component.get('v.needsGuardian');
+        var delegateParticipant = component.get('v.delegateParticipant');
+        var emailDelegateRepeat = component.get('v.emailDelegateRepeat');
+        var emailDelegateCmp = component.find('emailDelegateField');
+        var emailDelegateRepeatCmp = component.find('emailDelegateRepeatField');
+        var emailDelegateVaild = needsDelegate && emailDelegateCmp && emailDelegateCmp.get('v.validity') && emailDelegateCmp.get('v.validity').valid;
+        var emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && emailDelegateRepeatCmp.get('v.validity') && emailDelegateRepeatCmp.get('v.validity').valid;
+
         var result =
             participant.First_Name__c &&
             participant.Last_Name__c &&
-            participant.Email__c &&
+            (needsDelegate || participant.Email__c) &&
             participant.Mailing_Zip_Postal_Code__c &&
-            emailVaild &&
-            emailRepeatValid &&
-            participant.Phone__c &&
+            (needsDelegate || emailVaild) &&
+            (needsDelegate || emailRepeatValid) &&
+            (needsDelegate || participant.Phone__c) &&
             //agreeShare &&
             selectedCountry &&
             (selectedState || states.length === 0) &&
+            (!needsDelegate ||
+                (needsDelegate &&
+                    delegateParticipant.First_Name__c &&
+                    delegateParticipant.Last_Name__c &&
+                    delegateParticipant.Phone__c &&
+                    delegateParticipant.Email__c &&
+                    emailDelegateVaild &&
+                    emailDelegateRepeatValid)) &&
             agreePolicy;
         component.set('v.allRequiredCompleted', result);
         component.set('v.emailsMatch',participant.Email__c && emailRepeat && participant.Email__c.toLowerCase() === emailRepeat.toLowerCase());
 
-        if(emailCmp && emailRepeatCmp){
-            if(participant.Email__c && emailRepeat && participant.Email__c.toLowerCase() !== emailRepeat.toLowerCase()){
-                emailCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));
-                //set('v.validity', {valid: false, badInput: true});
-
+        if (!needsDelegate && emailCmp && emailRepeatCmp) {
+            if (participant.Email__c && emailRepeat && participant.Email__c.toLowerCase() !== emailRepeat.toLowerCase()) {
+                emailCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));//set('v.validity', {valid: false, badInput: true});
                 emailRepeatCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));//.set('v.validity', {valid: false, badInput: true});
-            }
-            else{
+            } else {
                 emailCmp.setCustomValidity("");
                 emailRepeatCmp.setCustomValidity("");
             }
-            if(participant.Email__c && participant.Email__c !== '' && emailRepeat && emailRepeat !== ''){
+            if (participant.Email__c && participant.Email__c !== '' && emailRepeat && emailRepeat !== '') {
                 emailCmp.reportValidity();
                 emailRepeatCmp.reportValidity();
             }
         }
-
+        if (needsDelegate && delegateParticipant && emailDelegateCmp && emailDelegateRepeatCmp) {
+            if (delegateParticipant.Email__c && emailDelegateRepeat && delegateParticipant.Email__c.toLowerCase() !== emailDelegateRepeat.toLowerCase()) {
+                emailCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));//set('v.validity', {valid: false, badInput: true});
+                emailDelegateRepeatCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));//.set('v.validity', {valid: false, badInput: true});
+            } else {
+                emailDelegateCmp.setCustomValidity("");
+                emailDelegateRepeatCmp.setCustomValidity("");
+            }
+            if (delegateParticipant.Email__c && delegateParticipant.Email__c !== '' && emailDelegateRepeat && emailDelegateRepeat !== '') {
+                emailDelegateCmp.reportValidity();
+                emailDelegateRepeatCmp.reportValidity();
+            }
+        }
     },
+
+    checkParticipantNeedsGuardian: function (component, helper) {
+        var spinner = component.find('mainSpinner');
+        spinner.show();
+        var participant = component.get('v.participant');
+        communityService.executeAction(component, 'checkNeedsGuardian', {
+            participantJSON: JSON.stringify(participant)
+        }, function (returnValue) {
+            var isNeedGuardian = (returnValue == 'true');
+            console.log('checkNeedsGuardian - SUCCESS: ' + isNeedGuardian);
+            component.set('v.needsGuardian', isNeedGuardian);
+
+            participant.Health_care_proxy_is_needed__c = isNeedGuardian;
+            participant.Adult__c = !participant.Health_care_proxy_is_needed__c;
+            component.set('v.participant', participant);
+
+            if (isNeedGuardian) {
+                helper.setDelegate(component);
+            }
+        }, null, function () {
+            spinner.hide();
+        });
+    },
+
     checkSites: function(component){
         var studySites = component.get("v.studySites");
         if(studySites.length>0){

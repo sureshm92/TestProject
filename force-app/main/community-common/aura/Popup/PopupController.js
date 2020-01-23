@@ -45,7 +45,7 @@
         event.preventDefault();
     },
 
-    doCancel : function (component) {
+    doCancel: function (component) {
         component.hide();
         var closeCallback = component.get('v.closeCallback');
         if(closeCallback) closeCallback();

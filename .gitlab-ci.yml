@@ -40,15 +40,15 @@ VALIDATE:
   stage: VALIDATE
   script:
     - sfdx update
-    - echo "$INT" > sfdx-auth-url
-    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
+    - echo "$INTTreeTwo" > sfdx-auth-url
+    - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INTTreeTwo -d
     - sfdx --version
     - cd Nodejs
     - node convert.js
     - cd ..
     - rm -rf output
     - sfdx force:source:convert -d output
-    - sfdx force:mdapi:deploy -d output -u INT -c -w 60
+    - sfdx force:mdapi:deploy -d output -u INTTreeTwo -c -w 60
     - echo "validate INT success"
 
 

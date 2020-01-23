@@ -94,40 +94,23 @@ public without sharing class EmailService {
     }
 
     public static void sendEmailToExternalUser(List<Notification__c> notifications) {
-        List<Messaging.SingleEmailMessage> msges = new List<Messaging.SingleEmailMessage>();
+        Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
+        List<Messaging.SingleEmailMessage> msgListToBeSend = new List<Messaging.SingleEmailMessage>();
         for (Notification__c n : notifications) {
             Notification_Target__mdt emailTarget = NotificationService.getNotificationTarget(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
-            msges.add(createMessage(n.WhatId__c, n.From__c, n.Email__c, emailTarget.Email_Template__c));
-        }
-
-        // Send the emails in a transaction, then roll it back
-        Savepoint sp = Database.setSavepoint();
-        Database.rollback(sp); // Email will not send as it is rolled Back
-        // Send Actual email
-        List<Messaging.SingleEmailMessage> msgListToBeSend = new List<Messaging.SingleEmailMessage>();
-        for (Messaging.SingleEmailMessage email : msges) {
-            Messaging.SingleEmailMessage emailToSend = new Messaging.SingleEmailMessage();
-            emailToSend.setToAddresses(email.getToAddresses());
-            emailToSend.setPlainTextBody(email.getPlainTextBody());
-            emailToSend.setHtmlBody(email.getHtmlBody());
-            emailToSend.setSubject(email.getSubject());
-            emailToSend.setOrgWideEmailAddressId(getOrgWideEmailAddressByContactId(email.targetObjectId));
-            msgListToBeSend.add(emailToSend);
+            msg = createMessage(n.WhatId__c, n.From__c, n.Email__c, emailTarget.Email_Template__c);
+            msgListToBeSend.add(msg);
         }
         Messaging.sendEmail(msgListToBeSend);
     }
 
     public static Messaging.SingleEmailMessage createMessage(Id whatId, Id fromId,  String emailAddr, String templateName) {
-        Id shareStudyEmailTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName =:templateName LIMIT 1].Id;
-        List<Messaging.SingleEmailMessage> msgList = new List<Messaging.SingleEmailMessage>();
+        EmailTemplate shareStudyEmailTemplate = [SELECT Id, Subject, Body  FROM EmailTemplate WHERE DeveloperName =:templateName LIMIT 1];
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
-        msg.setTemplateId(shareStudyEmailTemplateId);
+        msg.setTemplateId(shareStudyEmailTemplate.Id);
         msg.setWhatId(whatId);
         msg.setTargetObjectId(fromId);
-        msg.setToAddresses(new List<String>{
-                emailAddr
-        });
-        msgList.add(msg);
+        msg.setToAddresses(new List<String>{emailAddr});
         return msg;
     }
 }

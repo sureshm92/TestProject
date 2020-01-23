@@ -191,7 +191,8 @@
 .THIS .vpi-status-btns {
     display: flex;
     justify-content: center;
-    padding-left: 16px;
+    padding-left: 63%;
+
 }
 
 .THIS .vpi-status-btns > div {
@@ -202,6 +203,7 @@
     margin-top: 15px;
     margin-bottom: 25px;
     min-width: auto;
+
 }
 
 @media all and (max-width: 768px){
@@ -259,5 +261,7 @@
         height: 18px;
         font-weight: 600;
     }
-
+    .THIS .slds-small-size_6-of-12 {
+        margin-left: 175px;
+    }
 }
