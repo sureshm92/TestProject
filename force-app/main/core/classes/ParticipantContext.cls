@@ -11,6 +11,7 @@ public without sharing class ParticipantContext {
     private static Boolean initialized = false;
     private static Participant__c ownParticipant;
     
+    // Return true if user current mode is "Delegate of other user"
     public static Boolean isCurrentDelegate(){
         return UserContext.getUserContact().userCommunityDelegateId__c != null;
     }
