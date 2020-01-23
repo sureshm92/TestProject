@@ -58,6 +58,15 @@ export default class MessagesPage extends LightningElement {
             if (this.userMode === 'Participant') this.messageBoard.setTemplates(this.messageTemplates);
         }
 
+        // if(this.messageBoard && this.conversationWrappers) {
+        //     let topCon = this.conversationWrappers[0];
+        //     try {
+        //         this.messageBoard.openExisting(topCon.conversation, topCon.messages, topCon.isPastStudy);
+        //     } catch (e) {
+        //         console.error(e);
+        //     }
+        // }
+
         if(this.initialized) this.spinner.hide();
     }
 
