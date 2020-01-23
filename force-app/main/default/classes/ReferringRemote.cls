@@ -161,7 +161,8 @@ public without sharing class ReferringRemote {
 
             ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participant, enrollment);
 
-            if (participantDelegate != null) {
+            if (participantDelegate != null && !String.isEmpty(participantDelegate.Last_Name__c) &&
+                    !String.isEmpty(participantDelegate.Email__c)) {
                 Contact newContact = new Contact();
                 newContact.FirstName = participantDelegate.First_Name__c;
                 newContact.LastName = participantDelegate.Last_Name__c;
