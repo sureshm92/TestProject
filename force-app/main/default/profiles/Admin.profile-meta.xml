@@ -1401,6 +1401,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_Action_GetCardDetails</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_AddPatientByPIRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -8428,7 +8432,7 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ManageHealthCheck</name>
-    </userPermissions>>
+    </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
         <name>ManageInteraction</name>
@@ -8692,10 +8696,6 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ViewEventLogFiles</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ViewFlowUsageAndFlowEventData</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
