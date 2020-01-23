@@ -2,13 +2,17 @@
  * Created by Igor Malyuta on 21.12.2019.
  */
 .ms-page {
-    padding-top: 30px;
+    padding-top: 32px;
 }
 
 .ms-container {
     height: 600px;
     width: 1140px;
+    background-color: #ffffff;
+    border: 1px solid #E9E9E9;
+    border-radius: 4px;
     display: flex;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
 }
 
 .ms-left {
@@ -19,7 +23,7 @@
 }
 
 .ms-mes-header {
-    height: 73px;
+    min-height: 73px;
     width: 100%;
     padding-left: 15px;
     padding-right: 15px;

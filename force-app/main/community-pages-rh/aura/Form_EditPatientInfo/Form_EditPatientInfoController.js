@@ -11,6 +11,8 @@
     },
 
     doCheckFields: function (component, event, hepler) {
+        console.log('pe', JSON.parse(JSON.stringify(component.get('v.pe'))));
+        console.log('part', JSON.parse(JSON.stringify(component.get('v.participant'))));
         console.log('doCheckFields');
         var participant = component.get('v.participant');
         var statesByCountryMap = component.get('v.formData.statesByCountryMap');

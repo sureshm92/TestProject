@@ -55,12 +55,10 @@ export default class MessagesPage extends LightningElement {
             if (!this.canStartConversation) this.changePlusStyle(false);
 
             this.messageBoard = this.template.querySelector('c-message-board');
-            if (this.userMode === 'Participant') {
-                this.messageBoard.setTemplates(this.messageTemplates);
-            }
-
-            this.spinner.hide();
+            if (this.userMode === 'Participant') this.messageBoard.setTemplates(this.messageTemplates);
         }
+
+        if(this.initialized) this.spinner.hide();
     }
 
     disconnectedCallback() {
@@ -128,12 +126,18 @@ export default class MessagesPage extends LightningElement {
 
     handleRefreshEvent() {
         if (this.spinner) this.spinner.show();
+        this.messageBoard.closeBoard();
         this.initialized = false;
+        this.messageBoard = null;
 
         this.initializer();
     }
     //Service Methods:--------------------------------------------------------------------------------------------------
     initializer() {
+        this.creationMode = false;
+        this.conversationWrappers = null;
+        this.enrollments = null;
+
         getInit()
             .then(data => {
                 this.userMode = data.userMode;
@@ -145,10 +149,9 @@ export default class MessagesPage extends LightningElement {
                 this.initialized = true;
                 if (this.userMode === 'Participant') this.messageTemplates = data.messageTemplates;
                 if (this.conversationWrappers && this.conversationWrappers.length > 0) this.hideEmptyStub = true;
-
             })
             .catch(error => {
-                console.log('Error in getInit():' + JSON.stringify(error));
+                console.error('Error in getInit():' + JSON.stringify(error));
             });
     }
 

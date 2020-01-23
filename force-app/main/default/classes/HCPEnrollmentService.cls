@@ -195,10 +195,10 @@ public without sharing class HCPEnrollmentService {
             }
             upsert upsertList;
             /*ReferHealthcareProviderRemote.sendNotificationForRPInvite(hcpe.Id, hcpe.HCP_Contact__c);*/
-            insert new Notification__c(
+            /*insert new Notification__c(
                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_HCP_APPROVED_TYPE,
                     Recipient__c = hcpe.HCP_Contact__c,
-                    WhatId__c = hcpe.Id);
+                    WhatId__c = hcpe.Id);*/
             return HCP_S_ACTIVATED;
         }
     }

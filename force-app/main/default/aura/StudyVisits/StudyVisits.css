@@ -21,7 +21,6 @@
 
 .THIS.sv-body .rr-white-panel {
     border: none;
-    
 }
 
 .THIS.sv-body.hidden{
@@ -32,7 +31,7 @@
     font-size: 20px;
     font-weight: 500;
     line-height: 24px;
-    padding: 20px 0 25px 25px;
+    padding: 20px 0 15px 25px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -88,4 +87,15 @@
 
 .THIS .no-visits-message {
     margin-bottom: 1.5em;
+}
+
+.THIS .select-container {
+    display: flex;
+    padding: 0 2% 2% 25px;
+    place-items: center;
+    color: #666666;
+}
+.THIS .select-list {
+    margin-left: 1%;
+    height: max-content;
 }

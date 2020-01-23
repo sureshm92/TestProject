@@ -62,26 +62,14 @@ private with sharing class Test_TravelVendorPanelRemote {
         TestData testDataInstance = new TestData();
         testDataInstance.createSSTravelVendors();
         Test.startTest();
-        List<TravelVendor__c> vendorSettings = TravelSupportRemote.getVendors(testDataInstance.ss.Id);
+        List<TravelVendor__c> vendorSettings;
+        System.runAs(testDataInstance.participantUser){
+            vendorSettings = TravelSupportRemote.getVendors();
+        }
         Test.stopTest();
         System.assertEquals(1, vendorSettings.size());
     }
 
-
-    @IsTest
-    static void getInitDataStateWithException_test() {
-        Boolean isExceptionThrown = false;
-
-        Test.startTest();
-        try {
-            TravelSupportRemote.getInitData();
-        } catch (Exception e) {
-            isExceptionThrown = true;
-            System.assert(e.getTypeName() == 'System.AuraHandledException');
-        }
-        Test.stopTest();
-        System.assert(true, isExceptionThrown);
-    }
 
     @IsTest
     static void getVendorsWithException_test() {
@@ -95,7 +83,7 @@ private with sharing class Test_TravelVendorPanelRemote {
 
         Test.startTest();
         try {
-            TravelSupportRemote.getVendors(null);
+            TravelSupportRemote.getVendors();
         } catch (Exception e) {
             isExceptionThrown = true;
             System.assert(e.getTypeName() == 'System.AuraHandledException');
