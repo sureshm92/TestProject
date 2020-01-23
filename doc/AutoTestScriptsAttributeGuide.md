@@ -15,5 +15,7 @@ Naming convetion:
 - LNK_XXX - link, ссылка
 - CBX_XXX - checkbox, чекбокс
 - RDO_XXX - radio button
+- LKP_XXX - lookup (RRSearchAbstract, webLookup)
+
 
 Если нужного обозначения нет в списке то нужно его придумать и добавить в этот документ

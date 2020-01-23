@@ -22,7 +22,7 @@ export default class NavMessageCounter extends LightningElement {
                     }
                 })
                 .catch(error => {
-                    console.log('Error in getCounter():' + JSON.stringify(error));
+                    console.error('Error in getCounter():' + JSON.stringify(error));
                 });
         }, this.isOnPage ? 1000 : 5000);
     }
