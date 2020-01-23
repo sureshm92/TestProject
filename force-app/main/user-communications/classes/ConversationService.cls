@@ -28,6 +28,7 @@ public without sharing class ConversationService {
                 'Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
                 'Participant_Enrollment__r.Participant__r.Full_Name__c',
                 'Participant_Enrollment__r.Participant_Status__c',
+                'Participant_Enrollment__r.Study_Site__c',
                 'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Name',
                 'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Title',
                 'Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c'
@@ -60,6 +61,7 @@ public without sharing class ConversationService {
                 SELECT Site_Contact__c
                 FROM Site_Staff__c
                 WHERE Study_Site__r.Principal_Investigator__c = :enrollment.Study_Site__r.Principal_Investigator__c
+                AND Study_Site__c =: enrollment.Study_Site__c
         ];
         for(Site_Staff__c ss : siteStaff) {
             if(ss.Site_Contact__c != userContact.Id) contactsForSharing.add(ss.Site_Contact__c);
