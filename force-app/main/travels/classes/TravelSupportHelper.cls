@@ -59,8 +59,18 @@ public without sharing class TravelSupportHelper {
                 'Site__r.BillingCountry, ' +
                 'Site__r.BillingCountryCode, ' +
                 'Study_Site_Number__c, ' +
-                '(SELECT Id, isEnable__c, By_Country__c, Is_Manual__c, TravelVendor__r.Name, TravelVendor__r.Default_Country__c, TravelVendor__r.Link_Vendor__c, Study_Site__c, Study_Site__r.Site__r.BillingCountryCode FROM TravelVendorSettings__r' + (String.isBlank(clauseChild) ? '' : clauseChild) + ') ' +
-                'FROM Study_Site__c ';
+                '(SELECT ' +
+                    'Id, ' +
+                    'isEnable__c, ' +
+                    'By_Country__c, ' +
+                    'Is_Manual__c, ' +
+                    'TravelVendor__r.Name, ' +
+                    'TravelVendor__r.Default_Country__c, ' +
+                    'TravelVendor__r.Link_Vendor__c, ' +
+                    'Study_Site__c, ' +
+                    'Study_Site__r.Site__r.BillingCountryCode ' +
+                    'FROM TravelVendorSettings__r' + (String.isBlank(clauseChild) ? '' : clauseChild) +
+                ') ' + 'FROM Study_Site__c ';
         String clause = ' WHERE Clinical_Trial_Profile__c = \'' + ctpId + '\' ';
         String order = ' ORDER BY Name';
         query += clause;
