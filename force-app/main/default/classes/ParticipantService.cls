@@ -94,6 +94,9 @@ public without sharing class ParticipantService {
                         Email__c,
                         Phone__c,
                         Phone_Type__c,
+                        Status__c,
+                        Balance__c,
+                        Pending_Payments__c,
                         Mailing_State__c,
                         Mailing_City__c,
                         Mailing_State_Code__c,
@@ -103,6 +106,7 @@ public without sharing class ParticipantService {
                         Contact__c,
                         Conditions__c,
                         Contact__r.Visit_Results_Opt_In__c,
+                        Contact__r.Participant_Opt_In_Status_Emails__c,
                         Marketing_Flag__c
                 FROM Participant__c
                 WHERE Contact__c = :sourceId OR Id = :sourceId

@@ -22,11 +22,22 @@ private without sharing class Test_ReferringRemote {
                     First_Name__c = 'PTest',
                     Last_Name__c = 'PTest',
                     Phone__c = '13413223',
+                    Date_of_Birth__c = '1990-11-11',
                     Email__c = 'partTest@email.com',
                     Mailing_Country_Code__c = 'US',
                     Mailing_State_Code__c = 'AL'
             );
-            ReferringRemote.saveParticipant(testDataInstance.hcpEnrollment.Id, JSON.serialize(pe), JSON.serialize(participant), null, null);
+            Participant__c participantDelegate = new Participant__c(
+                    First_Name__c = 'PTestDelegate',
+                    Last_Name__c = 'PTestDelegate',
+                    Phone__c = '13413123',
+                    Email__c = 'PTestDelegate@email.com',
+                    Mailing_Country_Code__c = 'US',
+                    Mailing_State_Code__c = 'AL'
+            );
+            ReferringRemote.checkNeedsGuardian(JSON.serialize(participant));
+            ReferringRemote.saveParticipant(testDataInstance.hcpEnrollment.Id, JSON.serialize(pe), JSON.serialize(participant), JSON.serialize(participantDelegate), null);
+            ReferringRemote.setfailedReferral(JSON.serialize(pe), ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING);
         }
         Test.stopTest();
     }
