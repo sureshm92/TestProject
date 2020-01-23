@@ -5504,6 +5504,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Provider_Payment__c.Provider_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Provider_Payment__c.Provider_Postal_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7531,6 +7536,10 @@
     <tabVisibilities>
         <tab>Patient_Visit__c</tab>
         <visibility>DefaultOff</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Provider_Payment__c</tab>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Referral_Network__c</tab>
