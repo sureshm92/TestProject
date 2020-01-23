@@ -50,17 +50,11 @@ private class Test_Batch_CreateSummaryNotifications {
         );
         insert resStudy;
 
-        Study_Site__c studySite = [SELECT Id, Approved_Lng__c FROM Study_Site__c WHERE Id = :testData.ss.Id];
-        studySite.Approved_Lng__c = 'en_US';
-        update studySite;
+        testData.ss.Approved_Lng__c = 'en_US';
+        update testData.ss;
 
-        Contact participantContact = [
-                SELECT Id, Participant_Opt_In_Status_Emails__c
-                FROM Contact
-                WHERE Id = :testData.pe.Participant_Contact__c
-        ];
-        participantContact.Participant_Opt_In_Status_Emails__c = true;
-        update participantContact;
+        testData.pe.Participant_Contact__r.Participant_Opt_In_Status_Emails__c = true;
+        update testData.pe.Participant_Contact__r;
 
         testData.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS);
 
@@ -76,6 +70,7 @@ private class Test_Batch_CreateSummaryNotifications {
                         Notify_On_Availability__c,
                         Resource__c,
                         Resource__r.Language__c,
+                        Resource__r.Content_Type__c,
                         Visible_In_Alumni__c,
                         Visible_To_Delegates__c,
                         Visible_To_Participant__c
