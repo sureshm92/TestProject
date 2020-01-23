@@ -13,8 +13,8 @@ public without sharing class MessagePageRemote {
 
     public class ConversationWrapper {
         @AuraEnabled public Conversation__c conversation;
-        @AuraEnabled public Boolean isPastStudy;
-        @AuraEnabled public Boolean unread;
+        @AuraEnabled public Boolean isPastStudy = false;
+        @AuraEnabled public Boolean unread = false;
         @AuraEnabled public String fullName;
         @AuraEnabled public String title;
         @AuraEnabled public Date lastUpdate;
@@ -160,7 +160,7 @@ public without sharing class MessagePageRemote {
 
             String senderName;
             Boolean needUpdate = false;
-            if (userContact.userCommunityMode__c.equals(CommunityService.USER_MODE_PARTICIPANT)) {
+            if (UserContext.getCurrentUserMode().userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 List<Participant__c> participant = [SELECT Id, Full_Name__c FROM Participant__c WHERE Contact__c = :userContact.Id];
                 if (!participant.isEmpty()) {
                     senderName = participant.get(0).Full_Name__c;
@@ -172,7 +172,7 @@ public without sharing class MessagePageRemote {
                     conversation.haveUnreadForPI__c = true;
                     needUpdate = true;
                 }
-            } else {
+            } else if(UserContext.getCurrentUserMode().userMode == CommunityService.USER_MODE_PI){
                 senderName = userContact.Full_Name__c;
                 if (!conversation.haveUnreadForParticipant__c) {
                     conversation.haveUnreadForParticipant__c = true;
