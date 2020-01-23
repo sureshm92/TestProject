@@ -23,7 +23,7 @@
 }
 
 .ms-mes-header {
-    height: 73px;
+    min-height: 73px;
     width: 100%;
     padding-left: 15px;
     padding-right: 15px;
