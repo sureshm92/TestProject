@@ -13,7 +13,7 @@ private class Test_MessagePageRemote {
         insert new Message__c(
                 Conversation__c = conversation.Id,
                 Message_Content__c = 'Why???',
-                Sender_Name__c = testData.participantUser.LastName
+                Sender_Name__c = 'Morgan Stark'
         );
 
         testData.pe = [
@@ -59,7 +59,7 @@ private class Test_MessagePageRemote {
         insert new Message__c(
                 Conversation__c = conversation.Id,
                 Message_Content__c = 'Why???',
-                Sender_Name__c = testData.participantUser.LastName
+                Sender_Name__c = 'Morgan Stark'
         );
 
         testData.pe = [

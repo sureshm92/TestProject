@@ -14,15 +14,6 @@ public without sharing class TravelSupportRemote {
     }
 
     @AuraEnabled
-    public static String getInitData() {
-        try {
-            return JSON.serialize(ParticipantService.getInstance().getState());
-        } catch (Exception e) {
-            return (String) AuraHelper.throwException(e);
-        }
-    }
-
-    @AuraEnabled
     public static List<PatientTravelService.TravelWrapper> getParticipantTravels(String visitMode) {
         try {
             return ((PatientTravelService) ClassFactory.newInstance(PatientTravelService.class)).getTravelWrappers(visitMode);

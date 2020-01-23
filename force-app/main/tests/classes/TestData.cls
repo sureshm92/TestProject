@@ -19,7 +19,7 @@ public class TestData {
     private static Terms_And_Conditions__c studyTC;
     public TestData(){
         participant = [
-                SELECT Id, Name
+                SELECT Id, Name, Last_Name__c
                 FROM Participant__c
                 WHERE Last_Name__c = 'ParticipantTD'
         ];
@@ -218,7 +218,8 @@ public class TestData {
                 Phone__c = '55313535',
                 Email__c = 'part1@email.com',
                 Mailing_Country_Code__c = 'US',
-                Mailing_State_Code__c = 'AL'
+                Mailing_State_Code__c = 'AL',
+                Adult__c = true
         );
         insert participant;
         Participant_Enrollment__c pe = new Participant_Enrollment__c(
