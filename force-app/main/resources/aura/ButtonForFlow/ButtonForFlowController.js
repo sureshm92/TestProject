@@ -20,6 +20,8 @@
             			if(pageReferencePrevious != null && pageReferencePrevious.attributes != null){
                             if(pageReferencePrevious.attributes.objectApiName == 'Clinical_Trial_Profile__c') {
                     			recordId = pageReferencePrevious.attributes.recordId;
+                            } else {
+                                recordId = '';
                             }
                         }
                     }
