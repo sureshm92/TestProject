@@ -69,6 +69,46 @@
                 <label>Other</label>
             </value>
             <value>
+                <fullName>Not Ready to Schedule</fullName>
+                <default>false</default>
+                <label>Not Ready to Schedule</label>
+            </value>
+            <value>
+                <fullName>Call Back</fullName>
+                <default>false</default>
+                <label>Call Back</label>
+            </value>
+            <value>
+                <fullName>Transportation Issues</fullName>
+                <default>false</default>
+                <label>Transportation Issues</label>
+            </value>
+            <value>
+                <fullName>Childcare Issues</fullName>
+                <default>false</default>
+                <label>Childcare Issues</label>
+            </value>
+            <value>
+                <fullName>Participant Not Interested</fullName>
+                <default>false</default>
+                <label>Participant Not Interested</label>
+            </value>
+            <value>
+                <fullName>Did Not Meet Inclusion/Exclusion Criteria</fullName>
+                <default>false</default>
+                <label>Did Not Meet Inclusion/Exclusion Criteria</label>
+            </value>
+            <value>
+                <fullName>Did Not Attend Appointment</fullName>
+                <default>false</default>
+                <label>Did Not Attend Appointment</label>
+            </value>
+            <value>
+                <fullName>Declined or Withdrew Consent</fullName>
+                <default>false</default>
+                <label>Declined or Withdrew Consent</label>
+            </value>
+            <value>
                 <fullName>Could not schedule visit</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
@@ -112,17 +152,6 @@
             </value>
         </valueSetDefinition>
         <valueSettings>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <valueName>Site No Longer Accepting Referrals</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <valueName>Other</valueName>
-        </valueSettings>
-        <valueSettings>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
             <valueName>Didn&#39;t Meet Pre-Screening Eligibility</valueName>
         </valueSettings>
@@ -134,6 +163,13 @@
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
             <valueName>PI Decision</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Referral Declined</controllingFieldValue>
+            <valueName>Other</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
@@ -158,6 +194,10 @@
         <valueSettings>
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
             <valueName>Patient Decision</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Referral Declined</controllingFieldValue>
+            <valueName>Site No Longer Accepting Referrals</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>
