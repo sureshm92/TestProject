@@ -94,9 +94,8 @@ public without sharing class EmailService {
     }
 
     public static void sendEmailToExternalUser(List<Notification__c> notifications) {
-        Messaging.SingleEmailMessage msg;
+        Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
         List<Messaging.SingleEmailMessage> msgListToBeSend = new List<Messaging.SingleEmailMessage>();
-        Map<Messaging.SingleEmailMessage, Id> fromIdbyMsgMap = new Map<Messaging.SingleEmailMessage, Id>();
         for (Notification__c n : notifications) {
             Notification_Target__mdt emailTarget = NotificationService.getNotificationTarget(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
             msg = createMessage(n.WhatId__c, n.From__c, n.Email__c, emailTarget.Email_Template__c);
@@ -111,13 +110,7 @@ public without sharing class EmailService {
         msg.setTemplateId(shareStudyEmailTemplate.Id);
         msg.setWhatId(whatId);
         msg.setTargetObjectId(fromId);
-        msg.setToAddresses(new List<String>{
-                emailAddr
-        });
-        msg.setSaveAsActivity(false);
-        msg.setSubject(shareStudyEmailTemplate.subject);
-        msg.setPlainTextBody(shareStudyEmailTemplate.body);
-        msg.setHtmlBody(shareStudyEmailTemplate.body);
+        msg.setToAddresses(new List<String>{emailAddr});
         return msg;
     }
 }
