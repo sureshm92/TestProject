@@ -251,7 +251,11 @@ public class TestData {
                 TherapeuticAreaId__c = area.Id
         );
         insert contactTherapeuticArea;
-    
+
+        Participant_Enrollment__c peForContactUpdate = [SELECT Id, Participant_Contact__c FROM Participant_Enrollment__c WHERE Id =: pe.Id];
+        Contact contactForUpdate = [SELECT Id, Current_Participant_Enrollment__c FROM Contact WHERE Id =: peForContactUpdate.Participant_Contact__c];
+        contactForUpdate.Current_Participant_Enrollment__c = pe.Id;
+        update contactForUpdate;
 
     }
 
