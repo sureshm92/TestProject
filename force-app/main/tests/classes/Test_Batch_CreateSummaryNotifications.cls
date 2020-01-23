@@ -72,7 +72,6 @@ private class Test_Batch_CreateSummaryNotifications {
                         Resource__c,
                         Resource__r.Content_Type__c,
                         Resource__r.Language__c,
-                        Resource__r.Content_Type__c,
                         Visible_In_Alumni__c,
                         Visible_To_Delegates__c,
                         Visible_To_Participant__c

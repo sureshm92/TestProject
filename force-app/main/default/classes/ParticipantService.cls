@@ -267,7 +267,7 @@ public without sharing class ParticipantService {
         for (Age_of_Majority__mdt mdt : ageOfMajorities) codesByAges.put(mdt.Country_Code__c, mdt);
 
         for (Participant__c prt : participants) {
-            if(prt.Adult__c) continue;
+            if(prt.Adult__c || String.isBlank(prt.Date_of_Birth__c)) continue;
             try {
                 Date birthDate = Date.newInstance(
                         Integer.valueOf(prt.Date_of_Birth__c.substring(0, 4)),
