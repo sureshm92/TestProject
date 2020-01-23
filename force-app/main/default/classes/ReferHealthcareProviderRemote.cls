@@ -224,6 +224,7 @@ global without sharing class ReferHealthcareProviderRemote {
                     Email = email,
                     AccountId = newAcc.Id,
                     Language__c = UserInfo.getLanguage(),
+                    HCP_Opt_In_Referral_Status_Emails__c = true,
                     RP_Invited_By_PI__c = true,
                     //MailingCountry = studySite.Site__r.BillingCountry));
                     MailingCountry = piContact.MailingCountry,
@@ -298,6 +299,7 @@ global without sharing class ReferHealthcareProviderRemote {
             } else {
                 if (!hcpes.isEmpty()) {
                     insert hcpes;
+                    sendNotificationForRPInvite(hcpes[0].Id, hcpContactId, piIds);
                 }
             }
         }

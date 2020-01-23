@@ -199,7 +199,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 Participant__c participant = (Participant__c) PETriggerBuffer.getSObject(pe.Participant__c);
                 if (participant != null) {
                     pe.Participant_Contact__c = participant.Contact__c;
-                    if (oldMap == null) {
+                    if (oldMap == null && pe.Participant_Contact__c != null) {
                         participant.Contact__r.Visit_Results_Opt_In__c = visitOpt;
                         participantContacts.add(participant.Contact__r);
                     }
