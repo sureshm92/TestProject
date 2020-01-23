@@ -248,7 +248,8 @@ public without sharing class ParticipantService {
         return participant.get(0).Full_Name__c;
     }
 
-    public static List<Participant__c> isParticipantsAgeOfMajority(List<Participant__c> participants) {
+    public static List<Participant__c> checkParticipantsAgeOfMajority(List<Participant__c> participants) {
+        Map<String, Age_of_Majority__mdt> codesByAges = new Map<String, Age_of_Majority__mdt>();
         List<Age_of_Majority__mdt> ageOfMajorities = [
                 SELECT
                         Country_Code__c,
@@ -259,38 +260,32 @@ public without sharing class ParticipantService {
                         Country_Code__c NULLS LAST,
                         State_Code__c NULLS LAST
         ];
-        List<Participant__c> prtAfterCheck = new List<Participant__c>();
-        for (Age_of_Majority__mdt mdt : ageOfMajorities) {
-            Integer[] iterators = new Integer[]{
-            };
-            for (Participant__c prt : participants) {
-                Date birthDate;
-                try {
-                    birthDate = Date.newInstance(
-                            Integer.valueOf(prt.Date_of_Birth__c.substring(0, 4)),
-                            Integer.valueOf(prt.Date_of_Birth__c.substring(5, 7)),
-                            Integer.valueOf(prt.Date_of_Birth__c.substring(8, 10)));
+        for (Age_of_Majority__mdt mdt : ageOfMajorities) codesByAges.put(mdt.Country_Code__c, mdt);
 
-                    Integer participantAge =
-                            Date.newInstance(2000, birthDate.month(), birthDate.day()) <
-                                    Date.newInstance(2000, Date.today().month(), Date.today().day()) ?
-                                    Date.today().year() - birthDate.year() : Date.today().year() - birthDate.year() - 1;
+        for (Participant__c prt : participants) {
+            if(prt.Adult__c) continue;
+            try {
+                Date birthDate = Date.newInstance(
+                        Integer.valueOf(prt.Date_of_Birth__c.substring(0, 4)),
+                        Integer.valueOf(prt.Date_of_Birth__c.substring(5, 7)),
+                        Integer.valueOf(prt.Date_of_Birth__c.substring(8, 10)));
 
-                    if ((prt.Mailing_Country_Code__c == mdt.Country_Code__c
-                            && (prt.Mailing_State_Code__c == mdt.State_Code__c || String.isBlank(mdt.State_Code__c)))
-                            || (String.isBlank(mdt.Country_Code__c))) {
-                        prt.Adult__c  = participantAge >= mdt.Age__c;
-                        prtAfterCheck.add(prt);
-                    }
-                } catch (Exception e) {
-                    prt.Adult__c  = false;
-                    prtAfterCheck.add(prt);
-                    iterators.add(participants.indexOf(prt));
+                Integer participantAge =
+                        Date.newInstance(2000, birthDate.month(), birthDate.day()) <
+                                Date.newInstance(2000, Date.today().month(), Date.today().day()) ?
+                                Date.today().year() - birthDate.year() : Date.today().year() - birthDate.year() - 1;
+
+                Age_of_Majority__mdt ageOfMajority = codesByAges.get(prt.Mailing_Country_Code__c) != null ?
+                        codesByAges.get(prt.Mailing_Country_Code__c) : codesByAges.get(null);
+                if ((prt.Mailing_Country_Code__c == ageOfMajority.Country_Code__c
+                        && (prt.Mailing_State_Code__c == ageOfMajority.State_Code__c || String.isBlank(ageOfMajority.State_Code__c)))
+                        || (String.isBlank(ageOfMajority.Country_Code__c))){
+                    prt.Adult__c = participantAge >= ageOfMajority.Age__c;
                 }
+                System.debug('In check');
+            } catch (Exception e) {
             }
-            iterators.sort();
-            for (Integer i = iterators.size() - 1; i >= 0; i--) participants.remove(iterators[i]);
         }
-        return prtAfterCheck;
+        return participants;
     }
 }
