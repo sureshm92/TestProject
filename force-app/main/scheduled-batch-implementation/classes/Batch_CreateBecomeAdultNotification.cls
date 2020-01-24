@@ -21,43 +21,40 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
     }
 
     public void execute(Database.BatchableContext param1, List<Participant_Enrollment__c> participantEnrollments) {
-        List<Participant__c> prtForCheck = new List<Participant__c>();
+        List<Participant__c> prtForUpdate = new List<Participant__c>();
+        Map<Id, Participant_Enrollment__c> prtByPEs = new Map<Id, Participant_Enrollment__c>();
         for (Participant_Enrollment__c pe : participantEnrollments) {
-            if (String.isNotBlank(pe.Participant__r.Date_of_Birth__c) && pe.Participant__r.Date_of_Birth__c.length() > 9) {
-                prtForCheck.add(pe.Participant__r);
+            if (pe.Participant__r.Date_of_Birth__c.length() > 9) {
+                prtForUpdate.add(pe.Participant__r);
+                prtByPEs.put(pe.Participant__r.Id, pe);
             }
         }
 
-        Map<Id, Boolean> isMajorityParticipants = isAgeOfMajorityMap(prtForCheck);
-
-        Set<Participant__c> adultParticipants = new Set<Participant__c>();
+        prtForUpdate = ParticipantService.checkParticipantsAgeOfMajority(prtForUpdate);
         List<Notification__c> notifications = new List<Notification__c>();
 
-        for (Participant_Enrollment__c pe : participantEnrollments) {
-            if (isMajorityParticipants.containsKey(pe.Participant__c) && !pe.Participant__r.Adult__c) {
-                pe.Participant__r.Adult__c = isMajorityParticipants.get(pe.Participant__c);
+        for (Participant__c prt : prtForUpdate) {
+            if (prt.Adult__c) {
+                Participant_Enrollment__c pe = prtByPEs.get(prt.Id);
                 // put here field and populate for front view (PI should see something like notification)
-                adultParticipants.add(pe.Participant__r);
-                if (isMajorityParticipants.get(pe.Participant__c)) {
+                notifications.add(new Notification__c(
+                        Recipient__c = prt.Contact__c,
+                        WhatId__c = pe.Id,
+                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_PATIENT_BECOME_ADULT_TYPE,
+                        Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
+                ));
+                if (String.isNotBlank(prtByPEs.get(prt.Id).Study_Site__r.Principal_Investigator__r.Id)) {
                     notifications.add(new Notification__c(
-                            Recipient__c = pe.Participant__r.Contact__c,
+                            Recipient__c = pe.Study_Site__r.Principal_Investigator__r.Id,
                             WhatId__c = pe.Id,
-                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_PATIENT_BECOME_ADULT_TYPE,
+                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_PATIENT_BECOME_ADULT_TYPE,
                             Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                     ));
-                    if (String.isNotBlank(pe.Study_Site__r.Principal_Investigator__r.Id)) {
-                        notifications.add(new Notification__c(
-                                Recipient__c = pe.Study_Site__r.Principal_Investigator__r.Id,
-                                WhatId__c = pe.Id,
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_PATIENT_BECOME_ADULT_TYPE,
-                                Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
-                        ));
-                    }
                 }
             }
         }
         insert notifications;
-        update new List<Participant__c>(adultParticipants);
+        update prtForUpdate;
     }
 
     public override Type getType() {
@@ -66,51 +63,5 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
 
     public override String getBatchDescription() {
         return 'This job sends Email notification to participant and PI after participant has become adult';
-    }
-
-    public static Map<Id, Boolean> isAgeOfMajorityMap(List<Participant__c> participants) {
-        List<Age_of_Majority__mdt> ageOfMajorities = [
-                SELECT
-                        Country_Code__c,
-                        State_Code__c,
-                        Age__c
-                FROM Age_of_Majority__mdt
-                ORDER BY
-                        Country_Code__c NULLS LAST,
-                        State_Code__c NULLS LAST
-        ];
-
-        Map<Id, Boolean> resultByPartIds = new Map<Id, Boolean>();
-        for (Age_of_Majority__mdt mdt : ageOfMajorities) {
-            Integer[] iterators = new Integer[]{
-            };
-            for (Participant__c prt : participants) {
-                Date birthDate;
-                try {
-                    birthDate = Date.newInstance(
-                            Integer.valueOf(prt.Date_of_Birth__c.substring(0, 4)),
-                            Integer.valueOf(prt.Date_of_Birth__c.substring(5, 7)),
-                            Integer.valueOf(prt.Date_of_Birth__c.substring(8, 10)));
-
-                    Integer participantAge =
-                            Date.newInstance(2000, birthDate.month(), birthDate.day()) <
-                                    Date.newInstance(2000, Date.today().month(), Date.today().day()) ?
-                                    Date.today().year() - birthDate.year() : Date.today().year() - birthDate.year() - 1;
-
-                    if ((prt.Mailing_Country_Code__c == mdt.Country_Code__c
-                            && (prt.Mailing_State_Code__c == mdt.State_Code__c || String.isBlank(mdt.State_Code__c)))
-                            || (String.isBlank(mdt.Country_Code__c))) {
-                        resultByPartIds.put(prt.Id, participantAge >= mdt.Age__c);
-
-                    }
-                } catch (Exception e) {
-                    resultByPartIds.put(prt.Id, false);
-                    iterators.add(participants.indexOf(prt));
-                }
-            }
-            iterators.sort();
-            for (Integer i = iterators.size() - 1; i >= 0; i--) participants.remove(iterators[i]);
-        }
-        return resultByPartIds;
     }
 }

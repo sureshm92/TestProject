@@ -54,6 +54,7 @@ public without sharing class ParticipantTriggerHandler {
         Map<String, Participant__c> participantsByEmail = new Map<String, Participant__c>();
         List<Contact> contactsToInsert = new List<Contact>();
         List<String> emails = new List<String>();
+        newList = ParticipantService.checkParticipantsAgeOfMajority(newList);
         for(Participant__c participant : newList){
             if(participant.Contact__c == null && participant.Email__c != null){
                 emails.add(participant.Email__c);
