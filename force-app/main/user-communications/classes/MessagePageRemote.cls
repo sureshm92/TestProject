@@ -13,8 +13,8 @@ public without sharing class MessagePageRemote {
 
     public class ConversationWrapper {
         @AuraEnabled public Conversation__c conversation;
-        @AuraEnabled public Boolean isPastStudy;
-        @AuraEnabled public Boolean unread;
+        @AuraEnabled public Boolean isPastStudy = false;
+        @AuraEnabled public Boolean unread = false;
         @AuraEnabled public String fullName;
         @AuraEnabled public String title;
         @AuraEnabled public Date lastUpdate;
@@ -36,7 +36,7 @@ public without sharing class MessagePageRemote {
     public static MSPageData getInitData() {
         try {
             MSPageData pageData = new MSPageData();
-            pageData.userMode = CommunityService.getUserContact().userCommunityMode__c;
+            pageData.userMode = UserContext.getCurrentUserMode().userMode;
 
             List<Conversation__c> sharedConversations = ConversationService.getSharedConversations(UserInfo.getUserId());
             List<Conversation__c> conversations = new List<Conversation__c>();
@@ -50,17 +50,17 @@ public without sharing class MessagePageRemote {
                 if (!pastEnrollments.isEmpty()) participantEnrollments.addAll(pastEnrollments);
 
                 pageData.enrollments = new List<Participant_Enrollment__c>();
-                for(Participant_Enrollment__c pe : participantEnrollments) {
-                    if(pe.Study_Site__r.Messages_Are_Available__c) pageData.enrollments.add(pe);
+                for (Participant_Enrollment__c pe : participantEnrollments) {
+                    if (pe.Study_Site__r.Messages_Are_Available__c) pageData.enrollments.add(pe);
                 }
 
                 //Collect Conversations
-                List<Id> availablePEIds = new List<Id>();
-                for(Participant_Enrollment__c pe : pageData.enrollments) availablePEIds.add(pe.Id);
+                Set<Id> availablePEIds = new Set<Id>();
+                for (Participant_Enrollment__c pe : pageData.enrollments) availablePEIds.add(pe.Id);
 
-                if(sharedConversations != null) {
-                    for(Conversation__c con : sharedConversations) {
-                        if(availablePEIds.contains(con.Participant_Enrollment__c)) conversations.add(con);
+                if (sharedConversations != null) {
+                    for (Conversation__c con : sharedConversations) {
+                        if (availablePEIds.contains(con.Participant_Enrollment__c)) conversations.add(con);
                     }
                 }
 
@@ -73,23 +73,10 @@ public without sharing class MessagePageRemote {
                 }
             } else if (pageData.userMode == CommunityService.USER_MODE_PI) {
                 //Collect Conversations
-                if(sharedConversations != null) conversations.addAll(sharedConversations);
+                if (sharedConversations != null) conversations.addAll(sharedConversations);
 
                 //Collect Enrollments
-                Set<Id> piContactIds = DelegateService.getPIDelegateParents();
-                Id piContactId = piContactIds.isEmpty() ?
-                        CommunityService.getInstance().getCurrentContactId() : piContactIds.iterator().next();
-
-                pageData.enrollments = [
-                        SELECT
-                                Id,
-                                Clinical_Trial_Profile__r.Study_Code_Name__c,
-                                Participant__r.Full_Name__c,
-                                Participant_Contact__c
-                        FROM Participant_Enrollment__c
-                        WHERE Study_Site__r.Principal_Investigator__c = :piContactId
-                        AND Study_Site__r.Messages_Are_Available__c = TRUE
-                ];
+                pageData.enrollments = getEnrollmentsForPI(null);
             }
             if (!conversations.isEmpty()) {
                 List<Id> conIds = new List<Id>();
@@ -126,33 +113,74 @@ public without sharing class MessagePageRemote {
     }
 
     @AuraEnabled
+    public static void sendMultipleMessage(List<String> peIds, String messageText) {
+        try {
+            List<Participant_Enrollment__c> participantEnrollments = (List<Participant_Enrollment__c>) DatabaseService.query(
+                    ParticipantEnrollmentService.PE_COMMON_FIELDS,
+                    Participant_Enrollment__c.getSObjectType(),
+                    DatabaseService.fieldInValues('Id', peIds)
+            );
+            Map<String, Participant_Enrollment__c> enrollmentMap = new Map<String, Participant_Enrollment__c>();
+            for(Participant_Enrollment__c pe : participantEnrollments) enrollmentMap.put(pe.Id, pe);
+
+            List<Conversation__c> existingConversations = [
+                    SELECT Id, Participant_Enrollment__c
+                    FROM Conversation__c
+                    WHERE Participant_Enrollment__c IN:peIds
+            ];
+
+            List<String> peIdsWithoutConversation = new List<String>(peIds);
+            if(!existingConversations.isEmpty()) {
+                List<Id> conIds = new List<Id>();
+                for (Conversation__c con : existingConversations) {
+                    conIds.add(con.Id);
+                    Integer index = peIdsWithoutConversation.indexOf(String.valueOf(con.Participant_Enrollment__c));
+                    if(index >= 0) peIdsWithoutConversation.remove(index);
+                }
+                for(Conversation__c exCon : ConversationService.getConversations(conIds)) {
+                    sendMessage(exCon, messageText);
+                }
+            }
+
+            if (!peIdsWithoutConversation.isEmpty()) {
+                for(String peId : peIdsWithoutConversation) {
+                    createConversation(enrollmentMap.get(peId), messageText);
+                }
+            }
+
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled
     public static ConversationWrapper sendMessage(Conversation__c conversation, String messageText) {
         try {
             Contact userContact = CommunityService.getUserContact();
 
             String senderName;
             Boolean needUpdate = false;
-            if (userContact.userCommunityMode__c.equals(CommunityService.USER_MODE_PARTICIPANT)) {
+            if (UserContext.getCurrentUserMode().userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 List<Participant__c> participant = [SELECT Id, Full_Name__c FROM Participant__c WHERE Contact__c = :userContact.Id];
-                if(!participant.isEmpty()) {
+                if (!participant.isEmpty()) {
                     senderName = participant.get(0).Full_Name__c;
                 } else {
                     senderName = userContact.UserCommunityIsDelegate__c ?
                             userContact.Full_Name__c : conversation.Participant_Enrollment__r.Participant__r.Full_Name__c;
                 }
-                if(!conversation.haveUnreadForPI__c) {
+                if (!conversation.haveUnreadForPI__c) {
                     conversation.haveUnreadForPI__c = true;
                     needUpdate = true;
                 }
-            } else {
+            } else if(UserContext.getCurrentUserMode().userMode == CommunityService.USER_MODE_PI){
                 senderName = userContact.Full_Name__c;
-                if(!conversation.haveUnreadForParticipant__c) {
+                if (!conversation.haveUnreadForParticipant__c) {
                     conversation.haveUnreadForParticipant__c = true;
                     needUpdate = true;
                 }
             }
 
-            if(needUpdate) update conversation;
+            if (needUpdate) update conversation;
 
             insert new Message__c(
                     Conversation__c = conversation.Id,
@@ -188,9 +216,37 @@ public without sharing class MessagePageRemote {
     @AuraEnabled
     public static Integer getUnreadCount() {
         try {
-            return ConversationService.getUnreadConversationCount(UserInfo.getUserId(), CommunityService.getUserContact().userCommunityMode__c);
+            return ConversationService.getUnreadConversationCount(UserInfo.getUserId(), UserContext.getCurrentUserMode().userMode);
         } catch (Exception e) {
             return (Integer) AuraHelper.throwException(e);
+        }
+    }
+
+    @AuraEnabled(Cacheable = true)
+    public static List<LookupSearchResult> searchParticipant(String searchTerm, List<String> selectedIds) {
+        try {
+            List<LookupSearchResult> results = new List<LookupSearchResult>();
+            List<Participant_Enrollment__c> enrollments = getEnrollmentsForPI(DatabaseService.fieldNotInValues('Id', selectedIds));
+            if (enrollments == null || enrollments.isEmpty()) return results;
+
+            List<Participant_Enrollment__c> matchingEnrollments = new List<Participant_Enrollment__c>();
+            for (Participant_Enrollment__c pe : enrollments) {
+                if (pe.Participant__r.Full_Name__c.containsIgnoreCase(searchTerm)) matchingEnrollments.add(pe);
+            }
+
+            for (Participant_Enrollment__c pe : matchingEnrollments) {
+                results.add(new LookupSearchResult(
+                        pe.Id,
+                        'Participant_Enrollment__c',
+                        'standard:avatar',
+                        pe.Participant__r.Full_Name__c,
+                        'Study • ' + pe.Clinical_Trial_Profile__r.Study_Code_Name__c)
+                );
+            }
+
+            return results;
+        } catch (Exception e) {
+            return (List<LookupSearchResult>) AuraHelper.throwException(e);
         }
     }
 
@@ -201,13 +257,13 @@ public without sharing class MessagePageRemote {
         String conTitle;
         String conFullName;
         String conDescription;
-        if(userMode == CommunityService.USER_MODE_PARTICIPANT) {
+        if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             conWr.unread = conversation.haveUnreadForParticipant__c;
             Contact piContact = conversation.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r;
             conTitle = Label.Study_Team;
             conFullName = piContact.Name;
 
-            if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(conversation.Participant_Enrollment__r.Participant_Status__c)) {
+            if (PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(conversation.Participant_Enrollment__r.Participant_Status__c)) {
                 conWr.isPastStudy = true;
                 conDescription = conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
             } else {
@@ -237,5 +293,32 @@ public without sharing class MessagePageRemote {
             conWr.lastMessagePart = lastMessage.Message_Content__c;
         }
         return conWr;
+    }
+
+    private static List<Participant_Enrollment__c> getEnrollmentsForPI(String additionalFiler) {
+        String filter = 'Study_Site__r.Messages_Are_Available__c = TRUE AND';
+        Id currentContactId = CommunityService.getInstance().getCurrentContactId();
+        List<Site_Staff__c> siteStaffs = [
+                SELECT Id, Study_Site__c
+                FROM Site_Staff__c
+                WHERE Site_Contact__c = :currentContactId
+        ];
+        if (!siteStaffs.isEmpty()) {
+            List<String> ssIds = new List<String>();
+            for (Site_Staff__c staff : siteStaffs) ssIds.add(staff.Study_Site__c);
+            filter += DatabaseService.fieldInValues('Study_Site__c', ssIds);
+        } else {
+            filter += DatabaseService.fieldEqual('Study_Site__r.Principal_Investigator__c', currentContactId);
+        }
+
+        if (String.isNotEmpty(additionalFiler)) filter += ' AND' + additionalFiler;
+
+        return (List<Participant_Enrollment__c>) DatabaseService.query(
+                new List<String>{
+                        'Id',
+                        'Clinical_Trial_Profile__r.Study_Code_Name__c',
+                        'Participant__r.Full_Name__c',
+                        'Participant_Contact__c'
+                }, Participant_Enrollment__c.getSObjectType(), filter);
     }
 }

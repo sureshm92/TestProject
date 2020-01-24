@@ -95,8 +95,13 @@ global without sharing class ReferHealthcareProviderRemote {
             newHP.Participant_Enrollment__c = peId;
             newHP.Status__c = HP_S_INVITED;
             insert newHP;
-
-            createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null, CommunityService.getUserContact(), newHP, null, null);
+            system.debug('132');
+            try {
+                createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null, CommunityService.getUserContact(), newHP, null, null);
+            }
+            catch (Exception e){
+                throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            }
         } else if (!String.isBlank(newHP.Id) && newHP.Status__c == HP_S_NOSHARING) {
             hcpe = [SELECT Id,
                            HCP_Contact__c,
@@ -191,6 +196,7 @@ global without sharing class ReferHealthcareProviderRemote {
     }
 
     public static String createHCPinPlatform(String studySiteId, String firstName, String lastName, String email, String phone, Contact piContact, Healthcare_Provider__c hp, Id hcpContactId, List<String> piIds) {
+        system.debug('qwersqwers');
         Boolean isNewUser = false;
         List<HCP_Enrollment__c> hcpes = new List<HCP_Enrollment__c>();
         List<Study_Site__c> studySitesToInvite = new List<Study_Site__c>();
@@ -218,6 +224,7 @@ global without sharing class ReferHealthcareProviderRemote {
                     Email = email,
                     AccountId = newAcc.Id,
                     Language__c = UserInfo.getLanguage(),
+                    HCP_Opt_In_Referral_Status_Emails__c = true,
                     RP_Invited_By_PI__c = true,
                     //MailingCountry = studySite.Site__r.BillingCountry));
                     MailingCountry = piContact.MailingCountry,
@@ -231,7 +238,6 @@ global without sharing class ReferHealthcareProviderRemote {
         } else {
             studySitesToInvite.add(new Study_Site__c(Id = studySiteId));
         }
-
         List<User> usrs = CommunityService.getCommunityUsersByContactIds(new Set<Id> { cntList[0].Id });
         if (usrs.isEmpty()) {
             isNewUser = true;
@@ -246,7 +252,6 @@ global without sharing class ReferHealthcareProviderRemote {
             cntList[0].userCommunityMode__c = CommunityService.USER_MODE_HCP;
         }
         update cntList[0];
-
         for (Study_Site__c stdSite : studySitesToInvite) {
             hcpes.add(new HCP_Enrollment__c(
                     HCP_Contact__c = cntList[0].Id,
@@ -280,12 +285,11 @@ global without sharing class ReferHealthcareProviderRemote {
             }
             if (!isNewUser) {
                 for (HCP_Enrollment__c hcpEnrollment : hcpes) {
-                    hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+                    hcpEnrollment.Status__c = hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Orientation_Required__c ? HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O : HCPEnrollmentService.HCP_S_ACTIVATED;
                 }
                 if (!hcpes.isEmpty()) {
                     insert hcpes;
-
-                    sendNotificationForRPInvite(hcpes[0].Id, hcpContactId);
+                    sendNotificationForRPInvite(hcpes[0].Id, cntList[0].Id, piIds);
                 } else {
                     throw new AuraHandledException(Label.RP_Is_Already_Invited);
                 }
@@ -295,15 +299,14 @@ global without sharing class ReferHealthcareProviderRemote {
                 }
             }
         }
-
         return hcpes[0].Id;
     }
 
-    public static void sendNotificationForRPInvite(Id hcpEnrollId, Id hcpContactId) {
+    public static void sendNotificationForRPInvite(Id hcpEnrollId, Id hcpContactId, List<String> piIds) {
         insert new Notification__c(
                 Recipient__c = hcpContactId,
                 WhatId__c = hcpEnrollId,
-                Notification_Type__c = NotificationCatalog.MESSAGE_TO_HCP_APPROVED_TYPE
+                Notification_Type__c = piIds.isEmpty() ? NotificationCatalog.MESSAGE_TO_HCP_APPROVED_TYPE : NotificationCatalog.MESSAGE_TO_HCP_APPROVED_TO_MULTIPI_TYPE
         );
     }
 

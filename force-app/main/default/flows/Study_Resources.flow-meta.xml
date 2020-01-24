@@ -3,8 +3,8 @@
     <actionCalls>
         <name>BackNnRecord</name>
         <label>BackNnRecord</label>
-        <locationX>347</locationX>
-        <locationY>1108</locationY>
+        <locationX>803</locationX>
+        <locationY>2123</locationY>
         <actionName>c:NavigateToRecord</actionName>
         <actionType>component</actionType>
         <inputParameters>
@@ -75,11 +75,6 @@
         </value>
     </choices>
     <choices>
-        <name>test</name>
-        <choiceText>Test</choiceText>
-        <dataType>String</dataType>
-    </choices>
-    <choices>
         <name>Video</name>
         <choiceText>Video</choiceText>
         <dataType>String</dataType>
@@ -97,8 +92,8 @@
     <decisions>
         <name>Current_or_new_resource</name>
         <label>Current or new resource</label>
-        <locationX>763</locationX>
-        <locationY>225</locationY>
+        <locationX>495</locationX>
+        <locationY>559</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>New_Res_Study_Doc</name>
@@ -202,6 +197,31 @@
                 <targetReference>Video_type_record</targetReference>
             </connector>
             <label>New Res Video</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Type_Rocord_type</name>
+        <label>Type Rocord type</label>
+        <locationX>498</locationX>
+        <locationY>1868</locationY>
+        <defaultConnector>
+            <targetReference>BackNnRecord</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Study_Doc</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>Choose_record_type_recource</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Study Document</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Upload_File</targetReference>
+            </connector>
+            <label>Study Doc</label>
         </rules>
     </decisions>
     <dynamicChoiceSets>
@@ -321,8 +341,8 @@
     <recordCreates>
         <name>Create_record_article</name>
         <label>Create record article</label>
-        <locationX>286</locationX>
-        <locationY>605</locationY>
+        <locationX>317</locationX>
+        <locationY>1209</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Study_Res</targetReference>
@@ -458,8 +478,8 @@
     <recordCreates>
         <name>Create_Res</name>
         <label>Create Res</label>
-        <locationX>787</locationX>
-        <locationY>629</locationY>
+        <locationX>545</locationX>
+        <locationY>1211</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Study_Res</targetReference>
@@ -505,8 +525,8 @@
     <recordCreates>
         <name>Create_Res_0</name>
         <label>Create Res</label>
-        <locationX>597</locationX>
-        <locationY>609</locationY>
+        <locationX>434</locationX>
+        <locationY>1213</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Study_Res</targetReference>
@@ -514,7 +534,7 @@
         <inputAssignments>
             <field>Content_Type__c</field>
             <value>
-                <stringValue>Study_Document</stringValue>
+                <stringValue>Relevant_Link</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -546,8 +566,8 @@
     <recordCreates>
         <name>Create_Res_Video</name>
         <label>Create Res Video</label>
-        <locationX>50</locationX>
-        <locationY>604</locationY>
+        <locationX>183</locationX>
+        <locationY>1209</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Study_Res</targetReference>
@@ -579,7 +599,7 @@
         <inputAssignments>
             <field>Content_Type__c</field>
             <value>
-                <stringValue>Study_Document</stringValue>
+                <stringValue>Video</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -657,7 +677,7 @@
         <inputAssignments>
             <field>Title__c</field>
             <value>
-                <stringValue>Title_field_recordtypeArticle_0</stringValue>
+                <elementReference>Title_field_recordtypeArticle_0</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -695,10 +715,10 @@
     <recordCreates>
         <name>Create_Study_Res</name>
         <label>Create Study Res</label>
-        <locationX>613</locationX>
-        <locationY>1260</locationY>
+        <locationX>301</locationX>
+        <locationY>1704</locationY>
         <connector>
-            <targetReference>Upload_File</targetReference>
+            <targetReference>Type_Rocord_type</targetReference>
         </connector>
         <inputAssignments>
             <field>Active_After_Days__c</field>
@@ -771,8 +791,8 @@
     <recordCreates>
         <name>Create_Study_Res_0</name>
         <label>Create Study Res</label>
-        <locationX>969</locationX>
-        <locationY>1108</locationY>
+        <locationX>802</locationX>
+        <locationY>1720</locationY>
         <connector>
             <targetReference>BackNnRecord</targetReference>
         </connector>
@@ -847,8 +867,8 @@
     <screens>
         <name>Article_type_record</name>
         <label>Article</label>
-        <locationX>286</locationX>
-        <locationY>431</locationY>
+        <locationX>317</locationX>
+        <locationY>895</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1007,8 +1027,8 @@
     <screens>
         <name>Choose</name>
         <label>Choose</label>
-        <locationX>771</locationX>
-        <locationY>50</locationY>
+        <locationX>503</locationX>
+        <locationY>282</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1030,8 +1050,8 @@
     <screens>
         <name>Exist_Res_c</name>
         <label>Exist Res</label>
-        <locationX>971</locationX>
-        <locationY>434</locationY>
+        <locationX>801</locationX>
+        <locationY>930</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1072,8 +1092,8 @@
     <screens>
         <name>Record_Type</name>
         <label>Choose Record Type Recource</label>
-        <locationX>298</locationX>
-        <locationY>50</locationY>
+        <locationX>499</locationX>
+        <locationY>138</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1097,8 +1117,8 @@
     <screens>
         <name>Relevant_Link_recordType</name>
         <label>Relevant Link</label>
-        <locationX>597</locationX>
-        <locationY>439</locationY>
+        <locationX>436</locationX>
+        <locationY>967</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1140,8 +1160,8 @@
     <screens>
         <name>Study_Doc_c</name>
         <label>Study Doc</label>
-        <locationX>786</locationX>
-        <locationY>428</locationY>
+        <locationX>545</locationX>
+        <locationY>1043</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1201,8 +1221,8 @@
     <screens>
         <name>Study_Resource</name>
         <label>Study Resource</label>
-        <locationX>513</locationX>
-        <locationY>50</locationY>
+        <locationX>392</locationX>
+        <locationY>283</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1337,8 +1357,8 @@
     <screens>
         <name>Upload_File</name>
         <label>Upload File</label>
-        <locationX>347</locationX>
-        <locationY>1260</locationY>
+        <locationX>302</locationX>
+        <locationY>2131</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1372,8 +1392,8 @@
     <screens>
         <name>Video_type_record</name>
         <label>Video</label>
-        <locationX>50</locationX>
-        <locationY>218</locationY>
+        <locationX>184</locationX>
+        <locationY>890</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1536,8 +1556,8 @@
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>50</locationX>
-        <locationY>135</locationY>
+        <locationX>663</locationX>
+        <locationY>50</locationY>
         <connector>
             <targetReference>Record_Type</targetReference>
         </connector>

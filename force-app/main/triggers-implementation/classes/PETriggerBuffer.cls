@@ -53,6 +53,7 @@ public without sharing class PETriggerBuffer {
                 SELECT Id,
                         Contact__c,
                         Full_Name__c,
+                        Adult__c,
                         Contact__r.Visit_Results_Opt_In__c,
                         Name,
                         IsCountry_NOT_Eligible_for_Emails__c

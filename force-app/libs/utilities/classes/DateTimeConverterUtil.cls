@@ -41,6 +41,7 @@ public without sharing class DateTimeConverterUtil {
         return timeZonesByIds.values().get(0);
     }
 
+    //@Deprecated
     public static Datetime getUserDatetime(TimeZone timezone, Datetime moment) {
         if (moment == null) moment = Datetime.now();
 
@@ -48,6 +49,7 @@ public without sharing class DateTimeConverterUtil {
         return Datetime.valueOf(nowFormat);
     }
 
+    //@Deprecated
     public static Datetime getUserDatetime(TimeZone timezone, Date someDate) {
         Datetime moment;
 

@@ -42,6 +42,19 @@
     font-size: 13px;
     font-weight: 500;
 }
+.THIS .referring{
+    margin-top: 20px;
+    font-weight: 600;
+}
+.THIS .slds-box{
+    box-shadow: none;
+    border: none;
+    font-weight: 600;
+}
+.THIS icon-plus{
+    margin-left: -90px;
+    position: absolute;
+}
 
 @media screen and (max-width: 768px){
     .THIS .slds-grid > .slds-col,
