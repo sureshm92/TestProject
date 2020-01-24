@@ -67,6 +67,14 @@ public without sharing class ParticipantContext {
         return null;
     }
     
+    public static User getOwnUser(){
+        return UserContext.getUser();
+    }
+    
+    public static Id getOwnUserId(){
+        return UserContext.getUserId();
+    }
+    
     private static void init(){
         if(initialized) return;
         String userMode = UserContext.getCurrentUserMode().userMode;
