@@ -7,6 +7,7 @@
         var currentIndex = 100;
         var steps = component.get('v.steps');
         var pe = component.get('v.pe');
+        if(!steps) return;
         for(var i = 0; i < steps.length; i++){
             if(pe.Participant_Status__c === steps[i].value) {
                 currentIndex = i;

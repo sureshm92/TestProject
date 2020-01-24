@@ -10,7 +10,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Contact Attempted</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Contact Successful</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contacted - Not Suitable</fullName>
             <default>false</default>
         </values>
         <values>
@@ -34,6 +42,18 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Randomization Failed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Randomization Success</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Received</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Referral Accepted</fullName>
             <default>false</default>
         </values>
@@ -50,11 +70,31 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Screening Passed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Screening Passed - Wash Out Period</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Successfully Contacted</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Treatment Period Started</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Trial Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unable to Reach</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unable to Screen</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -65,7 +105,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Contact Attempted</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Contact Successful</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Contacted - Not Suitable</fullName>
             <default>false</default>
         </values>
         <values>
@@ -89,6 +137,18 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Randomization Failed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Randomization Success</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Received</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Referral Accepted</fullName>
             <default>false</default>
         </values>
@@ -105,11 +165,31 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Screening Passed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Screening Passed - Wash Out Period</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Successfully Contacted</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Treatment Period Started</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Trial Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unable to Reach</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unable to Screen</fullName>
             <default>false</default>
         </values>
     </picklistValues>

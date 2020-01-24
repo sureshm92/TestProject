@@ -58,7 +58,7 @@ public with sharing class Test_TherapeuticAreaService {
                 .when('getParticipantId')
                 .then(TestDataFactory.getFakeId(Participant__c.getSObjectType()))
                 .build()
-       );
+        );
         Test.startTest();
         List<TherapeuticAreaService.CAWrapper> caWrappers = new TherapeuticAreaService().getCOIWrappers(new List<Therapeutic_Area__c>{
                 (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType(), new Map<String, Object>{
@@ -96,7 +96,7 @@ public with sharing class Test_TherapeuticAreaService {
                 .when('getParticipantId')
                 .then(TestDataFactory.getFakeId(Participant__c.getSObjectType()))
                 .build()
-       );
+        );
         Test.startTest();
         Participant__c participant = new TherapeuticAreaService().getParticipant();
         Test.stopTest();
