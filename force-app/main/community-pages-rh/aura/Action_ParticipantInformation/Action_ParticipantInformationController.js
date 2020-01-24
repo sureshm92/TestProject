@@ -110,9 +110,6 @@
         var comp = component.find('dialog');
         comp.hide();
     },
-    forParticipantDetails: function (component, event, helper) {
-        component.set('v.checkTabs', 'participantDetails');
-    },
     checkTabs: function (component, event,helper) {
         var checking = event.getSource();
         console.log('checking', checking.getLocalId());
