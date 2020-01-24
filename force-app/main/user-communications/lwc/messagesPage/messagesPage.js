@@ -57,7 +57,7 @@ export default class MessagesPage extends LightningElement {
             this.messageBoard = this.template.querySelector('c-message-board');
             if (this.userMode === 'Participant') this.messageBoard.setTemplates(this.messageTemplates);
         }
-        
+
         if (this.initialized) this.spinner.hide();
     }
 

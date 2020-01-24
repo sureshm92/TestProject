@@ -146,11 +146,12 @@
 }
 
 .ms-empty-chat-label {
-    width: 50%;
+    width: 35%;
     color: #999999;
     font-family: "Proxima Nova";
     font-size: 20px;
     font-weight: 600;
     line-height: 26px;
     text-align: center;
+    padding-top: 20px;
 }
