@@ -2,7 +2,7 @@
  * Created by Vitalii Aheienko on 9/20/2019.
  */
 
-@IsTest(IsParallel=true)
+@IsTest
 private class Test_TrialSearchContainerRemote {
 
     @IsTest
@@ -67,15 +67,20 @@ private class Test_TrialSearchContainerRemote {
 
 
     private static TrialSearchContainerRemote.TrialSearchContainer makeTsContainer() {
-        TrialSearchContainerRemote.TrialTDO tdo = new TrialSearchContainerRemote.TrialTDO();
-        tdo.ctp = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType());
-        tdo.relatedNotificationExists = true;
-        tdo.isEnrollingCTP = true;
-        TrialSearchContainerRemote.TrialSearchContainer container = new TrialSearchContainerRemote.TrialSearchContainer();
-        container.trialTDOs = new List<TrialSearchContainerRemote.TrialTDO>{tdo};
-        container.taps = new List<Therapeutic_Area_Patient__c>();
-        container.participant = (Participant__c)TestDataFactory.getSObject(Participant__c.getSObjectType());
+        TestData.loadTestData();
+        TestData testData = new TestData();
+        TrialSearchContainerRemote.TrialSearchContainer container;
+        System.runAs(testData.participantUser){
+            TrialSearchContainerRemote.TrialTDO tdo = new TrialSearchContainerRemote.TrialTDO();
+            tdo.ctp = testData.ctp;
+            tdo.relatedNotificationExists = true;
+            tdo.isEnrollingCTP = true;
+            container = new TrialSearchContainerRemote.TrialSearchContainer();
+            container.trialTDOs = new List<TrialSearchContainerRemote.TrialTDO>{tdo};
+            container.taps = new List<Therapeutic_Area_Patient__c>();
+            container.participant = testData.participant;
 
+        }
         return container;
     }
 
