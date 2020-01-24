@@ -121,14 +121,14 @@ export default class MessageBoard extends LightningElement {
 
     handleSelectionChange() {
         let lookUpResult = this.template.querySelector('c-web-lookup').getSelection();
-        this.selectedEnrollments = lookUpResult.map(res => res.id);
+        this.selectedEnrollments = lookUpResult.map(function(res) {return res.id});
         this.checkSendBTNAvailability();
     }
 
     //Handlers:---------------------------------------------------------------------------------------------------------
     handleEnrollmentSelect(event) {
         let peId = event.target.value;
-        this.selectedEnrollment = this.enrollments.filter(pe => pe.Id === peId)[0];
+        this.selectedEnrollment = this.enrollments.filter(function(pe) {return pe.Id === peId})[0];
         this.checkSendBTNAvailability();
     }
 
@@ -176,7 +176,7 @@ export default class MessageBoard extends LightningElement {
     get enrollmentsOptions() {
         let options = [];
         if (this.enrollments) {
-            this.enrollments.forEach(item => {
+            this.enrollments.forEach(function(item) {
                 options.push({
                     label: item.Clinical_Trial_Profile__r.Study_Code_Name__c,
                     value: item.Id
@@ -189,7 +189,7 @@ export default class MessageBoard extends LightningElement {
     get messageTemplateOptions() {
         let options = [];
         if (this.userMode === 'Participant' && this.messageTemplates) {
-            this.messageTemplates.forEach((item) => {
+            this.messageTemplates.forEach(function(item) {
                 options.push({
                     label: item,
                     value: item

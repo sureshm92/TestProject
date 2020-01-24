@@ -13,13 +13,20 @@ export default class WebLimitTextByLines extends LightningElement {
     @api lineHeight = '1.4';
     @api unitsType = 'em';
 
+    blockWithTxt;
+
+    @api
+    setBackground(color) {
+        this.blockWithTxt.style.background = color;
+    }
+
     renderedCallback() {
-        let block = this.template.querySelector('.block-with-text');
-        if(block) {
-            block.style.lineHeight = (this.lineHeight + this.unitsType);
-            block.style.maxHeight = (this.lineHeight * this.maxLines) + this.unitsType;
-            block.style.background = (this.background ? this.background : 'none');
-        }
+        if (!this.blockWithTxt) this.blockWithTxt = this.template.querySelector('.block-with-text');
+
+        this.blockWithTxt.style.lineHeight = (this.lineHeight + this.unitsType);
+        this.blockWithTxt.style.maxHeight = (this.lineHeight * this.maxLines) + this.unitsType;
+        this.blockWithTxt.style.background = (this.background ? this.background : 'white');
+
     }
 
     get cssClass() {
