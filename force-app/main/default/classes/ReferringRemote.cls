@@ -125,6 +125,8 @@ public without sharing class ReferringRemote {
 
             if (ageByCountryCode.get(participant.Mailing_Country_Code__c) != null) {
                 needsGuardian = participantAge < ageByCountryCode.get(participant.Mailing_Country_Code__c);
+            } else if (ageByCountryCode.get(participant.Mailing_Country_Code__c + '-' + participant.Mailing_State_Code__c) != null) {
+                needsGuardian = participantAge < ageByCountryCode.get(participant.Mailing_Country_Code__c + '-' + participant.Mailing_State_Code__c);
             } else {
                 needsGuardian = participantAge < 18;
             }
