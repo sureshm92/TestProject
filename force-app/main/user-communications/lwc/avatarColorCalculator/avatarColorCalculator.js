@@ -15,7 +15,7 @@ export default class AvatarColorCalculator {
     getColorFromString(str) {
         let codesString = str
             .split('')
-            .map(char => char.charCodeAt(0))
+            .map(function(char){return  char.charCodeAt(0)})
             .join('');
 
         return colors[parseInt(codesString, 10) % colors.length];
