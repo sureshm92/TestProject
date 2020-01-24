@@ -2433,6 +2433,36 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
         <value>You recently requested a password reset for your account. To complete the process, you can set a new password here:</value>
     </labels>
     <labels>
+        <fullName>Email_Body_SS_on_PE_Was_Changed_To_PI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body SS on PE Was Changed To PI</shortDescription>
+        <value>A participant, ##PEProfileName, has been transferred to your study site: ##SSName.
+
+
+
+If you have questions or concerns about this transfer, please contact your IQVIA Patient Recruitment Lead.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_SS_on_PE_Was_Changed_To_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body SS on PE Was Changed To Participant</shortDescription>
+        <value>&lt;/br&gt;You have been transferred to ##SSName for the clinical study: ##StudyCodeName&lt;/br&gt;
+
+ 
+
+##PIName&lt;/br&gt;
+
+##SSAddress&lt;/br&gt;
+
+##SSCity, ##SSPostalCode&lt;/br&gt;
+
+ 
+
+Please contact ##SSName  with any questions at ##SSPhone.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Share</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2884,6 +2914,20 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <protected>false</protected>
         <shortDescription>Email Header Review and accept a new study</shortDescription>
         <value>Please review and accept a new study</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_SS_on_PE_Was_Changed_To_PI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header SS on PE Was Changed To PI</shortDescription>
+        <value>The participant has been transferred to another Study Site</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_SS_on_PE_Was_Changed_To_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header SS on PE Was Changed To Participant</shortDescription>
+        <value>You have been transferred to another Study Site</value>
     </labels>
     <labels>
         <fullName>Email_Header_Share</fullName>
