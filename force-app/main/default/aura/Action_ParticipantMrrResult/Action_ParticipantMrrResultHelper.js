@@ -8,16 +8,6 @@
         }, function (returnValue) {
             component.set("v.mrrResult", status);
             var comp = component.find('dialog');
-            /*comp.scrollUp();*/
-            /*console.log('1');
-            var scrollOptions = {
-                left: 0,
-                top: 0,
-                behavior: 'smooth'
-            };
-            console.log('2');
-            window.scrollTo(scrollOptions);
-            console.log('3');*/
             setTimeout(function () {
                 document.getElementById('anchor').scrollIntoView({
                     behavior: 'smooth',

@@ -12,7 +12,6 @@
     },
 
     doExecute: function (component, event, helper) {
-        console.log('parti', component.get('v.participant'));
         try {
             component.find('spinner').show();
             component.set('v.initialized', false);
@@ -111,11 +110,14 @@
         var comp = component.find('dialog');
         comp.hide();
     },
-    forParticipantDetails: function (component, event, helper) {
-        component.set('v.checkTabs', 'participantDetails');
-    },
-    forOtherTabs: function (component, event,helper) {
-        component.set('v.checkTabs', 'otherTabs');
+    checkTabs: function (component, event,helper) {
+        var checking = event.getSource();
+        console.log('checking', checking.getLocalId());
+        if(checking.getLocalId() === 'participantDetails') {
+            component.set('v.checkTabs', 'participantDetails');
+        } else {
+            component.set('v.checkTabs', 'otherTabs') ;
+        }
     },
     doUpdateCancel: function (component, event, helper) {
         var action = component.get('c.doUpdate');
