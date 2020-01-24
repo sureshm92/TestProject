@@ -15,21 +15,11 @@ private class Test_MessagePageRemote {
                 Message_Content__c = 'Why???',
                 Sender_Name__c = 'Morgan Stark'
         );
-
-        testData.pe = [
-                SELECT Id,
-                        Participant_Contact__c,
-                        Participant__r.Full_Name__c,
-                        Participant_Status__c,
-                        Study_Site__r.Principal_Investigator__c,
-                        Study_Site__r.Principal_Investigator__r.Name,
-                        Study_Site__r.Principal_Investigator__r.Title
-                FROM Participant_Enrollment__c
-                WHERE Participant__c =: testData.participant.Id
-        ];
+        Test.startTest();
         System.runAs(testData.participantUser) {
             MessagePageRemote.getInitData();
         }
+        Test.stopTest();
     }
 
     @IsTest
