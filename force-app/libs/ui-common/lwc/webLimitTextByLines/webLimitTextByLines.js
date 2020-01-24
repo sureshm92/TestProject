@@ -6,6 +6,7 @@ import {LightningElement, api} from 'lwc';
 
 export default class WebLimitTextByLines extends LightningElement {
 
+    @api title;
     @api classCss;
     @api maxLines;
     @api background;
