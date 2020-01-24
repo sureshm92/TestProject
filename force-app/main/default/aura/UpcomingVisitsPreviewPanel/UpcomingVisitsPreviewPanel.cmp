@@ -4,7 +4,6 @@
 
     <aura:attribute name="initialized" type="Boolean"/>
     <aura:attribute name="visitWrappers" type="PatientVisitService.VisitWrapper[]"/>
-    <aura:attribute name="travelVendorAvailable" type="Boolean" default="true"/>
 
     <div class="sv-panel rr-white-panel">
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
