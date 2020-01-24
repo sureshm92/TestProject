@@ -90,6 +90,7 @@
         var result =
             participant.First_Name__c &&
             participant.Last_Name__c &&
+            participant.Date_of_Birth__c &&
             (needsDelegate || participant.Email__c) &&
             participant.Mailing_Zip_Postal_Code__c &&
             (needsDelegate || emailVaild) &&
