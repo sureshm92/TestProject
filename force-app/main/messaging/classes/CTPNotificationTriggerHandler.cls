@@ -142,6 +142,6 @@ public with sharing class CTPNotificationTriggerHandler {
                 }
             }
         }
-        insert notifications;
+        NotificationService.createNotificationsAsync(JSON.serialize(notifications));
     }
 }
