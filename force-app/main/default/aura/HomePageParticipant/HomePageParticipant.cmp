@@ -70,7 +70,7 @@
                         </aura:if>
                         <aura:if isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}">
                             <div class="slds-col">
-                                <c:UpcomingVisitsPreviewPanel travelVendorAvailable="{!v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c}"/>
+                                <c:UpcomingVisitsPreviewPanel />
                             </div>
                         </aura:if>
                         <div class="slds-col">
