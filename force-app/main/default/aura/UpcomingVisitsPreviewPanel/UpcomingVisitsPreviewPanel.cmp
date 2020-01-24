@@ -12,9 +12,6 @@
         <aura:if isTrue="{!v.initialized}">
             <div class="sv-header">
                 <div class="sv-title">{!$Label.c.Home_Page_StudyVisit_Title}</div>
-                <div class="apollo-btn">
-                    <c:TravelSupport isAvailable="{!v.travelVendorAvailable}"/>
-                </div>
             </div>
             <div class="sv-body">
                 <aura:if isTrue="{!!empty(v.visitWrappers)}">
