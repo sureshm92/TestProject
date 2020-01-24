@@ -5,6 +5,7 @@
 ({
     doInit : function(component, event, helper) {
         communityService.executeAction(component, 'getPaymentData', null, function (response) {
+            component.set('v.informationAvailable', response.informationAvailable);
             component.set('v.participant', response.participant);
             component.set('v.pendingPayments', response.pendingPayments);
             component.set('v.href', response.href);
