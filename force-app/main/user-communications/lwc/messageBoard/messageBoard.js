@@ -107,7 +107,7 @@ export default class MessageBoard extends LightningElement {
     handleSearch(event) {
         searchParticipant(event.detail)
             .then(results => {
-                if(results.length > 0) this.template.querySelector('c-web-lookup').setSearchResults(results);
+                this.template.querySelector('c-web-lookup').setSearchResults(results);
             })
             .catch(error => {
                 this.notifyUser(
