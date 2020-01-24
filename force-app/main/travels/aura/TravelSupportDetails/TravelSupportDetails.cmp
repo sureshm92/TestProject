@@ -11,7 +11,6 @@
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="travelMode" type="String" default="All"/>
     <aura:attribute name="options" type="List"/>
-    <aura:attribute name="travelSupportAvailable" type="Boolean" default="true"/>
     <aura:attribute name="vendors" type="Object[]"/>
 
     <aura:handler name="change" value="{!v.travelMode}" action="{!c.getTravels}"/>
@@ -25,79 +24,81 @@
             {!$Label.c.Home_Page_StudyVisit_Show_Filter_Visits}
             <c:rrSelect value="{!v.travelMode}" options="{!v.options}" setValueAsSelected="All" class="select-list"
                         iconColor="#666666"/>
-            <div class="slds-col--bump-left">
-                <c:uiHeaderMenu aura:id="menuId" class="mode-block" title="{!$Label.c.Home_Page_StudyVisit_Btn}">
-                    <aura:set attribute="title">
-                        <div class="apollo-btn primary slds-align-bottom" data-gtm="BTN_Add_New_Booking">
-                            <div>{!$Label.c.Home_Page_StudyVisit_Btn}</div>
-                            <c:RRIcon color="blue" iconName="icon-chevron-down" class="chevron"/>
-                        </div>
-                    </aura:set>
-                    <aura:iteration items="{!v.vendors}" var="vendor">
-                        <li class="sv-element" data-gtm="BTN_Link_Vendor">
-                            <lightning:formattedUrl value="{!vendor.Link_Vendor__c}" label="{!vendor.Name}"/>
-                        </li>
-                    </aura:iteration>
-                </c:uiHeaderMenu>
-            </div>
+            <aura:if isTrue="{!!empty(v.vendors)}">
+                <div class="slds-col--bump-left">
+                    <c:uiHeaderMenu aura:id="menuId" class="mode-block" title="{!$Label.c.Home_Page_StudyVisit_Btn}">
+                        <aura:set attribute="title">
+                            <div class="apollo-btn primary slds-align-bottom" data-gtm="BTN_Add_New_Booking">
+                                <div>{!$Label.c.Home_Page_StudyVisit_Btn}</div>
+                                <c:RRIcon color="blue" iconName="icon-chevron-down" class="chevron"/>
+                            </div>
+                        </aura:set>
+                        <aura:iteration items="{!v.vendors}" var="vendor">
+                            <li class="sv-element" data-gtm="BTN_Link_Vendor">
+                                <lightning:formattedUrl value="{!vendor.Link_Vendor__c}" label="{!vendor.Name}"/>
+                            </li>
+                        </aura:iteration>
+                    </c:uiHeaderMenu>
+                </div>
+            </aura:if>
         </div>
 
-        <aura:if isTrue="{!v.travelSupportAvailable}">
-            <ui:scrollerWrapper>
-                <aura:if isTrue="{!!empty(v.travelWrapper)}">
-                    <c:RRTable>
+        <ui:scrollerWrapper>
+            <aura:if isTrue="{!!empty(v.travelWrapper)}">
+                <c:RRTable>
+                    <tr>
+                        <th class="sv-t-visit" style="width: 10%">{!$Label.c.Home_Page_StudyVisit_Visit}</th>
+                        <th class="sv-t-icons">{!$Label.c.Home_Page_Travel_Support_Bookings_Col}</th>
+                        <th class="sv-t-status">{!$Label.c.Home_Page_Travel_Support_Booking_Status_Col}</th>
+                        <th class="sv-t-date">{!$Label.c.Home_Page_Travel_Support_Booking_Date_Col}</th>
+                        <th class="sv-t-time">{!$Label.c.Home_Page_Travel_Support_Booking_Time_Col}</th>
+                        <th>{!$Label.c.Home_Page_Travel_Support_Action_Col}</th>
+                    </tr>
+                    <aura:iteration var="travelWrapper" items="{!v.currentTravels}">
                         <tr>
-                            <th class="sv-t-visit" style="width: 10%">{!$Label.c.Home_Page_StudyVisit_Visit}</th>
-                            <th class="sv-t-icons">{!$Label.c.Home_Page_Travel_Support_Bookings_Col}</th>
-                            <th class="sv-t-status">{!$Label.c.Home_Page_Travel_Support_Booking_Status_Col}</th>
-                            <th class="sv-t-date">{!$Label.c.Home_Page_Travel_Support_Booking_Date_Col}</th>
-                            <th class="sv-t-time">{!$Label.c.Home_Page_Travel_Support_Booking_Time_Col}</th>
-                            <th>{!$Label.c.Home_Page_Travel_Support_Action_Col}</th>
-                        </tr>
-                        <aura:iteration var="travelWrapper" items="{!v.currentTravels}">
-                            <tr>
-                                <td class="sv-t-visit">{!travelWrapper.visitName}</td>
-                                <td class="sv-t-icons">
-                                    <c:RRIcon class="icon-item svl-icon" iconName="{!travelWrapper.icon}"/>
-                                    {!travelWrapper.booking.Title__c}
-                                </td>
-                                <td class="sv-t-status">
-                                    <c:RRIcon class="icon-item svl-icon"
-                                              iconName="{!if(travelWrapper.booking.Status__c == 'Confirmed', 'success',
+                            <td class="sv-t-visit">{!travelWrapper.isAdHoc
+                                ? $Label.c.StudyVisit_Unscheduled_Visit
+                                : travelWrapper.visitName}</td>
+                            <td class="sv-t-icons">
+                                <c:RRIcon class="icon-item svl-icon" iconName="{!travelWrapper.icon}"/>
+                                {!travelWrapper.booking.Title__c}
+                            </td>
+                            <td class="sv-t-status">
+                                <c:RRIcon class="icon-item svl-icon"
+                                          iconName="{!if(travelWrapper.booking.Status__c == 'Confirmed', 'success',
                                                                                     if(travelWrapper.booking.Status__c == 'Declined', 'icon-close-circle',
                                                                                     if(travelWrapper.booking.Status__c == 'Pending', 'icon-clock', '')))}"
-                                              color="{!if(travelWrapper.booking.Status__c == 'Confirmed', '#00C221',
+                                          color="{!if(travelWrapper.booking.Status__c == 'Confirmed', '#00C221',
                                                                                     if(travelWrapper.booking.Status__c == 'Declined', '#E20000',
                                                                                     if(travelWrapper.booking.Status__c == 'Pending', '#FF9300', '')))}"/>
-                                    {!travelWrapper.booking.Status__c}
-                                </td>
-                                <td class="sv-t-date">
-                                    <lightning:formattedDateTime value="{!travelWrapper.booking.Booking_DateTime__c}"
-                                                                 year="numeric" month="2-digit" day="2-digit"/>
-                                </td>
-                                <td class="sv-t-time">
-                                    <lightning:formattedDateTime value="{!travelWrapper.booking.Booking_DateTime__c}"
-                                                                 hour="2-digit" minute="2-digit" hour12="true"/>
-                                </td>
-                                <td class="sv-t-reminder">
-                                    <lightning:formattedUrl value="{!travelWrapper.link}" label="View Booking"/>
-                                </td>
-                            </tr>
-                        </aura:iteration>
-                    </c:RRTable>
-                    <div class="pagination">
-                        <c:rrPagination allObjects="{!v.travelWrapper}" currentObjects="{!v.currentTravels}"
-                                        entriesOnPage="4"/>
-                    </div>
-                </aura:if>
+                                {!travelWrapper.booking.Status__c}
+                            </td>
+                            <td class="sv-t-date">
+                                <lightning:formattedDateTime value="{!travelWrapper.booking.Booking_DateTime__c}"
+                                                             year="numeric" month="2-digit" day="2-digit"/>
+                            </td>
+                            <td class="sv-t-time">
+                                <lightning:formattedDateTime value="{!travelWrapper.booking.Booking_DateTime__c}"
+                                                             hour="2-digit" minute="2-digit" hour12="true"/>
+                            </td>
+                            <td class="sv-t-reminder">
+                                <lightning:formattedUrl value="{!travelWrapper.link}" label="View Booking"/>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </c:RRTable>
+                <div class="pagination">
+                    <c:rrPagination allObjects="{!v.travelWrapper}" currentObjects="{!v.currentTravels}"
+                                    entriesOnPage="4"/>
+                </div>
+            </aura:if>
 
-                <c:EmptyListStub class="no-visits-message" targetList="{!v.travelWrapper}" iconName="none"
-                                 message="{!$Label.c.PG_VP_L_No_Items_display}"/>
-            </ui:scrollerWrapper>
+            <c:EmptyListStub class="no-visits-message" targetList="{!v.travelWrapper}" iconName="none"
+                             message="{!$Label.c.PG_VP_L_No_Items_display}"/>
+        </ui:scrollerWrapper>
 
-            <aura:set attribute="else">
-                <div class="error-message">{!$Label.c.PG_VP_L_No_Items_display}</div>
-            </aura:set>
-        </aura:if>
+        <aura:set attribute="else">
+            <div class="error-message">{!$Label.c.PG_VP_L_No_Items_display}</div>
+        </aura:set>
     </div>
 </aura:component>
