@@ -11964,6 +11964,13 @@ Please check your CAPS lock key.</value>
         <value>Edit Task</value>
     </labels>
     <labels>
+        <fullName>Tab_HealthCare_Provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Tab_HealthCare_Provider</shortDescription>
+        <value>Healthcare Provider</value>
+    </labels>
+    <labels>
         <fullName>Task_Details</fullName>
         <language>en_US</language>
         <protected>true</protected>

@@ -407,6 +407,7 @@ public without sharing class ParticipantEnrollmentService {
             'Referral_Completedby_Name__c',
             'Source_Type__c',
             'Visit_Plan__c',
+            'Visit_Plan__r.Name',
             'IVRS_IWRS__c',
             'Study_Name__c',
             'Study_Site__c',
