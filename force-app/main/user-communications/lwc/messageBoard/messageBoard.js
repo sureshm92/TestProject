@@ -52,6 +52,7 @@ export default class MessageBoard extends LightningElement {
     @track isPastStudy;
 
     @track isMultipleMode;
+    @track selectedPeId;
     @track selectedEnrollment;
     @track selectedEnrollments;
 
@@ -83,7 +84,7 @@ export default class MessageBoard extends LightningElement {
     openExisting(conversation, messageWrappers, isPastStudy) {
         this.conversation = null;
         this.messageWrappers = [];
-        if (isPastStudy) this.isPastStudy = isPastStudy;
+        this.isPastStudy = isPastStudy;
 
         this.isMultipleMode = false;
         this.conversation = conversation;
@@ -114,7 +115,6 @@ export default class MessageBoard extends LightningElement {
                     'An error occurred while searching with the lookup field.',
                     'error'
                 );
-                // eslint-disable-next-line no-console
                 console.error('Lookup error', JSON.stringify(error));
             });
     }
@@ -122,27 +122,19 @@ export default class MessageBoard extends LightningElement {
     handleSelectionChange() {
         let lookUpResult = this.template.querySelector('c-web-lookup').getSelection();
         this.selectedEnrollments = lookUpResult.map(res => res.id);
+        this.checkSendBTNAvailability();
     }
 
     //Handlers:---------------------------------------------------------------------------------------------------------
     handleEnrollmentSelect(event) {
         let peId = event.target.value;
-        let selectedPE = null;
-        this.enrollments.forEach(pe => {
-            if (pe.Id === peId) selectedPE = pe;
-        });
-
-        this.selectedEnrollment = selectedPE;
+        this.selectedEnrollment = this.enrollments.filter(pe => pe.Id === peId)[0];
+        this.checkSendBTNAvailability();
     }
 
     handleMessageText(event) {
         this.messageText = event.target.value;
-        let sendBtn = this.template.querySelector('.ms-send-button');
-        if (this.messageText) {
-            sendBtn.removeAttribute('disabled');
-        } else {
-            sendBtn.setAttribute('disabled', '');
-        }
+        this.checkSendBTNAvailability();
     }
 
     handleInputEnter(event) {
@@ -160,7 +152,7 @@ export default class MessageBoard extends LightningElement {
                     console.error('Error in sendMultipleMessage():' + JSON.stringify(error));
                 });
         } else {
-            if (!this.conversation) {
+            if (!this.conversation && this.selectedEnrollment) {
                 createConversation({enrollment: this.selectedEnrollment, messageText: this.messageText})
                     .then(data => {
                         this.fireSendEvent(data);
@@ -235,5 +227,14 @@ export default class MessageBoard extends LightningElement {
 
     notifyUser(title, message, variant) {
         this.dispatchEvent(new ShowToastEvent({title, message, variant}));
+    }
+
+    checkSendBTNAvailability() {
+        let sendBtn = this.template.querySelector('.ms-send-button');
+        if (this.messageText && (this.selectedEnrollment || this.selectedEnrollments)) {
+            sendBtn.removeAttribute('disabled');
+        } else {
+            sendBtn.setAttribute('disabled', '');
+        }
     }
 }

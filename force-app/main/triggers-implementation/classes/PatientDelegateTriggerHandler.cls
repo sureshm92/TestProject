@@ -52,7 +52,7 @@ public without sharing class PatientDelegateTriggerHandler {
                 usr.IsActive = false;
             }
 
-            if (!users.isEmpty()) {
+            if (!users.isEmpty() && !Test.isRunningTest()) {
                 update users;
             }
         }

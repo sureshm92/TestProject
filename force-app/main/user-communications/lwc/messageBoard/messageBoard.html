@@ -17,7 +17,7 @@
                                         style="flex-basis: 60%;"
                                         label=""
                                         variant="label-hidden"
-                                        value={selectedEnrollment}
+                                        value={selectedPeId}
                                         placeholder={labels.selectStudyPlaceholderLabel}
                                         options={enrollmentsOptions}
                                         onchange={handleEnrollmentSelect}></lightning-combobox>
@@ -27,7 +27,7 @@
                             <!-- Search input by PE (Participants Name) -->
                             <div class="ms-multi-header-pi">
                                 <div class="ms-pi-new-mess">{labels.newMessLabel}</div>
-                                <div class="ms-pi-multi-recipient">
+                                <div class="ms-pi-multi-recipient" data-gtm="LKP_Participants">
                                     <c-web-lookup
                                             onsearch={handleSearch}
                                             onselectionchange={handleSelectionChange}

@@ -86,31 +86,30 @@ public without sharing class TaskService {
         String commonFilter = '';
         String ownerVisibility = ' AND Visible_For__c INCLUDES (\'' + TASK_VISIBILITY_OWNER + '\') ';
         String delegatesVisibility = ' AND Visible_For__c INCLUDES (\'' + TASK_VISIBILITY_DELEGATES + '\') ';
-        Contact userContact = CommunityService.getUserContact();
-        if(userContact.userCommunityDelegateId__c == null && userContact.Current_Participant_Enrollment__c == null){
+        if(!ParticipantContext.isCurrentDelegate() && ParticipantContext.getCurrentPE() == null){
             //own alumni
             commonFilter = '(' +
-                    'OwnerId = \'' + CommunityService.getUserId() + '\'' + ownerVisibility +
+                    'OwnerId = \'' + ParticipantContext.getOwnUserId() + '\'' + ownerVisibility +
                     ')';
-        }else if(userContact.userCommunityDelegateId__c == null && userContact.Current_Participant_Enrollment__c != null){
+        }else if(!ParticipantContext.isCurrentDelegate() && ParticipantContext.getCurrentPE() != null){
             //own current PE
             commonFilter = '(' +
-                    'OwnerId = \'' + CommunityService.getUserId() + '\' ' +
-                    'AND (WhatId = \'' + userContact.Current_Participant_Enrollment__c + '\' OR WhatId = NULL OR What.Type = \'SurveyInvitation\')' +
+                    'OwnerId = \'' + ParticipantContext.getOwnUserId() + '\' ' +
+                    'AND (WhatId = \'' + ParticipantContext.getCurrentPEId() + '\' OR WhatId = NULL OR What.Type = \'SurveyInvitation\')' +
                     ownerVisibility +
                     ')';
-        }else if(userContact.userCommunityDelegateId__c != null && userContact.Current_Participant_Enrollment__c == null){
+        }else if(ParticipantContext.isCurrentDelegate() && ParticipantContext.getCurrentPE() == null){
             //delegated alumni
             commonFilter = '(' +
-                    '(OwnerId = \'' + CommunityService.getUserId() + '\' AND (WhatId = NULL OR What.Type = \'SurveyInvitation\') ' + ownerVisibility + ') OR ' +
-                    '(OwnerId = \'' + userContact.userCommunityDelegateId__c + '\' ' + delegatesVisibility + ')' +
+                    '(OwnerId = \'' + ParticipantContext.getOwnUserId() + '\' AND (WhatId = NULL OR What.Type = \'SurveyInvitation\') ' + ownerVisibility + ') OR ' +
+                    '(OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\' ' + delegatesVisibility + ')' +
                     ')';
         }else{
             //delegated PE
             commonFilter = '(' +
-                    '(OwnerId = \'' + CommunityService.getUserId() + '\' AND (WhatId = NULL OR What.Type = \'SurveyInvitation\') ' + ownerVisibility + ') OR ' +
-                    '(OwnerId = \'' + userContact.userCommunityDelegateId__c + '\'' +
-                    delegatesVisibility + ' AND (WhatId = \'' + userContact.Current_Participant_Enrollment__c + '\' OR WhatId = NULL OR What.Type = \'SurveyInvitation\'))' +
+                    '(OwnerId = \'' + ParticipantContext.getOwnUserId() + '\' AND (WhatId = NULL OR What.Type = \'SurveyInvitation\') ' + ownerVisibility + ') OR ' +
+                    '(OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\'' +
+                    delegatesVisibility + ' AND (WhatId = \'' + ParticipantContext.getCurrentPEId() + '\' OR WhatId = NULL OR What.Type = \'SurveyInvitation\'))' +
                     ')';
         }
         if(filter != null) commonFilter += ' AND ' + filter;
