@@ -43,7 +43,7 @@
         component.set('v.isStateChanged', isStateChanged);
 
         if(isStateChanged && (personWrapper.mailingCC !== component.get('v.previousCC'))) {
-            setTimeout(() => {
+            setTimeout(function () {
                 component.getEvent('onEdit').fire();
             }, 50);
         }
