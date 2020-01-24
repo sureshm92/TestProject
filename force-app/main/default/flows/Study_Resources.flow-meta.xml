@@ -1092,8 +1092,8 @@
     <screens>
         <name>Record_Type</name>
         <label>Choose Record Type Recource</label>
-        <locationX>499</locationX>
-        <locationY>138</locationY>
+        <locationX>496</locationX>
+        <locationY>109</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1294,13 +1294,6 @@
             <isRequired>true</isRequired>
         </fields>
         <fields>
-            <name>Visible_To_Participant</name>
-            <dataType>Boolean</dataType>
-            <fieldText>Visible To Participant</fieldText>
-            <fieldType>InputField</fieldType>
-            <isRequired>true</isRequired>
-        </fields>
-        <fields>
             <name>Number_of_Days_Active_after_Enrollment</name>
             <dataType>Number</dataType>
             <fieldText>Number of Days Active after Enrollment</fieldText>
@@ -1315,6 +1308,13 @@
             <fieldType>InputField</fieldType>
             <isRequired>false</isRequired>
             <scale>4</scale>
+        </fields>
+        <fields>
+            <name>Visible_To_Participant</name>
+            <dataType>Boolean</dataType>
+            <fieldText>Visible To Participant</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
         </fields>
         <fields>
             <name>Visible_In_Alumni</name>
@@ -1386,6 +1386,7 @@
                 <name>recordId</name>
             </outputParameters>
         </fields>
+        <pausedText>&lt;p&gt;lk&lt;/p&gt;</pausedText>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
@@ -1562,7 +1563,7 @@
             <targetReference>Record_Type</targetReference>
         </connector>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>Assigned</name>
         <dataType>SObject</dataType>
