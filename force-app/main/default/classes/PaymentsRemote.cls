@@ -24,7 +24,8 @@ public without sharing class PaymentsRemote {
                     FROM TravelVendorSettings__c
                     WHERE Study_Site__c =: ps.pe.Study_Site__c
             ];
-            initData.href = tvs[0].TravelVendor__r.Link_Vendor__c;
+            if(tvs.size() > 0) initData.href = tvs[0].TravelVendor__r.Link_Vendor__c;
+            else initData.href = 'https://clincard.com/login/';
 
             return initData;
         } catch (Exception e) {

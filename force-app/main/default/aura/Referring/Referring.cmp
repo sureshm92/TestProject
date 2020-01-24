@@ -386,7 +386,7 @@
                                                     <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Date_of_Birth}
                                                 </div>
                                                 <lightning:input max="{!v.todayDate}" type="date" value="{!v.participant.Date_of_Birth__c}"
-                                                                 required="true" onblur="{!c.doCheckDateOfBith}"/>
+                                                                 onblur="{!c.doCheckDateOfBith}"/>
                                             </div>
                                         </div>
                                         <div class="slds-grid slds-gutters slds-wrap rr-form-element">

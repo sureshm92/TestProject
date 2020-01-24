@@ -29,6 +29,10 @@
         const screeningIdRequiredStatuses = 'Enrollment Success; Treatment Period Started; Follow-Up Period Started; Participation Complete; Trial Complete';
         let screeningIdRequired = false;
         var isEnrollmentSuccess = false;
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate() +1);
+        var currentDate = new Date(date);
+        var inputDate = new Date(participant.Date_of_Birth__c);
         if (pe && pe.Participant_Status__c) {
             isEnrollmentSuccess = pe.Participant_Status__c === 'Enrollment Success';
             screeningIdRequired = isFinalUpdate || screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1;
@@ -36,11 +40,12 @@
         }
         let isVisitPlanNotRequired = !component.get('v.visitPlanRequired') || !screeningIdRequired;
         component.set('v.screeningRequired', screeningIdRequired);
+        console.log('dasdas');
         if (updateMode && !isFinalUpdate && dataStamp) {
             var oldPE = JSON.parse(dataStamp);
             var isRemovedValue =
                 (oldPE.Participant__r.First_Name__c && !participant.First_Name__c) ||
-                (oldPE.Participant__r.Middle_Name__c && !participant.Middle_Name__c) ||
+                (oldPE.Participant__r.Middle_Name__c && !participant.Middle_Name__c.trim()) ||
                 (oldPE.Participant__r.Last_Name__c && !participant.Last_Name__c) ||
                 (oldPE.Participant__r.Date_of_Birth__c && !participant.Date_of_Birth__c) ||
                 (oldPE.Participant__r.Gender__c && !participant.Gender__c) ||
@@ -54,6 +59,24 @@
                 (oldPE.Referred_By__c && !pe.Referred_By__c) ||
                 (oldPE.MRN_Id__c && !pe.MRN_Id__c);
             isValid = !isRemovedValue;
+            if(component.get('v.fromActionParticipant') && !isRemovedValue){
+                console.log('das12das');
+                    if(
+                participant.First_Name__c.trim() &&
+                participant.Last_Name__c.trim() &&
+                inputDate <= currentDate &&
+                participant.Gender__c.trim() &&
+                participant.Phone__c.trim() &&
+                participant.Phone_Type__c.trim() &&
+                component.find('emailInput').get('v.validity').valid &&
+                participant.Mailing_Zip_Postal_Code__c.trim() !== ''){
+                        isValid = true;
+                } else {
+                        isValid = false;
+                    }
+                console.log('da1231231sdas');
+
+            }
         } else if (updateMode && isFinalUpdate) {
             isValid =
                 participant.First_Name__c &&

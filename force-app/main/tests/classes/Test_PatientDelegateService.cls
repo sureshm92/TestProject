@@ -69,13 +69,46 @@ public class Test_PatientDelegateService {
         }
     }
 
+    class PatientDelegateServiceMock implements StubProvider {
+        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
+                List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs
+        ) {
+            switch on stubbedMethodName {
+                when 'getParticipant' {
+                    return firstParticipant;
+                }
+                when 'getDelegateContact' {
+                    return firstDelegateContact;
+                }
+                when 'getDelegatedContactIds' {
+                    return new List<Id>{firstDelegateContact.Id};
+                }
+                when 'resetDelegate' {
+                    Id contactId = firstDelegateContact.Id;
+                    Contact delegateContact = new Contact(
+                            Id = contactId,
+                            userCommunityMode__c = null
+                    );
+                    update delegateContact;
 
+                    List<Patient_Delegate__c> patientDelegate = [
+                            SELECT Id
+                            FROM Patient_Delegate__c
+                            WHERE Contact__c =: contactId
+                    ];
+                    delete patientDelegate;
+                }
+            }
+            return null;
+        }
+    }
     // Tests: ----------------------------------------------------------------------------------------------------------
 
     @IsTest
     static void patientDelegateServiceTest() {
         refreshTestData();
         DatabaseService.setMock(new DatabaseServiceMock());
+        PatientDelegateService.setMock(new PatientDelegateServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
 
         Test.startTest();
