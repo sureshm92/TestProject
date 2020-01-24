@@ -43,12 +43,13 @@
                     <div class="ms-single-header">
                         <template if:false={isPIMode}>
                             <div class="ms-header-name ms-header-team-name" data-gtm="ms-header-name-pa">
-                                {labels.teamLabel}
                                 <template if:false={isPastStudy}>
-                                    &nbsp;|&nbsp;{labels.piLabel}&nbsp;{selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name}
+                                    {labels.teamLabel}&nbsp;|&nbsp;{labels.piLabel}&nbsp;{selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name}
                                 </template>
                                 <template if:true={isPastStudy}>
-                                    &nbsp;|&nbsp;{selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                                    <c-web-limit-text-by-lines max-lines="2" title={selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}>
+                                        <span slot="body">{labels.teamLabel}&nbsp;|&nbsp;{selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}</span>
+                                    </c-web-limit-text-by-lines>
                                 </template>
                             </div>
                         </template>
@@ -57,7 +58,10 @@
                                  data-gtm="ms-header-patient-name">{selectedEnrollment.Participant__r.Full_Name__c}
                             </div>
                             <div class="ms-header-patient-study" data-gtm="ms-header-patient-study">
-                                {selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                                <c-web-limit-text-by-lines max-lines="2"
+                                                           title={selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}>
+                                    <span slot="body">{selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}</span>
+                                </c-web-limit-text-by-lines>
                             </div>
                         </template>
                     </div>

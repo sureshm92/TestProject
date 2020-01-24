@@ -15,7 +15,7 @@
 .ms-single-header {
     height: 73px;
     padding: 15px 25px 0 25px;
-    border-bottom: 1px solid #f3f3f3;
+    border-bottom: 1px solid #e6e5e5;
 }
 
 .ms-multi-header {
@@ -86,10 +86,6 @@
 
 .ms-header-name .ms-header-team-name {
     font-weight: 500;
-}
-
-.ms-header-team-name {
-    padding-top: 10px;
 }
 
 .ms-board-body {
