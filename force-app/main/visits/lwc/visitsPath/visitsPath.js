@@ -174,6 +174,7 @@ export default class VisitsPath extends LightningElement {
 
                 this.pathItems[i] = current;
             }
+            console.log('VISIT_ITEMS: ' + JSON.stringify(this.pathItems));
             this.centredIndex++;
         }
     }
