@@ -27,9 +27,12 @@ private class Test_MessagePageRemote {
                 FROM Participant_Enrollment__c
                 WHERE Participant__c =: testData.participant.Id
         ];
+
+        Test.startTest();
         System.runAs(testData.participantUser) {
             MessagePageRemote.getInitData();
         }
+        Test.stopTest();
     }
 
     @IsTest
@@ -46,9 +49,12 @@ private class Test_MessagePageRemote {
                 FROM Participant_Enrollment__c
                 WHERE Participant__c =: testData.participant.Id
         ];
+
+        Test.startTest();
         System.runAs(testData.participantUser) {
             MessagePageRemote.createConversation(testData.pe, 'hi everyone!');
         }
+        Test.stopTest();
     }
 
     @IsTest
@@ -75,9 +81,11 @@ private class Test_MessagePageRemote {
         ];
         conversation.Participant_Enrollment__r = testData.pe;
 
+        Test.startTest();
         System.runAs(testData.participantUser) {
             MessagePageRemote.markConversationAsRead(conversation);
         }
+        Test.stopTest();
     }
 
     @TestSetup
