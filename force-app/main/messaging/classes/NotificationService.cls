@@ -209,20 +209,12 @@ public without sharing class NotificationService {
         return topics;
     }
 
-    public static void sendSimpleNotification(Map<Id, List<Id>> recipientIdsByWhatIds, String notificationType) {
-        if (String.isBlank(notificationType)) return;
-        List<Notification__c> notifications = new List<Notification__c>();
-        for (Id whatId : recipientIdsByWhatIds.keySet()) {
-            for (Id contactId : recipientIdsByWhatIds.get(whatId)) {
-                notifications.add(
-                        new Notification__c(
-                                Recipient__c = contactId,
-                                WhatId__c = whatId,
-                                Notification_Type__c = notificationType
-                        )
-                );
-            }
-        }
+    @Future
+    public static void createNotificationsAsync(String notificationsJSON) {
+        createNotifications((List<Notification__c>) JSON.deserialize(notificationsJSON, List<Notification__c>.class));
+    }
+
+    private static void createNotifications(List<Notification__c> notifications) {
         insert notifications;
     }
 

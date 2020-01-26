@@ -6,22 +6,22 @@
     <messaging:htmlEmailBody >
         <c:EmailTemplate userType="PI"
                          sourceId="{!relatedTo.Id}"
-                         header="Test SS Changed on PE"
-                         title="Test SS Changed on PE"
-                         greeting="Test SS Changed on PE"
-                         body="Test SS Changed on PE"
-                         signature="Test SS Changed on PE">
+                         header="{!$Label.Email_Header_SS_on_PE_Was_Changed_To_PI}"
+                         title="{!$Label.Email_Title}"
+                         greeting="{!$Label.Email_User_Greeting}"
+                         body="{!$Label.Email_Body_SS_on_PE_Was_Changed_To_PI}"
+                         signature="{!$Label.Email_Signature}">
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText userType="PI"
                              sourceId="{!relatedTo.Id}"
-                             header="Test SS Changed on PE"
-                             title="Test SS Changed on PE"
-                             greeting="Test SS Changed on PE"
-                             body="Test SS Changed on PE"
-                             signature="Test SS Changed on PE">
+                             header="{!$Label.Email_Header_SS_on_PE_Was_Changed_To_PI}"
+                             title="{!$Label.Email_Title}"
+                             greeting="{!$Label.Email_User_Greeting}"
+                             body="{!$Label.Email_Body_SS_on_PE_Was_Changed_To_PI}"
+                             signature="{!$Label.Email_Signature}">
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody> 
 </messaging:emailTemplate>

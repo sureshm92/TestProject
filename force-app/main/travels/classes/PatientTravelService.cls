@@ -18,6 +18,15 @@ public with sharing class PatientTravelService {
         return this.getTravelWrappers(this.getTravels(visitMode, limitNumber));
     }
 
+    public List<String> getTitles() {
+        List<AggregateResult> results = [SELECT Title__c Label FROM Booking__c GROUP BY Title__c];
+        List<String> titles = new List<String>();
+        for(AggregateResult result : results){
+            titles.add((String)result.get('Label'));
+        }
+        return titles;
+    }
+
     @TestVisible
     private List<Booking__c> getTravels(String travelMode, Integer limitNumber) {
         ParticipantService.ParticipantState pState =
@@ -31,15 +40,13 @@ public with sharing class PatientTravelService {
                 'Status__c',
                 'Booking_DateTime__c',
                 'Patient_Visit__r.Visit__r.Patient_Portal_Name__c',
+                'Patient_Visit__r.Is_Adhoc__c',
                 'Participant_Enrollment__r.Participant_Contact__c',
                 'Travel_Vendor__r.Link_Vendor__c'
         };
         String filter = DatabaseService.fieldEqual('Participant_Enrollment__c', pState.pe.Id);
         if (travelMode != TRAVEL_MODE_ALL) {
-            filter += 'AND';
-            if(travelMode == TRAVEL_MODE_CONFIRMED) filter += DatabaseService.fieldEqual('Status__c', TRAVEL_MODE_CONFIRMED);
-            if(travelMode == TRAVEL_MODE_DECLINED) filter += DatabaseService.fieldEqual('Status__c', TRAVEL_MODE_DECLINED);
-            if(travelMode == TRAVEL_MODE_PENDING) filter += DatabaseService.fieldEqual('Status__c', TRAVEL_MODE_PENDING);
+            filter += 'AND' + DatabaseService.fieldEqual('Title__c', travelMode);
         }
         String order = 'Patient_Visit__r.Visit__r.Visit_Number__c ';// + (VISIT_MODE_PAST == visitMode ? ' DESC ' : 'ASC') + ' NULLS LAST';
         Integer limitVisits = (limitNumber != null ? limitNumber : null);
@@ -74,9 +81,7 @@ public with sharing class PatientTravelService {
         @AuraEnabled
         public String visitName;
         @AuraEnabled
-        public Date bookingDate;
-        @AuraEnabled
-        public Time bookingTime;
+        public Boolean isAdHoc;
         @AuraEnabled
         public Booking__c booking;
         @AuraEnabled
@@ -86,10 +91,8 @@ public with sharing class PatientTravelService {
 
         public TravelWrapper(Booking__c booking) {
             this.visitName = booking.Patient_Visit__r.Visit__r.Patient_Portal_Name__c;
+            this.isAdHoc = booking.Patient_Visit__r.Is_Adhoc__c;
             this.booking = booking;
-            Datetime bookDateTime = DateTimeConverterUtil.getUserDatetime(TimeZone.getTimeZone(CURRENT_USER.TimeZoneSidKey), booking.Booking_DateTime__c);
-            this.bookingDate = bookDateTime.date();
-            this.bookingTime = booking.Booking_DateTime__c.timeGmt();
 
             switch on booking.Type__c {
                 when 'Airplane' {

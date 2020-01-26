@@ -125,6 +125,8 @@ public without sharing class ReferringRemote {
 
             if (ageByCountryCode.get(participant.Mailing_Country_Code__c) != null) {
                 needsGuardian = participantAge < ageByCountryCode.get(participant.Mailing_Country_Code__c);
+            } else if (ageByCountryCode.get(participant.Mailing_Country_Code__c + '-' + participant.Mailing_State_Code__c) != null) {
+                needsGuardian = participantAge < ageByCountryCode.get(participant.Mailing_Country_Code__c + '-' + participant.Mailing_State_Code__c);
             } else {
                 needsGuardian = participantAge < 18;
             }
@@ -186,13 +188,21 @@ public without sharing class ReferringRemote {
 
                 participantDelegate.Contact__c = newContact.Id;
                 participantDelegate.Adult__c = true;
-                Participant_Enrollment__c delegateEnrollment = enrollment.clone(false, true, false, false);
-                ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participantDelegate, delegateEnrollment);
+                ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participantDelegate, null);
 
                 Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                 ptDelegateRef.Participant__c = participant.Id;
                 ptDelegateRef.Contact__c = newContact.Id;
                 insert ptDelegateRef;
+
+                List<Alert__c> alertsForInsert = new List<Alert__c>();
+                alertsForInsert.add(new Alert__c(
+                        Contact__c = newContact.Id,
+                        Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH
+                ));
+
+                ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
+                insert alertsForInsert;
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);

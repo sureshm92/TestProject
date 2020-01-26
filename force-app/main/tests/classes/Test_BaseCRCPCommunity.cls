@@ -168,7 +168,8 @@ private class Test_BaseCRCPCommunity {
                 Email__c = 'part1@email.com',
                 Mailing_Country_Code__c = 'US',
                 Mailing_State_Code__c = 'AL',
-                Preferred_Language__c = 'en_US'
+                Preferred_Language__c = 'en_US',
+                Adult__c = true
         );
         insert participant;
         

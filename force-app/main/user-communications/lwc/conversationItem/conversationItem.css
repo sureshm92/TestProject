@@ -23,7 +23,7 @@
 }
 
 .con-icon {
-    width: 40px;
+    width: 41px;
     height: 40px;
     border-radius: 50%;
     color: white;
@@ -41,21 +41,24 @@
 .con-title {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
 }
 
 .con-name {
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
 }
 
 .con-time {
-
+    font-size: 14px;
 }
 
 .con-description {
-    font-size: 11px;
+    font-size: 14px;
 }
 
 .con-last-message-part {
-    font-size: 12px;
+    font-size: 16px;
+    padding-top: 8px;
 }
