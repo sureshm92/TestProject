@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 24.12.2019.
  */
 const colors = [
-    '#0768FD',
+    '#297DFD',
     '#10558A',
     '#DF216D',
     '#00C221',

@@ -47,7 +47,8 @@
                                     {labels.teamLabel}&nbsp;|&nbsp;{labels.piLabel}&nbsp;{selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name}
                                 </template>
                                 <template if:true={isPastStudy}>
-                                    <c-web-limit-text-by-lines max-lines="2" title={selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}>
+                                    <c-web-limit-text-by-lines max-lines="2"
+                                                               title={selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}>
                                         <span slot="body">{labels.teamLabel}&nbsp;|&nbsp;{selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}</span>
                                     </c-web-limit-text-by-lines>
                                 </template>
@@ -85,7 +86,23 @@
                                          onkeypress={handleInputEnter}></lightning-input>
                         <div class="ms-send-pi-buttons">
                             <div style="flex-grow: 1;">{labels.limitLabel}</div>
-                            <!--                            <button class="apollo-btn text">{labels.attFileLabel}</button>-->
+
+                            <div class="slds-form-element" style="margin: 0 12px;">
+                                <div class="slds-form-element__control">
+                                    <div class="slds-file-selector slds-file-selector_files">
+                                        <input type="file" class="slds-file-selector__input slds-assistive-text"
+                                               accept="image/png" id="file-upload-input-01"
+                                               aria-labelledby="file-selector-primary-label file-selector-secondary-label"/>
+                                        <label class="slds-file-selector__body" for="file-upload-input-01"
+                                               id="file-selector-secondary-label">
+                                                <span class="slds-file-selector__button slds-button">
+                                                    <div class="ms-att-label">{labels.attFileLabel}</div>
+                                                </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
                             <button data-gtm="ms-send-pi-button" class="apollo-btn primary ms-send-button"
                                     onclick={handleSendClick} disabled>{labels.sendBtnLabel}
                             </button>
@@ -112,7 +129,8 @@
     </template>
     <template if:false={hideEmptyStub}>
         <div class="ms-empty-chat" data-gtm="ms-empty-chat">
-            <c-web-icon icon-name="messages-bubble-square" icon-color="#a6a6a6" style="padding-top: 32px;"></c-web-icon>
+            <c-web-icon icon-name="messages-bubble-square" icon-color="#a6a6a6" icon-width="40" icon-height="36"
+                        style="padding-top: 32px;"></c-web-icon>
             <div class="ms-empty-chat-label">{labels.emptyChatLabel}</div>
         </div>
     </template>
