@@ -148,7 +148,7 @@
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                     <div class="label">{!$Label.c.PG_AP_F_Alternative_Phone_Type}</div>
                         <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!v.participant.Alternative_Phone_Type__c}"
-                                    placeholder="{!$Label.c.PG_AC_Select}" required="true" onchange="{!c.doCheckFields}"/>
+                                    placeholder="{!$Label.c.PG_AC_Select}" onchange="{!c.doCheckFields}"/>
                 </div>
                 </aura:if>
             </div>
@@ -211,15 +211,19 @@
                 <div class="ap-section-title">{!$Label.c.PG_AS_F_Participation_Information}</div>
                 <div class="slds-grid slds-gutters slds-wrap">
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label">{!$Label.c.Source_ID}</div>
+                    <div class="label">{!$Label.c.Source_ID}
+                    <span>
+                        <lightning:helptext content="{!$Label.c.PG_AS_F_Source_ID_Help_Text}"/>
+                    </span>
+                    </div>
                     <aura:if isTrue="{!v.pe.Referral_Source__c == 'PI'}">
-                    <lightning:input aura:id="sourceID" type="text" value="{!v.pe.MRN_Id__c}" onblur="{!c.doCheckFields}" disabled="true"/>
+                    <lightning:input aura:id="sourceID" type="text" value="{!v.pe.MRN_Id__c}" disabled="{!v.pe.MRN_Id__c}"/>
                     </aura:if>
                     <aura:if isTrue="{!v.pe.Referral_Source__c == 'HCP'}">
                         <lightning:input aura:id="sourceID" type="text" value="{!v.pe.Patient_ID__c}" onblur="{!c.doCheckFields}" disabled="true"/>
                     </aura:if>
                     <aura:if isTrue="{!v.pe.Referral_Source__c != 'PI' &amp;&amp; v.pe.Referral_Source__c != 'HCP'}">
-                        <lightning:input aura:id="sourceID" type="text" value="{!v.pe.Referral_ID__c + ';' + v.pe.Source_Type__c}" onblur="{!c.doCheckFields}" disabled="true"/>
+                        <lightning:input aura:id="sourceID" type="text" value="{!v.pe.Referral_ID__c + ' ; ' + v.pe.Source_Type__c}" onblur="{!c.doCheckFields}" disabled="true"/>
                     </aura:if>
 
                 </div>
