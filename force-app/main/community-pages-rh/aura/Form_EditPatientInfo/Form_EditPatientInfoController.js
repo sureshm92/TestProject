@@ -42,6 +42,7 @@
         component.set('v.screeningRequired', screeningIdRequired);
         console.log('dasdas');
         if (updateMode && !isFinalUpdate && dataStamp) {
+            console.log('dasdas');
             var oldPE = JSON.parse(dataStamp);
             var isRemovedValue =
                 (oldPE.Participant__r.First_Name__c && !participant.First_Name__c) ||
@@ -78,6 +79,7 @@
 
             }
         } else if (updateMode && isFinalUpdate) {
+            console.log('d1111asdas');
             isValid =
                 participant.First_Name__c &&
                 participant.Last_Name__c &&
@@ -93,8 +95,28 @@
                 component.find('emailInput').get('v.validity').valid &&
                 pe.Screening_ID__c &&
                 stateVaild;
+            if(component.get('v.fromActionParticipant') && !isRemovedValue){
+                console.log('das12das');
+                if(
+                    participant.First_Name__c.trim() &&
+                    participant.Last_Name__c.trim() &&
+                    inputDate <= currentDate &&
+                    participant.Gender__c.trim() &&
+                    participant.Phone__c.trim() &&
+                    participant.Phone_Type__c.trim() &&
+                    component.find('emailInput').get('v.validity').valid &&
+                    participant.Mailing_Zip_Postal_Code__c.trim() !== ''){
+                    isValid = true;
+                } else {
+                    isValid = false;
+                }
+                console.log('da1231231sdas');
+
+            }
+
                 //(!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
         } else if (!updateMode) {
+            console.log('d0000asdas');
             //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
             isValid =
                 participant.First_Name__c &&
@@ -113,6 +135,9 @@
                 stateVaild &&
                 (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
                 pe.Referred_By__c;
+        }
+        if((participant.Alternative_Phone_Number__c && !participant.Alternative_Phone_Type__c) || (!participant.Alternative_Phone_Number__c && participant.Alternative_Phone_Type__c)){
+            isValid = false;
         }
         component.set('v.isValid', isValid);
         return isValid;
