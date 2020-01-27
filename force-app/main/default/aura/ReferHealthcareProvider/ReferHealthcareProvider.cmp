@@ -13,7 +13,7 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.pe}" action="{!c.doInit}"/>
 
-    <aura:method name="disconnectHCP" action="{!c.doDisconnetc}">
+    <aura:method name="disconnectHCP" action="{!c.doDisconnect}">
         <aura:attribute name="index" type="Integer"/>
     </aura:method>
     <!--<aura:handler name="change" value="{!v.pe.healthCareProviders}" action="{!c.doLog}"/>-->
