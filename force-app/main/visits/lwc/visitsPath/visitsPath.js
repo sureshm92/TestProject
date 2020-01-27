@@ -105,77 +105,36 @@ export default class VisitsPath extends LightningElement {
 
     constructPathItems() {
         if (this.patientVisits) {
+            let firstPending;
             for (let i = 0; i < this.patientVisits.length; i++) {
-                let visitName =
-                    this.patientVisits[i].Portal_Name__c ? this.patientVisits[i].Portal_Name__c : this.patientVisits[i].Name;
+                let isCompleted = this.patientVisits[i].Status__c === 'Completed';
                 let item = {
                     id: this.patientVisits[i].Id,
-                    visitName: visitName,
-                    isCompleted: this.patientVisits[i].Status__c === 'Completed'
+                    visitName:  this.patientVisits[i].Portal_Name__c ? this.patientVisits[i].Portal_Name__c : this.patientVisits[i].Name,
+                    isCompleted: isCompleted,
+                    icon: isCompleted ? iconSucc : iconNeutral,
+                    complDate: isCompleted ? this.patientVisits[i].Completed_Date__c : null,
+                    planDate: (!isCompleted && this.patientVisits[i].Planned_Date__c) ?  this.patientVisits[i].Planned_Date__c : null,
+                    stateStatus: isCompleted ? stateSucc : stateNeutral,
+                    left: i > 0 ? this.pathItems[i - 1].right : null,
+                    right: i < (this.patientVisits.length - 1) ? lineClass + state : null,
                 };
-
-                if (item.isCompleted) {
-                    item.complDate = this.patientVisits[i].Completed_Date__c;
-                    item.icon = iconSucc;
-                } else {
-                    item.planDate = this.patientVisits[i].Planned_Date__c ? this.patientVisits[i].Planned_Date__c : null;
-                }
-
                 this.pathItems.push(item);
+                if(!firstPending && !isCompleted) firstPending = this.patientVisits[i];
+            }
+            if(firstPending){
+                firstPending.icon = iconPlanned;
+                firstPending.stateStatus = statePlan;
             }
 
-            this.centredIndex = this.pathItems.length - 1;
-            for (let i = this.pathItems.length - 1; i >= 0; i--) {
-                let current = this.pathItems[i];
-                let state;
-                if (i > 0) {
-                    let prevIndex = i - 1;
-                    let prev = this.pathItems[prevIndex];
-                    if (current.isCompleted) {
-                        state = stateSucc;
-                        current.state = stateClass + state;
-
-                        if (!prev.isCompleted) state = stateNeutral;
-
-                        current.left = lineClass + state;
-                        prev.right = lineClass + state;
-                    } else if (prev.isCompleted) {
-                        if (prevIndex - 1 > 1) {
-                            if (!this.pathItems[prevIndex - 1].isCompleted) {
-                                state = stateNeutral;
-                                current.icon = iconNeutral;
-                                current.state = stateClass + state;
-                                current.left = lineClass + state;
-                                prev.right = lineClass + state;
-                            }
-                        } else {
-                            state = statePlan;
-                            this.centredIndex = i;
-                            current.icon = iconPlanned;
-                            current.state = stateClass + state;
-                            current.left = lineClass + state;
-                            prev.right = lineClass + state;
-                        }
-                    } else {
-                        state = stateNeutral;
-                        current.icon = iconNeutral;
-                        current.state = stateClass + state;
-                        current.left = lineClass + state;
-                        prev.right = lineClass + state;
-                    }
-                    if (i === this.pathItems.length - 1) current.right = lineClass + state;
-                } else {
-                    current.icon = current.isCompleted ? iconSucc : iconPlanned;
-                    state = current.isCompleted ? stateSucc : statePlan;
-                    current.state = stateClass + state;
-                    current.left = lineClass + state;
-                    if (state === statePlan) this.centredIndex = i;
-                }
-
-                this.pathItems[i] = current;
+            for (let i = 0; i < this.pathItems.length; i++){
+                let item = this.pathItems[i];
+                item.left = i > 0 ? this.pathItems[i - 1].right : null;
+                item.right = (this.pathItems.length - 1) ? lineClass + item.stateStatus : null;
+                item.state = stateClass + item.stateStatus;
             }
+
             console.log('VISIT_ITEMS: ' + JSON.stringify(this.pathItems));
-            this.centredIndex++;
         }
     }
 
