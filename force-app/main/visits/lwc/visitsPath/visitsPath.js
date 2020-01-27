@@ -106,6 +106,7 @@ export default class VisitsPath extends LightningElement {
     constructPathItems() {
         if (this.patientVisits) {
             let firstPending;
+            this.centredIndex = 1;
             for (let i = 0; i < this.patientVisits.length; i++) {
                 let isCompleted = this.patientVisits[i].Status__c === 'Completed';
                 let item = {
@@ -115,12 +116,13 @@ export default class VisitsPath extends LightningElement {
                     icon: isCompleted ? iconSucc : iconNeutral,
                     complDate: isCompleted ? this.patientVisits[i].Completed_Date__c : null,
                     planDate: (!isCompleted && this.patientVisits[i].Planned_Date__c) ?  this.patientVisits[i].Planned_Date__c : null,
-                    stateStatus: isCompleted ? stateSucc : stateNeutral,
-                    left: i > 0 ? this.pathItems[i - 1].right : null,
-                    right: i < (this.patientVisits.length - 1) ? lineClass + state : null,
+                    stateStatus: isCompleted ? stateSucc : stateNeutral
                 };
                 this.pathItems.push(item);
-                if(!firstPending && !isCompleted) firstPending = this.patientVisits[i];
+                if(!firstPending && !isCompleted) {
+                    firstPending = item;
+                    this.centredIndex = i;
+                }
             }
             if(firstPending){
                 firstPending.icon = iconPlanned;
@@ -129,8 +131,8 @@ export default class VisitsPath extends LightningElement {
 
             for (let i = 0; i < this.pathItems.length; i++){
                 let item = this.pathItems[i];
-                item.left = i > 0 ? this.pathItems[i - 1].right : null;
-                item.right = (this.pathItems.length - 1) ? lineClass + item.stateStatus : null;
+                item.right = i < this.pathItems.length - 1 ? lineClass + this.pathItems[i + 1].stateStatus : lineClass + item.stateStatus;
+                item.left = lineClass + item.stateStatus;
                 item.state = stateClass + item.stateStatus;
             }
 
