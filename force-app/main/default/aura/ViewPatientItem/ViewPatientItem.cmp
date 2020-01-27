@@ -74,9 +74,6 @@
                 <aura:if isTrue="{!v.userMode == 'PI'}">
                     <div class="slds-grid vpi-status-btns slds-gutters_x-small slds-wrap">
                         <div class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_6-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_4-of-12'}">
-                            <span>
-                        <lightning:helptext content="{!$Label.c.PG_AS_F_Source_ID_Help_Text}"/>
-                    </span>
                             <button class="{!'apollo-btn secondary'}"
                                     title="{!$Label.c.BTN_View_Participant_Details}"
                                     onclick="{!c.showEditParticipantInformation}"
