@@ -2439,8 +2439,6 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
         <shortDescription>Email Body SS on PE Was Changed To PI</shortDescription>
         <value>A participant, ##PEProfileName, has been transferred to your study site: ##SSName.
 
-
-
 If you have questions or concerns about this transfer, please contact your IQVIA Patient Recruitment Lead.</value>
     </labels>
     <labels>
@@ -6535,6 +6533,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG_AS_F_Select_Preferred_Timezone</shortDescription>
         <value>Select preferred timezone</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Source_ID_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_AS_F_Source_ID_Help_Text</shortDescription>
+        <value>use MRN field if source is PI Patient ID if source is HCP, ReferralID and Data_Source (separated by semicolon) if source is Dig Recruitment</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Suffix</fullName>

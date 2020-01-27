@@ -345,7 +345,7 @@ public without sharing class ParametersDataProvider {
                     ORDER BY CreatedDate DESC LIMIT 1
             ];
             if (!hcpe.isEmpty()) {
-                initParamsFromHCPE(hcpe[0].Id, false);
+                initParamsFromHCPE(hcpe[0].Id, multiplePIMessage);
             }
             parameters.put('HCPName', getFullContactName(cnt));
             parameters.put('HCPLanguage', cnt.Language__c);
