@@ -4,16 +4,13 @@
 
 ({
     doInit: function (component, event, helper) {
-        console.log('init');
         communityService.executeAction(component, 'getInitData', {},
             function (initData) {
-            component.set('v.isAvailable', initData.linksAvailable);
-            console.log('linksAvailable' + JSON.stringify(initData.linksAvailable));
-                if(component.get("v.isAvailable")){
+                component.set('v.isAvailable', initData.linksAvailable);
                 component.set('v.links', initData.resources);
-                console.log('links' + JSON.stringify(initData.resources));
+                component.set('v.initialized', true);
+            }, null, function () {
                 component.find('spinner').hide();
-            }
-        });
+            });
     }
 });

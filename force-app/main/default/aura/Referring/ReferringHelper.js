@@ -41,7 +41,6 @@
     },
 
     setParticipant: function (component, pe) {
-        component.set('v.countryInitialized', false);
         var participant = {
             sobjectType: 'Participant__c',
             First_Name__c: pe.Participant_Name__c,
@@ -52,9 +51,9 @@
         if(pe.HCP__r){
             participant.Mailing_Country_Code__c= pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode;
             participant.Mailing_State_Code__c= pe.HCP__r.HCP_Contact__r.Account.BillingStateCode;
+            component.set('v.selectedCountry', participant.Mailing_Country_Code__c);
         }
         component.set('v.participant', participant);
-        component.set('v.countryInitialized', true);
     },
 
     setDelegate: function (component) {
@@ -90,6 +89,7 @@
         var result =
             participant.First_Name__c &&
             participant.Last_Name__c &&
+            participant.Date_of_Birth__c &&
             (needsDelegate || participant.Email__c) &&
             participant.Mailing_Zip_Postal_Code__c &&
             (needsDelegate || emailVaild) &&

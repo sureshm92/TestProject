@@ -324,8 +324,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                             !participant.IsCountry_NOT_Eligible_for_Emails__c &&
                             participant.Contact__c != null;
             System.debug('FILTER CRITERIA: ' + filterCriteria);
-            if (filterCriteria) {
-                if (participantUser == null && participant.Adult__c) {
+            if (filterCriteria && participant.Adult__c) {
+                if (participantUser == null) {
                     System.debug('CREATE USER');
                     Id hcpContact;
                     if (hcpe != null) hcpContact = hcpe.HCP_Contact__c;

@@ -2,21 +2,22 @@
  - Created by Olga Skrynnikova on 12/20/2019.
  -->
 
-<aura:component description="PaymentsPanel" controller="PaymentsRemote" >
+<aura:component description="PaymentsPanel" controller="PaymentsRemote">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
     <aura:attribute name="initialized" type="Boolean"/>
+    <aura:attribute name="informationAvailable" type="Boolean"/>
     <aura:attribute name="participant" type="Participant__c"/>
     <aura:attribute name="pendingPayments" type="String"/>
     <aura:attribute name="href" type="String"/>
 
     <div class="sv-panel rr-white-panel" data-gtm="PNL_PaymentsPanel">
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
-
         <aura:if isTrue="{!v.initialized}">
             <div class="sv-header">
                 <div class="sv-title">{!$Label.c.Home_Page_Payments_Title}</div>
             </div>
-            <div class="sv-body">
+            <aura:if isTrue="{!v.informationAvailable}">
+                <div class="sv-body">
                     <c:RRTable>
                         <tr>
                             <th>{!$Label.c.Home_Page_Payments_Card_Status}</th>
@@ -29,15 +30,23 @@
                             <td>{!v.pendingPayments} $</td>
                         </tr>
                     </c:RRTable>
-            </div>
-            <div class="sv-footer">
-                <a href="{!v.href}"
-                   class="link rr-link"
-                   data-gtm="LNK_ManagePayments">{!$Label.c.Manage_My_Payments}
-                    <aura:if isTrue="{!v.isArabic}"><c:RRIcon iconName="icon-chevron-left"/></aura:if>
-                    <aura:if isTrue="{!!v.isArabic}"><c:RRIcon iconName="icon-chevron-right"/></aura:if>
-                </a>
-            </div>
+                </div>
+                <div class="sv-footer">
+                    <a href="{!v.href}"
+                       class="link rr-link"
+                       data-gtm="LNK_ManagePayments">{!$Label.c.Manage_My_Payments}
+                        <aura:if isTrue="{!v.isArabic}">
+                            <c:RRIcon iconName="icon-chevron-left"/>
+                        </aura:if>
+                        <aura:if isTrue="{!!v.isArabic}">
+                            <c:RRIcon iconName="icon-chevron-right"/>
+                        </aura:if>
+                    </a>
+                </div>
+                <aura:set attribute="else">
+                    <c:EmptyListStub iconName="none" message="{!$Label.c.PG_VP_L_No_Items_display}"/>
+                </aura:set>
+            </aura:if>
         </aura:if>
     </div>
 </aura:component>

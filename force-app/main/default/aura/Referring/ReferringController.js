@@ -181,6 +181,8 @@
         let participant = component.get('v.participant');
         if (participant.Health_care_proxy_is_needed__c) {
             helper.setDelegate(component);
+        } else {
+            component.set('v.emailDelegateRepeat', '');
         }
         component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
     },
@@ -251,11 +253,17 @@
             var states = statesMapByCountry[countryCode];
             if(!states) states = [];
             emptyStates = states.length === 0;
-            component.set('v.states', states);
+            if (component.get('v.selectedCountry') != participant.Mailing_Country_Code__c || component.get('v.states').length != states.length) {
+                component.set('v.states', states);
+            }
+            if (states.length == 0) {
+                component.set('v. participant.Mailing_Country_Code__c', null);
+            }
         }else{
             component.set('v.states', []);
         }
-        if(component.get('v.countryInitialized')) component.set('v.participant.Mailing_State_Code__c', null);
+
+        component.set('v.selectedCountry', participant.Mailing_Country_Code__c);
         helper.checkFields(component);
     }
 

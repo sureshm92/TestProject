@@ -5,6 +5,8 @@
     overflow: hidden;
     position: relative;
     padding-right: 1em;
+    word-break: break-word;
+    word-wrap: break-word;
 }
 
 .block-with-text:before {

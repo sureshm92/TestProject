@@ -107,7 +107,6 @@ global without sharing class EmailTemplateController {
     global String userGreetingValue {
         get{
             setDefaultValues();
-            System.debug(userGreetingValue);
             return prepareLineBreaks(TranslateHelper.replaceParams(userGreetingValue, PARAM_PREFIX, getDataProvider().parameters) +'\n\n');
         }
         set;
@@ -237,8 +236,8 @@ global without sharing class EmailTemplateController {
                         } else {
                             PIpeMap.put(hcpe.Study_Site__r.Principal_Investigator__c, new List<HCP_Enrollment__c> { hcpe } );
                         }
-                    }/*
-                    List<HCP_Enrollment__c> hcpe = [
+                    }
+                    /*List<HCP_Enrollment__c> hcpe = [
                             SELECT Id
                             FROM HCP_Enrollment__c
                             WHERE HCP_Contact__c = :hcpContact.Id AND
@@ -260,6 +259,7 @@ global without sharing class EmailTemplateController {
                         titleLabel = LABEL_TITLE_ALL;
                         signatureLabel = LABEL_SIGNATURE;
                         userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
+                        dataProvider = new ParametersDataProvider(sourceRecordId, emailRecipientName, emailRecipientId, emailRecipientLanguage, emailParametersProvider, userCommunityType, outputMode, multiplePIMessageValue);
                     } else {
                         bodyLabel = LABEL_BODY_INITIAL_HCP;
                         headerLabel = LABEL_HEADER_INITIAL_HCP;
