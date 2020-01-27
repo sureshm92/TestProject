@@ -3,7 +3,7 @@
  */
 
 import {LightningElement, api, track} from 'lwc';
-
+import formFactor from '@salesforce/client/formFactor';
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 
 import emptyChatLabel from '@salesforce/label/c.MS_Empty_Chat';
@@ -44,6 +44,7 @@ export default class MessageBoard extends LightningElement {
     };
 
     @api userMode;
+    @api firstConWr;
 
     @track enrollments;
     @track conversation;
@@ -103,6 +104,12 @@ export default class MessageBoard extends LightningElement {
         this.isMultipleMode = false;
     }
 
+    renderedCallback() {
+        if (this.firstConWr && !this.hideEmptyStub && !this.conversation && !this.enrollments) {
+            this.openExisting(this.firstConWr.conversation, this.firstConWr.messages, this.firstConWr.isPastStudy);
+        }
+    }
+
     //Search Handlers:--------------------------------------------------------------------------------------------------
     handleSearch(event) {
         searchParticipant(event.detail)
@@ -121,14 +128,18 @@ export default class MessageBoard extends LightningElement {
 
     handleSelectionChange() {
         let lookUpResult = this.template.querySelector('c-web-lookup').getSelection();
-        this.selectedEnrollments = lookUpResult.map(res => res.id);
+        this.selectedEnrollments = lookUpResult.map(function (res) {
+            return res.id
+        });
         this.checkSendBTNAvailability();
     }
 
     //Handlers:---------------------------------------------------------------------------------------------------------
     handleEnrollmentSelect(event) {
         let peId = event.target.value;
-        this.selectedEnrollment = this.enrollments.filter(pe => pe.Id === peId)[0];
+        this.selectedEnrollment = this.enrollments.filter(function (pe) {
+            return pe.Id === peId
+        })[0];
         this.checkSendBTNAvailability();
     }
 
@@ -138,12 +149,12 @@ export default class MessageBoard extends LightningElement {
     }
 
     handleInputEnter(event) {
-        if(this.messageText && event.keyCode === 13) this.handleSendClick();
+        if (this.messageText && event.keyCode === 13) this.handleSendClick();
     }
 
     handleSendClick(event) {
         //Add opportunity for Attach
-        if(this.userMode === 'PI' && this.isMultipleMode && this.selectedEnrollments) {
+        if (this.userMode === 'PI' && this.isMultipleMode && this.selectedEnrollments) {
             sendMultipleMessage({peIds: this.selectedEnrollments, messageText: this.messageText})
                 .then(() => {
                     this.fireMultipleSendEvent();
@@ -176,7 +187,7 @@ export default class MessageBoard extends LightningElement {
     get enrollmentsOptions() {
         let options = [];
         if (this.enrollments) {
-            this.enrollments.forEach(item => {
+            this.enrollments.forEach(function (item) {
                 options.push({
                     label: item.Clinical_Trial_Profile__r.Study_Code_Name__c,
                     value: item.Id
@@ -189,7 +200,7 @@ export default class MessageBoard extends LightningElement {
     get messageTemplateOptions() {
         let options = [];
         if (this.userMode === 'Participant' && this.messageTemplates) {
-            this.messageTemplates.forEach((item) => {
+            this.messageTemplates.forEach(function (item) {
                 options.push({
                     label: item,
                     value: item

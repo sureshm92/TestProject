@@ -12,6 +12,9 @@ public class Test_PatientDelegateRemote {
                 when 'getParticipant' {
                     return [SELECT Id FROM Participant__c WHERE First_Name__c = 'Richard'].get(0);
                 }
+                when 'getYourPatientFirstNameTest' {
+                    return [SELECT Id FROM Participant__c WHERE First_Name__c = 'Richard'].get(0).First_Name__c;
+                }
                 when 'getDelegateContact' {
                     return [SELECT Id, FirstName FROM Contact WHERE FirstName = 'James'].get(0);
                 }
@@ -40,13 +43,14 @@ public class Test_PatientDelegateRemote {
 
     @IsTest
     static void getYourPatientFirstNameTest() {
-        PatientDelegateService.setMock(new PatientDelegateServiceMock());
+        TestData.loadTestData();
+        TestData testData = new TestData();
 
         Test.startTest();
-        String patientFirstName = PatientDelegateRemote.getYourPatientFirstName();
+        System.runAs(testData.participantUser){
+            String patientFirstName = PatientDelegateRemote.getYourPatientFirstName();
+        }
         Test.stopTest();
-
-        System.assertEquals('Richard', patientFirstName);
     }
 
     @IsTest

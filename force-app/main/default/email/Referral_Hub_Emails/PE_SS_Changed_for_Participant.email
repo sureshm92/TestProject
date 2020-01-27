@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="Test SS Changed on PE"
+<messaging:emailTemplate subject="{!$Label.Email_Header_SS_on_PE_Was_Changed_To_Participant}"
                          recipientType="User"
                          relatedToType="Participant_Enrollment__c"
                          language="{!relatedTo.Participant_Contact__r.Language__c}">
@@ -6,22 +6,22 @@
     <messaging:htmlEmailBody >
         <c:EmailTemplate userType="Participant"
                          sourceId="{!relatedTo.Id}"
-                         header="Test SS Changed on PE Participant"
-                         title="Test SS Changed on PE Participant"
-                         greeting="Test SS Changed on PE Participant"
-                         body="Test SS Changed on PE Participant"
-                         signature="Test SS Changed on PE Participant">
+                         header="{!$Label.Email_Header_SS_on_PE_Was_Changed_To_Participant}"
+                         title="{!$Label.Email_Title}"
+                         greeting="{!$Label.Email_User_Greeting}"
+                         body="{!$Label.Email_Body_SS_on_PE_Was_Changed_To_Participant}"
+                         signature="{!$Label.Email_Signature}">
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText userType="Participant"
                              sourceId="{!relatedTo.Id}"
-                             header="Test SS Changed on PE Participant"
-                             title="Test SS Changed on PE Participant"
-                             greeting="Test SS Changed on PE Participant"
-                             body="Test SS Changed on PE Participant"
-                             signature="Test SS Changed on PE Participant">
+                             header="{!$Label.Email_Header_SS_on_PE_Was_Changed_To_Participant}"
+                             title="{!$Label.Email_Title}"
+                             greeting="{!$Label.Email_User_Greeting}"
+                             body="{!$Label.Email_Body_SS_on_PE_Was_Changed_To_Participant}"
+                             signature="{!$Label.Email_Signature}">
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody> 
 </messaging:emailTemplate>

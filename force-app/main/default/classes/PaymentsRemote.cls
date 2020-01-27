@@ -7,6 +7,7 @@ public without sharing class PaymentsRemote {
         @AuraEnabled public Participant__c participant;
         @AuraEnabled public String pendingPayments;
         @AuraEnabled public String href;
+        @AuraEnabled public Boolean informationAvailable;
     }
 
     @AuraEnabled
@@ -15,17 +16,18 @@ public without sharing class PaymentsRemote {
             InitData initData = new InitData();
             ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
             initData.participant = ps.participant;
+            initData.informationAvailable = true;
 
             if(String.isEmpty(initData.participant.Pending_Payments__c)) initData.pendingPayments = '0.00';
             else initData.pendingPayments = initData.participant.Pending_Payments__c;
 
-            List<TravelVendorSettings__c> tvs = [
-                    SELECT Id, Study_Site__c, TravelVendor__r.Link_Vendor__c
-                    FROM TravelVendorSettings__c
+            List<PaymentVendorSettings__c> pvs = [
+                    SELECT Id, Study_Site__c, Payment_Vendor__r.Link_Vendor__c
+                    FROM PaymentVendorSettings__c
                     WHERE Study_Site__c =: ps.pe.Study_Site__c
             ];
-            if(tvs.size() > 0) initData.href = tvs[0].TravelVendor__r.Link_Vendor__c;
-            else initData.href = 'https://clincard.com/login/';
+            if(pvs.isEmpty() || String.isEmpty(initData.participant.Status__c)) initData.informationAvailable = false;
+            else initData.href = pvs[0].Payment_Vendor__r.Link_Vendor__c;
 
             return initData;
         } catch (Exception e) {
