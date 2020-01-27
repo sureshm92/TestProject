@@ -79,13 +79,15 @@ public without sharing class MessagePageRemote {
                 pageData.enrollments = getEnrollmentsForPI(null);
             }
             if (!conversations.isEmpty()) {
-                List<Id> conIds = new List<Id>();
-                for (Conversation__c con : conversations) conIds.add(con.Id);
+                Map<Id, Conversation__c> conversationsByIds = new Map<Id, Conversation__c>();
+                for (Conversation__c con : conversations) conversationsByIds.put(con.Id, con);
 
-                Map<Id, List<Message__c>> messagesByConversation = MessageService.getMessagesByConversations(conIds);
+                Map<Id, List<Message__c>> messagesByConversation =
+                        MessageService.getMessagesByConversations(new List<Id>(conversationsByIds.keySet()));
+
                 pageData.conversationWrappers = new List<ConversationWrapper>();
-
-                for (Conversation__c conversation : conversations) {
+                for(Id conId : messagesByConversation.keySet()) {
+                    Conversation__c conversation = conversationsByIds.get(conId);
                     pageData.conversationWrappers.add(getConversationWrapper(
                             pageData.userMode, conversation, messagesByConversation.get(conversation.Id))
                     );
