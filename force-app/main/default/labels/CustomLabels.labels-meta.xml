@@ -6493,6 +6493,13 @@ View study documents and other resources including articles and videos related t
         <value>Select preferred timezone</value>
     </labels>
     <labels>
+        <fullName>PG_AS_F_Source_ID_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_AS_F_Source_ID_Help_Text</shortDescription>
+        <value>use MRN field if source is PI Patient ID if source is HCP, ReferralID and Data_Source (separated by semicolon) if source is Dig Recruitment</value>
+    </labels>
+    <labels>
         <fullName>PG_AS_F_Suffix</fullName>
         <language>en_US</language>
         <protected>false</protected>
