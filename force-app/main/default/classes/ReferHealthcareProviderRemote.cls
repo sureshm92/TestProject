@@ -96,7 +96,6 @@ global without sharing class ReferHealthcareProviderRemote {
             newHP.Participant_Enrollment__c = peId;
             newHP.Status__c = HP_S_INVITED;
             insert newHP;
-            system.debug('132');
             try {
                 createHCPinPlatform(pe.Study_Site__c, newHP.First_Name__c, newHP.Last_Name__c, newHP.Email__c, null, CommunityService.getUserContact(), newHP, null, null);
             }
@@ -205,7 +204,6 @@ global without sharing class ReferHealthcareProviderRemote {
     }
 
     public static String createHCPinPlatform(String studySiteId, String firstName, String lastName, String email, String phone, Contact piContact, Healthcare_Provider__c hp, Id hcpContactId, List<String> piIds) {
-        system.debug('qwersqwers');
         Boolean isNewUser = false;
         List<HCP_Enrollment__c> hcpes = new List<HCP_Enrollment__c>();
         List<Study_Site__c> studySitesToInvite = new List<Study_Site__c>();
@@ -276,7 +274,6 @@ global without sharing class ReferHealthcareProviderRemote {
                     Study_Site__c = (String.isBlank(stdSite.Id) ? null : stdSite.Id)
             ));
         }
-
         if (hp != null) {
             system.debug('8888qwersqwers');
             if (!isNewUser) {
@@ -303,10 +300,6 @@ global without sharing class ReferHealthcareProviderRemote {
                 insert new PI_RP_Relationship__c(PI_Contact__c = studySitesToInvite[0].Principal_Investigator__c, RP_Contact__c = cntList[0].Id);
             }
             if (!isNewUser) {
-                system.debug('02222qwersqwers');
-                for (HCP_Enrollment__c hcpEnrollment : hcpes) {
-                    hcpEnrollment.Status__c = hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Orientation_Required__c ? HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O : HCPEnrollmentService.HCP_S_ACTIVATED;
-                }
                 if (!hcpes.isEmpty()) {
                     system.debug('033333qwersqwers');
                     insert hcpes;
