@@ -88,6 +88,13 @@
     font-weight: 500;
 }
 
+.ms-header-patient-study {
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    line-height: 19px;
+}
+
 .ms-board-body {
     height: 425px;
     padding: 10px;
@@ -95,6 +102,7 @@
     scroll-behavior: smooth;
     display: flex;
     flex-direction: column-reverse;
+    -ms-flex-direction: column-reverse;
 }
 
 .ms-board-body::-webkit-scrollbar {
