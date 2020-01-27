@@ -4,7 +4,6 @@
 
     <aura:attribute name="initialized" type="Boolean"/>
     <aura:attribute name="visitWrappers" type="PatientVisitService.VisitWrapper[]"/>
-    <aura:attribute name="travelVendorAvailable" type="Boolean" default="true"/>
 
     <div class="sv-panel rr-white-panel">
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
@@ -12,9 +11,6 @@
         <aura:if isTrue="{!v.initialized}">
             <div class="sv-header">
                 <div class="sv-title">{!$Label.c.Home_Page_StudyVisit_Title}</div>
-                <div class="apollo-btn">
-                    <c:TravelSupport isAvailable="{!v.travelVendorAvailable}"/>
-                </div>
             </div>
             <div class="sv-body">
                 <aura:if isTrue="{!!empty(v.visitWrappers)}">

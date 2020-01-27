@@ -107,6 +107,9 @@ public without sharing class ParametersDataProvider {
                         Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                         Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
                         Study_Site__r.Study_Site_Phone__c,
+                        Study_Site__r.Site__r.BillingStreet,
+                        Study_Site__r.Site__r.BillingCity,
+                        Study_Site__r.Site__r.BillingPostalCode,
                         Is_Virtual_Study_Site__c,
                         IsSubjectIDverifiedInSDH__c,
                         Motivational_Message_Id__c,
@@ -124,7 +127,14 @@ public without sharing class ParametersDataProvider {
                 'ParticipantName' => getFullParticipantName(pe.Participant__r),
                 'ParticipantContactFirstName' => pe.Participant_Contact__r.FirstName,
                 'ParticipantLanguage' => getParticipantLanguage(pe.Participant__r),
-                'IsVirtual' => pe.Is_Virtual_Study_Site__c + ''
+                'IsVirtual' => pe.Is_Virtual_Study_Site__c + '',
+                'PEProfileName' => pe.Name,
+                'SSName' => pe.Study_Site__r.Name,
+                'StudyCodeName' => pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                'SSAddress' => pe.Study_Site__r.Site__r.BillingStreet,
+                'SSCity' => pe.Study_Site__r.Site__r.BillingCity,
+                'SSPostalCode' => pe.Study_Site__r.Site__r.BillingPostalCode,
+                'SSPhone' => pe.Study_Site__r.Study_Site_Phone__c
         };
 
         if(pe.HCP__c != null){
@@ -207,14 +217,12 @@ public without sharing class ParametersDataProvider {
         parameters = new Map<String, String>{
                 'GuestName' => TranslateHelper.getLabelValue('Email_Guest_User_Name'),
                 'GuestLanguage' => hcpe.HCP_Contact__r.Language__c,
-                'PIName' =>  multiplePIMessage ? piNames : getFullContactName(hcpe.Study_Site__r.Principal_Investigator__r),
+                'PIName' => multiplePIMessage ? piNames : getFullContactName(hcpe.Study_Site__r.Principal_Investigator__r),
                 'HCPName' => getFullContactName(hcpe.HCP_Contact__r),
                 'PILanguage' => hcpe.Study_Site__r.Principal_Investigator__r.Language__c,
                 'HCPLanguage' => hcpe.HCP_Contact__r.Language__c
         };
-
         TranslateHelper.translate(hcpe, getUserLanguage());
-
         parameters.putAll(new Map<String, String>{
                 'StudySiteName' => hcpe.Study_Site__r.Name,
                 'StudyName' => hcpe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
@@ -333,11 +341,11 @@ public without sharing class ParametersDataProvider {
                             HCP_Contact__c
                     FROM HCP_Enrollment__c
                     WHERE HCP_Contact__c = :cnt.Id AND
-                    ( Status__c = :HCPEnrollmentService.HCP_S_INVITATION_SENT OR Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION )
+                    ( Status__c = :HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O OR Status__c = :HCPEnrollmentService.HCP_S_ACTIVATED )
                     ORDER BY CreatedDate DESC LIMIT 1
             ];
             if (!hcpe.isEmpty()) {
-                initParamsFromHCPE(hcpe[0].Id, false);
+                initParamsFromHCPE(hcpe[0].Id, multiplePIMessage);
             }
             parameters.put('HCPName', getFullContactName(cnt));
             parameters.put('HCPLanguage', cnt.Language__c);

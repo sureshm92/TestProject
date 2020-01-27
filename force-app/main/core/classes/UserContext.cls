@@ -19,6 +19,12 @@ public without sharing class UserContext {
         return user;
     }
     
+    public static Id getUserId(){
+        if(user == null) setUser(UserInfo.getUserId());
+        if(user != null) return user.Id;
+        return null;
+    }
+    
     public static void setDummyUserContact(Id userContactId){
         setContact(userContactId);
     }

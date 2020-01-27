@@ -6,6 +6,7 @@
     <encodingKey>ISO-8859-1</encodingKey>
     <name>PE SS Changed for PI</name>
     <style>none</style>
+    <subject>The participant has been transferred to another Study Site</subject>
     <type>visualforce</type>
     <uiType>Aloha</uiType>
 </EmailTemplate>

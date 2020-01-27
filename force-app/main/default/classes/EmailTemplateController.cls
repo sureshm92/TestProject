@@ -107,7 +107,6 @@ global without sharing class EmailTemplateController {
     global String userGreetingValue {
         get{
             setDefaultValues();
-            System.debug(userGreetingValue);
             return prepareLineBreaks(TranslateHelper.replaceParams(userGreetingValue, PARAM_PREFIX, getDataProvider().parameters) +'\n\n');
         }
         set;
@@ -223,25 +222,44 @@ global without sharing class EmailTemplateController {
                 }
                 if (hcpContact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP) && hcpContact.userCommunityMode__c == CommunityService.USER_MODE_HCP) {
                     List<Healthcare_Provider__c> hcp = [SELECT Id FROM Healthcare_Provider__c WHERE HCP_Enrollment__c IN (SELECT Id FROM HCP_Enrollment__c WHERE HCP_Contact__c =:hcpContact.Id)];
-                    List<HCP_Enrollment__c> hcpe = [
+                    Map<Id, List<HCP_Enrollment__c>> PIpeMap = new Map<Id,List<HCP_Enrollment__c>>();
+                    for(HCP_Enrollment__c hcpe : [
+                            SELECT Id,
+                                    Study_Site__r.Principal_Investigator__c
+                            FROM HCP_Enrollment__c
+                            WHERE HCP_Contact__c = :hcpContact.Id AND
+                            ( Status__c = :HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O OR Status__c = :HCPEnrollmentService.HCP_S_ACTIVATED )
+                            ORDER BY CreatedDate DESC
+                    ]){
+                        if(PIpeMap.containsKey(hcpe.Study_Site__r.Principal_Investigator__c)){
+                            PIpeMap.get(hcpe.Study_Site__r.Principal_Investigator__c).add(hcpe);
+                        } else {
+                            PIpeMap.put(hcpe.Study_Site__r.Principal_Investigator__c, new List<HCP_Enrollment__c> { hcpe } );
+                        }
+                    }
+                    /*List<HCP_Enrollment__c> hcpe = [
                             SELECT Id
                             FROM HCP_Enrollment__c
                             WHERE HCP_Contact__c = :hcpContact.Id AND
-                            ( Status__c = :HCPEnrollmentService.HCP_S_INVITATION_SENT OR Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION )
-                            ORDER BY CreatedDate DESC LIMIT 1
-                    ];
+                            ( Status__c = :HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O OR Status__c = :HCPEnrollmentService.HCP_S_ACTIVATED )
+                            ORDER BY CreatedDate DESC
+                    ];*/
                     if (!hcp.isEmpty()) {
                         bodyLabel = LABEL_BODY_INITIAL_PI_PT_HCP;
                         headerLabel = LABEL_HEADER_INITIAL_PI_PT_HCP;
                         titleLabel = LABEL_TITLE_ALL;
                         signatureLabel = LABEL_SIGNATURE;
                         userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
-                    } else if (!hcpe.isEmpty()){
+                    } else if (!PIpeMap.isEmpty()){
+                        if (PIpeMap.keySet().size() > 1) {
+                            multiplePIMessageValue = true;
+                        }
                         bodyLabel = LABEL_BODY_INITIAL_PI_HCP;
                         headerLabel = LABEL_HEADER_INITIAL_PI_HCP;
                         titleLabel = LABEL_TITLE_ALL;
                         signatureLabel = LABEL_SIGNATURE;
                         userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
+                        dataProvider = new ParametersDataProvider(sourceRecordId, emailRecipientName, emailRecipientId, emailRecipientLanguage, emailParametersProvider, userCommunityType, outputMode, multiplePIMessageValue);
                     } else {
                         bodyLabel = LABEL_BODY_INITIAL_HCP;
                         headerLabel = LABEL_HEADER_INITIAL_HCP;

@@ -39,7 +39,8 @@ public class TestDataFactory {
                     'Mailing_Country_Code__c' => 'US',
                     'Mailing_State_Code__c' => 'NY',
                     'Mailing_Zip_Postal_Code__c' => '1234231234',
-                    'Preferred_Language__c' => 'en_US'
+                    'Preferred_Language__c' => 'en_US',
+                    'Adult__c' => true
             },
 
             Resource_Action__c.getSObjectType() => new Map<String, Object>{
@@ -246,7 +247,8 @@ public class TestDataFactory {
                 Phone__c = '55313535',
                 Email__c = 'part1@email.com',
                 Mailing_Country_Code__c = 'US',
-                Mailing_State_Code__c = 'AL'
+                Mailing_State_Code__c = 'AL',
+                Adult__c = true
         );
         insert participant;
         Participant_Enrollment__c pe = new Participant_Enrollment__c(

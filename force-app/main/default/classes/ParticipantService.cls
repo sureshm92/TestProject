@@ -49,12 +49,12 @@ public without sharing class ParticipantService {
         participantState = new ParticipantState();
         Contact userContact = CommunityService.getUserContact();
         participantState.currentContactId = userContact.userCommunityDelegateId__c;
-        if(participantState.currentContactId == null) participantState.currentContactId = userContact.Id;
+        if (participantState.currentContactId == null) participantState.currentContactId = userContact.Id;
         participantState.isDelegate = userContact.userCommunityDelegateId__c != null;
-        participantState.currentUserId = [SELECT Id FROM User WHERE ContactId =: participantState.currentContactId LIMIT 1].Id;
-        if(userContact.Current_Participant_Enrollment__c != null){
+        participantState.currentUserId = [SELECT Id FROM User WHERE ContactId = :participantState.currentContactId LIMIT 1].Id;
+        if (userContact.Current_Participant_Enrollment__c != null) {
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(userContact.Current_Participant_Enrollment__c, CommunityService.USER_MODE_PARTICIPANT);
-            if(pe != null){
+            if (pe != null) {
                 participantState.participant = getParticipant(pe.Participant__c);
                 participantState.pe = pe;
                 participantState.ctp = participantState.pe.Clinical_Trial_Profile__r;
@@ -66,22 +66,22 @@ public without sharing class ParticipantService {
                 } else if (PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
                     participantState.value = ParticipantStates.PARTICIPANT;
                     participantState.showVisits = showVisits();
-                }else{
+                } else {
                     participantState.value = ParticipantStates.REFERRAL;
                 }
             }
-        }else{
+        } else {
             participantState.participant = getParticipant(participantState.currentContactId);
             //Get participant for delegate
-            if(participantState.participant == null){
+            if (participantState.participant == null) {
                 Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(CommunityService.getUserContact().Id);
-                if(participant != null) participantState.participant = getParticipant(participant.Id);
+                if (participant != null) participantState.participant = getParticipant(participant.Id);
             }
         }
         participantState.welcomeMessage = getWelcomeMessage();
     }
-    
-    public static Participant__c getParticipant(Id sourceId){
+
+    public static Participant__c getParticipant(Id sourceId) {
         List<Participant__c> participants = [
                 SELECT Id,
                         First_Name__c,
@@ -94,6 +94,9 @@ public without sharing class ParticipantService {
                         Email__c,
                         Phone__c,
                         Phone_Type__c,
+                        Status__c,
+                        Balance__c,
+                        Pending_Payments__c,
                         Mailing_State__c,
                         Mailing_City__c,
                         Mailing_State_Code__c,
@@ -103,11 +106,12 @@ public without sharing class ParticipantService {
                         Contact__c,
                         Conditions__c,
                         Contact__r.Visit_Results_Opt_In__c,
+                        Contact__r.Participant_Opt_In_Status_Emails__c,
                         Marketing_Flag__c
                 FROM Participant__c
                 WHERE Contact__c = :sourceId OR Id = :sourceId
         ];
-        if(participants.size() > 0) return participants[0];
+        if (participants.size() > 0) return participants[0];
         return null;
     }
 
@@ -136,7 +140,7 @@ public without sharing class ParticipantService {
         List<Participant__c> participants = [
                 SELECT Full_Name__c
                 FROM Participant__c
-                WHERE Contact__c =: CommunityService.getInstance().getCurrentContactId()
+                WHERE Contact__c = :CommunityService.getInstance().getCurrentContactId()
         ];
         if (participants.size() == 0) {
             userName = (String) CommunityService.getUserContact().get('Name');
@@ -158,11 +162,11 @@ public without sharing class ParticipantService {
         participant.Preferred_Language__c = UserInfo.getLanguage();
         ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(participant);
         Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
-        if(participantFromDatabase != null){
+        if (participantFromDatabase != null) {
             participant = participantFromDatabase;
-        }else {
+        } else {
             //check contact duplicate:
-            if(duplicateService.findDuplicateContact(participant) != null){
+            if (duplicateService.findDuplicateContact(participant) != null) {
                 participant.Contact__c = duplicateService.findDuplicateContact(participant).Id;
             }
             insert participant;
@@ -218,7 +222,7 @@ public without sharing class ParticipantService {
                         Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c
                 FROM Participant_Enrollment__c
                 WHERE Participant_Contact__c IN:participantContIds
-                AND Participant_Status__c IN: PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL
+                AND Participant_Status__c IN:PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL
                 AND Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c != NULL
         ];
 
@@ -235,7 +239,7 @@ public without sharing class ParticipantService {
             }
 
             Integer currentNotification = nearestNotificationByContactIds.get(contactId);
-            if(currentNotification > daysNotification) {
+            if (currentNotification > daysNotification) {
                 nearestNotificationByContactIds.put(contactId, daysNotification);
             }
         }
@@ -245,8 +249,49 @@ public without sharing class ParticipantService {
 
     public static String getParticipantFullName(Id contactId) {
         List<Participant__c> participant = [SELECT Full_Name__c FROM Participant__c WHERE Contact__c = :contactId];
-        if(participant.isEmpty()) throw new ParticipantServiceException('This contact hasn\'t participant!');
+        if (participant.isEmpty()) throw new ParticipantServiceException('This contact hasn\'t participant!');
 
         return participant.get(0).Full_Name__c;
+    }
+
+    public static List<Participant__c> checkParticipantsAgeOfMajority(List<Participant__c> participants) {
+        Map<String, Age_of_Majority__mdt> codesByAges = new Map<String, Age_of_Majority__mdt>();
+        List<Age_of_Majority__mdt> ageOfMajorities = [
+                SELECT
+                        Country_Code__c,
+                        State_Code__c,
+                        Age__c
+                FROM Age_of_Majority__mdt
+                ORDER BY
+                        Country_Code__c NULLS LAST,
+                        State_Code__c NULLS LAST
+        ];
+        for (Age_of_Majority__mdt mdt : ageOfMajorities) codesByAges.put(mdt.Country_Code__c, mdt);
+
+        for (Participant__c prt : participants) {
+            if(prt.Adult__c || String.isBlank(prt.Date_of_Birth__c)) continue;
+            try {
+                Date birthDate = Date.newInstance(
+                        Integer.valueOf(prt.Date_of_Birth__c.substring(0, 4)),
+                        Integer.valueOf(prt.Date_of_Birth__c.substring(5, 7)),
+                        Integer.valueOf(prt.Date_of_Birth__c.substring(8, 10)));
+
+                Integer participantAge =
+                        Date.newInstance(2000, birthDate.month(), birthDate.day()) <
+                                Date.newInstance(2000, Date.today().month(), Date.today().day()) ?
+                                Date.today().year() - birthDate.year() : Date.today().year() - birthDate.year() - 1;
+
+                Age_of_Majority__mdt ageOfMajority = codesByAges.get(prt.Mailing_Country_Code__c) != null ?
+                        codesByAges.get(prt.Mailing_Country_Code__c) : codesByAges.get(null);
+                if ((prt.Mailing_Country_Code__c == ageOfMajority.Country_Code__c
+                        && (prt.Mailing_State_Code__c == ageOfMajority.State_Code__c || String.isBlank(ageOfMajority.State_Code__c)))
+                        || (String.isBlank(ageOfMajority.Country_Code__c))){
+                    prt.Adult__c = participantAge >= ageOfMajority.Age__c;
+                }
+                System.debug('In check');
+            } catch (Exception e) {
+            }
+        }
+        return participants;
     }
 }

@@ -46,7 +46,9 @@
                                      onblur="{!c.doCheckFields}"/>
                 </div>
                 <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3'}">
-                    <div class="label">{!$Label.c.PG_AS_F_Middle_name}</div>
+                    <div class="label">
+                        {!$Label.c.PG_AS_F_Middle_name}
+                    </div>
                     <lightning:input type="text" value="{!v.participant.Middle_Name__c}"
                                      onblur="{!c.doCheckFields}"/>
                 </div>
@@ -231,7 +233,7 @@
                 <aura:if isTrue="{!v.pe.Visit_Plan__c}">
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                     <div class="label">{!$Label.c.ARM}</div>
-                    <lightning:input aura:id="VisitPlanID" type="text" value="{!v.pe.Visit_Plan__c}" onblur="{!c.doCheckFields}" disabled="true"/>
+                    <lightning:input aura:id="VisitPlanID" type="text" value="{!v.pe.Visit_Plan__r.Name}" onblur="{!c.doCheckFields}" disabled="true"/>
                 </div>
                 </aura:if>
                 </div>

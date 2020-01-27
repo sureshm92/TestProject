@@ -120,6 +120,56 @@
         <default>false</default>
         <label>Deceased</label>
     </customValue>
+    <customValue>
+        <fullName>Received</fullName>
+        <default>false</default>
+        <label>Received</label>
+    </customValue>
+    <customValue>
+        <fullName>Successfully Contacted</fullName>
+        <default>false</default>
+        <label>Successfully Contacted</label>
+    </customValue>
+    <customValue>
+        <fullName>Contact Attempted</fullName>
+        <default>false</default>
+        <label>Contact Attempted</label>
+    </customValue>
+    <customValue>
+        <fullName>Unable to Reach</fullName>
+        <default>false</default>
+        <label>Unable to Reach</label>
+    </customValue>
+    <customValue>
+        <fullName>Contacted - Not Suitable</fullName>
+        <default>false</default>
+        <label>Contacted - Not Suitable</label>
+    </customValue>
+    <customValue>
+        <fullName>Screening Passed</fullName>
+        <default>false</default>
+        <label>Screening Passed</label>
+    </customValue>
+    <customValue>
+        <fullName>Screening Passed - Wash Out Period</fullName>
+        <default>false</default>
+        <label>Screening Passed - Wash Out Period</label>
+    </customValue>
+    <customValue>
+        <fullName>Unable to Screen</fullName>
+        <default>false</default>
+        <label>Unable to Screen</label>
+    </customValue>
+    <customValue>
+        <fullName>Randomization Success</fullName>
+        <default>false</default>
+        <label>Randomization Success</label>
+    </customValue>
+    <customValue>
+        <fullName>Randomization Failed</fullName>
+        <default>false</default>
+        <label>Randomization Failed</label>
+    </customValue>
     <masterLabel>Participant Statuses</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>

@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Field_Name__c</field>
-        <value xsi:type="xsd:string">Pre_Eligibility_Date__c</value>
+        <value xsi:type="xsd:string">Medical_Record_Review_Completed_Date__c</value>
     </values>
     <values>
         <field>Label_Name__c</field>
