@@ -39,7 +39,7 @@ public without sharing class ProviderPaymentsService {
             }
         }
         if(!peWithReimbursableActivities.isEmpty()){
-            Map<Id, Contact> contactMap = new Map<Id, Contact>([SELECT Id, FirstName, LastName, MailingPostalCode, MailingCountry, MailingState, MailingCity, MailingStreet FROM Contact WHERE Id IN :providerContactIds]);
+            Map<Id, Contact> contactMap = new Map<Id, Contact>([SELECT Id, FirstName, LastName, MailingPostalCode, MailingCountry, MailingState, MailingCity, MailingStreet, Provider_ID__c FROM Contact WHERE Id IN :providerContactIds]);
             createProviderPaymentsForPEs(peWithReimbursableActivities, studySitesMap, contactMap);
         }
 
@@ -71,7 +71,7 @@ public without sharing class ProviderPaymentsService {
             }
         }
         if(!hcpeWithReimbursableActivities.isEmpty()){
-            Map<Id, Contact> contactMap = new Map<Id, Contact>([SELECT Id, FirstName, LastName, MailingPostalCode, MailingCountry, MailingState, MailingCity, MailingStreet FROM Contact WHERE Id IN :hcpContactIds]);
+            Map<Id, Contact> contactMap = new Map<Id, Contact>([SELECT Id, FirstName, LastName, MailingPostalCode, MailingCountry, MailingState, MailingCity, MailingStreet, Provider_ID__c FROM Contact WHERE Id IN :hcpContactIds]);
             createProviderPaymentsForHCPEs(hcpeWithReimbursableActivities, studySitesMap, contactMap);
         }
     }
