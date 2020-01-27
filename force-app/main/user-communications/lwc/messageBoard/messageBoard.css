@@ -14,7 +14,7 @@
 
 .ms-single-header {
     height: 73px;
-    padding: 15px 25px 0 25px;
+    padding: 14px 25px 0 25px;
     border-bottom: 1px solid #e6e5e5;
 }
 
@@ -137,6 +137,17 @@
     justify-content: space-between;
 }
 
+.ms-att-label {
+    height: 24px;
+    width: 72px;
+    color: #0768FD;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+}
+
 .ms-empty-chat {
     height: 100%;
     display: flex;
@@ -146,11 +157,12 @@
 }
 
 .ms-empty-chat-label {
-    width: 50%;
+    width: 35%;
     color: #999999;
     font-family: "Proxima Nova";
     font-size: 20px;
     font-weight: 600;
     line-height: 26px;
     text-align: center;
+    padding-top: 20px;
 }

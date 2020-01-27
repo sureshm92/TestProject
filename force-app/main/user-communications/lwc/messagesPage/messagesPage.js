@@ -24,6 +24,7 @@ export default class MessagesPage extends LightningElement {
     spinner;
     messageBoard;
     messageTemplates;
+    firstConWrapper;
 
     @track initialized;
     @track hideEmptyStub;
@@ -56,8 +57,10 @@ export default class MessagesPage extends LightningElement {
 
             this.messageBoard = this.template.querySelector('c-message-board');
             if (this.userMode === 'Participant') this.messageBoard.setTemplates(this.messageTemplates);
+
+            if (this.firstConWrapper) this.changeConversationsBackground(this.firstConWrapper.conversation.Id);
         }
-        
+
         if (this.initialized) this.spinner.hide();
     }
 
@@ -98,7 +101,7 @@ export default class MessagesPage extends LightningElement {
         let isNew = true;
         let updatedWrappers = [];
         if (this.conversationWrappers) {
-            this.conversationWrappers.forEach(function(wr){
+            this.conversationWrappers.forEach(function (wr) {
                 if (wr.conversation.Id === conWr.conversation.Id) {
                     updatedWrappers.push(conWr);
                     isNew = false;
@@ -117,7 +120,7 @@ export default class MessagesPage extends LightningElement {
 
         //Wait for Rerender
         let context = this;
-        setTimeout(function() {
+        setTimeout(function () {
             context.changeConversationsBackground(conWr.conversation.Id);
         }, 50);
 
@@ -145,6 +148,7 @@ export default class MessagesPage extends LightningElement {
                 this.enrollments = data.enrollments;
 
                 this.conversationWrappers = data.conversationWrappers;
+                if (this.conversationWrappers) this.firstConWrapper = this.conversationWrappers[0];
                 this.canStartConversation = this.checkCanStartNewConversation();
 
                 this.initialized = true;
@@ -179,7 +183,7 @@ export default class MessagesPage extends LightningElement {
     changeConversationsBackground(conId) {
         let conItems = this.template.querySelectorAll('c-conversation-item');
         if (conItems) {
-            conItems.forEach(function(conItem) {
+            conItems.forEach(function (conItem) {
                 conItem.setSelectedMode(conItem.item.conversation.Id === conId);
             });
         }
@@ -192,9 +196,9 @@ export default class MessagesPage extends LightningElement {
 
         let context = this;
         let freeEnrollments = [];
-        this.enrollments.forEach(function(pe) {
+        this.enrollments.forEach(function (pe) {
             let engagedEnrollment;
-            context.conversationWrappers.forEach(function(wr) {
+            context.conversationWrappers.forEach(function (wr) {
                 if (wr.conversation.Participant_Enrollment__c === pe.Id) engagedEnrollment = pe;
             });
 

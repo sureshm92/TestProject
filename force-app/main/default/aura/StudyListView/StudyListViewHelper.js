@@ -11,13 +11,13 @@
         window.addEventListener('resize', $A.getCallback(function () {
             helper.doUpdateStudyTitle(component);
         }));
-        debugger;
+
         if (userMode === 'HCP') {
             communityService.executeAction(component, 'getHCPInitData', {
                     delegateId: communityService.getDelegateId()
                 }, function (returnValue) {
                 let initData = JSON.parse(returnValue);
-                debugger;
+
                 component.set("v.paginationData", initData.paginationData);
                 component.set("v.filterData", initData.filterData);
                 component.set("v.sortData", initData.sortData);
@@ -66,7 +66,6 @@
     },
 
     searchForRecords: function (cmp, helper, fromFirstPage) {
-        debugger;
         if (cmp.get('v.skipUpdate') === true || cmp.get('v.isInitialized') === false) {
             return;
         }
@@ -115,7 +114,6 @@
         })
     },
     updateRecordsPI: function (cmp, helper) {
-        debugger;
         if (cmp.get('v.skipUpdate') === true || cmp.get('v.isInitialized') === false) {
             return;
         }
