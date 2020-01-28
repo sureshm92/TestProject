@@ -126,6 +126,7 @@
                             <aura:iteration items="{!v.siteWrapper.actions}" var="action">
                                 <aura:if isTrue="{!(action.id != 'addPatient' &amp;&amp; action.id != 'uploadPatient') || (action.id == 'addPatient' &amp;&amp; action.disabled == true)}">
                                     <button id="{!action.id}"
+                                            data-gtm="{!'btn_' + action.id + '_study'}"
                                             value="{!siteWrappIndx}"
                                             class="apollo-btn secondary slds-align-bottom"
                                             disabled="{!action.disabled}"
@@ -138,17 +139,21 @@
                             <aura:if isTrue="{!v.addParticipantInfo.disabled == false}">
                                 <c:uiHeaderMenu aura:id="menuId" class="mode-block">
                                     <aura:set attribute="title">
-                                        <div class="apollo-btn primary slds-align-bottom">
+                                        <div data-gtm="btn_AddParticipant_menu" class="apollo-btn primary slds-align-bottom">
                                             <div title="Add Participant">{!v.addParticipantInfo.label}</div>
                                             <c:RRIcon color="blue" iconName="icon-chevron-down" class="chevron"/>
                                         </div>
                                     </aura:set>
                                     <aura:iteration items="{!v.siteWrapper.actions}" var="action">
                                         <aura:if isTrue="{!action.id == 'addPatient'}">
-                                            <c:uiMenuItem label="{!action.label}" onclick="{!c.doAction}" itemValue="{!action.id}"/>
+                                            <div data-gtm="btn_AddParticipant_action">
+                                                <c:uiMenuItem label="{!action.label}" onclick="{!c.doAction}" itemValue="{!action.id}"/>
+                                            </div>
                                         </aura:if>
                                         <aura:if isTrue="{!action.id == 'uploadPatient'}">
-                                            <c:uiMenuItem label="{!action.label}" onclick="{!c.doAction}" itemValue="{!action.id}"/>
+                                            <div data-gtm="btn_UploadParticipants_action">
+                                                <c:uiMenuItem label="{!action.label}" onclick="{!c.doAction}" itemValue="{!action.id}"/>
+                                            </div>
                                         </aura:if>
                                     </aura:iteration>
                                 </c:uiHeaderMenu>

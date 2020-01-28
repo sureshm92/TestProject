@@ -60,7 +60,8 @@ public without sharing class SiteStaffTriggerHandler {
             Id piContact = piContactByUser.get(cs.UserOrGroupId);
             List<Site_Staff__c> piStaffs = staffByPIds.get(piContact);
             for(Site_Staff__c staff : piStaffs) {
-                if(staff.Study_Site__c == cs.Parent.Participant_Enrollment__r.Study_Site__c) {
+                if(staff.Study_Site__c == cs.Parent.Participant_Enrollment__r.Study_Site__c
+                        && staffUserByContact.containsKey(staff.Site_Contact__c)) {
                     newShares.add(new Conversation__Share(
                             AccessLevel = 'Edit',
                             ParentId = cs.ParentId,

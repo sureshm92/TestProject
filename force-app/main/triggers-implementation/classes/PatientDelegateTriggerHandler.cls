@@ -46,13 +46,18 @@ public without sharing class PatientDelegateTriggerHandler {
             }
         }
 
-        if (!contactIds.isEmpty()) {
+        updateUsersToInActive(contactIds);
+    }
+
+    @Future
+    private static void updateUsersToInActive(Set<Id> contactIds) {
+        if (contactIds != null && !contactIds.isEmpty()) {
             List<User> users = [SELECT Id, IsActive FROM User WHERE ContactId IN :contactIds AND IsActive = true];
             for (User usr: users) {
                 usr.IsActive = false;
             }
 
-            if (!users.isEmpty() && !Test.isRunningTest()) {
+            if (!users.isEmpty()/* && !Test.isRunningTest()*/) {
                 update users;
             }
         }

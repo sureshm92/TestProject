@@ -70,9 +70,11 @@
                                     onselect="{! c.doAction }">
                                 <aura:iteration items="{!v.enrollmentData.buttonList}" var="action">
                                     <aura:if isTrue="{!action.id == 'hcpActivate' || action.id == 'hcpActivateForAll'}">
+                                        <div data-gtm="{!action.id == 'hcpActivate' ? 'BTN_ActivateOne' : 'BTN_ActivateAll'}">
                                         <lightning:menuItem class="button-menu-item"
                                                             value="{!action.id}"
                                                             label="{!action.label}"/>
+                                        </div>
                                     </aura:if>
                                 </aura:iteration>
                             </lightning:buttonMenu>
