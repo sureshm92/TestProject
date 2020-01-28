@@ -10,6 +10,7 @@
     <aura:attribute name="itemsType" type="String" description="participantsWaitingAcceptance/hcpWaitingApproval"/>
     <aura:attribute name="title" type="String"/>
     <aura:attribute name="viewMoreLink" type="String"/>
+    <aura:attribute name="viewMoreTag" type="String"/>
     <div class="rr-white-panel db-qal-container">
         <div class="db-qal-main">
             <div class="db-qal-title">
@@ -27,7 +28,7 @@
             </div>
         </div>
         <div class="dqa-view-more">
-            <c:RRLink page="{!v.viewMoreLink}" class="apollo-btn text">{!$Label.c.BTN_View_all}</c:RRLink>
+            <c:RRLink data-gtm="{!v.viewMoreTag}" page="{!v.viewMoreLink}" class="apollo-btn text">{!$Label.c.BTN_View_all}</c:RRLink>
         </div>
     </div>
 
