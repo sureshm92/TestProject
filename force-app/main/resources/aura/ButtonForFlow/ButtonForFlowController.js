@@ -18,9 +18,11 @@
                         var addressableContext = window.atob(base64Context);
                         var pageReferencePrevious = JSON.parse(addressableContext);
             			if(pageReferencePrevious != null && pageReferencePrevious.attributes != null){
-                            if(pageReferencePrevious.attributes.objectApiName == 'Clinical_Trial_Profile__c') {
+                            if(pageReferencePrevious.attributes.objectApiName === 'Clinical_Trial_Profile__c') {
                     			recordId = pageReferencePrevious.attributes.recordId;
-                            } else {
+                            }else if(pageReferencePrevious.attributes.relationshipApiName === 'Resource__r') {
+                                recordId = pageReferencePrevious.attributes.recordId;
+                            } else if (pageReferencePrevious.attributes.objectApiName === 'Res_study__c'){
                                 recordId = '';
                             }
                         }
@@ -28,7 +30,6 @@
                 }
             }
         }
-        console.log(recordId);
         let inputVars = [
                 { name: "recordId", type: "String", value: recordId}     
         ];
