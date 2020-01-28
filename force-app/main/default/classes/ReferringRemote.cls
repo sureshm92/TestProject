@@ -184,6 +184,7 @@ public without sharing class ReferringRemote {
                 newContact.Third_Choice_Language__c = '';
                 newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
                 newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
+                newContact.userCommunityIsDelegate__c = true;
                 insert newContact;
 
                 participantDelegate.Contact__c = newContact.Id;
@@ -203,10 +204,18 @@ public without sharing class ReferringRemote {
 
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
                 insert alertsForInsert;
+
+                sendEmailNotificationWelcome(newContact);
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
+    }
+
+    private static void sendEmailNotificationWelcome(Contact delegateContact) {
+        Map<Id, String> toSendNotificationMap = new Map<Id, String>();
+        toSendNotificationMap.put(delegateContact.Id, delegateContact.Id);
+        SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_DELEGATE_WELCOME, toSendNotificationMap);
     }
 
     @AuraEnabled

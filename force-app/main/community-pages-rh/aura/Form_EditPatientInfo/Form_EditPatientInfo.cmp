@@ -16,6 +16,7 @@
     <aura:attribute name="isRefreshView" type="Boolean" default="false"/>
     <aura:attribute name="visitPlanRequired" type="Boolean" default="false"/>
     <aura:attribute name="fromActionParticipant" type="Boolean" default="false"/>
+    <aura:attribute name="disableSourceId" type="Boolean" default="true"/>
 
     <!-- private attributes: -->
     <aura:attribute name="screeningRequired" type="Boolean" default="false" access="private"/>
@@ -217,7 +218,7 @@
                     </span>
                     </div>
                     <aura:if isTrue="{!v.pe.Referral_Source__c == 'PI'}">
-                    <lightning:input aura:id="sourceID" type="text" value="{!v.pe.MRN_Id__c}" disabled="{!v.pe.MRN_Id__c}"/>
+                    <lightning:input aura:id="sourceID" type="text" value="{!v.pe.MRN_Id__c}" disabled="{!v.disableSourceId}"/>
                     </aura:if>
                     <aura:if isTrue="{!v.pe.Referral_Source__c == 'HCP'}">
                         <lightning:input aura:id="sourceID" type="text" value="{!v.pe.Patient_ID__c}" onblur="{!c.doCheckFields}" disabled="true"/>

@@ -112,7 +112,7 @@ export default class MessagesPage extends LightningElement {
         }
 
         if (isNew) updatedWrappers.unshift(conWr);
-        
+
         updatedWrappers.sort(function (a, b) {
             return new Date(b.messages[0].message.CreatedDate) - new Date(a.messages[0].message.CreatedDate);
         });
