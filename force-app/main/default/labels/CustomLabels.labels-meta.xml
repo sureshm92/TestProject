@@ -1929,9 +1929,9 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial PI HCP</shortDescription>
-        <value>You have been invited to join the IQVIA Referral Hub by ##PIName. The Referral Hub will make it possible for you to find clinical research studies that are available and refer your patients to nearby study sites.
+        <value>You have been invited to refer to ##PIName using the IQVIA Referral Hub. If you are not already a Referring Provider in the system, this will also make it possible for you to find other clinical research studies that are available and refer patients to nearby study sites.
 
-            If you believe you have received this invitation in error, please notify support@cp.clinicalresearch.com.</value>
+Please take a moment to log in to the Referral Hub and view the studies to which you can refer.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_PI_PT_HCP</fullName>
@@ -2456,7 +2456,7 @@ If you have questions or concerns about this transfer, please contact your IQVIA
 
 ##SSAddress&lt;/br&gt;
 
-##SSCity, ##SSPostalCode&lt;/br&gt;
+##SSCity ##SSPostalCode&lt;/br&gt;
 
  
 
@@ -6535,6 +6535,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG_AS_F_Select_Preferred_Timezone</shortDescription>
         <value>Select preferred timezone</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Source_ID_Help_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_AS_F_Source_ID_Help_Text</shortDescription>
+        <value>Use MRN field if source is PI Patient ID if source is HCP, ReferralID and Data_Source (separated by semicolon) if source is Dig Recruitment</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Suffix</fullName>

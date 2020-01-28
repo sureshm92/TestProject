@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="Test SS Changed on PE"
+<messaging:emailTemplate subject="{!$Label.Email_Header_SS_on_PE_Was_Changed_To_PI}"
                          recipientType="User"
                          relatedToType="Participant_Enrollment__c"
                          language="{!relatedTo.Study_Site__r.Principal_Investigator__r.Language__c}">

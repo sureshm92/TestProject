@@ -3,7 +3,7 @@
     <fullName>Video__c</fullName>
     <externalId>false</externalId>
     <inlineHelpText>Enter the link to where the video is hosted.</inlineHelpText>
-    <label>Video Link</label>
+    <label>URL</label>
     <length>32768</length>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

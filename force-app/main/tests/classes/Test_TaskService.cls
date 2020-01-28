@@ -27,6 +27,8 @@ private class Test_TaskService {
             TaskService.getInstance().getPreviewTasks();
             Task task = new Task();
             task.Subject = 'Test';
+            task.OwnerId = testData.participantUser.Id;
+            task.Visible_For__c = 'Owner';
             insert task;
 
             TaskService.getInstance().getTask(task.Id);

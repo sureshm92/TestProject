@@ -131,10 +131,10 @@ public without sharing class ParametersDataProvider {
                 'PEProfileName' => pe.Name,
                 'SSName' => pe.Study_Site__r.Name,
                 'StudyCodeName' => pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                'SSAddress' => pe.Study_Site__r.Site__r.BillingStreet,
-                'SSCity' => pe.Study_Site__r.Site__r.BillingCity,
-                'SSPostalCode' => pe.Study_Site__r.Site__r.BillingPostalCode,
-                'SSPhone' => pe.Study_Site__r.Study_Site_Phone__c
+                'SSAddress' => pe.Study_Site__r.Site__r.BillingStreet != null ? pe.Study_Site__r.Site__r.BillingStreet : '',
+                'SSCity' => pe.Study_Site__r.Site__r.BillingCity != null ? pe.Study_Site__r.Site__r.BillingCity +',' : '',
+                'SSPostalCode' => pe.Study_Site__r.Site__r.BillingPostalCode != null ? pe.Study_Site__r.Site__r.BillingPostalCode : '',
+                'SSPhone' => pe.Study_Site__r.Study_Site_Phone__c != null ? pe.Study_Site__r.Study_Site_Phone__c : ''
         };
 
         if(pe.HCP__c != null){
@@ -345,7 +345,7 @@ public without sharing class ParametersDataProvider {
                     ORDER BY CreatedDate DESC LIMIT 1
             ];
             if (!hcpe.isEmpty()) {
-                initParamsFromHCPE(hcpe[0].Id, false);
+                initParamsFromHCPE(hcpe[0].Id, multiplePIMessage);
             }
             parameters.put('HCPName', getFullContactName(cnt));
             parameters.put('HCPLanguage', cnt.Language__c);
