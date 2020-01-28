@@ -19,7 +19,7 @@
         console.log('hcP', component.get('v.healthCareProviders'));
     },
 
-    doDisconnetc: function(component, event, helper){
+    doDisconnect: function(component, event, helper){
     	/*var hcProviders = component.get('v.healthCareProviders');
     	var params = event.getParam('arguments');
     	hcProviders.splice(params.index,1);

@@ -37,5 +37,10 @@
 .THIS .rr-form-element .cRrSelect .slds-select_container .slds-select{
     margin-top: 0;
 }
+.THIS .slds-form-element__icon {
+    padding-top: 0;
+    margin-left: 3px;
+}
+
 
 
