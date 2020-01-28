@@ -1598,7 +1598,7 @@
             <targetReference>Record_Type</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>Assigned</name>
         <dataType>SObject</dataType>
