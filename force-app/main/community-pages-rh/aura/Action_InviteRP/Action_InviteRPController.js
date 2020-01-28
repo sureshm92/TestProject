@@ -87,6 +87,13 @@
                                 (communityService.isValidEmail(emailS) && (phone.trim() && isPhoneValid))) &&
                                 (!inputPattern.test(lastName) && lastName.trim()) &&
                                 (!inputPattern.test(firstName) && firstName.trim());
+        var delegatePIs = component.get('v.PIForInvetation');
+        if(delegatePIs != null && delegatePIs != '' && delegatePIs != undefined){
+            var chosenPis = component.get('v.checkboxGroupValues');
+            if(chosenPis == null || chosenPis == '' || chosenPis == undefined){
+                reqFieldsFilled = false;
+            } 
+        }
         component.set('v.reqFieldsFilled', reqFieldsFilled);
     },
     doClearInviteAndHide: function (component, event, helper) {
