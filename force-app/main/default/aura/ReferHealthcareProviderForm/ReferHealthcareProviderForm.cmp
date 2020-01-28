@@ -74,8 +74,8 @@
 
         <div class="{!'slds-col ' + if(v.printMode, 'slds-size--2-of-12', 'slds-size--3-of-12 slds-large-size--2-of-12')}" style="margin-top:23px">
             <aura:if isTrue="{!(!v.healthCareProvider.Id || v.healthCareProvider.Status__c == 'No Sharing') &amp;&amp; v.refProvider == null}">
-                <button class="apollo-btn secondary slds-button"
-                        onclick="{!c.doConnect}" disabled="{!v.printMode || v.healthCareProvider.Status__c != 'No Sharing' &amp;&amp; (!v.isValid || v.actionDisabled || v.isDuplicate)}"
+                <button class="apollo-btn secondary slds-button" onclick="{!c.doConnect}"
+                        disabled="{!v.printMode || v.healthCareProvider.Status__c != 'No Sharing' &amp;&amp; (!v.isValid || v.actionDisabled || v.isDuplicate)}"
                         title="{!!v.healthCareProvider.Id &amp;&amp; v.actionDisabled ?
                         $Label.c.RSN_Your_permissions_do_not_permit_this_action : v.isDuplicate ?
                         $Label.c.HealCare_Provider_Already_Connected : ''}">{!$Label.c.HealthCare_Provider_Connect}</button>

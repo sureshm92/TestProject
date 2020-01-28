@@ -324,7 +324,7 @@
         <expression>{!ClinicalTrialProfileId.Id}</expression>
     </formulas>
     <interviewLabel>Study Resources {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Study_Resources</label>
+    <label>Study Resource</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -876,6 +876,11 @@
             <targetReference>Create_record_article</targetReference>
         </connector>
         <fields>
+            <name>Page_show_record_type_3</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_recource}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
             <name>Title_field_recordtypeArticle</name>
             <dataType>String</dataType>
             <fieldText>Title</fieldText>
@@ -1022,19 +1027,24 @@
             <isRequired>true</isRequired>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Choose</name>
         <label>Choose</label>
         <locationX>503</locationX>
-        <locationY>282</locationY>
+        <locationY>283</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
             <targetReference>Current_or_new_resource</targetReference>
         </connector>
+        <fields>
+            <name>Page_show_record_type_1</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 16px; background-color: rgb(255, 255, 255);&quot;&gt;{!Choose_record_type_recource}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
         <fields>
             <name>Pick_option</name>
             <choiceReferences>Exist</choiceReferences>
@@ -1045,7 +1055,7 @@
             <isRequired>true</isRequired>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Exist_Res_c</name>
@@ -1126,6 +1136,11 @@
             <targetReference>Create_Res_0</targetReference>
         </connector>
         <fields>
+            <name>Page_show_record_type_4</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_recource}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
             <name>URL_field_urlRecordType</name>
             <fieldText>URL</fieldText>
             <fieldType>LargeTextArea</fieldType>
@@ -1155,7 +1170,7 @@
             <isRequired>false</isRequired>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Study_Doc_c</name>
@@ -1168,6 +1183,11 @@
         <connector>
             <targetReference>Create_Res</targetReference>
         </connector>
+        <fields>
+            <name>Page_show_record_type_5</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_recource}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
         <fields>
             <name>Title</name>
             <dataType>String</dataType>
@@ -1185,7 +1205,7 @@
         <fields>
             <name>Video_Link</name>
             <dataType>String</dataType>
-            <fieldText>Video Link</fieldText>
+            <fieldText>URL</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>false</isRequired>
         </fields>
@@ -1216,12 +1236,12 @@
             <isRequired>true</isRequired>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Study_Resource</name>
         <label>Study Resource</label>
-        <locationX>392</locationX>
+        <locationX>390</locationX>
         <locationY>283</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1229,6 +1249,11 @@
         <connector>
             <targetReference>Choose</targetReference>
         </connector>
+        <fields>
+            <name>Page_show_record_type</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;{!Choose_record_type_recource}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
         <fields>
             <name>CTP</name>
             <extensionName>flowruntime:lookup</extensionName>
@@ -1352,7 +1377,7 @@
             <isRequired>true</isRequired>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Upload_File</name>
@@ -1365,6 +1390,11 @@
         <connector>
             <targetReference>BackNnRecord</targetReference>
         </connector>
+        <fields>
+            <name>Page_show_record_type_6</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_recource}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
         <fields>
             <name>Upload</name>
             <fieldText>&lt;p&gt;Choose file for upload&amp;nbsp;&lt;/p&gt;</fieldText>
@@ -1388,7 +1418,7 @@
         </fields>
         <pausedText>&lt;p&gt;lk&lt;/p&gt;</pausedText>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Video_type_record</name>
@@ -1401,6 +1431,11 @@
         <connector>
             <targetReference>Create_Res_Video</targetReference>
         </connector>
+        <fields>
+            <name>Page_show_record_type_2</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_recource}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
         <fields>
             <name>Title_field_recordtypeArticle_0</name>
             <dataType>String</dataType>
@@ -1554,7 +1589,7 @@
             <isRequired>true</isRequired>
         </fields>
         <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
+        <showHeader>false</showHeader>
     </screens>
     <start>
         <locationX>663</locationX>
@@ -1563,7 +1598,7 @@
             <targetReference>Record_Type</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>Assigned</name>
         <dataType>SObject</dataType>

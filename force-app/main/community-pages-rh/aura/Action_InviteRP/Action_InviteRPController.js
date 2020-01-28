@@ -87,6 +87,13 @@
                                 (communityService.isValidEmail(emailS) && (phone.trim() && isPhoneValid))) &&
                                 (!inputPattern.test(lastName) && lastName.trim()) &&
                                 (!inputPattern.test(firstName) && firstName.trim());
+        var delegatePIs = component.get('v.PIForInvetation');
+        if(delegatePIs){
+            var chosenPis = component.get('v.checkboxGroupValues');
+            if(!chosenPis){
+                reqFieldsFilled = false;
+            } 
+        }
         component.set('v.reqFieldsFilled', reqFieldsFilled);
     },
     doClearInviteAndHide: function (component, event, helper) {
