@@ -26,13 +26,15 @@
                         itemsList="{!v.piData.physiciansWaitingForApprovalList}"
                         itemsType="hcpWaitingApproval"
                         title="{!$Label.c.PG_DBPI_L_Providers_waiting_for_activation}"
-                        viewMoreLink="my-referring-clinics?showPending=true"/>
+                        viewMoreLink="my-referring-clinics?showPending=true"
+                        viewMoreTag="LNK_Dashboard_Physicians_Waiting_Approval_View_More"/>
                 <c:DashboardQuickActionList
                         parent="{!v.parent}"
                         itemsList="{!v.piData.waitingAcceptenceList}"
                         itemsType="participantsWaitingAcceptance"
                         title="{!$Label.c.PG_DBPI_L_Referrals_waiting_for_acceptance}"
-                        viewMoreLink="my-referrals?filter=pending"/>
+                        viewMoreLink="my-referrals?filter=pending"
+                        viewMoreTag="LNK_Dashboard_Participants_Waiting_Acceptance_View_More"/>
             </div>
         </div>
 

@@ -128,17 +128,18 @@ global without sharing class ReferHealthcareProviderRemote {
                 system.debug('3`0`0`');
 
                 newHP.HCP_Enrollment__c = hcpe[0].Id;
+
+                newHP.Status__c = HP_S_INVITED;
+                update newHP;
+
+                hcpe[0].Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+                update hcpe;
+                hcpe[0].Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+                update hcpe;
+            } else {
+                newHP.Status__c = HP_S_INVITED;
+                update newHP;
             }
-
-            newHP.Status__c = HP_S_INVITED;
-            update newHP;
-        }
-
-        if (!hcpe.isEmpty()) {
-            hcpe[0].Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
-            update hcpe;
-            hcpe[0].Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
-            update hcpe;
         }
 
         return getInitData(peId);
