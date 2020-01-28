@@ -88,9 +88,9 @@
                                 (!inputPattern.test(lastName) && lastName.trim()) &&
                                 (!inputPattern.test(firstName) && firstName.trim());
         var delegatePIs = component.get('v.PIForInvetation');
-        if(delegatePIs != null && delegatePIs != '' && delegatePIs != undefined){
+        if(delegatePIs){
             var chosenPis = component.get('v.checkboxGroupValues');
-            if(chosenPis == null || chosenPis == '' || chosenPis == undefined){
+            if(!chosenPis){
                 reqFieldsFilled = false;
             } 
         }
