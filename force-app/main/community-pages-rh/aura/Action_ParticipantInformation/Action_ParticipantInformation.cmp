@@ -44,7 +44,7 @@
     <!-- component body: -->
     <c:Popup aura:id="dialog" title="{!v.popUpTitle}" size="large" showScroll="true" showHeader="true" showFooter="true">
         <c:RRSpinner aura:id="spinner" size="medium"/>
-        <div class="form-content">
+        <div class="form-content" data-gtm="Tabs_View_Details">
             <aura:if isTrue="{!v.initialized}">
 
             <lightning:tabset>
@@ -81,11 +81,13 @@
                 </lightning:button>
             </aura:set>
             <aura:set attribute="footerButtons">
+                <div data-gtm="BTNS_Popup_Save_Cancel">
                 <lightning:button class="apollo-btn secondary slds-float_right slds-button--neutral" disabled="{!!v.isValid}" onclick="{!c.doUpdateCancel}">{!$Label.c.BTN_Save_All_Tabs}</lightning:button>
                 <aura:if isTrue="{!v.checkTabs == 'participantDetails'}">
                 <lightning:button class="apollo-btn secondary slds-float_left" disabled="{!!v.isValid}" onclick="{!c.doUpdate}">{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button>
                 </aura:if>
                 <lightning:button class="apollo-btn secondary slds-float_right slds-button--reset" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</lightning:button>
+                </div>
             </aura:set>
     </c:Popup>
 </aura:component>

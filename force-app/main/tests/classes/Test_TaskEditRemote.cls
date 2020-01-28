@@ -9,14 +9,16 @@ private class  Test_TaskEditRemote {
         TestData.loadTestData();
         TestData testData = new TestData();
 
-        Task task = new Task();
-        task.Subject = 'test';
-        task.Reminder_Date__c = Datetime.now();
-        task.ActivityDate = Date.today().addDays(1);
-
         Test.startTest();
         System.runAs(testData.participantUser) {
+            Task task = new Task();
+            task.Subject = 'test';
+            task.Reminder_Date__c = Datetime.now();
+            task.ActivityDate = Date.today().addDays(1);
+            task.OwnerId = testData.participantUser.Id;
+            task.Visible_For__c = 'Owner';
             insert task;
+
             TaskEditRemote.getTaskEditData(task.Id);
             task.Reminder_Date__c = task.Reminder_Date__c.addDays(1);
             TaskEditRemote.upsertTask(JSON.serialize(new TaskEditRemote.TaskEditDataWrapper()), JSON.serialize(task));
