@@ -33,6 +33,11 @@
         var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate() +1);
         var currentDate = new Date(date);
         var inputDate = new Date(participant.Date_of_Birth__c);
+        if(pe.MRN_Id__c){
+            component.set('v.disableSourceId', true);
+        } else {
+            component.set('v.disableSourceId', false);
+        }
         if (pe && pe.Participant_Status__c) {
             isEnrollmentSuccess = pe.Participant_Status__c === 'Enrollment Success';
             screeningIdRequired = isFinalUpdate || screeningIdRequiredStatuses.indexOf(pe.Participant_Status__c) !== -1;

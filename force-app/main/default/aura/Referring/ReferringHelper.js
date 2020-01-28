@@ -64,21 +64,19 @@
     },
 
     checkFields: function (component) {
-        var participant = component.get('v.participant');
-        var pEnrollment = component.get('v.pEnrollment');
-        //var agreeShare = component.get('v.agreeShare');
         var agreePolicy = component.get('v.agreePolicy');
+        var states = component.get('v.states');
+        var needsDelegate = component.get('v.needsGuardian');
+
+        //Participant
+        var participant = component.get('v.participant');
         var emailRepeat = component.get('v.emailRepeat');
         var emailCmp = component.find('emailField');
         var emailRepeatCmp = component.find('emailRepeatField');
         var emailVaild = emailCmp && emailCmp.get('v.validity') && emailCmp.get('v.validity').valid;
         var emailRepeatValid = emailRepeatCmp && emailRepeatCmp.get('v.validity') && emailRepeatCmp.get('v.validity').valid;
-        var selectedCountry = participant.Mailing_Country_Code__c;
-        var selectedState = participant.Mailing_State_Code__c;
-        var states = component.get('v.states');
 
         //Guardian (Participant delegate)
-        var needsDelegate = component.get('v.needsGuardian');
         var delegateParticipant = component.get('v.delegateParticipant');
         var emailDelegateRepeat = component.get('v.emailDelegateRepeat');
         var emailDelegateCmp = component.find('emailDelegateField');
@@ -87,6 +85,7 @@
         var emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && emailDelegateRepeatCmp.get('v.validity') && emailDelegateRepeatCmp.get('v.validity').valid;
 
         var result =
+            participant &&
             participant.First_Name__c &&
             participant.Last_Name__c &&
             participant.Date_of_Birth__c &&
@@ -96,10 +95,12 @@
             (needsDelegate || emailRepeatValid) &&
             (needsDelegate || participant.Phone__c) &&
             //agreeShare &&
-            selectedCountry &&
-            (selectedState || states.length === 0) &&
+            participant.Mailing_Country_Code__c &&
+            (participant.Mailing_State_Code__c; || states.length === 0) &&
             (!needsDelegate ||
                 (needsDelegate &&
+                    delegateParticipant &&
+                    delegateParticipant.Health_care_proxy_is_needed__c &&
                     delegateParticipant.First_Name__c &&
                     delegateParticipant.Last_Name__c &&
                     delegateParticipant.Phone__c &&
