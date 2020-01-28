@@ -173,8 +173,8 @@
     },
 
     doCheckDateOfBith: function (component, event, helper) {
-        helper.checkFields(component);
         helper.checkParticipantNeedsGuardian(component, helper);
+        helper.checkFields(component);
     },
 
     doNeedsGuardian: function (component, event, helper) {
