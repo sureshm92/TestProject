@@ -16,6 +16,7 @@ import updatePV from '@salesforce/apex/ParticipantVisitsRemote.updatePatientVisi
 
 const stateClass = 'slds-col width-basis state ';
 const lineClass = 'slds-col width-basis line-div ';
+const iconCalendar = 'icon-calendar-3';
 const iconNeutral = 'icon-none';
 const iconPlanned = 'icon-minus';
 const iconSucc = 'icon-check';
