@@ -1,0 +1,38 @@
+{
+  "appPageId" : "8795af9a-8c16-455c-abb8-274a6e5524f1",
+  "componentName" : "c:OneColumnLayout",
+  "id" : "388daaf0-076f-4d3d-ab2b-351404193dd5",
+  "label" : "Clinic Profile",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ClinicProfile",
+      "id" : "5183e62b-0e42-48be-9354-ab0ca834d42a",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "fafae5ab-b408-49a9-8114-1ec8999e124d",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Clinic Profile"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "5cc0f6af-788b-4eea-95fd-d54a8f05779d",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "979debd7-5ffa-4198-baea-30c3794576fe",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-clinic-profile"
+}

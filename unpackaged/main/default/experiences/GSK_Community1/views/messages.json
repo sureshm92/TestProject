@@ -1,0 +1,38 @@
+{
+  "appPageId" : "8795af9a-8c16-455c-abb8-274a6e5524f1",
+  "componentName" : "c:EmptyLayout",
+  "id" : "f8b30cf7-c5aa-4aab-9aad-2a927638600b",
+  "label" : "Messages",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:messagesPage",
+      "id" : "bd48a909-b352-4994-9ccc-8a61f226b4ec",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "22a3ca17-bbc9-4d6d-9329-ac405fa28a16",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Messages"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "d09e9fee-c47f-4830-9f3a-f8ac660eef9d",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "589236d8-6f36-49d1-b6fc-28ee65704a1c",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-messages"
+}

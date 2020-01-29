@@ -1,0 +1,38 @@
+{
+  "appPageId" : "8795af9a-8c16-455c-abb8-274a6e5524f1",
+  "componentName" : "c:EmptyLayout",
+  "id" : "cfa2660b-b960-4234-92a3-89c821d99a8b",
+  "label" : "Referring",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:Referring",
+      "id" : "c311f7ba-6844-402b-8a72-d2d52bbcb0e1",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "1066e7f7-d761-496a-bde7-cb146dfe5853",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Referring"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "e462c374-7015-4522-92b7-941ddb23fb60",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "73af144e-e2cb-4aeb-9fa7-0bb69fe67273",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "CWaLuRvKY6Y2WKM0n5lNcQlIaKIzjF",
+  "type" : "view",
+  "viewType" : "custom-referring"
+}

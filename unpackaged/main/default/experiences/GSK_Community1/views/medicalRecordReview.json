@@ -1,0 +1,38 @@
+{
+  "appPageId" : "8795af9a-8c16-455c-abb8-274a6e5524f1",
+  "componentName" : "c:EmptyLayout",
+  "id" : "d98f4f28-85d9-4e38-a182-d3c698d3bdb8",
+  "label" : "Medical Record Review",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:MedicalRecordReview",
+      "id" : "f7e9d02a-b1ac-467d-8f2b-608e6b17d293",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "31d78052-5d5b-4cc0-87a9-d9cc214d54ed",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Medical Record Review"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "e6e1e23a-5bab-4ca3-ba92-c59ed046014d",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "d917a36e-ffd0-4ecf-911b-9116eb4c1e28",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "CWaLuRvKY6Y2WKM0n5lNcQlIaKIzjF",
+  "type" : "view",
+  "viewType" : "custom-medical-record-review"
+}
