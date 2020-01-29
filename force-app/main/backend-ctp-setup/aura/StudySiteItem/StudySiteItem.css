@@ -19,3 +19,8 @@
 .THIS .uiInput--default .form-element__label {
     display: none;
 }
+
+.THIS .slds-form-element__icon {
+    padding-top: 0;
+    vertical-align: middle;
+}
