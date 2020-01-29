@@ -123,8 +123,8 @@ public without sharing class HCPEnrollmentTriggerHandler {
                         notificationType = NotificationCatalog.MESSAGE_TO_HCP_NEW_STUDY_TYPE;
                     }
                     notifications.add(new Notification__c(
-                            Recipient__c = hcpe.Id,
-                            WhatId__c = hcpe.HCP_Contact__c,
+                            Recipient__c = hcpe.HCP_Contact__c,//hcpe.Id,
+                            WhatId__c = hcpe.Id,//hcpe.HCP_Contact__c,
                             Notification_Type__c = notificationType));
                 } else {
                     contactIdsForCreateUsers.add(hcpe.HCP_Contact__c);

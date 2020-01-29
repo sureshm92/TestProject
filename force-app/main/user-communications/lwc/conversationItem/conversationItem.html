@@ -10,11 +10,9 @@
                 <div class="con-unread-bubble"></div>
             </template>
         </div>
-
         <div class="con-icon">
             <template if:false={isPIMode}>
-                <c-web-icon icon-name="icon-study-team" icon-color="#ffffff" icon-height="25"
-                            icon-width="20"></c-web-icon>
+                <c-web-icon icon-name="icon-study-team" icon-color="#ffffff" icon-height="25" icon-width="20"></c-web-icon>
             </template>
             <template if:true={isPIMode}>
                 <p>{initials}</p>
