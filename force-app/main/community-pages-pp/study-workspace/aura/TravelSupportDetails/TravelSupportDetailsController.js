@@ -19,7 +19,6 @@
                             label: response[i]
                         });
                     }
-                    console.log(JSON.stringify(opts));
                     component.set('v.options', opts);
                     $A.enqueueAction(component.get('c.getTravels'));
                 }
