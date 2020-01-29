@@ -1,7 +1,7 @@
 <!--
   - Created by Yehor Dobrovolskyi
  -->
-<aura:component description="TrialItem" controller="TrialItemRemote" extends="c:LightningService">
+<aura:component description="TrialItem" controller="TrialItemRemote" extends="c:LightningService" implements="flexipage:availableForAllPageTypes">
 
     <aura:attribute name="trialTDO" type="Object"/>
     <aura:attribute name="isClicked" type="Boolean"/>
@@ -66,6 +66,13 @@
                         isDisclaimer="{!v.isDisclaimer}"
                         isValid="{!v.isValid}"
                 />
+<!--                <c:formPatientInfoTrialSearchComp aura:id="contactForm"-->
+<!--                                                      participant="{!v.participant}"-->
+<!--                                                      participantInfo="{!v.participantInfo}"-->
+<!--                                                      formData="{!v.formData}"-->
+<!--                                                      ctp="{!v.trialTDO.ctp}"-->
+<!--                                                      isDisclaimer="{!v.isDisclaimer}"-->
+<!--                                                      isValid="{!v.isValid}"/>-->
                 <aura:set attribute="footerButtons">
                     <button class="apollo-btn primary btn-send" onclick="{!c.onClickSend}" disabled="{!!and(v.isDisclaimer, v.isValid)}">
                         {!$Label.c.TrialSearch_Send_To_Study}

@@ -64,52 +64,51 @@
     },
 
     checkFields: function (component) {
-        var agreePolicy = component.get('v.agreePolicy');
-        var states = component.get('v.states');
-        var needsDelegate = component.get('v.needsGuardian');
+        let agreePolicy = component.get('v.agreePolicy');
+        let states = component.get('v.states');
+        let needsDelegate = component.get('v.needsGuardian');
 
         //Participant
-        var participant = component.get('v.participant');
-        var emailRepeat = component.get('v.emailRepeat');
-        var emailCmp = component.find('emailField');
-        var emailRepeatCmp = component.find('emailRepeatField');
-        var emailVaild = emailCmp && emailCmp.get('v.validity') && emailCmp.get('v.validity').valid;
-        var emailRepeatValid = emailRepeatCmp && emailRepeatCmp.get('v.validity') && emailRepeatCmp.get('v.validity').valid;
+        let participant = component.get('v.participant');
+        let emailRepeat = component.get('v.emailRepeat');
+        let emailCmp = component.find('emailField');
+        let emailRepeatCmp = component.find('emailRepeatField');
+        let emailVaild = emailCmp && emailCmp.get('v.validity') && emailCmp.get('v.validity').valid;
+        let emailRepeatValid = emailRepeatCmp && emailRepeatCmp.get('v.validity') && emailRepeatCmp.get('v.validity').valid;
+        let selectedCountry = participant.Mailing_Country_Code__c;
+        let selectedState = participant.Mailing_State_Code__c;
 
         //Guardian (Participant delegate)
-        var delegateParticipant = component.get('v.delegateParticipant');
-        var emailDelegateRepeat = component.get('v.emailDelegateRepeat');
-        var emailDelegateCmp = component.find('emailDelegateField');
-        var emailDelegateRepeatCmp = component.find('emailDelegateRepeatField');
-        var emailDelegateVaild = needsDelegate && emailDelegateCmp && emailDelegateCmp.get('v.validity') && emailDelegateCmp.get('v.validity').valid;
-        var emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && emailDelegateRepeatCmp.get('v.validity') && emailDelegateRepeatCmp.get('v.validity').valid;
+        let delegateParticipant = component.get('v.delegateParticipant');
+        let emailDelegateRepeat = component.get('v.emailDelegateRepeat');
+        let emailDelegateCmp = component.find('emailDelegateField');
+        let emailDelegateRepeatCmp = component.find('emailDelegateRepeatField');
+        let emailDelegateVaild = needsDelegate && emailDelegateCmp && emailDelegateCmp.get('v.validity') && emailDelegateCmp.get('v.validity').valid;
+        let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && emailDelegateRepeatCmp.get('v.validity') && emailDelegateRepeatCmp.get('v.validity').valid;
 
-        var result =
-            participant &&
-            participant.First_Name__c &&
+        let isValid = false;
+        isValid = isValid ||
+            (participant.First_Name__c &&
             participant.Last_Name__c &&
             participant.Date_of_Birth__c &&
             (needsDelegate || participant.Email__c) &&
-            participant.Mailing_Zip_Postal_Code__c &&
             (needsDelegate || emailVaild) &&
             (needsDelegate || emailRepeatValid) &&
             (needsDelegate || participant.Phone__c) &&
-            //agreeShare &&
-            participant.Mailing_Country_Code__c &&
-            (participant.Mailing_State_Code__c; || states.length === 0) &&
+            participant.Mailing_Zip_Postal_Code__c &&
+            selectedCountry &&
+            (selectedState || states.length === 0) &&
             (!needsDelegate ||
-                (needsDelegate &&
-                    delegateParticipant &&
-                    delegateParticipant.Health_care_proxy_is_needed__c &&
+                (needsDelegate && delegateParticipant &&
+                    participant.Health_care_proxy_is_needed__c &&
                     delegateParticipant.First_Name__c &&
                     delegateParticipant.Last_Name__c &&
                     delegateParticipant.Phone__c &&
                     delegateParticipant.Email__c &&
                     emailDelegateVaild &&
                     emailDelegateRepeatValid)) &&
-            agreePolicy;
-        component.set('v.allRequiredCompleted', result);
-        component.set('v.emailsMatch',participant.Email__c && emailRepeat && participant.Email__c.toLowerCase() === emailRepeat.toLowerCase());
+            agreePolicy);
+        component.set('v.allRequiredCompleted', isValid);
 
         if (!needsDelegate && emailCmp && emailRepeatCmp) {
             if (participant.Email__c && emailRepeat && participant.Email__c.toLowerCase() !== emailRepeat.toLowerCase()) {
@@ -137,6 +136,8 @@
                 emailDelegateRepeatCmp.reportValidity();
             }
         }
+
+        console.log('VALIDATION isValid RESULT2: ' + isValid);
     },
 
     checkParticipantNeedsGuardian: function (component, helper) {
@@ -149,10 +150,8 @@
             var isNeedGuardian = (returnValue == 'true');
             console.log('checkNeedsGuardian - SUCCESS: ' + isNeedGuardian);
             component.set('v.needsGuardian', isNeedGuardian);
-
-            participant.Health_care_proxy_is_needed__c = isNeedGuardian;
-            participant.Adult__c = !participant.Health_care_proxy_is_needed__c;
-            component.set('v.participant', participant);
+            component.set('v.participant.Health_care_proxy_is_needed__c', isNeedGuardian);
+            component.set('v.participant.Adult__c', !isNeedGuardian);
 
             if (isNeedGuardian) {
                 helper.setDelegate(component);
