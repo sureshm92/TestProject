@@ -127,10 +127,8 @@ export default class MessageBoard extends LightningElement {
     }
 
     handleSelectionChange() {
-        let lookUpResult = this.template.querySelector('c-web-lookup').getSelection();
-        this.selectedEnrollments = lookUpResult.map(function (res) {
-            return res.id
-        });
+        let lookUp = this.template.querySelector('c-web-lookup');
+        if(lookUp) this.selectedEnrollments = lookUp.getSelection();
         this.checkSendBTNAvailability();
     }
 
@@ -172,7 +170,7 @@ export default class MessageBoard extends LightningElement {
                         console.error('Error in createConversation():' + JSON.stringify(error));
                     });
             } else {
-                sendMessage({conversation: this.conversation, messageText: this.messageText})
+                sendMessage({conversation: this.conversation, messageText: this.messageText, docId: null})
                     .then(data => {
                         this.fireSendEvent(data);
                     })
@@ -180,6 +178,15 @@ export default class MessageBoard extends LightningElement {
                         console.error('Error in sendMessage():' + JSON.stringify(error));
                     });
             }
+        }
+    }
+
+    handleUploadFinished(event) {
+        console.log('It\'s handled');
+        try {
+            console.log('File name: ' + event.detail.files[0].name);
+        } catch (e) {
+            console.error(e);
         }
     }
 
@@ -227,9 +234,6 @@ export default class MessageBoard extends LightningElement {
             }
         }));
         this.clearMessage();
-
-        let toastLabel = this.userMode === 'PI' ? toastPASend : toastSTSend;
-        this.notifyUser('', toastLabel, 'success');
     }
 
     fireMultipleSendEvent() {
