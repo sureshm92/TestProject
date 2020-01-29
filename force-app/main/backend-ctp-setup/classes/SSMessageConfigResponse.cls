@@ -27,6 +27,7 @@ public with sharing class SSMessageConfigResponse {
     public static List<StudySiteItem> convertToSSItems(List<Study_Site__c> studySites, String messageType) {
         List<LabelValueItem> messageTypes = getMessageTypes(messageType);
         Map<Id, Map<String, Boolean>> ssMessageConfigurationBySSIdMap = getMessageConfigurationBySSIdMap(studySites);
+        Set<Id> ssIdsWithConversations = getConversationsAvailability(studySites);
         List<StudySiteItem> studySiteItems = new List<StudySiteItem>();
         for (Study_Site__c ss : studySites) {
             String countryName = ss.Site__r.BillingCountry;
@@ -34,8 +35,13 @@ public with sharing class SSMessageConfigResponse {
             StudySiteItem item = new StudySiteItem(new LabelValueItem(countryName, countryCode), ss.Name, ss);
             item.emptyAssignments = true;
             for (LabelValueItem mt : messageTypes) {
-                item.assignments.add(new ValueStateItem(mt.value, ssMessageConfigurationBySSIdMap.get(ss.Id).get(mt.value)));
-                if (ssMessageConfigurationBySSIdMap.get(ss.Id).get(mt.value)) item.emptyAssignments = false;
+                Boolean value = ssMessageConfigurationBySSIdMap.get(ss.Id).get(mt.value);
+                item.assignments.add(new ValueStateItem(mt.value, value));
+                if (value) {
+                    item.emptyAssignments = false;
+                } else if (mt.value.equals(TYPE_MESSAGE) && ssIdsWithConversations.contains(ss.Id)) {
+                    item.conversationsFound = true;
+                }
             }
             studySiteItems.add(item);
         }
@@ -57,5 +63,18 @@ public with sharing class SSMessageConfigResponse {
             vpListBySSIdMap.get(ss.Id).put(TYPE_MESSAGE, ss.Messages_Are_Available__c);
         }
         return vpListBySSIdMap;
+    }
+
+    public static Set<Id> getConversationsAvailability(List<Study_Site__c> studySites){
+        List<Conversation__c> conversations = [
+                SELECT Id, Participant_Enrollment__r.Study_Site__c
+                FROM Conversation__c
+                WHERE Participant_Enrollment__r.Study_Site__c IN: studySites
+        ];
+
+        Set<Id> ssIdsWithConversations = new Set<Id>();
+        for(Conversation__c c : conversations) ssIdsWithConversations.add(c.Participant_Enrollment__r.Study_Site__c);
+
+        return ssIdsWithConversations;
     }
 }
