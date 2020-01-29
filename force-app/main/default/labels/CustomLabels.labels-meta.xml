@@ -4875,6 +4875,13 @@ The IQVIA Patient Portal Support Team</value>
         <value>500 Character Limit</value>
     </labels>
     <labels>
+        <fullName>MS_Chat_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Chat Disclaimer</shortDescription>
+        <value>Please call 911 if you have an emergency or urgent medical question. If you do not hear from your provider’s office within 3 business days, please call the office directly.</value>
+    </labels>
+    <labels>
         <fullName>MS_Empty_Chat</fullName>
         <language>en_US</language>
         <protected>false</protected>
