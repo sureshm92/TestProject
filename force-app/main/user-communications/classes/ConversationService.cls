@@ -35,6 +35,31 @@ public without sharing class ConversationService {
         }, Conversation__c.getSObjectType(), filter, 'CreatedDate DESC', null);
     }
 
+    public static Map<Id, List<ContentDocumentLink>> getAttachments(List<Id> conIds) {
+        List<ContentDocumentLink> contentDocumentLinks = [
+                SELECT
+                        Id,
+                        ContentDocumentId,
+                        ContentDocument.CreatedDate,
+                        ContentDocument.Title,
+                        ContentDocument.FileExtension,
+                        LinkedEntityId
+                FROM ContentDocumentLink
+                WHERE LinkedEntityId IN:conIds
+                ORDER BY ContentDocument.CreatedDate DESC
+        ];
+
+        Map<Id, List<ContentDocumentLink>> attachmentByConIds = new Map<Id, List<ContentDocumentLink>>();
+        for(ContentDocumentLink link : contentDocumentLinks) {
+            if(!attachmentByConIds.containsKey(link.LinkedEntityId)) {
+                attachmentByConIds.put(link.LinkedEntityId, new List<ContentDocumentLink>());
+            }
+            attachmentByConIds.get(link.LinkedEntityId).add(link);
+        }
+
+        return attachmentByConIds;
+    }
+
     public static Integer getUnreadConversationCount(Id userId, String userMode) {
         Integer unreadCount = 0;
         List<Conversation__c> sharedConversations = getSharedConversations(userId);
