@@ -58,21 +58,21 @@
 
         <aura:if isTrue="{!v.showModal}">
             <c:Popup aura:id="contactModal" title="{!'Contact ' + v.trialTDO.ctp.Study_Code_Name__c}" size="large">
-<!--                <c:FormPatientInfoTrialSearch aura:id="contactForm"-->
-<!--                        participant="{!v.participant}"-->
-<!--                        participantInfo="{!v.participantInfo}"-->
-<!--                        formData="{!v.formData}"-->
-<!--                        ctp="{!v.trialTDO.ctp}"-->
-<!--                        isDisclaimer="{!v.isDisclaimer}"-->
-<!--                        isValid="{!v.isValid}"-->
-<!--                />-->
-                <c:formPatientInfoTrialSearchComp aura:id="contactForm"
-                                                      participant="{!v.participant}"
-                                                      participantInfo="{!v.participantInfo}"
-                                                      formData="{!v.formData}"
-                                                      ctp="{!v.trialTDO.ctp}"
-                                                      isDisclaimer="{!v.isDisclaimer}"
-                                                      isValid="{!v.isValid}"/>
+                <c:FormPatientInfoTrialSearch aura:id="contactForm"
+                        participant="{!v.participant}"
+                        participantInfo="{!v.participantInfo}"
+                        formData="{!v.formData}"
+                        ctp="{!v.trialTDO.ctp}"
+                        isDisclaimer="{!v.isDisclaimer}"
+                        isValid="{!v.isValid}"
+                />
+<!--                <c:formPatientInfoTrialSearchComp aura:id="contactForm"-->
+<!--                                                      participant="{!v.participant}"-->
+<!--                                                      participantInfo="{!v.participantInfo}"-->
+<!--                                                      formData="{!v.formData}"-->
+<!--                                                      ctp="{!v.trialTDO.ctp}"-->
+<!--                                                      isDisclaimer="{!v.isDisclaimer}"-->
+<!--                                                      isValid="{!v.isValid}"/>-->
                 <aura:set attribute="footerButtons">
                     <button class="apollo-btn primary btn-send" onclick="{!c.onClickSend}" disabled="{!!and(v.isDisclaimer, v.isValid)}">
                         {!$Label.c.TrialSearch_Send_To_Study}
