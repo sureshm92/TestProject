@@ -11,7 +11,7 @@ public without sharing class CommunityFacadeRemote {
     }
     
     @AuraEnabled
-    public static void accpetTerms() {
+    public static void acceptTerms() {
         try {
             User user = [SELECT Id, Contact.Is_First_Logon__c, ContactId FROM User WHERE Id = :UserInfo.getUserId()];
             Contact cont = [SELECT Id FROM Contact WHERE Id = :user.ContactId];

@@ -40,7 +40,7 @@ private class Test_CommunityFacadeRemote {
         System.runAs(portalUser){
             Test.startTest();
             CommunityFacadeRemote.isFirstLogon();
-            CommunityFacadeRemote.accpetTerms();
+            CommunityFacadeRemote.acceptTerms();
             CommunityFacadeRemote.urlExists('test_url');
             CommunityFacadeRemote.getLocalizedURL('https://login.salesforce.com/');
             CommunityFacadeRemote.changeMode('HCP', null, null);

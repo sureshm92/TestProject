@@ -1,0 +1,7 @@
+<!--
+ - Created by Olga Skrynnikova on 1/29/2020.
+ -->
+
+<aura:event type="APPLICATION" description="GetResIdFlowEvent">
+    <aura:attribute name="recordId" type="String"/>
+</aura:event>
