@@ -96,7 +96,7 @@
             (needsDelegate || participant.Phone__c) &&
             //agreeShare &&
             participant.Mailing_Country_Code__c &&
-            (participant.Mailing_State_Code__c; || states.length === 0) &&
+            (participant.Mailing_State_Code__c || states.length === 0) &&
             (!needsDelegate ||
                 (needsDelegate &&
                     delegateParticipant &&
