@@ -27,7 +27,9 @@ public without sharing class PaymentsRemote {
                     WHERE Study_Site__c =: ps.pe.Study_Site__c
             ];
             if(String.isEmpty(initData.participant.Status__c)) initData.informationAvailable = false;
+
             if(!pvs.isEmpty()) initData.href = pvs[0].Payment_Vendor__r.Link_Vendor__c;
+            else initData.href = 'none';
 
             return initData;
         } catch (Exception e) {
