@@ -8,6 +8,7 @@
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="viewMode" type="String"/>
     <aura:attribute name="isSingleChoice" type="Boolean" default="false"/>
+    <aura:attribute name="conversationsFound" type="Boolean" default="false"/>
 
     <tr class="{!if(v.item.emptyAssignments, 'empty-assignments', '')}">
         <th data-label="Country" scope="row">
@@ -17,7 +18,12 @@
         <td data-label="Study Site Name">
             <div class="slds-truncate name-overflow" title="">
                 <a href="javascript:void(0);" tabindex="-1" data-ssid="{!v.item.ss.Id}"
-                   onclick="{!c.viewStudySite}">{!v.item.name}</a>
+                   onclick="{!c.viewStudySite}">{!v.item.name}&nbsp;</a>
+                <aura:if isTrue="{!v.conversationsFound}">
+                    <lightning:helptext content="Messages on this study site are put on hold"
+                                        iconName="utility:end_chat"
+                                        iconVariant="warning"/>
+                </aura:if>
             </div>
         </td>
         <td data-label="Name">
@@ -28,9 +34,9 @@
             <td data-label="None" style="text-align: center">
                 <div class="slds-truncate" title="">
                     <ui:inputRadio value="{!v.item.emptyAssignments}"
-                            label="none"
-                            change="{!c.sscRadioStateChange}"
-                            disabled="{!v.viewMode != 'Edit'}"/>
+                                   label="none"
+                                   change="{!c.sscRadioStateChange}"
+                                   disabled="{!v.viewMode != 'Edit'}"/>
                 </div>
             </td>
         </aura:if>
