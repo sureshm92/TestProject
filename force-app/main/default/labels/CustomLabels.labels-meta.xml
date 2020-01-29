@@ -5141,6 +5141,13 @@ The IQVIA Patient Portal Support Team</value>
         <value>No case assigenment rule found!</value>
     </labels>
     <labels>
+        <fullName>No_Payment_Information_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Payment Information Available</shortDescription>
+        <value>Error</value>
+    </labels>
+    <labels>
         <fullName>No_permission_Visits_tab</fullName>
         <language>en_US</language>
         <protected>false</protected>
