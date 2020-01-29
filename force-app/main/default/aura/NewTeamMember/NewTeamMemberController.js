@@ -57,7 +57,7 @@
 
     doSearchContact: function (component, event, helper) {
         var delegate = component.get('v.delegate');
-        if (!communityService.isValidEmail(delegate.delegateContact.Email)) {
+        if (!communityService.isValidEmail(delegate.delegateContact.Email.trim())) {
             component.set('v.isCorrectEmail', false);
             delegate.delegateContact.Id = null;
             component.set('v.delegate', delegate);
@@ -71,7 +71,7 @@
 
         communityService.executeAction(component, 'getContactData', {
             userMode: component.get('v.userMode'),
-            contactEmail: delegate.delegateContact.Email.toLowerCase(),
+            contactEmail: delegate.delegateContact.Email.toLowerCase().trim(),
             parentId: communityService.getUrlParameter('id')?communityService.getUrlParameter('id'):communityService.getDelegateId()
         }, function (returnValue) {
             debugger;
