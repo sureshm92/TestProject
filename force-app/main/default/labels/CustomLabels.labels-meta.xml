@@ -3725,6 +3725,20 @@ The IQVIA Patient Portal Support Team</value>
         <value>Files</value>
     </labels>
     <labels>
+        <fullName>Resource_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource Name</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>Resource_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource Title</shortDescription>
+        <value>Title</value>
+    </labels>
+    <labels>
         <fullName>Footer_Link_About_IQVIA</fullName>
         <language>en_US</language>
         <protected>false</protected>
