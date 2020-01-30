@@ -1,9 +1,0 @@
-{
-  "appPageId" : "8795af9a-8c16-455c-abb8-274a6e5524f1",
-  "id" : "fa7689b0-a141-4718-9eb1-5f1b85749ca2",
-  "label" : "Past Studies",
-  "pageAccess" : "UseParent",
-  "routeType" : "custom-past-studies",
-  "type" : "route",
-  "urlPrefix" : "past-studies"
-}
