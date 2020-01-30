@@ -72,14 +72,18 @@ export default class MessageBoard extends LightningElement {
     }
 
     @api
-    startNew(enrollments, isPastStudy) {
+    startNew(enrollments, statusByPeMap) {
         this.conversation = null;
         this.messageWrappers = [];
-        if (isPastStudy !== undefined) this.isPastStudy = isPastStudy;
+        this.isPastStudy = false;
 
         this.enrollments = enrollments;
         this.isMultipleMode = enrollments.length > 1;
-        if (!this.isMultipleMode) this.selectedEnrollment = enrollments[0];
+        if (!this.isMultipleMode) {
+            this.selectedEnrollment = enrollments[0];
+
+            if(this.userMode === 'Participant') this.isPastStudy = statusByPeMap[this.selectedEnrollment.Id];
+        }
 
         this.hideEmptyStub = true;
     }

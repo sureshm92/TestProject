@@ -31,6 +31,7 @@ export default class MessagesPage extends LightningElement {
     messageBoard;
     messageTemplates;
     firstConWrapper;
+    statusByPeMap;
 
     @track initialized;
     @track hideEmptyStub;
@@ -85,7 +86,7 @@ export default class MessagesPage extends LightningElement {
         this.changeConversationsBackground(null);
 
         let enrollments = this.userMode === 'PI' ? this.enrollments : this.getFreeEnrollments();
-        this.messageBoard.startNew(enrollments);
+        this.messageBoard.startNew(enrollments, this.statusByPeMap);
     }
 
     handleOpenConversation(event) {
@@ -155,6 +156,7 @@ export default class MessagesPage extends LightningElement {
             .then(data => {
                 this.userMode = data.userMode;
                 this.enrollments = data.enrollments;
+                this.statusByPeMap = data.statusByPeMap;
 
                 this.conversationWrappers = data.conversationWrappers;
                 if (this.conversationWrappers) this.firstConWrapper = this.conversationWrappers[0];
