@@ -15,20 +15,23 @@ export default class ConversationItem extends LightningElement {
     @api item;
     @api userMode;
     @track attachColor = '#000';
+    @track isSelected = false;
 
     @api
     setSelectedMode(selected) {
-        let bgColor = selected ? selectedBG : defaultBG;
-        this.template.querySelector('.con-wrapper').style.background = bgColor;
-        this.template.querySelectorAll('c-web-limit-text-by-lines').forEach(function (cmp) {
-            cmp.setBackground(bgColor);
-        });
+        this.isSelected = true;
         this.attachColor = selected ? '#11a4de' : '#000';
     }
 
     renderedCallback() {
         this.template.querySelector('.con-icon').style.background =
             new AvatarColorCalculator().getColorFromString(this.item.fullName);
+
+        let bgColor = this.isSelected ? selectedBG : defaultBG;
+        this.template.querySelector('.con-wrapper').style.background = bgColor;
+        this.template.querySelectorAll('c-web-limit-text-by-lines').forEach(function (cmp) {
+            cmp.setBackground(bgColor);
+        });
     }
 
     get initials() {

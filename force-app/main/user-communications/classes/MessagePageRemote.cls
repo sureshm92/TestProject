@@ -32,11 +32,11 @@ public without sharing class MessagePageRemote {
     public class AttachmentWrapper {
 
         private Map<String, String> iconByExtention = new Map<String, String>{
-                'csv' => '',
+                'csv' => 'attach-file-csv',
                 'doc' => 'attach-file-doc',
-                'jpg' => '',
+                'jpg' => 'attach-file-jpg',
                 'pdf' => 'attach-file-pdf',
-                'png' => '',
+                'png' => 'attach-file-png',
                 'xls' => 'attach-file-xls'
         };
 
@@ -131,7 +131,7 @@ public without sharing class MessagePageRemote {
 
             ConversationService.createConversationSharesForMembers(newConversation.Id, enrollment);
             newConversation.Participant_Enrollment__r = enrollment;
-            return sendMessage(newConversation, messageText, null);
+            return sendMessage(newConversation, messageText);
         } catch (Exception e) {
             return (ConversationWrapper) AuraHelper.throwException(e);
         }
@@ -163,7 +163,7 @@ public without sharing class MessagePageRemote {
                     if (index >= 0) peIdsWithoutConversation.remove(index);
                 }
                 for (Conversation__c exCon : ConversationService.getConversations(conIds)) {
-                    sendMessage(exCon, messageText, null);
+                    sendMessage(exCon, messageText);
                 }
             }
 
@@ -179,7 +179,7 @@ public without sharing class MessagePageRemote {
     }
 
     @AuraEnabled
-    public static ConversationWrapper sendMessage(Conversation__c conversation, String messageText, String docId) {
+    public static ConversationWrapper sendMessage(Conversation__c conversation, String messageText) {
         try {
             Contact userContact = CommunityService.getUserContact();
 
@@ -212,7 +212,27 @@ public without sharing class MessagePageRemote {
                     Message_Content__c = messageText,
                     Sender_Name__c = senderName
             );
-            if(!String.isEmpty(docId)) message.ContentDocumentLinkId__c = docId;
+
+            List<ContentDocumentLink> contentDocumentLinks = [
+                    SELECT ContentDocumentId
+                    FROM ContentDocumentLink
+                    WHERE LinkedEntityId = :conversation.Id
+                    ORDER BY ContentDocument.CreatedDate DESC
+            ];
+
+            if(!contentDocumentLinks.isEmpty()) {
+                List<Message__c> oldMessages = [SELECT ContentDocumentId__c FROM Message__c WHERE Conversation__c = :conversation.Id];
+                Boolean isAlreadyLinked = false;
+                Id linkId = contentDocumentLinks.get(0).ContentDocumentId;
+                for(Message__c mes : oldMessages) {
+                    if(mes.ContentDocumentId__c == String.valueOf(linkId)) {
+                        isAlreadyLinked = true;
+                        break;
+                    }
+                }
+
+                if(!isAlreadyLinked) message.ContentDocumentId__c = linkId;
+            }
             insert message;
 
             List<Message__c> messages = MessageService.getMessages(conversation.Id);
@@ -298,9 +318,9 @@ public without sharing class MessagePageRemote {
             MessageWrapper messageWrapper = new MessageWrapper();
             messageWrapper.message = message;
 
-            if (!String.isEmpty(message.ContentDocumentLinkId__c) && !documentLinks.isEmpty()) {
+            if (!String.isEmpty(message.ContentDocumentId__c) && !documentLinks.isEmpty()) {
                 for (ContentDocumentLink link : documentLinks) {
-                    if (link.Id == message.ContentDocumentLinkId__c) {
+                    if (String.valueOf(link.ContentDocumentId) == message.ContentDocumentId__c) {
                         messageWrapper.attachmentWrapper = new AttachmentWrapper(link);
                         break;
                     }

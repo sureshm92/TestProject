@@ -9,7 +9,7 @@ public without sharing class MessageService {
                 SELECT Id,
                         CreatedDate,
                         Conversation__c,
-                        ContentDocumentLinkId__c,
+                        ContentDocumentId__c,
                         Message_Content__c,
                         Sender_Name__c
                 FROM Message__c
@@ -23,7 +23,7 @@ public without sharing class MessageService {
                 SELECT Id,
                         CreatedDate,
                         Conversation__c,
-                        ContentDocumentLinkId__c,
+                        ContentDocumentId__c,
                         Message_Content__c,
                         Sender_Name__c
                 FROM Message__c

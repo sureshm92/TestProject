@@ -20,7 +20,8 @@
             <template if:true={item.attachmentWrapper}>
                 <div class="ms-attach">
                     <c-web-icon icon-name={item.attachmentWrapper.fileIcon} icon-color="#297DFD" icon-size="small"></c-web-icon>
-                    <a class="ms-att-label" target="_blank" href={item.attachmentWrapper.downloadLink}>
+                    <a class="ms-att-label" target="_blank" href={item.attachmentWrapper.downloadLink}
+                       title={item.attachmentWrapper.fileName}>
                         {item.attachmentWrapper.fileName}
                     </a>
                     <c-web-icon icon-name="icon-download-bottom" icon-color="#297DFD" icon-size="small"></c-web-icon>

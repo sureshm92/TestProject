@@ -43,6 +43,8 @@ export default class MessageBoard extends LightningElement {
         piLabel
     };
 
+    fileTypes = '.csv,.doc,.jpg,.pdf,.png,.xls';
+
     @api userMode;
     @api firstConWr;
 
@@ -60,7 +62,10 @@ export default class MessageBoard extends LightningElement {
     @track recipientSelections = [];
 
     @track messageText;
+    @track isSendEnable = false;
     @track hideEmptyStub;
+
+    contentDocId;
 
     //Public Methods:---------------------------------------------------------------------------------------------------
     @api
@@ -159,6 +164,7 @@ export default class MessageBoard extends LightningElement {
                 })
                 .catch(error => {
                     console.error('Error in sendMultipleMessage():' + JSON.stringify(error));
+                    this.notifyUser('Error', error.message, 'error');
                 });
         } else {
             if (!this.conversation && this.selectedEnrollment) {
@@ -168,25 +174,26 @@ export default class MessageBoard extends LightningElement {
                     })
                     .catch(error => {
                         console.error('Error in createConversation():' + JSON.stringify(error));
+                        this.notifyUser('Error', error.message, 'error');
                     });
             } else {
-                sendMessage({conversation: this.conversation, messageText: this.messageText, docId: null})
+                let docId = this.contentDocId ? this.contentDocId : null;
+                sendMessage({conversation: this.conversation, messageText: this.messageText})
                     .then(data => {
                         this.fireSendEvent(data);
                     })
                     .catch(error => {
                         console.error('Error in sendMessage():' + JSON.stringify(error));
+                        this.notifyUser('Error', error.message, 'error');
                     });
             }
         }
     }
 
     handleUploadFinished(event) {
-        console.log('It\'s handled');
-        try {
-            console.log('File name: ' + event.detail.files[0].name);
-        } catch (e) {
-            console.error(e);
+        if(event.detail.files) {
+            console.log('>>Doc id:' + event.detail.files[0].documentId);
+            this.contentDocId = event.detail.files[0].documentId;
         }
     }
 
@@ -247,8 +254,10 @@ export default class MessageBoard extends LightningElement {
     checkSendBTNAvailability() {
         let sendBtn = this.template.querySelector('.ms-send-button');
         if (this.messageText && (this.selectedEnrollment || this.selectedEnrollments)) {
+            this.isSendEnable = true;
             sendBtn.removeAttribute('disabled');
         } else {
+            this.isSendEnable = false;
             sendBtn.setAttribute('disabled', '');
         }
     }

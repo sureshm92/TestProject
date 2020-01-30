@@ -1,9 +1,0 @@
-{
-  "appPageId" : "8795af9a-8c16-455c-abb8-274a6e5524f1",
-  "id" : "21db8a9f-9432-4627-84cd-b16db7064028",
-  "label" : "Edit Delegate",
-  "pageAccess" : "UseParent",
-  "routeType" : "custom-edit-delegate",
-  "type" : "route",
-  "urlPrefix" : "edit-delegate"
-}
