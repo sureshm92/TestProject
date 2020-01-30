@@ -54,7 +54,7 @@
 }
 
 .ms-new-mode {
-    height: 68px;
+    min-height: 68px;
     display: flex;
     align-items: center;
     padding-left: 25px;

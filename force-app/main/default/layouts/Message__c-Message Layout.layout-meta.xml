@@ -24,7 +24,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>ContentDocumentLinkId__c</field>
+                <field>ContentDocumentId__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>

@@ -4412,7 +4412,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Message__c.ContentDocumentLinkId__c</field>
+        <field>Message__c.ContentDocumentId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

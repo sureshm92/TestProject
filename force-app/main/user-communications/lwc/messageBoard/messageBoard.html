@@ -92,13 +92,15 @@
                                     <div class="slds-form-element__control">
                                         <div class="slds-file-selector slds-file-selector_files">
                                             <label class="slds-file-selector__body">
-                                                <lightning-file-upload
-                                                        style="opacity: 0"
-                                                        label=""
-                                                        name="fileUploader"
-                                                        accept=".jpg,.jpeg,.pdf,.png"
-                                                        record-id={conversation.Id}
-                                                        onuploadfinished={handleUploadFinished}></lightning-file-upload>
+                                                <template if:true={isSendEnable}>
+                                                    <lightning-file-upload
+                                                            style="opacity: 0"
+                                                            label=""
+                                                            name="fileUploader"
+                                                            accept={fileTypes}
+                                                            record-id={conversation.Id}
+                                                            onuploadfinished={handleUploadFinished}></lightning-file-upload>
+                                                </template>
                                                 <span class="slds-file-selector__button slds-button">
                                                     <span class="ms-att-file-label">{labels.attFileLabel}</span>
                                                 </span>
