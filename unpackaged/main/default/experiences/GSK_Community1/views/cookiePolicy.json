@@ -1,0 +1,42 @@
+{
+  "appPageId" : "8795af9a-8c16-455c-abb8-274a6e5524f1",
+  "componentName" : "c:EmptyLayout",
+  "id" : "99fcbbf9-603b-40e6-9cbe-c2591ac6fdef",
+  "label" : "Cookie Policy",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : {
+        "isPortalTC" : "true",
+        "privacyPolicyId" : "",
+        "titleCode" : "CookiePolicy"
+      },
+      "componentName" : "c:TermsAndConditions",
+      "id" : "70605a26-c345-4cc4-967b-f6d0ce0043f5",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "ec4cd81c-8285-4cfb-bbab-1fa846424887",
+    "regionName" : "column1",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Cookie Policy"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "40cc3787-f947-4373-8d91-984537d6fb5d",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "99348852-a0f5-4561-b124-a6a2183c9f0c",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "frydtamW5B5avulx8GjBQMADef2bhY",
+  "type" : "view",
+  "viewType" : "custom-cookie-policy"
+}

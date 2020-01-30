@@ -27,11 +27,8 @@ public without sharing class PENotificationTriggerHandler {
 
     @TestVisible
     private static void createNotificationByStatus(List<Participant_Enrollment__c> newList, Map<Id, SObject> oldMap) {
-
-        List<Notification__c> listNotificationForHCP = new List<Notification__c>();
-        List<Notification__c> listNotificationForPatient = new List<Notification__c>();
+        List<Notification__c> notifications = new List<Notification__c>();
         List<Id> participantConIds = new List<Id>();
-        List<Notification__c> listNotificationForPI = new List<Notification__c>();
         List<Participant_Enrollment__c> listPE = [
                 SELECT Id,
                         HCP_Contact_HCPEnroll__c,
@@ -67,7 +64,7 @@ public without sharing class PENotificationTriggerHandler {
                 if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
                         && pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
                     participantConIds.add(pe.Participant__r.Contact__c);
-                    listNotificationForPatient.add(new Notification__c(
+                    notifications.add(new Notification__c(
                             Recipient__c = pe.Participant__r.Contact__c,
                             WhatId__c = pe.Id,
                             Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE
@@ -76,7 +73,7 @@ public without sharing class PENotificationTriggerHandler {
                 //Forming additional notification for Drop Out
                 if (pe.Participant_Status__c == PEStatusState.PE_STATUS_DROP_OUT) {
                     participantConIds.add(pe.Participant__r.Contact__c);
-                    listNotificationForPatient.add(new Notification__c(
+                    notifications.add(new Notification__c(
                             Recipient__c = pe.Participant__r.Contact__c,
                             WhatId__c = pe.Id,
                             Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DROP_OUT_TYPE
@@ -86,7 +83,7 @@ public without sharing class PENotificationTriggerHandler {
                 if (pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI
                         || (pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ACCEPTED
                         && pe.IsAutoaccepted__c)) {
-                    listNotificationForPI.add(new Notification__c(
+                    notifications.add(new Notification__c(
                             Recipient__c = pe.Study_Site__r.Principal_Investigator__r.Id,
                             WhatId__c = pe.Id,
                             Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE
@@ -95,48 +92,42 @@ public without sharing class PENotificationTriggerHandler {
             }
 
             if (notifyHCPType != null) {
-                listNotificationForHCP.add(new Notification__c(
+                notifications.add(new Notification__c(
                         Recipient__c = pe.HCP_Contact_HCPEnroll__c,
                         WhatId__c = pe.Id,
                         Notification_Type__c = notifyHCPType
-                        ));
+                ));
             }
 
             if (notifyPTType != null) {
                 participantConIds.add(pe.Participant__r.Contact__c);
-                listNotificationForPatient.add(new Notification__c(
+                notifications.add(new Notification__c(
                         Recipient__c = pe.Participant__r.Contact__c,
                         WhatId__c = pe.Id,
                         Notification_Type__c = notifyPTType
-                        ));
+                ));
             }
         }
 
         //get Delegates for Participant
         List<Notification__c> listNotificationForDelegate = new List<Notification__c>();
-        if (listNotificationForPatient != null) {
-            Map<Id, List<Contact>> conDelegatesByPartConMap = PatientDelegateService.getDelegatedCntsByParticipantCnt(
-                    participantConIds, new List<String>{'Id'});
-            for (Notification__c n : listNotificationForPatient) {
-                if (conDelegatesByPartConMap.containsKey(n.Recipient__c)) {
-                    for(Contact conDel: conDelegatesByPartConMap.get(n.Recipient__c)) {
-                        listNotificationForDelegate.add(new Notification__c(
-                                Recipient__c = conDel.Id,
-                                WhatId__c = n.WhatId__c,
-                                Notification_Type__c = n.Notification_Type__c
-                        ));
-                    }
+        Map<Id, List<Contact>> conDelegatesByPartConMap = PatientDelegateService.getDelegatedCntsByParticipantCnt(
+                participantConIds, new List<String>{'Id'}
+        );
+        for (Notification__c n : notifications) {
+            if (conDelegatesByPartConMap.containsKey(n.Recipient__c)) {
+                for (Contact conDel : conDelegatesByPartConMap.get(n.Recipient__c)) {
+                    listNotificationForDelegate.add(new Notification__c(
+                            Recipient__c = conDel.Id,
+                            WhatId__c = n.WhatId__c,
+                            Notification_Type__c = n.Notification_Type__c
+                    ));
                 }
             }
         }
+        notifications.addAll(listNotificationForDelegate);
 
-        List<Notification__c> notificationForInsert = new List<Notification__c>();
-        if (listNotificationForPatient != null) notificationForInsert.addAll(listNotificationForPatient);
-        if (listNotificationForDelegate != null) notificationForInsert.addAll(listNotificationForDelegate);
-        if (listNotificationForHCP != null) notificationForInsert.addAll(listNotificationForHCP);
-        if (listNotificationForPI != null) notificationForInsert.addAll(listNotificationForPI);
-
-        insert notificationForInsert;
+        insert notifications;
     }
 
     @TestVisible
@@ -165,6 +156,6 @@ public without sharing class PENotificationTriggerHandler {
                     Recipient__c = pe.Study_Site__r.Principal_Investigator__c,
                     WhatId__c = pe.Id));
         }
-        if(!notificationList.isEmpty()) insert notificationList;
+        if (!notificationList.isEmpty()) insert notificationList;
     }
 }
