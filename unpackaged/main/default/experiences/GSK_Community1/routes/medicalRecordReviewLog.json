@@ -1,0 +1,9 @@
+{
+  "appPageId" : "8795af9a-8c16-455c-abb8-274a6e5524f1",
+  "id" : "9600b052-5728-4fd4-b481-a8784b9ad4a7",
+  "label" : "Medical Record Review Log",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-medical-record-review-log",
+  "type" : "route",
+  "urlPrefix" : "medical-record-review-log"
+}

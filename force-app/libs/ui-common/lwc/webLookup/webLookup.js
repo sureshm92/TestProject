@@ -52,7 +52,9 @@ export default class WebLookup extends LightningElement {
 
     @api
     getSelection() {
-        return this.selection;
+        return this.selection.map(function (sel) {
+            return sel.id
+        });
     }
 
     @api

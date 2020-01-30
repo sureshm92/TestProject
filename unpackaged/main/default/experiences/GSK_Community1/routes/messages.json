@@ -1,0 +1,9 @@
+{
+  "appPageId" : "8795af9a-8c16-455c-abb8-274a6e5524f1",
+  "id" : "04979cc6-5b61-474a-8736-3f6960ca822f",
+  "label" : "Messages",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-messages",
+  "type" : "route",
+  "urlPrefix" : "messages"
+}

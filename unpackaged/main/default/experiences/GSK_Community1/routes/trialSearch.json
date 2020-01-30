@@ -1,0 +1,9 @@
+{
+  "appPageId" : "8795af9a-8c16-455c-abb8-274a6e5524f1",
+  "id" : "6ad25e07-2e05-47ab-a447-98c6121720b8",
+  "label" : "Trial Search",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-trial-search",
+  "type" : "route",
+  "urlPrefix" : "trial-search"
+}

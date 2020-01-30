@@ -53,11 +53,11 @@
         </aura:if>
         <aura:if isTrue="{!v.fileWrapper.listOfLanguages.length > 0}">
             <footer class="slds-card__footer">
-                <lightning:select name="{!$Label.c.PG_AH_H_Language}" label="{!$Label.c.PG_AH_H_Language}" value="{!v.fileWrapper.currentLanguageCode}" required="true">
-                    <aura:iteration items="{!v.fileWrapper.listOfLanguages}" var="languageItem">
-                        <option value="{!languageItem.value}">{!languageItem.label}</option>
-                    </aura:iteration>
-                </lightning:select>
+<!--                <lightning:select name="{!$Label.c.PG_AH_H_Language}" label="{!$Label.c.PG_AH_H_Language}" value="{!v.fileWrapper.currentLanguageCode}" required="true">-->
+<!--                    <aura:iteration items="{!v.fileWrapper.listOfLanguages}" var="languageItem">-->
+<!--                        <option value="{!languageItem.value}">{!languageItem.label}</option>-->
+<!--                    </aura:iteration>-->
+<!--                </lightning:select>-->
                 <lightning:fileUpload label="" multiple="false"
                                       accept="{!v.fileType}" recordId="{!v.recordId}"
                                       onuploadfinished="{!c.saveFile}" />

@@ -9,6 +9,7 @@ public without sharing class MessageService {
                 SELECT Id,
                         CreatedDate,
                         Conversation__c,
+                        ContentDocumentLinkId__c,
                         Message_Content__c,
                         Sender_Name__c
                 FROM Message__c
@@ -22,6 +23,7 @@ public without sharing class MessageService {
                 SELECT Id,
                         CreatedDate,
                         Conversation__c,
+                        ContentDocumentLinkId__c,
                         Message_Content__c,
                         Sender_Name__c
                 FROM Message__c
@@ -36,19 +38,5 @@ public without sharing class MessageService {
             messagesByConversation.get(message.Conversation__c).add(message);
         }
         return messagesByConversation;
-    }
-
-    public static Map<Id, ContentDocumentLink> getMessageAttachment(List<Id> messageIds) {
-        Map<Id, ContentDocumentLink> attachmentByMessageId = new Map<Id, ContentDocumentLink>();
-        List<ContentDocumentLink> contentDocumentLinks = [
-                SELECT
-                        ContentDocument.Title,
-                        ContentDocument.FileType,
-                        LinkedEntityId
-                FROM ContentDocumentLink
-                WHERE LinkedEntityId IN:messageIds
-        ];
-        for (ContentDocumentLink doc : contentDocumentLinks) attachmentByMessageId.put(doc.LinkedEntityId, doc);
-        return attachmentByMessageId;
     }
 }

@@ -1,0 +1,9 @@
+{
+  "appPageId" : "8795af9a-8c16-455c-abb8-274a6e5524f1",
+  "id" : "0dbd9b75-1699-4f55-82c7-5fb034b12040",
+  "label" : "Settings",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-settings",
+  "type" : "route",
+  "urlPrefix" : "settings"
+}

@@ -1,0 +1,32 @@
+<!--
+ - Created by Olga Skrynnikova on 1/29/2020.
+ -->
+
+<aura:component access="global" implements="lightning:availableForFlowScreens">
+
+    <!-- Determine which actions are available -->
+    <aura:attribute name="canBack" type="Boolean" />
+    <aura:attribute name="canNext" type="Boolean" />
+    <aura:attribute name="label" type="String" default="Finish"/>
+    <aura:attribute name="recordId" type="String" default="null"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:handler event="c:GetResIdFlowEvent" action="{!c.getItem}"/>
+
+    <div aura:id="actionButtonBar" class="slds-clearfix slds-p-top_medium">
+        <!-- If Previous is available, display to the left -->
+        <div class="slds-float_left">
+            <aura:if isTrue="{!v.canBack}">
+                <lightning:button aura:id="BACK" label="Previous"
+                                  variant="neutral" onclick="{!c.onButtonPressed}" />
+            </aura:if>
+        </div>
+        <div class="slds-float_right">
+            <!-- If Pause, Next, or Finish are available, display to the right -->
+            <aura:if isTrue="{!v.canNext}">
+                <lightning:button aura:id="NEXT" label="{!v.label}"
+                                  variant="brand" onclick="{!c.onButtonPressed}" />
+            </aura:if>
+        </div>
+    </div>
+</aura:component>
