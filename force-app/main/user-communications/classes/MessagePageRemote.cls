@@ -210,7 +210,10 @@ public without sharing class MessagePageRemote {
                 }
             }
 
-            if (needUpdate) update conversation;
+            if (needUpdate) {
+                conversation.FirstUnreadDate__c = Datetime.now();
+                update conversation;
+            }
 
             Message__c message = new Message__c(
                     Conversation__c = conversation.Id,
