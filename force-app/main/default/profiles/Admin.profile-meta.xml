@@ -233,6 +233,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_UpdatePETrialCompleteAndSendNotify</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_UpdateRecords</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1105,6 +1109,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ResourceForStudyResFlowRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ResourceNotifierRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1514,6 +1522,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_UpdatePESourceType</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_UpdatePETrialCompleteNotify</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2158,6 +2170,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>VisitTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>XLF_PatternListRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <custom>false</custom>
@@ -3254,6 +3270,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact_Topic__c.Topic__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Conversation__c.FirstUnreadDate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4424,6 +4445,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Material_Sent__c.Material_Sent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Message__c.ContentDocumentId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

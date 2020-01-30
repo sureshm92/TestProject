@@ -13,18 +13,25 @@ import messagesLabel from '@salesforce/label/c.MS_Messages';
 import newMessLabel from '@salesforce/label/c.MS_New_Mess';
 import emptyConversationLabel from '@salesforce/label/c.MS_Empty_Conversations';
 import studyTeamLabel from '@salesforce/label/c.Study_Team';
-import attachmentLabel from '@salesforce/label/c.MS_Attachment';
+import disclaimerLabel from '@salesforce/label/c.MS_Chat_Disclaimer';
 
 import getInit from '@salesforce/apex/MessagePageRemote.getInitData';
 
 export default class MessagesPage extends LightningElement {
 
-    labels = {messagesLabel, newMessLabel, emptyConversationLabel, studyTeamLabel, attachmentLabel};
+    labels = {
+        messagesLabel,
+        newMessLabel,
+        emptyConversationLabel,
+        studyTeamLabel,
+        disclaimerLabel
+    };
 
     spinner;
     messageBoard;
     messageTemplates;
     firstConWrapper;
+    statusByPeMap;
 
     @track initialized;
     @track hideEmptyStub;
@@ -36,7 +43,6 @@ export default class MessagesPage extends LightningElement {
     @track conversationWrappers;
 
     @track selectedConWrapper;
-
 
     connectedCallback() {
         registerListener('reload', this.handleRefreshEvent, this);
@@ -80,7 +86,7 @@ export default class MessagesPage extends LightningElement {
         this.changeConversationsBackground(null);
 
         let enrollments = this.userMode === 'PI' ? this.enrollments : this.getFreeEnrollments();
-        this.messageBoard.startNew(enrollments);
+        this.messageBoard.startNew(enrollments, this.statusByPeMap);
     }
 
     handleOpenConversation(event) {
@@ -150,6 +156,7 @@ export default class MessagesPage extends LightningElement {
             .then(data => {
                 this.userMode = data.userMode;
                 this.enrollments = data.enrollments;
+                this.statusByPeMap = data.statusByPeMap;
 
                 this.conversationWrappers = data.conversationWrappers;
                 if (this.conversationWrappers) this.firstConWrapper = this.conversationWrappers[0];
@@ -162,6 +169,10 @@ export default class MessagesPage extends LightningElement {
             .catch(error => {
                 console.error('Error in getInit():' + JSON.stringify(error));
             });
+    }
+
+    get isPIMode() {
+        return this.userMode === 'PI';
     }
 
     changePlusStyle(enabled) {

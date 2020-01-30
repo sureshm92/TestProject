@@ -134,7 +134,8 @@
                         <tbody>
                         <aura:if isTrue="{!v.ssItems}">
                             <aura:iteration items="{!v.ssItems}" var="item">
-                                <c:StudySiteItem item="{!item}" parent="{!this}" viewMode="{!v.viewMode}"/>
+                                <c:StudySiteItem item="{!item}" parent="{!this}" viewMode="{!v.viewMode}"
+                                                 conversationsFound="{!item.conversationsFound}"/>
                             </aura:iteration>
                         </aura:if>
                         </tbody>
