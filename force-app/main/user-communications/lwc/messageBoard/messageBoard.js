@@ -62,7 +62,7 @@ export default class MessageBoard extends LightningElement {
     @track recipientSelections = [];
 
     @track messageText;
-    @track isSendEnable = false;
+    @track isSendEnable;
     @track hideEmptyStub;
 
     contentDocId;
@@ -113,6 +113,8 @@ export default class MessageBoard extends LightningElement {
         if (this.firstConWr && !this.hideEmptyStub && !this.conversation && !this.enrollments) {
             this.openExisting(this.firstConWr.conversation, this.firstConWr.messages, this.firstConWr.isPastStudy);
         }
+
+        this.template.addEventListener('uploadfinished', this.handleUploadFinished);
     }
 
     //Search Handlers:--------------------------------------------------------------------------------------------------
@@ -149,6 +151,7 @@ export default class MessageBoard extends LightningElement {
     handleMessageText(event) {
         this.messageText = event.target.value;
         this.checkSendBTNAvailability();
+        this.changeAttachStyle();
     }
 
     handleInputEnter(event) {
@@ -191,8 +194,10 @@ export default class MessageBoard extends LightningElement {
     }
 
     handleUploadFinished(event) {
+        console.log('handleUploadFinished Enter');
         if(event.detail.files) {
             console.log('>>Doc id:' + event.detail.files[0].documentId);
+
             this.contentDocId = event.detail.files[0].documentId;
         }
     }
@@ -231,7 +236,9 @@ export default class MessageBoard extends LightningElement {
 
     clearMessage() {
         this.messageText = null;
+        this.isSendEnable = false;
         this.template.querySelector('.ms-send-button').setAttribute('disabled', '');
+        this.changeAttachStyle();
     }
 
     fireSendEvent(wrapper) {
@@ -259,6 +266,14 @@ export default class MessageBoard extends LightningElement {
         } else {
             this.isSendEnable = false;
             sendBtn.setAttribute('disabled', '');
+        }
+    }
+
+    changeAttachStyle() {
+        let attachBTN = this.template.querySelector('.ms-att-file-label');
+        if(attachBTN) {
+            attachBTN.style.opacity = this.isSendEnable ? 1 : 0.5;
+            attachBTN.style.pointerEvents = this.isSendEnable ? 'all' : 'none';
         }
     }
 }

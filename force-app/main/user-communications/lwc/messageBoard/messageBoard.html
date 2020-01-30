@@ -87,7 +87,7 @@
                         <div class="ms-send-pi-buttons">
                             <div style="flex-grow: 1;">{labels.limitLabel}</div>
 
-                            <template if:false={isMultipleMode}>
+                            <template if:true={conversation}>
                                 <div class="slds-form-element" style="margin: 0 12px;">
                                     <div class="slds-form-element__control">
                                         <div class="slds-file-selector slds-file-selector_files">
@@ -98,11 +98,10 @@
                                                             label=""
                                                             name="fileUploader"
                                                             accept={fileTypes}
-                                                            record-id={conversation.Id}
-                                                            onuploadfinished={handleUploadFinished}></lightning-file-upload>
+                                                            record-id={conversation.Id}></lightning-file-upload>
                                                 </template>
                                                 <span class="slds-file-selector__button slds-button">
-                                                    <span class="ms-att-file-label">{labels.attFileLabel}</span>
+                                                    <span class="apollo-btn secondary ms-att-file-label">{labels.attFileLabel}</span>
                                                 </span>
                                             </label>
                                         </div>
