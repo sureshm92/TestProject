@@ -177,6 +177,16 @@
         <template>Referral_Hub_Emails/Patient3_VT_ePR_New_C_S_Referral</template>
     </alerts>
     <fieldUpdates>
+        <fullName>Populate_Scr_ID</fullName>
+        <description>To pre-populates an empty Screening ID filed on PE by Screening ID 1 on PE</description>
+        <field>Screening_ID__c</field>
+        <formula>IVRS_IWRS__c</formula>
+        <name>Populate Scr ID</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <fieldUpdates>
         <fullName>Referral_ID</fullName>
         <description>Referral ID = Participant Profile Name</description>
         <field>Referral_ID__c</field>
@@ -395,5 +405,16 @@
         <description>Patient  receives email that they have been referred to a clinical research study by eRP</description>
         <formula>OR(ISPICKVAL( Participant_Status__c , &quot;Referral Sent to PI&quot;),AND(ISPICKVAL( Participant_Status__c , &quot;Referral Accepted&quot;),IsAutoaccepted__c = True)) &amp;&amp; Is_Virtual_Study_Site__c = True &amp;&amp; NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(ISPICKVAL( Referral_Source__c , &quot;HCP&quot;)) &amp;&amp; NOT(ISPICKVAL( Referral_Source__c , &quot;PI&quot;))</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Screening ID</fullName>
+        <actions>
+            <name>Populate_Scr_ID</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>To update an empty Screening ID by Screening ID 1</description>
+        <formula>AND(Screening_ID__c  = NULL,  IVRS_IWRS__c   &lt;&gt; NULL)</formula>
+        <triggerType>onAllChanges</triggerType>
     </rules>
 </Workflow>

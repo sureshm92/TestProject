@@ -3,7 +3,4 @@
     <container>IQVIA RH</container>
     <containerType>Network</containerType>
     <label>Default Navigation</label>
-    <container>GSK Community</container>
-    <containerType>Network</containerType>
-    <label>Default Navigation</label>
 </NavigationMenu>

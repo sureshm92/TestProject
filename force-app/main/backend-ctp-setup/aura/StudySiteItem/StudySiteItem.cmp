@@ -8,14 +8,14 @@
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="viewMode" type="String"/>
     <aura:attribute name="isSingleChoice" type="Boolean" default="false"/>
-    <aura:attribute name="conversationsFound" type="Boolean" default="false"/>
+    <aura:attribute name="scrollLeft" type="Integer" default="0"/>
 
     <tr class="{!if(v.item.emptyAssignments, 'empty-assignments', '')}">
-        <th data-label="Country" scope="row">
+        <c:uiCol isHeader="true" isFixed="true" class="cell" scrollLeft="{!v.scrollLeft}">
             <div class="slds-truncate"
                  title="">{!v.item.country.label}</div>
-        </th>
-        <td data-label="Study Site Name">
+        </c:uiCol>
+        <c:uiCol isFixed="true" class="cell" scrollLeft="{!v.scrollLeft}" width="200px">
             <div class="slds-truncate name-overflow" title="">
                 <a href="javascript:void(0);" tabindex="-1" data-ssid="{!v.item.ss.Id}"
                    onclick="{!c.viewStudySite}">{!v.item.name}&nbsp;</a>
@@ -25,24 +25,24 @@
                                         iconVariant="warning"/>
                 </aura:if>
             </div>
-        </td>
-        <td data-label="Name">
+        </c:uiCol>
+        <c:uiCol isFixed="true" class="cell" scrollLeft="{!v.scrollLeft}">
             <div class="slds-truncate"
                  title="">{!v.item.ss.Study_Site_Number__c}</div>
-        </td>
+        </c:uiCol>
         <aura:if isTrue="{!v.isSingleChoice}">
-            <td data-label="None" style="text-align: center">
+            <c:uiCol isFixed="true" class="cell" scrollLeft="{!v.scrollLeft}">
                 <div class="slds-truncate" title="">
                     <ui:inputRadio value="{!v.item.emptyAssignments}"
                                    label="none"
                                    change="{!c.sscRadioStateChange}"
                                    disabled="{!v.viewMode != 'Edit'}"/>
                 </div>
-            </td>
+            </c:uiCol>
         </aura:if>
 
         <aura:iteration items="{!v.item.assignments}" var="asg">
-            <td style="text-align: center">
+            <c:uiCol class="cell center" scrollLeft="{!v.scrollLeft}">
                 <aura:if isTrue="{!v.isSingleChoice}">
                     <ui:inputRadio value="{!asg.state}"
                                    label="{!asg.value}"
@@ -55,7 +55,7 @@
                                           change="{!c.sscCheckboxStateChange}"/>
                     </aura:set>
                 </aura:if>
-            </td>
+            </c:uiCol>
         </aura:iteration>
     </tr>
 </aura:component>

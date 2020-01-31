@@ -4,6 +4,13 @@
 
 <!-- Messages Page -->
 <template>
+    <div class="ms-disc-place">
+        <template if:true={initialized}>
+            <template if:false={isPIMode}>
+                <div class="ms-disclaimer">{labels.disclaimerLabel}</div>
+            </template>
+        </template>
+    </div>
     <div class="ms-page rr-width-limiter side-padding rr-min-body-height">
         <div class="ms-container" data-gtm="ms-container">
             <c-web-spinner></c-web-spinner>
