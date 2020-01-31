@@ -2613,6 +2613,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Initial_Visit_Required__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Interventions__c</field>
         <readable>true</readable>
@@ -2715,6 +2720,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Override_Status_Updated_By__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Participant_Workflow_Final_Step__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5248,6 +5258,21 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Step__mdt.Condition__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Step__mdt.Name_Label__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Step__mdt.Order__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Adult__c</field>
         <readable>true</readable>
@@ -7058,6 +7083,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Participant_Study_Enrollment__c-Participant Study Enrollment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Participant_Workflow_Step__mdt-Participant Workflow Step Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Participant__c-PII Compliant</layout>

@@ -26,6 +26,8 @@
     <aura:attribute name="actions" type="Object"/>
     <aura:attribute name="currentTab" type="String" default="by-study"/>
     <aura:attribute name="checkTabs" type="String" default="participantDetails"/>
+    <aura:attribute name="participantPath" type="Object"/>
+
 
     <!-- methods -->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
@@ -64,8 +66,9 @@
                         </div>
                     </aura:if>
                 </lightning:tab>
-                <lightning:tab class="slds-tabs_default__item" aura:id="Status" label="{!$Label.c.BTN_Status_Details}" onactive="{!c.checkTabs}">
-                    <c:RRPath2 pathItems="{!v.pathItems}"/>
+                <lightning:tab aura:id="Status" label="{!$Label.c.BTN_Status_Details}" onactive="{!c.checkTabs}">
+<!--                    <c:RRPath2 pathItems="{!v.pathItems}"/>-->
+                    <c:ParticipantStatusDetails participantWorkflowWrapper="{!v.participantPath}"/>
                 </lightning:tab>
                 <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">
                 <lightning:tab class="slds-tabs_default__item" aura:id="Survey" label="{!$Label.c.BTN_Screener_Responses}" onactive="{!c.checkTabs}">

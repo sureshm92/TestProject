@@ -5,7 +5,7 @@
 public without sharing class ReferralProfileRemote {
 
     class InitData {
-        List<StatusStep> steps = new List<StatusStep>();
+        ParticipantWorkflowService.ParticipantWorkflowWrapper steps;
         Participant_Enrollment__c enrollment;
         List<LabelValueItem> visitPlanLVList;
         Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
@@ -83,10 +83,11 @@ public without sharing class ReferralProfileRemote {
         try {
             InitData initData = new InitData();
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId);
+            Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(pe.Clinical_Trial_Profile__c);
             if (pe == null) throw new CommunityServiceException('Participant enrollment not found');
             initData.enrollment = pe;
             initData.visitPlanLVList = StudySiteService.getVisitPlansLVList(pe.Study_Site__c);
-            initData.steps = loadSteps(pe, userMode, delegateId);
+            initData.steps = ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe);
             initData.isEnrolled = !PEStatusState.STATUSES_MAP.containsKey(pe.Participant_Status__c) || pe.Participant_Status__c.startsWith('Enrollment');
             return JSON.serialize(initData);
         } catch (Exception e) {

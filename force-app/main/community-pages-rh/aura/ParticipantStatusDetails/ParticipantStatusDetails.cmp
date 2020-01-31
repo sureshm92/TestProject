@@ -1,0 +1,29 @@
+<!--
+ - Created by Andrii Kryvolap.
+ -->
+
+<aura:component description="ParticipantStatusDetails">
+    <!--attributes-->
+    <aura:attribute name="participantWorkflowWrapper" type="Object" required="true"/>
+
+
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size--1-of-3">
+            <aura:iteration items="{!v.participantWorkflowWrapper.steps}" var="step">
+                <div>
+                    <button class="apollo-btn secondary" data-step="{!step}" onclick="{!c.doChangeStep}" disabled="{!step.disabled}">
+                        <div class="step-icon">icon</div>
+                        <div class="step-info">
+                            <div class="step-title">{!step.title}</div>
+                            <div class="step-status">{!step.status}</div>
+                        </div>
+                    </button>
+                </div>
+            </aura:iteration>
+        </div>
+        <div class="slds-col slds-size--2-of-3">
+            {!v.participantWorkflowWrapper.currentStep.title}
+<!--            <c:ParticipantStatusDetailsForm stepWrapper="{!v.participantWorkflowWrapper.currentStep}"/>-->
+        </div>
+    </div>
+</aura:component>

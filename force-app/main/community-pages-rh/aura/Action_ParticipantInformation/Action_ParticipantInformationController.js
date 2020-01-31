@@ -8,7 +8,9 @@
             var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
             component.set('v.formData', formData);
             component.set('v.initialized', true);
+
         });
+
     },
 
     doExecute: function (component, event, helper) {
@@ -30,8 +32,9 @@
                 delegateId: communityService.getDelegateId(),
             }, function (returnValue) {
                 returnValue = JSON.parse(returnValue);
-                component.set('v.statusSteps', returnValue.steps);
+                //component.set('v.statusSteps', returnValue.steps);
                 component.set('v.formData.visitPlansLVList', returnValue.visitPlanLVList);
+                component.set('v.participantPath',returnValue.steps);
                 component.set('v.isFinalUpdate', false);
                 component.set('v.initialized', true);
                 setTimeout($A.getCallback(function () {
