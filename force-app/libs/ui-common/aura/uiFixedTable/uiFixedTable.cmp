@@ -1,0 +1,27 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="uiFixedTable">
+
+    <aura:attribute name="height" type="String" default="350px" access="public"/>
+    <aura:attribute name="tableHeader" type="Aura.Component[]"/>
+    <aura:attribute name="scrollLeft" type="Integer" default="0"/>
+    <aura:attribute name="class" type="String"/>
+    <aura:attribute name="width" type="String" default="800" access="private"/>
+    <aura:attribute name="initialized" type="Boolean" default="false"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <div aura:id="tableContainer" class="{!'table-container ' + if(v.initialized, 'initialized', '')}">
+        <table class="{!'fixed-table ' + v.class}" style="{!'width: ' + v.width}" >
+            <thead aura:id="tableHead" style="{!'width: ' + v.width + 'px; left: ' + (-v.scrollLeft) + 'px'}">
+            {!v.tableHeader}
+            </thead>
+            <tbody onscroll="{!c.doScroll}" style="{!'width: ' + v.width + 'px; height: ' + v.height + ';'}">
+            {!v.body}
+            </tbody>
+        </table>
+    </div>
+
+</aura:component>

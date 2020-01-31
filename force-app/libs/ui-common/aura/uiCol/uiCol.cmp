@@ -1,0 +1,21 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="uiCol">
+
+    <aura:attribute name="isHeader" type="Boolean"/>
+    <aura:attribute name="isFixed" type="Boolean" default="false"/>
+    <aura:attribute name="height" type="String" default="40px" required="true"/>
+    <aura:attribute name="width" type="String" default="150px" required="true"/>
+    <aura:attribute name="scrollLeft" type="Integer" default="0"/>
+    <aura:attribute name="class" type="String" />
+
+    <aura:if isTrue="{!v.isHeader}">
+        <th class="{!v.class + if(v.isFixed, ' fixed', '')}" style="{!if(v.isFixed, 'left: ' + v.scrollLeft + 'px; ' , ' ') + ' min-width: ' + v.width + '; height: ' + v.height + ';'}">{!v.body}</th>
+    </aura:if>
+    <aura:if isTrue="{!!v.isHeader}">
+        <td class="{!v.class + if(v.isFixed, ' fixed', '')}" style="{!if(v.isFixed, 'left: ' + v.scrollLeft + 'px; ' , '' ) + ' min-width: ' + v.width + '; height: ' + v.height + ';'}">{!v.body}</td>
+    </aura:if>
+
+</aura:component>
