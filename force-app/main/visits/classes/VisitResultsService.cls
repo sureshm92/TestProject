@@ -28,8 +28,7 @@ public inherited sharing class VisitResultsService {
             visitResultValuesByNames.put(singleVisitResult.Result_Type__c, singleVisitResult);
         }
 
-        String languageToTranslate =
-                IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
+        //String languageToTranslate = IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
         for (Visit_Result_TypeM_Dashboard_Config__mdt singleConfig : configs) {
             Visit_Result__c visitResult = visitResultValuesByNames.get(singleConfig.Visit_Result_Type__r.DeveloperName);
             if (visitResult != null && visitResult.Actual_Value__c != null) {
@@ -59,8 +58,7 @@ public inherited sharing class VisitResultsService {
         List<Visit_Result_TypeM__mdt> visitResultTypes = this.metadataService.getVisitResultTypes(visitResultsGroupName);
         List<Visit_Result__c> visitResults = VisitResultSharingService.processResults();
 
-        String languageToTranslate =
-                IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
+        //String languageToTranslate = IRBParticipantService.getSuitableLanguageForIRBTranslation(ParticipantService.getParticipantState().pe.Id);
         return visitResults.isEmpty()
                 ? null
                 : new VisitResultsContainer(

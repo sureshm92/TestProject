@@ -20,20 +20,52 @@ public without sharing class ConversationService {
     }
 
     public static List<Conversation__c> getConversations(List<Id> conIds) {
+        String filter = DatabaseService.fieldInValues('Id', conIds)
+                + 'AND Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c = TRUE ';
         return (List<Conversation__c>) DatabaseService.query(new List<String>{
                 'haveUnreadForParticipant__c', 'haveUnreadForPI__c', 'Id', 'OwnerId',
                 'Participant_Enrollment__c',
                 'Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
                 'Participant_Enrollment__r.Participant__r.Full_Name__c',
                 'Participant_Enrollment__r.Participant_Status__c',
+                'Participant_Enrollment__r.Study_Site__c',
                 'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Name',
-                'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Title'
-        }, Conversation__c.getSObjectType(), DatabaseService.fieldInValues('Id', conIds), 'CreatedDate DESC', null);
+                'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Title',
+                'Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c'
+        }, Conversation__c.getSObjectType(), filter, 'CreatedDate DESC', null);
+    }
+
+    public static Map<Id, List<ContentDocumentLink>> getAttachments(List<Id> conIds) {
+        List<ContentDocumentLink> contentDocumentLinks = [
+                SELECT
+                        Id,
+                        ContentDocumentId,
+                        ContentDocument.CreatedDate,
+                        ContentDocument.Title,
+                        ContentDocument.FileExtension,
+                        LinkedEntityId
+                FROM ContentDocumentLink
+                WHERE LinkedEntityId IN:conIds
+                ORDER BY ContentDocument.CreatedDate DESC
+        ];
+
+        Map<Id, List<ContentDocumentLink>> attachmentByConIds = new Map<Id, List<ContentDocumentLink>>();
+        for(ContentDocumentLink link : contentDocumentLinks) {
+            if(!attachmentByConIds.containsKey(link.LinkedEntityId)) {
+                attachmentByConIds.put(link.LinkedEntityId, new List<ContentDocumentLink>());
+            }
+            attachmentByConIds.get(link.LinkedEntityId).add(link);
+        }
+
+        return attachmentByConIds;
     }
 
     public static Integer getUnreadConversationCount(Id userId, String userMode) {
         Integer unreadCount = 0;
-        for(Conversation__c conversation : getSharedConversations(userId)) {
+        List<Conversation__c> sharedConversations = getSharedConversations(userId);
+        if(sharedConversations == null || sharedConversations.isEmpty()) return unreadCount;
+
+        for (Conversation__c conversation : sharedConversations) {
             if(conversation.haveUnreadForPI__c && userMode.equals(CommunityService.USER_MODE_PI)) unreadCount++;
             if(conversation.haveUnreadForParticipant__c && userMode.equals(CommunityService.USER_MODE_PARTICIPANT)) unreadCount++;
         }
@@ -54,6 +86,7 @@ public without sharing class ConversationService {
                 SELECT Site_Contact__c
                 FROM Site_Staff__c
                 WHERE Study_Site__r.Principal_Investigator__c = :enrollment.Study_Site__r.Principal_Investigator__c
+                AND Study_Site__c =: enrollment.Study_Site__c
         ];
         for(Site_Staff__c ss : siteStaff) {
             if(ss.Site_Contact__c != userContact.Id) contactsForSharing.add(ss.Site_Contact__c);

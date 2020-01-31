@@ -1,0 +1,48 @@
+/**
+ * Created by Nargiz Mamedova on 12/13/2019.
+ */
+
+.THIS.sv-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    position: relative;
+}
+
+.THIS .sv-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.THIS .sv-title{
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 27px;
+    padding: 16px;
+}
+
+.THIS .sv-body{
+    min-height: 220px;
+    position: relative;
+}
+
+.THIS .cRRTable.rr-table td {
+    padding: 4px 16px;
+}
+
+.THIS .main-container .message {
+    padding: 20% 0 0;
+}
+
+.THIS .cEmptyListStub:after {
+    content: '';
+    position: absolute;
+    background-size: 40px 40px;
+    background-image: url(/resource/1569528630000/iconNotes);
+    height: 40px;
+    width: 40px;
+    top: 45px;
+    right: 46%;
+    opacity: .3;
+}

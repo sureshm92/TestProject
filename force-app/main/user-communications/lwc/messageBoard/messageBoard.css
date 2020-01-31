@@ -14,34 +14,81 @@
 
 .ms-single-header {
     height: 73px;
-    padding: 15px 25px 0 25px;
-    border-bottom: 1px solid #f3f3f3;
+    padding: 0 25px;
+    border-bottom: 1px solid #e6e5e5;
 }
 
 .ms-multi-header {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    height: 100px;
+    min-height: 100px;
 }
 
-.ms-header-name {
-    font-family: "Proxima Nova";
-    font-size: 18px;
-    line-height: 22px;
-    font-weight: 500;
+.ms-multi-header-pa {
+    align-self: center;
+    width: 80%;
 }
 
-.ms-header-name .ms-header-patient-name {
+.ms-multi-header-pi {
+    align-self: center;
+    width: 80%;
+    padding-top: 20px;
+}
+
+.ms-pi-new-mess {
+    font-size: 16px;
     font-weight: 600;
 }
 
-.ms-header-name .ms-header-team-name {
-    font-weight: 500;
+.ms-pi-multi-recipient {
+    /*height: 100px;*/
+    /*overflow-y: auto;*/
+    border: 1px solid #d4d1d1;
+    border-radius: 5px;
+    padding: 4px;
+}
+
+.ms-pi-multi-recipient::-webkit-scrollbar {
+    width: 7px;
+}
+
+.ms-pi-multi-recipient::-webkit-scrollbar-track {
+    background: none;
+}
+
+.ms-pi-multi-recipient::-webkit-scrollbar-thumb {
+    background: rgba(155, 155, 155, 0.8);
+    border-radius: 10px;
+}
+
+.ms-pi-multi-recipient::-webkit-scrollbar-thumb:hover {
+    background: rgba(85, 85, 85, 0.3);
+}
+
+.ms-header-patient-name {
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 600;
+    padding-top: 15px;
 }
 
 .ms-header-team-name {
-    padding-top: 10px;
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.ms-header-patient-study {
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    line-height: 19px;
 }
 
 .ms-board-body {
@@ -51,6 +98,7 @@
     scroll-behavior: smooth;
     display: flex;
     flex-direction: column-reverse;
+    -ms-flex-direction: column-reverse;
 }
 
 .ms-board-body::-webkit-scrollbar {
@@ -88,9 +136,23 @@
 
 .ms-send-pi-buttons {
     padding-top: 10px;
+    min-height: 67px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.ms-att-file-label {
+    height: 32px;
+    width: 100px;
+    color: #0768FD;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+    pointer-events: none;
+    opacity: 0.5;
 }
 
 .ms-empty-chat {
@@ -102,11 +164,12 @@
 }
 
 .ms-empty-chat-label {
-    width: 50%;
+    width: 35%;
     color: #999999;
     font-family: "Proxima Nova";
     font-size: 20px;
     font-weight: 600;
     line-height: 26px;
     text-align: center;
+    padding-top: 20px;
 }

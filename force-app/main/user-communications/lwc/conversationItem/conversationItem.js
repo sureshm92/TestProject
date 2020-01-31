@@ -7,21 +7,31 @@ import AvatarColorCalculator from 'c/avatarColorCalculator';
 
 import markRead from '@salesforce/apex/MessagePageRemote.markConversationAsRead';
 
+const defaultBG = 'white';
+const selectedBG = 'rgb(238, 245, 255)';
+
 export default class ConversationItem extends LightningElement {
 
     @api item;
     @api userMode;
     @track attachColor = '#000';
+    @track isSelected = false;
 
     @api
     setSelectedMode(selected) {
-        this.template.querySelector('.con-wrapper').style.background = selected ? 'rgba(41,125,253,.08)' : 'none';
+        this.isSelected = true;
         this.attachColor = selected ? '#11a4de' : '#000';
     }
 
     renderedCallback() {
         this.template.querySelector('.con-icon').style.background =
             new AvatarColorCalculator().getColorFromString(this.item.fullName);
+
+        let bgColor = this.isSelected ? selectedBG : defaultBG;
+        this.template.querySelector('.con-wrapper').style.background = bgColor;
+        this.template.querySelectorAll('c-web-limit-text-by-lines').forEach(function (cmp) {
+            cmp.setBackground(bgColor);
+        });
     }
 
     get initials() {
@@ -38,11 +48,11 @@ export default class ConversationItem extends LightningElement {
                         try {
                             this.item = data;
                         } catch (e) {
-                            console.log('TRY mark:' + JSON.stringify(e));
+                            console.error('TRY mark:' + JSON.stringify(e));
                         }
                 })
                 .catch(error => {
-                    console.log('Error in markRead():' + JSON.stringify(error));
+                    console.error('Error in markRead():' + JSON.stringify(error));
                 });
         }
 

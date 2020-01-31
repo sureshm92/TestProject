@@ -9,7 +9,8 @@ public without sharing class Batch_ProcessNotifications extends Batch_ScheduledA
                 SELECT Id,
                         Status__c,
                         WhatId__c, Recipient__c,
-                        Notification_Type__c
+                        Notification_Type__c, Email__c,
+                        From__c
                 FROM Notification__c
                 WHERE Status__c =: NotificationService.NOTIFICATION_STATUS_PENDING
         ]);

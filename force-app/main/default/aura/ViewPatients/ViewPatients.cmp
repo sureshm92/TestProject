@@ -40,11 +40,13 @@
                                 </aura:set>
                                 </div>
                             </aura:if>
-                        <div class="vp-export-btn">
-                            <button class="apollo-btn secondary" onclick="{!c.doExport}">
-                                    {!$Label.c.BTN_Export_All}
-                            </button>
-                        </div>
+                        <aura:if isTrue="{!v.userMode != 'HCP'}">
+                            <div class="vp-export-btn">
+                                <button class="apollo-btn secondary" data-gtm="BTN_My_Participants_Export_All" onclick="{!c.doExport}">
+                                        {!$Label.c.BTN_Export_All}
+                                </button>
+                            </div>
+                        </aura:if>
 
                     </aura:if>
                 </div>

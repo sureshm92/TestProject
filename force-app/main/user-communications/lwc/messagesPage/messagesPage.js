@@ -13,17 +13,25 @@ import messagesLabel from '@salesforce/label/c.MS_Messages';
 import newMessLabel from '@salesforce/label/c.MS_New_Mess';
 import emptyConversationLabel from '@salesforce/label/c.MS_Empty_Conversations';
 import studyTeamLabel from '@salesforce/label/c.Study_Team';
-import attachmentLabel from '@salesforce/label/c.MS_Attachment';
+import disclaimerLabel from '@salesforce/label/c.MS_Chat_Disclaimer';
 
 import getInit from '@salesforce/apex/MessagePageRemote.getInitData';
 
 export default class MessagesPage extends LightningElement {
 
-    labels = {messagesLabel, newMessLabel, emptyConversationLabel, studyTeamLabel, attachmentLabel};
+    labels = {
+        messagesLabel,
+        newMessLabel,
+        emptyConversationLabel,
+        studyTeamLabel,
+        disclaimerLabel
+    };
 
     spinner;
     messageBoard;
     messageTemplates;
+    firstConWrapper;
+    statusByPeMap;
 
     @track initialized;
     @track hideEmptyStub;
@@ -35,7 +43,6 @@ export default class MessagesPage extends LightningElement {
     @track conversationWrappers;
 
     @track selectedConWrapper;
-
 
     connectedCallback() {
         registerListener('reload', this.handleRefreshEvent, this);
@@ -55,12 +62,12 @@ export default class MessagesPage extends LightningElement {
             if (!this.canStartConversation) this.changePlusStyle(false);
 
             this.messageBoard = this.template.querySelector('c-message-board');
-            if (this.userMode === 'Participant') {
-                this.messageBoard.setTemplates(this.messageTemplates);
-            }
+            if (this.userMode === 'Participant') this.messageBoard.setTemplates(this.messageTemplates);
 
-            this.spinner.hide();
+            if (this.firstConWrapper) this.changeConversationsBackground(this.firstConWrapper.conversation.Id);
         }
+
+        if (this.initialized) this.spinner.hide();
     }
 
     disconnectedCallback() {
@@ -79,7 +86,7 @@ export default class MessagesPage extends LightningElement {
         this.changeConversationsBackground(null);
 
         let enrollments = this.userMode === 'PI' ? this.enrollments : this.getFreeEnrollments();
-        this.messageBoard.startNew(enrollments);
+        this.messageBoard.startNew(enrollments, this.statusByPeMap);
     }
 
     handleOpenConversation(event) {
@@ -100,7 +107,7 @@ export default class MessagesPage extends LightningElement {
         let isNew = true;
         let updatedWrappers = [];
         if (this.conversationWrappers) {
-            this.conversationWrappers.forEach(wr => {
+            this.conversationWrappers.forEach(function (wr) {
                 if (wr.conversation.Id === conWr.conversation.Id) {
                     updatedWrappers.push(conWr);
                     isNew = false;
@@ -112,6 +119,10 @@ export default class MessagesPage extends LightningElement {
 
         if (isNew) updatedWrappers.unshift(conWr);
 
+        updatedWrappers.sort(function (a, b) {
+            return new Date(b.messages[0].message.CreatedDate) - new Date(a.messages[0].message.CreatedDate);
+        });
+
         this.conversationWrappers = updatedWrappers;
         this.creationMode = false;
         this.canStartConversation = this.checkCanStartNewConversation();
@@ -119,7 +130,7 @@ export default class MessagesPage extends LightningElement {
 
         //Wait for Rerender
         let context = this;
-        setTimeout(() => {
+        setTimeout(function () {
             context.changeConversationsBackground(conWr.conversation.Id);
         }, 50);
 
@@ -128,28 +139,40 @@ export default class MessagesPage extends LightningElement {
 
     handleRefreshEvent() {
         if (this.spinner) this.spinner.show();
+        this.messageBoard.closeBoard();
         this.initialized = false;
+        this.messageBoard = null;
 
         this.initializer();
     }
+
     //Service Methods:--------------------------------------------------------------------------------------------------
     initializer() {
+        this.creationMode = false;
+        this.conversationWrappers = null;
+        this.enrollments = null;
+
         getInit()
             .then(data => {
                 this.userMode = data.userMode;
                 this.enrollments = data.enrollments;
+                this.statusByPeMap = data.statusByPeMap;
 
                 this.conversationWrappers = data.conversationWrappers;
+                if (this.conversationWrappers) this.firstConWrapper = this.conversationWrappers[0];
                 this.canStartConversation = this.checkCanStartNewConversation();
 
                 this.initialized = true;
                 if (this.userMode === 'Participant') this.messageTemplates = data.messageTemplates;
                 if (this.conversationWrappers && this.conversationWrappers.length > 0) this.hideEmptyStub = true;
-
             })
             .catch(error => {
-                console.log('Error in getInit():' + JSON.stringify(error));
+                console.error('Error in getInit():' + JSON.stringify(error));
             });
+    }
+
+    get isPIMode() {
+        return this.userMode === 'PI';
     }
 
     changePlusStyle(enabled) {
@@ -175,7 +198,7 @@ export default class MessagesPage extends LightningElement {
     changeConversationsBackground(conId) {
         let conItems = this.template.querySelectorAll('c-conversation-item');
         if (conItems) {
-            conItems.forEach(conItem => {
+            conItems.forEach(function (conItem) {
                 conItem.setSelectedMode(conItem.item.conversation.Id === conId);
             });
         }
@@ -188,9 +211,9 @@ export default class MessagesPage extends LightningElement {
 
         let context = this;
         let freeEnrollments = [];
-        this.enrollments.forEach(pe => {
+        this.enrollments.forEach(function (pe) {
             let engagedEnrollment;
-            context.conversationWrappers.forEach(wr => {
+            context.conversationWrappers.forEach(function (wr) {
                 if (wr.conversation.Participant_Enrollment__c === pe.Id) engagedEnrollment = pe;
             });
 

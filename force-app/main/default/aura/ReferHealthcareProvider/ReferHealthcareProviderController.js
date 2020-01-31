@@ -13,11 +13,13 @@
     doAddProvider: function (component, event, helper) {
         var pe = component.get('v.pe');
         var hcProvider = component.get('v.healthCareProviders');
+        console.log('hcP', hcProvider);
         hcProvider.push({sObjectType: 'Healthcare_Provider__c'});
         component.set('v.healthCareProviders', hcProvider);
+        console.log('hcP', component.get('v.healthCareProviders'));
     },
 
-    doDisconnetc: function(component, event, helper){
+    doDisconnect: function(component, event, helper){
     	/*var hcProviders = component.get('v.healthCareProviders');
     	var params = event.getParam('arguments');
     	hcProviders.splice(params.index,1);

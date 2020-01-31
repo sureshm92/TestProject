@@ -7,10 +7,14 @@ private class Test_ReferralProfileRemote {
     @IsTest
     static void testSetMRRStatus() {
         TestData.loadTestData();
+        TestData testData = new TestData();
         Participant_Enrollment__c part = [SELECT Id, Medical_Record_Review_Status__c, MRR_Survey_Results_URL__c, Medical_Record_Review_Completed_by__c, Pre_screening_Status__c FROM Participant_Enrollment__c LIMIT 1];
         String participant = JSON.serialize(part);
+        Participant_Enrollment__c test1;
         Test.startTest();
-        Participant_Enrollment__c test1 = ReferralProfileRemote.setMRRStatus(participant, 'good', 'bad');
+        System.runAs(testData.participantUser){
+            test1 = ReferralProfileRemote.setMRRStatus(participant, 'Pass', 'bad');
+        }
         Test.stopTest();
         System.assert(test1 != null);
     }

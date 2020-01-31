@@ -7,11 +7,14 @@
         component.find('spinner').show();
         var pe = component.get('v.pe');
         var hcProvider = component.get('v.healthCareProvider');
+        console.log('hc', JSON.parse(JSON.stringify(hcProvider)));
+        console.log('PEE', JSON.parse(JSON.stringify(pe)));
         communityService.executeAction(component, 'inviteHP', {
             peId: pe.Id,
             hp: JSON.stringify(hcProvider)
         }, function (returnValue) {
             var parent = component.get('v.parent');
+            console.log('PARENT', component.get('v.parent'));
             parent.set('v.healthCareProviders', returnValue);
             component.find('spinner').hide();
         })

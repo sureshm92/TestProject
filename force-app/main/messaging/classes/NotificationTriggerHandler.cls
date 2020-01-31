@@ -26,7 +26,7 @@ public without sharing class NotificationTriggerHandler {
                 n.addError('Wrong type of Notification ' + n.Notification_Type__c);
             }else if(notificationType.Parameters_Provider__c != null && n.WhatId__c == null){
                 n.addError('WhatId can not be null. WhatId must be Id of type: ' + notificationType.Parameters_Provider__r.Source_Object_Type__c);
-            }else{
+            }else if (notificationType.Parameters_Provider__c != null && n.WhatId__c != null) {
                 try{
                     Id sourceType = n.WhatId__c;
                     if((sourceType.getSobjectType() + '').toLowerCase() != notificationType.Parameters_Provider__r.Source_Object_Type__c.toLowerCase()){
@@ -36,7 +36,7 @@ public without sharing class NotificationTriggerHandler {
                     n.addError('WhatId is not correct');
                 }
             }
-            if (n.Recipient__c == null && (n.Topic__c == null || n.Email__c == null)) {
+            if (n.Recipient__c == null && n.Topic__c == null && n.Email__c == null) {
                 n.addError('Recipient can not be null while Topic or Email is null ' + n.Notification_Type__c);
             }
             if (n.Email__c != null && n.Recipient__c != null) {
@@ -49,14 +49,11 @@ public without sharing class NotificationTriggerHandler {
     private static void sendNotificationToRecipient(List<Notification__c> newList) {
         List<Notification__c> notificationsForMassEmail = new List<Notification__c>();
         List<Notification__c> recipientNotifications = new List<Notification__c>();
-        List<Notification__c> notificationExternalEmail = new List<Notification__c>();
         for (Notification__c n : newList) {
             if (n.Recipient__c == null && n.Topic__c != null) {
                 notificationsForMassEmail.add(n);
             } else if(!System.isBatch()){
                 recipientNotifications.add(n);
-            } else if (n.Email__c != null && n.Recipient__c == null) {
-                notificationExternalEmail.add(n);
             }
         }
         //recipient notifications:
@@ -67,6 +64,5 @@ public without sharing class NotificationTriggerHandler {
                 Database.executeBatch(new Batch_MassEmailPatient(n));
             }
         }
-        if (!notificationExternalEmail.isEmpty()) EmailService.sendExternalEmail(notificationExternalEmail);
     }
 }

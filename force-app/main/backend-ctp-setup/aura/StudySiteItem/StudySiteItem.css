@@ -27,3 +27,8 @@
 .THIS .cell.center{
     text-align: center;
 }
+    
+.THIS .slds-form-element__icon {
+    padding-top: 0;
+    vertical-align: middle;
+}

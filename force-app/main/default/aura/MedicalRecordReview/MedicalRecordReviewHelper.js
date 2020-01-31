@@ -15,6 +15,7 @@
             component.set("v.mrrResult", status);
             spinner.hide();
         })
+
     },
 
     addEventListener: function (component, helper) {

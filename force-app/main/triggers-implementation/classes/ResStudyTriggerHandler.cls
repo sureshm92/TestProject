@@ -75,7 +75,7 @@ public with sharing class ResStudyTriggerHandler {
                         new Notification__c(
                                 Recipient__c = pe.Participant__r.Contact__c,
                                 WhatId__c = pe.Id,
-                                Notification_Type__c = NotificationType.MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE,
+                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE,
                                 Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                                 )
                 );
@@ -86,7 +86,7 @@ public with sharing class ResStudyTriggerHandler {
                             new Notification__c(
                                     Recipient__c = delegateId,
                                     WhatId__c = pe.Id,
-                                    Notification_Type__c = NotificationType.MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE,
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE,
                                     Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                             )
                     );

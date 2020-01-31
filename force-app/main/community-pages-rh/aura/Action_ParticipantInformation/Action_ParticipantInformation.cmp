@@ -24,6 +24,8 @@
     <aura:attribute name="refreshForm" type="Boolean" default="false"/>
     <aura:attribute name="refreshSteps" type="Boolean" default="false"/>
     <aura:attribute name="actions" type="Object"/>
+    <aura:attribute name="currentTab" type="String" default="by-study"/>
+    <aura:attribute name="checkTabs" type="String" default="participantDetails"/>
 
     <!-- methods -->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
@@ -40,64 +42,52 @@
     <aura:handler name="change" value="{!v.pathItems}" action="{!c.prepareEditableSteps}"/>
 
     <!-- component body: -->
-    <c:Popup aura:id="dialog" title="{!v.popUpTitle}" size="large" showScroll="true" showFooter="false">
+    <c:Popup aura:id="dialog" title="{!v.popUpTitle}" size="large" showScroll="true" showHeader="true" showFooter="true">
         <c:RRSpinner aura:id="spinner" size="medium"/>
-        <div class="form-content">
+        <div class="form-content" data-gtm="Tabs_View_Details">
             <aura:if isTrue="{!v.initialized}">
-                <!--Personal Information-->
+
+            <lightning:tabset>
+                <lightning:tab class="slds-tabs_default__item" aura:id="participantDetails"  label="{!$Label.c.BTN_Participant_Details}" onactive="{!c.checkTabs}">
                 <div class="personal-info-container" id="personalInfoAnchor">
-                    <c:Form_EditPatientInfo aura:id="editForm" participant="{!v.participant}" pe="{!v.pe}"
+                    <c:Form_EditPatientInfo aura:id="editForm" fromActionParticipant="true" participant="{!v.participant}" pe="{!v.pe}"
                                             formData="{!v.formData}"
                                             updateMode="true"
-                                            isFinalUpdate="{!v.isFinalUpdate}"
                                             isValid="{!v.isValid}"
                                             visitPlanRequired="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c}"/>
-                    <div class="slds-clearfix">
-                        <div class="slds-float_left">
-                            <button class="apollo-btn secondary" disabled="{!!v.isValid}"
-                                    onclick="{!c.doUpdate}">{!$Label.c.RP_BTN_Save_Changes}</button>
+                </div>
+                </lightning:tab>
+                <lightning:tab class="slds-tabs_default__item" aura:id="Provider" label="{!$Label.c.Tab_HealthCare_Provider}" title="{!$Label.c.Tab_HealthCare_Provider}" onactive="{!c.checkTabs}">
+                    <aura:if isTrue="{!v.pe}">
+                        <div id="healthCareProvider">
+                            <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{!v.pe.HCP__r.HCP_Contact__r}" fromActionParticipant="true" actionDisabled="{!v.actions.screenerResponses.disabled}"/>
                         </div>
-                    </div>
-                </div>
-                <aura:if isTrue="{!v.pe}">
-                    <div id="healthCareProvider">
-                        <c.ReferHealthcareProvider pe="{!v.pe}" actionDisabled="{!v.actions.screenerResponses.disabled}"/>
-                    </div>
-                </aura:if>
-                <!--Status Detail Path-->
-                <div id="statusDetailsAnchor" class="header">{!$Label.c.BTN_Status_Details}</div>
-                <div class="path-panel">
-                    <div class="path-section">
-                        <c:RRPath2 pathItems="{!v.pathItems}"/>
-                    </div>
-                </div>
-
-                <!--Status Detail Path Controll-->
-                <div class="slds-grid slds-grid_vertical rp-status-detail">
-                    <aura:if isTrue="{!!v.refreshSteps}">
-                        <aura:iteration items="{!v.statusSteps}" var="step" indexVar="index">
-                            <c:ReferralProfileStepControls aura:id="stepControls" parent="{!this}"
-                                                           rootComponent="{!v.rootComponent}" step="{!step}"
-                                                           pe="{!v.pe}" modifiedSteps="{!v.modifiedSteps}" isValid="{!v.isValid}"/>
-                        </aura:iteration>
                     </aura:if>
-                </div>
-
-                <!--MRR Survey Results-->
+                </lightning:tab>
+                <lightning:tab class="slds-tabs_default__item" aura:id="Status" label="{!$Label.c.BTN_Status_Details}" onactive="{!c.checkTabs}">
+                    <c:RRPath2 pathItems="{!v.pathItems}"/>
+                </lightning:tab>
                 <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">
-                    <div id="screenerResponsesAnchor" class="header">{!$Label.c.BTN_Screener_Responses}</div>
-                    <c:SurveyGismoResultsView results="{!v.pe.MRR_Survey_Results_URL__c}"/>
-                </aura:if>
-
+                <lightning:tab class="slds-tabs_default__item" aura:id="Survey" label="{!$Label.c.BTN_Screener_Responses}" onactive="{!c.checkTabs}">
+                        <c:SurveyGismoResultsView results="{!v.pe.MRR_Survey_Results_URL__c}"/>
+                </lightning:tab>
+            </aura:if>
+            </lightning:tabset>
             </aura:if>
         </div>
-        <aura:set attribute="headerButtons">
-            <lightning:button onclick="{!c.doPrint}" name="Print" class="{!'slds-button slds-button--icon-inverse'}">
-                <c:RRIcon iconName="icon-print" class="print-icon"/>
-            </lightning:button>
-        </aura:set>
-        <aura:set attribute="footerButtons">
-            <button class="apollo-btn secondary" style="display:none" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
-        </aura:set>
+            <aura:set attribute="headerButtons">
+                <lightning:button onclick="{!c.doPrint}" name="Print" class="{!'slds-button slds-button--icon-inverse'}">
+                    <c:RRIcon iconName="icon-print" class="print-icon"/>
+                </lightning:button>
+            </aura:set>
+            <aura:set attribute="footerButtons">
+                <div data-gtm="BTNS_Popup_Save_Cancel">
+                <lightning:button class="apollo-btn secondary slds-float_right slds-button--neutral" disabled="{!!v.isValid}" onclick="{!c.doUpdateCancel}">{!$Label.c.BTN_Save_All_Tabs}</lightning:button>
+                <aura:if isTrue="{!v.checkTabs == 'participantDetails'}">
+                <lightning:button class="apollo-btn secondary slds-float_left" disabled="{!!v.isValid}" onclick="{!c.doUpdate}">{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button>
+                </aura:if>
+                <lightning:button class="apollo-btn secondary slds-float_right slds-button--reset" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</lightning:button>
+                </div>
+            </aura:set>
     </c:Popup>
 </aura:component>

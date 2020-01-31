@@ -2,7 +2,7 @@
 <GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <customValue>
         <fullName>en_US</fullName>
-        <default>false</default>
+        <default>true</default>
         <label>English</label>
     </customValue>
     <customValue>
@@ -11,26 +11,9 @@
         <label>Russian</label>
     </customValue>
     <customValue>
-        <fullName>uk</fullName>
+        <fullName>en_UK</fullName>
         <default>false</default>
-        <label>Ukranian</label>
-    </customValue>
-    <customValue>
-        <fullName>ar</fullName>
-        <default>false</default>
-        <label>Arabic</label>
-    </customValue>
-    <customValue>
-        <fullName>ko</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>ko</label>
-    </customValue>
-    <customValue>
-        <fullName>fi</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>fi</label>
+        <label>English (UK)</label>
     </customValue>
     <customValue>
         <fullName>zh_CN</fullName>
@@ -129,16 +112,34 @@
         <label>French (Canada)</label>
     </customValue>
     <customValue>
-        <fullName>en_UK</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>English (UK)</label>
-    </customValue>
-    <customValue>
         <fullName>es_US</fullName>
         <default>false</default>
         <isActive>false</isActive>
         <label>Spanish (US)/espanol (EU)</label>
+    </customValue>
+    <customValue>
+        <fullName>fi</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>fi</label>
+    </customValue>
+    <customValue>
+        <fullName>ko</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>ko</label>
+    </customValue>
+    <customValue>
+        <fullName>uk</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Ukranian</label>
+    </customValue>
+    <customValue>
+        <fullName>ar</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Arabic</label>
     </customValue>
     <masterLabel>Languages</masterLabel>
     <sorted>false</sorted>

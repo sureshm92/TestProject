@@ -8,6 +8,10 @@
     line-height: 20px;
     color: #000;
 }
+.THIS .slds-tabs_default__item{
+    color: black;
+    font-weight: 500;
+}
 
 /*
 .THIS .path-item-detail-panel.success .title {
@@ -133,7 +137,7 @@
 }
 
 .THIS #p-modal .p-container.large {
-    z-index: 9999 !important;
+    z-index: 9001 !important;
 }
 
 .THIS .p-header h2 {
@@ -168,7 +172,19 @@
     right: 40px;
     height: 14px;
 }
+.THIS .slds-tabs_default__item::after{
+    height: 5px;
+    width: 100%;
 
+}
+.THIS .slds-button--reset {
+    color: black;
+    margin-right: 15px;
+}
+.THIS .slds-button--neutral{
+    background-color: #0768FD;
+    color: white;
+}
 @media all and (max-width: 768px){
     .THIS .personal-info-container .slds-float_left {
         width: 100%;

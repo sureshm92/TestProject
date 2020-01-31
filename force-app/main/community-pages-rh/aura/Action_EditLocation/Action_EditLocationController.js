@@ -20,6 +20,9 @@
                 var states = statesByCountryMap[account.BillingCountryCode];
                 component.set('v.statesLVList', states);
             }
+            if (account.BillingState) {
+                account.BillingState = null;
+            }
         } else {
             account = {
                 sobjectType: 'Account',
