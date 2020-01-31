@@ -53,7 +53,7 @@ public without sharing class CommunityTemplateService {
         Map<String, String> resourcesMap = new Map<String, String>();
         for(StaticResource resource : resourceList){
             String namespace = resource.NamespacePrefix;
-            String resourceURL = '/resource/' + resourceList[0].SystemModStamp.getTime() +
+            String resourceURL = '/resource/' + resource.SystemModStamp.getTime() +
                     '/' + (namespace != null && namespace != '' ? namespace + '__' : '') + resource.Name;
             resourcesMap.put('$Resource/' + resource.Name, resourceURL);
         }
