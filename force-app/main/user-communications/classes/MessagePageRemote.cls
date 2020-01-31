@@ -112,9 +112,15 @@ public without sharing class MessagePageRemote {
                 Map<Id, List<ContentDocumentLink>> documentLinkMap =
                         ConversationService.getAttachments(new List<Id>(conversationsByIds.keySet()));
 
+                String firstConId = (String) messagesByConversation.keySet().iterator().next();
                 pageData.conversationWrappers = new List<ConversationWrapper>();
                 for (Id conId : messagesByConversation.keySet()) {
                     Conversation__c conversation = conversationsByIds.get(conId);
+                    if(String.valueOf(conId).equals(firstConId)) {
+                        conversation.haveUnreadForParticipant__c = false;
+                        conversation.haveUnreadForPI__c = false;
+                        update conversation;
+                    }
                     pageData.conversationWrappers.add(getConversationWrapper(
                             pageData.userMode, conversation,
                             getMessageWrappers(messagesByConversation.get(conversation.Id), documentLinkMap.get(conversation.Id)))
