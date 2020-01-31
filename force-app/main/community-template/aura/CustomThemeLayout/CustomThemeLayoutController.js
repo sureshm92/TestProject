@@ -14,7 +14,7 @@
             component.set('v.logoURL', communityService.getTemplateProperty('CommunityLogo'));
             component.set('v.headerColorStart', communityService.getTemplateProperty('HeaderColorStart'));
             component.set('v.headerColorEnd', communityService.getTemplateProperty('HeaderColorEnd'));
-            component.set('v.mainCSS', communityService.getTemplateProperty('MainCSS'));
+            component.set('v.themeCSS', communityService.getTemplateProperty('ThemeCSS'));
 
         }else{
             communityService.initialize(component);
@@ -35,9 +35,6 @@
         communityService.navigateToPage('');
     },
 
-    doTest: function (component) {
-        alert('MainCSS loaded: ' + component.get('v.mainCSS'));
-    }
 
 
 

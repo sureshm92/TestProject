@@ -33,7 +33,7 @@ window.communityService = (function () {
             service.executeAction(component, 'getCommunityData', null, function (returnValue) {
                 console.log('Mode data: ' + returnValue);
                 var communityData = JSON.parse(returnValue);
-                preventedCookies = communityData.preventedCookies; 
+                preventedCookies = communityData.preventedCookies;
                 service.deleteCookies(preventedCookies);
                 console.log('preventedCookies: ' + JSON.stringify(preventedCookies));
                 communityMode = communityData.communityMode;
@@ -54,9 +54,9 @@ window.communityService = (function () {
                 console.log('is TC accepted: ' + isTCAcceptedFlag);
                 console.log('URL path prefix: ' + communityURLPathPrefix);
                 //swap css
-                let cssLink = document.querySelector('link[href*="Default_Community_CSS"]');
+                let cssLink = document.querySelector('link[href*="Community_CSS_Default_Theme"]');
                 try{
-                    if(cssLink) cssLink.setAttribute('href', service.getTemplateProperty('MainCSS'));
+                    if(cssLink) cssLink.setAttribute('href', service.getTemplateProperty('ThemeCSS'));
                 }catch (e) {
                     console.log(e);
                 }

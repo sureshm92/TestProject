@@ -3,7 +3,7 @@
  -->
 
 <aura:component implements="forceCommunity:themeLayout" controller="CommunityFacadeRemote">
-    <ltng:require styles="{!join(',', $Resource.Default_Community_CSS, $Resource.proximanova + '/proximanova.css')}"
+    <ltng:require styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_Default_Theme, $Resource.proximanova + '/proximanova.css')}"
                   scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
 
@@ -22,7 +22,7 @@
     <aura:attribute name="logoURL" type="String"/>
     <aura:attribute name="headerColorStart" type="String"/>
     <aura:attribute name="headerColorEnd" type="String"/>
-    <aura:attribute name="mainCSS" type="String"/>
+    <aura:attribute name="themeCSS" type="String"/>
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized"/>
