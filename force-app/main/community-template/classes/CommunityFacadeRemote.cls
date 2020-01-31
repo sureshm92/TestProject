@@ -37,6 +37,7 @@ public without sharing class CommunityFacadeRemote {
         Boolean showPastStudies;
         List<CommunityMode> allUserModes;
         CommunityMode currentUserMode;
+        Map<String, String> templateProperties;
     }
     
     private class CommunityType{
@@ -66,6 +67,9 @@ public without sharing class CommunityFacadeRemote {
             cd.preventedCookies = getPreventedCookies(userContact.Id);
             cd.isDelegate = userContact.UserCommunityIsDelegate__c;
             cd.baseUrl = Site.getBaseUrl();
+            if(UserContext.getCurrentUserMode().isParticipant()){
+                cd.templateProperties = CommunityTemplateService.getTemplateProperties(ParticipantContext.getCurrentPEId());
+            }
             
             return JSON.serialize(cd);
         } catch (Exception e) {

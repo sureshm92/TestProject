@@ -79,6 +79,18 @@ public without sharing class CommunityMode {
         update userContact;
     }
     
+    public Boolean isParticipant(){
+        return userMode == CommunityModeService.USER_MODE_PARTICIPANT;
+    }
+    
+    public Boolean isPI(){
+        return userMode == CommunityModeService.USER_MODE_PI;
+    }
+    
+    public Boolean isHCP(){
+        return userMode == CommunityModeService.USER_MODE_HCP;
+    }
+    
     private void init(){
         Id currentDelId = currentDelegateId;
         Id whatId;

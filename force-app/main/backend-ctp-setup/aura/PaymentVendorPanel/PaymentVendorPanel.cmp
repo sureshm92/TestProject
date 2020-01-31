@@ -14,6 +14,7 @@
     <aura:attribute name="viewMode" type="String"/>
     <aura:attribute name="haveEmptyAssigment" type="Boolean"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
+    <aura:attribute name="scrollLeft" type="Integer" default="0"/>
 
     <div class="panel">
         <c:RRSpinner aura:id="spinner"/>
@@ -74,87 +75,39 @@
                 </div>
 
                 <!--Study Site Table-->
-                <div class="slds-scrollable ss-table">
-                    <table aria-multiselectable="true"
-                           class="slds-table slds-table_cell-buffer slds-table_bordered" role="grid">
-                        <thead>
-                        <tr class="slds-line-height_reset">
-                            <th scope="col">
-                                <div data-order="country" class="sorted-column" onclick="{!c.doSort}">
-                                    <div class="slds-truncate">
-                                        Country
-                                    </div>
-                                    <aura:if isTrue="{!v.filter.sortField == 'country'}">
-                                        <div class="slds-m-left--x-small">
-                                            <lightning:icon
-                                                    iconName="{!'utility:' + if(v.filter.sortDirection == 'DESC', 'arrowdown', 'arrowup')}"
-                                                    alternativeText=""
-                                                    variant="success"
-                                                    size="xx-small"/>
-                                        </div>
-                                    </aura:if>
-                                </div>
-                            </th>
-                            <th scope="col">
-                                <div data-order="name" class="sorted-column" onclick="{!c.doSort}">
-                                    <div class="slds-truncate">
-                                        Study Site
-                                    </div>
-                                    <aura:if isTrue="{!v.filter.sortField == 'name'}">
-                                        <div class="slds-m-left--x-small">
-                                            <lightning:icon
-                                                    iconName="{!'utility:' + if(v.filter.sortDirection == 'DESC', 'arrowdown', 'arrowup')}"
-                                                    alternativeText=""
-                                                    variant="success"
-                                                    size="xx-small"/>
-                                        </div>
-                                    </aura:if>
-                                </div>
-                            </th>
-                            <th class="cell-wrap" scope="col">
-                                <div data-order="number" class="sorted-column" onclick="{!c.doSort}">
-                                    <div>Study Site Number</div>
-                                    <aura:if isTrue="{!v.filter.sortField == 'number'}">
-                                        <div class="slds-m-left--x-small slds-align--absolute-center">
-                                            <lightning:icon
-                                                    iconName="{!'utility:' + if(v.filter.sortDirection == 'DESC', 'arrowdown', 'arrowup')}"
-                                                    alternativeText=""
-                                                    variant="success"
-                                                    size="xx-small"/>
-                                        </div>
-                                    </aura:if>
-                                </div>
-                            </th>
-                            <th class="" scope="col">
-                                <div style="text-align: center;">None</div>
-                            </th>
-                            <aura:if isTrue="{!v.vendorItems}">
-                                <aura:iteration items="{!v.vendorItems}" var="pv">
-                                    <th class="" scope="col">
-                                        <div style="text-align: center;">{!pv.label}</div>
-                                        <aura:if isTrue="{!equals(v.viewMode, 'Edit')}">
-                                            <div class="column-btn">
-                                                <a data-state="Enabled"
-                                                   data-tv="{!pv.value}"
-                                                   onclick="{!c.doSelectAllInColumn}">Select All</a>
-                                                <span style="padding: 0 3px; color: #006DCC; ">|</span>
-                                                <a data-state="Disabled" data-tv="{!pv.value}"
-                                                   onclick="{!c.doSelectAllInColumn}">Clear All</a>
-                                            </div>
-                                        </aura:if>
-                                    </th>
-                                </aura:iteration>
-                            </aura:if>
-                        </tr>
-                        </thead>
-                        <tbody>
+                <div class="ss-table">
+                    <c:uiFixedTable class="slds-table slds-table_bordered" scrollLeft="{!v.scrollLeft}">
+                        <aura:set attribute="tableHeader">
+                            <tr class="slds-line-height_reset">
+                                <c:SSTableHeaderCols filter="{!v.filter}" scrollLeft="{!v.scrollLeft}" onSort="{!c.doSort}"/>
+                                <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}">
+                                    <div style="text-align: center;">None</div>
+                                </c:uiCol>
+                                <aura:if isTrue="{!v.vendorItems}">
+                                    <aura:iteration items="{!v.vendorItems}" var="pv">
+                                        <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}">
+                                            <div style="text-align: center;">{!pv.label}</div>
+                                            <aura:if isTrue="{!equals(v.viewMode, 'Edit')}">
+                                                <div class="column-btn">
+                                                    <a data-state="Enabled"
+                                                       data-tv="{!pv.value}"
+                                                       onclick="{!c.doSelectAllInColumn}">Select All</a>
+                                                    <span style="padding: 0 3px; color: #006DCC; ">|</span>
+                                                    <a data-state="Disabled" data-tv="{!pv.value}"
+                                                       onclick="{!c.doSelectAllInColumn}">Clear All</a>
+                                                </div>
+                                            </aura:if>
+                                        </c:uiCol>
+                                    </aura:iteration>
+                                </aura:if>
+                            </tr>
+                        </aura:set>
                         <aura:if isTrue="{!v.ssItems}">
                             <aura:iteration items="{!v.ssItems}" var="item">
-                                <c:StudySiteItem item="{!item}" parent="{!this}" viewMode="{!v.viewMode}" isSingleChoice="true"/>
+                                <c:StudySiteItem item="{!item}" parent="{!this}" viewMode="{!v.viewMode}" isSingleChoice="true" scrollLeft="{!v.scrollLeft}"/>
                             </aura:iteration>
                         </aura:if>
-                        </tbody>
-                    </table>
+                    </c:uiFixedTable>
                 </div>
                 <!--Pagination-->
                 <div>
