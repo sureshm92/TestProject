@@ -5641,6 +5641,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Res_study__c.Resource_title__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Res_study__c.Visible_In_Alumni__c</field>
         <readable>false</readable>
