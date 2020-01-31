@@ -10,6 +10,10 @@
                 <behavior>Required</behavior>
                 <field>Resource__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Resource_title__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
