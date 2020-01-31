@@ -221,7 +221,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_UpdatePESHStatuses</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_UpdatePESourceType</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_UpdatePEStatuses</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_UpdatePETrialCompleteAndSendNotify</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1097,6 +1109,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ResourceForStudyResFlowRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ResourceNotifierRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1230,6 +1246,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SortOrder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StatusesUpdateBatchHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1405,6 +1425,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_Action_GetCardDetails</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_AddPatientByPIRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1498,6 +1522,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_UpdatePESourceType</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_UpdatePETrialCompleteNotify</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1742,6 +1770,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_PatientDelegateService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PatientDelegateTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -3242,6 +3274,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Conversation__c.FirstUnreadDate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Conversation__c.haveUnreadForPI__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4728,6 +4765,31 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Informed_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Initial_visit_occurred_date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Initial_visit_occurred_flag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Initial_visit_scheduled_date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Initial_visit_scheduled_flag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Initial_visit_scheduled_time__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

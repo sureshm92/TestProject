@@ -18,8 +18,6 @@ import attFileLabel from '@salesforce/label/c.MS_Attach_File';
 import sendBtnLabel from '@salesforce/label/c.BTN_Send';
 import teamLabel from '@salesforce/label/c.Study_Team';
 import piLabel from '@salesforce/label/c.PI_Colon';
-import toastSTSend from '@salesforce/label/c.MS_Toast_Message_ST_Send';
-import toastPASend from '@salesforce/label/c.MS_Toast_Message_PA_Send';
 
 import createConversation from '@salesforce/apex/MessagePageRemote.createConversation';
 import sendMessage from '@salesforce/apex/MessagePageRemote.sendMessage';
@@ -74,14 +72,18 @@ export default class MessageBoard extends LightningElement {
     }
 
     @api
-    startNew(enrollments, isPastStudy) {
+    startNew(enrollments, statusByPeMap) {
         this.conversation = null;
         this.messageWrappers = [];
-        if (isPastStudy !== undefined) this.isPastStudy = isPastStudy;
+        this.isPastStudy = false;
 
         this.enrollments = enrollments;
         this.isMultipleMode = enrollments.length > 1;
-        if (!this.isMultipleMode) this.selectedEnrollment = enrollments[0];
+        if (!this.isMultipleMode) {
+            this.selectedEnrollment = enrollments[0];
+
+            if(this.userMode === 'Participant') this.isPastStudy = statusByPeMap[this.selectedEnrollment.Id];
+        }
 
         this.hideEmptyStub = true;
     }

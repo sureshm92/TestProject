@@ -9,6 +9,7 @@ public without sharing class MessagePageRemote {
         @AuraEnabled public List<ConversationWrapper> conversationWrappers;
         @AuraEnabled public List<String> messageTemplates;
         @AuraEnabled public List<Participant_Enrollment__c> enrollments;
+        @AuraEnabled public Map<Id, Boolean> statusByPeMap;
     }
 
     public class ConversationWrapper {
@@ -70,8 +71,12 @@ public without sharing class MessagePageRemote {
                 if (!pastEnrollments.isEmpty()) participantEnrollments.addAll(pastEnrollments);
 
                 pageData.enrollments = new List<Participant_Enrollment__c>();
+                pageData.statusByPeMap = new Map<Id, Boolean>();
                 for (Participant_Enrollment__c pe : participantEnrollments) {
-                    if (pe.Study_Site__r.Messages_Are_Available__c) pageData.enrollments.add(pe);
+                    if (pe.Study_Site__r.Messages_Are_Available__c) {
+                        pageData.enrollments.add(pe);
+                        pageData.statusByPeMap.put(pe.Id, PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c));
+                    }
                 }
 
                 //Collect Conversations
@@ -107,9 +112,15 @@ public without sharing class MessagePageRemote {
                 Map<Id, List<ContentDocumentLink>> documentLinkMap =
                         ConversationService.getAttachments(new List<Id>(conversationsByIds.keySet()));
 
+                String firstConId = (String) messagesByConversation.keySet().iterator().next();
                 pageData.conversationWrappers = new List<ConversationWrapper>();
                 for (Id conId : messagesByConversation.keySet()) {
                     Conversation__c conversation = conversationsByIds.get(conId);
+                    if(String.valueOf(conId).equals(firstConId)) {
+                        conversation.haveUnreadForParticipant__c = false;
+                        conversation.haveUnreadForPI__c = false;
+                        update conversation;
+                    }
                     pageData.conversationWrappers.add(getConversationWrapper(
                             pageData.userMode, conversation,
                             getMessageWrappers(messagesByConversation.get(conversation.Id), documentLinkMap.get(conversation.Id)))
@@ -205,7 +216,10 @@ public without sharing class MessagePageRemote {
                 }
             }
 
-            if (needUpdate) update conversation;
+            if (needUpdate) {
+                conversation.FirstUnreadDate__c = Datetime.now();
+                update conversation;
+            }
 
             Message__c message = new Message__c(
                     Conversation__c = conversation.Id,
