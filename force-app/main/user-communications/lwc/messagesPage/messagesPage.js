@@ -4,7 +4,6 @@
 
 import {LightningElement, api, track, wire} from 'lwc';
 import {loadStyle} from 'lightning/platformResourceLoader';
-import communityStyle from '@salesforce/resourceUrl/rr_community_css';
 import proxima from '@salesforce/resourceUrl/proximanova';
 import {CurrentPageReference} from 'lightning/navigation';
 import {registerListener, unregisterAllListeners} from 'c/pubSub';

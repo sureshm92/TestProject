@@ -33,7 +33,12 @@
 
     doGoHome: function () {
         communityService.navigateToPage('');
+    },
+
+    doTest: function (component) {
+        alert('MainCSS loaded: ' + component.get('v.mainCSS'));
     }
+
 
 
 })

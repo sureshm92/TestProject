@@ -53,6 +53,15 @@ window.communityService = (function () {
                 console.log('CommunityService initialized:');
                 console.log('is TC accepted: ' + isTCAcceptedFlag);
                 console.log('URL path prefix: ' + communityURLPathPrefix);
+                //swap css
+                debugger;
+                let cssLink = document.querySelector('link[href*="Default_Community_CSS"]');
+                try{
+                    if(cssLink) cssLink.setAttribute('href', service.getTemplateProperty('MainCSS'));
+                }catch (e) {
+                    console.log(e);
+                }
+                component.init();
                 if (!service.isTCAccepted()) {
                     service.navigateToPage('terms-and-conditions?ret=' + service.createRetString());
                 } else {
@@ -116,7 +125,6 @@ window.communityService = (function () {
         },
 
         getTemplateProperty(propertyName){
-            debugger;
             if(templateProperties) return templateProperties[propertyName];
             return null;
         },

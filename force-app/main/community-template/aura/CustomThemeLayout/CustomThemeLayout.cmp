@@ -3,7 +3,7 @@
  -->
 
 <aura:component implements="forceCommunity:themeLayout" controller="CommunityFacadeRemote">
-    <ltng:require styles="{!join(',', $Resource.proximanova + '/proximanova.css')}"
+    <ltng:require styles="{!join(',', $Resource.Default_Community_CSS, $Resource.proximanova + '/proximanova.css')}"
                   scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
 
@@ -25,17 +25,15 @@
     <aura:attribute name="mainCSS" type="String"/>
 
     <!-- events: -->
-    <!--aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized"/-->
+    <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized"/>
 
-    <!-- handlers: -->
-    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
-
+    <!-- Methods: -->
+    <aura:method name="init" action="{!c.doInit}" access="public"/>
 
     <!--c:RRSpinner aura:id="spinner" fixed="true" showSpinner="true" size="medium"/-->
     <div class="{!'rr-all-content ' + $Browser.formFactor + ' ' + if(v.showSideMenu, ' bodyShift ', ' ') + if(v.availableModes.length > 1, ' with-selector ', '')}">
-        <aura:if isTrue="{!v.isInitialized}">
-            <ltng:require styles="{!v.mainCSS}"/>
-            <div class="{!'rr-header-content ' + if(v.showModeSwitcher, ' multi-mode', '')}" style="{!'background: linear-gradient(to right, ' + v.headerColorStart + ' 0%,' + v.headerColorEnd + ' 100%)'}">
+        <div class="{!'rr-header-content ' + if(v.showModeSwitcher, ' multi-mode ', ' ') + if(v.isInitialized, 'main-header-brand', 'main-header-neutral')}" >
+            <aura:if isTrue="{!v.isInitialized}">
                 <div class="{!'layout-header rr-width-limiter side-padding ' + if(v.isArabic, 'rtl', '')}">
                     <div class="menu-btn" onclick="{!c.switchSideMenu}">
                         <img src="{!$Resource.rr_community_icons + '/menu_btn.png'}" class="chevron" style="height: 32px; width: 32px"/>
@@ -54,8 +52,9 @@
                         <c:ProfileMenu aura:id="profileMenu" userMode="{!v.currentMode.userMode}"/>
                     </div>
                 </div>
-            </div>
-        </aura:if>
+            </aura:if>
+        </div>
+
         <div class="{!'rr-header-margin ' + if(v.showModeSwitcher, ' multi-mode', '')}"></div>
         <div class="rr-body-content rr-min-body-height">
             <aura:if isTrue="{!v.isInitialized}">
