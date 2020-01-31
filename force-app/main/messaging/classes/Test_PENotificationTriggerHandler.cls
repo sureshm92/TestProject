@@ -4,27 +4,22 @@
 
 @IsTest
 private class Test_PENotificationTriggerHandler {
-//    @testSetup
-//    static void setup() {
-//        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.class);
-//        TestData.loadTestData();
-//    }
+    @testSetup
+    static void setup() {
+        TestData.loadTestData();
+    }
     @IsTest
     static void testCheckHCPNotificationType() {
-//        Participant_Enrollment__c pe = [
-//                SELECT Id,
-//                        Participant_Status__c
-//                FROM Participant_Enrollment__c
-//                LIMIT 1
-//        ];
-//        pe.Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_DECLINED;
-//        update pe;
-//
-//        String notificationHCPTypeStr;
-//        Test.startTest();
-//        notificationHCPTypeStr = NotificationService.checkHCPNotificationType(pe, false);
-//        Test.stopTest();
-//        System.assertEquals('Message_to_HCP_Patient_Declined_Type', notificationHCPTypeStr);
+        TestData testData = new TestData();
+
+        Test.startTest();
+        testData.ctp.Status__c = 'Completed';
+        update testData.ctp;
+        Test.stopTest();
+        List<Notification__c> notifications = new List<Notification__c>();
+        notifications = [SELECT Id, Notification_Type__c, Status__c FROM Notification__c];
+        System.debug('<<<<<<<<<<<' + JSON.serializePretty(notifications));
+
     }
 //
 //    @IsTest
