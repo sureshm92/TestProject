@@ -30,8 +30,8 @@
         let screeningIdRequired = false;
         var isEnrollmentSuccess = false;
         var today = new Date();
-        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate());
-        var currentDate = new Date(date);
+        var dateToday = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate());
+        var currentDate = new Date(dateToday);
         var inputDate = new Date(participant.Date_of_Birth__c);
         if(pe.MRN_Id__c){
             component.set('v.disableSourceId', true);

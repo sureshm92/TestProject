@@ -231,7 +231,7 @@
                     <aura:if isTrue="{!v.pe.Screening_ID__c}">
                         <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                             <div class="label">{!$Label.c.PG_AS_F_Screening_Subject_ID}</div>
-                            <lightning:input aura:id="IvrsIwrsId" type="text" value="{!v.pe.Screening_ID__c}" onblur="{!c.doCheckFields}" disabled="true"/>
+                            <lightning:input aura:id="ScreeningId" type="text" value="{!v.pe.Screening_ID__c}" onblur="{!c.doCheckFields}" disabled="true"/>
                         </div>
                     </aura:if>
 
