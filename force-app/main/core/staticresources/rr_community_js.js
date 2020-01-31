@@ -23,7 +23,8 @@ window.communityService = (function () {
     var baseUrl;
     var currentUserMode;
     var allUserModes;
-    var showPastStudies
+    var showPastStudies;
+    var templateProperties;
 
     //community service functions:
     var service = {
@@ -47,6 +48,7 @@ window.communityService = (function () {
                 allUserModes = communityData.allUserModes;
                 currentUserMode = communityData.currentUserMode;
                 showPastStudies = communityData.showPastStudies;
+                templateProperties = communityData.templateProperties;
                 service.setCookie('RRLanguage', communityData.language, 365);
                 console.log('CommunityService initialized:');
                 console.log('is TC accepted: ' + isTCAcceptedFlag);
@@ -111,6 +113,12 @@ window.communityService = (function () {
         //Getters/setters:
         isShowPastStudies: function(){
             return showPastStudies;
+        },
+
+        getTemplateProperty(propertyName){
+            debugger;
+            if(templateProperties) return templateProperties[propertyName];
+            return null;
         },
 
         getCurrentCommunityMode: function(){
