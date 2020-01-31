@@ -366,6 +366,7 @@ public without sharing class ParticipantEnrollmentService {
             'Participant_Name__c',
             'Participant_Surname__c',
             'Participant__c',
+            'Participant__r.Adult__c',
             'Participant__r.First_Name__c',
             'Participant__r.Last_Name__c',
             'Participant__r.Middle_Name__c',

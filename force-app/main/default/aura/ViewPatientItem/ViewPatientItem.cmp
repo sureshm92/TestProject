@@ -37,6 +37,7 @@
         </aura:if>
         <aura:if isTrue="{!!empty(v.pe)}">
             <c:ParticipantCardHeader userMode="{!v.userMode}" pe="{!v.pe}" isReferral="false"/>
+            <c:ParticipantCardIsEmansipated pe="{!v.pe}"/>
             <c:ParticipantCardFields userMode="{!v.userMode}" isInvited="{!v.isInvited}" pe="{!v.pe}"/>
             <aura:if isTrue="{!v.showPath}">
                 <div class="vpi-path-panel">

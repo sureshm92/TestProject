@@ -1112,6 +1112,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Import Participant File</value>
     </labels>
     <labels>
+        <fullName>BTN_Verify</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Verify</shortDescription>
+        <value>Verify</value>
+    </labels>
+    <labels>
         <fullName>BTN_View</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3725,6 +3732,13 @@ The IQVIA Patient Portal Support Team</value>
         <value>Files</value>
     </labels>
     <labels>
+        <fullName>Filter_Participant_s</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Filter Participant(s)</shortDescription>
+        <value>Filter Participant(s)</value>
+    </labels>
+    <labels>
         <fullName>Footer_Link_About_IQVIA</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5631,6 +5645,13 @@ View study documents and other resources including articles and videos related t
         <protected>true</protected>
         <shortDescription>One day before</shortDescription>
         <value>1 day before</value>
+    </labels>
+    <labels>
+        <fullName>One_or_more_Participants_reached_Majority</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>One or more Participants reached Majority</shortDescription>
+        <value>One or more participants has reached the age of legal majority. Please confirm privacy preferences with participant(s).</value>
     </labels>
     <labels>
         <fullName>Originator</fullName>
@@ -12237,6 +12258,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>COI Toast Alert Me When CTP appears</shortDescription>
         <value>Thank you for your interest in {0}. We will contact you when the clinical research study would be created for this.</value>
+    </labels>
+    <labels>
+        <fullName>This_Participant_has_reached_legal_age_of_emancipation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>This Participant has reached legal age of emancipation</shortDescription>
+        <value>This Participant has reached legal age of emancipation, but continues to require legal guardianship. Please verify that this is correct.</value>
     </labels>
     <labels>
         <fullName>Toast_Changes_Successfully</fullName>
