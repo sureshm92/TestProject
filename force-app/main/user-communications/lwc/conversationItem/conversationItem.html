@@ -28,14 +28,16 @@
                     <span slot="body">{item.description}</span>
                 </c-web-limit-text-by-lines>
             </div>
-            <div class="con-last-message-part">
-                <c-web-limit-text-by-lines max-lines="2" title={item.lastMessagePart}>
-                    <span slot="body">{item.lastMessagePart}</span>
-                </c-web-limit-text-by-lines>
+            <div class="con-bottom">
+                <div class="con-last-message-part">
+                    <c-web-limit-text-by-lines max-lines="2" title={item.lastMessagePart}>
+                        <span slot="body">{item.lastMessagePart}</span>
+                    </c-web-limit-text-by-lines>
+                </div>
+                <template if:true={item.haveAttachment}>
+                    <c-web-icon icon-name="attachment" icon-color={attachColor} icon-size="small"></c-web-icon>
+                </template>
             </div>
-            <template if:true={item.haveAttachment}>
-                <c-web-icon icon-name="attachment" icon-color={attachColor} icon-size="small"></c-web-icon>
-            </template>
         </div>
     </div>
 </template>

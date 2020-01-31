@@ -30,8 +30,8 @@
         let screeningIdRequired = false;
         var isEnrollmentSuccess = false;
         var today = new Date();
-        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate() +1);
-        var currentDate = new Date(date);
+        var dateToday = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate());
+        var currentDate = new Date(dateToday);
         var inputDate = new Date(participant.Date_of_Birth__c);
         if(pe.MRN_Id__c){
             component.set('v.disableSourceId', true);
@@ -45,9 +45,7 @@
         }
         let isVisitPlanNotRequired = !component.get('v.visitPlanRequired') || !screeningIdRequired;
         component.set('v.screeningRequired', screeningIdRequired);
-        console.log('dasdas');
         if (updateMode && !isFinalUpdate && dataStamp) {
-            console.log('dasdas');
             var oldPE = JSON.parse(dataStamp);
             var isRemovedValue =
                 (oldPE.Participant__r.First_Name__c && !participant.First_Name__c) ||
@@ -66,7 +64,6 @@
                 (oldPE.MRN_Id__c && !pe.MRN_Id__c);
             isValid = !isRemovedValue;
             if(component.get('v.fromActionParticipant') && !isRemovedValue){
-                console.log('das12das');
                     if(
                 participant.First_Name__c.trim() &&
                 participant.Last_Name__c.trim() &&
@@ -80,11 +77,9 @@
                 } else {
                         isValid = false;
                     }
-                console.log('da1231231sdas');
 
             }
         } else if (updateMode && isFinalUpdate) {
-            console.log('d1111asdas');
             isValid =
                 participant.First_Name__c &&
                 participant.Last_Name__c &&
@@ -101,7 +96,6 @@
                 pe.Screening_ID__c &&
                 stateVaild;
             if(component.get('v.fromActionParticipant') && !isRemovedValue){
-                console.log('das12das');
                 if(
                     participant.First_Name__c.trim() &&
                     participant.Last_Name__c.trim() &&
@@ -115,13 +109,10 @@
                 } else {
                     isValid = false;
                 }
-                console.log('da1231231sdas');
-
             }
 
                 //(!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
         } else if (!updateMode) {
-            console.log('d0000asdas');
             //var checkReferred = source == 'ePR' ? true : pe.Referred_By__c ? true : false;
             isValid =
                 participant.First_Name__c &&
