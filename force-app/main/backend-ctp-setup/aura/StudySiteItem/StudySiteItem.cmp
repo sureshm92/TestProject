@@ -8,27 +8,31 @@
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="viewMode" type="String"/>
     <aura:attribute name="isSingleChoice" type="Boolean" default="false"/>
+
+    <aura:attribute name="showHelp" type="Boolean"/>
+    <aura:attribute name="helpText" type="String" default="Help text stub"/>
+    <aura:attribute name="helpIcon" type="String" default="utility:info"/>
+    <aura:attribute name="helpIconVariant" type="String" default="inverse"/>
+
     <aura:attribute name="scrollLeft" type="Integer" default="0"/>
 
     <tr class="{!if(v.item.emptyAssignments, 'empty-assignments', '')}">
         <c:uiCol isHeader="true" isFixed="true" class="cell" scrollLeft="{!v.scrollLeft}">
-            <div class="slds-truncate"
-                 title="">{!v.item.country.label}</div>
+            <div class="slds-truncate" title="">{!v.item.country.label}</div>
         </c:uiCol>
         <c:uiCol isFixed="true" class="cell" scrollLeft="{!v.scrollLeft}" width="200px">
             <div class="slds-truncate name-overflow" title="">
                 <a href="javascript:void(0);" tabindex="-1" data-ssid="{!v.item.ss.Id}"
                    onclick="{!c.viewStudySite}">{!v.item.name}&nbsp;</a>
-                <aura:if isTrue="{!v.conversationsFound}">
-                    <lightning:helptext content="Messages on this study site are put on hold"
-                                        iconName="utility:end_chat"
-                                        iconVariant="warning"/>
+                <aura:if isTrue="{!v.showHelp}">
+                    <lightning:helptext content="{!v.helpText}"
+                                        iconName="{!v.helpIcon}"
+                                        iconVariant="{!v.helpIconVariant}"/>
                 </aura:if>
             </div>
         </c:uiCol>
         <c:uiCol isFixed="true" class="cell" scrollLeft="{!v.scrollLeft}">
-            <div class="slds-truncate"
-                 title="">{!v.item.ss.Study_Site_Number__c}</div>
+            <div class="slds-truncate" title="">{!v.item.ss.Study_Site_Number__c}</div>
         </c:uiCol>
         <aura:if isTrue="{!v.isSingleChoice}">
             <c:uiCol isFixed="true" class="cell" scrollLeft="{!v.scrollLeft}">
