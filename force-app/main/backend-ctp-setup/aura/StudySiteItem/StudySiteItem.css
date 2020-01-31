@@ -19,3 +19,11 @@
 .THIS .uiInput--default .form-element__label {
     display: none;
 }
+
+.THIS .cell{
+    background: white;
+}
+
+.THIS .cell.center{
+    text-align: center;
+}

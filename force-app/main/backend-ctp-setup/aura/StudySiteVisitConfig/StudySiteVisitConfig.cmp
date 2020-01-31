@@ -14,6 +14,7 @@
     <aura:attribute name="viewModePage" type="String"/>
     <aura:attribute name="haveEmptyAssigment" type="Boolean"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
+    <aura:attribute name="scrollLeft" type="Integer" default="0"/>
 
     <!-- component body: -->
     <aura:if isTrue="{!notequals(v.viewModePage, 'Disabled')}">
@@ -76,89 +77,45 @@
                                 <lightning:button variant="brand" label="Save" onclick="{!c.doSaveAndUpdate}"/>
                             </div>
                         </aura:if>
+
+
                         <!--Study Site Table-->
-                        <div class="slds-scrollable ss-table">
-                            <table aria-multiselectable="true"
-                                   class="slds-table slds-table_cell-buffer slds-table_bordered" role="grid">
-                                <thead>
-                                <tr class="slds-line-height_reset">
-                                    <th scope="col">
-                                        <div data-order="country" class="sorted-column" onclick="{!c.doSort}">
-                                            <div class="slds-truncate">
-                                                Country
-                                            </div>
-                                            <aura:if isTrue="{!v.filter.sortField == 'country'}">
-                                                <div class="slds-m-left--x-small">
-                                                    <lightning:icon
-                                                            iconName="{!'utility:' + if(v.filter.sortDirection == 'DESC', 'arrowdown', 'arrowup')}"
-                                                            alternativeText=""
-                                                            variant="success"
-                                                            size="xx-small"/>
-                                                </div>
-                                            </aura:if>
-                                        </div>
-                                    </th>
-                                    <th scope="col">
-                                        <div data-order="name" class="sorted-column" onclick="{!c.doSort}">
-                                            <div class="slds-truncate">
-                                                Study Site
-                                            </div>
-                                            <aura:if isTrue="{!v.filter.sortField == 'name'}">
-                                                <div class="slds-m-left--x-small">
-                                                    <lightning:icon
-                                                            iconName="{!'utility:' + if(v.filter.sortDirection == 'DESC', 'arrowdown', 'arrowup')}"
-                                                            alternativeText=""
-                                                            variant="success"
-                                                            size="xx-small"/>
-                                                </div>
-                                            </aura:if>
-                                        </div>
-                                    </th>
-                                    <th class="cell-wrap" scope="col">
-                                        <div data-order="number" class="sorted-column" onclick="{!c.doSort}">
-                                            <div>Study Site Number</div>
-                                            <aura:if isTrue="{!v.filter.sortField == 'number'}">
-                                                <div class="slds-m-left--x-small slds-align--absolute-center">
-                                                    <lightning:icon
-                                                            iconName="{!'utility:' + if(v.filter.sortDirection == 'DESC', 'arrowdown', 'arrowup')}"
-                                                            alternativeText=""
-                                                            variant="success"
-                                                            size="xx-small"/>
-                                                </div>
-                                            </aura:if>
-                                        </div>
-                                    </th>
-                                    <aura:if isTrue="{!v.visitPlans}">
-                                        <aura:iteration items="{!v.visitPlans}" var="vp">
-                                            <th scope="col">
-                                                <c:VisitPlanColumnMenu plan="{!vp}"
-                                                                       onEdit="{!if(equals(v.viewModePage, 'Edit'), c.doColumnVisitEdit, c.doColumnVisitView)}"
-                                                                       onClone="{!c.doColumnVisitClone}"
-                                                                       onDelete="{!c.doColumnVisitDelete}"
-                                                                       isVisible="{!equals(v.viewModePage, 'Edit')}"/>
-                                                <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
-                                                    <div class="column-btn">
-                                                        <a data-state="Enabled" data-vp="{!vp.value}"
-                                                           onclick="{!c.columnCheckboxStateChange}">Select All</a>
-                                                        <span style="padding: 0 3px; color: #006DCC; ">|</span>
-                                                        <a data-state="Disabled" data-vp="{!vp.value}"
-                                                           onclick="{!c.columnCheckboxStateChange}">Clear All</a>
-                                                    </div>
-                                                </aura:if>
-                                            </th>
-                                        </aura:iteration>
-                                    </aura:if>
-                                </tr>
-                                </thead>
-                                <tbody>
+                        <div class="ss-table">
+                            <c:uiFixedTable class="slds-table slds-table_bordered" scrollLeft="{!v.scrollLeft}">
+                                <aura:set attribute="tableHeader">
+                                    <tr class="slds-line-height_reset">
+                                        <c:SSTableHeaderCols filter="{!v.filter}" scrollLeft="{!v.scrollLeft}" onSort="{!c.doSort}"/>
+                                        <aura:if isTrue="{!v.visitPlans}">
+                                            <aura:iteration items="{!v.visitPlans}" var="vp" >
+                                                <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}">
+                                                    <c:VisitPlanColumnMenu plan="{!vp}"
+                                                                           onEdit="{!if(equals(v.viewModePage, 'Edit'), c.doColumnVisitEdit, c.doColumnVisitView)}"
+                                                                           onClone="{!c.doColumnVisitClone}"
+                                                                           onDelete="{!c.doColumnVisitDelete}"
+                                                                           isVisible="{!equals(v.viewModePage, 'Edit')}"/>
+                                                    <aura:if isTrue="{!equals(v.viewModePage, 'Edit')}">
+                                                        <div class="column-btn">
+                                                            <a data-state="Enabled" data-vp="{!vp.value}"
+                                                               onclick="{!c.columnCheckboxStateChange}">Select All</a>
+                                                            <span style="padding: 0 3px; color: #006DCC; ">|</span>
+                                                            <a data-state="Disabled" data-vp="{!vp.value}"
+                                                               onclick="{!c.columnCheckboxStateChange}">Clear All</a>
+                                                        </div>
+                                                    </aura:if>
+                                                </c:uiCol>
+                                            </aura:iteration>
+                                        </aura:if>
+                                    </tr>
+                                </aura:set>
                                 <aura:if isTrue="{!v.ssItems}">
                                     <aura:iteration items="{!v.ssItems}" var="item">
-                                        <c:StudySiteItem item="{!item}" parent="{!this}" viewMode="{!v.viewModePage}"/>
+                                        <c:StudySiteItem item="{!item}" parent="{!this}" viewMode="{!v.viewModePage}" scrollLeft="{!v.scrollLeft}"/>
                                     </aura:iteration>
                                 </aura:if>
-                                </tbody>
-                            </table>
+                            </c:uiFixedTable>
                         </div>
+
+
                         <!--Pagination-->
                         <div>
                             <c:RRPaginationRemote entriesOnPage="{!v.pagination.pageRecordsCount}"
