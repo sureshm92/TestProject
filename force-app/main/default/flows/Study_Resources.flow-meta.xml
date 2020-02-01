@@ -35,6 +35,14 @@
         </value>
     </choices>
     <choices>
+        <name>Content_Class_choice</name>
+        <choiceText>Study-Specific</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <elementReference>Content_Class</elementReference>
+        </value>
+    </choices>
+    <choices>
         <name>Exist</name>
         <choiceText>Choose existing resource</choiceText>
         <dataType>String</dataType>
@@ -909,7 +917,7 @@
         </fields>
         <fields>
             <name>Content_Class_field_recordtypeArticle</name>
-            <choiceReferences>ContentClass_picklist</choiceReferences>
+            <choiceReferences>Content_Class_choice</choiceReferences>
             <dataType>String</dataType>
             <fieldText>Content Class</fieldText>
             <fieldType>DropdownBox</fieldType>
@@ -1069,15 +1077,27 @@
             <targetReference>Create_Study_Res_0</targetReference>
         </connector>
         <fields>
-            <name>ResourcesCustomLookup</name>
-            <extensionName>c:ResourceForStudyResFlow</extensionName>
+            <name>Study_Recources</name>
+            <extensionName>flowruntime:lookup</extensionName>
             <fieldType>ComponentInstance</fieldType>
-            <isRequired>true</isRequired>
-        </fields>
-        <fields>
-            <name>footerWithButtonNext</name>
-            <extensionName>c:FooterWithFinishButton</extensionName>
-            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>fieldApiName</name>
+                <value>
+                    <stringValue>Resource__c</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Name</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>objectApiName</name>
+                <value>
+                    <stringValue>Res_study__c</stringValue>
+                </value>
+            </inputParameters>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>Exist_recource_variable</assignToReference>
@@ -1418,7 +1438,7 @@
         <name>Video_type_record</name>
         <label>Video</label>
         <locationX>184</locationX>
-        <locationY>890</locationY>
+        <locationY>889</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1459,7 +1479,7 @@
         </fields>
         <fields>
             <name>Content_Class_field_recordtypeArticle_0</name>
-            <choiceReferences>ContentClass_picklist</choiceReferences>
+            <choiceReferences>Content_Class_choice</choiceReferences>
             <dataType>String</dataType>
             <fieldText>Content Class</fieldText>
             <fieldType>DropdownBox</fieldType>
