@@ -3,6 +3,7 @@ html{
     height: 100%;
     background-color: #f2f2f2;
     font-family: "Proxima Nova"!important;
+    transition: 300ms;
 }
 
 h1, h2, h3, h4, h5, h6{
