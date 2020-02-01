@@ -4,7 +4,6 @@
 
 import {LightningElement, api, track, wire} from 'lwc';
 import {loadStyle} from 'lightning/platformResourceLoader';
-import proxima from '@salesforce/resourceUrl/proximanova';
 import {CurrentPageReference} from 'lightning/navigation';
 import {registerListener, unregisterAllListeners} from 'c/pubSub';
 
@@ -52,9 +51,6 @@ export default class MessagesPage extends LightningElement {
         if (!this.initialized) {
             this.spinner = this.template.querySelector('c-web-spinner');
             this.spinner.show();
-
-            loadStyle(this, proxima + '/proximanova.css');
-            loadStyle(this, communityStyle);
         }
 
         if (!this.messageBoard && this.initialized) {

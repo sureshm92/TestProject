@@ -8,6 +8,5 @@ import {loadStyle} from 'lightning/platformResourceLoader';
 export default class WebPreviewTable extends LightningElement {
 
     connectedCallback() {
-        loadStyle(this, communityStyle);
     }
 }

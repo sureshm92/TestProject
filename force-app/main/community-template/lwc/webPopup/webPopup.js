@@ -42,7 +42,6 @@ export default class WebPopup extends LightningElement {
 
     //Inner methods-----------------------------------------------------------------------------------------------------
     connectedCallback() {
-        loadStyle(this, communityStyle);
     }
 
     clickedPrimary() {

@@ -7,13 +7,10 @@
         if(communityService.isInitialized()){
             component.set('v.allModes', communityService.getAllUserModes());
             component.set('v.currentMode', communityService.getCurrentCommunityMode());
-            //component.find('spinner').hide();
             component.set('v.isInitialized', true);
             component.set('v.showModeSwitcher', !(communityService.getAllUserModes().length === 1 && communityService.getAllUserModes()[0].subModes.length <= 1));
             component.set('v.isArabic', communityService.getLanguage() === 'ar' );
             component.set('v.logoURL', communityService.getTemplateProperty('CommunityLogo'));
-            component.set('v.headerColorStart', communityService.getTemplateProperty('HeaderColorStart'));
-            component.set('v.headerColorEnd', communityService.getTemplateProperty('HeaderColorEnd'));
             component.set('v.themeCSS', communityService.getTemplateProperty('ThemeCSS'));
 
         }else{
