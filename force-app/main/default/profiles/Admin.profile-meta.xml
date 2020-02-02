@@ -2513,6 +2513,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Community_Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Condition_s_Therapeutic_Area__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3004,6 +3009,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Community_Template_Selector__c.Template_Selector_Formula__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Community_Template__mdt.Community_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

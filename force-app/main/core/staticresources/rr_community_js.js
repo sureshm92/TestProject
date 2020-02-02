@@ -24,7 +24,6 @@ window.communityService = (function () {
     var currentUserMode;
     var allUserModes;
     var showPastStudies;
-    var templateProperties;
 
     //community service functions:
     var service = {
@@ -46,20 +45,12 @@ window.communityService = (function () {
                 baseUrl = communityData.baseUrl;
                 isInitializedFlag = true;
                 allUserModes = communityData.allUserModes;
-                currentUserMode = communityData.currentUserMode;
                 showPastStudies = communityData.showPastStudies;
-                templateProperties = communityData.templateProperties;
+                service.setCurrentCommunityMode(communityData.currentUserMode);
                 service.setCookie('RRLanguage', communityData.language, 365);
                 console.log('CommunityService initialized:');
                 console.log('is TC accepted: ' + isTCAcceptedFlag);
                 console.log('URL path prefix: ' + communityURLPathPrefix);
-                //swap css
-                let cssLink = document.querySelector('link[href*="Community_CSS_Stub"]');
-                try{
-                    if(cssLink) cssLink.setAttribute('href', service.getTemplateProperty('ThemeCSS'));
-                }catch (e) {
-                    console.log(e);
-                }
                 component.init();
                 if (!service.isTCAccepted()) {
                     service.navigateToPage('terms-and-conditions?ret=' + service.createRetString());
@@ -124,7 +115,7 @@ window.communityService = (function () {
         },
 
         getTemplateProperty(propertyName){
-            if(templateProperties) return templateProperties[propertyName];
+            if(this.getCurrentCommunityMode().template.properties) return this.getCurrentCommunityMode().template.properties[propertyName];
             return null;
         },
 
@@ -133,7 +124,21 @@ window.communityService = (function () {
         },
 
         setCurrentCommunityMode: function(mode){
-            currentUserMode = mode
+            currentUserMode = mode;
+            service.setThemeCSS();
+            if(mode.template.needRedirect){
+                document.location.href = template.communityURL + '/' + service.getFullPageName();
+            }
+        },
+
+        setThemeCSS(){
+            let cssLink = document.querySelector('link[href*="Community_CSS_Stub"]');
+            try{
+                if(cssLink) cssLink.setAttribute('href', service.getTemplateProperty('ThemeCSS'));
+            }catch (e) {
+                console.log(e);
+            }
+
         },
 
         getAllUserModes: function(){

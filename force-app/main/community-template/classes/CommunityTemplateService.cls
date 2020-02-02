@@ -5,48 +5,66 @@
 public without sharing class CommunityTemplateService {
     
     public static final String TEMPLATE_DEFAULT = 'Default';
+    public static final Map<String, String> RESOURCES_URL_MAP = getResourcesURLMap();
+    public static final Map<String, Network> NETWORKS_MAP = getNetworksMap();
+    public static final Map<String, CommunityTemplate> TEMPLATES_MAP = getTemplatesMap();
     
     public static Map<String, String> getTemplateProperties(Id peId){
-        System.debug('XXX_PE ID: ' + peId);
-        Community_Template_Selector__c selector = new Community_Template_Selector__c();
-        if(peId != null){
-            selector = new Community_Template_Selector__c(Participant_Enrollment__c = peId);
-            insert selector;
-            selector = [SELECT Template_Selector_Formula__c FROM Community_Template_Selector__c WHERE Id =: selector.Id];
-        }
-        List<String> templateNames = new List<String>{'Default'};
-        String templateName = selector.Template_Selector_Formula__c;
-        if(!String.isEmpty(templateName)) templateNames.add(selector.Template_Selector_Formula__c);
-        List<CommunityTemplate_Property__mdt> templatePropertis = [
-                SELECT Id, Value__c, Label, Community_Template__r.Label
-                FROM CommunityTemplate_Property__mdt
-                WHERE Community_Template__r.Label IN: templateNames];
-        Map<String, String> resMap = new Map<String, String>();
-        //Set default properties
-        for(CommunityTemplate_Property__mdt property : templatePropertis){
-            if(property.Community_Template__r.Label == 'Default'){
-                resMap.put(property.Label, property.Value__c);
-            }
-        }
-        //Set specified properties:
-        for(CommunityTemplate_Property__mdt property : templatePropertis){
-            if(!String.isEmpty(templateName) && property.Community_Template__r.Label == templateName){
-                resMap.put(property.Label, property.Value__c);
-            }
-        }
-        Map<String, String> resourcesURLMap = getResourceURLMap();
-        for(String resourceName : resourcesURLMap.keySet()){
-            for(String propertyName : resMap.keySet()){
-                String value = resMap.get(propertyName);
-                value = value.replace(resourceName, resourcesURLMap.get(resourceName));
-                resMap.put(propertyName, value);
-            }
-        }
-        if(selector.Id != null) delete selector;
-        return resMap;
+        return new Map<String, String>();
     }
     
-    public static Map<String, String> getResourceURLMap() {
+    public static CommunityTemplate getTemplate(String templateName){
+        if(templateName == null) templateName = '';
+        CommunityTemplate template = TEMPLATES_MAP.get(templateName);
+        if(template == null) template = TEMPLATES_MAP.get(TEMPLATE_DEFAULT);
+        return template;
+    }
+    
+    public static CommunityTemplate getDefaultTemplate(){
+        return getTemplate(TEMPLATE_DEFAULT);
+    }
+    
+    public static Map<String, CommunityTemplate> getTemplatesMap(){
+        List<Community_Template__mdt> templates = [
+                SELECT Id, Community_Name__c, Label,
+                (SELECT Id, Label, Value__c FROM CommunityTemplate_Properties__r)
+                FROM Community_Template__mdt
+        ];
+        Map<String, CommunityTemplate> templatesMap = new Map<String, CommunityTemplate>();
+        Map<String, String> defaultProperties = new Map<String, String>();
+        for(Community_Template__mdt template : templates){
+            Map<String, String> propertiesMap = new Map<String, String>();
+            propertiesMap.putAll(defaultProperties);
+            for(CommunityTemplate_Property__mdt property : template.CommunityTemplate_Properties__r){
+                propertiesMap.put(property.Label, replaceResourceParameter(property.Value__c));
+            }
+            templatesMap.put(template.Label, new CommunityTemplate(
+                    propertiesMap,
+                    getCommunityURL(template.Community_Name__c)
+            ));
+            if(template.Label == TEMPLATE_DEFAULT) defaultProperties = propertiesMap;
+        }
+        return templatesMap;
+    }
+    
+    public static String getCommunityURL(String communityName){
+        Network nw = NETWORKS_MAP.get(communityName);
+        if(nw != null) return Network.getLoginUrl(nw.Id).replace('/login', '');
+        return null;
+    }
+    
+    
+    public static Map<String, Network> getNetworksMap(){
+        List<Network> networks = [
+                SELECT Id, Name
+                FROM Network
+        ];
+        Map<String, Network> networksMap = new Map<String, Network>();
+        for(Network network : networks) networksMap.put(network.Name, network);
+        return networksMap;
+    }
+    
+    public static Map<String, String> getResourcesURLMap() {
         List<StaticResource> resourceList = [
                 SELECT Name, NamespacePrefix, SystemModStamp
                 FROM StaticResource];
@@ -59,5 +77,15 @@ public without sharing class CommunityTemplateService {
         }
         return resourcesMap;
     }
+    
+    public static String replaceResourceParameter(String sourceString){
+        String resStr = sourceString;
+        for(String resourceName : RESOURCES_URL_MAP.keySet()){
+            resStr = resStr.replace(resourceName, RESOURCES_URL_MAP.get(resourceName));
+        }
+        return resStr;
+    }
+
+
 
 }
