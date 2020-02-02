@@ -220,7 +220,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Mailing_State__c = ipr.Address_State__c,
                 Mailing_City__c = ipr.Address_City__c,
                 Secondary_Source__c = ipr.Data_Source__c,
-                Adult__c = true;
+                Adult__c = true
         );
     }
 
