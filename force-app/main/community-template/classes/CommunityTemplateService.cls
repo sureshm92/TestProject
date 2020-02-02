@@ -9,20 +9,6 @@ public without sharing class CommunityTemplateService {
     public static final Map<String, Network> NETWORKS_MAP = getNetworksMap();
     public static final Map<String, CommunityTemplate> TEMPLATES_MAP = getTemplatesMap();
     
-    public class URLInfo{
-        public String url;
-        public String pathPrefix;
-        
-        public URLInfo(String url, String pathPrefix){
-            this.url = url;
-            this.pathPrefix = pathPrefix;
-        }
-        
-        public String getFullURL(){
-            return url + pathPrefix;
-        }
-    }
-    
     public static CommunityTemplate getTemplate(String templateName){
         if(templateName == null) templateName = '';
         CommunityTemplate template = TEMPLATES_MAP.get(templateName);
@@ -57,15 +43,14 @@ public without sharing class CommunityTemplateService {
         return templatesMap;
     }
     
-    public static URLInfo getCommunityURL(String communityName){
+    public static String getCommunityURL(String communityName){
         Network nw = NETWORKS_MAP.get(communityName);
         if(nw != null) {
             List<String> urlItems = Network.getLoginUrl(nw.Id).split('/');
             List<String> resURLItems = new List<String>{urlItems[0], urlItems[1], urlItems[2]};
-            String url = String.join(resURLItems, '/');
-            String pathPrefix = '/';
-            if(nw.UrlPathPrefix != null) pathPrefix += nw.UrlPathPrefix;
-            return new URLInfo(url, pathPrefix);
+            String url = String.join(resURLItems, '/') + '/';
+            if(nw.UrlPathPrefix != null) url += nw.UrlPathPrefix;
+            return url;
         }
         return null;
     }
