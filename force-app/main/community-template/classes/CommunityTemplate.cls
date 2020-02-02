@@ -13,7 +13,7 @@ public without sharing class CommunityTemplate {
         this.properties = properties;
         this.currentCommunityURL = Site.getBaseUrl();
         this.redirectURL = urlInfo != null ? urlInfo.getFullURL() : null ;
-        this.needRedirect = urlInfo != null && currentCommunityURL != urlInfo.url ;
+        this.needRedirect = urlInfo != null && currentCommunityURL != urlInfo.getFullURL();
     }
 
 }
