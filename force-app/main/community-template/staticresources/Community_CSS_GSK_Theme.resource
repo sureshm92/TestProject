@@ -42,3 +42,15 @@
     box-shadow: 0 8px 20px 0 rgba(0,0,0,0.20), 0 8px 30px 0 rgba(243, 92, 4, 0.5);
     color: #FFFFFF;
 }
+
+.apollo-btn.primary.dark{
+    background: #f85d04;
+    box-shadow: 0 8px 20px 0 rgba(0,0,0,0.10);
+    color: #FFFFFF;
+}
+
+.apollo-btn.primary.dark:active:not(:disabled){
+    background: #e85804;
+    box-shadow: 0 8px 20px 0 rgba(0,0,0,0.10);
+    color: #FFFFFF;
+}

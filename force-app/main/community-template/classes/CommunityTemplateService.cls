@@ -48,8 +48,8 @@ public without sharing class CommunityTemplateService {
         if(nw != null) {
             List<String> urlItems = Network.getLoginUrl(nw.Id).split('/');
             List<String> resURLItems = new List<String>{urlItems[0], urlItems[1], urlItems[2]};
-            String url = String.join(resURLItems, '/') + '/';
-            if(nw.UrlPathPrefix != null) url += nw.UrlPathPrefix;
+            String url = String.join(resURLItems, '/');
+            if(nw.UrlPathPrefix != null) url += '/' + nw.UrlPathPrefix;
             return url;
         }
         return null;
