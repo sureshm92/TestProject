@@ -127,7 +127,7 @@ window.communityService = (function () {
             currentUserMode = mode;
             service.setThemeCSS();
             if(mode.template.needRedirect){
-                document.location.href = template.communityURL + '/' + service.getFullPageName();
+                document.location.href = mode.template.redirectURL;
             }
         },
 
@@ -138,7 +138,6 @@ window.communityService = (function () {
             }catch (e) {
                 console.log(e);
             }
-
         },
 
         getAllUserModes: function(){

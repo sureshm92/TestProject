@@ -9,8 +9,18 @@ public without sharing class CommunityTemplateService {
     public static final Map<String, Network> NETWORKS_MAP = getNetworksMap();
     public static final Map<String, CommunityTemplate> TEMPLATES_MAP = getTemplatesMap();
     
-    public static Map<String, String> getTemplateProperties(Id peId){
-        return new Map<String, String>();
+    public class URLInfo{
+        public String url;
+        public String pathPrefix;
+        
+        public URLInfo(String url, String pathPrefix){
+            this.url = url;
+            this.pathPrefix = pathPrefix;
+        }
+        
+        public String getFullURL(){
+            return url + pathPrefix;
+        }
     }
     
     public static CommunityTemplate getTemplate(String templateName){
@@ -47,16 +57,23 @@ public without sharing class CommunityTemplateService {
         return templatesMap;
     }
     
-    public static String getCommunityURL(String communityName){
+    public static URLInfo getCommunityURL(String communityName){
         Network nw = NETWORKS_MAP.get(communityName);
-        if(nw != null) return Network.getLoginUrl(nw.Id).replace('/login', '');
+        if(nw != null) {
+            List<String> urlItems = Network.getLoginUrl(nw.Id).split('/');
+            List<String> resURLItems = new List<String>{urlItems[0], urlItems[1], urlItems[2]};
+            String url = String.join(resURLItems, '/');
+            String pathPrefix = '/';
+            if(nw.UrlPathPrefix != null) pathPrefix += nw.UrlPathPrefix;
+            return new URLInfo(url, pathPrefix);
+        }
         return null;
     }
     
     
     public static Map<String, Network> getNetworksMap(){
         List<Network> networks = [
-                SELECT Id, Name
+                SELECT Id, Name, UrlPathPrefix
                 FROM Network
         ];
         Map<String, Network> networksMap = new Map<String, Network>();

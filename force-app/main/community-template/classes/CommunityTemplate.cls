@@ -5,15 +5,15 @@
 public without sharing class CommunityTemplate {
     
     @AuraEnabled public Map<String, String> properties;
-    @AuraEnabled public String communityURL;
     @AuraEnabled public String currentCommunityURL;
+    @AuraEnabled public String redirectURL;
     @AuraEnabled public Boolean needRedirect;
     
-    public CommunityTemplate(Map<String, String> properties, String communityURL){
+    public CommunityTemplate(Map<String, String> properties, CommunityTemplateService.URLInfo urlInfo){
         this.properties = properties;
-        this.communityURL = communityURL;
-        this.currentCommunityURL = Site.getBaseUrl() + Site.getPathPrefix();
-        this.needRedirect = communityURL != null && !communityURL.containsIgnoreCase(currentCommunityURL);
+        this.currentCommunityURL = Site.getBaseUrl();
+        this.redirectURL = urlInfo != null ? urlInfo.getFullURL() : null ;
+        this.needRedirect = urlInfo != null && currentCommunityURL != urlInfo.url ;
     }
 
 }
