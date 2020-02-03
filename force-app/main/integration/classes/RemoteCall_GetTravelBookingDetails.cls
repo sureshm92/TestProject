@@ -34,7 +34,7 @@ public with sharing class RemoteCall_GetTravelBookingDetails extends RemoteCall 
     }
 
     public RemoteCall_GetTravelBookingDetails(String clientId, String clientSecret) {
-        this.endPointURL = 'callout:Travel_Booking' + '?userid=' + clientId + '&token=' + clientSecret;
+        this.endPointURL = 'callout:Travel_Bookings' + '?userid=' + clientId + '&token=' + clientSecret;
         this.httpMethod = METHOD_GET;
     }
 
