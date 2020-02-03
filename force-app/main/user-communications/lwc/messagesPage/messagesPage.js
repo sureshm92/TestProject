@@ -28,6 +28,7 @@ export default class MessagesPage extends LightningElement {
     };
 
     spinner;
+    needAfterRenderSetup;
     messageBoard;
     messageTemplates;
     firstConWrapper;
@@ -46,6 +47,7 @@ export default class MessagesPage extends LightningElement {
 
     connectedCallback() {
         registerListener('reload', this.handleRefreshEvent, this);
+        this.needAfterRenderSetup = true;
         this.initializer();
     }
 
@@ -63,11 +65,15 @@ export default class MessagesPage extends LightningElement {
 
             this.messageBoard = this.template.querySelector('c-message-board');
             if (this.userMode === 'Participant') this.messageBoard.setTemplates(this.messageTemplates);
-
-            if (this.firstConWrapper) this.changeConversationsBackground(this.firstConWrapper.conversation.Id);
         }
 
-        if (this.initialized) this.spinner.hide();
+        if (this.initialized) {
+            if (this.firstConWrapper && this.needAfterRenderSetup) {
+                this.changeConversationsBackground(this.firstConWrapper.conversation.Id);
+            }
+            this.needAfterRenderSetup = false;
+            this.spinner.hide();
+        }
     }
 
     disconnectedCallback() {
@@ -185,11 +191,12 @@ export default class MessagesPage extends LightningElement {
         if (!this.enrollments || this.enrollments.length < 1) return false;
         if (!this.conversationWrappers) return true;
         if (this.userMode === 'PI' && this.enrollments.length === 1) {
-            if (this.conversationWrappers.length === 1) {
-                let conPEId = this.conversationWrappers[0].conversation.Participant_Enrollment__c;
-                if (this.enrollments[0].Id === conPEId) return false;
-            }
-            return true;
+            let can = true;
+            let peId = this.enrollments[0].Id;
+            this.conversationWrappers.forEach(function (wr) {
+                if(wr.conversation.Participant_Enrollment__c === peId) can = false;
+            });
+            return can;
         }
 
         return this.getFreeEnrollments().length !== 0;

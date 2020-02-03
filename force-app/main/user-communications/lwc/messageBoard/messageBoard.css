@@ -147,12 +147,16 @@
     width: 100px;
     color: #0768FD;
     font-family: "Proxima Nova";
-    font-size: 14px;
+    font-size: 14px !important;
     font-weight: 500;
     line-height: 24px;
     text-align: center;
     pointer-events: none;
     opacity: 0.5;
+}
+
+.ms-att-file-icon {
+    display: none;
 }
 
 .ms-empty-chat {
@@ -172,4 +176,13 @@
     line-height: 26px;
     text-align: center;
     padding-top: 20px;
+}
+
+@media all and (max-width: 480px) {
+    .ms-att-file-label {
+        display: none;
+    }
+    .ms-att-file-icon {
+        display: block;
+    }
 }
