@@ -4,7 +4,6 @@
 
 import {LightningElement, api, track} from 'lwc';
 import {loadStyle} from 'lightning/platformResourceLoader';
-import communityStyle from '@salesforce/resourceUrl/rr_community_css';
 
 export default class WebPopup extends LightningElement {
 
@@ -43,7 +42,6 @@ export default class WebPopup extends LightningElement {
 
     //Inner methods-----------------------------------------------------------------------------------------------------
     connectedCallback() {
-        loadStyle(this, communityStyle);
     }
 
     clickedPrimary() {
