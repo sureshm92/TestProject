@@ -134,7 +134,8 @@
                                        changeStatusBtnList="{!v.changeStatusBtnList}"
                                        parent="{!this}"
                                        userMode="{!v.userMode}"
-                                       isInvited="{!item.isInvited}"/>
+                                       isInvited="{!item.isInvited}"
+                                       hasEmancipatedParticipants="{!item.hasEmancipatedParticipants}"/>
                 </aura:iteration>
             </div>
 

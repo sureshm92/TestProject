@@ -18,6 +18,7 @@
 
     <!--handlers:-->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+    <aura:handler event="c:uiEvent" name="onInit" action="{!c.doNeedsGuardian}"/>
 
 
     <!--component body:-->
