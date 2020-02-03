@@ -4622,7 +4622,15 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Home Page Travel Support Bookings Col</shortDescription>
-        <value>Booking</value>
+        <value>Bookings</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Travel_Support_DateTime_Col</fullName>
+        <categories>Home Page</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Home Page Travel Support DateTime Col</shortDescription>
+        <value>Bookings Date and Time</value>
     </labels>
     <labels>
         <fullName>Home_Page_Travel_Support_Details_Tab</fullName>
@@ -4655,6 +4663,14 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>Home Page Travel Support Filter Pending</shortDescription>
         <value>Pending</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Travel_Support_Title</fullName>
+        <categories>Home Page</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Home Page Travel Support Title</shortDescription>
+        <value>Travel Support</value>
     </labels>
     <labels>
         <fullName>Home_Page_VisitTab_Filter_Show_All</fullName>
