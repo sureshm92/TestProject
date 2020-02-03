@@ -4,26 +4,27 @@
 //Community Service Module:
 window.communityService = (function () {
 
-    var isInitializedFlag = false;
-    var isTCAcceptedFlag;
-    var communityMode;
-    var communityDelegateId;
-    var communityURLPathPrefix;
-    var isDelegate;
-    var stickyBarEnabled = true;
-    var stickyBarTop;
-    var debugMode = false; //turn on/off output server stack traces in toast messages
-    var showOnLoginMap;
-    var showCurrentTourOnLogin;
-    var alreadyShowedMap = {};
-    var isNewSession;
-    var language;
-    var preventedCookies = [];
-    var participantState;
-    var baseUrl;
-    var currentUserMode;
-    var allUserModes;
-    var showPastStudies;
+    let isInitializedFlag = false;
+    let isTCAcceptedFlag;
+    let communityMode;
+    let communityDelegateId;
+    let communityURLPathPrefix;
+    let isDelegate;
+    let stickyBarEnabled = true;
+    let stickyBarTop;
+    let debugMode = false; //turn on/off output server stack traces in toast messages
+    let showOnLoginMap;
+    let showCurrentTourOnLogin;
+    let alreadyShowedMap = {};
+    let isNewSession;
+    let language;
+    let preventedCookies = [];
+    let participantState;
+    let baseUrl;
+    let currentUserMode;
+    let allUserModes;
+    let showPastStudies;
+    let currentCSSTheme = 'Community_CSS_Stub';
 
     //community service functions:
     var service = {
@@ -132,9 +133,10 @@ window.communityService = (function () {
         },
 
         setThemeCSS(){
-            let cssLink = document.querySelector('link[href*="Community_CSS_Stub"]');
+            let cssLink = document.querySelector('link[href*="' + currentCSSTheme + '"]');
             try{
-                if(cssLink) cssLink.setAttribute('href', service.getTemplateProperty('ThemeCSS'));
+                currentCSSTheme = service.getTemplateProperty('ThemeCSS');
+                if(cssLink) cssLink.setAttribute('href', currentCSSTheme);
             }catch (e) {
                 console.log(e);
             }

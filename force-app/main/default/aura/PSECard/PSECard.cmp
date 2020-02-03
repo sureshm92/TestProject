@@ -13,9 +13,6 @@
     <aura:attribute name="peStatusStateMap" type="Map"/>
     <aura:attribute name="actions" type="List"/>
 
-    <!-- handlers: -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-
     <!-- component body:-->
     <div class="rr-white-panel padding" style="position: relative">
         <c:ParticipantCardHeader userMode="{!v.userMode}" pe="{!v.pe}" isReferral="false"/>

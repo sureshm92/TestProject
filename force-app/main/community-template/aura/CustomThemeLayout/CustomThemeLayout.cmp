@@ -20,7 +20,6 @@
     <aura:attribute name="currentMode" type="Object"/>
     <aura:attribute name="showModeSwitcher" type="Boolean" default="false"/>
     <aura:attribute name="logoURL" type="String"/>
-    <aura:attribute name="themeCSS" type="String"/>
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized"/>
@@ -45,7 +44,7 @@
                         </div>
                         <div class="right-block" data-gtm="community_mode_switcher">
                             <aura:if isTrue="{!v.showModeSwitcher}">
-                                <c:CommunityModeSwitcher allModes="{!v.allModes}" currentMode="{!v.currentMode}" onModeChange="{!c.doModeChanged}"/>
+                                <c:CommunityModeSwitcher allModes="{!v.allModes}" currentMode="{!v.currentMode}" onModeChange="{!c.doRefresh}"/>
                             </aura:if>
                             <c:ProfileMenu aura:id="profileMenu" userMode="{!v.currentMode.userMode}"/>
                         </div>
