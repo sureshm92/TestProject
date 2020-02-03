@@ -78,7 +78,8 @@
             <div class="ms-board-footer">
                 <template if:true={isPIMode}>
                     <div class="ms-send-pi">
-                        <lightning-input data-gtm="ms-pi-input" type="text" label="" variant="label-hidden"
+                        <lightning-input data-gtm="ms-pi-input"
+                                         type="text" label="" variant="label-hidden"
                                          max-length="500"
                                          placeholder={labels.inputPlaceholderLabel}
                                          value={messageText}
@@ -94,14 +95,18 @@
                                             <label class="slds-file-selector__body">
                                                 <template if:true={isSendEnable}>
                                                     <lightning-file-upload
-                                                            style="opacity: 0"
+                                                            style="opacity: 0; position: fixed"
                                                             label=""
                                                             name="fileUploader"
                                                             accept={fileTypes}
-                                                            record-id={conversation.Id}></lightning-file-upload>
+                                                            record-id={conversation.Id}
+                                                            onuploadfinished={handleUploadFinished}></lightning-file-upload>
                                                 </template>
                                                 <span class="slds-file-selector__button slds-button">
-                                                    <span class="apollo-btn secondary ms-att-file-label">{labels.attFileLabel}</span>
+                                                    <span class="apollo-btn secondary ms-att-file-label" onclick={handleTMP}>{labels.attFileLabel}</span>
+                                                    <span class="ms-att-file-icon" onclick={handleTMP}>
+                                                        <c-web-icon icon-name="attachment" icon-color="#297DFD"></c-web-icon>
+                                                    </span>
                                                 </span>
                                             </label>
                                         </div>
@@ -118,8 +123,8 @@
                 <template if:false={isPIMode}>
                     <div class="ms-send-part">
                         <lightning-combobox
-                                data-gtm="ms-pa-select"
                                 style="flex-basis: 85%;"
+                                data-gtm="ms-pa-select"
                                 label={labels.selectLabel}
                                 value={messageText}
                                 placeholder={labels.selectPlaceholderLabel}
