@@ -2,11 +2,11 @@
  - Created by Yulia Yakushenkova on 1/29/2020.
  -->
 
-<aura:component description="TravelSupportPanel" controller="TravelSupportPanelRemote">
+<aura:component description="TravelSupportPanel" controller="TravelSupportRemote">
 
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
-    <aura:attribute name="travelWrapper" type="TravelSupportPanelRemote.TravelWrapper[]"/>
+    <aura:attribute name="travelWrapper" type="TravelSupportRemote.TravelWrapper[]"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
 
 
@@ -26,7 +26,8 @@
                         <aura:iteration var="travelWrapper" items="{!v.travelWrapper}">
                             <tr>
                                 <td class="travel-cell">
-                                    <div class="icon-item" style="{!travelWrapper.style}">
+                                    <div class="icon-item"
+                                         style="{!if(travelWrapper.icon == 'plane', 'background:'+travelWrapper.bgc +';transform: rotate(-20deg);', 'background:'+travelWrapper.bgc)}">
                                         <c:RRIcon class="svl-icon" color="white" iconName="{!travelWrapper.icon}"/>
                                     </div>
                                     <div style="padding: 0 5px">{!travelWrapper.title}</div>

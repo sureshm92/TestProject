@@ -6,14 +6,14 @@
 
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
-    <aura:attribute name="travelWrapper" type="PatientTravelService.TravelWrapper[]"/>
-    <aura:attribute name="currentTravels" type="PatientTravelService.TravelWrapper[]"/>
+    <aura:attribute name="travelWrapper" type="TravelSupportRemote.TravelWrapper[]"/>
+    <aura:attribute name="currentTravels" type="TravelSupportRemote.TravelWrapper[]"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="travelMode" type="String" default="All"/>
     <aura:attribute name="options" type="List"/>
     <aura:attribute name="vendors" type="Object[]"/>
 
-    <aura:handler name="change" value="{!v.travelMode}" action="{!c.getTravels}"/>
+<!--    <aura:handler name="change" value="{!v.travelMode}" action="{!c.getTravels}"/>-->
 
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="true" fixed="true"/>
     <div class="{!'sv-body ' + if(v.initialized, '', 'hidden')}" data-gtm="PNL_Travel_Support_Details">
@@ -56,29 +56,33 @@
                     </tr>
                     <aura:iteration var="travelWrapper" items="{!v.currentTravels}">
                         <tr>
-                            <td class="sv-t-visit">{!travelWrapper.isAdHoc
+                            <td class="sv-t-visit">{!empty(travelWrapper.visitName)
                                 ? $Label.c.StudyVisit_Unscheduled_Visit
                                 : travelWrapper.visitName}</td>
                             <td class="sv-t-icons">
-                                <c:RRIcon class="icon-item svl-icon" iconName="{!travelWrapper.icon}"/>
-                                {!travelWrapper.booking.Title__c}
+                                <div class="booking-cell">
+                                    <div class="icon-item" style="{!if(travelWrapper.icon == 'plane', 'transform: rotate(-20deg);', '')}">
+                                        <c:RRIcon class="icon-item svl-icon" iconName="{!travelWrapper.icon}"/>
+                                    </div>
+                                    <div style="padding-left: 3px">{!travelWrapper.title}</div>
+                                </div>
                             </td>
                             <td class="sv-t-status">
-                                <c:RRIcon class="icon-item svl-icon"
-                                          iconName="{!if(travelWrapper.booking.Status__c == 'Confirmed', 'success',
-                                                                                    if(travelWrapper.booking.Status__c == 'Declined', 'icon-close-circle',
-                                                                                    if(travelWrapper.booking.Status__c == 'Pending', 'icon-clock', '')))}"
-                                          color="{!if(travelWrapper.booking.Status__c == 'Confirmed', '#00C221',
-                                                                                    if(travelWrapper.booking.Status__c == 'Declined', '#E20000',
-                                                                                    if(travelWrapper.booking.Status__c == 'Pending', '#FF9300', '')))}"/>
-                                {!travelWrapper.booking.Status__c}
+                                <div class="booking-cell">
+                                    <c:RRIcon class="icon-item svl-icon"
+                                              iconName="{!if(travelWrapper.status == 'Confirmed', 'check-circle',
+                                              if(travelWrapper.status == 'Declined', 'icon-close-circle',
+                                              if(travelWrapper.status == 'Pending', 'icon-clock', '')))}"
+                                              color="{!travelWrapper.bgc}"/>
+                                    <div style="padding-left: 5px">{!travelWrapper.status}</div>
+                                </div>
                             </td>
                             <td class="sv-t-date">
-                                <lightning:formattedDateTime value="{!travelWrapper.booking.Booking_DateTime__c}"
+                                <lightning:formattedDateTime value="{!travelWrapper.dateAndTime}"
                                                              year="numeric" month="2-digit" day="2-digit"/>
                             </td>
                             <td class="sv-t-time">
-                                <lightning:formattedDateTime value="{!travelWrapper.booking.Booking_DateTime__c}"
+                                <lightning:formattedDateTime value="{!travelWrapper.dateAndTime}"
                                                              hour="2-digit" minute="2-digit" hour12="true"/>
                             </td>
                             <td class="sv-t-reminder">
@@ -93,7 +97,7 @@
                 </div>
             </aura:if>
 
-            <c:EmptyListStub class="no-visits-message" targetList="{!v.travelWrapper}" iconName="none"
+            <c:EmptyListStub class="no-travels-message" targetList="{!v.travelWrapper}" iconName="none"
                              message="{!$Label.c.PG_VP_L_No_Items_display}"/>
         </ui:scrollerWrapper>
 
