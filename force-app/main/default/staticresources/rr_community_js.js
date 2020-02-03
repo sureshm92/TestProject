@@ -23,7 +23,8 @@ window.communityService = (function () {
     var baseUrl;
     var currentUserMode;
     var allUserModes;
-    var showPastStudies
+    var messagesVisible;
+    var showPastStudies;
 
     //community service functions:
     var service = {
@@ -47,6 +48,7 @@ window.communityService = (function () {
                 allUserModes = communityData.allUserModes;
                 currentUserMode = communityData.currentUserMode;
                 showPastStudies = communityData.showPastStudies;
+                messagesVisible = communityData.messagesVisible;
                 service.setCookie('RRLanguage', communityData.language, 365);
                 console.log('CommunityService initialized:');
                 console.log('is TC accepted: ' + isTCAcceptedFlag);
@@ -149,6 +151,14 @@ window.communityService = (function () {
         },
         getCommunityURLPathPrefix: function () {
             return communityURLPathPrefix
+        },
+
+        getMessagesVisibility : function () {
+            return messagesVisible;
+        },
+
+        setMessagesVisibility : function(visible) {
+            messagesVisible = visible;
         },
 
         isInitialized: function () {
