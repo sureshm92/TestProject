@@ -203,7 +203,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Gender__c = ipr.sex__c,
                 Secondary_Source__c = ipr.Data_Source__c
         );
-        participant.Adult__c = Boolean.valueOf(ReferringRemote.checkNeedsGuardian(JSON.serialize(participant)));
+        participant.Adult__c = !Boolean.valueOf(ReferringRemote.checkNeedsGuardian(JSON.serialize(participant)));
 
         return participant;
     }
