@@ -152,6 +152,7 @@
 
             <c:Action_ParticipantMrrResult aura:id="openSearch"/>
 
+            <c:Action_ParticipantEmansipationWizard aura:id="emansipationWizard"/>
 
         </aura:if>
     </div>
