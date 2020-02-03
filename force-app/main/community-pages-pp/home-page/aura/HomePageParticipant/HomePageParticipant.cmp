@@ -1,0 +1,104 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="HomePageParticipant" controller="HomePageParticipantRemote" extends="c:CommunityContext">
+
+    <!-- attributes: -->
+    <aura:attribute name="participantState" type="Object"/>
+    <aura:attribute name="showTrialSearch" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="initialized" type="Boolean"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!-- component body: -->
+    <c:RRSpinner aura:id="spinner" size="medium" fixed="true" showSpinner="true"/>
+
+    <div class="{!if(v.isArabic, ' rtl ', '')}">
+        <div style="margin-bottom: 8px">
+            <c:RRNavigationPath>
+                <c:RRNPathItem label="{!$Label.c.Navigation_Home}"/>
+            </c:RRNavigationPath>
+        </div>
+        <div style="display: flex;">
+            <div class="hp-welcome-msg" style="width: 110%">{!v.participantState.welcomeMessage}</div>
+            <aura:if isTrue="{!v.showTrialSearch}">
+                <div style="@media screen and (max-width: 600px) {width: 20%;}">
+                    <button class="{!'apollo-btn primary dark'}" onclick="{!c.navigateToTrialSearchPage}">
+                        <c:RRIcon iconName="search-results"/>
+                        {!$Label.c.TrialSearch_Find_Another_Study}
+                    </button>
+                </div>
+            </aura:if>
+        </div>
+        <aura:if isTrue="{!v.initialized}">
+            <div class="main-layout slds-grid slds-gutters slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
+                    <div class="slds-grid slds-grid_vertical slds-gutters">
+                        <div class="slds-col">
+                            <aura:if isTrue="{!v.participantState.value != 'ALUMNI'}">
+                                <aura:if
+                                        isTrue="{!!empty(v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}">
+                                    <div class="rr-white-panel hp-logo-panel">
+                                        <img src="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c}"/>
+                                    </div>
+                                </aura:if>
+                                <aura:if
+                                        isTrue="{!empty(v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}">
+                                    <div class="rr-white-panel hp-logo-panel logo-text">
+                                        {!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                                    </div>
+                                </aura:if>
+                            </aura:if>
+                            <aura:if isTrue="{!v.participantState.value == 'ALUMNI'}">
+                                <div class="rr-width-limiter">
+                                    <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.png'}"/>
+                                </div>
+                            </aura:if>
+                        </div>
+                        <!-- payments-->
+                        <aura:if
+                                isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Payment_Is_Available__c, v.participantState.value != 'ALUMNI')}">
+                            <div class="slds-col">
+                                <c:PaymentsPanel/>
+                            </div>
+                        </aura:if>
+                        <aura:if
+                                isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Tasks_Are_Available__c, v.participantState.value == 'ALUMNI')}">
+                            <div class="slds-col">
+                                <c:OpenTaskPreviewPanel isAlumni="{!v.participantState.value == 'ALUMNI'}"/>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}">
+                            <div class="slds-col">
+                                <c:UpcomingVisitsPreviewPanel/>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c, v.participantState.value == 'ALUMNI')}">
+                            <div class="slds-col">
+                                <c:TravelSupportPanel/>
+                            </div>
+                        </aura:if>
+                        <div class="slds-col">
+                            <c:RelevantLinks/>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
+                    <aura:if isTrue="{!v.participantState.value != 'ALUMNI'}">
+                        <c:ParticipantStatePanel/>
+                        <c:VisitResultsDashboardCard
+                                ctpId="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"/>
+                    </aura:if>
+                    <aura:if
+                            isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c, v.participantState.value == 'ALUMNI')}">
+                        <c:ResourceDashboardCard/>
+                    </aura:if>
+                </div>
+            </div>
+            <c:ParticipantIRBChecker peId="{!v.participantState.pe.Id}"/>
+        </aura:if>
+        <div style="height: 30px"></div>
+    </div>
+</aura:component>

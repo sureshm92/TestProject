@@ -11,7 +11,7 @@ public without sharing class CommunityFacadeRemote {
     }
     
     @AuraEnabled
-    public static void accpetTerms() {
+    public static void acceptTerms() {
         try {
             User user = [SELECT Id, Contact.Is_First_Logon__c, ContactId FROM User WHERE Id = :UserInfo.getUserId()];
             Contact cont = [SELECT Id FROM Contact WHERE Id = :user.ContactId];
@@ -25,7 +25,6 @@ public without sharing class CommunityFacadeRemote {
     private class CommunityData {
         String communityMode;
         String communityDelegateId;
-        List<CommunityType> communityTypes;
         Boolean isDelegate;
         String state;
         String pathPrefix;
@@ -34,7 +33,6 @@ public without sharing class CommunityFacadeRemote {
         List<String> preventedCookies;
         Boolean isNewSession;
         String baseUrl;
-        Boolean showPastStudies;
         List<CommunityMode> allUserModes;
         CommunityMode currentUserMode;
     }
@@ -66,7 +64,6 @@ public without sharing class CommunityFacadeRemote {
             cd.preventedCookies = getPreventedCookies(userContact.Id);
             cd.isDelegate = userContact.UserCommunityIsDelegate__c;
             cd.baseUrl = Site.getBaseUrl();
-            
             return JSON.serialize(cd);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());

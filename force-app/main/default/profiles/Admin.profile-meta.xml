@@ -233,6 +233,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_UpdatePETrialCompleteAndSendNotify</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_UpdateRecords</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -358,6 +362,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>CommunityServiceException</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CommunityTemplateService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1105,6 +1113,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ResourceForStudyResFlowRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ResourceNotifierRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1514,6 +1526,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_UpdatePESourceType</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_UpdatePETrialCompleteNotify</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2160,6 +2176,10 @@
         <apexClass>VisitTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>XLF_PatternListRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <custom>false</custom>
     <fieldPermissions>
         <editable>true</editable>
@@ -2489,6 +2509,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Co_morbidity__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Community_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2967,6 +2992,31 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>CommunityTemplate_Property__mdt.Community_Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>CommunityTemplate_Property__mdt.Value__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Community_Template_Selector__c.Participant_Enrollment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Community_Template_Selector__c.Template_Selector_Formula__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Community_Template__mdt.Community_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Accepts_Reimbursement_for_Referral__c</field>
         <readable>true</readable>
@@ -3254,6 +3304,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact_Topic__c.Topic__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Conversation__c.FirstUnreadDate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3923,6 +3978,36 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Daytime_Phone_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Email_Address__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_First_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Last_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Middle_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Phone_Number_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Integration_Patient_Referral__c.Error_Message__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4428,6 +4513,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Message__c.ContentDocumentId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Message__c.Message_Content__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4739,6 +4829,31 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Informed_Consent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Initial_visit_occurred_date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Initial_visit_occurred_flag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Initial_visit_scheduled_date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Initial_visit_scheduled_flag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Initial_visit_scheduled_time__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5649,6 +5764,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Res_study__c.Notify_On_Availability__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Res_study__c.Resource_title__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6858,6 +6978,15 @@
         <layout>Clinical_Trial_Profile__c-Clinical Trial Profile Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>CommunityTemplate_Property__mdt-Community Template Property Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Community_Template_Selector__c-Community Template Selector Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Community_Template__mdt-Community Template Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Contact-Contact Layout</layout>
         <recordType>Contact.MASTER</recordType>
     </layoutAssignments>
@@ -7293,6 +7422,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Clinical_Trial_Profile__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Community_Template_Selector__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

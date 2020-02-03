@@ -18,8 +18,6 @@ import attFileLabel from '@salesforce/label/c.MS_Attach_File';
 import sendBtnLabel from '@salesforce/label/c.BTN_Send';
 import teamLabel from '@salesforce/label/c.Study_Team';
 import piLabel from '@salesforce/label/c.PI_Colon';
-import toastSTSend from '@salesforce/label/c.MS_Toast_Message_ST_Send';
-import toastPASend from '@salesforce/label/c.MS_Toast_Message_PA_Send';
 
 import createConversation from '@salesforce/apex/MessagePageRemote.createConversation';
 import sendMessage from '@salesforce/apex/MessagePageRemote.sendMessage';
@@ -43,6 +41,8 @@ export default class MessageBoard extends LightningElement {
         piLabel
     };
 
+    fileTypes = '.csv,.doc,.jpg,.pdf,.png,.xls';
+
     @api userMode;
     @api firstConWr;
 
@@ -60,7 +60,12 @@ export default class MessageBoard extends LightningElement {
     @track recipientSelections = [];
 
     @track messageText;
+    @track isSendEnable;
+    @track isHoldMode;
     @track hideEmptyStub;
+    needAfterRenderSetup;
+
+    contentDocId;
 
     //Public Methods:---------------------------------------------------------------------------------------------------
     @api
@@ -69,15 +74,20 @@ export default class MessageBoard extends LightningElement {
     }
 
     @api
-    startNew(enrollments, isPastStudy) {
+    startNew(enrollments, statusByPeMap) {
         this.conversation = null;
         this.messageWrappers = [];
-        if (isPastStudy !== undefined) this.isPastStudy = isPastStudy;
+        this.isPastStudy = false;
 
         this.enrollments = enrollments;
         this.isMultipleMode = enrollments.length > 1;
-        if (!this.isMultipleMode) this.selectedEnrollment = enrollments[0];
+        if (!this.isMultipleMode) {
+            this.selectedEnrollment = enrollments[0];
 
+            if (this.userMode === 'Participant') this.isPastStudy = statusByPeMap[this.selectedEnrollment.Id];
+        }
+
+        this.needAfterRenderSetup = true;
         this.hideEmptyStub = true;
     }
 
@@ -91,7 +101,9 @@ export default class MessageBoard extends LightningElement {
         this.conversation = conversation;
         this.messageWrappers = messageWrappers;
         this.selectedEnrollment = conversation.Participant_Enrollment__r;
+        this.isHoldMode = !conversation.Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c;
 
+        this.needAfterRenderSetup = true;
         this.hideEmptyStub = true;
     }
 
@@ -108,6 +120,18 @@ export default class MessageBoard extends LightningElement {
         if (this.firstConWr && !this.hideEmptyStub && !this.conversation && !this.enrollments) {
             this.openExisting(this.firstConWr.conversation, this.firstConWr.messages, this.firstConWr.isPastStudy);
         }
+
+        if(this.needAfterRenderSetup) {
+            let context = this;
+            setTimeout(function () {
+                context.clearMessage();
+                context.template.querySelector('.ms-board-footer').style.pointerEvents = context.isHoldMode ? 'none' : 'all';
+            }, 50);
+
+            this.needAfterRenderSetup = false;
+        }
+
+        // this.template.addEventListener('uploadfinished', this.handleUploadFinished);
     }
 
     //Search Handlers:--------------------------------------------------------------------------------------------------
@@ -127,10 +151,8 @@ export default class MessageBoard extends LightningElement {
     }
 
     handleSelectionChange() {
-        let lookUpResult = this.template.querySelector('c-web-lookup').getSelection();
-        this.selectedEnrollments = lookUpResult.map(function (res) {
-            return res.id
-        });
+        let lookUp = this.template.querySelector('c-web-lookup');
+        if (lookUp) this.selectedEnrollments = lookUp.getSelection();
         this.checkSendBTNAvailability();
     }
 
@@ -146,10 +168,11 @@ export default class MessageBoard extends LightningElement {
     handleMessageText(event) {
         this.messageText = event.target.value;
         this.checkSendBTNAvailability();
+        this.changeAttachStyle();
     }
 
     handleInputEnter(event) {
-        if (this.messageText && event.keyCode === 13) this.handleSendClick();
+        if (!this.isHoldMode && this.messageText && event.keyCode === 13) this.handleSendClick();
     }
 
     handleSendClick(event) {
@@ -161,6 +184,7 @@ export default class MessageBoard extends LightningElement {
                 })
                 .catch(error => {
                     console.error('Error in sendMultipleMessage():' + JSON.stringify(error));
+                    this.notifyUser('Error', error.message, 'error');
                 });
         } else {
             if (!this.conversation && this.selectedEnrollment) {
@@ -170,17 +194,33 @@ export default class MessageBoard extends LightningElement {
                     })
                     .catch(error => {
                         console.error('Error in createConversation():' + JSON.stringify(error));
+                        this.notifyUser('Error', error.message, 'error');
                     });
             } else {
+                let docId = this.contentDocId ? this.contentDocId : null;
                 sendMessage({conversation: this.conversation, messageText: this.messageText})
                     .then(data => {
                         this.fireSendEvent(data);
                     })
                     .catch(error => {
                         console.error('Error in sendMessage():' + JSON.stringify(error));
+                        this.notifyUser('Error', error.message, 'error');
                     });
             }
         }
+    }
+
+    handleUploadFinished(event) {
+        console.log('handleUploadFinished Enter');
+        if (event.detail.files) {
+            console.log('>>Doc id:' + event.detail.files[0].documentId);
+
+            this.contentDocId = event.detail.files[0].documentId;
+        }
+    }
+
+    handleTMP(event) {
+        console.log('>Click');
     }
 
     //Picklist Options:-------------------------------------------------------------------------------------------------
@@ -217,7 +257,9 @@ export default class MessageBoard extends LightningElement {
 
     clearMessage() {
         this.messageText = null;
+        this.isSendEnable = false;
         this.template.querySelector('.ms-send-button').setAttribute('disabled', '');
+        this.changeAttachStyle();
     }
 
     fireSendEvent(wrapper) {
@@ -227,9 +269,6 @@ export default class MessageBoard extends LightningElement {
             }
         }));
         this.clearMessage();
-
-        let toastLabel = this.userMode === 'PI' ? toastPASend : toastSTSend;
-        this.notifyUser('', toastLabel, 'success');
     }
 
     fireMultipleSendEvent() {
@@ -242,10 +281,20 @@ export default class MessageBoard extends LightningElement {
 
     checkSendBTNAvailability() {
         let sendBtn = this.template.querySelector('.ms-send-button');
-        if (this.messageText && (this.selectedEnrollment || this.selectedEnrollments)) {
+        if (this.messageText && (this.selectedEnrollment || this.selectedEnrollments) && !this.isHoldMode) {
+            this.isSendEnable = true;
             sendBtn.removeAttribute('disabled');
         } else {
+            this.isSendEnable = false;
             sendBtn.setAttribute('disabled', '');
+        }
+    }
+
+    changeAttachStyle() {
+        let attachBTN = this.template.querySelector('.ms-att-file-label');
+        if (attachBTN) {
+            attachBTN.style.opacity = this.isSendEnable ? 1 : 0.5;
+            attachBTN.style.pointerEvents = this.isSendEnable ? 'all' : 'none';
         }
     }
 }

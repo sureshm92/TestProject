@@ -3,7 +3,7 @@
     <fullName>IVRS_IWRS__c</fullName>
     <externalId>false</externalId>
     <inlineHelpText>Stored at IWRS field</inlineHelpText>
-    <label>IVRS/IWRS#</label>
+    <label>Screening ID 1</label>
     <length>255</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>

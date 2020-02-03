@@ -42,7 +42,7 @@
                 <template if:false={isMultipleMode}>
                     <div class="ms-single-header">
                         <template if:false={isPIMode}>
-                            <div class="ms-header-name ms-header-team-name" data-gtm="ms-header-name-pa">
+                            <div class="ms-header-team-name" data-gtm="ms-header-name-pa">
                                 <template if:false={isPastStudy}>
                                     {labels.teamLabel}&nbsp;|&nbsp;{labels.piLabel}&nbsp;{selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name}
                                 </template>
@@ -55,7 +55,7 @@
                             </div>
                         </template>
                         <template if:true={isPIMode}>
-                            <div class="ms-header-name ms-header-patient-name"
+                            <div class="ms-header-patient-name"
                                  data-gtm="ms-header-patient-name">{selectedEnrollment.Participant__r.Full_Name__c}
                             </div>
                             <div class="ms-header-patient-study" data-gtm="ms-header-patient-study">
@@ -78,7 +78,8 @@
             <div class="ms-board-footer">
                 <template if:true={isPIMode}>
                     <div class="ms-send-pi">
-                        <lightning-input data-gtm="ms-pi-input" type="text" label="" variant="label-hidden"
+                        <lightning-input data-gtm="ms-pi-input"
+                                         type="text" label="" variant="label-hidden"
                                          max-length="500"
                                          placeholder={labels.inputPlaceholderLabel}
                                          value={messageText}
@@ -87,21 +88,31 @@
                         <div class="ms-send-pi-buttons">
                             <div style="flex-grow: 1;">{labels.limitLabel}</div>
 
-                            <div class="slds-form-element" style="margin: 0 12px;">
-                                <div class="slds-form-element__control">
-                                    <div class="slds-file-selector slds-file-selector_files">
-                                        <input type="file" class="slds-file-selector__input slds-assistive-text"
-                                               accept="image/png" id="file-upload-input-01"
-                                               aria-labelledby="file-selector-primary-label file-selector-secondary-label"/>
-                                        <label class="slds-file-selector__body" for="file-upload-input-01"
-                                               id="file-selector-secondary-label">
+                            <template if:true={conversation}>
+                                <div class="slds-form-element" style="margin: 0 12px;">
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-file-selector slds-file-selector_files">
+                                            <label class="slds-file-selector__body">
+                                                <template if:true={isSendEnable}>
+                                                    <lightning-file-upload
+                                                            style="opacity: 0; position: fixed"
+                                                            label=""
+                                                            name="fileUploader"
+                                                            accept={fileTypes}
+                                                            record-id={conversation.Id}
+                                                            onuploadfinished={handleUploadFinished}></lightning-file-upload>
+                                                </template>
                                                 <span class="slds-file-selector__button slds-button">
-                                                    <div class="ms-att-label">{labels.attFileLabel}</div>
+                                                    <span class="apollo-btn secondary ms-att-file-label" onclick={handleTMP}>{labels.attFileLabel}</span>
+                                                    <span class="ms-att-file-icon" onclick={handleTMP}>
+                                                        <c-web-icon icon-name="attachment" icon-color="#297DFD"></c-web-icon>
+                                                    </span>
                                                 </span>
-                                        </label>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </template>
 
                             <button data-gtm="ms-send-pi-button" class="apollo-btn primary ms-send-button"
                                     onclick={handleSendClick} disabled>{labels.sendBtnLabel}
@@ -112,8 +123,8 @@
                 <template if:false={isPIMode}>
                     <div class="ms-send-part">
                         <lightning-combobox
-                                data-gtm="ms-pa-select"
                                 style="flex-basis: 85%;"
+                                data-gtm="ms-pa-select"
                                 label={labels.selectLabel}
                                 value={messageText}
                                 placeholder={labels.selectPlaceholderLabel}

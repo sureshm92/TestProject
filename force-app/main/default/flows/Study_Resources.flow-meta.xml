@@ -35,6 +35,14 @@
         </value>
     </choices>
     <choices>
+        <name>Content_Class_choice</name>
+        <choiceText>Study-Specific</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <elementReference>Content_Class</elementReference>
+        </value>
+    </choices>
+    <choices>
         <name>Exist</name>
         <choiceText>Choose existing resource</choiceText>
         <dataType>String</dataType>
@@ -829,7 +837,7 @@
         <inputAssignments>
             <field>Resource__c</field>
             <value>
-                <elementReference>Recources_for_StudyRes</elementReference>
+                <elementReference>Exist_recource_variable</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -909,7 +917,7 @@
         </fields>
         <fields>
             <name>Content_Class_field_recordtypeArticle</name>
-            <choiceReferences>ContentClass_picklist</choiceReferences>
+            <choiceReferences>Content_Class_choice</choiceReferences>
             <dataType>String</dataType>
             <fieldText>Content Class</fieldText>
             <fieldType>DropdownBox</fieldType>
@@ -1092,11 +1100,11 @@
             </inputParameters>
             <isRequired>true</isRequired>
             <outputParameters>
-                <assignToReference>Recources_for_StudyRes</assignToReference>
+                <assignToReference>Exist_recource_variable</assignToReference>
                 <name>recordId</name>
             </outputParameters>
         </fields>
-        <showFooter>true</showFooter>
+        <showFooter>false</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <screens>
@@ -1383,7 +1391,7 @@
         <name>Upload_File</name>
         <label>Upload File</label>
         <locationX>302</locationX>
-        <locationY>2131</locationY>
+        <locationY>2130</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1416,15 +1424,21 @@
                 <name>recordId</name>
             </outputParameters>
         </fields>
+        <fields>
+            <name>footerWothButtonFinish</name>
+            <extensionName>c:FooterWithFinishButton</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
         <pausedText>&lt;p&gt;lk&lt;/p&gt;</pausedText>
-        <showFooter>true</showFooter>
+        <showFooter>false</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Video_type_record</name>
         <label>Video</label>
         <locationX>184</locationX>
-        <locationY>890</locationY>
+        <locationY>889</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1465,7 +1479,7 @@
         </fields>
         <fields>
             <name>Content_Class_field_recordtypeArticle_0</name>
-            <choiceReferences>ContentClass_picklist</choiceReferences>
+            <choiceReferences>Content_Class_choice</choiceReferences>
             <dataType>String</dataType>
             <fieldText>Content Class</fieldText>
             <fieldType>DropdownBox</fieldType>
@@ -1630,6 +1644,13 @@
         <isInput>true</isInput>
         <isOutput>false</isOutput>
         <objectType>Clinical_Trial_Profile__c</objectType>
+    </variables>
+    <variables>
+        <name>Exist_recource_variable</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
     </variables>
     <variables>
         <name>IdfirstRecord</name>

@@ -15,6 +15,7 @@
     min-height: 10px;
     margin-right: 5px;
 }
+
 .con-unread-bubble {
     background: #297dfd;
     border-radius: 50%;
@@ -48,17 +49,39 @@
     font-weight: 600;
     font-size: 18px;
     line-height: 22px;
+    color: #000;
 }
 
 .con-time {
+    color: #444444;
+    font-family: "Proxima Nova";
     font-size: 14px;
+    line-height: 17px;
 }
 
 .con-description {
+    color: #444444;
+    font-family: "Proxima Nova";
     font-size: 14px;
+    line-height: 17px;
+}
+
+.con-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .con-last-message-part {
+    color: #444444;
+    font-family: "Proxima Nova";
     font-size: 16px;
+    line-height: 19px;
     padding-top: 8px;
+}
+
+@media all and (max-width: 480px) {
+    .con-wrapper {
+        width: 341px;
+    }
 }

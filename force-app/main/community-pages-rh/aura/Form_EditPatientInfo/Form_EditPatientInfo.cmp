@@ -3,8 +3,7 @@
  -->
 
 <aura:component description="Form_EditPatientInfo">
-    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
     
     <!-- public attributes: -->
     <aura:attribute name="pe" type="Participant_Enrollment__c" access="public"/>
@@ -214,7 +213,7 @@
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                     <div class="label">{!$Label.c.Source_ID}
                     <span>
-                        <lightning:helptext content="{!$Label.c.PG_AS_F_Source_ID_Help_Text}"/>
+                        <lightning:helptext class="helpTextTop" content="{!$Label.c.PG_AS_F_Source_ID_Help_Text}" />
                     </span>
                     </div>
                     <aura:if isTrue="{!v.pe.Referral_Source__c == 'PI'}">
@@ -228,11 +227,11 @@
                     </aura:if>
 
                 </div>
-                    <aura:if isTrue="{!v.pe.IVRS_IWRS__c}">
-                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                    <div class="label">{!$Label.c.IWRSIWRS_ID}</div>
-                    <lightning:input aura:id="IvrsIwrsId" type="text" value="{!v.pe.IVRS_IWRS__c}" onblur="{!c.doCheckFields}" disabled="true"/>
-                </div>
+                    <aura:if isTrue="{!v.pe.Screening_ID__c}">
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                            <div class="label">{!$Label.c.PG_AS_F_Screening_Subject_ID}</div>
+                            <lightning:input aura:id="ScreeningId" type="text" value="{!v.pe.Screening_ID__c}" onblur="{!c.doCheckFields}" disabled="true"/>
+                        </div>
                     </aura:if>
 
                 <aura:if isTrue="{!v.pe.Visit_Plan__c}">

@@ -1,0 +1,60 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="SSTableHeaderCols">
+
+    <aura:attribute name="scrollLeft" type="Integer" default="0"/>
+    <aura:attribute name="filter" type="Object"/>
+
+    <aura:registerEvent name="onSort" type="c:uiEvent" access="global"/>
+
+    <!-- component body -->
+    <c:uiCol isFixed="true" isHeader="true" scrollLeft="{!v.scrollLeft}">
+        <div data-order="country" class="sorted-column" onclick="{!c.doSort}">
+            <div class="slds-truncate">
+                Country
+            </div>
+            <aura:if isTrue="{!v.filter.sortField == 'country'}">
+                <div class="slds-m-left--x-small">
+                    <lightning:icon
+                            iconName="{!'utility:' + if(v.filter.sortDirection == 'DESC', 'arrowdown', 'arrowup')}"
+                            alternativeText=""
+                            variant="success"
+                            size="xx-small"/>
+                </div>
+            </aura:if>
+        </div>
+    </c:uiCol>
+    <c:uiCol isFixed="true" isHeader="true" scrollLeft="{!v.scrollLeft}" width="200px">
+        <div data-order="name" class="sorted-column" onclick="{!c.doSort}">
+            <div class="slds-truncate">
+                Study Site
+            </div>
+            <aura:if isTrue="{!v.filter.sortField == 'name'}">
+                <div class="slds-m-left--x-small">
+                    <lightning:icon
+                            iconName="{!'utility:' + if(v.filter.sortDirection == 'DESC', 'arrowdown', 'arrowup')}"
+                            alternativeText=""
+                            variant="success"
+                            size="xx-small"/>
+                </div>
+            </aura:if>
+        </div>
+    </c:uiCol>
+    <c:uiCol isFixed="true" isHeader="true" scrollLeft="{!v.scrollLeft}">
+        <div data-order="number" class="sorted-column" onclick="{!c.doSort}">
+            <div>Study Site Number</div>
+            <aura:if isTrue="{!v.filter.sortField == 'number'}">
+                <div class="slds-m-left--x-small slds-align--absolute-center">
+                    <lightning:icon
+                            iconName="{!'utility:' + if(v.filter.sortDirection == 'DESC', 'arrowdown', 'arrowup')}"
+                            alternativeText=""
+                            variant="success"
+                            size="xx-small"/>
+                </div>
+            </aura:if>
+        </div>
+    </c:uiCol>
+
+</aura:component>
