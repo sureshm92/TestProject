@@ -134,7 +134,8 @@
                                        changeStatusBtnList="{!v.changeStatusBtnList}"
                                        parent="{!this}"
                                        userMode="{!v.userMode}"
-                                       isInvited="{!item.isInvited}"/>
+                                       isInvited="{!item.isInvited}"
+                                       hasEmancipatedParticipants="{!item.hasEmancipatedParticipants}"/>
                 </aura:iteration>
             </div>
 
@@ -151,6 +152,7 @@
 
             <c:Action_ParticipantMrrResult aura:id="openSearch"/>
 
+            <c:Action_ParticipantEmansipationWizard aura:id="emansipationWizard"/>
 
         </aura:if>
     </div>

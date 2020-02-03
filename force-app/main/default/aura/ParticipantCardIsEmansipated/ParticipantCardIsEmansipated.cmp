@@ -6,7 +6,6 @@
 
     <!-- attributes: -->
     <aura:attribute name="pe" type="Object"/>
-    <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="needEmancipationProcess" type="Boolean" default="false"/>
 
     <!-- handlers: -->

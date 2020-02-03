@@ -250,6 +250,7 @@ global without sharing class EmailTemplateController {
                         titleLabel = LABEL_TITLE_ALL;
                         signatureLabel = LABEL_SIGNATURE;
                         userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
+                        dataProvider = new ParametersDataProvider(sourceRecordId, emailRecipientName, emailRecipientId, emailRecipientLanguage, emailParametersProvider, userCommunityType, outputMode, false);
                     } else if (!PIpeMap.isEmpty()){
                         if (PIpeMap.keySet().size() > 1) {
                             multiplePIMessageValue = true;

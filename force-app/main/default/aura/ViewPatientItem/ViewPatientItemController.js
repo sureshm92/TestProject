@@ -6,11 +6,6 @@
         if (component.get('v.pe')) {
             helper.preparePathItems(component);
             component.find('spinner').hide();
-
-            let pe = component.get('v.pe');
-            if (pe.Participant__r && pe.Participant__r.Adult__c && communityService.getUserMode() != 'Participant') {
-                component.set('v.parent.parent.hasEmancipatedParticipants', pe.Participant__r.Adult__c);
-            }
         }
     },
 
@@ -56,8 +51,9 @@
         var pe = component.get('v.pe');
         var pathItems = component.get('v.pathItems');
         var actions = component.get('v.actions');
+        var isInvited = component.get('v.isInvited');
         var anchor = event.currentTarget.value;
-        rootComponent.find('updatePatientInfoAction').execute(pe, pathItems, anchor, actions, rootComponent, function (enrollment) {
+        rootComponent.find('updatePatientInfoAction').execute(pe, pathItems, anchor, actions, rootComponent, isInvited, function (enrollment) {
             component.set('v.pe', enrollment);
             rootComponent.find('updatePatientInfoAction').set('v.pathItems', component.get('v.pathItems'));
                 rootComponent.refresh();

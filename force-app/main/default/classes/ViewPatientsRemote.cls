@@ -28,11 +28,11 @@ public without sharing class ViewPatientsRemote {
             this.pItem = new ParticipantItem(pe);
             this.actions = actions;
         }
-        public PEWrapper(Participant_Enrollment__c pe, Map<String, StudyActions.Action> actions, boolean isInvited){
+        public PEWrapper(Participant_Enrollment__c pe, Map<String, StudyActions.Action> actions, Boolean isInvited){
             this.pItem = new ParticipantItem(pe);
             this.actions = actions;
             this.isInvited = isInvited;
-            this.hasEmancipatedParticipants = pe.Participant__r != null ? pe.Participant__r.Adult__c : false;
+            this.hasEmancipatedParticipants = pe.Participant__r != null ? pe.Participant__r.Emancipation_in_progress__c : false;
         }
     }
 
