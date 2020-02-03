@@ -3,8 +3,7 @@
  -->
 
 <aura:component description="CustomThemLayoutNoNavigation" implements="forceCommunity:themeLayout" extends="c:CheckLanguage">
-    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="mode" type="String"/>

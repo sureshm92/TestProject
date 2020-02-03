@@ -31,11 +31,11 @@
                 </aura:if>
             </div>
         </c:uiCol>
-        <c:uiCol isFixed="true" class="cell" scrollLeft="{!v.scrollLeft}">
+        <c:uiCol isFixed="true" class="cell cell-center" scrollLeft="{!v.scrollLeft}">
             <div class="slds-truncate" title="">{!v.item.ss.Study_Site_Number__c}</div>
         </c:uiCol>
         <aura:if isTrue="{!v.isSingleChoice}">
-            <c:uiCol isFixed="true" class="cell" scrollLeft="{!v.scrollLeft}">
+            <c:uiCol class="cell cell-center" scrollLeft="{!v.scrollLeft}">
                 <div class="slds-truncate" title="">
                     <ui:inputRadio value="{!v.item.emptyAssignments}"
                                    label="none"
@@ -46,7 +46,7 @@
         </aura:if>
 
         <aura:iteration items="{!v.item.assignments}" var="asg">
-            <c:uiCol class="cell center" scrollLeft="{!v.scrollLeft}">
+            <c:uiCol class="cell cell-center" scrollLeft="{!v.scrollLeft}">
                 <aura:if isTrue="{!v.isSingleChoice}">
                     <ui:inputRadio value="{!asg.state}"
                                    label="{!asg.value}"

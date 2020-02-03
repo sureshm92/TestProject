@@ -32,7 +32,7 @@ public without sharing class MessagePageRemote {
 
     public class AttachmentWrapper {
 
-        private Map<String, String> iconByExtention = new Map<String, String>{
+        private Map<String, String> iconByExtension = new Map<String, String>{
                 'csv' => 'attach-file-csv',
                 'doc' => 'attach-file-doc',
                 'jpg' => 'attach-file-jpg',
@@ -47,8 +47,8 @@ public without sharing class MessagePageRemote {
 
         public AttachmentWrapper(ContentDocumentLink doc) {
             fileName = doc.ContentDocument.Title + '.' + doc.ContentDocument.FileExtension;
-            fileIcon = iconByExtention.containsKey(doc.ContentDocument.FileExtension) ?
-                    iconByExtention.get(doc.ContentDocument.FileExtension) : 'icon-blank';
+            fileIcon = iconByExtension.containsKey(doc.ContentDocument.FileExtension) ?
+                    iconByExtension.get(doc.ContentDocument.FileExtension) : 'icon-blank';
             downloadLink += doc.ContentDocumentId;
         }
     }
@@ -70,9 +70,11 @@ public without sharing class MessagePageRemote {
                         ContactService.getPastEnrollments(participantState.participant.Contact__c);
                 if (!pastEnrollments.isEmpty()) participantEnrollments.addAll(pastEnrollments);
 
+                Set<Id> availablePEIds = new Set<Id>();
                 pageData.enrollments = new List<Participant_Enrollment__c>();
                 pageData.statusByPeMap = new Map<Id, Boolean>();
                 for (Participant_Enrollment__c pe : participantEnrollments) {
+                    availablePEIds.add(pe.Id);
                     if (pe.Study_Site__r.Messages_Are_Available__c) {
                         pageData.enrollments.add(pe);
                         pageData.statusByPeMap.put(pe.Id, PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c));
@@ -80,9 +82,6 @@ public without sharing class MessagePageRemote {
                 }
 
                 //Collect Conversations
-                Set<Id> availablePEIds = new Set<Id>();
-                for (Participant_Enrollment__c pe : pageData.enrollments) availablePEIds.add(pe.Id);
-
                 if (sharedConversations != null) {
                     for (Conversation__c con : sharedConversations) {
                         if (availablePEIds.contains(con.Participant_Enrollment__c)) conversations.add(con);
@@ -117,9 +116,13 @@ public without sharing class MessagePageRemote {
                 for (Id conId : messagesByConversation.keySet()) {
                     Conversation__c conversation = conversationsByIds.get(conId);
                     if(String.valueOf(conId).equals(firstConId)) {
-                        conversation.haveUnreadForParticipant__c = false;
-                        conversation.haveUnreadForPI__c = false;
-                        update conversation;
+                        if(pageData.userMode.equals(CommunityService.USER_MODE_PI) && conversation.haveUnreadForPI__c) {
+                            conversation.haveUnreadForPI__c = false;
+                            update conversation;
+                        } else if(pageData.userMode.equals(CommunityService.USER_MODE_PARTICIPANT) && conversation.haveUnreadForParticipant__c) {
+                            conversation.haveUnreadForParticipant__c = false;
+                            update conversation;
+                        }
                     }
                     pageData.conversationWrappers.add(getConversationWrapper(
                             pageData.userMode, conversation,

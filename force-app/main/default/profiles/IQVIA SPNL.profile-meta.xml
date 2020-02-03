@@ -365,6 +365,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CommunityTemplateService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ConditionOfInterestRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -2508,6 +2512,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Community_Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Condition_s_Therapeutic_Area__c</field>
         <readable>true</readable>
@@ -2981,6 +2990,31 @@
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.ePR_enabled__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>CommunityTemplate_Property__mdt.Community_Template__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>CommunityTemplate_Property__mdt.Value__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Community_Template_Selector__c.Participant_Enrollment__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Community_Template_Selector__c.Template_Selector_Formula__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Community_Template__mdt.Community_Name__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -5733,6 +5767,11 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Res_study__c.Resource_title__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Res_study__c.Visible_In_Alumni__c</field>
         <readable>false</readable>
@@ -6937,6 +6976,15 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Clinical_Trial_Profile__c-Clinical Trial Profile Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CommunityTemplate_Property__mdt-Community Template Property Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Community_Template_Selector__c-Community Template Selector Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Community_Template__mdt-Community Template Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Contact-IQVIA Contact Layout</layout>
