@@ -4,6 +4,10 @@
     background: linear-gradient(to right, #F35C04 0%, #F7EC68 100%);
 }
 
+.mobile-menu-background{
+    background: linear-gradient(to right, #F35C04 0%, #F7EC68 100%);
+}
+
 .slds-spinner_brand.slds-spinner:before,
 .slds-spinner_brand.slds-spinner:after,
 .slds-spinner--brand.slds-spinner:before,

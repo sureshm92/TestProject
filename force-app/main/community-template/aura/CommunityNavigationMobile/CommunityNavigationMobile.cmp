@@ -11,7 +11,7 @@
     <!-- component body: -->
     <div class="cnm-z-order rr-overlay" onclick="{!c.hideMenu}" style="{!if(v.showSideMenu, '', 'visibility:hidden')}"></div>
     <nav class="{!v.class + ' cnm-z-order overlay ' + if(v.showSideMenu, ' dark ', '')}" onclick="{!c.hideMenu}">
-        <ul class="{!'nav-menu ' + if(v.showSideMenu, 'show', '')}">
+        <ul class="{!'mobile-menu-background nav-menu ' + if(v.showSideMenu, 'show', '')}">
             <aura:iteration items="{!v.menuItems}" var="item" >
                 <li class="{!item.page == v.currentPage ? 'nav-item active' : 'nav-item'}" data-page-name="{!item.page}" onclick="{!c.onClick}">
                     <div class="nav-menu-item-content">
