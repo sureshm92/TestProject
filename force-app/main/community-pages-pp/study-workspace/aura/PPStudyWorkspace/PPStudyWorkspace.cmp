@@ -210,7 +210,7 @@
                         <c:StudyVisits visitPlanAvailable="{!v.studyDetail.trial.Visit_Schedule_Is_Available__c}"/>
                     </aura:if>
                     <aura:if isTrue="{!and(v.currentTab == 'tab-visits', v.visitMode == 'TravelSupportDetails')}">
-                        <c:TravelSupportDetails />
+                        <c:TravelSupportDetails/>
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-tasks'}">
