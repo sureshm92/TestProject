@@ -18,8 +18,6 @@ import attFileLabel from '@salesforce/label/c.MS_Attach_File';
 import sendBtnLabel from '@salesforce/label/c.BTN_Send';
 import teamLabel from '@salesforce/label/c.Study_Team';
 import piLabel from '@salesforce/label/c.PI_Colon';
-import toastSTSend from '@salesforce/label/c.MS_Toast_Message_ST_Send';
-import toastPASend from '@salesforce/label/c.MS_Toast_Message_PA_Send';
 
 import createConversation from '@salesforce/apex/MessagePageRemote.createConversation';
 import sendMessage from '@salesforce/apex/MessagePageRemote.sendMessage';
@@ -43,6 +41,8 @@ export default class MessageBoard extends LightningElement {
         piLabel
     };
 
+    fileTypes = '.csv,.doc,.jpg,.pdf,.png,.xls';
+
     @api userMode;
     @api firstConWr;
 
@@ -60,7 +60,10 @@ export default class MessageBoard extends LightningElement {
     @track recipientSelections = [];
 
     @track messageText;
+    @track isSendEnable;
     @track hideEmptyStub;
+
+    contentDocId;
 
     //Public Methods:---------------------------------------------------------------------------------------------------
     @api
@@ -69,14 +72,18 @@ export default class MessageBoard extends LightningElement {
     }
 
     @api
-    startNew(enrollments, isPastStudy) {
+    startNew(enrollments, statusByPeMap) {
         this.conversation = null;
         this.messageWrappers = [];
-        if (isPastStudy !== undefined) this.isPastStudy = isPastStudy;
+        this.isPastStudy = false;
 
         this.enrollments = enrollments;
         this.isMultipleMode = enrollments.length > 1;
-        if (!this.isMultipleMode) this.selectedEnrollment = enrollments[0];
+        if (!this.isMultipleMode) {
+            this.selectedEnrollment = enrollments[0];
+
+            if(this.userMode === 'Participant') this.isPastStudy = statusByPeMap[this.selectedEnrollment.Id];
+        }
 
         this.hideEmptyStub = true;
     }
@@ -108,6 +115,8 @@ export default class MessageBoard extends LightningElement {
         if (this.firstConWr && !this.hideEmptyStub && !this.conversation && !this.enrollments) {
             this.openExisting(this.firstConWr.conversation, this.firstConWr.messages, this.firstConWr.isPastStudy);
         }
+
+        this.template.addEventListener('uploadfinished', this.handleUploadFinished);
     }
 
     //Search Handlers:--------------------------------------------------------------------------------------------------
@@ -144,6 +153,7 @@ export default class MessageBoard extends LightningElement {
     handleMessageText(event) {
         this.messageText = event.target.value;
         this.checkSendBTNAvailability();
+        this.changeAttachStyle();
     }
 
     handleInputEnter(event) {
@@ -159,6 +169,7 @@ export default class MessageBoard extends LightningElement {
                 })
                 .catch(error => {
                     console.error('Error in sendMultipleMessage():' + JSON.stringify(error));
+                    this.notifyUser('Error', error.message, 'error');
                 });
         } else {
             if (!this.conversation && this.selectedEnrollment) {
@@ -168,25 +179,28 @@ export default class MessageBoard extends LightningElement {
                     })
                     .catch(error => {
                         console.error('Error in createConversation():' + JSON.stringify(error));
+                        this.notifyUser('Error', error.message, 'error');
                     });
             } else {
-                sendMessage({conversation: this.conversation, messageText: this.messageText, docId: null})
+                let docId = this.contentDocId ? this.contentDocId : null;
+                sendMessage({conversation: this.conversation, messageText: this.messageText})
                     .then(data => {
                         this.fireSendEvent(data);
                     })
                     .catch(error => {
                         console.error('Error in sendMessage():' + JSON.stringify(error));
+                        this.notifyUser('Error', error.message, 'error');
                     });
             }
         }
     }
 
     handleUploadFinished(event) {
-        console.log('It\'s handled');
-        try {
-            console.log('File name: ' + event.detail.files[0].name);
-        } catch (e) {
-            console.error(e);
+        console.log('handleUploadFinished Enter');
+        if(event.detail.files) {
+            console.log('>>Doc id:' + event.detail.files[0].documentId);
+
+            this.contentDocId = event.detail.files[0].documentId;
         }
     }
 
@@ -224,7 +238,9 @@ export default class MessageBoard extends LightningElement {
 
     clearMessage() {
         this.messageText = null;
+        this.isSendEnable = false;
         this.template.querySelector('.ms-send-button').setAttribute('disabled', '');
+        this.changeAttachStyle();
     }
 
     fireSendEvent(wrapper) {
@@ -247,9 +263,19 @@ export default class MessageBoard extends LightningElement {
     checkSendBTNAvailability() {
         let sendBtn = this.template.querySelector('.ms-send-button');
         if (this.messageText && (this.selectedEnrollment || this.selectedEnrollments)) {
+            this.isSendEnable = true;
             sendBtn.removeAttribute('disabled');
         } else {
+            this.isSendEnable = false;
             sendBtn.setAttribute('disabled', '');
+        }
+    }
+
+    changeAttachStyle() {
+        let attachBTN = this.template.querySelector('.ms-att-file-label');
+        if(attachBTN) {
+            attachBTN.style.opacity = this.isSendEnable ? 1 : 0.5;
+            attachBTN.style.pointerEvents = this.isSendEnable ? 'all' : 'none';
         }
     }
 }

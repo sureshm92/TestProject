@@ -1,8 +1,25 @@
 /**
  * Created by Igor Malyuta on 21.12.2019.
  */
+.ms-disc-place {
+    min-height: 40px;
+}
+
+.ms-disclaimer {
+    height: 40px;
+    background-color: #fff;
+    border: 1px solid #e9e9e9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,.04);
+    color: #000;
+    font-size: 14px;
+    font-weight: 700;
+}
+
 .ms-page {
-    padding-top: 32px;
+    padding-top: 7px;
 }
 
 .ms-container {
@@ -54,7 +71,7 @@
 }
 
 .ms-new-mode {
-    height: 68px;
+    min-height: 68px;
     display: flex;
     align-items: center;
     padding-left: 25px;

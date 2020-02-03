@@ -136,20 +136,23 @@
 
 .ms-send-pi-buttons {
     padding-top: 10px;
+    min-height: 67px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
 .ms-att-file-label {
-    height: 24px;
-    width: 72px;
+    height: 32px;
+    width: 100px;
     color: #0768FD;
     font-family: "Proxima Nova";
     font-size: 14px;
     font-weight: 500;
     line-height: 24px;
     text-align: center;
+    pointer-events: none;
+    opacity: 0.5;
 }
 
 .ms-empty-chat {

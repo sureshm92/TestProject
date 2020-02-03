@@ -1,0 +1,29 @@
+<!--
+ - Created by Olga Skrynnikova on 1/29/2020.
+ -->
+
+<aura:component description="ResourceForStudyResFlow"
+                implements="flexipage:availableForAllPageTypes,force:hasRecordId, lightning:availableForFlowScreens"
+                access="global" controller="ResourceForStudyResFlowRemote">
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <!--attribute: -->
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="resourceList" type="List"/>
+    <aura:attribute name="resourceId" type="String"/>
+    <aura:attribute name="resourceTitle" type="String"/>
+
+    <aura:handler name="change" value="{!v.resourceId}" action="{!c.doSelect}"/>
+    <aura:registerEvent name="navigate" type="c:GetResIdFlowEvent"/>
+
+
+    <div class="slds-card__body slds-card__body_inner">
+        <c:rrSelect options="{!v.resourceList}" value="{!v.resourceId}" label="Resource" />
+<!--        <lightning:select name="Resource" label="Resource" required="true" value="{!v.resourceId}"-->
+<!--                          onchange="{!c.doSelect}">-->
+<!--            <aura:iteration items="{!v.resourceList}" var="resourceItem">-->
+<!--                <option value="{!resourceItem.Id}">{!resourceItem.Name}</option>-->
+<!--            </aura:iteration>-->
+<!--        </lightning:select>-->
+        <div class="slds">{!v.resourceTitle}</div>
+    </div>
+</aura:component>

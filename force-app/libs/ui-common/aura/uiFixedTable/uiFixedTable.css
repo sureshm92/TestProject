@@ -1,0 +1,36 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS.table-container{
+    width: 100%;
+    opacity: 0;
+}
+
+.THIS.table-container.initialized{
+    opacity: 1;
+}
+
+.THIS .fixed-table {
+    position: relative;
+    overflow: hidden;
+    border-collapse: collapse;
+}
+
+.THIS .fixed-table thead {
+    position: relative;
+    display: block;
+    overflow: visible;
+}
+
+.THIS .fixed-table th.fixed,
+.THIS .fixed-table td.fixed {
+    position: relative;
+    /*display: block;*/
+    z-index: 1;
+}
+
+.THIS .fixed-table tbody {
+    position: relative;
+    display: block;
+    overflow: auto;
+}
