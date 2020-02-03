@@ -74,15 +74,25 @@
             </div>
 
             <aura:set attribute="footerButtons">
-                <button class="apollo-btn secondary" data-gtm="btn_UploadNewParticipants_cancel" onclick="{!c.doCancel}">
-                    {!$Label.c.BTN_Cancel}
-                </button>
-                <button class="apollo-btn primary" onclick="{!c.doImport}"
-                        data-gtm="btn_UploadNewParticipants_import"
-                        disabled="{!empty(v.selectedStatus)||empty(v.fileName)}"
-                        title="{!empty(v.selectedStatus)||empty(v.fileName) ? $Label.c.PG_MRC_RF_Not_all_Req_Fields : ''}">
-                    {!$Label.c.BTN_Import}
-                </button>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size--7-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
+                        <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.sendEmails}"/>
+                        <div class="slds-size--10-of-12">Participant included in this file have consented to receiving an invitation to the Patient Portal.
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size--5-of-12">
+                    <button class="apollo-btn secondary" data-gtm="btn_UploadNewParticipants_cancel"
+                            onclick="{!c.doCancel}">
+                        {!$Label.c.BTN_Cancel}
+                    </button>
+                    <button class="apollo-btn primary" onclick="{!c.doImport}"
+                            data-gtm="btn_UploadNewParticipants_import"
+                            disabled="{!empty(v.selectedStatus)||empty(v.fileName)}"
+                            title="{!empty(v.selectedStatus)||empty(v.fileName) ? $Label.c.PG_MRC_RF_Not_all_Req_Fields : ''}">
+                        {!$Label.c.BTN_Import}
+                    </button>
+                    </div>
+                </div>
             </aura:set>
 
         </c:Popup>
