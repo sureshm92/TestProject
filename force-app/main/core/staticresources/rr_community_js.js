@@ -24,6 +24,7 @@ window.communityService = (function () {
     let currentUserMode;
     let allUserModes;
     let showPastStudies;
+    var messagesVisible;
     let currentCSSTheme = 'Community_CSS_Stub';
 
     //community service functions:
@@ -41,6 +42,7 @@ window.communityService = (function () {
                 isDelegate = communityData.isDelegate;
                 communityURLPathPrefix = communityData.pathPrefix;
                 isTCAcceptedFlag = communityData.isTCAccepted;
+                messagesVisible = communityData.messagesVisible;
                 language = communityData.language;
                 participantState = communityData.state;
                 baseUrl = communityData.baseUrl;
@@ -130,6 +132,14 @@ window.communityService = (function () {
             if(mode.template.needRedirect){
                 document.location.href = mode.template.redirectURL;
             }
+        },
+
+        getMessagesVisibility : function () {
+            return messagesVisible;
+        },
+        
+        setMessagesVisibility : function(visible) {
+            messagesVisible = visible;
         },
 
         setThemeCSS(){

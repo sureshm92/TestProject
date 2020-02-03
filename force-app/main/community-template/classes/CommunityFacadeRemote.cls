@@ -65,6 +65,8 @@ public without sharing class CommunityFacadeRemote {
             cd.preventedCookies = getPreventedCookies(userContact.Id);
             cd.isDelegate = userContact.UserCommunityIsDelegate__c;
             cd.baseUrl = Site.getBaseUrl();
+            cd.messagesVisible = getMessagesVisibility();
+
             return JSON.serialize(cd);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
