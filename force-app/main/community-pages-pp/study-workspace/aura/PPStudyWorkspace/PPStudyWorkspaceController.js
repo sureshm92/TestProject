@@ -13,6 +13,8 @@
         if(!resourceMode) resourceMode = 'Default';
         var taskMode = communityService.getUrlParameter('taskmode');
         if(!taskMode) taskMode = 'Open';
+        var visitMode = communityService.getUrlParameter('visitmode');
+        if(!visitMode) visitMode = 'VisitDetails';
 
         if(communityService.isInitialized()){
             component.set('v.userMode', communityService.getUserMode());
@@ -21,6 +23,7 @@
             component.set('v.currentTab', tabId);
             component.set('v.taskMode', taskMode);
             component.set('v.resourceMode', resourceMode);
+            component.set('v.visitMode', visitMode);
 
             communityService.executeAction(component, 'getTrialDetail', {
                 trialId: recId,
