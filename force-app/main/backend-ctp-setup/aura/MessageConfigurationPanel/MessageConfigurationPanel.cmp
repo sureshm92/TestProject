@@ -21,6 +21,8 @@
             <aura:set attribute="else">
                 <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}"/>
             </aura:set>
+            <lightning:navigation aura:id="navLink"/>
+
             <!--Filters-->
             <aura:if isTrue="{!v.initialized}">
                 <div class="filters-section">
