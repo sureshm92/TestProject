@@ -37,7 +37,7 @@
 
             if (communityService.getUserMode() != 'Participant' && initData.currentPageList) {
                 for (let pItem in initData.currentPageList) {
-                    if (pItem.hasEmancipatedParticipants) {
+                    if (initData.currentPageList[pItem].hasEmancipatedParticipants) {
                         component.set('v.hasEmancipatedParticipants', true);
                         component.getEvent('onInit').fire();
 
