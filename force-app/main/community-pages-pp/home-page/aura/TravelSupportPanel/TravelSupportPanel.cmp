@@ -1,0 +1,54 @@
+<!--
+ - Created by Yulia Yakushenkova on 1/29/2020.
+ -->
+
+<aura:component description="TravelSupportPanel" controller="TravelSupportPanelRemote">
+
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <aura:attribute name="travelWrapper" type="TravelSupportPanelRemote.TravelWrapper[]"/>
+    <aura:attribute name="initialized" type="Boolean" default="false"/>
+
+
+    <div class="sv-panel rr-white-panel" data-gtm="PNL_TravelSupportPanel">
+        <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
+        <aura:if isTrue="{!v.initialized}">
+            <div class="sv-header">
+                <div class="sv-title">{!$Label.c.Home_Page_Travel_Support_Title}</div>
+            </div>
+            <div class="sv-body">
+                <aura:if isTrue="{!!empty(v.travelWrapper)}">
+                    <c:RRTable>
+                        <tr>
+                            <th>{!$Label.c.Home_Page_Travel_Support_Bookings_Col}</th>
+                            <th>{!$Label.c.Home_Page_Travel_Support_DateTime_Col}</th>
+                        </tr>
+                        <aura:iteration var="travelWrapper" items="{!v.travelWrapper}">
+                            <tr>
+                                <td class="travel-cell">
+                                    <div class="icon-item" style="{!travelWrapper.style}">
+                                        <c:RRIcon class="svl-icon" color="white" iconName="{!travelWrapper.icon}"/>
+                                    </div>
+                                    <div style="padding: 0 5px">{!travelWrapper.title}</div>
+                                </td>
+                                <td>
+                                    <lightning:formattedDateTime value="{!travelWrapper.dateAndTime}"
+                                                                 year="numeric" month="2-digit" day="2-digit"
+                                                                 hour="2-digit" minute="2-digit" hour12="true"/>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </c:RRTable>
+                </aura:if>
+                <c:EmptyListStub targetList="{!v.travelWrapper}" iconName="none"
+                                 message="{!$Label.c.PG_VP_L_No_Items_display}"/>
+            </div>
+            <div class="sv-footer">
+                <c:RRLink page="study-workspace?tab=tab-visits&amp;visitmode=TravelSupportDetails">
+                    {!$Label.c.PG_L_See_All}
+                </c:RRLink>
+            </div>
+        </aura:if>
+    </div>
+
+</aura:component>

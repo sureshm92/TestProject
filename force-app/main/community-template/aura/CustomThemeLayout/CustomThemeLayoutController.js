@@ -5,18 +5,14 @@
 
     doInit: function (component, event, helper) {
         if(communityService.isInitialized()){
-            component.set('v.allModes', communityService.getAllUserModes());
-            component.set('v.currentMode', communityService.getCurrentCommunityMode());
-            //component.find('spinner').hide();
-            component.set('v.isInitialized', true);
-            component.set('v.showModeSwitcher', !(communityService.getAllUserModes().length === 1 && communityService.getAllUserModes()[0].subModes.length <= 1));
-            component.set('v.isArabic', communityService.getLanguage() === 'ar' );
+            helper.init(component);
         }else{
             communityService.initialize(component);
         }
     },
 
-    doModeChanged: function (component){
+    doRefresh: function(component, event, helper){
+        helper.init(component);
         component.find('navigation').refresh();
         component.find('navigationMobile').refresh();
         component.find('profileMenu').refresh();
@@ -28,7 +24,9 @@
 
     doGoHome: function () {
         communityService.navigateToPage('');
-    }
+    },
+
+
 
 
 })

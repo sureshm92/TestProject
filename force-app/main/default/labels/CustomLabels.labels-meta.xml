@@ -1112,6 +1112,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Import Participant File</value>
     </labels>
     <labels>
+        <fullName>BTN_Verify</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN Verify</shortDescription>
+        <value>Verify</value>
+    </labels>
+    <labels>
         <fullName>BTN_View</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3725,18 +3732,11 @@ The IQVIA Patient Portal Support Team</value>
         <value>Files</value>
     </labels>
     <labels>
-        <fullName>Resource_Name</fullName>
+        <fullName>Filter_Participant_s</fullName>
         <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resource Name</shortDescription>
-        <value>Name</value>
-    </labels>
-    <labels>
-        <fullName>Resource_Title</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Resource Title</shortDescription>
-        <value>Title</value>
+        <protected>false</protected>
+        <shortDescription>Filter Participant(s)</shortDescription>
+        <value>Filter Participant(s)</value>
     </labels>
     <labels>
         <fullName>Footer_Link_About_IQVIA</fullName>
@@ -4636,7 +4636,15 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Home Page Travel Support Bookings Col</shortDescription>
-        <value>Booking</value>
+        <value>Bookings</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Travel_Support_DateTime_Col</fullName>
+        <categories>Home Page</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Home Page Travel Support DateTime Col</shortDescription>
+        <value>Bookings Date and Time</value>
     </labels>
     <labels>
         <fullName>Home_Page_Travel_Support_Details_Tab</fullName>
@@ -4669,6 +4677,14 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>Home Page Travel Support Filter Pending</shortDescription>
         <value>Pending</value>
+    </labels>
+    <labels>
+        <fullName>Home_Page_Travel_Support_Title</fullName>
+        <categories>Home Page</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Home Page Travel Support Title</shortDescription>
+        <value>Travel Support</value>
     </labels>
     <labels>
         <fullName>Home_Page_VisitTab_Filter_Show_All</fullName>
@@ -5647,6 +5663,13 @@ View study documents and other resources including articles and videos related t
         <value>1 day before</value>
     </labels>
     <labels>
+        <fullName>One_or_more_Participants_reached_Majority</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>One or more Participants reached Majority</shortDescription>
+        <value>One or more participants has reached the age of legal majority. Please confirm privacy preferences with participant(s).</value>
+    </labels>
+    <labels>
         <fullName>Originator</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6542,6 +6565,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG AS  F Re-enter new password</shortDescription>
         <value>Re-enter new password</value>
+    </labels>
+    <labels>
+        <fullName>PG_AS_F_Screening_Subject_ID</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_AS_F_Screening/Subject_ID</shortDescription>
+        <value>Screening/Subject ID</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Select_Locale</fullName>
@@ -10629,6 +10659,13 @@ Please check your CAPS lock key.</value>
         <value>Vitals Summary Table</value>
     </labels>
     <labels>
+        <fullName>Resource_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource Name</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
         <fullName>Resource_Social_Share_email_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -10655,6 +10692,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Resource Tab Study Video And Articles</shortDescription>
         <value>Video and Articles</value>
+    </labels>
+    <labels>
+        <fullName>Resource_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Resource Title</shortDescription>
+        <value>Title</value>
     </labels>
     <labels>
         <fullName>Resource_Title_Document_Name</fullName>
@@ -12230,6 +12274,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>COI Toast Alert Me When CTP appears</shortDescription>
         <value>Thank you for your interest in {0}. We will contact you when the clinical research study would be created for this.</value>
+    </labels>
+    <labels>
+        <fullName>This_Participant_has_reached_legal_age_of_emancipation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>This Participant has reached legal age of emancipation</shortDescription>
+        <value>This Participant has reached legal age of emancipation, but continues to require legal guardianship. Please verify that this is correct.</value>
     </labels>
     <labels>
         <fullName>Toast_Changes_Successfully</fullName>

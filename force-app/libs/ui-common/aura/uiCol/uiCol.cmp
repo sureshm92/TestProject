@@ -12,10 +12,10 @@
     <aura:attribute name="class" type="String" />
 
     <aura:if isTrue="{!v.isHeader}">
-        <th class="{!v.class + if(v.isFixed, ' fixed', '')}" style="{!if(v.isFixed, 'left: ' + v.scrollLeft + 'px; ' , ' ') + ' min-width: ' + v.width + '; height: ' + v.height + ';'}">{!v.body}</th>
+        <th class="{!v.class + if(v.isFixed, ' fixed', '')}" width="{!v.width}" style="{!if(v.isFixed, 'left: ' + v.scrollLeft + 'px; ' , ' ') + ' max-width: ' + v.width + '; ' + ' min-width: ' + v.width + '; height: ' + v.height + ';'}">{!v.body}</th>
     </aura:if>
     <aura:if isTrue="{!!v.isHeader}">
-        <td class="{!v.class + if(v.isFixed, ' fixed', '')}" style="{!if(v.isFixed, 'left: ' + v.scrollLeft + 'px; ' , '' ) + ' min-width: ' + v.width + '; height: ' + v.height + ';'}">{!v.body}</td>
+        <td class="{!v.class + if(v.isFixed, ' fixed', '')}" width="{!v.width}" style="{!if(v.isFixed, 'left: ' + v.scrollLeft + 'px; ' , '' ) + ' max-width: ' + v.width + '; ' + ' min-width: ' + v.width + '; height: ' + v.height + ';'}">{!v.body}</td>
     </aura:if>
 
 </aura:component>

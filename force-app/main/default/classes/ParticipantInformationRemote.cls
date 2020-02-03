@@ -39,4 +39,24 @@ public without sharing class ParticipantInformationRemote {
         AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON);
     }
 
+    @AuraEnabled
+    public static void createUserForPatientProtal(String peJSON, Boolean sendEmails) {
+        Participant_Enrollment__c pe = (Participant_Enrollment__c) JSON.deserialize(peJSON, Participant_Enrollment__c.class);
+        try {
+            if (pe.HCP_Contact__c == null) {
+                ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
+                        pe.Participant_Contact__c => pe.PI_Contact__c
+                });
+            } else {
+                ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
+                        pe.Participant_Contact__c => pe.HCP_Contact__c
+                });
+            }
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+        if (sendEmails) {
+            update new Contact(Id = pe.Participant_Contact__c);
+        }
+    }
 }

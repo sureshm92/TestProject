@@ -4,8 +4,7 @@
 
 <aura:component description="ViewPatients"  implements="forceCommunity:availableForAllPageTypes" controller="ViewPatientsRemote">
 
-    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community_js)}"
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
 
     <!--attributes:-->
@@ -15,18 +14,28 @@
     <aura:attribute name="isInitialized" type="Boolean" default="false" access="private"/>
     <aura:attribute name="emptyListMessage" type="String" access="private" default="{!$Label.c.PG_VP_L_No_Items}"/>
     <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="hasEmancipatedParticipants" type="Boolean" default="false"/>
 
     <!--handlers:-->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+    <aura:handler event="c:uiEvent" name="onInit" action="{!c.doNeedsGuardian}"/>
 
 
     <!--component body:-->
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
 
+
     <div class="rr-min-body-height">
         <aura:if isTrue="{!v.isInitialized}">
 
-                <div class="vp-navigation">
+            <aura:if isTrue="{!v.hasEmancipatedParticipants}">
+                <div style="background: #FFF7EC; fill: white; height: 100%; color: black; line-height: 45px; font-size: 1rem; border: 0.1px solid; border-color: lightgrey; argin-bottom: 30px;">
+                    <span style="padding: 4px 16px; font-weight: 600;"><c:RRIcon iconName="warning"/> {!$Label.c.One_or_more_Participants_reached_Majority}</span>
+                    <span style="text-align: right; padding: 4px 16px;"><a href="javascript:void(0);">{!$Label.c.Filter_Participant_s}</a></span>
+                </div>
+            </aura:if>
+
+                <div class="vp-navigation" style="margin-top: 30px;">
                     <aura:if isTrue="{!empty(v.parent)}">
                             <aura:if isTrue="{!v.userMode == 'PI'}">
                                 <div class="navigation-breadcrumbs">
