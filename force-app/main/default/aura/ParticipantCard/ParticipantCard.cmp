@@ -14,9 +14,6 @@
     <aura:attribute name="isInvited" type="Boolean"/>
     <aura:attribute name="hasEmancipatedParticipants" type="Boolean"/>
 
-    <!-- events: -->
-    <aura:registerEvent name="onInit" type="c:uiEvent"/>
-
     <!-- component body: -->
     <aura:if isTrue="{!v.participantItem.showParticipationSteps}">
         <c:PSECard pe="{!v.participantItem.pe}" steps="{!v.participantItem.participationFlowSteps}" parent="{!v.parent}"

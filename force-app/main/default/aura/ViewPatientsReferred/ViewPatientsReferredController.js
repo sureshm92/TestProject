@@ -34,6 +34,17 @@
             component.set('v.isInitialized', true);
             component.set('v.skipUpdate', false);
             spinner.hide();
+
+            if (communityService.getUserMode() != 'Participant' && initData.currentPageList) {
+                for (let pItem in initData.currentPageList) {
+                    if (pItem.hasEmancipatedParticipants) {
+                        component.set('v.hasEmancipatedParticipants', true);
+                        component.getEvent('onInit').fire();
+
+                        break;
+                    }
+                }
+            }
         });
     },
 
