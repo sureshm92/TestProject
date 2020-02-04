@@ -42,6 +42,7 @@ public without sharing class RelevantLinksRemote {
                     WHERE Clinical_Trial_Profile__c IN: ctpIds
                     AND Resource__r.Content_Type__c = 'Relevant_Link'
             ];
+            TranslateHelper.translate(resStudies);
             for (Res_study__c rs : resStudies) {
                 for(Participant_Enrollment__c pe : enrollments){
                     if(rs.Resource__r.Countries__c.contains(pe.Study_Site__r.Site__r.BillingCountryCode)
