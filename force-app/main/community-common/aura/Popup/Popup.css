@@ -32,8 +32,8 @@
 }
 
 .THIS .p-container > .slds-button {
-    width: 1rem;
-    height: 1rem;
+    width: 0rem;
+    height: 0rem;
     position: absolute;
     top: 5px;
     right: 5px;
@@ -41,7 +41,7 @@
     border: none;
 }
 
-.THIS .p-container > .slds-button:after {
+/*.THIS .p-container > .slds-button:after {
     content: '';
     position: absolute;
     background-size: 14px 14px;
@@ -50,10 +50,8 @@
     width: 14px;
     top: 30px;
     right: 25px;
-}
-/*
-.THIS .cRRIcon {display: none}
-*/
+}*/
+/*.THIS .cRRIcon {display: none}*/
 .THIS .p-container .p-header {
     width: 100%;
     max-height: 20vh;
@@ -142,10 +140,11 @@
 
 .THIS .close-icon {
     position: absolute;
-    height: 33px;
-    top: -2px;
-    left: -7px;
-    width: 46px;
+    height: 29px !important;
+    top: 0px;
+    left: 0px;
+    padding: 0px;
+    width: 30px !important;
     fill: rgba(255, 255, 255, 0.5);
 }
 

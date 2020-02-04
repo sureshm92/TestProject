@@ -30,6 +30,17 @@
     top: 10px;
     right: 10px;
 }
+.THIS .slds-has-block-links--space3{
+    background: #FF9300;
+    fill: white;
+    width: 139px;
+    height: 19px;
+    text-align: center;
+    color: white;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
 
 .THIS.rtl .vpi-fields{
     flex-direction: row-reverse;

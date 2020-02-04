@@ -7,6 +7,7 @@
             helper.preparePathItems(component);
             component.find('spinner').hide();
         }
+        console.log('usermode', component.get('v.userMode'));
     },
 
     doGoToProfile: function (component) {
@@ -55,7 +56,7 @@
         var anchor = event.currentTarget.value;
         rootComponent.find('updatePatientInfoAction').execute(pe, pathItems, anchor, actions, rootComponent, isInvited, function (enrollment) {
             component.set('v.pe', enrollment);
-            rootComponent.find('updatePatientInfoAction').set('v.pathItems', component.get('v.pathItems'));
+            //rootComponent.find('updatePatientInfoAction').set('v.pathItems', component.get('v.pathItems'));
                 rootComponent.refresh();
 
         });
