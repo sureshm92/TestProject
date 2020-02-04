@@ -117,8 +117,8 @@ window.communityService = (function () {
             return showPastStudies;
         },
 
-        getTemplateProperty(propertyName){
-            if(this.getCurrentCommunityMode().template.properties) return this.getCurrentCommunityMode().template.properties[propertyName];
+        getTemplateProperty: function(propertyName){
+            if(currentUserMode.template.properties) return currentUserMode.template.properties[propertyName];
             return null;
         },
 
@@ -134,15 +134,7 @@ window.communityService = (function () {
             }
         },
 
-        getMessagesVisibility : function () {
-            return messagesVisible;
-        },
-        
-        setMessagesVisibility : function(visible) {
-            messagesVisible = visible;
-        },
-
-        setThemeCSS(){
+        setThemeCSS: function(){
             let cssLink = document.querySelector('link[href*="' + currentCSSTheme + '"]');
             try{
                 currentCSSTheme = service.getTemplateProperty('ThemeCSS');
