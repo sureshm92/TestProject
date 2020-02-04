@@ -81,7 +81,16 @@
 }
 
 .THIS .icon-item{
-    padding-right: 10px;
+    width: 17px;
+    height: 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.THIS .booking-cell {
+    display: flex;
+    align-items: center;
 }
 
 .THIS .pagination{
@@ -113,4 +122,8 @@
 }
 .THIS .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
     width: 100%;
+}
+
+.THIS .no-travels-message {
+    margin-bottom: 1.5em;
 }

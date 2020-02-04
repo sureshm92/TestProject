@@ -185,6 +185,25 @@
     background-color: #0768FD;
     color: white;
 }
+
+.THIS .invite-patient-container{
+    margin-top: -30px;
+    margin-bottom: 30px;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #d9d9d9;
+    padding: 2%;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,0.08);
+}
+
+.THIS .invite-patient-checkbox{
+    display: inline-block;
+}
+
+.THIS .invite-patient-info-container{
+    margin-right: 5%;
+}
+
 @media all and (max-width: 768px){
     .THIS .personal-info-container .slds-float_left {
         width: 100%;

@@ -76,13 +76,15 @@ public without sharing class CommunityModeService {
         if(userParticipant != null){
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(userParticipant.Id);
             List<Participant_Enrollment__c> pastPEList = pePastMap.get(userParticipant.Id);
+            Boolean hasPastStudies = pastPEList != null && pastPEList.size() > 0;
             CommunityMode mode = new CommunityMode(
                     USER_MODE_PARTICIPANT,
                     userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c,
                     null,
-                    null
+                    null,
+                    hasPastStudies ? CommunityTemplateService.getTemplate(pastPEList[0].Clinical_Trial_Profile__r.Community_Template__c) : CommunityTemplateService.getDefaultTemplate()
             );
-            mode.hasPastStudies = pastPEList != null && pastPEList.size() > 0;
+            mode.hasPastStudies = hasPastStudies;
             modes.add(mode);
             if(peList != null){
                 for(Participant_Enrollment__c pe : peList){
@@ -90,7 +92,8 @@ public without sharing class CommunityModeService {
                             USER_MODE_PARTICIPANT,
                             pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
                             null,
-                            pe
+                            pe,
+                            CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.Community_Template__c)
                     ));
                 }
             }
@@ -105,13 +108,15 @@ public without sharing class CommunityModeService {
             Participant__c participant = participantsMap.get(participantId);
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(participantId);
             List<Participant_Enrollment__c> pastPEList = pePastMap.get(participantId);
+            Boolean hasPastStudies = pastPEList != null && pastPEList.size() > 0;
             CommunityMode mode = new CommunityMode(
                     USER_MODE_PARTICIPANT,
                     participant.First_Name__c + ' ' + participant.Last_Name__c,
                     participant.Contact__c,
-                    null
+                    null,
+                    hasPastStudies ? CommunityTemplateService.getTemplate(pastPEList[0].Clinical_Trial_Profile__r.Community_Template__c) : CommunityTemplateService.getDefaultTemplate()
             );
-            mode.hasPastStudies = pastPEList != null && pastPEList.size() > 0;
+            mode.hasPastStudies = hasPastStudies;
             modes.add(mode);
             if(peList != null){
                 for(Participant_Enrollment__c pe : peList){
@@ -119,7 +124,8 @@ public without sharing class CommunityModeService {
                             USER_MODE_PARTICIPANT,
                             pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
                             pe.Participant__r.Contact__c,
-                            pe
+                            pe,
+                            CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.Community_Template__c)
                     ));
                 }
             }
@@ -163,6 +169,7 @@ public without sharing class CommunityModeService {
                 'Id',
                 'Clinical_Trial_Profile__r.Study_Title__c',
                 'Clinical_Trial_Profile__r.Study_Code_Name__c',
+                'Clinical_Trial_Profile__r.Community_Template__c',
                 'Participant__c',
                 'Participant__r.Contact__c',
                 'Participant_Status__c'

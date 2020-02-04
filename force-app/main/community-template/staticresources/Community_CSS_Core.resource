@@ -1,9 +1,9 @@
-/* rr_community_css */
-
+/* Community_CSS_Core */
 html{
     height: 100%;
     background-color: #f2f2f2;
     font-family: "Proxima Nova"!important;
+    transition: 300ms;
 }
 
 h1, h2, h3, h4, h5, h6{
@@ -18,12 +18,24 @@ body{
     font-size: 13px;
 }doi
 
-a {
-    color: #297dfd;
-}
+ a {
+     color: #297dfd;
+ }
 
 a:hover {
     text-decoration: none;
+}
+
+.main-header-neutral{
+    background: linear-gradient(to right, #e6e6e6 0%, #f5f5f5 100%);
+}
+
+.main-header-brand{
+    background: linear-gradient(to right, #230559 0%, #036ca7 100%);
+}
+
+.mobile-menu-background{
+    background: linear-gradient(to right, #230559 0%,#036ca7 100%);
 }
 
 /* ------------------------------------------ login/change password pages: -------------------------------------------*/
@@ -77,7 +89,7 @@ a:hover {
     padding: 10px!important;
     margin: 10px 0!important;
     border-radius: 5px!important;
-} 
+}
 /*----------------------------------------------------- MRR ------------------------------------------------------------*/
 
 .mrr-items{
@@ -287,10 +299,10 @@ input:focus {
 .rr-form-element .slds-input[disabled],
 .rr-form-element .slds-input.slds-is-disabled,
 .rr-form-element .slds-select[disabled]{
-   opacity: .4;
-   cursor: not-allowed;
-   pointer-events: none;
-   background-color: #fff;
+    opacity: .4;
+    cursor: not-allowed;
+    pointer-events: none;
+    background-color: #fff;
 }
 /*
 .rr-form-element .slds-input[disabled]:hover,
@@ -352,7 +364,7 @@ input:focus {
 .slds-checkbox_toggle .slds-checkbox--faux::after,
 .slds-checkbox--toggle .slds-checkbox_faux::after,
 .slds-checkbox--toggle .slds-checkbox--faux::after {
- 	width: 1.6rem;
+    width: 1.6rem;
     height: 1.6rem;
     top: 2px;
     left: 3px;
@@ -367,7 +379,7 @@ input:focus {
 .slds-checkbox--toggle .slds-checkbox_faux:focus,
 .slds-checkbox--toggle .slds-checkbox--faux:hover,
 .slds-checkbox--toggle .slds-checkbox--faux:focus {
-	background-color: #b5b5b5;
+    background-color: #b5b5b5;
     border: 1px solid #b5b5b5;
     outline: none;
 }
@@ -384,7 +396,7 @@ input:focus {
 .slds-checkbox--toggle [type=checkbox]:focus~.slds-checkbox--faux,
 .slds-checkbox--toggle [type=checkbox]:focus+.slds-checkbox_faux_container .slds-checkbox_faux,
 .slds-checkbox--toggle [type=checkbox]:focus+.slds-checkbox--faux_container .slds-checkbox--faux {
-   background-color: #444;
+    background-color: #444;
     border: 1px solid #444;
     outline: none;
 }
@@ -401,7 +413,7 @@ input:focus {
 .slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox--faux_container .slds-checkbox--faux {
     background-color: #00C221;
     border: 1px solid #00C221;
-     outline: none;
+    outline: none;
 }
 
 .slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox_faux::before,
@@ -436,7 +448,7 @@ input:focus {
 .slds-checkbox--toggle [type="checkbox"]:checked ~ .slds-checkbox--faux::after,
 .slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox_faux_container .slds-checkbox_faux::after,
 .slds-checkbox--toggle [type="checkbox"]:checked + .slds-checkbox--faux_container .slds-checkbox--faux::after {
- 	display: none;
+    display: none;
 }
 
 .slds-checkbox_toggle [type="checkbox"]:checked + .slds-checkbox_faux:hover,
@@ -586,7 +598,7 @@ lightning-datepicker lightning-button-icon .slds-button svg {
 .slds-radio [type=radio]:checked~.slds-radio--faux,
 .slds-radio [type=radio]:checked+.slds-radio__label .slds-radio_faux,
 .slds-radio [type=radio]:checked+.slds-radio__label .slds-radio--faux {
-   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08), 0 4px 8px 0 rgba(41, 125, 253, 0.16);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08), 0 4px 8px 0 rgba(41, 125, 253, 0.16);
     position: relative;
 }
 
@@ -744,7 +756,7 @@ select.rr-select-error,
 }
 
 .apollo-btn:disabled{
-   	opacity: .4;
+    opacity: .4;
     box-shadow: none;
     cursor: not-allowed;
     pointer-events: none;
@@ -1205,7 +1217,7 @@ select.rr-select-error,
 
 .brand-gradient-background{
     background: #eef5ff;
- /*   background: linear-gradient(to right, #230559 0%,#036ca7 100%); */
+    /*   background: linear-gradient(to right, #230559 0%,#036ca7 100%); */
     color: #444;
 }
 
@@ -1252,7 +1264,6 @@ input[type=password]::-ms-clear
     min-height: 0px!important;
 }
 .rr-header-content{
-    background: linear-gradient(to right, #230559 0%,#036ca7 100%);
     position: fixed;
     top: 0;
     left: 0;

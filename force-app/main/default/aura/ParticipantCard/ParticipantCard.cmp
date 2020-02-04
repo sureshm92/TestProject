@@ -11,7 +11,8 @@
     <aura:attribute name="changeStatusBtnList" type="List" />
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="userMode" type="String"/>
-    <aura:attribute name="isInvited" type="boolean"/>
+    <aura:attribute name="isInvited" type="Boolean"/>
+    <aura:attribute name="hasEmancipatedParticipants" type="Boolean"/>
 
     <!-- component body: -->
     <aura:if isTrue="{!v.participantItem.showParticipationSteps}">

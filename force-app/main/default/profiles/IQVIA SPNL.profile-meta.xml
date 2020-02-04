@@ -365,6 +365,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CommunityTemplateService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ConditionOfInterestRemote</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -946,10 +950,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PatientIntegrationException</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>PatientTravelService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -2504,6 +2504,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Community_Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Condition_s_Therapeutic_Area__c</field>
         <readable>true</readable>
@@ -2977,6 +2982,31 @@
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.ePR_enabled__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>CommunityTemplate_Property__mdt.Community_Template__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>CommunityTemplate_Property__mdt.Value__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Community_Template_Selector__c.Participant_Enrollment__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Community_Template_Selector__c.Template_Selector_Formula__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Community_Template__mdt.Community_Name__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -3937,6 +3967,36 @@
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.Condition_Of_Interests__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Daytime_Phone_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Email_Address__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_First_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Last_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Middle_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Phone_Number_Type__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -6908,6 +6968,15 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Clinical_Trial_Profile__c-Clinical Trial Profile Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CommunityTemplate_Property__mdt-Community Template Property Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Community_Template_Selector__c-Community Template Selector Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Community_Template__mdt-Community Template Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Contact-IQVIA Contact Layout</layout>

@@ -1,0 +1,7 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS div.label{
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

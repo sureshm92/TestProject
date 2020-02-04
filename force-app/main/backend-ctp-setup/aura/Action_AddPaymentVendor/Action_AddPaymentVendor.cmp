@@ -20,6 +20,7 @@
                     <lightning:recordEditForm aura:id="editForm" onsuccess="{!c.onSuccess}" onerror="{!c.onError}" objectApiName="Payment_Vendor__c">
                         <lightning:inputField fieldName="Name"/>
                         <lightning:inputField fieldName="Link_Vendor__c"/>
+                        <lightning:inputField fieldName="Payment_Vendor_Id__c"/>
                     </lightning:recordEditForm>
                 </aura:if>
             </div>

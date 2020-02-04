@@ -6,5 +6,6 @@ trigger PatientDelegateTrigger on Patient_Delegate__c (before insert, before upd
 
     TriggerHandlerExecutor.execute(PatientDelegateTriggerHandler.SetDefaultPatientDelegateStatus.class);
     TriggerHandlerExecutor.execute(PatientDelegateTriggerHandler.DeActivePatientDelegateUser.class);
+    TriggerHandlerExecutor.execute(PatientDelegateTriggerHandler.SendNotificationForNewDelegate.class);
 
 }
