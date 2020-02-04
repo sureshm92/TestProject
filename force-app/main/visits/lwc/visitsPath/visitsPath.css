@@ -61,8 +61,16 @@
     border-top-color: #00c221;
 }
 
+.line-div.missed {
+    border-top-color: #00c221;
+}
+
 .line-div.planned {
     border-top-color: #005ff1;
+}
+
+.missed .state-label {
+    color: #999;
 }
 
 .state-ico-wrapper {
@@ -91,6 +99,10 @@
 
 .state.success .state-ico-wrapper {
     background-color: #00c221 !important;
+}
+
+.state.missed .state-ico-wrapper {
+    background-color: #99e7a6 !important;
 }
 
 .state.planned .state-ico-wrapper {

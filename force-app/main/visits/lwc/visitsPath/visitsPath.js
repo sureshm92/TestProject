@@ -19,9 +19,11 @@ const lineClass = 'slds-col width-basis line-div ';
 const iconCalendar = 'icon-calendar-3';
 const iconNeutral = 'icon-none';
 const iconPlanned = 'icon-minus';
+const iconMissed = 'icon-minus';
 const iconSucc = 'icon-check';
 const stateNeutral = 'neutral';
 const statePlan = 'planned';
+const stateMissed = 'missed';
 const stateSucc = 'success';
 
 export default class VisitsPath extends LightningElement {
@@ -110,17 +112,24 @@ export default class VisitsPath extends LightningElement {
             this.centredIndex = 1;
             for (let i = 0; i < this.patientVisits.length; i++) {
                 let isCompleted = this.patientVisits[i].Status__c === 'Completed';
+                let isMissed = this.patientVisits[i].Status__c === 'Missed';
                 let item = {
                     id: this.patientVisits[i].Id,
                     visitName:  this.patientVisits[i].Portal_Name__c ? this.patientVisits[i].Portal_Name__c : this.patientVisits[i].Name,
-                    isCompleted: isCompleted,
+                    isPending : !isCompleted && !isMissed,
                     icon: isCompleted ? iconSucc : iconNeutral,
                     complDate: isCompleted ? this.patientVisits[i].Completed_Date__c : null,
-                    planDate: (!isCompleted && this.patientVisits[i].Planned_Date__c) ?  this.patientVisits[i].Planned_Date__c : null,
+                    planDate: (!isMissed && !isCompleted && this.patientVisits[i].Planned_Date__c) ?  this.patientVisits[i].Planned_Date__c : null,
                     stateStatus: isCompleted ? stateSucc : stateNeutral
                 };
+                if(isMissed) {
+                    item.icon = iconMissed;
+                    item.stateStatus = stateMissed;
+                    item.complDate = 'Unavailable';
+                }
+
                 this.pathItems.push(item);
-                if(!firstPending && !isCompleted) {
+                if(!firstPending && !isCompleted && !isMissed) {
                     firstPending = item;
                     this.centredIndex = i;
                 }
