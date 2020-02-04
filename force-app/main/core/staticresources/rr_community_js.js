@@ -134,6 +134,14 @@ window.communityService = (function () {
             }
         },
 
+        getMessagesVisibility : function () {
+            return messagesVisible;
+        },
+        
+        setMessagesVisibility : function(visible) {
+            messagesVisible = visible;
+        },
+
         setThemeCSS: function(){
             let cssLink = document.querySelector('link[href*="' + currentCSSTheme + '"]');
             try{
