@@ -162,6 +162,7 @@ public without sharing class ReferringRemote {
             enrollment.Study_Site__c = hcpEnrollment.Study_Site__c;
             enrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;
             enrollment.Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
+            enrollment.Show_Referring_Provider__c = true;
 
             ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participant, enrollment);
 
