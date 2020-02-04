@@ -341,7 +341,7 @@ public without sharing class ParametersDataProvider {
                             HCP_Contact__c
                     FROM HCP_Enrollment__c
                     WHERE HCP_Contact__c = :cnt.Id AND
-                    ( Status__c = :HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O OR Status__c = :HCPEnrollmentService.HCP_S_ACTIVATED )
+                    ( Status__c = :HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O OR Status__c = :HCPEnrollmentService.HCP_S_ACTIVATED OR Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION)
                     ORDER BY CreatedDate DESC LIMIT 1
             ];
             if (!hcpe.isEmpty()) {

@@ -16,6 +16,7 @@
     <aura:attribute name="fileType" type="String"/>
     <aura:attribute name="fileBody" type="String"/>
     <aura:attribute name="fullFileName" type="String"/>
+    <aura:attribute name="createUsers" type="Boolean" default="false"/>
 
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
@@ -76,9 +77,8 @@
             <aura:set attribute="footerButtons">
                 <div class="slds-grid slds-wrap">
                     <div class="slds-col slds-size--7-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
-                        <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.sendEmails}"/>
-                        <div class="slds-size--10-of-12">Participant included in this file have consented to receiving an invitation to the Patient Portal.
-                        </div>
+                        <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.createUsers}"/>
+                        <div class="slds-size--10-of-12">{!$Label.c.Create_Users_Checkbox_on_Import}</div>
                     </div>
                     <div class="slds-col slds-size--5-of-12">
                     <button class="apollo-btn secondary" data-gtm="btn_UploadNewParticipants_cancel"
