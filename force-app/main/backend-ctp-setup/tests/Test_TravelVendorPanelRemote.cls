@@ -64,7 +64,7 @@ private with sharing class Test_TravelVendorPanelRemote {
         Test.startTest();
         List<TravelVendor__c> vendorSettings;
         System.runAs(testDataInstance.participantUser){
-            vendorSettings = TravelSupportRemote.getVendors();
+            vendorSettings = TravelSupportRemote.getAvailableVendorsForSS();
         }
         Test.stopTest();
         System.assertEquals(1, vendorSettings.size());
@@ -83,7 +83,7 @@ private with sharing class Test_TravelVendorPanelRemote {
 
         Test.startTest();
         try {
-            TravelSupportRemote.getVendors();
+            TravelSupportRemote.getAvailableVendorsForSS();
         } catch (Exception e) {
             isExceptionThrown = true;
             System.assert(e.getTypeName() == 'System.AuraHandledException');

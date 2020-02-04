@@ -365,6 +365,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CommunityTemplateService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ConditionOfInterestRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -953,10 +957,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>PatientTravelService</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>PatientVisitResultTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1058,6 +1058,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>RemoteCall_GetCardDetails</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RemoteCall_GetTravelBookingDetails</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1817,6 +1821,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Test_RemoteCall_GetTravelBookingDetails</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Test_ResourceContentClassService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2449,6 +2457,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Community_Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Condition_s_Therapeutic_Area__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2920,6 +2933,31 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.ePR_enabled__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>CommunityTemplate_Property__mdt.Community_Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>CommunityTemplate_Property__mdt.Value__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Community_Template_Selector__c.Participant_Enrollment__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Community_Template_Selector__c.Template_Selector_Formula__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Community_Template__mdt.Community_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3880,6 +3918,36 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.Condition_Of_Interests__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Daytime_Phone_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Email_Address__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_First_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Last_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Middle_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Phone_Number_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5648,6 +5716,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Res_study__c.Resource_title__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Res_study__c.Visible_In_Alumni__c</field>
         <readable>true</readable>
@@ -6854,6 +6927,15 @@
         <layout>Clinical_Trial_Profile__c-Clinical Trial Profile Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>CommunityTemplate_Property__mdt-Community Template Property Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Community_Template_Selector__c-Community Template Selector Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Community_Template__mdt-Community Template Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Contact-Contact Layout</layout>
         <recordType>Contact.MASTER</recordType>
     </layoutAssignments>
@@ -7289,6 +7371,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Clinical_Trial_Profile__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Community_Template_Selector__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

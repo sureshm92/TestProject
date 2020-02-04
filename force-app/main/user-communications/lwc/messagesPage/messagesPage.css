@@ -131,3 +131,23 @@
 .ms-right {
     width: 100%;
 }
+
+@media all and (max-width: 480px) {
+
+    .ms-container {
+        height: 579px;
+        width: 343px;
+    }
+
+    .ms-left {
+        border-right: none;
+    }
+
+    .ms-title {
+        padding-left: 10px;
+    }
+
+    .ms-right {
+        display: none;
+    }
+}

@@ -192,11 +192,6 @@ public without sharing class ReferringRemote {
                 participantDelegate.Adult__c = true;
                 ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participantDelegate, null);
 
-                Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
-                ptDelegateRef.Participant__c = participant.Id;
-                ptDelegateRef.Contact__c = newContact.Id;
-                insert ptDelegateRef;
-
                 List<Alert__c> alertsForInsert = new List<Alert__c>();
                 alertsForInsert.add(new Alert__c(
                         Contact__c = newContact.Id,
@@ -206,17 +201,14 @@ public without sharing class ReferringRemote {
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
                 insert alertsForInsert;
 
-                sendEmailNotificationWelcome(newContact);
+                Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
+                ptDelegateRef.Participant__c = participant.Id;
+                ptDelegateRef.Contact__c = newContact.Id;
+                insert ptDelegateRef;
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
-    }
-
-    private static void sendEmailNotificationWelcome(Contact delegateContact) {
-        Map<Id, String> toSendNotificationMap = new Map<Id, String>();
-        toSendNotificationMap.put(delegateContact.Id, delegateContact.Id);
-        SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_DELEGATE_WELCOME, toSendNotificationMap);
     }
 
     @AuraEnabled

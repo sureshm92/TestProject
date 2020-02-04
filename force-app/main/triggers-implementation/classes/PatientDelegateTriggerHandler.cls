@@ -18,6 +18,14 @@ public without sharing class PatientDelegateTriggerHandler {
 
     }
 
+    public class SendNotificationForNewDelegate extends TriggerHandler{
+
+        public override void afterInsert(List<SObject> newList) {
+            sendNotificationForNewDelegate(newList);
+        }
+
+    }
+
     public class DeActivePatientDelegateUser extends TriggerHandler{
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -27,6 +35,20 @@ public without sharing class PatientDelegateTriggerHandler {
     }
 
     // Logic: ----------------------------------------------------------------------------------------------------------
+
+    @TestVisible
+    private static void sendNotificationForNewDelegate(List<Patient_Delegate__c> newList) {
+        Map<Id, String> toSendNotificationMap = new Map<Id, String>();
+        for (Patient_Delegate__c ptDelegate : newList) {
+            if (ptDelegate.Contact__c != null) {
+                toSendNotificationMap.put(ptDelegate.Contact__c, ptDelegate.Contact__c);
+            }
+        }
+
+        if (!toSendNotificationMap.isEmpty()) {
+            SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_DELEGATE_WELCOME, toSendNotificationMap);
+        }
+    }
 
     @TestVisible
     private static void setDefaultPatientStatus(List<Patient_Delegate__c> newList) {
@@ -57,7 +79,7 @@ public without sharing class PatientDelegateTriggerHandler {
                 usr.IsActive = false;
             }
 
-            if (!users.isEmpty()/* && !Test.isRunningTest()*/) {
+            if (!users.isEmpty()) {
                 update users;
             }
         }

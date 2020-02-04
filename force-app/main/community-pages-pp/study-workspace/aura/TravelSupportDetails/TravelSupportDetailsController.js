@@ -6,51 +6,31 @@
     doInit: function (component, event, helper) {
         component.find('spinner').show();
         component.set('v.initialized', false);
-        communityService.executeAction(component, 'getTitleFiltered', {},
-            function (response) {
-                var opts = [{value: "All", label: "All"}];
-                if (!response) {
-                    component.set('v.initialized', true);
-                    component.set('v.options', opts);
-                } else {
-                    for (var i = 0; i < response.length; i++) {
-                        opts.push({
-                            value: response[i],
-                            label: response[i]
-                        });
-                    }
-                    component.set('v.options', opts);
-                    $A.enqueueAction(component.get('c.getTravels'));
-                }
-            });
-        $A.enqueueAction(component.get('c.getAvailableVendors'));
-        component.find('spinner').hide();
-    },
-
-    getTravels: function (component, event, helper) {
-        communityService.executeAction(component, 'getParticipantTravels', {
-                'travelMode': component.get('v.travelMode')
+        communityService.executeAction(component, 'getTravelVendors', {
+                //'travelMode': component.get('v.travelMode')
+                clientId: '12345',
+                clientSecret: '12345'
             },
             function (response) {
                 component.set('v.travelWrapper', response);
+                console.log('response ' + response);
+                let opts = [{value: 'All', label: 'All'}];
+                // for (let i = 0; i < response.length; i++)
+                //     opts.push({
+                //         value: response[i].title,
+                //         label: response[i].title
+                //     });
+                component.set('v.options', opts);
                 component.set('v.initialized', true);
-            },
-            function (err) {
-                if (err && err[0].message) {
-                    console.log(err[0].message);
-                }
             });
+        component.find('spinner').hide();
     },
 
     getAvailableVendors: function (component, event, helper) {
-        communityService.executeAction(component, 'getVendors', {},
+        communityService.executeAction(component, 'getAvailableVendorsForSS', {},
             function (response) {
                 component.set('v.vendors', response);
-            },
-            function (err) {
-                if (err && err[0].message) {
-                    console.log(err[0].message);
-                }
-            });
+            }
+        );
     }
 });
