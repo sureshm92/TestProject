@@ -26,4 +26,12 @@
         window.open(exportURL, '_blank');
     },
 
+    doNeedsGuardian: function (component, event) {
+        let childCmp = event.getSource();
+        let hasEmancipatedParticipants = childCmp.get('v.hasEmancipatedParticipants');
+        if (hasEmancipatedParticipants) {
+            component.set('v.hasEmancipatedParticipants', true);
+        }
+    }
+
 })

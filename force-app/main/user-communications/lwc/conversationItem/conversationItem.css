@@ -79,3 +79,9 @@
     line-height: 19px;
     padding-top: 8px;
 }
+
+@media all and (max-width: 480px) {
+    .con-wrapper {
+        width: 341px;
+    }
+}
