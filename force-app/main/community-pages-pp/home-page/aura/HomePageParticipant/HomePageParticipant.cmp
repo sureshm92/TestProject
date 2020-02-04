@@ -71,11 +71,12 @@
                             <div class="slds-col">
                                 <c:UpcomingVisitsPreviewPanel/>
                             </div>
-                        </aura:if>
-                        <aura:if isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c, v.participantState.value == 'ALUMNI')}">
-                            <div class="slds-col">
-                                <c:TravelSupportPanel/>
-                            </div>
+                            <aura:if
+                                    isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c)}">
+                                <div class="slds-col">
+                                    <c:TravelSupportPanel/>
+                                </div>
+                            </aura:if>
                         </aura:if>
                         <div class="slds-col">
                             <c:RelevantLinks/>
