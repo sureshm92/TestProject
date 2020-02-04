@@ -129,7 +129,10 @@ public without sharing class CommunityFacadeRemote {
         CommunityMode communityMode = UserContext.getCurrentUserMode();
 
         if(communityMode.currentPE != null) peIds.add(communityMode.currentPE);
-        if(communityMode.hasPastStudies) peIds.addAll(PatientDelegateService.getPastPEIdsForContact(userContact.Id));
+        if(communityMode.hasPastStudies) {
+            List<Id> pastPEs = PatientDelegateService.getPastPEIdsForContact(userContact.Id);
+            if(pastPEs != null) peIds.addAll(pastPEs);
+        }
 
         if (!peIds.isEmpty()) {
             conversations = [
