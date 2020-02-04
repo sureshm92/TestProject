@@ -24,6 +24,7 @@ window.communityService = (function () {
     let currentUserMode;
     let allUserModes;
     let showPastStudies;
+    var messagesVisible;
     let currentCSSTheme = 'Community_CSS_Stub';
 
     //community service functions:
@@ -41,6 +42,7 @@ window.communityService = (function () {
                 isDelegate = communityData.isDelegate;
                 communityURLPathPrefix = communityData.pathPrefix;
                 isTCAcceptedFlag = communityData.isTCAccepted;
+                messagesVisible = communityData.messagesVisible;
                 language = communityData.language;
                 participantState = communityData.state;
                 baseUrl = communityData.baseUrl;
@@ -115,8 +117,8 @@ window.communityService = (function () {
             return showPastStudies;
         },
 
-        getTemplateProperty(propertyName){
-            if(this.getCurrentCommunityMode().template.properties) return this.getCurrentCommunityMode().template.properties[propertyName];
+        getTemplateProperty: function(propertyName){
+            if(currentUserMode.template.properties) return currentUserMode.template.properties[propertyName];
             return null;
         },
 
@@ -132,7 +134,15 @@ window.communityService = (function () {
             }
         },
 
-        setThemeCSS(){
+        getMessagesVisibility : function () {
+            return messagesVisible;
+        },
+        
+        setMessagesVisibility : function(visible) {
+            messagesVisible = visible;
+        },
+
+        setThemeCSS: function(){
             let cssLink = document.querySelector('link[href*="' + currentCSSTheme + '"]');
             try{
                 currentCSSTheme = service.getTemplateProperty('ThemeCSS');
