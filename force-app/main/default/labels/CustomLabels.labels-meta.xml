@@ -418,6 +418,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Account Name</value>
     </labels>
     <labels>
+        <fullName>Action_Required</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Action Required</shortDescription>
+        <value>Action Required</value>
+    </labels>
+    <labels>
         <fullName>Action_View_New_Study_Site</fullName>
         <language>en_US</language>
         <protected>false</protected>
