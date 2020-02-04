@@ -158,6 +158,19 @@ global without sharing class ReferHealthcareProviderRemote {
         return newHP.Id;
     }
 
+    @AuraEnabled
+    public static void showOrHideProvider(String peId) {
+        Participant_Enrollment__c participant = [SELECT Id, Show_Referring_Provider__c
+        FROM Participant_Enrollment__c
+        WHERE Id = :peId];
+        if(participant.Show_Referring_Provider__c == true) {
+            participant.Show_Referring_Provider__c = false;
+        } else {
+            participant.Show_Referring_Provider__c = true;
+        }
+        update participant;
+    }
+
     private static List<Study_Site__c> getStudySitesForMatchedRP(Id hcpContactId, List<String> piIds) {
         try {
             if (String.isBlank(hcpContactId)) {

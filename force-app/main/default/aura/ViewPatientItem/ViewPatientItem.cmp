@@ -38,7 +38,7 @@
             <c:ParticipantCardHeader userMode="{!v.userMode}" pe="{!v.pe}" isReferral="false"/>
             <c:ParticipantCardIsEmansipated pe="{!v.pe}" parent="{!v.parent}"/>
             <c:ParticipantCardFields userMode="{!v.userMode}" isInvited="{!v.isInvited}" pe="{!v.pe}"/>
-            <aura:if isTrue="{!v.showPath}">
+            <aura:if isTrue="{!or((v.showPath &amp;&amp; v.userMode == 'PI'), (v.userMode == 'HCP' &amp;&amp; v.pe.Show_Referring_Provider__c == true &amp;&amp; v.showPath))}">
                 <div class="vpi-path-panel">
                     <div class="{!v.userMode != 'PI' ? 'path-section' : 'path-section-pi'}">
                         <div class="slds-grid vpi-path">
