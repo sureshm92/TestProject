@@ -2,7 +2,7 @@
  * Created by alekseymoseev on 12/10/19.
  */
 
-public with sharing class Action_UploadParticipantsRemote {
+public without sharing class Action_UploadParticipantsRemote {
 
     public static final List<String> HEADER_COLUMNS = new List<String> { 'FIRST NAME', 'MIDDLE NAME', 'LAST NAME', 'NICKNAME', 'SEX', 'DATE OF BIRTH', 'EMAIL ADDRESS', 'PHONE', 'PHONE TYPE', 'PHONE2', 'PHONE TYPE2', 'STREET ADDRESS', 'CITY', 'STATE', 'POSTAL CODE', 'COUNTRY', 'LANGUAGE' };
     public static final List<String> MANDATORY_HEADER_COLUMNS = new List<String> { 'FIRST NAME', 'LAST NAME', 'PHONE', 'COUNTRY', 'STATE', 'POSTAL CODE' };
