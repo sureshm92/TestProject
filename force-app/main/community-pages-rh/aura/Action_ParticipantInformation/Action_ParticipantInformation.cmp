@@ -75,7 +75,7 @@
                 <lightning:tab class="slds-tabs_default__item" aura:id="Provider" label="{!$Label.c.Tab_HealthCare_Provider}" title="{!$Label.c.Tab_HealthCare_Provider}" onactive="{!c.checkTabs}">
                     <aura:if isTrue="{!v.pe}">
                         <div id="healthCareProvider">
-                            <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{!v.pe.HCP__r.HCP_Contact__r}" fromActionParticipant="true" actionDisabled="{!v.actions.screenerResponses.disabled}"/>
+                            <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{!v.pe.HCP__r.HCP_Contact__r}" showReferringProvider="{!v.pe.Show_Referring_Provider__c}" fromActionParticipant="true" actionDisabled="{!v.actions.screenerResponses.disabled}"/>
                         </div>
                     </aura:if>
                 </lightning:tab>
@@ -91,9 +91,12 @@
             </aura:if>
         </div>
             <aura:set attribute="headerButtons">
-                <lightning:button onclick="{!c.doPrint}" name="Print" class="{!'slds-button slds-button--icon-inverse'}">
-                    <c:RRIcon iconName="icon-print" class="print-icon"/>
+                <lightning:button onclick="{!c.doCancel}" name="Close"><!--&lt;!&ndash;class="{!'slds-button slds-modal__close slds-button&#45;&#45;icon-inverse' + if(not(v.showClose), ' slds-hide') + if($Browser.isPhone, ' p-mobile-close')}&ndash;&gt;">-->
+                    <c:RRIcon iconName="icon-close" class="close-icon"/>
                 </lightning:button>
+                <!--<lightning:button onclick="{!c.doPrint}" name="Print" class="{!'slds-button slds-button&#45;&#45;icon-inverse'}">
+                    <c:RRIcon iconName="icon-print" class="print-icon"/>
+                </lightning:button>-->
             </aura:set>
             <aura:set attribute="footerButtons">
                 <div data-gtm="BTNS_Popup_Save_Cancel">
