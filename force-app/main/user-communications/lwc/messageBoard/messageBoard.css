@@ -12,6 +12,10 @@
 .ms-board-header {
 }
 
+.header-back {
+    display: none;
+}
+
 .ms-single-header {
     height: 73px;
     padding: 0 25px;
@@ -130,6 +134,10 @@
     justify-content: space-between;
 }
 
+.ms-select-templates {
+    flex-basis: 85%;
+}
+
 .ms-send-pi {
 
 }
@@ -179,9 +187,34 @@
 }
 
 @media all and (max-width: 480px) {
+    .header-back {
+        display: flex;
+        flex-direction: row;
+        padding-left: 16px;
+        padding-top: 19px;
+    }
+
+    .back-label {
+        color: #297DFD;
+        font-family: "Proxima Nova";
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 24px;
+        text-align: center;
+    }
+
+    .ms-select-templates {
+        flex-basis: 75%;
+    }
+
+    .ms-send-button {
+        min-width: 50px;
+    }
+
     .ms-att-file-label {
         display: none;
     }
+
     .ms-att-file-icon {
         display: block;
     }
