@@ -182,6 +182,7 @@ public without sharing class TaskService {
                         Survey.Name
                 FROM SurveyInvitation
                 WHERE Id IN:invitationsVisible.keySet()
+                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE
         ];
 
         Set<Id> contactIds = new Set<Id>();
