@@ -342,7 +342,7 @@ public without sharing class PatientDelegateService {
         return resultMap;
     }
     
-    public static Map<Id, List<Id>> getPEIdsListByContactIdMap(List<Id> contactIds, String filter) {
+    public static Map<Id, List<Id>> getPEIdsListByContactIdMap(List<Id> contactIds, String filter, Boolean includeDelegates) {
         if(filter == null) filter = '';
         String ownPEFilter = 'Participant__r.Contact__c IN ' + DatabaseService.listToString(contactIds);
         if(!String.isEmpty(filter)) ownPEFilter += ' AND ' +filter;
@@ -360,13 +360,47 @@ public without sharing class PatientDelegateService {
             ownPEIdsForContact.add(pe.Id);
             resultMap.put(pe.Participant__r.Contact__c, ownPEIdsForContact);
         }
+        
+        if(includeDelegates){
+            Map<Id, List<Id>> participantIdsByDelegatedContactIdMap = getParticipantIdsByDelegatedContactIdMap(contactIds);
+            System.debug('Participant Ids >>> ' + JSON.serializePretty(participantIdsByDelegatedContactIdMap));
+            List<Id> delegatedParticipantIds = new List<Id>();
+            for(List<Id> participantIds : participantIdsByDelegatedContactIdMap.values()) delegatedParticipantIds.addAll(participantIds);
+            String allDelegatedPEFilter = '';
+            if(filter != null) allDelegatedPEFilter = ' WHERE ' + filter;
+            List<Participant__c> allDelegatedParticipants = DatabaseService.query(new List<String>{
+                    'Id',
+                    ' ( SELECT Id FROM Participant_Profile__r ' + allDelegatedPEFilter + ') '
+            }, Participant__c.getSObjectType(), DatabaseService.fieldInValues('Id', delegatedParticipantIds));
+            System.debug('>>> All participants: ' + JSON.serializePretty(allDelegatedParticipants));
+            Map<Id, List<Id>> peIdsByParticipantIdMap = new Map<Id, List<Id>>();
+            for(Participant__c participant : allDelegatedParticipants){
+                List<Id> peIdsForParticipant = new List<Id>();
+                for(Participant_Enrollment__c pe : participant.Participant_Profile__r) peIdsForParticipant.add(pe.Id);
+                peIdsByParticipantIdMap.put(participant.Id, peIdsForParticipant);
+            }
+    
+            for(Id contactId : participantIdsByDelegatedContactIdMap.keySet()){
+                List<Id> delegatedParticipantIdsForContact = participantIdsByDelegatedContactIdMap.get(contactId);
+                if(delegatedParticipantIds == null) delegatedParticipantIds = new List<Id>();
+                List<Id> delegatedPEIdsForContact = new List<Id>();
+                for(Id participantId : delegatedParticipantIdsForContact){
+                    delegatedPEIdsForContact.addAll(peIdsByParticipantIdMap.get(participantId));
+                }
+                List<Id> allPEIdsForContact = resultMap.get(contactId);
+                if(allPEIdsForContact == null) allPEIdsForContact = new List<Id>();
+                allPEIdsForContact.addAll(delegatedPEIdsForContact);
+                resultMap.put(contactId, allPEIdsForContact);
+            }
+        }
         return resultMap;
     }
     
     public static Map<Id, List<Id>> getAvailablePEIdsListByContactIdMap(List<Id> contactIds){
         return getPEIdsListByContactIdMap(
                 contactIds,
-                ' Participant_Status__c NOT IN ' + DatabaseService.listToString(PEStatusState.PE_STATUS_GROUP_ALUMNI)
+                ' Participant_Status__c NOT IN ' + DatabaseService.listToString(PEStatusState.PE_STATUS_GROUP_ALUMNI),
+                true
         );
     }
     
@@ -377,7 +411,8 @@ public without sharing class PatientDelegateService {
     public static Map<Id, List<Id>> getForExclStatusPEIdsListByContactIdMap(List<Id> contactIds, List<String> excludedPEStatuses){
         return getPEIdsListByContactIdMap(
                 contactIds,
-                ' Participant_Status__c NOT IN ' + DatabaseService.listToString(excludedPEStatuses)
+                ' Participant_Status__c NOT IN ' + DatabaseService.listToString(excludedPEStatuses),
+                true
         );
     }
 
@@ -388,7 +423,8 @@ public without sharing class PatientDelegateService {
     public static Map<Id, List<Id>> getPastPEIdsListByContactIdMap(List<Id> contactIds){
         return getPEIdsListByContactIdMap(
                 contactIds,
-                ' Participant_Status__c IN ' + DatabaseService.listToString(PEStatusState.PE_STATUS_GROUP_ALUMNI)
+                ' Participant_Status__c IN ' + DatabaseService.listToString(PEStatusState.PE_STATUS_GROUP_ALUMNI),
+                false
         );
     }
     

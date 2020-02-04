@@ -288,7 +288,6 @@ public without sharing class ParticipantService {
                         || (String.isBlank(ageOfMajority.Country_Code__c))){
                     prt.Adult__c = participantAge >= ageOfMajority.Age__c;
                 }
-                System.debug('In check');
             } catch (Exception e) {
             }
         }
