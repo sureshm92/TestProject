@@ -1065,6 +1065,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>RemoteCall_GetTravelBookingDetails</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>RemoteCall_SendPEToStudyHub</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1818,6 +1822,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_RemoteCall</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_RemoteCall_GetTravelBookingDetails</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
