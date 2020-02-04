@@ -20,112 +20,104 @@
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true" showSpinner="true"/>
 
     <aura:if isTrue="{!v.initialized}">
-        <aura:if isTrue="{!or(v.tasksAvailable, v.emptyTrial)}">
-            <div>
-                <!-- open tasks: -->
-                <aura:if isTrue="{!v.taskMode == 'Open'}">
-                    <div class="tt-title">{!$Label.c.Task_Tab_Open_Tasks}
-                        <button class="apollo-btn primary"
-                                onclick="{!c.doCreateNewTask}">{!$Label.c.BTN_Create_New_Task}</button>
-                    </div>
-                    <div class="rr-white-panel">
-                        <c:RRTable>
+        <div>
+            <!-- open tasks: -->
+            <aura:if isTrue="{!v.taskMode == 'Open'}">
+                <div class="tt-title">{!$Label.c.Task_Tab_Open_Tasks}
+                    <button class="apollo-btn primary"
+                            onclick="{!c.doCreateNewTask}">{!$Label.c.BTN_Create_New_Task}</button>
+                </div>
+                <div class="rr-white-panel">
+                    <c:RRTable>
+                        <tr>
+                            <th>{!$Label.c.Task_Tab_Table_Col_Name}</th>
+                            <th class="priority">{!$Label.c.Originator}</th>
+                            <th class="completed-by">{!$Label.c.Due_Date}</th>
+                            <th class="completed-by">{!$Label.c.Reminder_Date}</th>
+                        </tr>
+                        <aura:iteration items="{!v.openTasks}" var="taskWrapper">
                             <tr>
-                                <th>{!$Label.c.Task_Tab_Table_Col_Name}</th>
-                                <th class="priority">{!$Label.c.Originator}</th>
-                                <th class="completed-by">{!$Label.c.Due_Date}</th>
-                                <th class="completed-by">{!$Label.c.Reminder_Date}</th>
-                            </tr>
-                            <aura:iteration items="{!v.openTasks}" var="taskWrapper">
-                                <tr>
-                                    <td>
-                                        <c:RRLink label="{!taskWrapper.openTask.Subject}"
-                                                  page="{!if(empty(taskWrapper.openTask.Action_URL__c), 'task-detail?id=' + taskWrapper.openTask.Id, taskWrapper.openTask.Action_URL__c)}"/>
-                                    </td>
-                                    <td>
+                                <td>
+                                    <c:RRLink label="{!taskWrapper.openTask.Subject}"
+                                              page="{!if(empty(taskWrapper.openTask.Action_URL__c), 'task-detail?id=' + taskWrapper.openTask.Id, taskWrapper.openTask.Action_URL__c)}"/>
+                                </td>
+                                <td>
                                         {!taskWrapper.originator}
                                     </td>
-                                    <td>
-                                        <aura:if isTrue="{!taskWrapper.openTask.Status == 'In Progress'}">
+                                <td>
+                                    <aura:if isTrue="{!taskWrapper.openTask.Status == 'In Progress'}">
                                             {!$Label.c.Task_Tab_Table_Status_In_Progress}
                                         </aura:if>
-                                        <aura:if isTrue="{!taskWrapper.openTask.Status != 'In Progress'}">
-                                            <aura:if isTrue="{!taskWrapper.activityDate}">
-                                                <ui:outputDate value="{!taskWrapper.activityDate}"/>
-                                                <aura:set attribute="else">
+                                    <aura:if isTrue="{!taskWrapper.openTask.Status != 'In Progress'}">
+                                        <aura:if isTrue="{!taskWrapper.activityDate}">
+                                            <ui:outputDate value="{!taskWrapper.activityDate}"/>
+                                            <aura:set attribute="else">
                                                     {!$Label.c.None}
                                                 </aura:set>
-                                            </aura:if>
                                         </aura:if>
-                                    </td>
-                                    <td>
-                                        <aura:if isTrue="{!taskWrapper.reminder != null}">
-                                            <ui:outputDate value="{!taskWrapper.reminder}"/>
-                                            <aura:set attribute="else">
+                                    </aura:if>
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!taskWrapper.reminder != null}">
+                                        <ui:outputDate value="{!taskWrapper.reminder}"/>
+                                        <aura:set attribute="else">
                                                 {!$Label.c.None}
                                             </aura:set>
-                                        </aura:if>
-                                    </td>
-                                </tr>
-                            </aura:iteration>
-                        </c:RRTable>
-                        <aura:if isTrue="{!empty(v.openTasks)}">
-                            <div class="tt-empty-list">{!v.emptyTaskLabel}</div>
-                        </aura:if>
-                        <aura:set attribute="footer">
-                            <c:RRLink page="study-workspace?tab=tab-tasks" label="See All"/>
-                        </aura:set>
-                    </div>
-                </aura:if>
-
-                <!-- completed: -->
-                <aura:if isTrue="{!v.taskMode == 'Completed'}">
-                    <div class="tt-title">{!$Label.c.Task_Tab_Completed_Tasks}</div>
-                    <div class="rr-white-panel">
-                        <c:RRTable>
-                            <tr>
-                                <th>{!$Label.c.Task_Tab_Table_Col_Name}</th>
-                                <th>{!$Label.c.Task_Tab_Table_Col_Completed}</th>
+                                    </aura:if>
+                                </td>
                             </tr>
-                            <aura:iteration items="{!v.completedTasks}" var="taskWrapper">
-                                <tr class="{!if(taskWrapper.task.Status == 'Ignored', 'ignored', '')}">
-                                    <td>
-                                        <aura:if isTrue="{!taskWrapper.task.Status == 'Ignored'}">
-                                            <c:RRLink label="{!taskWrapper.task.Subject}"
-                                                      page="{!'task-detail?id=' + taskWrapper.task.Id}"/>
-                                        </aura:if>
-                                        <aura:if
-                                                isTrue="{!taskWrapper.task.Status == 'Completed' || taskWrapper.task.Status == 'Expired'}">
-                                            {!taskWrapper.task.Subject}
-                                        </aura:if>
-                                    </td>
-                                    <td>
-                                        <aura:if isTrue="{!taskWrapper.task.Status == 'Ignored'}">
-                                            {!$Label.c.Task_Tab_Table_Status_Ignored}
-                                        </aura:if>
-                                        <aura:if isTrue="{!taskWrapper.task.Status == 'Expired'}">
-                                            {!$Label.c.Task_Tab_Table_Status_Expired}
-                                        </aura:if>
-                                        <aura:if isTrue="{!taskWrapper.task.Status == 'Completed'}">
-                                            <ui:outputDate value="{!taskWrapper.completedDate}"/>
-                                        </aura:if>
-                                    </td>
-                                </tr>
-                            </aura:iteration>
-                        </c:RRTable>
-                        <aura:if isTrue="{!empty(v.completedTasks)}">
-                            <div class="tt-empty-list">{!v.emptyTaskLabel}</div>
-                        </aura:if>
-                    </div>
-                </aura:if>
-                <c:action_TimeZoneCheck/>
-            </div>
-
-            <aura:set attribute="else">
-                <div class="rr-white-panel">
-                    <div class="error-message">{!$Label.c.PG_VP_L_No_Items_display}</div>
+                        </aura:iteration>
+                    </c:RRTable>
+                    <aura:if isTrue="{!empty(v.openTasks)}">
+                        <div class="tt-empty-list">{!v.emptyTaskLabel}</div>
+                    </aura:if>
+                    <aura:set attribute="footer">
+                        <c:RRLink page="study-workspace?tab=tab-tasks" label="See All"/>
+                    </aura:set>
                 </div>
-            </aura:set>
-        </aura:if>
+            </aura:if>
+
+            <!-- completed: -->
+            <aura:if isTrue="{!v.taskMode == 'Completed'}">
+                <div class="tt-title">{!$Label.c.Task_Tab_Completed_Tasks}</div>
+                <div class="rr-white-panel">
+                    <c:RRTable>
+                        <tr>
+                            <th>{!$Label.c.Task_Tab_Table_Col_Name}</th>
+                            <th>{!$Label.c.Task_Tab_Table_Col_Completed}</th>
+                        </tr>
+                        <aura:iteration items="{!v.completedTasks}" var="taskWrapper">
+                            <tr class="{!if(taskWrapper.task.Status == 'Ignored', 'ignored', '')}">
+                                <td>
+                                    <aura:if isTrue="{!taskWrapper.task.Status == 'Ignored'}">
+                                        <c:RRLink label="{!taskWrapper.task.Subject}"
+                                                  page="{!'task-detail?id=' + taskWrapper.task.Id}"/>
+                                    </aura:if>
+                                    <aura:if
+                                            isTrue="{!taskWrapper.task.Status == 'Completed' || taskWrapper.task.Status == 'Expired'}">
+                                        {!taskWrapper.task.Subject}
+                                    </aura:if>
+                                </td>
+                                <td>
+                                    <aura:if isTrue="{!taskWrapper.task.Status == 'Ignored'}">
+                                        {!$Label.c.Task_Tab_Table_Status_Ignored}
+                                    </aura:if>
+                                    <aura:if isTrue="{!taskWrapper.task.Status == 'Expired'}">
+                                        {!$Label.c.Task_Tab_Table_Status_Expired}
+                                    </aura:if>
+                                    <aura:if isTrue="{!taskWrapper.task.Status == 'Completed'}">
+                                        <ui:outputDate value="{!taskWrapper.completedDate}"/>
+                                    </aura:if>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </c:RRTable>
+                    <aura:if isTrue="{!empty(v.completedTasks)}">
+                        <div class="tt-empty-list">{!v.emptyTaskLabel}</div>
+                    </aura:if>
+                </div>
+            </aura:if>
+            <c:action_TimeZoneCheck/>
+        </div>
     </aura:if>
 </aura:component>

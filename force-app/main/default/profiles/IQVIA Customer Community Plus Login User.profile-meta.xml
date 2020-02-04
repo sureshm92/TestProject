@@ -493,10 +493,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>EmailTemplateController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>EmailTemplateDelegateController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -951,10 +947,6 @@
     <classAccesses>
         <apexClass>PatientIntegrationException</apexClass>
         <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>PatientTravelService</apexClass>
-        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>PatientVisitResultTriggerHandler</apexClass>
