@@ -31,7 +31,7 @@
             <aura:if isTrue="{!v.hasEmancipatedParticipants}">
                 <div class="emancipation-notification">
                     <span class="emancipation-notification-msg"><c:RRIcon iconName="warning"/> {!$Label.c.One_or_more_Participants_reached_Majority}</span>
-                    <span class="emancipation-notification-link"><a href="javascript:void(0);">{!$Label.c.Filter_Participant_s}</a></span>
+                    <span class="emancipation-notification-link"><a data-gtm="link_Filter_emancip" href="javascript:void(0);">{!$Label.c.Filter_Participant_s}</a></span>
                 </div>
             </aura:if>
 
