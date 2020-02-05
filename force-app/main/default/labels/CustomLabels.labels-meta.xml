@@ -727,6 +727,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Healthcare Providers</value>
     </labels>
     <labels>
+        <fullName>BTN_HealthCare_Provider_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN HealthCare Provider Information</shortDescription>
+        <value>Healthcare Provider Information</value>
+    </labels>
+    <labels>
         <fullName>BTN_I_Accept</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -921,6 +928,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>true</protected>
         <shortDescription>BTN Participant Information</shortDescription>
         <value>Participant Information</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Participant_Would_Like_Share_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Participant Would Like Share Info</shortDescription>
+        <value>Participant would like to share information with these providers:</value>
     </labels>
     <labels>
         <fullName>BTN_Patient_no_longer_interested</fullName>
