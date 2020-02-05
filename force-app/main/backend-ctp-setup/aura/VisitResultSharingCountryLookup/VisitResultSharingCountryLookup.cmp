@@ -22,5 +22,4 @@
     <aura:method name="searchByValue" action="{!c.doSearchByValue}" access="public">
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
-
 </aura:component>
