@@ -16,6 +16,29 @@
     padding: 5px;
 }
 
+.THIS .emancipation-notification {
+    background: #FF9300;
+    fill: white;
+    height: 100%;
+    color: black;
+    line-height: 45px;
+    font-size: 1rem;
+    border: 0.1px solid;
+    border-color: lightgrey;
+    argin-bottom: 30px;
+}
+
+.THIS .emancipation-notification-msg {
+    padding: 4px 16px;
+    font-weight: 600;
+}
+
+.THIS .emancipation-notification-link {
+    text-align: right;
+    padding: 4px 16px;
+}
+
+
 @media all and (max-width: 767px) {
     .THIS {
         padding-bottom: 0;

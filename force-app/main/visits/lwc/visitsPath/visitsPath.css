@@ -35,7 +35,7 @@
 .state-label {
     text-align: center;
     font-size: 1rem;
-    color: #999;
+    color: #444;
 }
 
 .line-div {
@@ -61,8 +61,16 @@
     border-top-color: #00c221;
 }
 
+.line-div.missed {
+    border-top-color: #00c221;
+}
+
 .line-div.planned {
     border-top-color: #005ff1;
+}
+
+.missed .state-label {
+    color: #999;
 }
 
 .state-ico-wrapper {
@@ -93,6 +101,10 @@
     background-color: #00c221 !important;
 }
 
+.state.missed .state-ico-wrapper {
+    background-color: #99e7a6 !important;
+}
+
 .state.planned .state-ico-wrapper {
     background-color: #005ff1 !important;
 }
@@ -118,8 +130,8 @@
     margin-right: 5px;
 }
 
-.success .state-label {
-    color: #000;
+.add-date {
+    color: #297dfd;
 }
 
 @media screen and (max-width: 600px) {

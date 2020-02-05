@@ -3,13 +3,14 @@
  */
 ({
 
-    uploadPaticipants: function(component, csvData, fileName, studySiteId, selectedStatus, helper) {
+    uploadPaticipants: function(component, csvData, fileName, studySiteId, selectedStatus, createUsers, helper) {
         component.find('upModalSpinner').show();
         communityService.executeAction(component, 'uploadParticipants', {
             csvFileLines: csvData,
             fileName: fileName,
             studySiteId: studySiteId,
-            selectedStatus: selectedStatus
+            selectedStatus: selectedStatus,
+            createUsers: createUsers
         }, function (returnValue) {
             component.find('upModalSpinner').hide();
             communityService.showSuccessToast('',  "Participant record import is processing. You will be notified via email when the process has complete");

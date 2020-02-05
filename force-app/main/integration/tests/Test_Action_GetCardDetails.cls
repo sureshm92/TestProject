@@ -16,7 +16,7 @@ private class Test_Action_GetCardDetails {
         insert pvs;
 
         Test.startTest();
-        Action_GetCardDetails action = new Action_GetCardDetails(pv.Payment_Vendor_Id__c, testData.participant);
+        Action_GetCardDetails action = new Action_GetCardDetails(pv.Payment_Vendor_Id__c, '41', testData.participant);
         Test.setMock(HttpCalloutMock.class, new GetCardDetailsHttpCalloutMock());
         ActionExecutor.execute(action);
         Test.stopTest();

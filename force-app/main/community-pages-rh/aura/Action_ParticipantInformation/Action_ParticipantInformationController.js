@@ -15,8 +15,10 @@
         try {
             component.find('spinner').show();
             component.set('v.initialized', false);
+            component.set('v.sendEmails', false);
             var params = event.getParam('arguments');
             var pe = JSON.parse(JSON.stringify(params.pe));
+            component.set('v.isInvited', params.isInvited);
             if(params.actions)
                 component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
             component.set('v.popUpTitle', pe.Participant__r.Full_Name__c);
@@ -124,6 +126,22 @@
         $A.enqueueAction(action);
         var comp = component.find('dialog');
         comp.hide();
+    },
 
-    }
+    createUserForPatient: function(component, event, helper){
+    	var sendEmails = component.get('v.sendEmails');
+    	var pe = component.get('v.pe');
+        component.find('spinner').show();
+        communityService.executeAction(component, 'createUserForPatientProtal', {
+            peJSON: JSON.stringify(pe),
+            sendEmails: sendEmails
+        }, function () {
+            var action = component.get('c.doUpdate');
+            $A.enqueueAction(action);
+            component.set('v.isInvited', true);
+            communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
+        }, null, function () {
+            component.find('spinner').hide();
+        });
+    },
 });

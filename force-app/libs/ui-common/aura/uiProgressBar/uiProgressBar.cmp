@@ -1,0 +1,13 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="uiProgressBar">
+    <div class="overlay-screen">
+        <div class="progress-bar-container">
+            <div class="progress-bar stripes animated reverse slower">
+                <span class="progress-bar-inner"></span>
+            </div>
+        </div>
+    </div>
+</aura:component>

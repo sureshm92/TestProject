@@ -23,7 +23,7 @@
     <!-- component body: -->
     <li class="{!(v.isSelected ? 'active ' : ' ') + v.class}" onclick="{!c.doOnClick}" title="{!v.label}">
         <aura:if isTrue="{!empty(v.body)}">
-            {!v.label}
+            <div class="label">{!v.label}</div>
             <aura:set attribute="else">
                 {!v.body}
             </aura:set>

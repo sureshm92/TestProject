@@ -19,6 +19,7 @@ public without sharing class CommunityMode {
     @AuraEnabled public List<CommunityMode> subModes = new List<CommunityMode>();
     @AuraEnabled public Boolean isOpen = false;
     @AuraEnabled public String participantState;
+    @AuraEnabled public CommunityTemplate template = CommunityTemplateService.getDefaultTemplate();
     
     public CommunityMode(String userMode, String label) {
         this.userMode = userMode;
@@ -42,10 +43,11 @@ public without sharing class CommunityMode {
         init();
     }
     
-    public CommunityMode(String userMode, String label, Id delegateId, Participant_Enrollment__c pe) {
+    public CommunityMode(String userMode, String label, Id delegateId, Participant_Enrollment__c pe, CommunityTemplate template) {
         this.userMode = userMode;
         this.label = label;
         this.groupLabel = label;
+        this.template = template;
         if(pe != null) {
             this.currentPE = pe.Id;
             if(PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(pe.Participant_Status__c)) {

@@ -4,27 +4,28 @@
 //Community Service Module:
 window.communityService = (function () {
 
-    var isInitializedFlag = false;
-    var isTCAcceptedFlag;
-    var communityMode;
-    var communityDelegateId;
-    var communityURLPathPrefix;
-    var isDelegate;
-    var stickyBarEnabled = true;
-    var stickyBarTop;
-    var debugMode = false; //turn on/off output server stack traces in toast messages
-    var showOnLoginMap;
-    var showCurrentTourOnLogin;
-    var alreadyShowedMap = {};
-    var isNewSession;
-    var language;
-    var preventedCookies = [];
-    var participantState;
-    var baseUrl;
-    var currentUserMode;
-    var allUserModes;
-    var showPastStudies;
-    var templateProperties;
+    let isInitializedFlag = false;
+    let isTCAcceptedFlag;
+    let communityMode;
+    let communityDelegateId;
+    let communityURLPathPrefix;
+    let isDelegate;
+    let stickyBarEnabled = true;
+    let stickyBarTop;
+    let debugMode = false; //turn on/off output server stack traces in toast messages
+    let showOnLoginMap;
+    let showCurrentTourOnLogin;
+    let alreadyShowedMap = {};
+    let isNewSession;
+    let language;
+    let preventedCookies = [];
+    let participantState;
+    let baseUrl;
+    let currentUserMode;
+    let allUserModes;
+    let showPastStudies;
+    var messagesVisible;
+    let currentCSSTheme = 'Community_CSS_Stub';
 
     //community service functions:
     var service = {
@@ -41,18 +42,19 @@ window.communityService = (function () {
                 isDelegate = communityData.isDelegate;
                 communityURLPathPrefix = communityData.pathPrefix;
                 isTCAcceptedFlag = communityData.isTCAccepted;
+                messagesVisible = communityData.messagesVisible;
                 language = communityData.language;
                 participantState = communityData.state;
                 baseUrl = communityData.baseUrl;
                 isInitializedFlag = true;
                 allUserModes = communityData.allUserModes;
-                currentUserMode = communityData.currentUserMode;
                 showPastStudies = communityData.showPastStudies;
-                templateProperties = communityData.templateProperties;
+                service.setCurrentCommunityMode(communityData.currentUserMode);
                 service.setCookie('RRLanguage', communityData.language, 365);
                 console.log('CommunityService initialized:');
                 console.log('is TC accepted: ' + isTCAcceptedFlag);
                 console.log('URL path prefix: ' + communityURLPathPrefix);
+                component.init();
                 if (!service.isTCAccepted()) {
                     service.navigateToPage('terms-and-conditions?ret=' + service.createRetString());
                 } else {
@@ -115,9 +117,8 @@ window.communityService = (function () {
             return showPastStudies;
         },
 
-        getTemplateProperty(propertyName){
-            debugger;
-            if(templateProperties) return templateProperties[propertyName];
+        getTemplateProperty: function(propertyName){
+            if(currentUserMode.template.properties) return currentUserMode.template.properties[propertyName];
             return null;
         },
 
@@ -126,7 +127,29 @@ window.communityService = (function () {
         },
 
         setCurrentCommunityMode: function(mode){
-            currentUserMode = mode
+            currentUserMode = mode;
+            service.setThemeCSS();
+            if(mode.template.needRedirect){
+                document.location.href = mode.template.redirectURL;
+            }
+        },
+
+        getMessagesVisibility : function () {
+            return messagesVisible;
+        },
+        
+        setMessagesVisibility : function(visible) {
+            messagesVisible = visible;
+        },
+
+        setThemeCSS: function(){
+            let cssLink = document.querySelector('link[href*="' + currentCSSTheme + '"]');
+            try{
+                currentCSSTheme = service.getTemplateProperty('ThemeCSS');
+                if(cssLink) cssLink.setAttribute('href', currentCSSTheme);
+            }catch (e) {
+                console.log(e);
+            }
         },
 
         getAllUserModes: function(){

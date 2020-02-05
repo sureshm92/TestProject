@@ -18,6 +18,33 @@
     font-weight: 700;
 }
 
+.ms-disclaimer-mob, .disc-btn {
+    display: none;
+}
+
+.ms-disc-mob-label {
+    padding: 8px 17px 8px 0;
+    margin-bottom: 10px;
+    height: 24px;
+    width: 350px;
+    transform: rotate(-360deg);
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+.disc-more, .disc-less{
+    height: 24px;
+    color: #0768FD;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+}
+
 .ms-page {
     padding-top: 7px;
 }
@@ -130,4 +157,49 @@
 
 .ms-right {
     width: 100%;
+}
+
+@media all and (max-width: 480px) {
+
+    .ms-container {
+        height: 579px;
+        width: 343px;
+    }
+
+    .ms-disclaimer {
+        display: none;
+    }
+
+    .ms-disclaimer-mob {
+        min-height: 80px;
+        background-color: #fff;
+        border: 1px solid #e9e9e9;
+        padding: 0 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .04);
+    }
+
+    .full {
+        display: none;
+        height: 100%;
+    }
+
+    .disc-btn {
+        display: block;
+        padding: 10px 0;
+    }
+
+    .ms-left {
+        border-right: none;
+    }
+
+    .ms-title {
+        padding-left: 10px;
+    }
+
+    .ms-right {
+        display: none;
+    }
 }

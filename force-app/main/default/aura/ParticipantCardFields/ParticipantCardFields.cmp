@@ -22,10 +22,15 @@
                                   maxWidth="250px"/>
                     </div>
                 </div>
+                <aura:if isTrue="{!v.pe.Participant__r.Emancipation_in_progress__c}">
+                    <div class="slds-has-block-links--space3" style="margin-right: 150px;" data-gtm="Label_Action_Required">
+                        {!$Label.c.Action_Required}
+                    </div>
+                </aura:if>
                 <aura:if isTrue="{!v.isInvited}">
                     <div class="slds-has-block-links--space" data-gtm="Label_Invited">
-                    {!$Label.c.Invited}
-                </div>
+                        {!$Label.c.Invited}
+                    </div>
                     <aura:set attribute="else">
                         <div class="slds-has-block-links--space2" data-gtm="Label_Not_Invited">
                             {!$Label.c.Not_Invited}
