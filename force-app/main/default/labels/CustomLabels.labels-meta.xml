@@ -418,6 +418,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Account Name</value>
     </labels>
     <labels>
+        <fullName>Action_Required</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Action Required</shortDescription>
+        <value>Action Required</value>
+    </labels>
+    <labels>
         <fullName>Action_View_New_Study_Site</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4975,6 +4982,20 @@ The IQVIA Patient Portal Support Team</value>
         <value>Select Study</value>
     </labels>
     <labels>
+        <fullName>MS_Show_Less</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Show Less</shortDescription>
+        <value>Show Less</value>
+    </labels>
+    <labels>
+        <fullName>MS_Show_More</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Show More</shortDescription>
+        <value>Show More</value>
+    </labels>
+    <labels>
         <fullName>MS_Toast_Message_PA_Send</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7135,6 +7156,20 @@ View study documents and other resources including articles and videos related t
         <value>referred from</value>
     </labels>
     <labels>
+        <fullName>PG_EMN_MSG_Update_Contact_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG EMN MSG Update Contact Info</shortDescription>
+        <value>Please update participant&#39;s contact information:</value>
+    </labels>
+    <labels>
+        <fullName>PG_EMN_MSG_Update_Participant_Info</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG EMN MSG Update Participant Info</shortDescription>
+        <value>Please ensure that participant&#39;s personal information is up-to-date:</value>
+    </labels>
+    <labels>
         <fullName>PG_EPP_Header</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -9166,6 +9201,20 @@ Please check your CAPS lock key.</value>
         <value>Participant Information</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Participant_require_guardian</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Participant require guardian</shortDescription>
+        <value>Participant continues to require a legal guardian</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Participant_require_invitation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Participant require invitation</shortDescription>
+        <value>Would ##participantName like to be invited to Patient Portal?</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11105,6 +11154,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>SS City</shortDescription>
         <value>City</value>
+    </labels>
+    <labels>
+        <fullName>SS_Confirm_and_Manage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SS Confirm and Manage</shortDescription>
+        <value>Confirm and Manage Emancipated Participant&#39;s Access</value>
     </labels>
     <labels>
         <fullName>SS_Country</fullName>

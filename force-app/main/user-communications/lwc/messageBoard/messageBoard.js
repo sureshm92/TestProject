@@ -3,7 +3,6 @@
  */
 
 import {LightningElement, api, track} from 'lwc';
-import formFactor from '@salesforce/client/formFactor';
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 
 import emptyChatLabel from '@salesforce/label/c.MS_Empty_Chat';
@@ -18,6 +17,7 @@ import attFileLabel from '@salesforce/label/c.MS_Attach_File';
 import sendBtnLabel from '@salesforce/label/c.BTN_Send';
 import teamLabel from '@salesforce/label/c.Study_Team';
 import piLabel from '@salesforce/label/c.PI_Colon';
+import backLabel from '@salesforce/label/c.BTN_Back';
 
 import createConversation from '@salesforce/apex/MessagePageRemote.createConversation';
 import sendMessage from '@salesforce/apex/MessagePageRemote.sendMessage';
@@ -38,7 +38,8 @@ export default class MessageBoard extends LightningElement {
         attFileLabel,
         sendBtnLabel,
         teamLabel,
-        piLabel
+        piLabel,
+        backLabel
     };
 
     fileTypes = '.csv,.doc,.jpg,.pdf,.png,.xls';
@@ -121,7 +122,7 @@ export default class MessageBoard extends LightningElement {
             this.openExisting(this.firstConWr.conversation, this.firstConWr.messages, this.firstConWr.isPastStudy);
         }
 
-        if(this.needAfterRenderSetup) {
+        if (this.needAfterRenderSetup) {
             let context = this;
             setTimeout(function () {
                 context.clearMessage();
@@ -150,15 +151,20 @@ export default class MessageBoard extends LightningElement {
             });
     }
 
-    handleSelectionChange() {
-        let lookUp = this.template.querySelector('c-web-lookup');
-        if (lookUp) this.selectedEnrollments = lookUp.getSelection();
+    handleSelectionChange(event) {
+    //     let lookUp = this.template.querySelector('c-web-lookup');
+    //     if (lookUp) this.selectedEnrollments = lookUp.getSelection();
+        this.selectedEnrollments = event.detail.
         this.checkSendBTNAvailability();
     }
 
     //Handlers:---------------------------------------------------------------------------------------------------------
+    handleBackClick(event) {
+        this.dispatchEvent(new CustomEvent('back'));
+    }
+
     handleEnrollmentSelect(event) {
-        let peId = event.target.value;
+        let peId = event.detail.peId;
         this.selectedEnrollment = this.enrollments.filter(function (pe) {
             return pe.Id === peId
         })[0];
@@ -176,9 +182,11 @@ export default class MessageBoard extends LightningElement {
     }
 
     handleSendClick(event) {
-        //Add opportunity for Attach
+        let messageText = this.messageText;
+        this.clearMessage();
+
         if (this.userMode === 'PI' && this.isMultipleMode && this.selectedEnrollments) {
-            sendMultipleMessage({peIds: this.selectedEnrollments, messageText: this.messageText})
+            sendMultipleMessage({peIds: this.selectedEnrollments, messageText: messageText})
                 .then(() => {
                     this.fireMultipleSendEvent();
                 })
@@ -188,7 +196,7 @@ export default class MessageBoard extends LightningElement {
                 });
         } else {
             if (!this.conversation && this.selectedEnrollment) {
-                createConversation({enrollment: this.selectedEnrollment, messageText: this.messageText})
+                createConversation({enrollment: this.selectedEnrollment, messageText: messageText})
                     .then(data => {
                         this.fireSendEvent(data);
                     })
@@ -198,7 +206,7 @@ export default class MessageBoard extends LightningElement {
                     });
             } else {
                 let docId = this.contentDocId ? this.contentDocId : null;
-                sendMessage({conversation: this.conversation, messageText: this.messageText})
+                sendMessage({conversation: this.conversation, messageText: messageText})
                     .then(data => {
                         this.fireSendEvent(data);
                     })
@@ -223,7 +231,11 @@ export default class MessageBoard extends LightningElement {
         console.log('>Click');
     }
 
-    //Picklist Options:-------------------------------------------------------------------------------------------------
+    //Template Methods:-------------------------------------------------------------------------------------------------
+    get isPIMode() {
+        return this.userMode === 'PI';
+    }
+
     get enrollmentsOptions() {
         let options = [];
         if (this.enrollments) {
@@ -250,11 +262,26 @@ export default class MessageBoard extends LightningElement {
         return options;
     }
 
-    //Service Methods:--------------------------------------------------------------------------------------------------
-    get isPIMode() {
-        return this.userMode === 'PI';
+    checkSendBTNAvailability() {
+        let sendBtn = this.template.querySelector('.ms-send-button');
+        if (this.messageText && (this.selectedEnrollment || this.selectedEnrollments) && !this.isHoldMode) {
+            this.isSendEnable = true;
+            sendBtn.removeAttribute('disabled');
+        } else {
+            this.isSendEnable = false;
+            sendBtn.setAttribute('disabled', '');
+        }
     }
 
+    changeAttachStyle() {
+        let attachBTN = this.template.querySelector('.ms-att-file-label');
+        if (attachBTN) {
+            attachBTN.style.opacity = this.isSendEnable ? 1 : 0.5;
+            attachBTN.style.pointerEvents = this.isSendEnable ? 'all' : 'none';
+        }
+    }
+
+    //Service Methods:--------------------------------------------------------------------------------------------------
     clearMessage() {
         this.messageText = null;
         this.isSendEnable = false;
@@ -277,24 +304,5 @@ export default class MessageBoard extends LightningElement {
 
     notifyUser(title, message, variant) {
         this.dispatchEvent(new ShowToastEvent({title, message, variant}));
-    }
-
-    checkSendBTNAvailability() {
-        let sendBtn = this.template.querySelector('.ms-send-button');
-        if (this.messageText && (this.selectedEnrollment || this.selectedEnrollments) && !this.isHoldMode) {
-            this.isSendEnable = true;
-            sendBtn.removeAttribute('disabled');
-        } else {
-            this.isSendEnable = false;
-            sendBtn.setAttribute('disabled', '');
-        }
-    }
-
-    changeAttachStyle() {
-        let attachBTN = this.template.querySelector('.ms-att-file-label');
-        if (attachBTN) {
-            attachBTN.style.opacity = this.isSendEnable ? 1 : 0.5;
-            attachBTN.style.pointerEvents = this.isSendEnable ? 'all' : 'none';
-        }
     }
 }

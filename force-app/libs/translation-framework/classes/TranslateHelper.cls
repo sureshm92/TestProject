@@ -237,6 +237,7 @@ public class TranslateHelper {
     }
 
     public static String replaceParams(String source, String paramPrefix, Map<String, String> params){
+        if(source == null) return null;
         String result = source;
         for(String param : params.keySet()) {
             String paramId = paramPrefix + param;
