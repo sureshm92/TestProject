@@ -113,6 +113,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_ConversationReminder</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_CopyEnrollmentHistory</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -3208,6 +3212,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Type_of_Affiliate_Organization__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Unread_Conversation_Count__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

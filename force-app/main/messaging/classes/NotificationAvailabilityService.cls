@@ -8,6 +8,7 @@ public without sharing class NotificationAvailabilityService {
     private static final String CLINICAL_TRIAL_PROFILE_OBJ_NAME = 'Clinical_Trial_Profile__c';
     private static final String HCP_ENROLLMENT_OBJ_NAME = 'HCP_Enrollment__c';
     private static final String SURVEY_INVITATION_OBJ_NAME = 'SurveyInvitation';
+    private static final String CONTACT = 'Contact';
     private static final String TASK_OBJ_NAME = 'Task';
 
     private Map<Id, Contact> contactByIdMap;
@@ -25,9 +26,8 @@ public without sharing class NotificationAvailabilityService {
         ];
         for (Contact con : contacts) contactByIdMap.put(con.Id, con);
 
-        Map<String, List<Id>> objectsByStrings;
+        Map<String, List<Id>> objectsByStrings = new Map<String, List<Id>>();
         objectsByIds = new Map<Id, SObject>();
-        objectsByStrings = new Map<String, List<Id>>();
         //Map for WhatIds Map(HCP, List<Id>)
         for (String str : whatIds) {
             Id whatId;
@@ -46,8 +46,8 @@ public without sharing class NotificationAvailabilityService {
         }
 
         //Map <Id, SObject>
-        for (String st : objectsByStrings.keySet()) {
-            if (st == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
+        for (String objType : objectsByStrings.keySet()) {
+            if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
                 List<Participant_Enrollment__c> listPE = [
                         SELECT Id, Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
                                 Study_Site__r.Suppress_Participant_Emails__c,
@@ -57,33 +57,36 @@ public without sharing class NotificationAvailabilityService {
                                 Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
                                 HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c
                         FROM Participant_Enrollment__c
-                        WHERE Id IN:objectsByStrings.get(st)
+                        WHERE Id IN:objectsByStrings.get(objType)
                 ];
                 for (Participant_Enrollment__c pe : listPE) {
                     objectsByIds.put(pe.Id, pe);
                 }
             }
-            if (st == CLINICAL_TRIAL_PROFILE_OBJ_NAME) {
+            if (objType == CLINICAL_TRIAL_PROFILE_OBJ_NAME) {
                 List<Clinical_Trial_Profile__c> listCTP = [
                         SELECT Id,
                                 Suppress_Participant_Emails__c
                         FROM Clinical_Trial_Profile__c
-                        WHERE Id IN:objectsByStrings.get(st)
+                        WHERE Id IN:objectsByStrings.get(objType)
                 ];
                 for (Clinical_Trial_Profile__c ctp : listCTP) {
                     objectsByIds.put(ctp.Id, ctp);
                 }
             }
-            if (st == HCP_ENROLLMENT_OBJ_NAME) {
+            if (objType == HCP_ENROLLMENT_OBJ_NAME) {
                 List<HCP_Enrollment__c> hcpeList = [
                         SELECT Id,
                                 HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c
                         FROM HCP_Enrollment__c
-                        WHERE Id IN:objectsByStrings.get(st)
+                        WHERE Id IN:objectsByStrings.get(objType)
                 ];
                 for (HCP_Enrollment__c hcpe : hcpeList) {
                     objectsByIds.put(hcpe.Id, hcpe);
                 }
+            }
+            if (objType == CONTACT) {
+                //TODO if Contact needs additional fields
             }
 
             //TODO for other objects passing in WhatID
@@ -137,6 +140,8 @@ public without sharing class NotificationAvailabilityService {
                 if (pe.Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c) {
                     checkForNotification = true;
                 }
+            }else if (objType == CONTACT) {
+                checkForNotification = true;
             }
         }
         return checkForNotification;
@@ -147,7 +152,7 @@ public without sharing class NotificationAvailabilityService {
         Id objId = whatId;
         Contact contact = contactByIdMap.get(contactId);
         isAvailable = isAvailable && contact.Participant_Opt_In_Status_SMS__c;
-        if(objId.getSobjectType() == Participant_Enrollment__c.getSObjectType()){
+        if (objId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
             Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
             isAvailable = isAvailable && pe.Study_Site__r.SMS_Are_Available__c;
         }
