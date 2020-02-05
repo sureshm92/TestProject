@@ -2097,6 +2097,13 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
             To accept this request, log in to the IQVIA Referral Hub and navigate to “My Referring Clinics.”</value>
     </labels>
     <labels>
+        <fullName>Email_Body_PI_Conv_Rem</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Body_PI_Conv_Rem</shortDescription>
+        <value>There are ##UnreadConversationCount of pending threads from participants that await your attention.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_PI_New_Mess</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2762,6 +2769,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <value>Referring provider pending acceptance</value>
     </labels>
     <labels>
+        <fullName>Email_Header_PI_Conv_Rem</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Header_PI_Conv_Rem</shortDescription>
+        <value>Temp</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_PI_New_Mess</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3322,6 +3336,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Email Subject PI6</shortDescription>
         <value>Reminder to accept a referring provider</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_PI_Conv_Rem</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject PI Conv Rem</shortDescription>
+        <value>Temp</value>
     </labels>
     <labels>
         <fullName>Email_Subject_PI_New_Mess</fullName>
