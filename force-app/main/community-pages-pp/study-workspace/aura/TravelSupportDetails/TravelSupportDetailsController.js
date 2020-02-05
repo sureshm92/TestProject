@@ -23,14 +23,12 @@
                 component.set('v.options', opts);
                 component.set('v.initialized', true);
             });
+        $A.enqueueAction(component.get('c.getAvailableVendors'));
         component.find('spinner').hide();
     },
 
     getAvailableVendors: function (component, event, helper) {
         communityService.executeAction(component, 'getAvailableVendorsForSS', {},
-            function (response) {
-                component.set('v.vendors', response);
-            }
-        );
+            function (response) {component.set('v.vendors', response);});
     }
 });

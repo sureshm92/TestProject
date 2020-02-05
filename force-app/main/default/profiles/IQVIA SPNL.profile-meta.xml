@@ -3239,6 +3239,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Conversation__c.Elapsed_Days_First_Unread__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Conversation__c.FirstUnreadDate__c</field>
         <readable>true</readable>
