@@ -145,7 +145,7 @@ public without sharing class PENotificationTriggerHandler {
                         Study_Site__r.Principal_Investigator__c,
                         Participant_Contact__c
                 FROM Participant_Enrollment__c
-                WHERE Id IN :peIds
+                WHERE Id IN :peIds AND Participant_Contact__c != null
         ]) {
             notificationList.add(new Notification__c(
                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE,
