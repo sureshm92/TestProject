@@ -2011,7 +2011,7 @@ Please take a moment to log in to the Referral Hub and view the studies to which
 
             Your username is ##UserName. Please click the Enroll Now button to create your password.
 
-            Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantFirstName to be enrolled into the research study: </value>
+            Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantFirstName to be enrolled into the research study:</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Virtual</fullName>
@@ -2473,8 +2473,6 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
         <protected>true</protected>
         <shortDescription>Email Body SS on PE Was Changed To PI</shortDescription>
         <value>A participant, ##PEProfileName, has been transferred to your study site: ##SSName.
-
-
 
 If you have questions or concerns about this transfer, please contact your IQVIA Patient Recruitment Lead.</value>
     </labels>
