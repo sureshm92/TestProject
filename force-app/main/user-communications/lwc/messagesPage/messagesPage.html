@@ -8,6 +8,15 @@
         <template if:true={initialized}>
             <template if:false={isPIMode}>
                 <div class="ms-disclaimer">{labels.disclaimerLabel}</div>
+                <div class="ms-disclaimer-mob">
+                    <div class="ms-disc-mob-label full">{labels.disclaimerLabel}</div>
+                    <div class="ms-disc-mob-label less">
+                        <c-web-limit-text-by-lines max-lines="1" title={labels.disclaimerLabel}>
+                            <span slot="body">{labels.disclaimerLabel}</span>
+                        </c-web-limit-text-by-lines>
+                    </div>
+                    <button class="apollo-btn text disc-btn" onclick={handleShowMoreClick}>{labels.showMoreLabel}</button>
+                </div>
             </template>
         </template>
     </div>
@@ -46,7 +55,8 @@
                     <c-message-board user-mode={userMode}
                                      first-con-wr={firstConWrapper}
                                      onconversationupdate={handleMessageSend}
-                                     onmultiplymailing={handleRefreshEvent}></c-message-board>
+                                     onmultiplymailing={handleRefreshEvent}
+                                     onback={handleBoardClose}></c-message-board>
                 </div>
             </template>
         </div>
