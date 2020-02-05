@@ -6,68 +6,87 @@
 <template>
     <template if:true={hideEmptyStub}>
         <div class="ms-board" data-gtm="ms-board">
-            <div class="ms-board-header">
-                <template if:true={isMultipleMode}>
-                    <div class="ms-multi-header">
-                        <template if:false={isPIMode}>
-                            <div class="ms-multi-header-pa">
-                                <div class="ms-pi-new-mess">{labels.newMessLabel}</div>
-                                <lightning-combobox
-                                        data-gtm="ms-pa-pe-select"
-                                        style="flex-basis: 60%;"
-                                        label=""
-                                        variant="label-hidden"
-                                        value={selectedPeId}
-                                        placeholder={labels.selectStudyPlaceholderLabel}
-                                        options={enrollmentsOptions}
-                                        onchange={handleEnrollmentSelect}></lightning-combobox>
-                            </div>
-                        </template>
-                        <template if:true={isPIMode}>
-                            <!-- Search input by PE (Participants Name) -->
-                            <div class="ms-multi-header-pi">
-                                <div class="ms-pi-new-mess">{labels.newMessLabel}</div>
-                                <div class="ms-pi-multi-recipient" data-gtm="LKP_Participants">
-                                    <c-web-lookup
-                                            onsearch={handleSearch}
-                                            onselectionchange={handleSelectionChange}
-                                            placeholder={labels.recipientsPlaceholder}
-                                            is-multi-entry="true">
-                                    </c-web-lookup>
-                                </div>
-                            </div>
-                        </template>
-                    </div>
-                </template>
-                <template if:false={isMultipleMode}>
-                    <div class="ms-single-header">
-                        <template if:false={isPIMode}>
-                            <div class="ms-header-team-name" data-gtm="ms-header-name-pa">
-                                <template if:false={isPastStudy}>
-                                    {labels.teamLabel}&nbsp;|&nbsp;{labels.piLabel}&nbsp;{selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name}
-                                </template>
-                                <template if:true={isPastStudy}>
-                                    <c-web-limit-text-by-lines max-lines="2"
-                                                               title={selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}>
-                                        <span slot="body">{labels.teamLabel}&nbsp;|&nbsp;{selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}</span>
-                                    </c-web-limit-text-by-lines>
-                                </template>
-                            </div>
-                        </template>
-                        <template if:true={isPIMode}>
-                            <div class="ms-header-patient-name"
-                                 data-gtm="ms-header-patient-name">{selectedEnrollment.Participant__r.Full_Name__c}
-                            </div>
-                            <div class="ms-header-patient-study" data-gtm="ms-header-patient-study">
-                                <c-web-limit-text-by-lines max-lines="1"
-                                                           title={selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}>
-                                    <span slot="body">{selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}</span>
-                                </c-web-limit-text-by-lines>
-                            </div>
-                        </template>
-                    </div>
-                </template>
-            </div>
+<!--            <div class="ms-board-header">-->
+<!--                <div class="header-back" onclick={handleBackClick}>-->
+<!--                    <c-web-icon icon-name="chevron-left" icon-color="#297DFD" icon-height="24" icon-width="24"></c-web-icon>-->
+<!--                    <p class="back-label">{labels.backLabel}</p>-->
+<!--                </div>-->
+<!--                <template if:true={isMultipleMode}>-->
+<!--                    <div class="ms-multi-header">-->
+<!--                        <template if:false={isPIMode}>-->
+<!--                            <div class="ms-multi-header-pa">-->
+<!--                                <div class="ms-pi-new-mess">{labels.newMessLabel}</div>-->
+<!--                                <lightning-combobox-->
+<!--                                        data-gtm="ms-pa-pe-select"-->
+<!--                                        style="flex-basis: 60%;"-->
+<!--                                        label=""-->
+<!--                                        variant="label-hidden"-->
+<!--                                        value={selectedPeId}-->
+<!--                                        placeholder={labels.selectStudyPlaceholderLabel}-->
+<!--                                        options={enrollmentsOptions}-->
+<!--                                        onchange={handleEnrollmentSelect}></lightning-combobox>-->
+<!--                            </div>-->
+<!--                        </template>-->
+<!--                        <template if:true={isPIMode}>-->
+<!--                            &lt;!&ndash; Search input by PE (Participants Name) &ndash;&gt;-->
+<!--                            <div class="ms-multi-header-pi">-->
+<!--                                <div class="ms-pi-new-mess">{labels.newMessLabel}</div>-->
+<!--                                <div class="ms-pi-multi-recipient" data-gtm="LKP_Participants">-->
+<!--                                    <c-web-lookup-->
+<!--                                            onsearch={handleSearch}-->
+<!--                                            onselectionchange={handleSelectionChange}-->
+<!--                                            placeholder={labels.recipientsPlaceholder}-->
+<!--                                            is-multi-entry="true">-->
+<!--                                    </c-web-lookup>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </template>-->
+<!--                    </div>-->
+<!--                </template>-->
+<!--                <template if:false={isMultipleMode}>-->
+<!--                    <div class="ms-single-header">-->
+
+<!--                        <div class="header-con-icon">-->
+<!--                            <template if:false={isPIMode}>-->
+<!--                                <c-web-icon icon-name="icon-study-team" icon-color="#ffffff" icon-height="20" icon-width="20"></c-web-icon>-->
+<!--                            </template>-->
+<!--                            <template if:true={isPIMode}>-->
+<!--                                <p>{initials}</p>-->
+<!--                            </template>-->
+<!--                        </div>-->
+
+<!--                        <template if:false={isPIMode}>-->
+<!--                            <div class="ms-header-team-name" data-gtm="ms-header-name-pa">-->
+<!--                                <template if:false={isPastStudy}>-->
+<!--                                    {labels.teamLabel}&nbsp;|&nbsp;{labels.piLabel}&nbsp;{selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name}-->
+<!--                                </template>-->
+<!--                                <template if:true={isPastStudy}>-->
+<!--                                    <c-web-limit-text-by-lines max-lines="2"-->
+<!--                                                               title={selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}>-->
+<!--                                        <span slot="body">{labels.teamLabel}&nbsp;|&nbsp;{selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}</span>-->
+<!--                                    </c-web-limit-text-by-lines>-->
+<!--                                </template>-->
+<!--                            </div>-->
+<!--                        </template>-->
+<!--                        <template if:true={isPIMode}>-->
+<!--                            <div class="ms-header-patient-name"-->
+<!--                                 data-gtm="ms-header-patient-name">{selectedEnrollment.Participant__r.Full_Name__c}-->
+<!--                            </div>-->
+<!--                            <div class="ms-header-patient-study" data-gtm="ms-header-patient-study">-->
+<!--                                <c-web-limit-text-by-lines max-lines="1"-->
+<!--                                                           title={selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}>-->
+<!--                                    <span slot="body">{selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}</span>-->
+<!--                                </c-web-limit-text-by-lines>-->
+<!--                            </div>-->
+<!--                        </template>-->
+<!--                    </div>-->
+<!--                </template>-->
+<!--            </div>-->
+            <c-message-board-header user-mode={userMode} is-multiple-mode={isMultipleMode} is-past-study={isPastStudy}
+                                    enrollments={enrollments} selected-enrollment={selectedEnrollment}
+                                    onback={handleBackClick}
+                                    onselectionchange={handleSelectionChange}
+                                    onenrollmentselect={handleEnrollmentSelect}></c-message-board-header>
             <div class="ms-board-body" data-gtm="ms-board-body">
                 <template if:true={messageWrappers}>
                     <template for:each={messageWrappers} for:item="msWr">
@@ -123,7 +142,7 @@
                 <template if:false={isPIMode}>
                     <div class="ms-send-part">
                         <lightning-combobox
-                                style="flex-basis: 85%;"
+                                class="ms-select-templates"
                                 data-gtm="ms-pa-select"
                                 label={labels.selectLabel}
                                 value={messageText}

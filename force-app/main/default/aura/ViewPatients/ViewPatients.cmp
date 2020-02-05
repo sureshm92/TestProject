@@ -29,7 +29,7 @@
         <aura:if isTrue="{!v.isInitialized}">
 
             <aura:if isTrue="{!v.hasEmancipatedParticipants}">
-                <div style="background: #FFF7EC; fill: white; height: 100%; color: black; line-height: 45px; font-size: 1rem; border: 0.1px solid; border-color: lightgrey; argin-bottom: 30px;">
+                <div style="background: #FF9300; fill: white; height: 100%; color: black; line-height: 45px; font-size: 1rem; border: 0.1px solid; border-color: lightgrey; argin-bottom: 30px;">
                     <span style="padding: 4px 16px; font-weight: 600;"><c:RRIcon iconName="warning"/> {!$Label.c.One_or_more_Participants_reached_Majority}</span>
                     <span style="text-align: right; padding: 4px 16px;"><a href="javascript:void(0);">{!$Label.c.Filter_Participant_s}</a></span>
                 </div>

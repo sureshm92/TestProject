@@ -87,12 +87,10 @@ const fireEvent = (pageRef, eventName, payload) => {
     if (events[eventName]) {
         const listeners = events[eventName];
         listeners.forEach(listener => {
-            if (samePageRef(pageRef, listener.thisArg.pageRef)) {
-                try {
-                    listener.callback.call(listener.thisArg, payload);
-                } catch (error) {
-                    // fail silently
-                }
+            try {
+                listener.callback.call(listener.thisArg, payload);
+            } catch (error) {
+                // fail silently
             }
         });
     }

@@ -14,6 +14,7 @@
         console.log('pe', JSON.parse(JSON.stringify(component.get('v.pe'))));
         console.log('part', JSON.parse(JSON.stringify(component.get('v.participant'))));
         console.log('doCheckFields');
+        var helpText = component.find('helpText');
         var participant = component.get('v.participant');
         var statesByCountryMap = component.get('v.formData.statesByCountryMap');
         var states = statesByCountryMap[participant.Mailing_Country_Code__c];
@@ -31,8 +32,10 @@
         var isEnrollmentSuccess = false;
         var today = new Date();
         var dateToday = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate());
-        var currentDate = new Date(dateToday);
-        var inputDate = new Date(participant.Date_of_Birth__c);
+        var currDate = new Date(dateToday);
+        var inDate = new Date(participant.Date_of_Birth__c);
+        var currentDate = currDate.setHours(0, 0, 0, 0);
+        var inputDate = inDate.setHours(0, 0, 0, 0);
         if(pe.MRN_Id__c){
             component.set('v.disableSourceId', true);
         } else {
@@ -179,6 +182,10 @@
     	component.set('v.isRefreshView', true);
     	component.set('v.isRefreshView', false);
     },
+
+    hideHelp: function (component) {
+        component.set('hideHelp', false);
+    }
 
 
 })
