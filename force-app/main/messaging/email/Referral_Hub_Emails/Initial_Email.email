@@ -4,8 +4,7 @@
 
     <messaging:htmlEmailBody >
         <c:EmailTemplate recipientId="{!recipient.Id}"
-                         sourceId="{!recipient.Id}"
-                         showDelegateSSTable="true">
+                         sourceId="{!recipient.Id}">
 <!--                         showDelegateTable="true">-->
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Enroll_Now}"
                               buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
@@ -14,8 +13,7 @@
 
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText recipientId="{!recipient.Id}"
-                             sourceId="{!recipient.Id}"
-                             showDelegateSSTable="true">
+                             sourceId="{!recipient.Id}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Enroll_Now}"
                                   buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
         </c:EmailTemplateText>
