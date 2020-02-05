@@ -117,13 +117,12 @@ export default class VisitsPath extends LightningElement {
                     id: this.patientVisits[i].Id,
                     visitName:  this.patientVisits[i].Portal_Name__c ? this.patientVisits[i].Portal_Name__c : this.patientVisits[i].Name,
                     isPending : !isCompleted && !isMissed,
-                    icon: isCompleted ? iconSucc : iconNeutral,
+                    icon: isMissed ? iconMissed : iconCalendar,
                     complDate: isCompleted ? this.patientVisits[i].Completed_Date__c : null,
                     planDate: (!isMissed && !isCompleted && this.patientVisits[i].Planned_Date__c) ?  this.patientVisits[i].Planned_Date__c : null,
                     stateStatus: isCompleted ? stateSucc : stateNeutral
                 };
                 if(isMissed) {
-                    item.icon = iconMissed;
                     item.stateStatus = stateMissed;
                     item.complDate = 'Unavailable';
                 }
@@ -135,7 +134,6 @@ export default class VisitsPath extends LightningElement {
                 }
             }
             if(firstPending){
-                firstPending.icon = iconPlanned;
                 firstPending.stateStatus = statePlan;
             }
 
