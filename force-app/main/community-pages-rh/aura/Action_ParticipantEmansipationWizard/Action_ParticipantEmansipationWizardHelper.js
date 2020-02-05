@@ -5,23 +5,23 @@
 ({
     preparePathItems : function (component) {
 
-        var statuses = this.getStatuses();
-        var statusesMap = this.getStatusesMap();
-        var currentImansipationWizardState = statusesMap[statuses[0]];
+        let statuses = this.getStatuses();
+        let statusesMap = this.getStatusesMap();
+        let currentTab = component.get('v.currentTab');
+        let currentImansipationWizardState = statusesMap[statuses[(+currentTab - 1)]];
 
         component.set('v.showPath', true);
 
-        var pathList = [];
-        var iconMap = {
+        let pathList = [];
+        let iconMap = {
             success : 'icon-check',
             failure : '',
             neutral : '',
             in_progress : ''
         };
         for (var i = 0; i < statuses.length; i++) {
-
             //default values for path item:
-            var pathItem = statusesMap[statuses[i]];
+            let pathItem = statusesMap[statuses[i]];
             pathItem.name = statuses[i];
 
             if (currentImansipationWizardState) {
@@ -56,16 +56,19 @@
         return {
             "Participant" : {
                 order : 1,
-                state : "success"
+                state : "neutral"
             },
             "Delegate(s)" : {
-                order : 2
+                order : 2,
+                state : "neutral"
             },
             "Provider Access" : {
-                order : 3
+                order : 3,
+                state : "neutral"
             },
             "Review and Confirm" : {
-                order : 4
+                order : 4,
+                state : "neutral"
             }
         };
     }

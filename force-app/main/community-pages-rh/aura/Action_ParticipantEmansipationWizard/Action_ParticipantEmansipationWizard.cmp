@@ -194,8 +194,12 @@
                 </aura:if>
 
                 <aura:if isTrue="{!v.pe &amp;&amp; v.currentTab == '3'}">
-                    <div class="ap-section">
-                        <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{!v.pe.HCP__r.HCP_Contact__r}" fromActionParticipant="true" actionDisabled="false"/>
+                    <div class="personal-info-container">
+                        <!-- Healthcare Provider information: -->
+                        <div class="ap-section">
+                            <div class="ap-section-title">{!$Label.c.BTN_HealthCare_Provider_Information}</div>
+                            <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{!v.pe.HCP__r.HCP_Contact__r}" fromActionParticipant="false" fromEmancipParticipant="true" actionDisabled="false"/>
+                        </div>
                     </div>
                 </aura:if>
 
@@ -207,8 +211,8 @@
 
         <aura:set attribute="footerButtons">
             <div data-gtm="BTNS_Popup_Manage_Emancipation">
-                <lightning:button class="apollo-btn primary slds-float_right slds-button--reset" disabled="{!!v.isValid}" onclick="{!c.doCancel}">{!v.currentTab != '4' ? $Label.c.BTN_Next : $Label.c.BTN_Save}</lightning:button>
-                <lightning:button class="apollo-btn secondary slds-float_right slds-button--reset" disabled="{!v.currentTab == '1'}" onclick="{!c.doCancel}">{!$Label.c.BTN_Back}</lightning:button>
+                <lightning:button class="apollo-btn primary slds-float_right slds-button--reset" disabled="{!!v.isValid}" onclick="{!c.doNext}">{!v.currentTab != '4' ? $Label.c.BTN_Next : $Label.c.BTN_Save}</lightning:button>
+                <lightning:button class="apollo-btn secondary slds-float_right slds-button--reset" disabled="{!v.currentTab == '1'}" onclick="{!c.doBack}">{!$Label.c.BTN_Back}</lightning:button>
                 <lightning:button class="apollo-btn secondary slds-float_right slds-button--reset" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</lightning:button>
             </div>
         </aura:set>
