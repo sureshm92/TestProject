@@ -39,7 +39,10 @@ public without sharing class AccountSettingsController {
 
                     ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
                     List<Participant_Enrollment__c> participantEnrollments = new List<Participant_Enrollment__c>();
-                    if (participantState.pe != null) participantEnrollments.add(participantState.pe);
+                    List<Id> peIds = new List<Id>();
+                    peIds = PatientDelegateService.getAvailablePEIdsForContact(participantState.participant.Contact__c);
+                    List<Participant_Enrollment__c> availablePEs = [SELECT Id, Study_Site__r.SMS_Are_Available__c FROM Participant_Enrollment__c WHERE Id =: peIds];
+                    if (availablePEs != null) participantEnrollments.addAll(availablePEs);
                     List<Participant_Enrollment__c> pastEnrollments =
                             ContactService.getPastEnrollments(participantState.participant.Contact__c);
                     if(pastEnrollments != null) participantEnrollments.addAll(pastEnrollments);
