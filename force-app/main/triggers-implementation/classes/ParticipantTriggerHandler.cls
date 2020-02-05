@@ -47,7 +47,7 @@ public without sharing class ParticipantTriggerHandler {
 
     public class CheckBecomesAdultHandler extends TriggerHandler{
 
-        public override void beforeUpdate(List<SObject> newList, , Map<Id, SObject> oldMa) {
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             checkBecomesAdult(newList, (Map<Id, Participant__c>)oldMap);
         }
     }
