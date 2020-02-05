@@ -1,5 +1,5 @@
 @IsTest
-public class DPicklistCMPwithRTAndMSPTestCls {
+public class PicklistCMPwithRTAndMSPTestCls {
 
     static String objectApiName = 'Account';
     static String controllingField = 'Industry';
