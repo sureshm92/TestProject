@@ -365,6 +365,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CommunityTemplate</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CommunityTemplateService</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -1054,6 +1058,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>RemoteCall_GetCardDetails</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RemoteCall_GetTravelBookingDetails</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1810,6 +1818,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_RemoteCall</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_RemoteCall_GetTravelBookingDetails</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -2971,6 +2983,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Affiliation_to_Organization__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Consent_To_Inform_About_Study__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
