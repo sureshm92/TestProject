@@ -650,6 +650,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Create New Task</value>
     </labels>
     <labels>
+        <fullName>BTN_Create_User_on_PE_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Create User on PE Info</shortDescription>
+        <value>Invite to Patient Portal</value>
+    </labels>
+    <labels>
         <fullName>BTN_Deactivate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1356,6 +1363,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>Create</shortDescription>
         <value>Create</value>
+    </labels>
+    <labels>
+        <fullName>Create_Users_Checkbox_on_Import</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create Users Checkbox on Import</shortDescription>
+        <value>Participant included in this file have consented to receiving an invitation to the Patient Portal.</value>
     </labels>
     <labels>
         <fullName>Created_Date</fullName>
@@ -2104,6 +2118,13 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
             To accept this request, log in to the IQVIA Referral Hub and navigate to “My Referring Clinics.”</value>
     </labels>
     <labels>
+        <fullName>Email_Body_PI_Conv_Rem</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Body_PI_Conv_Rem</shortDescription>
+        <value>There are ##UnreadConversationCount of pending threads from participants that await your attention.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_PI_New_Mess</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2769,6 +2790,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <value>Referring provider pending acceptance</value>
     </labels>
     <labels>
+        <fullName>Email_Header_PI_Conv_Rem</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Header_PI_Conv_Rem</shortDescription>
+        <value>Temp</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_PI_New_Mess</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3329,6 +3357,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Email Subject PI6</shortDescription>
         <value>Reminder to accept a referring provider</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_PI_Conv_Rem</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject PI Conv Rem</shortDescription>
+        <value>Temp</value>
     </labels>
     <labels>
         <fullName>Email_Subject_PI_New_Mess</fullName>
@@ -11491,6 +11526,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Selected Icons</shortDescription>
         <value>Selected Icons</value>
+    </labels>
+    <labels>
+        <fullName>Send_Emails_Checkbox_on_PE_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Send Emails Checkbox on PE Info</shortDescription>
+        <value>Participant has consented to being invited to Patient Portal and informed about other study opportunities.</value>
     </labels>
     <labels>
         <fullName>Set_Reminder</fullName>
