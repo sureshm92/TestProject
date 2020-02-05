@@ -650,6 +650,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Create New Task</value>
     </labels>
     <labels>
+        <fullName>BTN_Create_User_on_PE_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Create User on PE Info</shortDescription>
+        <value>Invite to Patient Portal</value>
+    </labels>
+    <labels>
         <fullName>BTN_Deactivate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1372,6 +1379,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Create</value>
     </labels>
     <labels>
+        <fullName>Create_Users_Checkbox_on_Import</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create Users Checkbox on Import</shortDescription>
+        <value>Participant included in this file have consented to receiving an invitation to the Patient Portal.</value>
+    </labels>
+    <labels>
         <fullName>Created_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2005,13 +2019,13 @@ Please take a moment to log in to the Referral Hub and view the studies to which
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Delegate</shortDescription>
-        <value>You have been assigned as a Delegate for ##ParticipantFirstName on clinical research study ##StudyName. Thank you for agreeing to join  ##ParticipantFirstName on their journey.
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName. Thank you for agreeing to join  ##ParticipantFirstName on their journey.
 
             To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in IQVIA Patient Portal and Referral Hub.
 
             Your username is ##UserName. Please click the Enroll Now button to create your password.
 
-            Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantFirstName to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantFirstName to be enrolled into the research study:</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Virtual</fullName>
@@ -2116,6 +2130,13 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
             The provider cannot refer study participants to your site until you accept their request.
 
             To accept this request, log in to the IQVIA Referral Hub and navigate to “My Referring Clinics.”</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_PI_Conv_Rem</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Body_PI_Conv_Rem</shortDescription>
+        <value>There are ##UnreadConversationCount of pending threads from participants that await your attention.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI_New_Mess</fullName>
@@ -2467,8 +2488,6 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
         <shortDescription>Email Body SS on PE Was Changed To PI</shortDescription>
         <value>A participant, ##PEProfileName, has been transferred to your study site: ##SSName.
 
-
-
 If you have questions or concerns about this transfer, please contact your IQVIA Patient Recruitment Lead.</value>
     </labels>
     <labels>
@@ -2781,6 +2800,13 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <protected>false</protected>
         <shortDescription>Email Header PI6</shortDescription>
         <value>Referring provider pending acceptance</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_PI_Conv_Rem</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email_Header_PI_Conv_Rem</shortDescription>
+        <value>Temp</value>
     </labels>
     <labels>
         <fullName>Email_Header_PI_New_Mess</fullName>
@@ -3343,6 +3369,13 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>Email Subject PI6</shortDescription>
         <value>Reminder to accept a referring provider</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_PI_Conv_Rem</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject PI Conv Rem</shortDescription>
+        <value>Temp</value>
     </labels>
     <labels>
         <fullName>Email_Subject_PI_New_Mess</fullName>
@@ -11505,6 +11538,13 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Selected Icons</shortDescription>
         <value>Selected Icons</value>
+    </labels>
+    <labels>
+        <fullName>Send_Emails_Checkbox_on_PE_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Send Emails Checkbox on PE Info</shortDescription>
+        <value>Participant has consented to being invited to Patient Portal and informed about other study opportunities.</value>
     </labels>
     <labels>
         <fullName>Set_Reminder</fullName>

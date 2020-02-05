@@ -193,107 +193,115 @@ public without sharing class RRChangePasswordController {
     }
 
     public void checkPasswords() {
-        ApexPages.getMessages().clear();
-        if (!notEnrollNow && String.isBlank(contact.FirstName)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'First Name' + ERROR_SUFFIX));
-        }
-        if (!notEnrollNow && String.isBlank(contact.LastName)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Last Name' + ERROR_SUFFIX));
-        }
-
-        if (!notEnrollNow && ApexPages.getMessages().isEmpty()) {
-            Boolean noCountry = contact.MailingCountryCode == '--None--' || String.isBlank(contact.MailingCountryCode);
-            Boolean noState = contact.MailingStateCode == '--None--' || String.isBlank(contact.MailingStateCode) || states == null || states.size() < 2;
-            contact.MailingCountry = (noCountry ? null : countryCodeByName.get(contact.MailingCountryCode));
-            contact.MailingState = (noState ? null : stateCodeByName.get(contact.MailingCountryCode));
-
-            if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
-                Account newClinic = new Account(
-                        Name = account.Name,
-                        BillingCountryCode = (noCountry ? null : contact.MailingCountryCode),
-                        BillingCountry = contact.MailingCountry,
-                        BillingCity = contact.MailingCity,
-                        BillingState = contact.MailingState,
-                        BillingStateCode = (noState ? null : contact.MailingStateCode),
-                        BillingStreet = contact.MailingStreet,
-                        BillingPostalCode = contact.MailingPostalCode,
-                        Phone = contact.Phone,
-                        Fax = contact.Fax,
-                        OwnerId = contact.OwnerId
-                );
+        try{
+            ApexPages.getMessages().clear();
+            if (!notEnrollNow && String.isBlank(contact.FirstName)) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'First Name' + ERROR_SUFFIX));
+            }
+            if (!notEnrollNow && String.isBlank(contact.LastName)) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Last Name' + ERROR_SUFFIX));
+            }
+    
+            if (!notEnrollNow && ApexPages.getMessages().isEmpty()) {
+                Boolean noCountry = contact.MailingCountryCode == '--None--' || String.isBlank(contact.MailingCountryCode);
+                Boolean noState = contact.MailingStateCode == '--None--' || String.isBlank(contact.MailingStateCode) || states == null || states.size() < 2;
+                contact.MailingCountry = (noCountry ? null : countryCodeByName.get(contact.MailingCountryCode));
+                contact.MailingState = (noState ? null : stateCodeByName.get(contact.MailingCountryCode));
+        
+                if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
+                    Account newClinic = new Account(
+                            Name = account.Name,
+                            BillingCountryCode = (noCountry ? null : contact.MailingCountryCode),
+                            BillingCountry = contact.MailingCountry,
+                            BillingCity = contact.MailingCity,
+                            BillingState = contact.MailingState,
+                            BillingStateCode = (noState ? null : contact.MailingStateCode),
+                            BillingStreet = contact.MailingStreet,
+                            BillingPostalCode = contact.MailingPostalCode,
+                            Phone = contact.Phone,
+                            Fax = contact.Fax,
+                            OwnerId = contact.OwnerId
+                    );
+                    try {
+                        insert newClinic;
+                
+                        contact.AccountId = newClinic.Id;
+                    } catch (Exception exp) {
+                        System.debug(exp);
+                    }
+                }
                 try {
-                    insert newClinic;
-
-                    contact.AccountId = newClinic.Id;
+                    contact.MailingCountryCode = (noCountry ? null : contact.MailingCountryCode);
+                    contact.MailingStateCode = (noState ? null : contact.MailingStateCode);
+            
+                    update contact;
+            
+                    country = contact.MailingCountryCode;
+                    state = contact.MailingStateCode;
                 } catch (Exception exp) {
                     System.debug(exp);
                 }
             }
+            if (!notEnrollNow && String.isBlank(contact.MailingStreet)) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Street Address' + ERROR_SUFFIX));
+            }
+            if (!notEnrollNow && String.isBlank(contact.MailingCity)) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'City' + ERROR_SUFFIX));
+            }
+            if (!notEnrollNow && String.isBlank(contact.MailingCountryCode)) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Country' + ERROR_SUFFIX));
+            }
+            if (!notEnrollNow && String.isBlank(contact.MailingStateCode) && states.size() > 1) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'State' + ERROR_SUFFIX));
+            }
+            if (!notEnrollNow && String.isBlank(contact.MailingPostalCode)) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'ZIP/Postal Code' + ERROR_SUFFIX));
+            }
+            if (!notEnrollNow && String.isBlank(contact.Phone)) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Phone Number' + ERROR_SUFFIX));
+            }
+            if (!notEnrollNow && String.isBlank(account.Name)) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Institute Name' + ERROR_SUFFIX));
+            }
             try {
-                contact.MailingCountryCode = (noCountry ? null : contact.MailingCountryCode);
-                contact.MailingStateCode = (noState ? null : contact.MailingStateCode);
-
-                update contact;
-
-                country = contact.MailingCountryCode;
-                state = contact.MailingStateCode;
-            } catch (Exception exp) {
-                System.debug(exp);
+                Site.validatePassword(userVal, newPassword, verifyNewPassword);
+            } catch (Exception e) {
+                ApexPages.addMessages(e);
             }
+    
+            if (!notEnrollNow && ApexPages.getMessages().isEmpty()) {
+                updateHCPStatus(contact.Id);
+            }
+    
+            if (ApexPages.getMessages().isEmpty()) isProfileView = false;
+        }catch (Exception e){
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, e.getMessage() + '/n' + e.getStackTraceString()));
         }
-        if (!notEnrollNow && String.isBlank(contact.MailingStreet)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Street Address' + ERROR_SUFFIX));
-        }
-        if (!notEnrollNow && String.isBlank(contact.MailingCity)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'City' + ERROR_SUFFIX));
-        }
-        if (!notEnrollNow && String.isBlank(contact.MailingCountryCode)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Country' + ERROR_SUFFIX));
-        }
-        if (!notEnrollNow && String.isBlank(contact.MailingStateCode) && states.size() > 1) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'State' + ERROR_SUFFIX));
-        }
-        if (!notEnrollNow && String.isBlank(contact.MailingPostalCode)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'ZIP/Postal Code' + ERROR_SUFFIX));
-        }
-        if (!notEnrollNow && String.isBlank(contact.Phone)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Phone Number' + ERROR_SUFFIX));
-        }
-        if (!notEnrollNow && String.isBlank(account.Name)) {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Institute Name' + ERROR_SUFFIX));
-        }
-        try {
-            Site.validatePassword(userVal, newPassword, verifyNewPassword);
-        } catch (Exception e) {
-            ApexPages.addMessages(e);
-        }
-
-        if (!notEnrollNow && ApexPages.getMessages().isEmpty()) {
-            List<HCP_Enrollment__c> hcpEnrollments = [SELECT Id,
-                                                             HCP_Contact__c,
-                                                             Status__c
-                                                      FROM HCP_Enrollment__c
-                                                      WHERE HCP_Contact__c = :contact.Id AND
-                                                            Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION];
-            if (!hcpEnrollments.isEmpty()) {
-                if (hcpEnrollments.size() > 1) {
-                    for (HCP_Enrollment__c hcpe : hcpEnrollments) {
-                        hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
-                    }
-
-                    update hcpEnrollments;
-
-                    //ReferHealthcareProviderRemote.sendNotificationForRPInvite(hcpEnrollments[0].Id, contact.Id);
-                } else {
-                    hcpEnrollments[0].Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
-                    update hcpEnrollments;
-                    hcpEnrollments[0].Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
-                    update hcpEnrollments;
+    }
+    
+    @Future
+    private static void updateHCPStatus(Id contactId){
+        List<HCP_Enrollment__c> hcpEnrollments = [
+                SELECT Id,
+                        HCP_Contact__c,
+                        Status__c
+                FROM HCP_Enrollment__c
+                WHERE HCP_Contact__c = :contactId AND
+                Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION
+        ];
+        if (!hcpEnrollments.isEmpty()) {
+            if (hcpEnrollments.size() > 1) {
+                for (HCP_Enrollment__c hcpe : hcpEnrollments) {
+                    hcpe.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
                 }
+                update hcpEnrollments;
+            } else {
+                hcpEnrollments[0].Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT;
+                update hcpEnrollments;
+                hcpEnrollments[0].Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+                update hcpEnrollments;
             }
         }
-
-        if (ApexPages.getMessages().isEmpty()) isProfileView = false;
     }
 
     public void upload() {

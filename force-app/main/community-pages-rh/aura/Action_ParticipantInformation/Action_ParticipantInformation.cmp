@@ -49,13 +49,10 @@
             <div class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
                 <div class="slds-col slds-size--9-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
                     <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.sendEmails}"/>
-                    <div class="slds-size--10-of-12">Participant has consented to being invited
-                        to Patient Portal and informed about other study opportunities.</div>
+                    <div class="slds-size--10-of-12">{!$Label.c.Send_Emails_Checkbox_on_PE_Info}</div>
                 </div>
                 <button class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"
-                onclick="{!c.createUserForPatient}">
-                    Invite to Patient Portal
-                </button>
+                onclick="{!c.createUserForPatient}" data-gtm="BTN_Invite_To_PP">{!$Label.c.BTN_Create_User_on_PE_Info}</button>
             </div>
         </aura:if>
         <c:RRSpinner aura:id="spinner" size="medium"/>

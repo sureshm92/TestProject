@@ -47,7 +47,8 @@
                         <div class="slds-col slds-grid slds-size_1-of-1">
                             <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                                 <div class="rr-form-element">
-                                    <div class="label">{!$Label.c.PG_MRC_RF_Email}</div>
+                                    <div class="label slds-text-align_left"><abbr title="required"
+                                                                                  class="slds-required">*</abbr>{!$Label.c.PG_MRC_RF_Email}</div>
                                     <lightning:input value="{!v.emailS}" type="email" onblur="{!c.checkContact}"
                                                      aura:id="emailInput"/>
                                 </div>

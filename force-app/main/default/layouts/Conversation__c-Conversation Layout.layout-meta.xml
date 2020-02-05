@@ -26,6 +26,10 @@
                 <behavior>Edit</behavior>
                 <field>FirstUnreadDate__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Elapsed_Days_First_Unread__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

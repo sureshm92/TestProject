@@ -18,6 +18,8 @@ public without sharing class ParametersDataProvider {
     public String recipientName;
     public String recipientFirstName;
     public Id recipientId;
+    public Id recipientUserId;
+    public Id recipientContactId;
     public String recipientLanguage;
     public String parametersProviderName;
 
@@ -67,12 +69,11 @@ public without sharing class ParametersDataProvider {
         parameters.put('ForgotPasswordURL', clinicalResearchCommunityForgotPasswordURL);
 
         if(isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT){
-            Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientId);
+            Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientContactId);
             if(participant != null){
                 parameters.put('ParticipantFirstName', participant.First_Name__c);
             }
         }
-        System.debug('PARAMS: ' + JSON.serializePretty(parameters));
     }
 
     private void initParamsFromPE(Id sourceId){
@@ -341,7 +342,7 @@ public without sharing class ParametersDataProvider {
                             HCP_Contact__c
                     FROM HCP_Enrollment__c
                     WHERE HCP_Contact__c = :cnt.Id AND
-                    ( Status__c = :HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O OR Status__c = :HCPEnrollmentService.HCP_S_ACTIVATED )
+                    ( Status__c = :HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O OR Status__c = :HCPEnrollmentService.HCP_S_ACTIVATED OR Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION)
                     ORDER BY CreatedDate DESC LIMIT 1
             ];
             if (!hcpe.isEmpty()) {
@@ -467,9 +468,7 @@ public without sharing class ParametersDataProvider {
 
     private void updateRecipientName(){
         if (recipientId == null) return ;
-        Id recipientContactId = recipientId;
-        Id rId = recipientId;
-        if (rId.getSobjectType() == User.getSObjectType()) {
+        if (recipientId.getSobjectType() == User.getSObjectType()) {
             User recipientUser = [
                     SELECT Id,
                             ContactId,
@@ -480,12 +479,14 @@ public without sharing class ParametersDataProvider {
                     FROM User
                     WHERE Id =: recipientId
             ];
+            recipientUserId = recipientUser.Id;
             recipientContactId = recipientUser.ContactId;
             recipientName = (recipientUser.Contact.Salutation == null ? '' : recipientUser.Contact.Salutation + ' ') + recipientUser.Contact.Name;
             recipientFirstName = recipientUser.Contact.FirstName;
             recipientLanguage = recipientUser.LanguageLocaleKey;
             isDelegate = recipientUser.Contact.UserCommunityIsDelegate__c;
             userMode = recipientUser.Contact.userCommunityMode__c;
+
         }else{
             Contact cnt = [
                     SELECT Id,
@@ -495,6 +496,7 @@ public without sharing class ParametersDataProvider {
                             userCommunityMode__c
                     FROM Contact
                     WHERE Id =: recipientId];
+            recipientContactId = recipientId;
             recipientName = cnt.Name;
             recipientFirstName = cnt.FirstName;
             recipientLanguage = cnt.Language__c;
@@ -509,5 +511,6 @@ public without sharing class ParametersDataProvider {
                 recipientFirstName = participants[0].First_Name__c;
             }
         }
+
     }
 }

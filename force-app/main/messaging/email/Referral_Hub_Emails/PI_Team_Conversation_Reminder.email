@@ -1,0 +1,32 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_PI_Conv_Rem}"
+                         recipientType="Contact"
+                         relatedToType="Contact"
+                         language="{!relatedTo.Language__c}">
+    <messaging:htmlEmailBody >
+        <c:EmailTemplate sourceId="{!relatedTo.Id}"
+                         parametersProvider="PP_Contact"
+                         recipientId="{!recipient.Id}"
+                         header="{!$Label.Email_Header_PI_Conv_Rem}"
+                         title="{!$Label.Email_Title}"
+                         greeting="{!$Label.Email_User_Greeting}"
+                         body="{!$Label.Email_Body_PI_Conv_Rem}"
+                         signature="{!$Label.Email_Signature_RH}">
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Messages}"
+                              buttonURL="/s/messages"/>
+        </c:EmailTemplate>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody>
+        <c:EmailTemplateText sourceId="{!relatedTo.Id}"
+                             parametersProvider="PP_Contact"
+                             recipientId="{!recipient.Id}"
+                             header="{!$Label.Email_Header_PI_New_Mess}"
+                             title="{!$Label.Email_Title}"
+                             greeting="{!$Label.Email_User_Greeting}"
+                             body="{!$Label.Email_Body_PI_Conv_Rem}"
+                             signature="{!$Label.Email_Signature_RH}">
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Messages}"
+                                  buttonURL="/s/messages"/>
+        </c:EmailTemplateText>
+    </messaging:plainTextEmailBody>
+</messaging:emailTemplate>

@@ -7,10 +7,6 @@
         communityService.executeAction(component, 'getInitData', {},
             function (initData) {
                 component.set('v.isAvailable', initData.linksAvailable);
-                if(component.get('v.resourcePanelAvailable')) {
-                    var cmpTarget = component.find('panel');
-                    $A.util.removeClass(cmpTarget, 'rr-white-panel');
-                }
                 component.set('v.links', initData.resources);
                 component.set('v.initialized', true);
             }, null, function () {

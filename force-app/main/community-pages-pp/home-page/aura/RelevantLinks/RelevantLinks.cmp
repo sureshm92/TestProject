@@ -7,7 +7,6 @@
 
     <aura:attribute name="links" type="Object[]"/>
     <aura:attribute name="isAvailable" type="Boolean"/>
-    <aura:attribute name="resourcePanelAvailable" type="Boolean"/>
     <aura:attribute name="initialized" type="Boolean"/>
 
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
