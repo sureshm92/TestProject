@@ -1316,7 +1316,7 @@
         </fields>
         <fields>
             <name>DependecyPicklist2</name>
-            <extensionName>c:DependentPicklistCMPwithRecordTypeAndMSPsupport</extensionName>
+            <extensionName>c:DependentPicklistWithRecordTypeSupport</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
                 <name>controllingFieldApiName</name>
