@@ -7,12 +7,13 @@
 
     <aura:attribute name="links" type="Object[]"/>
     <aura:attribute name="isAvailable" type="Boolean"/>
+    <aura:attribute name="resourcePanelAvailable" type="Boolean"/>
     <aura:attribute name="initialized" type="Boolean"/>
 
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
     <aura:if isTrue="{!v.isAvailable}">
-        <div class="sv-panel rr-white-panel" data-gtm="PNL_RelevantLinks">
+        <div aura:id="panel" class="sv-panel rr-white-panel" data-gtm="PNL_RelevantLinks">
             <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
             <aura:if isTrue="{!v.initialized}">
                 <div class="sv-header">

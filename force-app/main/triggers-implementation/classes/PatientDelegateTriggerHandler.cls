@@ -10,7 +10,7 @@ public without sharing class PatientDelegateTriggerHandler {
 
     // Handlers: -------------------------------------------------------------------------------------------------------
 
-    public class SetDefaultPatientDelegateStatus extends TriggerHandler{
+    public class SetDefaultPatientDelegateStatusHandler extends TriggerHandler{
 
         public override void beforeInsert(List<SObject> newList) {
             setDefaultPatientStatus(newList);
@@ -18,37 +18,15 @@ public without sharing class PatientDelegateTriggerHandler {
 
     }
 
-    public class SendNotificationForNewDelegate extends TriggerHandler{
-
-        public override void afterInsert(List<SObject> newList) {
-            sendNotificationForNewDelegate(newList);
-        }
-
-    }
-
-    public class DeActivePatientDelegateUser extends TriggerHandler{
+    public class UpdateUserStatusHandler extends TriggerHandler{
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            deActivePatientDelegateUser(newList, (Map<Id, Patient_Delegate__c>)oldMap);
+            updateUserStatus(newList, (Map<Id, Patient_Delegate__c>)oldMap);
         }
 
     }
 
     // Logic: ----------------------------------------------------------------------------------------------------------
-
-    @TestVisible
-    private static void sendNotificationForNewDelegate(List<Patient_Delegate__c> newList) {
-        Map<Id, String> toSendNotificationMap = new Map<Id, String>();
-        for (Patient_Delegate__c ptDelegate : newList) {
-            if (ptDelegate.Contact__c != null) {
-                toSendNotificationMap.put(ptDelegate.Contact__c, ptDelegate.Contact__c);
-            }
-        }
-
-        if (!toSendNotificationMap.isEmpty()) {
-            SendEmailTemplate.sendEmailNotification(CommunityService.COMMUNITY_ET_DELEGATE_WELCOME, toSendNotificationMap);
-        }
-    }
 
     @TestVisible
     private static void setDefaultPatientStatus(List<Patient_Delegate__c> newList) {
@@ -58,30 +36,28 @@ public without sharing class PatientDelegateTriggerHandler {
     }
 
     @TestVisible
-    private static void deActivePatientDelegateUser(List<Patient_Delegate__c> newList, Map<Id, Patient_Delegate__c> oldMap) {
-        Set<Id> contactIds = new Set<Id>();
-        for (Patient_Delegate__c participantDelegate : newList) {
-            if (participantDelegate.Status__c != oldMap.get(participantDelegate.Id).Status__c &&
-                    (PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS == participantDelegate.Status__c ||
-                     PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS == participantDelegate.Status__c)) {
-                contactIds.add(participantDelegate.Contact__c);
+    private static void updateUserStatus(List<Patient_Delegate__c> newList, Map<Id, Patient_Delegate__c> oldMap) {
+        Map<Id, Boolean> isActiveContactsMap = new Map<Id, Boolean>();
+        for (Patient_Delegate__c pd : newList) {
+            if (pd.Status__c != oldMap.get(pd.Id).Status__c) {
+                isActiveContactsMap.put(pd.Contact__c, pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS);
             }
         }
-
-        updateUsersToInActive(contactIds);
+    
+        updateUsersStatusFuture(isActiveContactsMap);
     }
 
     @Future
-    private static void updateUsersToInActive(Set<Id> contactIds) {
-        if (contactIds != null && !contactIds.isEmpty()) {
-            List<User> users = [SELECT Id, IsActive FROM User WHERE ContactId IN :contactIds AND IsActive = true];
-            for (User usr: users) {
-                usr.IsActive = false;
-            }
-
-            if (!users.isEmpty()) {
-                update users;
-            }
+    private static void updateUsersStatusFuture(Map<Id, Boolean> isActiveContactsMap) {
+        if(isActiveContactsMap.isEmpty()) return ;
+        List<User> users = [
+                SELECT Id, IsActive, ContactId
+                FROM User
+                WHERE ContactId IN :isActiveContactsMap.keySet()
+        ];
+        for (User usr: users) usr.IsActive = isActiveContactsMap.get(usr.ContactId);
+        if (!users.isEmpty()/* && !Test.isRunningTest()*/) {
+            update users;
         }
     }
 

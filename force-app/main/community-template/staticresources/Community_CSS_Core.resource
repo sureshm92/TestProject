@@ -27,10 +27,15 @@ a:hover {
 }
 
 .main-header-neutral{
-    background: linear-gradient(to right, #e6e6e6 0%, #f5f5f5 100%);}
+    background: linear-gradient(to right, #e6e6e6 0%, #f5f5f5 100%);
+}
 
 .main-header-brand{
     background: linear-gradient(to right, #230559 0%, #036ca7 100%);
+}
+
+.mobile-menu-background{
+    background: linear-gradient(to right, #230559 0%,#036ca7 100%);
 }
 
 /* ------------------------------------------ login/change password pages: -------------------------------------------*/

@@ -4996,6 +4996,20 @@ The IQVIA Patient Portal Support Team</value>
         <value>Select Study</value>
     </labels>
     <labels>
+        <fullName>MS_Show_Less</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Show Less</shortDescription>
+        <value>Show Less</value>
+    </labels>
+    <labels>
+        <fullName>MS_Show_More</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Show More</shortDescription>
+        <value>Show More</value>
+    </labels>
+    <labels>
         <fullName>MS_Toast_Message_PA_Send</fullName>
         <language>en_US</language>
         <protected>true</protected>

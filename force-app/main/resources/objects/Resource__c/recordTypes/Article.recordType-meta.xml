@@ -6,8 +6,20 @@
     <picklistValues>
         <picklist>Content_Class__c</picklist>
         <values>
+            <fullName>3rd Party</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Platform-TA</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Study-Specific</fullName>
-            <default>true</default>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Training</fullName>
+            <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>

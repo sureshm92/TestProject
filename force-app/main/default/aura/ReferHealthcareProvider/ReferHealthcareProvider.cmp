@@ -10,6 +10,7 @@
     <aura:attribute name="fromActionParticipant" type="Boolean" default="false"/>
     <aura:attribute name="fromEmancipParticipant" type="Boolean" default="false"/>
     <aura:attribute name="refProvider" type="Object"/>
+    <aura:attribute name="showReferringProvider" type="Boolean"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.pe}" action="{!c.doInit}"/>
@@ -21,15 +22,15 @@
 
     <div class="slds-grid slds-wrap healthcare-container">
         <div class="slds-grid slds-wrap slds-size--1-of-1">
-                <aura:if isTrue="{!!v.fromActionParticipant &amp;&amp; !v.fromEmancipParticipant}">
+                <aura:if isTrue="{!!v.fromActionParticipant &amp;&amp; v.refProvider &amp;&amp; !v.fromEmancipParticipant}">
                 <div class="header">{!$Label.c.HealthCare_Provider}</div>
                 </aura:if>
                 <div class="healthcare-info">{!!v.fromEmancipParticipant ? $Label.c.HealCare_Provider_Message : $Label.c.BTN_Participant_Would_Like_Share_Info}
                 </div>
-                <aura:if isTrue="{!v.fromActionParticipant}">
+                <aura:if isTrue="{!v.fromActionParticipant &amp;&amp; v.refProvider}">
                 <div class="referring">{!$Label.c.Referring_Provider}</div>
                     <div class="slds-grid slds-wrap slds-size--1-of-1">
-                    <c:ReferHealthcareProviderForm healthCareProvider = "{!hcProvider}" index = "{!index}" refProvider="{!v.refProvider}" parent="{!this}"
+                    <c:ReferHealthcareProviderForm healthCareProvider = "{!hcProvider}" index = "{!index}" showReferringProvider="{!v.showReferringProvider}" isValid="true" refProvider="{!v.refProvider}" parent="{!this}"
                                                    pe="{!v.pe}" actionDisabled="{!v.actionDisabled}" printMode="{!v.printMode}"/>
                     </div>
                 </aura:if>
