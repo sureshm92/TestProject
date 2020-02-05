@@ -3,45 +3,53 @@
  */
 
 ({
-    doInit : function(component, event, helper) {
+    doInit: function (component, event, helper) {
         component.set('v.isOpen', true);
         var flow = component.find('flow');
         let recordId = component.get('v.recordId');
         var pageRef = component.get("v.pageReference");
-        if(pageRef != null) {
+        if (pageRef != null) {
             var state = pageRef.state;
-            if(state != null) {
+            if (state != null) {
                 var base64Context = state.inContextOfRef;
                 if (base64Context) {
                     if (base64Context.startsWith("1\.")) {
                         base64Context = base64Context.substring(2);
                         var addressableContext = window.atob(base64Context);
                         var pageReferencePrevious = JSON.parse(addressableContext);
-            			if(pageReferencePrevious != null && pageReferencePrevious.attributes != null){
-                            if(pageReferencePrevious.attributes.objectApiName === 'Clinical_Trial_Profile__c') {
-                    			recordId = pageReferencePrevious.attributes.recordId;
-                            }else if(pageReferencePrevious.attributes.relationshipApiName === 'Resource__r') {
+                        if (pageReferencePrevious != null && pageReferencePrevious.attributes != null) {
+                            if (pageReferencePrevious.attributes.objectApiName === 'Clinical_Trial_Profile__c') {
                                 recordId = pageReferencePrevious.attributes.recordId;
-                            } else if (pageReferencePrevious.attributes.objectApiName === 'Res_study__c'){
+                            } else if (pageReferencePrevious.attributes.relationshipApiName === 'Resource__r') {
+                                recordId = pageReferencePrevious.attributes.recordId;
+                            } else if (pageReferencePrevious.attributes.objectApiName === 'Res_study__c') {
                                 recordId = '';
                             }
+                            component.set('v.pageRef', recordId);
                         }
                     }
                 }
             }
         }
         let inputVars = [
-                { name: "recordId", type: "String", value: recordId}     
+            {name: "recordId", type: "String", value: recordId}
         ];
         flow.startFlow('Study_Resources', inputVars);
     },
 
-    closeFlowModal : function(component, event, helper) {
+    closeFlowModal: function (component, event, helper) {
         component.set("v.isOpen", false);
+        var recordPage = component.get("v.pageRef");
+        var navEvt = $A.get("e.force:navigateToSObject");
+        navEvt.setParams({
+            recordId: recordPage
+        });
+        navEvt.fire();
+        $A.get('e.force:refreshView').fire();
     },
 
-    closeModalOnFinish : function(component, event, helper) {
-        if(event.getParam('status') === "FINISHED") {
+    closeModalOnFinish: function (component, event, helper) {
+        if (event.getParam('status') === "FINISHED") {
             component.set("v.isOpen", false);
         }
     }
