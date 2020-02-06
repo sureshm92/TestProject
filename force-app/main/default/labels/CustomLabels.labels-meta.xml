@@ -453,6 +453,13 @@
         <value>Add Date</value>
     </labels>
     <labels>
+        <fullName>Add_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Add Delegate</shortDescription>
+        <value>Add Delegate</value>
+    </labels>
+    <labels>
         <fullName>Admin</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -9282,6 +9289,27 @@
         <value>Delegate Information</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Delegate_continue_be_delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Delegate continue be delegate</shortDescription>
+        <value>Would Participant like ##delegateName to continue as delegate?</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Delegate_ensure_info_uptodate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Delegate continue be delegate</shortDescription>
+        <value>Please ensure that delegate's contact information is up-to-date</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Delegate_update_info_uptodate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Delegate continue be delegate</shortDescription>
+        <value>Please update contact information, even if "Do not continue" is selected</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Have_you_had_a_discussion_with_your_patient_about_participating_in_a_cl</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9358,6 +9386,13 @@
         <protected>false</protected>
         <shortDescription>PG Ref L Participant require invitation</shortDescription>
         <value>Would ##participantName like to be invited to Patient Portal?</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Participant_require_optional_email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Participant require guardian</shortDescription>
+        <value>Receive optional email communication from IQVIA</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
