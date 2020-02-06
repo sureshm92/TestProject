@@ -2717,11 +2717,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Clinical_Trial_Profile__c.Shareback_Settings_Country__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Shareback_Settings_On_Country_Level__c</field>
         <readable>false</readable>
     </fieldPermissions>
