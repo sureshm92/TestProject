@@ -2,7 +2,7 @@
  * Created by alekseymoseev on 12/10/19.
  */
 
-public with sharing class Action_UploadParticipantsRemote {
+public without sharing class Action_UploadParticipantsRemote {
 
     public static final List<String> HEADER_COLUMNS = new List<String> { 'FIRST NAME', 'MIDDLE NAME', 'LAST NAME', 'NICKNAME', 'SEX', 'DATE OF BIRTH', 'EMAIL ADDRESS', 'PHONE', 'PHONE TYPE', 'PHONE2', 'PHONE TYPE2', 'STREET ADDRESS', 'CITY', 'STATE', 'POSTAL CODE', 'COUNTRY', 'LANGUAGE' };
     public static final List<String> MANDATORY_HEADER_COLUMNS = new List<String> { 'FIRST NAME', 'LAST NAME', 'PHONE', 'COUNTRY', 'STATE', 'POSTAL CODE' };
@@ -19,7 +19,7 @@ public with sharing class Action_UploadParticipantsRemote {
     }
 
     @AuraEnabled
-    public static void uploadParticipants(List<String> csvFileLines, String fileName, String studySiteId, String selectedStatus) {
+    public static void uploadParticipants(List<String> csvFileLines, String fileName, String studySiteId, String selectedStatus, Boolean createUsers) {
         try {
             Map<String, Integer> headerIndexes = new Map<String, Integer>();
             List<String> csvHeaderData = csvFileLines[0].toUpperCase().split(',');
@@ -55,7 +55,7 @@ public with sharing class Action_UploadParticipantsRemote {
                 }
             }
 
-            Database.executeBatch(new UploadParticipantsBatch(finalCSVLines.values(), csvFileLines.get(0), studySiteId, selectedStatus, headerFailed, headerIndexes), 25);
+            Database.executeBatch(new UploadParticipantsBatch(finalCSVLines.values(), csvFileLines.get(0), studySiteId, selectedStatus, headerFailed, headerIndexes, createUsers), 25);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }

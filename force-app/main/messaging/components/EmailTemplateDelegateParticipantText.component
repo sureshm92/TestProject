@@ -1,0 +1,16 @@
+<!--
+ - Created by Olga Skrynnikova on 1/30/2020.
+ -->
+
+<apex:component id="EmailTemplateDelegateParticipantText" controller="EmailTemplateDelegatePartController">
+    <!-- attributes: -->
+    <apex:attribute name="userId" type="Id" assignTo="{!delegateUserId}" description=""/>
+    <apex:attribute name="params" type="String" assignTo="{!dataParams}" description=""/>
+    <!-- component body -->
+    --------------------------------------------------------------------------
+    <apex:repeat value="{!delegateStudySites}" var="studySite">
+        Study Name: {!studySite.studyName}
+    </apex:repeat>
+    --------------------------------------------------------------------------
+    {!afterText}
+</apex:component>

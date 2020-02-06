@@ -2,7 +2,7 @@
  * Created by alekseymoseev on 12/10/19.
  */
 
-global class UploadParticipantsBatch implements Database.Batchable<List<String>>, Database.Stateful {
+global without sharing class UploadParticipantsBatch implements Database.Batchable<List<String>>, Database.Stateful {
 
     @TestVisible
     private static Boolean isTestRunning = false;
@@ -15,6 +15,7 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
     private Integer errorRecordCount = 0;
     private Account participantAccount;
     private Id uploaderContactId;
+    private Boolean createUsers;
 
     private String emailError = '';
     Boolean valid = true;
@@ -23,11 +24,12 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
     private Set<String> listOfFailedRecords = new Set<String>();
     private Set<String> listOfFailedRecordsWithMsg = new Set<String>();
 
-    public UploadParticipantsBatch(List<List<String>> csvFileLines, String header, String studySiteId, String selectedStatus, Boolean headerFailed, Map<String, Integer> headerIndexes) {
+    public UploadParticipantsBatch(List<List<String>> csvFileLines, String header, String studySiteId, String selectedStatus, Boolean headerFailed, Map<String, Integer> headerIndexes, Boolean createUsers) {
         uploadTime = DateTime.now();
         Integer totalRowCount = csvFileLines.size();
         this.headerIndexes = headerIndexes;
         this.selectedStatus = selectedStatus;
+        this.createUsers = createUsers;
 
         studySiteDetails = [SELECT Id, Name, Principal_Investigator__c, Clinical_Trial_Profile__c FROM Study_Site__c WHERE Id = :studySiteId];
 
@@ -79,6 +81,12 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
             Map<Id, Contact> contactsById = new Map<Id, Contact>();
             Map<Id, Participant__c> participantsByContact = new Map<Id, Participant__c>();
             Map<Id, Participant_Enrollment__c> participantEnrollmentsByContact = new Map<Id, Participant_Enrollment__c>();
+            Map<Id, Id> createUsersMap = new Map<Id, Id>();
+            Set<Id> insertedContacts = new Set<Id>();
+            Set<String> dupclicateContactEmails = new Set<String>();
+            Map<Id,Id> duplicateContactUsersMap = new Map<Id,Id>();
+            Map<Id, Contact> duplicateContacts = new Map<Id,Contact>();
+            Set<Id> insertUsersWithDefaultSettings = new Set<Id>();
 
             for (List<String> csvRecordData : csvChunkLines) {
                 if (csvRecordData == null || csvRecordData.isEmpty()) {
@@ -185,7 +193,8 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                                     MailingCity = City,
                                     MailingState = State,
                                     MailingCountry = Country,
-                                    MailingPostalCode = PostalCode);
+                                    MailingPostalCode = PostalCode,
+                                    Consent_To_Inform_About_Study__c = createUsers);
 
                     Participant__c participant =
                             new Participant__c(First_Name__c = FirstName,
@@ -221,6 +230,7 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                             system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
                         }
                     } else {
+                        dupclicateContactEmails.add(participantContact.Email);
                         errorRecordCount++;
                         system.debug('ERROR: ' + totalRecordCount + ', ' + 'Duplicate Participant record');
                         listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Duplicate Participant record');
@@ -229,7 +239,6 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
 
                     if (participantContact.Id != null) {
                         participant.Contact__c = participantContact.Id;
-
                         Participant_Enrollment__c participantEnrollment =
                                 new Participant_Enrollment__c(Participant_Status__c = selectedStatus,
                                         Study_Site__c = studySiteDetails.Id,
@@ -249,6 +258,44 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                 }
             }
 
+            if (!dupclicateContactEmails.isEmpty()) {
+                duplicateContacts = new Map<Id, Contact>([
+                        SELECT Id
+                        FROM Contact
+                        WHERE Email IN :dupclicateContactEmails
+                ]);
+                if (!duplicateContacts.isEmpty()) {
+                    for (User u : [
+                            SELECT Id,
+                                    ContactId
+                            FROM User
+                            WHERE ContactId IN :duplicateContacts.keySet()
+                    ]) {
+                        duplicateContactUsersMap.put(u.ContactId, u.Id);
+                    }
+                    Set<Id> duplicateParticipantEnrollments = new Set<Id>();
+                    for (Participant_Enrollment__c pEnrollment : [
+                            SELECT Id,
+                                    Participant_Contact__c
+                            FROM Participant_Enrollment__c
+                            WHERE Participant_Contact__c IN :duplicateContacts.keySet() AND Study_Site__c = :studySiteDetails.Id
+                    ]) {
+                        duplicateParticipantEnrollments.add(pEnrollment.Participant_Contact__c);
+                    }
+                    for (Contact c : duplicateContacts.values()) {
+                        if (!duplicateParticipantEnrollments.contains(c.Id)) {
+                            participantEnrollmentsByContact.put(c.Id, new Participant_Enrollment__c(Participant_Status__c = selectedStatus,
+                                    Study_Site__c = studySiteDetails.Id,
+                                    Referred_Date__c = System.today(),
+                                    Participant_Contact__c = c != null ? c.Id : null,
+                                    Referral_Completed_by__c = uploaderContactId,
+                                    Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI,
+                                    PI_Contact__c = studySiteDetails.Principal_Investigator__c));
+                        }
+                    }
+                }
+            }
+
             if (!contactsById.isEmpty()) {
                 system.debug('!contactsById.isEmpty()');
                 if (!participantsByContact.isEmpty()) {
@@ -259,6 +306,8 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                             Database.Error error = saveRes.getErrors().get(0);
                             listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
                             system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
+                        } else {
+                            insertedContacts.add(saveRes.getId());
                         }
                     }
                 }
@@ -280,6 +329,36 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                             listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
                             system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
                         }
+                    }
+                }
+                if(createUsers) {
+                    if(!insertedContacts.isEmpty()){
+                        for(Contact c : contactsById.values()){
+                            if(insertedContacts.contains(c.Id)){
+                                if(participantEnrollmentsByContact.get(c.Id) != null) {
+                                    createUsersMap.put(participantEnrollmentsByContact.get(c.Id).Participant_Contact__c, participantEnrollmentsByContact.get(c.Id).PI_Contact__c);
+                                } else {
+                                    insertUsersWithDefaultSettings.add(c.Id);
+                                }
+                            }
+                        }
+                    }
+                    if(!duplicateContacts.isEmpty()){
+                        for(Contact cont : duplicateContacts.values()){
+                            if(!duplicateContactUsersMap.keySet().contains(cont.Id)){
+                                if(participantEnrollmentsByContact.get(cont.Id) != null) {
+                                    createUsersMap.put(participantEnrollmentsByContact.get(cont.Id).Participant_Contact__c, participantEnrollmentsByContact.get(cont.Id).PI_Contact__c);
+                                } else {
+                                    insertUsersWithDefaultSettings.add(cont.Id);
+                                }
+                            }
+                        }
+                    }
+                    if (!createUsersMap.isEmpty()) {
+                        ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(createUsersMap);
+                    }
+                    if(!insertUsersWithDefaultSettings.isEmpty()){
+                        ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(insertUsersWithDefaultSettings);
                     }
                 }
 
