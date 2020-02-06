@@ -27,11 +27,10 @@
         var phonePattern = new RegExp('[!@#$%^&*,.?":{}|<>]','g');
         var isPhoneValid = !phonePattern.test(phone);
         var reqFieldsFilled;
-        if((((communityService.isValidEmail(emailS) && (phone == '' || phone == undefined)) ||
-            (isPhoneValid && phone.trim() && (emailS == '' || emailS == undefined)) ||
-            (communityService.isValidEmail(emailS) && (phone.trim() && isPhoneValid))) &&
+        if(communityService.isValidEmail(emailS) &&
             (!inputPattern.test(lastName) && lastName.trim()) &&
-            (!inputPattern.test(firstName) && firstName.trim()))){
+            (!inputPattern.test(firstName) && firstName.trim()) &&
+            ((phone != '' && phone != undefined && isPhoneValid) || (phone == '' || phone == undefined))){
             reqFieldsFilled = true;
         }
         /*var reqFieldsFilled = (((communityService.isValidEmail(emailS) && (phone == '' || phone == undefined)) ||

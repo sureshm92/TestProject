@@ -8,6 +8,15 @@
         <template if:true={initialized}>
             <template if:false={isPIMode}>
                 <div class="ms-disclaimer">{labels.disclaimerLabel}</div>
+                <div class="ms-disclaimer-mob">
+                    <div class={disclaimerFullClass}>{labels.disclaimerLabel}</div>
+                    <div class={disclaimerLessClass}>
+                        <c-web-limit-text-by-lines max-lines="1" title={labels.disclaimerLabel}>
+                            <span slot="body">{labels.disclaimerLabel}</span>
+                        </c-web-limit-text-by-lines>
+                    </div>
+                    <button class="apollo-btn text disc-btn" onclick={handleShowMoreClick}>{showBTNLabel}</button>
+                </div>
             </template>
         </template>
     </div>
@@ -15,7 +24,7 @@
         <div class="ms-container" data-gtm="ms-container">
             <c-web-spinner></c-web-spinner>
             <template if:true={initialized}>
-                <div class="ms-left">
+                <div class={leftPartClass}>
                     <div class="ms-mes-header">
                         <div class="ms-title">{labels.messagesLabel}</div>
                         <div class="ms-btn-new" data-gtm="ms-btn-plus" onclick={handleNewMessageClick}>
@@ -42,11 +51,12 @@
                         </div>
                     </template>
                 </div>
-                <div class="ms-right">
+                <div class={rightPartClass}>
                     <c-message-board user-mode={userMode}
                                      first-con-wr={firstConWrapper}
                                      onconversationupdate={handleMessageSend}
-                                     onmultiplymailing={handleRefreshEvent}></c-message-board>
+                                     onmultiplymailing={handleRefreshEvent}
+                                     onback={handleBoardClose}></c-message-board>
                 </div>
             </template>
         </div>

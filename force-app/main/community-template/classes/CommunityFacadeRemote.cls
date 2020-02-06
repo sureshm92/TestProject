@@ -25,16 +25,15 @@ public without sharing class CommunityFacadeRemote {
     private class CommunityData {
         String communityMode;
         String communityDelegateId;
-        List<CommunityType> communityTypes;
         Boolean isDelegate;
         String state;
         String pathPrefix;
         Boolean isTCAccepted;
+        Boolean messagesVisible;
         String language;
         List<String> preventedCookies;
         Boolean isNewSession;
         String baseUrl;
-        Boolean showPastStudies;
         List<CommunityMode> allUserModes;
         CommunityMode currentUserMode;
     }
@@ -66,7 +65,8 @@ public without sharing class CommunityFacadeRemote {
             cd.preventedCookies = getPreventedCookies(userContact.Id);
             cd.isDelegate = userContact.UserCommunityIsDelegate__c;
             cd.baseUrl = Site.getBaseUrl();
-            
+            cd.messagesVisible = getMessagesVisibility();
+
             return JSON.serialize(cd);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -119,8 +119,39 @@ public without sharing class CommunityFacadeRemote {
         if (portalTC != null) return TermsAndConditions.isTCAccepted(portalTC.Id);
         return true;
     }
-    
-    
+
+    @AuraEnabled
+    public static Boolean getMessagesVisibility() {
+        Contact userContact = CommunityService.getUserContact();
+        List<Conversation__c> conversations = new List<Conversation__c>();
+        List<Participant_Enrollment__c> peWithAvailableMessages = new List<Participant_Enrollment__c>();
+        List<Id> peIds = new List<Id>();
+        CommunityMode communityMode = UserContext.getCurrentUserMode();
+
+        if(communityMode.currentPE != null) peIds.add(communityMode.currentPE);
+        if(communityMode.hasPastStudies) {
+            List<Id> pastPEs = PatientDelegateService.getPastPEIdsForContact(userContact.Id);
+            if(pastPEs != null) peIds.addAll(pastPEs);
+        }
+
+        if (!peIds.isEmpty()) {
+            conversations = [
+                    SELECT Id
+                    FROM Conversation__c
+                    WHERE Participant_Enrollment__c IN: peIds
+            ];
+
+            peWithAvailableMessages = [
+                    SELECT Id
+                    FROM Participant_Enrollment__c
+                    WHERE Id IN: peIds AND Study_Site__r.Messages_Are_Available__c = TRUE
+            ];
+        }
+
+        if(conversations.isEmpty() && peWithAvailableMessages.isEmpty()) return false;
+        return true;
+    }
+
     @AuraEnabled
     public static Contact changeMode(String mode, Id delegateId, Id peId) {
         try {

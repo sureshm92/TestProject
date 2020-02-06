@@ -4,8 +4,7 @@
 
 <aura:component description="ViewPatientsReferred" implements="forceCommunity:availableForAllPageTypes"
                 controller="ViewPatientsRemote">
-    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community_js)}"
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
@@ -29,7 +28,11 @@
     <aura:attribute name="header" type="String" default="" access="public"/>
     <aura:attribute name="studyFilterEnabled" type="Boolean" default="false" access="public"/>
     <aura:attribute name="ssId" type="String"/>
-    <aura:attribute name="isInvited" type="boolean"/>
+    <aura:attribute name="isInvited" type="Boolean"/>
+    <aura:attribute name="hasEmancipatedParticipants" type="Boolean"/>
+
+    <!-- events: -->
+    <aura:registerEvent name="onInit" type="c:uiEvent"/>
 
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
@@ -134,7 +137,8 @@
                                        changeStatusBtnList="{!v.changeStatusBtnList}"
                                        parent="{!this}"
                                        userMode="{!v.userMode}"
-                                       isInvited="{!item.isInvited}"/>
+                                       isInvited="{!item.isInvited}"
+                                       hasEmancipatedParticipants="{!item.hasEmancipatedParticipants}"/>
                 </aura:iteration>
             </div>
 
@@ -151,6 +155,7 @@
 
             <c:Action_ParticipantMrrResult aura:id="openSearch"/>
 
+            <c:Action_ParticipantEmansipationWizard aura:id="emancipationWizard"/>
 
         </aura:if>
     </div>

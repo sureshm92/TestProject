@@ -18,6 +18,7 @@ public without sharing class ViewPatientsRemote {
 
     public class PEWrapper{
         public boolean isInvited;
+        public Boolean hasEmancipatedParticipants;
         public ParticipantItem pItem;
         public Map<String, StudyActions.Action> actions;
         public List<StudyActions.Action> participantCardActions;
@@ -27,10 +28,11 @@ public without sharing class ViewPatientsRemote {
             this.pItem = new ParticipantItem(pe);
             this.actions = actions;
         }
-        public PEWrapper(Participant_Enrollment__c pe, Map<String, StudyActions.Action> actions, boolean isInvited){
+        public PEWrapper(Participant_Enrollment__c pe, Map<String, StudyActions.Action> actions, Boolean isInvited){
             this.pItem = new ParticipantItem(pe);
             this.actions = actions;
             this.isInvited = isInvited;
+            this.hasEmancipatedParticipants = pe.Participant__r != null ? pe.Participant__r.Emancipation_in_progress__c : false;
         }
     }
 

@@ -29,6 +29,7 @@ public without sharing class TaskEditRemote {
         @AuraEnabled public String errorMessage;
         @AuraEnabled public Boolean reminderEnabled;
         @AuraEnabled public Boolean createdByAdmin;
+        @AuraEnabled public Boolean isStudyTasksEnabled;
 
         public TaskEditDataWrapper() {
             List<Contact> delegates = PatientDelegateService.getInstance().getDelegates();
@@ -42,8 +43,8 @@ public without sharing class TaskEditRemote {
             reminderEnabled = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
             createdByAdmin = false;
 
-            task = new Task();
-
+            task = new Task(Task_Type__c = 'Not Selected');
+            isStudyTasksEnabled = ParticipantContext.getCurrentPE() != null && ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Tasks_Are_Available__c;
             today = Date.today();
         }
     }

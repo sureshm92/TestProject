@@ -51,9 +51,7 @@
     top: 30px;
     right: 25px;
 }
-/*
-.THIS .cRRIcon {display: none}
-*/
+/*.THIS .cRRIcon {display: none}*/
 .THIS .p-container .p-header {
     width: 100%;
     max-height: 20vh;
@@ -142,10 +140,11 @@
 
 .THIS .close-icon {
     position: absolute;
-    height: 33px;
-    top: -2px;
-    left: -7px;
-    width: 46px;
+    height: 29px;
+    top: 0px;
+    left: 0px;
+    padding: 0px;
+    width: 30px;
     fill: rgba(255, 255, 255, 0.5);
 }
 

@@ -44,6 +44,13 @@ public without sharing class ParticipantTriggerHandler {
             checkDuplicates(newList);
         }
     }
+
+    public class CheckBecomesAdultHandler extends TriggerHandler{
+
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            checkBecomesAdult(newList, (Map<Id, Participant__c>)oldMap);
+        }
+    }
     
     
     // Logic: ----------------------------------------------------------------------------------------------------------
@@ -228,4 +235,28 @@ public without sharing class ParticipantTriggerHandler {
             }
         }
     }
+
+    @TestVisible
+    private static void checkBecomesAdult(List<Participant__c> newList, Map<Id, Participant__c> oldMap) {
+        Map<Id, Participant__c> participantsByContactId = new Map<Id, Participant__c>();
+        for (Participant__c participant : newList) {
+            if (participant.Adult__c && participant.Adult__c != oldMap.get(participant.Id).Adult__c && participant.Contact__c != null) {
+                participantsByContactId.put(participant.Contact__c, participant);
+            }
+        }
+
+        if (!participantsByContactId.isEmpty()) {
+            List<User> participantUsers = [SELECT Id, ContactId FROM User WHERE ContactId IN :participantsByContactId.keySet()];
+            Map<Id, User> userByContactId = new Map<Id, User>();
+            for (User usr : participantUsers) {
+                userByContactId.put(usr.ContactId, usr);
+            }
+            for (Id contactId : participantsByContactId.keySet()) {
+                if (!userByContactId.containsKey(contactId)) {
+                    participantsByContactId.get(contactId).Emancipation_in_progress__c = true;
+                }
+            }
+        }
+    }
+
 }

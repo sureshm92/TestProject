@@ -3,9 +3,7 @@
  */
 
 import {LightningElement, api, track, wire} from 'lwc';
-import {loadStyle} from 'lightning/platformResourceLoader';
-import communityStyle from '@salesforce/resourceUrl/rr_community_css';
-import proxima from '@salesforce/resourceUrl/proximanova';
+import formFactor from '@salesforce/client/formFactor';
 import {CurrentPageReference} from 'lightning/navigation';
 import {registerListener, unregisterAllListeners} from 'c/pubSub';
 
@@ -14,6 +12,8 @@ import newMessLabel from '@salesforce/label/c.MS_New_Mess';
 import emptyConversationLabel from '@salesforce/label/c.MS_Empty_Conversations';
 import studyTeamLabel from '@salesforce/label/c.Study_Team';
 import disclaimerLabel from '@salesforce/label/c.MS_Chat_Disclaimer';
+import showMoreLabel from '@salesforce/label/c.MS_Show_More';
+import showLessLabel from '@salesforce/label/c.MS_Show_Less';
 
 import getInit from '@salesforce/apex/MessagePageRemote.getInitData';
 
@@ -24,14 +24,23 @@ export default class MessagesPage extends LightningElement {
         newMessLabel,
         emptyConversationLabel,
         studyTeamLabel,
-        disclaimerLabel
+        disclaimerLabel,
+        showMoreLabel,
+        showLessLabel
     };
 
     spinner;
+    needAfterRenderSetup;
     messageBoard;
     messageTemplates;
     firstConWrapper;
     statusByPeMap;
+
+    @track showFullDisclaimer;
+    @track showBTNLabel = showMoreLabel;
+
+    @track leftDisplay;
+    @track rightDisplay;
 
     @track initialized;
     @track hideEmptyStub;
@@ -46,6 +55,9 @@ export default class MessagesPage extends LightningElement {
 
     connectedCallback() {
         registerListener('reload', this.handleRefreshEvent, this);
+        this.needAfterRenderSetup = true;
+        this.leftDisplay = true;
+        this.rightDisplay = formFactor !== 'Small';
         this.initializer();
     }
 
@@ -53,9 +65,6 @@ export default class MessagesPage extends LightningElement {
         if (!this.initialized) {
             this.spinner = this.template.querySelector('c-web-spinner');
             this.spinner.show();
-
-            loadStyle(this, proxima + '/proximanova.css');
-            loadStyle(this, communityStyle);
         }
 
         if (!this.messageBoard && this.initialized) {
@@ -63,11 +72,16 @@ export default class MessagesPage extends LightningElement {
 
             this.messageBoard = this.template.querySelector('c-message-board');
             if (this.userMode === 'Participant') this.messageBoard.setTemplates(this.messageTemplates);
-
-            if (this.firstConWrapper) this.changeConversationsBackground(this.firstConWrapper.conversation.Id);
         }
 
-        if (this.initialized) this.spinner.hide();
+        if (this.initialized) {
+            if (this.firstConWrapper && this.needAfterRenderSetup && formFactor !== 'Small') {
+                this.changeConversationsBackground(this.firstConWrapper.conversation.Id);
+            }
+
+            this.needAfterRenderSetup = false;
+            this.spinner.hide();
+        }
     }
 
     disconnectedCallback() {
@@ -76,7 +90,33 @@ export default class MessagesPage extends LightningElement {
 
     @wire(CurrentPageReference) pageRef;
 
+    //Template Methods:-------------------------------------------------------------------------------------------------
+    get disclaimerFullClass() {
+        return 'ms-disc-mob-label ' + (this.showFullDisclaimer ? 'visible' : 'hide');
+    }
+
+    get disclaimerLessClass() {
+        return 'ms-disc-mob-label ' + (!this.showFullDisclaimer ? 'visible' : 'hide');
+    }
+
+    get leftPartClass() {
+        return 'ms-left ' + (this.leftDisplay ? 'visible' : 'hide');
+    }
+
+    get rightPartClass() {
+        return 'ms-right ' + (this.rightDisplay ? '' : 'hide');
+    }
+
+    get isPIMode() {
+        return this.userMode === 'PI';
+    }
+
     //Handlers:---------------------------------------------------------------------------------------------------------
+    handleShowMoreClick(event) {
+        this.showFullDisclaimer = !this.showFullDisclaimer;
+        this.showBTNLabel = this.showFullDisclaimer ? showLessLabel : showMoreLabel;
+    }
+
     handleNewMessageClick(event) {
         if (!this.canStartConversation) return;
 
@@ -87,19 +127,23 @@ export default class MessagesPage extends LightningElement {
 
         let enrollments = this.userMode === 'PI' ? this.enrollments : this.getFreeEnrollments();
         this.messageBoard.startNew(enrollments, this.statusByPeMap);
+        this.changeVisiblePart();
     }
 
     handleOpenConversation(event) {
         let conItem = event.detail.item;
-
-        if (this.creationMode) {
-            this.creationMode = false;
-            this.canStartConversation = this.checkCanStartNewConversation();
-            this.changePlusStyle(this.canStartConversation);
-        }
+        this.closeCreationMode();
 
         this.changeConversationsBackground(conItem.conversation.Id);
         this.messageBoard.openExisting(conItem.conversation, conItem.messages, conItem.isPastStudy);
+        this.changeVisiblePart();
+    }
+
+    handleBoardClose(event) {
+        this.changeVisiblePart();
+        this.closeCreationMode();
+        this.changeConversationsBackground(null);
+        if(!this.conversationWrappers) this.hideEmptyStub = false;
     }
 
     handleMessageSend(event) {
@@ -141,6 +185,7 @@ export default class MessagesPage extends LightningElement {
         if (this.spinner) this.spinner.show();
         this.messageBoard.closeBoard();
         this.initialized = false;
+        this.needAfterRenderSetup = true;
         this.messageBoard = null;
 
         this.initializer();
@@ -171,10 +216,6 @@ export default class MessagesPage extends LightningElement {
             });
     }
 
-    get isPIMode() {
-        return this.userMode === 'PI';
-    }
-
     changePlusStyle(enabled) {
         let newMessBTN = this.template.querySelector('.ms-btn-new');
         newMessBTN.style.opacity = enabled ? 1 : 0.5;
@@ -184,15 +225,17 @@ export default class MessagesPage extends LightningElement {
     checkCanStartNewConversation() {
         if (!this.enrollments || this.enrollments.length < 1) return false;
         if (!this.conversationWrappers) return true;
-        if (this.userMode === 'PI' && this.enrollments.length === 1) {
-            if (this.conversationWrappers.length === 1) {
-                let conPEId = this.conversationWrappers[0].conversation.Participant_Enrollment__c;
-                if (this.enrollments[0].Id === conPEId) return false;
-            }
-            return true;
-        }
+        if (this.userMode === 'PI') return true;
 
         return this.getFreeEnrollments().length !== 0;
+    }
+
+    closeCreationMode() {
+        if (this.creationMode) {
+            this.creationMode = false;
+            this.canStartConversation = this.checkCanStartNewConversation();
+            this.changePlusStyle(this.canStartConversation);
+        }
     }
 
     changeConversationsBackground(conId) {
@@ -202,6 +245,11 @@ export default class MessagesPage extends LightningElement {
                 conItem.setSelectedMode(conItem.item.conversation.Id === conId);
             });
         }
+    }
+
+    changeVisiblePart() {
+        this.leftDisplay = formFactor !== 'Small' ? true : !this.leftDisplay;
+        this.rightDisplay = formFactor !== 'Small' ? true : !this.rightDisplay;
     }
 
     //For Participants

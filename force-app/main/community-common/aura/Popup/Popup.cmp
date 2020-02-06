@@ -41,7 +41,7 @@
                 <aura:if isTrue="{!!empty(v.headerButtons)}">
                     {!v.headerButtons}
                 </aura:if>
-                <lightning:button onclick="{!c.doCancel}" name="Close" class="{!'slds-button slds-modal__close slds-button--icon-inverse' + if(not(v.showClose), ' slds-hide') + if($Browser.isPhone, ' p-mobile-close')}">
+                <lightning:button onclick="{!c.doCancel}" name="Close" class="{!'slds-button slds-modal__close slds-button&#45;&#45;icon-inverse' + if(not(v.showClose), ' slds-hide') + if($Browser.isPhone, ' p-mobile-close')}">
                     <c:RRIcon iconName="icon-close" class="close-icon"/>
                 </lightning:button>
 

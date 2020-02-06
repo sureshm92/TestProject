@@ -3,8 +3,7 @@
  -->
 
 <aura:component description="Action_ParticipantInformation" controller="ParticipantInformationRemote">
-    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="pe" type="Participant_Enrollment__c"/>
@@ -26,6 +25,8 @@
     <aura:attribute name="actions" type="Object"/>
     <aura:attribute name="currentTab" type="String" default="by-study"/>
     <aura:attribute name="checkTabs" type="String" default="participantDetails"/>
+    <aura:attribute name="isInvited" type="Boolean" access="public"/>
+    <aura:attribute name="sendEmails" type="Boolean" default="false"/>
     <aura:attribute name="participantPath" type="Object"/>
 
 
@@ -36,6 +37,7 @@
         <aura:attribute name="anchorScroll" type="String"/>
         <aura:attribute name="actions" type="Object"/>
         <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
+        <aura:attribute name="isInvited" type="Boolean" access="public"/>
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
     <aura:method name="doCallback" action="{!c.doCallback}" access="public"/>
@@ -46,8 +48,18 @@
 
     <!-- component body: -->
     <c:Popup aura:id="dialog" title="{!v.popUpTitle}" size="large" showScroll="true" showHeader="true" showFooter="true">
+        <aura:if isTrue="{!!v.isInvited}">
+            <div class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
+                <div class="slds-col slds-size--9-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
+                    <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.sendEmails}"/>
+                    <div class="slds-size--10-of-12">{!$Label.c.Send_Emails_Checkbox_on_PE_Info}</div>
+                </div>
+                <button class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"
+                onclick="{!c.createUserForPatient}" data-gtm="BTN_Invite_To_PP">{!$Label.c.BTN_Create_User_on_PE_Info}</button>
+            </div>
+        </aura:if>
         <c:RRSpinner aura:id="spinner" size="medium"/>
-        <div class="form-content" data-gtm="Tabs_View_Details">
+        <div class="form-content" data-gtm="Tabs_View_Details" id="anchor">
             <aura:if isTrue="{!v.initialized}">
 
             <lightning:tabset>
@@ -66,7 +78,7 @@
                 <lightning:tab class="slds-tabs_default__item" aura:id="Provider" label="{!$Label.c.Tab_HealthCare_Provider}" title="{!$Label.c.Tab_HealthCare_Provider}" onactive="{!c.checkTabs}">
                     <aura:if isTrue="{!v.pe}">
                         <div id="healthCareProvider">
-                            <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{!v.pe.HCP__r.HCP_Contact__r}" fromActionParticipant="true" actionDisabled="{!v.actions.screenerResponses.disabled}"/>
+                            <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{!v.pe.HCP__r.HCP_Contact__r}" showReferringProvider="{!v.pe.Show_Referring_Provider__c}" fromActionParticipant="true" actionDisabled="{!v.actions.screenerResponses.disabled}"/>
                         </div>
                     </aura:if>
                 </lightning:tab>
@@ -78,11 +90,11 @@
             </lightning:tabset>
             </aura:if>
         </div>
-            <aura:set attribute="headerButtons">
-                <lightning:button onclick="{!c.doPrint}" name="Print" class="{!'slds-button slds-button--icon-inverse'}">
+            <!--<aura:set attribute="headerButtons">
+                <lightning:button onclick="{!c.doPrint}" name="Print" class="{!'slds-button slds-button&#45;&#45;icon-inverse'}">
                     <c:RRIcon iconName="icon-print" class="print-icon"/>
                 </lightning:button>
-            </aura:set>
+            </aura:set>-->
             <aura:set attribute="footerButtons">
                 <div data-gtm="BTNS_Popup_Save_Cancel">
                 <lightning:button class="apollo-btn secondary slds-float_right slds-button--neutral" disabled="{!!v.isValid}" onclick="{!c.doUpdateCancel}">{!$Label.c.BTN_Save_All_Tabs}</lightning:button>

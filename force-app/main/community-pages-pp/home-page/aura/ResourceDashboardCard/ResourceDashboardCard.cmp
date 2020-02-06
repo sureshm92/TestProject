@@ -20,16 +20,12 @@
                 <aura:set attribute="else">
                     <div class="resource-content">
                         <lightning:layout horizontalAlign="center" multipleRows="true">
-
-                            <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6"
-                                                  size="12" flexibility="auto">
+                            <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6" size="12" flexibility="auto">
                                 <c:ResourceDashboardCardItem resourceType="Video" trialId="{!v.trialId}"/>
                             </lightning:layoutItem>
-                            <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6"
-                                                  size="12" flexibility="auto">
+                            <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6" size="12" flexibility="auto">
                                 <c:ResourceDashboardCardItem resourceType="Article" trialId="{!v.trialId}"/>
                             </lightning:layoutItem>
-
                         </lightning:layout>
                     </div>
                 </aura:set>
@@ -43,5 +39,4 @@
             </c:RRLink>
         </aura:set>
     </c:HomePreviewTablePanel>
-
 </aura:component>

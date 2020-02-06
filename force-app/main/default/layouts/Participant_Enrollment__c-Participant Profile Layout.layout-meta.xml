@@ -63,6 +63,10 @@
                 <behavior>Readonly</behavior>
                 <field>Enrolled_DateTime__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Show_Referring_Provider__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

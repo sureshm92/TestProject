@@ -9,88 +9,6 @@
     justify-content: center;
 }
 
-.ms-board-header {
-}
-
-.ms-single-header {
-    height: 73px;
-    padding: 0 25px;
-    border-bottom: 1px solid #e6e5e5;
-}
-
-.ms-multi-header {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 100px;
-}
-
-.ms-multi-header-pa {
-    align-self: center;
-    width: 80%;
-}
-
-.ms-multi-header-pi {
-    align-self: center;
-    width: 80%;
-    padding-top: 20px;
-}
-
-.ms-pi-new-mess {
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.ms-pi-multi-recipient {
-    /*height: 100px;*/
-    /*overflow-y: auto;*/
-    border: 1px solid #d4d1d1;
-    border-radius: 5px;
-    padding: 4px;
-}
-
-.ms-pi-multi-recipient::-webkit-scrollbar {
-    width: 7px;
-}
-
-.ms-pi-multi-recipient::-webkit-scrollbar-track {
-    background: none;
-}
-
-.ms-pi-multi-recipient::-webkit-scrollbar-thumb {
-    background: rgba(155, 155, 155, 0.8);
-    border-radius: 10px;
-}
-
-.ms-pi-multi-recipient::-webkit-scrollbar-thumb:hover {
-    background: rgba(85, 85, 85, 0.3);
-}
-
-.ms-header-patient-name {
-    font-family: "Proxima Nova";
-    font-size: 18px;
-    line-height: 22px;
-    font-weight: 600;
-    padding-top: 15px;
-}
-
-.ms-header-team-name {
-    font-family: "Proxima Nova";
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 22px;
-    display: flex;
-    align-items: center;
-    height: 100%;
-}
-
-.ms-header-patient-study {
-    color: #444444;
-    font-family: "Proxima Nova";
-    font-size: 16px;
-    line-height: 19px;
-}
-
 .ms-board-body {
     height: 425px;
     padding: 10px;
@@ -130,13 +48,17 @@
     justify-content: space-between;
 }
 
+.ms-select-templates {
+    flex-basis: 85%;
+}
+
 .ms-send-pi {
 
 }
 
 .ms-send-pi-buttons {
     padding-top: 10px;
-    min-height: 67px;
+    min-height: 68px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -147,12 +69,17 @@
     width: 100px;
     color: #0768FD;
     font-family: "Proxima Nova";
-    font-size: 14px;
+    font-size: 14px !important;
     font-weight: 500;
     line-height: 24px;
     text-align: center;
     pointer-events: none;
     opacity: 0.5;
+}
+
+.ms-att-file-icon {
+    display: none;
+    transform: rotate(36deg);
 }
 
 .ms-empty-chat {
@@ -172,4 +99,22 @@
     line-height: 26px;
     text-align: center;
     padding-top: 20px;
+}
+
+@media all and (max-width: 480px) {
+    .ms-select-templates {
+        flex-basis: 75%;
+    }
+
+    .ms-send-button {
+        min-width: 50px;
+    }
+
+    .ms-att-file-label {
+        display: none;
+    }
+
+    .ms-att-file-icon {
+        display: block;
+    }
 }

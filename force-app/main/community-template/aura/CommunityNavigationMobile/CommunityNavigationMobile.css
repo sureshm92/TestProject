@@ -27,7 +27,6 @@
     position: relative;
     left: t('-' + sideMenuWidth);
     overflow-y: auto;
-    background: linear-gradient(to right, #230559 0%,#036ca7 100%);
     transition: t(sideMoveSpeed);
 }
 
