@@ -15,6 +15,7 @@
         try {
             component.find('spinner').show();
             component.set('v.initialized', false);
+            component.set('v.sendEmails', false);
             var params = event.getParam('arguments');
             var pe = JSON.parse(JSON.stringify(params.pe));
             component.set('v.isInvited', params.isInvited);
@@ -47,7 +48,7 @@
                     formComponent.createDataStamp();
                     formComponent.checkFields();
                     setTimeout(function () {
-                        document.getElementById(params.anchorScroll).scrollIntoView({
+                        document.getElementById('anchor').scrollIntoView({
                             behavior: 'smooth',
                             block: 'start',
                             inline: 'nearest'

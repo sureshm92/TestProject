@@ -2,7 +2,7 @@
  * Created by alekseymoseev on 12/10/19.
  */
 
-global class UploadParticipantsBatch implements Database.Batchable<List<String>>, Database.Stateful {
+global without sharing class UploadParticipantsBatch implements Database.Batchable<List<String>>, Database.Stateful {
 
     @TestVisible
     private static Boolean isTestRunning = false;
@@ -15,6 +15,7 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
     private Integer errorRecordCount = 0;
     private Account participantAccount;
     private Id uploaderContactId;
+    private Boolean createUsers;
 
     private String emailError = '';
     Boolean valid = true;
@@ -23,12 +24,14 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
     private Set<String> listOfFailedRecords = new Set<String>();
     private Set<String> listOfFailedRecordsWithMsg = new Set<String>();
 
-    public UploadParticipantsBatch(List<List<String>> csvFileLines, String header, String studySiteId, String selectedStatus, Boolean headerFailed, Map<String, Integer> headerIndexes) {
+    public UploadParticipantsBatch(List<List<String>> csvFileLines, String header, String studySiteId, String selectedStatus, Boolean headerFailed, Map<String, Integer> headerIndexes, Boolean createUsers) {
         uploadTime = DateTime.now();
         Integer totalRowCount = csvFileLines.size();
         this.headerIndexes = headerIndexes;
         this.selectedStatus = selectedStatus;
+        this.createUsers = createUsers;
 
+        System.debug('study site id >>>'+studySiteId );
         studySiteDetails = [SELECT Id, Name, Principal_Investigator__c, Clinical_Trial_Profile__c FROM Study_Site__c WHERE Id = :studySiteId];
 
         listOfFailedRecordsWithMsg.add('Row Index, Failed Reason');
@@ -79,6 +82,8 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
             Map<Id, Contact> contactsById = new Map<Id, Contact>();
             Map<Id, Participant__c> participantsByContact = new Map<Id, Participant__c>();
             Map<Id, Participant_Enrollment__c> participantEnrollmentsByContact = new Map<Id, Participant_Enrollment__c>();
+            Map<Id, Id> createUsersMap = new Map<Id, Id>();
+            Set<Id> insertedPE = new Set<Id>();
 
             for (List<String> csvRecordData : csvChunkLines) {
                 if (csvRecordData == null || csvRecordData.isEmpty()) {
@@ -185,7 +190,8 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                                     MailingCity = City,
                                     MailingState = State,
                                     MailingCountry = Country,
-                                    MailingPostalCode = PostalCode);
+                                    MailingPostalCode = PostalCode,
+                                    Consent_To_Inform_About_Study__c = createUsers);
 
                     Participant__c participant =
                             new Participant__c(First_Name__c = FirstName,
@@ -279,7 +285,21 @@ global class UploadParticipantsBatch implements Database.Batchable<List<String>>
                             Database.Error error = saveRes.getErrors().get(0);
                             listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
                             system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
+                        } else {
+                            insertedPE.add(saveRes.getId());
                         }
+                    }
+                }
+                if(createUsers) {
+                    if (!insertedPE.isEmpty()) {
+                        for (Participant_Enrollment__c pe : participantEnrollmentsByContact.values()) {
+                            if (insertedPE.contains(pe.Id)) {
+                                createUsersMap.put(pe.Participant_Contact__c, pe.PI_Contact__c);
+                            }
+                        }
+                    }
+                    if (!createUsersMap.isEmpty()) {
+                        ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(createUsersMap);
                     }
                 }
 
