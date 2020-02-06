@@ -5414,6 +5414,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant_Workflow_Step__mdt.In_Progress_Condition__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant_Workflow_Step__mdt.Name_Label__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5430,6 +5435,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Workflow_Step__mdt.Outcome_Placeholder_Label__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Step__mdt.Success_Condition__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
