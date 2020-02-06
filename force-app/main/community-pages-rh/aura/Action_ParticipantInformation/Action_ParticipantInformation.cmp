@@ -56,7 +56,7 @@
             </div>
         </aura:if>
         <c:RRSpinner aura:id="spinner" size="medium"/>
-        <div class="form-content" data-gtm="Tabs_View_Details">
+        <div class="form-content" data-gtm="Tabs_View_Details" id="anchor">
             <aura:if isTrue="{!v.initialized}">
 
             <lightning:tabset>
@@ -87,14 +87,11 @@
             </lightning:tabset>
             </aura:if>
         </div>
-            <aura:set attribute="headerButtons">
-                <lightning:button onclick="{!c.doCancel}" name="Close"><!--&lt;!&ndash;class="{!'slds-button slds-modal__close slds-button&#45;&#45;icon-inverse' + if(not(v.showClose), ' slds-hide') + if($Browser.isPhone, ' p-mobile-close')}&ndash;&gt;">-->
-                    <c:RRIcon iconName="icon-close" class="close-icon"/>
-                </lightning:button>
-                <!--<lightning:button onclick="{!c.doPrint}" name="Print" class="{!'slds-button slds-button&#45;&#45;icon-inverse'}">
+            <!--<aura:set attribute="headerButtons">
+                <lightning:button onclick="{!c.doPrint}" name="Print" class="{!'slds-button slds-button&#45;&#45;icon-inverse'}">
                     <c:RRIcon iconName="icon-print" class="print-icon"/>
-                </lightning:button>-->
-            </aura:set>
+                </lightning:button>
+            </aura:set>-->
             <aura:set attribute="footerButtons">
                 <div data-gtm="BTNS_Popup_Save_Cancel">
                 <lightning:button class="apollo-btn secondary slds-float_right slds-button--neutral" disabled="{!!v.isValid}" onclick="{!c.doUpdateCancel}">{!$Label.c.BTN_Save_All_Tabs}</lightning:button>
