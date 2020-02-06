@@ -48,7 +48,7 @@
                     formComponent.createDataStamp();
                     formComponent.checkFields();
                     setTimeout(function () {
-                        document.getElementById(params.anchorScroll).scrollIntoView({
+                        document.getElementById('anchor').scrollIntoView({
                             behavior: 'smooth',
                             block: 'start',
                             inline: 'nearest'
