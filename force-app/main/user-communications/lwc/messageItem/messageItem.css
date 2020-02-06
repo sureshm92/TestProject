@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 04.01.2020.
  */
 .ms-item {
-    width: 330px;
+    width: 770px;
     display: flex;
     padding: 5px 10px;
     flex: 1 1 auto;
@@ -21,7 +21,7 @@
 }
 
 .ms-item-content {
-    padding: 0 5px;
+    padding: 0 5px 0 13px;
     width: 100%;
     flex: 1 1 auto;
 }
@@ -82,8 +82,8 @@
 }
 
 @media screen and (max-width: 479px){
-    .ms-item-content {
-        padding: 0 5px 0 13px;
+    .ms-item {
+        width: 330px;
     }
 
     .ms-item-title {
