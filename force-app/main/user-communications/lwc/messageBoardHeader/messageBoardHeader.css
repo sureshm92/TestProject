@@ -1,3 +1,89 @@
 /**
  * Created by Igor Malyuta on 04.02.2020.
  */
+.ms-board-header {
+    display: flex;
+    flex-direction: row;
+}
+
+.ms-single-header {
+    height: 73px;
+    padding: 0 25px;
+}
+
+.ms-multi-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100px;
+}
+
+.ms-multi-header-pa {
+    align-self: center;
+    width: 80%;
+}
+
+.ms-multi-header-pi {
+    align-self: center;
+    width: 80%;
+    padding-top: 20px;
+}
+
+.ms-pi-new-mess {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.ms-pi-multi-recipient {
+    /*height: 100px;*/
+    /*overflow-y: auto;*/
+    border: 1px solid #d4d1d1;
+    border-radius: 5px;
+    padding: 4px;
+}
+
+.ms-pi-multi-recipient::-webkit-scrollbar {
+    width: 7px;
+}
+
+.ms-pi-multi-recipient::-webkit-scrollbar-track {
+    background: none;
+}
+
+.ms-pi-multi-recipient::-webkit-scrollbar-thumb {
+    background: rgba(155, 155, 155, 0.8);
+    border-radius: 10px;
+}
+
+.ms-pi-multi-recipient::-webkit-scrollbar-thumb:hover {
+    background: rgba(85, 85, 85, 0.3);
+}
+
+.ms-header-patient-name {
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 600;
+    padding-top: 15px;
+}
+
+.ms-header-team-name {
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.ms-header-patient-study {
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.header-border {
+    border-bottom: 1px solid #e6e5e5;
+}

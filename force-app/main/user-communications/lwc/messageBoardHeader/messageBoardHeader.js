@@ -3,8 +3,12 @@
  */
 
 import {LightningElement, api, track} from 'lwc';
+import formFactor from '@salesforce/client/formFactor';
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 import AvatarColorCalculator from 'c/avatarColorCalculator';
+
+import largeTemplate from './messageBoardHeader.html';
+import mobileTemplate from './messageBoardHeaderMobile.html';
 
 import backLabel from '@salesforce/label/c.BTN_Back';
 import newMessLabel from '@salesforce/label/c.MS_New_Mess';
@@ -14,7 +18,6 @@ import teamLabel from '@salesforce/label/c.Study_Team';
 import piLabel from '@salesforce/label/c.PI_Colon';
 
 import searchParticipant from '@salesforce/apex/MessagePageRemote.searchParticipant';
-
 
 export default class MessageBoardHeader extends LightningElement {
 
@@ -28,20 +31,47 @@ export default class MessageBoardHeader extends LightningElement {
     };
 
     @api userMode;
-    @api piFullName;
     @api enrollments;
     @api selectedEnrollment;
     @api isMultipleMode;
     @api isPastStudy;
 
+    @track fullName;
     @track selectedPeId;
 
+    connectedCallback() {
+        if (this.selectedEnrollment) {
+            this.fullName = this.userMode === 'PI' ?
+                this.selectedEnrollment.Participant__r.Full_Name__c :
+                this.selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name;
+        } else {
+            this.fullName = '';
+        }
+    }
+
+    render() {
+        return formFactor === 'Small' ? mobileTemplate : largeTemplate;
+    }
+
+    renderedCallback() {
+        if (this.selectedEnrollment) {
+            this.fullName = this.userMode === 'PI' ?
+                this.selectedEnrollment.Participant__r.Full_Name__c :
+                this.selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name;
+        }
+    }
+
+    //Template Methods:-------------------------------------------------------------------------------------------------
     get isPIMode() {
         return this.userMode === 'PI';
     }
 
+    get bubbleColor() {
+        return 'background: ' + new AvatarColorCalculator().getColorFromString(this.fullName);
+    }
+
     get initials() {
-        let initials = this.piFullName.match(/\b\w/g) || [];
+        let initials = this.fullName.match(/\b\w/g) || [];
         return ((initials.shift() || '') + (initials.shift() || '')).toUpperCase();
     }
 
@@ -74,10 +104,10 @@ export default class MessageBoardHeader extends LightningElement {
     //Search Handlers:--------------------------------------------------------------------------------------------------
     handleSearch(event) {
         searchParticipant(event.detail)
-            .then(function (results) {
+            .then(results => {
                 this.template.querySelector('c-web-lookup').setSearchResults(results);
             })
-            .catch(function (error) {
+            .catch(error => {
                 this.dispatchEvent(new ShowToastEvent({
                     title: 'Lookup Error',
                     message: 'An error occurred while searching with the lookup field.',

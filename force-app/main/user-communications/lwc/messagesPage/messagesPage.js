@@ -4,7 +4,7 @@
 
 import {LightningElement, api, track, wire} from 'lwc';
 import formFactor from '@salesforce/client/formFactor';
-import { CurrentPageReference } from 'lightning/navigation';
+import {CurrentPageReference} from 'lightning/navigation';
 import {registerListener, unregisterAllListeners} from 'c/pubSub';
 
 import messagesLabel from '@salesforce/label/c.MS_Messages';
@@ -31,11 +31,16 @@ export default class MessagesPage extends LightningElement {
 
     spinner;
     needAfterRenderSetup;
-    visiblePart;
     messageBoard;
     messageTemplates;
     firstConWrapper;
     statusByPeMap;
+
+    @track showFullDisclaimer;
+    @track showBTNLabel = showMoreLabel;
+
+    @track leftDisplay;
+    @track rightDisplay;
 
     @track initialized;
     @track hideEmptyStub;
@@ -51,6 +56,8 @@ export default class MessagesPage extends LightningElement {
     connectedCallback() {
         registerListener('reload', this.handleRefreshEvent, this);
         this.needAfterRenderSetup = true;
+        this.leftDisplay = true;
+        this.rightDisplay = formFactor !== 'Small';
         this.initializer();
     }
 
@@ -68,8 +75,7 @@ export default class MessagesPage extends LightningElement {
         }
 
         if (this.initialized) {
-            if(this.needAfterRenderSetup) this.visiblePart = 'ms-left';
-            if (this.firstConWrapper && this.needAfterRenderSetup) {
+            if (this.firstConWrapper && this.needAfterRenderSetup && formFactor !== 'Small') {
                 this.changeConversationsBackground(this.firstConWrapper.conversation.Id);
             }
 
@@ -84,13 +90,31 @@ export default class MessagesPage extends LightningElement {
 
     @wire(CurrentPageReference) pageRef;
 
+    //Template Methods:-------------------------------------------------------------------------------------------------
+    get disclaimerFullClass() {
+        return 'ms-disc-mob-label ' + (this.showFullDisclaimer ? 'visible' : 'hide');
+    }
+
+    get disclaimerLessClass() {
+        return 'ms-disc-mob-label ' + (!this.showFullDisclaimer ? 'visible' : 'hide');
+    }
+
+    get leftPartClass() {
+        return 'ms-left ' + (this.leftDisplay ? 'visible' : 'hide');
+    }
+
+    get rightPartClass() {
+        return 'ms-right ' + (this.rightDisplay ? '' : 'hide');
+    }
+
+    get isPIMode() {
+        return this.userMode === 'PI';
+    }
+
     //Handlers:---------------------------------------------------------------------------------------------------------
     handleShowMoreClick(event) {
-        let discBNT = this.template.querySelector('.disc-btn');
-        this.template.querySelector('.full').style.display = discBNT.innerHTML === showMoreLabel ? 'block' : 'none';
-        this.template.querySelector('.less').style.display = discBNT.innerHTML === showMoreLabel ? 'none' : 'block';
-
-        discBNT.innerHTML = discBNT.innerHTML === showMoreLabel ? showLessLabel : showMoreLabel;
+        this.showFullDisclaimer = !this.showFullDisclaimer;
+        this.showBTNLabel = this.showFullDisclaimer ? showLessLabel : showMoreLabel;
     }
 
     handleNewMessageClick(event) {
@@ -119,6 +143,7 @@ export default class MessagesPage extends LightningElement {
         this.changeVisiblePart();
         this.closeCreationMode();
         this.changeConversationsBackground(null);
+        if(!this.conversationWrappers) this.hideEmptyStub = false;
     }
 
     handleMessageSend(event) {
@@ -166,11 +191,6 @@ export default class MessagesPage extends LightningElement {
         this.initializer();
     }
 
-    //Template Methods:-------------------------------------------------------------------------------------------------
-    get isPIMode() {
-        return this.userMode === 'PI';
-    }
-
     //Service Methods:--------------------------------------------------------------------------------------------------
     initializer() {
         this.creationMode = false;
@@ -205,14 +225,7 @@ export default class MessagesPage extends LightningElement {
     checkCanStartNewConversation() {
         if (!this.enrollments || this.enrollments.length < 1) return false;
         if (!this.conversationWrappers) return true;
-        if (this.userMode === 'PI' && this.enrollments.length === 1) {
-            let can = true;
-            let peId = this.enrollments[0].Id;
-            this.conversationWrappers.forEach(function (wr) {
-                if(wr.conversation.Participant_Enrollment__c === peId) can = false;
-            });
-            return can;
-        }
+        if (this.userMode === 'PI') return true;
 
         return this.getFreeEnrollments().length !== 0;
     }
@@ -235,11 +248,8 @@ export default class MessagesPage extends LightningElement {
     }
 
     changeVisiblePart() {
-        if(formFactor === 'Small') {
-            this.template.querySelector('.ms-left').style.display = this.visiblePart === 'ms-left' ? 'none' : 'block';
-            this.template.querySelector('.ms-right').style.display = this.visiblePart === 'ms-left' ? 'block' : 'none';
-        }
-        this.visiblePart = this.visiblePart === 'ms-left' ? 'ms-right' : 'ms-left';
+        this.leftDisplay = formFactor !== 'Small' ? true : !this.leftDisplay;
+        this.rightDisplay = formFactor !== 'Small' ? true : !this.rightDisplay;
     }
 
     //For Participants
