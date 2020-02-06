@@ -29,9 +29,9 @@
         <aura:if isTrue="{!v.isInitialized}">
 
             <aura:if isTrue="{!v.hasEmancipatedParticipants}">
-                <div style="background: #FF9300; fill: white; height: 100%; color: black; line-height: 45px; font-size: 1rem; border: 0.1px solid; border-color: lightgrey; argin-bottom: 30px;">
-                    <span style="padding: 4px 16px; font-weight: 600;"><c:RRIcon iconName="warning"/> {!$Label.c.One_or_more_Participants_reached_Majority}</span>
-                    <span style="text-align: right; padding: 4px 16px;"><a href="javascript:void(0);">{!$Label.c.Filter_Participant_s}</a></span>
+                <div class="emancipation-notification">
+                    <span class="emancipation-notification-msg"><c:RRIcon iconName="warning"/> {!$Label.c.One_or_more_Participants_reached_Majority}</span>
+                    <span class="emancipation-notification-link"><a data-gtm="link_Filter_emancip" href="javascript:void(0);">{!$Label.c.Filter_Participant_s}</a></span>
                 </div>
             </aura:if>
 

@@ -37,6 +37,7 @@
             component.get('v.fileName'),
             component.get('v.studySiteId'),
             component.get('v.selectedStatus'),
+            component.get('v.createUsers'),
             helper);
     },
 

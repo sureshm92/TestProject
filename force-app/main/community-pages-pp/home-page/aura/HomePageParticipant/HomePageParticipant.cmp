@@ -83,7 +83,12 @@
                         <c:VisitResultsDashboardCard
                                 ctpId="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"/>
                     </aura:if>
-                    <c:ResourceDashboardCard isAvailable="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c, v.participantState.value == 'ALUMNI')}"/>
+                    <aura:if isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c, v.participantState.value == 'ALUMNI')}">
+                        <c:ResourceDashboardCard/>
+                    </aura:if>
+                    <div class="slds-size_1-of-2">
+                        <c:RelevantLinks/>
+                    </div>
                 </div>
             </div>
             <c:ParticipantIRBChecker peId="{!v.participantState.pe.Id}"/>

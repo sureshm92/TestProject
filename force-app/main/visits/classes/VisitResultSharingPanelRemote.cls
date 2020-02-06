@@ -150,9 +150,9 @@ public without sharing class VisitResultSharingPanelRemote {
 
             String selectionCountryType;
             if(ctp.Shareback_Settings_On_Country_Level__c) {
-                selectionCountryType = ctp.Shareback_Settings_Country__c != null ? TYPE_COUNTRIES : TYPE_ALL;
+                selectionCountryType = String.isNotBlank(ctp.Shareback_Settings_Countries__c) ? TYPE_COUNTRIES : TYPE_ALL;
             } else {
-                //selectionCountryType = ctp.Shareback_Settings_Country__c != null ? TYPE_COUNTRIES_DISABLED : TYPE_DISABLED;
+                selectionCountryType = ctp.Shareback_Settings_Countries__c != null ? TYPE_COUNTRIES_DISABLED : TYPE_DISABLED;
                 selectionCountryType = TYPE_DISABLED;
             }
 
@@ -167,7 +167,7 @@ public without sharing class VisitResultSharingPanelRemote {
             initData.options.whenToShow = ctp.Shareback_Availability_Timing__c > 0 ? 'After' : 'Immediate';
             initData.options.inPatientPortal = ctp.Patient_Portal_Enabled__c;
             initData.options.countrySelectionType = selectionCountryType;
-            initData.options.selectedCountries = ctp.Shareback_Settings_Country__c == null ? '' : ctp.Shareback_Settings_Country__c;
+            initData.options.selectedCountries = ctp.Shareback_Settings_Countries__c == null ? '' : ctp.Shareback_Settings_Countries__c;
 
             return initData;
         } catch (Exception e) {
@@ -198,7 +198,7 @@ public without sharing class VisitResultSharingPanelRemote {
                         optionsWrapper.ssSelectionType.equals(TYPE_ALL) || optionsWrapper.ssSelectionType.equals(TYPE_STUDY_SITES);
                 ctp.Shareback_Settings_On_Country_Level__c =
                         optionsWrapper.countrySelectionType.equals(TYPE_ALL) || optionsWrapper.countrySelectionType.equals(TYPE_COUNTRIES);
-                ctp.Shareback_Settings_Country__c = optionsWrapper.selectedCountries != null ? optionsWrapper.selectedCountries : '';
+                ctp.Shareback_Settings_Countries__c = optionsWrapper.selectedCountries != null ? optionsWrapper.selectedCountries : '';
 
                 ssIds = optionsWrapper.selectedSSIds.split(';');
                 updateVRTSharing(groupsList, VisitResultSharingService.getTypeVRSharingMap(ctp), ctpId);
