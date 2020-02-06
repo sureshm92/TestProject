@@ -25,7 +25,7 @@
 .ms-disc-mob-label {
     padding: 8px 17px 8px 0;
     margin-bottom: 10px;
-    height: 24px;
+    height: 100%;
     width: 350px;
     transform: rotate(-360deg);
     color: #000000;
@@ -59,8 +59,15 @@
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
 }
 
-.ms-left {
+.visible {
     display: flex;
+}
+
+.hide {
+    display: none;
+}
+
+.ms-left {
     flex-direction: column;
     width: 437px;
     border-right: 1px solid #e6e5e5;
@@ -181,11 +188,6 @@
         box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .04);
     }
 
-    .full {
-        display: none;
-        height: 100%;
-    }
-
     .disc-btn {
         display: block;
         padding: 10px 0;
@@ -197,9 +199,5 @@
 
     .ms-title {
         padding-left: 10px;
-    }
-
-    .ms-right {
-        display: none;
     }
 }
