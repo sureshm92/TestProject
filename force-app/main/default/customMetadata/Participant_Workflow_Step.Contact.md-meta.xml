@@ -3,15 +3,47 @@
     <label>Contact</label>
     <protected>false</protected>
     <values>
+        <field>Card_Name_Label__c</field>
+        <value xsi:type="xsd:string">PWS_Contact_Card_Name</value>
+    </values>
+    <values>
         <field>Condition__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Failed_State_Editing_Enabled__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Form_Fields__c</field>
+        <value xsi:type="xsd:string">Initial_Visit_Scheduled_Date,Initial_Visit_Scheduled_Time</value>
+    </values>
+    <values>
+        <field>History_Item_Details_Template_Label__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>History_Item_Title_Template_Label__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>History_Label__c</field>
+        <value xsi:type="xsd:string">PWS_Contact_History_Title</value>
+    </values>
+    <values>
         <field>Name_Label__c</field>
-        <value xsi:type="xsd:string">Contact</value>
+        <value xsi:type="xsd:string">PWS_Contact_Name</value>
+    </values>
+    <values>
+        <field>No_Outcome_Label__c</field>
+        <value xsi:type="xsd:string">PWS_Contact_No_Outcome</value>
     </values>
     <values>
         <field>Order__c</field>
         <value xsi:type="xsd:double">2.0</value>
+    </values>
+    <values>
+        <field>Outcome_Placeholder_Label__c</field>
+        <value xsi:type="xsd:string">PWS_Contact_Outcome_Placeholder</value>
     </values>
 </CustomMetadata>

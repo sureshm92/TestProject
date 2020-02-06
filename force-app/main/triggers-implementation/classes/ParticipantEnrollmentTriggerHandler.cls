@@ -211,11 +211,12 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 pe.Participant_Key__c = participantName + ' ' + nctNumber;
             }
             //populate referred date
-            if (pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI) {
+            if (pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI || pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED) {
                 if ((oldMap == null && pe.Referred_Date__c == null) || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != pe.Participant_Status__c)) {
                     pe.Referred_Date__c = Date.today();
                 }
             }
+            pe.Initial_visit_scheduled_flag__c = pe.Initial_visit_scheduled_date__c != null;
         }
 
         if (!participantContacts.isEmpty()) update participantContacts;
@@ -313,6 +314,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             if (!updateCriteria) continue;
             Boolean filterCriteria =
                     (newPE.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI ||
+                            newPE.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED ||
                             newPE.Participant_Status__c == ParticipantEnrollmentService.PART_STATUS_ACCEPTED) &&
                             newPE.Participant__c != null &&
                             !newPE.Is_Virtual_Study_Site__c &&
@@ -429,7 +431,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     private static void getPaymentInformationOnStatusChange(List<Participant_Enrollment__c> newList) {
         List<Participant_Enrollment__c> peToUpdate = new List<Participant_Enrollment__c>();
         for(Participant_Enrollment__c participantEnrollment : newList){
-            if(participantEnrollment.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) {
+            if(participantEnrollment.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+                    || participantEnrollment.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) {
                 peToUpdate.add(participantEnrollment);
             }
         }
@@ -521,9 +524,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     ) {
         List<Participant_Enrollment_Status_History__c> histories = new List<Participant_Enrollment_Status_History__c>();
         for (Participant_Enrollment__c pe : enrollments) {
-            if (pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI) {
+            if (pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED) {
                 if (oldMap == null ||
-                        (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI)) {
+                        (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED)) {
                     histories.add(new Participant_Enrollment_Status_History__c(
                             Date__c = pe.Participant_Status_Last_Changed_Date__c,
                             Status__c = pe.Participant_Status__c,
@@ -578,7 +581,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                             Notes__c = pe.Last_Status_Changed_Notes__c,
                             Date__c = Datetime.now(),
                             ParticipantEnrollment__c = pe.Id,
-                            Status__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS)
+                            Status__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS)[0]
                     ));
                     if (step.name == currentState.name) break;
                 }
@@ -619,7 +622,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         Set<Id> peEnrollSuccessIds = new Set<Id>();
         for (Participant_Enrollment__c pe : enrollments) {
             if (pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
-                if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) {
+                if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+                        || pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) {
                     peEnrollSuccessIds.add(pe.Id);
                 }
             }
@@ -669,7 +673,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         Set<Id> peEnrollSuccessIds = new Set<Id>();
         for (Participant_Enrollment__c pe : enrollments) {
             if (pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
-                if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) {
+                if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+                        || pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) {
                     peEnrollSuccessIds.add(pe.Id);
                 }
             }

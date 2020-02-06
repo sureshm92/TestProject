@@ -12,8 +12,8 @@ public without sharing class ViewPatientsRemote {
         public List<Id> trialIds;
         public Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
         public List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
-        public MyPatientsStatistics statistics;
-        public List<ReferralProfileRemote.ChangeStatusButton> btnList = ReferralProfileRemote.createButtonsList(null);
+     //   public MyPatientsStatistics statistics;
+     //   public List<ReferralProfileRemote.ChangeStatusButton> btnList = ReferralProfileRemote.createButtonsList(null);
     }
 
     public class PEWrapper{
@@ -67,7 +67,7 @@ public without sharing class ViewPatientsRemote {
             };
             if(mode == CommunityService.USER_MODE_PI) excludedStatuses.add(ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL);
             initData.peFilter.additionalFilter = ' Participant_Status__c NOT IN (\'' + String.join(excludedStatuses, '\', \'') + '\') ';
-            if(trialId == null) initData.statistics = MyPatientsStatistics.getStatistics(initData.peFilterData.trialIds, mode);
+            //if(trialId == null) initData.statistics = MyPatientsStatistics.getStatistics(initData.peFilterData.trialIds, mode);
             ParticipantEnrollmentService.PEFilter filterCopy = (ParticipantEnrollmentService.PEFilter) JSON.deserialize(JSON.serialize(initData.peFilter), ParticipantEnrollmentService.PEFilter.class);
             if(btnFilter != null && mode == CommunityService.USER_MODE_PI){
                 if(btnFilter.equalsIgnoreCase('Pending')){
@@ -284,15 +284,15 @@ public without sharing class ViewPatientsRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-
-    @AuraEnabled
-    public static String getStatistics(String mode, String delegateId){
-        try{
-            return JSON.serialize(MyPatientsStatistics.getStatistics(TrialService.getAvailableTrialIds(mode, delegateId), mode));
-        }catch (Exception e){
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-        }
-    }
+//deprecated
+//    @AuraEnabled
+//    public static String getStatistics(String mode, String delegateId){
+//        try{
+//            return JSON.serialize(MyPatientsStatistics.getStatistics(TrialService.getAvailableTrialIds(mode, delegateId), mode));
+//        }catch (Exception e){
+//            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+//        }
+//    }
 
     private static List<PEWrapper> convertToPEWrapperList(List<Participant_Enrollment__c> participantEnrollments, String userMode){
         return convertToPEWrapperList(participantEnrollments, userMode, null);

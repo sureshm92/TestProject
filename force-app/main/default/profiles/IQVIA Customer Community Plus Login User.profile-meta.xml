@@ -349,6 +349,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ConditionCheckerService</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ConditionOfInterestRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -891,6 +895,10 @@
     <classAccesses>
         <apexClass>ParticipantVisitsRemote</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantWorkflowService</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>PastStudiesController</apexClass>
@@ -2528,6 +2536,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Estimated_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Final_Consent_Required__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4682,6 +4695,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant_Enrollment__c.Final_Consent_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Final_consent__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant_Enrollment__c.HCP_Account__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5002,6 +5025,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant_Enrollment__c.Revisit_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant_Enrollment__c.Screening_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5073,6 +5101,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Visit_Plan__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Enrollment__c.Washout_Run_In_Applies__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5197,7 +5230,97 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant_Workflow_Form_Field__mdt.Condition__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Form_Field__mdt.False_Value_Label__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Form_Field__mdt.Field_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Form_Field__mdt.Readonly_for_Steps__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Form_Field__mdt.Required_for_Steps__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Form_Field__mdt.Title_Label__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Form_Field__mdt.True_Value_Label__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Form_Field__mdt.Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Outcome__mdt.Reasons_List__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Outcome__mdt.State__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Outcome__mdt.Status_Name__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Outcome__mdt.Step__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Step__mdt.Card_Name_Label__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant_Workflow_Step__mdt.Condition__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Step__mdt.Failed_State_Editing_Enabled__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Step__mdt.Form_Fields__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Step__mdt.History_Item_Details_Template_Label__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Step__mdt.History_Item_Title_Template_Label__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Step__mdt.History_Label__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5207,7 +5330,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant_Workflow_Step__mdt.No_Outcome_Label__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant_Workflow_Step__mdt.Order__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Step__mdt.Outcome_Placeholder_Label__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7006,6 +7139,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Participant_Study_Enrollment__c-Participant Study Enrollment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Participant_Workflow_Form_Field__mdt-Participant Workflow Form Field Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Participant_Workflow_Outcome__mdt-Participant Workflow Outcome Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Participant_Workflow_Step__mdt-Participant Workflow Step Layout</layout>

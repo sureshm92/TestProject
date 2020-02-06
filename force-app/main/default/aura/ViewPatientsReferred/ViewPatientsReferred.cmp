@@ -39,7 +39,6 @@
     <aura:handler name="change" value="{!v.piBtnFilter}" action="{!c.doUpdateRecords}"/>
 
     <!-- methods: -->
-    <aura:method name="updateStatistics" action="{!c.doUpdateStatistics}" access="public"/>
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
 
     <!-- component body: -->

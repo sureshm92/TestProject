@@ -3,6 +3,7 @@
  */
 ({
     doChangeStep : function (component, event, helper) {
-        component.set('v.participantWorkflowWrapper.currentStep',event.currentTarget.dataset.step);
+        var steps = component.get('v.participantWorkflowWrapper.steps');
+        component.set('v.participantWorkflowWrapper.currentStep',steps[event.currentTarget.dataset.stepInd]);
     }
 })

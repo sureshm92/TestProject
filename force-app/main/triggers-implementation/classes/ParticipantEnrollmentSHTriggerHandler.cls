@@ -39,7 +39,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 new Map<Id, List<Participant_Enrollment_Status_History__c>>();
 
         for (Participant_Enrollment_Status_History__c history : histories) {
-            if(history.Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI) continue;
+            if(history.Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI || history.Status__c == PEStatusState.PE_STATUS_RECEIVED) continue;
 
             Id peId = history.ParticipantEnrollment__c;
             peIds.add(peId);

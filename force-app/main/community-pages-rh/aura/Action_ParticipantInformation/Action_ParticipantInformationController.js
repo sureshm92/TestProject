@@ -128,5 +128,21 @@
         var comp = component.find('dialog');
         comp.hide();
 
+    },
+    doUpdatePatientStatus: function (component, event, helper) {
+        var stepWrapper = component.get('v.participantPath.currentStep');
+        var pe = component.get('v.pe');
+        component.find('spinner').show();
+        communityService.executeAction(component, 'updatePatientStatus', {
+            stepWrapperJSON: JSON.stringify(stepWrapper),
+            peId: pe.Id
+        }, function (returnValueJSON) {
+            var returnValue = JSON.parse(returnValueJSON);
+            //component.set('v.statusSteps', returnValue.steps);
+            component.set('v.participantPath',returnValue);
+        }, null, function () {
+            component.find('spinner').hide();
+        });
+
     }
 });
