@@ -30,14 +30,19 @@
                 let contact = { sObjectType: '', Id: pe.Participant__r.Contact__c, Consent_To_Inform_About_Study__c: false };
                 component.set('v.contact', contact);
                 component.find('spinner').hide();
+            }, function (returnValue) {
+                component.find('spinner').hide();
             });
 
             communityService.executeAction(component, 'getParticipantDelegates', {
-                participantId: component.get('v.participant').Id
+                participantId: pe.Participant__c
             },  function (returnValue) {
                 component.set('v.delegateItems', returnValue);
 
                 component.find('spinner').hide();
+            }, function (returnValue) {
+                component.find('spinner').hide();
+                communityService.showErrorToast('',  "Error get Participant's Delegates! Description: " + returnValue);
             });
 
             component.set('v.participantMsgWithName', $A.get("$Label.c.PG_Ref_L_Participant_require_invitation").replace('##participantName', pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c));
@@ -70,7 +75,7 @@
         component.set('v.delegateItems', delegateItems);
     },
 
-    doCheckFields: function (component, event, hepler) {
+    doCheckFields: function (component, event) {
         var participant = component.get('v.participant');
         var statesByCountryMap = component.get('v.formData.statesByCountryMap');
         var states = statesByCountryMap[participant.Mailing_Country_Code__c];
@@ -101,7 +106,7 @@
         var countryMap =  component.get('v.formData.countriesLVList');
         var participant = component.get('v.participant');
         for (let i = 0; i <countryMap.length ; i++) {
-            if(countryMap[i].value == participant.Mailing_Country_Code__c){
+            if (countryMap[i].value == participant.Mailing_Country_Code__c) {
                 component.set('v.participant.Mailing_Country__c', countryMap[i].label);
                 break;
             }
@@ -110,26 +115,70 @@
         component.set('v.statesLVList', states);
         component.set('v.participant.Mailing_State_Code__c', null);
         component.set('v.participant.Mailing_State__c', null);
-        component.checkFields();
+
+        this.checkFields(component, event);
     },
 
     doStateChange: function(component, event, helper) {
         var states = component.get('v.statesLVList');
-        if (states){
+        if (states) {
             var participant = component.get('v.participant');
             for (let i = 0; i < states.length ; i++) {
-                if(states[i].value == participant.Mailing_State_Code__c){
+                if (states[i].value == participant.Mailing_State_Code__c) {
                     component.set('v.participant.Mailing_State__c', states[i].label);
                     break;
                 }
             }
         }
-        component.checkFields();
+
+        this.checkFields(component, event);
     },
 
-    doRefreshView: function(component, event, helper) {
-        component.set('v.isRefreshView', true);
-        component.set('v.isRefreshView', false);
+    doCheckDelegateFields: function (component, event) {
+        let ind = event.getSource().get('v.id');
+        let delegateItems = component.get('v.delegateItems');
+
+        let isValid = component.get('v.isValid');
+    },
+
+    doDelegateCountryCodeChanged: function (component, event, helper) {
+        let ind = event.getSource().get('v.id');
+        let delegateItems = component.get('v.delegateItems');
+
+        let statesByCountryMap = component.get('v.formData.statesByCountryMap');
+        let countryMap =  component.get('v.formData.countriesLVList');
+
+        for (let i = 0; i <countryMap.length ; i++) {
+            if (countryMap[i].value == delegateItems[ind].Mailing_Country_Code__c) {
+                delegateItems[ind].Mailing_Country__c = countryMap[i].label;
+                break;
+            }
+        }
+        var states = statesByCountryMap[delegateItems[ind].Mailing_Country_Code__c];
+        component.set('v.statesLVList', states);
+        delegateItems[ind].Mailing_State_Code__c = null;
+        delegateItems[ind].Mailing_State__c = null;
+        component.set('v.delegateItems', delegateItems);
+
+        this.checkDelegateFields(component, event);
+    },
+
+    doDelegateStateChange: function(component, event, helper) {
+        let ind = event.getSource().get('v.id');
+        let delegateItems = component.get('v.delegateItems');
+
+        let states = component.get('v.statesLVList');
+        if (states){
+            for (let i = 0; i < states.length ; i++) {
+                if (states[i].value == delegateItems[ind].Mailing_State_Code__c){
+                    delegateItems[ind].Mailing_State__c = states[i].label;
+                    break;
+                }
+            }
+        }
+        component.set('v.delegateItems', delegateItems);
+
+        this.checkDelegateFields(component, event);
     },
 
     doNext: function(component, event, helper) {
@@ -151,6 +200,8 @@
             currentTab = '' + (+currentTab - 1);
             component.set('v.currentTab', currentTab);
             helper.preparePathItems(component);
+        } else {
+            this.checkFields(component, event, hepler);
         }
     },
 
@@ -158,6 +209,6 @@
         let delegateItems = component.get('v.delegateItems');
         delegateItems.push({ sObjectType: 'Participant__c', selectedOption: '1' });
         component.set('v.delegateItems', delegateItems);
-    },
+    }
 
 });

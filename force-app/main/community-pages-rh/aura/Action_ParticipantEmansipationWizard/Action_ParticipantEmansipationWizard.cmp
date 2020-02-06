@@ -274,16 +274,16 @@
                                             <div class="label">
                                                 <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_Country}
                                             </div>
-                                            <c:rrSelect options="{!v.formData.countriesLVList}" value="{!delegateItem.Mailing_Country_Code__c}"
-                                                        placeholder="{!$Label.c.PG_AC_Select}" useSentenceFont="false" onchange="{!c.doCountryCodeChanged}"/>
+                                            <c:rrSelect id="ind" options="{!v.formData.countriesLVList}" value="{!delegateItem.Mailing_Country_Code__c}"
+                                                        placeholder="{!$Label.c.PG_AC_Select}" useSentenceFont="false" onchange="{!c.doDelegateCountryCodeChanged}"/>
                                         </div>
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
                                             <div class="label">
                                                 <aura:if isTrue="{!!empty(v.states)}"><abbr title="required" class="slds-required">*</abbr></aura:if>{!$Label.c.PE_State}
                                             </div>
-                                            <c:rrSelect options="{!v.statesLVList}" disabled="{!empty(v.statesLVList)}"
+                                            <c:rrSelect id="ind" options="{!v.statesLVList}" disabled="{!empty(v.statesLVList)}"
                                                         value="{!delegateItem.Mailing_State_Code__c}" placeholder="{!$Label.c.PG_AC_Select}"
-                                                        useSentenceFont="false" onchange="{!c.doStateChange}"/>
+                                                        useSentenceFont="false" onchange="{!c.doDelegateStateChange}"/>
                                         </div>
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
                                             <div class="label">
