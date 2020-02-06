@@ -79,6 +79,7 @@
 
 .ms-att-file-icon {
     display: none;
+    transform: rotate(36deg);
 }
 
 .ms-empty-chat {
