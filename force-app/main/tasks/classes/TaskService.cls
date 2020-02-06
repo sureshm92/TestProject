@@ -86,30 +86,16 @@ public without sharing class TaskService {
         String commonFilter = '';
         String ownerVisibility = ' AND Visible_For__c INCLUDES (\'' + TASK_VISIBILITY_OWNER + '\') ';
         String delegatesVisibility = ' AND Visible_For__c INCLUDES (\'' + TASK_VISIBILITY_DELEGATES + '\') ';
-        if(!ParticipantContext.isCurrentDelegate() && ParticipantContext.getCurrentPE() == null){
-            //own alumni
+        if(!ParticipantContext.isCurrentDelegate()){
+            //owner
             commonFilter = '(' +
                     'OwnerId = \'' + ParticipantContext.getOwnUserId() + '\'' + ownerVisibility +
                     ')';
-        }else if(!ParticipantContext.isCurrentDelegate() && ParticipantContext.getCurrentPE() != null){
-            //own current PE
-            commonFilter = '(' +
-                    'OwnerId = \'' + ParticipantContext.getOwnUserId() + '\' ' +
-                    'AND (WhatId = \'' + ParticipantContext.getCurrentPEId() + '\' OR WhatId = NULL OR What.Type = \'SurveyInvitation\')' +
-                    ownerVisibility +
-                    ')';
-        }else if(ParticipantContext.isCurrentDelegate() && ParticipantContext.getCurrentPE() == null){
-            //delegated alumni
-            commonFilter = '(' +
-                    '(OwnerId = \'' + ParticipantContext.getOwnUserId() + '\' AND (WhatId = NULL OR What.Type = \'SurveyInvitation\') ' + ownerVisibility + ') OR ' +
-                    '(OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\' ' + delegatesVisibility + ')' +
-                    ')';
         }else{
-            //delegated PE
+            //delegate
             commonFilter = '(' +
-                    '(OwnerId = \'' + ParticipantContext.getOwnUserId() + '\' AND (WhatId = NULL OR What.Type = \'SurveyInvitation\') ' + ownerVisibility + ') OR ' +
-                    '(OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\'' +
-                    delegatesVisibility + ' AND (WhatId = \'' + ParticipantContext.getCurrentPEId() + '\' OR WhatId = NULL OR What.Type = \'SurveyInvitation\'))' +
+                    '(OwnerId = \'' + ParticipantContext.getOwnUserId() + ownerVisibility + ') OR ' +
+                    '(OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\'' + delegatesVisibility + ')' +
                     ')';
         }
         if(filter != null) commonFilter += ' AND ' + filter;
@@ -121,14 +107,16 @@ public without sharing class TaskService {
     
     private List<Task> filterTasks(List<Task> tasks){
         List<Task> filteredList = new List<Task>();
-        List<Id> whatIds = new List<Id>();
-        if(ParticipantContext.getCurrentPE() != null && ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Tasks_Are_Available__c){
-            whatIds.add(ParticipantContext.getCurrentPEId());
-            List<SurveyInvitation> invitations = [SELECT Id FROM SurveyInvitation WHERE Participant_Enrollment__c =: ParticipantContext.getCurrentPEId()];
-            for(SurveyInvitation invitation : invitations) whatIds.add(invitation.Id);
-        }
         for(Task t : tasks){
-            if(t.WhatId == null || whatIds.contains(t.WhatId)) filteredList.add(t);
+            if(t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()){
+                //PE tasks:
+                if(ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Tasks_Are_Available__c && t.WhatId == ParticipantContext.getCurrentPEId()){
+                    filteredList.add(t);
+                }
+            }else{
+                //other tasks:
+                filteredList.add(t);
+            }
         }
         return filteredList;
     }

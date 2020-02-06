@@ -52,7 +52,7 @@ public without sharing class CommunityService {
     }
     
     public Id getCurrentContactId(){
-        return CommunityService.getUserContact().Id;
+        return UserContext.getUserContactId();
     }
 
     public String getUserAccessLevel(String delegateId){
@@ -68,38 +68,18 @@ public without sharing class CommunityService {
         return accessLevel;
     }
 
-    public Contact getUserContactImpl(){
-        if (userContact == null) {
-            User currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
-            if(currentUser.ContactId == null) throw new CommunityServiceException(CommunityService.ERROR_MISSING_CONTACT_ON_USER);
-            userContact = getContactById(currentUser.ContactId);
-        }
-        return userContact;
-    }
-    
     //Old static logic: ------------------------------------------------------------------------------------------------
     
     public static Contact getUserContact() {
-        return getInstance().getUserContactImpl();
-    }
-
-    //TODO for remove:
-    public static String getAccessRights(String userMode){
-        return null;
-    }
-
-    //for debug under internal user
-    public static void setDummyUserContact(Id contactId){
-        userContact = getContactById(contactId);
-        userId = [SELECT Id FROM User WHERE ContactId =: contactId LIMIT 1].Id;
+        return UserContext.getUserContact();
     }
     
     public static Id getUserId(){
-        return userId;
+        return UserContext.getUserId();
     }
 
+    //Todo remove this:
     public String getParticipantId() {
-
         User currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
         if(currentUser.ContactId == null) {
             throw new CommunityServiceException(CommunityService.ERROR_MISSING_CONTACT_ON_USER);
@@ -121,30 +101,6 @@ public without sharing class CommunityService {
                 FROM Contact
                 WHERE Id IN :userContactIds
         ];
-    }
-    
-    /***
-        added by Slav V on Oct 18, 2019
-     */
-    public static Map<Id, Participant__c> getParticipantsByContactIds(Set<Id> contactIds){
-        if (contactIds == null) return null;
-        
-        List<Participant__c> participants = [
-                SELECT Contact__c, First_Name__c, Last_Name__c
-                FROM Participant__c
-                WHERE Contact__c IN :ContactIds
-        ];
-        
-        Map<Id, Participant__c> participantMap = new Map<Id, Participant__c>();
-        
-        for (Participant__c participant : participants) {
-            // IMPORTANT NOTE: if a Contact is linked to more than one Participant
-            // then only the LAST one from the list will retain in the returned Map.
-            // So, if you want to use a specific Participant add the "ORDER BY" clause in the SOQL above
-            participantMap.put(participant.Contact__c, participant);
-        }
-
-         return participantMap;
     }
     
     public static List<User> getCommunityUsersByContactIds(Set<Id> contactIds) {
@@ -259,40 +215,6 @@ public without sharing class CommunityService {
                 FROM Contact
                 WHERE Id = :contactIds
                 //ORDER BY Name
-        ];
-    }
-
-    public static Contact getContactById(Id contactId) {
-        return [
-                SELECT Id,
-                        Name,
-                        Full_Name__c,
-                        primaryContact__c,
-                        userCommunityMode__c,
-                        userCommunityDelegateId__c,
-                        userCommunytyType__c,
-                        UserCommunityIsDelegate__c,
-                        HCP_DelegateAccessLevel__c,
-                        PI_DelegateAccessLevel__c,
-                        userCommunity_ShowTour__c,
-                        Current_Participant_Enrollment__c,
-                        Last_Session_Id__c,
-                        Language__c,
-                        Second_Choice_Language__c,
-                        MailingLatitude,
-                        MailingLongitude,
-                        MailingCountry,
-                        MailingCity,
-                        MailingPostalCode,
-                        MailingState,
-                        MailingStreet,
-                        Account.BillingCountry,
-                        Account.OwnerId,
-                        PI_My_Studies_Filters__c,
-                        Third_Choice_Language__c,
-                        Participant_Opt_In_Status_Emails__c
-                FROM Contact
-                WHERE Id = :contactId
         ];
     }
 
