@@ -2780,8 +2780,8 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Clinical_Trial_Profile__c.Shareback_Settings_Country__c</field>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Shareback_Settings_Countries__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

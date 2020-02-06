@@ -98,7 +98,7 @@
         component.checkFields();
     },
 
-    doStateChange: function(component, event, helper){
+    doStateChange: function(component, event, helper) {
         var states = component.get('v.statesLVList');
         if (states){
             var participant = component.get('v.participant');
@@ -112,9 +112,29 @@
         component.checkFields();
     },
 
-    doRefreshView: function(component, event, helper){
+    doRefreshView: function(component, event, helper) {
         component.set('v.isRefreshView', true);
         component.set('v.isRefreshView', false);
+    },
+
+    doNext: function(component, event, helper) {
+        let currentTab = component.get('v.currentTab');
+        if (currentTab != '4') {
+            currentTab = '' + (+currentTab + 1);
+            component.set('v.currentTab', currentTab);
+            helper.preparePathItems(component);
+        } else {
+
+        }
+    },
+
+    doBack: function(component, event, helper) {
+        let currentTab = component.get('v.currentTab');
+        if (currentTab != '1') {
+            currentTab = '' + (+currentTab - 1);
+            component.set('v.currentTab', currentTab);
+            helper.preparePathItems(component);
+        }
     }
 
 });

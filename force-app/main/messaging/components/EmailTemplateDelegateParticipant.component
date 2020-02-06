@@ -5,6 +5,7 @@
 <apex:component id="EmailTemplateDelegateParticipant" controller="EmailTemplateDelegatePartController">
     <!-- attributes: -->
     <apex:attribute name="userId" type="Id" assignTo="{!delegateUserId}" description=""/>
+    <apex:attribute name="params" type="String" assignTo="{!dataParams}" description=""/>
 
     <apex:outputPanel>
         <br/><br/>
@@ -17,6 +18,7 @@
                 </tr>
             </apex:repeat>
         </table>
+        {!afterText}
     </apex:outputPanel>
     <br/><br/>
 </apex:component>

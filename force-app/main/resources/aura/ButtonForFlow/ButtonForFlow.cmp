@@ -6,6 +6,7 @@
         <aura:attribute name="isOpen" type="Boolean" default="false" access="private"/>
         <aura:attribute name="recordId" type="String"/>
         <aura:attribute name="pageReference" type="Object" />
+        <aura:attribute name="pageRef" type="Object" access="private"/>
         <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     	<lightning:navigation aura:id="navService"/>
