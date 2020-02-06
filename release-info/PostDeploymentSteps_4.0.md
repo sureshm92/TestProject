@@ -33,3 +33,5 @@
 3) **Activate languages, PEH-1407**
      * Go to Setup > Object Manager > Resource > Record type > For all record type for everyone in turn > Open Record Type > In PickList Conuty and Conutys activate all values.
      * Verification step: Make screenshot this setting.
+     * Verification step: Make screenshot this setting.
+2) Change First login Page and add thia page in profile
