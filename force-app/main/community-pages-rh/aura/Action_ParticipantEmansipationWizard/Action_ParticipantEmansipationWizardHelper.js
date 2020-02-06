@@ -106,7 +106,7 @@
             component.find('spinner').hide();
             component.find('dialog').hide();
         }, function (returnValue) {
-            component.find('upModalSpinner').hide();
+            component.find('spinner').hide();
             communityService.showErrorToast('',  "Emancipation process failed! Description: " + returnValue);
         });
     }
