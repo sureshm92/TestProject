@@ -31,7 +31,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         this.selectedStatus = selectedStatus;
         this.createUsers = createUsers;
 
-        System.debug('study site id >>>'+studySiteId );
         studySiteDetails = [SELECT Id, Name, Principal_Investigator__c, Clinical_Trial_Profile__c FROM Study_Site__c WHERE Id = :studySiteId];
 
         listOfFailedRecordsWithMsg.add('Row Index, Failed Reason');
@@ -83,7 +82,11 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             Map<Id, Participant__c> participantsByContact = new Map<Id, Participant__c>();
             Map<Id, Participant_Enrollment__c> participantEnrollmentsByContact = new Map<Id, Participant_Enrollment__c>();
             Map<Id, Id> createUsersMap = new Map<Id, Id>();
-            Set<Id> insertedPE = new Set<Id>();
+            Set<Id> insertedContacts = new Set<Id>();
+            Set<String> dupclicateContactEmails = new Set<String>();
+            Map<Id,Id> duplicateContactUsersMap = new Map<Id,Id>();
+            Map<Id, Contact> duplicateContacts = new Map<Id,Contact>();
+            Set<Id> insertUsersWithDefaultSettings = new Set<Id>();
 
             for (List<String> csvRecordData : csvChunkLines) {
                 if (csvRecordData == null || csvRecordData.isEmpty()) {
@@ -227,6 +230,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
                         }
                     } else {
+                        dupclicateContactEmails.add(participantContact.Email);
                         errorRecordCount++;
                         system.debug('ERROR: ' + totalRecordCount + ', ' + 'Duplicate Participant record');
                         listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Duplicate Participant record');
@@ -235,7 +239,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
                     if (participantContact.Id != null) {
                         participant.Contact__c = participantContact.Id;
-
                         Participant_Enrollment__c participantEnrollment =
                                 new Participant_Enrollment__c(Participant_Status__c = selectedStatus,
                                         Study_Site__c = studySiteDetails.Id,
@@ -255,6 +258,44 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 }
             }
 
+            if (!dupclicateContactEmails.isEmpty()) {
+                duplicateContacts = new Map<Id, Contact>([
+                        SELECT Id
+                        FROM Contact
+                        WHERE Email IN :dupclicateContactEmails
+                ]);
+                if (!duplicateContacts.isEmpty()) {
+                    for (User u : [
+                            SELECT Id,
+                                    ContactId
+                            FROM User
+                            WHERE ContactId IN :duplicateContacts.keySet()
+                    ]) {
+                        duplicateContactUsersMap.put(u.ContactId, u.Id);
+                    }
+                    Set<Id> duplicateParticipantEnrollments = new Set<Id>();
+                    for (Participant_Enrollment__c pEnrollment : [
+                            SELECT Id,
+                                    Participant_Contact__c
+                            FROM Participant_Enrollment__c
+                            WHERE Participant_Contact__c IN :duplicateContacts.keySet() AND Study_Site__c = :studySiteDetails.Id
+                    ]) {
+                        duplicateParticipantEnrollments.add(pEnrollment.Participant_Contact__c);
+                    }
+                    for (Contact c : duplicateContacts.values()) {
+                        if (!duplicateParticipantEnrollments.contains(c.Id)) {
+                            participantEnrollmentsByContact.put(c.Id, new Participant_Enrollment__c(Participant_Status__c = selectedStatus,
+                                    Study_Site__c = studySiteDetails.Id,
+                                    Referred_Date__c = System.today(),
+                                    Participant_Contact__c = c != null ? c.Id : null,
+                                    Referral_Completed_by__c = uploaderContactId,
+                                    Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI,
+                                    PI_Contact__c = studySiteDetails.Principal_Investigator__c));
+                        }
+                    }
+                }
+            }
+
             if (!contactsById.isEmpty()) {
                 system.debug('!contactsById.isEmpty()');
                 if (!participantsByContact.isEmpty()) {
@@ -265,6 +306,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             Database.Error error = saveRes.getErrors().get(0);
                             listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
                             system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
+                        } else {
+                            insertedContacts.add(saveRes.getId());
                         }
                     }
                 }
@@ -285,21 +328,37 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             Database.Error error = saveRes.getErrors().get(0);
                             listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
                             system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
-                        } else {
-                            insertedPE.add(saveRes.getId());
                         }
                     }
                 }
                 if(createUsers) {
-                    if (!insertedPE.isEmpty()) {
-                        for (Participant_Enrollment__c pe : participantEnrollmentsByContact.values()) {
-                            if (insertedPE.contains(pe.Id)) {
-                                createUsersMap.put(pe.Participant_Contact__c, pe.PI_Contact__c);
+                    if(!insertedContacts.isEmpty()){
+                        for(Contact c : contactsById.values()){
+                            if(insertedContacts.contains(c.Id)){
+                                if(participantEnrollmentsByContact.get(c.Id) != null) {
+                                    createUsersMap.put(participantEnrollmentsByContact.get(c.Id).Participant_Contact__c, participantEnrollmentsByContact.get(c.Id).PI_Contact__c);
+                                } else {
+                                    insertUsersWithDefaultSettings.add(c.Id);
+                                }
+                            }
+                        }
+                    }
+                    if(!duplicateContacts.isEmpty()){
+                        for(Contact cont : duplicateContacts.values()){
+                            if(!duplicateContactUsersMap.keySet().contains(cont.Id)){
+                                if(participantEnrollmentsByContact.get(cont.Id) != null) {
+                                    createUsersMap.put(participantEnrollmentsByContact.get(cont.Id).Participant_Contact__c, participantEnrollmentsByContact.get(cont.Id).PI_Contact__c);
+                                } else {
+                                    insertUsersWithDefaultSettings.add(cont.Id);
+                                }
                             }
                         }
                     }
                     if (!createUsersMap.isEmpty()) {
                         ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(createUsersMap);
+                    }
+                    if(!insertUsersWithDefaultSettings.isEmpty()){
+                        ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(insertUsersWithDefaultSettings);
                     }
                 }
 
