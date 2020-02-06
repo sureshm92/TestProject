@@ -25,6 +25,7 @@
     <aura:attribute name="selectedOption" type="String" default="2"/>
 
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private"/>
+    <aura:attribute name="statesDelegateLVList" type="LabelValueItem[]" access="private"/>
     <aura:attribute name="participantMsgWithName" type="String" access="private"/>
 
 
@@ -279,9 +280,9 @@
                                         </div>
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
                                             <div class="label">
-                                                <aura:if isTrue="{!!empty(v.states)}"><abbr title="required" class="slds-required">*</abbr></aura:if>{!$Label.c.PE_State}
+                                                <aura:if isTrue="{!!empty(v.statesDelegateLVList)}"><abbr title="required" class="slds-required">*</abbr></aura:if>{!$Label.c.PE_State}
                                             </div>
-                                            <c:rrSelect id="ind" options="{!v.statesLVList}" disabled="{!empty(v.statesLVList)}"
+                                            <c:rrSelect id="ind" options="{!v.statesDelegateLVList}" disabled="{!empty(v.statesDelegateLVList)}"
                                                         value="{!delegateItem.Mailing_State_Code__c}" placeholder="{!$Label.c.PG_AC_Select}"
                                                         useSentenceFont="false" onchange="{!c.doDelegateStateChange}"/>
                                         </div>

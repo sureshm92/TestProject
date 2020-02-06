@@ -21,7 +21,7 @@
             communityService.executeAction(component, 'getInitData', null, function (formData) {
                 component.set('v.formData', formData);
                 console.log('Countries:');
-                console.log(formData.countriesLVLis);
+                console.log(formData.countriesLVList);
                 let states = formData.statesByCountryMap['US'];
                 component.set('v.statesLVList', states);
                 component.set('v.currentTab', '1');
@@ -143,6 +143,7 @@
 
     doDelegateCountryCodeChanged: function (component, event, helper) {
         let ind = event.getSource().get('v.id');
+        console.log('IND: ' + ind);
         let delegateItems = component.get('v.delegateItems');
 
         let statesByCountryMap = component.get('v.formData.statesByCountryMap');
@@ -155,7 +156,7 @@
             }
         }
         var states = statesByCountryMap[delegateItems[ind].Mailing_Country_Code__c];
-        component.set('v.statesLVList', states);
+        component.set('v.statesDelegateLVList', states);
         delegateItems[ind].Mailing_State_Code__c = null;
         delegateItems[ind].Mailing_State__c = null;
         component.set('v.delegateItems', delegateItems);
@@ -165,9 +166,10 @@
 
     doDelegateStateChange: function(component, event, helper) {
         let ind = event.getSource().get('v.id');
+        console.log('IND: ' + ind);
         let delegateItems = component.get('v.delegateItems');
 
-        let states = component.get('v.statesLVList');
+        let states = component.get('v.statesDelegateLVList');
         if (states){
             for (let i = 0; i < states.length ; i++) {
                 if (states[i].value == delegateItems[ind].Mailing_State_Code__c){
