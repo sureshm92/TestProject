@@ -1,2500 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
-    <labels>
-        <fullName>ALT</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ALT</shortDescription>
-        <value>ALT</value>
-    </labels>
-    <labels>
-        <fullName>ALT_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ALT Description</shortDescription>
-        <value>ALT is a protein found throughout your body, but mainly in your liver and kidneys. ALT helps with producing energy for your body. This test measures the amount of ALT in your blood sample. ALT is measured to check the health of your liver.</value>
-    </labels>
-    <labels>
-        <fullName>ALT_Name_Labs</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>ALT Name Labs</shortDescription>
-        <value>Alanine aminotransferase (ALT)</value>
-    </labels>
-    <labels>
-        <fullName>AL_Body_Assigned_as_Delegate</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AL_Body_Assigned_as_Delegate</shortDescription>
-        <value>Hi ##Contact! You have been assigned as a Delegate for ##UserName. Thank you for joining ##UserName on their journey through the ##StudyName Study.</value>
-    </labels>
-    <labels>
-        <fullName>AL_Body_Delegate_assigned_to_a_Patient</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AL_Body_Delegate_assigned_to_a_Patient</shortDescription>
-        <value>Hi ##Contact! You have been assigned as a Delegate for ##UserName in the ##StudyName study.  We are so excited you have chosen to take this journey with ##UserName.</value>
-    </labels>
-    <labels>
-        <fullName>AL_Body_Returning_Delegate</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AL_Body_Returning_Delegate</shortDescription>
-        <value>Welcome Back ##Contact. You have been assigned as a Delegate for ##UserName. Thank you for joining ##UserName on their journey.</value>
-    </labels>
-    <labels>
-        <fullName>AL_Body_Returning_Patient</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AL_Body_Returning_Patient</shortDescription>
-        <value>Welcome Back ##UserName to your new ##StudyName Study. We are excited to be on a new journey with you.</value>
-    </labels>
-    <labels>
-        <fullName>AL_Body_Travel_Support</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AL_Body_Travel_Support</shortDescription>
-        <value>Please be aware that you will be redirected to the travel service setup and will need a travel service packet in order to complete the process. If have not received a packet, travel support may not be available at your study center and you should check with a member of your study team.
-            By clicking OK, you are consenting to participate in the travel support service and leaving the Patient Portal website. The Terms of Use and Privacy Policy on other  websites may be different from those of this website. Please refer to the Privacy Policy and Terms of Use of these other websites as we cannot control or be  responsible for their policies, terms of use, or legal/regulatory compliance.</value>
-    </labels>
-    <labels>
-        <fullName>AL_Body_Welcome_Study</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AL Body Welcome Study</shortDescription>
-        <value>Hi ##UserName!
-
-            Welcome to the clinical research study.
-
-            We are excited to be on this journey with you.</value>
-    </labels>
-    <labels>
-        <fullName>AL_Body_Welcome_Study_Patient_Delegates</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>AL_Body_Welcome_Study_Patient_Delegates</shortDescription>
-        <value>Hi ##UserName!
-
-You have been assigned as a Delegate for ##ParticipantUser in a clinical research study. We are excited to be on this journey with you both.</value>
-    </labels>
-    <labels>
-        <fullName>AL_Body_Welcome_to_PH</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>AL_Body_Welcome_to_PH</shortDescription>
-        <value>Welcome ##UserName!  We are excited to be on this journey with you. Our goal is to provide you timely updates about your enrollment process, knowledge articles and other helpful information.</value>
-    </labels>
-    <labels>
-        <fullName>AL_Body_Welcome_to_PH_Delegate</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AL Body Welcome to PH Delegate</shortDescription>
-        <value>Hi ##UserName!
-
-You have been assigned as a Delegate for ##ParticipantFirstName in a clinical research study. We are excited to be on this journey with you both.</value>
-    </labels>
-    <labels>
-        <fullName>AL_Body_Welcome_to_PH_Delegates</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AL_Body_Welcome_to_PH_Delegates</shortDescription>
-        <value>Hi ##Contact!
-
-            You have been assigned as a Delegate for ##ParticipantUser.  Thank you for joining ##ParticipantUser Thank you for joining ##StudyName Study.</value>
-    </labels>
-    <labels>
-        <fullName>AL_Title_Welcome_Study</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AL Title Welcome Study</shortDescription>
-        <value>Welcome to the study!</value>
-    </labels>
-    <labels>
-        <fullName>AL_Title_Welcome_To_The_PH</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AL Title Welcome To The PH</shortDescription>
-        <value>Welcome to the Patient Portal!</value>
-    </labels>
-    <labels>
-        <fullName>ARM</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>ARM</shortDescription>
-        <value>ARM</value>
-    </labels>
-    <labels>
-        <fullName>AST</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AST</shortDescription>
-        <value>AST</value>
-    </labels>
-    <labels>
-        <fullName>AST_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AST Description</shortDescription>
-        <value>AST is a protein found throughout your body, but most is found in your heart and liver. AST is released by the cells in the liver or muscles when they are damaged. This test measures the amount of AST in your blood sample. AST is measured to check the health of your liver.</value>
-    </labels>
-    <labels>
-        <fullName>AST_Name_Labs</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>AST Name Labs</shortDescription>
-        <value>Aspartate aminotransferase (AST)</value>
-    </labels>
-    <labels>
-        <fullName>About_the_Study</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>About the Study</shortDescription>
-        <value>About the Study</value>
-    </labels>
-    <labels>
-        <fullName>Accepted_For_All_Study_Sites</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Accepted For All Study Sites</shortDescription>
-        <value>as a Referring Provider for all your existing and future study sites</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_Autocomplete</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>autocomplete</shortDescription>
-        <value>autocomplete</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_Autocomplete_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>autocomplete description</shortDescription>
-        <value>Used to determine whether the browser remembers a user’s login ID</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_ClientSrc</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>clientSrc</shortDescription>
-        <value>clientSrc</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_ClientSrc_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Used to authenticate a user</shortDescription>
-        <value>Used to authenticate a user</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Cookie Settings Description</shortDescription>
-        <value>Cookie settings can be adjusted below. Strictly Necessary Cookies are required for essential features of our platform to function and cannot be switched off. Functional Cookies may be switched off, but leaving them on is recommended for the best user experience.</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_RRetURL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RRetURL</shortDescription>
-        <value>RRetURL</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_RRetURL_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Used to redirect user logins</shortDescription>
-        <value>Used to redirect user logins</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_RSID</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RSID</shortDescription>
-        <value>RSID</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_RSID_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RSID Description</shortDescription>
-        <value>Used to redirect user logins</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_Settings</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Cookie Settings</shortDescription>
-        <value>Cookie Settings</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_force_proxy_stream</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>force-proxy-stream</shortDescription>
-        <value>force-proxy-stream</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_force_proxy_stream_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>force_proxy_stream Description</shortDescription>
-        <value>Used to redirect server requests for sticky sessions</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_force_stream</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>force-stream</shortDescription>
-        <value>force-stream</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_force_stream_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>force-stream Description</shortDescription>
-        <value>Used to redirect server requests for sticky sessions</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_oid</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>oid</shortDescription>
-        <value>oid</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_oid_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>oid Description</shortDescription>
-        <value>Used to redirect a user to the correct Salesforce org and assist the user for the next login</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_sfdc_stream</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>sfdc-stream</shortDescription>
-        <value>sfdc-stream</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_sfdc_stream_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>sfdc-stream Description</shortDescription>
-        <value>Used to redirect server requests for sticky sessions</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_sid</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>sid</shortDescription>
-        <value>sid</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_sid_Client</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>sid_Client</shortDescription>
-        <value>sid_Client</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_sid_Client_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>sid_Client Description</shortDescription>
-        <value>Used to authenticate a user</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_sid_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>sid Description</shortDescription>
-        <value>Used to authenticate a user</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_x_apm_brtm_bt_p</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>x-apm-brtm-bt-p</shortDescription>
-        <value>x-apm-brtm-bt-p</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_x_apm_brtm_bt_p_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>x-apm-brtm-bt-p Description</shortDescription>
-        <value>Used to maintain browser type</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_x_apm_brtm_bt_pv</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>x-apm-brtm-bt-pv</shortDescription>
-        <value>x-apm-brtm-bt-pv</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookie_x_apm_brtm_bt_pv_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>x-apm-brtm-bt-pv Description</shortDescription>
-        <value>Used to maintain browser version</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookies_RRLanguage</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AccountSettings Cookies RRLanguage</shortDescription>
-        <value>RRLanguage</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Cookies_RRLanguage_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AccountSettings Cookies RRLanguage Description</shortDescription>
-        <value>Used to store user’s preferred language so that log in page may be displayed in user’s preferred language.</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Functional_Cookies</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Functional Cookies</shortDescription>
-        <value>Functional Cookies</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Functional_RRCookies</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RRCookies</shortDescription>
-        <value>RRCookies</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_RRCookies_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AccountSettings RRCookies Description</shortDescription>
-        <value>Used to store acknowledgement of cookie use to prevent popup from repeatedly appearing.</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Referral_Networks</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Referral Networks</shortDescription>
-        <value>Referral Networks</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Referral_Networks_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Referral Networks Description</shortDescription>
-        <value>By subscribing to an institution-based Referral Network, you agree to being automatically notified via email when a new study site begins enrolling at that institution and that you may be contacted occasionally regarding clinical study-related news or events at that institution. By subscribing to a topic-based referral network, you agree that you may be contacted when a clinical study related to that topic becomes available.</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Referral_Networks_Site_Based</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Institution Based</shortDescription>
-        <value>Institution Based</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Referral_Networks_Topic_Based</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Topic Based</shortDescription>
-        <value>Topic Based</value>
-    </labels>
-    <labels>
-        <fullName>AccountSettings_Strictly_Necessary_Cookies</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Strictly Necessary Cookies</shortDescription>
-        <value>Strictly Necessary Cookies</value>
-    </labels>
-    <labels>
-        <fullName>Account_Name</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Account Name</shortDescription>
-        <value>Account Name</value>
-    </labels>
-    <labels>
-        <fullName>Action_Required</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Action Required</shortDescription>
-        <value>Action Required</value>
-    </labels>
-    <labels>
-        <fullName>Action_View_New_Study_Site</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Action View New Study Site</shortDescription>
-        <value>View Study Site</value>
-    </labels>
-    <labels>
-        <fullName>AdHoc_CheckBox_Help_Text</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>AdHoc CheckBox Help Text</shortDescription>
-        <value>Survey tasks will expire when the Participants status is changed to: Drop Out, Trial Complete or Participation Complete</value>
-    </labels>
-    <labels>
-        <fullName>Add_Another_Provider</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Add Another Provider</shortDescription>
-        <value>Add Another Provider</value>
-    </labels>
-    <labels>
-        <fullName>Add_Date</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Add Date</shortDescription>
-        <value>Add Date</value>
-    </labels>
-    <labels>
-        <fullName>Admin</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Admin</shortDescription>
-        <value>IQVIA Admin</value>
-    </labels>
-    <labels>
-        <fullName>Admin_Label</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Admin Label</shortDescription>
-        <value>Admin</value>
-    </labels>
-    <labels>
-        <fullName>Albumin</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Albumin</shortDescription>
-        <value>Albumin</value>
-    </labels>
-    <labels>
-        <fullName>Albumin_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Albumin Description</shortDescription>
-        <value>Albumin is a protein made by the liver. It helps to keep fluid in the bloodstream so that fluid does not leak into other tissues. It also transports certain substances, such as hormones, vitamins, drugs, and calcium. This test shows the amount of albumin in your blood sample. Albumin is measured to check the health of your liver and kidneys.</value>
-    </labels>
-    <labels>
-        <fullName>Alkaline_Phosphatase</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Alkaline Phosphatase</shortDescription>
-        <value>Alkaline phosphatase</value>
-    </labels>
-    <labels>
-        <fullName>Alkaline_Phosphatase_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Alkaline Phosphatase Description</shortDescription>
-        <value>Alkaline phosphatase is a protein present in multiple parts of your body, but most is found in your bones and liver. In the liver, it helps to digest fat. It also helps to create bones. Alkaline phosphatase is measured to check the health of your liver and bones.</value>
-    </labels>
-    <labels>
-        <fullName>Avaliable_Icons</fullName>
-        <categories>Avaliable Icons</categories>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Avaliable Icons</shortDescription>
-        <value>Avaliable Icons</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Accept</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Accept</shortDescription>
-        <value>Accept</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Accept_all_participants</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Accept all participants</shortDescription>
-        <value>Accept all participants</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Accept_all_providers</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Accept all providers</shortDescription>
-        <value>Accept all providers</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Accept_participant</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Accept participant</shortDescription>
-        <value>Accept participant</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Accept_provider</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Accept provider</shortDescription>
-        <value>Accept provider</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Accept_terms_and_conditions</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Accept terms and conditions</shortDescription>
-        <value>Accept terms and conditions</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Account_Settings_Save_Updates</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN_Account_Settings_Save_Updates</shortDescription>
-        <value>My Profile Is Complete</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Activate</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Activate</shortDescription>
-        <value>Activate RP For This Study Site</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Activate_All</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BTN Activate All</shortDescription>
-        <value>Activate RP For All Study Sites</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Add_Patient</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Add Patient</shortDescription>
-        <value>Add a Participant</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Approve</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN_Approve</shortDescription>
-        <value>Approve</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Back</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Back</shortDescription>
-        <value>Back</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Browse</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Browse</shortDescription>
-        <value>Browse</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Cancel</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Cancel</shortDescription>
-        <value>Cancel</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Change_My_Password</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Change My Password</shortDescription>
-        <value>Change My Password</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Clear_Form</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Clear Form</shortDescription>
-        <value>Clear Form</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Click_here</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Click here</shortDescription>
-        <value>Click here</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Close</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Close</shortDescription>
-        <value>Close</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Complete</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Complete</shortDescription>
-        <value>Complete</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Confirm</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Confirm</shortDescription>
-        <value>Confirm</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Create_New_Task</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BTN Create New Task</shortDescription>
-        <value>Create New Task</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Create_User_on_PE_Info</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BTN Create User on PE Info</shortDescription>
-        <value>Invite to Patient Portal</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Deactivate</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Deactivate</shortDescription>
-        <value>Deactivate</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Decline</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Decline</shortDescription>
-        <value>Decline</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Delegate</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Delegate</shortDescription>
-        <value>Delegate</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Delete_Task</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Delete Task</shortDescription>
-        <value>Delete Task</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Exclude_from_referring</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Exclude from referring</shortDescription>
-        <value>Exclude from referring</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Exit</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Exit</shortDescription>
-        <value>Exit</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Export</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Export</shortDescription>
-        <value>Export</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Export_All</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Export All</shortDescription>
-        <value>Export All</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Find_study_sites</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Find study sites</shortDescription>
-        <value>Find study sites</value>
-    </labels>
-    <labels>
-        <fullName>BTN_HealthCare_Providers</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BTN HealthCare Providers</shortDescription>
-        <value>Healthcare Providers</value>
-    </labels>
-    <labels>
-        <fullName>BTN_HealthCare_Provider_Information</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BTN HealthCare Provider Information</shortDescription>
-        <value>Healthcare Provider Information</value>
-    </labels>
-    <labels>
-        <fullName>BTN_I_Accept</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN I Accept</shortDescription>
-        <value>I Accept</value>
-    </labels>
-    <labels>
-        <fullName>BTN_I_don_t_know_yet</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN I don&#39;t know yet</shortDescription>
-        <value>I don&#39;t know yet</value>
-    </labels>
-    <labels>
-        <fullName>BTN_I_m_open_to_receive_referrals</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN I&#39;m open to receive referrals</shortDescription>
-        <value>I&#39;m open to receive referrals</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Ignore</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Ignore</shortDescription>
-        <value>Ignore</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Import</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Import</shortDescription>
-        <value>Import</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Invite</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Invite</shortDescription>
-        <value>Invite</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Learn_More</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Learn More</shortDescription>
-        <value>Learn More</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Lets_Go</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Lets Go</shortDescription>
-        <value>Let&#39;s Go!</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Log_In</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Log In</shortDescription>
-        <value>Log In</value>
-    </labels>
-    <labels>
-        <fullName>BTN_MRR</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN MRR</shortDescription>
-        <value>Medical record review</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Main_Activate</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BTN Main Activate</shortDescription>
-        <value>Activate</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Manage_referrals</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Manage referrals</shortDescription>
-        <value>Manage referrals</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Manage_referring_clinics</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Manage referring clinics</shortDescription>
-        <value>Manage referring clinics</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Mark_As_Completed</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>button marks as completed task</shortDescription>
-        <value>Mark as Completed</value>
-    </labels>
-    <labels>
-        <fullName>BTN_My_Patients</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN My Patients</shortDescription>
-        <value>My Patients</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Next</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Next</shortDescription>
-        <value>Next</value>
-    </labels>
-    <labels>
-        <fullName>BTN_No</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN No</shortDescription>
-        <value>No</value>
-    </labels>
-    <labels>
-        <fullName>BTN_No_thanks</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN No, thanks</shortDescription>
-        <value>No, thanks</value>
-    </labels>
-    <labels>
-        <fullName>BTN_OK</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN OK</shortDescription>
-        <value>OK</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Off</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Off</shortDescription>
-        <value>Off</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Okay</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Okay</shortDescription>
-        <value>Okay</value>
-    </labels>
-    <labels>
-        <fullName>BTN_On</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN On</shortDescription>
-        <value>On</value>
-    </labels>
-    <labels>
-        <fullName>BTN_On_hold</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN On hold</shortDescription>
-        <value>On hold</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Orientation_attended_activate</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Orientation attended &amp; activate</shortDescription>
-        <value>Orientation attended &amp; activate</value>
-    </labels>
-    <labels>
-        <fullName>BTN_PES</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN PES</shortDescription>
-        <value>Pre-eligibility Screening</value>
-    </labels>
-    <labels>
-        <fullName>BTN_PES2</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN PES2</shortDescription>
-        <value>Pre-eligibility Screening</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Participant_Details</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BTN_Participant_Details</shortDescription>
-        <value>Participant Details</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Participant_Information</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BTN Participant Information</shortDescription>
-        <value>Participant Information</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Participant_Would_Like_Share_Info</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BTN Participant Would Like Share Info</shortDescription>
-        <value>Participant would like to share information with these providers:</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Patient_no_longer_interested</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Patient no longer interested</shortDescription>
-        <value>Patient no longer interested</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Previous</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Previous</shortDescription>
-        <value>Previous</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Refer</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Refer</shortDescription>
-        <value>Refer</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Refer_Another_Patient_to_This_Study</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Refer Another Patient to This Study</shortDescription>
-        <value>Refer Another Patient to This Study</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Refer_Now</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Refer Now</shortDescription>
-        <value>Refer Now</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Refer_a_Patient</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Refer a Patient</shortDescription>
-        <value>Refer a Patient</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Refer_to_this_Site</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Refer to this Site</shortDescription>
-        <value>Refer to this Site</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Refer_to_this_study</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Refer to this study</shortDescription>
-        <value>Refer to this study</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Request_to_refer</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Request to refer</shortDescription>
-        <value>Request to refer</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Reset_Password</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Reset Password</shortDescription>
-        <value>Reset Password</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Save</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Save</shortDescription>
-        <value>Save</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Save_All_Tabs</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BTN_Save_All_Tabs</shortDescription>
-        <value>Save All Tabs and Close</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Save_Task</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN_Save_Task</shortDescription>
-        <value>Save Task</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Save_Task_Reminder</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Save Task Reminder</shortDescription>
-        <value>Save Task Reminder</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Save_and_Exit</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BTN Save and Exit</shortDescription>
-        <value>Save and Exit</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Screener_Participant</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BTN_Screener_Participant</shortDescription>
-        <value>Screen Participant</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Screener_Responses</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BTN Screener Responses</shortDescription>
-        <value>Screener Responses</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Select_as_Preferred_Site</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Select as Preferred Site</shortDescription>
-        <value>Select as Preferred Site</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Send</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Send</shortDescription>
-        <value>Send</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Send_and_Add_Another</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BTN Send and Add Another</shortDescription>
-        <value>Save and Add Another</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Send_site_request</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Send site request</shortDescription>
-        <value>Send site request</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Share</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Share</shortDescription>
-        <value>Share</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Start_Medical_Record_Review</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Start Medical Record Review</shortDescription>
-        <value>Start Medical Record Review</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Start_Pre_eligibility_Screening</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Start Pre-eligibility Screening</shortDescription>
-        <value>Start Pre-eligibility Screening</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Stat_Over</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Stat Over</shortDescription>
-        <value>Start Over</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Status_Details</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BTN Status Details</shortDescription>
-        <value>Status Details</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Undo_exclude</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Undo exclude</shortDescription>
-        <value>Undo exclude</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Undo_exclusion_and_refer_to_this_study</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Undo exclusion and refer to this study</shortDescription>
-        <value>Undo exclusion and refer to this study</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Upload_Patient</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BTN Upload Patient</shortDescription>
-        <value>Import Participant File</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Verify</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Verify</shortDescription>
-        <value>Verify</value>
-    </labels>
-    <labels>
-        <fullName>BTN_View</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN View</shortDescription>
-        <value>View</value>
-    </labels>
-    <labels>
-        <fullName>BTN_View_Download_Consent</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Download Consent</shortDescription>
-        <value>Download Consent</value>
-    </labels>
-    <labels>
-        <fullName>BTN_View_Participant_Details</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BTN_View_Participant_Details</shortDescription>
-        <value>View Participant Details</value>
-    </labels>
-    <labels>
-        <fullName>BTN_View_all</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN View all</shortDescription>
-        <value>View all</value>
-    </labels>
-    <labels>
-        <fullName>BTN_View_terms_and_conditions</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN View terms and conditions</shortDescription>
-        <value>View terms and conditions</value>
-    </labels>
-    <labels>
-        <fullName>BTN_View_terms_and_conditions_participant</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN View terms and conditions participant</shortDescription>
-        <value>Terms and Conditions</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Watch</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Watch</shortDescription>
-        <value>Watch</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Yes</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Yes</shortDescription>
-        <value>Yes</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Yes_Activate</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Yes, Activate</shortDescription>
-        <value>Yes, Activate</value>
-    </labels>
-    <labels>
-        <fullName>BTN_Yes_decline</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BTN Yes, decline</shortDescription>
-        <value>Yes, decline</value>
-    </labels>
-    <labels>
-        <fullName>BUN</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BUN</shortDescription>
-        <value>BUN</value>
-    </labels>
-    <labels>
-        <fullName>BUN_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>BUN Description</shortDescription>
-        <value>Urea is a waste product of the liver. The liver changes ammonia (a toxin) into urea. Urea is removed from bloodstream by the kidneys and then leaves the body through urine. Nitrogen is a substance present in urea. This test measures the amount of urea and nitrogen in your blood sample to check whether your kidneys are working properly.</value>
-    </labels>
-    <labels>
-        <fullName>BUN_Name_Labs</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BUN Name Labs</shortDescription>
-        <value>Blood urea nitrogen (BUN)</value>
-    </labels>
-    <labels>
-        <fullName>Body_Mass_Index</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Body Mass Index</shortDescription>
-        <value>Body mass index</value>
-    </labels>
-    <labels>
-        <fullName>Body_Mass_Index_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Body Mass Index Description</shortDescription>
-        <value>BMI is a measure that shows a person’s weight to height ratio. It is calculated by dividing your weight in kilograms (kg) by the square of your body height in meters (m).</value>
-    </labels>
-    <labels>
-        <fullName>Body_Mass_Index_Name_Labs</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Body Mass Index Name Labs</shortDescription>
-        <value>Body mass index (BMI)</value>
-    </labels>
-    <labels>
-        <fullName>Button_Edit_Details</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Edit Details</shortDescription>
-        <value>Edit Details</value>
-    </labels>
-    <labels>
-        <fullName>Button_Remove</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Remove</shortDescription>
-        <value>Remove</value>
-    </labels>
-    <labels>
-        <fullName>Button_Submit_Your_Question</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Submit Your Question</shortDescription>
-        <value>Submit Your Question</value>
-    </labels>
-    <labels>
-        <fullName>CTL_L_HCP_DELEGATE_MODE</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>CTL L HCP DELEGATE MODE</shortDescription>
-        <value>View as ##RPName</value>
-    </labels>
-    <labels>
-        <fullName>CTL_L_HCP_MODE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CTL L HCP MODE</shortDescription>
-        <value>View as Referring Provider Clinic</value>
-    </labels>
-    <labels>
-        <fullName>CTL_L_PI_MODE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CTL L PI MODE</shortDescription>
-        <value>View as Investigative Site</value>
-    </labels>
-    <labels>
-        <fullName>CTL_L_Patricipant_MODE</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CTL L Patricipant MODE</shortDescription>
-        <value>View as a Participant</value>
-    </labels>
-    <labels>
-        <fullName>Calcium</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Calcium</shortDescription>
-        <value>Calcium</value>
-    </labels>
-    <labels>
-        <fullName>Calcium_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Calcium Description</shortDescription>
-        <value>Calcium is an electrolyte (a mineral) that is important for the functioning of your muscles, including your heart, and nerves. Calcium is also needed for blood clotting and for creating and keeping your bones and teeth healthy. This test measures the amount of calcium in your blood sample. Calcium is measured to check your general health and can be used to check for a range of conditions.</value>
-    </labels>
-    <labels>
-        <fullName>Can_Not_Edit_Mapping</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Can Not Edit Mapping</shortDescription>
-        <value>You can not edit this object. Delete and create a new one instead.</value>
-    </labels>
-    <labels>
-        <fullName>CommunityEmailLogo</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Community Email Logo</shortDescription>
-        <value>https://lh3.googleusercontent.com/EmuOHokKYGwyHoopMnBD54_g8Nw-hnyk7OahOiY7_koTc-V2v2QSkyF7rHoymubsZdQx1V5Krf3yNMipVhifs34bVD6jk0KZtnJal5jaSROMRoWDEKCZ4PBPmWswXtdD0cXO-JkmZ5_C1kUppz9M03uolxkkE_7R2gG9xFO5PYC4AZtobSrqr8sP0PQIK2rsu6YWsK25qgarqFm4aWGl-My3kfUyPGrejgjtMb-FwHfAt4KBr0kwYnOoEbue7YMlDqTlUUtYdT5X7y2DEwkL4BIyzPvYBcmB7m6b4LBBdh3UnxZwuUmJ7V0RcY2FKjmLfY_dGjAXlKVDKAAsLqr1TRbRDEE9CGGBmpe4gYOWT4Cp6Q0A7Y5O8VgI_3IxIVEyWinm0SfBwalH5WlSt78mEbfkJn78mpatq9UKBJXDIvVxfz9_3esXSddGbpOS6Gx5i_PbfpH9fAHvHLaQOQ1OMywK-KHP8hLCasUMmlyeQTBh91IrEPLPo7115kbdhHdPXy--f01NFF-Kv34beTnutGC2JSzYsgSn5UwpZ8RExKozt6I1SHtfX2ePAjC_wp9n-nJ7KkLmqVxLTyiqTxEgc8qd4jn3yj7Mx80erZWQU5HRb1nXKDZibefn6UzNhYmI5jWXHOGh6vIyivycKxDKSnUBl_rmpGbAjjwiCHKcPRN3MWbxGPIAPFp3NqGfCQ=w1920-h937-ft</value>
-    </labels>
-    <labels>
-        <fullName>CommunityPrivatePolicyLink</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Community Private Policy Link</shortDescription>
-        <value>https://infohotfix-iqviaconnect.cs128.force.com/s/privacy-policy</value>
-    </labels>
-    <labels>
-        <fullName>CommunityURL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CommunityURL</shortDescription>
-        <value>https://cp.clinicalresearch.com</value>
-    </labels>
-    <labels>
-        <fullName>Complete_By_Date</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Complete By Date</shortDescription>
-        <value>Complete By</value>
-    </labels>
-    <labels>
-        <fullName>Cookies_Info_Text</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Cookies Info Text</shortDescription>
-        <value>This site uses ##cookiesURL for the essential functioning of the site and for analytical purposes. For more information about these cookies, please view our ##privacyPolicyURL.
-            By clicking through to our website, you are accepting use of cookies.</value>
-    </labels>
-    <labels>
-        <fullName>Cookies_Info_Text_First_Logon</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Cookies Info Text First Logon</shortDescription>
-        <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By closing this cookie message, you are agreeing to our use of cookies.</value>
-    </labels>
-    <labels>
-        <fullName>Create</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Create</shortDescription>
-        <value>Create</value>
-    </labels>
-    <labels>
-        <fullName>Create_Users_Checkbox_on_Import</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Create Users Checkbox on Import</shortDescription>
-        <value>Participant included in this file have consented to receiving an invitation to the Patient Portal.</value>
-    </labels>
-    <labels>
-        <fullName>Created_Date</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Created Date</shortDescription>
-        <value>Created Date</value>
-    </labels>
-    <labels>
-        <fullName>Creatinine</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Creatinine</shortDescription>
-        <value>Creatinine</value>
-    </labels>
-    <labels>
-        <fullName>Creatinine_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Creatinine Description</shortDescription>
-        <value>Creatinine is a waste product of the muscles. Creatinine is removed from the blood by the kidneys and then leaves the body through urine. This test measures the amount of creatinine in your blood. Creatinine is measured to check the health of your kidneys.</value>
-    </labels>
-    <labels>
-        <fullName>DI_L_Acceptance_pending</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DI L Acceptance pending</shortDescription>
-        <value>Acceptance pending</value>
-    </labels>
-    <labels>
-        <fullName>DI_L_Accepted</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DI L Accepted</shortDescription>
-        <value>Accepted</value>
-    </labels>
-    <labels>
-        <fullName>DI_L_Activated</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DI L Activated</shortDescription>
-        <value>Activated</value>
-    </labels>
-    <labels>
-        <fullName>DI_L_Approval_pending</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DI L Approval pending</shortDescription>
-        <value>Approval pending</value>
-    </labels>
-    <labels>
-        <fullName>DI_L_Declined</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DI L Declined</shortDescription>
-        <value>Declined</value>
-    </labels>
-    <labels>
-        <fullName>DI_L_Enrolled_randomized</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DI L Enrolled/randomized</shortDescription>
-        <value>Enrolled/randomized</value>
-    </labels>
-    <labels>
-        <fullName>DI_L_Failed_enrollment</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DI L Failed enrollment</shortDescription>
-        <value>Failed enrollment</value>
-    </labels>
-    <labels>
-        <fullName>DI_L_Failed_review</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DI L Failed review</shortDescription>
-        <value>Failed review</value>
-    </labels>
-    <labels>
-        <fullName>DI_L_In_progress</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DI L In progress</shortDescription>
-        <value>In progress</value>
-    </labels>
-    <labels>
-        <fullName>DI_L_Not_yet_contacted</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DI L Not yet contacted</shortDescription>
-        <value>Not yet contacted</value>
-    </labels>
-    <labels>
-        <fullName>DI_L_On_hold</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DI L On hold</shortDescription>
-        <value>On hold</value>
-    </labels>
-    <labels>
-        <fullName>DI_L_Passed_review_and_not_yet_referred</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DI L Passed review and not yet referred</shortDescription>
-        <value>Passed review and not yet referred</value>
-    </labels>
-    <labels>
-        <fullName>DI_L_Passed_review_and_referred</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DI L Passed review and referred</shortDescription>
-        <value>Passed review and referred</value>
-    </labels>
-    <labels>
-        <fullName>DI_L_Pending_approval_activation</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DI L Pending approval/activation</shortDescription>
-        <value>Pending approval/activation</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_Accept_a_patient</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DLIT L Accept a patient</shortDescription>
-        <value>Accept a participant</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_Accept_a_referring_HCP</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DLIT L Accept a referring HCP</shortDescription>
-        <value>Accept a referring provider</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_Add_a_participants_provider</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>DLIT L Add a participants provider</shortDescription>
-        <value>Add a participant&#39;s provider</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_Decline_or_place_on_hold_a_referring_HCP</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DLIT L Decline or place on hold a referring HCP</shortDescription>
-        <value>Update referring provider status</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_Manage_study_site_details</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DLIT L Manage study site details</shortDescription>
-        <value>Manage study site details</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_Manage_team_member</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DLIT L Manage team member</shortDescription>
-        <value>Manage team members</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_Medical_Record_Review</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DLIT L Medical Record Review</shortDescription>
-        <value>Medical Record Review</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_PERMISSIONS_BY_LEVEL</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DLIT L PERMISSIONS BY LEVEL</shortDescription>
-        <value>PERMISSIONS BY LEVEL</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_Pre_eligibility_screening</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DLIT L Pre-eligibility screening</shortDescription>
-        <value>Pre-eligibility screening</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_Pre_screen_a_participant</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Pre-screen participant</shortDescription>
-        <value>Pre-screen  a Participant</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_Refer_a_patient_to_a_study_site</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DLIT L Refer a patient to a study site</shortDescription>
-        <value>Refer a patient to a study site</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_Reffer</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DLIT L Reffer</shortDescription>
-        <value>Add a participant</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_Remove_a_participants_provider</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>DLIT L Remove a participants provider</shortDescription>
-        <value>Remove a participant&#39;s provider</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_Select_a_study_site_to_refer_to</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DLIT L Select a study site to refer to</shortDescription>
-        <value>Select a study site to refer to</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_Select_new_study_to_refer_to</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DLIT L Select new study to refer to</shortDescription>
-        <value>Select new study to refer to</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_Update_status_of_an_accepted_patient</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DLIT L Update status of an accepted patient</shortDescription>
-        <value>Update participant status</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_View_Dashboard</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DLIT L View Dashboard</shortDescription>
-        <value>View dashboard</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_View_Export_Reports</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DLIT L View / Export Reports</shortDescription>
-        <value>View/export report</value>
-    </labels>
-    <labels>
-        <fullName>DLIT_L_View_screener_responses</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>DLIT L View screener responses</shortDescription>
-        <value>View screener responses</value>
-    </labels>
-    <labels>
-        <fullName>DRF_L_All_date_ranges</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DRF L All date ranges</shortDescription>
-        <value>All date ranges</value>
-    </labels>
-    <labels>
-        <fullName>DRF_L_Last_month</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DRF L Last month</shortDescription>
-        <value>Last month</value>
-    </labels>
-    <labels>
-        <fullName>DRF_L_Last_quarter</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DRF L Last quarter</shortDescription>
-        <value>Last quarter</value>
-    </labels>
-    <labels>
-        <fullName>DRF_L_Last_week</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DRF L Last week</shortDescription>
-        <value>Last week</value>
-    </labels>
-    <labels>
-        <fullName>DRF_L_Last_year</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DRF L Last year</shortDescription>
-        <value>Last year</value>
-    </labels>
-    <labels>
-        <fullName>DRF_L_This_month</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DRF L This month</shortDescription>
-        <value>This month</value>
-    </labels>
-    <labels>
-        <fullName>DRF_L_This_quarter</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DRF L This quarter</shortDescription>
-        <value>This quarter</value>
-    </labels>
-    <labels>
-        <fullName>DRF_L_This_week</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DRF L This week</shortDescription>
-        <value>This week</value>
-    </labels>
-    <labels>
-        <fullName>DRF_L_This_year</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DRF L This year</shortDescription>
-        <value>This year</value>
-    </labels>
-    <labels>
-        <fullName>DRF_L_Today</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DRF L Today</shortDescription>
-        <value>Today</value>
-    </labels>
-    <labels>
-        <fullName>DRF_L_Yesterday</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>DRF L Yesterday</shortDescription>
-        <value>Yesterday</value>
-    </labels>
-    <labels>
-        <fullName>Delegate</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Delegate</shortDescription>
-        <value>Delegate</value>
-    </labels>
-    <labels>
-        <fullName>Diastolic</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Diastolic</shortDescription>
-        <value>Diastolic</value>
-    </labels>
-    <labels>
-        <fullName>Diastolic_Blood_Pr</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Diastolic Blood Pr</shortDescription>
-        <value>Diastolic blood pressure</value>
-    </labels>
-    <labels>
-        <fullName>Diastolic_Blood_Pr_Description</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Diastolic Blood Pr Description</shortDescription>
-        <value>Diastolic blood pressure is a measure of how hard your blood is pushed against the walls of the arteries when your heart is resting in between beats.</value>
-    </labels>
-    <labels>
-        <fullName>Different_HealthCare_Provider</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Different HealthCare Provider</shortDescription>
-        <value>Did you expect a different provider? Let us know.</value>
-    </labels>
-    <labels>
-        <fullName>Disabled</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Disabled</shortDescription>
-        <value>Disabled</value>
-    </labels>
-    <labels>
-        <fullName>Distolic_Blood_Pr</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Distolic Blood Pr</shortDescription>
-        <value>Distolic Blood Pr</value>
-    </labels>
-    <labels>
-        <fullName>Doc_L_Oh_no_there_are_no_items_here</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Doc L Oh no, there are no items here.</shortDescription>
-        <value>Oh no, there are no items here.</value>
-    </labels>
-    <labels>
-        <fullName>Due_Date</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Due Date</shortDescription>
-        <value>Due Date</value>
-    </labels>
-    <labels>
-        <fullName>Eamil_Action_View_My_Studies</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Eamil Action View My Studies</shortDescription>
-        <value>View My Studies</value>
-    </labels>
-    <labels>
-        <fullName>Edit_Visit_Legend</fullName>
-        <categories>Edit Visit Legend</categories>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Edit Visit Legend</shortDescription>
-        <value>Edit Visit Legend</value>
-    </labels>
-    <labels>
-        <fullName>Email</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email</shortDescription>
-        <value>Email</value>
-    </labels>
-    <labels>
-        <fullName>EmailPreferencesIsOff</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>EmailPreferencesIsOff</shortDescription>
-        <value>You currently do not have your communication preferences set to receive email. Please click &lt;a href=&quot;account-settings&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt; to set your communications preferences in your account settings.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Action_Complete_Baseline_Survey</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Action Complete Baseline Survey</shortDescription>
-        <value>Complete Survey</value>
-    </labels>
-    <labels>
-        <fullName>Email_Action_Enroll_Now</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Action Enroll Now</shortDescription>
-        <value>Enroll Now</value>
-    </labels>
-    <labels>
-        <fullName>Email_Action_Login_now</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Action Login now</shortDescription>
-        <value>Login Now</value>
-    </labels>
-    <labels>
-        <fullName>Email_Action_Review_Cases</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Action Review Cases</shortDescription>
-        <value>Review Cases</value>
-    </labels>
-    <labels>
-        <fullName>Email_Action_View_My_Home_Page</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Action View My Home Page</shortDescription>
-        <value>View My Home Page</value>
-    </labels>
-    <labels>
-        <fullName>Email_Action_View_My_Messages</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Action View My Messages</shortDescription>
-        <value>View My Messages</value>
-    </labels>
-    <labels>
-        <fullName>Email_Action_View_My_Patients</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Action View My Patients</shortDescription>
-        <value>View My Patients</value>
-    </labels>
-    <labels>
-        <fullName>Email_Action_View_My_Referrals</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Action View My Referrals</shortDescription>
-        <value>View My Referrals</value>
-    </labels>
-    <labels>
-        <fullName>Email_Action_View_My_Referring_Clinics</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Action View My Referring Clinics</shortDescription>
-        <value>View My Referring Clinics</value>
-    </labels>
-    <labels>
-        <fullName>Email_Action_View_My_Visits</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Action View My Visits</shortDescription>
-        <value>View My visits</value>
-    </labels>
-    <labels>
-        <fullName>Email_Action_View_Resource</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Action View Resource</shortDescription>
-        <value>View Study Details</value>
-    </labels>
-    <labels>
-        <fullName>Email_Action_View_Trial_Details</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Action View Study Details</shortDescription>
-        <value>View Study Details</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Available</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Body Available</shortDescription>
-        <value>New visit data is available.
-
-            Please login to the IQVIA Patient Portal to view the latest visit data.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_By_PI_RP1</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body By PI RP1</shortDescription>
-        <value>You have been invited to track a patient&#39;s progress in the IQVIA Referral Hub by ##PIName, at the patient&#39;s request. If you are not already a Referring Provider in the system , this will also make it possible for you to find other clinical research studies that are available and refer patients to nearby study sites.
-
-            Please take a moment to log in to the Referral Hub, access &quot;My Studies,&quot; review your patient&#39;s study, and access My Patients to see details about the patient who requested that you have visibility to their study status.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Case</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Body Request notification</shortDescription>
-        <value>A Participant has submitted a request for additional information on ##StudyCode.
-
-            Please login to Salesforce for additional information.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Complete_Baseline_Survey</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Complete Baseline Survey</shortDescription>
-        <value>We would love to hear from you! Please take a few minutes to complete the ##SurveyName.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Delegate</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Body Delegate</shortDescription>
-        <value>Congratulations, ##PatientFirstName has successfully completed the ##StudyName clinical research study.
-
-            Thank you for participating. Your contribution to the clinical research study has been very important.
-
-            Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Delegate_Permission_Changed</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Delegate Permission Changed</shortDescription>
-        <value>One or more of your Referral Hub study permissions has changed.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Initial_Delegate</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Initial Delegate</shortDescription>
-        <value>You have been given permission to access one or more studies in Referral Hub. Please enroll so that you can access Referral Hub and perform referral tasks.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Initial_HCP</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Initial HCP</shortDescription>
-        <value>This email is a follow-up to your recent conversation with an IQVIA Outreach Lead in which you expressed interest in referring patients to clinical research studies using the IQVIA Referral Hub.
-
-            The first step is for you to enroll.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Initial_PI</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Initial PI</shortDescription>
-        <value>Please take a moment to enroll and activate your Referral Hub account.
-            You will then be able to manage patient referrals to the study from any IQVIA source.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Initial_PI_HCP</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Initial PI HCP</shortDescription>
-        <value>You have been invited to refer to ##PIName using the IQVIA Referral Hub. If you are not already a Referring Provider in the system, this will also make it possible for you to find other clinical research studies that are available and refer patients to nearby study sites.
-
-Please take a moment to log in to the Referral Hub and view the studies to which you can refer.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Initial_PI_PT_HCP</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Initial PI PT HCP</shortDescription>
-        <value>You have been invited to track a patient&#39;s progress in the IQVIA Referral Hub by ##PIName, at the patient&#39;s request. The first step is for you to enroll in the IQVIA Referral Hub.
-
-            Once enrolled, access &quot;My Studies&quot; to review your patient&#39;s study and access &quot;My Patients&quot; to see details about the patient who requested that you have visibility to their study status. You can also search for other studies that are available and refer patients to nearby and virtual study sites.
-
-            If you believe you have received this invitation in error, please notify support@cp.clinicalresearch.com.
-
-            The first step is for you to enroll.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Initial_Patient</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Initial Patient</shortDescription>
-        <value>Recently, ##HCPTitle ##HCPName made a referral on your behalf to ##PITitle ##PIName regarding your potential participation in a clinical research study: ##StudyName.
-
-            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
-
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
-
-            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Initial_Patient_Created_By_PI</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Body Initial Patient Created By PI</shortDescription>
-        <value>Recently, ##PITitle ##PIName made a referral on your behalf to ##StudySiteName regarding your potential participation in a clinical research study: ##StudyName.
-
-            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
-
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
-
-            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Initial_Patient_Delegate</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Body Initial Patient Delegate</shortDescription>
-        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more studies that are listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.
-        </value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Initial_Patient_Delegate_AfterText</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Initial Patient Delegate After Text</shortDescription>
-        <value>
-            To assist you in tracking ##ParticipantFirstName's clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in IQVIA Referral Hub and Patient Portal.
-
-            Your username is ##UserName. Please click the Enroll Now button to create your password.
-
-            Please note that enrollment in IQVIA Referral Hub and Patient Portal is not a requirement for ##ParticipantFirstName to be enrolled into the clinical research study.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Initial_Patient_Virtual</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Initial Patient Virtual</shortDescription>
-        <value>Thank you for your interest in the clinical research study: ##StudyName.
-
-            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
-
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
-
-            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Medication_Task_Reminder</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Body Medication Task Reminder</shortDescription>
-        <value>This is a quick email to remind you of your upcoming medication dosage for the clinical research study: ##StudyName. If you have any questions regarding this medication, please contact the Study Team. Please login for additional details.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Medication_Task_Reminder_Delegate</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Body Medication Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming medication dosage for the clinical research study: ##StudyName.  If you have any questions regarding this medication, please contact the Study Team. Please login for additional details.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Once_at_Trial_Completion_DGT</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Body Once at Trial Completion DGT</shortDescription>
-        <value>Congratulations, ##PatientFirstName has successfully completed the
-##StudyName clinical research study.   
-
-Thank you for participating. Your contribution to the clinical research study has been very important.
-
-Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Once_at_Trial_Completion_PT</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Body Once at Trial Completion PT</shortDescription>
-        <value>Congratulations, you have successfully completed ##StudyName clinical research study.   
-
-Thank you for participating. Your contribution to the clinical research study has been very important.
-
-Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_PA_New_Mess</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body PA New Mess</shortDescription>
-        <value>You have a new message in Message Center.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_PI1</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body PI1</shortDescription>
-        <value>A new clinical research study has been added to your account on the IQVIA Referral Hub:  ##StudyTitle
-
-            Please take a moment to log in to the IQVIA Referral Hub, go to &quot;My Studies&quot; and review and accept this study. You will then be able to  manage patient referrals to the study from any IQVIA source.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_PI2</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body PI2</shortDescription>
-        <value>You have a new patient referral for ##StudyTitle.
-
-            Action may or may not be required to accept or decline this referral. To review and act upon this referral, log in to the IQVIA Referral Hub and navigate to &quot;My Referrals.&quot;</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_PI3</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body PI3</shortDescription>
-        <value>##HCPName at ##StudySiteName is requesting to become a referring healthcare provider for the clinical research study: ##StudyName.
-
-            To accept this request, please log in to the IQVIA Referral Hub and navigate to &quot;My Referring Clinics.&quot;</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_PI5</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body PI5</shortDescription>
-        <value>This is a reminder that you accepted one or more referrals over 5 days ago, but contact has not yet been made with the potential study participant(s).
-
-            To review the referral(s), log in to the IQVIA Referral Hub and navigate to “My Referrals.&quot;</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_PI6</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body PI6</shortDescription>
-        <value>This is a reminder that 5 days ago ##HCPName at ##StudySiteName sent a request to be added as a referring provider for the clinical research study: ##StudyTitle.
-
-            The provider cannot refer study participants to your site until you accept their request.
-
-            To accept this request, log in to the IQVIA Referral Hub and navigate to “My Referring Clinics.”</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_PI_Conv_Rem</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email_Body_PI_Conv_Rem</shortDescription>
-        <value>There are ##UnreadConversationCount of pending threads from participants that await your attention.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_PI_New_Mess</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body PI New Mess</shortDescription>
-        <value>You have a new message in Message Center.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Participant_Answer</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Thanks for request</shortDescription>
-        <value>Thank you for submitting a request for additional information about ##StudyCode. Someone from the study team will be in touch with you.
-
-            Please login to the IQVIA Patient Portal to check your clinical research trial matches at any time.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Participant_Import_Completed</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Participant Import Completed</shortDescription>
-        <value>##SucRecCount of ##TotalRecCount participant records were successfully imported for ##StudySiteName.
-
-            If there were any records that were not able to be imported, they are in the attached file. Corrections may be made in that file and it can be re-imported.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient0</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Patient2</shortDescription>
-        <value>Thank you for your interest in the clinical research study: ##StudyName.
-
-            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
-
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
-
-            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient1</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Patient1</shortDescription>
-        <value>Recently, ##PITitle ##PIName made a referral on your behalf to ##StudySiteName regarding your potential participation in a clinical research study: ##StudyName.
-
-            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
-
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
-
-            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient10</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body RP10</shortDescription>
-        <value>There has been an update to the status of your patient referral, ID: ##PEName, for the clinical research study: ##StudyTitle.
-
-            To see the referral status of your patient, log in to Patient Portal, and then go to &quot;My Patients.&quot;</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient13</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Patient13</shortDescription>
-        <value>This email is to inform you that ##PIName has declined your referral to the clinical research study: ##StudyName.
-
-            Please contact your physician for further treatment discussions.
-
-            If you would like to be contacted about future clinical research opportunities, please join the IQVIA Clinical Research Community at  ##CRCommunityURL.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient14</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Patient14</shortDescription>
-        <value>The study recruitment team has determined that you are not eligible to participate in the clinical research study: ##StudyName.
-
-            Please contact your physician for further treatment discussions.
-
-            If you would like to be contacted about future clinical research opportunities, please join the ##CRCommunityURL.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient15</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email_Body_Patient15</shortDescription>
-        <value>Congratulations, you have been enrolled in ##StudyName clinical research study.
-
-            You will be contacted by the Study Site Team regarding next steps in the study process.
-
-            To assist you in tracking where you are in the clinical research study, please log in to the IQVIA Patient Portal.
-
-            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient16</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email_Body_Patient16</shortDescription>
-        <value>We are sorry to see you have decided to leave ##StudyName before the clinical trial was complete. Please feel free to contact us at any time, if we can be of assistance with any future clinical research study information.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient17</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Body Patient17</shortDescription>
-        <value>Recently, ##PIName made a referral on your behalf to potentially participate in a clinical research study: ##StudyName
-
-            You will be contacted by a member of the study team regarding the next steps in the enrollment process.
-
-            If you are not contacted about this opportunity within 3 business days, please call the study team directly at ##SitePhoneNumber.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient18</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Body Patient18</shortDescription>
-        <value>Congratulations, you have successfully completed ##StudyName clinical research study.
-
-            Thank you for participating. Your contribution to the clinical research study has been very important.
-
-            Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient2</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Patient2</shortDescription>
-        <value>Recently, ##HCPTitle ##HCPName made a referral on your behalf to ##PITitle ##PIName regarding your potential participation in a clinical research study: ##StudyName.
-
-            We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
-
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
-
-            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient3</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Patient3</shortDescription>
-        <value>We have received your self-referral to the clinical research study:  ##StudyName.
-
-            You will be contacted by a study recruitment expert regarding the next steps in the enrollment process.
-
-            If you are not contacted about this opportunity within 3 business days, please call the study team directly at ##SitePhoneNumber.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient4</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Patient4</shortDescription>
-        <value>Recently, ##HCPName made a referral on your behalf to potentially participate in a clinical research study: ##StudyName
-
-            You will be contacted by a study recruitment expert regarding the next steps in the enrollment process.
-
-            If you are not contacted about this opportunity within 3 business days, please call the study recruitment team directly at ##SitePhoneNumber.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient7</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Patient7</shortDescription>
-        <value>Your referral has been placed on hold for the clinical research study: ##StudyName.
-
-            To see additional information, log in to the IQVIA Patient Portal, and then go to &quot;My Studies.&quot;</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient8</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Patient8</shortDescription>
-        <value>Recruitment is on hold for the clinical research study: ##StudyName.
-
-            You will be contacted promptly if the study once again begins accepting referrals or if the status of your referral changes.
-
-            The study recruitment team can be reached at ##SitePhoneNumber with any questions or comments regarding the study or the referral process.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient9</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Patient9</shortDescription>
-        <value>The study team has updated your referral status for clinical study: ##StudyName.
-
-            To see additional information, log in to the IQVIA Patient Portal, and then go to &quot;My Studies.&quot;</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient_Become_Adult</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Body Patient Become Adult</shortDescription>
-        <value>You has become adult for the clinical research study: ##StudyName. Please login for additional details.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient_Become_Adult_PI</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Body Patient Become Adult PI</shortDescription>
-        <value>Your participant has become an adult on Study. Please login for additional details.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient_CreatedDate</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Body Patient CreatedDate</shortDescription>
-        <value>&quot;We haven&#39;t heard from you in a while.
-
-            Please log in to the IQVIA Patient Portal to view all the latest information on your clinical research study.&quot;</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Patient_Log_In</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Body Patient Log In</shortDescription>
-        <value>We haven&#39;t heard from you in a while.
-
-            Please login to the IQVIA Patient Portal to view all the latest information on your clinical research study.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Plain_Summary</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Plain Summary</shortDescription>
-        <value>New documents from ##StudyName clinical research study are now available on the IQVIA Patient Portal.   
-
-            Please login to the IQVIA Patient Portal to view this information.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_RP1</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body RP1</shortDescription>
-        <value>A new clinical research study has been added to your account on the IQVIA Referral Hub: ##StudyTitle
-
-            Please take a moment to log in to the Referral Hub, access &quot;My Studies,&quot; and review and accept this study. You will then be able to easily connect with study sites and begin referring patients to this study through Referral Hub.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_RP11</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body RP11</shortDescription>
-        <value>A new study site has been added to a Referral Network in which you have expressed interest: ##ReferralNetworkName</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_RP111</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body RP111</shortDescription>
-        <value>You have been invited to refer to ##PIName using the IQVIA Referral Hub. If you are not already a Referring Provider in the system, this will also make it possible for you to find other clinical research studies that are available and refer patients to nearby study sites.
-
-            Please take a moment to log in to the Referral Hub and view the studies to which you can refer.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_RP2</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body RP2</shortDescription>
-        <value>Your patient referral, ID number: ##PEName, has been received for the clinical research study: ##StudyTitle.
-
-            The study team will contact your referral directly to discuss next steps.
-
-            To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and then access &quot;My Patients&quot; from the main navigation menu or the My Studies page.
-
-            To see additional information about this study or to refer another patient, log in to the Referral Hub, then go to “My Studies.”</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_RP3</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body RP3</shortDescription>
-        <value>Your patient referral, ID number: ##PEName, has been put on hold for the clinical research study: ##StudyTitle.
-
-            To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and access &quot;My Patients.&quot;
-
-            To see additional information about this study or refer another patient, log in to the Referral Hub, and access “My Studies.”</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_RP4</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body RP4</shortDescription>
-        <value>Your patient referral, ID number: ##PEName, has been declined for the clinical research study: ##StudyTitle.
-
-            To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and access &quot;My Patients.&quot;
-
-            To see additional information about this study or refer another patient, log in to the Referral Hub, and access “My Studies.”</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_RP5</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body RP5</shortDescription>
-        <value>You have been approved to refer patients to the clinical research study: ##StudyTitle.
-
-            To view additional information about this study and begin referring patients, please log in to the IQVIA Referral Hub, and then go to &quot;My Studies.&quot;</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_RP6</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body RP6</shortDescription>
-        <value>Thank you for completing orientation for clinical research study: ##StudyTitle. Your referral functionality has been activated.
-
-            To view additional information about this study and begin patient referrals, please log in to the IQVIA Referral Hub, and then go to &quot;My Studies.&quot;</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_RP7</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body RP7</shortDescription>
-        <value>You have been approved to refer patients to the clinical research study: ##StudyTitle.
-
-            Someone from ##StudySiteName will be in touch with you to arrange orientation so that you can be activated to refer patients.  Alternatively, you can call the study site at ##SitePhoneNumber to schedule orientation.
-
-            To view additional information about this study, please log in to the IQVIA Referral Hub, and then go to &quot;My Studies.&quot;</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_RP8</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body RP8</shortDescription>
-        <value>Thank you for requesting to become a referring provider for ##StudyTitle. Your referring capabilities are currently on hold. No referral activity for this study can be performed until you are taken off hold.
-
-            You may be contacted regarding further options.</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_RP9</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body RP9</shortDescription>
-        <value>##StudySiteName is not accepting new referring providers at this time.
-
-            To see if other study sites are available in your area, log in to the IQVIA Referral Hub, and then go to “My Studies.”</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_Reset_Password</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Body Reset Password</shortDescription>
-        <value>You recently requested a password reset for your account. To complete the process, you can set a new password here:</value>
-    </labels>
-    <labels>
-        <fullName>Email_Body_SS_on_PE_Was_Changed_To_PI</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Body SS on PE Was Changed To PI</shortDescription>
-        <value>A participant, ##PEProfileName, has been transferred to your study site: ##SSName.
-
 If you have questions or concerns about this transfer, please contact your IQVIA Patient Recruitment Lead.</value>
     </labels>
     <labels>
@@ -11495,3 +8998,1647 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>STP PS T1</shortDescription>
         <value>Total referrals</value>
+    </labels>
+    <labels>
+        <fullName>STP_PS_T2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>STP PS T2</shortDescription>
+        <value>pre-screenings</value>
+    </labels>
+    <labels>
+        <fullName>STP_Pre_Eligibility_Screenings_Completions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>STP Pre-Eligibility Screenings Completions</shortDescription>
+        <value>Pre-Eligibility Screenings Completions</value>
+    </labels>
+    <labels>
+        <fullName>Same_RP_in_the_system</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Same RP in the system</shortDescription>
+        <value>There is the sames RP in the System</value>
+    </labels>
+    <labels>
+        <fullName>Search_For_Sites</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Search For Sites</shortDescription>
+        <value>Search For Sites</value>
+    </labels>
+    <labels>
+        <fullName>Select_All_PI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select All PI</shortDescription>
+        <value>Select All</value>
+    </labels>
+    <labels>
+        <fullName>Select_Planned_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select Planned Date</shortDescription>
+        <value>Select Planned Date</value>
+    </labels>
+    <labels>
+        <fullName>Selected_Icons</fullName>
+        <categories>Selected Icons</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Selected Icons</shortDescription>
+        <value>Selected Icons</value>
+    </labels>
+    <labels>
+        <fullName>Send_Emails_Checkbox_on_PE_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Send Emails Checkbox on PE Info</shortDescription>
+        <value>Participant has consented to being invited to Patient Portal and informed about other study opportunities.</value>
+    </labels>
+    <labels>
+        <fullName>Set_Reminder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Set Reminder</shortDescription>
+        <value>Set Reminder</value>
+    </labels>
+    <labels>
+        <fullName>Sodium</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sodium</shortDescription>
+        <value>Sodium</value>
+    </labels>
+    <labels>
+        <fullName>Sodium_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sodium Description</shortDescription>
+        <value>Sodium is an electrolyte (a mineral) that can be found in all bodily fluids. It is important for proper functioning of your muscles and nerves. Sodium is measured to evaluate the balance of your electrolytes.</value>
+    </labels>
+    <labels>
+        <fullName>Source_ID</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Source_ID</shortDescription>
+        <value>Source ID</value>
+    </labels>
+    <labels>
+        <fullName>Studies_FindSitesForStudy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies_FindSitesForStudy</shortDescription>
+        <value>Find Sites For This Study</value>
+    </labels>
+    <labels>
+        <fullName>Studies_GlobalSearchPlaceholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies_GlobalSearchPlaceholder</shortDescription>
+        <value>Global Search for Study</value>
+    </labels>
+    <labels>
+        <fullName>Studies_SearchForMoreButtonLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies_SearchForMoreButtonLabel</shortDescription>
+        <value>Search for More Studies</value>
+    </labels>
+    <labels>
+        <fullName>Studies_SearchForMoreLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies_SearchForMoreLabel</shortDescription>
+        <value>Don&#39;t see a study that you could refer your patients to?</value>
+    </labels>
+    <labels>
+        <fullName>Studies_SearchPlaceholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies_SearchPlaceholder</shortDescription>
+        <value>Search for Study</value>
+    </labels>
+    <labels>
+        <fullName>StudyStub</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>StudyStub</shortDescription>
+        <value>This study</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Ad_hoc_Visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>StudyVisit Ad hoc Visit</shortDescription>
+        <value>Ad hoc</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Information_Not_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>StudyVisit Information Not Available</shortDescription>
+        <value>Information not available</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Blood</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will need to give some blood, which will be used to check your health and to see how your body responds to and processes the study medication. In the optional genetic research sub-study, blood samples will be used to see how genes affect the way the study medication works.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Brief_Physical_Examination</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>These are checks of your general health and may be brief or a complete examination. At the visits during the treatment period, you have a brief physical examination. This will include skin, lungs, heart and blood vessels, and abdomen. At the screening and follow-up visit, you will have a complete physical examination. This will include skin, heart and blood vessels, stomach and intestines, airways and neurological assessment (nerves), and any other necessary checks. Your height and weight will also be measured.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Chest_X_Rays</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>The study doctor will perform a test that takes an image of the inside of your chest to check the health of your lungs.  You will have this test once between Weeks 48 and 51.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_ECG</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>The study doctor will perform  a procedure during which sticky pads  are placed on your chest, arms, and  legs. The pads are connected by wires  to a machine that checks the rhythm  and activity of your heart.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Fasting</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>Before some visits, you will need to fast (not eat or drink anything, except water) for at least 6 hours before the visit.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Follow_Up_Period</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Hands_And_Feet_X_Rays</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>The study doctor will perform a test that takes an image of the inside of your hands and feet to check the health of your joints.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Joint_Assessment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>An appropriately trained person (or doctor or nurse) will examine your joints and count how many are swollen and/or tender, by pressing on your joints with their fingers/hands. The pressing on the joints may cause some discomfort and pain for any joints that are tender.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Lung_Function_Test</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>This test will be performed to measure the amount of air you have in your lungs and how well you can move that air by forcibly blowing into a spirometer (lung function machine).</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Lung_Health_Check</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>The study doctor will check the health  of your lungs and any coughing by listening to the sound of your breathing with a stethoscope. They will also ask  you about any breathlessness and measure the amount of oxygen in  your blood.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_No_Food_Or_Drink</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_No_Study_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>If you take part in contRAst-X, the long-term extension study, you will not have this follow-up visit.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Pregnancy_Test</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>If you are a woman who is able to get pregnant, you will have a pregnancy test at regular intervals during the study. The test at screening will be a blood test and the remaining tests will be urine tests. The effects of the investigational medication on unborn babies is not known.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Questions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will be asked some questions about your health in general, your sleep, your pain and energy level, and how RA is affecting your daily life. There are also optional participant questionnaires, where you can provide feedback about your experience in the study.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Questions2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will speak to a member of the study team who will ask you questions about your health, any medications you have taken, and how you are feeling. This will happen every 1 to 4 weeks and may be done by phone or at the study center.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Receive_Medication</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will receive enough study medication to last until your next visit. You will also receive information on how to take and store the study medication.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Return_Medication</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Study_Medication_Capsules</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will receive the study medication capsules every 4 weeks. You will also receive information on how to take and store the study medication.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Study_Medication_Injection</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will receive the study medication injection at the study center.
+            For visits at Study Weeks 0, 1, 12 and 13, you will need to stay at the study center for 1 hour after you have received the study medication injection.
+            For visits at Study Week 3, 5–7, 9–11, 14, 15, 17–23, 25–35, 37–47, 49–51 you may be able to self-administer the study medication injection at home. Your study doctor will let you know whether this option is available. If you self-administer the study medication injection, you will receive a supply of pre-filled syringes every 4 weeks.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Treatment_Period</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Urine_Tests</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will be asked to provide urine samples, which will be used to check your health.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Vital_Signs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>Your blood pressure, heart rate, breathing rate, and body temperature, will be measured.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_X_Rays</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>The study doctor will perform a test that takes an image of the inside of your chest (to check the health of your lungs) and hands and feet (to check the health of your joints).</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Popup_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Popup text</shortDescription>
+        <value>Please be aware that you will be redirected to the travel service setup and will need a travel service packet in order to complete the process. If you have not received a packet, travel support may not be available at your study center and you should check with a member of your study team. 
+
+            By clicking OK, you are consenting to participate in the travel support service and leaving the IQVIA TM Patient Portal website. The Terms of Use and Privacy Policy on other  websites may be different from those of this website. Please refer to the Privacy Policy and Terms of Use of these other websites as we cannot control or be  responsible for their policies, terms of use, or legal/regulatory compliance.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Unscheduled_Visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>StudyVisit Unscheduled Visit</shortDescription>
+        <value>Unscheduled Visit</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Variable</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>StudyVisit Variable</shortDescription>
+        <value>Variable</value>
+    </labels>
+    <labels>
+        <fullName>Study_Team</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Team</shortDescription>
+        <value>Study Team</value>
+    </labels>
+    <labels>
+        <fullName>Success</fullName>
+        <categories>visit configuration</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Success</shortDescription>
+        <value>Success</value>
+    </labels>
+    <labels>
+        <fullName>Success_Creation</fullName>
+        <categories>visit configuration</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>The record has been created successfully.</shortDescription>
+        <value>The record has been created successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Systolic</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Systolic</shortDescription>
+        <value>Systolic</value>
+    </labels>
+    <labels>
+        <fullName>Systolic_Blood_Pr</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Systolic Blood Pr</shortDescription>
+        <value>Systolic blood pressure</value>
+    </labels>
+    <labels>
+        <fullName>Systolic_Blood_Pr_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Systolic Blood Pr Description</shortDescription>
+        <value>Systolic blood pressure is a measure of how hard your blood is pushed against the walls of the arteries when the heart is beating and pushing out blood.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Complete_Your_Question</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Complete Your Question.</shortDescription>
+        <value>Complete Your Question.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Complete_description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Complete description.</shortDescription>
+        <value>Complete description.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Email_can_t_be_empty</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Email can`t be empty!</shortDescription>
+        <value>Email can`t be empty!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Email_was_successfully_sent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Email was successfully sent!</shortDescription>
+        <value>Email was successfully sent!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Emails_are_same</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Emails are same!</shortDescription>
+        <value>Emails are same!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Incorrect_enrollment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Incorrect enrollment!</shortDescription>
+        <value>Incorrect enrollment!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Incorrect_user_data</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Incorrect user data</shortDescription>
+        <value>Incorrect user data</value>
+    </labels>
+    <labels>
+        <fullName>TST_Invalid_email_address</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Invalid email address!</shortDescription>
+        <value>Invalid email address!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Permissions_should_be_the_same_for_study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Permissions should be the same for study!</shortDescription>
+        <value>A team member’s permissions must be the same for each site within a given study. This functionality will be enhanced in an upcoming release.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Request_to_invite_a_referring_provider</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Request to invite a referring provider</shortDescription>
+        <value>Request to invite a referring provider has been successfully submitted</value>
+    </labels>
+    <labels>
+        <fullName>TST_Screenshot_Wrong_Format</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Screenshot Wrong Format</shortDescription>
+        <value>Wrong file format</value>
+    </labels>
+    <labels>
+        <fullName>TST_Screenshot_size_limit_2MB_exceeded</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Screenshot size limit(2MB) exceeded!</shortDescription>
+        <value>Screenshot size limit(2MB) exceeded!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Screenshots_size_limit_10MB_exceeded</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Screenshots size limit(10MB) exceeded!</shortDescription>
+        <value>Screenshots size limit(3MB) exceeded!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Something_went_wrong</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Something went wrong!</shortDescription>
+        <value>Something went wrong!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Study_was_successfully_declined</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Study was successfully declined!</shortDescription>
+        <value>Study was successfully declined!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Thank_you_for_logging_a_problem_We_will_investigate_and_get_back_to_you</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Thank you for logging a problem.  We will investigate and get back to you.</shortDescription>
+        <value>Thank you for logging a problem.  We will investigate and get back to you.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Thank_you_for_submitting_your_question</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Thank you for submitting your question.</shortDescription>
+        <value>Thank you for submitting your question.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Thank_you_for_using_our_help</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Thank you for using our help.</shortDescription>
+        <value>Thank you for using our help.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Thank_you_for_your_feedback</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Thank you for your feedback!</shortDescription>
+        <value>Thank you for your feedback!</value>
+    </labels>
+    <labels>
+        <fullName>TST_The_status_of_this_record_is_locked_by_site_administration_For_more_inform</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST &quot;The status of this record is locked by site administration. For more inform</shortDescription>
+        <value>&quot;The status of this record is locked by site administration. For more information contact IQVIA.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Wrong_email_format</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Wrong email format.</shortDescription>
+        <value>Wrong email format.</value>
+    </labels>
+    <labels>
+        <fullName>TST_You_cannot_add_primary_investigator_as_a_delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST You cannot add primary investigator as a delegate.</shortDescription>
+        <value>You cannot add primary investigator as a delegate.</value>
+    </labels>
+    <labels>
+        <fullName>TST_You_cannot_add_referring_provider_as_a_delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST You cannot add referring provider as a delegate.</shortDescription>
+        <value>You cannot add referring provider as a delegate.</value>
+    </labels>
+    <labels>
+        <fullName>TST_You_cannot_add_yourself_as_a_delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST You cannot add yourself as a delegate.</shortDescription>
+        <value>You cannot add yourself as a delegate.</value>
+    </labels>
+    <labels>
+        <fullName>TST_You_have_successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST You have successfully</shortDescription>
+        <value>You have successfully</value>
+    </labels>
+    <labels>
+        <fullName>TST_You_have_successfully_created_permissions_for</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST You have successfully created permissions for</shortDescription>
+        <value>You have successfully created permissions for</value>
+    </labels>
+    <labels>
+        <fullName>TST_You_have_successfully_updated_permissions_for</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST You have successfully updated permissions for</shortDescription>
+        <value>You have successfully updated permissions for</value>
+    </labels>
+    <labels>
+        <fullName>TST_Your_email_address_has_been_updated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Your email address has been updated.</shortDescription>
+        <value>Your email address has been updated.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Your_password_has_been_changed_successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Your password has been changed successfully.</shortDescription>
+        <value>Your password has been changed successfully.</value>
+    </labels>
+    <labels>
+        <fullName>TST_activated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST activated</shortDescription>
+        <value>activated</value>
+    </labels>
+    <labels>
+        <fullName>TST_approved</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST approved</shortDescription>
+        <value>approved</value>
+    </labels>
+    <labels>
+        <fullName>TST_attended_orientation_and_activated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST attended orientation and activated</shortDescription>
+        <value>attended orientation and activated</value>
+    </labels>
+    <labels>
+        <fullName>TST_deactivated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST deactivated</shortDescription>
+        <value>deactivated</value>
+    </labels>
+    <labels>
+        <fullName>TST_declined</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST declined</shortDescription>
+        <value>declined</value>
+    </labels>
+    <labels>
+        <fullName>TST_has_been_successfully_excluded</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST has been successfully excluded.</shortDescription>
+        <value>has been successfully excluded.</value>
+    </labels>
+    <labels>
+        <fullName>TST_put_On_Hold</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST put On Hold</shortDescription>
+        <value>put On Hold</value>
+    </labels>
+    <labels>
+        <fullName>TS_Add_Vendor</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Add Vendor</shortDescription>
+        <value>Add Vendor</value>
+    </labels>
+    <labels>
+        <fullName>TS_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Disclaimer</shortDescription>
+        <value>I agree to the</value>
+    </labels>
+    <labels>
+        <fullName>TS_Disclaimer1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Disclaimer 1</shortDescription>
+        <value>, and to share my contact details or contact details of another person (who has provided their consent) and be contacted by IQVIA, a study doctor, and other affiliated companies regarding this clinical study.</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Another_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Another Country</shortDescription>
+        <value>Select another country</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Another_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Another Study Site</shortDescription>
+        <value>Select another Study Site</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Country</shortDescription>
+        <value>Select country</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Country_Or_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Country Or Study Site</shortDescription>
+        <value>Select Country or Study Site</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Study Site</shortDescription>
+        <value>Select Study Site</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Travel_Vendor_First</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Travel Vendor First</shortDescription>
+        <value>Select Travel Vendor First</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_or_add_vendor_first</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select or add vendor first</shortDescription>
+        <value>Select or add vendor first</value>
+    </labels>
+    <labels>
+        <fullName>TS_Study_Site_Number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Study Site Number</shortDescription>
+        <value>Study Site Number</value>
+    </labels>
+    <labels>
+        <fullName>TTL_Create_Task</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for Create_Task</shortDescription>
+        <value>Create Task</value>
+    </labels>
+    <labels>
+        <fullName>TTL_Edit_Task</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title Edit Task</shortDescription>
+        <value>Edit Task</value>
+    </labels>
+    <labels>
+        <fullName>Tab_HealthCare_Provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Tab_HealthCare_Provider</shortDescription>
+        <value>Healthcare Provider</value>
+    </labels>
+    <labels>
+        <fullName>Task_Details</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Details</shortDescription>
+        <value>Task Details</value>
+    </labels>
+    <labels>
+        <fullName>Task_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Name</shortDescription>
+        <value>Task Name</value>
+    </labels>
+    <labels>
+        <fullName>Task_Reminder_Details</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Reminder Details</shortDescription>
+        <value>Task Reminder Details</value>
+    </labels>
+    <labels>
+        <fullName>Task_Reminders_Missing</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Reminders Missing</shortDescription>
+        <value>Currently all recipients do not have their communication preference set to receive emails. Some task reminders may not be delivered.</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Subject Complete Baseline Survey</shortDescription>
+        <value>Please complete your TransCelerate Study Baseline Survey</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Complete_Survey</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Subject Complete Survey</shortDescription>
+        <value>Please complete the ##SurveyName</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Complete_Your_Profile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Subject Complete Your Profile</shortDescription>
+        <value>Please, complete your profile under Account Settings</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Completed_Tasks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Tab Completed Tasks</shortDescription>
+        <value>Completed Tasks</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_My_Tasks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Tab My Tasks</shortDescription>
+        <value>My Tasks</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Open_Tasks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Tab Open Tasks</shortDescription>
+        <value>Open Task</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Col_Complete_By</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task_Tab_Table_Col_Complete_By</shortDescription>
+        <value>Complete By</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Col_Completed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task_Tab_Table_Col_Completed</shortDescription>
+        <value>Completed</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Col_Completed_By</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task_Tab_Table_Col_Complete_By</shortDescription>
+        <value>Complete By</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Col_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task_Tab_Table_Col_Name</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Col_Priority</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task_Tab_Table_Col_Priority</shortDescription>
+        <value>Priority</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Status_Expired</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Tab Table Status Expired</shortDescription>
+        <value>Expired</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Status_Ignored</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Tab Table Status Ignored</shortDescription>
+        <value>Ignored</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Status_In_Progress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Tab Table Status In Progress</shortDescription>
+        <value>In Progress</value>
+    </labels>
+    <labels>
+        <fullName>Task_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Type</shortDescription>
+        <value>Task Type</value>
+    </labels>
+    <labels>
+        <fullName>Task_Type_Medication</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Type Medication</shortDescription>
+        <value>Medication</value>
+    </labels>
+    <labels>
+        <fullName>Task_Type_Not_Selected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Type Not Selected</shortDescription>
+        <value>Not Selected</value>
+    </labels>
+    <labels>
+        <fullName>Task_Type_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Type Visit</shortDescription>
+        <value>Visit</value>
+    </labels>
+    <labels>
+        <fullName>Test_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Test Label</shortDescription>
+        <value>Test_Label</value>
+    </labels>
+    <labels>
+        <fullName>Test_Label_With_Param</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Test Label With Param</shortDescription>
+        <value>For this: ##param1, use this: ##zzz</value>
+    </labels>
+    <labels>
+        <fullName>Thank_you_for_your_Interest</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>COI Toast Alert Me When CTP appears</shortDescription>
+        <value>Thank you for your interest in {0}. We will contact you when the clinical research study would be created for this.</value>
+    </labels>
+    <labels>
+        <fullName>This_Participant_has_reached_legal_age_of_emancipation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>This Participant has reached legal age of emancipation</shortDescription>
+        <value>This Participant has reached legal age of emancipation, but continues to require legal guardianship. Please verify that this is correct.</value>
+    </labels>
+    <labels>
+        <fullName>Toast_Changes_Successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Changes made successfully</shortDescription>
+        <value>Changes made successfully</value>
+    </labels>
+    <labels>
+        <fullName>Toast_Contact_Inf_Not_Updated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast Contact Inf Not Updated</shortDescription>
+        <value>Please update your contact information.</value>
+    </labels>
+    <labels>
+        <fullName>Toast_Enter_Mob_Num</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast Enter Mob Num</shortDescription>
+        <value>Please enter a mobile number.</value>
+    </labels>
+    <labels>
+        <fullName>Toast_ICF</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast ICF</shortDescription>
+        <value>Patients cannot be enrolled without signing the Informed Consent Form</value>
+    </labels>
+    <labels>
+        <fullName>Toast_TimeZone</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast TimeZone</shortDescription>
+        <value>The browser timezone not match with your profile timezone. Please set correct timezone {0}.</value>
+    </labels>
+    <labels>
+        <fullName>Total_Cholesterol</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Total Cholesterol</shortDescription>
+        <value>Total cholesterol</value>
+    </labels>
+    <labels>
+        <fullName>Total_Cholesterol_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Total Cholesterol Description</shortDescription>
+        <value>Cholesterol is a type of fat made by the liver that is found in your blood. You can also take in cholesterol by eating certain foods, such as meat, fish, eggs, and dairy products. Your total cholesterol value is the sum of your low-density lipoprotein (LDL, or “bad” cholesterol) and your high-density lipoprotein (HDL, or “good” cholesterol) and your triglycerides.</value>
+    </labels>
+    <labels>
+        <fullName>Total_protein</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Total protein</shortDescription>
+        <value>Total protein</value>
+    </labels>
+    <labels>
+        <fullName>Total_protein_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Total protein Description</shortDescription>
+        <value>Proteins are important for growth and development of the body by helping to make tissues and cells. The total protein test measures the total amount of two types of protein, albumin and globulin, in your blood sample. Total protein is measured to check the health of your liver and kidneys.</value>
+    </labels>
+    <labels>
+        <fullName>Travel_Support_Link</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Travel Support Link</shortDescription>
+        <value>https://www.primarius.cloud/</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Alert_me_when_enrollment_starts</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Alert me when enrollment starts</shortDescription>
+        <value>Alert me when enrollment starts</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Conditions_of_interest</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Conditions of interest</shortDescription>
+        <value>Conditions of interest</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Contact_the_study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Contact the study</shortDescription>
+        <value>Contact the study</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Enrolling</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Enrolling</shortDescription>
+        <value>Enrolling</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Enrollment_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Enrollment Status</shortDescription>
+        <value>Enrollment Status</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Find_Another_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch Find Another Study</shortDescription>
+        <value>Find another study</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_No_trial_matches_available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_No trial matches available</shortDescription>
+        <value>No trial matches available at this time. Check back shortly.</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Not_Yet_Enrolling</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Not Yet Enrolling</shortDescription>
+        <value>Not yet enrolling</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Search_for_another_condition</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Search for another condition</shortDescription>
+        <value>Search for another condition</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_See_Qualify</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch See Qualify</shortDescription>
+        <value>See if I qualify</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Send_To_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch Send To Study</shortDescription>
+        <value>Send to study</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Studies_you_may_be_interested_in</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Studies you may be interested in</shortDescription>
+        <value>Studies you may be interested in</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Study_contacted</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Study contacted</shortDescription>
+        <value>Study contacted</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Therapeutic_area</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Therapeutic area</shortDescription>
+        <value>Therapeutic area</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Toast_Alert_Me_When_Trial_Start</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch Toast Alert Me When Trial Start</shortDescription>
+        <value>Thank you for your interest in {0}. We will contact you when the clinical research study begins enrollment.</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Toast_Contact_The_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch Toast Contact The Study</shortDescription>
+        <value>Thank you for your interest in {0}.  Someone from the study team will contact you shortly.</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Update_Search_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Update Search Results</shortDescription>
+        <value>Update Search Results</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_We_will_alert_you</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch We will alert you</shortDescription>
+        <value>We will alert you when enrollment starts</value>
+    </labels>
+    <labels>
+        <fullName>Trial_Search_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Trial Search Header</shortDescription>
+        <value>An alert has been set on a clinical research study you may be interested in</value>
+    </labels>
+    <labels>
+        <fullName>Trial_Search_Message_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Trial Search Message Header</shortDescription>
+        <value>A clinical research study you may be interested in has started enrolling</value>
+    </labels>
+    <labels>
+        <fullName>Triglycerides</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Triglycerides</shortDescription>
+        <value>Triglycerides</value>
+    </labels>
+    <labels>
+        <fullName>Triglycerides_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Triglycerides Description</shortDescription>
+        <value>Triglycerides are a type of fat found in your blood. Your body uses triglycerides to give you energy. When you eat too many calories, your body will store these calories as triglycerides to use later. Most fats that we eat, such as animal fats and trans fats, are triglycerides. However, the body also produces triglycerides from the carbohydrates that we eat. When your triglycerides are high, they can build in the walls of your cells and block the blood flow, just like LDL cholesterol.</value>
+    </labels>
+    <labels>
+        <fullName>Trygilicerides</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Triglycerides</shortDescription>
+        <value>Triglycerides</value>
+    </labels>
+    <labels>
+        <fullName>Trygilicerides_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Triglycerides Description</shortDescription>
+        <value>Triglycerides are a type of fat found in your blood. Your body uses triglycerides to give you energy. When you eat too many calories, your body will store these calories as triglycerides to use later. Most fats that we eat, such as animal fats and trans fats, are triglycerides. However, the body also produces triglycerides from the carbohydrates that we eat. When your triglycerides are high, they can build in the walls of your cells and block the blood flow, just like LDL cholesterol.</value>
+    </labels>
+    <labels>
+        <fullName>UOM_Kilometers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UOM Kilometers</shortDescription>
+        <value>Kilometers</value>
+    </labels>
+    <labels>
+        <fullName>UOM_Miles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UOM Miles</shortDescription>
+        <value>Miles</value>
+    </labels>
+    <labels>
+        <fullName>URL_Cookies</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>URL Cookies</shortDescription>
+        <value>value_not_set</value>
+    </labels>
+    <labels>
+        <fullName>URL_Interactive_Advertising_Bureau</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>URL Interactive Advertising Bureau</shortDescription>
+        <value>value_not_set</value>
+    </labels>
+    <labels>
+        <fullName>Update_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Update Participant</shortDescription>
+        <value>Update Participant</value>
+    </labels>
+    <labels>
+        <fullName>VPN_AddDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>VPN AddDate</shortDescription>
+        <value>Add visit date</value>
+    </labels>
+    <labels>
+        <fullName>VPN_Sel_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>VPN Sel Date</shortDescription>
+        <value>Select date</value>
+    </labels>
+    <labels>
+        <fullName>VR_ALT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR ALT</shortDescription>
+        <value>ALT</value>
+    </labels>
+    <labels>
+        <fullName>VR_AST</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR 	AST</shortDescription>
+        <value>AST</value>
+    </labels>
+    <labels>
+        <fullName>VR_Albumin</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Albumin</shortDescription>
+        <value>Albumin</value>
+    </labels>
+    <labels>
+        <fullName>VR_Alkaline_Phosphatase</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Alkaline Phosphatase</shortDescription>
+        <value>Alkaline Phosphatase</value>
+    </labels>
+    <labels>
+        <fullName>VR_BUN</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR BUN</shortDescription>
+        <value>BUN</value>
+    </labels>
+    <labels>
+        <fullName>VR_Body_Mass_Index</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Body Mass Index</shortDescription>
+        <value>Body Mass Index</value>
+    </labels>
+    <labels>
+        <fullName>VR_Calcium</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Calcium</shortDescription>
+        <value>Calcium</value>
+    </labels>
+    <labels>
+        <fullName>VR_Creatinine</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Creatinine</shortDescription>
+        <value>Creatinine</value>
+    </labels>
+    <labels>
+        <fullName>VR_Diastolic_Blood_Pr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Diastolic Blood Pr.</shortDescription>
+        <value>Diastolic Blood Pr.</value>
+    </labels>
+    <labels>
+        <fullName>VR_Glucose</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Glucose</shortDescription>
+        <value>Glucose</value>
+    </labels>
+    <labels>
+        <fullName>VR_Height</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Height</shortDescription>
+        <value>Height</value>
+    </labels>
+    <labels>
+        <fullName>VR_Hematocrit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Hematocrit</shortDescription>
+        <value>Hematocrit</value>
+    </labels>
+    <labels>
+        <fullName>VR_Hemoglobin</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Hemoglobin</shortDescription>
+        <value>Hemoglobin</value>
+    </labels>
+    <labels>
+        <fullName>VR_High_density_Lipoprotein</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR High-density Lipoprotein</shortDescription>
+        <value>High-density Lipoprotein</value>
+    </labels>
+    <labels>
+        <fullName>VR_Low_density_Lipoprotein</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Low-density Lipoprotein</shortDescription>
+        <value>Low-density Lipoprotein</value>
+    </labels>
+    <labels>
+        <fullName>VR_Platelet_Count</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Platelet Count</shortDescription>
+        <value>Platelet Count</value>
+    </labels>
+    <labels>
+        <fullName>VR_Potassium</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Potassium</shortDescription>
+        <value>Potassium</value>
+    </labels>
+    <labels>
+        <fullName>VR_Pulse</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Pulse</shortDescription>
+        <value>Pulse</value>
+    </labels>
+    <labels>
+        <fullName>VR_RBC_Count</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR RBC Count</shortDescription>
+        <value>RBC Count</value>
+    </labels>
+    <labels>
+        <fullName>VR_Respiratory_Rate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Respiratory Rate</shortDescription>
+        <value>Respiratory Rate</value>
+    </labels>
+    <labels>
+        <fullName>VR_Sodium</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Sodium</shortDescription>
+        <value>Sodium</value>
+    </labels>
+    <labels>
+        <fullName>VR_Systolic_Blood_Pr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Systolic Blood Pr.</shortDescription>
+        <value>Systolic Blood Pr.</value>
+    </labels>
+    <labels>
+        <fullName>VR_Total_Cholesterol</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Total Cholesterol</shortDescription>
+        <value>Total Cholesterol</value>
+    </labels>
+    <labels>
+        <fullName>VR_Total_protein</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Total protein</shortDescription>
+        <value>Total protein</value>
+    </labels>
+    <labels>
+        <fullName>VR_Triglycerides</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Triglycerides</shortDescription>
+        <value>Triglycerides</value>
+    </labels>
+    <labels>
+        <fullName>VR_Visits_Not_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Visits Not Available</shortDescription>
+        <value>Visit information is not available for this research study.  If you have questions or concerns, please contact the study doctor at your study center.</value>
+    </labels>
+    <labels>
+        <fullName>VR_WBC_Count</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR WBC Count</shortDescription>
+        <value>WBC Count</value>
+    </labels>
+    <labels>
+        <fullName>VR_Weight</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Weight</shortDescription>
+        <value>Weight</value>
+    </labels>
+    <labels>
+        <fullName>View_Visit_Legend</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View Visit Legend</shortDescription>
+        <value>View Visit Legend</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Icons</fullName>
+        <categories>Visit Icons</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Icons</shortDescription>
+        <value>Visit Icons</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Number</fullName>
+        <categories>visit configuration</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>visit configuration</shortDescription>
+        <value>visit number</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Order</fullName>
+        <categories>visit configuration</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Order</shortDescription>
+        <value>Visit Order</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Patient_Portal_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Patient Portal Name</shortDescription>
+        <value>PP Name</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Result_Report_No_Data</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Result Report No Data</shortDescription>
+        <value>Visit reports are only available for assessments taken during the clinical trial. If you have questions or concerns, please contact the study doctor at your study center.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Dashboard_My_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Dashboard My Results</shortDescription>
+        <value>My Results</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Disclaimer</shortDescription>
+        <value>This data is being provided as part of your participation in a clinical research study.  It is for research purposes only. Values are only available for vitals recorded for the visit date displayed.  If you have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Expected_Range</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Expected Range</shortDescription>
+        <value>Expected Range</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_If_Is_Empty_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_If_Is_Empty_Body</shortDescription>
+        <value>Visit assessment information is not available for this clinical research study.
+If you have questions or concerns, please contact the Principal Investigator at your study center.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_If_Is_Not_Opt_In</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_1</shortDescription>
+        <value>This data is being provided as part of your participation in a clinical research study. It is for research purposes only. 
+                  If you would like to view your data</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_If_Is_Not_Opt_In_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_2</shortDescription>
+        <value>. You can opt-out at any time. Once data becomes available it will begin to display. If you
+have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Labs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Labs</shortDescription>
+        <value>Labs</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Linked_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_Linked_Text</shortDescription>
+        <value>click here to opt-in</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Modal_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_Modal_Body</shortDescription>
+        <value>Do you consent to opt-in to viewing your data?</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Modal_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_Modal_Title</shortDescription>
+        <value>Opt-in to view data</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_No_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab No Results</shortDescription>
+        <value>Check back periodically to view visit assessment information.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Panel_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Panel Disclaimer</shortDescription>
+        <value>Values are only available for assessments recorded and received for the visit date displayed.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Result_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Result Date</shortDescription>
+        <value>Results from</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Vitals</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Vitals</shortDescription>
+        <value>Vitals</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Schedule</fullName>
+        <categories>visit configuration</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Schedule</shortDescription>
+        <value>Visit Schedule</value>
+    </labels>
+    <labels>
+        <fullName>Visit_b_Add_Visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit b Add Visit</shortDescription>
+        <value>Add Visit</value>
+    </labels>
+    <labels>
+        <fullName>Visit_b_Close</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit b Close</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>Visit_b_Create_Visit_Plan</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit b Create Visit Plan</shortDescription>
+        <value>Create Visit Plan</value>
+    </labels>
+    <labels>
+        <fullName>Visit_b_Save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit b Save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>Vitals</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Vitals</shortDescription>
+        <value>Vitals</value>
+    </labels>
+    <labels>
+        <fullName>WBC_Count</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>WBC Count</shortDescription>
+        <value>WBC count</value>
+    </labels>
+    <labels>
+        <fullName>WBC_Count_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>WBC Count Description</shortDescription>
+        <value>White blood cells (WBC or leukocytes) are cells that can be found in your blood and in body tissues that are important for your immune system (your body’s defense responses). WBCs fight infections, cancer, and also remove poison, waste products, and damaged cells from your body. When you are fighting off an infection, the number of white blood cells increases. WBC count is measured to check your general health and to check for conditions that influence your body’s white blood cell production. A high WBC count can mean you have an infection.</value>
+    </labels>
+    <labels>
+        <fullName>Weight</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Weight</shortDescription>
+        <value>Weight</value>
+    </labels>
+    <labels>
+        <fullName>Weight_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Weight Description</shortDescription>
+        <value>Your weight is the measurement of your body mass in kilograms (kg) or in pounds.</value>
+    </labels>
+    <labels>
+        <fullName>empty_visits</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>empty visits</shortDescription>
+        <value>there are no planned visits yet</value>
+    </labels>
+    <labels>
+        <fullName>successType</fullName>
+        <categories>visit configuration</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>successType</shortDescription>
+        <value>success</value>
+    </labels>
+    <labels>
+        <fullName>success_deleteon</fullName>
+        <categories>visit configuration</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>deleted successfully.</shortDescription>
+        <value>deleted successfully.</value>
+    </labels>
+    <labels>
+        <fullName>update_resource_content</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>update resource content</shortDescription>
+        <value>Do you want to mark  resource content as updated?</value>
+    </labels>
+    <labels>
+        <fullName>visit_Name</fullName>
+        <categories>configuation table</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>configuation table</shortDescription>
+        <value>Name</value>
+    </labels>
+</CustomLabels>
+</CustomLabels>
