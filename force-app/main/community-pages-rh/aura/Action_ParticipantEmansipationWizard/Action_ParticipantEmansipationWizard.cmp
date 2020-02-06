@@ -8,6 +8,7 @@
     <!-- attributes: -->
     <aura:attribute name="pe" type="Participant_Enrollment__c"/>
     <aura:attribute name="participant" type="Participant__c" access="private"/>
+    <aura:attribute name="contact" type="Contact" access="private"/>
     <aura:attribute name="callback" type="Object" access="private"/>
     <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
     <aura:attribute name="formData" type="AddPatientByPIRemote.FormData" access="private"/>
@@ -15,11 +16,13 @@
     <aura:attribute name="isValid" type="Boolean" default="false"/>
     <aura:attribute name="saveAndChangeStep" type="Boolean" default="false"/>
     <aura:attribute name="pathItems" type="List"/>
+    <aura:attribute name="delegateItems" type="List"/>
     <aura:attribute name="statusSteps" type="List" access="public"/>
     <aura:attribute name="currentTab" type="String" default="1"/>
-    <aura:attribute name="checkTabs" type="String" default="participantDetails"/>
     <aura:attribute name="sendEmails" type="Boolean" default="false"/>
     <aura:attribute name="needsGuardian" type="Boolean" default="false"/>
+    <aura:attribute name="receiveOptionalEmail" type="Boolean" default="false"/>
+    <aura:attribute name="selectedOption" type="String" default="2"/>
 
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private"/>
     <aura:attribute name="participantMsgWithName" type="String" access="private"/>
@@ -32,8 +35,6 @@
         <aura:attribute name="callback" type="Function"/>
     </aura:method>
     <aura:method name="doCallback" action="{!c.doCallback}" access="public"/>
-
-    <aura:handler name="change" value="{!v.pathItems}" action="{!c.prepareEditableSteps}"/>
 
     <!-- component body: -->
     <c:Popup aura:id="dialog" title="{!$Label.c.SS_Confirm_and_Manage}" size="large" showScroll="true" showHeader="true" showFooter="true">
@@ -65,7 +66,7 @@
 
                 <aura:if isTrue="{!v.pe &amp;&amp; v.currentTab == '1'}">
                     <div class="personal-info-container">
-                        <!-- personal information: -->
+                        <!-- Personal information: -->
                         <div class="ap-section">
                             <div class="ap-section-title">{!$Label.c.BTN_Participant_Information}</div>
                             <div class="slds-grid slds-gutters slds-wrap">
@@ -79,8 +80,8 @@
                                     {!v.participantMsgWithName}
                                 </div>
                                 <div class="slds-col slds-size--1-of-1">
-                                    <lightning:input type="radio" label="Invite" name="options" value="1" checked="true" onchange="{!c.doHandleRadioClick}"/>
-                                    <lightning:input type="radio" label="Do not invite" name="options" value="2" onchange="{!c.doHandleRadioClick}"/>
+                                    <lightning:input type="radio" label="Invite" name="options" value="1" checked="{!v.selectedOption == '1'}" onchange="{!c.doHandleRadioClick}"/>
+                                    <lightning:input type="radio" label="Do not invite" name="options" value="2" checked="{!v.selectedOption == '2'}" onchange="{!c.doHandleRadioClick}"/>
                                 </div>
                                 <div class="rr-form-element slds-col slds-size--1-of-1" style="margin-top: 15px;">
                                     {!$Label.c.PG_EMN_MSG_Update_Participant_Info}
@@ -113,9 +114,8 @@
                                     </lightning:layoutItem>
                                 </div>
                                 <div class="rr-form-element slds-col slds-size--1-of-3">
-                                    <div class="label"><abbr title="required"
-                                                             class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Nickname}</div>
-                                    <lightning:input type="text" required="true" value="{!v.participant.Nickname__c}"
+                                    <div class="label">{!$Label.c.PG_AS_F_Nickname}</div>
+                                    <lightning:input type="text" value="{!v.participant.Nickname__c}"
                                                      onblur="{!c.doCheckFields}"/>
                                 </div>
                                 <div class="rr-form-element slds-col slds-size--1-of-3'">
@@ -135,7 +135,7 @@
                             </div>
                         </div>
 
-                        <!-- contact information: -->
+                        <!-- Contact information: -->
                         <div class="ap-section">
                             <div class="slds-grid slds-gutters slds-wrap">
                                 <div class="rr-form-element slds-col slds-size--1-of-1">
@@ -145,7 +145,7 @@
                                     <div class="label"><abbr title="required"
                                                              class="slds-required">*</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
                                     </div>
-                                    <lightning:input type="text" value="{!v.participant.Phone__c}" required="true"
+                                    <lightning:input aura:id="phoneInput" type="text" value="{!v.participant.Phone__c}" required="true"
                                                      onblur="{!c.doCheckFields}"/>
                                 </div>
                                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
@@ -185,16 +185,127 @@
                                     <lightning:input type="text" value="{!v.participant.Mailing_Zip_Postal_Code__c}"
                                                      required="true" onblur="{!c.doCheckFields}"/>
                                 </div>
+                                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                                    <div class="label">{!$Label.c.PG_AP_F_Alternative_Phone_Number}</div>
+                                    <lightning:input type="text" value="{!v.participant.Alternative_Phone_Number__c}"
+                                                     onblur="{!c.doCheckFields}"/>
+                                </div>
+                                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                                    <div class="label">{!$Label.c.PG_AP_F_Alternative_Phone_Type}</div>
+                                    <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!v.participant.Alternative_Phone_Type__c}"
+                                                placeholder="{!$Label.c.PG_AC_Select}" onchange="{!c.doCheckFields}" disabled="{!!v.participant.Alternative_Phone_Number__c}"/>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </aura:if>
 
                 <aura:if isTrue="{!v.pe &amp;&amp; v.currentTab == '2'}">
+                    <div class="delegate-info-container">
+                        <!-- Delegate information: -->
+                        <div class="ap-section">
+                            <div class="ap-section-title">{!$Label.c.PG_Ref_L_Delegate_Information}</div>
+                            <aura:iteration items="{!v.delegateItems}" var="delegateItem" indexVar="ind">
+                                <div style="background: #F6F7FB; border: 0.1px solid; border-color: lightgrey; margin-top: 15px;">
+                                    <div class="slds-grid slds-gutters slds-wrap rr-form-element" style="margin: 10px 10px;">
+                                        <aura:if isTrue="{!delegateItem.Id}">
+                                            <div class="rr-form-element slds-col slds-size--1-of-1">
+                                                {!$Label.c.PG_Ref_L_Delegate_continue_be_delegate}
+                                            </div>
+                                            <div class="slds-col slds-size--1-of-1">
+                                                <lightning:input id="{!ind}" style="float: left;" type="radio" label="Continue" name="options" value="1" checked="{!delegateItem.selectedOption == '1'}" onchange="{!c.doHandleDelegateRadioClick}"/> Continue
+                                            </div>
+                                            <div class="slds-col slds-size--1-of-1">
+                                                <lightning:input id="{!ind}" style="float: left;" type="radio" label="Do not continue" name="options" value="2" checked="{!delegateItem.selectedOption == '2'}" onchange="{!c.doHandleDelegateRadioClick}"/> Do not continue
+                                            </div>
+                                        </aura:if>
+                                        <div class="rr-form-element slds-col slds-size--1-of-1" style="margin-top: 15px;">
+                                            {!$Label.c.PG_Ref_L_Delegate_ensure_info_uptodate}
+                                        </div>
+                                        <aura:if isTrue="{!delegateItem.Id}">
+                                            <div class="rr-form-element slds-col slds-size--1-of-1">
+                                                {!$Label.c.PG_Ref_L_Delegate_update_info_uptodate}
+                                            </div>
+                                        </aura:if>
+                                        <aura:if isTrue="{!!delegateItem.Id}">
+                                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                                <div class="label">
+                                                    <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_First_name}
+                                                </div>
+                                                <lightning:input type="text" value="{!delegateItem.First_Name__c}"
+                                                                 required="{!v.currentTab == '2'}" onblur="{!c.doCheckfields}"/>
+                                            </div>
+                                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                                <div class="label">
+                                                    <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Middle_name}
+                                                </div>
+                                                <lightning:input type="text" value="{!delegateItem.Middle_Name__c}"
+                                                                 onblur="{!c.doCheckfields}"/>
+                                            </div>
+                                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                                <div class="label">
+                                                    <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Last_name}
+                                                </div>
+                                                <lightning:input type="text" value="{!delegateItem.Last_Name__c}"
+                                                                 required="{!v.currentTab == '2'}" onblur="{!c.doCheckfields}"/>
+                                            </div>
+                                        </aura:if>
+                                        <div class="rr-form-element slds-col slds-size--1-of-3">
+                                            <div class="label">
+                                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
+                                            </div>
+                                            <lightning:input type="text" value="{!delegateItem.Phone__c}"
+                                                             required="{!v.currentTab == '2'}"  onblur="{!c.doCheckfields}"/>
+                                        </div>
+                                        <div class="rr-form-element slds-col slds-size--1-of-3">
+                                            <div class="label">
+                                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Phone_Type}
+                                            </div>
+                                            <c:rrSelect options="{!v.phoneTypes}" value="{!delegateItem.Phone_Type__c}" useSentenceFont="false"/>
+                                        </div>
+                                        <div class="rr-form-element slds-col slds-size--1-of-3">
+                                            <div class="label">
+                                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Email_address}
+                                            </div>
+                                            <lightning:input aura:id="emailDelegateField" type="email" value="{!delegateItem.Email__c}"
+                                                             required="{!v.currentTab == '2'}" onblur="{!c.doCheckfields}"/>
+                                        </div>
+                                        <div class="rr-form-element slds-col slds-size--1-of-3">
+                                            <div class="label">
+                                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_Country}
+                                            </div>
+                                            <c:rrSelect options="{!v.formData.countriesLVList}" value="{!delegateItem.Mailing_Country_Code__c}"
+                                                        placeholder="{!$Label.c.PG_AC_Select}" useSentenceFont="false" onchange="{!c.doCountryCodeChanged}"/>
+                                        </div>
+                                        <div class="rr-form-element slds-col slds-size--1-of-3">
+                                            <div class="label">
+                                                <aura:if isTrue="{!!empty(v.states)}"><abbr title="required" class="slds-required">*</abbr></aura:if>{!$Label.c.PE_State}
+                                            </div>
+                                            <c:rrSelect options="{!v.statesLVList}" disabled="{!empty(v.statesLVList)}"
+                                                        value="{!delegateItem.Mailing_State_Code__c}" placeholder="{!$Label.c.PG_AC_Select}"
+                                                        useSentenceFont="false" onchange="{!c.doStateChange}"/>
+                                        </div>
+                                        <div class="rr-form-element slds-col slds-size--1-of-3">
+                                            <div class="label">
+                                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Zip_Postal_Code}
+                                            </div>
+                                            <lightning:input type="text" value="{!delegateItem.Mailing_Zip_Postal_Code__c}"
+                                                             required="{!v.currentTab == '2'}" onblur="{!c.doCheckfields}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </aura:iteration>
+                        </div>
+                        <div>
+                            <button class="apollo-btn secondary" style="margin-top: 10px; box-shadow: none; border: none; font-weight: 600;" onclick="{!c.doAddDelegate}">{!$Label.c.Add_Delegate}
+                                <div style="margin-left: -125px;"><c:RRIcon color="#297dfd" iconName="icon-plus"/></div>
+                            </button>
+                        </div>
+                    </div>
                 </aura:if>
 
                 <aura:if isTrue="{!v.pe &amp;&amp; v.currentTab == '3'}">
-                    <div class="personal-info-container">
+                    <div class="provide-info-container">
                         <!-- Healthcare Provider information: -->
                         <div class="ap-section">
                             <div class="ap-section-title">{!$Label.c.BTN_HealthCare_Provider_Information}</div>
@@ -204,12 +315,25 @@
                 </aura:if>
 
                 <aura:if isTrue="{!v.pe &amp;&amp; v.currentTab == '4'}">
+                    <div class="confirm-info-container">
+                        <!-- Review and Confirm information: -->
+                        <div class="ap-section">
+                        </div>
+                    </div>
                 </aura:if>
 
             </aura:if>
         </div>
 
         <aura:set attribute="footerButtons">
+            <aura:if isTrue="{!v.currentTab == '1'}">
+                <div class="rr-form-element slds-no-label slds-float--left" style="margin-left: 12px; margin-top: 5px;">
+                    <div class="rr-cb-container">
+                        <lightning:input type="checkbox" label="" checked="{!v.contact.Consent_To_Inform_About_Study__c}"/>
+                    </div>
+                    <div class="label rr-cb-label">{!$Label.c.PG_Ref_L_Participant_require_optional_email}</div>
+                </div>
+            </aura:if>
             <div data-gtm="BTNS_Popup_Navigate_emancip">
                 <button data-gtm="BTN_Next_emancip" class="apollo-btn primary slds-float_right slds-button--reset" disabled="{!!v.isValid}" onclick="{!c.doNext}">{!v.currentTab != '4' ? $Label.c.BTN_Next : $Label.c.BTN_Save}</button>
                 <button data-gtm="BTN_Back_emancip" class="apollo-btn secondary slds-float_right slds-button--reset" disabled="{!v.currentTab == '1'}" onclick="{!c.doBack}">{!$Label.c.BTN_Back}</button>
