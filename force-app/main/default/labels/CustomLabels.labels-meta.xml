@@ -10192,7 +10192,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PI Colon</shortDescription>
-        <value>PI :</value>
+        <value>PI:</value>
     </labels>
     <labels>
         <fullName>PI_Delegate_PI_Info</fullName>
