@@ -10,6 +10,7 @@ public without sharing class MessagePageRemote {
         @AuraEnabled public List<String> messageTemplates;
         @AuraEnabled public List<Participant_Enrollment__c> enrollments;
         @AuraEnabled public Map<Id, Boolean> statusByPeMap;
+        @AuraEnabled public Boolean isPageEnabled;
     }
 
     public class ConversationWrapper {
@@ -57,6 +58,7 @@ public without sharing class MessagePageRemote {
     public static MSPageData getInitData() {
         try {
             MSPageData pageData = new MSPageData();
+            pageData.isPageEnabled = CommunityFacadeRemote.getMessagesVisibility();
             pageData.userMode = UserContext.getCurrentUserMode().userMode;
 
             List<Conversation__c> sharedConversations = ConversationService.getSharedConversations(UserInfo.getUserId());
