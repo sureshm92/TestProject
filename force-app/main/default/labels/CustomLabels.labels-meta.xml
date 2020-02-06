@@ -3764,6 +3764,84 @@
         <value>Arm/Cohort</value>
     </labels>
     <labels>
+        <fullName>FD_PE_Field_Final_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Final Consent</shortDescription>
+        <value>Final Consent</value>
+    </labels>
+    <labels>
+        <fullName>FD_PE_Field_Informed_Consent_Signed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Informed Consent Signed Date</shortDescription>
+        <value>Informed Consent Signed</value>
+    </labels>
+    <labels>
+        <fullName>FD_PE_Field_Informed_Consent_Signed_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Informed Consent Signed Date</shortDescription>
+        <value>Informed Consent Signed Date</value>
+    </labels>
+    <labels>
+        <fullName>FD_PE_Field_Initial_Visit_Attended</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Initial Visit Attended</shortDescription>
+        <value>Initial Visit Attended</value>
+    </labels>
+    <labels>
+        <fullName>FD_PE_Field_Initial_Visit_Attended_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Initial Visit Attended Date</shortDescription>
+        <value>Initial Visit Attended Date</value>
+    </labels>
+    <labels>
+        <fullName>FD_PE_Field_Initial_Visit_Scheduled_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Initial Visit Scheduled Date</shortDescription>
+        <value>Initial Visit Scheduled Date</value>
+    </labels>
+    <labels>
+        <fullName>FD_PE_Field_Initial_Visit_Scheduled_Time</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Initial Visit Scheduled Time</shortDescription>
+        <value>Initial Visit Scheduled Time</value>
+    </labels>
+
+    <labels>
+        <fullName>FD_PE_Field_Revisit_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Revisit Date</shortDescription>
+        <value>Revisit Date</value>
+    </labels>
+    <labels>
+        <fullName>FD_PE_Field_Wash_Out_Required</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Wash Out Required</shortDescription>
+        <value>Run In/Wash Out Required</value>
+    </labels>
+    <labels>
+        <fullName>FG_PE_Inf_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FG PE Informed Consent</shortDescription>
+        <value>Informed Consent</value>
+    </labels>
+    <labels>
+        <fullName>FG_PE_Wash_Out</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FG PE Wash Out</shortDescription>
+        <value>Run In/Wash Out</value>
+    </labels>
+    <labels>
         <fullName>FU_Add_File</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6024,6 +6102,13 @@
         <value>Notes</value>
     </labels>
     <labels>
+        <fullName>PG_ACPE_L_Outcome</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG ACPE L Outcome</shortDescription>
+        <value>Outcome</value>
+    </labels>
+    <labels>
         <fullName>PG_ACPE_L_Please_confirm_that_you_want_to_activate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6064,6 +6149,13 @@
         <protected>false</protected>
         <shortDescription>PG ACPE L Please provide a reason for putting</shortDescription>
         <value>Please provide a reason for putting</value>
+    </labels>
+    <labels>
+        <fullName>PG_ACPE_L_Reason</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG ACPE L Reason</shortDescription>
+        <value>Reason</value>
     </labels>
     <labels>
         <fullName>PG_ACPE_L_Select_decline_reason</fullName>
@@ -10339,6 +10431,202 @@
         <protected>true</protected>
         <shortDescription>PS_Site_Location</shortDescription>
         <value>Site Location</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Contact_Card_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Contact_Card_Name</shortDescription>
+        <value>Contact Attempt</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Contact_History_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Contact_History_Title</shortDescription>
+        <value>Contact History:</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Contact_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Contact_Name</shortDescription>
+        <value>Contact</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Contact_No_Outcome</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Contact_No_Outcome</shortDescription>
+        <value>Not Contacted Yet</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Contact_Outcome_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Contact_Outcome_Placeholder</shortDescription>
+        <value>Ready to Contact</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Eligibility_Card_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Eligibility_Card_Name</shortDescription>
+        <value>Eligibility</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Eligibility_History_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Eligibility_History_Title</shortDescription>
+        <value>Eligibility History:</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Eligibility_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Eligibility_Name</shortDescription>
+        <value>Eligibility</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Eligibility_No_Outcome</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Eligibility_No_Outcome</shortDescription>
+        <value>Not Verified</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Enrolled_Card_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Enrolled_Card_Name</shortDescription>
+        <value>Enrollment</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Enrolled_History_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Enrolled_History_Title</shortDescription>
+        <value>Enrollment History:</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Enrolled_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Enrolled_Name</shortDescription>
+        <value>Enrolled</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Enrolled_No_Outcome</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Enrolled_No_Outcome</shortDescription>
+        <value>Not Enrolled</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Initial_Visit_Card_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Initial_Visit_Card_Name</shortDescription>
+        <value>Initial Visit</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Initial_Visit_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Initial_Visit_Name</shortDescription>
+        <value>Initial Call</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Initial_Visit_No_Outcome</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Initial_Visit_No_Outcome</shortDescription>
+        <value>Not Completed</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Randomization_Card_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Randomization_Card_Name</shortDescription>
+        <value>Randomization</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Randomization_History_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Randomization_History_Title</shortDescription>
+        <value>Randomization History:</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Randomization_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Randomization_Name</shortDescription>
+        <value>Randomization</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Randomization_No_Outcome</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Randomization_No_Outcome</shortDescription>
+        <value>Not Randomized</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Received_Card_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Received_Card_Name</shortDescription>
+        <value>Received</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Received_History_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Received_History_Title</shortDescription>
+        <value>Received participant</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Received_History_Detail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Received_History_Detail</shortDescription>
+        <value>on ##Date from ##Source</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Received_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Received_Name</shortDescription>
+        <value>Received</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Screening_Card_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Screening_Card_Name</shortDescription>
+        <value>Screening</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Screening_History_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Screening_History_Title</shortDescription>
+        <value>Screening History:</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Screening_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Screening_Name</shortDescription>
+        <value>Screening</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Screening_No_Outcome</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Screening_No_Outcome</shortDescription>
+        <value>Not Screened</value>
     </labels>
     <labels>
         <fullName>Participant_Created_Date</fullName>

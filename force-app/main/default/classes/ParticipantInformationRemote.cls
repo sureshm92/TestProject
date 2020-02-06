@@ -103,4 +103,14 @@ public without sharing class ParticipantInformationRemote {
         }
     }
 
+    @AuraEnabled
+    public static String updatePatientStatus(String stepWrapperJSON, String peId){
+        try {
+            String steps = ReferralProfileRemote.updateParticipantStatus(stepWrapperJSON, peId);
+            return steps;
+        } catch (Exception e) {
+            return (String) AuraHelper.throwException(e);
+        }
+    }
+
 }
