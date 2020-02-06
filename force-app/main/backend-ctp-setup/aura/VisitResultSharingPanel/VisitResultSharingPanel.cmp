@@ -59,9 +59,8 @@
                                                           onchange="{!c.doCountrySelectionTypeChange}"
                                                           disabled="{!and(notequals(v.options.countrySelectionType,'Disabled'),
                                                                                     notequals(v.options.countrySelectionType,'All'))}">
-                                            <aura:iteration items="{!v.initData.typeSelectCountryLevelList}"
-                                                            var="option">
-                                                <option text="{!option.label}" value="{!option.value}"/>
+                                            <aura:iteration items="{!v.initData.typeSelectCountryLevelList}" var="option">
+                                                <option text="{!option.label}" value="{!option.value}"></option>
                                             </aura:iteration>
                                         </lightning:select>
                                     </div>
@@ -175,7 +174,7 @@
                                     <c:VisitResultSharingItem visitResult="{!vResult}"
                                                               typeSelectLVList="{!v.typeSelectLVList}"
                                                               ctpId="{!v.recordId}"
-                                                              countries="{!v.options.selectedCountries}"
+                                                              globalCountries="{!v.options.selectedCountries}"
                                                               globalType="{!v.options.countrySelectionType}"/>
                                 </aura:iteration>
                             </div>

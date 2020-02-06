@@ -32,8 +32,9 @@
                 delegateId: communityService.getDelegateId(),
             }, function (returnValue) {
                 returnValue = JSON.parse(returnValue);
-                component.set('v.statusSteps', returnValue.steps);
+                //component.set('v.statusSteps', returnValue.steps);
                 component.set('v.formData.visitPlansLVList', returnValue.visitPlanLVList);
+                component.set('v.participantPath',returnValue.steps);
                 component.set('v.isFinalUpdate', false);
                 component.set('v.initialized', true);
                 setTimeout($A.getCallback(function () {
@@ -48,7 +49,7 @@
                     formComponent.createDataStamp();
                     formComponent.checkFields();
                     setTimeout(function () {
-                        document.getElementById(params.anchorScroll).scrollIntoView({
+                        document.getElementById('anchor').scrollIntoView({
                             behavior: 'smooth',
                             block: 'start',
                             inline: 'nearest'
@@ -143,5 +144,22 @@
         }, null, function () {
             component.find('spinner').hide();
         });
+    },
+
+    doUpdatePatientStatus: function (component, event, helper) {
+        var stepWrapper = component.get('v.participantPath.currentStep');
+        var pe = component.get('v.pe');
+        component.find('spinner').show();
+        communityService.executeAction(component, 'updatePatientStatus', {
+            stepWrapperJSON: JSON.stringify(stepWrapper),
+            peId: pe.Id
+        }, function (returnValueJSON) {
+            var returnValue = JSON.parse(returnValueJSON);
+            //component.set('v.statusSteps', returnValue.steps);
+            component.set('v.participantPath',returnValue);
+        }, null, function () {
+            component.find('spinner').hide();
+        });
+
     },
 });

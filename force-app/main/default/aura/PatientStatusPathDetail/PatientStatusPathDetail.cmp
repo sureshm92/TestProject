@@ -1,7 +1,7 @@
 <!--
  - Created by Leonid Bartenev
  -->
-
+<!--TODO:Check for Deprecated-->
 <aura:component description="PatientStatusPathDetail" controller="ReferralProfileRemote">
     <!--attributes: -->
     <aura:attribute name="pathItems" type="List"/>

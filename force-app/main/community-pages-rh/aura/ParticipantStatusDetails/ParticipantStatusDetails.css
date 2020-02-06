@@ -1,0 +1,59 @@
+/**
+ * Created by Andrii Kryvolap.
+ */
+.THIS .step-status-icon{
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    line-height: 1;
+    margin-right: 20px;
+}
+.THIS .step-status-icon .rr-icon-default{
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    fill: white!important;
+}
+
+.THIS .icon-success{
+    background-color: #00c221!important;
+}
+
+.THIS .icon-in_progress{
+    background-color: #005ff1!important;
+}
+
+.THIS .icon-failure{
+    background-color: #E20000!important;
+}
+
+.THIS .icon-neutral{
+    background-color: #b5b5b5!important;
+}
+
+.THIS .step-btn{
+    width: 100%;
+    min-height: 60px;
+    justify-content: flex-start;
+    margin-bottom: 8px;
+}
+
+.THIS .step-info{
+    text-align: left;
+}
+
+.THIS .step-title{
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+.THIS .step-status{
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+}

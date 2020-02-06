@@ -116,7 +116,21 @@ public without sharing class TaskService {
         if(sortOrder != null) commonFilter += ' ' + sortOrder;
         List<Task> tasks = (List<Task>) DatabaseService.query(DEFAULT_FIELDS, Task.getSObjectType(), commonFilter);
         TaskTriggerHandler.processDefaultFieldValues(tasks);
-        return tasks;
+        return filterTasks(tasks);
+    }
+    
+    private List<Task> filterTasks(List<Task> tasks){
+        List<Task> filteredList = new List<Task>();
+        List<Id> whatIds = new List<Id>();
+        if(ParticipantContext.getCurrentPE() != null && ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Tasks_Are_Available__c){
+            whatIds.add(ParticipantContext.getCurrentPEId());
+            List<SurveyInvitation> invitations = [SELECT Id FROM SurveyInvitation WHERE Participant_Enrollment__c =: ParticipantContext.getCurrentPEId()];
+            for(SurveyInvitation invitation : invitations) whatIds.add(invitation.Id);
+        }
+        for(Task t : tasks){
+            if(t.WhatId == null || whatIds.contains(t.WhatId)) filteredList.add(t);
+        }
+        return filteredList;
     }
 
     public List<Task> getCompletedTasks() {
