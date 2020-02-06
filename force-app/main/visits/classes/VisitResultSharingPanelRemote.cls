@@ -150,7 +150,7 @@ public without sharing class VisitResultSharingPanelRemote {
 
             String selectionCountryType;
             if(ctp.Shareback_Settings_On_Country_Level__c) {
-                selectionCountryType = ctp.Shareback_Settings_Country__c != null ? TYPE_COUNTRIES : TYPE_ALL;
+                selectionCountryType = String.isNotBlank(ctp.Shareback_Settings_Country__c) ? TYPE_COUNTRIES : TYPE_ALL;
             } else {
                 //selectionCountryType = ctp.Shareback_Settings_Country__c != null ? TYPE_COUNTRIES_DISABLED : TYPE_DISABLED;
                 selectionCountryType = TYPE_DISABLED;
