@@ -275,14 +275,14 @@
                                             <div class="label">
                                                 <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_Country}
                                             </div>
-                                            <c:rrSelect id="ind" options="{!v.formData.countriesLVList}" value="{!delegateItem.Mailing_Country_Code__c}"
+                                            <c:rrSelect id="{!ind}" options="{!v.formData.countriesLVList}" value="{!delegateItem.Mailing_Country_Code__c}"
                                                         placeholder="{!$Label.c.PG_AC_Select}" useSentenceFont="false" onchange="{!c.doDelegateCountryCodeChanged}"/>
                                         </div>
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
                                             <div class="label">
                                                 <aura:if isTrue="{!!empty(v.statesDelegateLVList)}"><abbr title="required" class="slds-required">*</abbr></aura:if>{!$Label.c.PE_State}
                                             </div>
-                                            <c:rrSelect id="ind" options="{!v.statesDelegateLVList}" disabled="{!empty(v.statesDelegateLVList)}"
+                                            <c:rrSelect id="{!ind}" options="{!v.statesDelegateLVList}" disabled="{!empty(v.statesDelegateLVList)}"
                                                         value="{!delegateItem.Mailing_State_Code__c}" placeholder="{!$Label.c.PG_AC_Select}"
                                                         useSentenceFont="false" onchange="{!c.doDelegateStateChange}"/>
                                         </div>
