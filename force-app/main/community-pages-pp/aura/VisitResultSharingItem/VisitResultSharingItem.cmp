@@ -8,10 +8,10 @@
     <aura:attribute name="visitResult" type="Object"/>
     <aura:attribute name="typeSelectLVList" type="List"/>
     <aura:attribute name="ctpId" type="String"/>
-    <aura:attribute name="countries" type="String" default=""/>
+    <aura:attribute name="globalCountries" type="String" default=""/>
     <aura:attribute name="globalType" type="String" default=""/>
 
-    <aura:handler name="change" value="{!v.countries}" action="{!c.doCountryChanged}"/>
+    <aura:handler name="change" value="{!v.globalCountries}" action="{!c.doGlobalCountryChanged}"/>
     <aura:handler name="change" value="{!v.globalType}" action="{!c.doGlobalTypeChanged}"/>
 
     <!-- component body: -->
@@ -32,7 +32,7 @@
                                                    placeholder="Select country" placeholderSelected="Select another country"
                                                    ctpId="{!v.ctpId}" includeStates="false"
                                                    isInclude="{!v.visitResult.type == 'Countries'}"
-                                                   selectedCountries="{!v.countries}"/>
+                                                   selectedCountries="{!v.globalCountries}"/>
             </aura:if>
         </div>
     </div>
