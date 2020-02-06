@@ -3,14 +3,11 @@
     <fullName>Shareback_Settings_Country__c</fullName>
     <externalId>false</externalId>
     <label>Shareback Settings Country</label>
+    <length>255</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>MultiselectPicklist</type>
-    <valueSet>
-        <restricted>true</restricted>
-        <valueSetName>Country_Code_ISO_2</valueSetName>
-    </valueSet>
-    <visibleLines>4</visibleLines>
+    <type>Text</type>
+    <unique>false</unique>
 </CustomField>
