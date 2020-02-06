@@ -278,6 +278,7 @@ public without sharing class TaskService {
                 tsc.type = TASK_TYPE_SURVEY;
                 tsc.visibility = SurveyService.SURVEY_VISIBLE.get(visible);
                 tsc.whoId = userContact.get(tsc.ownerId);
+                tsc.whatId = inv.Participant_Enrollment__c;
             }
             taskConfigs.addAll(tmpConfigs);
         }
