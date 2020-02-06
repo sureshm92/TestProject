@@ -24,3 +24,4 @@
      * Verification step: Make screenshot this setting.
      * One column on the layout put Component “Messages Page” and click “Publish”
      * Verification step: Make screenshot this setting.
+2) Change First login Page and add thia page in profile

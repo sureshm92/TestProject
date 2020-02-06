@@ -212,6 +212,7 @@ public without sharing class ContactService {
         return [
                 SELECT Id,
                         Name,
+                        Is_First_Logon__c,
                         Full_Name__c,
                         primaryContact__c,
                         userCommunityMode__c,
@@ -232,11 +233,19 @@ public without sharing class ContactService {
                         MailingPostalCode,
                         MailingState,
                         MailingStreet,
-                        Account.BillingCountry,
-                        Account.OwnerId,
                         PI_My_Studies_Filters__c,
                         Third_Choice_Language__c,
-                        Participant_Opt_In_Status_Emails__c
+                        Participant_Opt_In_Status_Emails__c,
+                        Account.OwnerId,
+                        Account.Name,
+                        Account.Phone,
+                        Account.BillingStreet,
+                        Account.BillingCity,
+                        Account.BillingState,
+                        Account.Fax,
+                        Account.BillingCountry,
+                        Account.BillingPostalCode,
+                        Account.BillingCountryCode
                 FROM Contact
                 WHERE Id = :contactId
         ];

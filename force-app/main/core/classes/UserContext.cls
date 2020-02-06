@@ -14,14 +14,18 @@ public without sharing class UserContext {
         return userContact;
     }
     
+    public static Id getUserContactId(){
+        if(getUserContact() != null) return getUserContact().Id;
+        return null;
+    }
+    
     public static User getUser(){
         if(user == null) setUser(UserInfo.getUserId());
         return user;
     }
     
     public static Id getUserId(){
-        if(user == null) setUser(UserInfo.getUserId());
-        if(user != null) return user.Id;
+        if(getUser() != null) return getUser().Id;
         return null;
     }
     
@@ -49,13 +53,34 @@ public without sharing class UserContext {
         return allUserModes;
     }
     
+    public static Boolean isParticipant(){
+        return getUserContact().userCommunityMode__c == CommunityModeService.USER_MODE_PARTICIPANT;
+    }
+    
+    public static Boolean isHCP(){
+        return getUserContact().userCommunityMode__c == CommunityModeService.USER_MODE_HCP;
+    }
+    
+    public static Boolean isPI(){
+        return getUserContact().userCommunityMode__c == CommunityModeService.USER_MODE_PI;
+    }
+    
+    public static String getTemplateProperty(String propertyName){
+        return getCurrentUserMode().template.properties.get(propertyName);
+    }
+    
     private static void setContact(Id contactId) {
         userContact = ContactService.getContact(contactId);
         List<User> users = [
                 SELECT Id,
+                        Username,
                         FirstName,
                         LastName,
-                        ContactId
+                        ContactId,
+                        LanguageLocaleKey,
+                        TimeZoneSidKey,
+                        LocaleSidKey,
+                        FullPhotoUrl
                 FROM User
                 WHERE ContactId =: contactId
         ];
