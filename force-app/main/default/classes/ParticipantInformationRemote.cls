@@ -61,10 +61,15 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
-    public static void updateParticipantAndDelegates(Participant__c participant, Contact participantContact, List<Participant__c> delegates, List<Id> doNotContinueIds) {
+    public static void updateParticipantAndDelegates(Participant__c participant, Contact participantContact, List<Participant__c> delegates, List<Id> doNotContinueIds, Boolean needsInvite) {
         try {
+            Map<Id, Id> toCreateUser = new Map<Id, Id>();
             List<SObject> objectsToUpdate = new List<SObject> {participant, participantContact};
             update objectsToUpdate;
+
+            if (needsInvite) {
+                toCreateUser.put(participant.Contact__c, null);
+            }
 
             List<Patient_Delegate__c> patientDelegates = [SELECT Id,
                                                                  Participant__c,
@@ -83,12 +88,18 @@ public without sharing class ParticipantInformationRemote {
 
             List<Participant__c> delegatesToUpsert = new List<Participant__c>();
             for (Participant__c delegate : delegates) {
-                if (!String.isBlank(delegate.Id) ||
-                        (!String.isBlank(delegate.First_Name__c) && !String.isBlank(delegate.Last_Name__c) && !String.isBlank(delegate.Email__c))) {
+                if (!String.isBlank(delegate.Id)) {
                     delegatesToUpsert.add(delegate);
+                } else if (!String.isBlank(delegate.First_Name__c) && !String.isBlank(delegate.Last_Name__c) && !String.isBlank(delegate.Email__c)) {
+
+                    delegatesToUpsert.add(delegate);
+
+                    //toCreateUser.put(delegate.Contact__c, null);
                 }
             }
             upsert delegatesToUpsert;
+
+            if (toCreateUser.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
@@ -97,7 +108,22 @@ public without sharing class ParticipantInformationRemote {
     @AuraEnabled
     public static List<Participant__c> getParticipantDelegates(String participantId) {
         try {
-            return [SELECT Id, Contact__c, First_Name__c, Middle_Name__c, Last_Name__c, Mailing_Zip_Postal_Code__c, Mailing_State_Code__c, Mailing_Country_Code__c, Email__c, Phone_Type__c, Phone__c FROM Participant__c WHERE Contact__c IN (SELECT Contact__c FROM Patient_Delegate__c WHERE Participant__c = :participantId)];
+            return [SELECT Id,
+                            Contact__c,
+                            First_Name__c,
+                            Middle_Name__c,
+                            Last_Name__c,
+                            Mailing_Zip_Postal_Code__c,
+                            Mailing_State_Code__c,
+                            Mailing_Country_Code__c,
+                            Email__c,
+                            Phone_Type__c,
+                            Phone__c
+                    FROM Participant__c
+                    WHERE Contact__c IN (SELECT Contact__c
+                                         FROM Patient_Delegate__c
+                                         WHERE Participant__c = :participantId AND
+                                               Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)];
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
