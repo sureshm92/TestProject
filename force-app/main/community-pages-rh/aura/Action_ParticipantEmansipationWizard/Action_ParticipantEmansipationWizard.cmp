@@ -25,7 +25,6 @@
     <aura:attribute name="selectedOption" type="String" default="2"/>
 
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private"/>
-    <aura:attribute name="statesDelegateLVList" type="LabelValueItem[]" access="private"/>
     <aura:attribute name="participantMsgWithName" type="String" access="private"/>
 
 
@@ -262,7 +261,7 @@
                                             <div class="label">
                                                 <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Phone_Type}
                                             </div>
-                                            <c:rrSelect options="{!v.phoneTypes}" value="{!delegateItem.Phone_Type__c}" useSentenceFont="false"/>
+                                            <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!delegateItem.Phone_Type__c}" useSentenceFont="false"/>
                                         </div>
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
                                             <div class="label">
@@ -275,14 +274,14 @@
                                             <div class="label">
                                                 <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_Country}
                                             </div>
-                                            <c:rrSelect id="ind" options="{!v.formData.countriesLVList}" value="{!delegateItem.Mailing_Country_Code__c}"
+                                            <c:rrSelect options="{!v.formData.countriesLVList}" value="{!delegateItem.Mailing_Country_Code__c}"
                                                         placeholder="{!$Label.c.PG_AC_Select}" useSentenceFont="false" onchange="{!c.doDelegateCountryCodeChanged}"/>
                                         </div>
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
                                             <div class="label">
                                                 <aura:if isTrue="{!!empty(v.statesDelegateLVList)}"><abbr title="required" class="slds-required">*</abbr></aura:if>{!$Label.c.PE_State}
                                             </div>
-                                            <c:rrSelect id="ind" options="{!v.statesDelegateLVList}" disabled="{!empty(v.statesDelegateLVList)}"
+                                            <c:rrSelect options="{!delegateItem.statesDelegateLVList}" disabled="{!empty(delegateItem.statesDelegateLVList)}"
                                                         value="{!delegateItem.Mailing_State_Code__c}" placeholder="{!$Label.c.PG_AC_Select}"
                                                         useSentenceFont="false" onchange="{!c.doDelegateStateChange}"/>
                                         </div>
