@@ -115,7 +115,7 @@ public without sharing class TaskService {
                     if(!ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Tasks_Are_Available__c || t.WhatId != ParticipantContext.getCurrentPEId()){
                         skipTask = true;
                     }
-                } else if(t.Survey_Invitation__r.Participant_Enrollment__c != ParticipantContext.getCurrentPEId()){
+                } else if(t.Survey_Invitation__c != null  && t.Survey_Invitation__r.Participant_Enrollment__c != ParticipantContext.getCurrentPEId()){
                     skipTask = true;
                 }
             }
