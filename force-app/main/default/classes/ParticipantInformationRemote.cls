@@ -63,11 +63,17 @@ public without sharing class ParticipantInformationRemote {
     @AuraEnabled
     public static void updateParticipantAndDelegates(Participant__c participant, Contact participantContact, List<Participant__c> delegates, List<Id> doNotContinueIds, Boolean needsInvite) {
         try {
+            system.debug('Participant__c: ' + participant);
+            system.debug('Contact: ' + participantContact);
+            system.debug('List<Participant__c>: ' + delegates);
+            system.debug('List<Id>: ' + doNotContinueIds);
+            system.debug('Boolean: ' + needsInvite);
             Map<Id, Id> toCreateUser = new Map<Id, Id>();
             List<SObject> objectsToUpdate = new List<SObject> {participant, participantContact};
             update objectsToUpdate;
 
             if (needsInvite) {
+                system.debug('needsInvite: ' + needsInvite);
                 toCreateUser.put(participant.Contact__c, null);
             }
 
@@ -79,6 +85,7 @@ public without sharing class ParticipantInformationRemote {
                                                           WHERE Participant__c = :participant.Id AND
                                                                 Contact__c IN :doNotContinueIds];
             if (!patientDelegates.isEmpty()) {
+                system.debug('patientDelegates: ' + patientDelegates);
                 for (Patient_Delegate__c patientDelegate : patientDelegates) {
                     patientDelegate.Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS;
                 }
@@ -87,19 +94,23 @@ public without sharing class ParticipantInformationRemote {
             }
 
             if (!delegates.isEmpty()) {
+                system.debug('delegates.isEmpty(): ' + delegates.isEmpty());
                 List<Patient_Delegate__c> patientDelegatesToInsert = new List<Patient_Delegate__c>();
                 List<Participant__c> delegatesToUpdate = new List<Participant__c>();
                 List<Participant__c> delegatesToInsert = new List<Participant__c>();
                 for (Participant__c delegate : delegates) {
                     if (!String.isBlank(delegate.Id)) {
+                        system.debug('delegatesToUpdate: ' + delegate);
                         delegatesToUpdate.add(delegate);
                     } else if (!String.isBlank(delegate.First_Name__c) && !String.isBlank(delegate.Last_Name__c) && !String.isBlank(delegate.Email__c)) {
                         delegatesToInsert.add(delegate);
+                        system.debug('delegatesToInsert: ' + delegate);
                     }
                 }
                 update delegatesToUpdate;
 
                 if (!delegatesToInsert.isEmpty()) {
+                    system.debug('delegatesToInsert.isEmpty(): ' + delegatesToInsert.isEmpty());
                     List<Participant__c> filteredDelegates = new List<Participant__c>();
                     ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(delegatesToInsert);
                     for (Participant__c delegate : delegatesToInsert) {
@@ -114,7 +125,7 @@ public without sharing class ParticipantInformationRemote {
                             filteredDelegates.add(delegate);
                         }
                     }
-                    upsert delegatesToInsert;
+                    upsert filteredDelegates;
 
                     List<Participant__c> newDelegates = [SELECT Id, Contact__c FROM Participant__c WHERE Id IN :(new Map<Id, Participant__c>(delegatesToInsert)).keySet()];
                     for (Participant__c newDelegate : newDelegates) {
@@ -136,7 +147,8 @@ public without sharing class ParticipantInformationRemote {
                 }
             }
 
-            if (toCreateUser.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
+            system.debug('toCreateUser: ' + toCreateUser);
+            if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
