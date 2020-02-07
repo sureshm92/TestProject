@@ -423,7 +423,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         pvsBySsIds.get(pe.Study_Site__c).Payment_Vendor__r.Payment_Vendor_Id__c,
                         pe.Patient_ID__c,
                         participant);
-                ActionExecutor.executeAsync(actionGetCardDetails);
+                
+                if(!System.isBatch() && !System.isFuture()) ActionExecutor.executeAsync(actionGetCardDetails);
+                else ActionExecutor.executeAsync(actionGetCardDetails, Datetime.now());
             }
         }
     }
