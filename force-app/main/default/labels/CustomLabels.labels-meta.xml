@@ -2046,7 +2046,7 @@ Please take a moment to log in to the Referral Hub and view the studies to which
         <protected>true</protected>
         <shortDescription>Email Body Once at Trial Completion DGT</shortDescription>
         <value>Congratulations, ##PatientFirstName has successfully completed the
-##StudyName clinical research study.   
+##StudyName clinical research study.
 
 Thank you for participating. Your contribution to the clinical research study has been very important.
 
@@ -2057,7 +2057,7 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Once at Trial Completion PT</shortDescription>
-        <value>Congratulations, you have successfully completed ##StudyName clinical research study.   
+        <value>Congratulations, you have successfully completed ##StudyName clinical research study.
 
 Thank you for participating. Your contribution to the clinical research study has been very important.
 
@@ -2068,7 +2068,7 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PA New Mess</shortDescription>
-        <value>You have a new message in Message Center.</value>
+        <value>You have a new message from your provider. Please login to the IQVIA Patient Portal to view your messages.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI1</fullName>
@@ -2122,14 +2122,14 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_PI_Conv_Rem</shortDescription>
-        <value>There are ##UnreadConversationCount of pending threads from participants that await your attention.</value>
+        <value>You have ##UnreadConversationCount unread messages from your Participants waiting for your response. Please login to the IQVIA Patient Portal to view your messages.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI_New_Mess</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PI New Mess</shortDescription>
-        <value>You have a new message in Message Center.</value>
+        <value>You have a new message from your provider. Please login to the IQVIA Patient Portal to view your messages.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Participant_Answer</fullName>
@@ -2752,7 +2752,7 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header PA New Mess</shortDescription>
-        <value>Participant New Message</value>
+        <value>You have a new message</value>
     </labels>
     <labels>
         <fullName>Email_Header_PI2</fullName>
@@ -2794,14 +2794,14 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Header_PI_Conv_Rem</shortDescription>
-        <value>Temp</value>
+        <value>IQVIA Patient Portal Unread Messages</value>
     </labels>
     <labels>
         <fullName>Email_Header_PI_New_Mess</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header PI New Mess</shortDescription>
-        <value>PI New Message</value>
+        <value>You have a new message</value>
     </labels>
     <labels>
         <fullName>Email_Header_Patient2</fullName>
@@ -3314,7 +3314,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject PA New Mess</shortDescription>
-        <value>New Message</value>
+        <value>You have a new message</value>
     </labels>
     <labels>
         <fullName>Email_Subject_PI1</fullName>
@@ -3363,15 +3363,15 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject PI Conv Rem</shortDescription>
-        <value>Temp</value>
+        <value>IQVIA Patient Portal Unread Messages</value>
     </labels>
     <labels>
-        <fullName>Email_Subject_PI_New_Mess</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Subject PI New Mess</shortDescription>
-        <value>New Message</value>
-    </labels>
+    <fullName>Email_Subject_PI_New_Mess</fullName>
+    <language>en_US</language>
+    <protected>false</protected>
+    <shortDescription>Email Subject PI New Mess</shortDescription>
+    <value>You have a new Message</value>
+</labels>
     <labels>
         <fullName>Email_Subject_Patient2</fullName>
         <language>en_US</language>
@@ -12942,7 +12942,7 @@ If you have questions or concerns, please contact the Principal Investigator at 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_1</shortDescription>
-        <value>This data is being provided as part of your participation in a clinical research study. It is for research purposes only. 
+        <value>This data is being provided as part of your participation in a clinical research study. It is for research purposes only.
                   If you would like to view your data</value>
     </labels>
     <labels>

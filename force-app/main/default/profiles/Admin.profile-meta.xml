@@ -429,6 +429,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DPicklistCMPwithRTAndMSPCalloutMock</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DashboardRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -473,6 +477,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DependntPicklistCMPwithRecTypeAndMspCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DeploymentContext</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -502,6 +510,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>EmailService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EmailTemplateController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -978,6 +990,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PaymentsRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PicklistCMPwithRTAndMSPTestCls</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1810,6 +1826,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_RRPDFViewerController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ReferHealthcareProviderRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
