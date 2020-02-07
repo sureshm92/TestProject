@@ -36,7 +36,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            getPaymentInformationOnStatusChange(newList);
+            getPaymentInformationOnStatusChange(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
 
@@ -427,10 +427,10 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     }
 
     @TestVisible
-    private static void getPaymentInformationOnStatusChange(List<Participant_Enrollment__c> newList) {
+    private static void getPaymentInformationOnStatusChange(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<Participant_Enrollment__c> peToUpdate = new List<Participant_Enrollment__c>();
         for(Participant_Enrollment__c participantEnrollment : newList){
-            if(participantEnrollment.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) {
+            if(participantEnrollment.Participant_Status__c != oldMap.get(participantEnrollment.Id).Participant_Status__c) {
                 peToUpdate.add(participantEnrollment);
             }
         }
