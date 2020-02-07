@@ -26,6 +26,7 @@
                 component.set('v.statesLVList', states);
                 component.set('v.currentTab', '1');
                 component.set('v.initialized', true);
+                pe.Participant__r.Emancipation_in_progress__c = false;
                 component.set('v.participant', pe.Participant__r);
                 let contact = { sObjectType: '', Id: pe.Participant__r.Contact__c, Consent_To_Inform_About_Study__c: false };
                 component.set('v.contact', contact);
