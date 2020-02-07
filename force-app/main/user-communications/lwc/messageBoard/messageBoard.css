@@ -12,6 +12,7 @@
 .ms-board-body {
     height: 425px;
     padding: 10px;
+    overflow-x: hidden;
     overflow-y: auto;
     scroll-behavior: smooth;
     display: flex;
@@ -62,6 +63,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.ms-file-upload {
+    opacity: 0;
+    max-width: 5px;
+    max-height: 5px;
 }
 
 .ms-att-file-label {
