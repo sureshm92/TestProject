@@ -30,24 +30,15 @@
                                 Id: pe.Participant__r.Contact__c,
                                 Consent_To_Inform_About_Study__c: false };
                 component.set('v.contact', contact);
-                component.find('spinner').hide();
-            }, function (returnValue) {
-                component.find('spinner').hide();
-            });
+                var action = component.get('c.doCheckFields');
+                $A.enqueueAction(action);
 
-            communityService.executeAction(component, 'getParticipantDelegates', {
-                participantId: pe.Participant__c
-            },  function (delegateItems) {
-                for (let ind = 0; ind < delegateItems.length; ind++) {
-                    delegateItems[ind].continueDelegateMsg = $A.get('$Label.c.PG_Ref_L_Delegate_continue_be_delegate').replace('##delegateName', delegateItems[ind].First_Name__c + ' ' + delegateItems[ind].Last_Name__c);
-                    delegateItems[ind].selectedOption = '1';
-                }
-                component.set('v.delegateItems', delegateItems);
+                action = component.get('c.doInitDelegates');
+                $A.enqueueAction(action);
 
                 component.find('spinner').hide();
             }, function (returnValue) {
                 component.find('spinner').hide();
-                communityService.showErrorToast('',  "Error get Participant's Delegates! Description: " + returnValue);
             });
 
             component.set('v.participantMsgWithName', $A.get("$Label.c.PG_Ref_L_Participant_require_invitation").replace('##participantName', pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c));
@@ -57,6 +48,26 @@
         } catch (e) {
             console.error(e);
         }
+    },
+
+    doInitDelegates: function(component, event, helper) {
+        communityService.executeAction(component, 'getParticipantDelegates', {
+            participantId: component.get('v.pe.Participant__c')
+        },  function (delegateItems) {
+            for (let ind = 0; ind < delegateItems.length; ind++) {
+                delegateItems[ind].continueDelegateMsg = $A.get('$Label.c.PG_Ref_L_Delegate_continue_be_delegate').replace('##delegateName', delegateItems[ind].First_Name__c + ' ' + delegateItems[ind].Last_Name__c);
+                delegateItems[ind].selectedOption = '1';
+            }
+            component.set('v.delegateItems', delegateItems);
+            let formData = component.get('v.formData');
+            let states = formData.statesByCountryMap[delegateItems[ind].Mailing_Country_Code__c];
+            delegateItems[ind].statesDelegateLVList = states;
+
+            component.find('spinner').hide();
+        }, function (returnValue) {
+            component.find('spinner').hide();
+            communityService.showErrorToast('',  "Error get Participant's Delegates! Description: " + returnValue);
+        });
     },
 
     doCallback: function (component, event, helper) {
