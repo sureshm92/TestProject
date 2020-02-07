@@ -86,18 +86,41 @@ public without sharing class ParticipantInformationRemote {
                 update patientDelegates;
             }
 
-            List<Participant__c> delegatesToUpsert = new List<Participant__c>();
-            for (Participant__c delegate : delegates) {
-                if (!String.isBlank(delegate.Id)) {
-                    delegatesToUpsert.add(delegate);
-                } else if (!String.isBlank(delegate.First_Name__c) && !String.isBlank(delegate.Last_Name__c) && !String.isBlank(delegate.Email__c)) {
+            if (!delegates.isEmpty()) {
+                List<Patient_Delegate__c> patientDelegatesToInsert = new List<Patient_Delegate__c>();
+                List<Participant__c> delegatesToUpdate = new List<Participant__c>();
+                List<Participant__c> delegatesToInsert = new List<Participant__c>();
+                for (Participant__c delegate : delegates) {
+                    if (!String.isBlank(delegate.Id)) {
+                        delegatesToUpdate.add(delegate);
+                    } else if (!String.isBlank(delegate.First_Name__c) && !String.isBlank(delegate.Last_Name__c) && !String.isBlank(delegate.Email__c)) {
+                        delegatesToInsert.add(delegate);
+                    }
+                }
+                update delegatesToUpdate;
 
-                    delegatesToUpsert.add(delegate);
+                if (!delegatesToInsert.isEmpty()) {
+                    insert delegatesToInsert;
 
-                    //toCreateUser.put(delegate.Contact__c, null);
+                    List<Participant__c> newDelegates = [SELECT Id, Contact__c FROM Participant__c WHERE Id IN :(new Map<Id, Participant__c>(delegatesToInsert)).keySet()];
+                    for (Participant__c newDelegate : newDelegates) {
+                        if (newDelegate.Contact__c != null) {
+                            patientDelegatesToInsert.add(
+                                    new Patient_Delegate__c(
+                                            Participant__c = participant.Id,
+                                            Contact__c = newDelegate.Contact__c,
+                                            Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
+                                    )
+                            );
+                            toCreateUser.put(newDelegate.Contact__c, null);
+                        }
+                    }
+
+                    if (!patientDelegatesToInsert.isEmpty()) {
+                        insert patientDelegatesToInsert;
+                    }
                 }
             }
-            upsert delegatesToUpsert;
 
             if (toCreateUser.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
         } catch (Exception exp) {
