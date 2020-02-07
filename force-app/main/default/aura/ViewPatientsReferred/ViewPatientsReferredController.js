@@ -30,7 +30,7 @@
             component.set('v.peStatusesPathList', initData.peStatusesPathList);
             component.set('v.peStatusStateMap', initData.peStatusStateMap);
             component.set('v.statistics', initData.statistics);
-            component.set('v.changeStatusBtnList', initData.btnList);
+            //component.set('v.changeStatusBtnList', initData.btnList);
             component.set('v.isInitialized', true);
             component.set('v.skipUpdate', false);
             spinner.hide();
@@ -93,16 +93,6 @@
             spinner.hide();
 
         })
-    },
-
-    doUpdateStatistics: function (component) {
-        communityService.executeAction(component, 'getStatistics', {
-            mode: communityService.getUserMode(),
-            delegateId: communityService.getDelegateId()
-        }, function (returnValue) {
-            var statistics = JSON.parse(returnValue);
-            component.set('v.statistics', statistics);
-        });
     },
 
     doPIBtnFilterChanged: function (component) {

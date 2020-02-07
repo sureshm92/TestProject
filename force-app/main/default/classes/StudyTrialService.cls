@@ -587,7 +587,10 @@ public without sharing class StudyTrialService {
                         Study_Title__c,
                         Study_Code_Name__c,
                         Official_Title__c,
-                        Interventions__c
+                        Interventions__c,
+                        Participant_Workflow_Final_Step__c,
+                        Initial_Visit_Required__c,
+                        Final_Consent_Required__c
                 FROM Clinical_Trial_Profile__c
                 WHERE Id IN :trialsId
         ];

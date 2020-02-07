@@ -5,7 +5,7 @@
 <!-- messageBoardHeaderMobile -->
 <template>
     <div class="mob-board-header">
-        <div class="header-back" onclick={handleBackClick}>
+        <div class="header-back" data-gtm="BTN_back-to-conv-board" onclick={handleBackClick}>
             <c-web-icon icon-name="chevron-left" icon-color="#297DFD" icon-height="24" icon-width="24"></c-web-icon>
             <p class="back-label">{labels.backLabel}</p>
         </div>
@@ -45,8 +45,7 @@
             <div class="mob-single-header">
                 <div class="header-con-icon" style={bubbleColor}>
                     <template if:false={isPIMode}>
-                        <c-web-icon icon-name="icon-study-team" icon-color="#ffffff" icon-height="20"
-                                    icon-width="20"></c-web-icon>
+                        <c-web-icon icon-name="icon-study-team" icon-color="#ffffff" icon-height="20" icon-width="20"></c-web-icon>
                     </template>
                     <template if:true={isPIMode}>
                         <p>{initials}</p>

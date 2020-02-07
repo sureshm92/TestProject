@@ -27,6 +27,8 @@
     <aura:attribute name="checkTabs" type="String" default="participantDetails"/>
     <aura:attribute name="isInvited" type="Boolean" access="public"/>
     <aura:attribute name="sendEmails" type="Boolean" default="false"/>
+    <aura:attribute name="participantPath" type="Object"/>
+
 
     <!-- methods -->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
@@ -40,6 +42,7 @@
     </aura:method>
     <aura:method name="doCallback" action="{!c.doCallback}" access="public"/>
     <aura:method name="doUpdate" action="{!c.doUpdate}" access="public"/>
+    <aura:method name="doUpdatePatientStatus" action="{!c.doUpdatePatientStatus}" access="public"/>
 
     <aura:handler name="change" value="{!v.pathItems}" action="{!c.prepareEditableSteps}"/>
 
@@ -69,15 +72,15 @@
                                             visitPlanRequired="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c}"/>
                 </div>
                 </lightning:tab>
+                <lightning:tab aura:id="Status" label="{!$Label.c.BTN_Status_Details}" onactive="{!c.checkTabs}">
+                    <c:ParticipantStatusDetails participantWorkflowWrapper="{!v.participantPath}" parent="{!this}"/>
+                </lightning:tab>
                 <lightning:tab class="slds-tabs_default__item" aura:id="Provider" label="{!$Label.c.Tab_HealthCare_Provider}" title="{!$Label.c.Tab_HealthCare_Provider}" onactive="{!c.checkTabs}">
                     <aura:if isTrue="{!v.pe}">
                         <div id="healthCareProvider">
                             <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{!v.pe.HCP__r.HCP_Contact__r}" showReferringProvider="{!v.pe.Show_Referring_Provider__c}" fromActionParticipant="true" actionDisabled="{!v.actions.screenerResponses.disabled}"/>
                         </div>
                     </aura:if>
-                </lightning:tab>
-                <lightning:tab class="slds-tabs_default__item" aura:id="Status" label="{!$Label.c.BTN_Status_Details}" onactive="{!c.checkTabs}">
-                    <c:RRPath2 pathItems="{!v.pathItems}"/>
                 </lightning:tab>
                 <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">
                 <lightning:tab class="slds-tabs_default__item" aura:id="Survey" label="{!$Label.c.BTN_Screener_Responses}" onactive="{!c.checkTabs}">

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Eligibility Failed</label>
+    <protected>false</protected>
+    <values>
+        <field>Reasons_List__c</field>
+        <value xsi:type="xsd:string">Didn't Meet Pre-Screening Eligibility;Other*</value>
+    </values>
+    <values>
+        <field>State__c</field>
+        <value xsi:type="xsd:string">failure</value>
+    </values>
+    <values>
+        <field>Status_Name__c</field>
+        <value xsi:type="xsd:string">Eligibility Failed</value>
+    </values>
+    <values>
+        <field>Step__c</field>
+        <value xsi:type="xsd:string">Eligibility</value>
+    </values>
+</CustomMetadata>

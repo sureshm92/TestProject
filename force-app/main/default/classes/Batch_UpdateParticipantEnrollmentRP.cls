@@ -16,7 +16,7 @@ global without sharing class Batch_UpdateParticipantEnrollmentRP implements Data
             pe.Show_Referring_Provider__c = true;
         }
 
-        update scope;
+        Database.update(scope, false);
     }
 
     global void finish(Database.BatchableContext bc) {}

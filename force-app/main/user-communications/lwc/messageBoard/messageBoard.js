@@ -261,6 +261,7 @@ export default class MessageBoard extends LightningElement {
         let attachBTN = this.template.querySelector('.ms-att-file-label');
         if (attachBTN) {
             attachBTN.style.opacity = this.isSendEnable ? 1 : 0.5;
+            attachBTN.style.cursor = this.isSendEnable ? 'pointer' : 'default';
             attachBTN.style.pointerEvents = this.isSendEnable ? 'all' : 'none';
         }
     }

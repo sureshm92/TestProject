@@ -3,32 +3,18 @@
  */
 
 public without sharing class ChangePasswordPageController {
+    
     public User user {get; set;}
     public Contact contact {get; set;}
-
     public String browserLanguage {get; set;}
-
     public Boolean isParticipant {get; set;}
+    public String themeCSS {get; set;}
 
-    public ChangePasswordPageController() {
-        user = [
-                SELECT Id,
-                        Contact.Is_First_Logon__c,
-                        Contact.Language__c,
-                        Contact.Second_Choice_Language__c,
-                        Contact.Third_Choice_Language__c,
-                        Contact.userCommunityMode__c,
-                        Contact.userCommunytyType__c,
-                        Contact.UserCommunityIsDelegate__c,
-                        LanguageLocaleKey
-                FROM User
-                WHERE Id =: UserInfo.getUserId()
-        ];
-
-        contact = user.Contact;
-
-        isParticipant = contact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT && !contact.UserCommunityIsDelegate__c;
-
+    public void init() {
+        user = UserContext.getUser();
+        contact = UserContext.getUserContact();
+        isParticipant = UserContext.isParticipant();
+        themeCSS = UserContext.getTemplateProperty(CommunityTemplateService.PROPERTY_THEME_CSS);
     }
 
     public void updateBrowserLanguageAction(){
@@ -39,13 +25,13 @@ public without sharing class ChangePasswordPageController {
             if(convertedLanguage != null) convertedLanguages.add(convertedLanguage);
         }
         if(convertedLanguages.size() > 0) convertedLanguages.add('en_US');
-        user.Contact.Language__c = convertedLanguages.remove(0);
+        contact.Language__c = convertedLanguages.remove(0);
 
-        if(convertedLanguages.size() > 0) user.Contact.Second_Choice_Language__c = convertedLanguages.remove(0);
-        if(convertedLanguages.size() > 0) user.Contact.Third_Choice_Language__c = convertedLanguages.remove(0);
+        if(convertedLanguages.size() > 0) contact.Second_Choice_Language__c = convertedLanguages.remove(0);
+        if(convertedLanguages.size() > 0) contact.Third_Choice_Language__c = convertedLanguages.remove(0);
 
-        update user.Contact;
-        user.LanguageLocaleKey = user.Contact.Language__c;
+        update contact;
+        user.LanguageLocaleKey = contact.Language__c;
         update user;
     }
 }
