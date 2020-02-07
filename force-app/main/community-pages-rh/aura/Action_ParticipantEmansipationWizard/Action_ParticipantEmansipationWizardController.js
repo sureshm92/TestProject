@@ -6,6 +6,9 @@
 
     doInit: function (component, event, helper) {
         helper.preparePathItems(component);
+
+        let action = component.get('c.doCheckFields');
+        $A.enqueueAction(action);
     },
 
     doExecute: function (component, event, helper) {
@@ -30,10 +33,8 @@
                                 Id: pe.Participant__r.Contact__c,
                                 Consent_To_Inform_About_Study__c: false };
                 component.set('v.contact', contact);
-                var action = component.get('c.doCheckFields');
-                $A.enqueueAction(action);
 
-                action = component.get('c.doInitDelegates');
+                let action = component.get('c.doInitDelegates');
                 $A.enqueueAction(action);
 
                 component.find('spinner').hide();
@@ -58,12 +59,12 @@
             for (let ind = 0; ind < delegateItems.length; ind++) {
                 delegateItems[ind].continueDelegateMsg = $A.get('$Label.c.PG_Ref_L_Delegate_continue_be_delegate').replace('##delegateName', delegateItems[ind].First_Name__c + ' ' + delegateItems[ind].Last_Name__c);
                 delegateItems[ind].selectedOption = '1';
-                let states = formData.statesByCountryMap[delegateItems[ind].Mailing_Country_Code__c];
+                var statesByCountryMap = component.get('v.formData.statesByCountryMap');
+                let states = statesByCountryMap[delegateItems[ind].Mailing_Country_Code__c];
                 delegateItems[ind].statesDelegateLVList = states;
             }
+            console.log(delegateItems);
             component.set('v.delegateItems', delegateItems);
-            var action = component.get('c.doCheckDelegateFields');
-            $A.enqueueAction(action);
 
             component.find('spinner').hide();
         }, function (returnValue) {
@@ -96,11 +97,11 @@
     doCheckFields: function (component, event) {
         var participant = component.get('v.participant');
         var statesByCountryMap = component.get('v.formData.statesByCountryMap');
-        var states = statesByCountryMap[participant.Mailing_Country_Code__c];
-        component.set('v.statesLVList', states);
-        var stateRequired = component.get('v.statesLVList')[0];
-        var stateCmp = component.find('stateField');
-        var stateVaild = stateRequired && stateCmp && stateCmp.get('v.validity') && stateCmp.get('v.validity').valid;
+        var states = component.get('v.statesLVList');
+        //component.set('v.statesLVList', states);
+        //var stateRequired = component.get('v.statesLVList')[0];
+        //var stateCmp = component.find('stateField');
+        //var stateVaild = stateRequired && stateCmp && stateCmp.get('v.validity') && stateCmp.get('v.validity').valid;
 
         let isValid =
             participant.First_Name__c &&
@@ -113,7 +114,8 @@
             participant.Mailing_Zip_Postal_Code__c &&
             component.find('emailInput').get('v.validity').valid &&
             component.find('phoneInput').get('v.validity').valid &&
-            stateVaild;
+            participant.Mailing_Country_Code__c &&
+            ((states && states.length == 0) || participant.Mailing_State_Code__c);
 
         component.set('v.isValid', isValid);
         return isValid;
@@ -167,9 +169,11 @@
                 let states = delegateItems[ind].statesDelegateLVList;
                 isDelegatesValid = (isDelegatesValid &&
                     (delegateItems[ind].Mailing_Country_Code__c &&
-                    (!states || delegateItems[ind].Mailing_State__c) &&
+                    ((states && states.length == 0) || delegateItems[ind].Mailing_State_Code__c) &&
                     delegateItems[ind].Mailing_Zip_Postal_Code__c &&
                     delegateItems[ind].Email__c &&
+                    //(component.find('emailDInput' + ind) && component.find('emailDInput' + ind).get('v.validity').valid) &&
+                    //(component.find('phoneDInput' + ind) && component.find('phoneDInput' + ind).get('v.validity').valid) &&
                     delegateItems[ind].Phone_Type__c &&
                     delegateItems[ind].Phone__c));
             }
@@ -233,6 +237,7 @@
             if (currentTab == '2') {
                 var action = component.get('c.doCheckDelegateFields');
                 $A.enqueueAction(action);
+                console.log(component.get('v.delegateItems'));
                 //this.doCheckDelegateFields(component, event)
             }
         } else {
