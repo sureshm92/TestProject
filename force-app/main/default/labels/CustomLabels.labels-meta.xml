@@ -75,7 +75,7 @@
         <shortDescription>AL_Body_Welcome_Study_Patient_Delegates</shortDescription>
         <value>Hi ##UserName!
 
-You have been assigned as a Delegate for ##ParticipantUser in a clinical research study. We are excited to be on this journey with you both.</value>
+            You have been assigned as a Delegate for ##ParticipantUser in a clinical research study. We are excited to be on this journey with you both.</value>
     </labels>
     <labels>
         <fullName>AL_Body_Welcome_to_PH</fullName>
@@ -91,7 +91,7 @@ You have been assigned as a Delegate for ##ParticipantUser in a clinical researc
         <shortDescription>AL Body Welcome to PH Delegate</shortDescription>
         <value>Hi ##UserName!
 
-You have been assigned as a Delegate for ##ParticipantFirstName in a clinical research study. We are excited to be on this journey with you both.</value>
+            You have been assigned as a Delegate for ##ParticipantFirstName in a clinical research study. We are excited to be on this journey with you both.</value>
     </labels>
     <labels>
         <fullName>AL_Body_Welcome_to_PH_Delegates</fullName>
@@ -170,7 +170,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>autocomplete description</shortDescription>
-        <value>Used to determine whether the browser remembers a user’s login ID</value>
+        <value>Used to determine whether the browser remembers a user's login ID</value>
     </labels>
     <labels>
         <fullName>AccountSettings_Cookie_ClientSrc</fullName>
@@ -352,7 +352,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AccountSettings Cookies RRLanguage Description</shortDescription>
-        <value>Used to store user’s preferred language so that log in page may be displayed in user’s preferred language.</value>
+        <value>Used to store user's preferred language so that log in page may be displayed in user's preferred language.</value>
     </labels>
     <labels>
         <fullName>AccountSettings_Functional_Cookies</fullName>
@@ -451,6 +451,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>false</protected>
         <shortDescription>Add Date</shortDescription>
         <value>Add Date</value>
+    </labels>
+    <labels>
+        <fullName>Add_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Add Delegate</shortDescription>
+        <value>Add Delegate</value>
     </labels>
     <labels>
         <fullName>Admin</fullName>
@@ -727,6 +734,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <value>Healthcare Providers</value>
     </labels>
     <labels>
+        <fullName>BTN_HealthCare_Provider_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN HealthCare Provider Information</shortDescription>
+        <value>Healthcare Provider Information</value>
+    </labels>
+    <labels>
         <fullName>BTN_I_Accept</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -921,6 +935,13 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <protected>true</protected>
         <shortDescription>BTN Participant Information</shortDescription>
         <value>Participant Information</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Participant_Would_Like_Share_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN Participant Would Like Share Info</shortDescription>
+        <value>Participant would like to share information with these providers:</value>
     </labels>
     <labels>
         <fullName>BTN_Patient_no_longer_interested</fullName>
@@ -1235,7 +1256,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Body Mass Index Description</shortDescription>
-        <value>BMI is a measure that shows a person’s weight to height ratio. It is calculated by dividing your weight in kilograms (kg) by the square of your body height in meters (m).</value>
+        <value>BMI is a measure that shows a person's weight to height ratio. It is calculated by dividing your weight in kilograms (kg) by the square of your body height in meters (m).</value>
     </labels>
     <labels>
         <fullName>Body_Mass_Index_Name_Labs</fullName>
@@ -1959,7 +1980,7 @@ You have been assigned as a Delegate for ##ParticipantFirstName in a clinical re
         <shortDescription>Email Body Initial PI HCP</shortDescription>
         <value>You have been invited to refer to ##PIName using the IQVIA Referral Hub. If you are not already a Referring Provider in the system, this will also make it possible for you to find other clinical research studies that are available and refer patients to nearby study sites.
 
-Please take a moment to log in to the Referral Hub and view the studies to which you can refer.</value>
+            Please take a moment to log in to the Referral Hub and view the studies to which you can refer.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_PI_PT_HCP</fullName>
@@ -2005,13 +2026,19 @@ Please take a moment to log in to the Referral Hub and view the studies to which
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Initial Patient Delegate</shortDescription>
-        <value>You have been assigned as a Delegate for ##ParticipantFirstName on clinical research study ##StudyName. Thank you for agreeing to join  ##ParticipantFirstName on their journey.
-
-            To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in IQVIA Patient Portal and Referral Hub.
+        <value>You have been assigned as a Delegate for ##ParticipantFirstName on one or more studies that are listed below. Thank you for agreeing to join ##ParticipantFirstName on their journey.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Initial_Patient_Delegate_AfterText</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Initial Patient Delegate After Text</shortDescription>
+        <value>
+            To assist you in tracking ##ParticipantFirstName's clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in IQVIA Referral Hub and Patient Portal.
 
             Your username is ##UserName. Please click the Enroll Now button to create your password.
 
-            Please note that enrollment in IQVIA Patient Portal is not a requirement for  ##ParticipantFirstName to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in IQVIA Referral Hub and Patient Portal is not a requirement for ##ParticipantFirstName to be enrolled into the clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Virtual</fullName>
@@ -2046,11 +2073,11 @@ Please take a moment to log in to the Referral Hub and view the studies to which
         <protected>true</protected>
         <shortDescription>Email Body Once at Trial Completion DGT</shortDescription>
         <value>Congratulations, ##PatientFirstName has successfully completed the
-##StudyName clinical research study.
+            ##StudyName clinical research study.
 
-Thank you for participating. Your contribution to the clinical research study has been very important.
+            Thank you for participating. Your contribution to the clinical research study has been very important.
 
-Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
+            Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Once_at_Trial_Completion_PT</fullName>
@@ -2059,9 +2086,9 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
         <shortDescription>Email Body Once at Trial Completion PT</shortDescription>
         <value>Congratulations, you have successfully completed ##StudyName clinical research study.
 
-Thank you for participating. Your contribution to the clinical research study has been very important.
+            Thank you for participating. Your contribution to the clinical research study has been very important.
 
-Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
+            Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PA_New_Mess</fullName>
@@ -2104,7 +2131,7 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
         <shortDescription>Email Body PI5</shortDescription>
         <value>This is a reminder that you accepted one or more referrals over 5 days ago, but contact has not yet been made with the potential study participant(s).
 
-            To review the referral(s), log in to the IQVIA Referral Hub and navigate to “My Referrals.&quot;</value>
+            To review the referral(s), log in to the IQVIA Referral Hub and navigate to "My Referrals.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI6</fullName>
@@ -2115,7 +2142,7 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
 
             The provider cannot refer study participants to your site until you accept their request.
 
-            To accept this request, log in to the IQVIA Referral Hub and navigate to “My Referring Clinics.”</value>
+            To accept this request, log in to the IQVIA Referral Hub and navigate to "My Referring Clinics."</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI_Conv_Rem</fullName>
@@ -2389,7 +2416,7 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
 
             To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and then access &quot;My Patients&quot; from the main navigation menu or the My Studies page.
 
-            To see additional information about this study or to refer another patient, log in to the Referral Hub, then go to “My Studies.”</value>
+            To see additional information about this study or to refer another patient, log in to the Referral Hub, then go to "My Studies."</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP3</fullName>
@@ -2400,7 +2427,7 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
 
             To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and access &quot;My Patients.&quot;
 
-            To see additional information about this study or refer another patient, log in to the Referral Hub, and access “My Studies.”</value>
+            To see additional information about this study or refer another patient, log in to the Referral Hub, and access "My Studies."</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP4</fullName>
@@ -2411,7 +2438,7 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
 
             To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and access &quot;My Patients.&quot;
 
-            To see additional information about this study or refer another patient, log in to the Referral Hub, and access “My Studies.”</value>
+            To see additional information about this study or refer another patient, log in to the Referral Hub, and access "My Studies."</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP5</fullName>
@@ -2458,7 +2485,7 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
         <shortDescription>Email Body RP9</shortDescription>
         <value>##StudySiteName is not accepting new referring providers at this time.
 
-            To see if other study sites are available in your area, log in to the IQVIA Referral Hub, and then go to “My Studies.”</value>
+            To see if other study sites are available in your area, log in to the IQVIA Referral Hub, and then go to "My Studies."</value>
     </labels>
     <labels>
         <fullName>Email_Body_Reset_Password</fullName>
@@ -2474,9 +2501,7 @@ Please login to the IQVIA Patient Portal for the latest clinical research inform
         <shortDescription>Email Body SS on PE Was Changed To PI</shortDescription>
         <value>A participant, ##PEProfileName, has been transferred to your study site: ##SSName.
 
-
-
-If you have questions or concerns about this transfer, please contact your IQVIA Patient Recruitment Lead.</value>
+            If you have questions or concerns about this transfer, please contact your IQVIA Patient Recruitment Lead.</value>
     </labels>
     <labels>
         <fullName>Email_Body_SS_on_PE_Was_Changed_To_Participant</fullName>
@@ -2485,17 +2510,17 @@ If you have questions or concerns about this transfer, please contact your IQVIA
         <shortDescription>Email Body SS on PE Was Changed To Participant</shortDescription>
         <value>&lt;/br&gt;You have been transferred to ##SSName for the clinical study: ##StudyCodeName&lt;/br&gt;
 
- 
+             
 
-##PIName&lt;/br&gt;
+            ##PIName&lt;/br&gt;
 
-##SSAddress&lt;/br&gt;
+            ##SSAddress&lt;/br&gt;
 
-##SSCity ##SSPostalCode&lt;/br&gt;
+            ##SSCity ##SSPostalCode&lt;/br&gt;
 
- 
+             
 
-Please contact ##SSName  with any questions at ##SSPhone.</value>
+            Please contact ##SSName  with any questions at ##SSPhone.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Share</fullName>
@@ -2522,7 +2547,7 @@ Please contact ##SSName  with any questions at ##SSPhone.</value>
         <shortDescription>Email Body Summary Certificate</shortDescription>
         <value>A new reward certificate from ##StudyName clinical research study is  now available on the IQVIA Patient Portal.   
 
-Please login to the IQVIA Patient Portal to view this information.</value>
+            Please login to the IQVIA Patient Portal to view this information.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Summary_Document</fullName>
@@ -2530,7 +2555,7 @@ Please login to the IQVIA Patient Portal to view this information.</value>
         <protected>false</protected>
         <shortDescription>Email Body Summary Document</shortDescription>
         <value>New study documents are available.
-Please log in to the IQVIA Patient Portal to view the latest Study Documents.</value>
+            Please log in to the IQVIA Patient Portal to view the latest Study Documents.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Survey_Final_Reminder</fullName>
@@ -2589,9 +2614,9 @@ Please log in to the IQVIA Patient Portal to view the latest Study Documents.</v
         <shortDescription>Email Body User Lockout</shortDescription>
         <value>You have been locked out due to too many failed login attempts.
 
-Please wait 15 minutes and then you can either try again or &lt;a href=&quot;##ForgotPasswordURL&quot;&gt;reset your password&lt;/a&gt;.
+            Please wait 15 minutes and then you can either try again or &lt;a href=&quot;##ForgotPasswordURL&quot;&gt;reset your password&lt;/a&gt;.
 
-If this is not you or you are unable to reset your password, you may email &lt;a href=&quot;mailto:support@cp.clinicalresearch.com?subject=Lockout - unable to login&quot;&gt;technical support&lt;/a&gt; and they will reset your password for you and investigate any potential security issues.</value>
+            If this is not you or you are unable to reset your password, you may email &lt;a href=&quot;mailto:support@cp.clinicalresearch.com?subject=Lockout - unable to login&quot;&gt;technical support&lt;/a&gt; and they will reset your password for you and investigate any potential security issues.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Visit_Task_Reminder</fullName>
@@ -2871,7 +2896,7 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header RP10</shortDescription>
-        <value>Your patient’s referral status has been updated</value>
+        <value>Your patient's referral status has been updated</value>
     </labels>
     <labels>
         <fullName>Email_Header_RP11</fullName>
@@ -3199,9 +3224,9 @@ If this is not you or you are unable to reset your password, you may email &lt;a
         <shortDescription>Email Signature Summary Certificate</shortDescription>
         <value>Congratulations on your certificate.
 
-Sincerely,
+            Sincerely,
 
-The IQVIA Patient Portal Support Team</value>
+            The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Summary_Document</fullName>
@@ -3210,8 +3235,8 @@ The IQVIA Patient Portal Support Team</value>
         <shortDescription>Email Signature Summary Document</shortDescription>
         <value>We are excited to continue this journey with you.
 
-Sincerely,
-The IQVIA Patient Portal Support Team</value>
+            Sincerely,
+            The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Survey</fullName>
@@ -3231,9 +3256,9 @@ The IQVIA Patient Portal Support Team</value>
         <shortDescription>Email Signature Trial Completed</shortDescription>
         <value>Thank you for joining us on this journey.
 
-Sincerely,
+            Sincerely,
 
-The IQVIA Patient Portal Support Team</value>
+            The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_VT</fullName>
@@ -3640,7 +3665,7 @@ The IQVIA Patient Portal Support Team</value>
 
             Please review the referrals and accept, decline, or place on hold each referral.
 
-            To review the referrals, log in to the IQVIA Referral Hub and navigate to “My Referrals.&quot;</value>
+            To review the referrals, log in to the IQVIA Referral Hub and navigate to "My Referrals.&quot;</value>
     </labels>
     <labels>
         <fullName>Empty_Reminder</fullName>
@@ -3737,6 +3762,84 @@ The IQVIA Patient Portal Support Team</value>
         <protected>true</protected>
         <shortDescription>FD PE Field Arm Cohort</shortDescription>
         <value>Arm/Cohort</value>
+    </labels>
+    <labels>
+        <fullName>FD_PE_Field_Final_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Final Consent</shortDescription>
+        <value>Final Consent</value>
+    </labels>
+    <labels>
+        <fullName>FD_PE_Field_Informed_Consent_Signed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Informed Consent Signed Date</shortDescription>
+        <value>Informed Consent Signed</value>
+    </labels>
+    <labels>
+        <fullName>FD_PE_Field_Informed_Consent_Signed_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Informed Consent Signed Date</shortDescription>
+        <value>Informed Consent Signed Date</value>
+    </labels>
+    <labels>
+        <fullName>FD_PE_Field_Initial_Visit_Attended</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Initial Visit Attended</shortDescription>
+        <value>Initial Visit Attended</value>
+    </labels>
+    <labels>
+        <fullName>FD_PE_Field_Initial_Visit_Attended_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Initial Visit Attended Date</shortDescription>
+        <value>Initial Visit Attended Date</value>
+    </labels>
+    <labels>
+        <fullName>FD_PE_Field_Initial_Visit_Scheduled_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Initial Visit Scheduled Date</shortDescription>
+        <value>Initial Visit Scheduled Date</value>
+    </labels>
+    <labels>
+        <fullName>FD_PE_Field_Initial_Visit_Scheduled_Time</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Initial Visit Scheduled Time</shortDescription>
+        <value>Initial Visit Scheduled Time</value>
+    </labels>
+
+    <labels>
+        <fullName>FD_PE_Field_Revisit_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Revisit Date</shortDescription>
+        <value>Revisit Date</value>
+    </labels>
+    <labels>
+        <fullName>FD_PE_Field_Wash_Out_Required</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Wash Out Required</shortDescription>
+        <value>Run In/Wash Out Required</value>
+    </labels>
+    <labels>
+        <fullName>FG_PE_Inf_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FG PE Informed Consent</shortDescription>
+        <value>Informed Consent</value>
+    </labels>
+    <labels>
+        <fullName>FG_PE_Wash_Out</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FG PE Wash Out</shortDescription>
+        <value>Run In/Wash Out</value>
     </labels>
     <labels>
         <fullName>FU_Add_File</fullName>
@@ -3841,14 +3944,14 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Glucose Description</shortDescription>
-        <value>Glucose is a sugar, also called “blood sugar”. When your body digests food, carbohydrates are broken down to make glucose. Your small intestine then absorbs the glucose to release it into the blood. Glucose is the most important source of energy for cells in your body and the only source of energy for your brain, spinal cord, and nerves. Blood glucose is measured to check your general health and to check for a range of conditions.</value>
+        <value>Glucose is a sugar, also called "blood sugar". When your body digests food, carbohydrates are broken down to make glucose. Your small intestine then absorbs the glucose to release it into the blood. Glucose is the most important source of energy for cells in your body and the only source of energy for your brain, spinal cord, and nerves. Blood glucose is measured to check your general health and to check for a range of conditions.</value>
     </labels>
     <labels>
         <fullName>HT_01_B</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HT 01 B</shortDescription>
-        <value>Are you locked out?  If so, please wait for 15 minutes before trying to log back in again.  If you have already waited 15 minutes and cannot login, please use the “Forgot Password” to have your password reset.  If you are not receiving your password reset email, please log a ticket and make sure to provide your name, email, and phone number.</value>
+        <value>Are you locked out?  If so, please wait for 15 minutes before trying to log back in again.  If you have already waited 15 minutes and cannot login, please use the "Forgot Password" to have your password reset.  If you are not receiving your password reset email, please log a ticket and make sure to provide your name, email, and phone number.</value>
     </labels>
     <labels>
         <fullName>HT_01_H</fullName>
@@ -3883,14 +3986,14 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HT 03 B PI RP</shortDescription>
-        <value>Please go to My Team -&gt; Add New Team Member -&gt; Enter information -&gt; Assign “Permissions by Level”.  If you want a study coordinator to handle referrals on your behalf, we recommend delegate level 1.</value>
+        <value>Please go to My Team -&gt; Add New Team Member -&gt; Enter information -&gt; Assign "Permissions by Level".  If you want a study coordinator to handle referrals on your behalf, we recommend delegate level 1.</value>
     </labels>
     <labels>
         <fullName>HT_03_B_Patient</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HT 03 B Patient</shortDescription>
-        <value>Please go to Account Settings -&gt; Delegates -&gt; Add New Delegate -&gt; Enter information -&gt; Assign “Permissions by Level”. If you want a delegate to complete tasks on your behalf, we recommend delegate level 1.</value>
+        <value>Please go to Account Settings -&gt; Delegates -&gt; Add New Delegate -&gt; Enter information -&gt; Assign "Permissions by Level". If you want a delegate to complete tasks on your behalf, we recommend delegate level 1.</value>
     </labels>
     <labels>
         <fullName>HT_03_H_PI_RP</fullName>
@@ -4065,7 +4168,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 09 B RP</shortDescription>
-        <value>Clinical trial investigators are usually physicians in active practice. They are responsible for the day-to-day management of clinical trials at the site level. Their main responsibilities are ensuring patient safety during the trial and safeguarding patients’ rights, making sure that trial activities and procedures are done in accordance with the protocol. Clinical trial investigators are also responsible for maintaining the quality of data collected during the trial.</value>
+        <value>Clinical trial investigators are usually physicians in active practice. They are responsible for the day-to-day management of clinical trials at the site level. Their main responsibilities are ensuring patient safety during the trial and safeguarding patients' rights, making sure that trial activities and procedures are done in accordance with the protocol. Clinical trial investigators are also responsible for maintaining the quality of data collected during the trial.</value>
     </labels>
     <labels>
         <fullName>HT_09_H_Participant</fullName>
@@ -4177,7 +4280,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 13 B RP</shortDescription>
-        <value>Each potential participant in a clinical trial is helped to make an informed decision about their participation, and informed consent is at the heart of this process. The overall purpose of the informed consent process is to offer potential participants detailed information about the trial aim, the tested intervention, potential benefits and risks, specific procedures, and participants’ rights and responsibilities.
+        <value>Each potential participant in a clinical trial is helped to make an informed decision about their participation, and informed consent is at the heart of this process. The overall purpose of the informed consent process is to offer potential participants detailed information about the trial aim, the tested intervention, potential benefits and risks, specific procedures, and participants' rights and responsibilities.
 
             Once the potential participant decides to join a trial, they must sign the Informed Consent Form (ICF). Participants have the right to withdraw from the trial at any time without any explanation and without jeopardizing their standard of medical care.</value>
     </labels>
@@ -4488,7 +4591,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>High-density Lipoprotein Description</shortDescription>
-        <value>Lipoproteins are made of a combination of lipids (fats) and proteins. High-density lipoproteins (HDL) are produced by the liver and move cholesterol from the liver to other body parts. HDL cholesterol cleans the walls of your cells and it removes LDL cholesterol from your blood. HDL cholesterol is also known as “good” cholesterol.</value>
+        <value>Lipoproteins are made of a combination of lipids (fats) and proteins. High-density lipoproteins (HDL) are produced by the liver and move cholesterol from the liver to other body parts. HDL cholesterol cleans the walls of your cells and it removes LDL cholesterol from your blood. HDL cholesterol is also known as "good" cholesterol.</value>
     </labels>
     <labels>
         <fullName>Home_Page_Label</fullName>
@@ -4846,7 +4949,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Low-density Lipoprotein Description</shortDescription>
-        <value>Lipoproteins are made of a combination of lipids (fats) and proteins. Low-density lipoproteins (LDL) are produced by the liver and move cholesterol from the liver to other body parts. LDL cholesterol is also known as “bad” cholesterol. When your LDL cholesterol is high, it means it can build up in the walls of your blood vessels and block the blood flow.</value>
+        <value>Lipoproteins are made of a combination of lipids (fats) and proteins. Low-density lipoproteins (LDL) are produced by the liver and move cholesterol from the liver to other body parts. LDL cholesterol is also known as "bad" cholesterol. When your LDL cholesterol is high, it means it can build up in the walls of your blood vessels and block the blood flow.</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_1</fullName>
@@ -4951,7 +5054,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MS Chat Disclaimer</shortDescription>
-        <value>Please call 911 if you have an emergency or urgent medical question. If you do not hear from your provider’s office within 3 business days, please contact the office directly.</value>
+        <value>Please call 911 if you have an emergency or urgent medical question. If you do not hear from your provider's office within 3 business days, please contact the office directly.</value>
     </labels>
     <labels>
         <fullName>MS_Empty_Chat</fullName>
@@ -5420,7 +5523,7 @@ The IQVIA Patient Portal Support Team</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT DRP S8 T</shortDescription>
-        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage an existing team member’s permission for all studies by selecting a permission level and saving it on the team member’s card.</value>
+        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage an existing team member's permission for all studies by selecting a permission level and saving it on the team member's card.</value>
     </labels>
     <labels>
         <fullName>OT_DRP_S9_H</fullName>
@@ -5582,8 +5685,8 @@ The IQVIA Patient Portal Support Team</value>
         <protected>false</protected>
         <shortDescription>OT Participant S29 Text</shortDescription>
         <value>Click &quot;DETAILS&quot; on the Status Card to view your status activity history.
-Take action on tasks that have been assigned to you or created by you or your delegate using the Open Task List.
-View study documents and other resources including articles and videos related to the study or the condition being studied from Resources.</value>
+            Take action on tasks that have been assigned to you or created by you or your delegate using the Open Task List.
+            View study documents and other resources including articles and videos related to the study or the condition being studied from Resources.</value>
     </labels>
     <labels>
         <fullName>OT_Participant_S2_H</fullName>
@@ -5667,7 +5770,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT RP S2 T</shortDescription>
-        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage an existing team member’s permission for all studies by selecting a permission level and saving it on the team member’s card.</value>
+        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage an existing team member's permission for all studies by selecting a permission level and saving it on the team member's card.</value>
     </labels>
     <labels>
         <fullName>OT_RP_S3_H</fullName>
@@ -5988,8 +6091,8 @@ View study documents and other resources including articles and videos related t
         <fullName>PG_ACPE_L_Change_Provider_s_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG ACPE L Change Provider’s Status</shortDescription>
-        <value>Change Provider’s Status</value>
+        <shortDescription>PG ACPE L Change Provider's Status</shortDescription>
+        <value>Change Provider's Status</value>
     </labels>
     <labels>
         <fullName>PG_ACPE_L_Notes</fullName>
@@ -5997,6 +6100,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG ACPE L Notes</shortDescription>
         <value>Notes</value>
+    </labels>
+    <labels>
+        <fullName>PG_ACPE_L_Outcome</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG ACPE L Outcome</shortDescription>
+        <value>Outcome</value>
     </labels>
     <labels>
         <fullName>PG_ACPE_L_Please_confirm_that_you_want_to_activate</fullName>
@@ -6039,6 +6149,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG ACPE L Please provide a reason for putting</shortDescription>
         <value>Please provide a reason for putting</value>
+    </labels>
+    <labels>
+        <fullName>PG_ACPE_L_Reason</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG ACPE L Reason</shortDescription>
+        <value>Reason</value>
     </labels>
     <labels>
         <fullName>PG_ACPE_L_Select_decline_reason</fullName>
@@ -6949,8 +7066,8 @@ View study documents and other resources including articles and videos related t
         <fullName>PG_DBPI_L_My_Patients_Referring_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DBPI L My Patients’ Referring Status</shortDescription>
-        <value>My Patients’ Referring Status</value>
+        <shortDescription>PG DBPI L My Patients' Referring Status</shortDescription>
+        <value>My Patients' Referring Status</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Patients_Waiting_to_Be_Referred</fullName>
@@ -7047,15 +7164,15 @@ View study documents and other resources including articles and videos related t
         <fullName>PG_DBPI_My_Patients_Acceptance_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DBPI My Patients’ Acceptance Status</shortDescription>
-        <value>My Patients’ Acceptance Status</value>
+        <shortDescription>PG DBPI My Patients' Acceptance Status</shortDescription>
+        <value>My Patients' Acceptance Status</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_My_Patients_Enrollment_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DBPI My Patients’ Enrollment Status</shortDescription>
-        <value>My Patients’ Enrollment Status</value>
+        <shortDescription>PG DBPI My Patients' Enrollment Status</shortDescription>
+        <value>My Patients' Enrollment Status</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_Referrals</fullName>
@@ -7089,22 +7206,22 @@ View study documents and other resources including articles and videos related t
         <fullName>PG_DB_L_Track_providers_status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DB L Track providers’ status</shortDescription>
-        <value>Track providers’ status</value>
+        <shortDescription>PG DB L Track providers' status</shortDescription>
+        <value>Track providers' status</value>
     </labels>
     <labels>
         <fullName>PG_DB_L_Track_your_patients_status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DB L Track your patients’ status</shortDescription>
-        <value>Track your patients’ status</value>
+        <shortDescription>PG DB L Track your patients' status</shortDescription>
+        <value>Track your patients' status</value>
     </labels>
     <labels>
         <fullName>PG_DB_L_Track_your_referrals_status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DB L Track your referrals’ status</shortDescription>
-        <value>Track your participants’ status</value>
+        <shortDescription>PG DB L Track your referrals' status</shortDescription>
+        <value>Track your participants' status</value>
     </labels>
     <labels>
         <fullName>PG_DB_L_category</fullName>
@@ -7258,7 +7375,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Error T1</shortDescription>
-        <value>Because we can’t seem to find the page you are looking for. It is either unavailable or may no longer exist.</value>
+        <value>Because we can't seem to find the page you are looking for. It is either unavailable or may no longer exist.</value>
     </labels>
     <labels>
         <fullName>PG_Error_T2</fullName>
@@ -7533,7 +7650,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG HLP T1 Feedback</shortDescription>
-        <value>Though we can’t review and respond to every submission, we do use feedback like yours to improve the IQVIA™ Referral Hub experience for everyone.</value>
+        <value>Though we can't review and respond to every submission, we do use feedback like yours to improve the IQVIA™ Referral Hub experience for everyone.</value>
     </labels>
     <labels>
         <fullName>PG_HLP_T2_Feedback</fullName>
@@ -7616,8 +7733,8 @@ View study documents and other resources including articles and videos related t
         <fullName>PG_IM_L_Provider_s_Status_Details</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG IM L Provider’s Status Details</shortDescription>
-        <value>Provider’s Status Details</value>
+        <shortDescription>PG IM L Provider's Status Details</shortDescription>
+        <value>Provider's Status Details</value>
     </labels>
     <labels>
         <fullName>PG_IM_L_Study_Site_Status_Details</fullName>
@@ -7835,8 +7952,8 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG Login Wrong Password Error Message</shortDescription>
         <value>Incorrect email/password combination
-You have ##AttemptsLeft attempts left before you are locked out for 15 minutes.  You can reset your password ##ForgotPasswordLink.
-Please check your CAPS lock key.</value>
+            You have ##AttemptsLeft attempts left before you are locked out for 15 minutes.  You can reset your password ##ForgotPasswordLink.
+            Please check your CAPS lock key.</value>
     </labels>
     <labels>
         <fullName>PG_MPS_L_Enrolled</fullName>
@@ -8361,7 +8478,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRR Note Remember</shortDescription>
-        <value>NOTE: Please remember that you will need to enter your patient’s information into the IQVIA™ Referral Hub website in order to be able to refer the patient to the Principal Investigator.</value>
+        <value>NOTE: Please remember that you will need to enter your patient's information into the IQVIA™ Referral Hub website in order to be able to refer the patient to the Principal Investigator.</value>
     </labels>
     <labels>
         <fullName>PG_MRR_R_Failed</fullName>
@@ -9172,6 +9289,27 @@ Please check your CAPS lock key.</value>
         <value>Delegate Information</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Delegate_continue_be_delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Delegate continue be delegate</shortDescription>
+        <value>Would Participant like ##delegateName to continue as delegate?</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Delegate_ensure_info_uptodate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Delegate continue be delegate</shortDescription>
+        <value>Please ensure that delegate's contact information is up-to-date</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Delegate_update_info_uptodate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Delegate continue be delegate</shortDescription>
+        <value>Please update contact information, even if "Do not continue" is selected</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Have_you_had_a_discussion_with_your_patient_about_participating_in_a_cl</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9250,6 +9388,13 @@ Please check your CAPS lock key.</value>
         <value>Would ##participantName like to be invited to Patient Portal?</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Participant_require_optional_email</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Participant require guardian</shortDescription>
+        <value>Receive information about clinical study opportunities.</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9260,8 +9405,8 @@ Please check your CAPS lock key.</value>
         <fullName>PG_Ref_L_Please_enter_your_patient_s_details_into_the_form_so_that_a_study_site</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG Ref L Please enter your patient’s details into the form so that a study site</shortDescription>
-        <value>Please enter your patient’s details into the form so that a study site representative can continue to work with your patient on the screening, consent, and study enrollment process.</value>
+        <shortDescription>PG Ref L Please enter your patient's details into the form so that a study site</shortDescription>
+        <value>Please enter your patient's details into the form so that a study site representative can continue to work with your patient on the screening, consent, and study enrollment process.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_first_have_a_meaningful_discussion_with_your_patient_about_parti</fullName>
@@ -9344,8 +9489,8 @@ Please check your CAPS lock key.</value>
         <fullName>PG_Ref_L_Your_patient_s_contact_information_will_only_be_used_to_contact_them_ab</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG Ref L Your patient’s contact information will only be used to contact them ab</shortDescription>
-        <value>Your patient’s contact information will only be used to contact them about this clinical study.</value>
+        <shortDescription>PG Ref L Your patient's contact information will only be used to contact them ab</shortDescription>
+        <value>Your patient's contact information will only be used to contact them about this clinical study.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_MSG_Email_s_not_equals</fullName>
@@ -9373,7 +9518,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref ST2 Email sent</shortDescription>
-        <value>Note: Both you and your patient can see the patient’s referral status within the IQVIA™ Referral Hub at any time.</value>
+        <value>Note: Both you and your patient can see the patient's referral status within the IQVIA™ Referral Hub at any time.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_Step_Contact_Info</fullName>
@@ -9499,7 +9644,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SDAS L1 please review</shortDescription>
-        <value>Please review the list of available site locations participating in the clinical trial, and select the site to which you would like to refer your patient(s) by selecting the “Send Site Request” button.</value>
+        <value>Please review the list of available site locations participating in the clinical trial, and select the site to which you would like to refer your patient(s) by selecting the "Send Site Request" button.</value>
     </labels>
     <labels>
         <fullName>PG_SDAS_L2P_TC_required</fullName>
@@ -9563,9 +9708,9 @@ Please check your CAPS lock key.</value>
         <protected>false</protected>
         <shortDescription>PG SDAS T steps</shortDescription>
         <value>In order for referring clinics to be able to send referrals to you, you must do the following:
-            1) Click on the “I’m Open to Receive Referrals” button so that your site will become visible to the referring clinic(s).
+            1) Click on the "I'm Open to Receive Referrals" button so that your site will become visible to the referring clinic(s).
             2) Wait for the referring clinic(s) to send you a site request.
-            3) Approve and activate the referring clinic(s)’ referral functionality.</value>
+            3) Approve and activate the referring clinic(s)' referral functionality.</value>
     </labels>
     <labels>
         <fullName>PG_SDRC_L_All</fullName>
@@ -10174,7 +10319,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PI Colon</shortDescription>
-        <value>PI :</value>
+        <value>PI:</value>
     </labels>
     <labels>
         <fullName>PI_Delegate_PI_Info</fullName>
@@ -10195,12 +10340,12 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP Account Settings Cookie Description</shortDescription>
-        <value>Some essential features on Patient Portal site just won’t work
+        <value>Some essential features on Patient Portal site just won't work
             without cookies.
-            And having other cookies switched off can seriously affect the way you’ll be able to enjoy our
+            And having other cookies switched off can seriously affect the way you'll be able to enjoy our
             services.
-            Please check your cookie settings below and turn on any cookies you’re happy with.
-            &amp;quot;Strictly necessary&amp;quot; cookies can’t be turned off.
+            Please check your cookie settings below and turn on any cookies you're happy with.
+            &amp;quot;Strictly necessary&amp;quot; cookies can't be turned off.
             However &amp;quot;Functional&amp;quot; cookies can be turned on or off below.</value>
     </labels>
     <labels>
@@ -10208,7 +10353,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP HLP T1 Feedback</shortDescription>
-        <value>Though we can’t review and respond to every submission, we do use feedback like yours to improve the IQVIA™ Patient Portal experience for everyone.</value>
+        <value>Though we can't review and respond to every submission, we do use feedback like yours to improve the IQVIA™ Patient Portal experience for everyone.</value>
     </labels>
     <labels>
         <fullName>PP_HLP_T2_Feedback</fullName>
@@ -10288,6 +10433,202 @@ Please check your CAPS lock key.</value>
         <value>Site Location</value>
     </labels>
     <labels>
+        <fullName>PWS_Contact_Card_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Contact_Card_Name</shortDescription>
+        <value>Contact Attempt</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Contact_History_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Contact_History_Title</shortDescription>
+        <value>Contact History:</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Contact_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Contact_Name</shortDescription>
+        <value>Contact</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Contact_No_Outcome</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Contact_No_Outcome</shortDescription>
+        <value>Not Contacted Yet</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Contact_Outcome_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Contact_Outcome_Placeholder</shortDescription>
+        <value>Ready to Contact</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Eligibility_Card_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Eligibility_Card_Name</shortDescription>
+        <value>Eligibility</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Eligibility_History_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Eligibility_History_Title</shortDescription>
+        <value>Eligibility History:</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Eligibility_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Eligibility_Name</shortDescription>
+        <value>Eligibility</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Eligibility_No_Outcome</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Eligibility_No_Outcome</shortDescription>
+        <value>Not Verified</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Enrolled_Card_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Enrolled_Card_Name</shortDescription>
+        <value>Enrollment</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Enrolled_History_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Enrolled_History_Title</shortDescription>
+        <value>Enrollment History:</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Enrolled_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Enrolled_Name</shortDescription>
+        <value>Enrolled</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Enrolled_No_Outcome</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Enrolled_No_Outcome</shortDescription>
+        <value>Not Enrolled</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Initial_Visit_Card_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Initial_Visit_Card_Name</shortDescription>
+        <value>Initial Visit</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Initial_Visit_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Initial_Visit_Name</shortDescription>
+        <value>Initial Call</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Initial_Visit_No_Outcome</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Initial_Visit_No_Outcome</shortDescription>
+        <value>Not Completed</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Randomization_Card_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Randomization_Card_Name</shortDescription>
+        <value>Randomization</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Randomization_History_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Randomization_History_Title</shortDescription>
+        <value>Randomization History:</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Randomization_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Randomization_Name</shortDescription>
+        <value>Randomization</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Randomization_No_Outcome</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Randomization_No_Outcome</shortDescription>
+        <value>Not Randomized</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Received_Card_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Received_Card_Name</shortDescription>
+        <value>Received</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Received_History_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Received_History_Title</shortDescription>
+        <value>Received participant</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Received_History_Detail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Received_History_Detail</shortDescription>
+        <value>on ##Date from ##Source</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Received_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Received_Name</shortDescription>
+        <value>Received</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Screening_Card_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Screening_Card_Name</shortDescription>
+        <value>Screening</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Screening_History_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Screening_History_Title</shortDescription>
+        <value>Screening History:</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Screening_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Screening_Name</shortDescription>
+        <value>Screening</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Screening_No_Outcome</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Screening_No_Outcome</shortDescription>
+        <value>Not Screened</value>
+    </labels>
+    <labels>
         <fullName>Participant_Created_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -10362,7 +10703,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Platelet Count Description</shortDescription>
-        <value>Platelets, also known as thrombocytes, are tiny parts of cells in the blood that are responsible for blood clotting. They made by your bone marrow and released into your bloodstream. When you are injured, platelets will help to stop the bleeding. The platelet count test shows the number of platelets you have in your blood sample. Platelet count is measured to check your general health and to check for any conditions that influence your body’s platelet production. Low platelet count can be caused by certain cancers, chemotherapy, and in some autoimmune conditions.</value>
+        <value>Platelets, also known as thrombocytes, are tiny parts of cells in the blood that are responsible for blood clotting. They made by your bone marrow and released into your bloodstream. When you are injured, platelets will help to stop the bleeding. The platelet count test shows the number of platelets you have in your blood sample. Platelet count is measured to check your general health and to check for any conditions that influence your body's platelet production. Low platelet count can be caused by certain cancers, chemotherapy, and in some autoimmune conditions.</value>
     </labels>
     <labels>
         <fullName>Poput_ICF</fullName>
@@ -10425,7 +10766,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RBC Count Description</shortDescription>
-        <value>Red blood cells (RBCs or erythrocytes) are cells in your blood that contain hemoglobin, which carries oxygen throughout your body. RBC count is the total number of red blood cells that are present in your blood sample. RBC count is measured to check your general health and to check for conditions that influence your body’s red blood cell production. Low RBC count can lead to signs of anemia, such as tiredness. High RBC count can cause dizziness and headache.</value>
+        <value>Red blood cells (RBCs or erythrocytes) are cells in your blood that contain hemoglobin, which carries oxygen throughout your body. RBC count is the total number of red blood cells that are present in your blood sample. RBC count is measured to check your general health and to check for conditions that influence your body's red blood cell production. Low RBC count can lead to signs of anemia, such as tiredness. High RBC count can cause dizziness and headache.</value>
     </labels>
     <labels>
         <fullName>RCEI_Site</fullName>
@@ -11096,8 +11437,8 @@ Please check your CAPS lock key.</value>
         <fullName>SGT_Pending_Study_Site_s_Action</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>SGT Pending Study Site’s Action</shortDescription>
-        <value>Pending Study Site’s Action</value>
+        <shortDescription>SGT Pending Study Site's Action</shortDescription>
+        <value>Pending Study Site's Action</value>
     </labels>
     <labels>
         <fullName>SGT_Pending_Your_Action</fullName>
@@ -11909,7 +12250,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST Permissions should be the same for study!</shortDescription>
-        <value>A team member’s permissions must be the same for each site within a given study. This functionality will be enhanced in an upcoming release.</value>
+        <value>A team member's permissions must be the same for each site within a given study. This functionality will be enhanced in an upcoming release.</value>
     </labels>
     <labels>
         <fullName>TST_Request_to_invite_a_referring_provider</fullName>
@@ -12427,7 +12768,7 @@ Please check your CAPS lock key.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Total Cholesterol Description</shortDescription>
-        <value>Cholesterol is a type of fat made by the liver that is found in your blood. You can also take in cholesterol by eating certain foods, such as meat, fish, eggs, and dairy products. Your total cholesterol value is the sum of your low-density lipoprotein (LDL, or “bad” cholesterol) and your high-density lipoprotein (HDL, or “good” cholesterol) and your triglycerides.</value>
+        <value>Cholesterol is a type of fat made by the liver that is found in your blood. You can also take in cholesterol by eating certain foods, such as meat, fish, eggs, and dairy products. Your total cholesterol value is the sum of your low-density lipoprotein (LDL, or "bad" cholesterol) and your high-density lipoprotein (HDL, or "good" cholesterol) and your triglycerides.</value>
     </labels>
     <labels>
         <fullName>Total_protein</fullName>
@@ -12935,7 +13276,7 @@ Please check your CAPS lock key.</value>
         <protected>true</protected>
         <shortDescription>Visit_Results_Tab_If_Is_Empty_Body</shortDescription>
         <value>Visit assessment information is not available for this clinical research study.
-If you have questions or concerns, please contact the Principal Investigator at your study center.</value>
+            If you have questions or concerns, please contact the Principal Investigator at your study center.</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_If_Is_Not_Opt_In</fullName>
@@ -12943,7 +13284,7 @@ If you have questions or concerns, please contact the Principal Investigator at 
         <protected>true</protected>
         <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_1</shortDescription>
         <value>This data is being provided as part of your participation in a clinical research study. It is for research purposes only.
-                  If you would like to view your data</value>
+            If you would like to view your data</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_If_Is_Not_Opt_In_2</fullName>
@@ -12951,7 +13292,7 @@ If you have questions or concerns, please contact the Principal Investigator at 
         <protected>true</protected>
         <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_2</shortDescription>
         <value>. You can opt-out at any time. Once data becomes available it will begin to display. If you
-have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
+            have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Labs</fullName>
@@ -13064,7 +13405,7 @@ have questions or concerns about this data, please contact the Principal Investi
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WBC Count Description</shortDescription>
-        <value>White blood cells (WBC or leukocytes) are cells that can be found in your blood and in body tissues that are important for your immune system (your body’s defense responses). WBCs fight infections, cancer, and also remove poison, waste products, and damaged cells from your body. When you are fighting off an infection, the number of white blood cells increases. WBC count is measured to check your general health and to check for conditions that influence your body’s white blood cell production. A high WBC count can mean you have an infection.</value>
+        <value>White blood cells (WBC or leukocytes) are cells that can be found in your blood and in body tissues that are important for your immune system (your body's defense responses). WBCs fight infections, cancer, and also remove poison, waste products, and damaged cells from your body. When you are fighting off an infection, the number of white blood cells increases. WBC count is measured to check your general health and to check for conditions that influence your body's white blood cell production. A high WBC count can mean you have an infection.</value>
     </labels>
     <labels>
         <fullName>Weight</fullName>

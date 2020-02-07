@@ -13,7 +13,6 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <!-- component body: -->
-    <aura:if isTrue="{!or(!v.isAlumni, !empty(v.tasks))}">
     <c:HomePreviewTablePanel title="{!$Label.c.PG_L_Open_Task_List}">
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/>
         <aura:if isTrue="{!v.initialized}">
@@ -46,16 +45,20 @@
                     </aura:iteration>
                 </c:RRTable>
             </aura:if>
-            <c:EmptyListStub targetList="{!v.tasks}" iconName="none" message="{!$Label.c.PG_VP_L_No_Items_display}"/>
+            <c:EmptyListStub targetList="{!v.tasks}" iconName="none"
+                             message="{!$Label.c.PG_VP_L_No_Items_display}"/>
         </aura:if>
         <aura:set attribute="footer">
             <c:RRLink page="study-workspace?tab=tab-tasks">
                 {!$Label.c.PG_L_See_All}
-                <aura:if isTrue="{!v.isArabic}"><c:RRIcon iconName="icon-chevron-left"/></aura:if>
-                <aura:if isTrue="{!!v.isArabic}"><c:RRIcon iconName="icon-chevron-right"/></aura:if>
+                <aura:if isTrue="{!v.isArabic}">
+                    <c:RRIcon iconName="icon-chevron-left"/>
+                </aura:if>
+                <aura:if isTrue="{!!v.isArabic}">
+                    <c:RRIcon iconName="icon-chevron-right"/>
+                </aura:if>
             </c:RRLink>
         </aura:set>
     </c:HomePreviewTablePanel>
-    </aura:if>
 
 </aura:component>

@@ -90,8 +90,8 @@ public without sharing class ParticipantContext {
             //current PT
             currentParticipant = ParticipantService.getParticipant(currentContact.Id);
             //current PE
-            if(currentContact.Current_Participant_Enrollment__c != null) {
-                currentPE = ParticipantEnrollmentService.getParticipantEnrollment(currentContact.Current_Participant_Enrollment__c, CommunityModeService.USER_MODE_PARTICIPANT);
+            if(UserContext.getUserContact().Current_Participant_Enrollment__c != null) {
+                currentPE = ParticipantEnrollmentService.getParticipantEnrollment(UserContext.getUserContact().Current_Participant_Enrollment__c, CommunityModeService.USER_MODE_PARTICIPANT);
             }
         }
         initialized = true;

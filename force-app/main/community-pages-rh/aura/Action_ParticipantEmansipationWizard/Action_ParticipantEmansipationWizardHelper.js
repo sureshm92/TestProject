@@ -5,23 +5,23 @@
 ({
     preparePathItems : function (component) {
 
-        var statuses = this.getStatuses();
-        var statusesMap = this.getStatusesMap();
-        var currentImansipationWizardState = statusesMap[statuses[0]];
+        let statuses = this.getStatuses();
+        let statusesMap = this.getStatusesMap();
+        let currentTab = component.get('v.currentTab');
+        let currentImansipationWizardState = statusesMap[statuses[(+currentTab - 1)]];
 
         component.set('v.showPath', true);
 
-        var pathList = [];
-        var iconMap = {
+        let pathList = [];
+        let iconMap = {
             success : 'icon-check',
             failure : '',
             neutral : '',
             in_progress : ''
         };
         for (var i = 0; i < statuses.length; i++) {
-
             //default values for path item:
-            var pathItem = statusesMap[statuses[i]];
+            let pathItem = statusesMap[statuses[i]];
             pathItem.name = statuses[i];
 
             if (currentImansipationWizardState) {
@@ -56,18 +56,60 @@
         return {
             "Participant" : {
                 order : 1,
-                state : "success"
+                state : "neutral"
             },
             "Delegate(s)" : {
-                order : 2
+                order : 2,
+                state : "neutral"
             },
             "Provider Access" : {
-                order : 3
+                order : 3,
+                state : "neutral"
             },
             "Review and Confirm" : {
-                order : 4
+                order : 4,
+                state : "neutral"
             }
         };
+    },
+
+    prepareDelegates : function (component) {
+        let delegateParticipant = {
+            sObjectType: 'Participant__c',
+            Id: 'a0a0R000003iPoMQAU',
+            selectedOption: '1'
+        };
+        let delegateItems = [];
+        delegateItems.push(delegateParticipant);
+        component.set('v.delegateItems', delegateItems);
+    },
+
+    updateParticipantAndDelegates : function (component) {
+        component.find('spinner').show();
+
+        let doNotContinueIds = [];
+        let delegateItems = component.get('v.delegateItems');
+        for (let ind = 0; ind < delegateItems.length; ind++) {
+            if (delegateItem[ind].Id && delegateItem[ind].selectedOption == '2') {
+                doNotContinueIds.push(delegateItem[ind].Id);
+            }
+        }
+
+        communityService.executeAction(component, 'updateParticipantAndDelegates', {
+            participant: component.get('v.participant'),
+            participantContact: component.get('v.contact'),
+            delegates: component.get('v.participant'),
+            doNotContinueIds: doNotContinueIds,
+            needsInvite: component.get('v.selectedOption') == '1'
+        }, function (returnValue) {
+            component.set('v.currentTab', '1');
+
+            component.find('spinner').hide();
+            component.find('dialog').hide();
+        }, function (returnValue) {
+            component.find('spinner').hide();
+            communityService.showErrorToast('',  "Emancipation process failed! Description: " + returnValue);
+        });
     }
 
 });

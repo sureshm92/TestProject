@@ -53,7 +53,8 @@ public without sharing class TaskService {
             'Patient_Visit__c',
             'Is_Reminder_Sent__c',
             'Survey_Invitation__c',
-            'Survey_Invitation__r.Is_Expired__c'
+            'Survey_Invitation__r.Is_Expired__c',
+            'Survey_Invitation__r.Participant_Enrollment__c'
     };
 
     public static final List<String> TASK_STATUS_GROUP_EXPIRE_AVAILABLE = new List<String>{
@@ -79,6 +80,7 @@ public without sharing class TaskService {
     }
     
     public List<Task> getTasksCommon(String filter){
+        
         return getTasksCommon(filter,  null);
     }
 
@@ -86,37 +88,41 @@ public without sharing class TaskService {
         String commonFilter = '';
         String ownerVisibility = ' AND Visible_For__c INCLUDES (\'' + TASK_VISIBILITY_OWNER + '\') ';
         String delegatesVisibility = ' AND Visible_For__c INCLUDES (\'' + TASK_VISIBILITY_DELEGATES + '\') ';
-        if(!ParticipantContext.isCurrentDelegate() && ParticipantContext.getCurrentPE() == null){
-            //own alumni
+        if(!ParticipantContext.isCurrentDelegate()){
+            //owner
             commonFilter = '(' +
                     'OwnerId = \'' + ParticipantContext.getOwnUserId() + '\'' + ownerVisibility +
                     ')';
-        }else if(!ParticipantContext.isCurrentDelegate() && ParticipantContext.getCurrentPE() != null){
-            //own current PE
-            commonFilter = '(' +
-                    'OwnerId = \'' + ParticipantContext.getOwnUserId() + '\' ' +
-                    'AND (WhatId = \'' + ParticipantContext.getCurrentPEId() + '\' OR WhatId = NULL OR What.Type = \'SurveyInvitation\')' +
-                    ownerVisibility +
-                    ')';
-        }else if(ParticipantContext.isCurrentDelegate() && ParticipantContext.getCurrentPE() == null){
-            //delegated alumni
-            commonFilter = '(' +
-                    '(OwnerId = \'' + ParticipantContext.getOwnUserId() + '\' AND (WhatId = NULL OR What.Type = \'SurveyInvitation\') ' + ownerVisibility + ') OR ' +
-                    '(OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\' ' + delegatesVisibility + ')' +
-                    ')';
         }else{
-            //delegated PE
+            //delegate
             commonFilter = '(' +
-                    '(OwnerId = \'' + ParticipantContext.getOwnUserId() + '\' AND (WhatId = NULL OR What.Type = \'SurveyInvitation\') ' + ownerVisibility + ') OR ' +
-                    '(OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\'' +
-                    delegatesVisibility + ' AND (WhatId = \'' + ParticipantContext.getCurrentPEId() + '\' OR WhatId = NULL OR What.Type = \'SurveyInvitation\'))' +
+                    '(OwnerId = \'' + ParticipantContext.getOwnUserId() + '\'' + ownerVisibility + ') OR ' +
+                    '(OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\'' + delegatesVisibility + ')' +
                     ')';
         }
         if(filter != null) commonFilter += ' AND ' + filter;
         if(sortOrder != null) commonFilter += ' ' + sortOrder;
         List<Task> tasks = (List<Task>) DatabaseService.query(DEFAULT_FIELDS, Task.getSObjectType(), commonFilter);
         TaskTriggerHandler.processDefaultFieldValues(tasks);
-        return tasks;
+        return filterTasks(tasks);
+    }
+    
+    private List<Task> filterTasks(List<Task> tasks){
+        List<Task> filteredList = new List<Task>();
+        for(Task t : tasks){
+            Boolean skipTask = false;
+            if(ParticipantContext.getCurrentPE() != null){
+                if(t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()){
+                    if(!ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Tasks_Are_Available__c || t.WhatId != ParticipantContext.getCurrentPEId()){
+                        skipTask = true;
+                    }
+                } else if(t.Survey_Invitation__c != null  && t.Survey_Invitation__r.Participant_Enrollment__c != ParticipantContext.getCurrentPEId()){
+                    skipTask = true;
+                }
+            }
+            if(!skipTask) filteredList.add(t);
+        }
+        return filteredList;
     }
 
     public List<Task> getCompletedTasks() {
@@ -276,6 +282,7 @@ public without sharing class TaskService {
                 tsc.type = TASK_TYPE_SURVEY;
                 tsc.visibility = SurveyService.SURVEY_VISIBLE.get(visible);
                 tsc.whoId = userContact.get(tsc.ownerId);
+                tsc.whatId = inv.Participant_Enrollment__c;
             }
             taskConfigs.addAll(tmpConfigs);
         }
