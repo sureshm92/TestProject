@@ -210,7 +210,7 @@
                                     <div class="slds-grid slds-gutters slds-wrap rr-form-element" style="margin: 10px 10px;">
                                         <aura:if isTrue="{!delegateItem.Id}">
                                             <div class="rr-form-element slds-col slds-size--1-of-1">
-                                                {!delegateItems.continueDelegateMsg}
+                                                {!delegateItem.continueDelegateMsg}
                                             </div>
                                             <div class="slds-col slds-size--1-of-1">
                                                 <lightning:input id="{!ind}" style="float: left;" type="radio" label="Continue" name="options" value="1" checked="{!delegateItem.selectedOption == '1'}" onchange="{!c.doHandleDelegateRadioClick}"/> Continue

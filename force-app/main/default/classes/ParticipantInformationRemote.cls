@@ -100,7 +100,21 @@ public without sharing class ParticipantInformationRemote {
                 update delegatesToUpdate;
 
                 if (!delegatesToInsert.isEmpty()) {
-                    insert delegatesToInsert;
+                    List<Participant__c> filteredDelegates = new List<Participant__c>();
+                    ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(delegatesToInsert);
+                    for (Participant__c delegate : delegatesToInsert) {
+                        Participant__c delegateFromDatabase = duplicateService.findDuplicate(delegate);
+                        if (delegateFromDatabase != null) {
+                            filteredDelegates.add(delegateFromDatabase);
+                        } else {
+                            //check contact duplicate:
+                            if (duplicateService.findDuplicateContact(delegate) != null) {
+                                delegate.Contact__c = duplicateService.findDuplicateContact(participant).Id;
+                            }
+                            filteredDelegates.add(delegate);
+                        }
+                    }
+                    upsert delegatesToInsert;
 
                     List<Participant__c> newDelegates = [SELECT Id, Contact__c FROM Participant__c WHERE Id IN :(new Map<Id, Participant__c>(delegatesToInsert)).keySet()];
                     for (Participant__c newDelegate : newDelegates) {
