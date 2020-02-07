@@ -51,7 +51,6 @@
 
 .ms-container {
     height: 600px;
-    width: 1140px;
     background-color: #ffffff;
     border: 1px solid #E9E9E9;
     border-radius: 4px;
@@ -69,7 +68,6 @@
 
 .ms-left {
     flex-direction: column;
-    width: 437px;
     border-right: 1px solid #e6e5e5;
 }
 
