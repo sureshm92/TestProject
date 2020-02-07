@@ -257,8 +257,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
                 }
             }
-
             if (!dupclicateContactEmails.isEmpty()) {
+                Set<Id> duplicateParticipantEnrollments = new Set<Id>();
+                Map<Id,Participant__c> contactParticipantMap = new Map<Id,Participant__c>();
                 duplicateContacts = new Map<Id, Contact>([
                         SELECT Id
                         FROM Contact
@@ -273,7 +274,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     ]) {
                         duplicateContactUsersMap.put(u.ContactId, u.Id);
                     }
-                    Set<Id> duplicateParticipantEnrollments = new Set<Id>();
+
                     for (Participant_Enrollment__c pEnrollment : [
                             SELECT Id,
                                     Participant_Contact__c
@@ -282,15 +283,24 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     ]) {
                         duplicateParticipantEnrollments.add(pEnrollment.Participant_Contact__c);
                     }
+                    for (Participant__c part : [
+                            SELECT Id,
+                                    Contact__c
+                            FROM Participant__c
+                            WHERE Contact__c IN :duplicateContacts.keySet()
+                    ]) {
+                        contactParticipantMap.put(part.Contact__c, part);
+                    }
                     for (Contact c : duplicateContacts.values()) {
                         if (!duplicateParticipantEnrollments.contains(c.Id)) {
                             participantEnrollmentsByContact.put(c.Id, new Participant_Enrollment__c(Participant_Status__c = selectedStatus,
                                     Study_Site__c = studySiteDetails.Id,
                                     Referred_Date__c = System.today(),
-                                    Participant_Contact__c = c != null ? c.Id : null,
+                                    Participant_Contact__c = c.Id != null ? c.Id : null,
                                     Referral_Completed_by__c = uploaderContactId,
                                     Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI,
-                                    PI_Contact__c = studySiteDetails.Principal_Investigator__c));
+                                    PI_Contact__c = studySiteDetails.Principal_Investigator__c,
+                                    Participant__c = contactParticipantMap.get(c.Id) != null ? contactParticipantMap.get(c.Id).Id : null));
                         }
                     }
                 }
@@ -311,13 +321,14 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         }
                     }
                 }
+            }
+
 
                 for (Contact participantContact : contactsById.values()) {
                     Participant_Enrollment__c participantEnrollment = participantEnrollmentsByContact.get(participantContact.Id);
                     if (participantsByContact.get(participantContact.Id) != null) {
                         participantEnrollment.Participant__c = participantsByContact.get(participantContact.Id).Id;
                     }
-
                 }
 
                 if (!participantEnrollmentsByContact.isEmpty()) {
@@ -384,7 +395,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         }
                     }
                 }
-            }
 
             system.debug('HEAP SIZE IS: ' + limits.getHeapSize() + ' enforced is: ' + limits.getLimitHeapSize() + 'on totalRecordCount: ' + totalRecordCount);
         } catch (Exception exp) {
