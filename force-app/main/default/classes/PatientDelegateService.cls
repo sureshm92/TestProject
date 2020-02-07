@@ -110,7 +110,7 @@ public without sharing class PatientDelegateService {
         List<Patient_Delegate__c> pdList = [
                 SELECT Id, Participant__c, Contact__c
                 FROM Patient_Delegate__c
-                WHERE Contact__c IN: contactIds
+                WHERE Contact__c IN: contactIds AND Status__c = 'Active'
         ];
         Map<Id, List<Id>> resMap = new Map<Id, List<Id>>();
         for(Patient_Delegate__c pd : pdList){
