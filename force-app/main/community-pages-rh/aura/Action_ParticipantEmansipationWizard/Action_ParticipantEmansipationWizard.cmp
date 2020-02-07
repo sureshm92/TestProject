@@ -210,7 +210,7 @@
                                     <div class="slds-grid slds-gutters slds-wrap rr-form-element" style="margin: 10px 10px;">
                                         <aura:if isTrue="{!delegateItem.Id}">
                                             <div class="rr-form-element slds-col slds-size--1-of-1">
-                                                {!$Label.c.PG_Ref_L_Delegate_continue_be_delegate}
+                                                {!delegateItems.continueDelegateMsg}
                                             </div>
                                             <div class="slds-col slds-size--1-of-1">
                                                 <lightning:input id="{!ind}" style="float: left;" type="radio" label="Continue" name="options" value="1" checked="{!delegateItem.selectedOption == '1'}" onchange="{!c.doHandleDelegateRadioClick}"/> Continue
@@ -261,7 +261,7 @@
                                             <div class="label">
                                                 <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Phone_Type}
                                             </div>
-                                            <c:rrSelect options="{!v.phoneTypes}" value="{!delegateItem.Phone_Type__c}" useSentenceFont="false"/>
+                                            <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!delegateItem.Phone_Type__c}" useSentenceFont="false"/>
                                         </div>
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
                                             <div class="label">
@@ -275,15 +275,15 @@
                                                 <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_Country}
                                             </div>
                                             <c:rrSelect options="{!v.formData.countriesLVList}" value="{!delegateItem.Mailing_Country_Code__c}"
-                                                        placeholder="{!$Label.c.PG_AC_Select}" useSentenceFont="false" onchange="{!c.doCountryCodeChanged}"/>
+                                                        placeholder="{!$Label.c.PG_AC_Select}" useSentenceFont="false" onchange="{!c.doDelegateCountryCodeChanged}"/>
                                         </div>
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
                                             <div class="label">
-                                                <aura:if isTrue="{!!empty(v.states)}"><abbr title="required" class="slds-required">*</abbr></aura:if>{!$Label.c.PE_State}
+                                                <aura:if isTrue="{!!empty(v.statesDelegateLVList)}"><abbr title="required" class="slds-required">*</abbr></aura:if>{!$Label.c.PE_State}
                                             </div>
-                                            <c:rrSelect options="{!v.statesLVList}" disabled="{!empty(v.statesLVList)}"
+                                            <c:rrSelect options="{!delegateItem.statesDelegateLVList}" disabled="{!empty(delegateItem.statesDelegateLVList)}"
                                                         value="{!delegateItem.Mailing_State_Code__c}" placeholder="{!$Label.c.PG_AC_Select}"
-                                                        useSentenceFont="false" onchange="{!c.doStateChange}"/>
+                                                        useSentenceFont="false" onchange="{!c.doDelegateStateChange}"/>
                                         </div>
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
                                             <div class="label">

@@ -4,7 +4,7 @@
 
 import {LightningElement, api, track, wire} from 'lwc';
 import formFactor from '@salesforce/client/formFactor';
-import {CurrentPageReference} from 'lightning/navigation';
+import {CurrentPageReference, NavigationMixin} from 'lightning/navigation';
 import {registerListener, unregisterAllListeners} from 'c/pubSub';
 
 import messagesLabel from '@salesforce/label/c.MS_Messages';
@@ -17,7 +17,7 @@ import showLessLabel from '@salesforce/label/c.MS_Show_Less';
 
 import getInit from '@salesforce/apex/MessagePageRemote.getInitData';
 
-export default class MessagesPage extends LightningElement {
+export default class MessagesPage extends NavigationMixin(LightningElement) {
 
     labels = {
         messagesLabel,
@@ -143,7 +143,7 @@ export default class MessagesPage extends LightningElement {
         this.changeVisiblePart();
         this.closeCreationMode();
         this.changeConversationsBackground(null);
-        if(!this.conversationWrappers) this.hideEmptyStub = false;
+        if (!this.conversationWrappers) this.hideEmptyStub = false;
     }
 
     handleMessageSend(event) {
@@ -199,6 +199,15 @@ export default class MessagesPage extends LightningElement {
 
         getInit()
             .then(data => {
+                if (!data.isPageEnabled) {
+                    this[NavigationMixin.Navigate]({
+                        type: 'comm__namedPage',
+                        attributes: {
+                            pageName: 'home'
+                        }
+                    });
+                }
+
                 this.userMode = data.userMode;
                 this.enrollments = data.enrollments;
                 this.statusByPeMap = data.statusByPeMap;
@@ -215,6 +224,7 @@ export default class MessagesPage extends LightningElement {
                 console.error('Error in getInit():' + JSON.stringify(error));
             });
     }
+
 
     changePlusStyle(enabled) {
         let newMessBTN = this.template.querySelector('.ms-btn-new');

@@ -8,6 +8,7 @@ public without sharing class NotificationService {
             PEStatusState.PE_STATUS_REFERRAL_DECLINED,
             PEStatusState.PE_STATUS_REFERRAL_ON_HOLD,
             PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
+            PEStatusState.PE_STATUS_RECEIVED,
             PEStatusState.PE_STATUS_EXCLUDED_FROM_REFERRING,
             PEStatusState.PE_STATUS_FAILED_REFERRAL,
             PEStatusState.PE_STATUS_FAILED_REVIEW
