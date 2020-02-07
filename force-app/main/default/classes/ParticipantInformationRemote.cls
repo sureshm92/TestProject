@@ -61,10 +61,15 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
-    public static void updateParticipantAndDelegates(Participant__c participant, Contact participantContact, List<Participant__c> delegates, List<Id> doNotContinueIds) {
+    public static void updateParticipantAndDelegates(Participant__c participant, Contact participantContact, List<Participant__c> delegates, List<Id> doNotContinueIds, Boolean needsInvite) {
         try {
+            Map<Id, Id> toCreateUser = new Map<Id, Id>();
             List<SObject> objectsToUpdate = new List<SObject> {participant, participantContact};
             update objectsToUpdate;
+
+            if (needsInvite) {
+                toCreateUser.put(participant.Contact__c, null);
+            }
 
             List<Patient_Delegate__c> patientDelegates = [SELECT Id,
                                                                  Participant__c,
@@ -81,14 +86,43 @@ public without sharing class ParticipantInformationRemote {
                 update patientDelegates;
             }
 
-            List<Participant__c> delegatesToUpsert = new List<Participant__c>();
-            for (Participant__c delegate : delegates) {
-                if (!String.isBlank(delegate.Id) ||
-                        (!String.isBlank(delegate.First_Name__c) && !String.isBlank(delegate.Last_Name__c) && !String.isBlank(delegate.Email__c))) {
-                    delegatesToUpsert.add(delegate);
+            if (!delegates.isEmpty()) {
+                List<Patient_Delegate__c> patientDelegatesToInsert = new List<Patient_Delegate__c>();
+                List<Participant__c> delegatesToUpdate = new List<Participant__c>();
+                List<Participant__c> delegatesToInsert = new List<Participant__c>();
+                for (Participant__c delegate : delegates) {
+                    if (!String.isBlank(delegate.Id)) {
+                        delegatesToUpdate.add(delegate);
+                    } else if (!String.isBlank(delegate.First_Name__c) && !String.isBlank(delegate.Last_Name__c) && !String.isBlank(delegate.Email__c)) {
+                        delegatesToInsert.add(delegate);
+                    }
+                }
+                update delegatesToUpdate;
+
+                if (!delegatesToInsert.isEmpty()) {
+                    insert delegatesToInsert;
+
+                    List<Participant__c> newDelegates = [SELECT Id, Contact__c FROM Participant__c WHERE Id IN :(new Map<Id, Participant__c>(delegatesToInsert)).keySet()];
+                    for (Participant__c newDelegate : newDelegates) {
+                        if (newDelegate.Contact__c != null) {
+                            patientDelegatesToInsert.add(
+                                    new Patient_Delegate__c(
+                                            Participant__c = participant.Id,
+                                            Contact__c = newDelegate.Contact__c,
+                                            Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
+                                    )
+                            );
+                            toCreateUser.put(newDelegate.Contact__c, null);
+                        }
+                    }
+
+                    if (!patientDelegatesToInsert.isEmpty()) {
+                        insert patientDelegatesToInsert;
+                    }
                 }
             }
-            upsert delegatesToUpsert;
+
+            if (toCreateUser.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
@@ -97,9 +131,34 @@ public without sharing class ParticipantInformationRemote {
     @AuraEnabled
     public static List<Participant__c> getParticipantDelegates(String participantId) {
         try {
-            return [SELECT Id, Contact__c, First_Name__c, Middle_Name__c, Last_Name__c, Mailing_Zip_Postal_Code__c, Mailing_State_Code__c, Mailing_Country_Code__c, Email__c, Phone_Type__c, Phone__c FROM Participant__c WHERE Contact__c IN (SELECT Contact__c FROM Patient_Delegate__c WHERE Participant__c = :participantId)];
+            return [SELECT Id,
+                            Contact__c,
+                            First_Name__c,
+                            Middle_Name__c,
+                            Last_Name__c,
+                            Mailing_Zip_Postal_Code__c,
+                            Mailing_State_Code__c,
+                            Mailing_Country_Code__c,
+                            Email__c,
+                            Phone_Type__c,
+                            Phone__c
+                    FROM Participant__c
+                    WHERE Contact__c IN (SELECT Contact__c
+                                         FROM Patient_Delegate__c
+                                         WHERE Participant__c = :participantId AND
+                                               Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)];
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
+        }
+    }
+
+    @AuraEnabled
+    public static String updatePatientStatus(String stepWrapperJSON, String peId){
+        try {
+            String steps = ReferralProfileRemote.updateParticipantStatus(stepWrapperJSON, peId);
+            return steps;
+        } catch (Exception e) {
+            return (String) AuraHelper.throwException(e);
         }
     }
 

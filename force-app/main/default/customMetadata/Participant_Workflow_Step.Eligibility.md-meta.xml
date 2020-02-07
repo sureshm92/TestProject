@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Eligibility</label>
+    <protected>false</protected>
+    <values>
+        <field>Card_Name_Label__c</field>
+        <value xsi:type="xsd:string">PWS_Eligibility_Card_Name</value>
+    </values>
+    <values>
+        <field>Condition__c</field>
+        <value xsi:type="xsd:string">Initial_Visit_Required__c == false</value>
+    </values>
+    <values>
+        <field>History_Label__c</field>
+        <value xsi:type="xsd:string">PWS_Eligibility_History_Title</value>
+    </values>
+    <values>
+        <field>Name_Label__c</field>
+        <value xsi:type="xsd:string">PWS_Eligibility_Name</value>
+    </values>
+    <values>
+        <field>No_Outcome_Label__c</field>
+        <value xsi:type="xsd:string">PWS_Eligibility_No_Outcome</value>
+    </values>
+    <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">3.0</value>
+    </values>
+</CustomMetadata>
