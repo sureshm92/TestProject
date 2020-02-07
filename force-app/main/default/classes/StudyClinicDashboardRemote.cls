@@ -52,7 +52,7 @@ public class StudyClinicDashboardRemote {
                     if(value == null) value = 0;
                     stepSummary += value;
                     SubTotalItem subTotalItem = new SubTotalItem();
-                    subTotalItem.label = statusStep.states.get(state);
+                    subTotalItem.label = statusStep.states.get(state)[0];
                     subTotalItem.state = state;
                     subTotalItem.value = value;
                     funnelItem.subTotals.add(subTotalItem);

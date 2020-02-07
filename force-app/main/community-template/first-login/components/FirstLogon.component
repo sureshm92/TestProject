@@ -2,39 +2,11 @@
  - Created by Nargiz Mamedova on 10/11/2019.
  -->
 
-<apex:component id="FirstLogon" controller="FirstLogonController" language="{!currUser.Contact.Language__c}"
-                allowDML="true">
+<apex:component id="FirstLogon" controller="FirstLogonController" language="{!contact.Language__c}" allowDML="true">
     <style>
-        .all-content {
-            height: 100%;
-            width: 100%;
-            font-family: "Proxima Nova";
-        }
-
-        .footer {
-        }
-
-        .width-limiter {
-            height: 100%;
-            width: 100%;
-        }
-
-        .header-block {
-            display: flex;
-            align-items: center;
-            height: 100%;
-        }
-
-
         .body-content {
             vertical-align: top;
             display: block;
-        }
-
-
-        .logo-block {
-            /*height: 39px;*/
-            width: 123px;
         }
 
         .current-state {
@@ -112,19 +84,6 @@
             padding-left: 0.75rem;
         }
 
-        .rr-form-element {
-            margin-top: 10px !important;
-            margin-bottom: 10px !important;
-        }
-
-        .rr-form-element .password-input {
-            position: relative;
-        }
-
-        .rr-form-element.error input {
-            border-color: red;
-        }
-
         .footer {
             background-color: #F2F2F2;
         }
@@ -179,9 +138,7 @@
                 padding-right: 120px;
             }
         }
-    </style>
 
-    <style>
         /* styles for language options input fields */
         button.slds-button_icon::before {
             content: attr(help-text);
@@ -202,21 +159,15 @@
             transition: opacity 0.4s ease-out;
         }
 
-        button.slds-button_icon:hover::before {
-            opacity: 1;
-            bottom: 24px;
-            left: -130px;
-        }
     </style>
+
     <apex:outputPanel id="test" styleClass="rr-all-content">
-        <div class="rr-header-content">
-            <div class="rr-width-limiter side-padding header-block">
-                <apex:outputPanel rendered="{!isParticipant}">
-                    <img src="{!$Resource.PH_logo + '/Patient_Portal_Logo.svg'}" class="logo-block"/>
-                </apex:outputPanel>
-                <apex:outputPanel rendered="{!!isParticipant}">
-                    <img src="{!$Resource.rr_community_icons + '/Referral_Hub_Logo.svg'}" class="logo-block"/>
-                </apex:outputPanel>
+        <div class="rr-header-content main-header-brand">
+            <div class="layout-header rr-width-limiter side-padding">
+                <div class="logo-container">
+                    <apex:image url="{!communityLogoURL}" styleClass="title-logo" rendered="{!isParticipant}"/>
+                    <apex:image url="{!$Resource.rr_community_icons + '/Referral_Hub_Logo.svg'}" styleClass="title-logo" rendered="{!!isParticipant}"/>
+                </div>
             </div>
         </div>
         <div class="rr-header-margin"/>
@@ -257,7 +208,7 @@
                     <apex:actionFunction name="updateStates" action="{!updateStatesAction}"/>
 
                     <!-- Preferred Language -->
-                    <c:PreferredLanguage language_="{!currUser}"/>
+                    <c:PreferredLanguage contact="{!contact}"/>
                     <apex:actionFunction name="updatePage" action="{!updateLanguageAction}"/>
 
                     <!-- Date Format -->
@@ -306,5 +257,6 @@
             </div>
         </div>
         <apex:outputPanel style="display:block; height: 72px" rendered="{!!isProfileView}"></apex:outputPanel>
+
     </apex:outputPanel>
 </apex:component>
