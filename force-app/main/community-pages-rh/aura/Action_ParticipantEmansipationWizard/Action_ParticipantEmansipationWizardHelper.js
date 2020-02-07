@@ -88,10 +88,10 @@
         component.find('spinner').show();
 
         let doNotContinueIds = [];
-        let delegateItems = component.get('v.participant');
-        for (let delegateItem in delegateItems) {
-            if (delegateItem.Id && delegateItem.selectedOption == '2') {
-                doNotContinueIds.push(delegateItem.Id);
+        let delegateItems = component.get('v.delegateItems');
+        for (let ind = 0; ind < delegateItems.length; ind++) {
+            if (delegateItem[ind].Id && delegateItem[ind].selectedOption == '2') {
+                doNotContinueIds.push(delegateItem[ind].Id);
             }
         }
 
@@ -99,14 +99,15 @@
             participant: component.get('v.participant'),
             participantContact: component.get('v.contact'),
             delegates: component.get('v.participant'),
-            doNotContinueIds: doNotContinueIds
+            doNotContinueIds: doNotContinueIds,
+            needsInvite: component.get('v.selectedOption') == '1'
         }, function (returnValue) {
             component.set('v.currentTab', '1');
 
             component.find('spinner').hide();
             component.find('dialog').hide();
         }, function (returnValue) {
-            component.find('upModalSpinner').hide();
+            component.find('spinner').hide();
             communityService.showErrorToast('',  "Emancipation process failed! Description: " + returnValue);
         });
     }

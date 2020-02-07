@@ -7,17 +7,15 @@ public without sharing class FirstLogonController {
     public static final String ERROR_VALUE_SUFFIX = ': You must enter a valid value';
 
     public String photolink { get; set; }
-
     public String newPassword { get; set; }
     public String verifyNewPassword { get; set; }
-
     public Boolean isPasswordsEquals { get; set; }
 
-    public Boolean isParticipant { get; set; }
 
     public User currUser { get; set; }
     public Contact contact { get; set; }
     public Account account { get; set; }
+    public Boolean isParticipant { get; set; }
 
     public String helpText_1st_Language { get; private set; }
     public String helpText_2nd_Language { get; private set; }
@@ -58,45 +56,9 @@ public without sharing class FirstLogonController {
     }
 
     private void getUserAndContactAndAccount() {
-        currUser = [
-                SELECT Id, Name, Username, FirstName, LastName, FullPhotoUrl,
-                        Contact.FirstName,
-                        Contact.LastName,
-                        Contact.MailingAddress,
-                        Contact.Salutation,
-                        Contact.MiddleName,
-                        Contact.Suffix,
-                        Contact.MailingCountry,
-                        Contact.MailingCity,
-                        Contact.MailingPostalCode,
-                        Contact.MailingState,
-                        Contact.MailingStreet,
-                        Contact.Is_First_Logon__c,
-                        Contact.Language__c,
-                        Contact.Second_Choice_Language__c,
-                        Contact.Third_Choice_Language__c,
-                        Contact.userCommunityMode__c,
-                        Contact.userCommunytyType__c,
-                        Contact.UserCommunityIsDelegate__c,
-                        Contact.Phone,
-                        Contact.Fax,
-                        Contact.OwnerId,
-                        Contact.Account.Name,
-                        Contact.Account.Phone,
-                        Contact.Account.BillingStreet,
-                        Contact.Account.BillingCity,
-                        Contact.Account.BillingState,
-                        Contact.Account.Fax,
-                        Contact.Account.BillingCountry,
-                        Contact.Account.BillingPostalCode,
-                        Contact.Account.BillingCountryCode,
-                        LanguageLocaleKey, TimeZoneSidKey, LocaleSidKey
-                FROM User
-                WHERE Id = :UserInfo.getUserId()
-        ];
-
-        contact = currUser.Contact;
-        account = currUser.Contact.Account;
+        currUser = UserContext.getUser();
+        contact = UserContext.getUserContact();
+        account = UserContext.getUserContact().Account;
 
         notEnrollNow = !((contact.userCommunytyType__c == null || contact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP))
                 && contact.userCommunityMode__c == CommunityService.USER_MODE_HCP);
@@ -118,6 +80,10 @@ public without sharing class FirstLogonController {
             ];
             updateTranslations();
         }
+    }
+    
+    public String getCommunityLogoURL(){
+        return UserContext.getTemplateProperty(CommunityTemplateService.PROPERTY_COMMUNITY_LOGO);
     }
 
     private void initLanguagesAndTranslation() {
@@ -253,8 +219,8 @@ public without sharing class FirstLogonController {
     }
 
     public void updateLanguageAction() {
-        if (String.isBlank(currUser.Contact.Language__c)) currUser.Contact.Language__c = previousLanguage;
-        currUser.LanguageLocaleKey = currUser.Contact.Language__c;
+        if (String.isBlank(contact.Language__c)) contact.Language__c = previousLanguage;
+        currUser.LanguageLocaleKey = contact.Language__c;
 
         try {
             update currUser;
