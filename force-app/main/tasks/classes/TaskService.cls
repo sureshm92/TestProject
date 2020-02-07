@@ -53,7 +53,8 @@ public without sharing class TaskService {
             'Patient_Visit__c',
             'Is_Reminder_Sent__c',
             'Survey_Invitation__c',
-            'Survey_Invitation__r.Is_Expired__c'
+            'Survey_Invitation__r.Is_Expired__c',
+            'Survey_Invitation__r.Participant_Enrollment__c'
     };
 
     public static final List<String> TASK_STATUS_GROUP_EXPIRE_AVAILABLE = new List<String>{
@@ -108,15 +109,17 @@ public without sharing class TaskService {
     private List<Task> filterTasks(List<Task> tasks){
         List<Task> filteredList = new List<Task>();
         for(Task t : tasks){
-            if(t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()){
-                //PE tasks:
-                if(ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Tasks_Are_Available__c && t.WhatId == ParticipantContext.getCurrentPEId()){
-                    filteredList.add(t);
+            Boolean skipTask = false;
+            if(ParticipantContext.getCurrentPE() != null){
+                if(t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()){
+                    if(!ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Tasks_Are_Available__c || t.WhatId != ParticipantContext.getCurrentPEId()){
+                        skipTask = true;
+                    }
+                } else if(t.Survey_Invitation__c != null  && t.Survey_Invitation__r.Participant_Enrollment__c != ParticipantContext.getCurrentPEId()){
+                    skipTask = true;
                 }
-            }else{
-                //other tasks:
-                filteredList.add(t);
             }
+            if(!skipTask) filteredList.add(t);
         }
         return filteredList;
     }
