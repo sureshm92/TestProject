@@ -18,12 +18,20 @@
     <div class="icons-container">
         <div class="icons-row">
             <aura:iteration items="{!v.icons}" var="icon">
-                <div class="icon" style="{!'background-color: ' + v.backgroundColor}">
-                    <c:RRIcon resource="{!$Resource.Icons_legend}" iconName="{!icon}"
-                              class="{!'icon-item ' + v.class}"
-                              color="black"/>
-                    <div class="dots">...</div>
-                </div>
+                <aura:if isTrue="{!!empty(v.value)}">
+                    <div class="icon" style="{!'background-color: ' + v.backgroundColor}">
+                        <c:RRIcon resource="{!$Resource.Icons_legend}" iconName="{!icon}"
+                                  class="{!'icon-item ' + v.class}"/>
+                        <div class="dots">...</div>
+                    </div>
+                    <aura:set attribute="else">
+                        <div class="icon" style="{!'background-color: ' + v.backgroundColor}" title="{!icon.Label__c}">
+                            <c:RRIcon resource="{!$Resource.Icons_legend}" iconName="{!icon.Name}"
+                                      class="{!'icon-item ' + v.class}"/>
+                            <div class="dots">...</div>
+                        </div>
+                    </aura:set>
+                </aura:if>
             </aura:iteration>
         </div>
         <div class="free-space"></div>
