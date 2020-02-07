@@ -61,16 +61,22 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
-    public static void updateParticipantAndDelegates(Participant__c participant, Contact participantContact, List<Participant__c> delegates, List<Id> doNotContinueIds, Boolean needsInvite) {
+    public static void updateParticipantAndDelegates(String participantS, String participantContactS, String delegatesS, List<String> doNotContinueIds, Boolean needsInvite) {
         try {
+            Participant__c participant = (Participant__c)JSON.deserialize(participantS, Participant__c.class);
+            Contact participantContact = (Contact)JSON.deserialize(participantContactS, Contact.class);
+            List<Participant__c> delegates = (List<Participant__c>)JSON.deserialize(delegatesS, List<Participant__c>.class);
             system.debug('Participant__c: ' + participant);
             system.debug('Contact: ' + participantContact);
             system.debug('List<Participant__c>: ' + delegates);
             system.debug('List<Id>: ' + doNotContinueIds);
             system.debug('Boolean: ' + needsInvite);
             Map<Id, Id> toCreateUser = new Map<Id, Id>();
-            List<SObject> objectsToUpdate = new List<SObject> {participant, participantContact};
-            update objectsToUpdate;
+
+            update participant;
+            if (participantContact.Id != null) {
+                update participantContact;
+            }
 
             if (needsInvite) {
                 system.debug('needsInvite: ' + needsInvite);
