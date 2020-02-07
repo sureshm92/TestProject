@@ -72,8 +72,10 @@
     width: 30%;
 }
 .THIS .svl-icon{
-    height: 32px;
+    height: 16px;
     width: 32px;
+    margin-top: 8px;
+    cursor: pointer;
 }
 
 .THIS .pagination{
