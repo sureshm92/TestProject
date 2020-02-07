@@ -26,6 +26,7 @@
                 component.set('v.statesLVList', states);
                 component.set('v.currentTab', '1');
                 component.set('v.initialized', true);
+                pe.Participant__r.Emancipation_in_progress__c = false;
                 component.set('v.participant', pe.Participant__r);
                 let contact = { sObjectType: '', Id: pe.Participant__r.Contact__c, Consent_To_Inform_About_Study__c: false };
                 component.set('v.contact', contact);
@@ -36,8 +37,11 @@
 
             communityService.executeAction(component, 'getParticipantDelegates', {
                 participantId: pe.Participant__c
-            },  function (returnValue) {
-                component.set('v.delegateItems', returnValue);
+            },  function (delegateItems) {
+                for (let ind = 0; ind < delegateItems.length; ind++) {
+                    delegateItems[ind].continueDelegateMsg = $A.get('$Label.c.PG_Ref_L_Delegate_continue_be_delegate').replace('##delegateName', delegateItems[ind].First_Name__c + ' ' + delegateItems[ind].Last_Name__c);
+                }
+                component.set('v.delegateItems', delegateItems);
 
                 component.find('spinner').hide();
             }, function (returnValue) {
@@ -219,7 +223,8 @@
               Mailing_State__c: component.get('v.participant.Mailing_State__c'),
               Mailing_Country_Code__c: component.get('v.participant.Mailing_Country_Code__c'),
               Mailing_Country__c: component.get('v.participant.Mailing_Country__c'),
-              statesDelegateLVList: states
+              statesDelegateLVList: states,
+              Adult__c: true
             });
         component.set('v.delegateItems', delegateItems);
     }

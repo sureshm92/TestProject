@@ -9392,7 +9392,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L Participant require guardian</shortDescription>
-        <value>Receive optional email communication from IQVIA</value>
+        <value>Receive information about clinical study opportunities.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_complete_Medical_Record_Review_first</fullName>
