@@ -7,9 +7,8 @@
 
 .THIS .nav-item{
     color: white;
-    padding: 10px;
-    padding-top: 15px;
-
+    padding: 15px 10px 10px;
+    position: relative;
 }
 
 .THIS .nav-item:hover, .THIS .nav-item:active{
