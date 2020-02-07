@@ -55,7 +55,7 @@ public without sharing class CommunityModeService {
         ];
         Participant__c userParticipant;
         if(userParticipants.size() > 0) userParticipant = userParticipants[0];
-        List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds(CommunityService.getInstance().getCurrentContactId());
+        List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds(UserContext.getUserContactId());
         if(delegatedParticipantIds == null) delegatedParticipantIds = new List<Id>();
         
         Map<Id, Participant__c> participantsMap = new Map<Id, Participant__c>([
