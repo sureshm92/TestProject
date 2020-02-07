@@ -126,7 +126,7 @@ public without sharing class ParticipantInformationRemote {
                         } else {
                             //check contact duplicate:
                             if (duplicateService.findDuplicateContact(delegate) != null) {
-                                delegate.Contact__c = duplicateService.findDuplicateContact(participant).Id;
+                                delegate.Contact__c = duplicateService.findDuplicateContact(delegate).Id;
                             }
                             filteredDelegates.add(delegate);
                         }

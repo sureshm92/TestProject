@@ -112,6 +112,7 @@
 
             component.find('spinner').hide();
             component.find('dialog').hide();
+            communityService.navigateToPage('my-referrals');
         }, function (returnValue) {
             console.log('Emancipation wizard ERROR!: ' + returnValue);
             component.find('spinner').hide();
