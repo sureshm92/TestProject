@@ -13,7 +13,7 @@
     <aura:attribute name="options" type="List"/>
     <aura:attribute name="vendors" type="Object[]"/>
 
-<!--    <aura:handler name="change" value="{!v.travelMode}" action="{!c.getTravels}"/>-->
+    <!--    <aura:handler name="change" value="{!v.travelMode}" action="{!c.getTravels}"/>-->
 
     <c:RRSpinner aura:id="spinner" size="medium" showSpinner="true" fixed="true"/>
     <div class="{!'sv-body ' + if(v.initialized, '', 'hidden')}" data-gtm="PNL_Travel_Support_Details">
@@ -61,7 +61,8 @@
                                 : travelWrapper.visitName}</td>
                             <td class="sv-t-icons">
                                 <div class="booking-cell">
-                                    <div class="icon-item" style="{!if(travelWrapper.icon == 'plane', 'transform: rotate(-20deg);', '')}">
+                                    <div class="icon-item"
+                                         style="{!if(travelWrapper.icon == 'plane', 'transform: rotate(-20deg);', '')}">
                                         <c:RRIcon class="icon-item svl-icon" iconName="{!travelWrapper.icon}"/>
                                     </div>
                                     <div style="padding-left: 3px">{!travelWrapper.title}</div>
@@ -82,8 +83,10 @@
                                                              year="numeric" month="2-digit" day="2-digit"/>
                             </td>
                             <td class="sv-t-time">
-                                <lightning:formattedDateTime value="{!travelWrapper.dateAndTime}"
-                                                             hour="2-digit" minute="2-digit" hour12="true"/>
+                                <aura:if isTrue="{!!travelWrapper.isAccommodation}">
+                                    <lightning:formattedDateTime value="{!travelWrapper.dateAndTime}"
+                                                                 hour="2-digit" minute="2-digit"/>
+                                </aura:if>
                             </td>
                             <td class="sv-t-reminder">
                                 <lightning:formattedUrl value="{!travelWrapper.link}" label="View Booking"/>

@@ -58,8 +58,9 @@ public without sharing class MessagePageRemote {
     public static MSPageData getInitData() {
         try {
             MSPageData pageData = new MSPageData();
-            pageData.isPageEnabled = CommunityFacadeRemote.getMessagesVisibility();
             pageData.userMode = UserContext.getCurrentUserMode().userMode;
+            pageData.isPageEnabled =
+                    pageData.userMode.equals(CommunityService.USER_MODE_PI) ? true : CommunityFacadeRemote.getMessagesVisibility();
 
             List<Conversation__c> sharedConversations = ConversationService.getSharedConversations(UserInfo.getUserId());
             List<Conversation__c> conversations = new List<Conversation__c>();
