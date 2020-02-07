@@ -14,7 +14,7 @@
     overflow-x: scroll;
     -ms-overflow-style: none;
     scroll-behavior: smooth;
-    padding-top: 14px;
+    padding-top: 24px;
     position: relative;
 }
 
@@ -91,6 +91,34 @@
     height: 28px;
     top: -15px;
     left: -14px;
+}
+
+.state.planned .state-ico-wrapper-middle {
+    border-radius: 50%;
+    position: absolute;
+    top: -19px;
+    left: -18px;
+    line-height: 1;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    opacity: 0.25;
+    background-color: #005ff1;
+}
+
+.state.planned .state-ico-wrapper-large {
+    border-radius: 50%;
+    position: absolute;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #005ff1;
+    top: -25px;
+    left: -24px;
+    width: 48px;
+    height: 48px;
+    opacity: 0.1;
 }
 
 .state.neutral .state-ico-wrapper {
