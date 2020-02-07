@@ -62,6 +62,8 @@
                 delegateItems[ind].statesDelegateLVList = states;
             }
             component.set('v.delegateItems', delegateItems);
+            var action = component.get('c.doCheckDelegateFields');
+            $A.enqueueAction(action);
 
             component.find('spinner').hide();
         }, function (returnValue) {
