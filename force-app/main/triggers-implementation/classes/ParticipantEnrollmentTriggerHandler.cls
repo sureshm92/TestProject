@@ -432,8 +432,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     private static void getPaymentInformationOnStatusChange(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<Participant_Enrollment__c> peToUpdate = new List<Participant_Enrollment__c>();
         for(Participant_Enrollment__c participantEnrollment : newList){
-            if(participantEnrollment.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
-                    || participantEnrollment.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) {
+            if(participantEnrollment.Participant_Status__c != oldMap.get(participantEnrollment.Id).Participant_Status__c) {
                 peToUpdate.add(participantEnrollment);
             }
         }
