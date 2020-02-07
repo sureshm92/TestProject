@@ -54,14 +54,14 @@
         communityService.executeAction(component, 'getParticipantDelegates', {
             participantId: component.get('v.pe.Participant__c')
         },  function (delegateItems) {
+            let formData = component.get('v.formData');
             for (let ind = 0; ind < delegateItems.length; ind++) {
                 delegateItems[ind].continueDelegateMsg = $A.get('$Label.c.PG_Ref_L_Delegate_continue_be_delegate').replace('##delegateName', delegateItems[ind].First_Name__c + ' ' + delegateItems[ind].Last_Name__c);
                 delegateItems[ind].selectedOption = '1';
+                let states = formData.statesByCountryMap[delegateItems[ind].Mailing_Country_Code__c];
+                delegateItems[ind].statesDelegateLVList = states;
             }
             component.set('v.delegateItems', delegateItems);
-            let formData = component.get('v.formData');
-            let states = formData.statesByCountryMap[delegateItems[ind].Mailing_Country_Code__c];
-            delegateItems[ind].statesDelegateLVList = states;
 
             component.find('spinner').hide();
         }, function (returnValue) {
