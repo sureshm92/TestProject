@@ -38,6 +38,27 @@ a:hover {
     background: linear-gradient(to right, #230559 0%,#036ca7 100%);
 }
 
+.rr-header-content .layout-header {
+    height: 100%;
+    overflow: inherit;
+    display: flex;
+}
+
+.logo-container {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.logo-container .title-logo {
+    max-height: 38px;
+    max-width: 165px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
 /* ------------------------------------------ login/change password pages: -------------------------------------------*/
 
 

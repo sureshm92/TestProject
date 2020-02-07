@@ -21,15 +21,20 @@
                                     <div class="slds-grid">
                                         <div class={pathItem.left}></div>
                                         <div class={pathItem.right} style="position: relative">
+                                            <div class="state-ico-wrapper-large">
+                                            </div>
+                                            <div class="state-ico-wrapper-middle">
+                                            </div>
                                             <div class="state-ico-wrapper">
-                                                <c-web-icon icon-name={pathItem.icon} icon-color="white"></c-web-icon>
+                                                <c-web-icon icon-name={pathItem.icon}
+                                                            icon-color="white"></c-web-icon>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="state-label">{pathItem.visitName}</div>
                                     <div class="state-label">
-                                        <template if:false= {pathItem.isPending}>{pathItem.complDate}</template>
-                                        <template if:true= {pathItem.isPending}>
+                                        <template if:false={pathItem.isPending}>{pathItem.complDate}</template>
+                                        <template if:true={pathItem.isPending}>
                                             <template if:true={pathItem.planDate}>
                                                 <div class="date-edit">
                                                     <lightning-formatted-date-time

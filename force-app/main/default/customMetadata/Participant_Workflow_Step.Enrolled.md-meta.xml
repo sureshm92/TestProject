@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Enrolled</label>
+    <protected>false</protected>
+    <values>
+        <field>Card_Name_Label__c</field>
+        <value xsi:type="xsd:string">PWS_Enrolled_Card_Name</value>
+    </values>
+    <values>
+        <field>Condition__c</field>
+        <value xsi:type="xsd:string">Participant_Workflow_Final_Step__c == Enrollment</value>
+    </values>
+    <values>
+        <field>Failed_State_Editing_Enabled__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Form_Fields__c</field>
+        <value xsi:type="xsd:string">Visit_Plan,Final_Consent;Screening_ID,blank</value>
+    </values>
+    <values>
+        <field>History_Item_Details_Template_Label__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>History_Item_Title_Template_Label__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>History_Label__c</field>
+        <value xsi:type="xsd:string">PWS_Enrolled_History_Title</value>
+    </values>
+    <values>
+        <field>Name_Label__c</field>
+        <value xsi:type="xsd:string">PWS_Enrolled_Name</value>
+    </values>
+    <values>
+        <field>No_Outcome_Label__c</field>
+        <value xsi:type="xsd:string">PWS_Enrolled_No_Outcome</value>
+    </values>
+    <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">6.0</value>
+    </values>
+    <values>
+        <field>Outcome_Placeholder_Label__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

@@ -23,6 +23,7 @@ import createConversation from '@salesforce/apex/MessagePageRemote.createConvers
 import sendMessage from '@salesforce/apex/MessagePageRemote.sendMessage';
 import searchParticipant from '@salesforce/apex/MessagePageRemote.searchParticipant';
 import sendMultipleMessage from '@salesforce/apex/MessagePageRemote.sendMultipleMessage';
+import formFactor from "@salesforce/client/formFactor";
 
 export default class MessageBoard extends LightningElement {
 
@@ -118,7 +119,7 @@ export default class MessageBoard extends LightningElement {
     }
 
     renderedCallback() {
-        if (this.firstConWr && !this.hideEmptyStub && !this.conversation && !this.enrollments) {
+        if (this.firstConWr && !this.hideEmptyStub && !this.conversation && !this.enrollments && formFactor !== 'Small') {
             this.openExisting(this.firstConWr.conversation, this.firstConWr.messages, this.firstConWr.isPastStudy);
         }
 
@@ -136,25 +137,8 @@ export default class MessageBoard extends LightningElement {
     }
 
     //Search Handlers:--------------------------------------------------------------------------------------------------
-    handleSearch(event) {
-        searchParticipant(event.detail)
-            .then(results => {
-                this.template.querySelector('c-web-lookup').setSearchResults(results);
-            })
-            .catch(error => {
-                this.notifyUser(
-                    'Lookup Error',
-                    'An error occurred while searching with the lookup field.',
-                    'error'
-                );
-                console.error('Lookup error', JSON.stringify(error));
-            });
-    }
-
     handleSelectionChange(event) {
-    //     let lookUp = this.template.querySelector('c-web-lookup');
-    //     if (lookUp) this.selectedEnrollments = lookUp.getSelection();
-        this.selectedEnrollments = event.detail.
+        this.selectedEnrollments = event.detail.selection;
         this.checkSendBTNAvailability();
     }
 
@@ -277,6 +261,7 @@ export default class MessageBoard extends LightningElement {
         let attachBTN = this.template.querySelector('.ms-att-file-label');
         if (attachBTN) {
             attachBTN.style.opacity = this.isSendEnable ? 1 : 0.5;
+            attachBTN.style.cursor = this.isSendEnable ? 'pointer' : 'default';
             attachBTN.style.pointerEvents = this.isSendEnable ? 'all' : 'none';
         }
     }

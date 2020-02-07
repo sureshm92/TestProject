@@ -5,10 +5,6 @@
 <!-- Message Board Header -->
 <template>
     <div class="ms-board-header">
-        <div class="header-back" onclick={handleBackClick}>
-            <c-web-icon icon-name="chevron-left" icon-color="#297DFD" icon-height="24" icon-width="24"></c-web-icon>
-            <p class="back-label">{labels.backLabel}</p>
-        </div>
         <template if:true={isMultipleMode}>
             <div class="ms-multi-header">
                 <template if:false={isPIMode}>
@@ -43,14 +39,6 @@
         </template>
         <template if:false={isMultipleMode}>
             <div class="ms-single-header">
-                <div class="header-con-icon">
-                    <template if:false={isPIMode}>
-                        <c-web-icon icon-name="icon-study-team" icon-color="#ffffff" icon-height="20" icon-width="20"></c-web-icon>
-                    </template>
-                    <template if:true={isPIMode}>
-                        <p>{initials}</p>
-                    </template>
-                </div>
                 <template if:false={isPIMode}>
                     <div class="ms-header-team-name" data-gtm="ms-header-name-pa">
                         <template if:false={isPastStudy}>
@@ -78,4 +66,5 @@
             </div>
         </template>
     </div>
+    <div class="header-border"></div>
 </template>

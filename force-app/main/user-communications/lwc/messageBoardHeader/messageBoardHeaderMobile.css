@@ -1,0 +1,129 @@
+/**
+ * Created by Igor Malyuta on 05.02.2020.
+ */
+.mob-board-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.header-back {
+    position: absolute;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    padding-left: 16px;
+    padding-top: 19px;
+}
+
+.back-label {
+    color: #297DFD;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+}
+
+.header-con-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    color: white;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 19px;
+    border-radius: 50%;
+}
+
+.mob-single-header {
+    height: 100%;
+    margin: 0 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 13px 25px;
+}
+
+.header-team-label {
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 22px;
+}
+
+.header-pi-name {
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    line-height: 21px;
+}
+
+.mob-multi-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100px;
+}
+
+.mob-multi-header-pa {
+    align-self: center;
+    padding: 40px 5px 10px;
+    width: 320px;
+}
+
+.mob-multi-header-pi {
+    align-self: center;
+    padding: 40px 10px 10px;
+}
+
+.mob-pi-new-mess {
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.mob-pi-multi-recipient {
+    min-width: 322px;
+    border: 1px solid #d4d1d1;
+    border-radius: 5px;
+    padding: 4px;
+}
+
+.mob-header-patient-name {
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 600;
+    padding-top: 15px;
+}
+
+.mob-header-team-name {
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.header-past-study {
+    text-align: center;
+}
+
+.mob-header-patient-study {
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.header-border {
+    border-bottom: 1px solid #e6e5e5;
+}

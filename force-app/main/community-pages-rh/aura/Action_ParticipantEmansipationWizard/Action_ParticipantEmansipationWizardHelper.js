@@ -71,6 +71,45 @@
                 state : "neutral"
             }
         };
+    },
+
+    prepareDelegates : function (component) {
+        let delegateParticipant = {
+            sObjectType: 'Participant__c',
+            Id: 'a0a0R000003iPoMQAU',
+            selectedOption: '1'
+        };
+        let delegateItems = [];
+        delegateItems.push(delegateParticipant);
+        component.set('v.delegateItems', delegateItems);
+    },
+
+    updateParticipantAndDelegates : function (component) {
+        component.find('spinner').show();
+
+        let doNotContinueIds = [];
+        let delegateItems = component.get('v.delegateItems');
+        for (let ind = 0; ind < delegateItems.length; ind++) {
+            if (delegateItem[ind].Id && delegateItem[ind].selectedOption == '2') {
+                doNotContinueIds.push(delegateItem[ind].Id);
+            }
+        }
+
+        communityService.executeAction(component, 'updateParticipantAndDelegates', {
+            participant: component.get('v.participant'),
+            participantContact: component.get('v.contact'),
+            delegates: component.get('v.participant'),
+            doNotContinueIds: doNotContinueIds,
+            needsInvite: component.get('v.selectedOption') == '1'
+        }, function (returnValue) {
+            component.set('v.currentTab', '1');
+
+            component.find('spinner').hide();
+            component.find('dialog').hide();
+        }, function (returnValue) {
+            component.find('spinner').hide();
+            communityService.showErrorToast('',  "Emancipation process failed! Description: " + returnValue);
+        });
     }
 
 });

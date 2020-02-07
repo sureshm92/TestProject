@@ -117,14 +117,13 @@
             <div class="prfile-btn-container">
                 <div class="btn-upload-photo">
                     <svg>
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink"
-                             xlink:href="{!$Resource.rr_community_icons}/icons.svg#icon-camera"></use>
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!$Resource.rr_community_icons}/icons.svg#icon-camera"></use>
                     </svg>
                     {!$Label.PG_Login_BTN_Upload_Photo}
-                    <input class="input-control" type="file" multiple="false" id="fileinput"
-                           onchange="uploadFiles(this);"/>
+                    <input class="input-control" type="file" multiple="false" id="fileinput" onchange="uploadFiles(this);"/>
                 </div>
             </div>
         </div>
     </apex:outputPanel>
+
 </apex:component>

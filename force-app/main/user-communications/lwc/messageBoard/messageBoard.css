@@ -9,95 +9,10 @@
     justify-content: center;
 }
 
-.ms-board-header {
-}
-
-.header-back {
-    display: none;
-}
-
-.ms-single-header {
-    height: 73px;
-    padding: 0 25px;
-    border-bottom: 1px solid #e6e5e5;
-}
-
-.ms-multi-header {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 100px;
-}
-
-.ms-multi-header-pa {
-    align-self: center;
-    width: 80%;
-}
-
-.ms-multi-header-pi {
-    align-self: center;
-    width: 80%;
-    padding-top: 20px;
-}
-
-.ms-pi-new-mess {
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.ms-pi-multi-recipient {
-    /*height: 100px;*/
-    /*overflow-y: auto;*/
-    border: 1px solid #d4d1d1;
-    border-radius: 5px;
-    padding: 4px;
-}
-
-.ms-pi-multi-recipient::-webkit-scrollbar {
-    width: 7px;
-}
-
-.ms-pi-multi-recipient::-webkit-scrollbar-track {
-    background: none;
-}
-
-.ms-pi-multi-recipient::-webkit-scrollbar-thumb {
-    background: rgba(155, 155, 155, 0.8);
-    border-radius: 10px;
-}
-
-.ms-pi-multi-recipient::-webkit-scrollbar-thumb:hover {
-    background: rgba(85, 85, 85, 0.3);
-}
-
-.ms-header-patient-name {
-    font-family: "Proxima Nova";
-    font-size: 18px;
-    line-height: 22px;
-    font-weight: 600;
-    padding-top: 15px;
-}
-
-.ms-header-team-name {
-    font-family: "Proxima Nova";
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 22px;
-    display: flex;
-    align-items: center;
-    height: 100%;
-}
-
-.ms-header-patient-study {
-    color: #444444;
-    font-family: "Proxima Nova";
-    font-size: 16px;
-    line-height: 19px;
-}
-
 .ms-board-body {
     height: 425px;
     padding: 10px;
+    overflow-x: hidden;
     overflow-y: auto;
     scroll-behavior: smooth;
     display: flex;
@@ -150,6 +65,12 @@
     justify-content: space-between;
 }
 
+.ms-file-upload {
+    opacity: 0;
+    max-width: 5px;
+    max-height: 5px;
+}
+
 .ms-att-file-label {
     height: 32px;
     width: 100px;
@@ -165,6 +86,7 @@
 
 .ms-att-file-icon {
     display: none;
+    transform: rotate(36deg);
 }
 
 .ms-empty-chat {
@@ -187,22 +109,6 @@
 }
 
 @media all and (max-width: 480px) {
-    .header-back {
-        display: flex;
-        flex-direction: row;
-        padding-left: 16px;
-        padding-top: 19px;
-    }
-
-    .back-label {
-        color: #297DFD;
-        font-family: "Proxima Nova";
-        font-size: 14px;
-        font-weight: 500;
-        line-height: 24px;
-        text-align: center;
-    }
-
     .ms-select-templates {
         flex-basis: 75%;
     }
