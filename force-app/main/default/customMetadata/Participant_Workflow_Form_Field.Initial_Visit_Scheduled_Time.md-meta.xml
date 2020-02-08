@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Readonly_for_Steps__c</field>
-        <value xsi:type="xsd:string">Initial_Visit</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Required_for_Steps__c</field>

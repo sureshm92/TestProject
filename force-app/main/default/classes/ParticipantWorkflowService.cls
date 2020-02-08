@@ -25,12 +25,16 @@ public without sharing class ParticipantWorkflowService {
             if(step.Condition__c == null || step.Condition__c =='' || ConditionCheckerService.checkConditionForObject(step.Condition__c, ctp)){
                 ParticipantWorkflowStepWrapper stepWrapper = createStepWrapper(step, outcomesMap, peshMapByStep, previousStepSuccess, fieldsMap, pe);
                 previousStepSuccess = stepWrapper.state == PEStatusState.STATUS_STATE_SUCCESS;
-                wrapper.steps.add(stepWrapper);
+
                 if(stepWrapper.state == PEStatusState.STATUS_STATE_SUCCESS
                         || stepWrapper.state == PEStatusState.STATUS_STATE_IN_PROGRESS
                         || stepWrapper.state == PEStatusState.STATUS_STATE_FAILURE){
                     wrapper.currentStep = stepWrapper;
+                    if(!wrapper.steps.isEmpty()){
+                        wrapper.steps[wrapper.steps.size()-1].editable = false;
+                    }
                 }
+                wrapper.steps.add(stepWrapper);
             }
         }
         if(wrapper.currentStep == null){
@@ -112,7 +116,7 @@ public without sharing class ParticipantWorkflowService {
                 stepWrapper.outcomeList.add(new LabelValueItem(TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,outcome.Status_Name__c),outcome.Status_Name__c));
                 List<LabelValueItem> reasonsList = new List<LabelValueItem>();
                 if(outcome.Reasons_List__c == null){
-                    reasonsList.add(new LabelValueItem('', ''));
+                    //reasonsList.add(new LabelValueItem('', ''));
                     stepWrapper.notesRequiredMap.put(outcome.Status_Name__c + ';', false);
                 }
                 else{
