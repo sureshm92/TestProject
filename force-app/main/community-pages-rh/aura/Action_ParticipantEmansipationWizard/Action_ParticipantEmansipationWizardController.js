@@ -6,6 +6,9 @@
 
     doInit: function (component, event, helper) {
         helper.preparePathItems(component);
+
+        let action = component.get('c.doCheckFields');
+        $A.enqueueAction(action);
     },
 
     doExecute: function (component, event, helper) {
@@ -20,33 +23,23 @@
 
             communityService.executeAction(component, 'getInitData', null, function (formData) {
                 component.set('v.formData', formData);
-                console.log('Countries:');
-                console.log(formData.countriesLVList);
                 let states = formData.statesByCountryMap['US'];
                 component.set('v.statesLVList', states);
                 component.set('v.currentTab', '1');
                 component.set('v.initialized', true);
                 pe.Participant__r.Emancipation_in_progress__c = false;
                 component.set('v.participant', pe.Participant__r);
-                let contact = { sObjectType: '', Id: pe.Participant__r.Contact__c, Consent_To_Inform_About_Study__c: false };
+                let contact = { sObjectType: 'Contact',
+                                Id: pe.Participant__r.Contact__c,
+                                Consent_To_Inform_About_Study__c: false };
                 component.set('v.contact', contact);
-                component.find('spinner').hide();
-            }, function (returnValue) {
-                component.find('spinner').hide();
-            });
 
-            communityService.executeAction(component, 'getParticipantDelegates', {
-                participantId: pe.Participant__c
-            },  function (delegateItems) {
-                for (let ind = 0; ind < delegateItems.length; ind++) {
-                    delegateItems[ind].continueDelegateMsg = $A.get('$Label.c.PG_Ref_L_Delegate_continue_be_delegate').replace('##delegateName', delegateItems[ind].First_Name__c + ' ' + delegateItems[ind].Last_Name__c);
-                }
-                component.set('v.delegateItems', delegateItems);
+                let action = component.get('c.doInitDelegates');
+                $A.enqueueAction(action);
 
                 component.find('spinner').hide();
             }, function (returnValue) {
                 component.find('spinner').hide();
-                communityService.showErrorToast('',  "Error get Participant's Delegates! Description: " + returnValue);
             });
 
             component.set('v.participantMsgWithName', $A.get("$Label.c.PG_Ref_L_Participant_require_invitation").replace('##participantName', pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c));
@@ -56,6 +49,28 @@
         } catch (e) {
             console.error(e);
         }
+    },
+
+    doInitDelegates: function(component, event, helper) {
+        communityService.executeAction(component, 'getParticipantDelegates', {
+            participantId: component.get('v.pe.Participant__c')
+        },  function (delegateItems) {
+            let formData = component.get('v.formData');
+            for (let ind = 0; ind < delegateItems.length; ind++) {
+                delegateItems[ind].continueDelegateMsg = $A.get('$Label.c.PG_Ref_L_Delegate_continue_be_delegate').replace('##delegateName', delegateItems[ind].First_Name__c + ' ' + delegateItems[ind].Last_Name__c);
+                delegateItems[ind].selectedOption = '1';
+                var statesByCountryMap = component.get('v.formData.statesByCountryMap');
+                let states = statesByCountryMap[delegateItems[ind].Mailing_Country_Code__c];
+                delegateItems[ind].statesDelegateLVList = states;
+            }
+            console.log(delegateItems);
+            component.set('v.delegateItems', delegateItems);
+
+            component.find('spinner').hide();
+        }, function (returnValue) {
+            component.find('spinner').hide();
+            communityService.showErrorToast('',  "Error get Participant's Delegates! Description: " + returnValue);
+        });
     },
 
     doCallback: function (component, event, helper) {
@@ -82,11 +97,11 @@
     doCheckFields: function (component, event) {
         var participant = component.get('v.participant');
         var statesByCountryMap = component.get('v.formData.statesByCountryMap');
-        var states = statesByCountryMap[participant.Mailing_Country_Code__c];
-        component.set('v.statesLVList', states);
-        var stateRequired = component.get('v.statesLVList')[0];
-        var stateCmp = component.find('stateField');
-        var stateVaild = stateRequired && stateCmp && stateCmp.get('v.validity') && stateCmp.get('v.validity').valid;
+        var states = component.get('v.statesLVList');
+        //component.set('v.statesLVList', states);
+        //var stateRequired = component.get('v.statesLVList')[0];
+        //var stateCmp = component.find('stateField');
+        //var stateVaild = stateRequired && stateCmp && stateCmp.get('v.validity') && stateCmp.get('v.validity').valid;
 
         let isValid =
             participant.First_Name__c &&
@@ -99,7 +114,8 @@
             participant.Mailing_Zip_Postal_Code__c &&
             component.find('emailInput').get('v.validity').valid &&
             component.find('phoneInput').get('v.validity').valid &&
-            stateVaild;
+            participant.Mailing_Country_Code__c &&
+            ((states && states.length == 0) || participant.Mailing_State_Code__c);
 
         component.set('v.isValid', isValid);
         return isValid;
@@ -120,7 +136,9 @@
         component.set('v.participant.Mailing_State_Code__c', null);
         component.set('v.participant.Mailing_State__c', null);
 
-        this.checkFields(component, event);
+        var action = component.get('c.doCheckFields');
+        $A.enqueueAction(action);
+        //this.doCheckFields(component, event);
     },
 
     doStateChange: function(component, event, helper) {
@@ -135,14 +153,33 @@
             }
         }
 
-        this.checkFields(component, event);
+        var action = component.get('c.doCheckFields');
+        $A.enqueueAction(action);
+        //this.doCheckFields(component, event);
     },
 
     doCheckDelegateFields: function (component, event) {
-        let ind = event.getSource().get('v.id');
         let delegateItems = component.get('v.delegateItems');
 
-        let isValid = component.get('v.isValid');
+        let isDelegatesValid = component.get('v.isDelegatesValid');
+        isDelegatesValid = true;
+
+        for (let ind = 0; ind < delegateItems.length; ind++) {
+            if (delegateItems[ind] && delegateItems[ind].Id) {
+                let states = delegateItems[ind].statesDelegateLVList;
+                isDelegatesValid = (isDelegatesValid &&
+                    (delegateItems[ind].Mailing_Country_Code__c &&
+                    ((states && states.length == 0) || delegateItems[ind].Mailing_State_Code__c) &&
+                    delegateItems[ind].Mailing_Zip_Postal_Code__c &&
+                    delegateItems[ind].Email__c &&
+                    //(component.find('emailDInput' + ind) && component.find('emailDInput' + ind).get('v.validity').valid) &&
+                    //(component.find('phoneDInput' + ind) && component.find('phoneDInput' + ind).get('v.validity').valid) &&
+                    delegateItems[ind].Phone_Type__c &&
+                    delegateItems[ind].Phone__c));
+            }
+        }
+
+        component.set('v.isDelegatesValid', isDelegatesValid);
     },
 
     doDelegateCountryCodeChanged: function (component, event) {
@@ -165,7 +202,9 @@
         }
         component.set('v.delegateItems', delegateItems);
 
-        this.checkDelegateFields(component, event);
+        var action = component.get('c.doCheckDelegateFields');
+        $A.enqueueAction(action);
+        //this.doCheckDelegateFields(component, event);
     },
 
     doDelegateStateChange: function(component, event) {
@@ -184,7 +223,9 @@
         }
         component.set('v.delegateItems', delegateItems);
 
-        this.checkDelegateFields(component, event);
+        var action = component.get('c.doCheckDelegateFields');
+        $A.enqueueAction(action);
+        //this.doCheckDelegateFields(component, event);
     },
 
     doNext: function(component, event, helper) {
@@ -193,9 +234,15 @@
             currentTab = '' + (+currentTab + 1);
             component.set('v.currentTab', currentTab);
             helper.preparePathItems(component);
+            if (currentTab == '2') {
+                var action = component.get('c.doCheckDelegateFields');
+                $A.enqueueAction(action);
+                console.log(component.get('v.delegateItems'));
+                //this.doCheckDelegateFields(component, event)
+            }
         } else {
             if (component.get('v.isValid')) {
-                helper.updateParticipantAndDelegates(component);
+                helper.updateParticipantAndDelegate(component);
             }
         }
     },
@@ -206,8 +253,16 @@
             currentTab = '' + (+currentTab - 1);
             component.set('v.currentTab', currentTab);
             helper.preparePathItems(component);
+            if (currentTab == '2') {
+                var action = component.get('c.doCheckDelegateFields');
+                $A.enqueueAction(action);
+                //this.doCheckDelegateFields(component, event);
+            }
         } else {
-            this.checkFields(component, event, hepler);
+            component.set('v.isDelegatesValid', true);
+            var action = component.get('c.doCheckFields');
+            $A.enqueueAction(action);
+            //this.doCheckFields(component, event);
         }
     },
 

@@ -2095,7 +2095,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PA New Mess</shortDescription>
-        <value>You have a new message in Message Center.</value>
+        <value>You have a new message from your provider. Please login to the IQVIA Patient Portal to view your messages.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI1</fullName>
@@ -2149,14 +2149,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_PI_Conv_Rem</shortDescription>
-        <value>There are ##UnreadConversationCount of pending threads from participants that await your attention.</value>
+        <value>You have ##UnreadConversationCount unread messages from your Participants waiting for your response. Please login to the IQVIA Patient Portal to view your messages.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI_New_Mess</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PI New Mess</shortDescription>
-        <value>You have a new message in Message Center.</value>
+        <value>You have a new message from your provider. Please login to the IQVIA Patient Portal to view your messages.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Participant_Answer</fullName>
@@ -2777,7 +2777,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header PA New Mess</shortDescription>
-        <value>Participant New Message</value>
+        <value>You have a new message</value>
     </labels>
     <labels>
         <fullName>Email_Header_PI2</fullName>
@@ -2819,14 +2819,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Header_PI_Conv_Rem</shortDescription>
-        <value>Temp</value>
+        <value>IQVIA Patient Portal Unread Messages</value>
     </labels>
     <labels>
         <fullName>Email_Header_PI_New_Mess</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header PI New Mess</shortDescription>
-        <value>PI New Message</value>
+        <value>You have a new message</value>
     </labels>
     <labels>
         <fullName>Email_Header_Patient2</fullName>
@@ -3339,7 +3339,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject PA New Mess</shortDescription>
-        <value>New Message</value>
+        <value>You have a new message</value>
     </labels>
     <labels>
         <fullName>Email_Subject_PI1</fullName>
@@ -3388,15 +3388,15 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject PI Conv Rem</shortDescription>
-        <value>Temp</value>
+        <value>IQVIA Patient Portal Unread Messages</value>
     </labels>
     <labels>
-        <fullName>Email_Subject_PI_New_Mess</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Subject PI New Mess</shortDescription>
-        <value>New Message</value>
-    </labels>
+    <fullName>Email_Subject_PI_New_Mess</fullName>
+    <language>en_US</language>
+    <protected>false</protected>
+    <shortDescription>Email Subject PI New Mess</shortDescription>
+    <value>You have a new Message</value>
+</labels>
     <labels>
         <fullName>Email_Subject_Patient2</fullName>
         <language>en_US</language>

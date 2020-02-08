@@ -61,13 +61,25 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
-    public static void updateParticipantAndDelegates(Participant__c participant, Contact participantContact, List<Participant__c> delegates, List<Id> doNotContinueIds, Boolean needsInvite) {
+    public static void updateParticipantAndDelegates(String participantS, String participantContactS, String delegatesS, List<String> doNotContinueIds, Boolean needsInvite) {
         try {
+            Participant__c participant = (Participant__c)JSON.deserialize(participantS, Participant__c.class);
+            Contact participantContact = (Contact)JSON.deserialize(participantContactS, Contact.class);
+            List<Participant__c> delegates = (List<Participant__c>)JSON.deserialize(delegatesS, List<Participant__c>.class);
+            system.debug('Participant__c: ' + participant);
+            system.debug('Contact: ' + participantContact);
+            system.debug('List<Participant__c>: ' + delegates);
+            system.debug('List<Id>: ' + doNotContinueIds);
+            system.debug('Boolean: ' + needsInvite);
             Map<Id, Id> toCreateUser = new Map<Id, Id>();
-            List<SObject> objectsToUpdate = new List<SObject> {participant, participantContact};
-            update objectsToUpdate;
+
+            update participant;
+            if (participantContact.Id != null) {
+                update participantContact;
+            }
 
             if (needsInvite) {
+                system.debug('needsInvite: ' + needsInvite);
                 toCreateUser.put(participant.Contact__c, null);
             }
 
@@ -79,6 +91,7 @@ public without sharing class ParticipantInformationRemote {
                                                           WHERE Participant__c = :participant.Id AND
                                                                 Contact__c IN :doNotContinueIds];
             if (!patientDelegates.isEmpty()) {
+                system.debug('patientDelegates: ' + patientDelegates);
                 for (Patient_Delegate__c patientDelegate : patientDelegates) {
                     patientDelegate.Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS;
                 }
@@ -87,20 +100,38 @@ public without sharing class ParticipantInformationRemote {
             }
 
             if (!delegates.isEmpty()) {
+                system.debug('delegates.isEmpty(): ' + delegates.isEmpty());
                 List<Patient_Delegate__c> patientDelegatesToInsert = new List<Patient_Delegate__c>();
                 List<Participant__c> delegatesToUpdate = new List<Participant__c>();
                 List<Participant__c> delegatesToInsert = new List<Participant__c>();
                 for (Participant__c delegate : delegates) {
                     if (!String.isBlank(delegate.Id)) {
+                        system.debug('delegatesToUpdate: ' + delegate);
                         delegatesToUpdate.add(delegate);
                     } else if (!String.isBlank(delegate.First_Name__c) && !String.isBlank(delegate.Last_Name__c) && !String.isBlank(delegate.Email__c)) {
                         delegatesToInsert.add(delegate);
+                        system.debug('delegatesToInsert: ' + delegate);
                     }
                 }
                 update delegatesToUpdate;
 
                 if (!delegatesToInsert.isEmpty()) {
-                    insert delegatesToInsert;
+                    system.debug('delegatesToInsert.isEmpty(): ' + delegatesToInsert.isEmpty());
+                    List<Participant__c> filteredDelegates = new List<Participant__c>();
+                    ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(delegatesToInsert);
+                    for (Participant__c delegate : delegatesToInsert) {
+                        Participant__c delegateFromDatabase = duplicateService.findDuplicate(delegate);
+                        if (delegateFromDatabase != null) {
+                            filteredDelegates.add(delegateFromDatabase);
+                        } else {
+                            //check contact duplicate:
+                            if (duplicateService.findDuplicateContact(delegate) != null) {
+                                delegate.Contact__c = duplicateService.findDuplicateContact(delegate).Id;
+                            }
+                            filteredDelegates.add(delegate);
+                        }
+                    }
+                    upsert filteredDelegates;
 
                     List<Participant__c> newDelegates = [SELECT Id, Contact__c FROM Participant__c WHERE Id IN :(new Map<Id, Participant__c>(delegatesToInsert)).keySet()];
                     for (Participant__c newDelegate : newDelegates) {
@@ -122,7 +153,8 @@ public without sharing class ParticipantInformationRemote {
                 }
             }
 
-            if (toCreateUser.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
+            system.debug('toCreateUser: ' + toCreateUser);
+            if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }

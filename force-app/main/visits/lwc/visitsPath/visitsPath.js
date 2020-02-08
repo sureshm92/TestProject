@@ -251,11 +251,11 @@ export default class VisitsPath extends LightningElement {
         let arrRight = 1;
 
         if (this.isRightScrollEnd()) {
-            arrRight = 0;
+            arrRight = 0.3;
             this.fromRightCorner = true;
         }
         if (this.isLeftScrollEnd()) {
-            arrLeft = 0;
+            arrLeft = 0.3;
             this.fromLeftCorner = true;
         }
 

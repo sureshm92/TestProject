@@ -5,6 +5,7 @@
 <apex:component id="PreferredLanguage">
 
     <apex:attribute name="contact" description="" type="Contact" required="true"/>
+    <apex:attribute name="language_" description="" type="User"/> <!-- only for fix deployment bug, must be removed -->
 
     <style>
         .line-tabs tr td {

@@ -80,6 +80,7 @@ public without sharing class TaskService {
     }
     
     public List<Task> getTasksCommon(String filter){
+        
         return getTasksCommon(filter,  null);
     }
 
@@ -95,7 +96,7 @@ public without sharing class TaskService {
         }else{
             //delegate
             commonFilter = '(' +
-                    '(OwnerId = \'' + ParticipantContext.getOwnUserId() + ownerVisibility + ') OR ' +
+                    '(OwnerId = \'' + ParticipantContext.getOwnUserId() + '\'' + ownerVisibility + ') OR ' +
                     '(OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\'' + delegatesVisibility + ')' +
                     ')';
         }

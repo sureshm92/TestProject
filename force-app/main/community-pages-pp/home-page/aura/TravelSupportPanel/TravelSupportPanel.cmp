@@ -33,9 +33,15 @@
                                     <div style="padding: 0 5px">{!travelWrapper.title}</div>
                                 </td>
                                 <td>
-                                    <lightning:formattedDateTime value="{!travelWrapper.dateAndTime}"
-                                                                 year="numeric" month="2-digit" day="2-digit"
-                                                                 hour="2-digit" minute="2-digit" hour12="true"/>
+                                    <aura:if isTrue="{!!travelWrapper.isAccommodation}">
+                                        <lightning:formattedDateTime value="{!travelWrapper.dateAndTime}"
+                                                                     year="numeric" month="2-digit" day="2-digit"
+                                                                     hour="2-digit" minute="2-digit"/>
+                                        <aura:set attribute="else">
+                                            <lightning:formattedDateTime value="{!travelWrapper.dateAndTime}"
+                                                                         year="numeric" month="2-digit" day="2-digit"/>
+                                        </aura:set>
+                                    </aura:if>
                                 </td>
                             </tr>
                         </aura:iteration>

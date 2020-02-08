@@ -11,6 +11,10 @@ public without sharing class ParticipantTriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             createContactsForParticipants(newList);
         }
+
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createContactsForParticipants(newList);
+        }
     }
 
     public class UpdatePEAndContactLastNameHandler extends TriggerHandler{
