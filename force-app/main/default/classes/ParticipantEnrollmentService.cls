@@ -444,7 +444,16 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Visit_Results_Sharing__c',
             'Study_Site__r.Messages_Are_Available__c',
             'Study_Site__r.SMS_Are_Available__c',
-            'Screening_ID__c'
+            'Screening_ID__c',
+            'Washout_Run_In_Applies__c',
+            'Final_Consent_Date__c',
+            'Informed_Consent_Date__c',
+            'Initial_visit_occurred_flag__c',
+            'Initial_visit_occurred_date__c',
+            'Initial_visit_scheduled_date__c',
+            'Initial_visit_scheduled_time__c',
+            'Initial_visit_scheduled_flag__c',
+            'Revisit_Date__c'
     };
 
     public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter){

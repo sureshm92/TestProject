@@ -71,6 +71,53 @@
                 state : "neutral"
             }
         };
+    },
+
+    prepareDelegates : function (component) {
+        let delegateParticipant = {
+            sObjectType: 'Participant__c',
+            selectedOption: '1'
+        };
+        let delegateItems = [];
+        delegateItems.push(delegateParticipant);
+        component.set('v.delegateItems', delegateItems);
+    },
+
+    updateParticipantAndDelegate : function (component) {
+        component.find('spinner').show();
+
+        let doNotContinueIds = [];
+        let delegateItems = component.get('v.delegateItems');
+        for (let ind = 0; ind < delegateItems.length; ind++) {
+            if (delegateItems[ind].Id != undefined && delegateItems[ind].selectedOption == '2') {
+                doNotContinueIds.push(delegateItems[ind].Id);
+            }
+            delete delegateItems[ind].selectedOption;
+            delete delegateItems[ind].statesDelegateLVList;
+            delete delegateItems[ind].continueDelegateMsg;
+        }
+        console.log(doNotContinueIds);
+        console.log(JSON.stringify(component.get('v.contact')));
+
+        communityService.executeAction(component, 'updateParticipantAndDelegates', {
+            participantS: JSON.stringify(component.get('v.participant')),
+            participantContactS: JSON.stringify(component.get('v.contact')),
+            delegatesS: JSON.stringify(component.get('v.delegateItems')),
+            doNotContinueIds: doNotContinueIds,
+            needsInvite: (component.get('v.selectedOption') == '1')
+        }, function () {
+            console.log('Emancipation wizard completed!');
+            component.set('v.currentTab', '1');
+            component.set('v.pe.Participant__r', component.get('v.participant'));
+
+            component.find('spinner').hide();
+            component.find('dialog').hide();
+            communityService.navigateToPage('my-referrals');
+        }, function (returnValue) {
+            console.log('Emancipation wizard ERROR!: ' + returnValue);
+            component.find('spinner').hide();
+            communityService.showErrorToast('',  "Emancipation process failed! Description: " + returnValue);
+        });
     }
 
 });

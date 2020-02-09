@@ -70,6 +70,8 @@ public without sharing class TravelSupportRemote {
         public String icon;
         @AuraEnabled
         public String link;
+        @AuraEnabled
+        public Boolean isAccommodation = false;
 
         public TravelWrapper(Object obj, String visitName, String status) {
             this.visitName = visitName;
@@ -95,6 +97,7 @@ public without sharing class TravelSupportRemote {
                 RemoteCall_GetTravelBookingDetails.Departure departure = (RemoteCall_GetTravelBookingDetails.Departure) obj;
                 this.title = departure.company;
                 this.dateAndTime = Datetime.valueOf(departure.datetime_from);
+                //this.dateAndTime = Datetime.format(departure.datetime_from, String.valueOf(UserInfo.getTimeZone()));
                 if (departure.title == 'taxi') this.icon = 'car-retro';
                 if (departure.title == 'plane') {
                     this.icon = 'plane';
@@ -105,6 +108,7 @@ public without sharing class TravelSupportRemote {
                 RemoteCall_GetTravelBookingDetails.ReturnInfo returnInfo = (RemoteCall_GetTravelBookingDetails.ReturnInfo) obj;
                 this.title = returnInfo.company;
                 this.dateAndTime = Datetime.valueOf(returnInfo.datetime_from);
+                //this.dateAndTime = Datetime.format(returnInfo.datetime_from, String.valueOf(UserInfo.getTimeZone()));
                 if (returnInfo.title == 'taxi') this.icon = 'car-retro';
                 if (returnInfo.title == 'plane') {
                     this.icon = 'plane';
@@ -114,8 +118,10 @@ public without sharing class TravelSupportRemote {
             if (obj instanceof RemoteCall_GetTravelBookingDetails.Accommodation) {
                 RemoteCall_GetTravelBookingDetails.Accommodation accommodation = (RemoteCall_GetTravelBookingDetails.Accommodation) obj;
                 this.title = accommodation.hotel_name;
-                this.dateAndTime = Datetime.newInstanceGmt(Date.valueOf(accommodation.check_in_date), Time.newInstance(9, 0, 0, 0));
+                this.dateAndTime = Datetime.newInstanceGmt(Date.valueOf(accommodation.check_in_date), Time.newInstance(12, 0, 0, 0));
+                //this.dateAndTime = Datetime.format(accommodation.check_in_date, String.valueOf(UserInfo.getTimeZone()));
                 this.icon = 'icon-bed';
+                this.isAccommodation = true;
             }
         }
     }

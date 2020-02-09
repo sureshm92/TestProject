@@ -17,6 +17,9 @@
                     <div class="nav-menu-item-content">
                         <c:RRIcon iconName="{!item.icon}" color="white" class="navigation-icon"/>
                         <span>{!item.label}</span>
+                        <aura:if isTrue="{!equals(item.page, 'messages')}">
+                            <c:navMessageCounter isOnPage="{!item.page == v.currentPage}"/>
+                        </aura:if>
                     </div>
                 </li>
             </aura:iteration>
