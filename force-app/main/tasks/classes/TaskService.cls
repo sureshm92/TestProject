@@ -141,8 +141,14 @@ public without sharing class TaskService {
     }
 
     public List<Task> getPreviewTasks() {
+        List<Task> tasks = getTasksCommon(getOpenTasksFilter(), OPEN_TASKS_ORDER);
+        List<Task> resTasks = new List<Task>();
+        for(Integer i = 0; i < tasks.size(); i++){
+            resTasks.add(tasks[i]);
+            if(i == 5) break;
+        }
         expireSurveyTasksByExpiredInvitations(getTasksCommon(getOpenTasksFilter()));
-        return getTasksCommon(getOpenTasksFilter(), OPEN_TASKS_ORDER + ' LIMIT 5');
+        return tasks;
     }
     
     public String getOpenTasksFilter(){

@@ -45,7 +45,7 @@ public without sharing class PatientDelegateTriggerHandler {
         }
     
         Map<Id, Boolean> isActiveContactsMap = new Map<Id, Boolean>();
-        List<Contact> delegates = [SELECT Id, (SELECT Id, Status__c FROM Contacts__r) FROM Contact];
+        List<Contact> delegates = [SELECT Id, (SELECT Id, Status__c FROM Contacts__r) FROM Contact WHERE Id IN: contactIds];
         for(Contact contact : delegates){
             Boolean isActive = false;
             for(Patient_Delegate__c pd : contact.Contacts__r){
