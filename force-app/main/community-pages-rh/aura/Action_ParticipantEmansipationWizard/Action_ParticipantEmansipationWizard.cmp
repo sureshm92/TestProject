@@ -268,7 +268,7 @@
                                             <div class="label">
                                                 <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Email_address}
                                             </div>
-                                            <lightning:input aura:id="emailDelegateField" type="email" value="{!delegateItem.Email__c}"
+                                            <lightning:input aura:id="{!'emailDInput' + ind}" type="email" value="{!delegateItem.Email__c}"
                                                              required="{!v.currentTab == '2'}" onblur="{!c.doCheckDelegateFields}"/>
                                         </div>
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
@@ -280,7 +280,7 @@
                                         </div>
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
                                             <div class="label">
-                                                <aura:if isTrue="{!!empty(v.statesDelegateLVList)}"><abbr title="required" class="slds-required">*</abbr></aura:if>{!$Label.c.PE_State}
+                                                <aura:if isTrue="{!!empty(delegateItem.statesDelegateLVList)}"><abbr title="required" class="slds-required">*</abbr></aura:if>{!$Label.c.PE_State}
                                             </div>
                                             <c:rrSelect options="{!delegateItem.statesDelegateLVList}" disabled="{!empty(delegateItem.statesDelegateLVList)}"
                                                         value="{!delegateItem.Mailing_State_Code__c}" placeholder="{!$Label.c.PG_AC_Select}"
