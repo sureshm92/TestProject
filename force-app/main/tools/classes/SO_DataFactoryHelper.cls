@@ -195,65 +195,6 @@ public without sharing class SO_DataFactoryHelper {
     }
     
     /**
-     * createSelectOptions() creates a List<SelectOption> out of provided List<Schema.PicklistEntry>
-     *
-     * @param entries
-     * @param blankLabel
-     *
-     * @return
-     */
-    public static List<SelectOption> createSelectOptions (List<Schema.PicklistEntry> entries, String blankLabel) {
-        List<SelectOption> selectOptions = new List<SelectOption>();
-        if (blankLabel != null) {
-            selectOptions.add(new SelectOption('', blankLabel));
-        }
-        try {
-            for (Schema.PicklistEntry entry : entries) {
-                selectOptions.add(new SelectOption(entry.getValue(), entry.getLabel()));
-            }
-        } catch (Exception e) {
-            //
-        }
-        return selectOptions;
-    }
-    
-    /**
-     * findApexJob() returns List of AsyncApexJob with specified Apex class name
-     *
-     * @param className
-     *
-     * @return
-     */
-    public static List<AsyncApexJob> findApexJobs (String className) {
-        if (className == null) return new List<AsyncApexJob>();
-        else return [SELECT Status,
-                CreatedDate,
-                CompletedDate,
-                ExtendedStatus,
-                ApexClass.Name
-        FROM        AsyncApexJob
-        WHERE       ApexClass.Name = :className
-        ORDER BY    CreatedDate
-                DESC
-        ];
-    }
-    
-    public static AsyncApexJob getApexJob (String jobId) {
-        try {
-            return [
-                    SELECT Status,
-                            CreatedDate,
-                            CompletedDate,
-                            ExtendedStatus
-                    FROM AsyncApexJob
-                    WHERE Id = :jobId
-            ];
-        } catch (Exception e) {
-            return null;
-        }
-    }
-    
-    /**
      * listToCSV() converts a List<String> into a CSV
      *
      * @param valueList
