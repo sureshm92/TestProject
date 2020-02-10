@@ -35,3 +35,8 @@
      * Verification step: Make screenshot this setting.
      * Verification step: Make screenshot this setting.
 2) Change First login Page and add thia page in profile
+
+
+4) **Batch Control Panel, PEH-1330**
+     * App Launcher > Batch Control Pannel / Admin Pannel > Activate - Batch_ConversationReminder.
+     * Verification step: Make screenshot this setting.
