@@ -23,11 +23,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CreatedDate</field>
-            <table>Conversation__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>CreatedBy</field>
             <table>Conversation__c</table>
         </columns>
@@ -59,6 +54,52 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>haveUnreadForParticipant__c</field>
+            <table>Conversation__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedDate</field>
+            <table>Conversation__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Study Name</displayNameOverride>
+            <field>Participant_Enrollment__c.Study_Name__c</field>
+            <table>Conversation__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Participant_Enrollment__c.Clinical_Trial_Profile__c.Study_Code_Name__c</field>
+            <table>Conversation__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Participant Name</displayNameOverride>
+            <field>Participant_Enrollment__c.Participant_Name__c</field>
+            <table>Conversation__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Participant</displayNameOverride>
+            <field>Participant_Enrollment__c.Participant__c</field>
+            <table>Conversation__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Participant Surname</displayNameOverride>
+            <field>Participant_Enrollment__c.Participant_Surname__c</field>
+            <table>Conversation__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Study name</displayNameOverride>
+            <field>Participant_Enrollment__c.Study__c</field>
+            <table>Conversation__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <displayNameOverride>PI name</displayNameOverride>
+            <field>Participant_Enrollment__c.PI_Contact__c</field>
             <table>Conversation__c</table>
         </columns>
         <masterLabel>Conversations</masterLabel>

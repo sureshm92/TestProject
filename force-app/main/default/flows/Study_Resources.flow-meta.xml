@@ -1122,7 +1122,13 @@
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
         </fields>
-        <showFooter>true</showFooter>
+        <fields>
+            <name>FinihsButton2</name>
+            <extensionName>c:FooterWithFinishButton</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>false</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <screens>
@@ -1271,7 +1277,13 @@
             <fieldType>MultiSelectPicklist</fieldType>
             <isRequired>false</isRequired>
         </fields>
-        <showFooter>true</showFooter>
+        <fields>
+            <name>FinihsButton</name>
+            <extensionName>c:FooterWithFinishButton</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>false</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <screens>
@@ -1714,7 +1726,13 @@
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
         </fields>
-        <showFooter>true</showFooter>
+        <fields>
+            <name>FinihsButton3</name>
+            <extensionName>c:FooterWithFinishButton</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>false</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <start>

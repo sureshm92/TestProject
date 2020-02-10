@@ -5255,6 +5255,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant_Workflow_Form_Field__mdt.Depends_On_Field__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant_Workflow_Form_Field__mdt.False_Value_Label__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -5286,6 +5291,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Workflow_Form_Field__mdt.Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Outcome__mdt.Order__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5345,6 +5355,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant_Workflow_Step__mdt.In_Progress_Condition__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant_Workflow_Step__mdt.Name_Label__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -5361,6 +5376,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Workflow_Step__mdt.Outcome_Placeholder_Label__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Step__mdt.Success_Condition__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>

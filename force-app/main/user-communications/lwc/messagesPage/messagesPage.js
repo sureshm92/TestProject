@@ -100,11 +100,13 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
     }
 
     get leftPartClass() {
-        return 'ms-left ' + (this.leftDisplay ? 'visible' : 'hide');
+        return 'slds-col slds-large-size--1-of-3 slds-medium-size--1-of-3 slds-small-size--1-of-1 ms-left '
+            + (this.leftDisplay ? 'visible' : 'hide');
     }
 
     get rightPartClass() {
-        return 'ms-right ' + (this.rightDisplay ? '' : 'hide');
+        return 'slds-col slds-large-size--2-of-3 slds-medium-size--2-of-3 slds-small-size--1-of-1 ms-right '
+            + (this.rightDisplay ? '' : 'hide');
     }
 
     get isPIMode() {
