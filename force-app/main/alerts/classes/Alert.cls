@@ -10,6 +10,8 @@ public class Alert {
     public static final String ALERT_CODE_WELCOME_PH_DELEGATE = 'Welcome_To_The_PH_Delegate';
     public static final String ALERT_CODE_WELCOME_STUDY = 'Welcome_to_the_Study';
     public static final String ALERT_CODE_WELCOME_STUDY_DELEGATE = 'Welcome_to_the_Study_Patient_Delegates';
+    public static final String ALERT_CODE_WEEK_BEFORE_PRT_ADULT_DELEGATE = 'Participant_Become_Adult_to_Delegates';
+    public static final String ALERT_CODE_PRT_BECOME_ADULT_DELEGATE = 'Participant_Adult_to_Delegates';
 
     public String title;
     public String body;

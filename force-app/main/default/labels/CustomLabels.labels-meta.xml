@@ -36,6 +36,22 @@
         <value>Hi ##Contact! You have been assigned as a Delegate for ##UserName in the ##StudyName study.  We are so excited you have chosen to take this journey with ##UserName.</value>
     </labels>
     <labels>
+        <fullName>AL_Body_PRT_Become_Adult_Delegate</fullName>
+        <categories>Alert</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Body PRT Become Adult Delegate</shortDescription>
+        <value>Hi ##UserName, your participant ##ParticipantFirstName has recently reached the age of legal maturity and have provided their privacy preferences. We recommend you contact the Provider to know more about your status on this clinical research study.</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_PRT_Week_Become_Adult_Delegate</fullName>
+        <categories>Alert</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AL Body PRT Week Become Adult Delegate</shortDescription>
+        <value>Hi ##UserName, you have one or more participant(s) that is soon to be reaching the age of legal maturity. We recommend you contact the Provider to know more about your status on the associated clinical research study</value>
+    </labels>
+    <labels>
         <fullName>AL_Body_Returning_Delegate</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -101,6 +117,31 @@
         <value>Hi ##Contact!
 
             You have been assigned as a Delegate for ##ParticipantUser.  Thank you for joining ##ParticipantUser Thank you for joining ##StudyName Study.</value>
+    </labels>
+    <labels>
+        <fullName>AL_Title_PRT_Become_Adult_Delegate</fullName>
+        <categories>Alert</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AL Title PRT Become Adult Delegate</shortDescription>
+        <value>Your participant become adult!</value>
+    </labels>
+    <labels>
+        <fullName>AL_Title_PRT_Week_Become_Adult</fullName>
+        <categories>Alert</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>AL Title PRT Week Become Adult</shortDescription>
+        <value>Participant will become an adult!</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_PRT_Week_Become_Adult_Delegates</fullName>
+        <categories>Alert</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AL Body PRT Week Become Adult Delegates</shortDescription>
+        <value>Hi ##UserName, you have one or more participant(s) that is soon to be reaching the age of legal maturity. We recommend you contact the Provider to know more about your status on the associated clinical research study
+        </value>
     </labels>
     <labels>
         <fullName>AL_Title_Welcome_Study</fullName>
