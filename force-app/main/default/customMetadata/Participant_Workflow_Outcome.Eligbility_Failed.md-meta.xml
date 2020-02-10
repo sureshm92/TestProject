@@ -3,8 +3,12 @@
     <label>Eligibility Failed</label>
     <protected>false</protected>
     <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">2.0</value>
+    </values>
+    <values>
         <field>Reasons_List__c</field>
-        <value xsi:type="xsd:string">Didn't Meet Pre-Screening Eligibility;Other*</value>
+        <value xsi:type="xsd:string">Didn&#39;t Meet Pre-Screening Eligibility;Other*</value>
     </values>
     <values>
         <field>State__c</field>

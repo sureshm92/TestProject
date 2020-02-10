@@ -3,6 +3,10 @@
     <label>Enrollment Failed</label>
     <protected>false</protected>
     <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">2.0</value>
+    </values>
+    <values>
         <field>Reasons_List__c</field>
         <value xsi:type="xsd:string">;PI Decision*;Declined or Withdrew Consent;Visit Out Of Window;Other*</value>
     </values>
