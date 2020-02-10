@@ -71,49 +71,53 @@ public without sharing class ParticipantInformationRemote {
             system.debug('List<Participant__c>: ' + delegates);
             system.debug('List<Id>: ' + doNotContinueIds);
             system.debug('Boolean: ' + needsInvite);
-            Map<Id, Id> toCreateUser = new Map<Id, Id>();
 
             update participant;
             if (participantContact.Id != null) {
                 update participantContact;
             }
 
+            Map<Id, Id> toCreateUser = new Map<Id, Id>();
             if (needsInvite) {
                 system.debug('needsInvite: ' + needsInvite);
                 toCreateUser.put(participant.Contact__c, null);
             }
 
-            List<Patient_Delegate__c> patientDelegates = [SELECT Id,
+            List<Patient_Delegate__c> notPatientDelegatesEver = [SELECT Id,
                                                                  Participant__c,
                                                                  Contact__c,
                                                                  Status__c
                                                           FROM Patient_Delegate__c
                                                           WHERE Participant__c = :participant.Id AND
                                                                 Contact__c IN :doNotContinueIds];
-            if (!patientDelegates.isEmpty()) {
-                system.debug('patientDelegates: ' + patientDelegates);
-                for (Patient_Delegate__c patientDelegate : patientDelegates) {
+            if (!notPatientDelegatesEver.isEmpty()) {
+                system.debug('patientDelegates: ' + notPatientDelegatesEver);
+                for (Patient_Delegate__c patientDelegate : notPatientDelegatesEver) {
                     patientDelegate.Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS;
                 }
 
-                update patientDelegates;
+                update notPatientDelegatesEver;
             }
 
             if (!delegates.isEmpty()) {
+                Set<Id> excludeIds = new Set<Id>((List<Id>)doNotContinueIds);
                 system.debug('delegates.isEmpty(): ' + delegates.isEmpty());
                 List<Patient_Delegate__c> patientDelegatesToInsert = new List<Patient_Delegate__c>();
                 List<Participant__c> delegatesToUpdate = new List<Participant__c>();
                 List<Participant__c> delegatesToInsert = new List<Participant__c>();
                 for (Participant__c delegate : delegates) {
-                    if (!String.isBlank(delegate.Id)) {
+                    if (!String.isBlank(delegate.Id) && !excludeIds.contains(delegate.Id)) {
                         system.debug('delegatesToUpdate: ' + delegate);
                         delegatesToUpdate.add(delegate);
-                    } else if (!String.isBlank(delegate.First_Name__c) && !String.isBlank(delegate.Last_Name__c) && !String.isBlank(delegate.Email__c)) {
+                    } else if (String.isBlank(delegate.Id) && !String.isBlank(delegate.First_Name__c) &&
+                            !String.isBlank(delegate.Last_Name__c) && !String.isBlank(delegate.Email__c)) {
                         delegatesToInsert.add(delegate);
                         system.debug('delegatesToInsert: ' + delegate);
                     }
                 }
-                update delegatesToUpdate;
+                if (!delegatesToUpdate.isEmpty()) {
+                    update delegatesToUpdate;
+                }
 
                 if (!delegatesToInsert.isEmpty()) {
                     system.debug('delegatesToInsert.isEmpty(): ' + delegatesToInsert.isEmpty());

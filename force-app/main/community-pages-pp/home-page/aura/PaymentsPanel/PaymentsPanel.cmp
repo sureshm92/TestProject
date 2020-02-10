@@ -5,9 +5,7 @@
 <aura:component description="PaymentsPanel" controller="PaymentsRemote">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
     <aura:attribute name="initialized" type="Boolean"/>
-    <aura:attribute name="informationAvailable" type="Boolean"/>
-    <aura:attribute name="participant" type="Participant__c"/>
-    <aura:attribute name="pendingPayments" type="String"/>
+    <aura:attribute name="initData" type="Object"/>
     <aura:attribute name="href" type="String"/>
 
     <aura:if isTrue="{!!equals(v.href, 'none')}">
@@ -17,7 +15,7 @@
                 <div class="sv-header">
                     <div class="sv-title">{!$Label.c.Home_Page_Payments_Title}</div>
                 </div>
-                <aura:if isTrue="{!v.informationAvailable}">
+                <aura:if isTrue="{!v.initData.informationAvailable}">
                     <div class="sv-body">
                         <c:RRTable>
                             <tr>
@@ -26,9 +24,9 @@
                                 <th>{!$Label.c.Home_Page_Payments_Pending_Payments}</th>
                             </tr>
                             <tr>
-                                <td>{!v.participant.Status__c}</td>
-                                <td>{!v.participant.Balance__c} $</td>
-                                <td>{!v.pendingPayments} $</td>
+                                <td>{!v.initData.status}</td>
+                                <td>{!v.initData.balance} $</td>
+                                <td>{!v.initData.pendingPayments} $</td>
                             </tr>
                         </c:RRTable>
                     </div>

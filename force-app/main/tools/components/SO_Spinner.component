@@ -1,0 +1,33 @@
+<!--
+ - Created by Slav on 06.02.2020.
+ -->
+
+<apex:component id="SO_Spinner">
+    <!---------------- this is a spinner popup window ------------------------->
+    <div id="waitPanelBack" class="popupBack" style="display:none;"></div>
+    <!-------------- this is a CanvasLoader (spinner) window ------------------>
+    <div id="spinnerWrapper" class="spinnerStyle" style="display:none;"></div>
+    <!------------- JavaScript links, code and functions ---------------------->
+    <script src="{!URLFOR($Resource.spinner)}"></script>
+    <script type='text/javascript'>
+        // ---------------------------------------------------------------------
+        // JavaScript functions to show/hide the "Please wait" window
+        // ---------------------------------------------------------------------
+        function showSpinner () {
+            document.getElementById('spinnerWrapper').style.display = 'block';
+            document.getElementById('waitPanelBack').style.display = 'block';
+        }
+        function hideSpinner () {
+            document.getElementById('spinnerWrapper').style.display = 'none';
+            document.getElementById('waitPanelBack').style.display = 'none';
+        }
+        var spinner = new CanvasLoader('spinnerWrapper');
+        spinner.setColor('#092de0');	// default is '#000000'
+        spinner.setShape('spiral');		// default is 'oval'
+        spinner.setDiameter(40);		// default is 40
+        spinner.setDensity(40); 		// default is 40
+        spinner.setRange(1.0);			// default is 1.3
+        spinner.setFPS(20);				// default is 24
+        spinner.show();					// Hidden by default
+    </script>
+</apex:component>
