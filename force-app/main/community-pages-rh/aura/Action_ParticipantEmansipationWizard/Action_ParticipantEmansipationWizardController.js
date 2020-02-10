@@ -24,6 +24,9 @@
                 component.set('v.statesLVList', states);
                 component.set('v.currentTab', '1');
                 pe.Participant__r.Emancipation_in_progress__c = false;
+                if (!pe.Participant__r.Alternative_Phone_Type__c || !pe.Participant__r.Alternative_Phone_Number__c) {
+                    pe.Participant__r.Alternative_Phone_Type__c = 'Home';
+                }
                 component.set('v.participant', pe.Participant__r);
 
                 let contact = { sObjectType: 'Contact',
