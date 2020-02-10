@@ -125,8 +125,8 @@
         var states = component.get('v.statesLVList');
 
         let isValid =
-            participant.First_Name__c &&
-            participant.Last_Name__c &&
+            (participant.First_Name__c && participant.First_Name__c.trim()) &&
+            (participant.Last_Name__c && participant.Last_Name__c.trim()) &&
             participant.Date_of_Birth__c &&
             participant.Gender__c &&
             participant.Phone__c &&
@@ -150,7 +150,8 @@
 
         for (let ind = 0; ind < delegateItems.length; ind++) {
             if (delegateItems[ind] && (delegateItems[ind].Id ||
-                delegateItems[ind].First_Name__c && delegateItems[ind].Last_Name__c)) {
+                delegateItems[ind].First_Name__c && delegateItems[ind].First_Name__c.trim() &&
+                delegateItems[ind].Last_Name__c && delegateItems[ind].Last_Name__c.trim())) {
 
                 let states = delegateItems[ind].statesDelegateLVList;
                 isDelegatesValid = (isDelegatesValid &&
