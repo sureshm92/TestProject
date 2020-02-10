@@ -1,5 +1,6 @@
 <aura:component controller="DependntPicklistCMPwithRecTypeAndMspCtrl" implements="lightning:availableForFlowScreens" access="global">
     <aura:attribute name="recordtypeList" type="Object[]"/> <!-- List of RecordTypes accessible to the logged in user -->
+    <aura:attribute name="recordtypeId" type="String"/>
     <aura:attribute name="noRecordTypeAvailable" type="boolean" default="true"/>
 
     <aura:attribute name="selectedRecordTypeId" type="string"/>
@@ -41,12 +42,11 @@
 
         <!-- Record  type selection -->
         <aura:if isTrue="{! not(v.invalidApiName) &amp;&amp; not(v.noRecordTypeAvailable) }">
-            <lightning:select name="recordType" label="Choose Record Type" value="{!v.selectedRecordTypeId}" onchange="{!c.handleRecordTypeChange}" required="true">
-                <option value="" text=" ---None--- "/>
+            <div style="display: none;"><lightning:select name="recordType" label="Choose Record Type" value="{!v.selectedRecordTypeId}" onchange="{!c.handleRecordTypeChange}" required="false" >
                 <aura:iteration items="{!v.recordtypeList}" var="rt">
                     <option value="{!rt.rtId}" text="{!rt.rtName}"/>
                 </aura:iteration>
-            </lightning:select>
+                </lightning:select></div>
             <aura:set attribute="else">
                 <aura:if isTrue="{! v.noRecordTypeAvailable}">
                     <!--h3 class="slds-text-heading_small slds-truncate slds-p-right_small" title="summary title">
