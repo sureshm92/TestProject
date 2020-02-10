@@ -65,7 +65,7 @@ public without sharing class AddPatientByPIRemote {
 
             List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
             for(PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE){
-                if(step.name == PEStatusState.PE_ST_REFERRED) continue;
+                if(step.name == PEStatusState.PE_ST_REFERRAL_ACCEPTANCE) continue;
                 statusHistories.add(new Participant_Enrollment_Status_History__c(
                         Notes__c = pe.Last_Status_Changed_Notes__c,
                         Date__c = Datetime.now(),
