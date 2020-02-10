@@ -29,10 +29,6 @@ public without sharing class SO_DataFactoryHelper {
         return objectList;
     }
     
-//    public static String getLabelPlural (String objectName) {
-//        Schema.getGlobalDescribe().get(objectName).getDescribe().getLabelPlural();
-//    }
-    
     /**
      * getFields() returns a list of all fields of specified object
      *
@@ -66,15 +62,16 @@ public without sharing class SO_DataFactoryHelper {
      * @return
      */
     public static List<String> getFieldNames(String objectName) {
-        List<String> names = new List<String>();
+        List<String> fieldList = new List<String>();
         try {
             for (SObjectField field : getFields(objectName)) {
-                names.add(field.getDescribe().name);
+                DescribeFieldResult fieldResult = field.getDescribe();
+                fieldList.add(fieldResult.name + ' [' + fieldResult.label + ']');
             }
         } catch (Exception e) {
         }
-        names.sort();
-        return names;
+        fieldList.sort();
+        return fieldList;
     }
     
     /**
@@ -178,15 +175,19 @@ public without sharing class SO_DataFactoryHelper {
      *
      * @return
      */
-    public static List<SelectOption> createSelectOptions (List<String> values, String blankLabel) {
+    public static List<SelectOption> createSelectOptions (List<String> values, String blankLabel, Boolean split) {
         List<SelectOption> selectOptions = new List<SelectOption>();
         if (blankLabel != null) {
             selectOptions.add(new SelectOption('', blankLabel));
         }
         try {
             for (String value : values) {
-                List<String> tokens = value.split(' ');
-                selectOptions.add(new SelectOption(tokens[0], value));
+                if (split) {
+                    List<String> tokens = value.split(' ');
+                    selectOptions.add(new SelectOption(tokens[0], value));
+                } else {
+                    selectOptions.add(new SelectOption(value, value));
+                }
             }
         } catch (Exception e) {
             //

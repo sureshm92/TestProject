@@ -86,7 +86,13 @@ public without sharing class EmailService {
 
     public static void sendEmail(String emailTemplate, Id recipientId, Id whatId){
         Messaging.SingleEmailMessage sem = createEmail(getEmailTemplateId(emailTemplate), recipientId, whatId, null);
-        Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{sem}, false);
+        for(Messaging.SendEmailResult result : Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{sem}, false)){
+            if (result.success) {
+                System.debug('The email was sent successfully.');
+            } else {
+                System.debug('The email failed to send: ' + JSON.serializePretty(result.errors));
+            }
+        }
     }
 
     public static Messaging.SingleEmailMessage createEmail(Id emailTemplateId, Id contactId, Id whatId, String orgWideEmAddress) {
