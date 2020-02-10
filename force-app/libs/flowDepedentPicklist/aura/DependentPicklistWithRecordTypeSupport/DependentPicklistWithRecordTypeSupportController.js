@@ -15,19 +15,23 @@
         }
         helper.getFieldDependencyMap(component,event);
         //component.set("v.showSpinner",false); //hide Spinner
+        // this.handleRecordTypeChange(component, event, helper);
+        var a = component.get('c.handleRecordTypeChange');
+        $A.enqueueAction(a);
     },
 
     /* Calling helper methods on Record type picklist change to get the Picklist values based on the record type */
     handleRecordTypeChange : function(component, event, helper) {
-        //console.log('handleRecordTypeChange Called' );
+        let recordTypeId = component.get("v.recordtypeId");
+        component.set("v.selectedRecordTypeId", recordTypeId);
         if(component.get("v.selectedRecordTypeId")){
             component.set("v.showSpinner",true); //show Spinner
 
             helper.getPicklistValuesforRT(component,event,component.get("v.controllingFieldApiName"),'Controlling');
             helper.getPicklistValuesforRT(component,event,component.get("v.dependentFieldApiName"),'Dependent');
             var dependentPicklistValues=[];
-            component.set("v.dependentPicklistValues",dependentPicklistValues);
-            component.set("v.selectedControllingPicklistValue",null);
+            component.set("v.dependentPicklistValues", dependentPicklistValues);
+            component.set("v.selectedControllingPicklistValue", null);
         }
         //component.set("v.showSpinner",false); //hide Spinner
     },

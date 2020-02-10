@@ -3,6 +3,10 @@
     <label>Enrollment Success</label>
     <protected>false</protected>
     <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">1.0</value>
+    </values>
+    <values>
         <field>Reasons_List__c</field>
         <value xsi:nil="true"/>
     </values>

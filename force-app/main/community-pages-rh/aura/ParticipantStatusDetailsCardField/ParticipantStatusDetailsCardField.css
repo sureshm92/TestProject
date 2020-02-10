@@ -1,0 +1,12 @@
+/**
+ * Created by Andrii Kryvolap.
+ */
+.THIS.form-field{
+    margin-bottom: 20px;
+}
+.THIS .label{
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    margin-bottom: 8px;
+}
