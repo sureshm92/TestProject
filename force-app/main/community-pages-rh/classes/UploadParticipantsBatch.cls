@@ -274,7 +274,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     ]) {
                         duplicateContactUsersMap.put(u.ContactId, u.Id);
                     }
-
                     for (Participant_Enrollment__c pEnrollment : [
                             SELECT Id,
                                     Participant_Contact__c
@@ -305,7 +304,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     }
                 }
             }
-
             if (!contactsById.isEmpty()) {
                 system.debug('!contactsById.isEmpty()');
                 if (!participantsByContact.isEmpty()) {
@@ -345,7 +343,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 if(createUsers) {
                     if(!insertedContacts.isEmpty()){
                         for(Contact c : contactsById.values()){
-                            if(insertedContacts.contains(c.Id)){
+                            if(insertedContacts.contains(participantsByContact.get(c.Id).Id)){
                                 if(participantEnrollmentsByContact.get(c.Id) != null) {
                                     createUsersMap.put(participantEnrollmentsByContact.get(c.Id).Participant_Contact__c, participantEnrollmentsByContact.get(c.Id).PI_Contact__c);
                                 } else {
