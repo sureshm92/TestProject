@@ -401,7 +401,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         newMap.putAll(newList);
         List<Participant_Enrollment__c> peList = [
                 SELECT Study_Site__c, Participant__r.Status__c, Participant__r.Balance__c, Patient_ID__c,
-                        Participant__r.First_Name__c, Participant__r.Last_Name__c, Participant__r.Email__c
+                        Participant__r.First_Name__c, Participant__r.Last_Name__c, Participant__r.Email__c,
+                        Clinical_Trial_Profile__r.Protocol_ID__c
                 FROM Participant_Enrollment__c
                 WHERE Id IN: newMap.keySet()
         ];
@@ -420,7 +421,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             if(pvsBySsIds.keySet().contains(pe.Study_Site__c)){
                 Participant__c participant = pe.Participant__r;
                 Action_GetCardDetails actionGetCardDetails = new Action_GetCardDetails(
-                        pvsBySsIds.get(pe.Study_Site__c).Payment_Vendor__r.Payment_Vendor_Id__c,
+                        pe.Clinical_Trial_Profile__r.Protocol_ID__c,
                         pe.Patient_ID__c,
                         participant);
                 

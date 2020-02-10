@@ -6,9 +6,7 @@
     doInit : function(component, event, helper) {
         communityService.executeAction(component, 'getPaymentData', null, function (response) {
             component.set('v.href', response.href);
-            component.set('v.informationAvailable', response.informationAvailable);
-            component.set('v.participant', response.participant);
-            component.set('v.pendingPayments', response.pendingPayments);
+            component.set('v.initData', response);
             component.set('v.initialized', true);
         }, null, function () {
             component.find('spinner').hide();
