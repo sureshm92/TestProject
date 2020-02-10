@@ -29,8 +29,8 @@ public without sharing class SO_DataFactoryController {
      * constructor
      */
     public SO_DataFactoryController () {
-        objectSelectOptions     = SO_DataFactoryHelper.createSelectOptions(SO_DataFactoryHelper.getAllObjects(), '-- select object --');
-        booleanOptions          = SO_DataFactoryHelper.createSelectOptions(new List<String>{ 'TRUE', 'FALSE' }, null);
+        objectSelectOptions     = SO_DataFactoryHelper.createSelectOptions(SO_DataFactoryHelper.getAllObjects(), '-- select object --', true);
+        booleanOptions          = SO_DataFactoryHelper.createSelectOptions(new List<String>{ 'TRUE', 'FALSE' }, null, false);
     }
     
     /**
@@ -40,7 +40,7 @@ public without sharing class SO_DataFactoryController {
      */
     public PageReference objectChange() {
         try {
-            fieldSelectOptions = SO_DataFactoryHelper.createSelectOptions(SO_DataFactoryHelper.getFieldNames(selectedObject), '-- select field --');
+            fieldSelectOptions = SO_DataFactoryHelper.createSelectOptions(SO_DataFactoryHelper.getFieldNames(selectedObject), '-- select field --', true);
             fieldMetas  = new List<SO_FieldMeta>();
             records     = new List<String>();
             if (selectedObject != null) {
@@ -62,7 +62,7 @@ public without sharing class SO_DataFactoryController {
             SO_FieldMeta fieldMeta = fieldMetas.get(fieldIndex);
             fieldMeta.stringValue  = null;
             fieldMeta.fieldType = SO_DataFactoryHelper.getFieldType(selectedObject, fieldMeta.fieldName);
-            fieldMeta.picklistOptions = SO_DataFactoryHelper.createSelectOptions(SO_DataFactoryHelper.getPicklistValues(selectedObject, fieldMeta.fieldName, true), null);
+            fieldMeta.picklistOptions = SO_DataFactoryHelper.createSelectOptions(SO_DataFactoryHelper.getPicklistValues(selectedObject, fieldMeta.fieldName, true), null, false);
         } catch (Exception e) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'EXCEPTION: ' + e.getMessage() + ' ' + e.getStackTraceString()));
         }
