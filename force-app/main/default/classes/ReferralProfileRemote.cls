@@ -372,6 +372,7 @@ public without sharing class ReferralProfileRemote {
                 }
                 update pe;
             }
+            pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, CommunityService.USER_MODE_PI);
             Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(pe.Clinical_Trial_Profile__c);
             if (pe == null) throw new CommunityServiceException('Participant enrollment not found');
             return JSON.serialize(ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe));

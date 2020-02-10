@@ -3,12 +3,11 @@
  -->
 
 <aura:component description="ParticipantStatusDetailsCardField">
-    <aura:attribute name="field" type="Object"/>
     <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="field" type="Object"/>
     <aura:attribute name="editable" type="Boolean"/>
     <aura:attribute name="required" type="Boolean"/>
     <aura:handler name="change" value="{!v.field.value}" action="{!c.notifyParent}"/>
-
     <div class="{!'slds-col form-field ' + v.field.style }">
         <aura:if isTrue="{!v.field.type=='text'}">
             <lightning:input label="{!v.field.title}" type="text" value="{!v.field.value}" disabled="{!v.field.readonly || !v.editable}" required="{!and(or(v.required,v.field.dependent), v.field.required)}"/>
