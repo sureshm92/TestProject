@@ -41,8 +41,7 @@
 
         <!-- Record  type selection -->
         <aura:if isTrue="{! not(v.invalidApiName) &amp;&amp; not(v.noRecordTypeAvailable) }">
-            <lightning:select name="recordType" label="Choose Record Type" value="{!v.selectedRecordTypeId}" onchange="{!c.handleRecordTypeChange}" required="true">
-                <option value="" text=" ---None--- "/>
+            <lightning:select name="recordType" label="Choose Record Type" value="{!v.selectedRecordTypeId}" onchange="{!c.handleRecordTypeChange}" required="false">
                 <aura:iteration items="{!v.recordtypeList}" var="rt">
                     <option value="{!rt.rtId}" text="{!rt.rtName}"/>
                 </aura:iteration>
