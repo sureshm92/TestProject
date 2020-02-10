@@ -1275,7 +1275,7 @@
             <dataType>String</dataType>
             <fieldText>Languages</fieldText>
             <fieldType>MultiSelectPicklist</fieldType>
-            <isRequired>false</isRequired>
+            <isRequired>true</isRequired>
         </fields>
         <fields>
             <name>FinihsButton</name>
