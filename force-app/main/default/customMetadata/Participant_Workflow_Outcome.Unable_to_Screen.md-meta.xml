@@ -3,6 +3,10 @@
     <label>Unable to Screen</label>
     <protected>false</protected>
     <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">5.0</value>
+    </values>
+    <values>
         <field>Reasons_List__c</field>
         <value xsi:type="xsd:string">Did Not Attend Appointment;Declined or Withdrew Consent;Other*</value>
     </values>

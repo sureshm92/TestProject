@@ -3,6 +3,10 @@
     <label>Successfully Contacted</label>
     <protected>false</protected>
     <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">2.0</value>
+    </values>
+    <values>
         <field>Reasons_List__c</field>
         <value xsi:type="xsd:string">;Not Ready to Schedule;Call Back</value>
     </values>
