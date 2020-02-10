@@ -3,6 +3,10 @@
     <label>Contacted - Not Suitable</label>
     <protected>false</protected>
     <values>
+        <field>Order__c</field>
+        <value xsi:type="xsd:double">3.0</value>
+    </values>
+    <values>
         <field>Reasons_List__c</field>
         <value xsi:type="xsd:string">;Transportation Issues;Childcare Issues;Participant Not Interested;Declined Practitioner;PI Decision*;Other*</value>
     </values>
