@@ -7,6 +7,10 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Depends_On_Field__c</field>
+        <value xsi:type="xsd:string">Informed_Consent__c</value>
+    </values>
+    <values>
         <field>False_Value_Label__c</field>
         <value xsi:nil="true"/>
     </values>

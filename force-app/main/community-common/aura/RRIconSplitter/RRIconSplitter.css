@@ -24,6 +24,7 @@
 
 .THIS .icon-item{
     padding-left: 10px;
+    fill: #999;
 }
 
 .THIS .dots{
@@ -32,6 +33,10 @@
     font-weight: bold;
     position: absolute;
     left: 32px;
+}
+
+.THIS .icon-item:hover{
+    fill: #595959;
 }
 
 .THIS .free-space {
