@@ -23,9 +23,10 @@
                     else{
                         component.set("v.noRecordTypeAvailable",false);
                         component.set("v.recordtypeList",rtlist);
-
+                        component.set("v.recordtypeId",rtlist[0].rtId);
                     }
                 }
+                $A.enqueueAction(component.get('c.handleRecordTypeChange'));
                 component.set("v.showSpinner",false); //hide Spinner      
             }
             else{

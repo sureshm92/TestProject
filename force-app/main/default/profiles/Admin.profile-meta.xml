@@ -521,6 +521,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>EmailTemplateDelegatePartController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EmailTemplateParticipantController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
