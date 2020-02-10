@@ -113,6 +113,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_ConversationReminder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_CopyEnrollmentHistory</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -234,6 +238,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_UpdatePETrialCompleteAndSendNotify</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_UpdateParticipantEnrollmentRP</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1369,6 +1377,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StudySiteWrapper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudyTotalPassed</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1558,6 +1570,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_UpdatePETrialCompleteNotify</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_UpdateParticipantEnrollmentRP</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
