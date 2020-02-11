@@ -20,7 +20,7 @@ export default class ConversationItem extends LightningElement {
     @api
     setSelectedMode(selected) {
         this.isSelected = selected;
-        this.attachColor = selected ? '#11a4de' : '#000';
+        this.attachColor = selected ? '#297dfd' : '#000';
 
         this.calculateStyles();
     }

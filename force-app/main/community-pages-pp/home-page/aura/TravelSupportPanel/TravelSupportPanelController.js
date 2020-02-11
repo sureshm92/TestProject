@@ -8,8 +8,9 @@
         console.log('In init');
         //helper.getTravelVendorsRemotely(component, '12345', '12345');
         communityService.executeAction(component, 'getTravelVendors', {
-                clientId: '12345',
-                clientSecret: '12345'
+                clientId : '12345',
+                clientSecret : '12345',
+                isHomePage : true
             },
             function (response) {
                 console.log('response' + JSON.stringify(response));

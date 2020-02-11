@@ -14,10 +14,10 @@ public without sharing class TravelSupportRemote {
     }
 
     @AuraEnabled
-    public static List<TravelWrapper> getTravelVendors(String clientId, String clientSecret) {
+    public static List<TravelWrapper> getTravelVendors(String clientId, String clientSecret, Boolean isHomePage) {
         try {
             List<TravelWrapper> travelWrappers =
-                    ((TravelSupportRemote) ClassFactory.newInstance(TravelSupportRemote.class)).getTravelVendorsRemotely(clientId, clientSecret);
+                    ((TravelSupportRemote) ClassFactory.newInstance(TravelSupportRemote.class)).getTravelVendorsRemotely(clientId, clientSecret, isHomePage);
             return travelWrappers;
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -25,28 +25,31 @@ public without sharing class TravelSupportRemote {
         return null;
     }
 
-    public List<TravelWrapper> getTravelVendorsRemotely(String clientId, String clientSecret) {
-        return this.getTravelWrappersRemotely(this.getTravelsRemotely(clientId, clientSecret));
+    public List<TravelWrapper> getTravelVendorsRemotely(String clientId, String clientSecret, Boolean isHomePage) {
+        return this.getTravelWrappersRemotely(this.getTravelsRemotely(clientId, clientSecret), isHomePage);
     }
 
     @TestVisible
-    private RemoteCall_GetTravelBookingDetails.TravelBookingResponse getTravelsRemotely(String clientId, String clientSecret) {
+    private RemoteCall_GetTravelBookingDetails.BookingResponse getTravelsRemotely(String clientId, String clientSecret) {
         RemoteCall_GetTravelBookingDetails remoteCall = new RemoteCall_GetTravelBookingDetails(clientId, clientSecret);
-        RemoteCall_GetTravelBookingDetails.TravelBookingResponse travelBookingResponse =
-                (RemoteCall_GetTravelBookingDetails.TravelBookingResponse) remoteCall.execute();
+        RemoteCall_GetTravelBookingDetails.BookingResponse bookingResponse =
+                (RemoteCall_GetTravelBookingDetails.BookingResponse) remoteCall.execute();
         if (remoteCall.log.Success__c) {
-            return travelBookingResponse;
+            return bookingResponse;
         } else {
             return null;
         }
     }
 
-    private List<TravelWrapper> getTravelWrappersRemotely(RemoteCall_GetTravelBookingDetails.TravelBookingResponse bookingResponse) {
+    private List<TravelWrapper> getTravelWrappersRemotely(RemoteCall_GetTravelBookingDetails.BookingResponse bookingResponse, Boolean isHomePage) {
         List<TravelWrapper> travelWrappers = new List<TravelWrapper>();
         if (bookingResponse == null) return travelWrappers;
-        if (bookingResponse.departures != null) travelWrappers.add(new TravelWrapper(bookingResponse.departures, bookingResponse.visitname, bookingResponse.status));
-        if (bookingResponse.accommodations != null) travelWrappers.add(new TravelWrapper(bookingResponse.accommodations, bookingResponse.visitname, bookingResponse.status));
-        if (bookingResponse.returns != null) travelWrappers.add(new TravelWrapper(bookingResponse.returns, bookingResponse.visitname, bookingResponse.status));
+        for(RemoteCall_GetTravelBookingDetails.TravelBooking travelBooking : bookingResponse.travelBookings) {
+            if (isHomePage && travelWrappers.size() == 3) break;
+            if (travelBooking.departures != null) travelWrappers.add(new TravelWrapper(travelBooking.departures, travelBooking.visitname, travelBooking.status));
+            if (travelBooking.accommodations != null) travelWrappers.add(new TravelWrapper(travelBooking.accommodations, travelBooking.visitname, travelBooking.status));
+            if (travelBooking.returns != null) travelWrappers.add(new TravelWrapper(travelBooking.returns, travelBooking.visitname, travelBooking.status));
+        }
         return travelWrappers;
     }
 
@@ -79,7 +82,7 @@ public without sharing class TravelSupportRemote {
             if (status == '1') {
                 this.bgc = '#E20000';
                 this.style += '#E20000;';
-                this.status = 'Declined';
+                this.status = 'Failed';
 
             } else if (status == '2') {
                 this.bgc = '#FF9300';
@@ -97,30 +100,25 @@ public without sharing class TravelSupportRemote {
                 RemoteCall_GetTravelBookingDetails.Departure departure = (RemoteCall_GetTravelBookingDetails.Departure) obj;
                 this.title = departure.company;
                 this.dateAndTime = Datetime.valueOf(departure.datetime_from);
-                //this.dateAndTime = Datetime.format(departure.datetime_from, String.valueOf(UserInfo.getTimeZone()));
                 if (departure.title == 'taxi') this.icon = 'car-retro';
                 if (departure.title == 'plane') {
-                    this.icon = 'plane';
-                    this.style += 'transform: rotate(-20deg);';
+                    this.icon = 'plane-take-off';
                 }
             }
             if (obj instanceof RemoteCall_GetTravelBookingDetails.ReturnInfo) {
                 RemoteCall_GetTravelBookingDetails.ReturnInfo returnInfo = (RemoteCall_GetTravelBookingDetails.ReturnInfo) obj;
                 this.title = returnInfo.company;
                 this.dateAndTime = Datetime.valueOf(returnInfo.datetime_from);
-                //this.dateAndTime = Datetime.format(returnInfo.datetime_from, String.valueOf(UserInfo.getTimeZone()));
                 if (returnInfo.title == 'taxi') this.icon = 'car-retro';
                 if (returnInfo.title == 'plane') {
-                    this.icon = 'plane';
-                    this.style += 'transform: rotate(-20deg);';
+                    this.icon = 'plane-take-off';
                 }
             }
             if (obj instanceof RemoteCall_GetTravelBookingDetails.Accommodation) {
                 RemoteCall_GetTravelBookingDetails.Accommodation accommodation = (RemoteCall_GetTravelBookingDetails.Accommodation) obj;
                 this.title = accommodation.hotel_name;
                 this.dateAndTime = Datetime.newInstanceGmt(Date.valueOf(accommodation.check_in_date), Time.newInstance(12, 0, 0, 0));
-                //this.dateAndTime = Datetime.format(accommodation.check_in_date, String.valueOf(UserInfo.getTimeZone()));
-                this.icon = 'icon-bed';
+                this.icon = 'hotel-bed';
                 this.isAccommodation = true;
             }
         }
