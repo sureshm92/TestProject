@@ -36,11 +36,10 @@
         <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="4" flexibility="auto"
                               size="12">
             <div class="filter-side">
-<!--                <aura:if isTrue="{!v.initializedTaps}">-->
-<!--                    <c:conditionsOfInterestViewComp taps="{!v.taps}" participantId="{!v.participant.Id}" onupdateCOISearch="{!c.handleUpdateSearchEvent}"/>-->
-<!--                </aura:if>-->
-                <c:ConditionsOfInterestView taps="{!v.taps}" participantId="{!v.participant.Id}"/>
-
+                <aura:if isTrue="{!v.initializedTaps}">
+                    <c:conditionsOfInterestViewComp taps="{!v.taps}" participantId="{!v.participant.Id}"
+                                                    onupdateCOISearch="{!c.handleUpdateSearchEvent}"/>
+                </aura:if>
             </div>
 
         </lightning:layoutItem>
