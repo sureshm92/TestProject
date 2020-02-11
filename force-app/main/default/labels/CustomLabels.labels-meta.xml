@@ -4854,7 +4854,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Home Page Travel Support Filter Declined</shortDescription>
-        <value>Declined</value>
+        <value>Failed</value>
     </labels>
     <labels>
         <fullName>Home_Page_Travel_Support_Filter_Pending</fullName>
