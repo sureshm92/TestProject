@@ -26,7 +26,6 @@ public with sharing class ResourceRemote {
                 }
             }
             return cont;
-            //return ResourceDelegate.getInstance().getStudyDocuments();
         } catch (Exception e) {
             return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
         }
