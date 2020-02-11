@@ -19,19 +19,11 @@
                     <div class="sv-title">{!$Label.c.Home_Page_RelevantLinks_Title}</div>
                 </div>
                 <div class="sv-body">
-                    <c:RRTable>
-                        <tbody>
-                        <aura:iteration var="link" items="{!v.links}" indexVar="ind">
-                            <tr>
-                                <td class="slds-grid slds-grid_vertical-align-center" data-ind="{!link.URL__c}">
-                                    <div class="sv-element">
-                                        <lightning:formattedUrl value="{!link.URL__c}" label="{!link.Title__c}"/>
-                                    </div>
-                                </td>
-                            </tr>
-                        </aura:iteration>
-                        </tbody>
-                    </c:RRTable>
+                    <aura:iteration var="link" items="{!v.links}">
+                        <div class="link-container">
+                            <c:RRLink href="{!link.URL__c}" label="{!link.Title__c}" target="_blank" class="link"/>
+                        </div>
+                    </aura:iteration>
                     <c:EmptyListStub targetList="{!v.links}" iconName="none" message="{!$Label.c.PG_VP_L_No_Items_display}"/>
                 </div>
             </aura:if>

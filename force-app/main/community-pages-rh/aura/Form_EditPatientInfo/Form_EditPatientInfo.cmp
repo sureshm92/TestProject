@@ -53,7 +53,7 @@
                     <lightning:input type="text" value="{!v.participant.Middle_Name__c}"
                                      onblur="{!c.doCheckFields}"/>
                 </div>
-                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
+                <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3'}">
                     <div class="label"><abbr title="required"
                                              class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Last_name}</div>
                     <lightning:input type="text" value="{!v.participant.Last_Name__c}" required="true"
