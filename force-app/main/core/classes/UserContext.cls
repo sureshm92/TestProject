@@ -91,6 +91,10 @@ public without sharing class UserContext {
     
     private static void setUser(Id userId){
         user = [SELECT Id, ContactId FROM User WHERE Id =: userId];
-        setContact(user.ContactId);
+        if(user.ContactId == null) {
+            setContact((Id) SettingStoreService.getOrgDefault('DummyCommunityContactId'));
+        } else {
+            setContact(user.ContactId);
+        }
     }
 }
