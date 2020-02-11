@@ -339,6 +339,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     List<Database.SaveResult> saveReses = Database.insert(participantEnrollmentsByContact.values());
                     for (Database.SaveResult saveRes : saveReses) {
                         if (!saveRes.isSuccess()) {
+                            errorRecordCount++;
                             Database.Error error = saveRes.getErrors().get(0);
                             listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
                             system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
