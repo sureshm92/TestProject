@@ -84,7 +84,7 @@ public class DashboardRemote {
             this.daysAdded = daysAdded;
         }
     }
-
+    //TODO Review
     @AuraEnabled
     public static String getInitData(String userMode, String delegateId){
         try{
@@ -97,29 +97,27 @@ public class DashboardRemote {
                         }, 3), userMode,
                         delegateId
                 );
-                Integer piPending = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS));
-                Integer piAccepted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_SUCCESS));
-                Integer piOnHold = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_IN_PROGRESS));
-                Integer piDeclined = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_FAILURE));
-                piData.waitingAcceptence = piPending;
+//                Integer piPending = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS));
+                Integer piAccepted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS));
+//                Integer piOnHold = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_IN_PROGRESS));
+//                Integer piDeclined = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_FAILURE));
+                piData.waitingAcceptence =0;// piPending;
                 piData.referralsReceived.addAll(new List<DonutItem>{
-                        new DonutItem(Label.DI_L_Accepted, piAccepted , DonutItem.Type.SUCCSESS),
+                        new DonutItem(Label.DI_L_Accepted, piAccepted , DonutItem.Type.SUCCSESS)/*,
                         new DonutItem(Label.DI_L_On_hold, piOnHold , DonutItem.Type.ON_HOLD),
                         new DonutItem(Label.DI_L_Declined, piDeclined , DonutItem.Type.DECLINED),
-                        new DonutItem(Label.DI_L_Acceptance_pending, piPending , DonutItem.Type.PENDING)
+                        new DonutItem(Label.DI_L_Acceptance_pending, piPending , DonutItem.Type.PENDING)*/
                 });
         
                 //contact attemts data
                 piData.waitingToBeContactedList = preparePEList(
-                        ParticipantEnrollmentService.getPEnrolmentsByStatus(userMode, new List<String>{
-                                PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_SUCCESS)
-                        }, 3), userMode,
+                        ParticipantEnrollmentService.getPEnrolmentsByStatus(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_IN_PROGRESS), 3), userMode,
                         delegateId
                 );
                 Integer piPendingContacted = piAccepted;
-                Integer piSuccessContacted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[2].states.get(PEStatusState.STATUS_STATE_SUCCESS));
-                Integer piOnHoldContacted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[2].states.get(PEStatusState.STATUS_STATE_IN_PROGRESS));
-                Integer piDeclineContacted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[2].states.get(PEStatusState.STATUS_STATE_FAILURE));
+                Integer piSuccessContacted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_SUCCESS));
+                Integer piOnHoldContacted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_IN_PROGRESS));
+                Integer piDeclineContacted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_FAILURE));
                 piData.waitingToBeContacted = piPendingContacted;
                 piData.referralsApproved.addAll(new List<DonutItem>{
                         new DonutItem(Label.DI_L_Accepted, piSuccessContacted , DonutItem.Type.SUCCSESS),
@@ -173,15 +171,15 @@ public class DashboardRemote {
                 });
         
                 //Acceptance statuses
-                Integer piPending = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS), delegateId);
-                Integer piAccepted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_SUCCESS), delegateId);
-                Integer piOnHold = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_IN_PROGRESS), delegateId);
-                Integer piDeclined = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_FAILURE), delegateId);
+//                Integer piPending = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS), delegateId);
+                Integer piAccepted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS), delegateId);
+//                Integer piOnHold = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_IN_PROGRESS), delegateId);
+//                Integer piDeclined = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_FAILURE), delegateId);
                 hcpData.acceptenceStatus.addAll(new List<DonutItem>{
-                        new DonutItem(Label.DI_L_Accepted, piAccepted , DonutItem.Type.SUCCSESS),
+                        new DonutItem(Label.DI_L_Accepted, piAccepted , DonutItem.Type.SUCCSESS)/*,
                         new DonutItem(Label.DI_L_On_hold, piOnHold , DonutItem.Type.ON_HOLD),
                         new DonutItem(Label.DI_L_Declined, piDeclined , DonutItem.Type.DECLINED),
-                        new DonutItem(Label.DI_L_Approval_pending, piPending , DonutItem.Type.PENDING)
+                        new DonutItem(Label.DI_L_Approval_pending, piPending , DonutItem.Type.PENDING)*/
                 });
         
                 //Enrollment status
@@ -207,7 +205,7 @@ public class DashboardRemote {
         Participant_Enrollment__c pe  = new Participant_Enrollment__c(
                 Id = peId,
                 Participant_Status_Last_Changed_Date__c = Datetime.now(),
-                Participant_Status__c = PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_SUCCESS)
+                Participant_Status__c = PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS)[0]
         );
         upsert pe;
         return getInitData(CommunityService.USER_MODE_PI, null);
@@ -223,7 +221,7 @@ public class DashboardRemote {
         List<Participant_Enrollment__c> pes =
                 ParticipantEnrollmentService.getPEnrolmentsByStatus(
                         userMode,
-                        new List<String>{ PEStatusState.PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS },
+                        new List<String>{ PEStatusState.PE_STATUS_CONTACT_ATTEMPTED },
                         null,
                         delegateId);
         for (Participant_Enrollment__c pe : pes) {
@@ -275,7 +273,8 @@ public class DashboardRemote {
                 ParticipantEnrollmentService.getPEnrolmentsByStatus(
                         userMode,
                         new List<String>{ PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
-                                          PEStatusState.PE_STATUS_REFERRAL_ACCEPTED },
+                                          PEStatusState.PE_STATUS_REFERRAL_ACCEPTED,
+                                          PEStatusState.PE_STATUS_RECEIVED },
                         null,
                         delegateId);
         Map<Id, Participant_Enrollment__c> peById = new Map<Id, Participant_Enrollment__c>(pes);
@@ -288,7 +287,8 @@ public class DashboardRemote {
              FROM Participant_Enrollment_Status_History__c
              WHERE ParticipantEnrollment__c IN :peById.keySet() AND
                    Status__c IN :(new List<String>{ PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
-                                                    PEStatusState.PE_STATUS_REFERRAL_ACCEPTED })
+                                                    PEStatusState.PE_STATUS_REFERRAL_ACCEPTED,
+                                                    PEStatusState.PE_STATUS_RECEIVED})
              ORDER BY CreatedDate DESC];
 
         Integer maxParticipantsInDays = 0;
@@ -349,7 +349,7 @@ public class DashboardRemote {
         List<Participant_Enrollment__c> pes =
                 ParticipantEnrollmentService.getPEnrolmentsByStatus(
                         userMode,
-                        new List<String>{ PEStatusState.PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS },
+                        new List<String>{ PEStatusState.PE_STATUS_CONTACT_ATTEMPTED },
                         null,
                         delegateId);
         for (Participant_Enrollment__c pe : pes) {

@@ -31,17 +31,30 @@ public without sharing class PatientDelegateTriggerHandler {
     @TestVisible
     private static void setDefaultPatientStatus(List<Patient_Delegate__c> newList) {
         for (Patient_Delegate__c participantDelegate : newList) {
-            participantDelegate.Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS;
+            participantDelegate.Status__c = PATIENT_DELEGATE_ACTIVE_STATUS;
         }
     }
 
     @TestVisible
     private static void updateUserStatus(List<Patient_Delegate__c> newList, Map<Id, Patient_Delegate__c> oldMap) {
-        Map<Id, Boolean> isActiveContactsMap = new Map<Id, Boolean>();
+        Set<Id> contactIds = new Set<Id>();
         for (Patient_Delegate__c pd : newList) {
             if (pd.Status__c != oldMap.get(pd.Id).Status__c) {
-                isActiveContactsMap.put(pd.Contact__c, pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS);
+                contactIds.add(pd.Contact__c);
             }
+        }
+    
+        Map<Id, Boolean> isActiveContactsMap = new Map<Id, Boolean>();
+        List<Contact> delegates = [SELECT Id, (SELECT Id, Status__c FROM Contacts__r) FROM Contact WHERE Id IN: contactIds];
+        for(Contact contact : delegates){
+            Boolean isActive = false;
+            for(Patient_Delegate__c pd : contact.Contacts__r){
+                if(pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS){
+                    isActive = true;
+                    break;
+                }
+            }
+            isActiveContactsMap.put(contact.Id, isActive);
         }
     
         updateUsersStatusFuture(isActiveContactsMap);

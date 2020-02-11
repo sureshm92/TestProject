@@ -39,7 +39,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 new Map<Id, List<Participant_Enrollment_Status_History__c>>();
 
         for (Participant_Enrollment_Status_History__c history : histories) {
-            if(history.Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI) continue;
+            if(history.Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI || history.Status__c == PEStatusState.PE_STATUS_RECEIVED) continue;
 
             Id peId = history.ParticipantEnrollment__c;
             peIds.add(peId);
@@ -77,7 +77,8 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             pe.Non_Enrollment_Reason__c = headHistory.Reason__c;
             pe.Participant_Status_Last_Changed_Date__c = headHistory.Date__c;
             pe.Participant_Status__c = headHistory.Status__c;
-            if(headHistory.Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) {
+            if(headHistory.Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+                    || headHistory.Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) {
                 pe.Informed_Consent__c = true;
                 pe.Enrolled_Date__c = headHistory.Date__c.date();
             }

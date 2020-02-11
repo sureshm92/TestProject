@@ -28,12 +28,12 @@ public without sharing class ProviderPaymentsService {
         List<Participant_Enrollment__c> peWithReimbursableActivities = new List<Participant_Enrollment__c>();
         Set<Id> providerContactIds = new Set<Id>();
         for(Participant_Enrollment__c pe : peWithMRRDateUpdatedFromHCP){
-            if(studySitesMap.containsKey(pe.Study_Site__c)){
+            if(studySitesMap.containsKey(pe.Study_Site__c) && (pe.HCP__C != null || pe.Referral_Source__c != ParticipantEnrollmentService.PE_REFERRAL_SOURCE_EPR)){
                 peWithReimbursableActivities.add(pe);
                 if(pe.HCP__c!= null){
                     providerContactIds.add(pe.HCP_Contact_HCPEnroll__c);
                 }
-                else{
+                else if(pe.Referral_Source__c != ParticipantEnrollmentService.PE_REFERRAL_SOURCE_EPR){
                     providerContactIds.add(studySitesMap.get(pe.Study_Site__c).Principal_Investigator__c);
                 }
             }

@@ -353,7 +353,7 @@
         <locationY>1209</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
-            <targetReference>Create_Study_Res</targetReference>
+            <targetReference>Create_Study_Res_0_0</targetReference>
         </connector>
         <inputAssignments>
             <field>Author_s_Name__c</field>
@@ -543,7 +543,7 @@
         <locationY>1213</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
-            <targetReference>Create_Study_Res</targetReference>
+            <targetReference>Create_Study_Res_0_0</targetReference>
         </connector>
         <inputAssignments>
             <field>Content_Type__c</field>
@@ -584,7 +584,7 @@
         <locationY>1209</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
-            <targetReference>Create_Study_Res</targetReference>
+            <targetReference>Create_Study_Res_0_0</targetReference>
         </connector>
         <inputAssignments>
             <field>Author_s_Name__c</field>
@@ -729,8 +729,8 @@
     <recordCreates>
         <name>Create_Study_Res</name>
         <label>Create Study Res</label>
-        <locationX>301</locationX>
-        <locationY>1704</locationY>
+        <locationX>545</locationX>
+        <locationY>1647</locationY>
         <connector>
             <targetReference>Type_Rocord_type</targetReference>
         </connector>
@@ -850,6 +850,82 @@
             <field>Resource__c</field>
             <value>
                 <elementReference>Exist_recource_variable</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Visible_In_Alumni__c</field>
+            <value>
+                <elementReference>Visible_In_Alumni</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Visible_To_Delegates__c</field>
+            <value>
+                <elementReference>Visible_To_Delegates</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Visible_To_PI__c</field>
+            <value>
+                <elementReference>Visible_To_PI</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Visible_To_Participant__c</field>
+            <value>
+                <elementReference>Visible_To_Participant</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Visible_To_RP__c</field>
+            <value>
+                <elementReference>Visible_To_RP</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Res_study__c</object>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Study_Res_0_0</name>
+        <label>Create Study Res</label>
+        <locationX>317</locationX>
+        <locationY>1656</locationY>
+        <connector>
+            <targetReference>Type_Rocord_type</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Active_After_Days__c</field>
+            <value>
+                <elementReference>Number_of_Days_Active_after_Enrollment</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Active_On_Status__c</field>
+            <value>
+                <elementReference>ActiveOnStatus_variable</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Clinical_Trial_Profile__c</field>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Expires_After_Days__c</field>
+            <value>
+                <elementReference>Number_of_Days_Before_Document_Expires</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Expires_On_Status__c</field>
+            <value>
+                <elementReference>ExpiresOnStatus_variable</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Resource__c</field>
+            <value>
+                <elementReference>Recources_for_StudyRes</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1046,7 +1122,13 @@
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
         </fields>
-        <showFooter>true</showFooter>
+        <fields>
+            <name>FinihsButton2</name>
+            <extensionName>c:FooterWithFinishButton</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>false</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <screens>
@@ -1080,7 +1162,7 @@
     <screens>
         <name>Exist_Res_c</name>
         <label>Exist Res</label>
-        <locationX>801</locationX>
+        <locationX>800</locationX>
         <locationY>930</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1115,6 +1197,12 @@
                 <assignToReference>Exist_recource_variable</assignToReference>
                 <name>recordId</name>
             </outputParameters>
+        </fields>
+        <fields>
+            <name>FootherForFinish</name>
+            <extensionName>c:FooterWithFinishButton</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <isRequired>true</isRequired>
         </fields>
         <showFooter>false</showFooter>
         <showHeader>true</showHeader>
@@ -1187,15 +1275,21 @@
             <dataType>String</dataType>
             <fieldText>Languages</fieldText>
             <fieldType>MultiSelectPicklist</fieldType>
-            <isRequired>false</isRequired>
+            <isRequired>true</isRequired>
         </fields>
-        <showFooter>true</showFooter>
+        <fields>
+            <name>FinihsButton</name>
+            <extensionName>c:FooterWithFinishButton</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>false</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <screens>
         <name>Study_Doc_c</name>
         <label>Study Doc</label>
-        <locationX>545</locationX>
+        <locationX>546</locationX>
         <locationY>1043</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1347,30 +1441,6 @@
             </outputParameters>
         </fields>
         <fields>
-            <name>DependecyPicklist</name>
-            <extensionName>flowruntime:dependentPicklists</extensionName>
-            <fieldType>ComponentInstance</fieldType>
-            <inputParameters>
-                <name>dependencyWrapperApiName</name>
-                <value>
-                    <stringValue>Res_study__c</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>topPicklistApiName</name>
-                <value>
-                    <stringValue>Active_On_Status__c</stringValue>
-                </value>
-            </inputParameters>
-            <inputParameters>
-                <name>middlePicklistApiName</name>
-                <value>
-                    <stringValue>Expires_On_Status__c</stringValue>
-                </value>
-            </inputParameters>
-            <isRequired>true</isRequired>
-        </fields>
-        <fields>
             <name>Number_of_Days_Active_after_Enrollment</name>
             <dataType>Number</dataType>
             <fieldText>Number of Days Active after Enrollment</fieldText>
@@ -1413,6 +1483,16 @@
             <fieldText>Notify On Availability</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Choose_record_type_recource</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <elementReference>Study_Document_recordtype</elementReference>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <fields>
             <name>Visible_To_PI</name>
@@ -1646,7 +1726,13 @@
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
         </fields>
-        <showFooter>true</showFooter>
+        <fields>
+            <name>FinihsButton3</name>
+            <extensionName>c:FooterWithFinishButton</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>false</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <start>

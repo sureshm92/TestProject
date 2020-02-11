@@ -194,7 +194,7 @@ private class Test_BaseCRCPCommunity {
                 Study_Site__c = studySite.Id,
                 Patient_ID__c = 'SomePatienntId2',
                 Referral_Source__c = 'HCP',
-                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
+                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED,
                 Participant__c = participant.Id
         );
         participantEnrollments.add(passedMrrPE);
@@ -645,9 +645,9 @@ private class Test_BaseCRCPCommunity {
         System.runAs(piUser) {
             String vpResultJSON = ViewPatientsRemote.getInitData(study.Id, studySite.Id, CommunityService.USER_MODE_PI, null, CommunityService.USER_MODE_PI, null);
             ViewPatientsRemote.InitData vpResult = (ViewPatientsRemote.InitData) JSON.deserialize(vpResultJSON, ViewPatientsRemote.InitData.class);
-            ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_PI, null);
+//            ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_PI, null);
             ViewPatientsRemote.getInitDataForPatientProfile(participant.Id, CommunityService.USER_MODE_PI, null);
-            ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_PI, null);
+//            ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_PI, null);
             ViewPatientsRemote.getRecords(JSON.serialize(vpResult.peFilter), JSON.serialize(vpResult.paginationData), 'Pending', CommunityService.USER_MODE_PI, false, null);
             StudyClinicDashboardRemote.getInitData(study.Id, studySiteAccount.Id);
         }
@@ -774,9 +774,9 @@ private class Test_BaseCRCPCommunity {
         Test.startTest();
         System.runAs(piUser) {
             ReferralProfileRemote.getReferralProfileDetail(passedMrrPE.Id, CommunityService.USER_MODE_PI);
-            ReferralProfileRemote.getPEStatusHistory(passedMrrPE.Id, CommunityService.USER_MODE_PI, null);
+            //ReferralProfileRemote.getPEStatusHistory(passedMrrPE.Id, CommunityService.USER_MODE_PI, null);
             ReferralProfileRemote.changePEStatusByBtn(passedMrrPE.Id, 'Referral Accepted');
-            ReferralProfileRemote.changePEStatus(passedMrrPE.Id, 'Contact Successful', 'Some Notes', CommunityService.USER_MODE_PI);
+            //ReferralProfileRemote.changePEStatus(passedMrrPE.Id, 'Contact Successful', 'Some Notes', CommunityService.USER_MODE_PI);
             ReportsRemote.getInitData(study.Id, CommunityService.USER_MODE_PI, null);
             RRIconTableController.getFilterInfoAndSummaryInfo();
             RRProfileController.getUser();
@@ -845,7 +845,7 @@ private class Test_BaseCRCPCommunity {
         System.runAs(hcpUser) {
             //MedicalRecordReviewRemote.getHCPEnrolment(study.Id);
             
-            ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_HCP, null);
+//            ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_HCP, null);
             ViewPatientsRemote.getInitDataForPatientProfile(participant.Id, CommunityService.USER_MODE_HCP, null);
             String mrrLogResStr = MedicalRecordReviewLogController.getParticipantDetail(study.Id, CommunityService.USER_MODE_HCP, false, null);
             mrrLogResStr = MedicalRecordReviewLogController.getParticipantDetail(null, CommunityService.USER_MODE_HCP, false,null);

@@ -10,89 +10,114 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>icon-blood-test</fullName>
+                <fullName>blood-drop</fullName>
                 <default>false</default>
                 <label>Blood tests</label>
             </value>
             <value>
-                <fullName>icon-brief-ph-ex</fullName>
+                <fullName>medical-room-clock-man</fullName>
                 <default>false</default>
                 <label>Physical examination</label>
             </value>
             <value>
-                <fullName>icon-ecg</fullName>
+                <fullName>monitor-heart-rate</fullName>
                 <default>false</default>
                 <label>Electrocardiogram (ECG)</label>
             </value>
             <value>
-                <fullName>icon-joint</fullName>
+                <fullName>medical-specialty-knee-1</fullName>
                 <default>false</default>
                 <label>Joint assessment</label>
             </value>
             <value>
-                <fullName>icon-lung-test</fullName>
+                <fullName>medical-specialty-lungs</fullName>
                 <default>false</default>
                 <label>Lung function test</label>
             </value>
             <value>
-                <fullName>icon-lung-check</fullName>
+                <fullName>medical-instrument-stethoscope</fullName>
                 <default>false</default>
                 <label>Lung health check</label>
             </value>
             <value>
-                <fullName>icon-pregnancy</fullName>
+                <fullName>pregnancy</fullName>
                 <default>false</default>
                 <label>Pregnancy test</label>
             </value>
             <value>
-                <fullName>icon-questionnaires</fullName>
+                <fullName>notes-tasks</fullName>
                 <default>false</default>
                 <label>Questionnaires</label>
             </value>
             <value>
-                <fullName>icon-questions</fullName>
+                <fullName>messages-bubble-square-question</fullName>
                 <default>false</default>
                 <label>Questions about your health and medications</label>
             </value>
             <value>
-                <fullName>icon-vital-signs</fullName>
+                <fullName>fitness-heart-rate</fullName>
                 <default>false</default>
                 <label>Vital signs</label>
             </value>
             <value>
-                <fullName>icon-urine-tests</fullName>
+                <fullName>urine-sample</fullName>
                 <default>false</default>
                 <label>Urine tests</label>
             </value>
             <value>
-                <fullName>icon-receive-study-medication-injection</fullName>
+                <fullName>medical-instrument-syringe-1</fullName>
                 <default>false</default>
                 <label>Receive study medication injection</label>
             </value>
             <value>
-                <fullName>icon-receive-study-medication-capsules</fullName>
+                <fullName>pill</fullName>
                 <default>false</default>
                 <label>Receive study medication capsules</label>
             </value>
             <value>
-                <fullName>icon-fasting</fullName>
+                <fullName>NoFood</fullName>
                 <default>false</default>
                 <label>Fasting</label>
             </value>
             <value>
-                <fullName>icon-hands-and-feet-x-rays</fullName>
+                <fullName>radiology-scanner</fullName>
                 <default>false</default>
                 <label>Hands and feet X-rays</label>
             </value>
             <value>
-                <fullName>icon-chest-x-rays</fullName>
+                <fullName>radiology-scanning</fullName>
                 <default>false</default>
                 <label>Chest X-rays</label>
             </value>
             <value>
-                <fullName>icon-no-study-visit</fullName>
+                <fullName>delete</fullName>
                 <default>false</default>
                 <label>No study visit if you take part in contRAst-X</label>
+            </value>
+            <value>
+                <fullName>team-meeting-chat</fullName>
+                <default>false</default>
+                <label>Exit interview</label>
+            </value>
+            <value>
+                <fullName>medical-specialty-intestine</fullName>
+                <default>false</default>
+                <label>Colonoscopy</label>
+            </value>
+            <value>
+                <fullName>shipment-package</fullName>
+                <default>false</default>
+                <label>Supply of study medication</label>
+            </value>
+            <value>
+                <fullName>notes-diary-alternate</fullName>
+                <default>false</default>
+                <label>eDiary review</label>
+            </value>
+            <value>
+                <fullName>laboratory-test-stool-cup</fullName>
+                <default>false</default>
+                <label>Stool sample</label>
             </value>
         </valueSetDefinition>
     </valueSet>

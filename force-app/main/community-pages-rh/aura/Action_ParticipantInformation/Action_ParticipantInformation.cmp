@@ -27,6 +27,8 @@
     <aura:attribute name="checkTabs" type="String" default="participantDetails"/>
     <aura:attribute name="isInvited" type="Boolean" access="public"/>
     <aura:attribute name="sendEmails" type="Boolean" default="false"/>
+    <aura:attribute name="participantPath" type="Object"/>
+
 
     <!-- methods -->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
@@ -40,13 +42,16 @@
     </aura:method>
     <aura:method name="doCallback" action="{!c.doCallback}" access="public"/>
     <aura:method name="doUpdate" action="{!c.doUpdate}" access="public"/>
+    <aura:method name="doUpdatePatientStatus" action="{!c.doUpdatePatientStatus}" access="public"/>
 
     <aura:handler name="change" value="{!v.pathItems}" action="{!c.prepareEditableSteps}"/>
 
     <!-- component body: -->
     <c:Popup aura:id="dialog" title="{!v.popUpTitle}" size="large" showScroll="true" showHeader="true" showFooter="true">
-        <aura:if isTrue="{!!v.isInvited}">
-            <div class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
+        <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
+                 !v.pe.Participant__r.Marketing_Flag__c &amp;&amp; v.pe.Participant__r.Email__c &amp;&amp;
+                 !v.pe.Study_Site__r.Is_Virtual_Study_Site__c &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c}">
+        <div class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
                 <div class="slds-col slds-size--9-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
                     <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.sendEmails}"/>
                     <div class="slds-size--10-of-12">{!$Label.c.Send_Emails_Checkbox_on_PE_Info}</div>
@@ -56,7 +61,7 @@
             </div>
         </aura:if>
         <c:RRSpinner aura:id="spinner" size="medium"/>
-        <div class="form-content" data-gtm="Tabs_View_Details">
+        <div class="form-content" data-gtm="Tabs_View_Details" id="anchor">
             <aura:if isTrue="{!v.initialized}">
 
             <lightning:tabset>
@@ -69,15 +74,15 @@
                                             visitPlanRequired="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c}"/>
                 </div>
                 </lightning:tab>
+                <lightning:tab aura:id="Status" label="{!$Label.c.BTN_Status_Details}" onactive="{!c.checkTabs}">
+                    <c:ParticipantStatusDetails participantWorkflowWrapper="{!v.participantPath}" parent="{!this}"/>
+                </lightning:tab>
                 <lightning:tab class="slds-tabs_default__item" aura:id="Provider" label="{!$Label.c.Tab_HealthCare_Provider}" title="{!$Label.c.Tab_HealthCare_Provider}" onactive="{!c.checkTabs}">
                     <aura:if isTrue="{!v.pe}">
                         <div id="healthCareProvider">
                             <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{!v.pe.HCP__r.HCP_Contact__r}" showReferringProvider="{!v.pe.Show_Referring_Provider__c}" fromActionParticipant="true" actionDisabled="{!v.actions.screenerResponses.disabled}"/>
                         </div>
                     </aura:if>
-                </lightning:tab>
-                <lightning:tab class="slds-tabs_default__item" aura:id="Status" label="{!$Label.c.BTN_Status_Details}" onactive="{!c.checkTabs}">
-                    <c:RRPath2 pathItems="{!v.pathItems}"/>
                 </lightning:tab>
                 <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">
                 <lightning:tab class="slds-tabs_default__item" aura:id="Survey" label="{!$Label.c.BTN_Screener_Responses}" onactive="{!c.checkTabs}">
@@ -87,14 +92,11 @@
             </lightning:tabset>
             </aura:if>
         </div>
-            <aura:set attribute="headerButtons">
-                <lightning:button onclick="{!c.doCancel}" name="Close"><!--&lt;!&ndash;class="{!'slds-button slds-modal__close slds-button&#45;&#45;icon-inverse' + if(not(v.showClose), ' slds-hide') + if($Browser.isPhone, ' p-mobile-close')}&ndash;&gt;">-->
-                    <c:RRIcon iconName="icon-close" class="close-icon"/>
-                </lightning:button>
-                <!--<lightning:button onclick="{!c.doPrint}" name="Print" class="{!'slds-button slds-button&#45;&#45;icon-inverse'}">
+            <!--<aura:set attribute="headerButtons">
+                <lightning:button onclick="{!c.doPrint}" name="Print" class="{!'slds-button slds-button&#45;&#45;icon-inverse'}">
                     <c:RRIcon iconName="icon-print" class="print-icon"/>
-                </lightning:button>-->
-            </aura:set>
+                </lightning:button>
+            </aura:set>-->
             <aura:set attribute="footerButtons">
                 <div data-gtm="BTNS_Popup_Save_Cancel">
                 <lightning:button class="apollo-btn secondary slds-float_right slds-button--neutral" disabled="{!!v.isValid}" onclick="{!c.doUpdateCancel}">{!$Label.c.BTN_Save_All_Tabs}</lightning:button>

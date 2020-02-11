@@ -3,9 +3,10 @@
  */
 
 public without sharing class AddPatientByPIRemote {
-    
+
+    //TODO:update
     public static final List<String> PE_STATUSES = new List<String>{
-            PEStatusState.PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS,
+            PEStatusState.PE_STATUS_CONTACT_ATTEMPTED,
             PEStatusState.PE_STATUS_ELIGIBILITY_PASSED,
             PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS,
             PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
@@ -49,7 +50,7 @@ public without sharing class AddPatientByPIRemote {
             return (FormData) AuraHelper.throwException(e);
         }
     }
-    
+    //TODO:Review
     @AuraEnabled
     public static void saveParticipant(String participantJSON, String peJSON){
         try{
@@ -58,18 +59,18 @@ public without sharing class AddPatientByPIRemote {
             String enrollmentStatus = pe.Participant_Status__c;
             participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI;
             PEStatusState currentState = PEStatusState.STATUSES_MAP.get(pe.Participant_Status__c);
-            pe.Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI;
+            pe.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
             pe.Referral_Source__c = 'PI';
             ParticipantService.createParticipantAndUpdatePE(participant, pe);
 
             List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
             for(PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE){
-                if(step.name == PEStatusState.PE_ST_REFERRED) continue;
+                if(step.name == PEStatusState.PE_ST_REFERRAL_ACCEPTANCE) continue;
                 statusHistories.add(new Participant_Enrollment_Status_History__c(
                         Notes__c = pe.Last_Status_Changed_Notes__c,
                         Date__c = Datetime.now(),
                         ParticipantEnrollment__c = pe.Id,
-                        Status__c = step.name == currentState.name ? enrollmentStatus : step.states.get(PEStatusState.STATUS_STATE_SUCCESS)
+                        Status__c = step.name == currentState.name ? enrollmentStatus : step.states.get(PEStatusState.STATUS_STATE_SUCCESS)[0]
                 ));
                 if(step.name == currentState.name) break;
             }

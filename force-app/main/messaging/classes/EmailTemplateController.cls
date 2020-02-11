@@ -13,7 +13,7 @@ global without sharing class EmailTemplateController {
 
     public static final String LABEL_HEADER_INITIAL_PARTICIPANT = 'Email_Header_Initial_Patient';
     public static final String LABEL_HEADER_INITIAL_PATIENT_DELEGATE = 'Email_Header_Initial_Patient_Delegate';
-    public static final String LABEL_HEADER_INITIAL_DELEGATE= 'Email_Header_Initial_Delegate';
+    public static final String LABEL_HEADER_INITIAL_DELEGATE = 'Email_Header_Initial_Delegate';
     public static final String LABEL_HEADER_INITIAL_PI = 'Email_Header_Initial_PI';
     public static final String LABEL_HEADER_INITIAL_HCP = 'Email_Header_Initial_HCP';
     public static final String LABEL_HEADER_INITIAL_PI_PT_HCP = 'Email_Header_Initial_HCP';
@@ -29,8 +29,8 @@ global without sharing class EmailTemplateController {
     public static final String LABEL_BODY_INITIAL_PI_PT_HCP = 'Email_Body_Initial_PI_PT_HCP';
     public static final String LABEL_BODY_INITIAL_PI_HCP = 'Email_Body_Initial_PI_HCP';
 
-    public static final String LABEL_SIGNATURE_PATIENT =  'Email_Signature_Patient';
-    public static final String LABEL_SIGNATURE_PATIENT_DELEGATE =  'Email_Signature_New_Participant_Delegate';
+    public static final String LABEL_SIGNATURE_PATIENT = 'Email_Signature_Patient';
+    public static final String LABEL_SIGNATURE_PATIENT_DELEGATE = 'Email_Signature_New_Participant_Delegate';
     public static final String LABEL_SIGNATURE = 'Email_Signature';
     public static final String LABEL_SIGNATURE_NEW = 'Email_Signature_New';
 
@@ -39,43 +39,42 @@ global without sharing class EmailTemplateController {
 
     public static final String PARAM_PREFIX = '##';
 
-    global String userCommunityType {get; set;}
-    global String emailRecipientName {get; set;}
-    global String emailRecipientId {get; set;}
-    global String emailRecipientLanguage {get; set;}
-    global String emailParametersProvider {get; set;}
-    global Id sourceRecordId {get; set;}
-    global Boolean replaceLineBreaksOnHTMLBreaks {get; set;}
-    global Boolean showDelegateTableValue {get; set;}
-    global Boolean multiplePIMessageValue {get; set;}
-    global Boolean showDelegateSSTableValue {get; set;}
+    global String userCommunityType { get; set; }
+    global String emailRecipientName { get; set; }
+    global String emailRecipientId { get; set; }
+    global String emailRecipientLanguage { get; set; }
+    global String emailParametersProvider { get; set; }
+    global Id sourceRecordId { get; set; }
+    global Boolean replaceLineBreaksOnHTMLBreaks { get; set; }
+    global Boolean showDelegateTableValue { get; set; }
+    global Boolean multiplePIMessageValue { get; set; }
+    global Boolean showDelegateSSTableValue { get; set; }
     global Boolean hasPIRPDelegationRecords {
-        get{
+        get {
             return !getDataProvider().delegateLevelsPI.isEmpty() || !getDataProvider().delegateLevelsHCP.isEmpty();
         }
     }
 
     private String bodyParamValue;
     global String bodyValue {
-        get{
+        get {
             setDefaultValues();
             String resValue = TranslateHelper.replaceParams(bodyValue, PARAM_PREFIX, getDataProvider().parameters);
             return prepareLineBreaks(resValue);
         }
-        set{
+        set {
             bodyValue = value;
             bodyParamValue = value;
         }
     }
 
     global String headerValue {
-        get{
+        get {
             setDefaultValues();
-            if(headerValue.contains(PARAM_PREFIX)){
+            if (headerValue.contains(PARAM_PREFIX)) {
                 String resValue = TranslateHelper.replaceParams(headerValue, PARAM_PREFIX, getDataProvider().parameters);
                 return prepareLineBreaks(resValue);
-            }
-            else{
+            } else {
                 return headerValue;
             }
         }
@@ -83,7 +82,7 @@ global without sharing class EmailTemplateController {
     }
 
     global String titleValue {
-        get{
+        get {
             setDefaultValues();
             return titleValue;
         }
@@ -91,24 +90,24 @@ global without sharing class EmailTemplateController {
     }
 
     global String preSignatureValue {
-        get{
-            if(preSignatureValue == null) return null;
+        get {
+            if (preSignatureValue == null) return null;
             return prepareLineBreaks(preSignatureValue);
         }
         set;
     }
 
     global String signatureValue {
-        get{
+        get {
             return prepareLineBreaks(signatureValue);
         }
         set;
     }
 
     global String userGreetingValue {
-        get{
+        get {
             setDefaultValues();
-            return prepareLineBreaks(TranslateHelper.replaceParams(userGreetingValue, PARAM_PREFIX, getDataProvider().parameters) +'\n\n');
+            return prepareLineBreaks(TranslateHelper.replaceParams(userGreetingValue, PARAM_PREFIX, getDataProvider().parameters) + '\n\n');
         }
         set;
     }
@@ -127,19 +126,26 @@ global without sharing class EmailTemplateController {
         set;
     }
 
-    global String outputMode {get; set;}
+    global String dataParametersValue {
+        get {
+            return JSON.serialize(getDataProvider().parameters);
+        }
+        set;
+    }
+
+    global String outputMode { get; set; }
     private ParametersDataProvider dataProvider;
     private String userLanguageCode;
 
-    public ParametersDataProvider getDataProvider(){
+    public ParametersDataProvider getDataProvider() {
         if (dataProvider == null) {
             dataProvider = new ParametersDataProvider(sourceRecordId, emailRecipientName, emailRecipientId, emailRecipientLanguage, emailParametersProvider, userCommunityType, outputMode, multiplePIMessageValue);
         }
         return dataProvider;
     }
 
-    global String getUserLanguageCode(){
-        if(userLanguageCode == null) userLanguageCode = getDataProvider().getUserLanguage();
+    global String getUserLanguageCode() {
+        if (userLanguageCode == null) userLanguageCode = getDataProvider().getUserLanguage();
         return userLanguageCode;
     }
 
@@ -151,68 +157,68 @@ global without sharing class EmailTemplateController {
         return getDataProvider().delegateLevelsHCP;
     }
 
-    global String getResultUserMode(){
+    global String getResultUserMode() {
         return getDataProvider().userMode;
     }
 
-    global Boolean getIsDelegate(){
+    global Boolean getIsDelegate() {
         return getDataProvider().isDelegate;
     }
 
-    global String getUserName(){
+    global String getUserName() {
         return getDataProvider().getUserName();
     }
 
-    global Map<String, String> getParameters(){
+    global Map<String, String> getParameters() {
         return getDataProvider().parameters;
     }
 
-    private String prepareLineBreaks(String source){
-        if(source == null) return null;
-        if(replaceLineBreaksOnHTMLBreaks) return  source.replaceAll('\n', '<br/>');
+    public String prepareLineBreaks(String source) {
+        if (source == null) return null;
+        if (replaceLineBreaksOnHTMLBreaks) return source.replaceAll('\n', '<br/>');
         return source;
     }
 
-    private void setDefaultValues(){
-        if(sourceRecordId != null &&
+    public void setDefaultValues() {
+        if (sourceRecordId != null &&
                 (sourceRecordId.getSobjectType() == User.getSObjectType() || sourceRecordId.getSobjectType() == Contact.getSObjectType())
-                && bodyParamValue == null){
+                && bodyParamValue == null) {
             String bodyLabel;
             String headerLabel;
             String titleLabel;
             String signatureLabel;
             String userGreetingLabel = LABEL_GREETING_VALUE_DEFAULT;
-            if(getDataProvider().isDelegate){
-                if(getDataProvider().userMode == CommunityService.USER_MODE_PARTICIPANT){
+            if (getDataProvider().isDelegate) {
+                if (getDataProvider().userMode == CommunityService.USER_MODE_PARTICIPANT) {
                     bodyLabel = LABEL_BODY_INITIAL_PATIENT_DELEGATE;
                     headerLabel = LABEL_HEADER_INITIAL_PATIENT_DELEGATE;
                     titleLabel = LABEL_TITLE_ALL;
                     signatureLabel = LABEL_SIGNATURE_PATIENT_DELEGATE;
-                }else{
+                } else {
                     bodyLabel = LABEL_BODY_INITIAL_DELEGATE;
                     headerLabel = LABEL_HEADER_INITIAL_DELEGATE;
                     titleLabel = LABEL_TITLE_ALL;
                     signatureLabel = LABEL_SIGNATURE;
                 }
-            } else if(getDataProvider().userMode == CommunityService.USER_MODE_PARTICIPANT){
+            } else if (getDataProvider().userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 String referralSource = getDataProvider().parameters.get('ReferralSource');
-                if(referralSource == 'PI'){
+                if (referralSource == 'PI') {
                     bodyLabel = LABEL_BODY_INITIAL_PARTICIPANT_BY_PI;
-                }else if(referralSource == 'HCP'){
+                } else if (referralSource == 'HCP') {
                     bodyLabel = LABEL_BODY_INITIAL_PARTICIPANT;
-                }else{
+                } else {
                     bodyLabel = LABEL_BODY_INITIAL_PARTICIPANT_EPR;
                 }
                 headerLabel = LABEL_HEADER_INITIAL_PARTICIPANT;
                 titleLabel = LABEL_TITLE_ALL;
                 signatureLabel = LABEL_SIGNATURE_PATIENT;
-            }else if(getDataProvider().userMode == CommunityService.USER_MODE_PI){
+            } else if (getDataProvider().userMode == CommunityService.USER_MODE_PI) {
                 bodyLabel = LABEL_BODY_INITIAL_PI;
                 headerLabel = LABEL_HEADER_INITIAL_PI;
                 titleLabel = LABEL_TITLE_ALL;
                 signatureLabel = LABEL_SIGNATURE;
                 userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
-            }else if(getDataProvider().userMode == CommunityService.USER_MODE_HCP){
+            } else if (getDataProvider().userMode == CommunityService.USER_MODE_HCP) {
                 Contact hcpContact;
                 if (sourceRecordId.getSobjectType() == Contact.getSObjectType()) {
                     hcpContact = [SELECT Id, userCommunytyType__c, userCommunityMode__c FROM Contact WHERE Id = :sourceRecordId];
@@ -221,20 +227,22 @@ global without sharing class EmailTemplateController {
                     hcpContact = [SELECT Id, userCommunytyType__c, userCommunityMode__c FROM Contact WHERE Id = :hcpUsr.ContactId];
                 }
                 if (hcpContact.userCommunytyType__c.contains(CommunityService.USER_MODE_HCP) && hcpContact.userCommunityMode__c == CommunityService.USER_MODE_HCP) {
-                    List<Healthcare_Provider__c> hcp = [SELECT Id FROM Healthcare_Provider__c WHERE HCP_Enrollment__c IN (SELECT Id FROM HCP_Enrollment__c WHERE HCP_Contact__c =:hcpContact.Id)];
-                    Map<Id, List<HCP_Enrollment__c>> PIpeMap = new Map<Id,List<HCP_Enrollment__c>>();
-                    for(HCP_Enrollment__c hcpe : [
+                    List<Healthcare_Provider__c> hcp = [SELECT Id FROM Healthcare_Provider__c WHERE HCP_Enrollment__c IN (SELECT Id FROM HCP_Enrollment__c WHERE HCP_Contact__c = :hcpContact.Id)];
+                    Map<Id, List<HCP_Enrollment__c>> PIpeMap = new Map<Id, List<HCP_Enrollment__c>>();
+                    for (HCP_Enrollment__c hcpe : [
                             SELECT Id,
                                     Study_Site__r.Principal_Investigator__c
                             FROM HCP_Enrollment__c
                             WHERE HCP_Contact__c = :hcpContact.Id AND
-                            ( Status__c = :HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O OR Status__c = :HCPEnrollmentService.HCP_S_ACTIVATED )
+                            (Status__c = :HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O OR Status__c = :HCPEnrollmentService.HCP_S_ACTIVATED )
                             ORDER BY CreatedDate DESC
-                    ]){
-                        if(PIpeMap.containsKey(hcpe.Study_Site__r.Principal_Investigator__c)){
+                    ]) {
+                        if (PIpeMap.containsKey(hcpe.Study_Site__r.Principal_Investigator__c)) {
                             PIpeMap.get(hcpe.Study_Site__r.Principal_Investigator__c).add(hcpe);
                         } else {
-                            PIpeMap.put(hcpe.Study_Site__r.Principal_Investigator__c, new List<HCP_Enrollment__c> { hcpe } );
+                            PIpeMap.put(hcpe.Study_Site__r.Principal_Investigator__c, new List<HCP_Enrollment__c>{
+                                    hcpe
+                            });
                         }
                     }
                     /*List<HCP_Enrollment__c> hcpe = [
@@ -251,7 +259,7 @@ global without sharing class EmailTemplateController {
                         signatureLabel = LABEL_SIGNATURE;
                         userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
                         dataProvider = new ParametersDataProvider(sourceRecordId, emailRecipientName, emailRecipientId, emailRecipientLanguage, emailParametersProvider, userCommunityType, outputMode, false);
-                    } else if (!PIpeMap.isEmpty()){
+                    } else if (!PIpeMap.isEmpty()) {
                         if (PIpeMap.keySet().size() > 1) {
                             multiplePIMessageValue = true;
                         }
@@ -277,11 +285,11 @@ global without sharing class EmailTemplateController {
                 }
             }
 
-            if(bodyLabel != null) bodyValue = TranslateHelper.getLabelValue(bodyLabel, getUserLanguageCode());
-            if(headerLabel != null) headerValue = TranslateHelper.getLabelValue(headerLabel, getUserLanguageCode());
-            if(titleLabel != null) titleValue = TranslateHelper.getLabelValue(titleLabel, getUserLanguageCode());
-            if(signatureLabel != null) signatureValue = TranslateHelper.getLabelValue(signatureLabel, getUserLanguageCode());
-            if(userGreetingLabel != null) userGreetingValue = TranslateHelper.getLabelValue(userGreetingLabel, getUserLanguageCode());
+            if (bodyLabel != null) bodyValue = TranslateHelper.getLabelValue(bodyLabel, getUserLanguageCode());
+            if (headerLabel != null) headerValue = TranslateHelper.getLabelValue(headerLabel, getUserLanguageCode());
+            if (titleLabel != null) titleValue = TranslateHelper.getLabelValue(titleLabel, getUserLanguageCode());
+            if (signatureLabel != null) signatureValue = TranslateHelper.getLabelValue(signatureLabel, getUserLanguageCode());
+            if (userGreetingLabel != null) userGreetingValue = TranslateHelper.getLabelValue(userGreetingLabel, getUserLanguageCode());
         }
     }
 

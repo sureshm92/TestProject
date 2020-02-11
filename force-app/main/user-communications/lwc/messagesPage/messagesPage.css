@@ -25,7 +25,7 @@
 .ms-disc-mob-label {
     padding: 8px 17px 8px 0;
     margin-bottom: 10px;
-    height: 24px;
+    height: 100%;
     width: 350px;
     transform: rotate(-360deg);
     color: #000000;
@@ -51,7 +51,6 @@
 
 .ms-container {
     height: 600px;
-    width: 1140px;
     background-color: #ffffff;
     border: 1px solid #E9E9E9;
     border-radius: 4px;
@@ -59,11 +58,22 @@
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
 }
 
-.ms-left {
+.visible {
     display: flex;
+}
+
+.hide {
+    display: none;
+}
+
+.ms-left {
     flex-direction: column;
-    width: 437px;
+    align-self: stretch;
     border-right: 1px solid #e6e5e5;
+}
+
+.ms-right {
+    height: 100%;
 }
 
 .ms-mes-header {
@@ -113,7 +123,7 @@
 .ms-conversations-board {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    max-height: 527px;
     overflow-y: auto;
     scroll-behavior: smooth;
 }
@@ -155,17 +165,7 @@
     padding-top: 24px;
 }
 
-.ms-right {
-    width: 100%;
-}
-
 @media all and (max-width: 480px) {
-
-    .ms-container {
-        height: 579px;
-        width: 343px;
-    }
-
     .ms-disclaimer {
         display: none;
     }
@@ -181,14 +181,13 @@
         box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .04);
     }
 
-    .full {
-        display: none;
-        height: 100%;
-    }
-
     .disc-btn {
         display: block;
         padding: 10px 0;
+    }
+
+    .ms-container {
+        height: 500px;
     }
 
     .ms-left {
@@ -197,9 +196,5 @@
 
     .ms-title {
         padding-left: 10px;
-    }
-
-    .ms-right {
-        display: none;
     }
 }

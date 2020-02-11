@@ -18,6 +18,7 @@
             component.set('v.sendEmails', false);
             var params = event.getParam('arguments');
             var pe = JSON.parse(JSON.stringify(params.pe));
+            console.log('pe>>>',pe);
             component.set('v.isInvited', params.isInvited);
             if(params.actions)
                 component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
@@ -32,8 +33,9 @@
                 delegateId: communityService.getDelegateId(),
             }, function (returnValue) {
                 returnValue = JSON.parse(returnValue);
-                component.set('v.statusSteps', returnValue.steps);
+                //component.set('v.statusSteps', returnValue.steps);
                 component.set('v.formData.visitPlansLVList', returnValue.visitPlanLVList);
+                component.set('v.participantPath',returnValue.steps);
                 component.set('v.isFinalUpdate', false);
                 component.set('v.initialized', true);
                 setTimeout($A.getCallback(function () {
@@ -47,13 +49,13 @@
                     console.log('parti11', component.get('v.participant'));
                     formComponent.createDataStamp();
                     formComponent.checkFields();
-                    setTimeout(function () {
-                        document.getElementById(params.anchorScroll).scrollIntoView({
+                   /* setTimeout(function () {
+                        document.getElementById('anchor').scrollIntoView({
                             behavior: 'smooth',
                             block: 'start',
                             inline: 'nearest'
                         });
-                    }), 200
+                    }), 200*/
                 }), 15);
             });
             console.log('parti', component.get('v.participant'));
@@ -143,5 +145,23 @@
         }, null, function () {
             component.find('spinner').hide();
         });
+    },
+
+    doUpdatePatientStatus: function (component, event, helper) {
+        var stepWrapper = component.get('v.participantPath.currentStep');
+        var pe = component.get('v.pe');
+        component.find('spinner').show();
+        communityService.executeAction(component, 'updatePatientStatus', {
+            stepWrapperJSON: JSON.stringify(stepWrapper),
+            peId: pe.Id
+        }, function (returnValueJSON) {
+            var returnValue = JSON.parse(returnValueJSON);
+            //component.set('v.statusSteps', returnValue.steps);
+            component.set('v.participantPath',returnValue);
+            component.get('v.callback')(pe);
+        }, null, function () {
+            component.find('spinner').hide();
+        });
+
     },
 });
