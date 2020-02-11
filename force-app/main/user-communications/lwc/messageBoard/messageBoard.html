@@ -21,14 +21,20 @@
             <div class="ms-board-footer">
                 <template if:true={isPIMode}>
                     <div class="ms-send-pi">
-                        <lightning-input data-gtm="ms-pi-input"
-                                         type="text" label="" variant="label-hidden"
-                                         max-length="500"
-                                         placeholder={labels.inputPlaceholderLabel}
-                                         value={messageText}
-                                         autocomplete
-                                         onchange={handleMessageText}
-                                         onkeypress={handleInputEnter}></lightning-input>
+                        <div style="display: flex; justify-content: space-between">
+                            <lightning-input data-gtm="ms-pi-input" style="flex-grow: 1"
+                                             type="text" label="" variant="label-hidden"
+                                             max-length="500"
+                                             placeholder={labels.inputPlaceholderLabel}
+                                             value={messageText}
+                                             autocomplete
+                                             onchange={handleMessageText}
+                                             onkeypress={handleInputEnter}></lightning-input>
+<!--                            <lightning-pill label="Irregular verbs.pdf" title="Irregular verbs.pdf"-->
+<!--                                            variant="plain" style="max-width: 130px; margin-left: 5px">-->
+<!--                                <c-web-icon icon-name="attach-file-doc" icon-color="#297DFD" icon-size="small"></c-web-icon>-->
+<!--                            </lightning-pill>-->
+                        </div>
                         <div class="ms-send-pi-buttons">
                             <div style="flex-grow: 1;">{labels.limitLabel}</div>
 
@@ -36,20 +42,23 @@
                                 <div class="slds-form-element" style="margin: 0 12px;">
                                     <div class="slds-form-element__control">
                                         <div class="slds-file-selector slds-file-selector_files">
-                                            <label class="slds-file-selector__body">
+                                            <label class="slds-file-selector__body" for="input-file">
                                                 <template if:true={isSendEnable}>
-                                                    <lightning-file-upload
-                                                            class="ms-file-upload"
-                                                            data-gtm="BTN_upload"
-                                                            label=""
-                                                            name="fileUploader"
-                                                            accept={fileTypes}
-                                                            record-id={conversation.Id}
-                                                            onuploadfinished={handleUploadFinished}></lightning-file-upload>
+                                                     <lightning-file-upload
+                                                     class="ms-file-upload"
+                                                     data-gtm="BTN_upload"
+                                                     label="" name="fileUploader"
+                                                     accept={fileTypes}
+                                                     record-id={conversation.Id}
+                                                     onuploadfinished={handleUploadFinished}></lightning-file-upload>
+<!--                                                    <input id="input-file" data-gtm="BTN_upload"-->
+<!--                                                           class="slds-file-selector__input ms-file-upload"-->
+<!--                                                           type="file" accept={fileTypes}-->
+<!--                                                           onchange={handleFileSelect} />-->
                                                 </template>
                                                 <span class="slds-file-selector__button slds-button">
-                                                    <span class="apollo-btn secondary ms-att-file-label" onclick={handleTMP}>{labels.attFileLabel}</span>
-                                                    <span class="ms-att-file-icon" data-gtm="BTN_upload_mob" onclick={handleTMP}>
+                                                    <span class="apollo-btn secondary ms-att-file-label">{labels.attFileLabel}</span>
+                                                    <span class="ms-att-file-icon" data-gtm="BTN_upload_mob">
                                                         <c-web-icon icon-name="attachment" icon-color="#297DFD"></c-web-icon>
                                                     </span>
                                                 </span>

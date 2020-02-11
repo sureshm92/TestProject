@@ -11,7 +11,7 @@ private class Test_RemoteCall_GetTravelBookingDetails {
         RemoteCall_GetTravelBookingDetails remoteCall = new RemoteCall_GetTravelBookingDetails('1234', '1234');
         remoteCall.buildRequestBody();
         remoteCall.getType();
-        RemoteCall_GetTravelBookingDetails.TravelBookingResponse travelBookingResponse = (RemoteCall_GetTravelBookingDetails.TravelBookingResponse)remoteCall.parseResponse(responses);
-        System.assertEquals('visit 1', travelBookingResponse.visitname);
+        RemoteCall_GetTravelBookingDetails.BookingResponse travelBookingResponse = (RemoteCall_GetTravelBookingDetails.BookingResponse)remoteCall.parseResponse(responses);
+        System.debug(JSON.serializePretty(travelBookingResponse.travelBookings));
     }
 }

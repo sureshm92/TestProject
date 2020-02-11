@@ -130,20 +130,19 @@ public without sharing class CommunityFacadeRemote {
 
         if(communityMode.currentPE != null) peIds.add(communityMode.currentPE);
         if(communityMode.hasPastStudies) {
-            List<Id> pastPEs = PatientDelegateService.getPastPEIdsForContact(userContact.Id);
+            Id currentContactId = userContact.Id;
+            if(communityMode.isDelegate) {
+                currentContactId = PatientDelegateService.getParticipantByDelegateContactId(currentContactId).Contact__c;
+            }
+            List<Id> pastPEs = PatientDelegateService.getPastPEIdsForContact(currentContactId);
             if(pastPEs != null) peIds.addAll(pastPEs);
         }
 
         if (!peIds.isEmpty()) {
-            conversations = [
-                    SELECT Id
-                    FROM Conversation__c
-                    WHERE Participant_Enrollment__c IN: peIds
-            ];
+            conversations = [ SELECT Id FROM Conversation__c WHERE Participant_Enrollment__c IN: peIds];
 
             peWithAvailableMessages = [
-                    SELECT Id
-                    FROM Participant_Enrollment__c
+                    SELECT Id FROM Participant_Enrollment__c
                     WHERE Id IN: peIds AND Study_Site__r.Messages_Are_Available__c = TRUE
             ];
         }
