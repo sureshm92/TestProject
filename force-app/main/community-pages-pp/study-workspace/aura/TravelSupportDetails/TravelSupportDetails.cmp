@@ -61,8 +61,7 @@
                                 : travelWrapper.visitName}</td>
                             <td class="sv-t-icons">
                                 <div class="booking-cell">
-                                    <div class="icon-item"
-                                         style="{!if(travelWrapper.icon == 'plane', 'transform: rotate(-20deg);', '')}">
+                                    <div class="icon-item">
                                         <c:RRIcon class="icon-item svl-icon" iconName="{!travelWrapper.icon}"/>
                                     </div>
                                     <div style="padding-left: 3px">{!travelWrapper.title}</div>
@@ -72,10 +71,13 @@
                                 <div class="booking-cell">
                                     <c:RRIcon class="icon-item svl-icon"
                                               iconName="{!if(travelWrapper.status == 'Confirmed', 'check-circle',
-                                              if(travelWrapper.status == 'Declined', 'icon-close-circle',
+                                              if(travelWrapper.status == 'Failed', 'icon-close-circle',
                                               if(travelWrapper.status == 'Pending', 'icon-clock', '')))}"
                                               color="{!travelWrapper.bgc}"/>
-                                    <div style="padding-left: 5px">{!travelWrapper.status}</div>
+                                    <div style="padding-left: 5px">
+                                        {!if(travelWrapper.status == 'Confirmed', $Label.c.Home_Page_Travel_Support_Filter_Confirmed,
+                                        if(travelWrapper.status == 'Failed', $Label.c.Home_Page_Travel_Support_Filter_Declined,
+                                        if(travelWrapper.status == 'Pending', $Label.c.Home_Page_Travel_Support_Filter_Pending, '')))}</div>
                                 </div>
                             </td>
                             <td class="sv-t-date">

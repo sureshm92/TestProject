@@ -7,7 +7,11 @@ public with sharing class RemoteCall_GetTravelBookingDetails extends RemoteCall 
     public String clientId;
     public String clientSecret;
 
-    public class TravelBookingResponse {
+    public class BookingResponse {
+        public List<TravelBooking> travelBookings = new List<TravelBooking>();
+    }
+
+    public class TravelBooking {
         public String visitname;
         public String visitid;
         public String status;
@@ -52,22 +56,24 @@ public with sharing class RemoteCall_GetTravelBookingDetails extends RemoteCall 
     protected override Object parseResponse(String responseBody) {
         Map<String, Object> root = (Map<String, Object>) JSON.deserializeUntyped((String) responseBody);
 
-        TravelBookingResponse bookingResponse;
+        BookingResponse responses = new BookingResponse();
 
         for (Object resp : (List<Object>) root.get('response')) {
-            bookingResponse =
-                    (TravelBookingResponse) JSON.deserialize(JSON.serialize(resp), TravelBookingResponse.class);
+            TravelBooking booking =
+                    (TravelBooking) JSON.deserialize(JSON.serialize(resp), TravelBooking.class);
             Map<String, Object> element = (Map<String, Object>) resp;
             for (Object opt : (List<Object>) element.get('options')) {
                 Map<String, Object> travels = (Map<String, Object>) opt;
-                bookingResponse.accommodations =
+                System.debug(JSON.serializePretty(opt));
+                booking.accommodations =
                         (Accommodation) JSON.deserialize(JSON.serialize(travels.get('accommodation')), Accommodation.class);
-                bookingResponse.departures =
+                booking.departures =
                         ((List<Departure>) JSON.deserialize(JSON.serialize(travels.get('departure')), List<Departure>.class)).get(0);
-                bookingResponse.returns =
+                booking.returns =
                         ((List<ReturnInfo>) JSON.deserialize(JSON.serialize(travels.get('return')), List<ReturnInfo>.class)).get(0);
             }
+            responses.travelBookings.add(booking);
         }
-        return bookingResponse;
+        return responses;
     }
 }
