@@ -18,7 +18,7 @@ public class SO_DataFactoryHelper_Test {
         SO_DataFactoryHelper.getReferenceTo('Contact', 'AccountId');
         SO_DataFactoryHelper.getPicklistEntries('Account', 'Type');
         SO_DataFactoryHelper.getPicklistValues('Account', 'Type', true);
-        SO_DataFactoryHelper.createSelectOptions(new List<String>{'YES', 'NO'}, '--select--');
+        SO_DataFactoryHelper.createSelectOptions(new List<String>{'YES', 'NO'}, '--select--', false);
         SO_DataFactoryHelper.listToCSV(new List<String>{'YES', 'NO'});
         SO_DataFactoryHelper.setToCSV(new Set<String>{'YES', 'NO'});
     }
