@@ -36,6 +36,7 @@ public without sharing class CommunityFacadeRemote {
         String baseUrl;
         List<CommunityMode> allUserModes;
         CommunityMode currentUserMode;
+        Boolean isDummy;
     }
     
     private class CommunityType{
@@ -54,9 +55,10 @@ public without sharing class CommunityFacadeRemote {
         try {
             Contact userContact = CommunityService.getUserContact();
             CommunityData cd = new CommunityData();
+            cd.isDummy = UserContext.isDummyContact();
             cd.allUserModes = UserContext.getAllUserModes();
             cd.currentUserMode = UserContext.getCurrentUserMode();
-            cd.isTCAccepted = isTCAccepted();
+            cd.isTCAccepted = cd.isDummy || isTCAccepted();
             cd.communityMode = userContact.userCommunityMode__c;
             cd.communityDelegateId = userContact.userCommunityDelegateId__c!=null?userContact.userCommunityDelegateId__c:'';
             cd.state = ParticipantService.getParticipantState().value.name();
@@ -115,6 +117,8 @@ public without sharing class CommunityFacadeRemote {
     }
     
     public static Boolean isTCAccepted() {
+        if(UserContext.isDummyContact()) return true;
+
         Terms_And_Conditions__c portalTC = TermsAndConditions.getPortalTC();
         if (portalTC != null) return TermsAndConditions.isTCAccepted(portalTC.Id);
         return true;
