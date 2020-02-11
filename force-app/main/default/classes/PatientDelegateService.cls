@@ -406,7 +406,8 @@ public without sharing class PatientDelegateService {
     }
     
     public static List<Id> getAvailablePEIdsForContact(Id contactId){
-        return getAvailablePEIdsListByContactIdMap(new List<Id>{contactId}).get(contactId);
+        List<Id> resList = getAvailablePEIdsListByContactIdMap(new List<Id>{contactId}).get(contactId);
+        return resList == null ? new List<Id>() : resList;
     }
 
     public static Map<Id, List<Id>> getForExclStatusPEIdsListByContactIdMap(List<Id> contactIds, List<String> excludedPEStatuses){

@@ -162,27 +162,18 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Site No Longer Accepting Referrals</valueName>
@@ -198,14 +189,11 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
@@ -213,13 +201,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Didn&#39;t Meet Pre-Screening Eligibility</valueName>
@@ -235,14 +217,11 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
@@ -250,13 +229,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Declined Practitioner</valueName>
@@ -272,14 +245,11 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
@@ -287,13 +257,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>PI Decision</valueName>
@@ -309,14 +273,11 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
@@ -324,13 +285,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Didn&#39;t Show For Initial Visit</valueName>
@@ -346,14 +301,11 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
@@ -361,13 +313,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Didn&#39;t Sign Consent</valueName>
@@ -383,14 +329,11 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
@@ -398,13 +341,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Failed Inclusion/Exclusion Criteria</valueName>
@@ -420,14 +357,11 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
@@ -435,13 +369,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Patient Declined</valueName>
@@ -457,14 +385,11 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
@@ -472,13 +397,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Visit Out Of Window</valueName>
@@ -494,14 +413,11 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
@@ -509,13 +425,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Patient Decision</valueName>
@@ -531,14 +441,11 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
@@ -546,13 +453,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Other</valueName>
@@ -568,14 +469,11 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
@@ -583,13 +481,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Not Ready to Schedule</valueName>
@@ -605,14 +497,11 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
@@ -620,13 +509,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Call Back</valueName>
@@ -642,14 +525,11 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
@@ -657,13 +537,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Transportation Issues</valueName>
@@ -679,14 +553,11 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
@@ -694,13 +565,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Childcare Issues</valueName>
@@ -716,14 +581,11 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
@@ -731,13 +593,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Participant Not Interested</valueName>
@@ -753,14 +609,11 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
@@ -768,13 +621,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Did Not Meet Inclusion/Exclusion Criteria</valueName>
@@ -790,14 +637,11 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
@@ -805,13 +649,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Did Not Attend Appointment</valueName>
@@ -827,14 +665,11 @@
             <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
             <controllingFieldValue>Unable to Screen</controllingFieldValue>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
             <controllingFieldValue>Randomization Success</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Randomization Failed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
@@ -842,13 +677,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Failed Referral</controllingFieldValue>
             <controllingFieldValue>Failed Review</controllingFieldValue>
-            <controllingFieldValue>Pending Referral</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
             <controllingFieldValue>Excluded from Referring</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Declined or Withdrew Consent</valueName>

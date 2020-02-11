@@ -6021,7 +6021,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PE ST Eligibility</shortDescription>
-        <value>Eligibility</value>
+        <value>Screening</value>
     </labels>
     <labels>
         <fullName>PE_ST_Enrolled_Randomized</fullName>
@@ -6035,7 +6035,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PE ST Initial Visit And Screening</shortDescription>
-        <value>Initial visit and screening</value>
+        <value>Initial visit and eligibility</value>
     </labels>
     <labels>
         <fullName>PE_ST_Referral_Acceptance</fullName>
