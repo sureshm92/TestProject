@@ -245,7 +245,11 @@ public without sharing class ParticipantTriggerHandler {
         Map<Id, Participant__c> participantsByContactId = new Map<Id, Participant__c>();
         for (Participant__c participant : newList) {
             if (participant.Adult__c && participant.Adult__c != oldMap.get(participant.Id).Adult__c && participant.Contact__c != null) {
-                participantsByContactId.put(participant.Contact__c, participant);
+                if (participant.Contact__c != null) {
+                    participantsByContactId.put(participant.Contact__c, participant);
+                } else {
+                    participant.Emancipation_in_progress__c = true;
+                }
             }
         }
 
