@@ -70,6 +70,7 @@
     flex-direction: column;
     align-self: stretch;
     border-right: 1px solid #e6e5e5;
+    max-height: 600px;
 }
 
 .ms-right {
