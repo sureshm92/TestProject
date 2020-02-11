@@ -17,7 +17,15 @@ public with sharing class ResourceRemote {
     @AuraEnabled
     public static ResourceService.ResourceWrapperContainer getStudyDocuments() {
         try {
-            return ResourceDelegate.getInstance().getStudyDocuments();
+            ResourceService.ResourceWrapperContainer cont = ResourceDelegate.getInstance().getStudyDocuments();
+            List<String> availableLanForUser = ContactService.getPreferredLanguages();
+
+            for (ResourceService.ResourceWrapper c : cont.wrappers) {
+                for (Integer i=0; i<c.translations.size(); i++) {
+                    if (!availableLanForUser.contains(c.translations[i].languageCode)) c.translations.remove(i);
+                }
+            }
+            return cont;
         } catch (Exception e) {
             return (ResourceService.ResourceWrapperContainer) AuraHelper.throwException(e);
         }
