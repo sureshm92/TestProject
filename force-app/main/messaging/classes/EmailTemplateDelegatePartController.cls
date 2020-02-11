@@ -10,6 +10,9 @@ global without sharing class EmailTemplateDelegatePartController {
     public List<StudySiteWrapper> getDelegateStudySites() {
         Id delConId = [SELECT Id, Contact.Id FROM User WHERE Id = :delegateUserId].Contact.Id;
         List<Id> partIds = PatientDelegateService.getDelegatedParticipantIds(delConId);
+        if(partIds == null || partIds.isEmpty()){
+            return  new List<StudySiteWrapper>();
+        }
         Id partCon = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :partIds[0]].Contact__c;
         List<Id> availablePeIds = PatientDelegateService.getAvailablePEIdsForContact(partCon);
         List<Participant_Enrollment__c> delegatePE;
