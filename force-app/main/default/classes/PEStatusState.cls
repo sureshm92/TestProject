@@ -32,8 +32,8 @@ public without sharing class PEStatusState {
     public static final String PE_ST_REFERRED = Label.PE_ST_Referred;
     public static final String PE_ST_REFERRAL_ACCEPTANCE = Label.PE_ST_Referral_Acceptance;
     public static final String PE_ST_CONTACT_ATTEMPTS = Label.PE_ST_Contact_Attempts;
-    public static final String PE_ST_ELIGIBILITY = Label.PE_ST_Eligibility;
-    public static final String PE_ST_INITIAL_VISIT_SCREENING = Label.PE_ST_Initial_Visit_And_Screening;
+    public static final String PE_ST_INITIAL_VISIT_ELIGIBILITY = Label.PE_ST_Initial_Visit_And_Screening;
+    public static final String PE_ST_SCREENING = Label.PE_ST_Eligibility;
     public static final String PE_ST_ENROLLED_RANDOMIZED = Label.PE_ST_Enrolled_Randomized;
     
     //participant statuses:
@@ -188,18 +188,18 @@ public without sharing class PEStatusState {
             PE_STATUS_PARTICIPATION_COMPLETE
     };
 
-     public static final List<String> PE_STATUS_GROUP_INACTIVE = new List<String>{
-             PE_STATUS_REFERRAL_DECLINED,
-             PE_STATUS_CONTACTED_NOT_SUITABLE,
-             PE_STATUS_UNABLE_TO_REACH,
-             PE_STATUS_ELIGIBILITY_FAILED,
-             PE_STATUS_SCREENING_FAILED,
-             PE_STATUS_UNABLE_TO_SCREEN,
-             PE_STATUS_ENROLLMENT_FAILED,
-             PE_STATUS_RANDOMIZATION_FAILED,
-             PE_STATUS_TRIAL_COMPLETE,
-             PE_STATUS_DROP_OUT,
-             PE_STATUS_DECEASED
+    public static final List<String> PE_STATUS_GROUP_INACTIVE = new List<String>{
+            PE_STATUS_REFERRAL_DECLINED,
+            PE_STATUS_CONTACTED_NOT_SUITABLE,
+            PE_STATUS_UNABLE_TO_REACH,
+            PE_STATUS_ELIGIBILITY_FAILED,
+            PE_STATUS_SCREENING_FAILED,
+            PE_STATUS_UNABLE_TO_SCREEN,
+            PE_STATUS_ENROLLMENT_FAILED,
+            PE_STATUS_RANDOMIZATION_FAILED,
+            PE_STATUS_TRIAL_COMPLETE,
+            PE_STATUS_DROP_OUT,
+            PE_STATUS_DECEASED
     };
 
     public static final List<String> PE_STATUS_GROUP_VISIT_PLAN_CHECK = new List<String>{
@@ -241,12 +241,12 @@ public without sharing class PEStatusState {
                             STATUS_STATE_IN_PROGRESS => new List<String>{PE_STATUS_CONTACT_ATTEMPTED},
                             STATUS_STATE_FAILURE => new List<String>{PE_STATUS_UNABLE_TO_REACH, PE_STATUS_CONTACTED_NOT_SUITABLE}
                     }),
-            new StatusStep(PE_ST_ELIGIBILITY,
+            new StatusStep(PE_ST_INITIAL_VISIT_ELIGIBILITY,
                     new Map<String, List<String>>{
                             STATUS_STATE_SUCCESS => new List<String>{PE_STATUS_ELIGIBILITY_PASSED},
                             STATUS_STATE_FAILURE => new List<String>{PE_STATUS_ELIGIBILITY_FAILED}
                     }),
-            new StatusStep(PE_ST_INITIAL_VISIT_SCREENING,
+            new StatusStep(PE_ST_SCREENING,
                     new Map<String, List<String>>{
                             STATUS_STATE_SUCCESS => new List<String>{PE_STATUS_SCREENING_PASSED, PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD},
                             STATUS_STATE_IN_PROGRESS => new List<String>{PE_STATUS_SCREENING_IN_PROGRESS},

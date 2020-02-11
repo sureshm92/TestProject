@@ -335,7 +335,7 @@ public without sharing class ReferralProfileRemote {
         try {
             ParticipantWorkflowService.ParticipantWorkflowStepWrapper stepWrapper =
                     (ParticipantWorkflowService.ParticipantWorkflowStepWrapper)JSON.deserialize(stepWrapperJSON, ParticipantWorkflowService.ParticipantWorkflowStepWrapper.class);
-            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, CommunityService.USER_MODE_PI);
+
             if(stepWrapper.outcome!= null && stepWrapper.outcome!=''){
                 Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c(
                         Status__c = stepWrapper.outcome,
@@ -346,6 +346,7 @@ public without sharing class ReferralProfileRemote {
                 ) ;
                 insert pesh;
             }
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, CommunityService.USER_MODE_PI);
             if(!stepWrapper.formFieldGroups.isEmpty()){
                 for(ParticipantWorkflowService.ParticipantWorkflowFieldGroupWrapper fieldGroup: stepWrapper.formFieldGroups) {
                     for (ParticipantWorkflowService.ParticipantWorkflowFieldWrapper field: fieldGroup.fields){
@@ -372,6 +373,7 @@ public without sharing class ReferralProfileRemote {
                 }
                 update pe;
             }
+            pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, CommunityService.USER_MODE_PI);
             Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(pe.Clinical_Trial_Profile__c);
             if (pe == null) throw new CommunityServiceException('Participant enrollment not found');
             return JSON.serialize(ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe));

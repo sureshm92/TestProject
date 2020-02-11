@@ -7,9 +7,10 @@
     <!-- attributes: -->
     <aura:attribute name="pe" type="Object" access="public"/>
     <aura:attribute name="parent" type="Aura.Component" access="public"/>
+    <aura:attribute name="userMode" type="String" access="public"/>
 
     <!-- component body:-->
-    <aura:if isTrue="{!v.pe.Participant__r.Emancipation_in_progress__c}">
+    <aura:if isTrue="{!v.pe.Participant__r.Emancipation_in_progress__c &amp;&amp; v.userMode == 'PI'}">
         <div style="background: #FFF7EC; fill: white; height: 100%; color: black; line-height: 45px; font-size: 1rem; border: 0.1px solid; border-color: lightgrey;">
             <span style="padding: 4px 16px; font-weight: 600;"><c:RRIcon iconName="warning"/> {!$Label.c.This_Participant_has_reached_legal_age_of_emancipation}</span>
             <span style="padding: 4px 16px;"><a data-gtm="link_Verify_emancip" href="javascript:void(0);" onclick="{!c.showParticipantEmansipationWizard}">{!$Label.c.BTN_Verify}</a></span>

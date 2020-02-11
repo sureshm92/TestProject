@@ -194,7 +194,7 @@ private class Test_BaseCRCPCommunity {
                 Study_Site__c = studySite.Id,
                 Patient_ID__c = 'SomePatienntId2',
                 Referral_Source__c = 'HCP',
-                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
+                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED,
                 Participant__c = participant.Id
         );
         participantEnrollments.add(passedMrrPE);
