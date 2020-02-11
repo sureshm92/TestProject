@@ -231,6 +231,8 @@ public without sharing class ParticipantWorkflowService {
                     currentFieldWrapper.field = fieldSetting.Field_Name__c;
                     currentFieldWrapper.readonly = fieldSetting.Readonly_for_Steps__c != null && fieldSetting.Readonly_for_Steps__c.contains(step.DeveloperName);
                     currentFieldWrapper.required = fieldSetting.Required_for_Steps__c != null && fieldSetting.Required_for_Steps__c.contains(step.DeveloperName);
+                    currentFieldWrapper.onlyFutureDate = fieldSetting.Only_Future_Dates__c;
+                    currentFieldWrapper.onlyPastDate = fieldSetting.Only_Past_Dates__c;
                     currentFieldWrapper.numOccurences = 1;
                     currentFieldWrapper.fieldType = fieldSetting.Type__c;
                     if(fieldSetting.Depends_On_Field__c != null && fieldSetting.Depends_On_Field__c != ''){
@@ -301,7 +303,7 @@ public without sharing class ParticipantWorkflowService {
         Map<String, Participant_Workflow_Form_Field__mdt> result = new Map<String, Participant_Workflow_Form_Field__mdt>();
         for(Participant_Workflow_Form_Field__mdt field: [
                 SELECT Field_Name__c, Type__c, Condition__c, True_Value_Label__c, Title_Label__c, False_Value_Label__c,
-                        DeveloperName, Required_for_Steps__c, Readonly_for_Steps__c, Depends_On_Field__c
+                        DeveloperName, Required_for_Steps__c, Readonly_for_Steps__c, Depends_On_Field__c, Only_Future_Dates__c, Only_Past_Dates__c
                 FROM Participant_Workflow_Form_Field__mdt]){
             if(field.Condition__c == null || field.Condition__c ==''|| ConditionCheckerService.checkConditionForObject(field.Condition__c, ctp)){
                 result.put(field.DeveloperName, field);
@@ -360,6 +362,8 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled public String  fieldType;
         @AuraEnabled public Integer numOccurences;
         @AuraEnabled public Boolean dependent;
+        @AuraEnabled public Boolean onlyFutureDate;
+        @AuraEnabled public Boolean onlyPastDate;
     }
 
 }

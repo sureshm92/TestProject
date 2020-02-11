@@ -61,7 +61,8 @@ public without sharing class PENotificationTriggerHandler {
                             pe.Is_Virtual_Study_Site__c ? NotificationService.checkPatientNotificationVTType(pe)
                                     : NotificationService.checkPatientNotificationType(pe, !NotificationService.participantStatusListForPT.contains(pe.Participant_Status__c));
                     //Forming additional notification for Enrollment Success
-                    if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+                    if ((pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+                            || pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS )
                             && pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
                         participantConIds.add(pe.Participant__r.Contact__c);
                         notifications.add(new Notification__c(
