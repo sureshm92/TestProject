@@ -3,6 +3,8 @@
  */
 ({
     doInit : function (component, event, helper) {
+        var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
+        component.set('v.todayDate',todayDate);
         var stepWrapper = component.get('v.stepWrapper');
         helper.checkValidity(component, event, helper, stepWrapper);
     },

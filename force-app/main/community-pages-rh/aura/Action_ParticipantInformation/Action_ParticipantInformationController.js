@@ -158,6 +158,7 @@
             var returnValue = JSON.parse(returnValueJSON);
             //component.set('v.statusSteps', returnValue.steps);
             component.set('v.participantPath',returnValue);
+            component.get('v.callback')(pe);
         }, null, function () {
             component.find('spinner').hide();
         });
