@@ -16,7 +16,7 @@
     <!-- component body:-->
     <div class="rr-white-panel padding" style="position: relative">
         <c:ParticipantCardHeader userMode="{!v.userMode}" pe="{!v.pe}" isReferral="false"/>
-        <c:ParticipantCardIsEmansipated pe="{!v.pe}" parent="{!v.parent}"/>
+        <c:ParticipantCardIsEmansipated pe="{!v.pe}" parent="{!v.parent}" userMode="{!v.userMode}"/>
         <c:ParticipantCardFields userMode="{!v.userMode}" pe="{!v.pe}"/>
         <aura:if isTrue="{!and(equals(v.userMode, 'Participant'), and(v.pe.Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c, v.pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c))}">
             <c:visitsPath/>
