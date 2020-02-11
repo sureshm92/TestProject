@@ -231,10 +231,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         }
                     } else {
                         dupclicateContactEmails.add(participantContact.Email);
-                        errorRecordCount++;
-                        system.debug('ERROR: ' + totalRecordCount + ', ' + 'Duplicate Participant record');
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Duplicate Participant record');
-                        listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
+                        //errorRecordCount++;
+                        //system.debug('ERROR: ' + totalRecordCount + ', ' + 'Duplicate Participant record');
+                        //listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Duplicate Participant record');
+                        //listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
                     }
 
                     if (participantContact.Id != null) {
@@ -274,7 +274,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     ]) {
                         duplicateContactUsersMap.put(u.ContactId, u.Id);
                     }
-
                     for (Participant_Enrollment__c pEnrollment : [
                             SELECT Id,
                                     Participant_Contact__c
@@ -301,11 +300,15 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                     Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI,
                                     PI_Contact__c = studySiteDetails.Principal_Investigator__c,
                                     Participant__c = contactParticipantMap.get(c.Id) != null ? contactParticipantMap.get(c.Id).Id : null));
+                        } else {
+                            errorRecordCount++;
+                            system.debug('ERROR: ' + totalRecordCount + ', ' + 'Duplicate Participant record');
+                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Duplicate Participant record');
+                            listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
                         }
                     }
                 }
             }
-
             if (!contactsById.isEmpty()) {
                 system.debug('!contactsById.isEmpty()');
                 if (!participantsByContact.isEmpty()) {
@@ -345,7 +348,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 if(createUsers) {
                     if(!insertedContacts.isEmpty()){
                         for(Contact c : contactsById.values()){
-                            if(insertedContacts.contains(c.Id)){
+                            if(insertedContacts.contains(participantsByContact.get(c.Id).Id)){
                                 if(participantEnrollmentsByContact.get(c.Id) != null) {
                                     createUsersMap.put(participantEnrollmentsByContact.get(c.Id).Participant_Contact__c, participantEnrollmentsByContact.get(c.Id).PI_Contact__c);
                                 } else {

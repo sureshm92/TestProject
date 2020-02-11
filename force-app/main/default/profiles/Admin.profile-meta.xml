@@ -113,6 +113,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_ConversationReminder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_CopyEnrollmentHistory</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -234,6 +238,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_UpdatePETrialCompleteAndSendNotify</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_UpdateParticipantEnrollmentRP</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -518,6 +526,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>EmailTemplateDelegateController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EmailTemplateDelegatePartController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1365,6 +1377,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StudySiteWrapper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudyTotalPassed</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1554,6 +1570,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_Batch_UpdatePETrialCompleteNotify</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_UpdateParticipantEnrollmentRP</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -5219,12 +5239,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant_Workflow_Form_Field__mdt.Depends_On_Field__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant_Workflow_Form_Field__mdt.False_Value_Label__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Workflow_Form_Field__mdt.Field_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Form_Field__mdt.Only_Future_Dates__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Form_Field__mdt.Only_Past_Dates__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5250,6 +5285,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Workflow_Form_Field__mdt.Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Outcome__mdt.Order__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

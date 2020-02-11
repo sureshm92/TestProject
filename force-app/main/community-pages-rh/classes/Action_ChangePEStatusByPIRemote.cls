@@ -6,11 +6,11 @@ public without sharing class Action_ChangePEStatusByPIRemote {
 
     @AuraEnabled
     public static String getReferralDeclineReasons() {
-        try {
+        try {//TODO:Deprecated check
             List<LabelValueItem> referralDeclineReasons = new List<LabelValueItem>();
-            for (String reason : ReferralProfileRemote.REASONS_MAP.get('Referral Declined')) {
-                referralDeclineReasons.add(new LabelValueItem(TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c, reason), reason));
-            }
+//            for (String reason : ReferralProfileRemote.REASONS_MAP.get('Referral Declined')) {
+//                referralDeclineReasons.add(new LabelValueItem(TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c, reason), reason));
+//            }
             return JSON.serialize(referralDeclineReasons);
         } catch (Exception e) {
             return (String)AuraHelper.throwException(e);

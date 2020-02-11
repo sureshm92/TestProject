@@ -5,29 +5,37 @@
 <aura:component description="ParticipantStatusDetailsCard">
     <aura:attribute name="stepWrapper" type="Object" required="true"/>
     <aura:attribute name="reasonList" type="List" access="private"/>
+    <aura:attribute name="updateInProgress" type="Boolean"  access="private"/>
+    <aura:attribute name="isValid" type="Boolean" default="true"  access="private"/>
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="notesRequired" type="Boolean" default="false"/>
+    <aura:attribute name="todayDate" type="Date"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.stepWrapper.outcome}" action="{!c.updateReasonList}"/>
     <aura:handler name="change" value="{!v.stepWrapper.reason}" action="{!c.updateNotesRequired}"/>
+    <aura:method name="fieldChanged" action="{!c.doCheckDependentFields}" access="public">
+        <aura:attribute name="fieldName" type="String"/>
+        <aura:attribute name="value" type="String"/>
+    </aura:method>
     <div class="step-card-title">
             {!v.stepWrapper.cardTitle}
     </div>
-    <aura:if isTrue="{!v.stepWrapper.editable}">
+    <aura:if isTrue="{!true}">
         <div class="step-form">
-            <aura:if isTrue="{!!empty(v.stepWrapper.outcomeList)}">
+            <aura:if isTrue="{!and(!empty(v.stepWrapper.outcomeList),v.stepWrapper.editable)}">
                 <div class="slds-wrap slds-grid slds-gutters">
                     <div class="slds-col slds-size--1-of-2 outcome-form-element">
                         <div class="label">{!$Label.c.PG_ACPE_L_Outcome}</div>
                         <c:rrSelect options="{!v.stepWrapper.outcomeList}" value="{!v.stepWrapper.outcome}"
-                                    placeholder="{!v.stepWrapper.outcomePlaceholder}"/>
+                                    placeholder="{!v.stepWrapper.outcomePlaceholder}" setValueAsSelected="true" />
                     </div>
                     <div class="slds-col slds-size--1-of-2 outcome-form-element">
                         <div class="label">{!$Label.c.PG_ACPE_L_Reason}</div>
                         <c:rrSelect options="{!v.reasonList}" value="{!v.stepWrapper.reason}"
-                                    placeholder="{!$Label.c.PG_RP_L_Not_selected}" disabled="{!empty(v.stepWrapper.outcome)}"/>
+                                    placeholder="{!if(empty(v.reasonList),'',$Label.c.PG_RP_L_Not_selected)}" disabled="{!or(empty(v.stepWrapper.outcome),empty(v.reasonList))}"/>
                     </div>
                     <div class="slds-col slds-size--1-of-1 outcome-form-element">
-                        <lightning:input label="{!$Label.c.PG_ACPE_L_Notes+'('+if(v.notesRequired,$Label.c.PG_ACPE_L_required,$Label.C.PG_ACPE_L_optional)+')'}" type="text" value="{!v.stepWrapper.notes}"/>
+                        <lightning:input label="{!$Label.c.PG_ACPE_L_Notes+' ('+if(v.notesRequired,$Label.c.PG_ACPE_L_required,$Label.C.PG_ACPE_L_optional)+')'}" type="text" value="{!v.stepWrapper.notes}"/>
                     </div>
                 </div>
             </aura:if>
@@ -37,28 +45,15 @@
                 </aura:if>
                 <div class="slds-grid slds-wrap slds-gutters">
                     <aura:iteration items="{!fieldsGroup.fields}" var="field">
-                        <div class="{!'slds-col form-field ' + field.style }">
-                            <aura:if isTrue="{!field.type=='text'}">
-                                <lightning:input label="{!field.title}" type="text" value="{!field.value}" disabled="{!field.readonly}"/>
-                            </aura:if>
-                            <aura:if isTrue="{!field.type=='picklist'}">
-                                <div class="label">{!field.title}</div>
-                                <c:rrSelect options="{!field.values}" value="{!field.value}"
-                                    placeholder="" disabled="{!field.readonly}"/>
-                            </aura:if>
-                            <aura:if isTrue="{!field.type=='date'}">
-                                <lightning:input label="{!field.title}" type="date" value="{!field.value}" disabled="{!field.readonly}"/>
-                            </aura:if>
-                            <aura:if isTrue="{!field.type=='time'}">
-                                <lightning:input label="{!field.title}" type="time" value="{!field.value}" disabled="{!field.readonly}"/>
-                            </aura:if>
-                        </div>
+                        <c:ParticipantStatusDetailsCardField field="{!field}" parent="{!this}" editable="{!v.stepWrapper.editable}" required="{!v.stepWrapper.currentOutcomeSuccess}" todayDate="{!v.todayDate}"/>
                     </aura:iteration>
                 </div>
             </aura:iteration>
-            <button class="apollo-btn secondary" onclick="{!c.doSaveChanges}" disabled="{!and(!empty(v.stepWrapper.outcomeList),empty(v.stepWrapper.outcome)||(and(v.notesRequired,empty(v.stepWrapper.notes))))}">
-                {!$Label.c.RP_BTN_Save_Changes}
-            </button>
+            <aura:if isTrue="{!v.stepWrapper.editable}">
+                <button class="apollo-btn secondary" onclick="{!c.doSaveChanges}" disabled="{!!v.isValid || and(!empty(v.stepWrapper.outcomeList),empty(v.stepWrapper.outcome)||(and(v.notesRequired,empty(v.stepWrapper.notes))))}">
+                        {!$Label.c.RP_BTN_Save_Changes}
+                </button>
+            </aura:if>
         </div>
     </aura:if>
     <aura:if isTrue="{!v.stepWrapper.historyTitle != '' || !empty(v.stepWrapper.stepHistory)}">

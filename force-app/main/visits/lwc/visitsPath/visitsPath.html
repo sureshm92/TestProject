@@ -9,12 +9,15 @@
         <template if:false={isVisitsEmpty}>
             <div class="path-section">
                 <div class="slds-grid">
-                    <div class="slds-col arrow-left">
-                        <div onclick={handleScrollLeft}>
-                            <c-web-icon icon-name="icon-chevron-left" icon-color="#b5b4b5"></c-web-icon>
+                    <div class="slds-col arrow-left" style="padding-right: 0;">
+                        <div onclick={handleScrollLeft} class="arrow-border">
+                            <i>
+                                <span><c-web-icon icon-name="icon-chevron-left" icon-color="#297DFD" icon-width="18"
+                                        icon-height="18"></c-web-icon></span>
+                            </i>
                         </div>
                     </div>
-                    <div class="slds-col" style="overflow-x: hidden">
+                    <div class="slds-col" style="overflow-x: hidden; padding-right: 0; padding-left: 0;">
                         <div class="slds-grid vis-path">
                             <template for:each={pathItems} for:item="pathItem">
                                 <div key={pathItem.id} class={pathItem.state}>
@@ -26,7 +29,7 @@
                                             <div class="state-ico-wrapper-middle">
                                             </div>
                                             <div class="state-ico-wrapper">
-                                                <c-web-icon icon-name={pathItem.icon}
+                                                <c-web-icon icon-width="13" icon-height="14" icon-name={pathItem.icon}
                                                             icon-color="white"></c-web-icon>
                                             </div>
                                         </div>
@@ -40,8 +43,8 @@
                                                     <lightning-formatted-date-time
                                                             value={pathItem.planDate}></lightning-formatted-date-time>
                                                     <div data-id={pathItem.id} onclick={handleOpenDialog}>
-                                                        <c-web-icon icon-name="pencil-2" icon-color="#999"
-                                                                    icon-size="small-pencil"></c-web-icon>
+                                                        <c-web-icon icon-name="pencil-2" icon-color="#999" icon-size="small"
+                                                                    icon-height="16" icon-width="16" style="margin-left: 4px;cursor: pointer;"></c-web-icon>
                                                     </div>
                                                 </div>
                                             </template>
@@ -55,10 +58,16 @@
                             </template>
                         </div>
                     </div>
-                    <div class="slds-col arrow-right">
-                        <div onclick={handleScrollRight}>
-                            <c-web-icon icon-name="icon-chevron-right" icon-color="#b5b4b5"></c-web-icon>
+                    <div class="slds-col arrow-right" style="padding-left: 0;">
+
+                        <div onclick={handleScrollRight} class="arrow-border">
+                            <i>
+                                <span class="arrow-borders-right"><c-web-icon icon-name="icon-chevron-right" icon-color="#297DFD" icon-width="18"
+                                                  icon-height="18" class=""></c-web-icon></span>
+                            </i>
                         </div>
+
+
                     </div>
                 </div>
             </div>

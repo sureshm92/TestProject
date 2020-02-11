@@ -17,7 +17,11 @@ public without sharing class RelevantLinksRemote {
             List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c>();
             ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
             if (ps.value == ParticipantService.ParticipantStates.ALUMNI) {
-                List<Id> peIds = PatientDelegateService.getPastPEIdsForContact(CommunityService.getInstance().getCurrentContactId());
+                Id currentContactId = CommunityService.getInstance().getCurrentContactId();
+                if(ps.isDelegate) {
+                    currentContactId = PatientDelegateService.getParticipantByDelegateContactId(currentContactId).Contact__c;
+                }
+                List<Id> peIds = PatientDelegateService.getPastPEIdsForContact(currentContactId);
                 if(peIds != null){
                     enrollments = [
                             SELECT Id, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c,
@@ -45,7 +49,7 @@ public without sharing class RelevantLinksRemote {
             TranslateHelper.translate(resStudies);
             for (Res_study__c rs : resStudies) {
                 for(Participant_Enrollment__c pe : enrollments){
-                    if(rs.Resource__r.Countries__c != null && rs.Resource__r.Countries__c.contains(pe.Study_Site__r.Site__r.BillingCountryCode)
+                    if((rs.Resource__r.Countries__c == null || rs.Resource__r.Countries__c.contains(pe.Study_Site__r.Site__r.BillingCountryCode))
                             && StudyResourceVisibilityService.isResourceVisibleForPE(rs, pe, ContactService.getPreferredLanguages(),
                             CommunityService.getUserContact().userCommunityMode__c, ps.isDelegate)){
                         initData.resources.add(rs.Resource__r);

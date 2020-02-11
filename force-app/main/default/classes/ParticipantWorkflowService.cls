@@ -25,12 +25,16 @@ public without sharing class ParticipantWorkflowService {
             if(step.Condition__c == null || step.Condition__c =='' || ConditionCheckerService.checkConditionForObject(step.Condition__c, ctp)){
                 ParticipantWorkflowStepWrapper stepWrapper = createStepWrapper(step, outcomesMap, peshMapByStep, previousStepSuccess, fieldsMap, pe);
                 previousStepSuccess = stepWrapper.state == PEStatusState.STATUS_STATE_SUCCESS;
-                wrapper.steps.add(stepWrapper);
+
                 if(stepWrapper.state == PEStatusState.STATUS_STATE_SUCCESS
                         || stepWrapper.state == PEStatusState.STATUS_STATE_IN_PROGRESS
                         || stepWrapper.state == PEStatusState.STATUS_STATE_FAILURE){
                     wrapper.currentStep = stepWrapper;
+                    if(!wrapper.steps.isEmpty()){
+                        wrapper.steps[wrapper.steps.size()-1].editable = false;
+                    }
                 }
+                wrapper.steps.add(stepWrapper);
             }
         }
         if(wrapper.currentStep == null){
@@ -41,7 +45,9 @@ public without sharing class ParticipantWorkflowService {
 
     private static Map<String, Participant_Workflow_Outcome__mdt> getOutcomesMap(Set<String> stepNames){
         Map<String, Participant_Workflow_Outcome__mdt> result = new Map<String, Participant_Workflow_Outcome__mdt>();
-        for(Participant_Workflow_Outcome__mdt outcome : [SELECT Status_Name__c, Step__c, Reasons_List__c, State__c FROM Participant_Workflow_Outcome__mdt WHERE Step__c IN :stepNames]){
+        for(Participant_Workflow_Outcome__mdt outcome : [
+                SELECT Status_Name__c, Step__c, Reasons_List__c, State__c,Order__c
+                FROM Participant_Workflow_Outcome__mdt WHERE Step__c IN :stepNames ORDER BY Order__c ASC]){
             result.put(outcome.Status_Name__c, outcome);
         }
         return result;
@@ -105,14 +111,21 @@ public without sharing class ParticipantWorkflowService {
         stepWrapper.editable = stepWrapper.state == PEStatusState.STATUS_STATE_IN_PROGRESS
                 || (stepWrapper.state != PEStatusState.STATUS_STATE_NEUTRAL && step.Failed_State_Editing_Enabled__c);
         stepWrapper.outcomeList = new List<LabelValueItem>();
+        stepWrapper.successOutcomes = new List<String>();
         stepWrapper.reasonMap = new Map<String, List<LabelValueItem>>();
         stepWrapper.notesRequiredMap = new Map<String, Boolean>();
         for(Participant_Workflow_Outcome__mdt outcome : outcomesMap.values()){
             if(outcome.Step__c == step.DeveloperName){
+                if(outcome.State__c ==PEStatusState.STATUS_STATE_SUCCESS){
+                    stepWrapper.successOutcomes.add(outcome.Status_Name__c);
+                    if(stepWrapper.outcome == outcome.State__c){
+                        stepWrapper.currentOutcomeSuccess = true;
+                    }
+                }
                 stepWrapper.outcomeList.add(new LabelValueItem(TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,outcome.Status_Name__c),outcome.Status_Name__c));
                 List<LabelValueItem> reasonsList = new List<LabelValueItem>();
                 if(outcome.Reasons_List__c == null){
-                    reasonsList.add(new LabelValueItem('', ''));
+                    //reasonsList.add(new LabelValueItem('', ''));
                     stepWrapper.notesRequiredMap.put(outcome.Status_Name__c + ';', false);
                 }
                 else{
@@ -126,7 +139,8 @@ public without sharing class ParticipantWorkflowService {
             }
         }
         System.debug('notesRequiredMap:' + stepWrapper.notesRequiredMap);
-        stepWrapper.formFieldGroups = createFieldGroupWrapperes(step, fieldsMap, pe);
+        stepWrapper.fieldDependencyMap = new Map<String, List<String>>();
+        stepWrapper.formFieldGroups = createFieldGroupWrapperes(step, fieldsMap, pe, stepWrapper.fieldDependencyMap);
         return stepWrapper;
     }
 
@@ -164,7 +178,7 @@ public without sharing class ParticipantWorkflowService {
     }
 
     private static List<ParticipantWorkflowFieldGroupWrapper> createFieldGroupWrapperes(Participant_Workflow_Step__mdt step,
-            Map<String, Participant_Workflow_Form_Field__mdt> fieldsMap, Participant_Enrollment__c pe){
+            Map<String, Participant_Workflow_Form_Field__mdt> fieldsMap, Participant_Enrollment__c pe, Map<String, List<String>> fieldDependencyMap){
         List<ParticipantWorkflowFieldGroupWrapper> result = new List<ParticipantWorkflowService.ParticipantWorkflowFieldGroupWrapper>();
         if(step.Form_Fields__c != null && step.Form_Fields__c != ''){
             for(string fieldGroupString : step.Form_Fields__c.split('\\|')){
@@ -178,7 +192,7 @@ public without sharing class ParticipantWorkflowService {
                     groupWrapper.title = TranslateHelper.getLabelValue(fieldGroupStringParts[0]);
                     fieldsString = fieldGroupStringParts[1];
                 }
-                groupWrapper.fields = createFieldWrappers(step, fieldsString, fieldsMap, pe);
+                groupWrapper.fields = createFieldWrappers(step, fieldsString, fieldsMap, pe, fieldDependencyMap);
                 result.add(groupWrapper);
             }
         }
@@ -187,7 +201,7 @@ public without sharing class ParticipantWorkflowService {
 
     private static List<ParticipantWorkflowFieldWrapper> createFieldWrappers(Participant_Workflow_Step__mdt step,
             String fieldsString, Map<String, Participant_Workflow_Form_Field__mdt> fieldsMap,
-            Participant_Enrollment__c pe){
+            Participant_Enrollment__c pe, Map<String, List<String>> fieldDependencyMap){
         List<ParticipantWorkflowFieldWrapper> fieldWrappers = new List<ParticipantWorkflowFieldWrapper>();
         for(String lineString: fieldsString.split(';')){
             List<String> atomicFieldStrings = lineString.split(',');
@@ -217,8 +231,20 @@ public without sharing class ParticipantWorkflowService {
                     currentFieldWrapper.field = fieldSetting.Field_Name__c;
                     currentFieldWrapper.readonly = fieldSetting.Readonly_for_Steps__c != null && fieldSetting.Readonly_for_Steps__c.contains(step.DeveloperName);
                     currentFieldWrapper.required = fieldSetting.Required_for_Steps__c != null && fieldSetting.Required_for_Steps__c.contains(step.DeveloperName);
+                    currentFieldWrapper.onlyFutureDate = fieldSetting.Only_Future_Dates__c;
+                    currentFieldWrapper.onlyPastDate = fieldSetting.Only_Past_Dates__c;
                     currentFieldWrapper.numOccurences = 1;
                     currentFieldWrapper.fieldType = fieldSetting.Type__c;
+                    if(fieldSetting.Depends_On_Field__c != null && fieldSetting.Depends_On_Field__c != ''){
+                        currentFieldWrapper.dependent = true;
+                        currentFieldWrapper.readonly = true;
+                        if(!fieldDependencyMap.containsKey(fieldSetting.Depends_On_Field__c)){
+                            fieldDependencyMap.put(fieldSetting.Depends_On_Field__c, new List<String>{fieldSetting.Field_Name__c});
+                        }
+                        else{
+                            fieldDependencyMap.get(fieldSetting.Depends_On_Field__c).add(fieldSetting.Field_Name__c);
+                        }
+                    }
                     switch on fieldSetting.Type__c {
                         when 'visitplan'{
                             currentFieldWrapper.type = 'picklist';
@@ -277,7 +303,7 @@ public without sharing class ParticipantWorkflowService {
         Map<String, Participant_Workflow_Form_Field__mdt> result = new Map<String, Participant_Workflow_Form_Field__mdt>();
         for(Participant_Workflow_Form_Field__mdt field: [
                 SELECT Field_Name__c, Type__c, Condition__c, True_Value_Label__c, Title_Label__c, False_Value_Label__c,
-                        DeveloperName, Required_for_Steps__c, Readonly_for_Steps__c
+                        DeveloperName, Required_for_Steps__c, Readonly_for_Steps__c, Depends_On_Field__c, Only_Future_Dates__c, Only_Past_Dates__c
                 FROM Participant_Workflow_Form_Field__mdt]){
             if(field.Condition__c == null || field.Condition__c ==''|| ConditionCheckerService.checkConditionForObject(field.Condition__c, ctp)){
                 result.put(field.DeveloperName, field);
@@ -307,6 +333,11 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled public String notes;
         @AuraEnabled public List<ParticipantWorkflowHistoryWrapper> stepHistory;
         @AuraEnabled public List<ParticipantWorkflowFieldGroupWrapper> formFieldGroups;
+        @AuraEnabled public Map<String, List<String>> fieldDependencyMap = new Map<String, List<String>>{
+          'Washout_Run_In_Applies__c' => new List<String>{'Revisit_Date__c'}
+        };
+        @AuraEnabled public List<String> successOutcomes;
+        @AuraEnabled public Boolean currentOutcomeSuccess;
     }
 
     public class ParticipantWorkflowHistoryWrapper{
@@ -330,6 +361,9 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled public String  field;
         @AuraEnabled public String  fieldType;
         @AuraEnabled public Integer numOccurences;
+        @AuraEnabled public Boolean dependent;
+        @AuraEnabled public Boolean onlyFutureDate;
+        @AuraEnabled public Boolean onlyPastDate;
     }
 
 }

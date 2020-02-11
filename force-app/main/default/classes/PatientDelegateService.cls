@@ -243,6 +243,7 @@ public without sharing class PatientDelegateService {
     public static Participant__c getParticipantByDelegateContactId(Id contactId){
         List<Patient_Delegate__c> patientDelegates = [
                 SELECT Id,
+                        Participant__r.Contact__c,
                         Participant__r.First_Name__c,
                         Participant__r.Last_Name__c,
                         Participant__r.Full_Name__c
@@ -405,7 +406,8 @@ public without sharing class PatientDelegateService {
     }
     
     public static List<Id> getAvailablePEIdsForContact(Id contactId){
-        return getAvailablePEIdsListByContactIdMap(new List<Id>{contactId}).get(contactId);
+        List<Id> resList = getAvailablePEIdsListByContactIdMap(new List<Id>{contactId}).get(contactId);
+        return resList == null ? new List<Id>() : resList;
     }
 
     public static Map<Id, List<Id>> getForExclStatusPEIdsListByContactIdMap(List<Id> contactIds, List<String> excludedPEStatuses){

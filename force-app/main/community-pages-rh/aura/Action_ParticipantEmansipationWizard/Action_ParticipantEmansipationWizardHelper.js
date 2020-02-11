@@ -76,7 +76,6 @@
     prepareDelegates : function (component) {
         let delegateParticipant = {
             sObjectType: 'Participant__c',
-            Id: 'a0a0R000003iPoMQAU',
             selectedOption: '1'
         };
         let delegateItems = [];
@@ -84,32 +83,117 @@
         component.set('v.delegateItems', delegateItems);
     },
 
-    updateParticipantAndDelegates : function (component) {
+    updateParticipantAndDelegate : function (component) {
         component.find('spinner').show();
 
         let doNotContinueIds = [];
         let delegateItems = component.get('v.delegateItems');
         for (let ind = 0; ind < delegateItems.length; ind++) {
-            if (delegateItem[ind].Id && delegateItem[ind].selectedOption == '2') {
-                doNotContinueIds.push(delegateItem[ind].Id);
+            if (delegateItems[ind].Id != undefined && delegateItems[ind].selectedOption == '2') {
+                doNotContinueIds.push(delegateItems[ind].Id);
             }
+            delete delegateItems[ind].selectedOption;
+            delete delegateItems[ind].statesDelegateLVList;
+            delete delegateItems[ind].continueDelegateMsg;
         }
+        console.log(doNotContinueIds);
+        console.log(JSON.stringify(component.get('v.contact')));
 
         communityService.executeAction(component, 'updateParticipantAndDelegates', {
-            participant: component.get('v.participant'),
-            participantContact: component.get('v.contact'),
-            delegates: component.get('v.participant'),
+            participantS: JSON.stringify(component.get('v.participant')),
+            participantContactS: JSON.stringify(component.get('v.contact')),
+            delegatesS: JSON.stringify(component.get('v.delegateItems')),
             doNotContinueIds: doNotContinueIds,
-            needsInvite: component.get('v.selectedOption') == '1'
-        }, function (returnValue) {
-            component.set('v.currentTab', '1');
+            needsInvite: (component.get('v.selectedOption') == '1')
+        }, function () {
+            console.log('Emancipation wizard completed!');
+            component.set('v.pe.Participant__r', component.get('v.participant'));
 
             component.find('spinner').hide();
             component.find('dialog').hide();
+
+            communityService.navigateToPage('my-referrals');
         }, function (returnValue) {
+            console.log('Emancipation wizard ERROR!: ' + returnValue);
             component.find('spinner').hide();
             communityService.showErrorToast('',  "Emancipation process failed! Description: " + returnValue);
         });
-    }
+    },
+
+    checkFields: function (component, event, helper) {
+        var participant = component.get('v.participant');
+        var states = component.get('v.statesLVList');
+
+        let isValid =
+            (participant.First_Name__c && participant.First_Name__c.trim()) &&
+            (participant.Last_Name__c && participant.Last_Name__c.trim()) &&
+            participant.Date_of_Birth__c &&
+            participant.Gender__c &&
+            participant.Phone__c &&
+            participant.Phone_Type__c &&
+            participant.Email__c &&
+            participant.Mailing_Zip_Postal_Code__c &&
+            (!component.find('emailInput') || (component.find('emailInput') &&
+                component.find('emailInput').get('v.validity').valid)) &&
+            (!component.find('phoneInput') || (component.find('phoneInput') &&
+                component.find('phoneInput').get('v.validity').valid)) &&
+            participant.Mailing_Country_Code__c &&
+            ((states && states.length == 0) || participant.Mailing_State_Code__c);
+
+        console.log('doCheckFields: ' + JSON.stringify(component.get('v.participant')));
+        component.set('v.isValid', isValid);
+    },
+
+    checkDelegateFields: function (component, event, helper) {
+        let delegateItems = component.get('v.delegateItems');
+        let isDelegatesValid = true;
+
+        for (let ind = 0; ind < delegateItems.length; ind++) {
+            if (delegateItems[ind] && (delegateItems[ind].Id ||
+                delegateItems[ind].First_Name__c && delegateItems[ind].First_Name__c.trim() &&
+                delegateItems[ind].Last_Name__c && delegateItems[ind].Last_Name__c.trim())) {
+
+                let states = delegateItems[ind].statesDelegateLVList;
+                isDelegatesValid = (isDelegatesValid &&
+                    (delegateItems[ind].Mailing_Country_Code__c &&
+                        (!states || (states && states.length == 0) || delegateItems[ind].Mailing_State_Code__c) &&
+                        delegateItems[ind].Mailing_Zip_Postal_Code__c &&
+                        delegateItems[ind].Email__c &&
+                        delegateItems[ind].Phone_Type__c &&
+                        delegateItems[ind].Phone__c &&
+                        (!component.find('emailDInput' + ind) || (component.find('emailDInput' + ind) &&
+                            component.find('emailDInput' + ind).get('v.validity').valid)) &&
+                        (!component.find('phoneDInput' + ind) || (component.find('phoneDInput' + ind) &&
+                            component.find('phoneDInput' + ind).get('v.validity').valid))));
+            }
+        }
+
+        component.set('v.isDelegatesValid', isDelegatesValid);
+    },
+
+    initDelegates: function(component, event, helper) {
+        communityService.executeAction(component, 'getParticipantDelegates', {
+            participantId: component.get('v.pe.Participant__c')
+        },  function (delegateItems) {
+            let formData = component.get('v.formData');
+            for (let ind = 0; ind < delegateItems.length; ind++) {
+                delegateItems[ind].continueDelegateMsg = $A.get('$Label.c.PG_Ref_L_Delegate_continue_be_delegate').replace('##delegateName', delegateItems[ind].First_Name__c + ' ' + delegateItems[ind].Last_Name__c);
+                delegateItems[ind].selectedOption = '1';
+                var statesByCountryMap = component.get('v.formData.statesByCountryMap');
+                let states = statesByCountryMap[delegateItems[ind].Mailing_Country_Code__c];
+                delegateItems[ind].statesDelegateLVList = states;
+                if (!delegateItems[ind].Phone_Type__c) {
+                    delegateItems[ind].Phone_Type__c = 'Home';
+                }
+            }
+            console.log(delegateItems);
+            component.set('v.delegateItems', delegateItems);
+
+            component.find('spinner').hide();
+        }, function (returnValue) {
+            component.find('spinner').hide();
+            communityService.showErrorToast('',  "Error get Participant's Delegates! Description: " + returnValue);
+        });
+    },
 
 });

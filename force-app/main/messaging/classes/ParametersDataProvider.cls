@@ -37,7 +37,7 @@ public without sharing class ParametersDataProvider {
                 if (sourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
                     initParamsFromPE(sourceId);
                 } else if (sourceId.getSobjectType() == HCP_Enrollment__c.getSObjectType()) {
-                    initParamsFromHCPE(sourceId, multiplePIMessage);
+                    initParamsFromHCPE(sourceId);
                 } else if (sourceId.getSobjectType() == Study_Site__c.getSObjectType()) {
                     initParamsFromSS(sourceId);
                 } else if(sourceId.getSobjectType() == Contact.getSObjectType()){
@@ -74,6 +74,7 @@ public without sharing class ParametersDataProvider {
                 parameters.put('ParticipantFirstName', participant.First_Name__c);
             }
         }
+        System.debug('Parameters: ' + JSON.serializePretty(parameters));
     }
 
     private void initParamsFromPE(Id sourceId){
@@ -158,7 +159,7 @@ public without sharing class ParametersDataProvider {
         });
     }
 
-    private void initParamsFromHCPE(Id hcpeId, Boolean multiplePIMessage){
+    private void initParamsFromHCPE(Id hcpeId){
         HCP_Enrollment__c hcpe;
         String piNames='';
         hcpe = [SELECT Id,
@@ -346,7 +347,7 @@ public without sharing class ParametersDataProvider {
                     ORDER BY CreatedDate DESC LIMIT 1
             ];
             if (!hcpe.isEmpty()) {
-                initParamsFromHCPE(hcpe[0].Id, multiplePIMessage);
+                initParamsFromHCPE(hcpe[0].Id);
             }
             parameters.put('HCPName', getFullContactName(cnt));
             parameters.put('HCPLanguage', cnt.Language__c);
