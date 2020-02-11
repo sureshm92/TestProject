@@ -132,7 +132,7 @@
             participant.Phone__c &&
             participant.Phone_Type__c &&
             participant.Email__c &&
-            participant.Mailing_Zip_Postal_Code__c &&
+            (participant.Mailing_Zip_Postal_Code__c && participant.Mailing_Zip_Postal_Code__c.trim()) &&
             (!component.find('emailInput') || (component.find('emailInput') &&
                 component.find('emailInput').get('v.validity').valid)) &&
             (!component.find('phoneInput') || (component.find('phoneInput') &&
@@ -157,7 +157,7 @@
                 isDelegatesValid = (isDelegatesValid &&
                     (delegateItems[ind].Mailing_Country_Code__c &&
                         (!states || (states && states.length == 0) || delegateItems[ind].Mailing_State_Code__c) &&
-                        delegateItems[ind].Mailing_Zip_Postal_Code__c &&
+                        (delegateItems[ind].Mailing_Zip_Postal_Code__c && delegateItems[ind].Mailing_Zip_Postal_Code__c.trim()) &&
                         delegateItems[ind].Email__c &&
                         delegateItems[ind].Phone_Type__c &&
                         delegateItems[ind].Phone__c &&
