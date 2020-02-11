@@ -400,7 +400,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         Map<Id, Participant_Enrollment__c> newMap = new Map<Id, Participant_Enrollment__c>();
         newMap.putAll(newList);
         List<Participant_Enrollment__c> peList = [
-                SELECT Study_Site__c, Participant__r.Status__c, Participant__r.Balance__c, Patient_ID__c,
+                SELECT Study_Site__c, Participant__r.Status__c, Participant__r.Balance__c, Screening_ID__c,
                         Participant__r.First_Name__c, Participant__r.Last_Name__c, Participant__r.Email__c,
                         Clinical_Trial_Profile__r.Protocol_ID__c
                 FROM Participant_Enrollment__c
@@ -422,7 +422,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 Participant__c participant = pe.Participant__r;
                 Action_GetCardDetails actionGetCardDetails = new Action_GetCardDetails(
                         pe.Clinical_Trial_Profile__r.Protocol_ID__c,
-                        pe.Patient_ID__c,
+                        pe.Screening_ID__c,
                         participant);
                 
                 if(!System.isBatch() && !System.isFuture()) ActionExecutor.executeAsync(actionGetCardDetails);

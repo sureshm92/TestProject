@@ -36,7 +36,7 @@
         </aura:if>
         <aura:if isTrue="{!!empty(v.pe)}">
             <c:ParticipantCardHeader userMode="{!v.userMode}" pe="{!v.pe}" isReferral="false"/>
-            <c:ParticipantCardIsEmansipated pe="{!v.pe}" parent="{!v.parent}"/>
+            <c:ParticipantCardIsEmansipated pe="{!v.pe}" parent="{!v.parent}" userMode="{!v.userMode}"/>
             <c:ParticipantCardFields userMode="{!v.userMode}" isInvited="{!v.isInvited}" pe="{!v.pe}"/>
             <aura:if isTrue="{!or((v.showPath &amp;&amp; v.userMode == 'PI'), (v.userMode == 'HCP' &amp;&amp; v.pe.Show_Referring_Provider__c == true &amp;&amp; v.showPath))}">
                 <div class="vpi-path-panel">

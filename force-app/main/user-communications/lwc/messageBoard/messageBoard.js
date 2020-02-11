@@ -6,22 +6,15 @@ import {LightningElement, api, track} from 'lwc';
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 
 import emptyChatLabel from '@salesforce/label/c.MS_Empty_Chat';
-import newMessLabel from '@salesforce/label/c.MS_New_Mess';
 import selectLabel from '@salesforce/label/c.MS_Select';
 import selectPlaceholderLabel from '@salesforce/label/c.MS_Select_Placeholder';
-import selectStudyPlaceholderLabel from '@salesforce/label/c.MS_Select_Study_Ph';
 import inputPlaceholderLabel from '@salesforce/label/c.MS_Input_Placeholder';
-import recipientsPlaceholder from '@salesforce/label/c.MS_Input_PI_Recipients_Placeholder';
 import limitLabel from '@salesforce/label/c.MS_Char_Limit';
 import attFileLabel from '@salesforce/label/c.MS_Attach_File';
 import sendBtnLabel from '@salesforce/label/c.BTN_Send';
-import teamLabel from '@salesforce/label/c.Study_Team';
-import piLabel from '@salesforce/label/c.PI_Colon';
-import backLabel from '@salesforce/label/c.BTN_Back';
 
 import createConversation from '@salesforce/apex/MessagePageRemote.createConversation';
 import sendMessage from '@salesforce/apex/MessagePageRemote.sendMessage';
-import searchParticipant from '@salesforce/apex/MessagePageRemote.searchParticipant';
 import sendMultipleMessage from '@salesforce/apex/MessagePageRemote.sendMultipleMessage';
 import formFactor from "@salesforce/client/formFactor";
 
@@ -29,18 +22,12 @@ export default class MessageBoard extends LightningElement {
 
     labels = {
         emptyChatLabel,
-        newMessLabel,
         selectLabel,
         selectPlaceholderLabel,
-        selectStudyPlaceholderLabel,
-        recipientsPlaceholder,
         inputPlaceholderLabel,
         limitLabel,
         attFileLabel,
-        sendBtnLabel,
-        teamLabel,
-        piLabel,
-        backLabel
+        sendBtnLabel
     };
 
     fileTypes = '.csv,.doc,.jpg,.pdf,.png,.xls';
@@ -67,8 +54,6 @@ export default class MessageBoard extends LightningElement {
     @track hideEmptyStub;
     needAfterRenderSetup;
 
-    contentDocId;
-
     //Public Methods:---------------------------------------------------------------------------------------------------
     @api
     setTemplates(templates) {
@@ -80,6 +65,7 @@ export default class MessageBoard extends LightningElement {
         this.conversation = null;
         this.messageWrappers = [];
         this.isPastStudy = false;
+        this.isHoldMode = false;
 
         this.enrollments = enrollments;
         this.isMultipleMode = enrollments.length > 1;
@@ -132,8 +118,6 @@ export default class MessageBoard extends LightningElement {
 
             this.needAfterRenderSetup = false;
         }
-
-        // this.template.addEventListener('uploadfinished', this.handleUploadFinished);
     }
 
     //Search Handlers:--------------------------------------------------------------------------------------------------
@@ -189,7 +173,6 @@ export default class MessageBoard extends LightningElement {
                         this.notifyUser('Error', error.message, 'error');
                     });
             } else {
-                let docId = this.contentDocId ? this.contentDocId : null;
                 sendMessage({conversation: this.conversation, messageText: messageText})
                     .then(data => {
                         this.fireSendEvent(data);
@@ -202,35 +185,14 @@ export default class MessageBoard extends LightningElement {
         }
     }
 
-    handleUploadFinished(event) {
-        console.log('handleUploadFinished Enter');
-        if (event.detail.files) {
-            console.log('>>Doc id:' + event.detail.files[0].documentId);
-
-            this.contentDocId = event.detail.files[0].documentId;
-        }
-    }
-
-    handleTMP(event) {
-        console.log('>Click');
-    }
+    // handleFileSelect(event) {
+    //     let file = event.target.files[0];
+    //     console.log('File: ' + file.name + ' size = ' + (file.size / 1048576).toFixed(2));
+    // }
 
     //Template Methods:-------------------------------------------------------------------------------------------------
     get isPIMode() {
         return this.userMode === 'PI';
-    }
-
-    get enrollmentsOptions() {
-        let options = [];
-        if (this.enrollments) {
-            this.enrollments.forEach(function (item) {
-                options.push({
-                    label: item.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                    value: item.Id
-                });
-            });
-        }
-        return options;
     }
 
     get messageTemplateOptions() {

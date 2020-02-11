@@ -27,7 +27,7 @@
                             <tr>
                                 <td class="travel-cell">
                                     <div class="icon-item"
-                                         style="{!if(travelWrapper.icon == 'plane', 'background:'+travelWrapper.bgc +';transform: rotate(-20deg);', 'background:'+travelWrapper.bgc)}">
+                                         style="{!'background:' + travelWrapper.bgc}">
                                         <c:RRIcon class="svl-icon" color="white" iconName="{!travelWrapper.icon}"/>
                                     </div>
                                     <div style="padding: 0 5px">{!travelWrapper.title}</div>
