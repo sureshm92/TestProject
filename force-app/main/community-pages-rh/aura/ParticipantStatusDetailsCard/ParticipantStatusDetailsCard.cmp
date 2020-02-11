@@ -9,6 +9,7 @@
     <aura:attribute name="isValid" type="Boolean" default="true"  access="private"/>
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="notesRequired" type="Boolean" default="false"/>
+    <aura:attribute name="todayDate" type="Date"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.stepWrapper.outcome}" action="{!c.updateReasonList}"/>
     <aura:handler name="change" value="{!v.stepWrapper.reason}" action="{!c.updateNotesRequired}"/>
@@ -44,7 +45,7 @@
                 </aura:if>
                 <div class="slds-grid slds-wrap slds-gutters">
                     <aura:iteration items="{!fieldsGroup.fields}" var="field">
-                        <c:ParticipantStatusDetailsCardField field="{!field}" parent="{!this}" editable="{!v.stepWrapper.editable}" required="{!v.stepWrapper.currentOutcomeSuccess}"/>
+                        <c:ParticipantStatusDetailsCardField field="{!field}" parent="{!this}" editable="{!v.stepWrapper.editable}" required="{!v.stepWrapper.currentOutcomeSuccess}" todayDate="{!v.todayDate}"/>
                     </aura:iteration>
                 </div>
             </aura:iteration>

@@ -18,7 +18,7 @@ public without sharing class PaymentsRemote {
             ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
             RemoteCall_GetCardDetails remoteCallGetCardDetails = new RemoteCall_GetCardDetails(
                     ps.pe.Clinical_Trial_Profile__r.Protocol_ID__c,
-                    ps.pe.Patient_ID__c);
+                    ps.pe.Screening_ID__c);
             RemoteCall_GetCardDetails.Card result = (RemoteCall_GetCardDetails.Card)remoteCallGetCardDetails.execute();
             initData.informationAvailable = false;
             initData.href = 'none';

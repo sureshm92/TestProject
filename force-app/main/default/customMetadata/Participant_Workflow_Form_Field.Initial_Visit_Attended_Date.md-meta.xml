@@ -19,6 +19,14 @@
         <value xsi:type="xsd:string">Initial_visit_occurred_date__c</value>
     </values>
     <values>
+        <field>Only_Future_Dates__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Only_Past_Dates__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>Readonly_for_Steps__c</field>
         <value xsi:nil="true"/>
     </values>

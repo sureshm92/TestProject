@@ -18,6 +18,7 @@
             component.set('v.sendEmails', false);
             var params = event.getParam('arguments');
             var pe = JSON.parse(JSON.stringify(params.pe));
+            console.log('pe>>>',pe);
             component.set('v.isInvited', params.isInvited);
             if(params.actions)
                 component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
@@ -48,13 +49,13 @@
                     console.log('parti11', component.get('v.participant'));
                     formComponent.createDataStamp();
                     formComponent.checkFields();
-                    setTimeout(function () {
+                   /* setTimeout(function () {
                         document.getElementById('anchor').scrollIntoView({
                             behavior: 'smooth',
                             block: 'start',
                             inline: 'nearest'
                         });
-                    }), 200
+                    }), 200*/
                 }), 15);
             });
             console.log('parti', component.get('v.participant'));
@@ -157,6 +158,7 @@
             var returnValue = JSON.parse(returnValueJSON);
             //component.set('v.statusSteps', returnValue.steps);
             component.set('v.participantPath',returnValue);
+            component.get('v.callback')(pe);
         }, null, function () {
             component.find('spinner').hide();
         });

@@ -50,6 +50,14 @@
                 <behavior>Edit</behavior>
                 <field>Depends_On_Field__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Only_Future_Dates__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Only_Past_Dates__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

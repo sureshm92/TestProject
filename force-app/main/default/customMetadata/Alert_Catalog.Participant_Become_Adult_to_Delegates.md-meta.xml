@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Participant Become Adult to Delegates</label>
+    <protected>false</protected>
+    <values>
+        <field>Body_label__c</field>
+        <value xsi:type="xsd:string">AL_Body_PRT_Week_Become_Adult_Delegates</value>
+    </values>
+    <values>
+        <field>Parameters__c</field>
+        <value xsi:type="xsd:string">ParticipantFirstName = Participant__r.First_Name__c</value>
+    </values>
+    <values>
+        <field>Source_Object_Type__c</field>
+        <value xsi:type="xsd:string">Participant_Enrollment__c</value>
+    </values>
+    <values>
+        <field>Title_label__c</field>
+        <value xsi:type="xsd:string">AL_Title_PRT_Week_Become_Adult</value>
+    </values>
+</CustomMetadata>

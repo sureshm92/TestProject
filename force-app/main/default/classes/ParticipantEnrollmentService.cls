@@ -23,6 +23,7 @@ public without sharing class ParticipantEnrollmentService {
     public static final String PART_STATUS_REFERRAL_SENT_TO_PI = 'Referral Sent to PI';
     public static final String PART_STATUS_EXCLUDED_FROM_REFERRING = 'Excluded from Referring';
     public static final String PART_STATUS_ACCEPTED = 'Referral Accepted';
+    public static final String PART_STATUS_RECEIVED = 'Received';
     // Non referral reason
     public static final String NON_REF_REASON_STATUS_NOT_INTERESTED = 'No Longer Interested';
     public static final String NON_REF_REASON_STATUS_FAILED_PE_SCREENING = 'Failed Pre-Eligibility Screening';
@@ -368,6 +369,7 @@ public without sharing class ParticipantEnrollmentService {
             'Participant_Surname__c',
             'Participant__c',
             'Participant__r.Adult__c',
+            'Participant__r.Marketing_Flag__c',
             'Participant__r.Emancipation_in_progress__c',
             'Participant__r.First_Name__c',
             'Participant__r.Last_Name__c',
@@ -379,6 +381,7 @@ public without sharing class ParticipantEnrollmentService {
             'Participant__r.Birth_Year__c',
             'Participant__r.Gender__c',
             'Participant__r.Email__c',
+            'Participant__r.IsCountry_NOT_Eligible_for_Emails__c',
             'Participant__r.Phone__c',
             'Participant__r.Phone_Type__c',
             'Participant__r.Alternative_Phone_Number__c',
@@ -416,6 +419,7 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Name__c',
             'Study_Site__c',
             'Study_Site__r.Name',
+            'Study_Site__r.Is_Virtual_Study_Site__c',
             'Study_Site__r.Approved_Lng__c',
             'Study_Site__r.Override_PI_Referral_Status__c',
             'Study_Site__r.Clinical_Trial_Profile__c',

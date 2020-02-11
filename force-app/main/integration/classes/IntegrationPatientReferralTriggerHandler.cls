@@ -233,7 +233,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Patient_ID__c = ipr.ePRPatient_ID_Number__c,
                 Referral_ID__c = ipr.referralID__c,
                 MRR_Survey_Results_URL__c = ipr.MRR_Survey_Results_URL__c,
-                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
+                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED,
                 Terms_and_Conditions_Accepted_Date__c = ipr.acceptedTermsAndConditions__c != null ? Date.valueOf(ipr.acceptedTermsAndConditions__c) : null,
                 Referred_Date__c = ipr.Referred_Date__c != null ? Date.valueOf(ipr.Referred_Date__c) : null,
                 Referred_By__c = 'Other',
