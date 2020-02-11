@@ -18,6 +18,7 @@
                 </tr>
             </apex:repeat>
         </table>
+        <br/>
         {!afterText}
     </apex:outputPanel>
     <br/><br/>

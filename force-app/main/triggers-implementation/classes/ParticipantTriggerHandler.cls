@@ -244,8 +244,12 @@ public without sharing class ParticipantTriggerHandler {
     private static void checkBecomesAdult(List<Participant__c> newList, Map<Id, Participant__c> oldMap) {
         Map<Id, Participant__c> participantsByContactId = new Map<Id, Participant__c>();
         for (Participant__c participant : newList) {
-            if (participant.Adult__c && participant.Adult__c != oldMap.get(participant.Id).Adult__c && participant.Contact__c != null) {
-                participantsByContactId.put(participant.Contact__c, participant);
+            if (participant.Adult__c && participant.Adult__c != oldMap.get(participant.Id).Adult__c) {
+                if (participant.Contact__c != null) {
+                    participantsByContactId.put(participant.Contact__c, participant);
+                } else {
+                    participant.Emancipation_in_progress__c = true;
+                }
             }
         }
 

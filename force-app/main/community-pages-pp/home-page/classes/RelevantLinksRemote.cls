@@ -49,7 +49,7 @@ public without sharing class RelevantLinksRemote {
             TranslateHelper.translate(resStudies);
             for (Res_study__c rs : resStudies) {
                 for(Participant_Enrollment__c pe : enrollments){
-                    if(rs.Resource__r.Countries__c != null && rs.Resource__r.Countries__c.contains(pe.Study_Site__r.Site__r.BillingCountryCode)
+                    if((rs.Resource__r.Countries__c == null || rs.Resource__r.Countries__c.contains(pe.Study_Site__r.Site__r.BillingCountryCode))
                             && StudyResourceVisibilityService.isResourceVisibleForPE(rs, pe, ContactService.getPreferredLanguages(),
                             CommunityService.getUserContact().userCommunityMode__c, ps.isDelegate)){
                         initData.resources.add(rs.Resource__r);

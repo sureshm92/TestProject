@@ -5254,6 +5254,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant_Workflow_Form_Field__mdt.Only_Future_Dates__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Form_Field__mdt.Only_Past_Dates__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant_Workflow_Form_Field__mdt.Readonly_for_Steps__c</field>
         <readable>true</readable>
     </fieldPermissions>

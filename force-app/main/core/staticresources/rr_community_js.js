@@ -134,11 +134,11 @@ window.communityService = (function () {
             }
         },
 
-        getMessagesVisibility : function () {
+        getMessagesVisible : function () {
             return messagesVisible;
         },
         
-        setMessagesVisibility : function(visible) {
+        setMessagesVisible : function(visible) {
             messagesVisible = visible;
         },
 
