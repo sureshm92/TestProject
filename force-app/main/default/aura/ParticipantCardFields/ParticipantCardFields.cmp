@@ -22,7 +22,7 @@
                                   maxWidth="250px"/>
                     </div>
                 </div>
-                <aura:if isTrue="{!v.pe.Participant__r.Emancipation_in_progress__c}">
+                <aura:if isTrue="{!v.pe.Participant__r.Emancipation_in_progress__c &amp;&amp; v.userMode == 'PI'}">
                     <div class="slds-has-block-links--space3" data-gtm="Label_Action_Required">
                         {!$Label.c.Action_Required}
                     </div>
