@@ -12,7 +12,7 @@ public without sharing class RelevantLinksRemote {
     public static InitData getInitData() {
         try {
             InitData initData = new InitData();
-            initData.resources = new List<Resource__c>();
+            Set<Resource__c> resources = new Set<Resource__c>();
             initData.linksAvailable = false;
             List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c>();
             ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
@@ -52,10 +52,11 @@ public without sharing class RelevantLinksRemote {
                     if((rs.Resource__r.Countries__c == null || rs.Resource__r.Countries__c.contains(pe.Study_Site__r.Site__r.BillingCountryCode))
                             && StudyResourceVisibilityService.isResourceVisibleForPE(rs, pe, ContactService.getPreferredLanguages(),
                             CommunityService.getUserContact().userCommunityMode__c, ps.isDelegate)){
-                        initData.resources.add(rs.Resource__r);
+                        resources.add(rs.Resource__r);
                     }
                 }
             }
+            initData.resources = new List<Resource__c>(resources);
             return initData;
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
