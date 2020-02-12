@@ -79,6 +79,11 @@ public without sharing class ReferralProfileRemote {
     }
 
     @AuraEnabled
+    public static String getContactId() {
+         return CommunityService.getInstance().getCurrentContactId();
+    }
+
+    @AuraEnabled
     public static String getReferralProfileDetail(String peId, String userMode, String delegateId) {
         try {
             InitData initData = new InitData();
@@ -306,6 +311,7 @@ public without sharing class ReferralProfileRemote {
     @AuraEnabled
     public static Participant_Enrollment__c setMRRStatus(String peJSON, String status, String surveyGizmoData) {
         Participant_Enrollment__c participantEnrollment = (Participant_Enrollment__c) JSON.deserialize(peJSON, Participant_Enrollment__c.class);
+        participantEnrollment.Medical_Record_Review_Completed_Date__c = Datetime.now();
         participantEnrollment.Medical_Record_Review_Status__c = status;
         participantEnrollment.MRR_Survey_Results_URL__c = surveyGizmoData;
         participantEnrollment.Medical_Record_Review_Completed_by__c = CommunityService.getUserContact().Id;
@@ -336,7 +342,7 @@ public without sharing class ReferralProfileRemote {
             ParticipantWorkflowService.ParticipantWorkflowStepWrapper stepWrapper =
                     (ParticipantWorkflowService.ParticipantWorkflowStepWrapper)JSON.deserialize(stepWrapperJSON, ParticipantWorkflowService.ParticipantWorkflowStepWrapper.class);
 
-            if(stepWrapper.outcome!= null && stepWrapper.outcome!=''){
+            if(stepWrapper.outcome != null && stepWrapper.outcome != ''){
                 Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c(
                         Status__c = stepWrapper.outcome,
                         Reason__c = stepWrapper.reason,
