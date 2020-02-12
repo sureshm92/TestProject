@@ -79,6 +79,11 @@ public without sharing class ReferralProfileRemote {
     }
 
     @AuraEnabled
+    public static String getContactId() {
+         return CommunityService.getInstance().getCurrentContactId();
+    }
+
+    @AuraEnabled
     public static String getReferralProfileDetail(String peId, String userMode, String delegateId) {
         try {
             InitData initData = new InitData();
