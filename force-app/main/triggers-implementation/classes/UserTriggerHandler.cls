@@ -89,7 +89,7 @@ public without sharing class UserTriggerHandler {
         List<Participant_Enrollment__c> participantEnrollments = [
                 SELECT Id, Participant_Contact__c, Participant__c
                 FROM Participant_Enrollment__c
-                WHERE Participant_Contact__c IN: userContactIds AND Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE
+                WHERE Participant_Contact__c IN: userContactIds
         ];
         Map<Id, Id> participantIdByContactIdMap = new Map<Id, Id>();
         for(Participant_Enrollment__c pe : participantEnrollments){
