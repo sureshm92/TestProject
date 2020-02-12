@@ -117,8 +117,6 @@ public without sharing class CommunityFacadeRemote {
     }
     
     public static Boolean isTCAccepted() {
-        if(UserContext.isDummyContact()) return true;
-
         Terms_And_Conditions__c portalTC = TermsAndConditions.getPortalTC();
         if (portalTC != null) return TermsAndConditions.isTCAccepted(portalTC.Id);
         return true;
