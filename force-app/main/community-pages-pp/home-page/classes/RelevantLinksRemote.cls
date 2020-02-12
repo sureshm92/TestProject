@@ -39,7 +39,7 @@ public without sharing class RelevantLinksRemote {
             for(Participant_Enrollment__c pe : enrollments) ctpIds.add(pe.Clinical_Trial_Profile__c);
             List<Res_study__c> resStudies = [
                     SELECT Id, Resource__r.URL__c, Resource__r.Title__c, Resource__r.Countries__c,
-                            Resource__r.Languages__c, Resource__r.Content_Type__c,
+                            Resource__r.Languages__c, Resource__r.Content_Type__c, Clinical_Trial_Profile__c,
                             Expires_After_Days__c, Expires_On_Status__c, Active_On_Status__c,  Active_After_Days__c,
                             Visible_To_Participant__c, Visible_To_Delegates__c, Visible_In_Alumni__c
                     FROM Res_study__c
@@ -49,7 +49,8 @@ public without sharing class RelevantLinksRemote {
             TranslateHelper.translate(resStudies);
             for (Res_study__c rs : resStudies) {
                 for(Participant_Enrollment__c pe : enrollments){
-                    if((rs.Resource__r.Countries__c == null || rs.Resource__r.Countries__c.contains(pe.Study_Site__r.Site__r.BillingCountryCode))
+                    if(rs.Clinical_Trial_Profile__c == pe.Clinical_Trial_Profile__c &&
+                            (rs.Resource__r.Countries__c == null || rs.Resource__r.Countries__c.contains(pe.Study_Site__r.Site__r.BillingCountryCode))
                             && StudyResourceVisibilityService.isResourceVisibleForPE(rs, pe, ContactService.getPreferredLanguages(),
                             CommunityService.getUserContact().userCommunityMode__c, ps.isDelegate)){
                         initData.resources.add(rs.Resource__r);
