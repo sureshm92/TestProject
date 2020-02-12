@@ -5,9 +5,7 @@
 <!-- Web Icon -->
 <template>
     <template if:false={printMode}>
-        <svg xmlns="http://www.w3.org/2000/svg" class={svgClass}>
-            <use xlink:href={icon} fill={iconColor}></use>
-        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class={svgClass} fill={iconColor} lwc:dom="manual"></svg>
     </template>
     <template if:true={printMode}>
         <img src={imageSrc}/>

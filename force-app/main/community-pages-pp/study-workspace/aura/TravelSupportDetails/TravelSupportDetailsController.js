@@ -9,7 +9,8 @@
         communityService.executeAction(component, 'getTravelVendors', {
                 //'travelMode': component.get('v.travelMode')
                 clientId: '12345',
-                clientSecret: '12345'
+                clientSecret: '12345',
+                isHomePage : false
             },
             function (response) {
                 component.set('v.travelWrapper', response);

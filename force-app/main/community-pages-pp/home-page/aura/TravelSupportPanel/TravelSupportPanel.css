@@ -95,3 +95,9 @@
     right: 46%;
     opacity: .3;
 }
+
+.THIS .cRRTable.rr-table th,
+.THIS .cRRTable.rr-table td{
+    padding: 4px 13px;
+    font-size: 16px;
+}

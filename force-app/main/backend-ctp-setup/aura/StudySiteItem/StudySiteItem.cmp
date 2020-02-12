@@ -21,9 +21,11 @@
             <div class="slds-truncate" title="">{!v.item.country.label}</div>
         </c:uiCol>
         <c:uiCol isFixed="true" class="cell" scrollLeft="{!v.scrollLeft}" width="200px">
-            <div class="slds-truncate name-overflow" title="">
-                <a href="javascript:void(0);" tabindex="-1" data-ssid="{!v.item.ss.Id}"
-                   onclick="{!c.viewStudySite}">{!v.item.name}&nbsp;</a>
+            <div class="slds-grid">
+                <div class="slds-truncate name-overflow" title="">
+                    <a href="javascript:void(0);" tabindex="-1" data-ssid="{!v.item.ss.Id}"
+                       onclick="{!c.viewStudySite}">{!v.item.name}&nbsp;</a>
+                </div>
                 <aura:if isTrue="{!v.showHelp}">
                     <lightning:helptext content="{!v.helpText}"
                                         iconName="{!v.helpIcon}"
