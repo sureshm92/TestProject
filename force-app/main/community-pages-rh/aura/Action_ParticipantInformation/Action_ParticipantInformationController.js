@@ -49,13 +49,7 @@
                     console.log('parti11', component.get('v.participant'));
                     formComponent.createDataStamp();
                     formComponent.checkFields();
-                   /* setTimeout(function () {
-                        document.getElementById('anchor').scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start',
-                            inline: 'nearest'
-                        });
-                    }), 200*/
+                    component.find('dialog').scrollTop();
                 }), 15);
             });
             console.log('parti', component.get('v.participant'));

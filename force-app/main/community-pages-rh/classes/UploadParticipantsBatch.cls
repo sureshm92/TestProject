@@ -6,6 +6,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
     @TestVisible
     private static Boolean isTestRunning = false;
+    private static final String PARTICIPANT_USER_MODE = 'Participant';
 
     private List<List<String>> csvLines = new List<List<String>>();
     private Map<String, Integer> headerIndexes = new Map<String, Integer>();
@@ -73,6 +74,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     }
 
     global void execute(Database.BatchableContext BC, List<List<String>> csvChunkLines) {
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
         if (!valid) {
             return;
         }
@@ -194,6 +196,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                     MailingState = State,
                                     MailingCountry = Country,
                                     MailingPostalCode = PostalCode,
+                                    userCommunityMode__c = PARTICIPANT_USER_MODE,
                                     Consent_To_Inform_About_Study__c = createUsers);
 
                     Participant__c participant =
@@ -339,6 +342,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     List<Database.SaveResult> saveReses = Database.insert(participantEnrollmentsByContact.values());
                     for (Database.SaveResult saveRes : saveReses) {
                         if (!saveRes.isSuccess()) {
+                            errorRecordCount++;
                             Database.Error error = saveRes.getErrors().get(0);
                             listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
                             system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
