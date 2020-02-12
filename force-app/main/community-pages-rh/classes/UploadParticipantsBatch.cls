@@ -73,7 +73,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     }
 
     global void execute(Database.BatchableContext BC, List<List<String>> csvChunkLines) {
-        TriggerHandlerExecutor.bypassHandler(TaskTriggerHandler.SendImmediateEmailsForTaskCodeHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
         if (!valid) {
             return;
         }
