@@ -4424,6 +4424,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Motivational_Message__c.Clinical_Trial_Profile__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>National_ID__c.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7148,6 +7153,9 @@
         <layout>Motivation_Plans__mdt-Motivation Plan Messages Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Motivational_Message__c-Motivational Message Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>National_ID__c-National ID Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -7681,6 +7689,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Message__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Motivational_Message__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

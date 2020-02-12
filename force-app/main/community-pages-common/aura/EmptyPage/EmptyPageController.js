@@ -12,7 +12,6 @@
         action.setCallback(this,function(response) {
             if(response.getState() === 'SUCCESS') {
                 component.set('v.hasAccess', response.getReturnValue());
-                console.log('>>>', component.get('v.hasAccess'));
             }
         });
         $A.enqueueAction(action);

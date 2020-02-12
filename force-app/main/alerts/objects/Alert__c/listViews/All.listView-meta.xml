@@ -5,6 +5,6 @@
     <columns>Alert_Code__c</columns>
     <columns>Contact__c</columns>
     <columns>Viewed__c</columns>
-    <filterScope>Mine</filterScope>
+    <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>
