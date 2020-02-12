@@ -26,6 +26,7 @@
 .THIS .cRRTable.rr-table td{
     padding: 4px 13px;
     font-size: 16px;
+    white-space: nowrap
 }
 
 .THIS .sv-footer{
