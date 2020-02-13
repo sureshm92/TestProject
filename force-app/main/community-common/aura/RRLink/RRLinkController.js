@@ -3,8 +3,10 @@
  */
 ({
     doInit: function (component, event, helper) {
-        if(component.get('v.page')){
+        if (component.get('v.page')) {
             component.set('v.href', communityService.getCommunityURLPathPrefix() + '/' + component.get('v.page'));
+        } else {
+            component.set('v.href', '/');
         }
     },
 
