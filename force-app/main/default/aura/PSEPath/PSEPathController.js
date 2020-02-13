@@ -18,7 +18,7 @@
         var pe = component.get('v.pe');
         var anchor = event.currentTarget.value;
         var actions = component.get('v.actions');
-        rootComponent.find('updatePatientInfoAction').execute(pe, anchor, actions, rootComponent, function (enrollment) {
+        rootComponent.find('updatePatientInfoAction').execute(pe, actions, rootComponent, function (enrollment) {
             component.set('v.pe', enrollment);
         });
     },

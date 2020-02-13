@@ -56,7 +56,7 @@
         var actions = component.get('v.actions');
         var isInvited = component.get('v.isInvited');
         var anchor = event.currentTarget.value;
-        rootComponent.find('updatePatientInfoAction').execute(pe, anchor, actions, rootComponent, isInvited, function (enrollment) {
+        rootComponent.find('updatePatientInfoAction').execute(pe, actions, rootComponent, isInvited, function (enrollment) {
             component.set('v.pe', enrollment);
             //rootComponent.find('updatePatientInfoAction').set('v.pathItems', component.get('v.pathItems'));
                 rootComponent.refresh();
