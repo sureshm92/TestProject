@@ -15,7 +15,7 @@
         component.set('v.stepWrapper.currentOutcomeSuccess',stepWrapper.successOutcomes.indexOf(stepWrapper.outcome)!== -1);
         var reasonList = stepWrapper.reasonMap[stepWrapper.outcome];
         component.set('v.reasonList', reasonList);
-        component.set('v.stepWrapper.reason',reasonList.length==0?'':reasonList[0]);
+        component.set('v.stepWrapper.reason',reasonList.length==0?"":reasonList[0].value);
         helper.checkValidity(component, event, helper, stepWrapper);
     },
     updateNotesRequired : function (component, event, helper) {
@@ -57,21 +57,6 @@
                         }
                     }
                 }
-                // stepWrapper.formFieldGroups.forEach(function (group) {
-                //     group.fields.forEach(function (field) {
-                //         if(dependentFields.indexOf(field.field)!=-1){
-                //             if(params.value==='false'){
-                //                 field.required = false;
-                //                 field.value = false;
-                //                 field.readonly = true;
-                //             }
-                //             else{
-                //                 field.required = true;
-                //                 field.readonly = false;
-                //             }
-                //         }
-                //     });
-                // });
                 component.set('v.stepWrapper.formFieldGroups', stepWrapper.formFieldGroups);
             }
             component.set('v.updateInProgress', false);

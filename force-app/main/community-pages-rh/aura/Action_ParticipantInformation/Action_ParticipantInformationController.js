@@ -72,7 +72,10 @@
                 component.set('v.saveAndChangeStep', false);
 
             }
-            component.get('v.callback')(pe);
+            var callback = component.get('v.callback');
+            if(callback){
+                callback(pe);
+            }
         }, null, function () {
             component.find('spinner').hide();
         });
@@ -80,7 +83,10 @@
 
     doCallback: function (component, event, helper) {
         var pe = component.get('v.pe');
-        component.get('v.callback')(pe);
+        var callback = component.get('v.callback');
+        if(callback){
+            callback(pe);
+        }
     },
     doPrint: function (component, event, helper) {
         var pe = component.get('v.pe');
@@ -121,7 +127,10 @@
             };
         }
         communityService.executeAction(component, actionName, actionParams , function () {
-            component.get('v.callback')(pe);
+            var callback = component.get('v.callback');
+            if(callback){
+                callback(pe);
+            }
             component.find('spinner').hide();
             var comp = component.find('dialog');
             comp.hide();
@@ -153,13 +162,17 @@
         var statusDetailValid = component.get('v.statusDetailValid');
         if(statusDetailValid){
             component.find('spinner').show();
+            console.log(JSON.stringify(stepWrapper));
             communityService.executeAction(component, 'updatePatientStatus', {
                 stepWrapperJSON: JSON.stringify(stepWrapper),
                 peId: pe.Id
             }, function (returnValueJSON) {
                 var returnValue = JSON.parse(returnValueJSON);
                 component.set('v.participantPath',returnValue);
-                component.get('v.callback')(pe);
+                var callback = component.get('v.callback');
+                if(callback){
+                    callback(pe);
+                }
             }, null, function () {
                 component.find('spinner').hide();
             });

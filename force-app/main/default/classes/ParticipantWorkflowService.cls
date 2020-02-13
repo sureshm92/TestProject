@@ -379,9 +379,7 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled public String notes;
         @AuraEnabled public List<ParticipantWorkflowHistoryWrapper> stepHistory;
         @AuraEnabled public List<ParticipantWorkflowFieldGroupWrapper> formFieldGroups;
-        @AuraEnabled public Map<String, List<String>> fieldDependencyMap = new Map<String, List<String>>{
-          'Washout_Run_In_Applies__c' => new List<String>{'Revisit_Date__c'}
-        };
+        @AuraEnabled public Map<String, List<String>> fieldDependencyMap;
         @AuraEnabled public List<String> successOutcomes;
         @AuraEnabled public Boolean currentOutcomeSuccess;
     }
