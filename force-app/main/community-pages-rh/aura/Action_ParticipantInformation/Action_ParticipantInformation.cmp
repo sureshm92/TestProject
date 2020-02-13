@@ -14,12 +14,11 @@
     <aura:attribute name="initialized" type="Boolean" default="false" access="private"/>
     <aura:attribute name="isFinalUpdate" type="Boolean"/>
     <aura:attribute name="isValid" type="Boolean" default="false"/>
+    <aura:attribute name="statusDetailValid" type="Boolean" default="true"/>
     <aura:attribute name="saveAndChangeStep" type="Boolean" default="false"/>
     <aura:attribute name="popUpTitle" type="String"/>
-    <aura:attribute name="pathItems" type="List"/>
     <aura:attribute name="statusSteps" type="List" access="public"/>
     <aura:attribute name="anchor" type="String"/>
-    <aura:attribute name="modifiedSteps" type="List"/>
     <aura:attribute name="refreshForm" type="Boolean" default="false"/>
     <aura:attribute name="refreshSteps" type="Boolean" default="false"/>
     <aura:attribute name="actions" type="Object"/>
@@ -33,7 +32,6 @@
     <!-- methods -->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
         <aura:attribute name="pe" type="Participant_Enrollment__c"/>
-        <aura:attribute name="pathItems" type="List"/>
         <aura:attribute name="anchorScroll" type="String"/>
         <aura:attribute name="actions" type="Object"/>
         <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
@@ -44,7 +42,6 @@
     <aura:method name="doUpdate" action="{!c.doUpdate}" access="public"/>
     <aura:method name="doUpdatePatientStatus" action="{!c.doUpdatePatientStatus}" access="public"/>
 
-    <aura:handler name="change" value="{!v.pathItems}" action="{!c.prepareEditableSteps}"/>
 
     <!-- component body: -->
     <c:Popup aura:id="dialog" title="{!v.popUpTitle}" size="large" showScroll="true" showHeader="true" showFooter="true">
@@ -75,7 +72,7 @@
                 </div>
                 </lightning:tab>
                 <lightning:tab aura:id="Status" label="{!$Label.c.BTN_Status_Details}" onactive="{!c.checkTabs}">
-                    <c:ParticipantStatusDetails participantWorkflowWrapper="{!v.participantPath}" parent="{!this}"/>
+                    <c:ParticipantStatusDetails participantWorkflowWrapper="{!v.participantPath}" parent="{!this}" isValid="{!v.statusDetailValid}"/>
                 </lightning:tab>
                 <lightning:tab class="slds-tabs_default__item" aura:id="Provider" label="{!$Label.c.Tab_HealthCare_Provider}" title="{!$Label.c.Tab_HealthCare_Provider}" onactive="{!c.checkTabs}">
                     <aura:if isTrue="{!v.pe}">

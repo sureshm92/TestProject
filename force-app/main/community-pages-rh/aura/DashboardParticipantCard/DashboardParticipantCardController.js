@@ -24,7 +24,7 @@
         var rootComponent = component.get('v.parent');
         var pe = component.get('v.pe');
         debugger;
-        rootComponent.find('updatePatientInfoAction').execute(pe.data, null, 'personalInfoAnchor', null, rootComponent, function (enrollment) {
+        rootComponent.find('updatePatientInfoAction').execute(pe.data, 'personalInfoAnchor', null, rootComponent, function (enrollment) {
             component.set('v.pe', enrollment);
             if(enrollment.Participant_Status__c == 'Enrollment Success'){
                 rootComponent.refresh();

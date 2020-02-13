@@ -53,7 +53,8 @@ public without sharing class ParticipantWorkflowService {
         return result;
     }
 
-    private static Map<String, List<Participant_Enrollment_Status_History__c>> getPESHByStep(Participant_Enrollment__c pe,  Map<String, Participant_Workflow_Outcome__mdt> outcomesMap){
+    private static Map<String, List<Participant_Enrollment_Status_History__c>> getPESHByStep(Participant_Enrollment__c pe,
+            Map<String, Participant_Workflow_Outcome__mdt> outcomesMap){
         Map<String, List<Participant_Enrollment_Status_History__c>> result = new Map<String, List<Participant_Enrollment_Status_History__c>>();
         for(Participant_Enrollment_Status_History__c pesh: [
                 SELECT Id, Date__c, Status__c, Reason__c, Notes__c, CreatedBy.Name,
@@ -72,6 +73,7 @@ public without sharing class ParticipantWorkflowService {
         }
         return result;
     }
+
     private static ParticipantWorkflowStepWrapper createStepWrapper(Participant_Workflow_Step__mdt step,
             Map<String, Participant_Workflow_Outcome__mdt> outcomesMap,
             Map<String, List<Participant_Enrollment_Status_History__c>> peshMap, Boolean previousStepSuccess,
@@ -101,7 +103,7 @@ public without sharing class ParticipantWorkflowService {
             List<Participant_Enrollment_Status_History__c> peshList = peshMap.get(step.DeveloperName);
             stepWrapper.state = outcomesMap.get(peshList[0].Status__c).State__c;
             stepWrapper.status = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,peshList[0].Status__c)
-                    + ' '+ TranslateHelper.getLabelValue('PE_Status_History_On_Date') + ': ' + peshList[0].Date__c.format('dd/MM/yyyy');
+                    + ' ' + peshList[0].Date__c.format('dd/MM/yyyy');
             stepWrapper.outcome = peshList[0].Status__c;
             for(Participant_Enrollment_Status_History__c pesh: peshList){
                 ParticipantWorkflowHistoryWrapper historyWrapper = createHistoryWrapper(pesh, step);
@@ -141,6 +143,7 @@ public without sharing class ParticipantWorkflowService {
         System.debug('notesRequiredMap:' + stepWrapper.notesRequiredMap);
         stepWrapper.fieldDependencyMap = new Map<String, List<String>>();
         stepWrapper.formFieldGroups = createFieldGroupWrapperes(step, fieldsMap, pe, stepWrapper.fieldDependencyMap);
+        stepWrapper.notes = '';
         return stepWrapper;
     }
 
@@ -299,6 +302,49 @@ public without sharing class ParticipantWorkflowService {
         }
         return fieldWrappers;
     }
+
+    public static Participant_Enrollment_Status_History__c createPESHFromStepWrapper(ParticipantWorkflowStepWrapper stepWrapper, String peId){
+        Participant_Enrollment_Status_History__c pesh;
+        if(stepWrapper.outcome != null && stepWrapper.outcome != ''){
+            pesh = new Participant_Enrollment_Status_History__c(
+                    Status__c = stepWrapper.outcome,
+                    Reason__c = stepWrapper.reason,
+                    Notes__c = stepWrapper.notes,
+                    Date__c = Datetime.now(),
+                    ParticipantEnrollment__c = peId
+            ) ;
+        }
+        return pesh;
+    }
+
+    public static void populatePEFromStepWrapper(ParticipantWorkflowStepWrapper stepWrapper, Participant_Enrollment__c pe){
+        if(!stepWrapper.formFieldGroups.isEmpty()){
+            for(ParticipantWorkflowService.ParticipantWorkflowFieldGroupWrapper fieldGroup: stepWrapper.formFieldGroups) {
+                for (ParticipantWorkflowService.ParticipantWorkflowFieldWrapper field: fieldGroup.fields){
+                    if( field.readonly || field.value == null || field.value == ''){
+                        continue;
+                    }
+                    switch on field.fieldType{
+                        when 'visitplan','text'{
+                            pe.put(field.field, field.value);
+                        }
+                        when 'time' {
+                            List<String> strTimeSplit = field.value.split(':');
+                            pe.put(field.field, Time.newInstance( Integer.valueOf(strTimeSplit[0]) ,Integer.valueOf(strTimeSplit[1]),0,0));
+                        }
+                        when 'date' {
+                            System.debug(field.value);
+                            pe.put(field.field, Date.valueOf(field.value));
+                        }
+                        when 'boolean' {
+                            pe.put(field.field, Boolean.valueOf(field.value));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public static Map<String, Participant_Workflow_Form_Field__mdt> getFieldsMap(Clinical_Trial_Profile__c ctp){
         Map<String, Participant_Workflow_Form_Field__mdt> result = new Map<String, Participant_Workflow_Form_Field__mdt>();
         for(Participant_Workflow_Form_Field__mdt field: [

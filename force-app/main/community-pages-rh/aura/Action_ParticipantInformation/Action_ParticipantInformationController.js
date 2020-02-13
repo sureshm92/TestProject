@@ -23,8 +23,6 @@
             if(params.actions)
                 component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
             component.set('v.popUpTitle', pe.Participant__r.Full_Name__c);
-            if(params.pathItems)
-                component.set('v.pathItems', JSON.parse(JSON.stringify(params.pathItems)));
             component.set('v.rootComponent', params.rootComponent);
             if (params.callback) component.set('v.callback', params.callback);
             communityService.executeAction(component, 'getSteps', {
@@ -65,22 +63,7 @@
         }
     },
 
-    prepareEditableSteps: function (component, event, helper) {
-        var pathItems = event.getParam('value');
-        var showButtonsForSteps = [];
-        for (let i = 0; i < pathItems.length; i++) {
-            if (pathItems[i].isCurrent) {
-                showButtonsForSteps.push(pathItems[i].name);
-                if (i + 1 != pathItems.length) {
-                    showButtonsForSteps.push(pathItems[i + 1].name);
-                } else {
-                    showButtonsForSteps.push('');
-                }
-                component.set('v.modifiedSteps', showButtonsForSteps);
-                break;
-            }
-        }
-    },
+
 
     doUpdate: function (component, event, helper) {
         var participant = component.get('v.participant');
@@ -93,8 +76,7 @@
         }, function () {
             if (component.get('v.saveAndChangeStep')) {
                 component.set('v.saveAndChangeStep', false);
-                var steps = component.find('stepControls');
-                steps[steps.length - 1].statusSave();
+
             }
             component.get('v.callback')(pe);
         }, null, function () {
@@ -124,10 +106,34 @@
         }
     },
     doUpdateCancel: function (component, event, helper) {
-        var action = component.get('c.doUpdate');
-        $A.enqueueAction(action);
-        var comp = component.find('dialog');
-        comp.hide();
+        var participant = component.get('v.participant');
+        var pe = component.get('v.pe');
+        var stepWrapper = component.get('v.participantPath.currentStep');
+        var statusDetailValid = component.get('v.statusDetailValid');
+        pe.Participant__r = participant;
+        component.find('spinner').show();
+        var actionName = 'updatePatientInfo' ;
+        var actionParams = {
+            participantJSON: JSON.stringify(participant),
+            peJSON: JSON.stringify(pe)
+        };
+        if(statusDetailValid){
+            actionName = 'updatePatientInfoAndStatus';
+            actionParams = {
+                participantJSON: JSON.stringify(participant),
+                peJSON: JSON.stringify(pe),
+                stepWrapperJSON: JSON.stringify(stepWrapper),
+                peId: pe.Id
+            };
+        }
+        communityService.executeAction(component, actionName, actionParams , function () {
+            component.get('v.callback')(pe);
+            component.find('spinner').hide();
+            var comp = component.find('dialog');
+            comp.hide();
+        }, null, function () {
+            component.find('spinner').hide();
+        });
     },
 
     createUserForPatient: function(component, event, helper){
@@ -150,18 +156,20 @@
     doUpdatePatientStatus: function (component, event, helper) {
         var stepWrapper = component.get('v.participantPath.currentStep');
         var pe = component.get('v.pe');
-        component.find('spinner').show();
-        communityService.executeAction(component, 'updatePatientStatus', {
-            stepWrapperJSON: JSON.stringify(stepWrapper),
-            peId: pe.Id
-        }, function (returnValueJSON) {
-            var returnValue = JSON.parse(returnValueJSON);
-            //component.set('v.statusSteps', returnValue.steps);
-            component.set('v.participantPath',returnValue);
-            component.get('v.callback')(pe);
-        }, null, function () {
-            component.find('spinner').hide();
-        });
+        var statusDetailValid = component.get('v.statusDetailValid');
+        if(statusDetailValid){
+            component.find('spinner').show();
+            communityService.executeAction(component, 'updatePatientStatus', {
+                stepWrapperJSON: JSON.stringify(stepWrapper),
+                peId: pe.Id
+            }, function (returnValueJSON) {
+                var returnValue = JSON.parse(returnValueJSON);
+                component.set('v.participantPath',returnValue);
+                component.get('v.callback')(pe);
+            }, null, function () {
+                component.find('spinner').hide();
+            });
+        }
 
     },
 });
