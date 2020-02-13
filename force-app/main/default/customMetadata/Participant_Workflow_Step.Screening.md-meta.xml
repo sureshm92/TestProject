@@ -12,11 +12,11 @@
     </values>
     <values>
         <field>Failed_State_Editing_Enabled__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>Form_Fields__c</field>
-        <value xsi:type="xsd:string">FG_PE_Wash_Out#Run_In_Wash_Out_Required,Revisit_Date;Screening_ID,blank</value>
+        <value xsi:type="xsd:string">FG_PE_Wash_Out#Run_In_Wash_Out_Required,Revisit_Date;IWRS_ID,blank</value>
     </values>
     <values>
         <field>History_Item_Details_Template_Label__c</field>

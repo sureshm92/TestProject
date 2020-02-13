@@ -11,6 +11,10 @@
         <value xsi:type="xsd:string">Initial_Visit_Required__c == false</value>
     </values>
     <values>
+        <field>Failed_State_Editing_Enabled__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>History_Label__c</field>
         <value xsi:type="xsd:string">PWS_Eligibility_History_Title</value>
     </values>

@@ -127,6 +127,22 @@ public without sharing class SO_DataFactoryHelper {
         }
         return references;
     }
+
+    /**
+     * getRelationshipName() returns __r field name for a specified reference field
+     *
+     * @param objectName
+     * @param fieldName
+     *
+     * @return
+     */
+    public static String getRelationshipName (String objectName, String fieldName) {
+        try {
+            return Schema.getGlobalDescribe().get(objectName).getDescribe().fields.getMap().get(fieldName).getDescribe().getRelationshipName();
+        } catch (Exception e) {
+        }
+        return null;
+    }
     
     /**
      * getPicklistEntries() returns a list of Picklist.Entry for specified Field on specified Object
