@@ -6,6 +6,7 @@
     <!--attributes-->
     <aura:attribute name="participantWorkflowWrapper" type="Object" required="true"/>
     <aura:attribute name="parent" type="Aura.Component" />
+    <aura:attribute name="isValid" type="Boolean"/>
 
 
     <div class="slds-grid slds-wrap">
@@ -30,7 +31,7 @@
             </aura:iteration>
         </div>
         <div class="slds-col slds-size--2-of-3">
-            <c:ParticipantStatusDetailsCard stepWrapper="{!v.participantWorkflowWrapper.currentStep}" parent="{!v.parent}"/>
+            <c:ParticipantStatusDetailsCard stepWrapper="{!v.participantWorkflowWrapper.currentStep}" parent="{!v.parent}" isValid="{!v.isValid}"/>
         </div>
     </div>
 </aura:component>

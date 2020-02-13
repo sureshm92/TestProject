@@ -56,25 +56,11 @@ public without sharing class AddPatientByPIRemote {
         try{
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
             Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
-            String enrollmentStatus = pe.Participant_Status__c;
             participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI;
             PEStatusState currentState = PEStatusState.STATUSES_MAP.get(pe.Participant_Status__c);
-            pe.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
             pe.Referral_Source__c = 'PI';
             ParticipantService.createParticipantAndUpdatePE(participant, pe);
-
-            List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
-            for(PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE){
-                if(step.name == PEStatusState.PE_ST_REFERRAL_ACCEPTANCE) continue;
-                statusHistories.add(new Participant_Enrollment_Status_History__c(
-                        Notes__c = pe.Last_Status_Changed_Notes__c,
-                        Date__c = Datetime.now(),
-                        ParticipantEnrollment__c = pe.Id,
-                        Status__c = step.name == currentState.name ? enrollmentStatus : step.states.get(PEStatusState.STATUS_STATE_SUCCESS)[0]
-                ));
-                if(step.name == currentState.name) break;
-            }
-            insert statusHistories;
+            //Moved history Creation to Trigger
         }catch (Exception e){
             AuraHelper.throwException(e);
         }
