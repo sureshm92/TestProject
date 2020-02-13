@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 06.12.2019.
  */
 
-import {LightningElement, track, wire} from 'lwc';
+import {LightningElement, track} from 'lwc';
 import formFactor from '@salesforce/client/formFactor';
 
 import addLabel from '@salesforce/label/c.Add_Date';
@@ -17,10 +17,7 @@ import updatePV from '@salesforce/apex/ParticipantVisitsRemote.updatePatientVisi
 const stateClass = 'slds-col width-basis state ';
 const lineClass = 'slds-col width-basis line-div ';
 const iconCalendar = 'icon-calendar-3';
-const iconNeutral = 'icon-none';
-const iconPlanned = 'icon-minus';
 const iconMissed = 'icon-minus';
-const iconSucc = 'icon-check';
 const stateNeutral = 'neutral';
 const statePlan = 'planned';
 const stateMissed = 'missed';
@@ -36,6 +33,7 @@ export default class VisitsPath extends LightningElement {
         planDate
     };
 
+    initialized = false;
     spinner;
 
     @track isVisitsEmpty = false;
@@ -58,8 +56,23 @@ export default class VisitsPath extends LightningElement {
     fromLeftCorner;
     fromRightCorner;
 
+    connectedCallback() {
+        let context = this;
+        getCardVisits()
+            .then(function (data) {
+                context.patientVisits = data;
+                context.isVisitsEmpty = data.length === 0;
+                context.constructPathItems();
+                context.initialized = true;
+            })
+            .catch(function (error) {
+                console.error('Error: ' + JSON.stringify(error));
+            });
+    }
+
     renderedCallback() {
         this.spinner = this.template.querySelector('c-web-spinner');
+        if(!this.initialized) this.spinner.show();
 
         switch (formFactor) {
             case 'Medium':
@@ -73,7 +86,7 @@ export default class VisitsPath extends LightningElement {
         }
 
         this.pathContainer = this.template.querySelector('.vis-path');
-        if(this.pathContainer) {
+        if (this.pathContainer) {
             this.maxScrollValue = this.pathContainer.scrollWidth - this.pathContainer.clientWidth;
             if (this.pathContainer.scrollWidth > this.pathContainer.clientWidth) this.doScrollInto(this.centredIndex);
 
@@ -91,19 +104,8 @@ export default class VisitsPath extends LightningElement {
                 }
             }, 150);
         }
-    }
 
-    @wire(getCardVisits)
-    wireVisits({data, error}) {
-        if (data) {
-            this.patientVisits = data;
-            this.isVisitsEmpty = data.length === 0;
-            this.constructPathItems();
-
-            if(this.spinner) this.spinner.hide();
-        } else if (error) {
-            console.log('Error: ' + JSON.stringify(error));
-        }
+        if(this.initialized) this.spinner.hide();
     }
 
     constructPathItems() {
@@ -115,29 +117,29 @@ export default class VisitsPath extends LightningElement {
                 let isMissed = this.patientVisits[i].Status__c === 'Missed';
                 let item = {
                     id: this.patientVisits[i].Id,
-                    visitName:  this.patientVisits[i].Portal_Name__c ? this.patientVisits[i].Portal_Name__c : this.patientVisits[i].Name,
-                    isPending : !isCompleted && !isMissed,
+                    visitName: this.patientVisits[i].Portal_Name__c ? this.patientVisits[i].Portal_Name__c : this.patientVisits[i].Name,
+                    isPending: !isCompleted && !isMissed,
                     icon: isMissed ? iconMissed : iconCalendar,
                     complDate: isCompleted ? this.patientVisits[i].Completed_Date__c : null,
-                    planDate: (!isMissed && !isCompleted && this.patientVisits[i].Planned_Date__c) ?  this.patientVisits[i].Planned_Date__c : null,
+                    planDate: (!isMissed && !isCompleted && this.patientVisits[i].Planned_Date__c) ? this.patientVisits[i].Planned_Date__c : null,
                     stateStatus: isCompleted ? stateSucc : stateNeutral
                 };
-                if(isMissed) {
+                if (isMissed) {
                     item.stateStatus = stateMissed;
                     item.complDate = 'Unavailable';
                 }
 
                 this.pathItems.push(item);
-                if(!firstPending && !isCompleted && !isMissed) {
+                if (!firstPending && !isCompleted && !isMissed) {
                     firstPending = item;
                     this.centredIndex = i;
                 }
             }
-            if(firstPending){
+            if (firstPending) {
                 firstPending.stateStatus = statePlan;
             }
 
-            for (let i = 0; i < this.pathItems.length; i++){
+            for (let i = 0; i < this.pathItems.length; i++) {
                 let item = this.pathItems[i];
                 item.right = i < this.pathItems.length - 1 ? lineClass + this.pathItems[i + 1].stateStatus : lineClass + item.stateStatus;
                 item.left = lineClass + item.stateStatus;

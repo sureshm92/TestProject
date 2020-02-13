@@ -10,5 +10,4 @@
         component.set('v.logoURL', communityService.getTemplateProperty('CommunityLogo'));
         component.set('v.isInitialized', true);
     }
-
-})
+});
