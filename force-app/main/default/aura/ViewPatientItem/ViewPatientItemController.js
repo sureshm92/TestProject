@@ -58,6 +58,7 @@
         var isInvited = component.get('v.isInvited');
         var anchor = event.currentTarget.value;
         rootComponent.find('updatePatientInfoAction').execute(pe, pathItems, anchor, actions, rootComponent, isInvited, function (enrollment) {
+            console.log('ZASHLO');
             component.set('v.pe', enrollment);
             //rootComponent.find('updatePatientInfoAction').set('v.pathItems', component.get('v.pathItems'));
                 rootComponent.refresh();
