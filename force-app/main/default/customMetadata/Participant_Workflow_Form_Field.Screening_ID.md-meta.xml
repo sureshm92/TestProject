@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>Title_Label__c</field>
-        <value xsi:type="xsd:string">PG_AP_F_Screening_Subject_Id</value>
+        <value xsi:type="xsd:string">PG_AP_F_IVRS_IWRS_Id</value>
     </values>
     <values>
         <field>True_Value_Label__c</field>
