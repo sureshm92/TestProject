@@ -39,11 +39,16 @@
 
     closeFlowModal: function (component, event, helper) {
         component.set("v.isOpen", false);
-        var recordPage = component.get("v.pageRef");
-        var navEvt = $A.get("e.force:navigateToSObject");
-        navEvt.setParams({
-            recordId: recordPage
-        });
+        let navEvt;
+        if (component.get("v.pageRef")) {
+            navEvt = $A.get("e.force:navigateToSObject").setParams({
+                recordId: component.get("v.pageRef")
+            });
+        } else {
+            navEvt = $A.get("e.force:navigateToObjectHome").setParams({
+                scope: 'Res_study__c'
+            });
+        }
         navEvt.fire();
         $A.get('e.force:refreshView').fire();
     },
