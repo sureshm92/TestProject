@@ -84,6 +84,8 @@
     checkContact: function(component, event, helper){
         var email = event.getSource().get('v.value');
         if(email && communityService.isValidEmail(email)) {
+            event.getSource().setCustomValidity('');
+            event.getSource().reportValidity();
             component.find('modalSpinner').show();
             communityService.executeAction(component, 'checkDuplicate', {
                 email: email
@@ -106,6 +108,11 @@
                     component.find('modalSpinner').hide();
                 }
             });
+        } else {
+            if(email && !communityService.isValidEmail(email)){
+                event.getSource().setCustomValidity($A.get('$Label.c.TST_Invalid_email_address'));
+                event.getSource().reportValidity();
+            }
         }
     },
 

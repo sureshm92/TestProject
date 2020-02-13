@@ -42,15 +42,14 @@
                                 <div class="slds-form-element" style="margin: 0 12px;">
                                     <div class="slds-form-element__control">
                                         <div class="slds-file-selector slds-file-selector_files">
-                                            <label class="slds-file-selector__body" for="input-file">
+                                            <label class="slds-file-selector__body">
                                                 <template if:true={isSendEnable}>
                                                      <lightning-file-upload
                                                      class="ms-file-upload"
                                                      data-gtm="BTN_upload"
                                                      label="" name="fileUploader"
                                                      accept={fileTypes}
-                                                     record-id={conversation.Id}
-                                                     onuploadfinished={handleUploadFinished}></lightning-file-upload>
+                                                     record-id={conversation.Id}></lightning-file-upload>
 <!--                                                    <input id="input-file" data-gtm="BTN_upload"-->
 <!--                                                           class="slds-file-selector__input ms-file-upload"-->
 <!--                                                           type="file" accept={fileTypes}-->

@@ -71,14 +71,16 @@ public with sharing class ResStudyTriggerHandler {
         List<Notification__c> notifications = new List<Notification__c>();
         for (Participant_Enrollment__c pe : pes)
             for (Res_study__c res : participantByResources.get(pe.Participant__r.Contact__c)) {
-                notifications.add(
-                        new Notification__c(
-                                Recipient__c = pe.Participant__r.Contact__c,
-                                WhatId__c = pe.Id,
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE,
-                                Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
-                                )
-                );
+                if (pe.Participant__r.Contact__c != null) {
+                    notifications.add(
+                            new Notification__c(
+                                    Recipient__c = pe.Participant__r.Contact__c,
+                                    WhatId__c = pe.Id,
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE,
+                                    Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
+                            )
+                    );
+                }
                 if (!partPerDelegateIds.keySet().isEmpty()
                         & partPerDelegateIds.containsKey(pe.Participant__c)
                         && res.Visible_To_Delegates__c) {

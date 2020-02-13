@@ -135,7 +135,10 @@ public inherited sharing class PatientVisitService {
         public VisitWrapper(Patient_Visit__c visit, Task task) {
             this.visit = visit;
             this.icons = visit.Visit__r.Icons__c;
-            this.iconDetails = [SELECT Id, Name, Label__c FROM Icon_Details__c WHERE Visit_Plan__c =: visit.Visit__r.Visit_Plan__c AND Name IN: visit.Visit__r.Icons__c.split(';')];
+            List<String> iconNames = visit.Visit__r.Icons__c.split(';');
+            if(!iconNames.isEmpty()) {
+                this.iconDetails = [SELECT Id, Name, Label__c FROM Icon_Details__c WHERE Visit_Plan__c =: visit.Visit__r.Visit_Plan__c AND Name IN: iconNames];
+            }
             this.task = task;
             this.reminderDate = DateTimeConverterUtil.getUserDatetime(TimeZone.getTimeZone(CURRENT_USER.TimeZoneSidKey), this.task.ReminderDateTime).date();
             this.completedDate = visit.Completed_Date__c == null ? Label.StudyVisit_Information_Not_Available : String.valueOf(visit.Completed_Date__c);

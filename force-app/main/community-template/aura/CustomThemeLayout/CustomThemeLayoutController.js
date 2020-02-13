@@ -24,9 +24,5 @@
 
     doGoHome: function () {
         communityService.navigateToPage('');
-    },
-
-
-
-
-})
+    }
+});

@@ -20,8 +20,12 @@ export default class WebIcon extends LightningElement {
         let context = this;
         let svgElement = this.template.querySelector('.' + this.svgClass);
         new SvgLoader().getIconBody(rrIcons + '/icons.svg', this.iconName, function (symbol) {
-            svgElement.setAttribute('viewBox', symbol.getAttribute('viewBox'));
-            context.cloneNodes(symbol, svgElement);
+            try{
+                svgElement.setAttribute('viewBox', symbol.getAttribute('viewBox'));
+                context.cloneNodes(symbol, svgElement);
+            }catch (e) {
+                console.error(e);
+            }
         });
         if (this.iconHeight) svgElement.style.height = this.iconHeight + 'px';
         if (this.iconWidth) svgElement.style.width = this.iconWidth + 'px';
@@ -42,8 +46,9 @@ export default class WebIcon extends LightningElement {
     cloneNodes(sourceEl, targetEl) {
         if (sourceEl.hasChildNodes()) {
             let context = this;
-            sourceEl.childNodes.forEach(function (childNode) {
-                if (childNode.nodeType !== 1) return;
+            for(let i = 0; i < sourceEl.childNodes.length; i++){
+                let childNode = sourceEl.childNodes[i];
+                if (childNode.nodeType !== 1) continue;
                 try {
                     let newElement = document.createElementNS('http://www.w3.org/2000/svg', childNode.nodeName);
                     if (childNode.attributes) {
@@ -56,7 +61,7 @@ export default class WebIcon extends LightningElement {
                 } catch (e) {
                     console.error(e);
                 }
-            })
+            }
         }
     }
 }
