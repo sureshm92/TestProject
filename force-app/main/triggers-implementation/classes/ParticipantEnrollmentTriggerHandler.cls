@@ -528,8 +528,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         List<Participant_Enrollment_Status_History__c> histories = new List<Participant_Enrollment_Status_History__c>();
         for (Participant_Enrollment__c pe : enrollments) {
             if (pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED) {
-                if (oldMap == null ||
-                        (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED)) {
+                if ((oldMap != null && oldMap.get(pe.Id).Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED)) {
                     histories.add(new Participant_Enrollment_Status_History__c(
                             Date__c = pe.Participant_Status_Last_Changed_Date__c,
                             Status__c = pe.Participant_Status__c,
@@ -538,6 +537,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                             Reason__c = pe.Non_Referral_Reason__c
                     ));
                 }
+            }
+            else if(oldMap == null){
+                histories.addAll(createHistoryRecordsForPE(pe));
             }
         }
         if (!histories.isEmpty()) insert histories;
@@ -576,18 +578,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         for (Participant_Enrollment__c pe : enrollments) {
             if (pe.IsAutoaccepted__c && (oldMap == null || pe.IsAutoaccepted__c != oldMap.get(pe.Id).IsAutoaccepted__c)) {
-                PEStatusState currentState = PEStatusState.STATUSES_MAP.get(pe.Participant_Status__c);
-
-                for (PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE) {
-                    if (step.name == PEStatusState.PE_ST_REFERRED) continue;
-                    statusHistories.add(new Participant_Enrollment_Status_History__c(
-                            Notes__c = pe.Last_Status_Changed_Notes__c,
-                            Date__c = Datetime.now(),
-                            ParticipantEnrollment__c = pe.Id,
-                            Status__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS)[0]
-                    ));
-                    if (step.name == currentState.name) break;
-                }
+                statusHistories.addAll(createHistoryRecordsForPE(pe));
             }
         }
 
@@ -795,5 +786,20 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             }
         }
         if (newParticipants.size() > 0) insert newParticipants;
+    }
+
+    private static List<Participant_Enrollment_Status_History__c> createHistoryRecordsForPE(Participant_Enrollment__c participantEnrollment){
+        PEStatusState currentState = PEStatusState.STATUSES_MAP.get(participantEnrollment.Participant_Status__c);
+        List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
+        for (PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE) {
+            statusHistories.add(new Participant_Enrollment_Status_History__c(
+                    Notes__c = participantEnrollment.Last_Status_Changed_Notes__c,
+                    Date__c = Datetime.now(),
+                    ParticipantEnrollment__c = participantEnrollment.Id,
+                    Status__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS)[0]
+            ));
+            if (step.name == currentState.name) break;
+        }
+        return statusHistories;
     }
 }
