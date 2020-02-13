@@ -19,6 +19,13 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
         }
     }
 
+    public class SendCalloutOnEligibilityPassedHandler extends TriggerHandler {
+
+        public override void beforeInsert(List<SObject> newList) {
+            sendCalloutOnEligibilityPassed(newList);
+        }
+    }
+
     //Logic-------------------------------------------------------------------------------------------------------------
     private static void sendToEPR(List<Participant_Enrollment_Status_History__c> newList) {
         List<Id> ids = new List<Id>();
@@ -83,7 +90,36 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 pe.Enrolled_Date__c = headHistory.Date__c.date();
             }
         }
-
+        System.debug('enrollments:' + enrollments);
         update enrollments;
+    }
+
+    @TestVisible
+    private static void sendCalloutOnEligibilityPassed(List<Participant_Enrollment_Status_History__c> newList) {
+        String acceptedStatus = PEStatusState.PE_STATUS_ELIGIBILITY_PASSED;
+        Set<id> peIds = new Set<Id>();
+        for (Participant_Enrollment_Status_History__c pesh : newList) {
+            if (pesh.Status__c == acceptedStatus) {
+                peIds.add(pesh.ParticipantEnrollment__c);
+            }
+        }
+        Map<Id,Participant_Enrollment_Status_History__c> lastExitingHistoryMap = new Map<Id, Participant_Enrollment_Status_History__c>();
+        for(Participant_Enrollment_Status_History__c pesh : [
+                SELECT Status__c, ParticipantEnrollment__c
+                FROM Participant_Enrollment_Status_History__c
+                WHERE ParticipantEnrollment__c IN :peIds
+                ORDER BY Date__c DESC
+        ]){
+            if(!lastExitingHistoryMap.containsKey(pesh.ParticipantEnrollment__c)){
+                lastExitingHistoryMap.put(pesh.ParticipantEnrollment__c, pesh);
+                if(pesh.Status__c == acceptedStatus){
+                    peIds.remove(pesh.ParticipantEnrollment__c);
+                }
+            }
+        }
+
+        for(Id peId : peIds){
+            IntegrationService.sendPEToStudyHubAsync(peId);
+        }
     }
 }

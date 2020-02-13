@@ -57,13 +57,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             createUsersOrSendNotifications(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
+    //Moved Eligibillity send to PESH Trigger
 
-    public class SendCalloutOnEligibilityPassedHandler extends TriggerHandler {
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            sendCalloutOnEligibilityPassed(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
-        }
-    }
 
     public class CreateStatusTrackingHistoryRecordsHandler extends TriggerHandler {
 
@@ -211,10 +206,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 pe.Participant_Key__c = participantName + ' ' + nctNumber;
             }
             //populate referred date
-            if (pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI || pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED) {
-                if ((oldMap == null && pe.Referred_Date__c == null) || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != pe.Participant_Status__c)) {
-                    pe.Referred_Date__c = Date.today();
-                }
+            if ((oldMap == null && PEStatusState.PE_ORDERED_STATUSES.containsKey(pe.Participant_Status__c) && pe.Referred_Date__c == null)
+                    || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != pe.Participant_Status__c && pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED)) {
+                pe.Referred_Date__c = Date.today();
             }
             pe.Initial_visit_scheduled_flag__c = pe.Initial_visit_scheduled_date__c != null;
         }
@@ -314,8 +308,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             if (!updateCriteria) continue;
             Boolean filterCriteria =
                     (newPE.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI ||
-                            newPE.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED ||
-                            newPE.Participant_Status__c == ParticipantEnrollmentService.PART_STATUS_ACCEPTED) &&
+                            newPE.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED) &&
                             newPE.Participant__c != null &&
                             !newPE.Is_Virtual_Study_Site__c &&
                             ss != null &&
@@ -371,17 +364,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         insert notifications;
         update contactsForChangeMode;
     }
+    //Moved to PESH Trigger Handler
 
-    @TestVisible
-    private static void sendCalloutOnEligibilityPassed(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
-        String acceptedStatus = PEStatusState.PE_STATUS_ELIGIBILITY_PASSED;
-        for (Participant_Enrollment__c pe : newList) {
-            if (pe.Participant_Status__c == acceptedStatus && (oldMap == null ||
-                    oldMap.get(pe.Id).Participant_Status__c != acceptedStatus)) {
-                IntegrationService.sendPEToStudyHubAsync(pe.Id);
-            }
-        }
-    }
 
     @TestVisible
     private static void setChangedDate(List<Participant_Enrollment__c> newList) {
@@ -424,7 +408,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         pe.Clinical_Trial_Profile__r.Protocol_ID__c,
                         pe.Screening_ID__c,
                         participant);
-                
+
                 if(!System.isBatch() && !System.isFuture()) ActionExecutor.executeAsync(actionGetCardDetails);
                 else ActionExecutor.executeAsync(actionGetCardDetails, Datetime.now());
             }
@@ -542,7 +526,10 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 histories.addAll(createHistoryRecordsForPE(pe));
             }
         }
-        if (!histories.isEmpty()) insert histories;
+        if (!histories.isEmpty()) {
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler.class);
+            insert histories;
+        }
     }
 
     @TestVisible
@@ -566,7 +553,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
         for (Participant_Enrollment__c pe : enrollments) {
             if (!pe.IsAutoaccepted__c && !String.isBlank(pe.Referral_Source__c) && statuses.contains(pe.Referral_Source__c.toLowerCase())) {
-                pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_ACCEPTED;
+                pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED;
                 pe.IsAutoaccepted__c = true;
             }
         }
@@ -583,6 +570,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
 
         if (!statusHistories.isEmpty()) {
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler.class);
             insert statusHistories;
         }
     }
@@ -794,12 +782,20 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         if(currentState != null){
             for (PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE) {
                 statusHistories.add(new Participant_Enrollment_Status_History__c(
-                        Notes__c = participantEnrollment.Last_Status_Changed_Notes__c,
+                        Notes__c = '',
                         Date__c = Datetime.now(),
                         ParticipantEnrollment__c = participantEnrollment.Id,
                         Status__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS)[0]
                 ));
-                if (step.name == currentState.name) break;
+                if (step.name == currentState.name) {
+                    statusHistories.add(new Participant_Enrollment_Status_History__c(
+                            Notes__c = participantEnrollment.Last_Status_Changed_Notes__c,
+                            Date__c = Datetime.now(),
+                            ParticipantEnrollment__c = participantEnrollment.Id,
+                            Status__c = participantEnrollment.Participant_Status__c
+                    ));
+                    break;
+                }
             }
         }
         return statusHistories;
