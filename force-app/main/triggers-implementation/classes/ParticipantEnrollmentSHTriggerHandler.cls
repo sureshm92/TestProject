@@ -26,6 +26,13 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
         }
     }
 
+    public class CreateUsersOrSendNotificationsHandler extends TriggerHandler {
+
+        public override void afterInsert(List<SObject> newList) {
+            createUsersOrSendNotifications(newList);
+        }
+    }
+
     //Logic-------------------------------------------------------------------------------------------------------------
     private static void sendToEPR(List<Participant_Enrollment_Status_History__c> newList) {
         List<Id> ids = new List<Id>();
@@ -120,6 +127,108 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
 
         for(Id peId : peIds){
             IntegrationService.sendPEToStudyHubAsync(peId);
+        }
+    }
+
+    @TestVisible
+    private static void createUsersOrSendNotifications(List<Participant_Enrollment_Status_History__c> newList) {
+        Set<Id> peIds = new Set<Id>();
+        for(Participant_Enrollment_Status_History__c pesh: newList){
+            if(pesh.Status__c == PEStatusState.PE_STATUS_RECEIVED){
+                peIds.add(pesh.ParticipantEnrollment__c);
+            }
+        }
+        if(!peIds.isEmpty()){
+            Map<Id, Id> toCreateUser = new Map<Id, Id>();
+            List<Contact> contactsForChangeMode = new List<Contact>();
+            List<Notification__c> notifications = new List<Notification__c>();
+
+            Map<Id, User> usersByContactId = new Map<Id, User>();
+            Set<Id> participantContactIds = new Set<Id>();
+            List<Participant_Enrollment__c> participantEnrollments = [
+                    SELECT Id, Participant__c, Study_Site__c,
+                            Study_Site__r.Clinical_Trial_Profile__c, Study_Site__r.Suppress_Participant_Emails__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Is_Virtual_Study_Site__c,
+                            HCP__c,HCP__r.HCP_Contact__c, Referral_Source__c
+                    FROM Participant_Enrollment__c WHERE Id IN : peIds];
+            Set<Id> participantIds = new Set<Id>();
+            Map<Id, Participant_Enrollment__c> participantEnrollmentMap = new Map<Id, Participant_Enrollment__c>();
+            for (Participant_Enrollment__c pe : participantEnrollments) {
+                participantIds.add(pe.Participant__c);
+                participantEnrollmentMap.put(pe.Id, pe);
+            }
+            List<Participant__c> participants = [
+                    SELECT Id, Contact__c,IsCountry_NOT_Eligible_for_Emails__c, Adult__c
+                    FROM Participant__c WHERE Id IN : participantIds];
+            Map<Id, Participant__c> participantMap = new Map<Id, Participant__c>();
+            for (Participant__c participant : participants) {
+                participantContactIds.add(participant.Contact__c);
+                participantMap.put(participant.Id, participant);
+            }
+            for (User usr : CommunityService.getCommunityUsersByContactIds(participantContactIds)) usersByContactId.put(usr.ContactId, usr);
+
+            //process PE items:
+            List<Alert__c> alertsForInsert = new List<Alert__c>();
+            for (Participant_Enrollment__c newPE : participantEnrollments) {
+                Participant__c participant = newPE.Participant__c != null? participantMap.get(newPE.Participant__c):null;
+                User participantUser;
+                if (participant != null && participant.Contact__c != null) participantUser = usersByContactId.get(participant.Contact__c);
+                Boolean filterCriteria = !newPE.Is_Virtual_Study_Site__c &&
+                                newPE.Study_Site__c != null  &&
+                                newPE.Study_Site__r.Clinical_Trial_Profile__c != null &&
+                                !newPE.Study_Site__r.Suppress_Participant_Emails__c &&
+                                !newPE.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                participant != null &&
+                                !participant.IsCountry_NOT_Eligible_for_Emails__c &&
+                                participant.Contact__c != null;
+                if (filterCriteria && participant.Adult__c) {
+                    if (participantUser == null) {
+                        System.debug('CREATE USER');
+                        Id hcpContact;
+                        if (newPE.HCP__c != null) hcpContact = newPE.HCP__r.HCP_Contact__c;
+                        toCreateUser.put(participant.Contact__c, hcpContact);
+                        alertsForInsert.add(new Alert__c(
+                                Contact__c = participant.Contact__c,
+                                Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH
+                        ));
+                    } else {
+                        System.debug('NOTIFY USER');
+                        if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP) {
+                            notifications.add(new Notification__c(
+                                    Recipient__c = participant.Contact__c,
+                                    WhatId__c = newPE.Id,
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE
+                            ));
+                        } else if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI) {
+                            notifications.add(new Notification__c(
+                                    Recipient__c = participant.Contact__c,
+                                    WhatId__c = newPE.Id,
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE
+                            ));
+                        } else {
+                            notifications.add(new Notification__c(
+                                    Recipient__c = participant.Contact__c,
+                                    WhatId__c = newPE.Id,
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE
+                            ));
+                        }
+                    }
+                    contactsForChangeMode.add(new Contact(
+                            Id = participant.Contact__c,
+                            userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT
+                    ));
+                }
+            }
+            if(!alertsForInsert.isEmpty()){
+                insert alertsForInsert;
+            }
+            if (toCreateUser.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
+            if(!notifications.isEmpty()){
+                insert notifications;
+            }
+            if(!contactsForChangeMode.isEmpty()){
+                update contactsForChangeMode;
+            }
         }
     }
 }
