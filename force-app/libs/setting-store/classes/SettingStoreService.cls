@@ -55,7 +55,30 @@ public without sharing class SettingStoreService {
     public static void save(String developerName, Object sourceObject, Type type){
         save(developerName, UserInfo.getUserId(), sourceObject, type);
     }
-
+    
+    public static void deleteSettings(List<String> settingIds, Boolean orgDefault){
+        Id userId = orgDefault ? null : UserInfo.getUserId();
+        List<Setting_Store__c> settings = [
+                SELECT Id, Developer_Name__c, User__c, Type__c, Body__c
+                FROM Setting_Store__c
+                WHERE Developer_Name__c IN: settingIds AND User__c =: userId
+        ];
+        delete settings;
+    }
+    
+    public static void deleteSettings(List<String> settingIds){
+        deleteSettings(settingIds, false);
+    }
+    
+    public static void deleteSettingsOrgDefault(List<String> settingIds){
+        deleteSettings(settingIds, true);
+    }
+    
+    public static void deleteSettingOrgDefault(String settingId){
+        deleteSettingsOrgDefault(new List<String>{settingId});
+    }
+    
+    //TODO REMOVE THIS:
     public static void deleteSettings(String featureName, List<Id> recordIds){
         List<String> developerNames = new List<String>();
         for(Id id : recordIds) {

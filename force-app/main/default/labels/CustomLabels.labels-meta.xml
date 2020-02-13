@@ -6399,6 +6399,13 @@
         <value>Alternative Phone Type</value>
     </labels>
     <labels>
+        <fullName>PG_AP_F_IVRS_IWRS_Id</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP F IVRS IWRS Id</shortDescription>
+        <value>IVRS/IWRS ID</value>
+    </labels>
+    <labels>
         <fullName>PG_AP_F_Patient_Status</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -10587,7 +10594,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS_Initial_Visit_Name</shortDescription>
-        <value>Initial Call</value>
+        <value>Initial Visit</value>
     </labels>
     <labels>
         <fullName>PWS_Initial_Visit_No_Outcome</fullName>

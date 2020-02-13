@@ -145,6 +145,27 @@
 
     </target>
 
+    <target name="create-distributive-new" depends="prepare-metadata">
+        <echo message="Creating distributive: ${dist.name} ..." level="info"/>
+        <exec executable="git">
+            <arg value="tag"/>
+            <arg value="${dist.name}"/>
+        </exec>
+        <exec executable="git">
+            <arg value="push"/>
+            <arg value="origin"/>
+            <arg value="${dist.name}"/>
+        </exec>
+
+        <delete dir="${dist.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+
+        <zip destfile="${dist.dir}/${dist.name}.zip">
+            <zipfileset dir="${source.dir}" prefix="${release.version}" includes="**/*.*" />
+        </zip>
+    </target>
+
+
     <target name="create-distributive" depends="prepare-metadata">
         <echo message="Creating distributive: ${dist.name} ..." level="info"/>
         <exec executable="git">

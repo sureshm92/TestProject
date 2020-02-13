@@ -515,7 +515,7 @@
         <inputAssignments>
             <field>Language__c</field>
             <value>
-                <elementReference>Languageobject</elementReference>
+                <stringValue>en_US</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -743,8 +743,8 @@
     <recordCreates>
         <name>Create_Study_Res</name>
         <label>Create Study Res</label>
-        <locationX>545</locationX>
-        <locationY>1647</locationY>
+        <locationX>506</locationX>
+        <locationY>1653</locationY>
         <connector>
             <targetReference>Type_Rocord_type</targetReference>
         </connector>
@@ -1344,14 +1344,6 @@
             <fieldText>URL</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>false</isRequired>
-        </fields>
-        <fields>
-            <name>Language_object</name>
-            <choiceReferences>Languageobject</choiceReferences>
-            <dataType>String</dataType>
-            <fieldText>Language object</fieldText>
-            <fieldType>DropdownBox</fieldType>
-            <isRequired>true</isRequired>
         </fields>
         <fields>
             <name>Document_types</name>
