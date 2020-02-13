@@ -59,10 +59,11 @@ public without sharing class SO_DataFactoryController {
      */
     public PageReference fieldChange() {
         try {
-            SO_FieldMeta fieldMeta = fieldMetas.get(fieldIndex);
-            fieldMeta.stringValue  = null;
-            fieldMeta.fieldType = SO_DataFactoryHelper.getFieldType(selectedObject, fieldMeta.fieldName);
-            fieldMeta.picklistOptions = SO_DataFactoryHelper.createSelectOptions(SO_DataFactoryHelper.getPicklistValues(selectedObject, fieldMeta.fieldName, true), null, false);
+            SO_FieldMeta fieldMeta      = fieldMetas.get(fieldIndex);
+            fieldMeta.stringValue       = null;
+            fieldMeta.fieldType         = SO_DataFactoryHelper.getFieldType(selectedObject, fieldMeta.fieldName);
+            fieldMeta.relationshipName  = SO_DataFactoryHelper.getRelationshipName(selectedObject, fieldMeta.fieldName) + '.Name';
+            fieldMeta.picklistOptions   = SO_DataFactoryHelper.createSelectOptions(SO_DataFactoryHelper.getPicklistValues(selectedObject, fieldMeta.fieldName, true), null, false);
         } catch (Exception e) {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'EXCEPTION: ' + e.getMessage() + ' ' + e.getStackTraceString()));
         }
@@ -210,6 +211,9 @@ public without sharing class SO_DataFactoryController {
                 for (SO_FieldMeta fieldMeta : fieldMetas) {
                     if (fieldMeta.fieldName != null) {
                         fieldNames.add(fieldMeta.fieldName);
+                        if (fieldMeta.fieldType == 'REFERENCE' && fieldMeta.relationshipName != null) {
+                            fieldNames.add(fieldMeta.relationshipName);
+                        }
                     }
                 }
                 
@@ -223,7 +227,14 @@ public without sharing class SO_DataFactoryController {
                 for (SObject obj : recordSet) {
                     String record = '';
                     for (String fieldName : fieldNames) {
-                        record += '[' + fieldName + '=' + obj.get(fieldName) + '], ';
+                        if (fieldName.contains('.')) {
+                            List<String> tokens = fieldName.split('\\.');
+                            String referenceName = (String) obj.getSObject(tokens[0]).get(tokens[1]);
+                            Integer idx = record.lastIndexOf('], ');
+                            record = record.removeEnd('], ') + ':"' + referenceName + '"], ';
+                        } else {
+                            record += '[' + fieldName + '=' + obj.get(fieldName) + '], ';
+                        }
                     }
                     records.add(record.trim().removeEnd(','));
                 }
