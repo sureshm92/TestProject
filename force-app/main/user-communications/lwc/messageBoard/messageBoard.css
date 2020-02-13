@@ -40,8 +40,8 @@
 
 .ms-board-footer {
     background-color: #f8f9fb;
-    min-height: 100px;
-    padding: 12px 12px 14px 12px;
+    padding: 10px;
+    width: 99%;
 }
 
 .ms-send-part {
@@ -55,15 +55,18 @@
 }
 
 .ms-send-pi {
-
+    min-height: 135px;
 }
 
 .ms-send-pi-buttons {
-    padding-top: 10px;
     min-height: 68px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.ms-file-pill {
+    margin-top: 3px;
 }
 
 .ms-file-upload {
