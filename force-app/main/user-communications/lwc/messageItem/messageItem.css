@@ -85,4 +85,7 @@
         flex-direction: column;
         align-items: flex-start;
     }
+    .ms-att-label {
+        max-width: 200px;
+    }
 }

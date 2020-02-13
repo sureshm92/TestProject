@@ -4230,11 +4230,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Message__c.ContentDocumentId__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Message__c.Message_Content__c</field>
         <readable>false</readable>
     </fieldPermissions>
