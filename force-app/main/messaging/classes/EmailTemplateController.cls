@@ -189,6 +189,7 @@ global without sharing class EmailTemplateController {
             String signatureLabel;
             String userGreetingLabel = LABEL_GREETING_VALUE_DEFAULT;
             if (getDataProvider().isDelegate) {
+                userCommunityType = getDataProvider().userMode;
                 if (getDataProvider().userMode == CommunityService.USER_MODE_PARTICIPANT) {
                     bodyLabel = LABEL_BODY_INITIAL_PATIENT_DELEGATE;
                     headerLabel = LABEL_HEADER_INITIAL_PATIENT_DELEGATE;

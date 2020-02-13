@@ -41,7 +41,7 @@
                 <c:EmailTemplateDelegate rendered="{!((isDelegate && userType != 'Participant')||hasPIRPDelegationRecords)}"
                         userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}" delegateLevelsHCP="{!delegateLevelsHCP}"/>
 
-                <c:EmailTemplateDelegateParticipant userId="{!emailRecipientId}" rendered="{!(isDelegate && userType == 'Participant')}" params="{!dataParametersValue}"/>
+                <c:EmailTemplateDelegateParticipant userId="{!emailRecipientId}" rendered="{!(isDelegate && userCommunityType == 'Participant')}" params="{!dataParametersValue}"/>
 
                 <div style="margin-top: 20px; margin-bottom: 30px;">
                     <apex:componentBody />
