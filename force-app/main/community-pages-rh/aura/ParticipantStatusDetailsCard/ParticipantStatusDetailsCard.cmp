@@ -6,13 +6,14 @@
     <aura:attribute name="stepWrapper" type="Object" required="true"/>
     <aura:attribute name="reasonList" type="List" access="private"/>
     <aura:attribute name="updateInProgress" type="Boolean"  access="private"/>
-    <aura:attribute name="isValid" type="Boolean" default="true"  access="private"/>
+    <aura:attribute name="isValid" type="Boolean" default="true"  access="public"/>
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="notesRequired" type="Boolean" default="false"/>
     <aura:attribute name="todayDate" type="Date"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.stepWrapper.outcome}" action="{!c.updateReasonList}"/>
     <aura:handler name="change" value="{!v.stepWrapper.reason}" action="{!c.updateNotesRequired}"/>
+    <aura:handler name="change" value="{!v.stepWrapper.notes}" action="{!c.checkNotesRequiredValidity}"/>
     <aura:method name="fieldChanged" action="{!c.doCheckDependentFields}" access="public">
         <aura:attribute name="fieldName" type="String"/>
         <aura:attribute name="value" type="String"/>
@@ -50,7 +51,7 @@
                 </div>
             </aura:iteration>
             <aura:if isTrue="{!v.stepWrapper.editable}">
-                <button class="apollo-btn secondary" onclick="{!c.doSaveChanges}" disabled="{!!v.isValid || and(!empty(v.stepWrapper.outcomeList),empty(v.stepWrapper.outcome)||(and(v.notesRequired,empty(v.stepWrapper.notes))))}">
+                <button class="apollo-btn secondary" onclick="{!c.doSaveChanges}" disabled="{!!v.isValid}">
                         {!$Label.c.RP_BTN_Save_Changes}
                 </button>
             </aura:if>
