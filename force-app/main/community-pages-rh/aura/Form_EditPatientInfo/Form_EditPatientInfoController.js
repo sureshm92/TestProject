@@ -10,7 +10,7 @@
         component.set('v.statesLVList', states);
     },
 
-    doCheckFields: function (component, event, hepler) {
+     doCheckFields: function (component, event, hepler) {
         console.log('pe', JSON.parse(JSON.stringify(component.get('v.pe'))));
         console.log('part', JSON.parse(JSON.stringify(component.get('v.participant'))));
         console.log('doCheckFields');
@@ -135,7 +135,7 @@
                 (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
                 pe.Referred_By__c;
         }
-        if((participant.Alternative_Phone_Number__c && !participant.Alternative_Phone_Type__c) || (!participant.Alternative_Phone_Number__c && participant.Alternative_Phone_Type__c)){
+        if(participant.Alternative_Phone_Number__c && !participant.Alternative_Phone_Type__c){
             isValid = false;
         }
         component.set('v.isValid', isValid);

@@ -149,14 +149,28 @@ public without sharing class PENotificationTriggerHandler {
                 FROM Participant_Enrollment__c
                 WHERE Id IN :peIds AND Participant_Contact__c != null
         ]) {
-            notificationList.add(new Notification__c(
-                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE,
-                    Recipient__c = pe.Participant_Contact__c,
-                    WhatId__c = pe.Id));
-            notificationList.add(new Notification__c(
-                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE,
-                    Recipient__c = pe.Study_Site__r.Principal_Investigator__c,
-                    WhatId__c = pe.Id));
+            if(pe.Participant_Contact__c != null) {
+                notificationList.add(new Notification__c(
+                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE,
+                        Recipient__c = pe.Participant_Contact__c,
+                        WhatId__c = pe.Id));
+            }
+            if(pe.Study_Site__r.Principal_Investigator__c != null) {
+                notificationList.add(new Notification__c(
+                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE,
+                        Recipient__c = pe.Study_Site__r.Principal_Investigator__c,
+                        WhatId__c = pe.Id));
+                for(Site_Staff__c delegate : [
+                        SELECT Id, Site_Contact__c
+                        FROM Site_Staff__c
+                        WHERE Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
+                        AND Study_Site__c = :pe.Study_Site__c]){
+                    notificationList.add(new Notification__c(
+                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE,
+                            Recipient__c = delegate.Site_Contact__c,
+                            WhatId__c = pe.Id));
+                }
+            }
         }
         if (!notificationList.isEmpty()) insert notificationList;
     }

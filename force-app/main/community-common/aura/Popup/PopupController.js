@@ -17,6 +17,10 @@
         component.set("v.showModal", true);
     },
 
+    scrolling: function (component) {
+        document.getElementsByClassName('with-scroll')[0].scrollTop = 0;
+    },
+
     hide: function(component, event, helper) {
         component.set("v.showModal", false);
         component.set('v.closeButtonClicked', !component.get('v.closeButtonClicked'));

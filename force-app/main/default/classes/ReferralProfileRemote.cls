@@ -79,6 +79,11 @@ public without sharing class ReferralProfileRemote {
     }
 
     @AuraEnabled
+    public static String getContactId() {
+         return CommunityService.getInstance().getCurrentContactId();
+    }
+
+    @AuraEnabled
     public static String getReferralProfileDetail(String peId, String userMode, String delegateId) {
         try {
             InitData initData = new InitData();
@@ -306,6 +311,7 @@ public without sharing class ReferralProfileRemote {
     @AuraEnabled
     public static Participant_Enrollment__c setMRRStatus(String peJSON, String status, String surveyGizmoData) {
         Participant_Enrollment__c participantEnrollment = (Participant_Enrollment__c) JSON.deserialize(peJSON, Participant_Enrollment__c.class);
+        participantEnrollment.Medical_Record_Review_Completed_Date__c = Datetime.now();
         participantEnrollment.Medical_Record_Review_Status__c = status;
         participantEnrollment.MRR_Survey_Results_URL__c = surveyGizmoData;
         participantEnrollment.Medical_Record_Review_Completed_by__c = CommunityService.getUserContact().Id;
@@ -326,59 +332,6 @@ public without sharing class ReferralProfileRemote {
                     peId
             });
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-        }
-    }
-
-    @AuraEnabled
-    public static String updateParticipantStatus(String stepWrapperJSON, String peId) {
-        try {
-            ParticipantWorkflowService.ParticipantWorkflowStepWrapper stepWrapper =
-                    (ParticipantWorkflowService.ParticipantWorkflowStepWrapper)JSON.deserialize(stepWrapperJSON, ParticipantWorkflowService.ParticipantWorkflowStepWrapper.class);
-
-            if(stepWrapper.outcome!= null && stepWrapper.outcome!=''){
-                Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c(
-                        Status__c = stepWrapper.outcome,
-                        Reason__c = stepWrapper.reason,
-                        Notes__c = stepWrapper.notes,
-                        Date__c = Datetime.now(),
-                        ParticipantEnrollment__c = peId
-                ) ;
-                insert pesh;
-            }
-            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, CommunityService.USER_MODE_PI);
-            if(!stepWrapper.formFieldGroups.isEmpty()){
-                for(ParticipantWorkflowService.ParticipantWorkflowFieldGroupWrapper fieldGroup: stepWrapper.formFieldGroups) {
-                    for (ParticipantWorkflowService.ParticipantWorkflowFieldWrapper field: fieldGroup.fields){
-                        if( field.readonly || field.value == null || field.value == ''){
-                            continue;
-                        }
-                        switch on field.fieldType{
-                            when 'visitplan','text'{
-                                pe.put(field.field, field.value);
-                            }
-                            when 'time' {
-                                List<String> strTimeSplit = field.value.split(':');
-                                pe.put(field.field, Time.newInstance( Integer.valueOf(strTimeSplit[0]) ,Integer.valueOf(strTimeSplit[1]),0,0));
-                            }
-                            when 'date' {
-                                System.debug(field.value);
-                                pe.put(field.field, Date.valueOf(field.value));
-                            }
-                            when 'boolean' {
-                                pe.put(field.field, Boolean.valueOf(field.value));
-                            }
-                        }
-                    }
-                }
-                update pe;
-            }
-            pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, CommunityService.USER_MODE_PI);
-            Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(pe.Clinical_Trial_Profile__c);
-            if (pe == null) throw new CommunityServiceException('Participant enrollment not found');
-            return JSON.serialize(ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe));
-        } catch (Exception e) {
-            System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }

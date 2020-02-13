@@ -35,6 +35,19 @@
     padding: 20% 0 0;
 }
 
+.THIS .link{
+    font-size: 1rem;
+    line-height: 22px;
+    margin: 0;
+    padding: 0;
+}
+
+.THIS .link-container{
+    padding: 5px 16px;
+}
+
+
+
 .THIS .cEmptyListStub:after {
     content: '';
     position: absolute;

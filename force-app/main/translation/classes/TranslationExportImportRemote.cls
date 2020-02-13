@@ -212,7 +212,8 @@ public class TranslationExportImportRemote {
     }
     
     public static String exportTranslationForStudy(Id studyId, String languageCode, String exportType){
-        return generateItemsForSObjectType(Clinical_Trial_Profile__c.getSObjectType(), ' WHERE Id =\'' + studyId + '\'', languageCode, exportType);
+        return generateItemsForSObjectType(Clinical_Trial_Profile__c.getSObjectType(), ' WHERE Id =\'' + studyId + '\'', languageCode, exportType) +
+                generateItemsForSObjectType(Motivational_Message__c.getSObjectType(), ' WHERE Clinical_Trial_Profile__c =\'' + studyId + '\'', languageCode, exportType);
     }
     
     public static String exportTranslationForStudyVisitPlan(Id studyId, String languageCode, String exportType){

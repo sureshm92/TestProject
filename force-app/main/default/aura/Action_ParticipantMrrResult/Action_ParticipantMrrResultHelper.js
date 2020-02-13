@@ -7,14 +7,7 @@
             surveyGizmoData: gizmoData
         }, function (returnValue) {
             component.set("v.mrrResult", status);
-            var comp = component.find('dialog');
-            setTimeout(function () {
-                document.getElementById('anchor').scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start',
-                    inline: 'nearest'
-                });
-            })
+            component.find('dialog').scrollTop();
             component.get('v.callback')(pe);
             ;
         }, null, function () {

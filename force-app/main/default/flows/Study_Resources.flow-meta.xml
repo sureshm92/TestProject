@@ -319,6 +319,14 @@
         <valueField>Name</valueField>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
+        <name>Type_c_picklist</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Type__c</picklistField>
+        <picklistObject>Resource__c</picklistObject>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
         <name>x3rdPartySource_picklist</name>
         <dataType>Picklist</dataType>
         <displayField xsi:nil="true"/>
@@ -507,7 +515,7 @@
         <inputAssignments>
             <field>Language__c</field>
             <value>
-                <elementReference>Languageobject</elementReference>
+                <stringValue>en_US</stringValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -567,6 +575,12 @@
             <field>Title__c</field>
             <value>
                 <elementReference>Title_URL_field_RecordType</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Type__c</field>
+            <value>
+                <elementReference>Type_field_RecordType</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -729,8 +743,8 @@
     <recordCreates>
         <name>Create_Study_Res</name>
         <label>Create Study Res</label>
-        <locationX>545</locationX>
-        <locationY>1647</locationY>
+        <locationX>506</locationX>
+        <locationY>1653</locationY>
         <connector>
             <targetReference>Type_Rocord_type</targetReference>
         </connector>
@@ -1278,6 +1292,14 @@
             <isRequired>true</isRequired>
         </fields>
         <fields>
+            <name>Type_field_RecordType</name>
+            <choiceReferences>Type_c_picklist</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Type</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <fields>
             <name>FinihsButton</name>
             <extensionName>c:FooterWithFinishButton</extensionName>
             <fieldType>ComponentInstance</fieldType>
@@ -1322,14 +1344,6 @@
             <fieldText>URL</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>false</isRequired>
-        </fields>
-        <fields>
-            <name>Language_object</name>
-            <choiceReferences>Languageobject</choiceReferences>
-            <dataType>String</dataType>
-            <fieldText>Language object</fieldText>
-            <fieldType>DropdownBox</fieldType>
-            <isRequired>true</isRequired>
         </fields>
         <fields>
             <name>Document_types</name>
