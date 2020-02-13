@@ -3,7 +3,9 @@
  */
 
 public without sharing class UserContext {
-    
+
+    public static final String DUMMY_COMMUNITY_CONTACT_ID_DEV_NAME = 'DummyCommunityContactId';
+
     private static Contact userContact;
     private static User user;
     private static CommunityMode userMode;
@@ -31,6 +33,15 @@ public without sharing class UserContext {
     
     public static void setDummyUserContact(Id userContactId){
         setContact(userContactId);
+    }
+
+    public static void setDummyPersistentUserContact(Id contactId) {
+        SettingStoreService.saveOrgDefault(DUMMY_COMMUNITY_CONTACT_ID_DEV_NAME, contactId, String.class);
+    }
+
+    public static Boolean isDummyContact() {
+        Id dummyContactId = (Id) SettingStoreService.getOrgDefault(DUMMY_COMMUNITY_CONTACT_ID_DEV_NAME);
+        return String.valueOf(getUserContactId()) == String.valueOf(dummyContactId);
     }
     
     public static void setDummyUser(Id userId){
@@ -91,6 +102,10 @@ public without sharing class UserContext {
     
     private static void setUser(Id userId){
         user = [SELECT Id, ContactId FROM User WHERE Id =: userId];
-        setContact(user.ContactId);
+        if(user == null || user.ContactId == null) {
+            setContact((Id) SettingStoreService.getOrgDefault(DUMMY_COMMUNITY_CONTACT_ID_DEV_NAME));
+        } else {
+            setContact(user.ContactId);
+        }
     }
 }

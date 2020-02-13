@@ -1,0 +1,92 @@
+<!--
+ - Created by Yulia Yakushenkova on 12/10/2019.
+ -->
+
+<!-- Conditions Of Interest View Comp -->
+<template>
+    <div class="slds-grid slds-wrap">
+        <div style="width: 100%">
+            <div class="label-default">
+                <label>{customLabel.Conditions_of_interest}</label>
+            </div>
+            <div class="slds-grid slds-grid_vertical">
+<!--                <div if:false={isEmptyTaps}>-->
+                <template if:true={taps}>
+                    <template for:each={taps} for:item="tap">
+                        <div key={tap.Id}>
+                            <div class=checkbox-container>
+                                <lightning-input class=taps type=checkbox label={tap.Therapeutic_Area__r.Name} value={tap.Therapeutic_Area__r.Id}
+                                                 onchange={editTaps} checked></lightning-input>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+<!--                </div>-->
+            </div>
+<!--            Search for another condition-->
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <div class="slds-combobox_container">
+                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open"
+                             id="searchContainer"
+                             aria-haspopup="listbox"
+                             role="combobox">
+                            <!--Search field-->
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                 role="none">
+                                <lightning-input type=search name="search" label="" autocomplete=off
+                                                 placeholder={customLabel.Search_for_another_condition}
+                                                 onfocus={onFocus} onchange={doSearch}
+                                                 onblur={onBlur}></lightning-input>
+                            </div>
+                            <!--Dropdown-->
+                            <div if:true={showDropdown}>
+                                <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
+                                     role=listbox>
+                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation"
+                                        aria-expanded=false>
+                                        <template for:each={searchResults} for:item="searchItem">
+                                            <li role=presentation class="slds-listbox-item" key={searchItem.Id}>
+                                                <div data-id={searchItem.Id} data-label={searchItem.Name}
+                                                     class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                                     role=option onclick={handleSelect}>
+                                                    <span class=slds-media__body>
+                                                        <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                                        <span class=slds-truncate
+                                                              title={searchItem.Name}>{searchItem.Name}</span>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Enrollment Status Area-->
+            <div class="label-default margin-top">
+                <label>{customLabel.Enrollment_Status}</label>
+            </div>
+            <div class="slds-grid slds-grid_vertical">
+                <div class=checkbox-container>
+                    <lightning-input class="checkbox" label={customLabel.Enrolling} name=enrolling type="checkbox"
+                                     onchange={handleCheckboxChange} checked></lightning-input>
+
+                </div>
+                <div class=checkbox-container>
+                    <lightning-input class="checkbox" label={customLabel.Not_Yet_Enrolling} name=notYetEnrolling
+                                     type="checkbox"
+                                     onchange={handleCheckboxChange} checked></lightning-input>
+                </div>
+            </div>
+
+            <div class=margin-top>
+                <button class="apollo-btn secondary" onclick={updateSearchResults}>
+                    {customLabel.Update_Search_Results}
+                </button>
+            </div>
+        </div>
+    </div>
+</template>

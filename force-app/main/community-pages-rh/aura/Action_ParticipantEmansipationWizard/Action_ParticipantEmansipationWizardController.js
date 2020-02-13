@@ -20,7 +20,7 @@
 
             communityService.executeAction(component, 'getInitData', null, function (formData) {
                 component.set('v.formData', formData);
-                let states = formData.statesByCountryMap['US'];
+                let states = formData.statesByCountryMap[pe.Participant__r.Mailing_Country_Code__c];
                 component.set('v.statesLVList', states);
                 component.set('v.currentTab', '1');
                 pe.Participant__r.Emancipation_in_progress__c = false;

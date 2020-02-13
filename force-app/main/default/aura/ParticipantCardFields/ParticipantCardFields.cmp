@@ -7,7 +7,7 @@
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String"/>
     <aura:attribute name="pe" type="Object"/>
-    <aura:attribute name="isInvited" type="boolean"/>
+    <aura:attribute name="isInvited" type="boolean" default="false"/>
     <!-- component body: -->
     <div class="{!'vpi-clip-item-borders ' + if(v.isArabic, 'rtl', '')}">
         <div class="vpi-fields">
@@ -22,7 +22,7 @@
                                   maxWidth="250px"/>
                     </div>
                 </div>
-                <aura:if isTrue="{!v.pe.Participant__r.Emancipation_in_progress__c}">
+                <aura:if isTrue="{!v.pe.Participant__r.Emancipation_in_progress__c &amp;&amp; v.userMode == 'PI'}">
                     <div class="slds-has-block-links--space3" data-gtm="Label_Action_Required">
                         {!$Label.c.Action_Required}
                     </div>

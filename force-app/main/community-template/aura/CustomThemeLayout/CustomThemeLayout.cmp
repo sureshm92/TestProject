@@ -67,9 +67,10 @@
                 </div>
                 <c:CookiesInfo/>
             </aura:if>
+
+            <c:Alerts userMode="{!v.currentMode.userMode}"/>
         </div>
 
-        <c:Alerts userMode="{!v.currentMode.userMode}"/>
     </aura:if>
 
 </aura:component>

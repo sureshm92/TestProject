@@ -116,7 +116,9 @@ public without sharing class TaskService {
                     if(!ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Tasks_Are_Available__c || t.WhatId != ParticipantContext.getCurrentPEId()){
                         skipTask = true;
                     }
-                } else if(t.Survey_Invitation__c != null  && t.Survey_Invitation__r.Participant_Enrollment__c != ParticipantContext.getCurrentPEId()){
+                } else if(t.Survey_Invitation__c != null  &&
+                        (t.Survey_Invitation__r.Participant_Enrollment__c != ParticipantContext.getCurrentPEId() || !ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Tasks_Are_Available__c)
+                        ){
                     skipTask = true;
                 }
             }
@@ -288,7 +290,6 @@ public without sharing class TaskService {
                 tsc.type = TASK_TYPE_SURVEY;
                 tsc.visibility = SurveyService.SURVEY_VISIBLE.get(visible);
                 tsc.whoId = userContact.get(tsc.ownerId);
-                tsc.whatId = inv.Participant_Enrollment__c;
             }
             taskConfigs.addAll(tmpConfigs);
         }

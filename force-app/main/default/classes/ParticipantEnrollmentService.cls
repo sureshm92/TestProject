@@ -23,6 +23,7 @@ public without sharing class ParticipantEnrollmentService {
     public static final String PART_STATUS_REFERRAL_SENT_TO_PI = 'Referral Sent to PI';
     public static final String PART_STATUS_EXCLUDED_FROM_REFERRING = 'Excluded from Referring';
     public static final String PART_STATUS_ACCEPTED = 'Referral Accepted';
+    public static final String PART_STATUS_RECEIVED = 'Received';
     // Non referral reason
     public static final String NON_REF_REASON_STATUS_NOT_INTERESTED = 'No Longer Interested';
     public static final String NON_REF_REASON_STATUS_FAILED_PE_SCREENING = 'Failed Pre-Eligibility Screening';
