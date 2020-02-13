@@ -791,14 +791,16 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     private static List<Participant_Enrollment_Status_History__c> createHistoryRecordsForPE(Participant_Enrollment__c participantEnrollment){
         PEStatusState currentState = PEStatusState.STATUSES_MAP.get(participantEnrollment.Participant_Status__c);
         List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
-        for (PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE) {
-            statusHistories.add(new Participant_Enrollment_Status_History__c(
-                    Notes__c = participantEnrollment.Last_Status_Changed_Notes__c,
-                    Date__c = Datetime.now(),
-                    ParticipantEnrollment__c = participantEnrollment.Id,
-                    Status__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS)[0]
-            ));
-            if (step.name == currentState.name) break;
+        if(currentState != null){
+            for (PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE) {
+                statusHistories.add(new Participant_Enrollment_Status_History__c(
+                        Notes__c = participantEnrollment.Last_Status_Changed_Notes__c,
+                        Date__c = Datetime.now(),
+                        ParticipantEnrollment__c = participantEnrollment.Id,
+                        Status__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS)[0]
+                ));
+                if (step.name == currentState.name) break;
+            }
         }
         return statusHistories;
     }
