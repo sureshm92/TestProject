@@ -3,7 +3,6 @@
  */
 ({
     doInit: function (component, event, hepler) {
-        console.log('pickLIST', component.get('v.statesLVList'));
         var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         component.set('v.todayDate', todayDate);
         var formData = component.get('v.formData');
