@@ -32,7 +32,7 @@
                         <apex:column headerValue="Field Name" styleClass="column" style="vertical-align:top">
                             <apex:selectList value="{!fieldMeta.fieldName}" size="1" styleClass="input">
                                 <apex:variable var="index" value="{!index + 1}" />
-                                <!--                                <apex:actionSupport event="onchange" action="{!fieldChange}" onSubmit="showSpinner();" onComplete="hideSpinner();" reRender="theForm" >-->
+<!--                            <apex:actionSupport event="onchange" action="{!fieldChange}" onSubmit="showSpinner();" onComplete="hideSpinner();" reRender="theForm" >-->
                                 <apex:actionSupport event="onchange" action="{!fieldChange}" reRender="theForm" >
                                     <apex:param name="index" value="{!index}" assignTo="{!fieldIndex}"/>
                                 </apex:actionSupport>

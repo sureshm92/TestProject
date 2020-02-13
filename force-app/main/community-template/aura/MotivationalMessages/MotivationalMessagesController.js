@@ -3,12 +3,12 @@
  */
 ({
     doExecute: function (component, event, helper) {
-        var userMode =  communityService.getUserMode();
+        let userMode =  communityService.getUserMode();
         communityService.executeAction(component, 'getMotivationalMessage', {
             userMode: userMode
         }, function (message) {
             if(message) communityService.showInfoToast('Info', message);
-        })
+        });
     }
 
-})
+});

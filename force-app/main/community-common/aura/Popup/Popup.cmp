@@ -28,6 +28,7 @@
     <aura:handler name="change" value="{!v.showModal}" action="{!c.showChanged}"/>
 
     <!-- methods: -->
+    <aura:method name="scrollTop" action="{!c.scrolling}"/>
     <aura:method name="show" action="{!c.show}"/>
     <aura:method name="hide" action="{!c.hide}"/>
     <aura:method name="cancel" action="{!c.doCancel}"/>

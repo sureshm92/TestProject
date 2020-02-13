@@ -578,6 +578,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Type__c</field>
+            <value>
+                <elementReference>Type_field_RecordType</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>URL__c</field>
             <value>
                 <elementReference>URL_field_urlRecordType</elementReference>
