@@ -3,48 +3,89 @@
  */
 
 public without sharing class MotivationalMessagesRemote {
-    
-    public static final String DEFAULT_MOTIVATION_PLAN = 'Default_Motivation_Plan';
-    
+
+    public class MotivationalMessages {
+        Id recordId;
+        Integer numberOfDays;
+        String message;
+
+        MotivationalMessages(Motivational_Message__c messageForShow) {
+            recordId = messageForShow.Id;
+            numberOfDays = messageForShow.Number_of_Days_Active_after_Enrollment__c.intValue();
+            message = messageForShow.Message__c;
+        }
+    }
+
     @AuraEnabled
-    public static String getMotivationalMessage(String userMode){
-        try{
-            if(userMode != CommunityService.USER_MODE_PARTICIPANT) return null;
+    public static String getMotivationalMessage(String userMode) {
+        try {
+            if (userMode != CommunityService.USER_MODE_PARTICIPANT) return null;
             ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
-            if(participantState.value != ParticipantService.ParticipantStates.PARTICIPANT || !participantState.isPremium) return null;
+            CommunityMode communityMode = UserContext.getCurrentUserMode();
+            if (!communityMode.isDelegate && participantState.value != ParticipantService.ParticipantStates.PARTICIPANT || !participantState.isPremium) return null;
+
+
             Participant_Enrollment_Status_History__c[] enrolledHistoryList = [
                     SELECT Id, Date__c
                     FROM Participant_Enrollment_Status_History__c
-                    WHERE ParticipantEnrollment__c =: participantState.pe.Id AND Status__c =: PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+                    WHERE ParticipantEnrollment__c = :participantState.pe.Id AND Status__c = :PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
             ];
-            if(enrolledHistoryList.size() == 0) return null;
+            if (enrolledHistoryList.size() == 0) return null;
             List<Motivational_Message__c> messages = [
                     SELECT
-                            Id,
+                            Id, Name,
                             Number_of_Days_Active_after_Enrollment__c,
                             Clinical_Trial_Profile__c,
                             Message__c
                     FROM Motivational_Message__c
                     WHERE Clinical_Trial_Profile__c = :participantState.pe.Clinical_Trial_Profile__c
-            ];
+                    ORDER BY Number_of_Days_Active_after_Enrollment__c, Name ASC
+            ]; if (messages.isEmpty()) return null;
             Date enrolledDate = enrolledHistoryList[0].Date__c.date();
-    
+
             Motivational_Message__c messageForShow;
-            for(Motivational_Message__c message : messages){
-                Date messageDate = enrolledDate.addDays(message.Number_of_Days_Active_after_Enrollment__c.intValue());
-                if(messageDate <= Date.today()) messageForShow = message;
+            for (Motivational_Message__c msg : messages) {
+                Date messageDate = enrolledDate.addDays(msg.Number_of_Days_Active_after_Enrollment__c.intValue());
+                if (messageDate <= Date.today()) messageForShow = msg;
             }
-            if(messageForShow != null && participantState.pe.Motivational_Message_Id__c != messageForShow.Id){
-                participantState.pe.Motivational_Message_Id__c = messageForShow.Id;
-                update participantState.pe;
-                String resultMessage = messageForShow.Message__c;
-                //resultMessage = CatalogParametersHelper.prepareMergeFields(resultMessage, participantState.ctp.Id, 'Email_Template_Parameters_From_CTP');
-                return resultMessage;
-            }
-        }catch (Exception e){
+
+            TranslateHelper.translate(messageForShow);
+
+            String resultMessage = communityMode.isDelegate ?
+                    getMessageForDelegate(messageForShow, participantState) : getMessageForParticipant(messageForShow, participantState);
+
+            resultMessage = CatalogParametersHelper.prepareMergeFields(
+                    resultMessage,
+                    participantState.ctp.Id,
+                    'Email_Template_Parameters_From_CTP'
+            );
+            return resultMessage;
+        } catch (Exception e) {
             AuraHelper.throwException(e);
         }
         return null;
     }
 
+    private static String getMessageForDelegate(Motivational_Message__c messageForShow, ParticipantService.ParticipantState participantState) {
+        if (messageForShow == null) return null;
+        if (SettingStoreService.get(messageForShow.Name + participantState.pe.Id, UserInfo.getUserId()) != null) return null;
+
+        MotivationalMessages message = new MotivationalMessages(messageForShow);
+        SettingStoreService.save(
+                messageForShow.Name + participantState.pe.Id,
+                message,
+                MotivationalMessagesRemote.MotivationalMessages.class
+        );
+        return message.message;
+    }
+
+    private static String getMessageForParticipant(Motivational_Message__c messageForShow, ParticipantService.ParticipantState participantState) {
+        if (messageForShow == null) return null;
+        if (participantState.pe.Motivational_Message_Id__c == messageForShow.Id) return null;
+
+        participantState.pe.Motivational_Message_Id__c = messageForShow.Id;
+        update participantState.pe;
+
+        return messageForShow.Message__c;
+    }
 }
