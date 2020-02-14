@@ -7,10 +7,7 @@
         communityService.executeAction(component, 'getInitData', {},
             function (initData) {
                 component.set('v.isAvailable', initData.linksAvailable);
-                component.set('v.links', initData.resources);
-                component.set('v.initialized', true);
-            }, null, function () {
-                component.find('spinner').hide();
+                component.set('v.linksWrappers', initData.linksWrappers);
             });
     }
 });
