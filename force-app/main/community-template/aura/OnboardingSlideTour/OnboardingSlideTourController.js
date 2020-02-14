@@ -3,7 +3,6 @@
  */
 ({
     doInitialShow: function(component, event, helper){
-        debugger;
         var isInitialized = component.get('v.isInitialized');
         if(isInitialized){
             var showOnLogin = component.get('v.showOnLogin');
@@ -15,7 +14,6 @@
     },
 
     doInit: function(component, event, helper){
-        debugger;
         component.set('v.showAfterInit', false);
         component.set('v.isInitialized', 'false');
         window.addEventListener('resize', $A.getCallback(function() {
