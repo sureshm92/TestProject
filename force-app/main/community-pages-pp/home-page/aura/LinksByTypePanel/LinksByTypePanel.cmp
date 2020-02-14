@@ -13,8 +13,7 @@
         <div class="sv-body">
             <aura:iteration var="link" items="{!v.linksWrapper.resources}">
                 <div class="link-container">
-                    <lightning:formattedUrl value="{!link.URL__c}" label="{!link.Title__c}" dataGTM="LNK_Resource"/>
-<!--                    <c:RRLink href="{!link.URL__c}" label="{!link.Title__c}" target="_blank" class="link" />-->
+                    <c:RRLink href="{!link.URL__c}" label="{!link.Title__c}" target="_blank" class="link" dataGTM="LNK_Resource"/>
                 </div>
             </aura:iteration>
             <c:EmptyListStub targetList="{!v.linksWrapper.resources}" iconName="none" message="{!$Label.c.PG_VP_L_No_Items_display}"/>
