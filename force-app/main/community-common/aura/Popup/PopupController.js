@@ -19,6 +19,7 @@
 
     scrolling: function (component) {
         document.getElementsByClassName('with-scroll')[0].scrollTop = 0;
+        document.getElementsByClassName('with-scroll')[1].scrollTop = 0;
     },
 
     hide: function(component, event, helper) {
