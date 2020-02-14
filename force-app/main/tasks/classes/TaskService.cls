@@ -150,7 +150,7 @@ public without sharing class TaskService {
             if(i == 5) break;
         }
         expireSurveyTasksByExpiredInvitations(getTasksCommon(getOpenTasksFilter()));
-        return tasks;
+        return resTasks;
     }
     
     public String getOpenTasksFilter(){
