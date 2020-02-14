@@ -10,6 +10,7 @@ public without sharing class VisitResultSharingService {
     private static Set<String> notAccessResultType = new Set<String>();
 
     static {
+        //TODO split context and service methods!!!:
         if ([SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId()].ContactId != null) {
             state = ParticipantService.getParticipantState();
             onStudy = PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(state.pe.Participant_Status__c) ||

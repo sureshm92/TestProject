@@ -5,9 +5,12 @@
     doInit: function (component, event, helper) {
         if (component.get('v.pe')) {
             helper.preparePathItems(component);
+            communityService.executeAction(component, 'getContactId', null,
+                function (returnValue) {
+                    component.set('v.userContactId', returnValue);
+                });
             component.find('spinner').hide();
         }
-        console.log('usermode', component.get('v.userMode'));
     },
 
     doGoToProfile: function (component) {
@@ -50,11 +53,10 @@
     showEditParticipantInformation: function (component, event, helper) {
         var rootComponent = component.get('v.parent');
         var pe = component.get('v.pe');
-        var pathItems = component.get('v.pathItems');
         var actions = component.get('v.actions');
         var isInvited = component.get('v.isInvited');
         var anchor = event.currentTarget.value;
-        rootComponent.find('updatePatientInfoAction').execute(pe, pathItems, anchor, actions, rootComponent, isInvited, function (enrollment) {
+        rootComponent.find('updatePatientInfoAction').execute(pe, actions, rootComponent, isInvited, function (enrollment) {
             component.set('v.pe', enrollment);
             //rootComponent.find('updatePatientInfoAction').set('v.pathItems', component.get('v.pathItems'));
                 rootComponent.refresh();

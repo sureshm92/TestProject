@@ -18,28 +18,27 @@ public without sharing class MotivationalMessagesRemote {
                     WHERE ParticipantEnrollment__c =: participantState.pe.Id AND Status__c =: PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
             ];
             if(enrolledHistoryList.size() == 0) return null;
-            List<Motivation_Plan_Message__mdt> messages = [
+            List<Motivational_Message__c> messages = [
                     SELECT
                             Id,
-                            DeveloperName,
-                            Days_From_Start__c,
-                            Custom_Label_Name__c
-                    FROM Motivation_Plan_Message__mdt
-                    WHERE Motivation_Plan__r.DeveloperName =: DEFAULT_MOTIVATION_PLAN
-                    ORDER BY Days_From_Start__c
+                            Number_of_Days_Active_after_Enrollment__c,
+                            Clinical_Trial_Profile__c,
+                            Message__c
+                    FROM Motivational_Message__c
+                    WHERE Clinical_Trial_Profile__c = :participantState.pe.Clinical_Trial_Profile__c
             ];
             Date enrolledDate = enrolledHistoryList[0].Date__c.date();
     
-            Motivation_Plan_Message__mdt messageForShow;
-            for(Motivation_Plan_Message__mdt message : messages){
-                Date messageDate = enrolledDate.addDays(message.Days_From_Start__c.intValue());
+            Motivational_Message__c messageForShow;
+            for(Motivational_Message__c message : messages){
+                Date messageDate = enrolledDate.addDays(message.Number_of_Days_Active_after_Enrollment__c.intValue());
                 if(messageDate <= Date.today()) messageForShow = message;
             }
-            if(messageForShow != null && participantState.pe.Motivational_Message_Id__c != messageForShow.DeveloperName){
-                participantState.pe.Motivational_Message_Id__c = messageForShow.DeveloperName;
+            if(messageForShow != null && participantState.pe.Motivational_Message_Id__c != messageForShow.Id){
+                participantState.pe.Motivational_Message_Id__c = messageForShow.Id;
                 update participantState.pe;
-                String resultMessage = TranslateHelper.getLabelValue(messageForShow.Custom_Label_Name__c);
-                resultMessage = CatalogParametersHelper.prepareMergeFields(resultMessage, participantState.ctp.Id, 'Email_Template_Parameters_From_CTP');
+                String resultMessage = messageForShow.Message__c;
+                //resultMessage = CatalogParametersHelper.prepareMergeFields(resultMessage, participantState.ctp.Id, 'Email_Template_Parameters_From_CTP');
                 return resultMessage;
             }
         }catch (Exception e){

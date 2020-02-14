@@ -30,7 +30,7 @@ private class Test_MessagePageRemote {
 
         Test.startTest();
         System.runAs(testData.participantUser) {
-            MessagePageRemote.getInitData();
+            MessagePageRemote.getInitData('');
         }
         Test.stopTest();
     }
@@ -52,7 +52,7 @@ private class Test_MessagePageRemote {
 
         Test.startTest();
         System.runAs(testData.participantUser) {
-            MessagePageRemote.createConversation(testData.pe, 'hi everyone!');
+            MessagePageRemote.createConversation(testData.pe, 'hi everyone!', null);
         }
         Test.stopTest();
     }

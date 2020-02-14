@@ -137,7 +137,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
         this.closeCreationMode();
 
         this.changeConversationsBackground(conItem.conversation.Id);
-        this.messageBoard.openExisting(conItem.conversation, conItem.messages, conItem.isPastStudy);
+        this.messageBoard.openExisting(conItem.conversation, conItem.messages, conItem.isPastStudy, conItem.patientDelegates);
         this.changeVisiblePart();
     }
 
@@ -199,7 +199,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
         this.conversationWrappers = null;
         this.enrollments = null;
 
-        getInit()
+        getInit({formFactor: formFactor})
             .then(data => {
                 if (!data.isPageEnabled) {
                     this[NavigationMixin.Navigate]({

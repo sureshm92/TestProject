@@ -24,6 +24,7 @@ public without sharing class ConversationService {
                 'haveUnreadForParticipant__c', 'haveUnreadForPI__c', 'Id', 'OwnerId',
                 'Participant_Enrollment__c',
                 'Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
+                'Participant_Enrollment__r.Participant__c',
                 'Participant_Enrollment__r.Participant__r.Full_Name__c',
                 'Participant_Enrollment__r.Participant_Status__c',
                 'Participant_Enrollment__r.Study_Site__c',
@@ -133,5 +134,32 @@ public without sharing class ConversationService {
                 AND UserOrGroupId = :userId
         ];
         if(!shares.isEmpty()) delete shares;
+    }
+
+    public static Map<Id, List<String>> getYourParticipantsDelegateNames(Id piUserId) {
+        List<Conversation__c> sharedConversations = getSharedConversations(piUserId);
+        List<Id> participantIds = new List<Id>();
+        for(Conversation__c conversation : sharedConversations) {
+            participantIds.add(conversation.Participant_Enrollment__r.Participant__c);
+        }
+
+        List<Patient_Delegate__c> patientDelegates = [
+                SELECT Id,
+                        Contact__r.Full_Name__c,
+                        Participant__c
+                FROM Patient_Delegate__c
+                WHERE Participant__c IN:participantIds
+                ORDER BY Participant__c
+        ];
+
+        Map<Id, List<String>> delegateNamesByParticipant = new Map<Id, List<String>>();
+        for(Patient_Delegate__c pd : patientDelegates) {
+            if(!delegateNamesByParticipant.containsKey(pd.Participant__c)) {
+                delegateNamesByParticipant.put(pd.Participant__c, new List<String>());
+            }
+            delegateNamesByParticipant.get(pd.Participant__c).add(pd.Contact__r.Full_Name__c);
+        }
+
+        return delegateNamesByParticipant;
     }
 }
