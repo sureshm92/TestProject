@@ -9,7 +9,7 @@
             var isNewSession = component.get('v.isNewSession');
             if(showOnLogin && isNewSession) component.set('v.visible', true);
         }else{
-            component.set('v.showAfterInit');
+            component.set('v.showAfterInit', true);
         }
     },
 

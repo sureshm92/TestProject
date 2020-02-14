@@ -3,7 +3,7 @@
  -->
 
 <aura:component description="Alerts" controller="AlertsRemote">
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String"/>
