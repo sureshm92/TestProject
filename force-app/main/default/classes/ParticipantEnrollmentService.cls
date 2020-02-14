@@ -420,6 +420,7 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__c',
             'Study_Site__r.Name',
             'Study_Site__r.Is_Virtual_Study_Site__c',
+            'Study_Site__r.Study_Site_Type__c',
             'Study_Site__r.Approved_Lng__c',
             'Study_Site__r.Override_PI_Referral_Status__c',
             'Study_Site__r.Clinical_Trial_Profile__c',
