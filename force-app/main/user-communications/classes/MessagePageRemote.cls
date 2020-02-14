@@ -390,6 +390,7 @@ public without sharing class MessagePageRemote {
     }
 
     //Service Logic:----------------------------------------------------------------------------------------------------
+    @TestVisible
     private static List<Participant_Enrollment__c> getEnrollmentsForPI(String additionalFiler) {
         String filter = 'Study_Site__r.Messages_Are_Available__c = TRUE AND';
         Id currentContactId = CommunityService.getInstance().getCurrentContactId();
@@ -417,6 +418,7 @@ public without sharing class MessagePageRemote {
                 }, Participant_Enrollment__c.getSObjectType(), filter);
     }
 
+    @TestVisible
     private static void attachFile(Id parentId, String fileString) {
         List<String> fileEntity = (List<String>) JSON.deserialize(fileString, List<String>.class);
         ContentVersion newVersion = new ContentVersion(
