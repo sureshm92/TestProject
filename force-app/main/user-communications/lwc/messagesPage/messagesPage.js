@@ -6,6 +6,7 @@ import {LightningElement, api, track, wire} from 'lwc';
 import formFactor from '@salesforce/client/formFactor';
 import {CurrentPageReference, NavigationMixin} from 'lightning/navigation';
 import {registerListener, unregisterAllListeners} from 'c/pubSub';
+import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 
 import messagesLabel from '@salesforce/label/c.MS_Messages';
 import newMessLabel from '@salesforce/label/c.MS_New_Mess';
@@ -137,7 +138,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
         this.closeCreationMode();
 
         this.changeConversationsBackground(conItem.conversation.Id);
-        this.messageBoard.openExisting(conItem.conversation, conItem.messages, conItem.isPastStudy);
+        this.messageBoard.openExisting(conItem.conversation, conItem.messages, conItem.isPastStudy, conItem.patientDelegates);
         this.changeVisiblePart();
     }
 
@@ -199,7 +200,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
         this.conversationWrappers = null;
         this.enrollments = null;
 
-        getInit()
+        getInit({formFactor: formFactor})
             .then(data => {
                 if (!data.isPageEnabled) {
                     this[NavigationMixin.Navigate]({
@@ -224,6 +225,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
             })
             .catch(error => {
                 console.error('Error in getInit():' + JSON.stringify(error));
+                this.notifyUser('Error', error.message, 'error');
             });
     }
 
@@ -281,5 +283,9 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
         });
 
         return freeEnrollments;
+    }
+
+    notifyUser(title, message, variant) {
+        this.dispatchEvent(new ShowToastEvent({title, message, variant}));
     }
 }

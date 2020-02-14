@@ -4,7 +4,7 @@
 
 <aura:component implements="forceCommunity:themeLayout" controller="CommunityFacadeRemote">
     <ltng:require styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_Stub, $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  scripts="{!$Resource.rr_community_js}"
                   afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
@@ -15,11 +15,13 @@
     <aura:attribute name="showSideMenu" type="Boolean" default="false"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
     <aura:attribute name="isArabic" type="Boolean"/>
+    <aura:attribute name="template" type="String"/>
 
     <aura:attribute name="allModes" type="Object[]"/>
     <aura:attribute name="currentMode" type="Object"/>
     <aura:attribute name="showModeSwitcher" type="Boolean" default="false"/>
     <aura:attribute name="logoURL" type="String"/>
+    <aura:attribute name="communityName" type="String"/>
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized"/>
@@ -68,7 +70,7 @@
                 <c:CookiesInfo/>
             </aura:if>
 
-            <c:Alerts userMode="{!v.currentMode.userMode}"/>
+            <c:Alerts aura:id="alerts"/>
         </div>
 
     </aura:if>

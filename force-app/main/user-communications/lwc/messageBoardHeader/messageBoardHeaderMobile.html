@@ -45,7 +45,8 @@
             <div class="mob-single-header">
                 <div class="header-con-icon" style={bubbleColor}>
                     <template if:false={isPIMode}>
-                        <c-web-icon icon-name="icon-study-team" icon-color="#ffffff" icon-height="20" icon-width="20"></c-web-icon>
+                        <c-web-icon icon-name="icon-study-team" icon-color="#ffffff" icon-height="20"
+                                    icon-width="20"></c-web-icon>
                     </template>
                     <template if:true={isPIMode}>
                         <p>{initials}</p>
@@ -61,13 +62,24 @@
                             </div>
                         </template>
                         <template if:true={isPastStudy}>
-                            <div class="header-past-study">{selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}</div>
+                            <div class="header-past-study">
+                                {selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                            </div>
                         </template>
                     </div>
                 </template>
                 <template if:true={isPIMode}>
                     <div class="mob-header-patient-name" data-gtm="ms-header-patient-name">
                         {selectedEnrollment.Participant__r.Full_Name__c}
+                    </div>
+                    <div class="header-patient-delegates">
+                        <div class={delegatesFullClass}>{headerPatientDelegates}</div>
+                        <div class={delegatesLessClass}>
+                            <c-web-limit-text-by-lines max-lines="1" title={headerPatientDelegates}>
+                                <span slot="body">{headerPatientDelegates}</span>
+                            </c-web-limit-text-by-lines>
+                        </div>
+                        <button class="apollo-btn text" style="margin-top: 9px;" onclick={handleShowMoreClick}>{showBTNLabel}</button>
                     </div>
                 </template>
             </div>

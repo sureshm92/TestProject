@@ -278,7 +278,7 @@ public without sharing class ViewPatientsRemote {
                     FROM Participant__c
                     WHERE Id =: participantId
             ];
-            String filter = ' AND Participant_Status__c =\'' +  PEStatusState.STATUS_STEPS_TABLE[5].states.get(PEStatusState.STATUS_STATE_SUCCESS) + '\' ';
+            String filter = ' AND Participant_Status__c IN (\'' + String.join(PEStatusState.STATUS_STEPS_TABLE[4].states.get(PEStatusState.STATUS_STATE_SUCCESS), '\',\'')  + '\') ';
             filter += ' AND Participant__c=\'' + participantId + '\'' ;
             initData.alreadyEnrolled = ParticipantEnrollmentService.getPEnrolmentsCountCommon(mode, filter, delegateId) > 0;
             return JSON.serialize(initData);

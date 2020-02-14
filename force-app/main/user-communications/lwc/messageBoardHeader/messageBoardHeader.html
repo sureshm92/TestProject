@@ -53,15 +53,17 @@
                     </div>
                 </template>
                 <template if:true={isPIMode}>
-                    <div class="ms-header-patient-name"
-                         data-gtm="ms-header-patient-name">{selectedEnrollment.Participant__r.Full_Name__c}
+                    <div class="ms-header-patient-name" data-gtm="ms-header-patient-name">
+                        {selectedEnrollment.Participant__r.Full_Name__c}
+                        <span class="ms-header-patient-study">&nbsp;|&nbsp;{selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}</span>
                     </div>
-                    <div class="ms-header-patient-study" data-gtm="ms-header-patient-study">
-                        <c-web-limit-text-by-lines max-lines="1"
-                                                   title={selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}>
-                            <span slot="body">{selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}</span>
-                        </c-web-limit-text-by-lines>
-                    </div>
+                    <template if:true={patientDelegates}>
+                        <div class="ms-header-patient-delegates" data-gtm="ms-header-patient-study">
+                            <c-web-limit-text-by-lines max-lines="1" title={headerPatientDelegates}>
+                                <span slot="body">{headerPatientDelegates}</span>
+                            </c-web-limit-text-by-lines>
+                        </div>
+                    </template>
                 </template>
             </div>
         </template>

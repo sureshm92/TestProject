@@ -22,7 +22,6 @@ public without sharing class ParticipantEnrollmentService {
     public static final String PART_STATUS_FAILED_REFERRAL = 'Failed Referral';
     public static final String PART_STATUS_REFERRAL_SENT_TO_PI = 'Referral Sent to PI';
     public static final String PART_STATUS_EXCLUDED_FROM_REFERRING = 'Excluded from Referring';
-    public static final String PART_STATUS_ACCEPTED = 'Referral Accepted';
     public static final String PART_STATUS_RECEIVED = 'Received';
     // Non referral reason
     public static final String NON_REF_REASON_STATUS_NOT_INTERESTED = 'No Longer Interested';
@@ -420,6 +419,7 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__c',
             'Study_Site__r.Name',
             'Study_Site__r.Is_Virtual_Study_Site__c',
+            'Study_Site__r.Study_Site_Type__c',
             'Study_Site__r.Approved_Lng__c',
             'Study_Site__r.Override_PI_Referral_Status__c',
             'Study_Site__r.Clinical_Trial_Profile__c',

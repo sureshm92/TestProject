@@ -15,7 +15,7 @@
         component.set('v.stepWrapper.currentOutcomeSuccess',stepWrapper.successOutcomes.indexOf(stepWrapper.outcome)!== -1);
         var reasonList = stepWrapper.reasonMap[stepWrapper.outcome];
         component.set('v.reasonList', reasonList);
-        component.set('v.stepWrapper.reason',reasonList.length==0?"":reasonList[0].value);
+        component.set('v.stepWrapper.reason',reasonList === undefined || reasonList.length==0?"":reasonList[0].value);
         helper.checkValidity(component, event, helper, stepWrapper);
     },
     updateNotesRequired : function (component, event, helper) {

@@ -4,8 +4,9 @@
 
 <aura:component description="OnboardingSlideTour" implements="forceCommunity:availableForAllPageTypes" controller="OnboardingSlideTourRemote">
 
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+
     <!-- attributes: -->
-    <aura:attribute name="userMode" type="String"/>
     <aura:attribute name="title" type="String" default=""/>
     <aura:attribute name="currentPage" type="Integer" default="0"/>
     <aura:attribute name="currentSlide" type="Object" default="0"/>
@@ -19,12 +20,12 @@
 
     <!-- methods: -->
     <aura:method name="initialShow" access="public" action="{!c.doInitialShow}"/>
+    <aura:method name="refresh" access="public" action="{!c.doInit}"/>
 
     <!-- events: -->
     <aura:registerEvent name="OnboardingSlideTourStartupModeChanged" type="c:OnboardingSlideTourStartupModeChanged"/>
 
     <!-- handlers: -->
-    <aura:handler name="change" value="{!v.userMode}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.currentPage}" action="{!c.handleChangeCurrentPage}"/>
     <aura:handler event="c:OnboargingSlideTourShow" action="{!c.doShow}"/>
     <aura:handler event="c:OnboardingSlideTourStartupModeChanged" action="{!c.doSetCurrentShowOnLoginState}"/>
