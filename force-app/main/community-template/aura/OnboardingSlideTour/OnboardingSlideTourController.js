@@ -3,6 +3,7 @@
  */
 ({
     doInitialShow: function(component, event, helper){
+        debugger;
         var isInitialized = component.get('v.isInitialized');
         if(isInitialized){
             var showOnLogin = component.get('v.showOnLogin');
@@ -14,37 +15,34 @@
     },
 
     doInit: function(component, event, helper){
-        var userMode = component.get('v.userMode');
-        if(userMode){
-            component.set('v.showAfterInit', false);
-            component.set('v.isInitialized', 'false');
-            window.addEventListener('resize', $A.getCallback(function() {
-                helper.scrollToPage(component, event, helper, component.get('v.currentPage'));
-            }));
-            component.find('spinner').show();
-            communityService.executeAction(component, 'getSlides', {
-                userMode: userMode,
-                formFactor: $A.get('$Browser.formFactor'),
-                multimode: communityService.getAllUserModes().length > 1
-            }, function (returnValue) {
-                var tour = JSON.parse(returnValue);
-                component.set('v.showOnLogin', tour.showOnStartup);
-                communityService.setShowOnLogin(tour.showOnStartup);
-                $A.get('e.c:OnboardingSlideTourStartupModeChanged').fire();
-                component.set('v.currentPage', 0);
-                component.set('v.title', tour.title);
-                component.set('v.slides', tour.slides);
-                component.set('v.isNewSession', tour.isNewSession);
-                if(tour.slides.length > 0) component.set('v.currentSlide', tour.slides[0]);
-                if(component.get('v.showAfterInit')) component.set('v.visible', true);
-                component.find('spinner').hide();
-                component.set('v.isInitialized', true);
-                try{
-                    component.find('carouselBody').getElement().scrollLeft = 0;
-                }catch (e) {}
-            });
-        }
-
+        debugger;
+        component.set('v.showAfterInit', false);
+        component.set('v.isInitialized', 'false');
+        window.addEventListener('resize', $A.getCallback(function() {
+            helper.scrollToPage(component, event, helper, component.get('v.currentPage'));
+        }));
+        component.find('spinner').show();
+        communityService.executeAction(component, 'getSlides', {
+            userMode: communityService.getUserMode(),
+            formFactor: $A.get('$Browser.formFactor'),
+            multimode: communityService.getAllUserModes().length > 1
+        }, function (returnValue) {
+            var tour = JSON.parse(returnValue);
+            component.set('v.showOnLogin', tour.showOnStartup);
+            communityService.setShowOnLogin(tour.showOnStartup);
+            $A.get('e.c:OnboardingSlideTourStartupModeChanged').fire();
+            component.set('v.currentPage', 0);
+            component.set('v.title', tour.title);
+            component.set('v.slides', tour.slides);
+            component.set('v.isNewSession', tour.isNewSession);
+            if(tour.slides.length > 0) component.set('v.currentSlide', tour.slides[0]);
+            if(component.get('v.showAfterInit')) component.set('v.visible', true);
+            component.find('spinner').hide();
+            component.set('v.isInitialized', true);
+            try{
+                component.find('carouselBody').getElement().scrollLeft = 0;
+            }catch (e) {}
+        });
     },
 
     handleChangeCurrentPage: function(component, event, helper) {
