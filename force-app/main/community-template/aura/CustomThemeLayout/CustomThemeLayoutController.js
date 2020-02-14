@@ -16,6 +16,7 @@
         component.find('navigation').refresh();
         component.find('navigationMobile').refresh();
         component.find('profileMenu').refresh();
+        component.find('alerts').refresh();
     },
 
    switchSideMenu: function (component) {
