@@ -40,6 +40,7 @@ global without sharing class Batch_UpdatePESHStatuses implements Database.Batcha
         if(!peshToUpdate.isEmpty()) {
             TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class);
             TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler.class);
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class);
             update peshToUpdate;
         }
     }

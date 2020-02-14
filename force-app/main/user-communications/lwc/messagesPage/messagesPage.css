@@ -193,6 +193,7 @@
 
     .ms-left {
         border-right: none;
+        height: 500px;
     }
 
     .ms-title {
