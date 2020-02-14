@@ -30,7 +30,7 @@ private class Test_MessagePageRemote {
 
         Test.startTest();
         System.runAs(testData.participantUser) {
-            MessagePageRemote.getInitData();
+            MessagePageRemote.getInitData('');
         }
         Test.stopTest();
     }
