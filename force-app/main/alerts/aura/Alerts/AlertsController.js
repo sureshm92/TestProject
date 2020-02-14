@@ -3,24 +3,23 @@
  */
 ({
     doInit: function (component) {
-        var userMode = component.get('v.userMode');
-        if(userMode){
-            communityService.executeAction(component, 'getAlerts', {
-                userMode: userMode
-            }, function (returnValue) {
-                var alerts = JSON.parse(returnValue);
-                component.set('v.alerts', alerts);
-                var currentAlertIndex = 0;
-                component.set('v.currentAlertIndex', currentAlertIndex);
-                if(alerts.length > 0) {
-                    component.set('v.currentAlert', alerts[currentAlertIndex]);
-                    component.find('alertsDialog').show();
-                }else{
-                    component.find('onboardingSlideTour').initialShow();
-                    component.find('motivationalMessages').show();
-                }
-            });
-        }
+        component.find('onboardingSlideTour').refresh();
+        communityService.executeAction(component, 'getAlerts', {
+            userMode: communityService.getUserMode()
+        }, function (returnValue) {
+            debugger;
+            var alerts = JSON.parse(returnValue);
+            component.set('v.alerts', alerts);
+            var currentAlertIndex = 0;
+            component.set('v.currentAlertIndex', currentAlertIndex);
+            if(alerts.length > 0) {
+                component.set('v.currentAlert', alerts[currentAlertIndex]);
+                component.find('alertsDialog').show();
+            }else{
+                component.find('onboardingSlideTour').initialShow();
+                component.find('motivationalMessages').show();
+            }
+        });
     },
 
     doShowNext: function (component) {
