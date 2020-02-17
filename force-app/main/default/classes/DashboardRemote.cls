@@ -272,9 +272,7 @@ public class DashboardRemote {
         List<Participant_Enrollment__c> pes =
                 ParticipantEnrollmentService.getPEnrolmentsByStatus(
                         userMode,
-                        new List<String>{ PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
-                                          PEStatusState.PE_STATUS_REFERRAL_ACCEPTED,
-                                          PEStatusState.PE_STATUS_RECEIVED },
+                        new List<String>{ PEStatusState.PE_STATUS_RECEIVED },
                         null,
                         delegateId);
         Map<Id, Participant_Enrollment__c> peById = new Map<Id, Participant_Enrollment__c>(pes);
@@ -286,9 +284,7 @@ public class DashboardRemote {
                     Status__c
              FROM Participant_Enrollment_Status_History__c
              WHERE ParticipantEnrollment__c IN :peById.keySet() AND
-                   Status__c IN :(new List<String>{ PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
-                                                    PEStatusState.PE_STATUS_REFERRAL_ACCEPTED,
-                                                    PEStatusState.PE_STATUS_RECEIVED})
+                   Status__c IN :(new List<String>{ PEStatusState.PE_STATUS_RECEIVED })
              ORDER BY CreatedDate DESC];
 
         Integer maxParticipantsInDays = 0;
