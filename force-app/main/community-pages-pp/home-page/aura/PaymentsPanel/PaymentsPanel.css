@@ -6,7 +6,7 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    height: 196px;
+    min-height: 196px;
 }
 
 .THIS .sv-header {
@@ -24,9 +24,13 @@
 
 .THIS .cRRTable.rr-table th,
 .THIS .cRRTable.rr-table td{
-    padding: 4px 13px;
+    padding: 4px 9px;
     font-size: 16px;
     white-space: nowrap
+}
+
+.THIS .amount-of-money{
+    text-align: right;
 }
 
 .THIS .sv-footer{
