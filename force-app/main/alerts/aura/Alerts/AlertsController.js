@@ -7,7 +7,6 @@
         communityService.executeAction(component, 'getAlerts', {
             userMode: communityService.getUserMode()
         }, function (returnValue) {
-            debugger;
             var alerts = JSON.parse(returnValue);
             component.set('v.alerts', alerts);
             var currentAlertIndex = 0;

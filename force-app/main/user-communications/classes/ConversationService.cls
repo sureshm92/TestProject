@@ -133,10 +133,9 @@ public without sharing class ConversationService {
         List<Participant__c> decoupledParticipants = [
                 SELECT Id, Contact__c, Full_Name__c FROM Participant__c WHERE Contact__c IN:delegateContactIds
         ];
-        Map<String, Participant__c> decoupledParticipantsMap;
+        Map<String, SObject> decoupledParticipantsMap;
         if(!decoupledParticipants.isEmpty()) {
-            decoupledParticipantsMap = (Map<String, Participant__c>)
-                    CollectionUtil.getSObjectMap(decoupledParticipants, 'Contact__c');
+            decoupledParticipantsMap = CollectionUtil.getSObjectMap(decoupledParticipants, 'Contact__c');
         }
 
         Map<Id, List<String>> delegateNamesByParticipant = new Map<Id, List<String>>();
@@ -146,7 +145,7 @@ public without sharing class ConversationService {
             }
             Id delConId = pd.Contact__c;
             String delegateName = decoupledParticipantsMap != null && decoupledParticipantsMap.containsKey(delConId)
-                    ? decoupledParticipantsMap.get(delConId).Full_Name__c : pd.Contact__r.Full_Name__c;
+                    ? ((Participant__c) decoupledParticipantsMap.get(delConId)).Full_Name__c : pd.Contact__r.Full_Name__c;
             delegateNamesByParticipant.get(pd.Participant__c).add(delegateName);
         }
 

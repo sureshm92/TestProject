@@ -150,7 +150,8 @@ export default class MessageBoard extends LightningElement {
             let context = this;
             setTimeout(function () {
                 context.clearMessage();
-                context.template.querySelector('.ms-board-footer').style.pointerEvents = context.isHoldMode ? 'none' : 'all';
+                let footerClass = '.ms-board-footer-' + context.userMode === 'PI' ? 'pi' : 'part';
+                context.template.querySelector(footerClass).style.pointerEvents = context.isHoldMode ? 'none' : 'all';
             }, 50);
 
             this.needAfterRenderSetup = false;
@@ -222,6 +223,9 @@ export default class MessageBoard extends LightningElement {
     }
 
     handleInputEnter(event) {
+        this.messageText = event.target.value;
+        this.isAttachEnable = this.messageText != null;
+        this.checkSendBTNAvailability();
         if (!this.isHoldMode && this.messageText && event.keyCode === 13) this.handleSendClick();
     }
 

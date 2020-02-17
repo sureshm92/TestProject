@@ -479,6 +479,13 @@
         <value>Survey tasks will expire when the Participants status is changed to: Drop Out, Trial Complete or Participation Complete</value>
     </labels>
     <labels>
+        <fullName>Add_Another_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add_Another_Delegate</shortDescription>
+        <value>Add Delegate</value>
+    </labels>
+    <labels>
         <fullName>Add_Another_Provider</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -618,6 +625,13 @@
         <protected>false</protected>
         <shortDescription>BTN Add Patient</shortDescription>
         <value>Add a Participant</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Add_Provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN_Add_Provider</shortDescription>
+        <value>Add Provider</value>
     </labels>
     <labels>
         <fullName>BTN_Approve</fullName>
@@ -1767,6 +1781,13 @@
         <protected>true</protected>
         <shortDescription>Delegate</shortDescription>
         <value>Delegate</value>
+    </labels>
+    <labels>
+        <fullName>Delegates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delegates</shortDescription>
+        <value>Delegates</value>
     </labels>
     <labels>
         <fullName>Diastolic</fullName>
@@ -12597,6 +12618,13 @@
         <protected>true</protected>
         <shortDescription>Tab_HealthCare_Provider</shortDescription>
         <value>Healthcare Provider</value>
+    </labels>
+    <labels>
+        <fullName>Tab_Sharing_Options</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Tab_Sharing_Options</shortDescription>
+        <value>Sharing Options</value>
     </labels>
     <labels>
         <fullName>Task_Details</fullName>
