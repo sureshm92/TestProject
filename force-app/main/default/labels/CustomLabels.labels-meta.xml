@@ -143,6 +143,14 @@
         <value>Participant will become an adult!</value>
     </labels>
     <labels>
+        <fullName>AL_Title_PRT_Week_Become_Adult_Delegates</fullName>
+        <categories>Alert</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AL Title PRT Week Become Adult Delegates</shortDescription>
+        <value>Hi ##UserName, your participant ##ParticipantFirstName has recently reached the age of legal maturity and have provided their privacy preferences. We recommend you contact the Provider to know more about your status on this clinical research study.</value>
+    </labels>
+    <labels>
         <fullName>AL_Title_Welcome_Study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4706,7 +4714,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Home Page StudyVisit Completed On</shortDescription>
-        <value>Completed On</value>
+        <value>Date</value>
     </labels>
     <labels>
         <fullName>Home_Page_StudyVisit_Filter_Current_Visits</fullName>
@@ -12231,6 +12239,13 @@
         <protected>false</protected>
         <shortDescription>Study Team</shortDescription>
         <value>Study Team</value>
+    </labels>
+    <labels>
+        <fullName>Study_Visit_Unavailable</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Visit Unavailable</shortDescription>
+        <value>Unavailable</value>
     </labels>
     <labels>
         <fullName>Success</fullName>

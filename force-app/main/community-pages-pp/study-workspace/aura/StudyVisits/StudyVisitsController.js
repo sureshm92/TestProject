@@ -21,6 +21,7 @@
     },
 
     getVisits: function (component, event, helper) {
+        component.find('spinner').show();
         communityService.executeAction(component, 'getParticipantVisits', {
             'visitMode': component.get('v.visitMode')
         }, function (response) {
@@ -32,6 +33,7 @@
             component.set('v.iconNames', iconNames);
             component.set('v.initialized', true);
         });
+        component.find('spinner').hide();
     },
 
     onTravel: function (component, event, helper) {
