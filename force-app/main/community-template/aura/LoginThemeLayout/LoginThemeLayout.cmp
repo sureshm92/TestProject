@@ -3,6 +3,7 @@
  -->
 
 <aura:component description="LoginThemeLayout" implements="forceCommunity:themeLayout" extends="c:CheckLanguage">
+    <ltng:require styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_Default_Theme, $Resource.proximanova + '/proximanova.css')}"/>
 
     <!-- attributes: -->
     <aura:attribute name="title" type="String"/>

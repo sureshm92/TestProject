@@ -57,6 +57,25 @@
     min-height: 135px;
 }
 
+.ms-send-pi-combined-input {
+    padding: 5px;
+    border: 1px solid #DBDBDB;
+    background: white;
+    border-radius: 5px;
+}
+
+.ms-pi-input {
+    flex-grow: 1;
+    width: 100%;
+    border: none;
+    background-color: white !important;
+}
+
+.ms-pi-input:focus {
+   outline: none;
+    box-shadow: none;
+}
+
 .ms-send-pi-buttons {
     min-height: 68px;
     display: flex;

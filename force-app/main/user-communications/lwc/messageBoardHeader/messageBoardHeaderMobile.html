@@ -72,15 +72,19 @@
                     <div class="mob-header-patient-name" data-gtm="ms-header-patient-name">
                         {selectedEnrollment.Participant__r.Full_Name__c}
                     </div>
-                    <div class="header-patient-delegates">
-                        <div class={delegatesFullClass}>{headerPatientDelegates}</div>
-                        <div class={delegatesLessClass}>
-                            <c-web-limit-text-by-lines max-lines="1" title={headerPatientDelegates}>
-                                <span slot="body">{headerPatientDelegates}</span>
-                            </c-web-limit-text-by-lines>
+                    <template if:true={patientDelegates}>
+                        <div class="header-patient-delegates">
+                            <div class={delegatesFullClass}>{headerPatientDelegates}</div>
+                            <div class={delegatesLessClass}>
+                                <c-web-limit-text-by-lines max-lines="1" title={headerPatientDelegates}>
+                                    <span slot="body">{headerPatientDelegates}</span>
+                                </c-web-limit-text-by-lines>
+                            </div>
+                            <button class="apollo-btn text" style="margin-top: 9px;" onclick={handleShowMoreClick}>
+                                {showBTNLabel}
+                            </button>
                         </div>
-                        <button class="apollo-btn text" style="margin-top: 9px;" onclick={handleShowMoreClick}>{showBTNLabel}</button>
-                    </div>
+                    </template>
                 </template>
             </div>
         </template>
