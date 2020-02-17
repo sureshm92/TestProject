@@ -78,8 +78,8 @@
                         <c:ParticipantStatusDetails participantWorkflowWrapper="{!v.participantPath}" parent="{!this}" isValid="{!v.statusDetailValid}"/>
                     </lightning:tab>
                     <lightning:tab class="slds-tabs_default__item" aura:id="Provider"
-                                   label="{!$Label.c.Tab_HealthCare_Provider}"
-                                   title="{!$Label.c.Tab_HealthCare_Provider}" onactive="{!c.checkTabs}">
+                                   label="{!$Label.c.Tab_Sharing_Options}"
+                                   title="{!$Label.c.Tab_Sharing_Options}" onactive="{!c.checkTabs}">
                         <aura:if isTrue="{!v.pe}">
                             <div id="healthCareProvider">
                                 <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{!v.pe.HCP__r.HCP_Contact__r}"
