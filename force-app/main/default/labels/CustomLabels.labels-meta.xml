@@ -143,6 +143,14 @@
         <value>Participant will become an adult!</value>
     </labels>
     <labels>
+        <fullName>AL_Title_PRT_Week_Become_Adult_Delegates</fullName>
+        <categories>Alert</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AL Title PRT Week Become Adult Delegates</shortDescription>
+        <value>Hi ##UserName, your participant ##ParticipantFirstName has recently reached the age of legal maturity and have provided their privacy preferences. We recommend you contact the Provider to know more about your status on this clinical research study.</value>
+    </labels>
+    <labels>
         <fullName>AL_Title_Welcome_Study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -479,6 +487,13 @@
         <value>Survey tasks will expire when the Participants status is changed to: Drop Out, Trial Complete or Participation Complete</value>
     </labels>
     <labels>
+        <fullName>Add_Another_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add_Another_Delegate</shortDescription>
+        <value>Add Delegate</value>
+    </labels>
+    <labels>
         <fullName>Add_Another_Provider</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -618,6 +633,13 @@
         <protected>false</protected>
         <shortDescription>BTN Add Patient</shortDescription>
         <value>Add a Participant</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Add_Provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN_Add_Provider</shortDescription>
+        <value>Add Provider</value>
     </labels>
     <labels>
         <fullName>BTN_Approve</fullName>
@@ -1769,6 +1791,13 @@
         <value>Delegate</value>
     </labels>
     <labels>
+        <fullName>Delegates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delegates</shortDescription>
+        <value>Delegates</value>
+    </labels>
+    <labels>
         <fullName>Diastolic</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2134,7 +2163,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PA New Mess</shortDescription>
-        <value>You have a new message from your provider. Please login to the IQVIA Patient Portal to view your messages.</value>
+        <value>You have a new message from your study center. Please login to the IQVIA Patient Portal to view your messages.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI1</fullName>
@@ -2188,14 +2217,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_PI_Conv_Rem</shortDescription>
-        <value>You have ##UnreadConversationCount unread messages from your Participants waiting for your response. Please login to the IQVIA Patient Portal to view your messages.</value>
+        <value>You have ##UnreadConversationCount unread messages from referred patients waiting for your response. Please login to the IQVIA Patient Portal to view your messages.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI_New_Mess</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PI New Mess</shortDescription>
-        <value>You have a new message from your provider. Please login to the IQVIA Patient Portal to view your messages.</value>
+        <value>You have a new message from your study center. Please login to the IQVIA Patient Portal to view your messages.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Participant_Answer</fullName>
@@ -2858,7 +2887,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Header_PI_Conv_Rem</shortDescription>
-        <value>IQVIA Patient Portal Unread Messages</value>
+        <value>IQVIA Referral Hub Unread Messages</value>
     </labels>
     <labels>
         <fullName>Email_Header_PI_New_Mess</fullName>
@@ -3427,7 +3456,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject PI Conv Rem</shortDescription>
-        <value>IQVIA Patient Portal Unread Messages</value>
+        <value>IQVIA Referral Hub Unread Messages</value>
     </labels>
     <labels>
         <fullName>Email_Subject_PI_New_Mess</fullName>
@@ -4685,7 +4714,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Home Page StudyVisit Completed On</shortDescription>
-        <value>Completed On</value>
+        <value>Date</value>
     </labels>
     <labels>
         <fullName>Home_Page_StudyVisit_Filter_Current_Visits</fullName>
@@ -7772,7 +7801,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Home Welcome Message Alumni</shortDescription>
-        <value>Hi ##UserName, you can now view content related to  conditions of interest.</value>
+        <value>Hi ##UserName, you can now view content related to conditions of interest.</value>
     </labels>
     <labels>
         <fullName>PG_IMI_L_by_user</fullName>
@@ -12212,6 +12241,13 @@
         <value>Study Team</value>
     </labels>
     <labels>
+        <fullName>Study_Visit_Unavailable</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Visit Unavailable</shortDescription>
+        <value>Unavailable</value>
+    </labels>
+    <labels>
         <fullName>Success</fullName>
         <categories>visit configuration</categories>
         <language>en_US</language>
@@ -12597,6 +12633,13 @@
         <protected>true</protected>
         <shortDescription>Tab_HealthCare_Provider</shortDescription>
         <value>Healthcare Provider</value>
+    </labels>
+    <labels>
+        <fullName>Tab_Sharing_Options</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Tab_Sharing_Options</shortDescription>
+        <value>Sharing Options</value>
     </labels>
     <labels>
         <fullName>Task_Details</fullName>

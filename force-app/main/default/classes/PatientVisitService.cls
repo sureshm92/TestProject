@@ -29,7 +29,8 @@ public inherited sharing class PatientVisitService {
                 'Visit__r.Visit_Schedule__c',
                 'Visit__r.Patient_Portal_Name__c',
                 'Visit__r.Icons__c',
-                'Visit__r.Visit_Plan__c'
+                'Visit__r.Visit_Plan__c',
+                'Planned_Date__c'
         };
         String filter = DatabaseService.fieldEqual('Participant_Enrollment__c', pState.pe.Id);
         if (visitMode != VISIT_MODE_ALL) {
@@ -120,7 +121,7 @@ public inherited sharing class PatientVisitService {
     public class VisitWrapper {
 
         @AuraEnabled
-        public String completedDate;
+        public String completedOrPlannedDate;
         @AuraEnabled
         public String icons;
         @AuraEnabled
@@ -141,7 +142,7 @@ public inherited sharing class PatientVisitService {
             }
             this.task = task;
             this.reminderDate = DateTimeConverterUtil.getUserDatetime(TimeZone.getTimeZone(CURRENT_USER.TimeZoneSidKey), this.task.ReminderDateTime).date();
-            this.completedDate = visit.Completed_Date__c == null ? Label.StudyVisit_Information_Not_Available : String.valueOf(visit.Completed_Date__c);
+            completedOrPlannedDate = visit.Completed_Date__c != null ? String.valueOf(visit.Completed_Date__c) : (visit.Planned_Date__c != null ? String.valueOf(visit.Planned_Date__c) : Label.Study_Visit_Unavailable);
         }
     }
 }
