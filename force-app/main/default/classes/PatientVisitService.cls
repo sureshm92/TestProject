@@ -142,9 +142,7 @@ public inherited sharing class PatientVisitService {
             }
             this.task = task;
             this.reminderDate = DateTimeConverterUtil.getUserDatetime(TimeZone.getTimeZone(CURRENT_USER.TimeZoneSidKey), this.task.ReminderDateTime).date();
-            //this.completedDate = visit.Completed_Date__c == null ? Label.StudyVisit_Information_Not_Available : String.valueOf(visit.Completed_Date__c);
             completedOrPlannedDate = visit.Completed_Date__c != null ? String.valueOf(visit.Completed_Date__c) : (visit.Planned_Date__c != null ? String.valueOf(visit.Planned_Date__c) : Label.Study_Visit_Unavailable);
-            //plannedDate = visit.Planned_Date__c == null ? Label.Study_Visit_Unavailable : String.valueOf(visit.Planned_Date__c);
         }
     }
 }
