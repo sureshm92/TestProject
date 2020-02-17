@@ -79,8 +79,8 @@
     <!-- Add/Change Visit Planned Date -->
     <c-web-popup show-header="true" show-footer="true" custom-buttons="true" title={labels.planDate}>
         <div slot="body">
-            <lightning-input type="date" label={labels.selDate} value={planDate}
-                             onchange={handleDateChange} autocomplete="off"></lightning-input>
+            <lightning-input type="date" label={labels.selDate} value={planDate} autocomplete="off"
+                             onchange={handleDateChange}></lightning-input>
         </div>
         <div slot="footerButtons">
             <button class="apollo-btn tertiary" onclick={handleHideDialog}>{labels.cancelBTNLabel}</button>
