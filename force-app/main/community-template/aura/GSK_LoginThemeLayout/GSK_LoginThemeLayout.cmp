@@ -1,0 +1,31 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="GSK_LoginThemeLayout" implements="forceCommunity:themeLayout" extends="c:CheckLanguage">
+    <ltng:require styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_GSK_Theme, $Resource.proximanova + '/proximanova.css')}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="title" type="String"/>
+    <aura:attribute name="subTitle" type="String"/>
+    <aura:attribute name="translatedTitle" type="String"/>
+    <aura:attribute name="translatedSubTitle" type="String"/>
+
+    <!-- component body: -->
+    <aura:if isTrue="{!v.languageChecked}">
+        <div class="login-theme-background all-content" style="background: linear-gradient(90deg, #EC3D27 0%, #f7ec68 100%);">
+            <div class="body-cell">
+                <div class="body-content">
+                    <div class="login-form-panel">
+                        <div class="brand-header">GatherSHAREKnow</div>
+                        <div class="brand-sub-header">A quick blurb explaining what participants are logging into</div>
+                        <div class="body-components">{!v.body}</div>
+                    </div>
+                    <div class="powered-by">Powered by <b>IQVIA</b></div>
+                </div>
+            </div>
+        </div>
+        <c:CookiesInfo/>
+    </aura:if>
+
+</aura:component>

@@ -59,6 +59,10 @@
                 <behavior>Edit</behavior>
                 <field>Payment_Is_Available__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CommunityTemplate__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

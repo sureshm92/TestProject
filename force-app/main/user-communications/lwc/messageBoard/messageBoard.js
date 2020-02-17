@@ -55,6 +55,7 @@ export default class MessageBoard extends LightningElement {
     @track messageWrappers;
     @track messageTemplates;
     @track isPastStudy;
+    @track patientDelegates;
 
     @track isMultipleMode;
     @track selectedPeId;
@@ -85,6 +86,7 @@ export default class MessageBoard extends LightningElement {
         this.conversation = null;
         this.messageWrappers = [];
         this.isPastStudy = false;
+        this.patientDelegates = null;
         this.isHoldMode = false;
 
         this.enrollments = enrollments;
@@ -100,12 +102,15 @@ export default class MessageBoard extends LightningElement {
     }
 
     @api
-    openExisting(conversation, messageWrappers, isPastStudy) {
+    openExisting(conversation, messageWrappers, isPastStudy, patientDelegates) {
         this.attachment = null;
         this.isAttachEnable = false;
         this.conversation = null;
         this.messageWrappers = [];
+        this.patientDelegates = null;
+
         this.isPastStudy = isPastStudy;
+        if (patientDelegates) this.patientDelegates = patientDelegates;
 
         this.isMultipleMode = false;
         this.conversation = conversation;
@@ -125,6 +130,7 @@ export default class MessageBoard extends LightningElement {
         this.conversation = null;
         this.messageWrappers = null;
         this.enrollments = null;
+        this.patientDelegates = null;
         this.isMultipleMode = false;
     }
 
@@ -132,14 +138,20 @@ export default class MessageBoard extends LightningElement {
         this.spinner = this.template.querySelector('c-web-spinner');
 
         if (this.firstConWr && !this.hideEmptyStub && !this.conversation && !this.enrollments && formFactor !== 'Small') {
-            this.openExisting(this.firstConWr.conversation, this.firstConWr.messages, this.firstConWr.isPastStudy);
+            this.openExisting(
+                this.firstConWr.conversation,
+                this.firstConWr.messages,
+                this.firstConWr.isPastStudy,
+                this.firstConWr.patientDelegates
+            );
         }
 
         if (this.needAfterRenderSetup) {
             let context = this;
             setTimeout(function () {
                 context.clearMessage();
-                context.template.querySelector('.ms-board-footer').style.pointerEvents = context.isHoldMode ? 'none' : 'all';
+                let footerClass = '.ms-board-footer-' + context.userMode === 'PI' ? 'pi' : 'part';
+                context.template.querySelector(footerClass).style.pointerEvents = context.isHoldMode ? 'none' : 'all';
             }, 50);
 
             this.needAfterRenderSetup = false;
@@ -211,6 +223,9 @@ export default class MessageBoard extends LightningElement {
     }
 
     handleInputEnter(event) {
+        this.messageText = event.target.value;
+        this.isAttachEnable = this.messageText != null;
+        this.checkSendBTNAvailability();
         if (!this.isHoldMode && this.messageText && event.keyCode === 13) this.handleSendClick();
     }
 

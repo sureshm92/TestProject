@@ -49,6 +49,10 @@
     font-size: 18px;
     line-height: 22px;
     color: #000;
+    max-width: 215px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .con-time {
@@ -75,6 +79,13 @@
     color: #444444;
     font-family: "Proxima Nova";
     font-size: 16px;
+    font-weight: 400;
     line-height: 19px;
     padding-top: 8px;
+}
+
+@media screen and (max-width: 480px){
+    .con-name {
+        max-width: 172px;
+    }
 }
