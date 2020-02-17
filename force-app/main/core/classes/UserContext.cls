@@ -93,6 +93,7 @@ public without sharing class UserContext {
             Site[] sites = [SELECT Id, MasterLabel FROM Site WHERE Name =: Site.getName() AND SiteType = 'ChatterNetworkPicasso'];
             if(sites.size() > 0) currentCommunityName = sites[0].MasterLabel;
         }
+        if(currentCommunityName == 'IQVIA RH') currentCommunityName = 'IQVIA Referral Hub';
         return currentCommunityName;
     }
     
