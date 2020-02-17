@@ -13,10 +13,9 @@ public without sharing class CommunityTemplate {
     public CommunityTemplate(Map<String, String> properties, String communityName, String communityURL) {
         this.communityName = communityName;
         this.properties = properties;
-        this.currentCommunityURL = communityURL != null ?
-                communityURL : Site.getBaseUrl();
-        this.redirectURL = communityURL != null ? communityURL : null ;
-        this.needRedirect = communityURL != null && currentCommunityURL != communityURL;
+        this.currentCommunityURL = Site.getBaseUrl();
+        this.redirectURL = communityURL;
+        this.needRedirect = communityName != UserContext.getCurrentCommunityName();
     }
 
 }

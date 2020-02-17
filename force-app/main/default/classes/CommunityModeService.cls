@@ -36,7 +36,7 @@ public without sharing class CommunityModeService {
     
     public static CommunityMode getCurrentCommunityMode(Contact contact, List<CommunityMode> allModes){
         CommunityMode resMode = findMode(generateModeKey(contact), allModes);
-        if(resMode == null && allModes.size() > 0){
+        if((resMode == null || resMode.template.communityName != UserContext.getCurrentCommunityName()) && allModes.size() > 0){
             resMode = getFirstMode(allModes);
             if(resMode != null){
                 resMode.setAsCurrentMode(contact);
@@ -82,7 +82,7 @@ public without sharing class CommunityModeService {
                     userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c,
                     null,
                     null,
-                    hasPastStudies ? CommunityTemplateService.getTemplate(pastPEList[0].Clinical_Trial_Profile__r.Community_Template__c) : CommunityTemplateService.getDefaultTemplate()
+                    hasPastStudies ? CommunityTemplateService.getTemplate(pastPEList[0].Clinical_Trial_Profile__r.CommunityTemplate__c) : CommunityTemplateService.getDefaultTemplate()
             );
             mode.hasPastStudies = hasPastStudies;
             modes.add(mode);
@@ -93,7 +93,7 @@ public without sharing class CommunityModeService {
                             pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
                             null,
                             pe,
-                            CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.Community_Template__c)
+                            CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c)
                     ));
                 }
             }
@@ -114,7 +114,7 @@ public without sharing class CommunityModeService {
                     participant.First_Name__c + ' ' + participant.Last_Name__c,
                     participant.Contact__c,
                     null,
-                    hasPastStudies ? CommunityTemplateService.getTemplate(pastPEList[0].Clinical_Trial_Profile__r.Community_Template__c) : CommunityTemplateService.getDefaultTemplate()
+                    hasPastStudies ? CommunityTemplateService.getTemplate(pastPEList[0].Clinical_Trial_Profile__r.CommunityTemplate__c) : CommunityTemplateService.getDefaultTemplate()
             );
             mode.hasPastStudies = hasPastStudies;
             modes.add(mode);
@@ -125,7 +125,7 @@ public without sharing class CommunityModeService {
                             pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
                             pe.Participant__r.Contact__c,
                             pe,
-                            CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.Community_Template__c)
+                            CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c)
                     ));
                 }
             }
@@ -149,11 +149,11 @@ public without sharing class CommunityModeService {
     
     private static CommunityMode getFirstMode(List<CommunityMode> modes){
         for(CommunityMode communityMode : modes){
-            if(!communityMode.isGroup && !communityMode.isSplitter){
+            if(!communityMode.isGroup && !communityMode.isSplitter && communityMode.template.communityName == UserContext.getCurrentCommunityName()){
                 return communityMode;
             }
             for(CommunityMode subMode : communityMode.subModes){
-                return subMode;
+                if(subMode.template.communityName == UserContext.getCurrentCommunityName()) return subMode;
             }
         }
         return null;
@@ -169,7 +169,7 @@ public without sharing class CommunityModeService {
                 'Id',
                 'Clinical_Trial_Profile__r.Study_Title__c',
                 'Clinical_Trial_Profile__r.Study_Code_Name__c',
-                'Clinical_Trial_Profile__r.Community_Template__c',
+                'Clinical_Trial_Profile__r.CommunityTemplate__c',
                 'Participant__c',
                 'Participant__r.Contact__c',
                 'Participant_Status__c'
