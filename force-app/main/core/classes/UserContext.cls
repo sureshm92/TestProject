@@ -88,13 +88,13 @@ public without sharing class UserContext {
     }
     
     public static CommunityTemplate getCommunityTemplate(){
+        if(true) return CommunityTemplateService.getTemplate('GSK');
         Site[] sites = [SELECT Id, Name FROM Site WHERE Name =: Site.getName()];
         if(sites.size() > 0) return CommunityTemplateService.getTemplate(sites[0].Name);
         return CommunityTemplateService.getDefaultTemplate();
     }
     
     private static void setContact(Id contactId) {
-        if(contactId == null) throw new UserContextException('User contact can not be null');
         userContact = ContactService.getContact(contactId);
         List<User> users = [
                 SELECT Id,
