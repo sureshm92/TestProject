@@ -23,6 +23,7 @@ import formFactor from "@salesforce/client/formFactor";
 const attIconMap = {
     csv: 'attach-file-csv',
     doc: 'attach-file-doc',
+    docx: 'attach-file-doc',
     jpg: 'attach-file-jpg',
     pdf: 'attach-file-pdf',
     png: 'attach-file-png',
