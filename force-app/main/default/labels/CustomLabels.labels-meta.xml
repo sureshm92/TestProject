@@ -143,14 +143,6 @@
         <value>Participant will become an adult!</value>
     </labels>
     <labels>
-        <fullName>AL_Title_PRT_Week_Become_Adult_Delegates</fullName>
-        <categories>Alert</categories>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>AL Title PRT Week Become Adult Delegates</shortDescription>
-        <value>Hi ##UserName, your participant ##ParticipantFirstName has recently reached the age of legal maturity and have provided their privacy preferences. We recommend you contact the Provider to know more about your status on this clinical research study.</value>
-    </labels>
-    <labels>
         <fullName>AL_Title_Welcome_Study</fullName>
         <language>en_US</language>
         <protected>false</protected>
