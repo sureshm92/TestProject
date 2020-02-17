@@ -13,6 +13,7 @@ public without sharing class UserContext {
     private static CommunityMode userMode;
     private static List<CommunityMode> allUserModes;
     private static Boolean isDummy = false;
+    private static String currentCommunityName;
     
     public static Contact getUserContact(){
         if(userContact == null) setUser(UserInfo.getUserId());
@@ -87,11 +88,13 @@ public without sharing class UserContext {
         return getCurrentUserMode().template.properties.get(propertyName);
     }
     
-    public static CommunityTemplate getCommunityTemplate(){
-        if(true) return CommunityTemplateService.getTemplate('GSK');
-        Site[] sites = [SELECT Id, Name FROM Site WHERE Name =: Site.getName()];
-        if(sites.size() > 0) return CommunityTemplateService.getTemplate(sites[0].Name);
-        return CommunityTemplateService.getDefaultTemplate();
+    public static String getCurrentCommunityName(){
+        if(currentCommunityName == null){
+            Site[] sites = [SELECT Id, MasterLabel FROM Site WHERE Name =: Site.getName() AND SiteType = 'ChatterNetworkPicasso'];
+            if(sites.size() > 0) currentCommunityName = sites[0].MasterLabel;
+        }
+        if(currentCommunityName == 'IQVIA RH') currentCommunityName = 'IQVIA Referral Hub';
+        return currentCommunityName;
     }
     
     private static void setContact(Id contactId) {
