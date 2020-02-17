@@ -4685,7 +4685,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Home Page StudyVisit Completed On</shortDescription>
-        <value>Completed On</value>
+        <value>Date</value>
     </labels>
     <labels>
         <fullName>Home_Page_StudyVisit_Filter_Current_Visits</fullName>
@@ -12210,6 +12210,13 @@
         <protected>false</protected>
         <shortDescription>Study Team</shortDescription>
         <value>Study Team</value>
+    </labels>
+    <labels>
+        <fullName>Study_Visit_Unavailable</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Visit Unavailable</shortDescription>
+        <value>Unavailable</value>
     </labels>
     <labels>
         <fullName>Success</fullName>
