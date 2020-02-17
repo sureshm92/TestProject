@@ -15,7 +15,7 @@
                     component.set('v.showTrialSearch',
                         !communityService.getCurrentCommunityMode().currentDelegateId &&
                         !ps.participant.Marketing_Flag__c &&
-                        !ps.pe
+                        !ps.pe && (ps.pe.ctp.Community_Template__c === '')
                         );
                     component.find('spinner').hide();
                 }
