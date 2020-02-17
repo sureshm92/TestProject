@@ -1,0 +1,7 @@
+<!--
+ - Created by Nargiz Mamedova on 2/14/2020.
+ -->
+
+<design:component label="flowCOILookup">
+    <design:attribute label="ResourceId" name="recordId"/>
+</design:component>
