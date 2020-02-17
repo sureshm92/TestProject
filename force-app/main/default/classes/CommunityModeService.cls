@@ -148,15 +148,18 @@ public without sharing class CommunityModeService {
     }
     
     private static CommunityMode getFirstMode(List<CommunityMode> modes){
+        CommunityMode firstMode;
         for(CommunityMode communityMode : modes){
-            if(!communityMode.isGroup && !communityMode.isSplitter && communityMode.template.communityName == UserContext.getCurrentCommunityName()){
-                return communityMode;
+            if(!communityMode.isGroup && !communityMode.isSplitter){
+                if(firstMode == null) firstMode = communityMode;
+                if(communityMode.template.communityName == UserContext.getCurrentCommunityName()) return communityMode;
             }
             for(CommunityMode subMode : communityMode.subModes){
+                if(firstMode == null) firstMode = subMode;
                 if(subMode.template.communityName == UserContext.getCurrentCommunityName()) return subMode;
             }
         }
-        return null;
+        return firstMode;
     }
     
     private static Map<Id, List<Participant_Enrollment__c>> getPEMap(Participant__c userParticipant, List<Id> delegatedParticipantIds, String filter){
