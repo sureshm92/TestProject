@@ -10,10 +10,22 @@
   }, {
     "components" : [ {
       "componentAttributes" : {
-        "scopes" : "[{\"name\":\"FeedPost\",\"isPublic\":true},{\"name\":\"KnowledgeArticleVersion\",\"isPublic\":true},{\"name\":\"Case\",\"isPublic\":false}, {\"name\":\"CollaborationGroup\",\"isPublic\":true}]",
-        "searchResultFiltering" : "true",
+        "scopes" : [ {
+          "name" : "FeedPost",
+          "isPublic" : true
+        }, {
+          "name" : "KnowledgeArticleVersion",
+          "isPublic" : true
+        }, {
+          "name" : "Case",
+          "isPublic" : false
+        }, {
+          "name" : "CollaborationGroup",
+          "isPublic" : true
+        } ],
+        "searchResultFiltering" : true,
         "searchTerm" : "{!searchString}",
-        "showTopResults" : "true"
+        "showTopResults" : true
       },
       "componentName" : "forceCommunity:search",
       "id" : "8e51ae5f-3164-4884-b2ff-2e5afb436312",

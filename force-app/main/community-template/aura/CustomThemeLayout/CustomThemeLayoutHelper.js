@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 ({
-    init: function (component, event, helper) {
+    init: function (component) {
         component.set('v.allModes', communityService.getAllUserModes());
         component.set('v.currentMode', communityService.getCurrentCommunityMode());
         component.set('v.showModeSwitcher', !(communityService.getAllUserModes().length === 1 && communityService.getAllUserModes()[0].subModes.length <= 1));
