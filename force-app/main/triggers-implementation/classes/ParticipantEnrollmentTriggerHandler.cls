@@ -297,7 +297,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             if (oldMap != null) {
                 Participant_Enrollment__c oldPE = oldMap.get(newPE.Id);
                 updateCriteria = oldPE.Participant_Status__c == newPE.Participant_Status__c &&(
-                        oldPE.Participant__c != newPE.Participant__c || participantUser == null);
+                        oldPE.Participant__c != newPE.Participant__c || participantUser == null) ||
+                        newPE.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED && participantUser == null;
                 System.debug('OLD STATUS: ' + oldPE.Participant_Status__c);
                 System.debug('NEW STATUS: ' + newPE.Participant_Status__c);
                 System.debug('OLD PART ID: ' + oldPE.Participant__c);
@@ -618,7 +619,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         List<Participant_Enrollment__c> peWithParticipating = [
                 SELECT Id, Clinical_Trial_Profile__c, Visit_Plan__c
                 FROM Participant_Enrollment__c
-                WHERE Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true
+                WHERE Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
                 AND Id IN:peEnrollSuccessIds
         ];
 

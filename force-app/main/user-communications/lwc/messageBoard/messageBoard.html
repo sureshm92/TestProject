@@ -9,6 +9,7 @@
         <div class="ms-board" data-gtm="ms-board">
             <c-message-board-header user-mode={userMode} is-multiple-mode={isMultipleMode} is-past-study={isPastStudy}
                                     enrollments={enrollments} selected-enrollment={selectedEnrollment}
+                                    patient-delegates={patientDelegates}
                                     onback={handleBackClick}
                                     onselectionchange={handleSelectionChange}
                                     onenrollmentselect={handleEnrollmentSelect}></c-message-board-header>
@@ -19,17 +20,15 @@
                     </template>
                 </template>
             </div>
-            <div class="ms-board-footer">
-                <template if:true={isPIMode}>
-                    <div class="ms-send-pi">
-                        <div style="min-height: 67px;">
-                            <lightning-input data-gtm="ms-pi-input"
-                                             type="text" label="" variant="label-hidden"
-                                             max-length="500"
-                                             placeholder={labels.inputPlaceholderLabel}
-                                             value={messageText}
-                                             onchange={handleMessageText}
-                                             onkeypress={handleInputEnter}></lightning-input>
+            <template if:true={isPIMode}>
+                <div class="ms-board-footer-pi">
+                    <div style="min-height: 67px;">
+                        <div class="ms-send-pi-combined-input">
+                            <label for="pi-input"></label>
+                            <input id="pi-input" class="ms-pi-input" data-gtm="ms-pi-input"
+                                   type="text" maxlength="500" placeholder={labels.inputPlaceholderLabel}
+                                   value={messageText} autocomplete="off"
+                                   onchange={handleMessageText} onkeyup={handleInputEnter} />
                             <template if:true={attachment}>
                                 <lightning-pill class="ms-file-pill" label={attachment.fileName}
                                                 title={attachment.fileName} variant="plain"
@@ -39,20 +38,21 @@
                                 </lightning-pill>
                             </template>
                         </div>
-                        <div class="ms-send-pi-buttons">
-                            <div style="flex-grow: 1;">{labels.limitLabel}</div>
+                    </div>
+                    <div class="ms-send-pi-buttons">
+                        <div style="flex-grow: 1;">{labels.limitLabel}</div>
 
-                            <div class="slds-form-element" style="margin: 0 12px;">
-                                <div class="slds-form-element__control">
-                                    <div class="slds-file-selector slds-file-selector_files">
-                                        <label class="slds-file-selector__body" for="input-file">
-                                            <template if:true={isAttachEnable}>
-                                                <input id="input-file" data-gtm="BTN_upload"
-                                                       class="slds-file-selector__input ms-file-upload"
-                                                       type="file" accept={fileTypes}
-                                                       onchange={handleFileSelect}/>
-                                            </template>
-                                            <span class="slds-file-selector__button slds-button">
+                        <div class="slds-form-element" style="margin: 0 12px;">
+                            <div class="slds-form-element__control">
+                                <div class="slds-file-selector slds-file-selector_files">
+                                    <label class="slds-file-selector__body" for="input-file">
+                                        <template if:true={isAttachEnable}>
+                                            <input id="input-file" data-gtm="BTN_upload"
+                                                   class="slds-file-selector__input ms-file-upload"
+                                                   type="file" accept={fileTypes}
+                                                   onchange={handleFileSelect}/>
+                                        </template>
+                                        <span class="slds-file-selector__button slds-button">
                                                     <span class="apollo-btn secondary ms-att-file-label"
                                                           style={attachBTNStyle}>{labels.attFileLabel}</span>
                                                     <span class="ms-att-file-icon" data-gtm="BTN_upload_mob"
@@ -60,34 +60,33 @@
                                                         <c-web-icon icon-name="attachment"
                                                                     icon-color="#297DFD"></c-web-icon>
                                                     </span>
-                                                </span>
-                                        </label>
-                                    </div>
+                                        </span>
+                                    </label>
                                 </div>
                             </div>
-
-                            <button data-gtm="ms-send-pi-button" class="apollo-btn primary ms-send-button"
-                                    onclick={handleSendClick} disabled>{labels.sendBtnLabel}
-                            </button>
                         </div>
-                    </div>
-                </template>
-                <template if:false={isPIMode}>
-                    <div class="ms-send-part">
-                        <lightning-combobox
-                                class="ms-select-templates"
-                                data-gtm="ms-pa-select"
-                                label={labels.selectLabel}
-                                value={messageText}
-                                placeholder={labels.selectPlaceholderLabel}
-                                options={messageTemplateOptions}
-                                onchange={handleMessageText}></lightning-combobox>
-                        <button class="apollo-btn primary ms-send-button" data-gtm="ms-send-pa-button"
+
+                        <button data-gtm="ms-send-pi-button" class="apollo-btn primary ms-send-button"
                                 onclick={handleSendClick} disabled>{labels.sendBtnLabel}
                         </button>
                     </div>
-                </template>
-            </div>
+                </div>
+            </template>
+            <template if:false={isPIMode}>
+                <div class="ms-board-footer-part">
+                    <lightning-combobox
+                            class="ms-select-templates"
+                            data-gtm="ms-pa-select"
+                            label={labels.selectLabel}
+                            value={messageText}
+                            placeholder={labels.selectPlaceholderLabel}
+                            options={messageTemplateOptions}
+                            onchange={handleMessageText}></lightning-combobox>
+                    <button class="apollo-btn primary ms-send-button" data-gtm="ms-send-pa-button"
+                            onclick={handleSendClick} disabled>{labels.sendBtnLabel}
+                    </button>
+                </div>
+            </template>
         </div>
     </template>
     <template if:false={hideEmptyStub}>

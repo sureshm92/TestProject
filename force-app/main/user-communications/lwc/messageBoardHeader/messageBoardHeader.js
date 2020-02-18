@@ -16,6 +16,9 @@ import recipientsPlaceholder from '@salesforce/label/c.MS_Input_PI_Recipients_Pl
 import selectStudyPlaceholderLabel from '@salesforce/label/c.MS_Select_Study_Ph';
 import teamLabel from '@salesforce/label/c.Study_Team';
 import piLabel from '@salesforce/label/c.PI_Colon';
+import delegatesLabel from '@salesforce/label/c.PG_PST_L_Delegates';
+import showMoreLabel from '@salesforce/label/c.MS_Show_More';
+import showLessLabel from '@salesforce/label/c.MS_Show_Less';
 
 import searchParticipant from '@salesforce/apex/MessagePageRemote.searchParticipant';
 
@@ -27,7 +30,10 @@ export default class MessageBoardHeader extends LightningElement {
         recipientsPlaceholder,
         selectStudyPlaceholderLabel,
         teamLabel,
-        piLabel
+        piLabel,
+        delegatesLabel,
+        showMoreLabel,
+        showLessLabel
     };
 
     @api userMode;
@@ -35,7 +41,10 @@ export default class MessageBoardHeader extends LightningElement {
     @api selectedEnrollment;
     @api isMultipleMode;
     @api isPastStudy;
+    @api patientDelegates;
 
+    @track showDelegatesFullList;
+    @track showBTNLabel = showMoreLabel;
     @track fullName;
     @track selectedPeId;
 
@@ -88,9 +97,26 @@ export default class MessageBoardHeader extends LightningElement {
         return options;
     }
 
+    get headerPatientDelegates() {
+        return delegatesLabel + ': ' + this.patientDelegates;
+    }
+
+    get delegatesFullClass() {
+        return 'header-patient-delegates-label ' + (this.showDelegatesFullList ? 'slds-grid' : 'slds-hide');
+    }
+
+    get delegatesLessClass() {
+        return 'header-patient-delegates-label ' + (!this.showDelegatesFullList ? 'slds-grid' : 'slds-hide');
+    }
+
     //Handlers:---------------------------------------------------------------------------------------------------------
     handleBackClick() {
         this.dispatchEvent(new CustomEvent('back'));
+    }
+
+    handleShowMoreClick(event) {
+        this.showDelegatesFullList = !this.showDelegatesFullList;
+        this.showBTNLabel = this.showDelegatesFullList ? showLessLabel : showMoreLabel;
     }
 
     handleEnrollmentSelect(event) {

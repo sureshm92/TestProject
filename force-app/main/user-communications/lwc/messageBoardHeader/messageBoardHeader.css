@@ -44,14 +44,6 @@
     padding: 4px;
 }
 
-.ms-header-patient-name {
-    font-family: "Proxima Nova";
-    font-size: 18px;
-    line-height: 22px;
-    font-weight: 600;
-    padding-top: 15px;
-}
-
 .ms-header-team-name {
     font-family: "Proxima Nova";
     font-size: 18px;
@@ -62,7 +54,23 @@
     height: 100%;
 }
 
+.ms-header-patient-name {
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 600;
+    padding-top: 15px;
+}
+
 .ms-header-patient-study {
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19px;
+}
+
+.ms-header-patient-delegates {
     color: #444444;
     font-family: "Proxima Nova";
     font-size: 16px;

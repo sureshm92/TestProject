@@ -124,6 +124,18 @@
     line-height: 19px;
 }
 
+.header-patient-delegates {
+    padding-top: 9px;
+    margin: 0 -16px;
+}
+
+.header-patient-delegates-label {
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    line-height: 24px;
+}
+
 .header-border {
     border-bottom: 1px solid #e6e5e5;
 }

@@ -38,7 +38,6 @@
                 communityService.executeAction(component, 'getMessagesVisibility', {}, function (returnValue) {
                     communityService.setMessagesVisible(returnValue);
                     component.set('v.allModes', modes);
-                    component.getEvent('onModeChange').fire();
                     component.find('pubsub').fireEvent('reload');
                 });
             });

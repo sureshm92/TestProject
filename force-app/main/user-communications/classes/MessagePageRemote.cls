@@ -24,6 +24,7 @@ public without sharing class MessagePageRemote {
         @AuraEnabled public String lastMessagePart;
         @AuraEnabled public Boolean haveAttachment;
         @AuraEnabled public List<MessageWrapper> messages;
+        @AuraEnabled public String patientDelegates;
     }
 
     public class MessageWrapper {
@@ -36,6 +37,7 @@ public without sharing class MessagePageRemote {
         private Map<String, String> iconByExtension = new Map<String, String>{
                 'csv' => 'attach-file-csv',
                 'doc' => 'attach-file-doc',
+                'docx' => 'attach-file-doc',
                 'jpg' => 'attach-file-jpg',
                 'pdf' => 'attach-file-pdf',
                 'png' => 'attach-file-png',
@@ -55,7 +57,7 @@ public without sharing class MessagePageRemote {
     }
 
     @AuraEnabled
-    public static MSPageData getInitData() {
+    public static MSPageData getInitData(String formFactor) {
         try {
             MSPageData pageData = new MSPageData();
             pageData.userMode = UserContext.getCurrentUserMode().userMode;
@@ -111,18 +113,18 @@ public without sharing class MessagePageRemote {
 
                 Map<Id, List<Message__c>> messagesByConversation =
                         MessageService.getMessagesByConversations(new List<Id>(conversationsByIds.keySet()));
-                List<Id> messageIds = new List<Id>();
-                for (Id conversationId : messagesByConversation.keySet()) {
-                    messageIds.addAll(CollectionUtil.getObjectIds(messagesByConversation.get(conversationId)));
-                }
+
                 Map<Id, Map<Id, ContentDocumentLink>> documentLinksByMesByCon =
-                        MessageService.getAttachmentsByConversation(messageIds);
+                        MessageService.getAttachmentsByConversation(new List<Id>(conversationsByIds.keySet()));
+
+                Map<Id, List<String>> participantsDelegateNames =
+                        ConversationService.getYourParticipantsDelegateNames(UserInfo.getUserId());
 
                 String firstConId = (String) messagesByConversation.keySet().iterator().next();
                 pageData.conversationWrappers = new List<ConversationWrapper>();
                 for (Id conId : messagesByConversation.keySet()) {
                     Conversation__c conversation = conversationsByIds.get(conId);
-                    if (String.valueOf(conId).equals(firstConId)) {
+                    if (formFactor != 'Small' && String.valueOf(conId).equals(firstConId)) {
                         if (pageData.userMode.equals(CommunityService.USER_MODE_PI) && conversation.haveUnreadForPI__c) {
                             conversation.haveUnreadForPI__c = false;
                             update conversation;
@@ -133,7 +135,8 @@ public without sharing class MessagePageRemote {
                     }
                     pageData.conversationWrappers.add(getConversationWrapper(
                             pageData.userMode, conversation,
-                            getMessageWrappers(messagesByConversation.get(conversation.Id), documentLinksByMesByCon.get(conversation.Id)))
+                            getMessageWrappers(messagesByConversation.get(conversation.Id), documentLinksByMesByCon.get(conversation.Id)),
+                            participantsDelegateNames)
                     );
                 }
             }
@@ -236,15 +239,25 @@ public without sharing class MessagePageRemote {
                     Message_Content__c = messageText,
                     Sender_Name__c = senderName
             );
+            if (!String.isEmpty(fileJSON)) message.DocId__c = attachFile(conversation.Id, fileJSON);
             insert message;
 
-            if (!String.isEmpty(fileJSON)) attachFile(message.Id, fileJSON);
+            Map<Id, List<String>> participantsDelegateNames;
+            if(CommunityService.getUserContact().userCommunityMode__c == CommunityService.USER_MODE_PI) {
+                participantsDelegateNames = ConversationService.getYourParticipantsDelegateNames(UserInfo.getUserId());
+            }
 
             List<Message__c> messages = MessageService.getMessages(conversation.Id);
+            List<Id> docIds = new List<Id>();
+            for(Message__c mes : messages) {
+                if(mes.DocId__c != null) docIds.add(mes.DocId__c);
+            }
+
             return getConversationWrapper(
                     CommunityService.getUserContact().userCommunityMode__c,
                     conversation,
-                    getMessageWrappers(messages, MessageService.getAttachments(CollectionUtil.getObjectIds(messages)))
+                    getMessageWrappers(messages, MessageService.getAttachments(conversation.Id)),
+                    participantsDelegateNames
             );
         } catch (Exception e) {
             return (ConversationWrapper) AuraHelper.throwException(e);
@@ -264,10 +277,16 @@ public without sharing class MessagePageRemote {
 
             List<Message__c> messages = MessageService.getMessages(conversation.Id);
 
+            Map<Id, List<String>> participantsDelegateNames;
+            if(CommunityService.getUserContact().userCommunityMode__c == CommunityService.USER_MODE_PI) {
+                participantsDelegateNames = ConversationService.getYourParticipantsDelegateNames(UserInfo.getUserId());
+            }
+
             return getConversationWrapper(
                     CommunityService.getUserContact().userCommunityMode__c,
                     conversation,
-                    getMessageWrappers(messages, MessageService.getAttachments(CollectionUtil.getObjectIds(messages)))
+                    getMessageWrappers(messages, MessageService.getAttachments(conversation.Id)),
+                    participantsDelegateNames
             );
         } catch (Exception e) {
             return (ConversationWrapper) AuraHelper.throwException(e);
@@ -317,8 +336,8 @@ public without sharing class MessagePageRemote {
         for (Message__c message : messages) {
             MessageWrapper messageWrapper = new MessageWrapper();
             messageWrapper.message = message;
-            if (documentLinksMap.containsKey(message.Id)) {
-                messageWrapper.attachmentWrapper = new AttachmentWrapper(documentLinksMap.get(message.Id));
+            if (message.DocId__c != null && documentLinksMap.containsKey(message.DocId__c)) {
+                messageWrapper.attachmentWrapper = new AttachmentWrapper(documentLinksMap.get(message.DocId__c));
             }
             messageWrappers.add(messageWrapper);
         }
@@ -326,7 +345,7 @@ public without sharing class MessagePageRemote {
     }
 
     private static ConversationWrapper getConversationWrapper(String userMode, Conversation__c conversation,
-            List<MessageWrapper> messageWrappers) {
+            List<MessageWrapper> messageWrappers, Map<Id, List<String>> delegateNamesByParticipant) {
         ConversationWrapper conWr = new ConversationWrapper();
         conWr.conversation = conversation;
 
@@ -349,8 +368,13 @@ public without sharing class MessagePageRemote {
             }
         } else if (userMode == CommunityService.USER_MODE_PI) {
             conWr.unread = conversation.haveUnreadForPI__c;
-            conTitle = conversation.Participant_Enrollment__r.Participant__r.Full_Name__c;
-            conFullName = conversation.Participant_Enrollment__r.Participant__r.Full_Name__c;
+            Participant__c participant = conversation.Participant_Enrollment__r.Participant__r;
+            conTitle = participant.Full_Name__c;
+            if(delegateNamesByParticipant.containsKey(participant.Id)) {
+                conWr.patientDelegates = String.join(delegateNamesByParticipant.get(participant.Id), ', ');
+                conTitle += ', ' + conWr.patientDelegates;
+            }
+            conFullName = participant.Full_Name__c;
             conDescription = conversation.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_Code_Name__c;
         }
         conWr.title = conTitle;
@@ -368,6 +392,7 @@ public without sharing class MessagePageRemote {
     }
 
     //Service Logic:----------------------------------------------------------------------------------------------------
+    @TestVisible
     private static List<Participant_Enrollment__c> getEnrollmentsForPI(String additionalFiler) {
         String filter = 'Study_Site__r.Messages_Are_Available__c = TRUE AND';
         Id currentContactId = CommunityService.getInstance().getCurrentContactId();
@@ -395,7 +420,8 @@ public without sharing class MessagePageRemote {
                 }, Participant_Enrollment__c.getSObjectType(), filter);
     }
 
-    private static void attachFile(Id parentId, String fileString) {
+    @TestVisible
+    private static Id attachFile(Id parentId, String fileString) {
         List<String> fileEntity = (List<String>) JSON.deserialize(fileString, List<String>.class);
         ContentVersion newVersion = new ContentVersion(
                 ContentLocation = 'S',
@@ -409,7 +435,9 @@ public without sharing class MessagePageRemote {
         insert new ContentDocumentLink(
                 ContentDocumentId = contentVersion.ContentDocumentId,
                 LinkedEntityId = parentId,
-                ShareType = 'I'
+                ShareType = 'V'
         );
+
+        return contentVersion.ContentDocumentId;
     }
 }
