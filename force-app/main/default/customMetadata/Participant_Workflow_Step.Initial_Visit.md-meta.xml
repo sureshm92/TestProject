@@ -35,6 +35,10 @@
         <value xsi:type="xsd:string">Initial_visit_scheduled_flag__c == true</value>
     </values>
     <values>
+        <field>In_Progress_Date_Field__c</field>
+        <value xsi:type="xsd:string">Initial_visit_scheduled_date__c</value>
+    </values>
+    <values>
         <field>Name_Label__c</field>
         <value xsi:type="xsd:string">PWS_Initial_Visit_Name</value>
     </values>
@@ -53,5 +57,9 @@
     <values>
         <field>Success_Condition__c</field>
         <value xsi:type="xsd:string">Initial_visit_occurred_flag__c == true</value>
+    </values>
+    <values>
+        <field>Success_Date_Field__c</field>
+        <value xsi:type="xsd:string">Initial_visit_occurred_date__c</value>
     </values>
 </CustomMetadata>
