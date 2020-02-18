@@ -12,11 +12,13 @@
                 } else {
                     component.set('v.participantState', ps);
                     component.set('v.isDelegateMode', communityService.getCurrentCommunityMode().currentDelegateId);
-                    component.set('v.showTrialSearch',
-                        !communityService.getCurrentCommunityMode().currentDelegateId &&
-                        !ps.participant.Marketing_Flag__c &&
-                        !ps.pe && (ps.pe.ctp.Community_Template__c === '')
-                        );
+                    if (ps.pe.ctp.Community_Template__c === '') {
+                        component.set('v.showTrialSearch',
+                            !communityService.getCurrentCommunityMode().currentDelegateId &&
+                            !ps.participant.Marketing_Flag__c &&
+                            !ps.pe);
+                    }
+                    else component.set('v.showTrialSearch', !communityService.getCurrentCommunityMode().currentDelegateId && !ps.pe);
                     component.find('spinner').hide();
                 }
                 component.set('v.initialized', true);
