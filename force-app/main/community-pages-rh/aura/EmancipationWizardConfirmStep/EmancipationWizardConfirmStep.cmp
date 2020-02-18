@@ -37,7 +37,7 @@
                         {!$Label.c.PG_AP_H_Patient_Details}:
                     </div>
                     <div class="rr-form-element slds-col slds-size--2-of-3">
-                        {!$Label.c.PG_AP_H_Patient_Contact_Information}}:
+                        {!$Label.c.PG_AP_H_Patient_Contact_Information}:
                     </div>
 
                     <div class="rr-form-element slds-col slds-size--1-of-3">
@@ -50,7 +50,7 @@
                         {!$Label.c.PE_Country}: {!v.participant.Mailing_Country__c}
                     </div>
 
-                    <div class="rr-form-element slds-col slds-size--1-of-3'">
+                    <div class="rr-form-element slds-col slds-size--1-of-3">
                         {!$Label.c.RP_DOB_label}: {!v.participant.Date_of_Birth__c}
                     </div>
                     <div class="rr-form-element slds-col slds-size--1-of-3">
@@ -96,7 +96,7 @@
                             {!$Label.c.PG_AP_H_Patient_Details}:
                         </div>
                         <div class="rr-form-element slds-col slds-size--2-of-3">
-                            {!$Label.c.PG_AP_H_Patient_Contact_Information}}:
+                            {!$Label.c.PG_AP_H_Patient_Contact_Information}:
                         </div>
 
                         <div class="rr-form-element slds-col slds-size--1-of-3">
@@ -109,7 +109,7 @@
                             {!$Label.c.PE_Country}: {!delegateItem.Mailing_Country__c}
                         </div>
 
-                        <div class="rr-form-element slds-col slds-size--1-of-3'">
+                        <div class="rr-form-element slds-col slds-size--1-of-3">
                             {!$Label.c.RP_DOB_label}: {!delegateItem.Date_of_Birth__c}
                         </div>
                         <div class="rr-form-element slds-col slds-size--1-of-3">
