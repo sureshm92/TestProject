@@ -23,6 +23,7 @@ import formFactor from "@salesforce/client/formFactor";
 const attIconMap = {
     csv: 'attach-file-csv',
     doc: 'attach-file-doc',
+    docx: 'attach-file-doc',
     jpg: 'attach-file-jpg',
     pdf: 'attach-file-pdf',
     png: 'attach-file-png',
@@ -150,7 +151,8 @@ export default class MessageBoard extends LightningElement {
             let context = this;
             setTimeout(function () {
                 context.clearMessage();
-                let footerClass = '.ms-board-footer-' + context.userMode === 'PI' ? 'pi' : 'part';
+                let footerClass = '.ms-board-footer-' + (context.userMode === 'PI' ? 'pi' : 'part');
+                console.log('Class: ' + footerClass);
                 context.template.querySelector(footerClass).style.pointerEvents = context.isHoldMode ? 'none' : 'all';
             }, 50);
 
