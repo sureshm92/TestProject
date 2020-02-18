@@ -178,6 +178,7 @@ global without sharing class ReferHealthcareProviderRemote {
                                                           Contact__r.FirstName, Contact__r.LastName
                                                    FROM   Patient_Delegate__c
                                                    WHERE  Participant__c =: participantId];
+        if (listDelegates.isEmpty()) listDelegates.add(new Patient_Delegate__c());
         return listDelegates;
     }
 

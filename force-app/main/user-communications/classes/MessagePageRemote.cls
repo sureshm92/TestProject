@@ -37,6 +37,7 @@ public without sharing class MessagePageRemote {
         private Map<String, String> iconByExtension = new Map<String, String>{
                 'csv' => 'attach-file-csv',
                 'doc' => 'attach-file-doc',
+                'docx' => 'attach-file-doc',
                 'jpg' => 'attach-file-jpg',
                 'pdf' => 'attach-file-pdf',
                 'png' => 'attach-file-png',
