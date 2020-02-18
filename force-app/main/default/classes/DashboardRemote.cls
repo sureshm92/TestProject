@@ -269,23 +269,36 @@ public class DashboardRemote {
     private static List<BarItem> prepareWaitingList(String userMode, String delegateId) {
         List<BarItem> resList = new List<BarItem>();
 
-        List<Participant_Enrollment__c> pes =
+        /*List<Participant_Enrollment__c> pes =
                 ParticipantEnrollmentService.getPEnrolmentsByStatus(
                         userMode,
                         new List<String>{ PEStatusState.PE_STATUS_RECEIVED },
                         null,
                         delegateId);
-        Map<Id, Participant_Enrollment__c> peById = new Map<Id, Participant_Enrollment__c>(pes);
+        Map<Id, Participant_Enrollment__c> peById = new Map<Id, Participant_Enrollment__c>(pes);*/
 
         List<Participant_Enrollment_Status_History__c> peSHs =
             [SELECT Id,
                     CreatedDate,
+                    Date__c,
                     ParticipantEnrollment__c,
                     Status__c
              FROM Participant_Enrollment_Status_History__c
-             WHERE ParticipantEnrollment__c IN :peById.keySet() AND
-                   Status__c IN :(new List<String>{ PEStatusState.PE_STATUS_RECEIVED })
+             WHERE ParticipantEnrollment__c IN (SELECT Id
+                                                FROM Participant_Enrollment__c
+                                                WHERE Study_Site__r.Principal_Investigator__c = :delegateId) AND
+                   Status__c IN :(new List<String>{ PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED,
+                                                    PEStatusState.PE_STATUS_RECEIVED })
              ORDER BY CreatedDate DESC];
+        Map<Id, Participant_Enrollment_Status_History__c> receivedPESHsByPIId = new Map<Id, Participant_Enrollment_Status_History__c>();
+        Map<Id, Participant_Enrollment_Status_History__c> contactedPESHsByPIId = new Map<Id, Participant_Enrollment_Status_History__c>();
+        for (Participant_Enrollment_Status_History__c peSH : peSHs) {
+            if (peSH.Status__c == PEStatusState.PE_STATUS_RECEIVED) {
+                receivedPESHsByPIId.put(peSH.ParticipantEnrollment__c, peSH);
+            } else {
+                contactedPESHsByPIId.put(peSH.ParticipantEnrollment__c, peSH);
+            }
+        }
 
         Integer maxParticipantsInDays = 0;
         String daysMaxParticipantsInDays = null;
@@ -297,28 +310,37 @@ public class DashboardRemote {
                 FROM_16_TO_20_DAYS => new List<Participant_Enrollment_Status_History__c>(),
                 GREATER_20_DAYS => new List<Participant_Enrollment_Status_History__c>()
         };
-        for (Participant_Enrollment_Status_History__c peSH : peSHs) {
+        for (Participant_Enrollment_Status_History__c peSH : receivedPESHsByPIId.values()) {
             if (!peIdsProcessed.contains(peSH.ParticipantEnrollment__c)) {
-                Integer daysBetween = peSH.CreatedDate.date().daysBetween(System.today());
-                String days = null;
-                if (5 <= daysBetween) {
-                    days = LEESS_5_DAYS;
-                } else if (daysBetween >= 6 && daysBetween <=10) {
-                    days = FROM_6_TO_10_DAYS;
-                } else if (daysBetween >= 11 && daysBetween <=15) {
-                    days = FROM_11_TO_15_DAYS;
-                } else if (daysBetween >= 16 && daysBetween <=20) {
-                    days = FROM_16_TO_20_DAYS;
-                } else if (daysBetween > 20) {
-                    days = GREATER_20_DAYS;
-                }
+                Participant_Enrollment_Status_History__c contactedPESH = contactedPESHsByPIId.get(peSH.ParticipantEnrollment__c);
 
-                List<Participant_Enrollment_Status_History__c> peSHDay = peSHByDays.get(days);
-                if (peSHDay != null) {
-                    peSHDay.add(peSH);
-                    if (maxParticipantsInDays < peSHDay.size()) {
-                        maxParticipantsInDays = peSHDay.size();
-                        daysMaxParticipantsInDays = days;
+                if (contactedPESH != null) {
+                    Integer daysBetween;
+                    if (peSH.Date__c != null && contactedPESH.Date__c != null) {
+                        daysBetween = peSH.Date__c.date().daysBetween(contactedPESH.Date__c.date());
+                    } else {
+                        daysBetween = peSH.CreatedDate.date().daysBetween(contactedPESH.CreatedDate.date());
+                    }
+                    String days = null;
+                    if (5 <= daysBetween) {
+                        days = LEESS_5_DAYS;
+                    } else if (daysBetween >= 6 && daysBetween <= 10) {
+                        days = FROM_6_TO_10_DAYS;
+                    } else if (daysBetween >= 11 && daysBetween <= 15) {
+                        days = FROM_11_TO_15_DAYS;
+                    } else if (daysBetween >= 16 && daysBetween <= 20) {
+                        days = FROM_16_TO_20_DAYS;
+                    } else if (daysBetween > 20) {
+                        days = GREATER_20_DAYS;
+                    }
+
+                    List<Participant_Enrollment_Status_History__c> peSHDay = peSHByDays.get(days);
+                    if (peSHDay != null) {
+                        peSHDay.add(peSH);
+                        if (maxParticipantsInDays < peSHDay.size()) {
+                            maxParticipantsInDays = peSHDay.size();
+                            daysMaxParticipantsInDays = days;
+                        }
                     }
                 }
             }
