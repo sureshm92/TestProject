@@ -4,4 +4,5 @@
 
 <design:component label="ResourceUpload">
     <design:attribute label="ResourceId" name="recordId"/>
+    <design:attribute label="Label" name="label"/>
 </design:component>

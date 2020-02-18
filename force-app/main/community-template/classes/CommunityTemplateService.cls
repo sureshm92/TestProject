@@ -20,6 +20,13 @@ public without sharing class CommunityTemplateService {
         return template;
     }
     
+    public static CommunityTemplate getTemplateByCommunityName(String communityName){
+        for(CommunityTemplate communityTemplate : TEMPLATES_MAP.values()){
+            if(communityTemplate.communityName == communityName) return communityTemplate;
+        }
+        return getDefaultTemplate();
+    }
+    
     public static CommunityTemplate getDefaultTemplate(){
         return getTemplate(TEMPLATE_DEFAULT);
     }
@@ -40,6 +47,7 @@ public without sharing class CommunityTemplateService {
             }
             templatesMap.put(template.Label, new CommunityTemplate(
                     propertiesMap,
+                    template.Community_Name__c,
                     getCommunityURL(template.Community_Name__c)
             ));
             if(template.Label == TEMPLATE_DEFAULT) defaultProperties = propertiesMap;

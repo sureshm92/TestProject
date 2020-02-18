@@ -46,8 +46,6 @@
     padding: 5px 16px;
 }
 
-
-
 .THIS .cEmptyListStub:after {
     content: '';
     position: absolute;

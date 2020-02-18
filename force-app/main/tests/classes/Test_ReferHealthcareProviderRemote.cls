@@ -14,4 +14,22 @@ private class Test_ReferHealthcareProviderRemote {
         Participant_Enrollment__c partEnroll2 = [SELECT Id, Show_Referring_Provider__c FROM Participant_Enrollment__c WHERE Id =: partEnroll.Id];
         System.assert(partEnroll.Show_Referring_Provider__c != partEnroll2.Show_Referring_Provider__c);
     }
+    @IsTest
+    static void testGetContactsDelegates() {
+        TestData.loadTestData();
+        Participant__c participant = [SELECT Id
+                                      FROM Participant__c
+                                      LIMIT 1];
+        Contact cont = [SELECT Id, FirstName, LastName, Email FROM Contact LIMIT 1];
+        Patient_Delegate__c deleg = new Patient_Delegate__c();
+        deleg.Participant__c = participant.Id;
+        deleg.Contact__r = cont;
+        deleg.Contact__c = cont.Id;
+        insert deleg;
+        Test.startTest();
+        List<Patient_Delegate__c> result = ReferHealthcareProviderRemote.getContactsDelegates(participant.Id);
+        Test.stopTest();
+        System.assert(result[0].Contact__r.Email == cont.Email);
+    }
+
 }

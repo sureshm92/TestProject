@@ -22,7 +22,6 @@ public without sharing class ParticipantEnrollmentService {
     public static final String PART_STATUS_FAILED_REFERRAL = 'Failed Referral';
     public static final String PART_STATUS_REFERRAL_SENT_TO_PI = 'Referral Sent to PI';
     public static final String PART_STATUS_EXCLUDED_FROM_REFERRING = 'Excluded from Referring';
-    public static final String PART_STATUS_ACCEPTED = 'Referral Accepted';
     public static final String PART_STATUS_RECEIVED = 'Received';
     // Non referral reason
     public static final String NON_REF_REASON_STATUS_NOT_INTERESTED = 'No Longer Interested';
@@ -335,6 +334,7 @@ public without sharing class ParticipantEnrollmentService {
             'Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c',
             'Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c',
             'Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c',
+            'Clinical_Trial_Profile__r.Community_Template__c',
             'CreatedDate',
             'Enrolled_Date__c',
             'HCP__c',

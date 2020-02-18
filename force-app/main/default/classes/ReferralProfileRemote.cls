@@ -322,6 +322,9 @@ public without sharing class ReferralProfileRemote {
         }
 
         System.debug('PE: ' + JSON.serialize(participantEnrollment));
+        if(participantEnrollment.Participant_Status__c == 'Received'){
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
+        }
         update participantEnrollment;
         return participantEnrollment;
     }

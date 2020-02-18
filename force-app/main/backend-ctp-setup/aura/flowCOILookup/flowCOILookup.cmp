@@ -1,0 +1,16 @@
+<!--
+ - Created by Nargiz Mamedova on 2/14/2020.
+ -->
+
+<aura:component description="flowCOILookup" controller="FlowCOILookupRemote" implements="force:hasRecordId, lightning:availableForFlowScreens" access="global">
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"/>
+
+    <aura:attribute name="conditions" type="String"/>
+    <aura:attribute name="recordId" type="String" access="global"/>
+
+    <c:uiSObjectLookup pillIcon="custom:custom19"
+                       sObjectType="Therapeutic_Area__c"
+                       value="{!v.conditions}"
+                       onchange="{!c.updateCoi}"
+                       placeholder="Select Condition Of Interest"/>
+</aura:component>
