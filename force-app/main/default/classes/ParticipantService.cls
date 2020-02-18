@@ -22,6 +22,7 @@ public without sharing class ParticipantService {
         @AuraEnabled public Boolean showTerms;
         @AuraEnabled public Boolean showVisits;
         @AuraEnabled public Boolean isPremium;
+        @AuraEnabled public String communityName;
 
         public ParticipantState() {
             value = ParticipantStates.ALUMNI;
@@ -29,7 +30,7 @@ public without sharing class ParticipantService {
             isPremium = false;
             showTerms = false;
             showVisits = false;
-
+            communityName = '';
         }
     }
 
@@ -79,6 +80,7 @@ public without sharing class ParticipantService {
             }
         }
         participantState.welcomeMessage = getWelcomeMessage();
+        participantState.communityName = CommunityModeService.getUserCommunityModes(participantState.currentContactId).get(0).template.communityName;
     }
 
     public static Participant__c getParticipant(Id sourceId) {
