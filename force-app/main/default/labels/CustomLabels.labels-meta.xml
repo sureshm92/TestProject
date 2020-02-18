@@ -5148,7 +5148,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MS Input PI Recipients Placeholder</shortDescription>
-        <value>Type participant name here...</value>
+        <value>Type Participants Name here...</value>
     </labels>
     <labels>
         <fullName>MS_Input_Placeholder</fullName>
