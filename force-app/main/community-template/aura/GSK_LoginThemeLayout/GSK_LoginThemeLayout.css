@@ -95,6 +95,9 @@
     padding: 0 10px;
 }
 
+.THIS .lg-form-element input{
+    color: #000000;
+}
 
 .THIS .lg-form-element{
     border-bottom-color: #868686;

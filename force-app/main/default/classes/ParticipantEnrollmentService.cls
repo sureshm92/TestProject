@@ -334,6 +334,7 @@ public without sharing class ParticipantEnrollmentService {
             'Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c',
             'Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c',
             'Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c',
+            'Clinical_Trial_Profile__r.Community_Template__c',
             'CreatedDate',
             'Enrolled_Date__c',
             'HCP__c',
