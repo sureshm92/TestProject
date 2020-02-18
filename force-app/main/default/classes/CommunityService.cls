@@ -209,6 +209,17 @@ public without sharing class CommunityService {
         return newUser;
     }
 
+    @Future
+    public static void deactivateUsers(List<Id> contactIds) {
+        List<User> users = [
+                SELECT Id, IsActive
+                FROM User
+                WHERE ContactId IN :contactIds
+        ];
+        for (User u : users) u.IsActive = false;
+        update users;
+    }
+
     public static List<Contact> getContacts(Set<Id> contactIds) {
         return [
                 SELECT Id, Email, FirstName, LastName, Name, Language__c, Full_Name__c, Salutation, Suffix
