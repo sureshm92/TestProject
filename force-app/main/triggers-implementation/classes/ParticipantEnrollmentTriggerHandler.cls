@@ -619,7 +619,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         List<Participant_Enrollment__c> peWithParticipating = [
                 SELECT Id, Clinical_Trial_Profile__c, Visit_Plan__c
                 FROM Participant_Enrollment__c
-                WHERE Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true
+                WHERE Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
                 AND Id IN:peEnrollSuccessIds
         ];
 
