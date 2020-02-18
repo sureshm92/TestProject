@@ -6469,6 +6469,13 @@
         <value>Contact Information</value>
     </labels>
     <labels>
+        <fullName>PG_AP_H_Patient_Contact_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP H Patient ContactInformation</shortDescription>
+        <value>Participant Contact Information</value>
+    </labels>
+    <labels>
         <fullName>PG_AP_H_Patient_Details</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -9454,6 +9461,13 @@
         <value>Participant Information</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Participant_require_agree</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Participant require agree</shortDescription>
+        <value>I agree that I have confirmed information with emancipated participant.</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Participant_require_guardian</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10882,6 +10896,13 @@
         <protected>true</protected>
         <shortDescription>RP DOB</shortDescription>
         <value>(yyyy-mm-dd)</value>
+    </labels>
+    <labels>
+        <fullName>RP_DOB_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP DOB label</shortDescription>
+        <value>DOB</value>
     </labels>
     <labels>
         <fullName>RP_Edit_Patient_Information</fullName>
