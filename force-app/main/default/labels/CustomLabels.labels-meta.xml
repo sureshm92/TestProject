@@ -3145,6 +3145,15 @@
             The IQVIA Patient Portal and Referral Hub Support Teams</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_GSK</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature</shortDescription>
+        <value>
+            Sincerely,
+            The GSK Participant Hub team</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_1</fullName>
         <language>en_US</language>
         <protected>false</protected>
