@@ -5,12 +5,15 @@
 ({
     doInit: function(component, event, helper){
         var funnelData = component.get('v.funnelData');
+        if($A.util.isEmpty(funnelData)) {
+            component.set('v.invitedParticipants', 0);
+            return;
+        }
         var lbl = [];
         var clr = [];
         var vle = [];
         var invitedParticipants = 0;
         for(let i = 0 ; i < funnelData.length; i++){
-
             lbl.push(funnelData[i].statusLabel);
             vle.push(funnelData[i].peInStatus);
             clr.push(funnelData[i].funnelColor);

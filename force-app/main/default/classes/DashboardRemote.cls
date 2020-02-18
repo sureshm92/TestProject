@@ -374,40 +374,42 @@ public class DashboardRemote {
                 FROM Participant_Enrollment_Status_History__c
                 WHERE ParticipantEnrollment__c IN :peMap.keySet()
         ];
-        Set<Id> receivedStatusSet = new Set<Id>();
-        Set<Id> successfullyContactedSet = new Set<Id>();
-        Set<Id> initialVisitScheduledSet = new Set<Id>();
-        Set<Id> screeningPassedSet = new Set<Id>();
-        Set<Id> enrolledOrRandomizedSet = new Set<Id>();
-        Set<Id> eligibilityPassedSet = new Set<Id>();
+        if(!peHostoryList.isEmpty()) {
+            Set<Id> receivedStatusSet = new Set<Id>();
+            Set<Id> successfullyContactedSet = new Set<Id>();
+            Set<Id> initialVisitScheduledSet = new Set<Id>();
+            Set<Id> screeningPassedSet = new Set<Id>();
+            Set<Id> enrolledOrRandomizedSet = new Set<Id>();
+            Set<Id> eligibilityPassedSet = new Set<Id>();
 
-        for(Participant_Enrollment_Status_History__c pesh : peHostoryList){
-            if(pesh.Status__c == PEStatusState.PE_STATUS_RECEIVED){
-                receivedStatusSet.add(pesh.ParticipantEnrollment__c);
+            for (Participant_Enrollment_Status_History__c pesh : peHostoryList) {
+                if (pesh.Status__c == PEStatusState.PE_STATUS_RECEIVED) {
+                    receivedStatusSet.add(pesh.ParticipantEnrollment__c);
+                }
+                if (pesh.Status__c == PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED) {
+                    successfullyContactedSet.add(pesh.ParticipantEnrollment__c);
+                }
+                if (peMap.get(pesh.ParticipantEnrollment__c).Initial_visit_scheduled_flag__c && peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual') {
+                    initialVisitScheduledSet.add(pesh.ParticipantEnrollment__c);
+                } else if (pesh.Status__c == PEStatusState.PE_STATUS_ELIGIBILITY_PASSED && peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c == 'Virtual') {
+                    eligibilityPassedSet.add(pesh.ParticipantEnrollment__c);
+                }
+                if (pesh.Status__c == PEStatusState.PE_STATUS_SCREENING_PASSED || pesh.Status__c == PEStatusState.PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD) {
+                    screeningPassedSet.add(pesh.ParticipantEnrollment__c);
+                }
+                if (pesh.Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS || pesh.Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) {
+                    enrolledOrRandomizedSet.add(pesh.ParticipantEnrollment__c);
+                }
             }
-            if (pesh.Status__c == PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED) {
-                successfullyContactedSet.add(pesh.ParticipantEnrollment__c);
-            }
-            if(peMap.get(pesh.ParticipantEnrollment__c).Initial_visit_scheduled_flag__c && peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual') {
-                initialVisitScheduledSet.add(pesh.ParticipantEnrollment__c);
-            } else if(pesh.Status__c == PEStatusState.PE_STATUS_ELIGIBILITY_PASSED && peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c == 'Virtual'){
-                eligibilityPassedSet.add(pesh.ParticipantEnrollment__c);
-            }
-            if(pesh.Status__c == PEStatusState.PE_STATUS_SCREENING_PASSED || pesh.Status__c == PEStatusState.PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD){
-                screeningPassedSet.add(pesh.ParticipantEnrollment__c);
-            }
-            if(pesh.Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS || pesh.Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS){
-                enrolledOrRandomizedSet.add(pesh.ParticipantEnrollment__c);
-            }
+            returnData.add(new FunnelData(PEStatusState.PE_STATUS_RECEIVED, receivedStatusSet.size(), '#3DC2FA'));
+            returnData.add(new FunnelData(PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED, successfullyContactedSet.size(), '#9914E6'));
+            returnData.add(new FunnelData(peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual' ?
+                    INITIAL_VISIT_SCHEDULED : PEStatusState.PE_STATUS_ELIGIBILITY_PASSED,
+                    peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual' ?
+                            initialVisitScheduledSet.size() : eligibilityPassedSet.size(), '#D892FF'));
+            returnData.add(new FunnelData(PEStatusState.PE_STATUS_SCREENING_PASSED, screeningPassedSet.size(), '#139458'));
+            returnData.add(new FunnelData(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS, enrolledOrRandomizedSet.size(), '#7AFFD3'));
         }
-        returnData.add(new FunnelData(PEStatusState.PE_STATUS_RECEIVED,receivedStatusSet.size(),'#3DC2FA'));
-        returnData.add(new FunnelData(PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED,successfullyContactedSet.size(),'#9914E6'));
-        returnData.add(new FunnelData(peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual' ?
-                                      INITIAL_VISIT_SCHEDULED : PEStatusState.PE_STATUS_ELIGIBILITY_PASSED,
-                                      peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual' ?
-                                      initialVisitScheduledSet.size() : eligibilityPassedSet.size(), '#D892FF'));
-        returnData.add(new FunnelData(PEStatusState.PE_STATUS_SCREENING_PASSED,screeningPassedSet.size(),'#139458'));
-        returnData.add(new FunnelData(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS,enrolledOrRandomizedSet.size(),'#7AFFD3'));
         return returnData;
     }
 
