@@ -31,23 +31,23 @@
                 <aura:if isTrue="{!v.fromActionParticipant &amp;&amp; v.refProvider}">
                 <div class="referring">{!$Label.c.Referring_Provider}</div>
                     <div class="slds-grid slds-wrap slds-size--1-of-1">
-                    <c:ReferHealthcareProviderForm forThisProvider="ref" index = "{!index}" showReferringProvider="{!v.showReferringProvider}" isValid="true" refProvider="{!v.refProvider}" parent="{!this}"
+                    <c:ReferHealthcareProviderForm forThisProvider="isRef" index = "{!index}" showReferringProvider="{!v.showReferringProvider}" isValid="true" refProvider="{!v.refProvider}" parent="{!this}"
                                                    pe="{!v.pe}" actionDisabled="{!v.actionDisabled}" printMode="{!v.printMode}"/>
                     </div>
                 </aura:if>
                 <div class="referring">{!$Label.c.Delegates}</div>
                 <div class="slds-grid slds-wrap slds-size--1-of-1">
                     <aura:iteration items="{!v.delegates}" var="delegate" indexVar="index">
-                        <c:ReferHealthcareProviderForm forThisProvider="delegates" delegates = "{!delegate}" index = "{!index}" parent="{!this}"
+                        <c:ReferHealthcareProviderForm forThisProvider="isDelegates" delegates = "{!delegate}" index = "{!index}" parent="{!this}"
                                                        pe="{!v.pe}" actionDisabled="{!v.actionDisabled}" printMode="{!v.printMode}"/>
                     </aura:iteration>
                 </div>
             <aura:if isTrue="{!!v.actionDisabled}">
                 <div>
-                    <button class="apollo-btn secondary slds-box" onclick="{!c.doAddDelegate}">{!$Label.c.Add_Another_Delegate}
-                        <c:RRIcon class='rr-icon-small' color="#297dfd"
+                    <lightning:button class="apollo-btn secondary slds-box" onclick="{!c.doAddDelegate}">{!$Label.c.Add_Another_Delegate}
+                        <c:RRIcon class='rr-icon--left' color="#297dfd"
                                   iconName="icon-plus"/>
-                    </button>
+                    </lightning:button>
                 </div>
             </aura:if>
             <!--<div class="slds-col slds-size&#45;&#45;1-of-4 referring-provider-header">
@@ -59,16 +59,16 @@
         <div class="referring">{!!v.fromEmancipParticipant ? $Label.c.Other_Providers : ''}</div>
         <div class="slds-grid slds-wrap slds-size--1-of-1">
             <aura:iteration items="{!v.healthCareProviders}" var="hcProvider" indexVar="index">
-                <c:ReferHealthcareProviderForm forThisProvider="healthCare" healthCareProvider = "{!hcProvider}" index = "{!index}" parent="{!this}"
+                <c:ReferHealthcareProviderForm forThisProvider="isHealthCare" healthCareProvider = "{!hcProvider}" index = "{!index}" parent="{!this}"
                                                pe="{!v.pe}" actionDisabled="{!v.actionDisabled}" printMode="{!v.printMode}"/>
             </aura:iteration>
         </div>
         <aura:if isTrue="{!!v.actionDisabled}">
             <div>
-                <button class="apollo-btn secondary slds-box" onclick="{!c.doAddProvider}">{!$Label.c.BTN_Add_Provider}
+                <lightning:button class="apollo-btn secondary slds-box" onclick="{!c.doAddProvider}">{!$Label.c.BTN_Add_Provider}
                     <c:RRIcon class='rr-icon--left' color="#297dfd"
                               iconName="icon-plus"/>
-                </button>
+                </lightning:button>
             </div>
         </aura:if>
         </div>
