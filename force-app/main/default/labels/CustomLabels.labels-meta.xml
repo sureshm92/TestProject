@@ -10761,6 +10761,13 @@
         <value>New visit data is available</value>
     </labels>
     <labels>
+        <fullName>Participants_Referred_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participants Referred Label</shortDescription>
+        <value>Participants Referred</value>
+    </labels>
+    <labels>
         <fullName>Patient</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -11032,6 +11039,13 @@
         <protected>false</protected>
         <shortDescription>ReferralNetwork_SelectReferralNetwork</shortDescription>
         <value>Select Referral Networks</value>
+    </labels>
+    <labels>
+        <fullName>Referral_Pathway_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Referral Pathway Label</shortDescription>
+        <value>Referral Pathway</value>
     </labels>
     <labels>
         <fullName>Referring</fullName>
