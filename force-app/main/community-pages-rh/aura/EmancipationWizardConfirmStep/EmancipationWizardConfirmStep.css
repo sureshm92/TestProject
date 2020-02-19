@@ -5,7 +5,8 @@
     left: 0px;
     padding: 0px;
     width: 30px;
-    fill: rgba(255, 255, 255, 0.5);
+    fill: grey;
+    position: absolute;
 }
 
 .THIS .edit-btn {
@@ -14,4 +15,9 @@
     top: -2rem;
     right: 0.5rem;
     float: right;
+    background: #F6F7FB;
+}
+
+.THIS .grey-text {
+    color: grey;
 }
