@@ -132,7 +132,10 @@ public without sharing class NotificationAvailabilityService {
                 if (hcpe.HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c) {
                     checkForNotification = true;
                 }
+            } else if (objType == CONTACT){
+                checkForNotification = true;
             }
+
         }
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_PI) {
             if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
