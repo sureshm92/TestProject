@@ -334,9 +334,9 @@ public class DashboardRemote {
                 if (contactedPESH != null) {
                     Integer daysBetween;
                     if (peSH.Date__c != null && contactedPESH.Date__c != null) {
-                        daysBetween = peSH.Date__c.date().daysBetween(contactedPESH.Date__c.date());
+                        daysBetween = contactedPESH.Date__c.date().daysBetween(peSH.Date__c.date());
                     } else {
-                        daysBetween = peSH.CreatedDate.date().daysBetween(contactedPESH.CreatedDate.date());
+                        daysBetween = contactedPESH.CreatedDate.date().daysBetween(peSH.CreatedDate.date());
                     }
                     String days = null;
                     if (5 <= daysBetween) {
