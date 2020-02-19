@@ -218,6 +218,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 pe.Referred_Date__c = Date.today();
             }
             pe.Initial_visit_scheduled_flag__c = pe.Initial_visit_scheduled_date__c != null;
+            if(pe.Initial_visit_occurred_date__c == null && pe.Initial_visit_occurred_flag__c){
+                pe.Initial_visit_occurred_date__c = pe.Initial_visit_scheduled_date__c;
+            }
         }
 
         if (!participantContacts.isEmpty()) update participantContacts;
@@ -326,7 +329,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                                 !participant.IsCountry_NOT_Eligible_for_Emails__c &&
                                 participant.Contact__c != null;
                 System.debug('FILTER CRITERIA: ' + filterCriteria);
-                if (filterCriteria && participant.Adult__c) {
+                if (filterCriteria && participant.Adult__c && !participant.Emancipation_in_progress__c) {
                     if (participantUser == null) {
                         System.debug('CREATE USER');
                         Id hcpContact;
@@ -624,7 +627,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         List<Participant_Enrollment__c> peWithParticipating = [
                 SELECT Id, Clinical_Trial_Profile__c, Visit_Plan__c
                 FROM Participant_Enrollment__c
-                WHERE Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true
+                WHERE Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
                 AND Id IN:peEnrollSuccessIds
         ];
 
@@ -684,11 +687,13 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         Map<Id, List<Id>> delegateCntByParticipant = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(participantIds);
         List<Alert__c> alerts = new List<Alert__c>();
         for (Participant_Enrollment__c pe : peWithParticipating) {
-            alerts.add(new Alert__c(
-                    Contact__c = pe.Participant_Contact__c,
-                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY,
-                    Record_ID__c = pe.Id
-            ));
+            if(pe.Participant_Contact__c != null){
+                alerts.add(new Alert__c(
+                        Contact__c = pe.Participant_Contact__c,
+                        Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY,
+                        Record_ID__c = pe.Id
+                ));
+            }
             if (!delegateCntByParticipant.containsKey(pe.Participant__c)) continue;
 
             for (Id contactDelegateId : delegateCntByParticipant.get(pe.Participant__c)) {

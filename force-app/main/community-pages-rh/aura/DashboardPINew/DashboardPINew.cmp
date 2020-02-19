@@ -17,7 +17,8 @@
         <div class="slds-col slds-size--1-of-2">
             <c:DashboardWaitingContact dashboardTitle="{!'' + v.piData.participantsWaitingContact + ' ' + $Label.c.PG_DBPI_L_Referrals_waiting_for_contact}" peList="{!v.piData.awaitingToContact}" parent="{!v.parent}"/>
         </div>
-        <div class="slds-col slds-size--2-of-3">
+        <div class="slds-col slds-large-size_2-of-3 slds-small-size_1-of-1 slds-medium-size_2-of-3">
+            <c:FunnelChart funnelData = "{!v.piData.funnelData}"/>
         </div>
         <div class="slds-col slds-size--1-of-3">
             <div class="db-quick-actions-container">
