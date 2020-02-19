@@ -154,12 +154,14 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 }
             }
             List<Database.SaveResult> saveResults = Database.insert(peList, false);
+            Set<Id> participantsWithoutErrors = new Set<Id>();
             for (Integer i = 0; i < saveResults.size(); i++) {
                 Participant_Enrollment__c pe = peList[i];
                 Database.SaveResult sr = saveResults[i];
                 Integration_Patient_Referral__c ipr = newMap.get(pe.Referral_ID__c);
                 if (ipr != null) {
                     if (sr.isSuccess()) {
+                        participantsWithoutErrors.add(pe.Participant__c);
                         ipr.Success__c = true;
                         ipr.Participant_Enrollment__c = sr.getId();
                     } else {
@@ -172,15 +174,20 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             if (!delegateIds.isEmpty()) {
                 List<Patient_Delegate__c> ptDelegateRefs = new List<Patient_Delegate__c>();
                 List<Participant__c> participantDelegates = [SELECT Id, Contact__c FROM Participant__c WHERE Id IN :delegateIds];
+                Map<Id, Id> delegateUsersToCreate = new Map<Id, Id>();
                 for (Participant__c participantDelegate : participantDelegates) {
                     Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                     ptDelegateRef.Participant__c = participantIdByParticipantDelegateId.get(participantDelegate.Id);
                     ptDelegateRef.Contact__c = participantDelegate.Contact__c;
-                    ptDelegateRefs.add(ptDelegateRef);
+                    if (participantsWithoutErrors.contains(ptDelegateRef.Participant__c)) {
+                        ptDelegateRefs.add(ptDelegateRef);
+                        delegateUsersToCreate.put(participantDelegate.Contact__c, null);
+                    }
                 }
                 if (!ptDelegateRefs.isEmpty()) {
                     insert ptDelegateRefs;
                 }
+                ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(delegateUsersToCreate);
             }
         }
     }
