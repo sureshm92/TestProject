@@ -129,6 +129,10 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     public class CreateVisitsScheduleHandler extends TriggerHandler {
 
+        public override void afterInsert(List<SObject> newList) {
+            createVisitsSchedule((List<Participant_Enrollment__c>) newList, null);
+        }
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createVisitsSchedule((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
@@ -616,7 +620,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     private static void createVisitsSchedule(List<Participant_Enrollment__c> enrollments, Map<Id, Participant_Enrollment__c> oldMap) {
         Set<Id> peEnrollSuccessIds = new Set<Id>();
         for (Participant_Enrollment__c pe : enrollments) {
-            if (pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
+            if (oldMap == null || pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
                 if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
                         || pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) {
                     peEnrollSuccessIds.add(pe.Id);
