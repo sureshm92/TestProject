@@ -1,11 +1,13 @@
 /* Community_CSS_GSK_Theme */
 
 .main-header-brand{
-    background: linear-gradient(to right, #EA6621 0%, #F7EC68 100%);
+    /*background: linear-gradient(to right, #EA6621 0%, #F7EC68 100%);*/
+    background: #EA6621;
 }
 
 .mobile-menu-background{
-    background: linear-gradient(to right, #ea6621 0%, #f7ec68 100%);
+    /*background: linear-gradient(to right, #ea6621 0%, #f7ec68 100%);*/
+    background: #EA6621;
 }
 
 .slds-spinner_brand.slds-spinner:before,
