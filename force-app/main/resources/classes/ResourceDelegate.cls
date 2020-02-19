@@ -8,15 +8,21 @@ public inherited sharing class ResourceDelegate {
     }
 
     public ResourceService.ResourceWrapperContainer getResources(String resourceType) {
-        return ResourceArticleVideoService.getInstance().init(resourceType).getResourceWrapperContainer();
+        ResourceService.ResourceWrapperContainer resourceWrapperContainer = ResourceArticleVideoService.getInstance().init(resourceType).getResourceWrapperContainer();
+        resourceWrapperContainer.wrappers = ResourceService.sortResourcesByCOI(resourceWrapperContainer.wrappers);
+        return resourceWrapperContainer;
     }
 
     public ResourceService.ResourceWrapperContainer getFavoriteResources(String resourceType) {
-        return ResourceFavoriteService.getInstance().init(resourceType).getResourceWrapperContainer();
+        ResourceService.ResourceWrapperContainer resourceWrapperContainer = ResourceFavoriteService.getInstance().init(resourceType).getResourceWrapperContainer();
+        resourceWrapperContainer.wrappers = ResourceService.sortResourcesByCOI(resourceWrapperContainer.wrappers);
+        return resourceWrapperContainer;
     }
 
     public ResourceService.ResourceWrapperContainer getStudyDocuments() {
-        return ResourceStudyDocumentService.getInstance().init(ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT).getResourceWrapperContainer();
+        ResourceService.ResourceWrapperContainer resourceWrapperContainer = ResourceStudyDocumentService.getInstance().init(ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT).getResourceWrapperContainer();
+        resourceWrapperContainer.wrappers = ResourceService.sortResourcesByCOI(resourceWrapperContainer.wrappers);
+        return resourceWrapperContainer;
     }
 
     public ResourceService.ResourceWrapperContainer getResourcesById(String resourceId, String resourceType) {

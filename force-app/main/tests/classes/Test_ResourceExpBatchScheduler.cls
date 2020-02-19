@@ -4,7 +4,7 @@
 @IsTest(IsParallel=false)
 public with sharing class Test_ResourceExpBatchScheduler {
 
-    public static String CRON_EXP = '0 0 0 10 2 ? 2020';
+    public static String CRON_EXP = '0 0 0 10 2 ? 2025';
     static List<Resource__c> resources;
     static Map<Id, Resource__c> resourceMap;
     static List<Id> resIds;
@@ -49,12 +49,13 @@ public with sharing class Test_ResourceExpBatchScheduler {
                 CRON_EXP,
                 new ResourceExpBatchScheduler()
         );
+        Test.stopTest();
+
         CronTrigger ct = [SELECT Id, CronExpression, TimesTriggered,
                 NextFireTime
         FROM CronTrigger WHERE Id = :jobId];
         System.assertEquals(CRON_EXP, ct.CronExpression);
         System.assertEquals(0, ct.TimesTriggered);
-        Test.stopTest();
     }
 
     @IsTest
