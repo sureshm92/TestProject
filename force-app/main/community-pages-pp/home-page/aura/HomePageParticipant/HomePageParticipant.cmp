@@ -53,7 +53,12 @@
                             </aura:if>
                             <aura:if isTrue="{!v.participantState.value == 'ALUMNI'}">
                                 <div class="rr-width-limiter">
-                                    <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.png'}"/>
+                                    <aura:if isTrue="{!equals(v.participantState.communityName, 'IQVIA Referral Hub')}">
+                                        <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.png'}"/>
+                                        <aura:set attribute="else">
+                                            <img class="contrast-logo" src="{!$Resource.GSK_Logos + '/gsk-full.png'}"/>
+                                        </aura:set>
+                                    </aura:if>
                                 </div>
                             </aura:if>
                         </div>
