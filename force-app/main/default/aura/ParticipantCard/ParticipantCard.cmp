@@ -22,10 +22,8 @@
         <aura:set attribute="else">
             <c:ViewPatientItem pe="{!v.participantItem.pe}"
                                actions="{!v.actions}"
-                               peStatusesPathList="{!v.participantItem.peStatusesPathList}"
-                               peStatusStateMap="{!v.participantItem.peStatusStateMap}"
+                               pathItems="{!v.participantItem.pathItems}"
                                changeStatusBtnList="{!v.changeStatusBtnList}"
-                               singlePatientView="{!v.singlePatientView}"
                                parent="{!v.parent}"
                                isInvited="{!v.isInvited}"/>
         </aura:set>

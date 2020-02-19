@@ -458,6 +458,7 @@ public without sharing class ParticipantEnrollmentService {
             'Initial_visit_occurred_date__c',
             'Initial_visit_scheduled_date__c',
             'Initial_visit_scheduled_time__c',
+            'PI_Contact__c',
             'Initial_visit_scheduled_flag__c',
             'Revisit_Date__c'
     };

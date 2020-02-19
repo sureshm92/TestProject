@@ -1,0 +1,46 @@
+<!--
+ - Created by Andrii Kryvolap.
+ -->
+
+<aura:component description="ParticipantStatusPath">
+
+    <aura:attribute name="userMode" type="String" />
+    <aura:attribute name="pathSteps" type="List" />
+
+    <div class="vpi-path-panel">
+        <div class="{!v.userMode != 'PI' ? 'path-section' : 'path-section-pi'}">
+            <div class="slds-grid vpi-path">
+                <aura:iteration items="{!v.pathSteps}" var="pathItem">
+                    <div class="{!'slds-col width-basis vpi-state ' + pathItem.state + if(pathItem.isCurrent, ' current', '')}">
+                        <div class="slds-grid">
+                            <div class="{!'slds-col width-basis vpi-line-div ' + pathItem.left}"></div>
+                            <div class="{!'slds-col width-basis vpi-line-div ' + pathItem.right}"
+                                 style="position: relative">
+                                <div class="state-ico-wrapper">
+                                    <aura:if isTrue="{!pathItem.state == 'success'}">
+                                        <c:RRIcon iconName="icon-check"/>
+                                    </aura:if>
+                                    <aura:if isTrue="{!pathItem.state == 'failure'}">
+                                        <c:RRIcon iconName="icon-close"/>
+                                    </aura:if>
+                                    <aura:if isTrue="{!pathItem.state == 'in_progress'}">
+                                        <c:RRIcon iconName="icon-minus"/>
+                                    </aura:if>
+                                    <aura:if isTrue="{!pathItem.state == 'neutral'}">
+                                        <c:RRIcon iconName="icon-minus"/>
+                                    </aura:if>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="vri-state-label">{!pathItem.title}</div>
+                        <div class="vri-state-label">{!pathItem.reason}</div>
+                        <div class="vri-state-label">{!pathItem.dateOccured}</div>
+                    </div>
+                </aura:iteration>
+            </div>
+        </div>
+    </div>
+
+
+
+</aura:component>

@@ -23,8 +23,8 @@
                         <aura:iteration var="visitWrapper" items="{!v.visitWrappers}">
                             <tr>
                                 <td>{!visitWrapper.visit.Visit__r.Patient_Portal_Name__c}</td>
-                                <td>{!visitWrapper.visit.Visit_Schedule__c}</td>
-                                <td>
+                                <td>{!visitWrapper.visit.Visit__r.Visit_Schedule__c}</td>
+                                <td style="max-width: 130px">
                                     <c:RRIconSplitter class="svl-icon" value="{!visitWrapper.icons}"
                                                       numOfIconsToDisplay="3"/>
                                 </td>
