@@ -424,7 +424,13 @@ public without sharing class MyTeamRemote {
                 contactDelegate.MailingCountryCode = participant.Mailing_Country_Code__c;
                 contactDelegate.MailingStateCode = participant.Mailing_State_Code__c;
                 insert contactDelegate;
-                insert CommunityService.createUser(contactDelegate, null, null, null);
+
+                User delegateUser = CommunityService.createUser(contactDelegate, null, null, null);
+                insert delegateUser;
+                Map<Id, List<Id>> userPermissions = PermissionService.getAssignmentPermissionByUser(new List<Id>{
+                        UserInfo.getUserId()
+                });
+                PermissionService.setPermissions(delegateUser.Id, userPermissions.get(UserInfo.getUserId()));
             } else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
                 CommunityService.setUserToCommunity(contactDelegate.Id);
                 sendEmailNotification(contactDelegate);
