@@ -322,7 +322,7 @@ public class DashboardRemote {
                         daysBetween = contactedPESH.CreatedDate.date().daysBetween(peSH.CreatedDate.date());
                     }
                     String days = null;
-                    if (5 <= daysBetween) {
+                    if (5 >= daysBetween) {
                         days = LEESS_5_DAYS;
                     } else if (daysBetween >= 6 && daysBetween <= 10) {
                         days = FROM_6_TO_10_DAYS;

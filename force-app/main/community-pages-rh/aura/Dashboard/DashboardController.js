@@ -3,6 +3,7 @@
  */
 ({
     doInit: function (component) {
+        debugger;
         var spinner = component.find('mainSpinner');
         spinner.show();
         if (!communityService.isInitialized()) return;
