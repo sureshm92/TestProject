@@ -802,6 +802,13 @@
         <value>I Accept</value>
     </labels>
     <labels>
+        <fullName>BTN_I_Activate_my_site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN I Activate my site</shortDescription>
+        <value>Activate my site</value>
+    </labels>
+    <labels>
         <fullName>BTN_I_don_t_know_yet</fullName>
         <language>en_US</language>
         <protected>false</protected>
