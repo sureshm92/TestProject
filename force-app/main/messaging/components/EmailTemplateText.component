@@ -32,7 +32,7 @@
     <!-- for delegates: -->
     <c:EmailTemplateDelegateText userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}" delegateLevelsHCP="{!delegateLevelsHCP}"/>
 
-    <c:EmailTemplateDelegateParticipantText userId="{!emailRecipientId}" rendered="{!(isDelegate)}" params="{!dataParametersValue}"/>
+    <c:EmailTemplateDelegateParticipantText userId="{!emailRecipientId}" rendered="{!(isDelegate && userCommunityType == 'Participant')}" params="{!dataParametersValue}"/>
 
     <apex:componentBody />
 
