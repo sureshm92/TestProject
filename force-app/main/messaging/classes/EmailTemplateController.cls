@@ -100,7 +100,7 @@ global without sharing class EmailTemplateController {
 
     global String signatureValue {
         get {
-            if(getDataProvider().userMode == CommunityModeService.USER_MODE_PARTICIPANT){
+            if (getDataProvider().userMode == CommunityModeService.USER_MODE_PARTICIPANT) {
                 String signatureLabel = getTemplateProperties().get('EmailTemplateSignatureLabel');
                 return prepareLineBreaks(TranslateHelper.getLabelValue(signatureLabel));
             }
@@ -142,11 +142,20 @@ global without sharing class EmailTemplateController {
         if (sourceRecordId != null &&
                 (sourceRecordId.getSobjectType() == Participant_Enrollment__c.getSObjectType())) {
             Participant_Enrollment__c pe = [
-                    SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.Community_Template__c
+                    SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
                     FROM Participant_Enrollment__c
                     WHERE Id = :sourceRecordId
             ];
-            return CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.Community_Template__c).properties;
+            return CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).properties;
+        } else if (sourceRecordId != null &&
+                (sourceRecordId.getSobjectType() == User.getSObjectType())) {
+            Id conId = [SELECT Id, Contact.Id FROM User WHERE Id=: sourceRecordId].Contact.Id;
+            Participant_Enrollment__c pe = [
+                    SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
+                    FROM Participant_Enrollment__c
+                    WHERE Participant_Contact__c = :conId
+            ];
+            return CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).properties;
         } else {
             return CommunityTemplateService.getDefaultTemplate().properties;
         }
@@ -154,7 +163,7 @@ global without sharing class EmailTemplateController {
     }
 
     global String emailTemplateBackground {
-        get{
+        get {
             emailTemplateBackground = getTemplateProperties().get('EmailTemplateBackgr');
             return emailTemplateBackground;
         }
@@ -162,7 +171,7 @@ global without sharing class EmailTemplateController {
     }
 
     global String emailTemplateTextBackground {
-        get{
+        get {
             emailTemplateTextBackground = getTemplateProperties().get('EmailTemplateTextBackgr');
             return emailTemplateTextBackground;
         }
@@ -170,7 +179,7 @@ global without sharing class EmailTemplateController {
     }
 
     global String emailTemplateHeaderBackground {
-        get{
+        get {
             emailTemplateHeaderBackground = getTemplateProperties().get('EmailTemplateHeaderBackgr');
             return emailTemplateHeaderBackground;
         }
@@ -178,7 +187,7 @@ global without sharing class EmailTemplateController {
     }
 
     global String emailTemplateHeader {
-        get{
+        get {
             emailTemplateHeader = getTemplateProperties().get('EmailTemplateHeader');
             return emailTemplateHeader;
         }
@@ -186,7 +195,7 @@ global without sharing class EmailTemplateController {
     }
 
     global String emailTemplateTitle {
-        get{
+        get {
             emailTemplateTitle = getTemplateProperties().get('EmailTemplateTitle');
             return emailTemplateTitle;
         }
@@ -194,7 +203,7 @@ global without sharing class EmailTemplateController {
     }
 
     global String emailTemplateBrandLogo {
-        get{
+        get {
             emailTemplateBrandLogo = getTemplateProperties().get('EmailTemplateBrandLogo');
             return emailTemplateBrandLogo;
         }
@@ -202,7 +211,7 @@ global without sharing class EmailTemplateController {
     }
 
     global String emailTemplateBottomLogo {
-        get{
+        get {
             emailTemplateBottomLogo = getTemplateProperties().get('EmailTemplateBottomLogo');
             return emailTemplateBottomLogo;
         }
@@ -210,7 +219,7 @@ global without sharing class EmailTemplateController {
     }
 
     global String emailTemplateBrandLogoCSS {
-        get{
+        get {
             emailTemplateBrandLogoCSS = getTemplateProperties().get('EmailTemplateBrandLogoCSS');
             return emailTemplateBrandLogoCSS;
         }
@@ -373,7 +382,7 @@ global without sharing class EmailTemplateController {
             if (bodyLabel != null) bodyValue = TranslateHelper.getLabelValue(bodyLabel, getUserLanguageCode());
             if (headerLabel != null) headerValue = TranslateHelper.getLabelValue(headerLabel, getUserLanguageCode());
             if (titleLabel != null) titleValue = TranslateHelper.getLabelValue(titleLabel, getUserLanguageCode());
-            if(getDataProvider().userMode == CommunityModeService.USER_MODE_PARTICIPANT){
+            if (getDataProvider().userMode == CommunityModeService.USER_MODE_PARTICIPANT) {
                 String signatureLabelForTranslate = getTemplateProperties().get('EmailTemplateSignatureLabel');
                 signatureValue = prepareLineBreaks(TranslateHelper.getLabelValue(signatureLabelForTranslate));
             } else {
