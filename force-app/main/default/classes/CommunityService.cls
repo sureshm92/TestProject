@@ -209,6 +209,17 @@ public without sharing class CommunityService {
         return newUser;
     }
 
+    @Future
+    public static void deactivateUsers(List<Id> contactIds) {
+        List<User> users = [
+                SELECT Id, IsActive
+                FROM User
+                WHERE ContactId IN :contactIds
+        ];
+        for (User u : users) u.IsActive = false;
+        update users;
+    }
+
     public static List<Contact> getContacts(Set<Id> contactIds) {
         return [
                 SELECT Id, Email, FirstName, LastName, Name, Language__c, Full_Name__c, Salutation, Suffix
@@ -297,5 +308,14 @@ public without sharing class CommunityService {
             update userContact;
         }
         return isNewSession;
+    }
+
+    @Future
+    public static void insertPermissionSetAssignment(List<String> permissionSetAssignmentsJSON) {
+        List<PermissionSetAssignment> permissionSetAssignments = new List<PermissionSetAssignment>();
+        for (String psaJSON : permissionSetAssignmentsJSON) {
+            permissionSetAssignments.add((PermissionSetAssignment)JSON.deserialize(psaJSON, PermissionSetAssignment.class));
+        }
+        insert permissionSetAssignments;
     }
 }

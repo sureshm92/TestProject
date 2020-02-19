@@ -120,19 +120,33 @@ public without sharing class ConversationService {
 
         List<Patient_Delegate__c> patientDelegates = [
                 SELECT Id,
+                        Contact__c,
                         Contact__r.Full_Name__c,
                         Participant__c
                 FROM Patient_Delegate__c
                 WHERE Participant__c IN:participantIds
                 ORDER BY Participant__c
         ];
+        List<Id> delegateContactIds = new List<Id>();
+        for(Patient_Delegate__c pd : patientDelegates) delegateContactIds.add(pd.Contact__c);
+
+        List<Participant__c> decoupledParticipants = [
+                SELECT Id, Contact__c, Full_Name__c FROM Participant__c WHERE Contact__c IN:delegateContactIds
+        ];
+        Map<String, SObject> decoupledParticipantsMap;
+        if(!decoupledParticipants.isEmpty()) {
+            decoupledParticipantsMap = CollectionUtil.getSObjectMap(decoupledParticipants, 'Contact__c');
+        }
 
         Map<Id, List<String>> delegateNamesByParticipant = new Map<Id, List<String>>();
         for(Patient_Delegate__c pd : patientDelegates) {
             if(!delegateNamesByParticipant.containsKey(pd.Participant__c)) {
                 delegateNamesByParticipant.put(pd.Participant__c, new List<String>());
             }
-            delegateNamesByParticipant.get(pd.Participant__c).add(pd.Contact__r.Full_Name__c);
+            Id delConId = pd.Contact__c;
+            String delegateName = decoupledParticipantsMap != null && decoupledParticipantsMap.containsKey(delConId)
+                    ? ((Participant__c) decoupledParticipantsMap.get(delConId)).Full_Name__c : pd.Contact__r.Full_Name__c;
+            delegateNamesByParticipant.get(pd.Participant__c).add(delegateName);
         }
 
         return delegateNamesByParticipant;

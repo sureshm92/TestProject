@@ -147,13 +147,12 @@ global without sharing class ReferHealthcareProviderRemote {
 
     @AuraEnabled
     public static String stopSharing(String hpId) {
-        system.debug('999');
-        Healthcare_Provider__c newHP = [SELECT Id, Status__c FROM Healthcare_Provider__c WHERE Id = :hpId];
-        system.debug(newHP);
+        Healthcare_Provider__c newHP = [SELECT Id,
+                                               Status__c
+                                        FROM   Healthcare_Provider__c
+                                        WHERE  Id = :hpId];
         newHP.Status__c = HP_S_NOSHARING;
-        system.debug('777');
         update newHP;
-        system.debug('666');
 
         return newHP.Id;
     }
@@ -169,6 +168,18 @@ global without sharing class ReferHealthcareProviderRemote {
             participant.Show_Referring_Provider__c = true;
         }
         update participant;
+    }
+
+    @AuraEnabled
+    public static List<Patient_Delegate__c> getContactsDelegates(String participantId) {
+
+        List<Patient_Delegate__c> listDelegates = [SELECT Id,
+                                                          Participant__r.Email__c,
+                                                          Participant__r.First_Name__c, Participant__r.Last_Name__c
+                                                   FROM   Patient_Delegate__c
+                                                   WHERE  Participant__c =: participantId];
+        if (listDelegates.isEmpty()) listDelegates.add(new Patient_Delegate__c());
+        return listDelegates;
     }
 
     private static List<Study_Site__c> getStudySitesForMatchedRP(Id hcpContactId, List<String> piIds) {

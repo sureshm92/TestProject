@@ -1816,26 +1816,6 @@
         <apexClass>Test_RRChangePasswordController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <classAccesses>
-        <apexClass>Test_RRLoginRemote</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Test_RRPDFViewerController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Test_ReferHealthcareProviderRemote</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Test_ReferralProfileRemote</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Test_ReferringRemote</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
     <custom>false</custom>
     <fieldPermissions>
         <editable>true</editable>
@@ -2165,6 +2145,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Co_morbidity__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.CommunityTemplate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4194,6 +4179,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Message__c.DocId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Message__c.Message_Content__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5134,6 +5124,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant_Workflow_Step__mdt.In_Progress_Date_Field__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant_Workflow_Step__mdt.Name_Label__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5155,6 +5150,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Workflow_Step__mdt.Success_Condition__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant_Workflow_Step__mdt.Success_Date_Field__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5606,7 +5606,7 @@
         <editable>true</editable>
         <field>Res_study__c.Expires_On_Status__c</field>
         <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>false</editable>
         <field>Res_study__c.Notify_On_Availability__c</field>

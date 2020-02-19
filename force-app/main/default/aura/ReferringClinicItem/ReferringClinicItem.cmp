@@ -14,7 +14,7 @@
 
         <div class="rci-header">
 
-            <c:RRLink label="{!v.clinicWrapper.hcpContact.Salutation + ' ' + v.clinicWrapper.hcpContact.FirstName + ' ' + v.clinicWrapper.hcpContact.LastName + ' ' + (v.clinicWrapper.hcpContact.Is_First_Logon__c ? '('+ $Label.c.Not_Registered +')' : '')}" class="rci-name"/>
+            <div  class="rci-name">{!v.clinicWrapper.hcpContact.Salutation + ' ' + v.clinicWrapper.hcpContact.FirstName + ' ' + v.clinicWrapper.hcpContact.LastName + ' ' + (v.clinicWrapper.hcpContact.Is_First_Logon__c ? '('+ $Label.c.Not_Registered +')' : '')}</div>
             <div class="rci-info">
                 <div class="rci-inline">
                     <span class="info-labels">{!$Label.c.Account_Name}:</span>

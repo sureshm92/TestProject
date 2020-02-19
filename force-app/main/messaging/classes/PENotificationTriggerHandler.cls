@@ -137,7 +137,7 @@ public without sharing class PENotificationTriggerHandler {
         List<Notification__c> notificationList = new List<Notification__c>();
         List<Id> peIds = new List<Id>();
         for (Participant_Enrollment__c pe : newList) {
-            if (pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c) {
+            if (pe.Study_Site__c != oldMap.get(pe.Id).Study_Site__c && oldMap.get(pe.Id).Study_Site__c != null) {
                 peIds.add(pe.Id);
             }
         }

@@ -7,7 +7,10 @@ public without sharing class CommunityTemplateService {
     //Template properties:
     public static final String PROPERTY_COMMUNITY_LOGO = 'CommunityLogo';
     public static final String PROPERTY_THEME_CSS = 'ThemeCSS';
-    
+    public static final String PERMISSION_COMMUNITY_DEFAULT_NAME = 'Community_Default';
+    public static final String PERMISSION_COMMUNITY_GSK_NAME = 'Community_GSK_Pan_Oncology';
+    public static final String COMMUNITY_DEFAULT_NAME = 'Default';
+    public static final String COMMUNITY_GSK_NAME = 'GSK';
     public static final String TEMPLATE_DEFAULT = 'Default';
     public static final Map<String, String> RESOURCES_URL_MAP = getResourcesURLMap();
     public static final Map<String, Network> NETWORKS_MAP = getNetworksMap();
@@ -18,6 +21,13 @@ public without sharing class CommunityTemplateService {
         CommunityTemplate template = TEMPLATES_MAP.get(templateName);
         if(template == null) template = TEMPLATES_MAP.get(TEMPLATE_DEFAULT);
         return template;
+    }
+    
+    public static CommunityTemplate getTemplateByCommunityName(String communityName){
+        for(CommunityTemplate communityTemplate : TEMPLATES_MAP.values()){
+            if(communityTemplate.communityName == communityName) return communityTemplate;
+        }
+        return getDefaultTemplate();
     }
     
     public static CommunityTemplate getDefaultTemplate(){
@@ -40,6 +50,7 @@ public without sharing class CommunityTemplateService {
             }
             templatesMap.put(template.Label, new CommunityTemplate(
                     propertiesMap,
+                    template.Community_Name__c,
                     getCommunityURL(template.Community_Name__c)
             ));
             if(template.Label == TEMPLATE_DEFAULT) defaultProperties = propertiesMap;

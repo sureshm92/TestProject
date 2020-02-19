@@ -301,6 +301,7 @@ public without sharing class ViewPatientsRemote {
     }
     private static List<PEWrapper> convertToPEWrapperList(List<Participant_Enrollment__c> participantEnrollments, String userMode, String delegateId){
         List<PEWrapper> resultList = new List<PEWrapper>();
+        List<ParticipantItem> participantItems = new List<ParticipantItem>();
         Set<Id> idParticipants = new Set<Id>();
         Set<Id> idParticipantsOnUser = new Set<Id>();
         for (Participant_Enrollment__c pe : participantEnrollments) {
@@ -318,20 +319,30 @@ public without sharing class ViewPatientsRemote {
             idParticipantsOnUser.add(us.ContactId);
         }
         for (Participant_Enrollment__c pe : participantEnrollments) {
+            PEWrapper newPeWrapper;
             if (userMode == CommunityService.USER_MODE_HCP) {
-                resultList.add(new PEWrapper(pe, new StudyActionsHCP(pe, delegateId).actions));
+                newPeWrapper = new PEWrapper(pe, new StudyActionsHCP(pe, delegateId).actions);
+                resultList.add(newPeWrapper);
+                participantItems.add(newPeWrapper.pItem);
             } else {
                 if (userMode == CommunityService.USER_MODE_PI) {
                     if (pe.Participant_Contact__c != null && idParticipantsOnUser.contains(pe.Participant_Contact__c)) {
-                        resultList.add(new PEWrapper(pe, new StudyActionsPI(pe).actions, true));
+                        newPeWrapper = new PEWrapper(pe, new StudyActionsPI(pe).actions, true);
+                        resultList.add(newPeWrapper);
+                        participantItems.add(newPeWrapper.pItem);
                     } else {
-                        resultList.add(new PEWrapper(pe, new StudyActionsPI(pe).actions, false));
+                        newPeWrapper = new PEWrapper(pe, new StudyActionsPI(pe).actions, false);
+                        resultList.add(newPeWrapper);
+                        participantItems.add(newPeWrapper.pItem);
                     }
                 } else {
-                    resultList.add(new PEWrapper(pe, new StudyActionsPI(pe).actions));
+                    newPeWrapper = new PEWrapper(pe, new StudyActionsPI(pe).actions);
+                    resultList.add(newPeWrapper);
+                    participantItems.add(newPeWrapper.pItem);
                 }
             }
         }
+        ParticipantWorkflowService.populatePatientItemsWithPathWrappers(participantItems);
         return resultList;
     }
 

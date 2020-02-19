@@ -23,21 +23,21 @@
             <template if:true={isPIMode}>
                 <div class="ms-board-footer-pi">
                     <div style="min-height: 67px;">
-                        <lightning-input data-gtm="ms-pi-input"
-                                         type="text" label="" variant="label-hidden"
-                                         max-length="500"
-                                         placeholder={labels.inputPlaceholderLabel}
-                                         value={messageText}
-                                         onchange={handleMessageText}
-                                         onkeypress={handleInputEnter}></lightning-input>
-                        <template if:true={attachment}>
-                            <lightning-pill class="ms-file-pill" label={attachment.fileName}
-                                            title={attachment.fileName} variant="plain"
-                                            onremove={handleFilePreviewRemove}>
-                                <c-web-icon icon-name={attachment.icon} icon-color="#297DFD"
-                                            icon-size="small" style="margin-right: 2px;"></c-web-icon>
-                            </lightning-pill>
-                        </template>
+                        <div class="ms-send-pi-combined-input">
+                            <label for="pi-input"></label>
+                            <input id="pi-input" class="ms-pi-input" data-gtm="ms-pi-input"
+                                   type="text" maxlength="500" placeholder={labels.inputPlaceholderLabel}
+                                   value={messageText} autocomplete="off"
+                                   onchange={handleMessageText} onkeyup={handleInputEnter} />
+                            <template if:true={attachment}>
+                                <lightning-pill class="ms-file-pill" label={attachment.fileName}
+                                                title={attachment.fileName} variant="plain"
+                                                onremove={handleFilePreviewRemove}>
+                                    <c-web-icon icon-name={attachment.icon} icon-color="#297DFD"
+                                                icon-size="small" style="margin-right: 2px;"></c-web-icon>
+                                </lightning-pill>
+                            </template>
+                        </div>
                     </div>
                     <div class="ms-send-pi-buttons">
                         <div style="flex-grow: 1;">{labels.limitLabel}</div>
@@ -60,7 +60,7 @@
                                                         <c-web-icon icon-name="attachment"
                                                                     icon-color="#297DFD"></c-web-icon>
                                                     </span>
-                                                </span>
+                                        </span>
                                     </label>
                                 </div>
                             </div>
