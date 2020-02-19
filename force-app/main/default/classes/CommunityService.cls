@@ -298,4 +298,13 @@ public without sharing class CommunityService {
         }
         return isNewSession;
     }
+
+    @Future
+    public static void insertPermissionSetAssignment(List<String> permissionSetAssignmentsJSON) {
+        List<PermissionSetAssignment> permissionSetAssignments = new List<PermissionSetAssignment>();
+        for (String psaJSON : permissionSetAssignmentsJSON) {
+            permissionSetAssignments.add((PermissionSetAssignment)JSON.deserialize(psaJSON, PermissionSetAssignment.class));
+        }
+        insert permissionSetAssignments;
+    }
 }

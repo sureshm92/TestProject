@@ -2,33 +2,39 @@
  * Created by Igor Iosifov on 2020-02-17.
  */
 
-public with sharing class Batch_SetDefaultPermissionSets implements Database.Batchable<SObject> {
+public with sharing class Batch_SetDefaultPermissionSets implements Database.Batchable<SObject>, Database.Stateful {
+    List<PermissionSetAssignment> permissionSetAssignments = new List<PermissionSetAssignment>();
+    Id defaultPermissionSet;
 
+    public Database.QueryLocator start(Database.BatchableContext param1) {
+        defaultPermissionSet = [
+                SELECT Id
+                FROM PermissionSet
+                WHERE Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
+                LIMIT 1
+        ].Id;
 
-    public Iterable<SObject> start(Database.BatchableContext param1) {
-        List<User> activeUsersWithDefaultCommunity = [
+        return Database.getQueryLocator([
                 SELECT Id
                 FROM User
                 WHERE IsActive = TRUE
-                AND Profile.Name = 'IQVIA Customer Community Plus Login User'
-        ];
-        return activeUsersWithDefaultCommunity;
+                AND Profile.Name = :CommunityService.COMMUNITY_USER_PROFILE_NAME
+        ]);
     }
 
     public void execute(Database.BatchableContext param1, List<User> activeUsersWithDefaultCommunity) {
-        PermissionSet permissionSet = [SELECT Id FROM PermissionSet WHERE Name = 'Community_Default' LIMIT 1];
-        List<PermissionSetAssignment> permissionSetAssignments = new List<PermissionSetAssignment>();
+
         for (User user : activeUsersWithDefaultCommunity) {
-            permissionSetAssignments.add (new PermissionSetAssignment(AssigneeId = user.Id, PermissionSetId = permissionSet.Id));
+            permissionSetAssignments.add (new PermissionSetAssignment(AssigneeId = user.Id, PermissionSetId = defaultPermissionSet));
         }
-        insert permissionSetAssignments;
     }
 
     public void finish(Database.BatchableContext param1) {
+        Database.insert(permissionSetAssignments, false);
     }
 
-    public static void runAll() {
+    public static void run() {
         Database.executeBatch(new Batch_SetDefaultPermissionSets());
     }
-
 }
+

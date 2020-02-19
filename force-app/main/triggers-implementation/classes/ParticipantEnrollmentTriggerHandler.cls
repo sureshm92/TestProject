@@ -170,13 +170,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     public class AssignCommunityPermissionSetToUserHandler extends TriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
-            assignCommunityPermissionSetToUser((List<Participant_Enrollment__c>) newList, null);
+            assignCommunityPermissionSetToUser(newList);
         }
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            assignCommunityPermissionSetToUser((List<Participant_Enrollment__c>) newList, null);
-        }
-
     }
 
     // Logic: ----------------------------------------------------------------------------------------------------------
@@ -819,38 +814,70 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     }
 
     @TestVisible
-    private static void assignCommunityPermissionSetToUser(List<Participant_Enrollment__c> participantEnrollments, Map<Id, SObject> oldMap) {
-//        List<PermissionSetAssignment> permissionSetAssignments = new List<PermissionSetAssignment>();
-//        List <PermissionSet> communityPermissionSets = [
-//                SELECT Id, Name
-//                FROM PermissionSet
-//                WHERE (Name = :CommunityTemplateService.COMMUNITY_DEFAULT_NAME
-//                OR Name = :CommunityTemplateService.COMMUNITY_GSK_NAME)
-//                ORDER BY Name
-//        ];
-//
-//        Id defaultCommunityPermissionSet = communityPermissionSets.get(0).Id;
-//        Id gskCommunityPermissionSet = communityPermissionSets.get(1).Id;
-//
-//        for (Participant_Enrollment__c participantEnrollment : participantEnrollments) {
-//            if (participantEnrollment.Clinical_Trial_Profile__c != null && participantEnrollment.Participant__c != null) {
-//                String currentCommunityTemplateName = participantEnrollment.Clinical_Trial_Profile__r.Community_Template__c;
-//                Id currentParticipantUserId = participantEnrollment.Participant_Contact__c;
-//                 User participantUser = [SELECT Id FROM User WHERE Contact.Id = currentParticipantUserId]
-//                if (currentCommunityTemplateName == 'IQVIA Patient Portal') {
-//                    permissionSetAssignments.add (new PermissionSetAssignment(
-//                            AssigneeId = participantUser.Id,
-//                            PermissionSetId = defaultCommunityPermissionSet)
-//                    );
-//                }
-//                if (currentCommunityTemplateName == 'GSK Pan Oncology') {
-//                    permissionSetAssignments.add (new PermissionSetAssignment(
-//                            AssigneeId = participantUser.Id,
-//                            PermissionSetId = gskCommunityPermissionSet)
-//                    );
-//                }
-//            }
-//        }
-//        insert permissionSetAssignments;
+    private static void assignCommunityPermissionSetToUser(List<Participant_Enrollment__c> participantEnrollments) {
+        List<Participant_Enrollment__c> enrollments = [
+                SELECT
+                        Id,
+                        Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Participant_Contact__c
+                FROM Participant_Enrollment__c
+                WHERE Id IN :participantEnrollments
+                AND Clinical_Trial_Profile__c != NULL
+                AND Participant_Contact__c != NULL
+        ];
+
+        List<Id> partContIds = new List<Id>();
+
+        for (Participant_Enrollment__c enrollment : enrollments) partContIds.add(enrollment.Participant_Contact__c);
+
+        List<User> participantUsers = [SELECT Id, ContactId FROM User WHERE ContactId IN :partContIds];
+
+        if (!participantUsers.isEmpty()) {
+
+            List<PermissionSetAssignment> permissionSetAssignmentsForUsers = [
+                    SELECT Id
+                    FROM PermissionSetAssignment
+                    WHERE AssigneeId IN:participantUsers
+            ];
+            List<Id> permissionSetIds = CollectionUtil.getObjectIds(permissionSetAssignmentsForUsers);
+
+            Map<String, String> usersByContact = new Map<String, String>();
+            for (User user : participantUsers) usersByContact.put(user.ContactId, user.Id);
+
+
+            List <PermissionSet> communityPermissionSets = [
+                    SELECT Id, Name
+                    FROM PermissionSet
+                    WHERE (Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
+                    OR Name = :CommunityTemplateService.PERMISSION_COMMUNITY_GSK_NAME)
+                    ORDER BY Name
+            ];
+
+            Id defaultCommunityPermissionSet = communityPermissionSets.get(0).Id;
+            Id gskCommunityPermissionSet = communityPermissionSets.get(1).Id;
+
+            List<String> permissionSetAssignmentsJSON = new List<String>();
+            for (Participant_Enrollment__c pe : enrollments) {
+                Id permSetId;
+                String studyCommunityTemplateName = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+
+                if (studyCommunityTemplateName == CommunityTemplateService.COMMUNITY_DEFAULT_NAME) {
+                    permSetId = defaultCommunityPermissionSet;
+
+                } else if (studyCommunityTemplateName == CommunityTemplateService.COMMUNITY_GSK_NAME) {
+                    permSetId = gskCommunityPermissionSet;
+                }
+                if (permSetId != null && usersByContact.containsKey(pe.Participant_Contact__c)) {
+                    if (!permissionSetIds.contains(permSetId)) {
+                        //We cannot insert Permission Sets here, only in future method. Google told me.
+                        permissionSetAssignmentsJSON.add (JSON.serialize(new PermissionSetAssignment(
+                                AssigneeId = usersByContact.get(pe.Participant_Contact__c),
+                                PermissionSetId = permSetId))
+                        );
+                    }
+                }
+            }
+            CommunityService.insertPermissionSetAssignment(permissionSetAssignmentsJSON);
+        }
     }
 }
