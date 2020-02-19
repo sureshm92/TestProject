@@ -12,9 +12,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>None</fullName>
+                <fullName>Helpful Links</fullName>
                 <default>true</default>
-                <label>None</label>
+                <label>Helpful Links</label>
             </value>
             <value>
                 <fullName>Patient advocacy groups</fullName>
