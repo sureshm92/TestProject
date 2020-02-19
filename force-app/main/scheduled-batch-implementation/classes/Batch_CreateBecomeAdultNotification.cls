@@ -40,6 +40,7 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
         List<Notification__c> notifications = new List<Notification__c>();
 
         for (Participant__c prt : nowAdultParticipantOrBecome) {
+            System.debug('Participant Id ' + prt.Id);
             if (dlgIdsByPartIds.containsKey(prt.Id)) {
                 for (Id delId : dlgIdsByPartIds.get(prt.Id)) {
                     alerts.add(new Alert__c(
