@@ -37,6 +37,17 @@ global without sharing class EmailActionBtnController {
             } else {
                 currCommunities = [SELECT Id FROM Network WHERE Name = 'IQVIA Referral Hub'];
             }
+        } else if (resourceIdString != null && resourceIdString.getSobjectType() == Clinical_Trial_Profile__c.getSObjectType()) {
+            Clinical_Trial_Profile__c ctp = [
+                    SELECT Id, CommunityTemplate__c
+                    FROM Clinical_Trial_Profile__c
+                    WHERE Id = :resourceIdString
+            ];
+            if (ctp.CommunityTemplate__c == 'GSK') {
+                currCommunities = [SELECT Id FROM Network WHERE Name = 'GSK Community'];
+            } else {
+                currCommunities = [SELECT Id FROM Network WHERE Name = 'IQVIA Referral Hub'];
+            }
         } else {
             currCommunities = [SELECT Id FROM Network WHERE Name = 'IQVIA Referral Hub'];
         }
