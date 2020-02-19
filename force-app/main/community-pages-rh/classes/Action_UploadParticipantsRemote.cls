@@ -52,7 +52,7 @@ public without sharing class Action_UploadParticipantsRemote {
             Integer totalRowCount = 0;
             Map<Integer, List<String>> finalCSVLines = new Map<Integer, List<String>>();
             if (csvFileLines.size() != 0 && !headerFailed) {
-                for (Integer rowIndex = 1; rowIndex < csvFileLines.size(); rowIndex++) {
+                for (Integer rowIndex = 2; rowIndex < csvFileLines.size(); rowIndex++) {
                     List<String> line = csvFileLines.get(rowIndex).trim().removeEnd(',').trim().removeEnd(',').split(',');
                     if (line == null || line.isEmpty() || line.size() == 1) {
                         continue;

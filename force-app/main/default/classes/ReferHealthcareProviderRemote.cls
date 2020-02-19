@@ -174,8 +174,8 @@ global without sharing class ReferHealthcareProviderRemote {
     public static List<Patient_Delegate__c> getContactsDelegates(String participantId) {
 
         List<Patient_Delegate__c> listDelegates = [SELECT Id,
-                                                          Contact__r.Email,
-                                                          Contact__r.FirstName, Contact__r.LastName
+                                                          Participant__r.Email__c,
+                                                          Participant__r.First_Name__c, Participant__r.Last_Name__c
                                                    FROM   Patient_Delegate__c
                                                    WHERE  Participant__c =: participantId];
         if (listDelegates.isEmpty()) listDelegates.add(new Patient_Delegate__c());
