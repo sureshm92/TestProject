@@ -3,7 +3,6 @@
  */
 ({
     doExecute: function (component, event, helper) {
-        let userMode =  communityService.getUserMode();
         communityService.executeAction(component, 'getMotivationalMessage', {
             userMode: communityService.getUserMode()
         }, function (message) {
