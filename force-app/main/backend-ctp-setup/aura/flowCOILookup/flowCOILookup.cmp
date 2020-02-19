@@ -12,6 +12,6 @@
                        sObjectType="Therapeutic_Area__c"
                        value="{!v.conditions}"
                        onchange="{!c.updateCoi}"
-                       filter=" AND Type__c = 'COI' "
+                       filter=" AND RecordType.Name = 'Condition of Interests' "
                        placeholder="Select Condition Of Interest"/>
 </aura:component>
