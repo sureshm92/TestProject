@@ -10,7 +10,6 @@
                 <label>{customLabel.Conditions_of_interest}</label>
             </div>
             <div class="slds-grid slds-grid_vertical">
-<!--                <div if:false={isEmptyTaps}>-->
                 <template if:true={taps}>
                     <template for:each={taps} for:item="tap">
                         <div key={tap.Id}>
@@ -21,7 +20,6 @@
                         </div>
                     </template>
                 </template>
-<!--                </div>-->
             </div>
 <!--            Search for another condition-->
             <div class="slds-form-element">
