@@ -122,7 +122,7 @@ public abstract class StudyActions {
     public static final String LABEL_MANAGE_REFERRING_CLINICS = Label.SS_Btn_Manage_Referring_Providers;
     public static final String LABEL_MANAGE_REFERRALS_BY_SS = Label.SS_Btn_Manage_Referrals;
     public static final String LABEL_MANAGE_REFERRING_CLINICS_BY_SS = Label.SS_Btn_Manage_Referring_Providers;
-    public static final String LABEL_OPEN_TO_RECEIVE_REFERRALS = Label.BTN_I_m_open_to_receive_referrals;
+    public static final String LABEL_OPEN_TO_RECEIVE_REFERRALS = Label.BTN_I_Activate_my_site;
     public static final String LABEL_HCP_ON_HOLD = Label.BTN_On_hold;
     public static final String LABEL_HCP_DECLINE = Label.BTN_Decline;
     public static final String LABEL_HCP_DEACTIVATE = Label.BTN_Deactivate;
