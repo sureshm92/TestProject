@@ -26,13 +26,12 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
         List<Participant__c> participants = new List<Participant__c>();
         List<Id> participantIds = new List<Id>();
 
+        System.debug('>>>> Participants enrollment' + JSON.serializePretty(participantEnrollments));
         Map<Id, Participant_Enrollment__c> prtByPEs = new Map<Id, Participant_Enrollment__c>();
         for (Participant_Enrollment__c pe : participantEnrollments) {
-            if (pe.Participant__r.Date_of_Birth__c.length() > 9) {
-                participants.add(pe.Participant__r);
-                participantIds.add(pe.Participant__c);
-                prtByPEs.put(pe.Participant__r.Id, pe);
-            }
+            participants.add(pe.Participant__r);
+            participantIds.add(pe.Participant__c);
+            prtByPEs.put(pe.Participant__r.Id, pe);
         }
 
         List<Participant__c> nowAdultParticipantOrBecome = calculateParticipantsAgeOfMajority(participants);
@@ -109,8 +108,7 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
                         && (prt.Mailing_State_Code__c == ageOfMajority.State_Code__c || String.isBlank(ageOfMajority.State_Code__c)))
                         || (String.isBlank(ageOfMajority.Country_Code__c))) {
                     prt.Adult__c = participantAge >= ageOfMajority.Age__c;
-                    if (participantAgePlus7Days >= ageOfMajority.Age__c && !prt.Adult__c) nowAdultParticipantOrBecomeSooner.add(prt);
-                    else if (prt.Adult__c) nowAdultParticipantOrBecomeSooner.add(prt);
+                    if (participantAgePlus7Days >= ageOfMajority.Age__c && !prt.Adult__c) nowAdultParticipantOrBecomeSooner.add(prt); else if (prt.Adult__c) nowAdultParticipantOrBecomeSooner.add(prt);
                 }
             } catch (Exception e) {
             }
