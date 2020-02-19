@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Email_Template__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Delegate_New_Email</value>
     </values>
     <values>
         <field>Message_Body__c</field>
