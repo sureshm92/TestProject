@@ -157,6 +157,21 @@ public without sharing class UserTriggerHandler {
                 );
             }
         }
+
+        List<User> rhUsers = [
+                SELECT Id
+                FROM User
+                WHERE Id IN:insertedUsers
+                AND ContactId != NULL
+                AND Contact.userCommunityMode__c != 'Participant'
+        ];
+        for(User user : rhUsers) {
+            permissionSetAssignmentsJSON.add (JSON.serialize(new PermissionSetAssignment(
+                    AssigneeId = user.Id,
+                    PermissionSetId = defaultCommunityPermissionSet
+            )));
+        }
+
         CommunityService.insertPermissionSetAssignment(permissionSetAssignmentsJSON);
     }
 }
