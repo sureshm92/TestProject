@@ -29,7 +29,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
-    public class AddPaymentInformationHandler extends TriggerHandler{
+    public class AddPaymentInformationHandler extends TriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
             getPaymentInformation(newList);
@@ -129,6 +129,10 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     public class CreateVisitsScheduleHandler extends TriggerHandler {
 
+        public override void afterInsert(List<SObject> newList) {
+            createVisitsSchedule((List<Participant_Enrollment__c>) newList, null);
+        }
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createVisitsSchedule((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
@@ -164,6 +168,13 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             ProviderPaymentsService.checkPEForReimbursableActivities((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
+
+    public class AssignCommunityPermissionSetToUserHandler extends TriggerHandler {
+
+        public override void afterInsert(List<SObject> newList) {
+            assignCommunityPermissionSetToUser(newList);
         }
     }
 
@@ -299,7 +310,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             Boolean updateCriteria = true;
             if (oldMap != null) {
                 Participant_Enrollment__c oldPE = oldMap.get(newPE.Id);
-                updateCriteria = oldPE.Participant_Status__c == newPE.Participant_Status__c &&(
+                updateCriteria = oldPE.Participant_Status__c == newPE.Participant_Status__c && (
                         oldPE.Participant__c != newPE.Participant__c || participantUser == null) ||
                         newPE.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED && participantUser == null;
                 System.debug('OLD STATUS: ' + oldPE.Participant_Status__c);
@@ -361,14 +372,14 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 }
             }
         }
-        if(!alertsForInsert.isEmpty()){
+        if (!alertsForInsert.isEmpty()) {
             insert alertsForInsert;
         }
         if (toCreateUser.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
-        if(!notifications.isEmpty()){
+        if (!notifications.isEmpty()) {
             insert notifications;
         }
-        if(!contactsForChangeMode.isEmpty()){
+        if (!contactsForChangeMode.isEmpty()) {
             update contactsForChangeMode;
         }
     }
@@ -378,7 +389,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     @TestVisible
     private static void setChangedDate(List<Participant_Enrollment__c> newList) {
         for (Participant_Enrollment__c pe : newList) {
-            if(pe.MRR_Survey_Results_URL__c != null && pe.Medical_Record_Review_Completed_Date__c == null){
+            if (pe.MRR_Survey_Results_URL__c != null && pe.Medical_Record_Review_Completed_Date__c == null) {
                 pe.Medical_Record_Review_Completed_Date__c = Datetime.now();
             }
             if (pe.Participant_Status__c != null && pe.Participant_Status_Last_Changed_Date__c == null) {
@@ -396,29 +407,28 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         Participant__r.First_Name__c, Participant__r.Last_Name__c, Participant__r.Email__c,
                         Clinical_Trial_Profile__r.Protocol_ID__c
                 FROM Participant_Enrollment__c
-                WHERE Id IN: newMap.keySet()
+                WHERE Id IN:newMap.keySet()
         ];
         Set<Id> ssIds = new Set<Id>();
-        for(Participant_Enrollment__c pe : peList) ssIds.add(pe.Study_Site__c);
+        for (Participant_Enrollment__c pe : peList) ssIds.add(pe.Study_Site__c);
 
         List<PaymentVendorSettings__c> paymentVendorSettings = [
                 SELECT Id, Payment_Vendor__r.Payment_Vendor_Id__c, Study_Site__c
                 FROM PaymentVendorSettings__c
-                WHERE Study_Site__c IN: ssIds
+                WHERE Study_Site__c IN:ssIds
         ];
         Map<Id, PaymentVendorSettings__c> pvsBySsIds = new Map<Id, PaymentVendorSettings__c>();
-        for(PaymentVendorSettings__c pvs : paymentVendorSettings) pvsBySsIds.put(pvs.Study_Site__c, pvs);
+        for (PaymentVendorSettings__c pvs : paymentVendorSettings) pvsBySsIds.put(pvs.Study_Site__c, pvs);
 
-        for(Participant_Enrollment__c pe : peList) {
-            if(pvsBySsIds.keySet().contains(pe.Study_Site__c)){
+        for (Participant_Enrollment__c pe : peList) {
+            if (pvsBySsIds.keySet().contains(pe.Study_Site__c)) {
                 Participant__c participant = pe.Participant__r;
                 Action_GetCardDetails actionGetCardDetails = new Action_GetCardDetails(
                         pe.Clinical_Trial_Profile__r.Protocol_ID__c,
                         pe.Screening_ID__c,
                         participant);
 
-                if(!System.isBatch() && !System.isFuture()) ActionExecutor.executeAsync(actionGetCardDetails);
-                else ActionExecutor.executeAsync(actionGetCardDetails, Datetime.now());
+                if (!System.isBatch() && !System.isFuture()) ActionExecutor.executeAsync(actionGetCardDetails); else ActionExecutor.executeAsync(actionGetCardDetails, Datetime.now());
             }
         }
     }
@@ -426,8 +436,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     @TestVisible
     private static void getPaymentInformationOnStatusChange(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<Participant_Enrollment__c> peToUpdate = new List<Participant_Enrollment__c>();
-        for(Participant_Enrollment__c participantEnrollment : newList){
-            if(participantEnrollment.Participant_Status__c != oldMap.get(participantEnrollment.Id).Participant_Status__c) {
+        for (Participant_Enrollment__c participantEnrollment : newList) {
+            if (participantEnrollment.Participant_Status__c != oldMap.get(participantEnrollment.Id).Participant_Status__c) {
                 peToUpdate.add(participantEnrollment);
             }
         }
@@ -529,8 +539,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                             Reason__c = pe.Non_Referral_Reason__c
                     ));
                 }
-            }
-            else if(oldMap == null){
+            } else if (oldMap == null) {
                 histories.addAll(createHistoryRecordsForPE(pe));
             }
         }
@@ -611,7 +620,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     private static void createVisitsSchedule(List<Participant_Enrollment__c> enrollments, Map<Id, Participant_Enrollment__c> oldMap) {
         Set<Id> peEnrollSuccessIds = new Set<Id>();
         for (Participant_Enrollment__c pe : enrollments) {
-            if (pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
+            if (oldMap == null || pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
                 if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
                         || pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) {
                     peEnrollSuccessIds.add(pe.Id);
@@ -786,11 +795,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         if (newParticipants.size() > 0) insert newParticipants;
     }
 
-    private static List<Participant_Enrollment_Status_History__c> createHistoryRecordsForPE(Participant_Enrollment__c participantEnrollment){
+    private static List<Participant_Enrollment_Status_History__c> createHistoryRecordsForPE(Participant_Enrollment__c participantEnrollment) {
         PEStatusState currentState = PEStatusState.STATUSES_MAP.get(participantEnrollment.Participant_Status__c);
         System.debug('currentState:' + currentState);
         List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
-        if(currentState != null){
+        if (currentState != null) {
             for (PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE) {
                 if (step.name == currentState.name) {
                     statusHistories.add(new Participant_Enrollment_Status_History__c(
@@ -809,7 +818,75 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 ));
             }
         }
-        System.debug('statusHistories:'+statusHistories);
+        System.debug('statusHistories:' + statusHistories);
         return statusHistories;
+    }
+
+    @TestVisible
+    private static void assignCommunityPermissionSetToUser(List<Participant_Enrollment__c> participantEnrollments) {
+        List<Participant_Enrollment__c> enrollments = [
+                SELECT
+                        Id,
+                        Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Participant_Contact__c
+                FROM Participant_Enrollment__c
+                WHERE Id IN :participantEnrollments
+                AND Clinical_Trial_Profile__c != NULL
+                AND Participant_Contact__c != NULL
+        ];
+
+        List<Id> partContIds = new List<Id>();
+
+        for (Participant_Enrollment__c enrollment : enrollments) partContIds.add(enrollment.Participant_Contact__c);
+
+        List<User> participantUsers = [SELECT Id, ContactId FROM User WHERE ContactId IN :partContIds];
+
+        if (!participantUsers.isEmpty()) {
+
+            List<PermissionSetAssignment> permissionSetAssignmentsForUsers = [
+                    SELECT Id
+                    FROM PermissionSetAssignment
+                    WHERE AssigneeId IN:participantUsers
+            ];
+            List<Id> permissionSetIds = CollectionUtil.getObjectIds(permissionSetAssignmentsForUsers);
+
+            Map<String, String> usersByContact = new Map<String, String>();
+            for (User user : participantUsers) usersByContact.put(user.ContactId, user.Id);
+
+
+            List <PermissionSet> communityPermissionSets = [
+                    SELECT Id, Name
+                    FROM PermissionSet
+                    WHERE (Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
+                    OR Name = :CommunityTemplateService.PERMISSION_COMMUNITY_GSK_NAME)
+                    ORDER BY Name
+            ];
+
+            Id defaultCommunityPermissionSet = communityPermissionSets.get(0).Id;
+            Id gskCommunityPermissionSet = communityPermissionSets.get(1).Id;
+
+            List<String> permissionSetAssignmentsJSON = new List<String>();
+            for (Participant_Enrollment__c pe : enrollments) {
+                Id permSetId;
+                String studyCommunityTemplateName = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+
+                if (studyCommunityTemplateName == CommunityTemplateService.COMMUNITY_DEFAULT_NAME) {
+                    permSetId = defaultCommunityPermissionSet;
+
+                } else if (studyCommunityTemplateName == CommunityTemplateService.COMMUNITY_GSK_NAME) {
+                    permSetId = gskCommunityPermissionSet;
+                }
+                if (permSetId != null && usersByContact.containsKey(pe.Participant_Contact__c)) {
+                    if (!permissionSetIds.contains(permSetId)) {
+                        //We cannot insert Permission Sets here, only in future method. Google told me.
+                        permissionSetAssignmentsJSON.add (JSON.serialize(new PermissionSetAssignment(
+                                AssigneeId = usersByContact.get(pe.Participant_Contact__c),
+                                PermissionSetId = permSetId))
+                        );
+                    }
+                }
+            }
+            CommunityService.insertPermissionSetAssignment(permissionSetAssignmentsJSON);
+        }
     }
 }
