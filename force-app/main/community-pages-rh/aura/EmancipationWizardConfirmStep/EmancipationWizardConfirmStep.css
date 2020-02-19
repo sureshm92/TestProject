@@ -15,3 +15,7 @@
     right: 0.5rem;
     float: right;
 }
+
+.THIS .grey-text {
+    color: grey;
+}

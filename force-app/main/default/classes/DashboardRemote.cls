@@ -286,13 +286,9 @@ public class DashboardRemote {
     private static List<BarItem> prepareWaitingList(String userMode, String delegateId) {
         List<BarItem> resList = new List<BarItem>();
 
-        /*List<Participant_Enrollment__c> pes =
-                ParticipantEnrollmentService.getPEnrolmentsByStatus(
-                        userMode,
-                        new List<String>{ PEStatusState.PE_STATUS_RECEIVED },
-                        null,
-                        delegateId);
-        Map<Id, Participant_Enrollment__c> peById = new Map<Id, Participant_Enrollment__c>(pes);*/
+        if (String.isBlank(delegateId)) {
+            delegateId = CommunityService.getUserContact().Id;
+        }
 
         List<Participant_Enrollment_Status_History__c> peSHs =
             [SELECT Id,
@@ -334,12 +330,13 @@ public class DashboardRemote {
                 if (contactedPESH != null) {
                     Integer daysBetween;
                     if (peSH.Date__c != null && contactedPESH.Date__c != null) {
-                        daysBetween = contactedPESH.Date__c.date().daysBetween(peSH.Date__c.date());
+                        daysBetween = peSH.Date__c.date().daysBetween(contactedPESH.Date__c.date());
                     } else {
-                        daysBetween = contactedPESH.CreatedDate.date().daysBetween(peSH.CreatedDate.date());
+                        daysBetween = peSH.CreatedDate.date().daysBetween(contactedPESH.CreatedDate.date());
                     }
+
                     String days = null;
-                    if (5 <= daysBetween) {
+                    if (daysBetween <= 5) {
                         days = LEESS_5_DAYS;
                     } else if (daysBetween >= 6 && daysBetween <= 10) {
                         days = FROM_6_TO_10_DAYS;
@@ -352,12 +349,15 @@ public class DashboardRemote {
                     }
 
                     List<Participant_Enrollment_Status_History__c> peSHDay = peSHByDays.get(days);
-                    if (peSHDay != null) {
-                        peSHDay.add(peSH);
-                        if (maxParticipantsInDays < peSHDay.size()) {
-                            maxParticipantsInDays = peSHDay.size();
-                            daysMaxParticipantsInDays = days;
-                        }
+                    if (peSHDay == null) {
+                        peSHDay = new List<Participant_Enrollment_Status_History__c>();
+                        peSHByDays.put(days, peSHDay);
+                    }
+
+                    peSHDay.add(peSH);
+                    if (maxParticipantsInDays < peSHDay.size()) {
+                        maxParticipantsInDays = peSHDay.size();
+                        daysMaxParticipantsInDays = days;
                     }
                 }
             }
