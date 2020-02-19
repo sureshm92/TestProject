@@ -74,17 +74,20 @@ export default class ConditionsOfInterestViewComp extends LightningElement {
     }
 
     handleSelect(event) {
-        let evId, tap;
-        try {
-            evId = event.currentTarget.dataset.id;
-        } catch (exception) {
-            console.log('Exception ' + exception);
+        console.log(this.taps.length);
+        if (this.taps.length < 7) {
+            let evId, tap;
+            try {
+                evId = event.currentTarget.dataset.id;
+            } catch (exception) {
+                console.log('Exception ' + exception);
+            }
+            this.searchResults.forEach(result => {
+                if (result.Id === evId) tap = result;
+            });
+            this.currentTaps = this.putSelectedTaps(tap, this.currentTaps);
+            this.taps = this.putSelectedTaps(tap, this.taps);
         }
-        this.searchResults.forEach(result => {
-            if (result.Id === evId) tap = result;
-        });
-        this.currentTaps = this.putSelectedTaps(tap, this.currentTaps);
-        this.taps = this.putSelectedTaps(tap, this.taps);
     }
 
     putSelectedTaps(tap, currentTaps) {

@@ -208,31 +208,6 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Type_Record_type</name>
-        <label>Type Record type</label>
-        <locationX>258</locationX>
-        <locationY>2132</locationY>
-        <defaultConnector>
-            <targetReference>BackNnRecord</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Study_Doc</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Choose_record_type_recource</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>Study_Document_recordtype</elementReference>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Upload_File</targetReference>
-            </connector>
-            <label>Study Doc</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Type_Rocord_type</name>
         <label>Type Rocord type</label>
         <locationX>452</locationX>
@@ -255,6 +230,21 @@
                 <targetReference>BackNnRecord</targetReference>
             </connector>
             <label>Rel Link</label>
+        </rules>
+        <rules>
+            <name>StudyDoc</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Choose_record_type_recource</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Study_Document_recordtype</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Upload_File</targetReference>
+            </connector>
+            <label>StudyDoc</label>
         </rules>
     </decisions>
     <dynamicChoiceSets>
@@ -1002,13 +992,13 @@
     <screens>
         <name>Add_COI</name>
         <label>Add COI</label>
-        <locationX>266</locationX>
-        <locationY>1924</locationY>
+        <locationX>364</locationX>
+        <locationY>2131</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Type_Record_type</targetReference>
+            <targetReference>BackNnRecord</targetReference>
         </connector>
         <fields>
             <name>headerOfChoosingCOI</name>
@@ -1039,7 +1029,7 @@
             <inputParameters>
                 <name>label</name>
                 <value>
-                    <stringValue>Next</stringValue>
+                    <stringValue>Finish</stringValue>
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
@@ -1213,6 +1203,12 @@
             <name>FinihsButton2</name>
             <extensionName>c:FooterWithFinishButton</extensionName>
             <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Next</stringValue>
+                </value>
+            </inputParameters>
             <isRequired>true</isRequired>
         </fields>
         <showFooter>false</showFooter>
@@ -1601,13 +1597,13 @@
     <screens>
         <name>Upload_File</name>
         <label>Upload File</label>
-        <locationX>494</locationX>
-        <locationY>2249</locationY>
+        <locationX>261</locationX>
+        <locationY>1926</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>BackNnRecord</targetReference>
+            <targetReference>Add_COI</targetReference>
         </connector>
         <fields>
             <name>Page_show_record_type_6</name>
@@ -1639,6 +1635,12 @@
             <name>footerWothButtonFinish</name>
             <extensionName>c:FooterWithFinishButton</extensionName>
             <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Next</stringValue>
+                </value>
+            </inputParameters>
             <isRequired>true</isRequired>
         </fields>
         <pausedText>&lt;p&gt;lk&lt;/p&gt;</pausedText>
@@ -1817,6 +1819,12 @@
             <name>FinihsButton3</name>
             <extensionName>c:FooterWithFinishButton</extensionName>
             <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Next</stringValue>
+                </value>
+            </inputParameters>
             <isRequired>true</isRequired>
         </fields>
         <showFooter>false</showFooter>
