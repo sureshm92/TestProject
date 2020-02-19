@@ -153,9 +153,12 @@ public without sharing class PatientDelegateService {
     }
 
     public void createPatientDelegate(Contact newDelegate) {
-        if (getDelegatedContactIds().contains(newDelegate.Id)) {
-            throw new PatientDelegateServiceException(Label.PG_PST_L_Delegates_WrongAdd);
+        for (Id contactId : getDelegatedContactIds()) {
+            if (String.valueOf(contactId) == String.valueOf(newDelegate.Id)) {
+                throw new PatientDelegateServiceException(Label.PG_PST_L_Delegates_WrongAdd);
+            }
         }
+
         List<Participant__c> participant = DatabaseService.getInstance().queryImpl(
                 new List<String>{
                         'Id',
