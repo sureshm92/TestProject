@@ -94,6 +94,31 @@
                 <default>false</default>
                 <label>No study visit if you take part in contRAst-X</label>
             </value>
+            <value>
+                <fullName>team-meeting-chat</fullName>
+                <default>false</default>
+                <label>Exit interview</label>
+            </value>
+            <value>
+                <fullName>medical-specialty-intestine</fullName>
+                <default>false</default>
+                <label>Colonoscopy</label>
+            </value>
+            <value>
+                <fullName>shipment-package</fullName>
+                <default>false</default>
+                <label>Supply of study medication</label>
+            </value>
+            <value>
+                <fullName>notes-diary-alternate</fullName>
+                <default>false</default>
+                <label>eDiary review</label>
+            </value>
+            <value>
+                <fullName>laboratory-test-stool-cup</fullName>
+                <default>false</default>
+                <label>Stool sample</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
     <visibleLines>4</visibleLines>
