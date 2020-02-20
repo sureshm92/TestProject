@@ -156,7 +156,16 @@ global without sharing class EmailTemplateController {
                     WHERE Participant_Contact__c = :conId
             ];
             return CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).properties;
-        } else {
+        } else if (sourceRecordId != null &&
+                (sourceRecordId.getSobjectType() == Case.getSObjectType())) {
+            Case cs = [SELECT Id, Study__c FROM Case Where Id =: sourceRecordId];
+            Clinical_Trial_Profile__c ctp = [
+                    SELECT Id, CommunityTemplate__c
+                    FROM Clinical_Trial_Profile__c
+                    WHERE Id = :cs.Study__c
+            ];
+            return CommunityTemplateService.getTemplate(ctp.CommunityTemplate__c).properties;
+        }else {
             return CommunityTemplateService.getDefaultTemplate().properties;
         }
         return new Map<String, String>();
