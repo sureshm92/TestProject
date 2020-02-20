@@ -8,6 +8,6 @@
     </values>
     <values>
         <field>Value__c</field>
-        <value xsi:type="xsd:string">$Resource.GSK_Logos/gsk-text.svg</value>
+        <value xsi:type="xsd:string">$Resource/GSK_Logos/gsk-text.svg</value>
     </values>
 </CustomMetadata>
