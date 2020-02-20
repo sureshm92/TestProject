@@ -26,6 +26,7 @@ global without sharing class EmailActionBtnController {
 
     private String getCurrentCommunityURL() {
         String communityTemplate = 'Default';
+        System.debug('>>>>>>>>>>>>>>resourceIdString ' + resourceIdString);
         if (resourceIdString != null && resourceIdString.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
             Participant_Enrollment__c pe = [
                     SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
@@ -61,6 +62,7 @@ global without sharing class EmailActionBtnController {
             urlParts = urlParts[1].split('/');
             urlStr = startUrl + '//' + urlParts[0];
         }
+        System.debug('>>>>>>>>>>>>>>urlStr ' + urlStr);
         return urlStr;
     }
 }
