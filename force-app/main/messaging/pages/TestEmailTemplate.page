@@ -19,4 +19,14 @@
         <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
                           resourceId="a0Y3N000000DG1tUAG"/>
     </c:EmailTemplate>
+    <c:EmailTemplate recipientId="0033N000007haLvQAI"
+                     sourceId="5003N000001xCIJQA2"
+                     parametersProvider="Email_Template_Parameters_From_Case"
+                     header="{!$Label.Email_Header_Case}"
+                     greeting=""
+                     title="{!$Label.Email_Title}"
+                     body="{!$Label.Email_Body_Case}"
+                     signature="">
+        <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Review_Cases}" caseId="5003N000001xCIJQA2"/>
+    </c:EmailTemplate>
 </apex:page>
