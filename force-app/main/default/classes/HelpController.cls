@@ -84,6 +84,9 @@ public without sharing class HelpController {
         newCase.OwnerId = UserInfo.getUserId();
         newCase.Priority = priority;
         newCase.Reason = reason;
+        String ctpName = UserContext.getCurrentUserMode().label;
+        System.debug('>>>>>ctpName ' + ctpName);
+        newCase.Study__c = [SELECT Id, Study_Code_Name__c FROM Clinical_Trial_Profile__c WHERE Study_Code_Name__c =: ctpName].Id;
         newCase.setOptions(dmlOptions);
 
         try {
