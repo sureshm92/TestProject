@@ -454,7 +454,7 @@ public without sharing class ParticipantWorkflowService {
             else if(step.In_Progress_Condition__c != null && ConditionCheckerService.checkConditionForObject(step.In_Progress_Condition__c, pe)){
                 result.state = PEStatusState.STATUS_STATE_IN_PROGRESS;
                 result.left = PEStatusState.STATUS_STATE_SUCCESS;
-                if(step.In_Progress_Date_Field__c != null){
+                if(step.In_Progress_Date_Field__c != null && pe.get(step.In_Progress_Date_Field__c) != null){
                     result.dateOccured = ((Date)pe.get(step.In_Progress_Date_Field__c)).format();
                 }
                 if(previousStep != null) previousStep.right = PEStatusState.STATUS_STATE_SUCCESS;
