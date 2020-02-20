@@ -21,6 +21,7 @@
         var navigate = cmp.get('v.navigateFlow');
         navigate(actionClicked);
     },
+
     getItem : function (component, event, helper) {
         var item = event.getParam('recordId');
         console.log('item ' + item);

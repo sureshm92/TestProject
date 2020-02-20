@@ -143,6 +143,14 @@
         <value>Participant will become an adult!</value>
     </labels>
     <labels>
+        <fullName>AL_Title_PRT_Week_Become_Adult_Delegates</fullName>
+        <categories>Alert</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AL Title PRT Week Become Adult Delegates</shortDescription>
+        <value>Hi ##UserName, your participant ##ParticipantFirstName has recently reached the age of legal maturity and have provided their privacy preferences. We recommend you contact the Provider to know more about your status on this clinical research study.</value>
+    </labels>
+    <labels>
         <fullName>AL_Title_Welcome_Study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3152,6 +3160,15 @@
             The IQVIA Patient Portal and Referral Hub Support Teams</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_GSK</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature</shortDescription>
+        <value>
+            Sincerely,
+            The GSK Participant Hub team</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3975,7 +3992,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Footer T Copyright</shortDescription>
-        <value>Copyright © 2019 IQVIA. All Rights Reserved.</value>
+        <value>Powered by IQVIA © 2020. All rights reserved.</value>
     </labels>
     <labels>
         <fullName>GMap_Not_Available</fullName>
@@ -3983,6 +4000,13 @@
         <protected>false</protected>
         <shortDescription>Empty address</shortDescription>
         <value>A Google map is not available for this study site location.</value>
+    </labels>
+    <labels>
+        <fullName>GSK_Text_Logo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>GSK Text Logo</shortDescription>
+        <value>GatherSHAREKnow</value>
     </labels>
     <labels>
         <fullName>Gender_Female</fullName>
@@ -4713,7 +4737,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Home Page StudyVisit Completed On</shortDescription>
-        <value>Completed On</value>
+        <value>Date</value>
     </labels>
     <labels>
         <fullName>Home_Page_StudyVisit_Filter_Current_Visits</fullName>
@@ -5155,7 +5179,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MS Input PI Recipients Placeholder</shortDescription>
-        <value>Type participant name here...</value>
+        <value>Type Participant Name here...</value>
     </labels>
     <labels>
         <fullName>MS_Input_Placeholder</fullName>
@@ -10758,6 +10782,13 @@
         <value>New visit data is available</value>
     </labels>
     <labels>
+        <fullName>Participants_Referred_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participants Referred Label</shortDescription>
+        <value>Participants Referred</value>
+    </labels>
+    <labels>
         <fullName>Patient</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -11036,6 +11067,13 @@
         <protected>false</protected>
         <shortDescription>ReferralNetwork_SelectReferralNetwork</shortDescription>
         <value>Select Referral Networks</value>
+    </labels>
+    <labels>
+        <fullName>Referral_Pathway_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Referral Pathway Label</shortDescription>
+        <value>Referral Pathway</value>
     </labels>
     <labels>
         <fullName>Referring</fullName>
@@ -12259,6 +12297,13 @@
         <protected>false</protected>
         <shortDescription>Study Team</shortDescription>
         <value>Study Team</value>
+    </labels>
+    <labels>
+        <fullName>Study_Visit_Unavailable</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Visit Unavailable</shortDescription>
+        <value>Unavailable</value>
     </labels>
     <labels>
         <fullName>Success</fullName>

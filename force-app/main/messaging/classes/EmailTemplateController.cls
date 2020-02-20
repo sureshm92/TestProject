@@ -49,6 +49,7 @@ global without sharing class EmailTemplateController {
     global Boolean showDelegateTableValue { get; set; }
     global Boolean multiplePIMessageValue { get; set; }
     global Boolean showDelegateSSTableValue { get; set; }
+
     global Boolean hasPIRPDelegationRecords {
         get {
             return !getDataProvider().delegateLevelsPI.isEmpty() || !getDataProvider().delegateLevelsHCP.isEmpty();
@@ -99,6 +100,10 @@ global without sharing class EmailTemplateController {
 
     global String signatureValue {
         get {
+            if (getDataProvider().userMode == CommunityModeService.USER_MODE_PARTICIPANT) {
+                String signatureLabel = getTemplateProperties().get('EmailTemplateSignatureLabel');
+                return prepareLineBreaks(TranslateHelper.getLabelValue(signatureLabel));
+            }
             return prepareLineBreaks(signatureValue);
         }
         set;
@@ -129,6 +134,94 @@ global without sharing class EmailTemplateController {
     global String dataParametersValue {
         get {
             return JSON.serialize(getDataProvider().parameters);
+        }
+        set;
+    }
+
+    private Map<String, String> getTemplateProperties() {
+        if (sourceRecordId != null &&
+                (sourceRecordId.getSobjectType() == Participant_Enrollment__c.getSObjectType())) {
+            Participant_Enrollment__c pe = [
+                    SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
+                    FROM Participant_Enrollment__c
+                    WHERE Id = :sourceRecordId
+            ];
+            return CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).properties;
+        } else if (sourceRecordId != null &&
+                (sourceRecordId.getSobjectType() == User.getSObjectType())) {
+            Id conId = [SELECT Id, Contact.Id FROM User WHERE Id=: sourceRecordId].Contact.Id;
+            Participant_Enrollment__c pe = [
+                    SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
+                    FROM Participant_Enrollment__c
+                    WHERE Participant_Contact__c = :conId
+            ];
+            return CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).properties;
+        } else {
+            return CommunityTemplateService.getDefaultTemplate().properties;
+        }
+        return new Map<String, String>();
+    }
+
+    global String emailTemplateBackground {
+        get {
+            emailTemplateBackground = getTemplateProperties().get('EmailTemplateBackgr');
+            return emailTemplateBackground;
+        }
+        set;
+    }
+
+    global String emailTemplateTextBackground {
+        get {
+            emailTemplateTextBackground = getTemplateProperties().get('EmailTemplateTextBackgr');
+            return emailTemplateTextBackground;
+        }
+        set;
+    }
+
+    global String emailTemplateHeaderBackground {
+        get {
+            emailTemplateHeaderBackground = getTemplateProperties().get('EmailTemplateHeaderBackgr');
+            return emailTemplateHeaderBackground;
+        }
+        set;
+    }
+
+    global String emailTemplateHeader {
+        get {
+            emailTemplateHeader = getTemplateProperties().get('EmailTemplateHeader');
+            return emailTemplateHeader;
+        }
+        set;
+    }
+
+    global String emailTemplateTitle {
+        get {
+            emailTemplateTitle = getTemplateProperties().get('EmailTemplateTitle');
+            return emailTemplateTitle;
+        }
+        set;
+    }
+
+    global String emailTemplateBrandLogo {
+        get {
+            emailTemplateBrandLogo = getTemplateProperties().get('EmailTemplateBrandLogo');
+            return emailTemplateBrandLogo;
+        }
+        set;
+    }
+
+    global String emailTemplateBottomLogo {
+        get {
+            emailTemplateBottomLogo = getTemplateProperties().get('EmailTemplateBottomLogo');
+            return emailTemplateBottomLogo;
+        }
+        set;
+    }
+
+    global String emailTemplateBrandLogoCSS {
+        get {
+            emailTemplateBrandLogoCSS = getTemplateProperties().get('EmailTemplateBrandLogoCSS');
+            return emailTemplateBrandLogoCSS;
         }
         set;
     }
@@ -289,7 +382,12 @@ global without sharing class EmailTemplateController {
             if (bodyLabel != null) bodyValue = TranslateHelper.getLabelValue(bodyLabel, getUserLanguageCode());
             if (headerLabel != null) headerValue = TranslateHelper.getLabelValue(headerLabel, getUserLanguageCode());
             if (titleLabel != null) titleValue = TranslateHelper.getLabelValue(titleLabel, getUserLanguageCode());
-            if (signatureLabel != null) signatureValue = TranslateHelper.getLabelValue(signatureLabel, getUserLanguageCode());
+            if (getDataProvider().userMode == CommunityModeService.USER_MODE_PARTICIPANT) {
+                String signatureLabelForTranslate = getTemplateProperties().get('EmailTemplateSignatureLabel');
+                signatureValue = prepareLineBreaks(TranslateHelper.getLabelValue(signatureLabelForTranslate));
+            } else {
+                if (signatureLabel != null) signatureValue = TranslateHelper.getLabelValue(signatureLabel, getUserLanguageCode());
+            }
             if (userGreetingLabel != null) userGreetingValue = TranslateHelper.getLabelValue(userGreetingLabel, getUserLanguageCode());
         }
     }

@@ -33,11 +33,11 @@
                 for(var i = 0; i < modes.length; i ++){
                     if(modes[i].isGroup) modes[i].isOpen = false;
                 }
-                component.getEvent('onModeChange').fire();
 
                 communityService.executeAction(component, 'getMessagesVisibility', {}, function (returnValue) {
                     communityService.setMessagesVisible(returnValue);
                     component.set('v.allModes', modes);
+                    component.getEvent('onModeChange').fire();
                     component.find('pubsub').fireEvent('reload');
                 });
             });

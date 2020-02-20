@@ -334,6 +334,8 @@ public without sharing class ParticipantEnrollmentService {
             'Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c',
             'Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c',
             'Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c',
+            'Clinical_Trial_Profile__r.Community_Template__c',
+            'Clinical_Trial_Profile__r.CommunityTemplate__c',
             'CreatedDate',
             'Enrolled_Date__c',
             'HCP__c',
@@ -457,6 +459,7 @@ public without sharing class ParticipantEnrollmentService {
             'Initial_visit_occurred_date__c',
             'Initial_visit_scheduled_date__c',
             'Initial_visit_scheduled_time__c',
+            'PI_Contact__c',
             'Initial_visit_scheduled_flag__c',
             'Revisit_Date__c'
     };

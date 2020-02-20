@@ -1,0 +1,22 @@
+<!--
+ - Created by Olga Skrynnikova on 2/19/2020.
+ -->
+
+<apex:page id="TestEmailTemplate">
+    <c:EmailTemplate recipientId="0053N000000nX5UQAU"
+                     sourceId="0053N000000nX5UQAU">
+        <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Enroll_Now}"
+                          buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
+    </c:EmailTemplate>
+    <c:EmailTemplate recipientId="0033N000007hSr1QAE"
+                     sourceId="a0Y3N000000DG1tUAG"
+                     parametersProvider="Email_Template_Parameters_From_PE"
+                     header="{!$Label.Email_Header_Patient2}"
+                     title="{!$Label.Email_Title_All}"
+                     greeting="{!$Label.Email_User_Greeting_FirstName}"
+                     body="{!$Label.Email_Body_Patient1}"
+                     signature="{!$Label.Email_Signature_Patient}">
+        <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
+                          resourceId="a0Y3N000000DG1tUAG"/>
+    </c:EmailTemplate>
+</apex:page>

@@ -3,11 +3,14 @@
  */
 
 public class DashboardRemote {
+
+    public static final String INITIAL_VISIT_SCHEDULED = 'Initial Visit Scheduled';
     
     class PIData{
         Integer waitingAcceptence;
         List<ListItem> waitingAcceptenceList;
         List<DonutItem> referralsReceived = new List<DonutItem>();
+        List<FunnelData> funnelData;
         
         Integer waitingToBeContacted;
         List<ListItem> waitingToBeContactedList;
@@ -21,6 +24,18 @@ public class DashboardRemote {
 
         Integer participantsWaitingContact;
         List<WaitingContactItem> awaitingToContact = new List<WaitingContactItem>();
+    }
+
+    class FunnelData{
+        String statusLabel;
+        Integer peInStatus;
+        String funnelColor;
+
+        FunnelData(String statusLabel, Integer peInStatus, String funnelColor) {
+            this.statusLabel = statusLabel;
+            this.peInStatus = peInStatus;
+            this.funnelColor = funnelColor;
+        }
     }
     
     class HCPData{
@@ -148,6 +163,8 @@ public class DashboardRemote {
                 // awaiting contact
                 piData.awaitingToContact = prepareAwaitingContactList(userMode, delegateId);
                 piData.participantsWaitingContact = piData.awaitingToContact.size();
+
+                piData.funnelData = prepareDataForFunnelChart();
 
                 return JSON.serialize(piData);
     
@@ -354,6 +371,68 @@ public class DashboardRemote {
         resList.add(prepareBarItem('#136BA6', GREATER_20_DAYS, peSHByDays.get(GREATER_20_DAYS).size(), maxParticipantsInDays, daysMaxParticipantsInDays));
 
         return resList;
+    }
+
+    private static List<FunnelData> prepareDataForFunnelChart(){
+        List<FunnelData> returnData = new List<FunnelData>();
+        Map<Id, Participant_Enrollment__c> peMap = new Map<Id,Participant_Enrollment__c>();
+        List<Participant_Enrollment__c> peList = (List<Participant_Enrollment__c>) DatabaseService.query(
+                ParticipantEnrollmentService.PE_COMMON_FIELDS,
+                Participant_Enrollment__c.getSObjectType(),
+                ' Study_Site__c != NULL AND Study_Site__r.Principal_Investigator__c = \'' + CommunityService.getInstance().getCurrentContactId() +'\''
+        );
+        /*for(Participant_Enrollment__c pe : (List<Participant_Enrollment__c>) DatabaseService.query(
+                ParticipantEnrollmentService.PE_COMMON_FIELDS,
+                Participant_Enrollment__c.getSObjectType(),
+                ' Study_Site__c != NULL AND PI_Contact__c = \'' + CommunityService.getInstance().getCurrentContactId() +'\''
+        )){*/
+        for(Participant_Enrollment__c pe : peList){
+            peMap.put(pe.Id, pe);
+        }
+        List<Participant_Enrollment_Status_History__c> peHostoryList = [
+                Select Id,
+                        Status__c,
+                        ParticipantEnrollment__c
+                FROM Participant_Enrollment_Status_History__c
+                WHERE ParticipantEnrollment__c IN :peMap.keySet()
+        ];
+        if(!peHostoryList.isEmpty()) {
+            Set<Id> receivedStatusSet = new Set<Id>();
+            Set<Id> successfullyContactedSet = new Set<Id>();
+            Set<Id> initialVisitScheduledSet = new Set<Id>();
+            Set<Id> screeningPassedSet = new Set<Id>();
+            Set<Id> enrolledOrRandomizedSet = new Set<Id>();
+            Set<Id> eligibilityPassedSet = new Set<Id>();
+
+            for (Participant_Enrollment_Status_History__c pesh : peHostoryList) {
+                if (pesh.Status__c == PEStatusState.PE_STATUS_RECEIVED) {
+                    receivedStatusSet.add(pesh.ParticipantEnrollment__c);
+                }
+                if (pesh.Status__c == PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED) {
+                    successfullyContactedSet.add(pesh.ParticipantEnrollment__c);
+                }
+                if (peMap.get(pesh.ParticipantEnrollment__c).Initial_visit_scheduled_flag__c && peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual') {
+                    initialVisitScheduledSet.add(pesh.ParticipantEnrollment__c);
+                } else if (pesh.Status__c == PEStatusState.PE_STATUS_ELIGIBILITY_PASSED && peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c == 'Virtual') {
+                    eligibilityPassedSet.add(pesh.ParticipantEnrollment__c);
+                }
+                if (pesh.Status__c == PEStatusState.PE_STATUS_SCREENING_PASSED || pesh.Status__c == PEStatusState.PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD) {
+                    screeningPassedSet.add(pesh.ParticipantEnrollment__c);
+                }
+                if (pesh.Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS || pesh.Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) {
+                    enrolledOrRandomizedSet.add(pesh.ParticipantEnrollment__c);
+                }
+            }
+            returnData.add(new FunnelData(PEStatusState.PE_STATUS_RECEIVED, receivedStatusSet.size(), '#3DC2FA'));
+            returnData.add(new FunnelData(PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED, successfullyContactedSet.size(), '#9914E6'));
+            returnData.add(new FunnelData(peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual' ?
+                    INITIAL_VISIT_SCHEDULED : PEStatusState.PE_STATUS_ELIGIBILITY_PASSED,
+                    peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual' ?
+                            initialVisitScheduledSet.size() : eligibilityPassedSet.size(), '#D892FF'));
+            returnData.add(new FunnelData(PEStatusState.PE_STATUS_SCREENING_PASSED, screeningPassedSet.size(), '#139458'));
+            returnData.add(new FunnelData(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS, enrolledOrRandomizedSet.size(), '#7AFFD3'));
+        }
+        return returnData;
     }
 
     private static BarItem prepareBarItem(String color, String title, Integer count, Integer maxPInD, String maxD) {
