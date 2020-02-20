@@ -61,6 +61,7 @@ global without sharing class EmailActionBtnController {
             String startUrl = urlParts[0];
             urlParts = urlParts[1].split('/');
             urlStr = startUrl + '//' + urlParts[0];
+            if(communityTemplate == 'GSK') urlStr += '/' + urlParts[1];
         }
         System.debug('>>>>>>>>>>>>>>urlStr ' + urlStr);
         return urlStr;
