@@ -2,72 +2,55 @@
  * Created by Yulia Yakushenkova on 12/10/2019.
  */
 .checkbox-container {
-    height: 2em;
+    /*height: 2em;*/
+    padding-top: 1.5%;
+    max-width: 330px;
 }
 
- .label-default {
+.search-input {
+    width: 330px;
+}
+
+.label-default {
     height: 1.7em;
     width: 100%;
 }
 
- .label {
+.label {
     color: #444444;
     font-family: "Proxima Nova";
     font-size: 14px;
 }
 
- .slds-form-element__label {
+.slds-form-element__label {
     color: #000000;
     font-family: "Proxima Nova";
     font-size: 16px;
 }
 
- .slds-input {
+.slds-input {
     height: 32px;
     width: 330px;
     border: 1px solid #D9D9D9;
     border-radius: 4px;
     background-color: #FFFFFF;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
 }
 
- .margin-top {
+.margin-top {
     margin-top: 3em;
 }
 
- .slds-button .slds-button_neutral {
+.slds-button .slds-button_neutral {
     border: 0.5px solid #d9d9d9;
     border-radius: 4px;
     background-color: #FFFFFF;
-    box-shadow: 0 4px 10px 0 rgba(41,125,253,0.2);
+    box-shadow: 0 4px 10px 0 rgba(41, 125, 253, 0.2);
 }
 
- .slds-checkbox .slds-checkbox--faux {
+.slds-checkbox .slds-checkbox--faux {
     border: 1px solid #999999;
     width: 16px;
     height: 16px;
     border-radius: 3px;
 }
-
-/* .slds-checkbox [type=checkbox]:checked + .slds-checkbox_faux:after,*/
-/* .slds-checkbox [type=checkbox]:checked + .slds-checkbox--faux:after,*/
-/* .slds-checkbox [type=checkbox]:checked ~ .slds-checkbox_faux:after,*/
-/* .slds-checkbox [type=checkbox]:checked ~ .slds-checkbox--faux:after,*/
-/* .slds-checkbox [type=checkbox]:checked + .slds-checkbox__label .slds-checkbox_faux:after,*/
-/* .slds-checkbox [type=checkbox]:checked + .slds-checkbox__label .slds-checkbox--faux:after{*/
-/*    border-bottom: 1px solid white;*/
-/*    border-left: 1px solid white;*/
-/*    width: 9px;*/
-/*    height: 5px;*/
-/*    top: 6px;*/
-/*}*/
-
-/* .slds-checkbox [type=checkbox]:checked + .slds-checkbox_faux,*/
-/* .slds-checkbox [type=checkbox]:checked + .slds-checkbox--faux,*/
-/* .slds-checkbox [type=checkbox]:checked ~ .slds-checkbox_faux,*/
-/* .slds-checkbox [type=checkbox]:checked ~ .slds-checkbox--faux,*/
-/* .slds-checkbox [type=checkbox]:checked + .slds-checkbox__label .slds-checkbox_faux,*/
-/* .slds-checkbox [type=checkbox]:checked + .slds-checkbox__label .slds-checkbox--faux{*/
-/*    background-color: #297DFD;*/
-/*    border-color: #297DFD;*/
-/*}*/
