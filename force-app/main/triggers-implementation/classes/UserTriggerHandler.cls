@@ -116,6 +116,7 @@ public without sharing class UserTriggerHandler {
         insert tasksForInsert;
     }
 
+    @TestVisible
     private static void assignCommunityPermissionSetToUser(List<User> insertedUsers) {
         Map<Id, Id> userByContact = new Map<Id, Id>();
         for (User user : insertedUsers) userByContact.put(user.ContactId, user.Id);
@@ -128,34 +129,15 @@ public without sharing class UserTriggerHandler {
                 WHERE Participant_Contact__c IN :userByContact.keySet()
         ];
 
-        List <PermissionSet> communityPermissionSets = [
-                SELECT Id, Name
-                FROM PermissionSet
-                WHERE (Name = :CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
-                OR Name = :CommunityTemplateService.PERMISSION_COMMUNITY_GSK_NAME)
-                ORDER BY Name
-        ];
-
-        Id defaultCommunityPermissionSet = communityPermissionSets.get(0).Id;
-        Id gskCommunityPermissionSet = communityPermissionSets.get(1).Id;
-
-        List<String> permissionSetAssignmentsJSON = new List<String>();
+        PermissionService service = PermissionService.getInstance();
+        Map<Id, Id> newPermissionByUser = new Map<Id, Id>();
         for (Participant_Enrollment__c pe : enrollments) {
-            Id permSetId;
-            String studyCommunityTemplateName = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
-            if (studyCommunityTemplateName == CommunityTemplateService.COMMUNITY_DEFAULT_NAME) {
-                permSetId = defaultCommunityPermissionSet;
+            Id permSetId = service.getPermissionSetIdByName(PermissionService.PERMISSION_COMMUNITY_DEFAULT);
+            String studyCommunity = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+            if (studyCommunity == CommunityTemplateService.COMMUNITY_GSK_NAME) {
+                permSetId = service.getPermissionSetIdByName(PermissionService.PERMISSION_COMMUNITY_GSK);
             }
-            if (studyCommunityTemplateName == CommunityTemplateService.COMMUNITY_GSK_NAME) {
-                permSetId = gskCommunityPermissionSet;
-            }
-            if (permSetId != null) {
-                //We cannot insert Permission Sets here, only in future method. Google told me.
-                permissionSetAssignmentsJSON.add (JSON.serialize(new PermissionSetAssignment(
-                        AssigneeId = userByContact.get(pe.Participant_Contact__c),
-                        PermissionSetId = permSetId))
-                );
-            }
+            newPermissionByUser.put(userByContact.get(pe.Participant_Contact__c), permSetId);
         }
 
         List<User> rhUsers = [
@@ -166,12 +148,8 @@ public without sharing class UserTriggerHandler {
                 AND Contact.userCommunityMode__c != 'Participant'
         ];
         for(User user : rhUsers) {
-            permissionSetAssignmentsJSON.add (JSON.serialize(new PermissionSetAssignment(
-                    AssigneeId = user.Id,
-                    PermissionSetId = defaultCommunityPermissionSet
-            )));
+            newPermissionByUser.put(user.Id, service.getPermissionSetIdByName(PermissionService.PERMISSION_COMMUNITY_DEFAULT));
         }
-
-        CommunityService.insertPermissionSetAssignment(permissionSetAssignmentsJSON);
+        PermissionService.setPermissionForUsers(JSON.serialize(newPermissionByUser));
     }
 }
