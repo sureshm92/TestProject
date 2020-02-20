@@ -33,16 +33,15 @@
                         </c:RRTable>
                     </div>
                     <div class="sv-footer">
-                        <a href="{!v.href}"
-                           class="link rr-link"
-                           data-gtm="LNK_ManagePayments">{!$Label.c.Manage_My_Payments}
+                        <c:RRLink href="{!v.href}" dataGTM="LNK_ManagePayments">
+                            {!$Label.c.Manage_My_Payments}
                             <aura:if isTrue="{!v.isArabic}">
                                 <c:RRIcon iconName="icon-chevron-left"/>
                             </aura:if>
                             <aura:if isTrue="{!!v.isArabic}">
                                 <c:RRIcon iconName="icon-chevron-right"/>
                             </aura:if>
-                        </a>
+                        </c:RRLink>
                     </div>
                     <aura:set attribute="else">
                         <div class="error-message">

@@ -8,7 +8,7 @@
 
     <div class="sv-panel rr-white-panel" data-gtm="PNL_RelevantLinks">
         <div class="sv-header">
-            <div class="sv-title">{!v.linksWrapper.type}</div>
+            <div class="sv-title">{!v.linksWrapper.type.label}</div>
         </div>
         <div class="sv-body">
             <aura:iteration var="link" items="{!v.linksWrapper.resources}">
