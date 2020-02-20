@@ -131,7 +131,7 @@ public without sharing class ConditionCheckerService {
     private static Boolean checkAtomicConditionForObject(String fieldName, Boolean equality, String valueString, SObject obj){
         Object fieldValue = obj.get(fieldName);
         String fieldValueString = String.valueOf(fieldValue);
-        return fieldValue != null && equality ? fieldValueString.toLowerCase() == valueString.toLowerCase() : fieldValueString.toLowerCase() != valueString.toLowerCase();
+        return fieldValue != null && (equality ? fieldValueString.toLowerCase() == valueString.toLowerCase() : fieldValueString.toLowerCase() != valueString.toLowerCase());
     }
 
     private class enumStack{
