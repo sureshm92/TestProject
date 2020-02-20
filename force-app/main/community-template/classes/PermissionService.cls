@@ -19,6 +19,9 @@ public without sharing class PermissionService {
     private static Map<String, Id> permissionSetByName;
     private static PermissionService instance;
 
+    private static Boolean checkBuffer = true;
+    private static List<String> newUsersBuffer = new List<String>();
+
     private PermissionService() {
         List <PermissionSet> communityPermissionSets = [
                 SELECT Id, Name
@@ -44,6 +47,14 @@ public without sharing class PermissionService {
         return permissionSetByName.get(permissionSetName);
     }
 
+    public static void addNewUserToBuffer(Id newUserId) {
+        newUsersBuffer.add(newUserId);
+    }
+
+    public static void skipCheckBuffer() {
+        checkBuffer = false;
+    }
+
     public static Map<Id, List<Id>> getAssignmentPermissionByUser(List<Id> userIds) {
         List<PermissionSetAssignment> permissionSetAssignmentsForUsers = [
                 SELECT
@@ -67,13 +78,22 @@ public without sharing class PermissionService {
         return permissionsByUser;
     }
 
-    @Future
     public static void setPermissionForUsers(String userPermissionsMap) {
+        if(System.isBatch() || System.isFuture()) {
+            setPermissionSync(userPermissionsMap);
+        } else {
+            setPermissionAsync(userPermissionsMap);
+        }
+    }
+
+    private static void setPermissionSync(String userPermissionsMap) {
         Map<Id, Id> permissionByUser = (Map<Id, Id>) JSON.deserialize(userPermissionsMap, Map<Id, Id>.class);
         Map<Id, List<Id>> assigmentByUser = getAssignmentPermissionByUser(new List<Id>(permissionByUser.keySet()));
 
         List<PermissionSetAssignment> assignments = new List<PermissionSetAssignment>();
         for (Id userId : permissionByUser.keySet()) {
+            if(checkBuffer && newUsersBuffer.contains(String.valueOf(userId))) continue;
+
             Id newPermissionSetId = permissionByUser.get(userId);
 
             Boolean haveAlready = false;
@@ -93,6 +113,12 @@ public without sharing class PermissionService {
             ));
         }
         if (!assignments.isEmpty()) insert assignments;
+        checkBuffer = true;
+    }
+
+    @Future
+    private static void setPermissionAsync(String userPermissionsMap) {
+        setPermissionSync(userPermissionsMap);
     }
 
     @Future
