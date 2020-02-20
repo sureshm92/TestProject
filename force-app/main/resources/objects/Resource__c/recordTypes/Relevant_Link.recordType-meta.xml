@@ -1144,6 +1144,10 @@
     <picklistValues>
         <picklist>Type__c</picklist>
         <values>
+            <fullName>Articles for caregivers</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>For Caregivers and Families</fullName>
             <default>false</default>
         </values>
