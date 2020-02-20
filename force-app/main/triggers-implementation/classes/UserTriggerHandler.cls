@@ -138,6 +138,7 @@ public without sharing class UserTriggerHandler {
                 permSetId = service.getPermissionSetIdByName(PermissionService.PERMISSION_COMMUNITY_GSK);
             }
             newPermissionByUser.put(userByContact.get(pe.Participant_Contact__c), permSetId);
+            PermissionService.addNewUserToBuffer(userByContact.get(pe.Participant_Contact__c));
         }
 
         List<User> rhUsers = [
@@ -149,7 +150,10 @@ public without sharing class UserTriggerHandler {
         ];
         for(User user : rhUsers) {
             newPermissionByUser.put(user.Id, service.getPermissionSetIdByName(PermissionService.PERMISSION_COMMUNITY_DEFAULT));
+            PermissionService.addNewUserToBuffer(user.Id);
         }
+
+        PermissionService.skipCheckBuffer();
         PermissionService.setPermissionForUsers(JSON.serialize(newPermissionByUser));
     }
 }
