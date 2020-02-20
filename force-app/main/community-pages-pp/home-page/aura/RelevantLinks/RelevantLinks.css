@@ -42,6 +42,14 @@
     padding: 0;
 }
 
+.THIS .sv-body .link-container:last-child{
+    padding-bottom: 25px;
+}
+
+.THIS.rr-white-panel + .rr-white-panel:not(.condensed){
+    margin-top: 0;
+}
+
 .THIS .link-container{
     padding: 5px 16px;
 }
