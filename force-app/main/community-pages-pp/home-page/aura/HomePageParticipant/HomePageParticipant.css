@@ -53,6 +53,10 @@
     font-weight: bold;
 }
 
+.THIS .contrast-logo {
+    padding: 10px;
+}
+
 .THIS .apollo-btn.primary.dark {
     width: 200px;
 }
