@@ -3,6 +3,10 @@
  */
 
 public without sharing class TravelSupportRemote {
+
+    public static String TYPE_PLANE = 'Airlines';
+    public static String TYPE_TAXI = 'taxi';
+
     @AuraEnabled
     public static List<TravelVendor__c> getAvailableVendorsForSS() {
         try {
@@ -55,26 +59,17 @@ public without sharing class TravelSupportRemote {
 
     public class TravelWrapper {
 
-        @AuraEnabled
-        public String visitName;
-        @AuraEnabled
-        public String visitId;
-        @AuraEnabled
-        public String style = 'background:';
-        @AuraEnabled
-        public String status;
-        @AuraEnabled
-        public String bgc;
-        @AuraEnabled
-        public String title;
-        @AuraEnabled
-        public Datetime dateAndTime;
-        @AuraEnabled
-        public String icon;
-        @AuraEnabled
-        public String link;
-        @AuraEnabled
-        public Boolean isAccommodation = false;
+        @AuraEnabled public String visitName;
+        @AuraEnabled public String visitId;
+        @AuraEnabled public String style = 'background:';
+        @AuraEnabled public String status;
+        @AuraEnabled public String statusIcon;
+        @AuraEnabled public String bgc;
+        @AuraEnabled public String title;
+        @AuraEnabled public Datetime dateAndTime;
+        @AuraEnabled public String icon;
+        @AuraEnabled public String link;
+        @AuraEnabled public Boolean isAccommodation = false;
 
         public TravelWrapper(Object obj, String visitName, String status) {
             this.visitName = visitName;
@@ -82,16 +77,18 @@ public without sharing class TravelSupportRemote {
             if (status == '1') {
                 this.bgc = '#E20000';
                 this.style += '#E20000;';
-                this.status = 'Failed';
-
+                this.status = Label.Home_Page_Travel_Support_Filter_Declined;
+                statusIcon = 'icon-close-circle';
             } else if (status == '2') {
                 this.bgc = '#FF9300';
                 this.style += '#FF9300;';
-                this.status = 'Pending';
+                this.status = Label.Home_Page_Travel_Support_Filter_Pending;
+                statusIcon = 'icon-clock';
             } else if (status == '3') {
                 this.bgc = '#00C221';
                 this.style += '#00C221;';
-                this.status = 'Confirmed';
+                this.status = Label.Home_Page_Travel_Support_Filter_Confirmed;
+                statusIcon = 'check-circle';
             } else this.style += '#7F888D;';
 
             this.link = 'https://www.hotels.com/';
@@ -100,8 +97,8 @@ public without sharing class TravelSupportRemote {
                 RemoteCall_GetTravelBookingDetails.Departure departure = (RemoteCall_GetTravelBookingDetails.Departure) obj;
                 this.title = departure.company;
                 this.dateAndTime = Datetime.valueOf(departure.datetime_from);
-                if (departure.title == 'taxi') this.icon = 'car-retro';
-                if (departure.title == 'plane') {
+                if (departure.title == TYPE_TAXI) this.icon = 'car-retro';
+                if (departure.title == TYPE_PLANE) {
                     this.icon = 'plane-take-off';
                 }
             }
@@ -109,15 +106,19 @@ public without sharing class TravelSupportRemote {
                 RemoteCall_GetTravelBookingDetails.ReturnInfo returnInfo = (RemoteCall_GetTravelBookingDetails.ReturnInfo) obj;
                 this.title = returnInfo.company;
                 this.dateAndTime = Datetime.valueOf(returnInfo.datetime_from);
-                if (returnInfo.title == 'taxi') this.icon = 'car-retro';
-                if (returnInfo.title == 'plane') {
+                if (returnInfo.title == TYPE_TAXI) this.icon = 'car-retro';
+                if (returnInfo.title == TYPE_PLANE) {
                     this.icon = 'plane-take-off';
                 }
             }
             if (obj instanceof RemoteCall_GetTravelBookingDetails.Accommodation) {
                 RemoteCall_GetTravelBookingDetails.Accommodation accommodation = (RemoteCall_GetTravelBookingDetails.Accommodation) obj;
                 this.title = accommodation.hotel_name;
-                this.dateAndTime = Datetime.newInstanceGmt(Date.valueOf(accommodation.check_in_date), Time.newInstance(12, 0, 0, 0));
+                try{
+                    this.dateAndTime = Datetime.valueOf(accommodation.check_in_date);
+                } catch (Exception e) {
+                    this.dateAndTime = Datetime.newInstanceGmt(Date.valueOf(accommodation.check_in_date), Time.newInstance(12, 0, 0, 0));
+                }
                 this.icon = 'hotel-bed';
                 this.isAccommodation = true;
             }
