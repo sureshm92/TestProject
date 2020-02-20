@@ -20,7 +20,8 @@ public without sharing class NotificationAvailabilityService {
         List<Contact> contacts = [
                 SELECT Id,
                         Participant_Opt_In_Status_Emails__c,
-                        Participant_Opt_In_Status_SMS__c
+                        Participant_Opt_In_Status_SMS__c,
+                        UserCommunityIsDelegate__c
                 FROM Contact
                 WHERE Id IN:recipientIds
         ];
@@ -104,10 +105,12 @@ public without sharing class NotificationAvailabilityService {
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_PARTICIPANT) {
             if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
                 Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
-                if (pe.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c
+                Contact contact = contactByIdMap.get(contactId);
+                if (((contact.UserCommunityIsDelegate__c && contact.Participant_Opt_In_Status_Emails__c) || pe.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c)
                         && !pe.Study_Site__r.Suppress_Participant_Emails__c
                         && !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c
                         && !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c) {
+
                     checkForNotification = true;
                 }
             } else if (objType == CLINICAL_TRIAL_PROFILE_OBJ_NAME) {
