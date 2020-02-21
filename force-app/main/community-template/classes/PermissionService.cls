@@ -67,20 +67,8 @@ public without sharing class PermissionService {
         return permissionsByUser;
     }
 
-    public static void setPermissionForUsers(String userPermissionsMap) {
-        if (System.isBatch() || System.isFuture()) {
-            setPermissionForProvidedUsers(userPermissionsMap);
-        } else {
-            setPermissionForProvidedUsersFuture(userPermissionsMap);
-        }
-    }
-
     @Future
-    private static void setPermissionForProvidedUsersFuture(String userPermissionsMap) {
-        setPermissionForProvidedUsers(userPermissionsMap);
-    }
-
-    private static void setPermissionForProvidedUsers(String userPermissionsMap) {
+    public static void setPermissionForUsers(String userPermissionsMap) {
         Map<Id, Id> permissionByUser = (Map<Id, Id>) JSON.deserialize(userPermissionsMap, Map<Id, Id>.class);
         Map<Id, List<Id>> assigmentByUser = getAssignmentPermissionByUser(new List<Id>(permissionByUser.keySet()));
 
