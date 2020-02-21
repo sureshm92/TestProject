@@ -35,6 +35,7 @@
                                                    pe="{!v.pe}" actionDisabled="{!v.actionDisabled}" printMode="{!v.printMode}"/>
                     </div>
                 </aura:if>
+            <aura:if isTrue="{!!v.fromEmancipParticipant}">
                 <div class="referring">{!$Label.c.Delegates}</div>
                 <div class="slds-grid slds-wrap slds-size--1-of-1">
                     <aura:iteration items="{!v.delegates}" var="delegate" indexVar="index">
@@ -49,6 +50,7 @@
                                   iconName="icon-plus"/>
                     </lightning:button>
                 </div>
+            </aura:if>
             </aura:if>
             <!--<div class="slds-col slds-size&#45;&#45;1-of-4 referring-provider-header">
                 <aura:if isTrue="{!v.pe.HCP_Contact_HCPEnroll__r.Name}">
