@@ -49,11 +49,9 @@ global without sharing class EmailActionBtnController {
             ];
             communityTemplate = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
         }
-        List<Network> currCommunities = communityTemplate == 'GSK' ?
-                [SELECT Id FROM Network WHERE Name = 'GSK Community'] :
-                [SELECT Id FROM Network WHERE Name = 'IQVIA Referral Hub'];
 
-        String urlStr = CommunityTemplateService.getCommunityURL(communityTemplate);
+        String communityName = CommunityTemplateService.NETWORK_BY_TEMPLATE.get(communityTemplate);
+        String urlStr = CommunityTemplateService.getCommunityURL(communityName);
         return urlStr;
     }
 }
