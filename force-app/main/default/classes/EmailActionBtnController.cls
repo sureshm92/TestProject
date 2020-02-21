@@ -26,7 +26,6 @@ global without sharing class EmailActionBtnController {
 
     private String getCurrentCommunityURL() {
         String communityTemplate = 'Default';
-        System.debug('>>>>>>>>>>>>>>resourceIdString ' + resourceIdString);
         if (resourceIdString != null && resourceIdString.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
             Participant_Enrollment__c pe = [
                     SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
@@ -54,16 +53,7 @@ global without sharing class EmailActionBtnController {
                 [SELECT Id FROM Network WHERE Name = 'GSK Community'] :
                 [SELECT Id FROM Network WHERE Name = 'IQVIA Referral Hub'];
 
-        String urlStr;
-        if (currCommunities.size() > 0) {
-            urlStr = Network.getLoginUrl(currCommunities[0].Id);
-            List<String> urlParts = urlStr.split('//');
-            String startUrl = urlParts[0];
-            urlParts = urlParts[1].split('/');
-            urlStr = startUrl + '//' + urlParts[0];
-            if(communityTemplate == 'GSK') urlStr += '/' + urlParts[1];
-        }
-        System.debug('>>>>>>>>>>>>>>urlStr ' + urlStr);
+        String urlStr = CommunityTemplateService.getCommunityURL(communityTemplate);
         return urlStr;
     }
 }
