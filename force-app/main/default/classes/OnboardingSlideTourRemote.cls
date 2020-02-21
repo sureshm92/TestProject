@@ -139,10 +139,10 @@ public without sharing class OnboardingSlideTourRemote {
             hcpTourName = 'HCP_Delegate';
         }
 
-        //String participantTourName = UserContext.getCurrentCommunityName().properties.get('SlideTour');
+        String participantTourName = UserContext.getTemplateProperty('SlideTour');
 
         return new Map<String, String>{
-                CommunityService.USER_MODE_PARTICIPANT => 'Participant',
+                CommunityService.USER_MODE_PARTICIPANT => participantTourName,
                 CommunityService.USER_MODE_PI => piTourName,
                 CommunityService.USER_MODE_HCP => hcpTourName
         };

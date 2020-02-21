@@ -1148,12 +1148,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>For Caregivers and Families</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Helpful Links</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>None</fullName>
-<!--            <fullName>Helpful Links</fullName>-->
             <default>true</default>
         </values>
         <values>
             <fullName>Patient advocacy groups</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Relevant Links</fullName>
             <default>false</default>
         </values>
     </picklistValues>
