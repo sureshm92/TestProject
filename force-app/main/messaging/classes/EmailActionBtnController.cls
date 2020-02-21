@@ -3,18 +3,18 @@
  */
 
 global without sharing class EmailActionBtnController {
-    
-    global String buttonURLString {get; set;}
-    global String caseIdString {get; set;}
+
+    global String buttonURLString { get; set; }
+    global String caseIdString { get; set; }
     global Id resourceIdString { get; set; }
 
-    public String getResultURL(){
+    public String getResultURL() {
         String result = buttonURLString;
         if (String.isBlank(caseIdString)) {
-            if(result == null) result = '';
+            if (result == null) result = '';
 
-            if(!result.containsIgnoreCase('http')){
-                if(!String.isBlank(result) && !result.startsWith('/')) result = '/' + result;
+            if (!result.containsIgnoreCase('http')) {
+                if (!String.isBlank(result) && !result.startsWith('/')) result = '/' + result;
                 result = getCurrentCommunityURL() + result;
             }
         } else {
@@ -49,19 +49,9 @@ global without sharing class EmailActionBtnController {
             ];
             communityTemplate = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
         }
-        List<Network> currCommunities = communityTemplate == 'GSK' ?
-                [SELECT Id FROM Network WHERE Name = 'GSK Community'] :
-                [SELECT Id FROM Network WHERE Name = 'IQVIA Referral Hub'];
 
-        String urlStr;
-        if (currCommunities.size() > 0) {
-            urlStr = Network.getLoginUrl(currCommunities[0].Id);
-            List<String> urlParts = urlStr.split('//');
-            String startUrl = urlParts[0];
-            urlParts = urlParts[1].split('/');
-            urlStr = startUrl + '//' +urlParts[0];
-            if(communityTemplate == 'GSK') urlStr += '/' + urlParts[1];
-        }
+        String communityName = CommunityTemplateService.NETWORK_BY_TEMPLATE.get(communityTemplate);
+        String urlStr = CommunityTemplateService.getCommunityURL(communityName);
         return urlStr;
     }
 }
