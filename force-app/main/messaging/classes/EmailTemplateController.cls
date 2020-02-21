@@ -53,7 +53,8 @@ global without sharing class EmailTemplateController {
             try {
                 return !getDataProvider().delegateLevelsPI.isEmpty() || !getDataProvider().delegateLevelsHCP.isEmpty();
             } catch (Exception e) {
-                return (Boolean) EmailService.sendException(e, null);
+                EmailService.sendException(e, null);
+                return false;
             }
         }
     }
@@ -66,7 +67,8 @@ global without sharing class EmailTemplateController {
                 String resValue = TranslateHelper.replaceParams(bodyValue, PARAM_PREFIX, getDataProvider().parameters);
                 return prepareLineBreaks(resValue);
             } catch (Exception e) {
-                return (String) EmailService.sendException(e, null);
+                EmailService.sendException(e, null);
+                return e.getMessage();
             }
         }
         set {
@@ -86,7 +88,8 @@ global without sharing class EmailTemplateController {
                     return headerValue;
                 }
             } catch (Exception e) {
-                return (String) EmailService.sendException(e, null);
+                EmailService.sendException(e, null);
+                return e.getMessage();
             }
         }
         set;
@@ -98,7 +101,8 @@ global without sharing class EmailTemplateController {
                 setDefaultValues();
                 return titleValue;
             } catch (Exception e) {
-                return (String) EmailService.sendException(e, null);
+                EmailService.sendException(e, null);
+                return e.getMessage();
             }
         }
         set;
@@ -106,8 +110,13 @@ global without sharing class EmailTemplateController {
 
     global String preSignatureValue {
         get {
-            if (preSignatureValue == null) return null;
-            return prepareLineBreaks(preSignatureValue);
+            try {
+                if (preSignatureValue == null) return null;
+                return prepareLineBreaks(preSignatureValue);
+            } catch (Exception e) {
+                EmailService.sendException(e, null);
+                return e.getMessage();
+            }
         }
         set;
     }
@@ -121,7 +130,8 @@ global without sharing class EmailTemplateController {
                 }
                 return prepareLineBreaks(signatureValue);
             } catch (Exception e) {
-                return (String) EmailService.sendException(e, null);
+                EmailService.sendException(e, null);
+                return e.getMessage();
             }
         }
         set;
@@ -133,7 +143,8 @@ global without sharing class EmailTemplateController {
                 setDefaultValues();
                 return prepareLineBreaks(TranslateHelper.replaceParams(userGreetingValue, PARAM_PREFIX, getDataProvider().parameters) + '\n\n');
             } catch (Exception e) {
-                return (String) EmailService.sendException(e, null);
+                EmailService.sendException(e, null);
+                return e.getMessage();
             }
         }
         set;
@@ -144,7 +155,8 @@ global without sharing class EmailTemplateController {
             try {
                 return TranslateHelper.replaceParams(buttonLabelValue, PARAM_PREFIX, getDataProvider().parameters);
             } catch (Exception e) {
-                return (String) EmailService.sendException(e, null);
+                EmailService.sendException(e, null);
+                return e.getMessage();
             }
         }
         set;
@@ -155,7 +167,8 @@ global without sharing class EmailTemplateController {
             try {
                 return TranslateHelper.replaceParams(buttonUrlValue, PARAM_PREFIX, getDataProvider().parameters);
             } catch (Exception e) {
-                return (String) EmailService.sendException(e, null);
+                EmailService.sendException(e, null);
+                return e.getMessage();
             }
         }
         set;
@@ -166,7 +179,8 @@ global without sharing class EmailTemplateController {
             try {
                 return JSON.serialize(getDataProvider().parameters);
             } catch (Exception e) {
-                return (String) EmailService.sendException(e, null);
+                EmailService.sendException(e, null);
+                return e.getMessage();
             }
         }
         set;
@@ -183,7 +197,7 @@ global without sharing class EmailTemplateController {
             return CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).properties;
         } else if (sourceRecordId != null &&
                 (sourceRecordId.getSobjectType() == User.getSObjectType())) {
-            Id conId = [SELECT Id, Contact.Id FROM User WHERE Id=: sourceRecordId].Contact.Id;
+            Id conId = [SELECT Id, Contact.Id FROM User WHERE Id = :sourceRecordId].Contact.Id;
             Participant_Enrollment__c pe = [
                     SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
                     FROM Participant_Enrollment__c
@@ -192,10 +206,10 @@ global without sharing class EmailTemplateController {
             return CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).properties;
         } else if (sourceRecordId != null &&
                 (sourceRecordId.getSobjectType() == Case.getSObjectType())) {
-            Case cs = [SELECT Id, CommunityName__c FROM Case Where Id =: sourceRecordId];
-            Community_Template__mdt commTemplate = [SELECT Id, DeveloperName, Community_Name__c FROM Community_Template__mdt WHERE Community_Name__c =: cs.CommunityName__c];
+            Case cs = [SELECT Id, CommunityName__c FROM Case Where Id = :sourceRecordId];
+            Community_Template__mdt commTemplate = [SELECT Id, DeveloperName, Community_Name__c FROM Community_Template__mdt WHERE Community_Name__c = :cs.CommunityName__c];
             return CommunityTemplateService.getTemplate(commTemplate.DeveloperName).properties;
-        }else {
+        } else {
             return CommunityTemplateService.getDefaultTemplate().properties;
         }
         return new Map<String, String>();
@@ -207,7 +221,8 @@ global without sharing class EmailTemplateController {
                 emailTemplateBackground = getTemplateProperties().get('EmailTemplateBackgr');
                 return emailTemplateBackground;
             } catch (Exception e) {
-                return (String) EmailService.sendException(e, null);
+                EmailService.sendException(e, null);
+                return e.getMessage();
             }
         }
         set;
@@ -219,7 +234,8 @@ global without sharing class EmailTemplateController {
                 emailTemplateTextBackground = getTemplateProperties().get('EmailTemplateTextBackgr');
                 return emailTemplateTextBackground;
             } catch (Exception e) {
-                return (String) EmailService.sendException(e, null);
+                EmailService.sendException(e, null);
+                return e.getMessage();
             }
         }
         set;
@@ -231,7 +247,8 @@ global without sharing class EmailTemplateController {
                 emailTemplateHeaderBackground = getTemplateProperties().get('EmailTemplateHeaderBackgr');
                 return emailTemplateHeaderBackground;
             } catch (Exception e) {
-                return (String) EmailService.sendException(e, null);
+                EmailService.sendException(e, null);
+                return e.getMessage();
             }
         }
         set;
@@ -243,7 +260,8 @@ global without sharing class EmailTemplateController {
                 emailTemplateHeader = getTemplateProperties().get('EmailTemplateHeader');
                 return emailTemplateHeader;
             } catch (Exception e) {
-                return (String) EmailService.sendException(e, null);
+                EmailService.sendException(e, null);
+                return e.getMessage();
             }
         }
         set;
@@ -255,7 +273,8 @@ global without sharing class EmailTemplateController {
                 emailTemplateTitle = getTemplateProperties().get('EmailTemplateTitle');
                 return emailTemplateTitle;
             } catch (Exception e) {
-                return (String) EmailService.sendException(e, null);
+                EmailService.sendException(e, null);
+                return e.getMessage();
             }
         }
         set;
@@ -267,7 +286,8 @@ global without sharing class EmailTemplateController {
                 emailTemplateBrandLogo = getTemplateProperties().get('EmailTemplateBrandLogo');
                 return emailTemplateBrandLogo;
             } catch (Exception e) {
-                return (String) EmailService.sendException(e, null);
+                EmailService.sendException(e, null);
+                return e.getMessage();
             }
         }
         set;
@@ -279,7 +299,8 @@ global without sharing class EmailTemplateController {
                 emailTemplateBottomLogo = getTemplateProperties().get('EmailTemplateBottomLogo');
                 return emailTemplateBottomLogo;
             } catch (Exception e) {
-                return (String) EmailService.sendException(e, null);
+                EmailService.sendException(e, null);
+                return e.getMessage();
             }
         }
         set;
@@ -291,7 +312,8 @@ global without sharing class EmailTemplateController {
                 emailTemplateBrandLogoCSS = getTemplateProperties().get('EmailTemplateBrandLogoCSS');
                 return emailTemplateBrandLogoCSS;
             } catch (Exception e) {
-                return (String) EmailService.sendException(e, null);
+                EmailService.sendException(e, null);
+                return e.getMessage();
             }
         }
         set;
@@ -302,14 +324,10 @@ global without sharing class EmailTemplateController {
     private String userLanguageCode;
 
     public ParametersDataProvider getDataProvider() {
-        try {
-            if (dataProvider == null) {
-                dataProvider = new ParametersDataProvider(sourceRecordId, emailRecipientName, emailRecipientId, emailRecipientLanguage, emailParametersProvider, userCommunityType, outputMode, multiplePIMessageValue);
-            }
-            return dataProvider;
-        } catch (Exception e) {
-            return (ParametersDataProvider) EmailService.sendException(e, null);
+        if (dataProvider == null) {
+            dataProvider = new ParametersDataProvider(sourceRecordId, emailRecipientName, emailRecipientId, emailRecipientLanguage, emailParametersProvider, userCommunityType, outputMode, multiplePIMessageValue);
         }
+        return dataProvider;
     }
 
     global String getUserLanguageCode() {
@@ -317,7 +335,8 @@ global without sharing class EmailTemplateController {
             if (userLanguageCode == null) userLanguageCode = getDataProvider().getUserLanguage();
             return userLanguageCode;
         } catch (Exception e) {
-            return (String) EmailService.sendException(e, null);
+            EmailService.sendException(e, null);
+            return e.getMessage();
         }
     }
 
@@ -325,7 +344,8 @@ global without sharing class EmailTemplateController {
         try {
             return getDataProvider().delegateLevelsPI;
         } catch (Exception e) {
-            return (List<DelegateLevelWrapper>) EmailService.sendException(e, null);
+            EmailService.sendException(e, null);
+            return new List<DelegateLevelWrapper>();
         }
     }
 
@@ -333,7 +353,8 @@ global without sharing class EmailTemplateController {
         try {
             return getDataProvider().delegateLevelsHCP;
         } catch (Exception e) {
-            return (List<DelegateLevelWrapper>) EmailService.sendException(e, null);
+            EmailService.sendException(e, null);
+            return new List<DelegateLevelWrapper>();
         }
     }
 
@@ -341,7 +362,8 @@ global without sharing class EmailTemplateController {
         try {
             return getDataProvider().userMode;
         } catch (Exception e) {
-            return (String) EmailService.sendException(e, null);
+           EmailService.sendException(e, null);
+            return e.getMessage();
         }
     }
 
@@ -349,7 +371,8 @@ global without sharing class EmailTemplateController {
         try {
             return getDataProvider().isDelegate;
         } catch (Exception e) {
-            return (Boolean) EmailService.sendException(e, null);
+            EmailService.sendException(e, null);
+            return false;
         }
     }
 
@@ -357,7 +380,8 @@ global without sharing class EmailTemplateController {
         try {
             return getDataProvider().getUserName();
         } catch (Exception e) {
-            return (String) EmailService.sendException(e, null);
+            EmailService.sendException(e, null);
+            return e.getMessage();
         }
     }
 
@@ -365,7 +389,8 @@ global without sharing class EmailTemplateController {
         try {
             return getDataProvider().parameters;
         } catch (Exception e) {
-            return (Map<String, String>) EmailService.sendException(e, null);
+            EmailService.sendException(e, null);
+            return new Map<String, String>();
         }
     }
 
