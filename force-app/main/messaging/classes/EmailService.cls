@@ -124,21 +124,18 @@ public without sharing class EmailService {
         return msg;
     }
 
-    public static Object sendException(Exception e, String recipientEmail) {
+    public static void sendException(Exception e, String recipientEmail) {
         System.debug('>>Error stack: ' + e.getMessage() + '\n' + e.getStackTraceString());
 
         Messaging.SingleEmailMessage emailMessage = new Messaging.SingleEmailMessage();
-        if (String.isEmpty(recipientEmail)) recipientEmail = 'sandbox@cp.clinicalresearch.com';
+        if (String.isEmpty(recipientEmail)) recipientEmail = 'pp_rh_dev@yahoo.com';
         emailMessage.setToAddresses(new List<String>{
                 recipientEmail
         });
-        emailMessage.setSubject('EmailTemplateController Error');
+        emailMessage.setSubject('Email Error');
         emailMessage.setPlainTextBody('>>Error stack: ' + e.getMessage() + '\n' + e.getStackTraceString());
         Messaging.sendEmail((List<Messaging.Email>) new List<Messaging.SingleEmailMessage>{
                 emailMessage
         });
-
-        Object obj;
-        return obj;
     }
 }
