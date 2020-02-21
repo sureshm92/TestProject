@@ -477,7 +477,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 ctpPE.put(pe.Clinical_Trial_Profile__c, new List<Participant_Enrollment__c>());
             }
             ctpPE.get(pe.Clinical_Trial_Profile__c).add(pe);
-            networkByPE.put(pe.Id, communitiesMap.get(pe.Clinical_Trial_Profile__r.CommunityTemplate__c));
+            String networkName = CommunityTemplateService.NETWORK_BY_TEMPLATE.get(pe.Clinical_Trial_Profile__r.CommunityTemplate__c);
+            networkByPE.put(pe.Id, communitiesMap.get(networkName));
         }
 
         List<Trial_Survey__c> trialSurveys = [
