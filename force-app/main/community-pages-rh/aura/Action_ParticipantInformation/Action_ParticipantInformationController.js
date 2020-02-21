@@ -47,10 +47,10 @@
                     console.log('parti11', component.get('v.participant'));
                     formComponent.createDataStamp();
                     formComponent.checkFields();
-                    component.find('dialog').scrollTop();
                 }), 15);
             });
             console.log('parti', component.get('v.participant'));
+            component.find('dialog').scrollTop();
             component.find('dialog').show();
         } catch (e) {
             console.error(e);
