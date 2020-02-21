@@ -5770,6 +5770,21 @@
         <value>Accept both Referrals and Referring Clinics directly on this page.</value>
     </labels>
     <labels>
+        <fullName>OT_Participant_GSK_S1_H</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>OT Participant GSK S1 H</shortDescription>
+        <value>My Study, Tasks, Resources and Links</value>
+    </labels>
+    <labels>
+        <fullName>OT_Participant_GSK_S75_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>OT Participant GSK S75 Text</shortDescription>
+        <value>Take action on tasks that have been assigned to you or created by you or your delegate using the Open Task List.
+View study documents and other resources including articles and videos related to the study or the condition being studied from Resources.</value>
+    </labels>
+    <labels>
         <fullName>OT_Participant_S1_H</fullName>
         <language>en_US</language>
         <protected>false</protected>
