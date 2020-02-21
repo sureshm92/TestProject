@@ -1876,6 +1876,13 @@
         <value>Edit Visit Legend</value>
     </labels>
     <labels>
+        <fullName>Eligibility_Passed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Eligibility_Passed</shortDescription>
+        <value>Eligibility Passed</value>
+    </labels>
+    <labels>
         <fullName>Email</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3160,15 +3167,6 @@
             The IQVIA Patient Portal and Referral Hub Support Teams</value>
     </labels>
     <labels>
-        <fullName>Email_Signature_GSK</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Signature</shortDescription>
-        <value>
-            Sincerely,
-            The GSK Participant Hub team</value>
-    </labels>
-    <labels>
         <fullName>Email_Signature_1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3217,6 +3215,14 @@
         <value>If you don&#39;t want to change your password or didn&#39;t request this, just ignore this email and no changes will be made to your account.
 
             To keep your account secure, please don&#39;t forward this email to anyone.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_GSK</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature</shortDescription>
+        <value>Sincerely,
+            The GSK Participant Hub team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_New</fullName>
@@ -3771,6 +3777,13 @@
         <protected>false</protected>
         <shortDescription>Empty Visits tab</shortDescription>
         <value>This feature is not available for Studies not participating in Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Enrolled_Or_Randomized</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Enrolled_Or_Randomized</shortDescription>
+        <value>Enrolled or Randomized</value>
     </labels>
     <labels>
         <fullName>Error_Message_Can_Not_Create_Participant</fullName>
@@ -4963,6 +4976,13 @@
         <protected>false</protected>
         <shortDescription>Incorrect data</shortDescription>
         <value>Please input correct data!</value>
+    </labels>
+    <labels>
+        <fullName>Initial_Visit_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Initial_Visit_Scheduled</shortDescription>
+        <value>Initial Visit Scheduled</value>
     </labels>
     <labels>
         <fullName>Investigator_phone</fullName>
@@ -11063,6 +11083,13 @@ View study documents and other resources including articles and videos related t
         <value>Your permissions do not permit this action</value>
     </labels>
     <labels>
+        <fullName>Received</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Received</shortDescription>
+        <value>Received</value>
+    </labels>
+    <labels>
         <fullName>ReferralNetwork_NoRNSelected</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12001,6 +12028,13 @@ View study documents and other resources including articles and videos related t
         <value>There is the sames RP in the System</value>
     </labels>
     <labels>
+        <fullName>Screening_Passed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Screening_Passed</shortDescription>
+        <value>Screening Passed</value>
+    </labels>
+    <labels>
         <fullName>Search_For_Sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12335,6 +12369,13 @@ View study documents and other resources including articles and videos related t
         <protected>true</protected>
         <shortDescription>The record has been created successfully.</shortDescription>
         <value>The record has been created successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Successfully_Contacted</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Successfully_Contacted</shortDescription>
+        <value>Successfully Contacted</value>
     </labels>
     <labels>
         <fullName>Systolic</fullName>
