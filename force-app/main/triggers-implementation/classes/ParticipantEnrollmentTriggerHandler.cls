@@ -460,12 +460,24 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     @TestVisible
     private static void createInvitations(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+        List<Participant_Enrollment__c> enrollments = [
+                SELECT Id,
+                        Clinical_Trial_Profile__c,
+                        Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Participant_Status__c
+                FROM Participant_Enrollment__c
+                WHERE Id IN:newList
+        ];
+
+        Map<String, Id> communitiesMap = CommunityService.getCommunityIdsMap();
+        Map<Id, String> networkByPE = new Map<Id, String>();
         Map<Id, List<Participant_Enrollment__c>> ctpPE = new Map<Id, List<Participant_Enrollment__c>>();
-        for (Participant_Enrollment__c pe : newList) {
+        for (Participant_Enrollment__c pe : enrollments) {
             if (ctpPE.get(pe.Clinical_Trial_Profile__c) == null) {
                 ctpPE.put(pe.Clinical_Trial_Profile__c, new List<Participant_Enrollment__c>());
             }
             ctpPE.get(pe.Clinical_Trial_Profile__c).add(pe);
+            networkByPE.put(pe.Id, communitiesMap.get(pe.Clinical_Trial_Profile__r.CommunityTemplate__c));
         }
 
         List<Trial_Survey__c> trialSurveys = [
@@ -484,8 +496,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
                 AND Clinical_Trial_Profile__c IN:ctpPE.keySet()
         ];
-
-        Id communityId = CommunityService.getCommunityId(null);
 
         Map<Id, String> trialWhoseResponse = new Map<Id, String>();
         List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
@@ -506,7 +516,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     }
                 }
                 if (needToAdd) {
-                    newInvitations.add(SurveyService.getInstance().generateInvitation(ts, enrollment.Id, communityId));
+                    newInvitations.add(SurveyService.getInstance().generateInvitation(
+                            ts, enrollment.Id, networkByPE.get(enrollment.Id))
+                    );
                 }
             }
         }
