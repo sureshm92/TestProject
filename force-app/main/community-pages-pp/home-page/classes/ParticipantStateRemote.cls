@@ -7,7 +7,9 @@ public class ParticipantStateRemote {
     @AuraEnabled
     public static String getInitData(){
         try{
-            return JSON.serialize(new ParticipantItem(ParticipantService.getInstance().getState()));
+            ParticipantItem pi = new ParticipantItem(ParticipantService.getInstance().getState());
+            ParticipantWorkflowService.populatePatientItemsWithPathWrappers(new List<ParticipantItem>{pi});
+            return JSON.serialize(pi);
         }catch (Exception e){
             return (String)AuraHelper.throwException(e);
         }

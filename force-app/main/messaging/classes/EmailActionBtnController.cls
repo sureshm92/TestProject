@@ -6,6 +6,7 @@ global without sharing class EmailActionBtnController {
     
     global String buttonURLString {get; set;}
     global String caseIdString {get; set;}
+    global Id resourceIdString { get; set; }
 
     public String getResultURL(){
         String result = buttonURLString;
@@ -24,7 +25,34 @@ global without sharing class EmailActionBtnController {
     }
 
     private String getCurrentCommunityURL() {
-        List<Network> currCommunities = [SELECT Id FROM Network WHERE Name = 'IQVIA Referral Hub'];
+        String communityTemplate = 'Default';
+        if (resourceIdString != null && resourceIdString.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
+            Participant_Enrollment__c pe = [
+                    SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
+                    FROM Participant_Enrollment__c
+                    WHERE Id = :resourceIdString
+            ];
+            communityTemplate = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+        } else if (resourceIdString != null && resourceIdString.getSobjectType() == Clinical_Trial_Profile__c.getSObjectType()) {
+            Clinical_Trial_Profile__c ctp = [
+                    SELECT Id, CommunityTemplate__c
+                    FROM Clinical_Trial_Profile__c
+                    WHERE Id = :resourceIdString
+            ];
+            communityTemplate = ctp.CommunityTemplate__c;
+        } else if (resourceIdString != null && resourceIdString.getSobjectType() == Task.getSObjectType()) {
+            Task task = [SELECT Id, WhatId FROM Task WHERE Id =: resourceIdString];
+            Participant_Enrollment__c pe = [
+                    SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
+                    FROM Participant_Enrollment__c
+                    WHERE Id = :task.WhatId
+            ];
+            communityTemplate = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+        }
+        List<Network> currCommunities = communityTemplate == 'GSK' ?
+                [SELECT Id FROM Network WHERE Name = 'GSK Community'] :
+                [SELECT Id FROM Network WHERE Name = 'IQVIA Referral Hub'];
+
         String urlStr;
         if (currCommunities.size() > 0) {
             urlStr = Network.getLoginUrl(currCommunities[0].Id);
@@ -32,6 +60,7 @@ global without sharing class EmailActionBtnController {
             String startUrl = urlParts[0];
             urlParts = urlParts[1].split('/');
             urlStr = startUrl + '//' +urlParts[0];
+            if(communityTemplate == 'GSK') urlStr += '/' + urlParts[1];
         }
         return urlStr;
     }
