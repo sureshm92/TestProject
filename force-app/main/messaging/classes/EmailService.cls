@@ -73,7 +73,7 @@ public without sharing class EmailService {
             }
         }
         List<Messaging.SendEmailResult> resultList = Messaging.sendEmail(emailMessages, false);
-        for(Integer i = 0; i < resultList.size(); i++) {
+        for (Integer i = 0; i < resultList.size(); i++) {
             if (!resultList[i].success) {
                 sendResultService.setFailed(notifications[i].Id, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL, JSON.serializePretty(resultList[i].errors));
             } else {
@@ -84,9 +84,11 @@ public without sharing class EmailService {
         if (!notificationShareEmail.isEmpty()) EmailService.sendEmailToExternalUser(notificationShareEmail);
     }
 
-    public static void sendEmail(String emailTemplate, Id recipientId, Id whatId){
+    public static void sendEmail(String emailTemplate, Id recipientId, Id whatId) {
         Messaging.SingleEmailMessage sem = createEmail(getEmailTemplateId(emailTemplate), recipientId, whatId, null);
-        for(Messaging.SendEmailResult result : Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{sem}, false)){
+        for (Messaging.SendEmailResult result : Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{
+                sem
+        }, false)) {
             if (result.success) {
                 System.debug('The email was sent successfully.');
             } else {
@@ -110,13 +112,30 @@ public without sharing class EmailService {
         Messaging.sendEmail(msgListToBeSend);
     }
 
-    public static Messaging.SingleEmailMessage createMessage(Id whatId, Id fromId,  String emailAddr, String templateName) {
-        EmailTemplate shareStudyEmailTemplate = [SELECT Id, Subject, Body  FROM EmailTemplate WHERE DeveloperName =:templateName LIMIT 1];
+    public static Messaging.SingleEmailMessage createMessage(Id whatId, Id fromId, String emailAddr, String templateName) {
+        EmailTemplate shareStudyEmailTemplate = [SELECT Id, Subject, Body FROM EmailTemplate WHERE DeveloperName = :templateName LIMIT 1];
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
         msg.setTemplateId(shareStudyEmailTemplate.Id);
         msg.setWhatId(whatId);
         msg.setTargetObjectId(fromId);
-        msg.setToAddresses(new List<String>{emailAddr});
+        msg.setToAddresses(new List<String>{
+                emailAddr
+        });
         return msg;
+    }
+
+    public static void sendException(Exception e, String recipientEmail) {
+        System.debug('>>Error stack: ' + e.getMessage() + '\n' + e.getStackTraceString());
+
+        Messaging.SingleEmailMessage emailMessage = new Messaging.SingleEmailMessage();
+        if (String.isEmpty(recipientEmail)) recipientEmail = 'pp_rh_dev@yahoo.com';
+        emailMessage.setToAddresses(new List<String>{
+                recipientEmail
+        });
+        emailMessage.setSubject('Email Error');
+        emailMessage.setPlainTextBody('>>Error stack: ' + e.getMessage() + '\n' + e.getStackTraceString());
+        Messaging.sendEmail((List<Messaging.Email>) new List<Messaging.SingleEmailMessage>{
+                emailMessage
+        });
     }
 }

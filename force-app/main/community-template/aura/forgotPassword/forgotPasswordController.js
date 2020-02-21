@@ -19,6 +19,8 @@
     },
 
     initialize: function(component, event, helper) {
-        $A.get("e.siteforce:registerQueryEventMap").setParams({"qsToEvent" : helper.qsToEventMap}).fire();        
+        $A.get("e.siteforce:registerQueryEventMap").setParams({"qsToEvent" : helper.qsToEventMap}).fire();
+        var community = window.location.pathname.startsWith('/gsk/') ? '/s/gsk/login' : '/s/login';
+        component.set('v.backPage', community);
     }
 })

@@ -4,7 +4,8 @@
 ({
     doInit: function (component, event, helper) {
         if(!component.get('v.href')){
-            component.set('v.href', communityService.getCommunityURLPathPrefix() + '/' + component.get('v.page'));
+            var page = component.get('v.page') ? component.get('v.page') : '';
+            component.set('v.href', communityService.getCommunityURLPathPrefix() + '/' + page);
         }
     },
 
@@ -15,5 +16,4 @@
             if(page !== undefined) communityService.navigateToPage(page);
         }
     }
-
-})
+});
