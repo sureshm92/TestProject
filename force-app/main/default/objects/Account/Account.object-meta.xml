@@ -68,7 +68,7 @@
     <enableEnhancedLookup>true</enableEnhancedLookup>
     <enableFeeds>true</enableFeeds>
     <enableHistory>true</enableHistory>
-    <!--externalSharingModel>Read</externalSharingModel-->
+    <externalSharingModel>Read</externalSharingModel>
     <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
     <!--recordTypeTrackHistory>true</recordTypeTrackHistory-->
 
@@ -88,4 +88,5 @@
         <searchResultsAdditionalFields>CORE.USERS.ALIAS</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>Read</sharingModel>
+
 </CustomObject>

@@ -18,6 +18,10 @@
                 <behavior>Edit</behavior>
                 <field>Community_Name__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>Permission_Set_Developer_Name__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
