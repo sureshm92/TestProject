@@ -39,7 +39,7 @@ public with sharing class ActionExecutor {
     public static void execute(Action action){
         Action__c act = new Action__c(
                 Type__c = action.getType().toString(),
-                Body__c = JSON.serialize(action)
+                Body__c = JSON.serializePretty(action)
         );
         Execution_History__c history = new Execution_History__c();
         Action_Execution_Setting__c actionSetting = getSetting(act.Type__c);
@@ -98,7 +98,7 @@ public with sharing class ActionExecutor {
     public static void executeAsync(Action action, Datetime executeTime){
         Action__c act = new Action__c(
                 Type__c = action.getType().toString(),
-                Body__c = JSON.serialize(action),
+                Body__c = JSON.serializePretty(action),
                 Execution_Time__c = executeTime,
                 Status__c = ACTION_STATUS_PENDING
         );
