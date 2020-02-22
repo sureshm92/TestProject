@@ -37,14 +37,7 @@ public without sharing class UserTriggerHandler {
             updateUserRoleToSPNL(newList);
         }
     }
-
-    public class AssignCommunityPermissionSetToUserHandler extends TriggerHandler {
-
-        public override void afterInsert(List<SObject> newList) {
-            assignCommunityPermissionSetToUser(newList);
-        }
-    }
-
+    
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
@@ -116,40 +109,5 @@ public without sharing class UserTriggerHandler {
         insert tasksForInsert;
     }
 
-    @TestVisible
-    private static void assignCommunityPermissionSetToUser(List<User> insertedUsers) {
-        Map<Id, Id> userByContact = new Map<Id, Id>();
-        for (User user : insertedUsers) userByContact.put(user.ContactId, user.Id);
 
-        List<Participant_Enrollment__c> enrollments = [
-                SELECT Id,
-                        Clinical_Trial_Profile__r.CommunityTemplate__c,
-                        Participant_Contact__c
-                FROM Participant_Enrollment__c
-                WHERE Participant_Contact__c IN :userByContact.keySet()
-        ];
-
-        PermissionService service = PermissionService.getInstance();
-        Map<Id, Id> newPermissionByUser = new Map<Id, Id>();
-        for (Participant_Enrollment__c pe : enrollments) {
-            Id permSetId = service.getPermissionSetIdByName(PermissionService.PERMISSION_COMMUNITY_DEFAULT);
-            String studyCommunity = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
-            if (studyCommunity == CommunityTemplateService.COMMUNITY_GSK_NAME) {
-                permSetId = service.getPermissionSetIdByName(PermissionService.PERMISSION_COMMUNITY_GSK);
-            }
-            newPermissionByUser.put(userByContact.get(pe.Participant_Contact__c), permSetId);
-        }
-
-        List<User> rhUsers = [
-                SELECT Id
-                FROM User
-                WHERE Id IN:insertedUsers
-                AND ContactId != NULL
-                AND Contact.userCommunityMode__c != 'Participant'
-        ];
-        for(User user : rhUsers) {
-            newPermissionByUser.put(user.Id, service.getPermissionSetIdByName(PermissionService.PERMISSION_COMMUNITY_DEFAULT));
-        }
-        PermissionService.setPermissionForUsers(JSON.serialize(newPermissionByUser));
-    }
 }
