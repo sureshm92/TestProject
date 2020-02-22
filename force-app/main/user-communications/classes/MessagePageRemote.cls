@@ -49,7 +49,7 @@ public without sharing class MessagePageRemote {
         @AuraEnabled public String downloadLink = '/sfc/servlet.shepherd/document/download/';//ContentDocumentId
 
         public AttachmentWrapper(ContentDocumentLink doc) {
-            fileName = doc.ContentDocument.Title + '.' + doc.ContentDocument.FileExtension;
+            fileName = doc.ContentDocument.Title;
             fileIcon = iconByExtension.containsKey(doc.ContentDocument.FileExtension) ?
                     iconByExtension.get(doc.ContentDocument.FileExtension) : 'icon-blank';
             downloadLink += doc.ContentDocumentId;

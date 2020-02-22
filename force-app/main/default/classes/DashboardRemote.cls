@@ -423,15 +423,16 @@ public class DashboardRemote {
                     enrolledOrRandomizedSet.add(pesh.ParticipantEnrollment__c);
                 }
             }
-            returnData.add(new FunnelData(PEStatusState.PE_STATUS_RECEIVED, receivedStatusSet.size(), '#3DC2FA'));
-            returnData.add(new FunnelData(PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED, successfullyContactedSet.size(), '#9914E6'));
+            returnData.add(new FunnelData(Label.Received, receivedStatusSet.size(), '#3DC2FA'));
+            returnData.add(new FunnelData(Label.Successfully_Contacted, successfullyContactedSet.size(), '#9914E6'));
             returnData.add(new FunnelData(peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual' ?
-                    INITIAL_VISIT_SCHEDULED : PEStatusState.PE_STATUS_ELIGIBILITY_PASSED,
+                    Label.Initial_Visit_Scheduled : Label.Eligibility_Passed,
                     peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual' ?
                             initialVisitScheduledSet.size() : eligibilityPassedSet.size(), '#D892FF'));
-            returnData.add(new FunnelData(PEStatusState.PE_STATUS_SCREENING_PASSED, screeningPassedSet.size(), '#139458'));
-            returnData.add(new FunnelData(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS, enrolledOrRandomizedSet.size(), '#7AFFD3'));
+            returnData.add(new FunnelData(Label.Screening_Passed, screeningPassedSet.size(), '#139458'));
+            returnData.add(new FunnelData(Label.Enrolled_Or_Randomized, enrolledOrRandomizedSet.size(), '#7AFFD3'));
         }
+
         return returnData;
     }
 
@@ -446,7 +447,7 @@ public class DashboardRemote {
         List<Participant_Enrollment__c> pes =
                 ParticipantEnrollmentService.getPEnrolmentsByStatus(
                         userMode,
-                        new List<String>{ PEStatusState.PE_STATUS_CONTACT_ATTEMPTED },
+                        new List<String>{ PEStatusState.PE_STATUS_CONTACT_ATTEMPTED, PEStatusState.PE_STATUS_RECEIVED },
                         null,
                         delegateId);
         for (Participant_Enrollment__c pe : pes) {
