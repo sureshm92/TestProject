@@ -171,14 +171,25 @@ global without sharing class ReferHealthcareProviderRemote {
     }
 
     @AuraEnabled
-    public static List<Patient_Delegate__c> getContactsDelegates(String participantId) {
+    public static List<Participant__c> getContactsDelegates(String participantId) {
 
-        List<Patient_Delegate__c> listDelegates = [SELECT Id,
-                                                          Contact__r.Email,
-                                                          Contact__r.FirstName, Contact__r.LastName
-                                                   FROM   Patient_Delegate__c
-                                                   WHERE  Participant__c =: participantId];
-        if (listDelegates.isEmpty()) listDelegates.add(new Patient_Delegate__c());
+        List<Patient_Delegate__c> listId = [SELECT Id, Contact__c FROM Patient_Delegate__c WHERE Participant__c =: participantId];
+        System.debug(listId);
+        Set<Id> setId = new Set<Id>();
+        for (Patient_Delegate__c del: listId){
+            setId.add(del.Contact__c);
+        }
+        System.debug(setId);
+
+        List<Participant__c> listDelegates = [
+                                                   SELECT Id,
+                                                          Email__c,
+                                                          First_Name__c,
+                                                          Last_Name__c
+                                                   FROM   Participant__c
+                                                   WHERE  Contact__c IN : setId
+                                                  ];
+        if (listDelegates.isEmpty()) listDelegates.add(new Participant__c());
         return listDelegates;
     }
 

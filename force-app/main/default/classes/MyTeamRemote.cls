@@ -302,7 +302,7 @@ public without sharing class MyTeamRemote {
                 }
                 //Contact delegateContact = [SELECT Id, HasOptedOutOfEmail FROM Contact WHERE Id =:dw.delegateContact.Id LIMIT 1];
                 if (hasDelegateLevels/*&& delegateContact != null && !delegateContact.HasOptedOutOfEmail*/) {
-                    sendEmailNotification(dw.delegateContact);
+                    sendEmailNotification(dw.delegateContact, userMode);
                 }
                 List<User> delegateUsers = CommunityService.getCommunityUsersByContactIds(new Set<Id>{
                         dw.delegateContact.Id
@@ -319,13 +319,33 @@ public without sharing class MyTeamRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-    private static void sendEmailNotification(Contact delegateContact) {
-        Notification__c notification = new Notification__c(
-                Recipient__c = delegateContact.Id,
-                WhatId__c = delegateContact.Id,
-                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_ACCESS_LEVEL_CHANGED_TYPE
-        );
-        insert notification;
+    private static void sendEmailNotification(Contact delegateContact, String userMode) {
+
+        Notification__c notification;
+        if(userMode == CommunityService.USER_MODE_PARTICIPANT) {
+            notification = new Notification__c(
+                    Recipient__c = delegateContact.Id,
+                    WhatId__c = delegateContact.Id,
+                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_ACCESS_LEVEL_CHANGED_TYPE
+            );
+        }
+        else if(userMode == CommunityService.USER_MODE_PI){
+            notification = new Notification__c(
+                    Recipient__c = delegateContact.Id,
+                    WhatId__c = delegateContact.Id,
+                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_ACCESS_LEVEL_CHANGED_TYPE
+            );
+        }
+        else if(userMode == CommunityService.USER_MODE_HCP){
+            notification = new Notification__c(
+                    Recipient__c = delegateContact.Id,
+                    WhatId__c = delegateContact.Id,
+                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_HCP_ACCESS_LEVEL_CHANGED_TYPE
+            );
+        }
+        if(notification != null){
+            insert notification;
+        }
     }
 
     private static void sendEmailNotificationWelcome(Contact delegateContact) {
@@ -424,10 +444,12 @@ public without sharing class MyTeamRemote {
                 contactDelegate.MailingCountryCode = participant.Mailing_Country_Code__c;
                 contactDelegate.MailingStateCode = participant.Mailing_State_Code__c;
                 insert contactDelegate;
-                insert CommunityService.createUser(contactDelegate, null, null, null);
+
+                User delegateUser = CommunityService.createUser(contactDelegate, null, null, null);
+                insert delegateUser;
             } else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
                 CommunityService.setUserToCommunity(contactDelegate.Id);
-                sendEmailNotification(contactDelegate);
+                sendEmailNotification(contactDelegate, CommunityService.USER_MODE_PARTICIPANT);
             }
             PatientDelegateService.getInstance().createPatientDelegate(contactDelegate);
         } catch (Exception e) {

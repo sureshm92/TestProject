@@ -78,14 +78,14 @@
         <aura:if isTrue="{!v.forThisProvider == 'isDelegates'}">
             <div class="{!'slds-col ' + if(v.printMode, 'slds-size--4-of-12', 'slds-size--1-of-1 slds-large-size--4-of-12')}">
                 <lightning:input class="healthcare-input" type="text" required="{!!v.printMode}"
-                                 label="{!$Label.c.HealthCare_Providers_Email}" value="{!v.delegates.Contact__r.Email}"
+                                 label="{!$Label.c.HealthCare_Providers_Email}" value="{!v.delegates.Email__c}"
                                  onblur="{!c.checkContact}" onchange="{!c.checkFields}" disabled="{!v.delegates.Id}"
                                  aura:id="delEmail"/>
             </div>
             <div class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 slds-large-size--3-of-12')}">
                 <lightning:input class="healthcare-input" type="text" required="{!!v.printMode}"
                                  label="{!$Label.c.HealthCare_Providers_First_Name}"
-                                 value="{!v.delegates.Contact__r.FirstName}"
+                                 value="{!v.delegates.First_Name__c}"
                                  onchange="{!c.checkFields}"
                                  onblur="{!c.checkContact}"
                                  disabled="{!v.delegates.Id}"
@@ -94,7 +94,7 @@
             <div class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 slds-large-size--3-of-12')}">
                 <lightning:input class="healthcare-input" type="text" required="{!!v.printMode}"
                                  label="{!$Label.c.HealthCare_Providers_Last_Name}"
-                                 value="{!v.delegates.Contact__r.LastName}"
+                                 value="{!v.delegates.Last_Name__c}"
                                  onchange="{!c.checkFields}"
                                  onblur="{!c.checkContact}"
                                  disabled="{!v.delegates.Id}"

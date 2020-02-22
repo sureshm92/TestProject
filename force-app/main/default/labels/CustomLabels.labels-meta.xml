@@ -41,7 +41,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AL Body PRT Become Adult Delegate</shortDescription>
-        <value>Hi ##UserName, your participant ##ParticipantFirstName has recently reached the age of legal maturity and have provided their privacy preferences. We recommend you contact the Provider to know more about your status on this clinical research study.</value>
+        <value>Hi ##UserName, your participant ##ParticipantFirstName has recently reached the age of legal maturity and has provided their privacy preferences. Please contact the patient to learn more about your updated status on this clinical research study.</value>
     </labels>
     <labels>
         <fullName>AL_Body_PRT_Week_Become_Adult_Delegate</fullName>
@@ -49,7 +49,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AL Body PRT Week Become Adult Delegate</shortDescription>
-        <value>Hi ##UserName, you have one or more participant(s) that is soon to be reaching the age of legal maturity. We recommend you contact the Provider to know more about your status on the associated clinical research study</value>
+        <value>Hi ##UserName, you have one or more participant(s) who will soon reach the age of legal maturity. We recommend you contact the study doctor to learn more about your status on the associated clinical research study</value>
     </labels>
     <labels>
         <fullName>AL_Body_PRT_Week_Become_Adult_Delegates</fullName>
@@ -57,7 +57,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AL Body PRT Week Become Adult Delegates</shortDescription>
-        <value>Hi ##UserName, you have one or more participant(s) that is soon to be reaching the age of legal maturity. We recommend you contact the Provider to know more about your status on the associated clinical research study</value>
+        <value>Hi ##UserName, you have one or more participant(s) who will soon reach the age of legal maturity. We recommend you contact the study doctor to learn more about your status on the associated clinical research study</value>
     </labels>
     <labels>
         <fullName>AL_Body_Returning_Delegate</fullName>
@@ -141,6 +141,14 @@
         <protected>false</protected>
         <shortDescription>AL Title PRT Week Become Adult</shortDescription>
         <value>Participant will become an adult!</value>
+    </labels>
+    <labels>
+        <fullName>AL_Title_PRT_Week_Become_Adult_Delegates</fullName>
+        <categories>Alert</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AL Title PRT Week Become Adult Delegates</shortDescription>
+        <value>Hi ##UserName, your participant ##ParticipantFirstName has recently reached the age of legal maturity and has provided their privacy preferences. Please contact the patient to learn more about your updated status on this clinical research study.</value>
     </labels>
     <labels>
         <fullName>AL_Title_Welcome_Study</fullName>
@@ -800,6 +808,13 @@
         <protected>false</protected>
         <shortDescription>BTN I Accept</shortDescription>
         <value>I Accept</value>
+    </labels>
+    <labels>
+        <fullName>BTN_I_Activate_my_site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN I Activate my site</shortDescription>
+        <value>Activate my site</value>
     </labels>
     <labels>
         <fullName>BTN_I_don_t_know_yet</fullName>
@@ -1859,6 +1874,13 @@
         <protected>true</protected>
         <shortDescription>Edit Visit Legend</shortDescription>
         <value>Edit Visit Legend</value>
+    </labels>
+    <labels>
+        <fullName>Eligibility_Passed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Eligibility_Passed</shortDescription>
+        <value>Eligibility Passed</value>
     </labels>
     <labels>
         <fullName>Email</fullName>
@@ -3145,15 +3167,6 @@
             The IQVIA Patient Portal and Referral Hub Support Teams</value>
     </labels>
     <labels>
-        <fullName>Email_Signature_GSK</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Signature</shortDescription>
-        <value>
-            Sincerely,
-            The GSK Participant Hub team</value>
-    </labels>
-    <labels>
         <fullName>Email_Signature_1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3202,6 +3215,14 @@
         <value>If you don&#39;t want to change your password or didn&#39;t request this, just ignore this email and no changes will be made to your account.
 
             To keep your account secure, please don&#39;t forward this email to anyone.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_GSK</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature</shortDescription>
+        <value>Sincerely,
+            The GSK Participant Hub team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_New</fullName>
@@ -3758,6 +3779,13 @@
         <value>This feature is not available for Studies not participating in Patient Portal</value>
     </labels>
     <labels>
+        <fullName>Enrolled_Or_Randomized</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Enrolled_Or_Randomized</shortDescription>
+        <value>Enrolled or Randomized</value>
+    </labels>
+    <labels>
         <fullName>Error_Message_Can_Not_Create_Participant</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3977,7 +4005,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Footer T Copyright</shortDescription>
-        <value>Copyright © 2019 IQVIA. All Rights Reserved.</value>
+        <value>Powered by IQVIA © 2020. All rights reserved.</value>
     </labels>
     <labels>
         <fullName>GMap_Not_Available</fullName>
@@ -3985,6 +4013,13 @@
         <protected>false</protected>
         <shortDescription>Empty address</shortDescription>
         <value>A Google map is not available for this study site location.</value>
+    </labels>
+    <labels>
+        <fullName>GSK_Text_Logo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>GSK Text Logo</shortDescription>
+        <value>GatherSHAREKnow</value>
     </labels>
     <labels>
         <fullName>Gender_Female</fullName>
@@ -4943,6 +4978,13 @@
         <value>Please input correct data!</value>
     </labels>
     <labels>
+        <fullName>Initial_Visit_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Initial_Visit_Scheduled</shortDescription>
+        <value>Initial Visit Scheduled</value>
+    </labels>
+    <labels>
         <fullName>Investigator_phone</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5157,7 +5199,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MS Input PI Recipients Placeholder</shortDescription>
-        <value>Type participant name here...</value>
+        <value>Type Participant Name here...</value>
     </labels>
     <labels>
         <fullName>MS_Input_Placeholder</fullName>
@@ -5746,6 +5788,21 @@
         <protected>false</protected>
         <shortDescription>OT PI S2 T</shortDescription>
         <value>Accept both Referrals and Referring Clinics directly on this page.</value>
+    </labels>
+    <labels>
+        <fullName>OT_Participant_GSK_S1_H</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>OT Participant GSK S1 H</shortDescription>
+        <value>My Study, Tasks, Resources and Links</value>
+    </labels>
+    <labels>
+        <fullName>OT_Participant_GSK_S75_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>OT Participant GSK S75 Text</shortDescription>
+        <value>Take action on tasks that have been assigned to you or created by you or your delegate using the Open Task List.
+View study documents and other resources including articles and videos related to the study or the condition being studied from Resources.</value>
     </labels>
     <labels>
         <fullName>OT_Participant_S1_H</fullName>
@@ -6476,6 +6533,13 @@
         <protected>true</protected>
         <shortDescription>PG AP H Contact Information</shortDescription>
         <value>Contact Information</value>
+    </labels>
+    <labels>
+        <fullName>PG_AP_H_Patient_Contact_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP H Patient ContactInformation</shortDescription>
+        <value>Participant Contact Information</value>
     </labels>
     <labels>
         <fullName>PG_AP_H_Patient_Details</fullName>
@@ -8644,7 +8708,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRZ L Search for a referring clinic</shortDescription>
-        <value>Search for a referring providers</value>
+        <value>Search for an RP</value>
     </labels>
     <labels>
         <fullName>PG_MRZ_L_Search_for_a_study_site</fullName>
@@ -9461,6 +9525,13 @@
         <protected>false</protected>
         <shortDescription>PG Ref L Participant Information</shortDescription>
         <value>Participant Information</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Participant_require_agree</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Participant require agree</shortDescription>
+        <value>I agree that I have confirmed information with emancipated participant.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Participant_require_guardian</fullName>
@@ -10411,6 +10482,34 @@
         <value>PI:</value>
     </labels>
     <labels>
+        <fullName>PI_DB_PAC_Added_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI_DB_PAC_Added_Header</shortDescription>
+        <value>Added</value>
+    </labels>
+    <labels>
+        <fullName>PI_DB_PAC_Name_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI_DB_PAC_Name_Header</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>PI_DB_PAC_Source_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI_DB_PAC_Source_Header</shortDescription>
+        <value>Source</value>
+    </labels>
+    <labels>
+        <fullName>PI_DB_PAC_Study_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI_DB_PAC_Study_Header</shortDescription>
+        <value>Study</value>
+    </labels>
+    <labels>
         <fullName>PI_Delegate_PI_Info</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10900,6 +10999,13 @@
         <value>(yyyy-mm-dd)</value>
     </labels>
     <labels>
+        <fullName>RP_DOB_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP DOB label</shortDescription>
+        <value>DOB</value>
+    </labels>
+    <labels>
         <fullName>RP_Edit_Patient_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -11003,6 +11109,13 @@
         <protected>false</protected>
         <shortDescription>RSN Your permissions do not permit this action</shortDescription>
         <value>Your permissions do not permit this action</value>
+    </labels>
+    <labels>
+        <fullName>Received</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Received</shortDescription>
+        <value>Received</value>
     </labels>
     <labels>
         <fullName>ReferralNetwork_NoRNSelected</fullName>
@@ -11943,6 +12056,13 @@
         <value>There is the sames RP in the System</value>
     </labels>
     <labels>
+        <fullName>Screening_Passed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Screening_Passed</shortDescription>
+        <value>Screening Passed</value>
+    </labels>
+    <labels>
         <fullName>Search_For_Sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12277,6 +12397,13 @@
         <protected>true</protected>
         <shortDescription>The record has been created successfully.</shortDescription>
         <value>The record has been created successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Successfully_Contacted</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Successfully_Contacted</shortDescription>
+        <value>Successfully Contacted</value>
     </labels>
     <labels>
         <fullName>Systolic</fullName>

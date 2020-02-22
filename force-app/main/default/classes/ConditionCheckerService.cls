@@ -12,7 +12,11 @@ public without sharing class ConditionCheckerService {
     private static final Integer TRUE_VALUE_CODE = 2;
     private static  final Integer VALUE_STACK_BASE = 3;
 
+    private static Map<Id, Map<String, Boolean>> resultsCache = new Map<Id, Map<String, Boolean>>();
+
     public static Boolean checkConditionForObject(String condition, SObject obj){
+        if(resultsCache.containsKey(obj.Id) && resultsCache.get(obj.Id).containsKey(condition))
+            return resultsCache.get(obj.Id).get(condition);
         enumStack operatorStack = new enumStack(OPERATOR_STACK_BASE);
         enumStack valueStack = new enumStack(VALUE_STACK_BASE);
         Pattern operatorPattern = Pattern.compile('\\(|\\)|&&|\\|\\||!');
@@ -31,7 +35,12 @@ public without sharing class ConditionCheckerService {
         while(!operatorStack.isEmpty()){
             executeTopOperator(operatorStack, valueStack);
         }
-        return valueStack.pop() == TRUE_VALUE_CODE;
+        Boolean result = valueStack.pop() == TRUE_VALUE_CODE;
+        if(!resultsCache.containsKey(obj.Id)){
+            resultsCache.put(obj.Id, new Map<String, Boolean>());
+        }
+        resultsCache.get(obj.Id).put(condition, result);
+        return result;
     }
 
     private static void processToken(String token, enumStack operatorStack, enumStack valueStack, SObject obj){
@@ -122,7 +131,7 @@ public without sharing class ConditionCheckerService {
     private static Boolean checkAtomicConditionForObject(String fieldName, Boolean equality, String valueString, SObject obj){
         Object fieldValue = obj.get(fieldName);
         String fieldValueString = String.valueOf(fieldValue);
-        return fieldValue != null && equality ? fieldValueString.toLowerCase() == valueString.toLowerCase() : fieldValueString.toLowerCase() != valueString.toLowerCase();
+        return fieldValue != null && (equality ? fieldValueString.toLowerCase() == valueString.toLowerCase() : fieldValueString.toLowerCase() != valueString.toLowerCase());
     }
 
     private class enumStack{

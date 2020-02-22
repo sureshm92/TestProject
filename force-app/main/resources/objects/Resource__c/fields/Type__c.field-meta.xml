@@ -17,9 +17,24 @@
                 <label>None</label>
             </value>
             <value>
+                <fullName>Relevant Links</fullName>
+                <default>false</default>
+                <label>Relevant Links</label>
+            </value>
+            <value>
+                <fullName>Helpful Links</fullName>
+                <default>false</default>
+                <label>Helpful Links</label>
+            </value>
+            <value>
                 <fullName>Patient advocacy groups</fullName>
                 <default>false</default>
                 <label>Patient advocacy groups</label>
+            </value>
+            <value>
+                <fullName>For Caregivers and Families</fullName>
+                <default>false</default>
+                <label>For Caregivers and Families</label>
             </value>
             <value>
                 <fullName>Articles for caregivers</fullName>

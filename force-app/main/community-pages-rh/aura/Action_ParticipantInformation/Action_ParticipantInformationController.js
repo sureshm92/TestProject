@@ -18,10 +18,8 @@
             component.set('v.sendEmails', false);
             var params = event.getParam('arguments');
             var pe = JSON.parse(JSON.stringify(params.pe));
-            console.log('pe>>>',pe);
             component.set('v.isInvited', params.isInvited);
-            if(params.actions)
-                component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
+            if(params.actions) component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
             component.set('v.popUpTitle', pe.Participant__r.Full_Name__c);
             component.set('v.rootComponent', params.rootComponent);
             if (params.callback) component.set('v.callback', params.callback);
@@ -42,16 +40,13 @@
                     component.find('spinner').hide();
                     component.set('v.anchor', params.anchorScroll);
                     component.set('v.pe', returnValue.enrollment);
-                    console.log('pe', JSON.parse(JSON.stringify(component.get('v.pe'))));
                     component.set('v.participant', pe.Participant__r);
-                    console.log('parti11', component.get('v.participant'));
                     formComponent.createDataStamp();
                     formComponent.checkFields();
-                    component.find('dialog').scrollTop();
                 }), 15);
             });
-            console.log('parti', component.get('v.participant'));
             component.find('dialog').show();
+            component.find('dialog').scrollTop();
         } catch (e) {
             console.error(e);
         }

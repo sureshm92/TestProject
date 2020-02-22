@@ -9,6 +9,7 @@ public class ParticipantItem {
     @AuraEnabled public List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
     @AuraEnabled public List<LabelValueItem> participationFlowSteps = PEStatusState.getParticipationFlowSteps();
     @AuraEnabled public Boolean showParticipationSteps;
+    @AuraEnabled public List<ParticipantWorkflowService.PathStepWrapper> pathItems;
     
     public ParticipantItem(Participant_Enrollment__c pe){
         pe.Referral_Source__c = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Referral_Source__c, pe.Referral_Source__c);

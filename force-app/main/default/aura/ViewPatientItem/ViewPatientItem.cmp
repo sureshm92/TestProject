@@ -10,13 +10,9 @@
     <aura:attribute name="actions" type="Object"/>
     <aura:attribute name="userMode" type="String"/>
     <aura:attribute name="parent" type="Aura.Component"/>
-    <aura:attribute name="peStatusesPathList" type="List"/>
-    <aura:attribute name="peStatusStateMap" type="Map"/>
     <aura:attribute name="pathItems" type="List"/>
-    <aura:attribute name="showPath" type="Boolean"/>
+    <aura:attribute name="showPath" type="Boolean" default="true"/>
     <aura:attribute name="peAdditionalName" type="String"/>
-    <aura:attribute name="singlePatientView" type="Boolean" default="false"/>
-    <aura:attribute name="detailCollapsed" type="Boolean" default="true"/>
     <aura:attribute name="changeStatusBtnList" type="List"/>
     <aura:attribute name="isInvited" type="Boolean"/>
     <aura:attribute name="trial" type="Object"/>
@@ -27,7 +23,6 @@
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.pe}" action="{!c.doInit}"/>
-    <aura:handler name="change" value="{!v.detailCollapsed}" action="{!c.doLoadHistoryOnOpen}"/>
 
     <!-- component body: -->
     <div class="{!'rr-white-panel padding ' + if(v.isArabic, ' rtl', '')}" style="position: relative">
@@ -39,39 +34,9 @@
             <c:ParticipantCardHeader userMode="{!v.userMode}" pe="{!v.pe}" isReferral="false"/>
             <c:ParticipantCardIsEmansipated pe="{!v.pe}" parent="{!v.parent}" userMode="{!v.userMode}"/>
             <c:ParticipantCardFields userMode="{!v.userMode}" isInvited="{!v.isInvited}" pe="{!v.pe}"/>
-            <aura:if isTrue="{!((v.showPath &amp;&amp; v.userMode == 'PI') || (v.userMode == 'HCP' &amp;&amp; v.pe.Show_Referring_Provider__c == true &amp;&amp; v.showPath &amp;&amp;
+            <aura:if isTrue="{!(v.userMode == 'Participant' || (v.showPath &amp;&amp; v.userMode == 'PI') || (v.userMode == 'HCP' &amp;&amp; v.pe.Show_Referring_Provider__c == true &amp;&amp; v.showPath &amp;&amp;
             (v.userContactId == v.pe.HCP__r.HCP_Contact__r.Id)) || (v.userMode == 'HCP') &amp;&amp; v.userContactId != v.pe.HCP__r.HCP_Contact__r.Id)}">
-                <div class="vpi-path-panel">
-                    <div class="{!v.userMode != 'PI' ? 'path-section' : 'path-section-pi'}">
-                        <div class="slds-grid vpi-path">
-                            <aura:iteration items="{!v.pathItems}" var="pathItem">
-                                <div class="{!'slds-col width-basis vpi-state ' + pathItem.state + if(pathItem.isCurrent, ' current', '')}">
-                                    <div class="slds-grid">
-                                        <div class="{!'slds-col width-basis vpi-line-div ' + pathItem.left}"></div>
-                                        <div class="{!'slds-col width-basis vpi-line-div ' + pathItem.right}"
-                                             style="position: relative">
-                                            <div class="state-ico-wrapper">
-                                                <aura:if isTrue="{!pathItem.state == 'success'}">
-                                                    <c:RRIcon iconName="icon-check"/>
-                                                </aura:if>
-                                                <aura:if isTrue="{!pathItem.state == 'failure'}">
-                                                    <c:RRIcon iconName="icon-close"/>
-                                                </aura:if>
-                                                <aura:if isTrue="{!pathItem.state == 'in_progress'}">
-                                                    <c:RRIcon iconName="icon-minus"/>
-                                                </aura:if>
-                                                <aura:if isTrue="{!pathItem.state == 'neutral'}">
-                                                    <c:RRIcon iconName="icon-minus"/>
-                                                </aura:if>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="vri-state-label">{!pathItem.name}</div>
-                                </div>
-                            </aura:iteration>
-                        </div>
-                    </div>
-                </div>
+                <c:ParticipantStatusPath  userMode="{!v.userMode}" pathSteps="{!v.pathItems}"/>
 
                 <aura:if isTrue="{!v.userMode == 'PI'}">
                     <div class="slds-grid vpi-status-btns slds-gutters_x-small slds-wrap" data-gtm="BTN_Participant_Details">

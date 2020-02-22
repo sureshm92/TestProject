@@ -344,6 +344,8 @@ public class DashboardRemote {
         ViewPatientsRemote.InitData initData = new ViewPatientsRemote.InitData();
         initData.peStatusStateMap = PEStatusState.STATUSES_MAP;
         initData.peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
+        initData.isInvited = ![SELECT Id FROM User WHERE ContactId =: participantId LIMIT 1].isEmpty();
+
 
         List<Participant_Enrollment__c> pes =
                 ParticipantEnrollmentService.getPEnrolmentsByStatus(
@@ -407,12 +409,25 @@ public class DashboardRemote {
         List<Participant_Enrollment_Status_History__c> peSHs =
             [SELECT Id,
                     CreatedDate,
+                    Date__c,
                     ParticipantEnrollment__c,
                     Status__c
              FROM Participant_Enrollment_Status_History__c
-             WHERE ParticipantEnrollment__c IN :peById.keySet() AND
-                   Status__c IN :(new List<String>{ PEStatusState.PE_STATUS_RECEIVED })
+             WHERE ParticipantEnrollment__c IN (SELECT Id
+                                                FROM Participant_Enrollment__c
+                                                WHERE Study_Site__r.Principal_Investigator__c = :delegateId) AND
+                   Status__c IN :(new List<String>{ PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED,
+                                                    PEStatusState.PE_STATUS_RECEIVED })
              ORDER BY CreatedDate DESC];
+        Map<Id, Participant_Enrollment_Status_History__c> receivedPESHsByPIId = new Map<Id, Participant_Enrollment_Status_History__c>();
+        Map<Id, Participant_Enrollment_Status_History__c> contactedPESHsByPIId = new Map<Id, Participant_Enrollment_Status_History__c>();
+        for (Participant_Enrollment_Status_History__c peSH : peSHs) {
+            if (peSH.Status__c == PEStatusState.PE_STATUS_RECEIVED) {
+                receivedPESHsByPIId.put(peSH.ParticipantEnrollment__c, peSH);
+            } else {
+                contactedPESHsByPIId.put(peSH.ParticipantEnrollment__c, peSH);
+            }
+        }
 
         Integer maxParticipantsInDays = 0;
         String daysMaxParticipantsInDays = null;
@@ -424,24 +439,37 @@ public class DashboardRemote {
                 FROM_16_TO_20_DAYS => new List<Participant_Enrollment_Status_History__c>(),
                 GREATER_20_DAYS => new List<Participant_Enrollment_Status_History__c>()
         };
-        for (Participant_Enrollment_Status_History__c peSH : peSHs) {
+        for (Participant_Enrollment_Status_History__c peSH : receivedPESHsByPIId.values()) {
             if (!peIdsProcessed.contains(peSH.ParticipantEnrollment__c)) {
-                Integer daysBetween = peSH.CreatedDate.date().daysBetween(System.today());
-                String days = null;
-                if (5 <= daysBetween) {
-                    days = LEESS_5_DAYS;
-                } else if (daysBetween >= 6 && daysBetween <=10) {
-                    days = FROM_6_TO_10_DAYS;
-                } else if (daysBetween >= 11 && daysBetween <=15) {
-                    days = FROM_11_TO_15_DAYS;
-                } else if (daysBetween >= 16 && daysBetween <=20) {
-                    days = FROM_16_TO_20_DAYS;
-                } else if (daysBetween > 20) {
-                    days = GREATER_20_DAYS;
-                }
+                Participant_Enrollment_Status_History__c contactedPESH = contactedPESHsByPIId.get(peSH.ParticipantEnrollment__c);
 
-                List<Participant_Enrollment_Status_History__c> peSHDay = peSHByDays.get(days);
-                if (peSHDay != null) {
+                if (contactedPESH != null) {
+                    Integer daysBetween;
+                    if (peSH.Date__c != null && contactedPESH.Date__c != null) {
+                        daysBetween = peSH.Date__c.date().daysBetween(contactedPESH.Date__c.date());
+                    } else {
+                        daysBetween = peSH.CreatedDate.date().daysBetween(contactedPESH.CreatedDate.date());
+                    }
+
+                    String days = null;
+                    if (daysBetween <= 5) {
+                        days = LEESS_5_DAYS;
+                    } else if (daysBetween >= 6 && daysBetween <= 10) {
+                        days = FROM_6_TO_10_DAYS;
+                    } else if (daysBetween >= 11 && daysBetween <= 15) {
+                        days = FROM_11_TO_15_DAYS;
+                    } else if (daysBetween >= 16 && daysBetween <= 20) {
+                        days = FROM_16_TO_20_DAYS;
+                    } else if (daysBetween > 20) {
+                        days = GREATER_20_DAYS;
+                    }
+
+                    List<Participant_Enrollment_Status_History__c> peSHDay = peSHByDays.get(days);
+                    if (peSHDay == null) {
+                        peSHDay = new List<Participant_Enrollment_Status_History__c>();
+                        peSHByDays.put(days, peSHDay);
+                    }
+
                     peSHDay.add(peSH);
                     if (maxParticipantsInDays < peSHDay.size()) {
                         maxParticipantsInDays = peSHDay.size();
@@ -511,15 +539,16 @@ public class DashboardRemote {
                     enrolledOrRandomizedSet.add(pesh.ParticipantEnrollment__c);
                 }
             }
-            returnData.add(new FunnelData(PEStatusState.PE_STATUS_RECEIVED, receivedStatusSet.size(), '#3DC2FA'));
-            returnData.add(new FunnelData(PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED, successfullyContactedSet.size(), '#9914E6'));
+            returnData.add(new FunnelData(Label.Received, receivedStatusSet.size(), '#3DC2FA'));
+            returnData.add(new FunnelData(Label.Successfully_Contacted, successfullyContactedSet.size(), '#9914E6'));
             returnData.add(new FunnelData(peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual' ?
-                    INITIAL_VISIT_SCHEDULED : PEStatusState.PE_STATUS_ELIGIBILITY_PASSED,
+                    Label.Initial_Visit_Scheduled : Label.Eligibility_Passed,
                     peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual' ?
                             initialVisitScheduledSet.size() : eligibilityPassedSet.size(), '#D892FF'));
-            returnData.add(new FunnelData(PEStatusState.PE_STATUS_SCREENING_PASSED, screeningPassedSet.size(), '#139458'));
-            returnData.add(new FunnelData(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS, enrolledOrRandomizedSet.size(), '#7AFFD3'));
+            returnData.add(new FunnelData(Label.Screening_Passed, screeningPassedSet.size(), '#139458'));
+            returnData.add(new FunnelData(Label.Enrolled_Or_Randomized, enrolledOrRandomizedSet.size(), '#7AFFD3'));
         }
+
         return returnData;
     }
 
@@ -534,7 +563,7 @@ public class DashboardRemote {
         /*List<Participant_Enrollment__c> pes =
                 ParticipantEnrollmentService.getPEnrolmentsByStatus(
                         userMode,
-                        new List<String>{ PEStatusState.PE_STATUS_CONTACT_ATTEMPTED },
+                        new List<String>{ PEStatusState.PE_STATUS_CONTACT_ATTEMPTED, PEStatusState.PE_STATUS_RECEIVED },
                         null,
                         delegateId);*/
         for (Participant_Enrollment__c pe : contactAtemptedList) {

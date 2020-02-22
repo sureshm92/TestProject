@@ -2,7 +2,10 @@
  * Created by D.Yasinskyi on 21.02.2018
  */
 public without sharing class CommunityService {
-    
+
+    public static final String IQVIA_NETWORK_NAME = 'IQVIA Referral Hub';
+    public static final String GSK_NETWORK_NAME = 'GSK Community';
+
     public static final String COMMUNITY_USER_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
     public static final Id COMMUNITY_USER_PROFILE_ID = [SELECT Id FROM Profile WHERE Name = :COMMUNITY_USER_PROFILE_NAME].Id;
     public static final String SPNL_USER_PROFILE_NAME = 'IQVIA SPNL';
@@ -105,7 +108,8 @@ public without sharing class CommunityService {
     
     public static List<User> getCommunityUsersByContactIds(Set<Id> contactIds) {
         return [
-                SELECT Id, Name, FirstName, LastName, ContactId, Email, IsActive
+                SELECT Id, Name, FirstName, LastName, ContactId, Email, IsActive,
+                (SELECT Id, PermissionSet.Name FROM PermissionSetAssignments)
                 FROM User
                 WHERE
                         //Profile.Name = :COMMUNITY_USER_PROFILE_NAME AND
@@ -300,6 +304,14 @@ public without sharing class CommunityService {
         return Database.query('SELECT Id FROM Network' + nameFilter).get(0).Id;
     }
 
+    public static Map<String, Id> getCommunityIdsMap() {
+        List<Network> networks = [SELECT Id, Name FROM Network];
+        Map<String, Id> communityMap = new Map<String, Id>();
+        for(Network net : networks) communityMap.put(net.Name, net.Id);
+
+        return communityMap;
+    }
+
     public static Boolean isNewSession(){
         Contact userContact = getUserContact();
         Boolean isNewSession = UserInfo.getSessionId() != userContact.Last_Session_Id__c;
@@ -308,5 +320,14 @@ public without sharing class CommunityService {
             update userContact;
         }
         return isNewSession;
+    }
+
+    @Future
+    public static void insertPermissionSetAssignment(List<String> permissionSetAssignmentsJSON) {
+        List<PermissionSetAssignment> permissionSetAssignments = new List<PermissionSetAssignment>();
+        for (String psaJSON : permissionSetAssignmentsJSON) {
+            permissionSetAssignments.add((PermissionSetAssignment)JSON.deserialize(psaJSON, PermissionSetAssignment.class));
+        }
+        insert permissionSetAssignments;
     }
 }
