@@ -35,6 +35,7 @@
 .THIS .funnel {
     margin: 24px auto;
     width: 100%;
+    padding-top: 88px !important;
 }
 
 .THIS .flex {

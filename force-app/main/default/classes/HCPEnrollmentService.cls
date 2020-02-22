@@ -224,6 +224,7 @@ public without sharing class HCPEnrollmentService {
             'HCP_Contact__r.Salutation',
             'HCP_Contact__r.Is_First_logon__c',
             'HCP_Name__c',
+            'HCP_Enrollment__c.Study__c',
             'Study_Site__r.Id',
             'Study_Site__r.Name',
             'Study_Site__r.Site__c',
@@ -398,6 +399,15 @@ public without sharing class HCPEnrollmentService {
                 ' AND Status__c IN (\'' + String.join(statuses, '\',\'') + '\') LIMIT ' + recordsLimit,
                 false
         );
+    }
+
+    public static List<HCP_Enrollment__c> getHCPEnrollmentsByPI(Id piId){
+        String query = 'SELECT ' + String.join(HCPE_COMMON_FIELDS, ',') +
+                ' FROM HCP_Enrollment__c ' +
+                ' WHERE Study_Site__r.Principal_Investigator__c = \'' + piId + '\'';
+        List<HCP_Enrollment__c> hcpeList = Database.query(query);
+        TranslateHelper.translate(hcpeList);
+        return hcpeList;
     }
 
     public static List<HCP_Enrollment__c> getHCPEnrollmentsForHCP() {

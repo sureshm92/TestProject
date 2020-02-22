@@ -7,9 +7,14 @@
     <!-- attributes: -->
     <aura:attribute name="piData" type="Object"/>
     <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="delegatePIPicklistvalues" type="List"/>
+    <aura:attribute name="currentPi" type="String"/>
 
 
     <!-- component body: -->
+    <aura:if isTrue="{!v.delegatePIPicklistvalues.length > 1}">
+        <c:rrSelect value="{!v.currentPi}" options="{!v.delegatePIPicklistvalues}" onchange="{!c.refreshData}"/>
+    </aura:if>
     <div class="slds-grid slds-wrap db-section">
         <div class="slds-col slds-size--1-of-2">
             <c:DashboardTimeWaitingContact dashboardTitle="{!$Label.c.PG_DBPI_L_Referrals_waiting_for_first_contact}" peList="{!v.piData.waitingTimeToContact}" parent="{!v.parent}"/>
