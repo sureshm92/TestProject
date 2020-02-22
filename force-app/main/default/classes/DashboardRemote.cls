@@ -234,6 +234,8 @@ public class DashboardRemote {
         ViewPatientsRemote.InitData initData = new ViewPatientsRemote.InitData();
         initData.peStatusStateMap = PEStatusState.STATUSES_MAP;
         initData.peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
+        initData.isInvited = ![SELECT Id FROM User WHERE ContactId =: participantId LIMIT 1].isEmpty();
+
 
         List<Participant_Enrollment__c> pes =
                 ParticipantEnrollmentService.getPEnrolmentsByStatus(
