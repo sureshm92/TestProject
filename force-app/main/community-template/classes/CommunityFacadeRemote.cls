@@ -71,7 +71,7 @@ public without sharing class CommunityFacadeRemote {
             cd.baseUrl = Site.getBaseUrl();
             cd.messagesVisible = getMessagesVisibility();
             cd.communityName = Site.getName();
-            cd.subDomain = Site.getDomain() == null ? '' : '/' +  Site.getDomain();
+            cd.subDomain = Site.getPathPrefix().replace('/s', '');
 
             return JSON.serialize(cd);
         } catch (Exception e) {
