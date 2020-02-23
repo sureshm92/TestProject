@@ -1898,6 +1898,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Action__c.DML_With_Setup_Objects__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Action__c.Execution_Time__c</field>
         <readable>true</readable>
