@@ -6,11 +6,15 @@
 
     <!-- attributes: -->
     <aura:attribute name="resourceWrapper" type="Object"/>
+    <aura:attribute name="subDomain" type="String"/>
+
+    <!-- handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <!-- component body: -->
     <div class="thumbnail-container">
         <img class="thumbnail-img"
-             src="{!'/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&amp;versionId=' + v.resourceWrapper.thumbnailDocId}"/>
+             src="{!v.subDomain + '/sfc/servlet.shepherd/version/renditionDownload?rendition=THUMB720BY480&amp;versionId=' + v.resourceWrapper.thumbnailDocId}"/>
     </div>
 
 </aura:component>

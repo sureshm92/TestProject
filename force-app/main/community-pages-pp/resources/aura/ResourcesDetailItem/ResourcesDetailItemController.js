@@ -3,7 +3,7 @@
  */
 ({
         doInit : function (component, event, helper) {
-
+            component.set('v.subDomain', communityService.getSubDomain());
         },
 
         doLike : function (component, event, helper) {
