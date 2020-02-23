@@ -21,6 +21,7 @@ public inherited sharing class ResourceTARelatedService extends ResourceService 
     
     protected override List<Id> getResourcesIds() {
         List<String> participantLanguages = ContactService.getPreferredLanguages();
+        if(therapeuticAreaId == null && (therapeuticAreas == null || therapeuticAreas.size() == 0)) return new List<Id>();
         String filter = (therapeuticAreas.isEmpty() ?
                 DatabaseService.fieldEqual('Therapeutic_Area__c', therapeuticAreaId) : DatabaseService.fieldInValues('Therapeutic_Area__c', therapeuticAreas))
                 + (contentClass == null ? '' : ('AND' + DatabaseService.fieldEqual('Resource__r.Content_Class__c', contentClass)))
