@@ -107,11 +107,29 @@ public without sharing class PatientDelegateTriggerHandler {
             for(PermissionSetAssignment psa : user.PermissionSetAssignments) permissions.add(psa.PermissionSet.Name);
             delegatedContactPermissions.put(user.ContactId, permissions);
         }
+        
+        List<Participant_Enrollment__c> peList = [
+                SELECT Id,
+                        Participant_Contact__c,
+                        Clinical_Trial_Profile__r.Community_Template__c
+                FROM Participant_Enrollment__c
+                WHERE Participant_Contact__c IN : contactIds
+        ];
+        Map<Id, Set<String>> ownPermissionsMap = new Map<Id, Set<String>>();
+        for(Participant_Enrollment__c pe : peList){
+            Set<String> ownPermissions = ownPermissionsMap.get(pe.Participant_Contact__c);
+            if(ownPermissions == null) ownPermissions = new Set<String>();
+            ownPermissions.add(CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.Community_Template__c).permissionSet);
+            ownPermissionsMap.put(pe.Participant_Contact__c, ownPermissions);
+        }
     
         for(Id contactId : contactIds){
             Set<String> communityPermissionSets = CommunityTemplateService.getAllPermissionSets();
             //first delete all community permission sets for delegate:
             actionAssignContactPermissions.deletePermissions(contactId, communityPermissionSets);
+            //assign own permission sets:
+            Set<String> ownPermissions = ownPermissionsMap.get(contactId);
+            if(ownPermissions != null) actionAssignContactPermissions.addPermissions(contactId, ownPermissions);
             //assign all permission sets from available participants:
             Set<Id> participantContactIds = delegatedContactsMap.get(contactId);
             if(participantContactIds != null){
