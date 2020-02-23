@@ -424,6 +424,7 @@
 }
 
 .THIS .socialnetworks {
+    z-index: 2000;
     position: absolute;
     bottom: 10px;
     float: right;

@@ -263,7 +263,8 @@ public without sharing class ContactService {
                         Account.Fax,
                         Account.BillingCountry,
                         Account.BillingPostalCode,
-                        Account.BillingCountryCode
+                        Account.BillingCountryCode,
+                        Phone
                 FROM Contact
                 WHERE Id = :contactId
         ];

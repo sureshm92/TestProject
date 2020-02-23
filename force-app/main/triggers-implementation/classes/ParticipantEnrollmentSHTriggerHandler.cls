@@ -126,7 +126,12 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
         }
 
         for(Id peId : peIds){
-            IntegrationService.sendPEToStudyHubAsync(peId);
+            if(System.IsBatch() == false && System.isFuture() == false) {
+                IntegrationService.sendPEToStudyHubAsync(peId);
+            }
+            else{
+                IntegrationService.sendPEToStudyHub(peId);
+            }
         }
     }
 
