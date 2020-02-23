@@ -146,12 +146,18 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             Map<Id, User> usersByContactId = new Map<Id, User>();
             Set<Id> participantContactIds = new Set<Id>();
             List<Participant_Enrollment__c> participantEnrollments = [
-                    SELECT Id, Participant__c, Study_Site__c,
+                    SELECT Id,
+                            Participant__c,
+                            Participant_Contact__c,
+                            Study_Site__c,
                             Study_Site__r.Clinical_Trial_Profile__c,
                             Study_Site__r.Suppress_Participant_Emails__c,
                             Clinical_Trial_Profile__r.Community_Template__c,
-                            Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Is_Virtual_Study_Site__c,
-                            HCP__c,HCP__r.HCP_Contact__c, Referral_Source__c
+                            Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                            Is_Virtual_Study_Site__c,
+                            HCP__c,
+                            HCP__r.HCP_Contact__c,
+                            Referral_Source__c
                     FROM Participant_Enrollment__c WHERE Id IN : peIds];
             Set<Id> participantIds = new Set<Id>();
             Map<Id, Participant_Enrollment__c> participantEnrollmentMap = new Map<Id, Participant_Enrollment__c>();

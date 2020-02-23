@@ -30,6 +30,10 @@
                 <behavior>Readonly</behavior>
                 <field>Number_Of_Repetitions__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>DML_With_Setup_Objects__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
