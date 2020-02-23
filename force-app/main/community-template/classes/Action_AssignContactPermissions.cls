@@ -35,11 +35,61 @@ public without sharing class Action_AssignContactPermissions implements Action{
     
     
     public void execute() {
-        System.enqueueJob(new Queueable_AssignContactPermissions(contactPermissionsMap, contactPermissionsToRemoveMap));
+        deletePermissions();
+        insertPermissions();
     }
     
     public Type getType() {
         return Action_AssignContactPermissions.class;
+    }
+    
+    
+    public Boolean isDMLWithSetupObjects() {
+        return true;
+    }
+    
+    private void insertPermissions(){
+        // all permission sets:
+        Map<String, Id> permissionIdByNameMap = new Map<String, Id>();
+        List<PermissionSet> permissionSets = [SELECT Id, Name FROM PermissionSet];
+        for(PermissionSet ps : permissionSets) permissionIdByNameMap.put(ps.Name, ps.Id);
+        List<User> users = [
+                SELECT Id, ContactId, (SELECT Id, PermissionSet.Name FROM PermissionSetAssignments)
+                FROM User WHERE ContactId IN: contactPermissionsMap.keySet()
+        ];
+        List<PermissionSetAssignment> psaList = new List<PermissionSetAssignment>();
+        for(User user : users){
+            Set<String> currentPermissions = new Set<String>();
+            for(PermissionSetAssignment psa : user.PermissionSetAssignments) currentPermissions.add(psa.PermissionSet.Name);
+            Set<String> newPermissions = contactPermissionsMap.get(user.ContactId);
+            for(String newPermission : newPermissions){
+                String permissionId = permissionIdByNameMap.get(newPermission);
+                if(!currentPermissions.contains(newPermission) && permissionId != null){
+                    psaList.add(new PermissionSetAssignment(
+                            AssigneeId = user.Id,
+                            PermissionSetId = permissionId
+                    ));
+                }
+            }
+        }
+        if(psaList.size() > 0)insert psaList;
+    }
+    
+    private void deletePermissions(){
+        List<User> users = [
+                SELECT Id, ContactId, (SELECT Id, PermissionSet.Name FROM PermissionSetAssignments)
+                FROM User WHERE ContactId IN: contactPermissionsToRemoveMap.keySet()
+        ];
+        List<PermissionSetAssignment> psaRemoveList = new List<PermissionSetAssignment>();
+        for(User user : users){
+            Set<String> permissionsToRemove = contactPermissionsToRemoveMap.get(user.ContactId);
+            if (permissionsToRemove != null) {
+                for (PermissionSetAssignment psa : user.PermissionSetAssignments) {
+                    if (permissionsToRemove.contains(psa.PermissionSet.Name)) psaRemoveList.add(psa);
+                }
+            }
+        }
+        if(psaRemoveList.size() > 0) delete psaRemoveList;
     }
 
 }
