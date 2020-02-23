@@ -447,10 +447,6 @@ public without sharing class MyTeamRemote {
 
                 User delegateUser = CommunityService.createUser(contactDelegate, null, null, null);
                 insert delegateUser;
-                Map<Id, List<Id>> userPermissions = PermissionService.getAssignmentPermissionByUser(new List<Id>{
-                        UserInfo.getUserId()
-                });
-                PermissionService.setPermissions(delegateUser.Id, userPermissions.get(UserInfo.getUserId()));
             } else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
                 CommunityService.setUserToCommunity(contactDelegate.Id);
                 sendEmailNotification(contactDelegate, CommunityService.USER_MODE_PARTICIPANT);
