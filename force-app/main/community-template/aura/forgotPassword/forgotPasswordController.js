@@ -20,7 +20,7 @@
 
     initialize: function(component, event, helper) {
         $A.get("e.siteforce:registerQueryEventMap").setParams({"qsToEvent" : helper.qsToEventMap}).fire();
-        var community = window.location.pathname.startsWith('/gsk/') ? '/s/gsk/login' : '/s/login';
+        var community = window.location.pathname.startsWith('/gsk/') ? '/gsk/s/login' : '/s/login';
         component.set('v.backPage', community);
     }
 })

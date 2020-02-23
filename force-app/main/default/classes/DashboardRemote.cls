@@ -432,6 +432,7 @@ public class DashboardRemote {
             returnData.add(new FunnelData(Label.Screening_Passed, screeningPassedSet.size(), '#139458'));
             returnData.add(new FunnelData(Label.Enrolled_Or_Randomized, enrolledOrRandomizedSet.size(), '#7AFFD3'));
         }
+
         return returnData;
     }
 
