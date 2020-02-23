@@ -51,6 +51,7 @@ window.communityService = (function () {
                 console.log('CommunityService initialized:');
                 console.log('is TC accepted: ' + isTCAcceptedFlag);
                 console.log('URL path prefix: ' + communityURLPathPrefix);
+                component.init();
                 if (!service.isTCAccepted()) {
                     service.navigateToPage('terms-and-conditions?ret=' + service.createRetString());
                 } else {
