@@ -12,6 +12,7 @@
 
 **Steps R4.0:**
 1) **Community page, PEH-1228**
+* [ ]  
      * Go to Setup > All community > Click on Builder button near IQVIA Referral Hub > Click on Gear > Find “Messages” (If the page doesn't exist, create it with next properties)
      * Click on the Gear and New Page
      * Choose standard page
@@ -27,10 +28,12 @@
      
 
 2) **Activate languages, PEH-1407**
+* [ ]  
      * Go to Setup > Object Manager > Resource > Record type > For all record type for everyone in turn > Open Record Type > In PickList Language and Languages activate all languages.
      * Verification step: Make screenshot this setting.
      
 3) **Activate languages, PEH-1407**
+* [ ]  
      * Go to Setup > Object Manager > Resource > Record type > For all record type for everyone in turn > Open Record Type > In PickList Conuty and Conutys activate all values.
      * Verification step: Make screenshot this setting.
      * Verification step: Make screenshot this setting.
