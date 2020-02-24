@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class DashboardRemote {
+public without sharing class DashboardRemote {
 
     public static final String INITIAL_VISIT_SCHEDULED = 'Initial Visit Scheduled';
     
@@ -112,6 +112,13 @@ public class DashboardRemote {
                 Id currentContactId = currentContact.Id;
                 Map<Id,String> delegatePIsMap = new Map<Id,String>();
                 PIData piData = new PIData();
+                if(![SELECT Id FROM Study_Site__c WHERE Principal_Investigator__c =: currentContactId].isEmpty()) {
+                    delegatePIsMap.put(currentContactId, 'Self');
+                    if(piId == null) {
+                        piData.selectedPi = currentContactId;
+                        piId = currentContactId;
+                    }
+                }
                 for (Site_Staff__c sStaff : [
                         SELECT Id,
                                 Study_Site__r.Principal_Investigator__c,
@@ -122,6 +129,7 @@ public class DashboardRemote {
                     delegatePIsMap.put(sStaff.Study_Site__r.Principal_Investigator__c, sStaff.Study_Site__r.Principal_Investigator__r.Name);
                 }
                 System.debug('delegateMap>>>>'+delegatePIsMap);
+
                 peList = ParticipantEnrollmentService.getPEEnrollmentsByPI(userMode, currentContactId);
 
                 if (peList.isEmpty() && !delegatePIsMap.isEmpty()) {
@@ -134,7 +142,6 @@ public class DashboardRemote {
                         piData.selectedPi = piId;
                     }
                 } else {
-                    delegatePIsMap.put(currentContactId, 'Self');
                     if (piId != null) {
                         peList = ParticipantEnrollmentService.getPEEnrollmentsByPI(userMode, piId);
                         piData.selectedPi = piId;
@@ -152,7 +159,6 @@ public class DashboardRemote {
                 Integer piDeclineContacted = 0;
                 List<Participant_Enrollment__c> waitingAcceptencePeList = new List<Participant_Enrollment__c>();
                 List<Participant_Enrollment__c> waitingToBeContactedPeList = new List<Participant_Enrollment__c>();
-                List<Participant_Enrollment__c> receivedPE = new List<Participant_Enrollment__c>();
                 List<Participant_Enrollment__c> contactAtemptedList = new List<Participant_Enrollment__c>();
                 for (Participant_Enrollment__c pe : peList) {
                     if (ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI.contains(pe.Participant_Status__c)) {
@@ -176,9 +182,6 @@ public class DashboardRemote {
                         if (waitingToBeContactedPeList.size() < 4) {
                             waitingToBeContactedPeList.add(pe);
                         }
-                    }
-                    if(pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED){
-                        receivedPE.add(pe);
                     }
                     if(pe.Participant_Status__c == PEStatusState.PE_STATUS_CONTACT_ATTEMPTED || pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED){
                         contactAtemptedList.add(pe);
@@ -268,7 +271,7 @@ public class DashboardRemote {
                 });
 
                 // waiting contact in days
-                piData.waitingTimeToContact = prepareWaitingList(userMode, delegateId, receivedPE);
+                piData.waitingTimeToContact = prepareWaitingList(userMode, delegateId, piId);
 
                 // awaiting contact
                 piData.awaitingToContact = prepareAwaitingContactList(userMode, delegateId, contactAtemptedList);
@@ -395,7 +398,7 @@ public class DashboardRemote {
         return resList;
     }
 
-    private static List<BarItem> prepareWaitingList(String userMode, String delegateId, List<Participant_Enrollment__c> receivedPE) {
+    private static List<BarItem> prepareWaitingList(String userMode, String delegateId, String piId) {
         List<BarItem> resList = new List<BarItem>();
 
         /*List<Participant_Enrollment__c> pes =
@@ -404,7 +407,7 @@ public class DashboardRemote {
                         new List<String>{ PEStatusState.PE_STATUS_RECEIVED },
                         null,
                         delegateId);*/
-        Map<Id, Participant_Enrollment__c> peById = new Map<Id, Participant_Enrollment__c>(receivedPE);
+        //Map<Id, Participant_Enrollment__c> peById = new Map<Id, Participant_Enrollment__c>(receivedPE);
 
         List<Participant_Enrollment_Status_History__c> peSHs =
             [SELECT Id,
@@ -415,7 +418,7 @@ public class DashboardRemote {
              FROM Participant_Enrollment_Status_History__c
              WHERE ParticipantEnrollment__c IN (SELECT Id
                                                 FROM Participant_Enrollment__c
-                                                WHERE Study_Site__r.Principal_Investigator__c = :delegateId) AND
+                                                WHERE Study_Site__r.Principal_Investigator__c = :piId) AND
                    Status__c IN :(new List<String>{ PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED,
                                                     PEStatusState.PE_STATUS_RECEIVED })
              ORDER BY CreatedDate DESC];

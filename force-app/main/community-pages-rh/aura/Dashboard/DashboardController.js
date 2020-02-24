@@ -4,14 +4,15 @@
 ({
     doInit: function (component) {
         debugger;
+        component.set('v.isInitialized', false);
         var spinner = component.find('mainSpinner');
         spinner.show();
         if (!communityService.isInitialized()) return;
         if (communityService.getUserMode() === 'Participant') communityService.navigateToPage('');
         component.set('v.userMode', communityService.getUserMode());
         var piId = null;
-        if(component.get('v.piData') && component.get('v.piData').selectedPi){
-            piId = component.get('v.piData').selectedPi
+        if(component.get('v.piData') && component.get('v.piData.selectedPi')){
+            piId = component.get('v.piData.selectedPi');
         }
         communityService.executeAction(component, 'getInitData', {
             userMode:communityService.getUserMode(),
