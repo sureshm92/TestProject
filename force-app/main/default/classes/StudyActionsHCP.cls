@@ -4,6 +4,21 @@
 
 public without sharing class StudyActionsHCP extends StudyActions{
 
+    public StudyActionsHCP(){
+        super();
+        actions.put(ACT_SEND_SITE_REQUEST, new Action(
+                ACT_SEND_SITE_REQUEST,
+                LABEL_SEND_SITE_REQUEST,
+                '',
+                new List<DisableReason>{
+                        new DisableReason(
+                                true,
+                                REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_HCP_STATUS
+                        )
+                }
+        ));
+    }
+
     public StudyActionsHCP(HCP_Enrollment__c hcpEnrollment){
         this(
                 hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r,

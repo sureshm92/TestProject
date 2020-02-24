@@ -364,7 +364,7 @@ private class Test_BaseCRCPCommunity {
         System.runAs(hcpUser) {
             StudyListViewController.getStudyTrialList(CommunityService.USER_MODE_HCP);
             StudyDetailViewController.getTrialDetail(study.Id, CommunityService.USER_MODE_HCP);
-            DashboardRemote.getInitData(CommunityService.USER_MODE_PI, null);
+            DashboardRemote.getInitData(CommunityService.USER_MODE_PI, null,null);
             AccountSettingsController.getInitData(CommunityService.USER_MODE_PI);
             TermsAndConditionsRemote.getPortalTcData();
             TermsAndConditionsRemote.getTrialTcData(study.Id);
@@ -622,7 +622,7 @@ private class Test_BaseCRCPCommunity {
             StudyListViewController.getStudyTrialList(CommunityService.USER_MODE_PI);
             StudyDetailViewController.getTrialDetail(study.Id, CommunityService.USER_MODE_PI);
             StudyDetailAboutStudyRemote.setTrialAcceptedForPI(study.Id, null,null);
-            DashboardRemote.getInitData(CommunityService.USER_MODE_HCP, null);
+            DashboardRemote.getInitData(CommunityService.USER_MODE_HCP, null,null);
             AccountSettingsController.getInitData(CommunityService.USER_MODE_HCP);
             AccountSettingsController.changeEmail('new@emil.com');
             AccountSettingsController.changePassword('Dd231324d13', 'Dd231324d13', '11111');
