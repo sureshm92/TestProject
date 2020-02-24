@@ -353,7 +353,7 @@ public without sharing class DashboardRemote {
         List<Participant_Enrollment__c> pes =
                 ParticipantEnrollmentService.getPEnrolmentsByStatus(
                         userMode,
-                        new List<String>{ PEStatusState.PE_STATUS_CONTACT_ATTEMPTED },
+                        new List<String>{ PEStatusState.PE_STATUS_CONTACT_ATTEMPTED, PEStatusState.PE_STATUS_RECEIVED },
                         null,
                         delegateId);
         for (Participant_Enrollment__c pe : pes) {
@@ -361,7 +361,6 @@ public without sharing class DashboardRemote {
                 initData.currentPageList = new List<ViewPatientsRemote.PEWrapper> { new ViewPatientsRemote.PEWrapper(pe, new StudyActionsPI(pe).actions) };
             }
         }
-
         return JSON.serialize(initData);
     }
 
