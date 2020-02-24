@@ -25,6 +25,25 @@
         }
     },
 
+    doInit: function (component, event, helper) {
+        var provider = component.get('v.forThisProvider');
+        var delegate = component.get('v.delegates');
+        if (provider == 'isDelegates') {
+        var pe = component.get('v.pe');
+        communityService.executeAction(component, 'getStatusDelegates', {participantId: pe.Participant__c}, function (returnValue) {
+            component.set('v.statusesDelegates', returnValue);
+        var listStatuses = component.get('v.statusesDelegates');
+        for (var i = 0; i < listStatuses.length; i++) {
+                if (delegate.Contact__c == listStatuses[i].Contact__c) {
+                        component.set('v.delegateActive', true);
+                        break;
+                }
+            }
+        });
+        }
+    },
+
+
     checkFields: function (component, event, helper) {
         var hcp = component.get('v.healthCareProvider');
         if (event.getSource().getLocalId() == 'hcpEmail' && component.get('v.providerFound')) {
