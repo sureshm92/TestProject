@@ -6,4 +6,8 @@
         <field>Community_Name__c</field>
         <value xsi:type="xsd:string">GSK Community</value>
     </values>
+    <values>
+        <field>Permission_Set_Developer_Name__c</field>
+        <value xsi:type="xsd:string">Community_GSK_Pan_Oncology</value>
+    </values>
 </CustomMetadata>

@@ -12,8 +12,13 @@ public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObj
     public virtual String getBatchDescription() {
         return null;
     }
-
+    
+    public virtual void finalAction(){
+    
+    }
+    
     public virtual void finish(Database.BatchableContext param1) {
+        finalAction();
         List<Batch_Detail__c> batchDetails = [
                 SELECT
                         Interval_Mode__c,

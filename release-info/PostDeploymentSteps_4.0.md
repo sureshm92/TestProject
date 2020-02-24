@@ -37,6 +37,23 @@
 2) Change First login Page and add thia page in profile
 
 
-4) **Batch Control Panel, PEH-1330**
-     * App Launcher > Batch Control Pannel / Admin Pannel > Activate - Batch_ConversationReminder.
-     * Verification step: Make screenshot this setting.
+4)	Batch Control Panel (PEH-1407)
+a)	Go to Setup > Batch Control Panel > Click on button “Add new Job” > Select batch – ‘ConversationReminder’ > Batch lable ‘ConversationReminder’ > Select Interval mode – ‘Minutes’ > Relaunch interval - ‘10’ > Scope size – ‘200’ > Create new Batch Detail > Click on ‘Run’ button near the batch in ‘Action’ column.
+b)	Verification step: Make screenshot this setting.
+
+5)	Batch (REF-773)
+a)	Go to Setup > Developer Console Debug > Open Execute Anonymous Window > Past ‘Database.executeBatch(new Batch_UpdateParticipantEnrollmentRP(), 20);’ > Click Execute
+b)	Verification step: Make screenshot status logs.
+
+6)	Batch (REF-745)
+a)	Go to Setup > Developer Console Debug > Open Execute Anonymous Window > Past ‘Database.executeBatch(new Batch_UpdatePEStatuses('ParticipantEnrollmentId'));’ > Click Execute
+b)	Verification step: Make screenshot status logs.
+
+7)	Batch (REF-745)
+a)	Go to Setup > Developer Console Debug > Open Execute Anonymous Window > Past ‘Database.executeBatch(new Batch_UpdatePESHStatuses('ParticipantEnrollmentId'));’ > Click Execute
+b)	Verification step: Make screenshot status logs.
+
+8)	Batch (PEH-747)
+c)	Go to Setup > Developer Console Debug > Open Execute Anonymous Window > Past ‘Database.executeBatch(new Batch_UpdatePatientDelegateStatuses(), 200);’ > Click Execute
+d)	Verification step: Make screenshot status logs.
+
