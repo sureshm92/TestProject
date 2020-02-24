@@ -66,7 +66,7 @@
     width: 14px;
     height: 14px;
     padding: 0;
-    fill: white;
+    fill: white!important;
 }
 
 .THIS .vpi-state.current .state-ico-wrapper{
@@ -83,23 +83,20 @@
 }
 
 .THIS .vpi-state.neutral .state-ico-wrapper{
-    background-color: #b5b5b5;
+    background-color: #b5b5b5!important;
 }
 
-.THIS .vpi-state.neutral .state-ico-wrapper .cRRIcon {
-    display: none;
-}
 
 .THIS .vpi-state.success .state-ico-wrapper{
-    background-color: #00c221;
+    background-color: #00c221!important;
 }
 
 .THIS .vpi-state.in_progress .state-ico-wrapper{
-    background-color: #005ff1;
+    background-color: #005ff1!important;
 }
 
 .THIS .vpi-state.failure .state-ico-wrapper{
-    background-color: #E20000;
+    background-color: #E20000!important;
 }
 
 /* status names */
@@ -121,9 +118,16 @@
     color: #000;
 }
 
-.THIS .vri-state-label{
-    display: none;
+@media not print {
+    .THIS .vri-state-label {
+        display: none;
+    }
+    .THIS .vpi-state.neutral .cRRIcon{
+        display: none;
+    }
+
 }
+
 
 .THIS .vpi-state.current .vri-state-label{
     display: block;
