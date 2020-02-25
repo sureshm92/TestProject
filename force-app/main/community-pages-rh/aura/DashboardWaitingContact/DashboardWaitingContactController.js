@@ -17,10 +17,9 @@
             component.set('v.pe', returnValue.currentPageList[0].pItem.pe);
             console.log(returnValue.currentPageList[0].pItem.pe);
             component.set('v.peStatusStateMap', returnValue.peStatusStateMap);
-            helper.preparePathItems(component);
+           // helper.preparePathItems(component);
             rootComponent.find('mainSpinner').hide();
-
-            rootComponent.find('updatePatientInfoAction').execute(returnValue.currentPageList[0].pItem.pe, component.get('v.pathItems'), 'personalInfoAnchor', returnValue.currentPageList[0].actions, rootComponent, function (enrollment) {
+            rootComponent.find('updatePatientInfoAction').execute(returnValue.currentPageList[0].pItem.pe,  returnValue.currentPageList[0].actions, rootComponent, returnValue.isInvited, function (enrollment) {
                 rootComponent.refresh();
             });
         });

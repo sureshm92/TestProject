@@ -4,7 +4,7 @@
 
 public with sharing class Batch_ProcessAction extends Batch_ScheduledAbstract implements Database.AllowsCallouts{
 
-    public Database.QueryLocator start(Database.BatchableContext param1) {
+    public Database.QueryLocator start(Database.BatchableContext bc) {
         Datetime currentTime = System.now();
         return Database.getQueryLocator([
                 SELECT Id, Type__c, Body__c, Execution_Time__c,
@@ -13,6 +13,7 @@ public with sharing class Batch_ProcessAction extends Batch_ScheduledAbstract im
                 FROM Action__c
                 WHERE Status__c =: ActionExecutor.ACTION_STATUS_PENDING
                 AND Execution_Time__c <=: currentTime
+                AND DML_With_Setup_Objects__c = FALSE
         ]);
     }
 

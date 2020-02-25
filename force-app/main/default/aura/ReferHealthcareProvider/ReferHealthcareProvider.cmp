@@ -12,6 +12,7 @@
     <aura:attribute name="refProvider" type="Object"/>
     <aura:attribute name="showReferringProvider" type="Boolean"/>
     <aura:attribute name="delegates" type="List"/>
+    <aura:attribute name="statusesDelegates" type="List"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.pe}" action="{!c.doInit}"/>
@@ -45,7 +46,7 @@
                 </div>
             <aura:if isTrue="{!!v.actionDisabled}">
                 <div>
-                    <lightning:button class="apollo-btn secondary slds-box" onclick="{!c.doAddDelegate}">{!$Label.c.Add_Another_Delegate}
+                    <lightning:button class="apollo-btn secondary slds-box" disabled="true" onclick="{!c.doAddDelegate}">{!$Label.c.Add_Another_Delegate}
                         <c:RRIcon class='rr-icon--left' color="#297dfd"
                                   iconName="icon-plus"/>
                     </lightning:button>

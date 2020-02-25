@@ -8708,7 +8708,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRZ L Search for a referring clinic</shortDescription>
-        <value>Search for a referring providers</value>
+        <value>Search for an RP</value>
     </labels>
     <labels>
         <fullName>PG_MRZ_L_Search_for_a_study_site</fullName>
@@ -10480,6 +10480,34 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PI Colon</shortDescription>
         <value>PI:</value>
+    </labels>
+    <labels>
+        <fullName>PI_DB_PAC_Added_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI_DB_PAC_Added_Header</shortDescription>
+        <value>Added</value>
+    </labels>
+    <labels>
+        <fullName>PI_DB_PAC_Name_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI_DB_PAC_Name_Header</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>PI_DB_PAC_Source_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI_DB_PAC_Source_Header</shortDescription>
+        <value>Source</value>
+    </labels>
+    <labels>
+        <fullName>PI_DB_PAC_Study_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI_DB_PAC_Study_Header</shortDescription>
+        <value>Study</value>
     </labels>
     <labels>
         <fullName>PI_Delegate_PI_Info</fullName>

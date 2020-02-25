@@ -37,4 +37,8 @@ public with sharing class Action_GetCardDetails implements Action{
     public Type getType() {
         return Action_GetCardDetails.class;
     }
+    
+    public Boolean isDMLWithSetupObjects() {
+        return false;
+    }
 }
