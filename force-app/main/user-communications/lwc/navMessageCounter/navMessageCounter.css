@@ -3,12 +3,12 @@
  */
 .message-counter {
     background-color: #e20000;
-    width: 17px;
-    height: 16px;
+    width: 14px;
+    height: 13px;
     border-radius: 50%;
-    color: white;
-    text-align: center;
-    font-size: 12px;
+    /* color: #fff; */
+    /* text-align: center; */
+    /* font-size: 12px; */
     position: absolute;
-    top: 7px;
+    top: 9px;
 }
