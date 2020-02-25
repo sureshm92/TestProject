@@ -209,6 +209,20 @@ global without sharing class EmailTemplateController {
             Case cs = [SELECT Id, CommunityName__c FROM Case Where Id = :sourceRecordId];
             Community_Template__mdt commTemplate = [SELECT Id, DeveloperName, Community_Name__c FROM Community_Template__mdt WHERE Community_Name__c = :cs.CommunityName__c];
             return CommunityTemplateService.getTemplate(commTemplate.DeveloperName).properties;
+        } else if (sourceRecordId != null &&
+                (sourceRecordId.getSobjectType() == Contact.getSObjectType() && getDataProvider().userMode == CommunityService.USER_MODE_PARTICIPANT)) {
+            ParticipantService.ParticipantState participantState = ParticipantService.getParticipantState();
+            List<Id> pastPeList;
+            if (participantState.ctp.CommunityTemplate__c == null) {
+                pastPEList = PatientDelegateService.getPastPEIdsForContact(sourceRecordId);
+                Participant_Enrollment__c pe = [
+                        SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
+                        FROM Participant_Enrollment__c
+                        WHERE Id = :pastPeList[0]
+                ];
+                return CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).properties;
+            }
+            return CommunityTemplateService.getTemplate(participantState.ctp.CommunityTemplate__c).properties;
         } else {
             return CommunityTemplateService.getDefaultTemplate().properties;
         }
@@ -362,7 +376,7 @@ global without sharing class EmailTemplateController {
         try {
             return getDataProvider().userMode;
         } catch (Exception e) {
-           EmailService.sendException(e, null);
+            EmailService.sendException(e, null);
             return e.getMessage();
         }
     }
