@@ -50,6 +50,7 @@ a:hover {
     align-items: center;
     margin-right: 15px;
     flex-shrink: 0;
+    width: 165px;
 }
 
 .logo-container .title-logo {

@@ -85,3 +85,12 @@
     /*padding: 4px 13px;*/
     font-size: 15px;
 }
+
+.THIS .visit-schedule {
+    max-width: 80px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
