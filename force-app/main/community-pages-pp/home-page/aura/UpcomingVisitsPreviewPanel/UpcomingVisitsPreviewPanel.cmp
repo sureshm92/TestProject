@@ -27,8 +27,7 @@
                                 <td><p class="visit-schedule slds-hyphenate">
                                         {!visitWrapper.visit.Visit__r.Visit_Schedule__c}</p></td>
                                 <td style="max-width: 130px">
-                                    <c:RRIconSplitter class="svl-icon" value="{!visitWrapper.icons}"
-                                                      numOfIconsToDisplay="3"/>
+                                    <c:RRIconSplitter class="svl-icon" value="{!visitWrapper.icons}"/>
                                 </td>
                             </tr>
                         </aura:iteration>
