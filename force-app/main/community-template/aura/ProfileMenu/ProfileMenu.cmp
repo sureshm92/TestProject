@@ -20,7 +20,7 @@
     <c:uiHeaderMenu aura:id="menu" class="{!'menu-block ' + if(v.isArabic, 'rtl ', '')}">
         <aura:set attribute="title">
             <lightning:avatar src="{!v.user.SmallPhotoUrl}"
-                              alternativeText="{!if(v.userMode=='Participant', v.participantName, v.user.Contact.FirstName + ' ' + v.user.Contact.LastName)}"
+                              alternativeText="{!if(and(v.userMode=='Participant', !v.isDelegate), v.participantName, v.user.Contact.FirstName + ' ' + v.user.Contact.LastName)}"
                               variant="circle" size="medium" fallbackIconName="standard:avatar"/>
             <c:RRIcon color="white" iconName="icon-chevron-down" class="chevron"/>
         </aura:set>
