@@ -475,16 +475,17 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 WHERE Id IN:newList
         ];
 
+        Map<Id, List<Participant_Enrollment__c>> ctpPE = new Map<Id, List<Participant_Enrollment__c>>();
         Map<String, Id> communitiesMap = CommunityService.getCommunityIdsMap();
         Map<Id, String> networkByPE = new Map<Id, String>();
-        Map<Id, List<Participant_Enrollment__c>> ctpPE = new Map<Id, List<Participant_Enrollment__c>>();
         for (Participant_Enrollment__c pe : enrollments) {
             if (ctpPE.get(pe.Clinical_Trial_Profile__c) == null) {
                 ctpPE.put(pe.Clinical_Trial_Profile__c, new List<Participant_Enrollment__c>());
             }
             ctpPE.get(pe.Clinical_Trial_Profile__c).add(pe);
-            String networkName = CommunityTemplateService.NETWORK_BY_TEMPLATE.get(pe.Clinical_Trial_Profile__r.CommunityTemplate__c);
-            networkByPE.put(pe.Id, communitiesMap.get(networkName));
+
+            String communityName = CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).communityName;
+            networkByPE.put(pe.Id, communitiesMap.get(communityName));
         }
 
         List<Trial_Survey__c> trialSurveys = [

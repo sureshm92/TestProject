@@ -125,7 +125,7 @@
         }
         if (needsDelegate && delegateParticipant && emailDelegateCmp && emailDelegateRepeatCmp) {
             if (delegateParticipant.Email__c && emailDelegateRepeat && delegateParticipant.Email__c.toLowerCase() !== emailDelegateRepeat.toLowerCase()) {
-                emailCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));//set('v.validity', {valid: false, badInput: true});
+                emailDelegateCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));//set('v.validity', {valid: false, badInput: true});
                 emailDelegateRepeatCmp.setCustomValidity($A.get("$Label.c.PG_Ref_MSG_Email_s_not_equals"));//.set('v.validity', {valid: false, badInput: true});
             } else {
                 emailDelegateCmp.setCustomValidity("");
