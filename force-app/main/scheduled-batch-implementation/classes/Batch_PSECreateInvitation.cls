@@ -21,6 +21,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                 SELECT
                         Id,
                         Clinical_Trial_Profile__c,
+                        Clinical_Trial_Profile__r.CommunityTemplate__c,
                         Days_After_Enrolled__c,
                         Participant_Contact__c,
                         Participant_Status__c
@@ -65,10 +66,15 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
             tsList.add(t);
         }
 
-        Map<String, SurveyInvitation> invitationMap = getInvitationMap(enrollments);
+        Map<String, Id> communitiesMap = CommunityService.getCommunityIdsMap();
+        Map<Id, String> networkByPE = new Map<Id, String>();
+        for (Participant_Enrollment__c pe : enrollments) {
+            String communityName = CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).communityName;
+            networkByPE.put(pe.Id, communitiesMap.get(communityName));
+        }
 
+        Map<String, SurveyInvitation> invitationMap = getInvitationMap(enrollments);
         List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
-        Id communityId = CommunityService.getCommunityId(null);
         for (Participant_Enrollment__c pe : enrollments) {
             List<Trial_Survey__c> surveys = ctpToTSMap.get(pe.Clinical_Trial_Profile__c);
             if(surveys != null) {
@@ -77,7 +83,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                         if(ts.Is_Midpoint__c && PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(pe.Participant_Status__c)) continue;
                         String key = '' + pe.Id + ts.Id;
                         if(invitationMap.get(key) == null) {
-                            newInvitations.add(SurveyService.getInstance().generateInvitation(ts, pe.Id, communityId));
+                            newInvitations.add(SurveyService.getInstance().generateInvitation(ts, pe.Id, networkByPE.get(pe.Id)));
                         }
                     }
                 }
