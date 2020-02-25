@@ -85,13 +85,14 @@ public without sharing class ParticipantInformationRemote {
                 toCreateUser.put(participant.Contact__c, null);
             }
 
+            List<Contact> delegateContacts = [SELECT Id FROM Contact WHERE Id IN (SELECT Contact__c FROM Participant__c WHERE Id IN :doNotContinueIds)];
             List<Patient_Delegate__c> notPatientDelegatesEver = [SELECT Id,
                                                                  Participant__c,
                                                                  Contact__c,
                                                                  Status__c
                                                           FROM Patient_Delegate__c
                                                           WHERE Participant__c = :participant.Id AND
-                                                                Contact__c IN :doNotContinueIds];
+                                                                Contact__c IN :delegateContacts];
             if (!notPatientDelegatesEver.isEmpty()) {
                 system.debug('patientDelegates: ' + notPatientDelegatesEver);
                 for (Patient_Delegate__c patientDelegate : notPatientDelegatesEver) {
