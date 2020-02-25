@@ -14,10 +14,10 @@ private class Test_Batch_PSECreateInvitation {
 
         TestData.loadTestData();
         TestData testData = new TestData();
-        testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
-        update testData.pe;
 
         Test.startTest();
+        testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
+        update testData.pe;
 
         Reminder_Schedule__c schedule = new Reminder_Schedule__c(
                 First_Reminder_day__c = 1

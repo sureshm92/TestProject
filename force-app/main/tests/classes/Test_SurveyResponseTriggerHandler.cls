@@ -15,6 +15,7 @@ private class Test_SurveyResponseTriggerHandler {
         TestData.loadTestData();
         TestData testData = new TestData();
 
+        Test.startTest();
         Reminder_Schedule__c schedule = new Reminder_Schedule__c(
                 First_Reminder_day__c = 1
         );
@@ -37,7 +38,6 @@ private class Test_SurveyResponseTriggerHandler {
                 invitationAll.Id => 'Patient or any Delegate'
         });
 
-        Test.startTest();
         Map<Id, List<Id>> invitationSubmitter = new Map<Id, List<Id>>{
                 invitationAll.Id => new List<Id>{
                         testData.pe.Participant_Contact__c
@@ -56,6 +56,7 @@ private class Test_SurveyResponseTriggerHandler {
         TestData.loadTestData();
         TestData testData = new TestData();
 
+        Test.startTest();
         Reminder_Schedule__c schedule = new Reminder_Schedule__c(
                 First_Reminder_day__c = 1
         );
@@ -85,7 +86,6 @@ private class Test_SurveyResponseTriggerHandler {
         );
         insert delegateContact;
 
-        Test.startTest();
         Map<Id, List<Id>> invitationSubmitter = new Map<Id, List<Id>>{
                 invitationDelegates.Id => new List<Id>{
                         delegateContact.Id
