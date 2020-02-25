@@ -9,7 +9,7 @@ public without sharing class MessageService {
                 SELECT Id,
                         CreatedDate,
                         Conversation__c,
-                        ContentDocumentId__c,
+                        DocId__c,
                         Message_Content__c,
                         Sender_Name__c
                 FROM Message__c
@@ -23,7 +23,7 @@ public without sharing class MessageService {
                 SELECT Id,
                         CreatedDate,
                         Conversation__c,
-                        ContentDocumentId__c,
+                        DocId__c,
                         Message_Content__c,
                         Sender_Name__c
                 FROM Message__c
@@ -38,5 +38,48 @@ public without sharing class MessageService {
             messagesByConversation.get(message.Conversation__c).add(message);
         }
         return messagesByConversation;
+    }
+
+    public static Map<Id, ContentDocumentLink> getAttachments(Id conversationId) {
+        List<ContentDocumentLink> contentDocumentLinks = [
+                SELECT
+                        Id,
+                        ContentDocumentId,
+                        ContentDocument.CreatedDate,
+                        ContentDocument.Title,
+                        ContentDocument.FileExtension,
+                        LinkedEntityId
+                FROM ContentDocumentLink
+                WHERE LinkedEntityId = :conversationId
+                ORDER BY ContentDocument.CreatedDate DESC
+        ];
+
+        Map<Id, ContentDocumentLink> attachmentByDocIds = new Map<Id, ContentDocumentLink>();
+        for (ContentDocumentLink link : contentDocumentLinks) attachmentByDocIds.put(link.ContentDocumentId, link);
+
+        return attachmentByDocIds;
+    }
+
+    public static Map<Id, Map<Id, ContentDocumentLink>> getAttachmentsByConversation(List<Id> parentIds) {
+        List<ContentDocumentLink> contentDocumentLinks = [
+                SELECT Id,
+                        ContentDocumentId,
+                        ContentDocument.CreatedDate,
+                        ContentDocument.Title,
+                        ContentDocument.FileExtension,
+                        LinkedEntityId
+                FROM ContentDocumentLink
+                WHERE LinkedEntityId IN:parentIds
+        ];
+
+        Map<Id, Map<Id, ContentDocumentLink>> attachmentByMesByCon = new Map<Id, Map<Id, ContentDocumentLink>>();
+        for (ContentDocumentLink link : contentDocumentLinks) {
+            Id conversationId = link.LinkedEntityId;
+            if (!attachmentByMesByCon.containsKey(conversationId)) {
+                attachmentByMesByCon.put(conversationId, new Map<Id, ContentDocumentLink>());
+            }
+            attachmentByMesByCon.get(conversationId).put(link.ContentDocumentId, link);
+        }
+        return attachmentByMesByCon;
     }
 }

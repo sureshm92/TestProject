@@ -1,0 +1,162 @@
+/**
+ * Created by Andrii Kryvolap.
+ */
+.THIS .vpi-title{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.THIS .width-basis{
+    flex-basis: auto;
+}
+
+.THIS .vpi-state{
+    padding-left: 0!important;
+    padding-right: 0!important;
+}
+
+.THIS .vri-state-label{
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.THIS .vpi-line-div{
+    height: 22px;
+    border-top: 3px solid;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.THIS .vpi-line-div.neutral{
+    border-top-color: #b5b5b5;
+}
+
+.THIS .vpi-line-div.success{
+    border-top-color: #00c221;
+}
+
+.THIS .vpi-path{
+    margin: 30px 0 5px;
+    padding: 0 15px;
+}
+
+.THIS .vpi-path .vpi-state:first-child .vpi-line-div:first-child{
+    border-top-color: transparent;
+}
+
+.THIS .vpi-path .vpi-state:last-child .vpi-line-div:last-child{
+    border-top-color: transparent;
+}
+
+.THIS .state-ico-wrapper{
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    position: absolute;
+    top: -10px;
+    left: -9px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.THIS .state-ico-wrapper .rr-icon-default{
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    fill: white!important;
+}
+
+.THIS .vpi-state.current .state-ico-wrapper{
+    width: 28px;
+    height: 28px;
+    top: -15px;
+    left: -14px;
+}
+
+.THIS .vpi-state.current .state-ico-wrapper .rr-icon-default{
+    width: 24px;
+    height: 24px;
+    padding: 1px;
+}
+
+.THIS .vpi-state.neutral .state-ico-wrapper{
+    background-color: #b5b5b5!important;
+}
+
+
+.THIS .vpi-state.success .state-ico-wrapper{
+    background-color: #00c221!important;
+}
+
+.THIS .vpi-state.in_progress .state-ico-wrapper{
+    background-color: #005ff1!important;
+}
+
+.THIS .vpi-state.failure .state-ico-wrapper{
+    background-color: #E20000!important;
+}
+
+/* status names */
+
+.THIS .vpi-state.neutral .vri-state-label{
+    color: #999;
+}
+
+.THIS .vpi-state.success .vri-state-label{
+    color: #000;
+}
+
+.THIS .vpi-state.in_progress .vri-state-label{
+    color: #000;
+    font-weight: 600;
+}
+
+.THIS .vpi-state.failure .vri-state-label{
+    color: #000;
+}
+
+@media not print {
+    .THIS .vri-state-label {
+        display: none;
+    }
+    .THIS .vpi-state.neutral .cRRIcon{
+        display: none;
+    }
+
+}
+
+
+.THIS .vpi-state.current .vri-state-label{
+    display: block;
+    font-weight: 600;
+}
+
+
+.THIS .vpi-path-panel .path-section{
+    padding: 0 0 10px;
+}
+
+@media all and (min-width: 1024px) {
+    .THIS .vri-state-label{
+        display: block;
+    }
+    .THIS .width-basis{
+        flex-basis: 0;
+    }
+
+    .THIS .state-ico-wrapper{
+        width: 28px;
+        height: 28px;
+        top: -15px;
+        left: -14px;
+    }
+
+    .THIS .state-ico-wrapper .rr-icon-default{
+        width: 24px;
+        height: 24px;
+        padding: 1px;
+    }
+}

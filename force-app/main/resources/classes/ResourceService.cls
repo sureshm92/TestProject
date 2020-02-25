@@ -1,7 +1,7 @@
 /**
  * created by Dmytro Pokutnii
  */
-public virtual inherited sharing class ResourceService {
+public virtual without sharing class ResourceService {
 
     public static final String RESOURCE_SOURCE_STUDY = 'Study-Specific';
     public static final String RESOURCE_SOURCE_PLATFORM = 'Platform-TA';
@@ -25,7 +25,7 @@ public virtual inherited sharing class ResourceService {
     protected String resourceType;
     protected String contentClass;
     protected String resourceId;
-    
+
     
     public static ResourceService getInstance(){
         return (ResourceService) ClassFactory.newInstance(ResourceService.class);
@@ -146,7 +146,16 @@ public virtual inherited sharing class ResourceService {
 
     public List<Resource__c> getResources(String whereClause, String orderByClause) {
         Id participantId;
-        if(participant != null) participantId = participant.Id;
+        List<String> COIsOfParticipant = new List<String>();
+        if(participant != null) {
+            participantId = participant.Id;
+            List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = [
+                    SELECT Therapeutic_Area__r.Name
+                    FROM Therapeutic_Area_Patient__c WHERE Participant__c =: participant.Id];
+            for(Therapeutic_Area_Patient__c tap : therapeuticAreaPatients) {
+                COIsOfParticipant.add('\'' + tap.Therapeutic_Area__r.Name.replaceAll('\'','\\\\\'') + '\'');
+            }
+        }
         String resourcesQuery =
                 'SELECT Id, ' +
                         'Title__c, ' +
@@ -170,6 +179,7 @@ public virtual inherited sharing class ResourceService {
                         'X3rd_Party_Source__c, ' +
                         'Image_Title__c, ' +
                         'Source__c, ' +
+                        ((participantId != null && !COIsOfParticipant.isEmpty()) ? '(SELECT Id, Therapeutic_Area__r.Name FROM Therapeutic_Area_Assignments__r WHERE Therapeutic_Area__r.Name IN ' + COIsOfParticipant + '), ' : '') +
                         (participantId != null ? '(SELECT Id, IsFavorite__c, IsVoted__c FROM Resource_Actions__r WHERE Participant__c = \'' + participantId + '\'), ' : '') +
                         'Version_Date__c ' +
                         'FROM Resource__c ' +
@@ -181,6 +191,20 @@ public virtual inherited sharing class ResourceService {
 
     public ResourceWrapperContainer getResourceWrapperContainer(List<Resource__c> resources) {
         return new ResourceService.ResourceWrapperContainer(this.getResourceWrappers(resources));
+    }
+
+    public static List<ResourceWrapper> sortResourcesByCOI(List<ResourceWrapper> resourceWrappers) {
+        List<ResourceComparing> resourceComparings = new List<ResourceComparing>();
+        for(ResourceWrapper rw : resourceWrappers){
+            resourceComparings.add(new ResourceComparing(rw));
+        }
+        resourceComparings.sort();
+
+        List<ResourceWrapper> rwSorted = new List<ResourceWrapper>();
+        for(ResourceComparing rc : resourceComparings) {
+            rwSorted.add(rc.res1);
+        }
+        return rwSorted;
     }
 
     @TestVisible
@@ -210,6 +234,27 @@ public virtual inherited sharing class ResourceService {
 
         public ResourceWrapperContainer(List<ResourceWrapper> wrappers) {
             this.wrappers = wrappers;
+        }
+    }
+
+    public virtual class ResourceComparing implements Comparable{
+        public ResourceService.ResourceWrapper res1;
+
+        public ResourceComparing(ResourceService.ResourceWrapper res1) {
+            this.res1 = res1;
+        }
+
+        public Integer compareTo(Object param1) {
+            ResourceComparing res2 = (ResourceComparing) param1;
+
+            Integer returnValue = 0; // The return value of 0 indicates that both elements are equal.
+            if (res1.resource.Therapeutic_Area_Assignments__r.size() < res2.res1.resource.Therapeutic_Area_Assignments__r.size()) {
+                returnValue = 1; // Set return value to a positive value.
+            } else if (res1.resource.Therapeutic_Area_Assignments__r.size() > res2.res1.resource.Therapeutic_Area_Assignments__r.size()) {
+                returnValue = -1; // Set return value to a negative value.
+            }
+
+            return returnValue;
         }
     }
 

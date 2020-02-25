@@ -38,13 +38,10 @@
     background: rgba(85, 85, 85, 0.3);
 }
 
-.ms-board-footer {
+.ms-board-footer-part {
     background-color: #f8f9fb;
-    min-height: 100px;
-    padding: 12px 12px 14px 12px;
-}
-
-.ms-send-part {
+    padding: 10px 10px 20px;
+    min-height: 99px;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -54,16 +51,40 @@
     flex-basis: 85%;
 }
 
-.ms-send-pi {
+.ms-board-footer-pi {
+    background-color: #f8f9fb;
+    padding: 10px;
+    min-height: 135px;
+}
 
+.ms-send-pi-combined-input {
+    padding: 5px;
+    border: 1px solid #DBDBDB;
+    background: white;
+    border-radius: 5px;
+}
+
+.ms-pi-input {
+    flex-grow: 1;
+    width: 100%;
+    border: none;
+    background-color: white !important;
+}
+
+.ms-pi-input:focus {
+   outline: none;
+    box-shadow: none;
 }
 
 .ms-send-pi-buttons {
-    padding-top: 10px;
     min-height: 68px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.ms-file-pill {
+    margin-top: 3px;
 }
 
 .ms-file-upload {
@@ -110,6 +131,11 @@
 }
 
 @media all and (max-width: 480px) {
+    .ms-board-footer-part {
+        min-height: 74px;
+        padding: 10px;
+    }
+
     .ms-select-templates {
         flex-basis: 75%;
     }

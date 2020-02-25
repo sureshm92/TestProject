@@ -6,5 +6,4 @@
             component.find('spinner').hide();
         });
     }
-
-})
+});

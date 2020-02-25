@@ -3,13 +3,17 @@
  */
 
 public without sharing class UserContext {
+    
+    public class UserContextException extends Exception{}
 
-    public static final String DUMMY_COMMUNITY_CONTACT_ID_DEV_NAME = 'DummyCommunityContactId';
+    private static final String DUMMY_COMMUNITY_CONTACT_ID_DEV_NAME = 'DummyCommunityContactId';
 
     private static Contact userContact;
     private static User user;
     private static CommunityMode userMode;
     private static List<CommunityMode> allUserModes;
+    private static Boolean isDummy = false;
+    private static String currentCommunityName;
     
     public static Contact getUserContact(){
         if(userContact == null) setUser(UserInfo.getUserId());
@@ -31,17 +35,21 @@ public without sharing class UserContext {
         return null;
     }
     
-    public static void setDummyUserContact(Id userContactId){
-        setContact(userContactId);
+    public static void setDummyContact(Id contactId){
+        setContact(contactId);
     }
 
-    public static void setDummyPersistentUserContact(Id contactId) {
+    public static void setDefaultDummyContact(Id contactId) {
         SettingStoreService.saveOrgDefault(DUMMY_COMMUNITY_CONTACT_ID_DEV_NAME, contactId, String.class);
+    }
+    
+    public static void clearDefaultDummyContact(){
+        SettingStoreService.deleteSettingOrgDefault(DUMMY_COMMUNITY_CONTACT_ID_DEV_NAME);
     }
 
     public static Boolean isDummyContact() {
-        Id dummyContactId = (Id) SettingStoreService.getOrgDefault(DUMMY_COMMUNITY_CONTACT_ID_DEV_NAME);
-        return String.valueOf(getUserContactId()) == String.valueOf(dummyContactId);
+        getUserContact();
+        return isDummy;
     }
     
     public static void setDummyUser(Id userId){
@@ -80,6 +88,15 @@ public without sharing class UserContext {
         return getCurrentUserMode().template.properties.get(propertyName);
     }
     
+    public static String getCurrentCommunityName(){
+        if(currentCommunityName == null){
+            Site[] sites = [SELECT Id, MasterLabel FROM Site WHERE Name =: Site.getName() AND SiteType = 'ChatterNetworkPicasso'];
+            if(sites.size() > 0) currentCommunityName = sites[0].MasterLabel;
+        }
+        if(currentCommunityName == 'IQVIA RH') currentCommunityName = 'IQVIA Referral Hub';
+        return currentCommunityName;
+    }
+    
     private static void setContact(Id contactId) {
         userContact = ContactService.getContact(contactId);
         List<User> users = [
@@ -104,6 +121,7 @@ public without sharing class UserContext {
         user = [SELECT Id, ContactId FROM User WHERE Id =: userId];
         if(user == null || user.ContactId == null) {
             setContact((Id) SettingStoreService.getOrgDefault(DUMMY_COMMUNITY_CONTACT_ID_DEV_NAME));
+            isDummy = true;
         } else {
             setContact(user.ContactId);
         }

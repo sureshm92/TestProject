@@ -8,13 +8,16 @@ public without sharing class CommunityTemplate {
     @AuraEnabled public String currentCommunityURL;
     @AuraEnabled public String redirectURL;
     @AuraEnabled public Boolean needRedirect;
+    @AuraEnabled public String communityName;
+    @AuraEnabled public String permissionSet;
 
-    public CommunityTemplate(Map<String, String> properties, String communityURL) {
+    public CommunityTemplate(Community_Template__mdt templateMdt, Map<String, String> properties) {
+        this.communityName = templateMdt.Community_Name__c;
+        this.permissionSet = templateMdt.Permission_Set_Developer_Name__c;
         this.properties = properties;
-        this.currentCommunityURL = (UserContext.isDummyContact() && communityURL != null) ?
-                communityURL : Site.getBaseUrl();
-        this.redirectURL = communityURL != null ? communityURL : null ;
-        this.needRedirect = communityURL != null && currentCommunityURL != communityURL;
+        this.currentCommunityURL = Site.getBaseUrl();
+        this.redirectURL = CommunityTemplateService.getCommunityURL(templateMdt.Community_Name__c);
+        this.needRedirect = communityName != UserContext.getCurrentCommunityName();
     }
 
 }

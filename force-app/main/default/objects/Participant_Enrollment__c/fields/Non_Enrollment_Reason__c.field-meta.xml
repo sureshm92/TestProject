@@ -109,6 +109,11 @@
                 <label>Declined or Withdrew Consent</label>
             </value>
             <value>
+                <fullName>Left a Message</fullName>
+                <default>false</default>
+                <label>Left a Message</label>
+            </value>
+            <value>
                 <fullName>Could not schedule visit</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
@@ -681,6 +686,34 @@
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Declined or Withdrew Consent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Trial Complete</controllingFieldValue>
+            <controllingFieldValue>Drop Out</controllingFieldValue>
+            <controllingFieldValue>Deceased</controllingFieldValue>
+            <controllingFieldValue>Received</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Contact Attempted</controllingFieldValue>
+            <controllingFieldValue>Unable to Reach</controllingFieldValue>
+            <controllingFieldValue>Contacted - Not Suitable</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
+            <controllingFieldValue>Screening Passed - Wash Out Period</controllingFieldValue>
+            <controllingFieldValue>Unable to Screen</controllingFieldValue>
+            <controllingFieldValue>Randomization Success</controllingFieldValue>
+            <controllingFieldValue>Eligibility Passed</controllingFieldValue>
+            <controllingFieldValue>Randomization Failed</controllingFieldValue>
+            <controllingFieldValue>Eligibility Failed</controllingFieldValue>
+            <controllingFieldValue>Screening In Progress</controllingFieldValue>
+            <controllingFieldValue>Screening Failed</controllingFieldValue>
+            <controllingFieldValue>Enrollment Success</controllingFieldValue>
+            <controllingFieldValue>Enrollment Failed</controllingFieldValue>
+            <controllingFieldValue>Treatment Period Started</controllingFieldValue>
+            <controllingFieldValue>Failed Referral</controllingFieldValue>
+            <controllingFieldValue>Failed Review</controllingFieldValue>
+            <controllingFieldValue>Excluded from Referring</controllingFieldValue>
+            <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
+            <controllingFieldValue>Participation Complete</controllingFieldValue>
+            <valueName>Left a Message</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

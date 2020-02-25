@@ -104,7 +104,10 @@ public without sharing class AccountSettingsController {
             update wrapper.convertToContact();
 
             Participant__c participant = wrapper.convertToParticipant();
-            if (participant != null) update participant;
+            if (participant != null) {
+                TaskService.getInstance().completeCYPTaskForParticipant();
+                update participant;
+            }
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }

@@ -10,7 +10,8 @@
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Patient_Become_Adult}"
                          signature="{!$Label.Email_Signature_VT}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
+                              resourceId="{!relatedTo.Id}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
@@ -23,7 +24,8 @@
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Patient_Become_Adult}"
                              signature="{!$Label.Email_Signature_VT}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
+                                  resourceId="{!relatedTo.Id}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 </messaging:emailTemplate>

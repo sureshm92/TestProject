@@ -26,7 +26,7 @@
         "emailLabel" : "Email",
         "extraFieldsFieldSet" : "",
         "firstnameLabel" : "First Name",
-        "includePasswordField" : "false",
+        "includePasswordField" : false,
         "lastnameLabel" : "Last Name",
         "passwordLabel" : "Create Password",
         "regConfirmUrl" : "./CheckPasswordResetEmail",
@@ -41,7 +41,7 @@
     }, {
       "componentAttributes" : {
         "headerText" : "",
-        "showHeader" : "false"
+        "showHeader" : false
       },
       "componentName" : "salesforceIdentity:socialLogin2",
       "id" : "1de9ee68-c5e0-4087-9f28-c2e737750a69",

@@ -5,6 +5,13 @@
 @IsTest
 private class Test_Batch_CreateSummaryNotifications {
 
+    @TestSetup
+    static void init() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+    }
+
     @IsTest
     static void testBehavior() {
         TriggerHandlerExecutor.bypassHandler(NotificationTriggerHandler.class);
@@ -35,7 +42,6 @@ private class Test_Batch_CreateSummaryNotifications {
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
 
-        TestData.loadTestData();
         TestData testData = new TestData();
         Res_study__c resStudy = new Res_study__c(
                 Active_After_Days__c = 0.00,

@@ -109,18 +109,29 @@ public without sharing class TaskService {
     
     private List<Task> filterTasks(List<Task> tasks){
         List<Task> filteredList = new List<Task>();
+        Set<Id> skipPEIds = new Set<Id>();
+        Set<Id> skipSurveyInvIds = new Set<Id>();
+        for(Task t : tasks){
+            if(t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) skipPEIds.add(t.WhatId);
+            if(t.Survey_Invitation__c != null) skipSurveyInvIds.add(t.Survey_Invitation__c);
+        }
+        skipPEIds = new Map<Id, Participant_Enrollment__c>([
+                SELECT Id
+                FROM Participant_Enrollment__c
+                WHERE Id IN:skipPEIds AND Clinical_Trial_Profile__r.Tasks_Are_Available__c != TRUE
+        ]).keySet();
+        skipSurveyInvIds = new Map<Id, SurveyInvitation>([
+                SELECT Id
+                FROM SurveyInvitation
+                WHERE Id IN:skipSurveyInvIds AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Tasks_Are_Available__c != TRUE
+        ]).keySet();
         for(Task t : tasks){
             Boolean skipTask = false;
-            if(ParticipantContext.getCurrentPE() != null){
-                if(t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()){
-                    if(!ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Tasks_Are_Available__c || t.WhatId != ParticipantContext.getCurrentPEId()){
-                        skipTask = true;
-                    }
-                } else if(t.Survey_Invitation__c != null  &&
-                        (t.Survey_Invitation__r.Participant_Enrollment__c != ParticipantContext.getCurrentPEId() || !ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Tasks_Are_Available__c)
-                        ){
-                    skipTask = true;
-                }
+            Id curPEId = ParticipantContext.getCurrentPEId();
+            if(t.WhatId != null && t.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()){
+                skipTask = skipPEIds.contains(t.WhatId) || (curPEId != null && t.WhatId != curPEId);
+            } else if(t.Survey_Invitation__c != null){
+                skipTask = skipSurveyInvIds.contains(t.Survey_Invitation__c) || (curPEId != null && t.Survey_Invitation__r.Participant_Enrollment__c != curPEId);
             }
             if(!skipTask) filteredList.add(t);
         }
@@ -147,10 +158,10 @@ public without sharing class TaskService {
         List<Task> resTasks = new List<Task>();
         for(Integer i = 0; i < tasks.size(); i++){
             resTasks.add(tasks[i]);
-            if(i == 5) break;
+            if(i >= 4) break;
         }
         expireSurveyTasksByExpiredInvitations(getTasksCommon(getOpenTasksFilter()));
-        return tasks;
+        return resTasks;
     }
     
     public String getOpenTasksFilter(){

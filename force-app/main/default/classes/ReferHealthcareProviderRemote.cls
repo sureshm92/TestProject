@@ -147,13 +147,12 @@ global without sharing class ReferHealthcareProviderRemote {
 
     @AuraEnabled
     public static String stopSharing(String hpId) {
-        system.debug('999');
-        Healthcare_Provider__c newHP = [SELECT Id, Status__c FROM Healthcare_Provider__c WHERE Id = :hpId];
-        system.debug(newHP);
+        Healthcare_Provider__c newHP = [SELECT Id,
+                                               Status__c
+                                        FROM   Healthcare_Provider__c
+                                        WHERE  Id = :hpId];
         newHP.Status__c = HP_S_NOSHARING;
-        system.debug('777');
         update newHP;
-        system.debug('666');
 
         return newHP.Id;
     }
@@ -169,6 +168,46 @@ global without sharing class ReferHealthcareProviderRemote {
             participant.Show_Referring_Provider__c = true;
         }
         update participant;
+    }
+
+    @AuraEnabled
+    public static List<Participant__c> getContactsDelegates(String participantId) {
+
+        List<Patient_Delegate__c> listId = [SELECT Id, Contact__c FROM Patient_Delegate__c WHERE Participant__c =: participantId];
+        System.debug(listId);
+        Set<Id> setId = new Set<Id>();
+        for (Patient_Delegate__c del: listId){
+            setId.add(del.Contact__c);
+        }
+        System.debug(setId);
+
+        List<Participant__c> listDelegates = [
+                                                   SELECT Id,
+                                                          Email__c,
+                                                          First_Name__c,
+                                                          Last_Name__c,
+                                                          Contact__c
+                                                   FROM   Participant__c
+                                                   WHERE  Contact__c IN : setId
+                                                  ];
+        if (listDelegates.isEmpty()) listDelegates.add(new Participant__c());
+        return listDelegates;
+    }
+
+
+    @AuraEnabled
+    public static List<Patient_Delegate__c> getStatusDelegates(String participantId) {
+
+        List<Patient_Delegate__c> listDelegatesStatuses = [
+                                                            SELECT Id,
+                                                                  Status__c,
+                                                                  Contact__c
+                                                            FROM Patient_Delegate__c
+                                                            WHERE Participant__c =: participantId
+                                                            AND Status__c =: 'Active'
+
+                                                          ];
+        return listDelegatesStatuses;
     }
 
     private static List<Study_Site__c> getStudySitesForMatchedRP(Id hcpContactId, List<String> piIds) {

@@ -144,9 +144,12 @@
         var spinner = component.find('mainSpinner');
         spinner.show();
         var participant = component.get('v.participant');
+        console.log('checkParticipantNeedsGuardian');
+        console.log(JSON.stringify(participant));
         communityService.executeAction(component, 'checkNeedsGuardian', {
             participantJSON: JSON.stringify(participant)
         }, function (returnValue) {
+            console.log('isNeedGuardian: ' + returnValue);
             var isNeedGuardian = (returnValue == 'true');
             console.log('checkNeedsGuardian - SUCCESS: ' + isNeedGuardian);
             component.set('v.needsGuardian', isNeedGuardian);

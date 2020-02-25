@@ -13,29 +13,6 @@
         }
     },
 
-    doGoToProfile: function (component) {
-        var pe = component.get('v.pe');
-        if (communityService.getUserMode() === 'HCP') {
-            communityService.navigateToPage('patient-profile?id=' + pe.Participant__c);
-        } else if (communityService.getUserMode() === 'PI') {
-            communityService.navigateToPage('referral-profile?id=' + pe.Id);
-        } else {
-            //
-        }
-    },
-
-    doGoToStudyWorkspace: function (component) {
-        var pe = component.get('v.pe');
-        communityService.navigateToPage('study-workspace?id=' + pe.Study_Site__r.Clinical_Trial_Profile__c);
-    },
-
-    doLoadHistoryOnOpen: function (component) {
-        var isOpened = !component.get('v.detailCollapsed');
-        if (isOpened) {
-            component.find('statusDetail').loadHistory();
-        }
-    },
-
     doChangeStatus: function (component, event, helper) {
         var rootComponent = component.get('v.parent');
         rootComponent.find('mainSpinner').show();
@@ -53,11 +30,10 @@
     showEditParticipantInformation: function (component, event, helper) {
         var rootComponent = component.get('v.parent');
         var pe = component.get('v.pe');
-        var pathItems = component.get('v.pathItems');
         var actions = component.get('v.actions');
         var isInvited = component.get('v.isInvited');
         var anchor = event.currentTarget.value;
-        rootComponent.find('updatePatientInfoAction').execute(pe, pathItems, anchor, actions, rootComponent, isInvited, function (enrollment) {
+        rootComponent.find('updatePatientInfoAction').execute(pe, actions, rootComponent, isInvited, function (enrollment) {
             component.set('v.pe', enrollment);
             //rootComponent.find('updatePatientInfoAction').set('v.pathItems', component.get('v.pathItems'));
                 rootComponent.refresh();

@@ -7,12 +7,25 @@ public without sharing class Action_UploadParticipantsRemote {
     public static final List<String> HEADER_COLUMNS = new List<String> { 'FIRST NAME', 'MIDDLE NAME', 'LAST NAME', 'NICKNAME', 'SEX', 'DATE OF BIRTH', 'EMAIL ADDRESS', 'PHONE', 'PHONE TYPE', 'PHONE2', 'PHONE TYPE2', 'STREET ADDRESS', 'CITY', 'STATE', 'POSTAL CODE', 'COUNTRY', 'LANGUAGE' };
     public static final List<String> MANDATORY_HEADER_COLUMNS = new List<String> { 'FIRST NAME', 'LAST NAME', 'PHONE', 'COUNTRY', 'STATE', 'POSTAL CODE' };
 
+    public static final List<String> PE_STATUSES = new List<String>{
+            PEStatusState.PE_STATUS_RECEIVED,
+            PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED,
+            PEStatusState.PE_STATUS_SCREENING_PASSED,
+            PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS,
+            PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS
+    };
+
     @AuraEnabled
     public static List<LabelValueItem> getParticipantsStatuses() {
         List<LabelValueItem> participantStatuses = new List<LabelValueItem>();
 
-        for (Schema.PicklistEntry field :  Participant_Enrollment__c.Participant_Status__c.getDescribe().getPicklistValues()){
-            participantStatuses.add(new LabelValueItem(field.getLabel(), field.getValue()));
+        for (String status : PE_STATUSES) {
+            participantStatuses.add(
+                    new LabelValueItem(
+                            TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, status),
+                            status
+                    )
+            );
         }
 
         return participantStatuses;
@@ -39,7 +52,7 @@ public without sharing class Action_UploadParticipantsRemote {
             Integer totalRowCount = 0;
             Map<Integer, List<String>> finalCSVLines = new Map<Integer, List<String>>();
             if (csvFileLines.size() != 0 && !headerFailed) {
-                for (Integer rowIndex = 1; rowIndex < csvFileLines.size(); rowIndex++) {
+                for (Integer rowIndex = 2; rowIndex < csvFileLines.size(); rowIndex++) {
                     List<String> line = csvFileLines.get(rowIndex).trim().removeEnd(',').trim().removeEnd(',').split(',');
                     if (line == null || line.isEmpty() || line.size() == 1) {
                         continue;

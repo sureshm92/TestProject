@@ -41,7 +41,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AL Body PRT Become Adult Delegate</shortDescription>
-        <value>Hi ##UserName, your participant ##ParticipantFirstName has recently reached the age of legal maturity and have provided their privacy preferences. We recommend you contact the Provider to know more about your status on this clinical research study.</value>
+        <value>Hi ##UserName, your participant ##ParticipantFirstName has recently reached the age of legal maturity and has provided their privacy preferences. Please contact the patient to learn more about your updated status on this clinical research study.</value>
     </labels>
     <labels>
         <fullName>AL_Body_PRT_Week_Become_Adult_Delegate</fullName>
@@ -49,7 +49,15 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AL Body PRT Week Become Adult Delegate</shortDescription>
-        <value>Hi ##UserName, you have one or more participant(s) that is soon to be reaching the age of legal maturity. We recommend you contact the Provider to know more about your status on the associated clinical research study</value>
+        <value>Hi ##UserName, you have one or more participant(s) who will soon reach the age of legal maturity. We recommend you contact the study doctor to learn more about your status on the associated clinical research study</value>
+    </labels>
+    <labels>
+        <fullName>AL_Body_PRT_Week_Become_Adult_Delegates</fullName>
+        <categories>Alert</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AL Body PRT Week Become Adult Delegates</shortDescription>
+        <value>Hi ##UserName, you have one or more participant(s) who will soon reach the age of legal maturity. We recommend you contact the study doctor to learn more about your status on the associated clinical research study</value>
     </labels>
     <labels>
         <fullName>AL_Body_Returning_Delegate</fullName>
@@ -135,13 +143,12 @@
         <value>Participant will become an adult!</value>
     </labels>
     <labels>
-        <fullName>AL_Body_PRT_Week_Become_Adult_Delegates</fullName>
+        <fullName>AL_Title_PRT_Week_Become_Adult_Delegates</fullName>
         <categories>Alert</categories>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>AL Body PRT Week Become Adult Delegates</shortDescription>
-        <value>Hi ##UserName, you have one or more participant(s) that is soon to be reaching the age of legal maturity. We recommend you contact the Provider to know more about your status on the associated clinical research study
-        </value>
+        <shortDescription>AL Title PRT Week Become Adult Delegates</shortDescription>
+        <value>Hi ##UserName, your participant ##ParticipantFirstName has recently reached the age of legal maturity and has provided their privacy preferences. Please contact the patient to learn more about your updated status on this clinical research study.</value>
     </labels>
     <labels>
         <fullName>AL_Title_Welcome_Study</fullName>
@@ -211,7 +218,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>autocomplete description</shortDescription>
-        <value>Used to determine whether the browser remembers a user's login ID</value>
+        <value>Used to determine whether the browser remembers a user&#39;s login ID</value>
     </labels>
     <labels>
         <fullName>AccountSettings_Cookie_ClientSrc</fullName>
@@ -393,7 +400,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AccountSettings Cookies RRLanguage Description</shortDescription>
-        <value>Used to store user's preferred language so that log in page may be displayed in user's preferred language.</value>
+        <value>Used to store user&#39;s preferred language so that log in page may be displayed in user&#39;s preferred language.</value>
     </labels>
     <labels>
         <fullName>AccountSettings_Functional_Cookies</fullName>
@@ -478,6 +485,13 @@
         <protected>false</protected>
         <shortDescription>AdHoc CheckBox Help Text</shortDescription>
         <value>Survey tasks will expire when the Participants status is changed to: Drop Out, Trial Complete or Participation Complete</value>
+    </labels>
+    <labels>
+        <fullName>Add_Another_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add_Another_Delegate</shortDescription>
+        <value>Add Delegate</value>
     </labels>
     <labels>
         <fullName>Add_Another_Provider</fullName>
@@ -619,6 +633,13 @@
         <protected>false</protected>
         <shortDescription>BTN Add Patient</shortDescription>
         <value>Add a Participant</value>
+    </labels>
+    <labels>
+        <fullName>BTN_Add_Provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN_Add_Provider</shortDescription>
+        <value>Add Provider</value>
     </labels>
     <labels>
         <fullName>BTN_Approve</fullName>
@@ -768,13 +789,6 @@
         <value>Find study sites</value>
     </labels>
     <labels>
-        <fullName>BTN_HealthCare_Providers</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>BTN HealthCare Providers</shortDescription>
-        <value>Healthcare Providers</value>
-    </labels>
-    <labels>
         <fullName>BTN_HealthCare_Provider_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -782,11 +796,25 @@
         <value>Healthcare Provider Information</value>
     </labels>
     <labels>
+        <fullName>BTN_HealthCare_Providers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN HealthCare Providers</shortDescription>
+        <value>Healthcare Providers</value>
+    </labels>
+    <labels>
         <fullName>BTN_I_Accept</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BTN I Accept</shortDescription>
         <value>I Accept</value>
+    </labels>
+    <labels>
+        <fullName>BTN_I_Activate_my_site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BTN I Activate my site</shortDescription>
+        <value>Activate my site</value>
     </labels>
     <labels>
         <fullName>BTN_I_don_t_know_yet</fullName>
@@ -1297,7 +1325,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Body Mass Index Description</shortDescription>
-        <value>BMI is a measure that shows a person's weight to height ratio. It is calculated by dividing your weight in kilograms (kg) by the square of your body height in meters (m).</value>
+        <value>BMI is a measure that shows a person&#39;s weight to height ratio. It is calculated by dividing your weight in kilograms (kg) by the square of your body height in meters (m).</value>
     </labels>
     <labels>
         <fullName>Body_Mass_Index_Name_Labs</fullName>
@@ -1770,6 +1798,13 @@
         <value>Delegate</value>
     </labels>
     <labels>
+        <fullName>Delegates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delegates</shortDescription>
+        <value>Delegates</value>
+    </labels>
+    <labels>
         <fullName>Diastolic</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1839,6 +1874,13 @@
         <protected>true</protected>
         <shortDescription>Edit Visit Legend</shortDescription>
         <value>Edit Visit Legend</value>
+    </labels>
+    <labels>
+        <fullName>Eligibility_Passed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Eligibility_Passed</shortDescription>
+        <value>Eligibility Passed</value>
     </labels>
     <labels>
         <fullName>Email</fullName>
@@ -2074,8 +2116,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Delegate After Text</shortDescription>
-        <value>
-            To assist you in tracking ##ParticipantFirstName's clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in IQVIA Referral Hub and Patient Portal.
+        <value>To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in IQVIA Referral Hub and Patient Portal.
 
             Your username is ##UserName. Please click the Enroll Now button to create your password.
 
@@ -2136,7 +2177,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PA New Mess</shortDescription>
-        <value>You have a new message from your provider. Please login to the IQVIA Patient Portal to view your messages.</value>
+        <value>You have a new message from your study center. Please login to the IQVIA Patient Portal to view your messages.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI1</fullName>
@@ -2172,7 +2213,7 @@
         <shortDescription>Email Body PI5</shortDescription>
         <value>This is a reminder that you accepted one or more referrals over 5 days ago, but contact has not yet been made with the potential study participant(s).
 
-            To review the referral(s), log in to the IQVIA Referral Hub and navigate to "My Referrals.&quot;</value>
+            To review the referral(s), log in to the IQVIA Referral Hub and navigate to &quot;My Referrals.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI6</fullName>
@@ -2183,21 +2224,21 @@
 
             The provider cannot refer study participants to your site until you accept their request.
 
-            To accept this request, log in to the IQVIA Referral Hub and navigate to "My Referring Clinics."</value>
+            To accept this request, log in to the IQVIA Referral Hub and navigate to &quot;My Referring Clinics.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI_Conv_Rem</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_PI_Conv_Rem</shortDescription>
-        <value>You have ##UnreadConversationCount unread messages from your Participants waiting for your response. Please login to the IQVIA Patient Portal to view your messages.</value>
+        <value>You have ##UnreadConversationCount unread messages from referred patients waiting for your response. Please login to the IQVIA Patient Portal to view your messages.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI_New_Mess</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PI New Mess</shortDescription>
-        <value>You have a new message from your provider. Please login to the IQVIA Patient Portal to view your messages.</value>
+        <value>You have a new message from your study center. Please login to the IQVIA Patient Portal to view your messages.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Participant_Answer</fullName>
@@ -2457,7 +2498,7 @@
 
             To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and then access &quot;My Patients&quot; from the main navigation menu or the My Studies page.
 
-            To see additional information about this study or to refer another patient, log in to the Referral Hub, then go to "My Studies."</value>
+            To see additional information about this study or to refer another patient, log in to the Referral Hub, then go to &quot;My Studies.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP3</fullName>
@@ -2468,7 +2509,7 @@
 
             To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and access &quot;My Patients.&quot;
 
-            To see additional information about this study or refer another patient, log in to the Referral Hub, and access "My Studies."</value>
+            To see additional information about this study or refer another patient, log in to the Referral Hub, and access &quot;My Studies.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP4</fullName>
@@ -2479,7 +2520,7 @@
 
             To see additional information about this patient&#39;s referral status, log in to the Referral Hub, and access &quot;My Patients.&quot;
 
-            To see additional information about this study or refer another patient, log in to the Referral Hub, and access "My Studies."</value>
+            To see additional information about this study or refer another patient, log in to the Referral Hub, and access &quot;My Studies.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP5</fullName>
@@ -2526,7 +2567,7 @@
         <shortDescription>Email Body RP9</shortDescription>
         <value>##StudySiteName is not accepting new referring providers at this time.
 
-            To see if other study sites are available in your area, log in to the IQVIA Referral Hub, and then go to "My Studies."</value>
+            To see if other study sites are available in your area, log in to the IQVIA Referral Hub, and then go to &quot;My Studies.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Reset_Password</fullName>
@@ -2860,7 +2901,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Header_PI_Conv_Rem</shortDescription>
-        <value>IQVIA Patient Portal Unread Messages</value>
+        <value>IQVIA Referral Hub Unread Messages</value>
     </labels>
     <labels>
         <fullName>Email_Header_PI_New_Mess</fullName>
@@ -2937,7 +2978,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header RP10</shortDescription>
-        <value>Your patient's referral status has been updated</value>
+        <value>Your patient&#39;s referral status has been updated</value>
     </labels>
     <labels>
         <fullName>Email_Header_RP11</fullName>
@@ -3174,6 +3215,14 @@
         <value>If you don&#39;t want to change your password or didn&#39;t request this, just ignore this email and no changes will be made to your account.
 
             To keep your account secure, please don&#39;t forward this email to anyone.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_GSK</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature</shortDescription>
+        <value>Sincerely,
+            The GSK Participant Hub team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_New</fullName>
@@ -3429,15 +3478,15 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject PI Conv Rem</shortDescription>
-        <value>IQVIA Patient Portal Unread Messages</value>
+        <value>IQVIA Referral Hub Unread Messages</value>
     </labels>
     <labels>
-    <fullName>Email_Subject_PI_New_Mess</fullName>
-    <language>en_US</language>
-    <protected>false</protected>
-    <shortDescription>Email Subject PI New Mess</shortDescription>
-    <value>You have a new Message</value>
-</labels>
+        <fullName>Email_Subject_PI_New_Mess</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject PI New Mess</shortDescription>
+        <value>You have a new Message</value>
+    </labels>
     <labels>
         <fullName>Email_Subject_Patient2</fullName>
         <language>en_US</language>
@@ -3706,7 +3755,7 @@
 
             Please review the referrals and accept, decline, or place on hold each referral.
 
-            To review the referrals, log in to the IQVIA Referral Hub and navigate to "My Referrals.&quot;</value>
+            To review the referrals, log in to the IQVIA Referral Hub and navigate to &quot;My Referrals.&quot;</value>
     </labels>
     <labels>
         <fullName>Empty_Reminder</fullName>
@@ -3728,6 +3777,13 @@
         <protected>false</protected>
         <shortDescription>Empty Visits tab</shortDescription>
         <value>This feature is not available for Studies not participating in Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Enrolled_Or_Randomized</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Enrolled_Or_Randomized</shortDescription>
+        <value>Enrolled or Randomized</value>
     </labels>
     <labels>
         <fullName>Error_Message_Can_Not_Create_Participant</fullName>
@@ -3853,7 +3909,6 @@
         <shortDescription>FD PE Field Initial Visit Scheduled Time</shortDescription>
         <value>Initial Visit Scheduled Time</value>
     </labels>
-
     <labels>
         <fullName>FD_PE_Field_Revisit_Date</fullName>
         <language>en_US</language>
@@ -3950,7 +4005,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Footer T Copyright</shortDescription>
-        <value>Copyright © 2019 IQVIA. All Rights Reserved.</value>
+        <value>Powered by IQVIA © 2020. All rights reserved.</value>
     </labels>
     <labels>
         <fullName>GMap_Not_Available</fullName>
@@ -3958,6 +4013,13 @@
         <protected>false</protected>
         <shortDescription>Empty address</shortDescription>
         <value>A Google map is not available for this study site location.</value>
+    </labels>
+    <labels>
+        <fullName>GSK_Text_Logo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>GSK Text Logo</shortDescription>
+        <value>GatherSHAREKnow</value>
     </labels>
     <labels>
         <fullName>Gender_Female</fullName>
@@ -3985,14 +4047,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Glucose Description</shortDescription>
-        <value>Glucose is a sugar, also called "blood sugar". When your body digests food, carbohydrates are broken down to make glucose. Your small intestine then absorbs the glucose to release it into the blood. Glucose is the most important source of energy for cells in your body and the only source of energy for your brain, spinal cord, and nerves. Blood glucose is measured to check your general health and to check for a range of conditions.</value>
+        <value>Glucose is a sugar, also called &quot;blood sugar&quot;. When your body digests food, carbohydrates are broken down to make glucose. Your small intestine then absorbs the glucose to release it into the blood. Glucose is the most important source of energy for cells in your body and the only source of energy for your brain, spinal cord, and nerves. Blood glucose is measured to check your general health and to check for a range of conditions.</value>
     </labels>
     <labels>
         <fullName>HT_01_B</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HT 01 B</shortDescription>
-        <value>Are you locked out?  If so, please wait for 15 minutes before trying to log back in again.  If you have already waited 15 minutes and cannot login, please use the "Forgot Password" to have your password reset.  If you are not receiving your password reset email, please log a ticket and make sure to provide your name, email, and phone number.</value>
+        <value>Are you locked out?  If so, please wait for 15 minutes before trying to log back in again.  If you have already waited 15 minutes and cannot login, please use the &quot;Forgot Password&quot; to have your password reset.  If you are not receiving your password reset email, please log a ticket and make sure to provide your name, email, and phone number.</value>
     </labels>
     <labels>
         <fullName>HT_01_H</fullName>
@@ -4027,14 +4089,14 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HT 03 B PI RP</shortDescription>
-        <value>Please go to My Team -&gt; Add New Team Member -&gt; Enter information -&gt; Assign "Permissions by Level".  If you want a study coordinator to handle referrals on your behalf, we recommend delegate level 1.</value>
+        <value>Please go to My Team -&gt; Add New Team Member -&gt; Enter information -&gt; Assign &quot;Permissions by Level&quot;.  If you want a study coordinator to handle referrals on your behalf, we recommend delegate level 1.</value>
     </labels>
     <labels>
         <fullName>HT_03_B_Patient</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HT 03 B Patient</shortDescription>
-        <value>Please go to Account Settings -&gt; Delegates -&gt; Add New Delegate -&gt; Enter information -&gt; Assign "Permissions by Level". If you want a delegate to complete tasks on your behalf, we recommend delegate level 1.</value>
+        <value>Please go to Account Settings -&gt; Delegates -&gt; Add New Delegate -&gt; Enter information -&gt; Assign &quot;Permissions by Level&quot;. If you want a delegate to complete tasks on your behalf, we recommend delegate level 1.</value>
     </labels>
     <labels>
         <fullName>HT_03_H_PI_RP</fullName>
@@ -4209,7 +4271,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 09 B RP</shortDescription>
-        <value>Clinical trial investigators are usually physicians in active practice. They are responsible for the day-to-day management of clinical trials at the site level. Their main responsibilities are ensuring patient safety during the trial and safeguarding patients' rights, making sure that trial activities and procedures are done in accordance with the protocol. Clinical trial investigators are also responsible for maintaining the quality of data collected during the trial.</value>
+        <value>Clinical trial investigators are usually physicians in active practice. They are responsible for the day-to-day management of clinical trials at the site level. Their main responsibilities are ensuring patient safety during the trial and safeguarding patients&#39; rights, making sure that trial activities and procedures are done in accordance with the protocol. Clinical trial investigators are also responsible for maintaining the quality of data collected during the trial.</value>
     </labels>
     <labels>
         <fullName>HT_09_H_Participant</fullName>
@@ -4321,7 +4383,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 13 B RP</shortDescription>
-        <value>Each potential participant in a clinical trial is helped to make an informed decision about their participation, and informed consent is at the heart of this process. The overall purpose of the informed consent process is to offer potential participants detailed information about the trial aim, the tested intervention, potential benefits and risks, specific procedures, and participants' rights and responsibilities.
+        <value>Each potential participant in a clinical trial is helped to make an informed decision about their participation, and informed consent is at the heart of this process. The overall purpose of the informed consent process is to offer potential participants detailed information about the trial aim, the tested intervention, potential benefits and risks, specific procedures, and participants&#39; rights and responsibilities.
 
             Once the potential participant decides to join a trial, they must sign the Informed Consent Form (ICF). Participants have the right to withdraw from the trial at any time without any explanation and without jeopardizing their standard of medical care.</value>
     </labels>
@@ -4632,7 +4694,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>High-density Lipoprotein Description</shortDescription>
-        <value>Lipoproteins are made of a combination of lipids (fats) and proteins. High-density lipoproteins (HDL) are produced by the liver and move cholesterol from the liver to other body parts. HDL cholesterol cleans the walls of your cells and it removes LDL cholesterol from your blood. HDL cholesterol is also known as "good" cholesterol.</value>
+        <value>Lipoproteins are made of a combination of lipids (fats) and proteins. High-density lipoproteins (HDL) are produced by the liver and move cholesterol from the liver to other body parts. HDL cholesterol cleans the walls of your cells and it removes LDL cholesterol from your blood. HDL cholesterol is also known as &quot;good&quot; cholesterol.</value>
     </labels>
     <labels>
         <fullName>Home_Page_Label</fullName>
@@ -4688,7 +4750,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Home Page StudyVisit Completed On</shortDescription>
-        <value>Completed On</value>
+        <value>Date</value>
     </labels>
     <labels>
         <fullName>Home_Page_StudyVisit_Filter_Current_Visits</fullName>
@@ -4916,6 +4978,13 @@
         <value>Please input correct data!</value>
     </labels>
     <labels>
+        <fullName>Initial_Visit_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Initial_Visit_Scheduled</shortDescription>
+        <value>Initial Visit Scheduled</value>
+    </labels>
+    <labels>
         <fullName>Investigator_phone</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4990,7 +5059,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Low-density Lipoprotein Description</shortDescription>
-        <value>Lipoproteins are made of a combination of lipids (fats) and proteins. Low-density lipoproteins (LDL) are produced by the liver and move cholesterol from the liver to other body parts. LDL cholesterol is also known as "bad" cholesterol. When your LDL cholesterol is high, it means it can build up in the walls of your blood vessels and block the blood flow.</value>
+        <value>Lipoproteins are made of a combination of lipids (fats) and proteins. Low-density lipoproteins (LDL) are produced by the liver and move cholesterol from the liver to other body parts. LDL cholesterol is also known as &quot;bad&quot; cholesterol. When your LDL cholesterol is high, it means it can build up in the walls of your blood vessels and block the blood flow.</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_1</fullName>
@@ -5077,6 +5146,20 @@
         <value>Attach File</value>
     </labels>
     <labels>
+        <fullName>MS_Attach_File_Limit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Attach File Limit</shortDescription>
+        <value>File size must not exceed 3 MB</value>
+    </labels>
+    <labels>
+        <fullName>MS_Attach_File_Unsup_Type</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MS Attach File Unsup Type</shortDescription>
+        <value>This file extension is not supported</value>
+    </labels>
+    <labels>
         <fullName>MS_Attachment</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5095,7 +5178,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MS Chat Disclaimer</shortDescription>
-        <value>Please call 911 if you have an emergency or urgent medical question. If you do not hear from your provider's office within 3 business days, please contact the office directly.</value>
+        <value>If you have a medical emergency, please contact emergency medical services. If you do not hear from your provider&#39;s office within 3 business days, please contact the office directly.</value>
     </labels>
     <labels>
         <fullName>MS_Empty_Chat</fullName>
@@ -5116,7 +5199,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MS Input PI Recipients Placeholder</shortDescription>
-        <value>Type participant name here...</value>
+        <value>Type Participant Name here...</value>
     </labels>
     <labels>
         <fullName>MS_Input_Placeholder</fullName>
@@ -5564,7 +5647,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT DRP S8 T</shortDescription>
-        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage an existing team member's permission for all studies by selecting a permission level and saving it on the team member's card.</value>
+        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage an existing team member&#39;s permission for all studies by selecting a permission level and saving it on the team member&#39;s card.</value>
     </labels>
     <labels>
         <fullName>OT_DRP_S9_H</fullName>
@@ -5707,6 +5790,21 @@
         <value>Accept both Referrals and Referring Clinics directly on this page.</value>
     </labels>
     <labels>
+        <fullName>OT_Participant_GSK_S1_H</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>OT Participant GSK S1 H</shortDescription>
+        <value>My Study, Tasks, Resources and Links</value>
+    </labels>
+    <labels>
+        <fullName>OT_Participant_GSK_S75_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>OT Participant GSK S75 Text</shortDescription>
+        <value>Take action on tasks that have been assigned to you or created by you or your delegate using the Open Task List.
+View study documents and other resources including articles and videos related to the study or the condition being studied from Resources.</value>
+    </labels>
+    <labels>
         <fullName>OT_Participant_S1_H</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5811,7 +5909,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT RP S2 T</shortDescription>
-        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage an existing team member's permission for all studies by selecting a permission level and saving it on the team member's card.</value>
+        <value>Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage an existing team member&#39;s permission for all studies by selecting a permission level and saving it on the team member&#39;s card.</value>
     </labels>
     <labels>
         <fullName>OT_RP_S3_H</fullName>
@@ -6132,8 +6230,8 @@
         <fullName>PG_ACPE_L_Change_Provider_s_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG ACPE L Change Provider's Status</shortDescription>
-        <value>Change Provider's Status</value>
+        <shortDescription>PG ACPE L Change Provider&#39;s Status</shortDescription>
+        <value>Change Provider&#39;s Status</value>
     </labels>
     <labels>
         <fullName>PG_ACPE_L_Notes</fullName>
@@ -6388,6 +6486,13 @@
         <value>Alternative Phone Type</value>
     </labels>
     <labels>
+        <fullName>PG_AP_F_IVRS_IWRS_Id</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP F IVRS IWRS Id</shortDescription>
+        <value>IVRS/IWRS ID</value>
+    </labels>
+    <labels>
         <fullName>PG_AP_F_Patient_Status</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6428,6 +6533,13 @@
         <protected>true</protected>
         <shortDescription>PG AP H Contact Information</shortDescription>
         <value>Contact Information</value>
+    </labels>
+    <labels>
+        <fullName>PG_AP_H_Patient_Contact_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG AP H Patient ContactInformation</shortDescription>
+        <value>Participant Contact Information</value>
     </labels>
     <labels>
         <fullName>PG_AP_H_Patient_Details</fullName>
@@ -7107,8 +7219,8 @@
         <fullName>PG_DBPI_L_My_Patients_Referring_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DBPI L My Patients' Referring Status</shortDescription>
-        <value>My Patients' Referring Status</value>
+        <shortDescription>PG DBPI L My Patients&#39; Referring Status</shortDescription>
+        <value>My Patients&#39; Referring Status</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Patients_Waiting_to_Be_Referred</fullName>
@@ -7205,15 +7317,15 @@
         <fullName>PG_DBPI_My_Patients_Acceptance_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DBPI My Patients' Acceptance Status</shortDescription>
-        <value>My Patients' Acceptance Status</value>
+        <shortDescription>PG DBPI My Patients&#39; Acceptance Status</shortDescription>
+        <value>My Patients&#39; Acceptance Status</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_My_Patients_Enrollment_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DBPI My Patients' Enrollment Status</shortDescription>
-        <value>My Patients' Enrollment Status</value>
+        <shortDescription>PG DBPI My Patients&#39; Enrollment Status</shortDescription>
+        <value>My Patients&#39; Enrollment Status</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_Referrals</fullName>
@@ -7247,22 +7359,22 @@
         <fullName>PG_DB_L_Track_providers_status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DB L Track providers' status</shortDescription>
-        <value>Track providers' status</value>
+        <shortDescription>PG DB L Track providers&#39; status</shortDescription>
+        <value>Track providers&#39; status</value>
     </labels>
     <labels>
         <fullName>PG_DB_L_Track_your_patients_status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DB L Track your patients' status</shortDescription>
-        <value>Track your patients' status</value>
+        <shortDescription>PG DB L Track your patients&#39; status</shortDescription>
+        <value>Track your patients&#39; status</value>
     </labels>
     <labels>
         <fullName>PG_DB_L_Track_your_referrals_status</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG DB L Track your referrals' status</shortDescription>
-        <value>Track your participants' status</value>
+        <shortDescription>PG DB L Track your referrals&#39; status</shortDescription>
+        <value>Track your participants&#39; status</value>
     </labels>
     <labels>
         <fullName>PG_DB_L_category</fullName>
@@ -7416,7 +7528,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Error T1</shortDescription>
-        <value>Because we can't seem to find the page you are looking for. It is either unavailable or may no longer exist.</value>
+        <value>Because we can&#39;t seem to find the page you are looking for. It is either unavailable or may no longer exist.</value>
     </labels>
     <labels>
         <fullName>PG_Error_T2</fullName>
@@ -7691,7 +7803,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG HLP T1 Feedback</shortDescription>
-        <value>Though we can't review and respond to every submission, we do use feedback like yours to improve the IQVIA™ Referral Hub experience for everyone.</value>
+        <value>Though we can&#39;t review and respond to every submission, we do use feedback like yours to improve the IQVIA™ Referral Hub experience for everyone.</value>
     </labels>
     <labels>
         <fullName>PG_HLP_T2_Feedback</fullName>
@@ -7754,7 +7866,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Home Welcome Message Alumni</shortDescription>
-        <value>Hi ##UserName, you can now view content related to  conditions of interest.</value>
+        <value>Hi ##UserName, you can now view content related to conditions of interest.</value>
     </labels>
     <labels>
         <fullName>PG_IMI_L_by_user</fullName>
@@ -7774,8 +7886,8 @@
         <fullName>PG_IM_L_Provider_s_Status_Details</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG IM L Provider's Status Details</shortDescription>
-        <value>Provider's Status Details</value>
+        <shortDescription>PG IM L Provider&#39;s Status Details</shortDescription>
+        <value>Provider&#39;s Status Details</value>
     </labels>
     <labels>
         <fullName>PG_IM_L_Study_Site_Status_Details</fullName>
@@ -8519,7 +8631,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRR Note Remember</shortDescription>
-        <value>NOTE: Please remember that you will need to enter your patient's information into the IQVIA™ Referral Hub website in order to be able to refer the patient to the Principal Investigator.</value>
+        <value>NOTE: Please remember that you will need to enter your patient&#39;s information into the IQVIA™ Referral Hub website in order to be able to refer the patient to the Principal Investigator.</value>
     </labels>
     <labels>
         <fullName>PG_MRR_R_Failed</fullName>
@@ -8596,7 +8708,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRZ L Search for a referring clinic</shortDescription>
-        <value>Search for a referring providers</value>
+        <value>Search for an RP</value>
     </labels>
     <labels>
         <fullName>PG_MRZ_L_Search_for_a_study_site</fullName>
@@ -9341,14 +9453,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L Delegate continue be delegate</shortDescription>
-        <value>Please ensure that delegate's contact information is up-to-date</value>
+        <value>Please ensure that delegate&#39;s contact information is up-to-date</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Delegate_update_info_uptodate</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L Delegate continue be delegate</shortDescription>
-        <value>Please update contact information, even if "Do not continue" is selected</value>
+        <value>Please update contact information, even if &quot;Do not continue&quot; is selected</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Have_you_had_a_discussion_with_your_patient_about_participating_in_a_cl</fullName>
@@ -9415,6 +9527,13 @@
         <value>Participant Information</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_Participant_require_agree</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Ref L Participant require agree</shortDescription>
+        <value>I agree that I have confirmed information with emancipated participant.</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_Participant_require_guardian</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9446,8 +9565,8 @@
         <fullName>PG_Ref_L_Please_enter_your_patient_s_details_into_the_form_so_that_a_study_site</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG Ref L Please enter your patient's details into the form so that a study site</shortDescription>
-        <value>Please enter your patient's details into the form so that a study site representative can continue to work with your patient on the screening, consent, and study enrollment process.</value>
+        <shortDescription>PG Ref L Please enter your patient&#39;s details into the form so that a study site</shortDescription>
+        <value>Please enter your patient&#39;s details into the form so that a study site representative can continue to work with your patient on the screening, consent, and study enrollment process.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Please_first_have_a_meaningful_discussion_with_your_patient_about_parti</fullName>
@@ -9530,8 +9649,8 @@
         <fullName>PG_Ref_L_Your_patient_s_contact_information_will_only_be_used_to_contact_them_ab</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>PG Ref L Your patient's contact information will only be used to contact them ab</shortDescription>
-        <value>Your patient's contact information will only be used to contact them about this clinical study.</value>
+        <shortDescription>PG Ref L Your patient&#39;s contact information will only be used to contact them ab</shortDescription>
+        <value>Your patient&#39;s contact information will only be used to contact them about this clinical study.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_MSG_Email_s_not_equals</fullName>
@@ -9559,7 +9678,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref ST2 Email sent</shortDescription>
-        <value>Note: Both you and your patient can see the patient's referral status within the IQVIA™ Referral Hub at any time.</value>
+        <value>Note: Both you and your patient can see the patient&#39;s referral status within the IQVIA™ Referral Hub at any time.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_Step_Contact_Info</fullName>
@@ -9685,7 +9804,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SDAS L1 please review</shortDescription>
-        <value>Please review the list of available site locations participating in the clinical trial, and select the site to which you would like to refer your patient(s) by selecting the "Send Site Request" button.</value>
+        <value>Please review the list of available site locations participating in the clinical trial, and select the site to which you would like to refer your patient(s) by selecting the &quot;Send Site Request&quot; button.</value>
     </labels>
     <labels>
         <fullName>PG_SDAS_L2P_TC_required</fullName>
@@ -9749,9 +9868,9 @@
         <protected>false</protected>
         <shortDescription>PG SDAS T steps</shortDescription>
         <value>In order for referring clinics to be able to send referrals to you, you must do the following:
-            1) Click on the "I'm Open to Receive Referrals" button so that your site will become visible to the referring clinic(s).
+            1) Click on the &quot;I&#39;m Open to Receive Referrals&quot; button so that your site will become visible to the referring clinic(s).
             2) Wait for the referring clinic(s) to send you a site request.
-            3) Approve and activate the referring clinic(s)' referral functionality.</value>
+            3) Approve and activate the referring clinic(s)&#39; referral functionality.</value>
     </labels>
     <labels>
         <fullName>PG_SDRC_L_All</fullName>
@@ -10363,6 +10482,34 @@
         <value>PI:</value>
     </labels>
     <labels>
+        <fullName>PI_DB_PAC_Added_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI_DB_PAC_Added_Header</shortDescription>
+        <value>Added</value>
+    </labels>
+    <labels>
+        <fullName>PI_DB_PAC_Name_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI_DB_PAC_Name_Header</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>PI_DB_PAC_Source_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI_DB_PAC_Source_Header</shortDescription>
+        <value>Source</value>
+    </labels>
+    <labels>
+        <fullName>PI_DB_PAC_Study_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI_DB_PAC_Study_Header</shortDescription>
+        <value>Study</value>
+    </labels>
+    <labels>
         <fullName>PI_Delegate_PI_Info</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10381,12 +10528,12 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP Account Settings Cookie Description</shortDescription>
-        <value>Some essential features on Patient Portal site just won't work
+        <value>Some essential features on Patient Portal site just won&#39;t work
             without cookies.
-            And having other cookies switched off can seriously affect the way you'll be able to enjoy our
+            And having other cookies switched off can seriously affect the way you&#39;ll be able to enjoy our
             services.
-            Please check your cookie settings below and turn on any cookies you're happy with.
-            &amp;quot;Strictly necessary&amp;quot; cookies can't be turned off.
+            Please check your cookie settings below and turn on any cookies you&#39;re happy with.
+            &amp;quot;Strictly necessary&amp;quot; cookies can&#39;t be turned off.
             However &amp;quot;Functional&amp;quot; cookies can be turned on or off below.</value>
     </labels>
     <labels>
@@ -10394,7 +10541,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP HLP T1 Feedback</shortDescription>
-        <value>Though we can't review and respond to every submission, we do use feedback like yours to improve the IQVIA™ Patient Portal experience for everyone.</value>
+        <value>Though we can&#39;t review and respond to every submission, we do use feedback like yours to improve the IQVIA™ Patient Portal experience for everyone.</value>
     </labels>
     <labels>
         <fullName>PP_HLP_T2_Feedback</fullName>
@@ -10576,7 +10723,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS_Initial_Visit_Name</shortDescription>
-        <value>Initial Call</value>
+        <value>Initial Visit</value>
     </labels>
     <labels>
         <fullName>PWS_Initial_Visit_No_Outcome</fullName>
@@ -10621,18 +10768,18 @@
         <value>Received</value>
     </labels>
     <labels>
-        <fullName>PWS_Received_History_Title</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PWS_Received_History_Title</shortDescription>
-        <value>Received participant</value>
-    </labels>
-    <labels>
         <fullName>PWS_Received_History_Detail</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS_Received_History_Detail</shortDescription>
         <value>on ##Date from ##Source</value>
+    </labels>
+    <labels>
+        <fullName>PWS_Received_History_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_Received_History_Title</shortDescription>
+        <value>Received participant</value>
     </labels>
     <labels>
         <fullName>PWS_Received_Name</fullName>
@@ -10698,6 +10845,13 @@
         <value>New visit data is available</value>
     </labels>
     <labels>
+        <fullName>Participants_Referred_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Participants Referred Label</shortDescription>
+        <value>Participants Referred</value>
+    </labels>
+    <labels>
         <fullName>Patient</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -10744,7 +10898,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Platelet Count Description</shortDescription>
-        <value>Platelets, also known as thrombocytes, are tiny parts of cells in the blood that are responsible for blood clotting. They made by your bone marrow and released into your bloodstream. When you are injured, platelets will help to stop the bleeding. The platelet count test shows the number of platelets you have in your blood sample. Platelet count is measured to check your general health and to check for any conditions that influence your body's platelet production. Low platelet count can be caused by certain cancers, chemotherapy, and in some autoimmune conditions.</value>
+        <value>Platelets, also known as thrombocytes, are tiny parts of cells in the blood that are responsible for blood clotting. They made by your bone marrow and released into your bloodstream. When you are injured, platelets will help to stop the bleeding. The platelet count test shows the number of platelets you have in your blood sample. Platelet count is measured to check your general health and to check for any conditions that influence your body&#39;s platelet production. Low platelet count can be caused by certain cancers, chemotherapy, and in some autoimmune conditions.</value>
     </labels>
     <labels>
         <fullName>Poput_ICF</fullName>
@@ -10807,7 +10961,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RBC Count Description</shortDescription>
-        <value>Red blood cells (RBCs or erythrocytes) are cells in your blood that contain hemoglobin, which carries oxygen throughout your body. RBC count is the total number of red blood cells that are present in your blood sample. RBC count is measured to check your general health and to check for conditions that influence your body's red blood cell production. Low RBC count can lead to signs of anemia, such as tiredness. High RBC count can cause dizziness and headache.</value>
+        <value>Red blood cells (RBCs or erythrocytes) are cells in your blood that contain hemoglobin, which carries oxygen throughout your body. RBC count is the total number of red blood cells that are present in your blood sample. RBC count is measured to check your general health and to check for conditions that influence your body&#39;s red blood cell production. Low RBC count can lead to signs of anemia, such as tiredness. High RBC count can cause dizziness and headache.</value>
     </labels>
     <labels>
         <fullName>RCEI_Site</fullName>
@@ -10843,6 +10997,13 @@
         <protected>true</protected>
         <shortDescription>RP DOB</shortDescription>
         <value>(yyyy-mm-dd)</value>
+    </labels>
+    <labels>
+        <fullName>RP_DOB_label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RP DOB label</shortDescription>
+        <value>DOB</value>
     </labels>
     <labels>
         <fullName>RP_Edit_Patient_Information</fullName>
@@ -10950,6 +11111,13 @@
         <value>Your permissions do not permit this action</value>
     </labels>
     <labels>
+        <fullName>Received</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Received</shortDescription>
+        <value>Received</value>
+    </labels>
+    <labels>
         <fullName>ReferralNetwork_NoRNSelected</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10969,6 +11137,13 @@
         <protected>false</protected>
         <shortDescription>ReferralNetwork_SelectReferralNetwork</shortDescription>
         <value>Select Referral Networks</value>
+    </labels>
+    <labels>
+        <fullName>Referral_Pathway_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Referral Pathway Label</shortDescription>
+        <value>Referral Pathway</value>
     </labels>
     <labels>
         <fullName>Referring</fullName>
@@ -11478,8 +11653,8 @@
         <fullName>SGT_Pending_Study_Site_s_Action</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>SGT Pending Study Site's Action</shortDescription>
-        <value>Pending Study Site's Action</value>
+        <shortDescription>SGT Pending Study Site&#39;s Action</shortDescription>
+        <value>Pending Study Site&#39;s Action</value>
     </labels>
     <labels>
         <fullName>SGT_Pending_Your_Action</fullName>
@@ -11881,6 +12056,13 @@
         <value>There is the sames RP in the System</value>
     </labels>
     <labels>
+        <fullName>Screening_Passed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Screening_Passed</shortDescription>
+        <value>Screening Passed</value>
+    </labels>
+    <labels>
         <fullName>Search_For_Sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12194,6 +12376,13 @@
         <value>Study Team</value>
     </labels>
     <labels>
+        <fullName>Study_Visit_Unavailable</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Visit Unavailable</shortDescription>
+        <value>Unavailable</value>
+    </labels>
+    <labels>
         <fullName>Success</fullName>
         <categories>visit configuration</categories>
         <language>en_US</language>
@@ -12208,6 +12397,13 @@
         <protected>true</protected>
         <shortDescription>The record has been created successfully.</shortDescription>
         <value>The record has been created successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Successfully_Contacted</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Successfully_Contacted</shortDescription>
+        <value>Successfully Contacted</value>
     </labels>
     <labels>
         <fullName>Systolic</fullName>
@@ -12291,7 +12487,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>TST Permissions should be the same for study!</shortDescription>
-        <value>A team member's permissions must be the same for each site within a given study. This functionality will be enhanced in an upcoming release.</value>
+        <value>A team member&#39;s permissions must be the same for each site within a given study. This functionality will be enhanced in an upcoming release.</value>
     </labels>
     <labels>
         <fullName>TST_Request_to_invite_a_referring_provider</fullName>
@@ -12581,6 +12777,13 @@
         <value>Healthcare Provider</value>
     </labels>
     <labels>
+        <fullName>Tab_Sharing_Options</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Tab_Sharing_Options</shortDescription>
+        <value>Sharing Options</value>
+    </labels>
+    <labels>
         <fullName>Task_Details</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -12809,7 +13012,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Total Cholesterol Description</shortDescription>
-        <value>Cholesterol is a type of fat made by the liver that is found in your blood. You can also take in cholesterol by eating certain foods, such as meat, fish, eggs, and dairy products. Your total cholesterol value is the sum of your low-density lipoprotein (LDL, or "bad" cholesterol) and your high-density lipoprotein (HDL, or "good" cholesterol) and your triglycerides.</value>
+        <value>Cholesterol is a type of fat made by the liver that is found in your blood. You can also take in cholesterol by eating certain foods, such as meat, fish, eggs, and dairy products. Your total cholesterol value is the sum of your low-density lipoprotein (LDL, or &quot;bad&quot; cholesterol) and your high-density lipoprotein (HDL, or &quot;good&quot; cholesterol) and your triglycerides.</value>
     </labels>
     <labels>
         <fullName>Total_protein</fullName>
@@ -13446,7 +13649,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WBC Count Description</shortDescription>
-        <value>White blood cells (WBC or leukocytes) are cells that can be found in your blood and in body tissues that are important for your immune system (your body's defense responses). WBCs fight infections, cancer, and also remove poison, waste products, and damaged cells from your body. When you are fighting off an infection, the number of white blood cells increases. WBC count is measured to check your general health and to check for conditions that influence your body's white blood cell production. A high WBC count can mean you have an infection.</value>
+        <value>White blood cells (WBC or leukocytes) are cells that can be found in your blood and in body tissues that are important for your immune system (your body&#39;s defense responses). WBCs fight infections, cancer, and also remove poison, waste products, and damaged cells from your body. When you are fighting off an infection, the number of white blood cells increases. WBC count is measured to check your general health and to check for conditions that influence your body&#39;s white blood cell production. A high WBC count can mean you have an infection.</value>
     </labels>
     <labels>
         <fullName>Weight</fullName>

@@ -4,17 +4,8 @@
 
 @IsTest
 private class Test_Batch_UpdateNotifyDateOldUsers {
-
-    @IsTest
-    static void testM() {
-        initData();
-        List<Clinical_Trial_Profile__c> ctps = [SELECT Id FROM Clinical_Trial_Profile__c];
-        Test.startTest();
-        Database.executeBatch(new Batch_UpdateNotifyDateOldUsers(ctps));
-        Test.stopTest();
-    }
-
-    static void initData(){
+    @TestSetup
+    static void init() {
         List<Account> accounts = new List<Account>();
         Account participantsAccount = new Account(
                 Name = 'Participant'
@@ -135,6 +126,7 @@ private class Test_Batch_UpdateNotifyDateOldUsers {
         );
         insert participant;
 
+        Test.startTest();
         insert new Participant_Enrollment__c(
                 Participant__c = participant.Id,
                 Screening_ID__c = 'PE1',
@@ -150,5 +142,14 @@ private class Test_Batch_UpdateNotifyDateOldUsers {
                 Screening_ID__c = 'PE3',
                 Study_Site__c = studySites[2].Id
         );
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void testM() {
+        List<Clinical_Trial_Profile__c> ctps = [SELECT Id FROM Clinical_Trial_Profile__c];
+        Test.startTest();
+        Database.executeBatch(new Batch_UpdateNotifyDateOldUsers(ctps));
+        Test.stopTest();
     }
 }

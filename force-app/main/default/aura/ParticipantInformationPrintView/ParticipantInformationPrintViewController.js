@@ -13,14 +13,11 @@
         }, function (returnValue) {
             debugger;
             returnValue = JSON.parse(returnValue);
-            component.set('v.statusSteps', returnValue.steps);
             component.set('v.isFinalUpdate', true);
             component.set('v.initialized', true);
-            component.set('v.pe', returnValue.enrollment);
-            component.set('v.participant', returnValue.enrollment.Participant__r);
-            component.set('v.peStatusesPathList', returnValue.peStatusesPathList);
-            component.set('v.peStatusStateMap', returnValue.peStatusStateMap);
-            helper.preparePathItems(component);
+            component.set('v.pe', returnValue.pe);
+            component.set('v.participant', returnValue.pe.Participant__r);
+            component.set('v.pathItems', returnValue.pathItems);
             //window.addEventListener("afterprint", function(event) { window.close(); });
             setTimeout(
                 $A.getCallback(function () {

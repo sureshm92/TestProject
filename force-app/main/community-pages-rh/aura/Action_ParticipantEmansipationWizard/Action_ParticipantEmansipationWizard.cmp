@@ -15,15 +15,14 @@
     <aura:attribute name="initialized" type="Boolean" default="false" access="private"/>
     <aura:attribute name="isValid" type="Boolean" default="false"/>
     <aura:attribute name="isDelegatesValid" type="Boolean" default="true"/>
-    <aura:attribute name="saveAndChangeStep" type="Boolean" default="false"/>
     <aura:attribute name="pathItems" type="List"/>
     <aura:attribute name="delegateItems" type="List"/>
-    <aura:attribute name="statusSteps" type="List" access="public"/>
     <aura:attribute name="currentTab" type="String" default="1"/>
     <aura:attribute name="sendEmails" type="Boolean" default="false"/>
     <aura:attribute name="needsGuardian" type="Boolean" default="false"/>
     <aura:attribute name="receiveOptionalEmail" type="Boolean" default="false"/>
     <aura:attribute name="selectedOption" type="String" default="2"/>
+    <aura:attribute name="finalAgree" type="Boolean" default="false"/>
 
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private"/>
     <aura:attribute name="participantMsgWithName" type="String" access="private"/>
@@ -298,7 +297,7 @@
                             </aura:iteration>
                         </div>
                         <div>
-                            <button class="apollo-btn secondary" style="margin-top: 10px; box-shadow: none; border: none; font-weight: 600; background-color: rgb(255, 255, 255);" onclick="{!c.doAddDelegate}">{!$Label.c.Add_Delegate}
+                            <button class="apollo-btn secondary" disabled="true" style="margin-top: 10px; box-shadow: none; border: none; font-weight: 600; background-color: rgb(255, 255, 255);" onclick="{!c.doAddDelegate}">{!$Label.c.Add_Delegate}
                                 <div style="margin-left: -125px;"><c:RRIcon color="#297dfd" iconName="icon-plus"/></div>
                             </button>
                         </div>
@@ -316,11 +315,9 @@
                 </aura:if>
 
                 <aura:if isTrue="{!v.pe &amp;&amp; v.currentTab == '4'}">
-                    <div class="confirm-info-container">
-                        <!-- Review and Confirm information: -->
-                        <div class="ap-section">
-                        </div>
-                    </div>
+                    <c:EmancipationWizardConfirmStep pe="{!v.pe}" participant="{!v.participant}" delegateItems="{!v.delegateItems}"
+                                                     selectedOption="{!v.selectedOption}" statesLVList="{!v.statesLVList}" formData="{!v.formData}"
+                                                     readMode="true" participantMsgWithName="{!v.participantMsgWithName}" currentTab="{!v.currentTab}"/>
                 </aura:if>
 
             </aura:if>
@@ -335,11 +332,20 @@
                     <div class="label rr-cb-label">{!$Label.c.PG_Ref_L_Participant_require_optional_email}</div>
                 </div>
             </aura:if>
+            <aura:if isTrue="{!v.currentTab == '4'}">
+                <div class="rr-form-element slds-no-label slds-float--left" style="margin-left: 12px; margin-top: 5px; width: 300px;">
+                    <div class="rr-cb-container">
+                        <lightning:input type="checkbox" label="" checked="{!v.finalAgree}"/>
+                    </div>
+                    <div class="label rr-cb-label">{!$Label.c.PG_Ref_L_Participant_require_agree}</div>
+                </div>
+            </aura:if>
             <div data-gtm="BTNS_Popup_Navigate_emancip">
-                <button data-gtm="BTN_Next_emancip" class="apollo-btn primary slds-float_right slds-button--reset" disabled="{!!v.isValid || (!v.isDelegatesValid &amp;&amp; v.currentTab == '2')}" onclick="{!c.doNext}">{!v.currentTab != '4' ? $Label.c.BTN_Next : $Label.c.BTN_Save}</button>
+                <button data-gtm="BTN_Next_emancip" class="apollo-btn primary slds-float_right slds-button--reset" disabled="{!!v.isValid || (!v.isDelegatesValid &amp;&amp; v.currentTab == '2')  || (!v.finalAgree &amp;&amp; v.currentTab == '4')}" onclick="{!c.doNext}">{!v.currentTab != '4' ? $Label.c.BTN_Next : $Label.c.BTN_Save}</button>
                 <button data-gtm="BTN_Back_emancip" class="apollo-btn secondary slds-float_right slds-button--reset" disabled="{!v.currentTab == '1'}" onclick="{!c.doBack}">{!$Label.c.BTN_Back}</button>
                 <button data-gtm="BTN_Cancel_emancip" class="apollo-btn secondary slds-float_right slds-button--reset" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
             </div>
         </aura:set>
+
     </c:Popup>
 </aura:component>

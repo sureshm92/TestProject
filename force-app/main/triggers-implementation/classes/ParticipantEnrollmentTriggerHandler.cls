@@ -29,7 +29,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
-    public class AddPaymentInformationHandler extends TriggerHandler{
+    public class AddPaymentInformationHandler extends TriggerHandler {
 
         public override void afterInsert(List<SObject> newList) {
             getPaymentInformation(newList);
@@ -57,13 +57,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             createUsersOrSendNotifications(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
+    //Moved Eligibillity send to PESH Trigger
 
-    public class SendCalloutOnEligibilityPassedHandler extends TriggerHandler {
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            sendCalloutOnEligibilityPassed(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
-        }
-    }
 
     public class CreateStatusTrackingHistoryRecordsHandler extends TriggerHandler {
 
@@ -134,6 +129,10 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     public class CreateVisitsScheduleHandler extends TriggerHandler {
 
+        public override void afterInsert(List<SObject> newList) {
+            createVisitsSchedule((List<Participant_Enrollment__c>) newList, null);
+        }
+
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createVisitsSchedule((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
@@ -171,7 +170,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             ProviderPaymentsService.checkPEForReimbursableActivities((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
-
+    
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
@@ -211,12 +210,14 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 pe.Participant_Key__c = participantName + ' ' + nctNumber;
             }
             //populate referred date
-            if (pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI || pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED) {
-                if ((oldMap == null && pe.Referred_Date__c == null) || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != pe.Participant_Status__c)) {
-                    pe.Referred_Date__c = Date.today();
-                }
+            if ((oldMap == null && PEStatusState.PE_ORDERED_STATUSES.containsKey(pe.Participant_Status__c) && pe.Referred_Date__c == null)
+                    || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != pe.Participant_Status__c && pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED)) {
+                pe.Referred_Date__c = Date.today();
             }
             pe.Initial_visit_scheduled_flag__c = pe.Initial_visit_scheduled_date__c != null;
+            if(pe.Initial_visit_occurred_date__c == null && pe.Initial_visit_occurred_flag__c){
+                pe.Initial_visit_occurred_date__c = pe.Initial_visit_scheduled_date__c;
+            }
         }
 
         if (!participantContacts.isEmpty()) update participantContacts;
@@ -289,104 +290,112 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             Participant__c participant = (Participant__c) PETriggerBuffer.getSObject(pe.Participant__c);
             if (participant != null && participant.Contact__c != null) participantContactIds.add(participant.Contact__c);
         }
-        for (User usr : CommunityService.getCommunityUsersByContactIds(participantContactIds)) usersByContactId.put(usr.ContactId, usr);
+        Map<Id, Set<String>> userPermissionSetsMap = new Map<Id, Set<String>>();
+        for (User usr : CommunityService.getCommunityUsersByContactIds(participantContactIds)) {
+            usersByContactId.put(usr.ContactId, usr);
+            Set<String> pSets = new Set<String>();
+            for(PermissionSetAssignment pma : usr.PermissionSetAssignments) pSets.add(pma.PermissionSet.Name);
+            userPermissionSetsMap.put(usr.Id, pSets);
+        }
 
         //process PE items:
         List<Alert__c> alertsForInsert = new List<Alert__c>();
+        Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
         for (Participant_Enrollment__c newPE : newList) {
             Study_Site__c ss = (Study_Site__c) PETriggerBuffer.getSObject(newPE.Study_Site__c);
             HCP_Enrollment__c hcpe = (HCP_Enrollment__c) PETriggerBuffer.getSObject(newPE.HCP__c);
             Participant__c participant = (Participant__c) PETriggerBuffer.getSObject(newPE.Participant__c);
             User participantUser;
+            String permissionSetName = CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.Community_Template__c).permissionSet;
             if (participant != null && participant.Contact__c != null) participantUser = usersByContactId.get(participant.Contact__c);
             Boolean updateCriteria = true;
             if (oldMap != null) {
                 Participant_Enrollment__c oldPE = oldMap.get(newPE.Id);
-                updateCriteria = oldPE.Participant_Status__c != newPE.Participant_Status__c ||
-                        oldPE.Participant__c != newPE.Participant__c || participantUser == null;
+                updateCriteria = oldPE.Participant_Status__c == newPE.Participant_Status__c && (
+                        oldPE.Participant__c != newPE.Participant__c || participantUser == null) ||
+                        newPE.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED && participantUser == null;
                 System.debug('OLD STATUS: ' + oldPE.Participant_Status__c);
                 System.debug('NEW STATUS: ' + newPE.Participant_Status__c);
                 System.debug('OLD PART ID: ' + oldPE.Participant__c);
                 System.debug('NEW PART ID: ' + newPE.Participant__c);
                 System.debug('PART USER: ' + participantUser);
-            }
-            System.debug('UPDATE CRITERIA: ' + updateCriteria);
-            if (!updateCriteria) continue;
-            Boolean filterCriteria =
-                    (newPE.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI ||
-                            newPE.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED ||
-                            newPE.Participant_Status__c == ParticipantEnrollmentService.PART_STATUS_ACCEPTED) &&
-                            newPE.Participant__c != null &&
-                            !newPE.Is_Virtual_Study_Site__c &&
-                            ss != null &&
-                            ss.Clinical_Trial_Profile__c != null &&
-                            !ss.Suppress_Participant_Emails__c &&
-                            !ss.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
-                            participant != null &&
-                            !participant.IsCountry_NOT_Eligible_for_Emails__c &&
-                            participant.Contact__c != null;
-            System.debug('FILTER CRITERIA: ' + filterCriteria);
-            if (filterCriteria && participant.Adult__c) {
-                if (participantUser == null) {
-                    System.debug('CREATE USER');
-                    Id hcpContact;
-                    if (hcpe != null) hcpContact = hcpe.HCP_Contact__c;
-                    toCreateUser.put(participant.Contact__c, hcpContact);
-                    alertsForInsert.add(new Alert__c(
-                            Contact__c = participant.Contact__c,
-                            Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH
-                    ));
-                } else {
-                    System.debug('NOTIFY USER');
-                    if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP) {
-                        notifications.add(new Notification__c(
-                                Recipient__c = participant.Contact__c,
-                                WhatId__c = newPE.Id,
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE
+                System.debug('UPDATE CRITERIA: ' + updateCriteria);
+                if (!updateCriteria) continue;
+                Boolean filterCriteria =
+                        (newPE.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI ||
+                                newPE.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED) &&
+                                newPE.Participant__c != null &&
+                                !newPE.Is_Virtual_Study_Site__c &&
+                                ss != null &&
+                                ss.Clinical_Trial_Profile__c != null &&
+                                !ss.Suppress_Participant_Emails__c &&
+                                !ss.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                                participant != null &&
+                                !participant.IsCountry_NOT_Eligible_for_Emails__c &&
+                                participant.Contact__c != null;
+                System.debug('FILTER CRITERIA: ' + filterCriteria);
+                if (filterCriteria && participant.Adult__c && !participant.Emancipation_in_progress__c) {
+                    if (participantUser == null) {
+                        System.debug('CREATE USER');
+                        Id hcpContact;
+                        if (hcpe != null) hcpContact = hcpe.HCP_Contact__c;
+                        toCreateUser.put(participant.Contact__c, hcpContact);
+                        alertsForInsert.add(new Alert__c(
+                                Contact__c = participant.Contact__c,
+                                Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH
                         ));
-                    } else if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI) {
-                        notifications.add(new Notification__c(
-                                Recipient__c = participant.Contact__c,
-                                WhatId__c = newPE.Id,
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE
-                        ));
-                    } else {
-                        notifications.add(new Notification__c(
-                                Recipient__c = participant.Contact__c,
-                                WhatId__c = newPE.Id,
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE
-                        ));
+                        actionAssignContactPermissions.addPermission(newPE.Participant_Contact__c, permissionSetName);
+                    } else if(!userPermissionSetsMap.get(participantUser.Id).contains(permissionSetName)){
+                        System.debug('ASSIGN NEW PERMISSION SET');
+                        actionAssignContactPermissions.addPermission(newPE.Participant_Contact__c, permissionSetName);
+                    }else {
+                        System.debug('NOTIFY USER');
+                        if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP) {
+                            notifications.add(new Notification__c(
+                                    Recipient__c = participant.Contact__c,
+                                    WhatId__c = newPE.Id,
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE
+                            ));
+                        } else if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI) {
+                            notifications.add(new Notification__c(
+                                    Recipient__c = participant.Contact__c,
+                                    WhatId__c = newPE.Id,
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE
+                            ));
+                        } else {
+                            notifications.add(new Notification__c(
+                                    Recipient__c = participant.Contact__c,
+                                    WhatId__c = newPE.Id,
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE
+                            ));
+                        }
                     }
+                    contactsForChangeMode.add(new Contact(
+                            Id = participant.Contact__c,
+                            userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT
+                    ));
                 }
-                contactsForChangeMode.add(new Contact(
-                        Id = participant.Contact__c,
-                        userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT
-                ));
             }
         }
-
-        insert alertsForInsert;
+        if (!alertsForInsert.isEmpty()) {
+            insert alertsForInsert;
+        }
         if (toCreateUser.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
-
-        insert notifications;
-        update contactsForChangeMode;
-    }
-
-    @TestVisible
-    private static void sendCalloutOnEligibilityPassed(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
-        String acceptedStatus = PEStatusState.PE_STATUS_ELIGIBILITY_PASSED;
-        for (Participant_Enrollment__c pe : newList) {
-            if (pe.Participant_Status__c == acceptedStatus && (oldMap == null ||
-                    oldMap.get(pe.Id).Participant_Status__c != acceptedStatus)) {
-                IntegrationService.sendPEToStudyHubAsync(pe.Id);
-            }
+        if (!notifications.isEmpty()) {
+            insert notifications;
         }
+        if (!contactsForChangeMode.isEmpty()) {
+            update contactsForChangeMode;
+        }
+        if(!actionAssignContactPermissions.isEmpty()) ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
     }
+    //Moved to PESH Trigger Handler
+
 
     @TestVisible
     private static void setChangedDate(List<Participant_Enrollment__c> newList) {
         for (Participant_Enrollment__c pe : newList) {
-            if(pe.MRR_Survey_Results_URL__c != null && pe.Medical_Record_Review_Completed_Date__c == null){
+            if (pe.MRR_Survey_Results_URL__c != null && pe.Medical_Record_Review_Completed_Date__c == null) {
                 pe.Medical_Record_Review_Completed_Date__c = Datetime.now();
             }
             if (pe.Participant_Status__c != null && pe.Participant_Status_Last_Changed_Date__c == null) {
@@ -404,29 +413,28 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         Participant__r.First_Name__c, Participant__r.Last_Name__c, Participant__r.Email__c,
                         Clinical_Trial_Profile__r.Protocol_ID__c
                 FROM Participant_Enrollment__c
-                WHERE Id IN: newMap.keySet()
+                WHERE Id IN:newMap.keySet()
         ];
         Set<Id> ssIds = new Set<Id>();
-        for(Participant_Enrollment__c pe : peList) ssIds.add(pe.Study_Site__c);
+        for (Participant_Enrollment__c pe : peList) ssIds.add(pe.Study_Site__c);
 
         List<PaymentVendorSettings__c> paymentVendorSettings = [
                 SELECT Id, Payment_Vendor__r.Payment_Vendor_Id__c, Study_Site__c
                 FROM PaymentVendorSettings__c
-                WHERE Study_Site__c IN: ssIds
+                WHERE Study_Site__c IN:ssIds
         ];
         Map<Id, PaymentVendorSettings__c> pvsBySsIds = new Map<Id, PaymentVendorSettings__c>();
-        for(PaymentVendorSettings__c pvs : paymentVendorSettings) pvsBySsIds.put(pvs.Study_Site__c, pvs);
+        for (PaymentVendorSettings__c pvs : paymentVendorSettings) pvsBySsIds.put(pvs.Study_Site__c, pvs);
 
-        for(Participant_Enrollment__c pe : peList) {
-            if(pvsBySsIds.keySet().contains(pe.Study_Site__c)){
+        for (Participant_Enrollment__c pe : peList) {
+            if (pvsBySsIds.keySet().contains(pe.Study_Site__c)) {
                 Participant__c participant = pe.Participant__r;
                 Action_GetCardDetails actionGetCardDetails = new Action_GetCardDetails(
                         pe.Clinical_Trial_Profile__r.Protocol_ID__c,
                         pe.Screening_ID__c,
                         participant);
-                
-                if(!System.isBatch() && !System.isFuture()) ActionExecutor.executeAsync(actionGetCardDetails);
-                else ActionExecutor.executeAsync(actionGetCardDetails, Datetime.now());
+
+                if (!System.isBatch() && !System.isFuture()) ActionExecutor.executeAsync(actionGetCardDetails); else ActionExecutor.executeAsync(actionGetCardDetails, Datetime.now());
             }
         }
     }
@@ -434,8 +442,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     @TestVisible
     private static void getPaymentInformationOnStatusChange(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<Participant_Enrollment__c> peToUpdate = new List<Participant_Enrollment__c>();
-        for(Participant_Enrollment__c participantEnrollment : newList){
-            if(participantEnrollment.Participant_Status__c != oldMap.get(participantEnrollment.Id).Participant_Status__c) {
+        for (Participant_Enrollment__c participantEnrollment : newList) {
+            if (participantEnrollment.Participant_Status__c != oldMap.get(participantEnrollment.Id).Participant_Status__c) {
                 peToUpdate.add(participantEnrollment);
             }
         }
@@ -458,12 +466,25 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     @TestVisible
     private static void createInvitations(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+        List<Participant_Enrollment__c> enrollments = [
+                SELECT Id,
+                        Clinical_Trial_Profile__c,
+                        Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Participant_Status__c
+                FROM Participant_Enrollment__c
+                WHERE Id IN:newList
+        ];
+
+        Map<String, Id> communitiesMap = CommunityService.getCommunityIdsMap();
+        Map<Id, String> networkByPE = new Map<Id, String>();
         Map<Id, List<Participant_Enrollment__c>> ctpPE = new Map<Id, List<Participant_Enrollment__c>>();
-        for (Participant_Enrollment__c pe : newList) {
+        for (Participant_Enrollment__c pe : enrollments) {
             if (ctpPE.get(pe.Clinical_Trial_Profile__c) == null) {
                 ctpPE.put(pe.Clinical_Trial_Profile__c, new List<Participant_Enrollment__c>());
             }
             ctpPE.get(pe.Clinical_Trial_Profile__c).add(pe);
+            String networkName = CommunityTemplateService.NETWORK_BY_TEMPLATE.get(pe.Clinical_Trial_Profile__r.CommunityTemplate__c);
+            networkByPE.put(pe.Id, communitiesMap.get(networkName));
         }
 
         List<Trial_Survey__c> trialSurveys = [
@@ -482,8 +503,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
                 AND Clinical_Trial_Profile__c IN:ctpPE.keySet()
         ];
-
-        Id communityId = CommunityService.getCommunityId(null);
 
         Map<Id, String> trialWhoseResponse = new Map<Id, String>();
         List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
@@ -504,7 +523,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     }
                 }
                 if (needToAdd) {
-                    newInvitations.add(SurveyService.getInstance().generateInvitation(ts, enrollment.Id, communityId));
+                    newInvitations.add(SurveyService.getInstance().generateInvitation(
+                            ts, enrollment.Id, networkByPE.get(enrollment.Id))
+                    );
                 }
             }
         }
@@ -528,8 +549,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         List<Participant_Enrollment_Status_History__c> histories = new List<Participant_Enrollment_Status_History__c>();
         for (Participant_Enrollment__c pe : enrollments) {
             if (pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED) {
-                if (oldMap == null ||
-                        (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED)) {
+                if (oldMap == null || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED)) {
                     histories.add(new Participant_Enrollment_Status_History__c(
                             Date__c = pe.Participant_Status_Last_Changed_Date__c,
                             Status__c = pe.Participant_Status__c,
@@ -538,9 +558,14 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                             Reason__c = pe.Non_Referral_Reason__c
                     ));
                 }
+            } else if (oldMap == null) {
+                histories.addAll(createHistoryRecordsForPE(pe));
             }
         }
-        if (!histories.isEmpty()) insert histories;
+        if (!histories.isEmpty()) {
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler.class);
+            insert histories;
+        }
     }
 
     @TestVisible
@@ -564,7 +589,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
         for (Participant_Enrollment__c pe : enrollments) {
             if (!pe.IsAutoaccepted__c && !String.isBlank(pe.Referral_Source__c) && statuses.contains(pe.Referral_Source__c.toLowerCase())) {
-                pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_ACCEPTED;
+                pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED;
                 pe.IsAutoaccepted__c = true;
             }
         }
@@ -576,22 +601,12 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         for (Participant_Enrollment__c pe : enrollments) {
             if (pe.IsAutoaccepted__c && (oldMap == null || pe.IsAutoaccepted__c != oldMap.get(pe.Id).IsAutoaccepted__c)) {
-                PEStatusState currentState = PEStatusState.STATUSES_MAP.get(pe.Participant_Status__c);
-
-                for (PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE) {
-                    if (step.name == PEStatusState.PE_ST_REFERRED) continue;
-                    statusHistories.add(new Participant_Enrollment_Status_History__c(
-                            Notes__c = pe.Last_Status_Changed_Notes__c,
-                            Date__c = Datetime.now(),
-                            ParticipantEnrollment__c = pe.Id,
-                            Status__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS)[0]
-                    ));
-                    if (step.name == currentState.name) break;
-                }
+                statusHistories.addAll(createHistoryRecordsForPE(pe));
             }
         }
 
         if (!statusHistories.isEmpty()) {
+            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler.class);
             insert statusHistories;
         }
     }
@@ -624,7 +639,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     private static void createVisitsSchedule(List<Participant_Enrollment__c> enrollments, Map<Id, Participant_Enrollment__c> oldMap) {
         Set<Id> peEnrollSuccessIds = new Set<Id>();
         for (Participant_Enrollment__c pe : enrollments) {
-            if (pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
+            if (oldMap == null || pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
                 if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
                         || pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) {
                     peEnrollSuccessIds.add(pe.Id);
@@ -635,7 +650,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         List<Participant_Enrollment__c> peWithParticipating = [
                 SELECT Id, Clinical_Trial_Profile__c, Visit_Plan__c
                 FROM Participant_Enrollment__c
-                WHERE Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true
+                WHERE Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
                 AND Id IN:peEnrollSuccessIds
         ];
 
@@ -695,11 +710,13 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         Map<Id, List<Id>> delegateCntByParticipant = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(participantIds);
         List<Alert__c> alerts = new List<Alert__c>();
         for (Participant_Enrollment__c pe : peWithParticipating) {
-            alerts.add(new Alert__c(
-                    Contact__c = pe.Participant_Contact__c,
-                    Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY,
-                    Record_ID__c = pe.Id
-            ));
+            if(pe.Participant_Contact__c != null){
+                alerts.add(new Alert__c(
+                        Contact__c = pe.Participant_Contact__c,
+                        Alert_Code__c = Alert.ALERT_CODE_WELCOME_STUDY,
+                        Record_ID__c = pe.Id
+                ));
+            }
             if (!delegateCntByParticipant.containsKey(pe.Participant__c)) continue;
 
             for (Id contactDelegateId : delegateCntByParticipant.get(pe.Participant__c)) {
@@ -796,4 +813,32 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
         if (newParticipants.size() > 0) insert newParticipants;
     }
+
+    private static List<Participant_Enrollment_Status_History__c> createHistoryRecordsForPE(Participant_Enrollment__c participantEnrollment) {
+        PEStatusState currentState = PEStatusState.STATUSES_MAP.get(participantEnrollment.Participant_Status__c);
+        System.debug('currentState:' + currentState);
+        List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
+        if (currentState != null) {
+            for (PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE) {
+                if (step.name == currentState.name) {
+                    statusHistories.add(new Participant_Enrollment_Status_History__c(
+                            Notes__c = participantEnrollment.Last_Status_Changed_Notes__c,
+                            Date__c = Datetime.now(),
+                            ParticipantEnrollment__c = participantEnrollment.Id,
+                            Status__c = participantEnrollment.Participant_Status__c
+                    ));
+                    break;
+                }
+                statusHistories.add(new Participant_Enrollment_Status_History__c(
+                        Notes__c = '',
+                        Date__c = Datetime.now(),
+                        ParticipantEnrollment__c = participantEnrollment.Id,
+                        Status__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS)[0]
+                ));
+            }
+        }
+        System.debug('statusHistories:' + statusHistories);
+        return statusHistories;
+    }
+
 }

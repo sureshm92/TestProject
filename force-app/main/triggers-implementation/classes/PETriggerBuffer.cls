@@ -40,7 +40,8 @@ public without sharing class PETriggerBuffer {
                         Clinical_Trial_Profile__r.Shareback_Settings_On_Participant_Level__c,
                         Clinical_Trial_Profile__r.Visit_Data_Shareback__c,
                         Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
-                        Clinical_Trial_Profile__r.NCT_Number__c
+                        Clinical_Trial_Profile__r.NCT_Number__c,
+                        Clinical_Trial_Profile__r.Community_Template__c
                 FROM Study_Site__c
                 WHERE Id IN:ssIds
         ]);
@@ -56,7 +57,8 @@ public without sharing class PETriggerBuffer {
                         Adult__c,
                         Contact__r.Visit_Results_Opt_In__c,
                         Name,
-                        IsCountry_NOT_Eligible_for_Emails__c
+                        IsCountry_NOT_Eligible_for_Emails__c,
+                        Emancipation_in_progress__c
                 FROM Participant__c
                 WHERE Id IN:participantIds
         ]);

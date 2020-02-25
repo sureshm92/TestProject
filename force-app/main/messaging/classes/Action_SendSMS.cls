@@ -25,4 +25,8 @@ public with sharing class Action_SendSMS implements Action{
     public Type getType() {
         return Action_SendSMS.class;
     }
+    
+    public Boolean isDMLWithSetupObjects() {
+        return false;
+    }
 }

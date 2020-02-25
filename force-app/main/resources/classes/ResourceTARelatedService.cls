@@ -5,17 +5,25 @@ public inherited sharing class ResourceTARelatedService extends ResourceService 
     }
     
     protected String therapeuticAreaId;
-    
+    protected List<String> therapeuticAreas;
+
     public ResourceService init(String resourceType, String resourceId, String contentClass, String therapeuticAreaId) {
         init(resourceType, resourceId, contentClass);
         this.therapeuticAreaId = therapeuticAreaId;
         return this;
     }
+
+    public ResourceService init(String resourceType, String resourceId, String contentClass, List<String> therapeuticAreas) {
+        init(resourceType, resourceId, contentClass);
+        this.therapeuticAreas = therapeuticAreas;
+        return this;
+    }
     
     protected override List<Id> getResourcesIds() {
         List<String> participantLanguages = ContactService.getPreferredLanguages();
-
-        String filter = DatabaseService.fieldEqual('Therapeutic_Area__c', therapeuticAreaId)
+        if(therapeuticAreaId == null && (therapeuticAreas == null || therapeuticAreas.size() == 0)) return new List<Id>();
+        String filter = (therapeuticAreas.isEmpty() ?
+                DatabaseService.fieldEqual('Therapeutic_Area__c', therapeuticAreaId) : DatabaseService.fieldInValues('Therapeutic_Area__c', therapeuticAreas))
                 + (contentClass == null ? '' : ('AND' + DatabaseService.fieldEqual('Resource__r.Content_Class__c', contentClass)))
                 + (resourceId == null ? '' : ('AND' + DatabaseService.fieldEqual('Resource__c', resourceId)))
                 + 'AND' + DatabaseService.fieldEqual('Resource__r.RecordType.DeveloperName', resourceType)
@@ -56,6 +64,6 @@ public inherited sharing class ResourceTARelatedService extends ResourceService 
     }
 
     protected override Boolean isObjectsToFilterMissing() {
-        return this.therapeuticAreaId == null;
+        return (this.therapeuticAreaId == null) && (this.therapeuticAreas.isEmpty());
     }
 }

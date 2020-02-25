@@ -201,8 +201,9 @@
     </relatedLists>
     <relatedLists>
         <fields>Therapeutic_Area__c.NAME</fields>
-        <fields>Therapeutic_Area__c.CUST_RECORDTYPE</fields>
+        <fields>NAME</fields>
         <fields>Therapeutic_Area__c.Type__c</fields>
+        <fields>Therapeutic_Area__c.CUST_RECORDTYPE</fields>
         <relatedList>Therapeutic_Area_Assignment__c.Resource__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -225,7 +226,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h1j000000jKWn</masterLabel>
+        <masterLabel>00h1X000000nW9E</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

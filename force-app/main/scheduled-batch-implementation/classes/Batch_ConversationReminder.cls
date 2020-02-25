@@ -56,14 +56,17 @@ public with sharing class Batch_ConversationReminder extends Batch_ScheduledAbst
             unreadConversationCount = contactsAndTheirThreads.get(currentPI) == null ? 0 : contactsAndTheirThreads.get(currentPI);
             contactsAndTheirThreads.put(currentPI, ++unreadConversationCount);
 
-            List<Site_Staff__c> staffs = piWithHisSitesAndTeam.get(currentPI).get(conversation.Participant_Enrollment__r.Study_Site__c);
-            if (staffs != null && !staffs.isEmpty()) {
-                for (Site_Staff__c siteStaff : staffs) {
-                    Id contactId = siteStaff.Site_Contact__c;
-                    unreadConversationCount = contactsAndTheirThreads.get(contactId) == null ? 0 : contactsAndTheirThreads.get(contactId);
-                    contactsAndTheirThreads.put(contactId, ++unreadConversationCount);
+            if (piWithHisSitesAndTeam.containsKey(currentPI) && !piWithHisSitesAndTeam.get(currentPI).values().isEmpty()) {
+                List<Site_Staff__c> staffs = piWithHisSitesAndTeam.get(currentPI).get(conversation.Participant_Enrollment__r.Study_Site__c);
+                if (staffs != null && !staffs.isEmpty()) {
+                    for (Site_Staff__c siteStaff : staffs) {
+                        Id contactId = siteStaff.Site_Contact__c;
+                        unreadConversationCount = contactsAndTheirThreads.get(contactId) == null ? 0 : contactsAndTheirThreads.get(contactId);
+                        contactsAndTheirThreads.put(contactId, ++unreadConversationCount);
+                    }
                 }
             }
+
         }
     }
 

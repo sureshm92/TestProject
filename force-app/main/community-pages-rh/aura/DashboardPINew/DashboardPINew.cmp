@@ -7,9 +7,19 @@
     <!-- attributes: -->
     <aura:attribute name="piData" type="Object"/>
     <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="delegatePIPicklistvalues" type="List"/>
+    <aura:attribute name="currentPi" type="String"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doinit}"/>
 
 
     <!-- component body: -->
+
+    <aura:if isTrue="{!v.delegatePIPicklistvalues.length &gt; 1}">
+        <div class="pi-picklist-container">
+            <c:rrSelect value="{!v.currentPi}" options="{!v.delegatePIPicklistvalues}" onchange="{!c.refreshData}"/>
+        </div>
+    </aura:if>
     <div class="slds-grid slds-wrap db-section">
         <div class="slds-col slds-size--1-of-2">
             <c:DashboardTimeWaitingContact dashboardTitle="{!$Label.c.PG_DBPI_L_Referrals_waiting_for_first_contact}" peList="{!v.piData.waitingTimeToContact}" parent="{!v.parent}"/>
@@ -17,7 +27,8 @@
         <div class="slds-col slds-size--1-of-2">
             <c:DashboardWaitingContact dashboardTitle="{!'' + v.piData.participantsWaitingContact + ' ' + $Label.c.PG_DBPI_L_Referrals_waiting_for_contact}" peList="{!v.piData.awaitingToContact}" parent="{!v.parent}"/>
         </div>
-        <div class="slds-col slds-size--2-of-3">
+        <div class="slds-col slds-large-size_2-of-3 slds-small-size_1-of-1 slds-medium-size_2-of-3">
+            <c:FunnelChart funnelData = "{!v.piData.funnelData}"/>
         </div>
         <div class="slds-col slds-size--1-of-3">
             <div class="db-quick-actions-container">
@@ -28,13 +39,13 @@
                         title="{!$Label.c.PG_DBPI_L_Providers_waiting_for_activation}"
                         viewMoreLink="my-referring-clinics?showPending=true"
                         viewMoreTag="LNK_Dashboard_Physicians_Waiting_Approval_View_More"/>
-                <c:DashboardQuickActionList
+                <!--<c:DashboardQuickActionList
                         parent="{!v.parent}"
                         itemsList="{!v.piData.waitingAcceptenceList}"
                         itemsType="participantsWaitingAcceptance"
                         title="{!$Label.c.PG_DBPI_L_Referrals_waiting_for_acceptance}"
                         viewMoreLink="my-referrals?filter=pending"
-                        viewMoreTag="LNK_Dashboard_Participants_Waiting_Acceptance_View_More"/>
+                        viewMoreTag="LNK_Dashboard_Participants_Waiting_Acceptance_View_More"/>-->
             </div>
         </div>
 

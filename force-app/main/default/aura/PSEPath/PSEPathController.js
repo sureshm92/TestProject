@@ -16,10 +16,9 @@
     showEditParticipantInformation: function (component, event, helper) {
         var rootComponent = component.get('v.parent');
         var pe = component.get('v.pe');
-        var pathItems = helper.preparePathItems(component);
         var anchor = event.currentTarget.value;
         var actions = component.get('v.actions');
-        rootComponent.find('updatePatientInfoAction').execute(pe, pathItems, anchor, actions, rootComponent, function (enrollment) {
+        rootComponent.find('updatePatientInfoAction').execute(pe, actions, rootComponent, function (enrollment) {
             component.set('v.pe', enrollment);
         });
     },

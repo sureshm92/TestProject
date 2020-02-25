@@ -1,7 +1,7 @@
 <!--
  - Created by Leonid Bartenev
  -->
-
+<!--TODO:check for deprecated-->
 <aura:component description="ViewPatient" implements="forceCommunity:availableForAllPageTypes" controller="ViewPatientsRemote">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
@@ -61,10 +61,10 @@
                     </div>
                 </div>
                 <aura:iteration items="{!v.enrollments}" var="pe">
-                    <c:ViewPatientItem pe="{!pe}"
-                                       peStatusesPathList="{!v.peStatusesPathList}"
+                    <c:ViewPatientItem pe="{!pe}"/>
+                                       <!--peStatusesPathList="{!v.peStatusesPathList}"
                                        peStatusStateMap="{!v.peStatusStateMap}"
-                                       singlePatientView="true" parent="{!this}"/>
+                                       singlePatientView="true" parent="{!this}"/>-->
                 </aura:iteration>
             </div>
         </aura:if>

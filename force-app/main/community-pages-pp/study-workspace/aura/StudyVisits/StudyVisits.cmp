@@ -38,10 +38,10 @@
                         <tr>
                             <th class="sv-t-name">{!$Label.c.Home_Page_StudyVisit_Visit}</th>
                             <th class="sv-t-time">{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
-                            <th class="sv-t-icons">{!or(v.visitMode == v.visitModeCurrent, v.visitMode == 'All') ? $Label.c.Home_Page_StudyVisit_WhToEx : $Label.c.Home_Page_StudyVisit_What_Took_Place}</th>
-                            <th class="{!or(v.visitMode == v.visitModeCurrent, v.visitMode == 'All') ? 'sv-t-status' : 'invisible'}">{!$Label.c.Home_Page_StudyVisit_Status}</th>
-                            <th class="{!or(v.visitMode == v.visitModeCurrent, v.visitMode == 'All') ? '' : 'invisible'}">{!$Label.c.Home_Page_StudyVisit_Reminder}</th>
-                            <th class="{!or(v.visitMode == v.visitModeCurrent, v.visitMode == 'All') ? 'invisible' : 'sv-t-completed-date'}">{!$Label.c.Home_Page_StudyVisit_Completed_On}</th>
+                            <th class="sv-t-icons">{!$Label.c.Home_Page_StudyVisit_WhToEx}</th>
+                            <th class="sv-t-status">{!$Label.c.Home_Page_StudyVisit_Status}</th>
+                            <th >{!$Label.c.Home_Page_StudyVisit_Reminder}</th>
+                            <th class="sv-t-completed-date">{!$Label.c.Home_Page_StudyVisit_Completed_On}</th>
                         </tr>
                         <aura:iteration var="visitWrapper" items="{!v.currentVisits}">
                             <tr>
@@ -54,25 +54,26 @@
                                                       icons="{!visitWrapper.iconDetails}"/>
                                 </td>
                                 <td class="{!visitWrapper.visit.Is_Adhoc__c ? 'sv-t-icons' : 'invisible'}">{!$Label.c.StudyVisit_Variable}</td>
-                                <td class="{!or(v.visitMode == v.visitModeCurrent, v.visitMode == 'All') ? 'sv-t-status' : 'invisible'}">{!visitWrapper.visit.Status__c}</td>
-                                <aura:if isTrue="{!and(or(v.visitMode == v.visitModeCurrent, v.visitMode == 'All'), visitWrapper.visit.Status__c == 'Completed')}"><td></td></aura:if>
-                                <td class="{!and(or(v.visitMode == v.visitModeCurrent, v.visitMode == 'All'), visitWrapper.visit.Status__c != 'Completed') ? 'sv-t-reminder' : 'invisible'}"
+                                <td class="sv-t-status">{!if(visitWrapper.visit.Status__c == 'Missed', $Label.c.Study_Visit_Unavailable, visitWrapper.visit.Status__c)}</td>
+                                <td class="sv-t-reminder"
                                     data-visit-id="{!visitWrapper.visit.Id}"
                                     data-task-id="{!visitWrapper.task.Id}"
                                     onclick="{!c.createEditTask}">
-                                    <aura:if isTrue="{!visitWrapper.task == null}">
-                                        {!$Label.c.Create}
-                                        <aura:set attribute="else">
-                                            <aura:if isTrue="{!visitWrapper.task.ReminderDateTime == null}">
-                                                {!$Label.c.Home_Page_StudyVisit_No_Reminder_Date}
-                                                <aura:set attribute="else">
-                                                    <ui:outputDate value="{!visitWrapper.reminderDate}"/>
-                                                </aura:set>
-                                            </aura:if>
-                                        </aura:set>
+                                    <aura:if isTrue="{!visitWrapper.visit.Status__c == 'Pending'}">
+                                        <aura:if isTrue="{!visitWrapper.task == null}">
+                                            {!$Label.c.Create}
+                                            <aura:set attribute="else">
+                                                <aura:if isTrue="{!visitWrapper.task.ReminderDateTime == null}">
+                                                    {!$Label.c.Home_Page_StudyVisit_No_Reminder_Date}
+                                                    <aura:set attribute="else">
+                                                        <ui:outputDate value="{!visitWrapper.reminderDate}"/>
+                                                    </aura:set>
+                                                </aura:if>
+                                            </aura:set>
+                                        </aura:if>
                                     </aura:if>
                                 </td>
-                                <td class="{!or(v.visitMode == v.visitModeCurrent, v.visitMode == 'All') ? 'invisible' : 'sv-t-completed-date'}">{!visitWrapper.completedDate}</td>
+                                <td class="">{!visitWrapper.completedOrPlannedDate}</td>
                             </tr>
                         </aura:iteration>
                     </c:RRTable>

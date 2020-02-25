@@ -14,12 +14,11 @@
     <aura:attribute name="initialized" type="Boolean" default="false" access="private"/>
     <aura:attribute name="isFinalUpdate" type="Boolean"/>
     <aura:attribute name="isValid" type="Boolean" default="false"/>
+    <aura:attribute name="statusDetailValid" type="Boolean" default="true"/>
     <aura:attribute name="saveAndChangeStep" type="Boolean" default="false"/>
     <aura:attribute name="popUpTitle" type="String"/>
-    <aura:attribute name="pathItems" type="List"/>
     <aura:attribute name="statusSteps" type="List" access="public"/>
     <aura:attribute name="anchor" type="String"/>
-    <aura:attribute name="modifiedSteps" type="List"/>
     <aura:attribute name="refreshForm" type="Boolean" default="false"/>
     <aura:attribute name="refreshSteps" type="Boolean" default="false"/>
     <aura:attribute name="actions" type="Object"/>
@@ -33,7 +32,6 @@
     <!-- methods -->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
         <aura:attribute name="pe" type="Participant_Enrollment__c"/>
-        <aura:attribute name="pathItems" type="List"/>
         <aura:attribute name="actions" type="Object"/>
         <aura:attribute name="rootComponent" type="Aura.Component" access="public"/>
         <aura:attribute name="isInvited" type="Boolean" access="public"/>
@@ -43,14 +41,13 @@
     <aura:method name="doUpdate" action="{!c.doUpdate}" access="public"/>
     <aura:method name="doUpdatePatientStatus" action="{!c.doUpdatePatientStatus}" access="public"/>
 
-    <aura:handler name="change" value="{!v.pathItems}" action="{!c.prepareEditableSteps}"/>
 
     <!-- component body: -->
     <c:Popup aura:id="dialog" title="{!v.popUpTitle}" size="large" showScroll="true" showHeader="true"
              showFooter="true">
         <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
                  !v.pe.Participant__r.Marketing_Flag__c &amp;&amp; v.pe.Participant__r.Email__c &amp;&amp;
-                 !v.pe.Study_Site__r.Is_Virtual_Study_Site__c &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c}">
+                 v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c}">
             <div class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap">
                 <div class="slds-col slds-size--9-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center">
                     <lightning:input type="checkbox" class="invite-patient-checkbox" checked="{!v.sendEmails}"/>
@@ -78,11 +75,11 @@
                         </div>
                     </lightning:tab>
                     <lightning:tab aura:id="Status" label="{!$Label.c.BTN_Status_Details}" onactive="{!c.checkTabs}">
-                        <c:ParticipantStatusDetails participantWorkflowWrapper="{!v.participantPath}" parent="{!this}"/>
+                        <c:ParticipantStatusDetails participantWorkflowWrapper="{!v.participantPath}" parent="{!this}" isValid="{!v.statusDetailValid}"/>
                     </lightning:tab>
                     <lightning:tab class="slds-tabs_default__item" aura:id="Provider"
-                                   label="{!$Label.c.Tab_HealthCare_Provider}"
-                                   title="{!$Label.c.Tab_HealthCare_Provider}" onactive="{!c.checkTabs}">
+                                   label="{!$Label.c.Tab_Sharing_Options}"
+                                   title="{!$Label.c.Tab_Sharing_Options}" onactive="{!c.checkTabs}">
                         <aura:if isTrue="{!v.pe}">
                             <div id="healthCareProvider">
                                 <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{!v.pe.HCP__r.HCP_Contact__r}"
@@ -102,11 +99,11 @@
                 </lightning:tabset>
             </aura:if>
         </div>
-        <!--<aura:set attribute="headerButtons">
+        <aura:set attribute="headerButtons">
             <lightning:button onclick="{!c.doPrint}" name="Print" class="{!'slds-button slds-button&#45;&#45;icon-inverse'}">
                 <c:RRIcon iconName="icon-print" class="print-icon"/>
             </lightning:button>
-        </aura:set>-->
+        </aura:set>
         <aura:set attribute="footerButtons">
             <div data-gtm="BTNS_Popup_Save_Cancel">
                 <lightning:button class="apollo-btn secondary slds-float_right slds-button--neutral"

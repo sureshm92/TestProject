@@ -14,35 +14,43 @@
     <aura:attribute name="printMode" type="Boolean" default="false"/>
     <aura:attribute name="refProvider" type="Object"/>
     <aura:attribute name="showReferringProvider" type="Boolean" default="false"/>
+    <aura:attribute name="delegates" type="Object"/>
+    <aura:attribute name="statusesDelegates" type="List"/>
+    <aura:attribute name="forThisProvider" type="String"/>
+    <aura:attribute name="delegateActive" type="Boolean" default="false"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <div class="slds-grid slds-wrap slds-size--1-of-1 healthcare-form-container">
         <c:RRSpinner aura:id="spinner" size="medium"/>
-        <aura:if isTrue="{!v.refProvider}">
+        <aura:if isTrue="{!v.forThisProvider == 'isRef'}">
             <div class="{!'slds-col ' + if(v.printMode, 'slds-size--4-of-12', 'slds-size--1-of-1 slds-large-size--4-of-12')}">
-            <lightning:input class="healthcare-input" type="text" required="{!!v.printMode}"
-                             label="{!$Label.c.HealthCare_Providers_Email}" value="{!v.refProvider.Email}"
-                             onblur="{!c.checkContact}" onchange="{!c.checkFields}" disabled="true"
-                             aura:id="hcpEmail"/>
-        </div>
+                <lightning:input class="healthcare-input" type="text" required="{!!v.printMode}"
+                                 label="{!$Label.c.HealthCare_Providers_Email}" value="{!v.refProvider.Email}"
+                                 onblur="{!c.checkContact}" onchange="{!c.checkFields}" disabled="true"
+                                 aura:id="hcpEmail"/>
+            </div>
             <div class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 slds-large-size--3-of-12')}">
-            <lightning:input class="healthcare-input" type="text" required="{!!v.printMode}"
-                             label="{!$Label.c.HealthCare_Providers_First_Name}"
-                             value="{!v.refProvider.FirstName}"
-                             onchange="{!c.checkFields}"
-                             onblur="{!c.checkContact}"
-                             disabled="true"
-                             aura:id="firstNameInput"/>
-        </div>
+                <lightning:input class="healthcare-input" type="text" required="{!!v.printMode}"
+                                 label="{!$Label.c.HealthCare_Providers_First_Name}"
+                                 value="{!v.refProvider.FirstName}"
+                                 onchange="{!c.checkFields}"
+                                 onblur="{!c.checkContact}"
+                                 disabled="true"
+                                 aura:id="firstNameInput"/>
+            </div>
             <div class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 slds-large-size--3-of-12')}">
-            <lightning:input class="healthcare-input" type="text" required="{!!v.printMode}"
-                             label="{!$Label.c.HealthCare_Providers_Last_Name}"
-                             value="{!v.refProvider.LastName}"
-                             onchange="{!c.checkFields}"
-                             onblur="{!c.checkContact}"
-                             disabled="true"
-                             aura:id="lastNameInput"/>
-        </div>
-        <aura:set attribute="else">
+                <lightning:input class="healthcare-input" type="text" required="{!!v.printMode}"
+                                 label="{!$Label.c.HealthCare_Providers_Last_Name}"
+                                 value="{!v.refProvider.LastName}"
+                                 onchange="{!c.checkFields}"
+                                 onblur="{!c.checkContact}"
+                                 disabled="true"
+                                 aura:id="lastNameInput"/>
+            </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.forThisProvider == 'isHealthCare'}">
             <div class="{!'slds-col ' + if(v.printMode, 'slds-size--4-of-12', 'slds-size--1-of-1 slds-large-size--4-of-12')}">
                 <lightning:input class="healthcare-input" type="text" required="{!!v.printMode}"
                                  label="{!$Label.c.HealthCare_Providers_Email}" value="{!v.healthCareProvider.Email__c}"
@@ -69,19 +77,53 @@
                                  aura:id="lastNameInput"
                                  title="{!!v.healthCareProvider.Id &amp;&amp; v.actionDisabled ? $Label.c.RSN_Your_permissions_do_not_permit_this_action : ''}"/>
             </div>
-        </aura:set>
+        </aura:if>
+
+        <aura:if isTrue="{!v.forThisProvider == 'isDelegates'}">
+            <div class="{!'slds-col ' + if(v.printMode, 'slds-size--4-of-12', 'slds-size--1-of-1 slds-large-size--4-of-12')}">
+                <lightning:input class="healthcare-input" type="text" required="{!!v.printMode}"
+                                 label="{!$Label.c.HealthCare_Providers_Email}" value="{!v.delegates.Email__c}"
+                                 onblur="{!c.checkContact}" onchange="{!c.checkFields}" disabled="{!v.delegates.Id}"
+                                 aura:id="delEmail"/>
+            </div>
+            <div class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 slds-large-size--3-of-12')}">
+                <lightning:input class="healthcare-input" type="text" required="{!!v.printMode}"
+                                 label="{!$Label.c.HealthCare_Providers_First_Name}"
+                                 value="{!v.delegates.First_Name__c}"
+                                 onchange="{!c.checkFields}"
+                                 onblur="{!c.checkContact}"
+                                 disabled="{!v.delegates.Id}"
+                                 aura:id="delFirstName"/>
+            </div>
+            <div class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 slds-large-size--3-of-12')}">
+                <lightning:input class="healthcare-input" type="text" required="{!!v.printMode}"
+                                 label="{!$Label.c.HealthCare_Providers_Last_Name}"
+                                 value="{!v.delegates.Last_Name__c}"
+                                 onchange="{!c.checkFields}"
+                                 onblur="{!c.checkContact}"
+                                 disabled="{!v.delegates.Id}"
+                                 aura:id="delLastName"/>
+            </div>
         </aura:if>
 
 
-        <div class="{!'slds-col ' + if(v.printMode, 'slds-size--2-of-12', 'slds-size--3-of-12 slds-large-size--2-of-12')}" style="margin-top:23px">
-            <aura:if isTrue="{!v.refProvider}">
+        <div class="{!'slds-col ' + if(v.printMode, 'slds-size--2-of-12', 'slds-size--3-of-12 slds-large-size--2-of-12')}"
+             style="margin-top:23px">
+            <aura:if isTrue="{!v.forThisProvider == 'isRef'}">
                 <button class="apollo-btn secondary slds-button" onclick="{!c.doConnect}"
                         disabled="{!v.printMode || (v.healthCareProvider.Status__c != 'No Sharing' &amp;&amp; (!v.isValid || v.actionDisabled || v.isDuplicate)) || !v.refProvider}"
                         title="{!!v.healthCareProvider.Id &amp;&amp; v.actionDisabled ?
                         $Label.c.RSN_Your_permissions_do_not_permit_this_action : v.isDuplicate ?
                         $Label.c.HealCare_Provider_Already_Connected : ''}">{!v.showReferringProvider ? $Label.c.HealthCare_Provider_Stop_Sharing : $Label.c.HealthCare_Provider_Connect}</button>
             </aura:if>
-            <aura:if isTrue="{! if(!v.refProvider, (!v.healthCareProvider.Id || v.healthCareProvider.Status__c == 'No Sharing'), false)}">
+            <aura:if isTrue="{!v.forThisProvider == 'isDelegates'}">
+                <button class="apollo-btn secondary slds-button" onclick="{!c.doConnect}"
+                        disabled="{!v.printMode || (!v.isValid || v.actionDisabled || v.isDuplicate)}"
+                        title="{!!v.healthCareProvider.Id &amp;&amp; v.actionDisabled ?
+                        $Label.c.RSN_Your_permissions_do_not_permit_this_action : v.isDuplicate ?
+                        $Label.c.HealCare_Provider_Already_Connected : ''}">{!v.delegateActive ? $Label.c.HealthCare_Provider_Stop_Sharing : $Label.c.HealthCare_Provider_Connect}</button>
+            </aura:if>
+            <aura:if isTrue="{! if(v.forThisProvider == 'isHealthCare', (!v.healthCareProvider.Id || v.healthCareProvider.Status__c == 'No Sharing'), false)}">
                 <button class="apollo-btn secondary slds-button" onclick="{!c.doConnect}"
                         disabled="{!v.printMode || v.healthCareProvider.Status__c != 'No Sharing' &amp;&amp; (!v.isValid || v.actionDisabled || v.isDuplicate)}"
                         title="{!!v.healthCareProvider.Id &amp;&amp; v.actionDisabled ?
@@ -89,7 +131,8 @@
                         $Label.c.HealCare_Provider_Already_Connected : ''}">{!$Label.c.HealthCare_Provider_Connect}</button>
             </aura:if>
             <aura:if isTrue="{!(v.healthCareProvider.Id &amp;&amp; v.healthCareProvider.Status__c != 'No Sharing')}">
-                <button class="apollo-btn secondary slds-button" onclick="{!c.doDisconnect}">{!$Label.c.HealthCare_Provider_Stop_Sharing}</button>
+                <button class="apollo-btn secondary slds-button"
+                        onclick="{!c.doDisconnect}">{!$Label.c.HealthCare_Provider_Stop_Sharing}</button>
             </aura:if>
         </div>
         <aura:if isTrue="{!v.providerFound}">

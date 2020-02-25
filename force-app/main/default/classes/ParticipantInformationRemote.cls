@@ -27,8 +27,10 @@ public without sharing class ParticipantInformationRemote {
     @AuraEnabled
     public static String getPrintInformation(String peId, String userMode, String delegateId) {
         try {
-            String steps = ReferralProfileRemote.getReferralProfileDetail(peId, userMode, delegateId);
-            return steps;
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId);
+            ParticipantItem pi =  new ParticipantItem(pe);
+            ParticipantWorkflowService.populatePatientItemsWithPathWrappers(new List<ParticipantItem>{pi});
+            return JSON.serialize(pi);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
@@ -190,12 +192,36 @@ public without sharing class ParticipantInformationRemote {
 
     @AuraEnabled
     public static String updatePatientStatus(String stepWrapperJSON, String peId){
-        try {
-            String steps = ReferralProfileRemote.updateParticipantStatus(stepWrapperJSON, peId);
-            return steps;
-        } catch (Exception e) {
-            return (String) AuraHelper.throwException(e);
-        }
+        Participant_Enrollment__c pe = new Participant_Enrollment__c(Id = peId);
+        return updatePatientStatus(stepWrapperJSON, pe);
     }
+
+    public static String updatePatientStatus(String stepWrapperJSON, Participant_Enrollment__c pe){
+        try {
+            ParticipantWorkflowService.ParticipantWorkflowStepWrapper stepWrapper =
+                    (ParticipantWorkflowService.ParticipantWorkflowStepWrapper)JSON.deserialize(stepWrapperJSON, ParticipantWorkflowService.ParticipantWorkflowStepWrapper.class);
+            ParticipantWorkflowService.populatePEFromStepWrapper(stepWrapper, pe);
+            update pe;
+            Participant_Enrollment_Status_History__c pesh = ParticipantWorkflowService.createPESHFromStepWrapper(stepWrapper, pe.Id);
+            if(pesh != null){
+                insert pesh;
+            }
+            pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);
+            Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(pe.Clinical_Trial_Profile__c);
+            if (pe == null) throw new CommunityServiceException('Participant enrollment not found');
+            return JSON.serialize(ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe));
+        } catch (Exception e) {
+            System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());        }
+    }
+
+    @AuraEnabled
+    public static String updatePatientInfoAndStatus(String participantJSON, String peJSON, String stepWrapperJSON, String peId){
+        Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
+        Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
+        update participant;
+        return updatePatientStatus(stepWrapperJSON, pe);
+    }
+
 
 }

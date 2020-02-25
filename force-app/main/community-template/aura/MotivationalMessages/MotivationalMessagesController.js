@@ -3,9 +3,8 @@
  */
 ({
     doExecute: function (component, event, helper) {
-        let userMode =  communityService.getUserMode();
         communityService.executeAction(component, 'getMotivationalMessage', {
-            userMode: userMode
+            userMode: communityService.getUserMode()
         }, function (message) {
             if(message) communityService.showInfoToast('Info', message);
         });

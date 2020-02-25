@@ -35,7 +35,7 @@ public without sharing class ParticipantVisitsRemote {
         return null;
     }
 
-    @AuraEnabled(Cacheable = true)
+    @AuraEnabled
     public static List<Patient_Visit__c> getCardPatientVisits() {
         try {
             return PatientVisitService.getPatientCardVisits(ParticipantService.getParticipantState().pe.Id);

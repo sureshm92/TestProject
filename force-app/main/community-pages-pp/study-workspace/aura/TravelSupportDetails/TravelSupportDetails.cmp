@@ -70,14 +70,9 @@
                             <td class="sv-t-status">
                                 <div class="booking-cell">
                                     <c:RRIcon class="icon-item svl-icon"
-                                              iconName="{!if(travelWrapper.status == 'Confirmed', 'check-circle',
-                                              if(travelWrapper.status == 'Failed', 'icon-close-circle',
-                                              if(travelWrapper.status == 'Pending', 'icon-clock', '')))}"
+                                              iconName="{!travelWrapper.statusIcon}"
                                               color="{!travelWrapper.bgc}"/>
-                                    <div style="padding-left: 5px">
-                                        {!if(travelWrapper.status == 'Confirmed', $Label.c.Home_Page_Travel_Support_Filter_Confirmed,
-                                        if(travelWrapper.status == 'Failed', $Label.c.Home_Page_Travel_Support_Filter_Declined,
-                                        if(travelWrapper.status == 'Pending', $Label.c.Home_Page_Travel_Support_Filter_Pending, '')))}</div>
+                                    <div style="padding-left: 5px"> {!travelWrapper.status} </div>
                                 </div>
                             </td>
                             <td class="sv-t-date">
@@ -85,10 +80,8 @@
                                                              year="numeric" month="2-digit" day="2-digit"/>
                             </td>
                             <td class="sv-t-time">
-                                <aura:if isTrue="{!!travelWrapper.isAccommodation}">
                                     <lightning:formattedDateTime value="{!travelWrapper.dateAndTime}"
                                                                  hour="2-digit" minute="2-digit"/>
-                                </aura:if>
                             </td>
                             <td class="sv-t-reminder">
                                 <lightning:formattedUrl value="{!travelWrapper.link}" label="View Booking"/>

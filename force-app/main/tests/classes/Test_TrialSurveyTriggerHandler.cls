@@ -12,6 +12,7 @@ private class Test_TrialSurveyTriggerHandler {
         TestData.loadTestData();
         TestData testData = new TestData();
 
+        Test.startTest();
         Trial_Survey__c ts = new Trial_Survey__c(
                 Active_On_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
                 Clinical_Trial_Profile__c = testData.ctp.Id,
@@ -25,7 +26,6 @@ private class Test_TrialSurveyTriggerHandler {
         insert invitation;
         TaskService.getInstance().createSurveyTasks(new Map<Id, String>{invitation.Id => 'Patient only'});
 
-        Test.startTest();
         delete ts;
         Test.stopTest();
     }

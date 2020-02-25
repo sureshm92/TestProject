@@ -12,4 +12,8 @@ public with sharing class Test_Action implements Action{
     public Type getType() {
         return Test_Action.class;
     }
+    
+    public Boolean isDMLWithSetupObjects() {
+        return false;
+    }
 }

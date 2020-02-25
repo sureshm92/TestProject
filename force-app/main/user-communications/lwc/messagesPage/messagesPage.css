@@ -187,12 +187,17 @@
         padding: 10px 0;
     }
 
+    .ms-page {
+        padding-bottom: 250px;
+    }
+
     .ms-container {
         height: 500px;
     }
 
     .ms-left {
         border-right: none;
+        height: 500px;
     }
 
     .ms-title {

@@ -106,13 +106,6 @@
                 <value>NONE</value>
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
-            <visibilityRule>
-                <criteria>
-                    <leftValue>{!Record.Content_Class__c}</leftValue>
-                    <operator>NE</operator>
-                    <rightValue>Study-Specific</rightValue>
-                </criteria>
-            </visibilityRule>
         </componentInstances>
         <componentInstances>
             <componentInstanceProperties>

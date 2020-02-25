@@ -84,6 +84,8 @@ public without sharing class HelpController {
         newCase.OwnerId = UserInfo.getUserId();
         newCase.Priority = priority;
         newCase.Reason = reason;
+        Id conId = UserContext.getUserContactId();
+        newCase.CommunityName__c = CommunityModeService.getUserCommunityModes(conId)[0].template.communityName;
         newCase.setOptions(dmlOptions);
 
         try {

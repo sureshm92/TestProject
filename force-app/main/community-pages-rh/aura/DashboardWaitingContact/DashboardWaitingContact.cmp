@@ -29,16 +29,16 @@
                     <thead>
                         <tr class="slds-line-height_reset">
                             <th class="" scope="col">
-                                <div class="slds-truncate" title="Name">Name</div>
+                                <div class="slds-truncate" title="Name">{!$Label.c.PI_DB_PAC_Name_Header}</div>
                             </th>
                             <th class="" scope="col">
-                                <div class="slds-truncate" title="Source">Source</div>
+                                <div class="slds-truncate" title="Source">{!$Label.c.PI_DB_PAC_Source_Header}</div>
                             </th>
                             <th class="" scope="col">
-                                <div class="slds-truncate" title="Study">Study</div>
+                                <div class="slds-truncate" title="Study">{!$Label.c.PI_DB_PAC_Study_Header}</div>
                             </th>
                             <th class="" scope="col">
-                                <div class="slds-truncate" title="Added">Added</div>
+                                <div class="slds-truncate" title="Added">{!$Label.c.PI_DB_PAC_Added_Header}</div>
                             </th>
                         </tr>
                     </thead>

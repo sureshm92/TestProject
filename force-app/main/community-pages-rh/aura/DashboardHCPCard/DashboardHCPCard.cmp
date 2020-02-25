@@ -12,7 +12,7 @@
         <div class="db-hcp-card">
             <div class="db-hcp-card-title">
                 <div>
-                    <c:RRLink label="{!v.hcpe.data.HCP_Contact__r.Salutation + ' ' + v.hcpe.data.HCP_Contact__r.Name + ' '}" page=""/>
+                    <c:RRLink label="{!v.hcpe.data.HCP_Contact__r.Salutation + ' ' + v.hcpe.data.HCP_Contact__r.Name + ' '}" page="my-referring-clinics"/>
                 </div>
                 <c:uiHeaderMenu aura:id="menuId" class="accept-btn">
                     <aura:set attribute="title">

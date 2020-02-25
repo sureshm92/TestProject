@@ -37,6 +37,8 @@ public without sharing class CommunityFacadeRemote {
         List<CommunityMode> allUserModes;
         CommunityMode currentUserMode;
         Boolean isDummy;
+        String communityName;
+        String subDomain;
     }
     
     private class CommunityType{
@@ -68,6 +70,8 @@ public without sharing class CommunityFacadeRemote {
             cd.isDelegate = userContact.UserCommunityIsDelegate__c;
             cd.baseUrl = Site.getBaseUrl();
             cd.messagesVisible = getMessagesVisibility();
+            cd.communityName = Site.getName();
+            cd.subDomain = Site.getPathPrefix().replace('/s', '');
 
             return JSON.serialize(cd);
         } catch (Exception e) {

@@ -3,10 +3,9 @@
  -->
 
 <aura:component description="Alerts" controller="AlertsRemote">
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
-    <aura:attribute name="userMode" type="String"/>
     <aura:attribute name="alerts" type="List" access="private"/>
     <aura:attribute name="currentAlertIndex" type="Object" access="private"/>
     <aura:attribute name="currentAlert" type="Object" access="private"/>
@@ -14,7 +13,9 @@
 
     <!-- handlers: -->
     <aura:handler name="change" value="{!v.closeBtnClicked}" action="{!c.doShowNext}"/>
-    <aura:handler name="change" value="{!v.userMode}" action="{!c.doInit}"/>
+
+    <!-- methods: -->
+    <aura:method name="refresh" action="{!c.doInit}" access="public"/>
 
     <!-- component body-->
     <c:Popup aura:id="alertsDialog" title="{!if(v.currentAlert, v.currentAlert.title, '')}" size="medium" closeButtonClicked="{!v.closeBtnClicked}">
@@ -35,7 +36,7 @@
         </aura:set>
     </c:Popup>
 
-    <c:OnboardingSlideTour aura:id="onboardingSlideTour" userMode="{!v.userMode}"/>
-    <c:MotivationalMessages aura:id="motivationalMessages" userMode="{!v.userMode}"/>
+    <c:OnboardingSlideTour aura:id="onboardingSlideTour"/>
+    <c:MotivationalMessages aura:id="motivationalMessages"/>
 
 </aura:component>

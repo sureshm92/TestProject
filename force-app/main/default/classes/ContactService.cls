@@ -106,6 +106,18 @@ public without sharing class ContactService {
         for (Res_study__c resStudy : resStudyList) resourceIds.add(resStudy.Resource__c);
         Map<Id, List<ContentDocumentLinkService.TranslatedContentItem>> translatedItemsMap =
                 ((ContentDocumentLinkService) ClassFactory.newInstance(ContentDocumentLinkService.class)).getTranslatedItemsForResources(resourceIds);
+        List<String> COIsOfParticipant = new List<String>();
+        List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = [
+                SELECT Therapeutic_Area__r.Name
+                FROM Therapeutic_Area_Patient__c WHERE Participant__r.Contact__c =: contactId];
+        for(Therapeutic_Area_Patient__c tap : therapeuticAreaPatients) {
+            COIsOfParticipant.add(tap.Therapeutic_Area__r.Name);
+        }
+        Map<Id, Resource__c> relatedResources = new Map<Id, Resource__c>([
+                SELECT Id, Title__c, RecordType.DeveloperName, Content_Type__c,
+                (SELECT Id FROM Therapeutic_Area_Assignments__r WHERE Therapeutic_Area__r.Name IN: COIsOfParticipant)
+                FROM Resource__c WHERE Id IN: resourceIds
+        ]);
 
         Map<Id, List<Res_study__c>> resStudyByCtpIdMap = new Map<Id, List<Res_study__c>>();
         Set<Id> resStudyResourceIds = new Set<Id>();
@@ -156,11 +168,12 @@ public without sharing class ContactService {
                     if (StudyResourceVisibilityService.isResourceVisibleForPE(
                             resStudy, pe, contentLangByResId.get(resStudy.Resource__c),
                             CommunityService.USER_MODE_PARTICIPANT, isDelegate)) {
-                        resources.add(new ResourceService.ResourceWrapper(resStudy.Resource__r, translatedItemsMap.get(resStudy.Resource__c)));
+                        resources.add(new ResourceService.ResourceWrapper(relatedResources.get(resStudy.Resource__c), translatedItemsMap.get(resStudy.Resource__c)));
                     }
                 }
             }
             Set<String> peHistorySatuses = historyStatusesByPEIdMap.get(pe.Id);
+            resources = ResourceService.sortResourcesByCOI(resources);
             Boolean hadEnrolmentSuccess = peHistorySatuses != null && peHistorySatuses.contains(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS);
             pastWrappersList.add(new PastStudyWrapper(ctpMap.get(pe.Clinical_Trial_Profile__c), pe, resources, hadEnrolmentSuccess));
 
@@ -250,7 +263,8 @@ public without sharing class ContactService {
                         Account.Fax,
                         Account.BillingCountry,
                         Account.BillingPostalCode,
-                        Account.BillingCountryCode
+                        Account.BillingCountryCode,
+                        Phone
                 FROM Contact
                 WHERE Id = :contactId
         ];

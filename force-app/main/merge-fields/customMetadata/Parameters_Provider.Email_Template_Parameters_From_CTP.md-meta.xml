@@ -4,8 +4,10 @@
     <protected>false</protected>
     <values>
         <field>Parameters__c</field>
-        <value xsi:type="xsd:string">StudyName = Study_Code_Name__c
-TherapeuticArea = Therapeutic_Area__r.Name</value>
+        <value xsi:type="xsd:string">
+            StudyName = Study_Code_Name__c
+            TherapeuticArea = Therapeutic_Area__r.Name
+        </value>
     </values>
     <values>
         <field>Source_Object_Type__c</field>
