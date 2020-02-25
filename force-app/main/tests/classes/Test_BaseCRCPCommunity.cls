@@ -4,10 +4,10 @@
 
 @IsTest(IsParallel=false)
 private class Test_BaseCRCPCommunity {
-    
+
     @TestSetup
     static void init() {
-        
+        Test.startTest();
         List<Terms_And_Conditions__c> termsAndConditions = new List<Terms_And_Conditions__c>();
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(
                 Active__c = true
@@ -223,6 +223,7 @@ private class Test_BaseCRCPCommunity {
                 Terms_And_Conditions__c = studyTC.Id
         );
         insert tc_acceptance;
+        Test.stopTest();
     }
     
     @IsTest
@@ -826,10 +827,10 @@ private class Test_BaseCRCPCommunity {
             );
             ReferringRemote.saveParticipant(hcpEnrollment.Id, JSON.serialize(refInitData.participantEnrollment), JSON.serialize(participant2), null, null);
             participant2 = [SELECT Id, Contact__c FROM Participant__c WHERE First_Name__c = 'FN' AND Last_Name__c = 'LN' LIMIT 1];
-            String vpResultJSON = ViewPatientsRemote.getInitData(study.Id, studySite.Id, CommunityService.USER_MODE_HCP, null, CommunityService.USER_MODE_HCP, null);
-            ViewPatientsRemote.InitData vpResult = (ViewPatientsRemote.InitData) JSON.deserialize(vpResultJSON, ViewPatientsRemote.InitData.class);
         }
         Test.stopTest();
+        String vpResultJSON = ViewPatientsRemote.getInitData(study.Id, studySite.Id, CommunityService.USER_MODE_HCP, null, CommunityService.USER_MODE_HCP, null);
+        ViewPatientsRemote.InitData vpResult = (ViewPatientsRemote.InitData) JSON.deserialize(vpResultJSON, ViewPatientsRemote.InitData.class);
     }
     
     @IsTest
