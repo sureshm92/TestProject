@@ -699,7 +699,7 @@ private class Test_BaseCRCPCommunity {
         Test.startTest();
         System.runAs(piUser) {
             Action_InviteRPRemote.getInviteDetail();
-            Action_InviteRPRemote.inviteNewHCP('test', 'hcp', '12345','test@mail.com.fake', null, 'test-protocol',null);
+            Action_InviteRPRemote.inviteNewHCP('test', 'hcp', '12345','test@mail.com.fake', null, 'test-protocol',new List<String>());
         }
         Test.stopTest();
     }

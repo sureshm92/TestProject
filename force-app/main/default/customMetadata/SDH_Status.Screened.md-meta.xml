@@ -8,6 +8,6 @@
     </values>
     <values>
         <field>Salesforce_Status__c</field>
-        <value xsi:type="xsd:string">Screening Complete</value>
+        <value xsi:type="xsd:string">Screening Passed</value>
     </values>
 </CustomMetadata>
