@@ -27,8 +27,10 @@ public without sharing class ParticipantInformationRemote {
     @AuraEnabled
     public static String getPrintInformation(String peId, String userMode, String delegateId) {
         try {
-            String steps = ReferralProfileRemote.getReferralProfileDetail(peId, userMode, delegateId);
-            return steps;
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId);
+            ParticipantItem pi =  new ParticipantItem(pe);
+            ParticipantWorkflowService.populatePatientItemsWithPathWrappers(new List<ParticipantItem>{pi});
+            return JSON.serialize(pi);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }

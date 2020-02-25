@@ -390,6 +390,7 @@ public without sharing class MyTeamRemote {
         }
         if (!delegateRecordsToInsert.isEmpty()) {
             insert delegateRecordsToInsert;
+            DelegateService.addConversationSharesForPITeam(delegateRecordsToInsert);
         }
         if (!delegateRecordsToUpdate.isEmpty()) {
             update delegateRecordsToUpdate;
@@ -459,9 +460,9 @@ public without sharing class MyTeamRemote {
 
     private static void createDelegate(DelegateWrapper delegate, String userMode, String parentId) {
         Contact delegateContact = createDelegateContact(delegate, userMode);
-
+        List<Site_Staff__c> piDelegates = new List<Site_Staff__c>();
         if (userMode == CommunityService.USER_MODE_PI) {
-            createPIDelegationRecord(delegate, delegateContact);
+            piDelegates = createPIDelegationRecord(delegate, delegateContact);
         }
 
         if (userMode == CommunityService.USER_MODE_HCP) {
@@ -475,6 +476,9 @@ public without sharing class MyTeamRemote {
         ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{
                 delegateContact.Id
         });
+        if(!piDelegates.isEmpty()){
+            DelegateService.addConversationSharesForPITeam(piDelegates);
+        }
     }
 
     private static Contact createDelegateContact(DelegateWrapper delegate, String userMode) {
@@ -508,7 +512,7 @@ public without sharing class MyTeamRemote {
         return delegateContact;
     }
 
-    private static void createPIDelegationRecord(DelegateWrapper delegate, Contact delegateContact) {
+    private static List<Site_Staff__c> createPIDelegationRecord(DelegateWrapper delegate, Contact delegateContact) {
         List<Site_Staff__c> delegateRecordsToInsert = new List<Site_Staff__c>();
         for (TrialDelegateWrapper delegateTrialRecord : delegate.delegateTrials) {
             for (DelegateLevelWrapper delegateRecord : delegateTrialRecord.siteLevels) {
@@ -524,6 +528,7 @@ public without sharing class MyTeamRemote {
         if (!delegateRecordsToInsert.isEmpty()) {
             insert delegateRecordsToInsert;
         }
+        return delegateRecordsToInsert;
     }
 
     private static void createHCPDelegationRecord(DelegateWrapper delegate, Contact delegateContact, String parentId) {

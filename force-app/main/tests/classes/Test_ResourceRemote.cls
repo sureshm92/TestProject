@@ -3,6 +3,7 @@ public class Test_ResourceRemote {
 
     @TestSetup
     public static void setup() {
+        Test.startTest();
         TestData.loadTestData();
         TestData testData = new TestData();
 
@@ -10,6 +11,7 @@ public class Test_ResourceRemote {
         insert singleResource;
         Resource_Action__c singleAction = new Resource_Action__c(Participant__c = testData.participant.Id, Resource__c = singleResource.Id, IsVoted__c = false, IsFavorite__c = false);
         insert singleAction;
+        Test.stopTest();
     }
 
     @IsTest

@@ -57,6 +57,9 @@ public with sharing class HCPTrialBuilder extends TrialBuilder {
     }
 
     public override StudyActions getStudyActions() {
+        if(hcpEnrollment == null){
+            return new StudyActionsHCP();
+        }
         return new StudyActionsHCP(hcpEnrollment);
     }
 
