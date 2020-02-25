@@ -5,6 +5,10 @@
 public with sharing class Test_VisitResultsRemote {
     @TestSetup
     static void setup() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+
         TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreateStatusHistoryHandler.class);
         TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class);
 
@@ -73,9 +77,9 @@ public with sharing class Test_VisitResultsRemote {
         );
 
         Test.startTest();
-        TestData.loadTestData();
         TestData testData = new TestData();
         testData.updatePEStatusEnrollmentSuccess();
+
         System.runAs(testData.participantUser) {
             VisitResultsRemote.InitDataWrapper wrapper = VisitResultsRemote.getInitData('');
             System.assert(wrapper != null);
@@ -118,7 +122,6 @@ public with sharing class Test_VisitResultsRemote {
 
         Test.startTest();
         VisitResultsService.VisitResultsContainer tesContainer = VisitResultsRemote.getVisitResultsContainer('');
-        System.debug(tesContainer.groupName);
         Test.stopTest();
 
         System.assert(tesContainer.groupName.equals('Vitals'));
@@ -156,7 +159,6 @@ public with sharing class Test_VisitResultsRemote {
         Boolean isExceptionThrown = false;
 
         Test.startTest();
-        TestData.loadTestData();
         TestData testData = new TestData();
         testData.updatePEStatusEnrollmentSuccess();
         testData.participant.Contact__c = null;
@@ -256,7 +258,6 @@ public with sharing class Test_VisitResultsRemote {
         );
 
         Test.startTest();
-        TestData.loadTestData();
         TestData testData = new TestData();
         testData.updatePEStatusEnrollmentSuccess();
         testData.participant.Contact__c = contact.Id;
@@ -288,7 +289,6 @@ public with sharing class Test_VisitResultsRemote {
         );
 
         Test.startTest();
-        TestData.loadTestData();
         TestData testData = new TestData();
         Boolean isExceptionThrown = false;
         System.runAs(testData.participantUser) {

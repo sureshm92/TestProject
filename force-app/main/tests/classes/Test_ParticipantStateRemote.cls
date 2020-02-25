@@ -5,9 +5,15 @@
 @IsTest
 private class Test_ParticipantStateRemote {
 
+    @TestSetup
+    static void init() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+    }
+
     @IsTest
     static void getInitDataTest() {
-        TestData.loadTestData();
         TestData testData = new TestData();
         System.runAs(testData.participantUser){
             ParticipantEnrollmentService.getParticipantEnrollment(testData.pe.Id, CommunityService.USER_MODE_PARTICIPANT);
@@ -17,7 +23,6 @@ private class Test_ParticipantStateRemote {
 
     @IsTest
     static void getParticipantNameTest() {
-        TestData.loadTestData();
         TestData testData = new TestData();
         System.runAs(testData.participantUser){
             ParticipantEnrollmentService.getParticipantEnrollment(testData.pe.Id, CommunityService.USER_MODE_PARTICIPANT);
