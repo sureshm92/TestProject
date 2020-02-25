@@ -24,6 +24,6 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c (before insert
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.UpdatePEHistoryOnAutoAcceptedHandler.class);
     TriggerHandlerExecutor.execute(PENotificationTriggerHandler.CreateNotificationHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class);
-    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
+//    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
 }

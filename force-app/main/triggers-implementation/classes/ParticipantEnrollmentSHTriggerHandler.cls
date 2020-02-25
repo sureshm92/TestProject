@@ -126,7 +126,12 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
         }
 
         for(Id peId : peIds){
-            IntegrationService.sendPEToStudyHubAsync(peId);
+            if(System.IsBatch() == false && System.isFuture() == false) {
+                IntegrationService.sendPEToStudyHubAsync(peId);
+            }
+            else{
+                IntegrationService.sendPEToStudyHub(peId);
+            }
         }
     }
 
@@ -146,10 +151,18 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             Map<Id, User> usersByContactId = new Map<Id, User>();
             Set<Id> participantContactIds = new Set<Id>();
             List<Participant_Enrollment__c> participantEnrollments = [
-                    SELECT Id, Participant__c, Study_Site__c,
-                            Study_Site__r.Clinical_Trial_Profile__c, Study_Site__r.Suppress_Participant_Emails__c,
-                            Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Is_Virtual_Study_Site__c,
-                            HCP__c,HCP__r.HCP_Contact__c, Referral_Source__c
+                    SELECT Id,
+                            Participant__c,
+                            Participant_Contact__c,
+                            Study_Site__c,
+                            Study_Site__r.Clinical_Trial_Profile__c,
+                            Study_Site__r.Suppress_Participant_Emails__c,
+                            Clinical_Trial_Profile__r.Community_Template__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                            Is_Virtual_Study_Site__c,
+                            HCP__c,
+                            HCP__r.HCP_Contact__c,
+                            Referral_Source__c
                     FROM Participant_Enrollment__c WHERE Id IN : peIds];
             Set<Id> participantIds = new Set<Id>();
             Map<Id, Participant_Enrollment__c> participantEnrollmentMap = new Map<Id, Participant_Enrollment__c>();
@@ -165,12 +178,20 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 participantContactIds.add(participant.Contact__c);
                 participantMap.put(participant.Id, participant);
             }
-            for (User usr : CommunityService.getCommunityUsersByContactIds(participantContactIds)) usersByContactId.put(usr.ContactId, usr);
+            Map<Id, Set<String>> userPermissionSetsMap = new Map<Id, Set<String>>();
+            for (User usr : CommunityService.getCommunityUsersByContactIds(participantContactIds)) {
+                usersByContactId.put(usr.ContactId, usr);
+                Set<String> pSets = new Set<String>();
+                for(PermissionSetAssignment pma : usr.PermissionSetAssignments) pSets.add(pma.PermissionSet.Name);
+                userPermissionSetsMap.put(usr.Id, pSets);
+            }
 
             //process PE items:
             List<Alert__c> alertsForInsert = new List<Alert__c>();
+            Action_AssignContactPermissions actionAssigContactPermissions = new Action_AssignContactPermissions();
             for (Participant_Enrollment__c newPE : participantEnrollments) {
                 Participant__c participant = newPE.Participant__c != null? participantMap.get(newPE.Participant__c):null;
+                String permissionSetName = CommunityTemplateService.getTemplate(newPE.Clinical_Trial_Profile__r.Community_Template__c).permissionSet;
                 User participantUser;
                 if (participant != null && participant.Contact__c != null) participantUser = usersByContactId.get(participant.Contact__c);
                 Boolean filterCriteria = !newPE.Is_Virtual_Study_Site__c &&
@@ -191,7 +212,11 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                                 Contact__c = participant.Contact__c,
                                 Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH
                         ));
-                    } else {
+                        actionAssigContactPermissions.addPermission(newPE.Participant_Contact__c, permissionSetName);
+                    } else if(!userPermissionSetsMap.get(participantUser.Id).contains(permissionSetName)){
+                        System.debug('ASSIGN NEW PERMISSION SET');
+                        actionAssigContactPermissions.addPermission(newPE.Participant_Contact__c, permissionSetName);
+                    }else {
                         System.debug('NOTIFY USER');
                         if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP) {
                             notifications.add(new Notification__c(
@@ -229,6 +254,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             if(!contactsForChangeMode.isEmpty()){
                 update contactsForChangeMode;
             }
+            if(!actionAssigContactPermissions.isEmpty()) ActionExecutor.executeAsync(actionAssigContactPermissions, Datetime.now());
         }
     }
 }

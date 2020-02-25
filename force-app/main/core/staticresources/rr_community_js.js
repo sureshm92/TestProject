@@ -24,6 +24,7 @@ window.communityService = (function () {
     let currentUserMode;
     let allUserModes;
     let showPastStudies;
+    let subDomain;
     var messagesVisible;
     let currentCSSTheme = 'Community_CSS_Stub';
 
@@ -37,6 +38,7 @@ window.communityService = (function () {
                 preventedCookies = communityData.preventedCookies;
                 service.deleteCookies(preventedCookies);
                 console.log('preventedCookies: ' + JSON.stringify(preventedCookies));
+                subDomain = communityData.subDomain;
                 communityMode = communityData.communityMode;
                 communityDelegateId = communityData.communityDelegateId;
                 isDelegate = communityData.isDelegate;
@@ -115,6 +117,10 @@ window.communityService = (function () {
         //Getters/setters:
         isShowPastStudies: function(){
             return showPastStudies;
+        },
+
+        getSubDomain: function(){
+            return subDomain;
         },
 
         getTemplateProperty: function(propertyName){

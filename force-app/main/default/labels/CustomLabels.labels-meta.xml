@@ -1876,6 +1876,13 @@
         <value>Edit Visit Legend</value>
     </labels>
     <labels>
+        <fullName>Eligibility_Passed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Eligibility_Passed</shortDescription>
+        <value>Eligibility Passed</value>
+    </labels>
+    <labels>
         <fullName>Email</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3160,15 +3167,6 @@
             The IQVIA Patient Portal and Referral Hub Support Teams</value>
     </labels>
     <labels>
-        <fullName>Email_Signature_GSK</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Signature</shortDescription>
-        <value>
-            Sincerely,
-            The GSK Participant Hub team</value>
-    </labels>
-    <labels>
         <fullName>Email_Signature_1</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3217,6 +3215,14 @@
         <value>If you don&#39;t want to change your password or didn&#39;t request this, just ignore this email and no changes will be made to your account.
 
             To keep your account secure, please don&#39;t forward this email to anyone.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_GSK</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature</shortDescription>
+        <value>Sincerely,
+            The GSK Participant Hub team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_New</fullName>
@@ -3771,6 +3777,13 @@
         <protected>false</protected>
         <shortDescription>Empty Visits tab</shortDescription>
         <value>This feature is not available for Studies not participating in Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Enrolled_Or_Randomized</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Enrolled_Or_Randomized</shortDescription>
+        <value>Enrolled or Randomized</value>
     </labels>
     <labels>
         <fullName>Error_Message_Can_Not_Create_Participant</fullName>
@@ -4965,6 +4978,13 @@
         <value>Please input correct data!</value>
     </labels>
     <labels>
+        <fullName>Initial_Visit_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Initial_Visit_Scheduled</shortDescription>
+        <value>Initial Visit Scheduled</value>
+    </labels>
+    <labels>
         <fullName>Investigator_phone</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5768,6 +5788,21 @@
         <protected>false</protected>
         <shortDescription>OT PI S2 T</shortDescription>
         <value>Accept both Referrals and Referring Clinics directly on this page.</value>
+    </labels>
+    <labels>
+        <fullName>OT_Participant_GSK_S1_H</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>OT Participant GSK S1 H</shortDescription>
+        <value>My Study, Tasks, Resources and Links</value>
+    </labels>
+    <labels>
+        <fullName>OT_Participant_GSK_S75_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>OT Participant GSK S75 Text</shortDescription>
+        <value>Take action on tasks that have been assigned to you or created by you or your delegate using the Open Task List.
+View study documents and other resources including articles and videos related to the study or the condition being studied from Resources.</value>
     </labels>
     <labels>
         <fullName>OT_Participant_S1_H</fullName>
@@ -8673,7 +8708,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRZ L Search for a referring clinic</shortDescription>
-        <value>Search for a referring providers</value>
+        <value>Search for an RP</value>
     </labels>
     <labels>
         <fullName>PG_MRZ_L_Search_for_a_study_site</fullName>
@@ -10447,6 +10482,34 @@
         <value>PI:</value>
     </labels>
     <labels>
+        <fullName>PI_DB_PAC_Added_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI_DB_PAC_Added_Header</shortDescription>
+        <value>Added</value>
+    </labels>
+    <labels>
+        <fullName>PI_DB_PAC_Name_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI_DB_PAC_Name_Header</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>PI_DB_PAC_Source_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI_DB_PAC_Source_Header</shortDescription>
+        <value>Source</value>
+    </labels>
+    <labels>
+        <fullName>PI_DB_PAC_Study_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI_DB_PAC_Study_Header</shortDescription>
+        <value>Study</value>
+    </labels>
+    <labels>
         <fullName>PI_Delegate_PI_Info</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -11046,6 +11109,13 @@
         <protected>false</protected>
         <shortDescription>RSN Your permissions do not permit this action</shortDescription>
         <value>Your permissions do not permit this action</value>
+    </labels>
+    <labels>
+        <fullName>Received</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Received</shortDescription>
+        <value>Received</value>
     </labels>
     <labels>
         <fullName>ReferralNetwork_NoRNSelected</fullName>
@@ -11986,6 +12056,13 @@
         <value>There is the sames RP in the System</value>
     </labels>
     <labels>
+        <fullName>Screening_Passed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Screening_Passed</shortDescription>
+        <value>Screening Passed</value>
+    </labels>
+    <labels>
         <fullName>Search_For_Sites</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12320,6 +12397,13 @@
         <protected>true</protected>
         <shortDescription>The record has been created successfully.</shortDescription>
         <value>The record has been created successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Successfully_Contacted</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Successfully_Contacted</shortDescription>
+        <value>Successfully Contacted</value>
     </labels>
     <labels>
         <fullName>Systolic</fullName>

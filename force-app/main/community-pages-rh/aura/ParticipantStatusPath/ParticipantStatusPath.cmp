@@ -6,6 +6,7 @@
 
     <aura:attribute name="userMode" type="String" />
     <aura:attribute name="pathSteps" type="List" />
+    <aura:attribute name="printMode" type="Boolean" default="false"/>
 
     <div class="vpi-path-panel">
         <div class="{!v.userMode != 'PI' ? 'path-section' : 'path-section-pi'}">
@@ -18,16 +19,16 @@
                                  style="position: relative">
                                 <div class="state-ico-wrapper">
                                     <aura:if isTrue="{!pathItem.state == 'success'}">
-                                        <c:RRIcon iconName="icon-check"/>
+                                        <c:RRIcon iconName="icon-check" printMode="{!v.printMode}"/>
                                     </aura:if>
                                     <aura:if isTrue="{!pathItem.state == 'failure'}">
-                                        <c:RRIcon iconName="icon-close"/>
+                                        <c:RRIcon iconName="icon-close" printMode="{!v.printMode}"/>
                                     </aura:if>
                                     <aura:if isTrue="{!pathItem.state == 'in_progress'}">
-                                        <c:RRIcon iconName="icon-minus"/>
+                                        <c:RRIcon iconName="icon-minus" printMode="{!v.printMode}"/>
                                     </aura:if>
                                     <aura:if isTrue="{!pathItem.state == 'neutral'}">
-                                        <c:RRIcon iconName="icon-minus"/>
+                                        <c:RRIcon iconName="{!if(v.printMode,'icon-none','icon-minus')}" printMode="{!v.printMode}"/>
                                     </aura:if>
                                 </div>
                             </div>

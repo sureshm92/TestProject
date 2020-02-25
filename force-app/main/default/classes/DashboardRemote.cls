@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class DashboardRemote {
+public without sharing class DashboardRemote {
 
     public static final String INITIAL_VISIT_SCHEDULED = 'Initial Visit Scheduled';
     
@@ -24,6 +24,9 @@ public class DashboardRemote {
 
         Integer participantsWaitingContact;
         List<WaitingContactItem> awaitingToContact = new List<WaitingContactItem>();
+
+        List<LabelValueItem> delegatePIsPicklist = new List<LabelValueItem>();
+        Id selectedPi;
     }
 
     class FunnelData{
@@ -101,22 +104,103 @@ public class DashboardRemote {
     }
     //TODO Review
     @AuraEnabled
-    public static String getInitData(String userMode, String delegateId){
+    public static String getInitData(String userMode, String delegateId, Id piId){
         try{
             if(userMode == CommunityService.USER_MODE_PI){
+                List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
+                Contact currentContact = CommunityService.getUserContact();
+                Id currentContactId = currentContact.Id;
+                Map<Id,String> delegatePIsMap = new Map<Id,String>();
                 PIData piData = new PIData();
+                if(![SELECT Id FROM Study_Site__c WHERE Principal_Investigator__c =: currentContactId].isEmpty()) {
+                    delegatePIsMap.put(currentContactId, 'Self');
+                    if(piId == null) {
+                        piData.selectedPi = currentContactId;
+                        piId = currentContactId;
+                    }
+                }
+                for (Site_Staff__c sStaff : [
+                        SELECT Id,
+                                Study_Site__r.Principal_Investigator__c,
+                                Study_Site__r.Principal_Investigator__r.Name
+                        FROM Site_Staff__c
+                        WHERE Site_Contact__c = :currentContactId
+                ]) {
+                    delegatePIsMap.put(sStaff.Study_Site__r.Principal_Investigator__c, sStaff.Study_Site__r.Principal_Investigator__r.Name);
+                }
+                System.debug('delegateMap>>>>'+delegatePIsMap);
+
+                peList = ParticipantEnrollmentService.getPEEnrollmentsByPI(userMode, currentContactId);
+
+                if (peList.isEmpty() && !delegatePIsMap.isEmpty()) {
+                    if (piId == null) {
+                        peList = ParticipantEnrollmentService.getPEEnrollmentsByPI(userMode, new List<Id>(delegatePIsMap.keySet())[0]);
+                        piData.selectedPi = new List<Id>(delegatePIsMap.keySet())[0];
+                        piId = piData.selectedPi;
+                    } else {
+                        peList = ParticipantEnrollmentService.getPEEnrollmentsByPI(userMode, piId);
+                        piData.selectedPi = piId;
+                    }
+                } else {
+                    if (piId != null) {
+                        peList = ParticipantEnrollmentService.getPEEnrollmentsByPI(userMode, piId);
+                        piData.selectedPi = piId;
+                    } else {
+                        piData.selectedPi = currentContactId;
+                        piId = currentContactId;
+                    }
+                }
+                for(Id pId : delegatePIsMap.keySet()){
+                    piData.delegatePIsPicklist.add(new LabelValueItem(delegatePIsMap.get(pId), pId));
+                }
+                Integer piAccepted = 0;
+                Integer piSuccessContacted = 0;
+                Integer piOnHoldContacted = 0;
+                Integer piDeclineContacted = 0;
+                List<Participant_Enrollment__c> waitingAcceptencePeList = new List<Participant_Enrollment__c>();
+                List<Participant_Enrollment__c> waitingToBeContactedPeList = new List<Participant_Enrollment__c>();
+                List<Participant_Enrollment__c> contactAtemptedList = new List<Participant_Enrollment__c>();
+                for (Participant_Enrollment__c pe : peList) {
+                    if (ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI.contains(pe.Participant_Status__c)) {
+                        if (waitingAcceptencePeList.size() < 3) {
+                            waitingAcceptencePeList.add(pe);
+                        }
+                    }
+                    if (PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS).contains(pe.Participant_Status__c)) {
+                        piAccepted += 1;
+                    }
+                    if (PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_SUCCESS).contains(pe.Participant_Status__c)) {
+                        piSuccessContacted += 1;
+                    }
+                    if (PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_IN_PROGRESS).contains(pe.Participant_Status__c)) {
+                        piOnHoldContacted += 1;
+                    }
+                    if (PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_FAILURE).contains(pe.Participant_Status__c)) {
+                        piDeclineContacted += 1;
+                    }
+                    if (PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_IN_PROGRESS).contains(pe.Participant_Status__c)) {
+                        if (waitingToBeContactedPeList.size() < 4) {
+                            waitingToBeContactedPeList.add(pe);
+                        }
+                    }
+                    if(pe.Participant_Status__c == PEStatusState.PE_STATUS_CONTACT_ATTEMPTED || pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED){
+                        contactAtemptedList.add(pe);
+                    }
+                }
+                piData.waitingAcceptenceList = preparePEList(waitingAcceptencePeList, userMode, delegateId);
+
                 // acceptance data
-                piData.waitingAcceptenceList = preparePEList(
+                /*piData.waitingAcceptenceList = preparePEList(
                         ParticipantEnrollmentService.getPEnrolmentsByStatus(userMode, new List<String>{
                                 ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI
                         }, 3), userMode,
                         delegateId
-                );
+                );*/
 //                Integer piPending = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS));
-                Integer piAccepted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS));
+                //Integer piAccepted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS));
 //                Integer piOnHold = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_IN_PROGRESS));
 //                Integer piDeclined = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_FAILURE));
-                piData.waitingAcceptence =0;// piPending;
+                piData.waitingAcceptence = 0;// piPending;
                 piData.referralsReceived.addAll(new List<DonutItem>{
                         new DonutItem(Label.DI_L_Accepted, piAccepted , DonutItem.Type.SUCCSESS)/*,
                         new DonutItem(Label.DI_L_On_hold, piOnHold , DonutItem.Type.ON_HOLD),
@@ -125,14 +209,15 @@ public class DashboardRemote {
                 });
         
                 //contact attemts data
-                piData.waitingToBeContactedList = preparePEList(
+                /*piData.waitingToBeContactedList = preparePEList(
                         ParticipantEnrollmentService.getPEnrolmentsByStatus(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_IN_PROGRESS), 3), userMode,
                         delegateId
-                );
+                );*/
+                piData.waitingToBeContactedList = preparePEList(waitingToBeContactedPeList,userMode,delegateId);
                 Integer piPendingContacted = piAccepted;
-                Integer piSuccessContacted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_SUCCESS));
-                Integer piOnHoldContacted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_IN_PROGRESS));
-                Integer piDeclineContacted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_FAILURE));
+                //Integer piSuccessContacted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_SUCCESS));
+                //Integer piOnHoldContacted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_IN_PROGRESS));
+                //Integer piDeclineContacted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_FAILURE));
                 piData.waitingToBeContacted = piPendingContacted;
                 piData.referralsApproved.addAll(new List<DonutItem>{
                         new DonutItem(Label.DI_L_Accepted, piSuccessContacted , DonutItem.Type.SUCCSESS),
@@ -142,13 +227,41 @@ public class DashboardRemote {
                 });
         
                 //referring clinics data
-                piData.physiciansWaitingForApprovalList = prepareHCPEList(
-                        HCPEnrollmentService.getHCPEnrollmentsForPI(HCPEnrollmentService.STATUS_GROUP_PENDING, 3), userMode
-                );
-                Integer phPending = HCPEnrollmentService.getHCPEnrollmentsCountForPI(HCPEnrollmentService.STATUS_GROUP_PENDING);
+                List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsByPI(piId);
+
+                List<HCP_Enrollment__c> physiciansWaitingForApprovalPEList = new List<HCP_Enrollment__c>();
+
+                Integer phPending = 0;
+                Integer phDeclined = 0;
+                Integer phActivated = 0;
+                Integer phOnHold = 0;
+
+                for(HCP_Enrollment__c hcpe : hcpEnrollments){
+                    if(HCPEnrollmentService.STATUS_GROUP_PENDING.contains(hcpe.Status__c)){
+                        if(physiciansWaitingForApprovalPEList.size() < 3) {
+                            physiciansWaitingForApprovalPEList.add(hcpe);
+                        }
+                    }
+                    if(HCPEnrollmentService.STATUS_GROUP_PENDING.contains(hcpe.Study__c)){
+                        phPending += 1;
+                    }
+                    if(HCPEnrollmentService.STATUS_GROUP_DECLINED.contains(hcpe.Study__c)){
+                        phDeclined += 1;
+                    }
+                    if(HCPEnrollmentService.STATUS_GROUP_ACTIVATED.contains(hcpe.Study__c)){
+                        phActivated += 1;
+                    }
+                    if(HCPEnrollmentService.STATUS_GROUP_ON_HOLD.contains(hcpe.Study__c)){
+                        phOnHold += 1;
+                    }
+                }
+
+                piData.physiciansWaitingForApprovalList = prepareHCPEList(physiciansWaitingForApprovalPEList, userMode);
+
+                /*Integer phPending = HCPEnrollmentService.getHCPEnrollmentsCountForPI(HCPEnrollmentService.STATUS_GROUP_PENDING);
                 Integer phDeclined = HCPEnrollmentService.getHCPEnrollmentsCountForPI(HCPEnrollmentService.STATUS_GROUP_DECLINED);
                 Integer phActivated = HCPEnrollmentService.getHCPEnrollmentsCountForPI(HCPEnrollmentService.STATUS_GROUP_ACTIVATED);
-                Integer phOnHold = HCPEnrollmentService.getHCPEnrollmentsCountForPI(HCPEnrollmentService.STATUS_GROUP_ON_HOLD);
+                Integer phOnHold = HCPEnrollmentService.getHCPEnrollmentsCountForPI(HCPEnrollmentService.STATUS_GROUP_ON_HOLD);*/
                 piData.physiciansWaitingForApproval = phPending;
                 piData.siteRequests.addAll(new List<DonutItem>{
                         new DonutItem(Label.DI_L_Activated, phActivated , DonutItem.Type.SUCCSESS),
@@ -158,13 +271,13 @@ public class DashboardRemote {
                 });
 
                 // waiting contact in days
-                piData.waitingTimeToContact = prepareWaitingList(userMode, delegateId);
+                piData.waitingTimeToContact = prepareWaitingList(userMode, delegateId, piId);
 
                 // awaiting contact
-                piData.awaitingToContact = prepareAwaitingContactList(userMode, delegateId);
+                piData.awaitingToContact = prepareAwaitingContactList(userMode, delegateId, contactAtemptedList);
                 piData.participantsWaitingContact = piData.awaitingToContact.size();
 
-                piData.funnelData = prepareDataForFunnelChart();
+                piData.funnelData = prepareDataForFunnelChart(piId);
 
                 return JSON.serialize(piData);
     
@@ -225,7 +338,7 @@ public class DashboardRemote {
                 Participant_Status__c = PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS)[0]
         );
         upsert pe;
-        return getInitData(CommunityService.USER_MODE_PI, null);
+        return getInitData(CommunityService.USER_MODE_PI, null, peId);
     }
 
     @AuraEnabled
@@ -234,11 +347,13 @@ public class DashboardRemote {
         ViewPatientsRemote.InitData initData = new ViewPatientsRemote.InitData();
         initData.peStatusStateMap = PEStatusState.STATUSES_MAP;
         initData.peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
+        initData.isInvited = ![SELECT Id FROM User WHERE ContactId =: participantId LIMIT 1].isEmpty();
+
 
         List<Participant_Enrollment__c> pes =
                 ParticipantEnrollmentService.getPEnrolmentsByStatus(
                         userMode,
-                        new List<String>{ PEStatusState.PE_STATUS_CONTACT_ATTEMPTED },
+                        new List<String>{ PEStatusState.PE_STATUS_CONTACT_ATTEMPTED, PEStatusState.PE_STATUS_RECEIVED },
                         null,
                         delegateId);
         for (Participant_Enrollment__c pe : pes) {
@@ -246,7 +361,6 @@ public class DashboardRemote {
                 initData.currentPageList = new List<ViewPatientsRemote.PEWrapper> { new ViewPatientsRemote.PEWrapper(pe, new StudyActionsPI(pe).actions) };
             }
         }
-
         return JSON.serialize(initData);
     }
 
@@ -283,12 +397,16 @@ public class DashboardRemote {
         return resList;
     }
 
-    private static List<BarItem> prepareWaitingList(String userMode, String delegateId) {
+    private static List<BarItem> prepareWaitingList(String userMode, String delegateId, String piId) {
         List<BarItem> resList = new List<BarItem>();
 
-        if (String.isBlank(delegateId)) {
-            delegateId = CommunityService.getUserContact().Id;
-        }
+        /*List<Participant_Enrollment__c> pes =
+                ParticipantEnrollmentService.getPEnrolmentsByStatus(
+                        userMode,
+                        new List<String>{ PEStatusState.PE_STATUS_RECEIVED },
+                        null,
+                        delegateId);*/
+        //Map<Id, Participant_Enrollment__c> peById = new Map<Id, Participant_Enrollment__c>(receivedPE);
 
         List<Participant_Enrollment_Status_History__c> peSHs =
             [SELECT Id,
@@ -299,7 +417,7 @@ public class DashboardRemote {
              FROM Participant_Enrollment_Status_History__c
              WHERE ParticipantEnrollment__c IN (SELECT Id
                                                 FROM Participant_Enrollment__c
-                                                WHERE Study_Site__r.Principal_Investigator__c = :delegateId) AND
+                                                WHERE Study_Site__r.Principal_Investigator__c = :piId) AND
                    Status__c IN :(new List<String>{ PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED,
                                                     PEStatusState.PE_STATUS_RECEIVED })
              ORDER BY CreatedDate DESC];
@@ -373,13 +491,13 @@ public class DashboardRemote {
         return resList;
     }
 
-    private static List<FunnelData> prepareDataForFunnelChart(){
+    private static List<FunnelData> prepareDataForFunnelChart(Id piId){
         List<FunnelData> returnData = new List<FunnelData>();
         Map<Id, Participant_Enrollment__c> peMap = new Map<Id,Participant_Enrollment__c>();
         List<Participant_Enrollment__c> peList = (List<Participant_Enrollment__c>) DatabaseService.query(
                 ParticipantEnrollmentService.PE_COMMON_FIELDS,
                 Participant_Enrollment__c.getSObjectType(),
-                ' Study_Site__c != NULL AND Study_Site__r.Principal_Investigator__c = \'' + CommunityService.getInstance().getCurrentContactId() +'\''
+                ' Study_Site__c != NULL AND Study_Site__r.Principal_Investigator__c = \'' + piId +'\''
         );
         /*for(Participant_Enrollment__c pe : (List<Participant_Enrollment__c>) DatabaseService.query(
                 ParticipantEnrollmentService.PE_COMMON_FIELDS,
@@ -423,15 +541,16 @@ public class DashboardRemote {
                     enrolledOrRandomizedSet.add(pesh.ParticipantEnrollment__c);
                 }
             }
-            returnData.add(new FunnelData(PEStatusState.PE_STATUS_RECEIVED, receivedStatusSet.size(), '#3DC2FA'));
-            returnData.add(new FunnelData(PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED, successfullyContactedSet.size(), '#9914E6'));
+            returnData.add(new FunnelData(Label.Received, receivedStatusSet.size(), '#3DC2FA'));
+            returnData.add(new FunnelData(Label.Successfully_Contacted, successfullyContactedSet.size(), '#9914E6'));
             returnData.add(new FunnelData(peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual' ?
-                    INITIAL_VISIT_SCHEDULED : PEStatusState.PE_STATUS_ELIGIBILITY_PASSED,
+                    Label.Initial_Visit_Scheduled : Label.Eligibility_Passed,
                     peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual' ?
                             initialVisitScheduledSet.size() : eligibilityPassedSet.size(), '#D892FF'));
-            returnData.add(new FunnelData(PEStatusState.PE_STATUS_SCREENING_PASSED, screeningPassedSet.size(), '#139458'));
-            returnData.add(new FunnelData(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS, enrolledOrRandomizedSet.size(), '#7AFFD3'));
+            returnData.add(new FunnelData(Label.Screening_Passed, screeningPassedSet.size(), '#139458'));
+            returnData.add(new FunnelData(Label.Enrolled_Or_Randomized, enrolledOrRandomizedSet.size(), '#7AFFD3'));
         }
+
         return returnData;
     }
 
@@ -440,16 +559,16 @@ public class DashboardRemote {
         return new BarItem(color, width, title, '' + count);
     }
 
-    private static List<WaitingContactItem> prepareAwaitingContactList(String userMode, String delegateId) {
+    private static List<WaitingContactItem> prepareAwaitingContactList(String userMode, String delegateId, List<Participant_Enrollment__c> contactAtemptedList) {
         List<WaitingContactItem> resList = new List<WaitingContactItem>();
 
-        List<Participant_Enrollment__c> pes =
+        /*List<Participant_Enrollment__c> pes =
                 ParticipantEnrollmentService.getPEnrolmentsByStatus(
                         userMode,
-                        new List<String>{ PEStatusState.PE_STATUS_CONTACT_ATTEMPTED },
+                        new List<String>{ PEStatusState.PE_STATUS_CONTACT_ATTEMPTED, PEStatusState.PE_STATUS_RECEIVED },
                         null,
-                        delegateId);
-        for (Participant_Enrollment__c pe : pes) {
+                        delegateId);*/
+        for (Participant_Enrollment__c pe : contactAtemptedList) {
             Integer daysAdded = pe.CreatedDate.date().daysBetween(System.today());
             resList.add(new WaitingContactItem(pe.Participant__c, pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c, pe.Source_Type__c, pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, pe.Study_Site__r.Clinical_Trial_Profile__c, daysAdded));
         }

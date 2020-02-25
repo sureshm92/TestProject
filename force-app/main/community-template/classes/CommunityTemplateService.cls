@@ -7,10 +7,17 @@ public without sharing class CommunityTemplateService {
     //Template properties:
     public static final String PROPERTY_COMMUNITY_LOGO = 'CommunityLogo';
     public static final String PROPERTY_THEME_CSS = 'ThemeCSS';
+
     public static final String PERMISSION_COMMUNITY_DEFAULT_NAME = 'Community_Default';
     public static final String PERMISSION_COMMUNITY_GSK_NAME = 'Community_GSK_Pan_Oncology';
+
     public static final String COMMUNITY_DEFAULT_NAME = 'Default';
     public static final String COMMUNITY_GSK_NAME = 'GSK';
+    public static final Map<String, String> NETWORK_BY_TEMPLATE = new Map<String, String>{
+            COMMUNITY_DEFAULT_NAME => CommunityService.IQVIA_NETWORK_NAME,
+            COMMUNITY_GSK_NAME => CommunityService.GSK_NETWORK_NAME
+    };
+    
     public static final String TEMPLATE_DEFAULT = 'Default';
     public static final Map<String, String> RESOURCES_URL_MAP = getResourcesURLMap();
     public static final Map<String, Network> NETWORKS_MAP = getNetworksMap();
@@ -36,7 +43,7 @@ public without sharing class CommunityTemplateService {
     
     public static Map<String, CommunityTemplate> getTemplatesMap(){
         List<Community_Template__mdt> templates = [
-                SELECT Id, Community_Name__c, Label,
+                SELECT Id, Community_Name__c, Label, Permission_Set_Developer_Name__c,
                 (SELECT Id, Label, Value__c FROM CommunityTemplate_Properties__r)
                 FROM Community_Template__mdt
         ];
@@ -49,13 +56,18 @@ public without sharing class CommunityTemplateService {
                 propertiesMap.put(property.Label, replaceResourceParameter(property.Value__c));
             }
             templatesMap.put(template.Label, new CommunityTemplate(
-                    propertiesMap,
-                    template.Community_Name__c,
-                    getCommunityURL(template.Community_Name__c)
+                    template,
+                    propertiesMap
             ));
             if(template.Label == TEMPLATE_DEFAULT) defaultProperties = propertiesMap;
         }
         return templatesMap;
+    }
+    
+    public static Set<String> getAllPermissionSets(){
+        Set<String> permissions = new Set<String>();
+        for(CommunityTemplate ct : TEMPLATES_MAP.values()) permissions.add(ct.permissionSet);
+        return permissions;
     }
     
     public static String getCommunityURL(String communityName){

@@ -158,7 +158,7 @@ public without sharing class TaskService {
         List<Task> resTasks = new List<Task>();
         for(Integer i = 0; i < tasks.size(); i++){
             resTasks.add(tasks[i]);
-            if(i == 5) break;
+            if(i >= 4) break;
         }
         expireSurveyTasksByExpiredInvitations(getTasksCommon(getOpenTasksFilter()));
         return resTasks;

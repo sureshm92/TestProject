@@ -12,6 +12,7 @@ public without sharing class ViewPatientsRemote {
         public List<Id> trialIds;
         public Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
         public List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
+        public Boolean isInvited;
      //   public MyPatientsStatistics statistics;
      //   public List<ReferralProfileRemote.ChangeStatusButton> btnList = ReferralProfileRemote.createButtonsList(null);
     }

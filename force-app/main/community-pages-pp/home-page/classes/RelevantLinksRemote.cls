@@ -9,7 +9,7 @@ public without sharing class RelevantLinksRemote {
     }
 
     public class LinksWrapper {
-        @AuraEnabled public String type = '';
+        @AuraEnabled public LabelValueItem type;
         @AuraEnabled public List<Resource__c> resources = new List<Resource__c>();
     }
 
@@ -49,20 +49,28 @@ public without sharing class RelevantLinksRemote {
                 }
             }
 
-            for(String t : types) {
+            List<LabelValueItem> typeLabelValues = getTranslatedTypes(Resource__c.Type__c.getDescribe().getPicklistValues());
+            for(LabelValueItem t : typeLabelValues) {
                 LinksWrapper lw = new LinksWrapper();
-                if(t.equals('None')) lw.type = Label.Home_Page_RelevantLinks_Title;
-                else lw.type = t;
-
                 for(Res_study__c rs : resStudiesVisibleForParticipant) {
-                    if(rs.Resource__r.Type__c.equals(t)) lw.resources.add(rs.Resource__r);
+                    if(rs.Resource__r.Type__c.equals(t.value) ||
+                            (rs.Resource__r.Type__c.equals('None') && t.value.equals('Helpful Links'))) {
+                        lw.resources.add(rs.Resource__r);
+                    }
                 }
-                initData.linksWrappers.add(lw);
+
+                if(!lw.resources.isEmpty()) {
+                    lw.type = t;
+                    initData.linksWrappers.add(lw);
+                }
             }
 
             if(initData.linksAvailable && initData.linksWrappers.isEmpty()) {
                 LinksWrapper lw = new LinksWrapper();
-                lw.type = Label.Home_Page_RelevantLinks_Title;
+                lw.type = new LabelValueItem(
+                        TranslateHelper.getPickListLabel(
+                                Resource__c.Type__c, 'Relevant Links'),
+                        'Relevant Links');
                 initData.linksWrappers.add(lw);
             }
 
@@ -92,5 +100,13 @@ public without sharing class RelevantLinksRemote {
             if (participantState.ctp.Relevant_Links_Are_Available__c) enrollments.add(participantState.pe);
         }
         return enrollments;
+    }
+
+    public static List<LabelValueItem> getTranslatedTypes(List<PicklistEntry> types){
+        List<LabelValueItem> translatedTypes = new List<LabelValueItem>();
+        for(PicklistEntry t : types) {
+            if(!t.getValue().equals('None')) translatedTypes.add(new LabelValueItem(t.getLabel(), t.getValue()));
+        }
+        return translatedTypes;
     }
 }

@@ -153,7 +153,7 @@ public virtual without sharing class ResourceService {
                     SELECT Therapeutic_Area__r.Name
                     FROM Therapeutic_Area_Patient__c WHERE Participant__c =: participant.Id];
             for(Therapeutic_Area_Patient__c tap : therapeuticAreaPatients) {
-                COIsOfParticipant.add('\'' + tap.Therapeutic_Area__r.Name + '\'');
+                COIsOfParticipant.add('\'' + tap.Therapeutic_Area__r.Name.replaceAll('\'','\\\\\'') + '\'');
             }
         }
         String resourcesQuery =

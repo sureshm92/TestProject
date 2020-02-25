@@ -12,6 +12,7 @@
     <aura:attribute name="refProvider" type="Object"/>
     <aura:attribute name="showReferringProvider" type="Boolean"/>
     <aura:attribute name="delegates" type="List"/>
+    <aura:attribute name="statusesDelegates" type="List"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.pe}" action="{!c.doInit}"/>
@@ -35,6 +36,7 @@
                                                    pe="{!v.pe}" actionDisabled="{!v.actionDisabled}" printMode="{!v.printMode}"/>
                     </div>
                 </aura:if>
+            <aura:if isTrue="{!!v.fromEmancipParticipant}">
                 <div class="referring">{!$Label.c.Delegates}</div>
                 <div class="slds-grid slds-wrap slds-size--1-of-1">
                     <aura:iteration items="{!v.delegates}" var="delegate" indexVar="index">
@@ -44,11 +46,12 @@
                 </div>
             <aura:if isTrue="{!!v.actionDisabled}">
                 <div>
-                    <lightning:button class="apollo-btn secondary slds-box" onclick="{!c.doAddDelegate}">{!$Label.c.Add_Another_Delegate}
+                    <lightning:button class="apollo-btn secondary slds-box" disabled="true" onclick="{!c.doAddDelegate}">{!$Label.c.Add_Another_Delegate}
                         <c:RRIcon class='rr-icon--left' color="#297dfd"
                                   iconName="icon-plus"/>
                     </lightning:button>
                 </div>
+            </aura:if>
             </aura:if>
             <!--<div class="slds-col slds-size&#45;&#45;1-of-4 referring-provider-header">
                 <aura:if isTrue="{!v.pe.HCP_Contact_HCPEnroll__r.Name}">

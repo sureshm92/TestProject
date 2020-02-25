@@ -170,14 +170,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             ProviderPaymentsService.checkPEForReimbursableActivities((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
-
-    public class AssignCommunityPermissionSetToUserHandler extends TriggerHandler {
-
-        public override void afterInsert(List<SObject> newList) {
-            assignCommunityPermissionSetToUser(newList);
-        }
-    }
-
+    
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
@@ -297,15 +290,23 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             Participant__c participant = (Participant__c) PETriggerBuffer.getSObject(pe.Participant__c);
             if (participant != null && participant.Contact__c != null) participantContactIds.add(participant.Contact__c);
         }
-        for (User usr : CommunityService.getCommunityUsersByContactIds(participantContactIds)) usersByContactId.put(usr.ContactId, usr);
+        Map<Id, Set<String>> userPermissionSetsMap = new Map<Id, Set<String>>();
+        for (User usr : CommunityService.getCommunityUsersByContactIds(participantContactIds)) {
+            usersByContactId.put(usr.ContactId, usr);
+            Set<String> pSets = new Set<String>();
+            for(PermissionSetAssignment pma : usr.PermissionSetAssignments) pSets.add(pma.PermissionSet.Name);
+            userPermissionSetsMap.put(usr.Id, pSets);
+        }
 
         //process PE items:
         List<Alert__c> alertsForInsert = new List<Alert__c>();
+        Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
         for (Participant_Enrollment__c newPE : newList) {
             Study_Site__c ss = (Study_Site__c) PETriggerBuffer.getSObject(newPE.Study_Site__c);
             HCP_Enrollment__c hcpe = (HCP_Enrollment__c) PETriggerBuffer.getSObject(newPE.HCP__c);
             Participant__c participant = (Participant__c) PETriggerBuffer.getSObject(newPE.Participant__c);
             User participantUser;
+            String permissionSetName = CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.Community_Template__c).permissionSet;
             if (participant != null && participant.Contact__c != null) participantUser = usersByContactId.get(participant.Contact__c);
             Boolean updateCriteria = true;
             if (oldMap != null) {
@@ -343,7 +344,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                                 Contact__c = participant.Contact__c,
                                 Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH
                         ));
-                    } else {
+                        actionAssignContactPermissions.addPermission(newPE.Participant_Contact__c, permissionSetName);
+                    } else if(!userPermissionSetsMap.get(participantUser.Id).contains(permissionSetName)){
+                        System.debug('ASSIGN NEW PERMISSION SET');
+                        actionAssignContactPermissions.addPermission(newPE.Participant_Contact__c, permissionSetName);
+                    }else {
                         System.debug('NOTIFY USER');
                         if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP) {
                             notifications.add(new Notification__c(
@@ -382,6 +387,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         if (!contactsForChangeMode.isEmpty()) {
             update contactsForChangeMode;
         }
+        if(!actionAssignContactPermissions.isEmpty()) ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
     }
     //Moved to PESH Trigger Handler
 
@@ -460,12 +466,25 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     @TestVisible
     private static void createInvitations(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+        List<Participant_Enrollment__c> enrollments = [
+                SELECT Id,
+                        Clinical_Trial_Profile__c,
+                        Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Participant_Status__c
+                FROM Participant_Enrollment__c
+                WHERE Id IN:newList
+        ];
+
+        Map<String, Id> communitiesMap = CommunityService.getCommunityIdsMap();
+        Map<Id, String> networkByPE = new Map<Id, String>();
         Map<Id, List<Participant_Enrollment__c>> ctpPE = new Map<Id, List<Participant_Enrollment__c>>();
-        for (Participant_Enrollment__c pe : newList) {
+        for (Participant_Enrollment__c pe : enrollments) {
             if (ctpPE.get(pe.Clinical_Trial_Profile__c) == null) {
                 ctpPE.put(pe.Clinical_Trial_Profile__c, new List<Participant_Enrollment__c>());
             }
             ctpPE.get(pe.Clinical_Trial_Profile__c).add(pe);
+            String networkName = CommunityTemplateService.NETWORK_BY_TEMPLATE.get(pe.Clinical_Trial_Profile__r.CommunityTemplate__c);
+            networkByPE.put(pe.Id, communitiesMap.get(networkName));
         }
 
         List<Trial_Survey__c> trialSurveys = [
@@ -484,8 +503,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
                 AND Clinical_Trial_Profile__c IN:ctpPE.keySet()
         ];
-
-        Id communityId = CommunityService.getCommunityId(null);
 
         Map<Id, String> trialWhoseResponse = new Map<Id, String>();
         List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
@@ -506,7 +523,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     }
                 }
                 if (needToAdd) {
-                    newInvitations.add(SurveyService.getInstance().generateInvitation(ts, enrollment.Id, communityId));
+                    newInvitations.add(SurveyService.getInstance().generateInvitation(
+                            ts, enrollment.Id, networkByPE.get(enrollment.Id))
+                    );
                 }
             }
         }
@@ -822,39 +841,4 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         return statusHistories;
     }
 
-    @TestVisible
-    private static void assignCommunityPermissionSetToUser(List<Participant_Enrollment__c> participantEnrollments) {
-        List<Participant_Enrollment__c> enrollments = [
-                SELECT
-                        Id,
-                        Clinical_Trial_Profile__r.CommunityTemplate__c,
-                        Participant_Contact__c
-                FROM Participant_Enrollment__c
-                WHERE Id IN :participantEnrollments
-                AND Clinical_Trial_Profile__c != NULL
-                AND Participant_Contact__c != NULL
-        ];
-        List<Id> partContIds = new List<Id>();
-        for (Participant_Enrollment__c enrollment : enrollments) partContIds.add(enrollment.Participant_Contact__c);
-
-        List<User> participantUsers = [SELECT Id, ContactId FROM User WHERE ContactId IN :partContIds];
-        if (!participantUsers.isEmpty()) {
-            Map<String, String> usersByContact = new Map<String, String>();
-            for (User user : participantUsers) usersByContact.put(user.ContactId, user.Id);
-
-            PermissionService service = PermissionService.getInstance();
-            Map<Id, Id> newPermissionByUser = new Map<Id, Id>();
-            for (Participant_Enrollment__c pe : enrollments) {
-                String studyCommunity = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
-                Id permSetId = service.getPermissionSetIdByName(PermissionService.PERMISSION_COMMUNITY_DEFAULT);
-                if (studyCommunity == CommunityTemplateService.COMMUNITY_GSK_NAME) {
-                    permSetId = service.getPermissionSetIdByName(PermissionService.PERMISSION_COMMUNITY_GSK);
-                }
-                if (usersByContact.containsKey(pe.Participant_Contact__c)) {
-                    newPermissionByUser.put(usersByContact.get(pe.Participant_Contact__c), permSetId);
-                }
-            }
-            PermissionService.setPermissionForUsers(JSON.serialize(newPermissionByUser));
-        }
-    }
 }
