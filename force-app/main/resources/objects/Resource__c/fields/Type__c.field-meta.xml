@@ -34,13 +34,11 @@
             <value>
                 <fullName>Articles for caregivers</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
                 <label>Articles for caregivers</label>
             </value>
             <value>
                 <fullName>None</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
                 <label>None</label>
             </value>
         </valueSetDefinition>
