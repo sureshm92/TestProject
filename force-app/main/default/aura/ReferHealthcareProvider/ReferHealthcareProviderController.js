@@ -10,9 +10,6 @@
         });
         communityService.executeAction(component, 'getContactsDelegates', {participantId: pe.Participant__c}, function (returnValue) {
             component.set('v.delegates', returnValue);
-            console.log('DELEGATES', component.get('v.delegates'));
-            console.log('HEALTHCARE', JSON.parse(JSON.stringify(component.get('v.healthCareProviders'))));
-            console.log('REFPROVIDER', component.get('v.refProvider'));
         });
     },
 

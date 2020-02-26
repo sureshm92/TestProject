@@ -187,32 +187,14 @@ global without sharing class EmailTemplateController {
     }
 
     private Map<String, String> getTemplateProperties() {
-        if (sourceRecordId != null &&
-                (sourceRecordId.getSobjectType() == Participant_Enrollment__c.getSObjectType())) {
-            Participant_Enrollment__c pe = [
-                    SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
-                    FROM Participant_Enrollment__c
-                    WHERE Id = :sourceRecordId
-            ];
-            return CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).properties;
-        } else if (sourceRecordId != null &&
-                (sourceRecordId.getSobjectType() == User.getSObjectType())) {
-            Id conId = [SELECT Id, Contact.Id FROM User WHERE Id = :sourceRecordId].Contact.Id;
-            Participant_Enrollment__c pe = [
-                    SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
-                    FROM Participant_Enrollment__c
-                    WHERE Participant_Contact__c = :conId
-            ];
-            return CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).properties;
-        } else if (sourceRecordId != null &&
-                (sourceRecordId.getSobjectType() == Case.getSObjectType())) {
-            Case cs = [SELECT Id, CommunityName__c FROM Case Where Id = :sourceRecordId];
-            Community_Template__mdt commTemplate = [SELECT Id, DeveloperName, Community_Name__c FROM Community_Template__mdt WHERE Community_Name__c = :cs.CommunityName__c];
-            return CommunityTemplateService.getTemplate(commTemplate.DeveloperName).properties;
-        } else {
-            return CommunityTemplateService.getDefaultTemplate().properties;
+        if (sourceRecordId !=null) {
+            String userModeString = getDataProvider().userMode;
+            String templateName = TemplatePropertiesService.getTemplatePropertiesBySObject(sourceRecordId, emailRecipientId, userModeString);
+            if (templateName != null) {
+                return CommunityTemplateService.getTemplate(templateName).properties;
+            }
         }
-        return new Map<String, String>();
+        return CommunityTemplateService.getDefaultTemplate().properties;
     }
 
     global String emailTemplateBackground {
@@ -362,7 +344,7 @@ global without sharing class EmailTemplateController {
         try {
             return getDataProvider().userMode;
         } catch (Exception e) {
-           EmailService.sendException(e, null);
+            EmailService.sendException(e, null);
             return e.getMessage();
         }
     }

@@ -157,7 +157,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                             Study_Site__c,
                             Study_Site__r.Clinical_Trial_Profile__c,
                             Study_Site__r.Suppress_Participant_Emails__c,
-                            Clinical_Trial_Profile__r.Community_Template__c,
+                            Clinical_Trial_Profile__r.CommunityTemplate__c,
                             Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                             Is_Virtual_Study_Site__c,
                             HCP__c,
@@ -191,7 +191,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             Action_AssignContactPermissions actionAssigContactPermissions = new Action_AssignContactPermissions();
             for (Participant_Enrollment__c newPE : participantEnrollments) {
                 Participant__c participant = newPE.Participant__c != null? participantMap.get(newPE.Participant__c):null;
-                String permissionSetName = CommunityTemplateService.getTemplate(newPE.Clinical_Trial_Profile__r.Community_Template__c).permissionSet;
+                String permissionSetName = CommunityTemplateService.getTemplate(newPE.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
                 User participantUser;
                 if (participant != null && participant.Contact__c != null) participantUser = usersByContactId.get(participant.Contact__c);
                 Boolean filterCriteria = !newPE.Is_Virtual_Study_Site__c &&

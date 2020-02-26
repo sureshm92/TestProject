@@ -3,6 +3,7 @@ public class Test_ResourceRemote {
 
     @TestSetup
     public static void setup() {
+        Test.startTest();
         TestData.loadTestData();
         TestData testData = new TestData();
 
@@ -10,6 +11,7 @@ public class Test_ResourceRemote {
         insert singleResource;
         Resource_Action__c singleAction = new Resource_Action__c(Participant__c = testData.participant.Id, Resource__c = singleResource.Id, IsVoted__c = false, IsFavorite__c = false);
         insert singleAction;
+        Test.stopTest();
     }
 
     @IsTest
@@ -107,8 +109,17 @@ public class Test_ResourceRemote {
                 .then(new ResourceService.ResourceWrapperContainer(new List<ResourceService.ResourceWrapper>()))
                 .build()
        );
+        ClassFactory.putStubTypeByClassName(ContactService.class, StubBuilder.newInstance(ContactService.class)
+                .when('getPreferredLanguages')
+                .then(new List<String>{'en_US'})
+                .build()
+       );
         Test.startTest();
-        ResourceService.ResourceWrapperContainer container = ResourceRemote.getStudyDocuments();
+        ResourceService.ResourceWrapperContainer container;
+        TestData testData = new TestData();
+        System.runAs(testData.participantUser) {
+            container = ResourceRemote.getStudyDocuments();
+        }
         Test.stopTest();
 
         System.assert(String.isBlank(container.errorMessage));

@@ -135,7 +135,9 @@ private class Test_MessagePageRemote {
     static void attachFileTest() {
         String fileJSON = JSON.serialize(new List<String>{'IQVIA SMS.txt', 'RGVhciBhbGwuDQpJZiB5b3VyIHBhc3N3b3JkIGhhcyBleHBpcmVkLCB5b3UgY2FuIHJlc3RvcmUgaXQgd2l0aG91dCBjYWxsaW5nIEhQUyBzdXBwb3J0Lg0KVG8gcmVjb3ZlciB0aGUgcGFzc3dvcmQsIHVzZSBjaXRyaXggKG5vdCBWUE4pOg0KLSBnbyB0byBodHRwczovL2ltc2FwcHMuaW1zaGVhbHRoLmNvbS92cG4vaW5kZXguaHRtbDsNCi0gZW50ZXIgeW91ciBsb2dpbiBhbmQgcGFzc3dvcmQgKElRVklBLCBub3QgSFBTIG1haWwpOw0KLSBjaGFuZ2UgcGFzc3dvcmQ7DQotIFBST0ZJVDs='});
         TestData testData = new TestData();
+        Test.startTest();
         MessagePageRemote.attachFile(testData.ctp.Id, fileJSON);
+        Test.stopTest();
     }
 
     @IsTest

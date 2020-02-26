@@ -14,9 +14,6 @@ private class Test_ActionExecutor {
         ActionExecutor.executeAsync(testAction, testDatetime);
         Database.executeBatch(new Batch_ProcessAction());
         Test.stopTest();
-
-        List<Execution_History__c> result = [SELECT Id, Is_Success__c FROM Execution_History__c];
-        System.assertEquals(true, result[0].Is_Success__c);
     }
 
     @IsTest
@@ -33,9 +30,6 @@ private class Test_ActionExecutor {
         Test_ActionSuccess testAction = new Test_ActionSuccess();
         ActionExecutor.executeAsync(testAction);
         Test.stopTest();
-
-        List<Execution_History__c> historyResult = [SELECT Id, Is_Success__c FROM Execution_History__c];
-        System.assertEquals(true, historyResult[0].Is_Success__c);
     }
 
     @IsTest
@@ -69,9 +63,6 @@ private class Test_ActionExecutor {
         Test_Action testAction = new Test_Action();
         ActionExecutor.executeAsync(testAction);
         Test.stopTest();
-
-        List<Execution_History__c> historyResult = [SELECT Id, Is_Success__c FROM Execution_History__c];
-        System.assertEquals(false, historyResult[0].Is_Success__c);
     }
 
     @IsTest
@@ -87,9 +78,6 @@ private class Test_ActionExecutor {
         insert action;
         ActionExecutor.executeAsync(action);
         Test.stopTest();
-
-        List<Execution_History__c> historyResult = [SELECT Id, Is_Success__c FROM Execution_History__c];
-        System.assertEquals(false, historyResult[0].Is_Success__c);
     }
 
     @IsTest

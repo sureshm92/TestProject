@@ -297,10 +297,22 @@ public without sharing class ParticipantEnrollmentService {
         return getPEnrolmentsByStatus(userMode, statuses, recordsLimit, null);
     }
 
+
+
     public static List<Participant_Enrollment__c> getPEnrolmentsByStatus(String userMode, List<String> statuses, Integer recordsLimit, String delegateId){
         String filter = ' AND Participant_Status__c IN (\'' + String.join(statuses, '\',\'') + '\') ';
         if(recordsLimit != null) filter += ' LIMIT ' + recordsLimit;
         return getPEnrolmentsCommon(userMode, filter, delegateId);
+    }
+
+    public static List<Participant_Enrollment__c> getPEEnrollmentsByPI(String userMode, Id piId) {
+        String filter = ' Study_Site__c != NULL AND Study_Site__r.Principal_Investigator__c = \'' + piId + '\'';
+        List<Participant_Enrollment__c> peList = DatabaseService.query(
+                PE_COMMON_FIELDS,
+                Participant_Enrollment__c.getSObjectType(),
+                filter
+        );
+        return peList;
     }
 
     public static List<Participant_Enrollment__c> getReferredPEList(String userMode, String filter){
@@ -334,7 +346,6 @@ public without sharing class ParticipantEnrollmentService {
             'Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c',
             'Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c',
             'Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c',
-            'Clinical_Trial_Profile__r.Community_Template__c',
             'Clinical_Trial_Profile__r.CommunityTemplate__c',
             'CreatedDate',
             'Enrolled_Date__c',

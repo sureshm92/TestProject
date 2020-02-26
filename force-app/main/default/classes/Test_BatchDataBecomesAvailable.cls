@@ -4,12 +4,19 @@
 
 @IsTest
 private class Test_BatchDataBecomesAvailable {
-    @IsTest
-    static void testdataBecomesAvailiable() {
+
+    @TestSetup
+    static void init() {
         Test.startTest();
         TestData.loadTestData();
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void testdataBecomesAvailiable() {
         TestData testData = new TestData();
 
+        Test.startTest();
         testData.ss.Visit_Results_Sharing__c = true;
         update testData.ss;
 
@@ -66,6 +73,5 @@ private class Test_BatchDataBecomesAvailable {
 
         Database.executeBatch(new Batch_DataBecomesAvailable());
         Test.stopTest();
-
     }
 }

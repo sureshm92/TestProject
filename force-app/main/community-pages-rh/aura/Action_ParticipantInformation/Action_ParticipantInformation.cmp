@@ -99,11 +99,11 @@
                 </lightning:tabset>
             </aura:if>
         </div>
-        <!--<aura:set attribute="headerButtons">
+        <aura:set attribute="headerButtons">
             <lightning:button onclick="{!c.doPrint}" name="Print" class="{!'slds-button slds-button&#45;&#45;icon-inverse'}">
                 <c:RRIcon iconName="icon-print" class="print-icon"/>
             </lightning:button>
-        </aura:set>-->
+        </aura:set>
         <aura:set attribute="footerButtons">
             <div data-gtm="BTNS_Popup_Save_Cancel">
                 <lightning:button class="apollo-btn secondary slds-float_right slds-button--neutral"

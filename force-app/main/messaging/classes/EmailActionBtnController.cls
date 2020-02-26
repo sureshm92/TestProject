@@ -50,7 +50,7 @@ global without sharing class EmailActionBtnController {
             communityTemplate = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
         }
 
-        String communityName = CommunityTemplateService.NETWORK_BY_TEMPLATE.get(communityTemplate);
+        String communityName = CommunityTemplateService.getTemplate(communityTemplate).communityName;
         String urlStr = CommunityTemplateService.getCommunityURL(communityName);
         return urlStr;
     }
