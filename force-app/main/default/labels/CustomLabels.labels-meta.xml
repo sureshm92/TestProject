@@ -5178,7 +5178,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MS Chat Disclaimer</shortDescription>
-        <value>If you have a medical emergency, please contact emergency medical services. If you do not hear from your provider&#39;s office within 3 business days, please contact the office directly.</value>
+        <value>If you have a medical emergency, please contact your local emergency medical services. If you do not receive a timely response to your message, please contact your study center directly.</value>
     </labels>
     <labels>
         <fullName>MS_Empty_Chat</fullName>
