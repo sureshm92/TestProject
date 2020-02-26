@@ -306,7 +306,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             HCP_Enrollment__c hcpe = (HCP_Enrollment__c) PETriggerBuffer.getSObject(newPE.HCP__c);
             Participant__c participant = (Participant__c) PETriggerBuffer.getSObject(newPE.Participant__c);
             User participantUser;
-            String permissionSetName = CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.Community_Template__c).permissionSet;
+            String permissionSetName = CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
             if (participant != null && participant.Contact__c != null) participantUser = usersByContactId.get(participant.Contact__c);
             Boolean updateCriteria = true;
             if (oldMap != null) {
