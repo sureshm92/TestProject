@@ -185,12 +185,29 @@ global without sharing class ReferHealthcareProviderRemote {
                                                    SELECT Id,
                                                           Email__c,
                                                           First_Name__c,
-                                                          Last_Name__c
+                                                          Last_Name__c,
+                                                          Contact__c
                                                    FROM   Participant__c
                                                    WHERE  Contact__c IN : setId
                                                   ];
         if (listDelegates.isEmpty()) listDelegates.add(new Participant__c());
         return listDelegates;
+    }
+
+
+    @AuraEnabled
+    public static List<Patient_Delegate__c> getStatusDelegates(String participantId) {
+
+        List<Patient_Delegate__c> listDelegatesStatuses = [
+                                                            SELECT Id,
+                                                                  Status__c,
+                                                                  Contact__c
+                                                            FROM Patient_Delegate__c
+                                                            WHERE Participant__c =: participantId
+                                                            AND Status__c =: 'Active'
+
+                                                          ];
+        return listDelegatesStatuses;
     }
 
     private static List<Study_Site__c> getStudySitesForMatchedRP(Id hcpContactId, List<String> piIds) {

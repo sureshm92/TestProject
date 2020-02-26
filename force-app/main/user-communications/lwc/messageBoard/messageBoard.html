@@ -28,7 +28,7 @@
                             <input id="pi-input" class="ms-pi-input" data-gtm="ms-pi-input"
                                    type="text" maxlength="500" placeholder={labels.inputPlaceholderLabel}
                                    value={messageText} autocomplete="off"
-                                   onchange={handleMessageText} onkeyup={handleInputEnter} />
+                                   onchange={handleMessageText} onkeyup={handleInputEnter}/>
                             <template if:true={attachment}>
                                 <lightning-pill class="ms-file-pill" label={attachment.fileName}
                                                 title={attachment.fileName} variant="plain"
@@ -80,9 +80,12 @@
                             label={labels.selectLabel}
                             value={messageText}
                             placeholder={labels.selectPlaceholderLabel}
+                            dropdown-alignment="bottom-left"
                             options={messageTemplateOptions}
                             onchange={handleMessageText}></lightning-combobox>
-                    <button class="apollo-btn primary ms-send-button" data-gtm="ms-send-pa-button"
+
+                    <button class="apollo-btn primary ms-send-button"
+                            data-gtm="ms-send-pa-button"
                             onclick={handleSendClick} disabled>{labels.sendBtnLabel}
                     </button>
                 </div>

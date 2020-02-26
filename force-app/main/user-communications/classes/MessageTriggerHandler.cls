@@ -57,25 +57,25 @@ public without sharing class MessageTriggerHandler {
             String notType;
             Conversation__c conversation = conversationMap.get(mes.Conversation__c);
             if(conversation.haveUnreadForPI__c) {
-                notType = NotificationCatalog.MESSAGE_TO_PI_NEW_MESSAGE_TYPE;
-                headRecipientId = conversation.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c;
-
-                notifications.add(new Notification__c(
-                        Recipient__c = headRecipientId,
-                        WhatId__c = conversation.Participant_Enrollment__c,
-                        Notification_Type__c = notType
-                ));
-
-                List<Id> staffContactIds = staffContactByPI.get(headRecipientId);
-                if (staffContactIds != null) {
-                    for(Id staffConId : staffContactByPI.get(headRecipientId)) {
-                        notifications.add(new Notification__c(
-                                Recipient__c = staffConId,
-                                WhatId__c = conversation.Participant_Enrollment__c,
-                                Notification_Type__c = notType
-                        ));
-                    }
-                }
+//                notType = NotificationCatalog.MESSAGE_TO_PI_NEW_MESSAGE_TYPE;
+//                headRecipientId = conversation.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c;
+//
+//                notifications.add(new Notification__c(
+//                        Recipient__c = headRecipientId,
+//                        WhatId__c = conversation.Participant_Enrollment__c,
+//                        Notification_Type__c = notType
+//                ));
+//
+//                List<Id> staffContactIds = staffContactByPI.get(headRecipientId);
+//                if (staffContactIds != null) {
+//                    for(Id staffConId : staffContactByPI.get(headRecipientId)) {
+//                        notifications.add(new Notification__c(
+//                                Recipient__c = staffConId,
+//                                WhatId__c = conversation.Participant_Enrollment__c,
+//                                Notification_Type__c = notType
+//                        ));
+//                    }
+//                }
             } else if(conversation.haveUnreadForParticipant__c) {
                 notType = NotificationCatalog.MESSAGE_TO_PT_NEW_MESSAGE_TYPE;
                 headRecipientId = conversation.Participant_Enrollment__r.Participant_Contact__c;

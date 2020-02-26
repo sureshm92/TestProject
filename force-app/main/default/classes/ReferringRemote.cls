@@ -119,7 +119,7 @@ public without sharing class ReferringRemote {
 
             Date birthDate = Date.valueOf(participant.Date_of_Birth__c);
             Integer participantAge =
-                    Date.newInstance(2000, birthDate.month(), birthDate.day()) <
+                    Date.newInstance(2000, birthDate.month(), birthDate.day()) <=
                             Date.newInstance(2000, Date.today().month(), Date.today().day()) ?
                             Date.today().year() - birthDate.year() : Date.today().year() - birthDate.year() - 1;
 

@@ -200,9 +200,19 @@ public without sharing class ManualCreationPanelRemote {
             List<Reminder_Schedule__c> rsList = [SELECT Id FROM Reminder_Schedule__c WHERE Id = :wrapper.selectedRS];
             Reminder_Schedule__c rs = rsList.isEmpty() ? null : rsList.get(0);
 
-            List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
-            Id communityId = CommunityService.getCommunityId(null);
             Map<Id, List<Participant_Enrollment__c>> contactsWithPE = filter.getContactsWithPE();
+            Map<String, Id> communitiesMap = CommunityService.getCommunityIdsMap();
+            Map<Id, String> networkByPE = new Map<Id, String>();
+            for (List<Participant_Enrollment__c> peList : contactsWithPE.values()) {
+                for (Participant_Enrollment__c pe : peList) {
+                    if (!networkByPE.containsKey(pe.Id)) {
+                        String communityName = CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).communityName;
+                        networkByPE.put(pe.Id, communitiesMap.get(communityName));
+                    }
+                }
+            }
+
+            List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
             for (Id contactId : contactsWithPE.keySet()) {
                 for (Participant_Enrollment__c pe : contactsWithPE.get(contactId)) {
                     newInvitations.add(SurveyService.getInstance().generateInvitation(
@@ -211,7 +221,7 @@ public without sharing class ManualCreationPanelRemote {
                             wrapper.daysToExpire,
                             wrapper.expireOnAlumni,
                             pe.Id,
-                            communityId
+                            networkByPE.get(pe.Id)
                     ));
                 }
             }

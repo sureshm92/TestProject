@@ -16,10 +16,11 @@ private class Test_FirstLogonController {
             FirstLogonController controller = new FirstLogonController();
             controller.newPassword = 'qwerty1';
             controller.verifyNewPassword = 'qwerty1';
-
             System.assertEquals(controller.setPassword(), null);
             controller.showProfileAction();
             controller.account.Name = 'new Name';
+            controller.contact.Fax = 'new Fax';
+            controller.contact.OwnerId = UserContext.getUser().Id;
             controller.updateNameOfAccount();
             controller.updateLanguageAction();
             controller.updateStatesAction();
@@ -36,6 +37,7 @@ private class Test_FirstLogonController {
         System.runAs(testData.participantUser) {
             ChangePasswordPageController controller = new ChangePasswordPageController();
             controller.browserLanguage = '["en-US","",""]';
+            controller.init();
             controller.updateBrowserLanguageAction();
         }
         Test.stopTest();

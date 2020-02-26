@@ -433,7 +433,9 @@ public without sharing class ParticipantWorkflowService {
         if(pesh!=null){
             result.title = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pesh.Status__c);
             result.reason = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c,pesh.Reason__c);
-            result.dateOccured = pesh.Date__c.format('dd-MMM-yyyy');
+            if(pesh.Date__c != null){
+                result.dateOccured = pesh.Date__c.format('dd-MMM-yyyy');
+            }
             result.state = outcomesMap.get(pesh.Status__c).State__c;
             result.left = PEStatusState.STATUS_STATE_SUCCESS;
             if(previousStep != null) previousStep.right = PEStatusState.STATUS_STATE_SUCCESS;
@@ -445,7 +447,7 @@ public without sharing class ParticipantWorkflowService {
             if(step.Success_Condition__c != null && ConditionCheckerService.checkConditionForObject(step.Success_Condition__c, pe)){
                 result.state = PEStatusState.STATUS_STATE_SUCCESS;
                 result.left = PEStatusState.STATUS_STATE_SUCCESS;
-                if(step.Success_Date_Field__c != null){
+                if(step.Success_Date_Field__c != null && pe.get(step.Success_Date_Field__c)!= null){
                     result.dateOccured = ((Date)pe.get(step.Success_Date_Field__c)).format();
                 }
                 if(previousStep != null) previousStep.right = PEStatusState.STATUS_STATE_SUCCESS;
