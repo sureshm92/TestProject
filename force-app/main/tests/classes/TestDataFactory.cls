@@ -27,7 +27,7 @@ public class TestDataFactory {
                     'Medical_Record_Review_Status__c' => 'Pass',
                     'Pre_screening_Status__c' => 'Pass',
                     'Patient_ID__c' => '12345678',
-                    'Participant_Status__c' => 'Referral Sent to PI',
+                    'Participant_Status__c' => 'Received',
                     'Referral_Source__c' => 'HCP'
             },
 

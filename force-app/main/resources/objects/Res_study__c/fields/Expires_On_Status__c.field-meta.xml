@@ -22,13 +22,13 @@
         <valueSettings>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Successfully contacted</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Eligibility Passed</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
-            <controllingFieldValue>Successfully contacted</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Eligibility Failed</valueName>
         </valueSettings>
@@ -38,7 +38,7 @@
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Successfully contacted</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Screening Passed</valueName>
         </valueSettings>
@@ -47,7 +47,7 @@
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Successfully contacted</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Screening In Progress</valueName>
         </valueSettings>
@@ -56,7 +56,7 @@
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Successfully contacted</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Screening Failed</valueName>
         </valueSettings>
@@ -68,7 +68,7 @@
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Successfully contacted</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Enrollment Success</valueName>
         </valueSettings>
@@ -79,7 +79,7 @@
             <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Successfully contacted</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Enrollment Failed</valueName>
         </valueSettings>
@@ -92,7 +92,7 @@
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Successfully contacted</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Treatment Period Started</valueName>
         </valueSettings>
@@ -106,7 +106,7 @@
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
-            <controllingFieldValue>Successfully contacted</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Follow-Up Period Started</valueName>
         </valueSettings>
@@ -120,7 +120,7 @@
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
-            <controllingFieldValue>Successfully contacted</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Participation Complete</valueName>
@@ -135,7 +135,7 @@
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
-            <controllingFieldValue>Successfully contacted</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -152,7 +152,7 @@
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
-            <controllingFieldValue>Successfully contacted</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
@@ -170,7 +170,7 @@
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
-            <controllingFieldValue>Successfully contacted</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
