@@ -203,13 +203,13 @@ public without sharing class ParticipantInformationRemote {
 
                 if (cnt.HomePhone != null) {
                     participantDelegate.Phone__c = cnt.HomePhone;
-                    participantDelegate.Phone_Type__c = 'Home',
+                    participantDelegate.Phone_Type__c = 'Home';
                 } if (cnt.MobilePhone != null) {
                     participantDelegate.Phone__c = cnt.MobilePhone;
-                    participantDelegate.Phone_Type__c = 'Mobile',
+                    participantDelegate.Phone_Type__c = 'Mobile';
                 } else {
                     participantDelegate.Phone__c = cnt.Phone;
-                    participantDelegate.Phone_Type__c = 'Work',
+                    participantDelegate.Phone_Type__c = 'Work';
                 }
 
                 participantDelegates.add(participantDelegate);
