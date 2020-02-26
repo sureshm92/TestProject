@@ -186,9 +186,16 @@ public without sharing class ReferringRemote {
                 newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
                 newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
                 newContact.userCommunityIsDelegate__c = true;
+                if ('Home' == participantDelegate.Phone_Type__c) {
+                    newContact.HomePhone = participantDelegate.Phone__c;
+                } if ('Mobile' == participantDelegate.Phone_Type__c) {
+                    newContact.MobilePhone = participantDelegate.Phone__c;
+                } else {
+                    newContact.Phone = participantDelegate.Phone__c;
+                }
                 insert newContact;
 
-                participantDelegate.Contact__c = newContact.Id;
+                /*participantDelegate.Contact__c = newContact.Id;
                 participantDelegate.Adult__c = true;
                 ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participantDelegate, null);
 
@@ -196,15 +203,16 @@ public without sharing class ReferringRemote {
                 alertsForInsert.add(new Alert__c(
                         Contact__c = newContact.Id,
                         Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH
-                ));
+                ));*/
 
-                ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
-                insert alertsForInsert;
+                //insert alertsForInsert;
 
                 Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                 ptDelegateRef.Participant__c = participant.Id;
                 ptDelegateRef.Contact__c = newContact.Id;
                 insert ptDelegateRef;
+
+                ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);

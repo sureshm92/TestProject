@@ -85,7 +85,7 @@ public without sharing class ParticipantInformationRemote {
                 toCreateUser.put(participant.Contact__c, null);
             }
 
-            List<Contact> delegateContacts = [SELECT Id FROM Contact WHERE Id IN (SELECT Contact__c FROM Participant__c WHERE Id IN :doNotContinueIds)];
+            List<Contact> delegateContacts = [SELECT Id FROM Contact WHERE Id IN :doNotContinueIds];
             List<Patient_Delegate__c> notPatientDelegatesEver = [SELECT Id,
                                                                  Participant__c,
                                                                  Contact__c,
@@ -102,7 +102,8 @@ public without sharing class ParticipantInformationRemote {
                 update notPatientDelegatesEver;
             }
 
-            if (!delegates.isEmpty()) {
+            // TODO: the functionality which will be used in future
+            /*if (!delegates.isEmpty()) {
                 Set<Id> excludeIds = new Set<Id>((List<Id>)doNotContinueIds);
                 system.debug('delegates.isEmpty(): ' + delegates.isEmpty());
                 List<Patient_Delegate__c> patientDelegatesToInsert = new List<Patient_Delegate__c>();
@@ -158,7 +159,7 @@ public without sharing class ParticipantInformationRemote {
                         insert patientDelegatesToInsert;
                     }
                 }
-            }
+            }*/
 
             system.debug('toCreateUser: ' + toCreateUser);
             if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
@@ -170,22 +171,51 @@ public without sharing class ParticipantInformationRemote {
     @AuraEnabled
     public static List<Participant__c> getParticipantDelegates(String participantId) {
         try {
-            return [SELECT Id,
-                            Contact__c,
-                            First_Name__c,
-                            Middle_Name__c,
-                            Last_Name__c,
-                            Mailing_Zip_Postal_Code__c,
-                            Mailing_State_Code__c,
-                            Mailing_Country_Code__c,
-                            Email__c,
-                            Phone_Type__c,
-                            Phone__c
-                    FROM Participant__c
-                    WHERE Contact__c IN (SELECT Contact__c
+            List<Participant__c> participantDelegates = new List<Participant__c>();
+
+            List<Contact> contacts =
+                    [SELECT Id,
+                            FirstName,
+                            MiddleName,
+                            LastName,
+                            MailingPostalCode,
+                            MailingStateCode,
+                            MailingCountryCode,
+                            Email,
+                            HomePhone,
+                            MobilePhone,
+                            Phone
+                    FROM Contact
+                    WHERE Id IN (SELECT Contact__c
                                          FROM Patient_Delegate__c
                                          WHERE Participant__c = :participantId AND
                                                Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)];
+            for (Contact cnt : contacts) {
+                Participant__c participantDelegate = new Participant__c(Contact__c = cnt.Id,
+                    First_Name__c = cnt.FirstName,
+                    Middle_Name__c = cnt.MiddleName,
+                    Last_Name__c = cnt.LastName,
+                    Mailing_Zip_Postal_Code__c = cnt.MailingPostalCode,
+                    Mailing_State_Code__c = cnt.MailingStateCode,
+                    Mailing_Country_Code__c = cnt.MailingCountryCode,
+                    Email__c = cnt.Email
+                );
+
+                if (cnt.HomePhone != null) {
+                    participantDelegate.Phone__c = cnt.HomePhone;
+                    participantDelegate.Phone_Type__c = 'Home',
+                } if (cnt.MobilePhone != null) {
+                    participantDelegate.Phone__c = cnt.MobilePhone;
+                    participantDelegate.Phone_Type__c = 'Mobile',
+                } else {
+                    participantDelegate.Phone__c = cnt.Phone;
+                    participantDelegate.Phone_Type__c = 'Work',
+                }
+
+                participantDelegates.add(participantDelegate);
+            }
+
+            return participantDelegates;
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
