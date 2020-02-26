@@ -189,7 +189,8 @@ global without sharing class EmailTemplateController {
     private Map<String, String> getTemplateProperties() {
         if (sourceRecordId !=null) {
             String userModeString = getDataProvider().userMode;
-            String templateName = TemplatePropertiesService.getTemplatePropertiesBySObject(sourceRecordId, emailRecipientId, userModeString);
+            Boolean isDelegateBoolean = getDataProvider().isDelegate;
+            String templateName = TemplatePropertiesService.getTemplatePropertiesBySObject(sourceRecordId, emailRecipientId, userModeString, isDelegateBoolean);
             if (templateName != null) {
                 return CommunityTemplateService.getTemplate(templateName).properties;
             }
