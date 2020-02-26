@@ -128,10 +128,9 @@ public without sharing class UserTriggerHandler {
 
         Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
         for (User user : rhUsers) {
-            actionAssignContactPermissions.addPermissions(user.ContactId, new Set<String>{
-                    CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME,
-                    CommunityTemplateService.PERMISSION_COMMUNITY_GSK_NAME
-            });
+            actionAssignContactPermissions.addPermission(
+                    user.ContactId, CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME
+            );
         }
 
         if(!actionAssignContactPermissions.isEmpty()) {
