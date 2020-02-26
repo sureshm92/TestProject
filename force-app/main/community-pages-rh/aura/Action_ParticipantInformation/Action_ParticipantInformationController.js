@@ -94,11 +94,7 @@
     checkTabs: function (component, event,helper) {
         var checking = event.getSource();
         console.log('checking', checking.getLocalId());
-        if(checking.getLocalId() === 'participantDetails') {
-            component.set('v.checkTabs', 'participantDetails');
-        } else {
-            component.set('v.checkTabs', 'otherTabs') ;
-        }
+        component.set('v.checkTabs', checking.getLocalId());
     },
     doUpdateCancel: function (component, event, helper) {
         var participant = component.get('v.participant');
