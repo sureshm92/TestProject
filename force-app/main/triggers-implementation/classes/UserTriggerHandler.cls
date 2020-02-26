@@ -37,7 +37,14 @@ public without sharing class UserTriggerHandler {
             updateUserRoleToSPNL(newList);
         }
     }
-    
+
+    public class AssignCommunityPermissionSetToUserHandler extends TriggerHandler {
+
+        public override void afterInsert(List<SObject> newList) {
+            assignCommunityPermissionSetToUser(newList);
+        }
+    }
+
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
@@ -109,5 +116,26 @@ public without sharing class UserTriggerHandler {
         insert tasksForInsert;
     }
 
+    @TestVisible
+    private static void assignCommunityPermissionSetToUser(List<User> insertedUsers) {
+        List<User> rhUsers = [
+                SELECT Id, ContactId
+                FROM User
+                WHERE Id IN:insertedUsers
+                AND ContactId != NULL
+                AND Contact.userCommunityMode__c != 'Participant'
+        ];
 
+        Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+        for (User user : rhUsers) {
+            actionAssignContactPermissions.addPermissions(user.ContactId, new Set<String>{
+                    CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME,
+                    CommunityTemplateService.PERMISSION_COMMUNITY_GSK_NAME
+            });
+        }
+
+        if(!actionAssignContactPermissions.isEmpty()) {
+            ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+        }
+    }
 }

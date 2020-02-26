@@ -2,7 +2,7 @@
  * Created by RAMukhamadeev on 2019-04-18.
  */
 
-public class ReferralNetworkService {
+public without sharing class ReferralNetworkService {
     private static Set<Id> getContactIds(List<SObject> touchedJunctions) {
         Set<Id> contactIds = new Set<Id>();
         for (SObject currJunction : touchedJunctions) {
@@ -40,8 +40,10 @@ public class ReferralNetworkService {
             );
             toUpdateContacts.add(toUpdateContact);
         }
-
-        update toUpdateContacts;
+        System.debug('toUpdateContacts' + toUpdateContacts);
+        if(!toUpdateContacts.isEmpty()){
+            update toUpdateContacts;
+        }
     }
 
     private static String getTopicNamesString(List<Contact_Therapeutic_Area__c> referralNetworks) {

@@ -187,6 +187,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
     handleRefreshEvent() {
         if (this.spinner) this.spinner.show();
         this.messageBoard.closeBoard();
+        this.changeVisiblePart();
         this.initialized = false;
         this.needAfterRenderSetup = true;
         this.messageBoard = null;
