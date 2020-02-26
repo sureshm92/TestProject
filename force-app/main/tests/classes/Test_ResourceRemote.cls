@@ -109,8 +109,17 @@ public class Test_ResourceRemote {
                 .then(new ResourceService.ResourceWrapperContainer(new List<ResourceService.ResourceWrapper>()))
                 .build()
        );
+        ClassFactory.putStubTypeByClassName(ContactService.class, StubBuilder.newInstance(ContactService.class)
+                .when('getPreferredLanguages')
+                .then(new List<String>{'en_US'})
+                .build()
+       );
         Test.startTest();
-        ResourceService.ResourceWrapperContainer container = ResourceRemote.getStudyDocuments();
+        ResourceService.ResourceWrapperContainer container;
+        TestData testData = new TestData();
+        System.runAs(testData.participantUser) {
+            container = ResourceRemote.getStudyDocuments();
+        }
         Test.stopTest();
 
         System.assert(String.isBlank(container.errorMessage));

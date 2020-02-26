@@ -5,11 +5,17 @@
 @IsTest
 public with sharing class Test_PatientDelegateTriggerHandler {
 
+    @TestSetup
+    static void init() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+    }
+
     @IsTest
     public static void testPatientDelegateStatus() {
         TriggerHandlerExecutor.bypassHandler(TermsAndConditionsTriggerHandler.ActivePortalFieldsHandler.class);
 
-        TestData.loadTestData();
         TestData testData = new TestData();
 
         Participant__c participant = testData.participant;
