@@ -62,7 +62,7 @@
                             <div class="delegate-info-panel">
                                 <c:DelegateLevelInfoTable userMode="{!v.userMode}"/>
                                 <aura:if isTrue="{!v.userMode == 'Participant'}">
-                                    <c:DelegatesDisclaimer/>
+<!--                                    <c:DelegatesDisclaimer/>-->
                                 </aura:if>
                             </div>
                           <!--   <div class="button-panel-mobile rr-medium-up-hide">
