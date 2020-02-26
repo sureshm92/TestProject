@@ -104,6 +104,10 @@ public without sharing class DMLService {
         }
         deleteMap = new Map<String, List<SObject>>();
     }
+
+    public static void resetLookup() {
+        lookups = new List<Lookup>();
+    }
     
     public static void setLookup(SObject relatedObject, String lookupField, SObject masterObject){
         lookups.add(new Lookup(lookupField, relatedObject, masterObject));
