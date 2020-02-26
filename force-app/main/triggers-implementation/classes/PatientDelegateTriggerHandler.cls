@@ -132,7 +132,7 @@ public without sharing class PatientDelegateTriggerHandler {
             if(ownPermissions != null) actionAssignContactPermissions.addPermissions(contactId, ownPermissions);
             //assign all permission sets from available participants:
             Set<Id> participantContactIds = delegatedContactsMap.get(contactId);
-            if(participantContactIds != null){
+            if(participantContactIds != null && !delegatedContactPermissions.isEmpty()){
                 for(Id participantContactId : participantContactIds){
                     if (delegatedContactPermissions.containsKey(participantContactId)) {
                         for (String participantPermissionSet : delegatedContactPermissions.get(participantContactId)) {

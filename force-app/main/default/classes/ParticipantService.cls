@@ -82,7 +82,9 @@ public without sharing class ParticipantService {
             }
         }
         participantState.welcomeMessage = getWelcomeMessage();
-        participantState.communityName = CommunityModeService.getUserCommunityModes(participantState.currentContactId).get(0).template.communityName;
+        if (!CommunityModeService.getUserCommunityModes(participantState.currentContactId).isEmpty()){
+            participantState.communityName = CommunityModeService.getUserCommunityModes(participantState.currentContactId).get(0).template.communityName;
+        }
     }
 
     public static Participant__c getParticipant(Id sourceId) {
