@@ -49,9 +49,11 @@ public without sharing class ParticipantService {
     public ParticipantService() {
         participantState = new ParticipantState();
         Contact userContact = CommunityService.getUserContact();
+        System.debug('Current User Contact ' + JSON.serializePretty(userContact));
         participantState.currentContactId = userContact.userCommunityDelegateId__c;
         if (participantState.currentContactId == null) participantState.currentContactId = userContact.Id;
         participantState.isDelegate = userContact.userCommunityDelegateId__c != null;
+        System.debug('Current Contact Id ' + participantState.currentContactId);
         participantState.currentUserId = [SELECT Id FROM User WHERE ContactId = :participantState.currentContactId LIMIT 1].Id;
         if (userContact.Current_Participant_Enrollment__c != null) {
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(userContact.Current_Participant_Enrollment__c, CommunityService.USER_MODE_PARTICIPANT);
