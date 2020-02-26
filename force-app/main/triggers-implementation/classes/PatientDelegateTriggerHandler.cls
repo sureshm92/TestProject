@@ -111,7 +111,7 @@ public without sharing class PatientDelegateTriggerHandler {
         List<Participant_Enrollment__c> peList = [
                 SELECT Id,
                         Participant_Contact__c,
-                        Clinical_Trial_Profile__r.Community_Template__c
+                        Clinical_Trial_Profile__r.CommunityTemplate__c
                 FROM Participant_Enrollment__c
                 WHERE Participant_Contact__c IN : contactIds
         ];
@@ -119,7 +119,7 @@ public without sharing class PatientDelegateTriggerHandler {
         for(Participant_Enrollment__c pe : peList){
             Set<String> ownPermissions = ownPermissionsMap.get(pe.Participant_Contact__c);
             if(ownPermissions == null) ownPermissions = new Set<String>();
-            ownPermissions.add(CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.Community_Template__c).permissionSet);
+            ownPermissions.add(CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet);
             ownPermissionsMap.put(pe.Participant_Contact__c, ownPermissions);
         }
     
@@ -134,9 +134,11 @@ public without sharing class PatientDelegateTriggerHandler {
             Set<Id> participantContactIds = delegatedContactsMap.get(contactId);
             if(participantContactIds != null && !delegatedContactPermissions.isEmpty()){
                 for(Id participantContactId : participantContactIds){
-                    for(String participantPermissionSet : delegatedContactPermissions.get(participantContactId)){
-                        if(communityPermissionSets.contains(participantPermissionSet)) {
-                            actionAssignContactPermissions.addPermission(contactId, participantPermissionSet);
+                    if (delegatedContactPermissions.containsKey(participantContactId)) {
+                        for (String participantPermissionSet : delegatedContactPermissions.get(participantContactId)) {
+                            if (communityPermissionSets.contains(participantPermissionSet)) {
+                                actionAssignContactPermissions.addPermission(contactId, participantPermissionSet);
+                            }
                         }
                     }
                 }
