@@ -134,9 +134,11 @@ public without sharing class PatientDelegateTriggerHandler {
             Set<Id> participantContactIds = delegatedContactsMap.get(contactId);
             if(participantContactIds != null){
                 for(Id participantContactId : participantContactIds){
-                    for(String participantPermissionSet : delegatedContactPermissions.get(participantContactId)){
-                        if(communityPermissionSets.contains(participantPermissionSet)) {
-                            actionAssignContactPermissions.addPermission(contactId, participantPermissionSet);
+                    if (delegatedContactPermissions.containsKey(participantContactId)) {
+                        for (String participantPermissionSet : delegatedContactPermissions.get(participantContactId)) {
+                            if (communityPermissionSets.contains(participantPermissionSet)) {
+                                actionAssignContactPermissions.addPermission(contactId, participantPermissionSet);
+                            }
                         }
                     }
                 }
