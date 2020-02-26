@@ -40,7 +40,7 @@ public with sharing class TemplatePropertiesService {
                 && userModeString == CommunityService.USER_MODE_PARTICIPANT) {
             currPEList.add(ContactService.getCurrentPE(partConId));
             List<Id> pastPEList = new List<Id>();
-            if (peList.isEmpty()) {
+            if (currPEList.isEmpty()) {
                 pastPEList = PatientDelegateService.getPastPEIdsForContact(partConId);
                 filter = DatabaseService.fieldEqual('Id', pastPEList[0]);
             } else {
@@ -61,8 +61,6 @@ public with sharing class TemplatePropertiesService {
                 } else {
                     filter = DatabaseService.fieldEqual('Id', currPEList[0].Id);
                 }
-            } else {
-                templateName = 'Default';
             }
 
         } else if (resourceId.getSobjectType() == SurveyInvitation.getSObjectType()) {
@@ -71,9 +69,15 @@ public with sharing class TemplatePropertiesService {
         }
 
         if (templateName == null && filter != null) {
-            peList.addAll((List<Participant_Enrollment__c>)DatabaseService.query(new List<String>(), Participant_Enrollment__c.getSObjectType(), filter));
-            templateName =
-                    CommunityTemplateService.getTemplateByCommunityName(peList[0].Clinical_Trial_Profile__r.CommunityTemplate__c).communityName;
+            try {
+                peList.addAll((List<Participant_Enrollment__c>)DatabaseService.query(
+                    new List<String>{'Id','Participant_Enrollment__c.Clinical_Trial_Profile__r.CommunityTemplate__c', 'Participant_Contact__c'},
+                    Participant_Enrollment__c.getSObjectType(),
+                    filter
+            ));
+            }catch(Exception e) {return e.getMessage();}
+
+            if(peList[0].Clinical_Trial_Profile__r.CommunityTemplate__c != null) templateName = peList[0].Clinical_Trial_Profile__r.CommunityTemplate__c;
         }
         return templateName;
     }
