@@ -43,10 +43,10 @@ public class Test_PatientDelegateRemote {
 
     @IsTest
     static void getYourPatientFirstNameTest() {
+        Test.startTest();
         TestData.loadTestData();
         TestData testData = new TestData();
 
-        Test.startTest();
         System.runAs(testData.participantUser){
             String patientFirstName = PatientDelegateRemote.getYourPatientFirstName();
         }
