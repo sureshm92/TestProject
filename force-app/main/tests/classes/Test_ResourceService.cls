@@ -146,7 +146,9 @@ public class Test_ResourceService {
         });
         insert piContact;
 
-        Participant__c singleParticipant = (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType());
+        Participant__c singleParticipant = (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType(), new Map<String, Object>{
+                'Contact__c' => piContact.Id    // TODO Contact__c mustn't be piContact
+        });
         insert singleParticipant;
 
         Map<String, Resource__c> resourcesByTypes = new Map<String, Resource__c>();
@@ -266,6 +268,7 @@ public class Test_ResourceService {
                 WHERE Id = :singleParticipant.Id
         ];
         System.assertEquals(1, participants.size());
+
         List<User> users = [
                 SELECT Id
                 FROM User
