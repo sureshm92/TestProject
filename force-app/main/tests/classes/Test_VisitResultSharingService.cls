@@ -4,11 +4,16 @@
 @IsTest
 private class Test_VisitResultSharingService {
 
-    @IsTest
-    static void processResultsTest() {
+    @TestSetup
+    static void init() {
+        Test.startTest();
         TestData.loadTestData();
         TestData.createTCAcceptance();
+        Test.stopTest();
+    }
 
+    @IsTest
+    static void processResultsTest() {
         TestData testData = new TestData();
         testData.ctp.Shareback_Availability_Timing__c = 1;
         update testData.ctp;
@@ -101,8 +106,6 @@ private class Test_VisitResultSharingService {
 
     @IsTest
     static void testAll() {
-        TestData.loadTestData();
-        TestData.createTCAcceptance();
         Test.startTest();
         TestData testData = new TestData();
         Participant_Enrollment__c pe = testData.pe;
