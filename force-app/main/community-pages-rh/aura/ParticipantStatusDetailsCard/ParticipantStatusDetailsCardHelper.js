@@ -8,8 +8,10 @@
         console.log('currentOutcomeSuccess ' + currentOutcomeSuccess);
         stepWrapper.formFieldGroups.forEach(function (group) {
             group.fields.forEach(function (field) {
-                console.log(field.field + ' ' + field.value + ' required:' + field.required);
-                if (isValid && (field.required && (currentOutcomeSuccess || field.dependent)) && (!field.value || field.value.trim() === '')) {
+                console.log(field.field + ' ' + field.value + ' required:' + field.required + ' valid:' + field.valid);
+                if (isValid &&
+                    ((field.required && (currentOutcomeSuccess || field.dependent)) && (!field.value || field.value.trim() === '')
+                        || field.valid === false)) {
                     isValid = false;
                 }
             });

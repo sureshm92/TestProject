@@ -215,6 +215,12 @@
     }
 }
 
+.THIS .partinfo-footer-buttons{
+    display: flex;
+    justify-content: flex-end;
+    align-content: center;
+}
+
 @media all and (min-width: 1024px) {
     .THIS #p-modal .p-container.large {
         width: 1000px;

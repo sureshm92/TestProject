@@ -37,6 +37,7 @@
     font-family: "Proxima Nova";
     font-size: 16px;
     font-weight: 600;
+    word-break: break-all;
 }
 .THIS .history-item-detail{
     color: #595959;
