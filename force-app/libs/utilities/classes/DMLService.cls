@@ -106,7 +106,9 @@ public without sharing class DMLService {
     }
 
     public static void resetLookup() {
-        lookups = new List<Lookup>();
+        if(!useDMLBuffer) {
+            lookups = new List<Lookup>();
+        }
     }
     
     public static void setLookup(SObject relatedObject, String lookupField, SObject masterObject){
