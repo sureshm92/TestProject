@@ -11,7 +11,6 @@
     },
 
     onClick: function (component, event) {
-        component.doInit();
         if(component.get('v.page')){
             event.preventDefault();
             var page = component.get('v.page');
