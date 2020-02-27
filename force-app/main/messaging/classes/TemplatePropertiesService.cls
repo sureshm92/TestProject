@@ -6,7 +6,7 @@ public with sharing class TemplatePropertiesService {
 
     public static String getTemplatePropertiesBySObject(Id resourceId, Id recipientId, String userModeString, Boolean isDelegate) {
         String templateName;
-        List<Participant_Enrollment__c> peList;
+        List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
         List<Participant_Enrollment__c> currPEList;
         String filter;
         Id partConId = recipientId;
@@ -55,7 +55,7 @@ public with sharing class TemplatePropertiesService {
             } else if (task.WhatId == null && userModeString == CommunityService.USER_MODE_PARTICIPANT) {
                 currPEList.add(ContactService.getCurrentPE(partConId));
                 List<Id> pastPEList = new List<Id>();
-                if (peList.isEmpty()) {
+                if (currPEList.isEmpty()) {
                     pastPEList = PatientDelegateService.getPastPEIdsForContact(partConId);
                     filter = DatabaseService.fieldEqual('Id', pastPEList[0]);
                 } else {
@@ -69,14 +69,14 @@ public with sharing class TemplatePropertiesService {
         }
 
         if (templateName == null && filter != null) {
-            try {
-                peList.addAll((List<Participant_Enrollment__c>)DatabaseService.query(
-                    new List<String>{'Id','Participant_Enrollment__c.Clinical_Trial_Profile__r.CommunityTemplate__c', 'Participant_Contact__c'},
+            List<Participant_Enrollment__c> enrollments = (List<Participant_Enrollment__c>) DatabaseService.query(
+                    new List<String>{
+                            'Id', 'Clinical_Trial_Profile__r.CommunityTemplate__c', 'Participant_Contact__c'
+                    },
                     Participant_Enrollment__c.getSObjectType(),
                     filter
-            ));
-            }catch(Exception e) {return e.getMessage();}
-
+            );
+            if(enrollments != null) peList.addAll(enrollments);
             if(peList[0].Clinical_Trial_Profile__r.CommunityTemplate__c != null) templateName = peList[0].Clinical_Trial_Profile__r.CommunityTemplate__c;
         }
         return templateName;
