@@ -13,6 +13,7 @@
         if (params.callback) component.set('v.callback', $A.getCallback(params.callback));
 
         communityService.executeAction(component, 'getParticipantsStatuses', {
+            studySiteId : studySiteId
         }, function (returnValue) {
             component.find('upModalSpinner').hide();
             component.set('v.participantStatuses', returnValue);
