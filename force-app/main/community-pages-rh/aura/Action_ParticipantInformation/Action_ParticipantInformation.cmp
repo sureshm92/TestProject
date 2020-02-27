@@ -117,7 +117,7 @@
                                       onclick="{!c.doUpdatePatientStatus}">{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button>
                 </aura:if>
                 <lightning:button class="apollo-btn secondary slds-button--neutral"
-                                  disabled="{!!v.isValid}"
+                                  disabled="{!!v.isValid || ! v.statusDetailValid}"
                                   onclick="{!c.doUpdateCancel}">{!$Label.c.BTN_Save_All_Tabs}</lightning:button>
             </div>
         </aura:set>

@@ -16,11 +16,11 @@ global without sharing class Batch_UpdatePESourceType implements Database.Batcha
     global void execute(Database.BatchableContext bc, List<Participant_Enrollment__c> scope) {
         for (Participant_Enrollment__c pe : scope) {
             if ('PI' == pe.Referral_Source__c) {
-                pe.Source_Type__c = 'Principal Investigator';
+                pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_PI;
             } else if (pe.Referral_Source__c != null && pe.Referral_Source__c.contains('HCP')) {
-                pe.Source_Type__c = 'Referring Provider';
+                pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_RP;
             } else {
-                pe.Source_Type__c = 'Digital Recruitment';
+                pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_EPR;
             }
         }
 
