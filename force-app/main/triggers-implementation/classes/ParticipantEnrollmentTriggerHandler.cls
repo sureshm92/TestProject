@@ -97,28 +97,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
-    public class SetParticipantStatusHandler extends TriggerHandler {
-
-        public override void beforeInsert(List<SObject> newList) {
-            setParticipantStatusHandler(newList);
-        }
-
-        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            setParticipantStatusHandler(newList);
-        }
-    }
-
-    public class UpdatePEHistoryOnAutoAcceptedHandler extends TriggerHandler {
-
-        public override void afterInsert(List<SObject> newList) {
-            updatePEHistoryOnAutoAccepted((List<Participant_Enrollment__c>) newList, null);
-        }
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updatePEHistoryOnAutoAccepted((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
-        }
-    }
-
     // Handlers: On study ----------------------------------------------------------------------------------------------
     public class DeactivateDeceasedUsersHandler extends TriggerHandler {
 
@@ -562,36 +540,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             } else {
                 pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_EPR;
             }
-        }
-    }
-
-    @TestVisible
-    private static void setParticipantStatusHandler(List<Participant_Enrollment__c> enrollments) {
-        Set<String> statuses = new Set<String>();
-        for (Participant_Enrollment_settings__mdt pe : [SELECT Auto_Accept_Status__c FROM Participant_Enrollment_settings__mdt WHERE Auto_Accept_Status__c != NULL]) {
-            statuses.add(pe.Auto_Accept_Status__c.toLowerCase());
-        }
-        for (Participant_Enrollment__c pe : enrollments) {
-            if (!pe.IsAutoaccepted__c && !String.isBlank(pe.Referral_Source__c) && statuses.contains(pe.Referral_Source__c.toLowerCase())) {
-                pe.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED;
-                pe.IsAutoaccepted__c = true;
-            }
-        }
-    }
-
-    @TestVisible
-    public static void updatePEHistoryOnAutoAccepted(List<Participant_Enrollment__c> enrollments, Map<Id, Participant_Enrollment__c> oldMap) {
-        List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
-
-        for (Participant_Enrollment__c pe : enrollments) {
-            if (pe.IsAutoaccepted__c && (oldMap == null || pe.IsAutoaccepted__c != oldMap.get(pe.Id).IsAutoaccepted__c)) {
-                statusHistories.addAll(createHistoryRecordsForPE(pe));
-            }
-        }
-
-        if (!statusHistories.isEmpty()) {
-            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler.class);
-            insert statusHistories;
         }
     }
 
