@@ -146,6 +146,10 @@ private class Test_BaseCRCPCommunity {
         insert hcpEnrollment;
         hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
         update hcpEnrollment;
+        hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_A;
+        update hcpEnrollment;
+        hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+        update hcpEnrollment;
         
         Site_Staff__c  siteStaff = new Site_Staff__c(
                 Site_Contact__c = piDelegateContact.Id,
@@ -649,7 +653,7 @@ private class Test_BaseCRCPCommunity {
 //            ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_PI, null);
             ViewPatientsRemote.getInitDataForPatientProfile(participant.Id, CommunityService.USER_MODE_PI, null);
 //            ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_PI, null);
-            ViewPatientsRemote.getRecords(JSON.serialize(vpResult.peFilter), JSON.serialize(vpResult.paginationData), 'Pending', CommunityService.USER_MODE_PI, false, null);
+            ViewPatientsRemote.getRecords(JSON.serialize(vpResult.peFilter), JSON.serialize(vpResult.paginationData), 'Pending', CommunityService.USER_MODE_PI, false, null, false);
             StudyClinicDashboardRemote.getInitData(study.Id, studySiteAccount.Id);
         }
         Test.stopTest();
