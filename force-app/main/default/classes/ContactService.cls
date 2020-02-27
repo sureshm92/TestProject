@@ -172,9 +172,10 @@ public without sharing class ContactService {
                     }
                 }
             }
-            Set<String> peHistorySatuses = historyStatusesByPEIdMap.get(pe.Id);
+            Set<String> peHistoryStatuses = historyStatusesByPEIdMap.get(pe.Id);
             resources = ResourceService.sortResourcesByCOI(resources);
-            Boolean hadEnrolmentSuccess = peHistorySatuses != null && peHistorySatuses.contains(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS);
+            resources = ResourceService.removeTranslations(resources);
+            Boolean hadEnrolmentSuccess = peHistoryStatuses != null && peHistoryStatuses.contains(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS);
             pastWrappersList.add(new PastStudyWrapper(ctpMap.get(pe.Clinical_Trial_Profile__c), pe, resources, hadEnrolmentSuccess));
 
         }
