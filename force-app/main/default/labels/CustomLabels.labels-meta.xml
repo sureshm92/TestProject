@@ -519,7 +519,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Admin</shortDescription>
-        <value>IQVIA Admin</value>
+        <value>Study Team</value>
     </labels>
     <labels>
         <fullName>Admin_Label</fullName>
