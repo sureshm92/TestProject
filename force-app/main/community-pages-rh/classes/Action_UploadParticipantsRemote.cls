@@ -7,19 +7,14 @@ public without sharing class Action_UploadParticipantsRemote {
     public static final List<String> HEADER_COLUMNS = new List<String> { 'FIRST NAME', 'MIDDLE NAME', 'LAST NAME', 'NICKNAME', 'SEX', 'DATE OF BIRTH', 'EMAIL ADDRESS', 'PHONE', 'PHONE TYPE', 'PHONE2', 'PHONE TYPE2', 'STREET ADDRESS', 'CITY', 'STATE', 'POSTAL CODE', 'COUNTRY', 'LANGUAGE' };
     public static final List<String> MANDATORY_HEADER_COLUMNS = new List<String> { 'FIRST NAME', 'LAST NAME', 'PHONE', 'COUNTRY', 'STATE', 'POSTAL CODE' };
 
-    public static final List<String> PE_STATUSES = new List<String>{
-            PEStatusState.PE_STATUS_RECEIVED,
-            PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED,
-            PEStatusState.PE_STATUS_SCREENING_PASSED,
-            PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS,
-            PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS
-    };
 
     @AuraEnabled
-    public static List<LabelValueItem> getParticipantsStatuses() {
+    public static List<LabelValueItem> getParticipantsStatuses(Id studySiteId) {
         List<LabelValueItem> participantStatuses = new List<LabelValueItem>();
-
-        for (String status : PE_STATUSES) {
+        List<Study_Site__c> sites = [SELECT Id, Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c FROM Study_Site__c WHERE Id = :studySiteId];
+        if(sites.isEmpty())
+            return participantStatuses;
+        for (String status : PEStatusState.getParticipantImportStatuses(sites[0].Clinical_Trial_Profile__r)) {
             participantStatuses.add(
                     new LabelValueItem(
                             TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, status),
