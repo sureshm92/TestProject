@@ -19,7 +19,8 @@
         var actionRemoveDelegate = component.get('v.parentComponent').find('actionRemoveDelegate');
         actionRemoveDelegate.execute(messageText, function(){
             communityService.executeAction(component, 'withdrawDelegate', {
-                contactId : contact.Id
+                contactId : contact.Id,
+                removeHimself: true
             }, function () {
                 communityService.showSuccessToast(null, $A.get('$Label.c.PG_PST_L_Delegates_You_Withdraw_Succ'));
             });
