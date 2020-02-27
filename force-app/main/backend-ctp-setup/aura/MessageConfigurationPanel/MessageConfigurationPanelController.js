@@ -35,6 +35,7 @@
     doSelectAllInColumn: function (component, event, helper) {
         let feature = event.target.dataset.tv;
         let state = event.target.dataset.state === 'Enabled';
+        component.find('spinner').show();
         communityService.executeAction(component, 'selectAllInColumn', {
             feature: feature,
             state: state,

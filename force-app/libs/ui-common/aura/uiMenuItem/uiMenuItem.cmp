@@ -9,6 +9,7 @@
     <aura:attribute name="isSelected" type="Boolean" access="public"/>
     <aura:attribute name="class" type="String" access="public" default=""/>
     <aura:attribute name="closeAfterClick" type="Boolean" default="true"/>
+    <aura:attribute name="actionAddParticipant" type="Boolean" default="false"/>
 
     <!-- methods: -->
     <aura:method name="closeMenu" action="{!c.doCloseMenu}" access="public"/>
@@ -21,9 +22,9 @@
     <aura:method name="setFocus" action="{!c.setFocus}"/>
 
     <!-- component body: -->
-    <li class="{!(v.isSelected ? 'active ' : ' ') + v.class}" onclick="{!c.doOnClick}" title="{!v.label}">
+    <li class="{!(v.isSelected ? 'active ' : ' ') + v.class}" onclick="{!c.doOnClick}" title="{!v.actionAddParticipant ? $Label.c.BTN_Add_Patient : v.label}">
         <aura:if isTrue="{!empty(v.body)}">
-            <div class="label">{!v.label}</div>
+            <div class="label">{!v.actionAddParticipant ? $Label.c.BTN_Add_Patient : v.label}</div>
             <aura:set attribute="else">
                 {!v.body}
             </aura:set>

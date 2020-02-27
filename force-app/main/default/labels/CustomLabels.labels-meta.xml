@@ -1020,6 +1020,13 @@
         <value>Patient no longer interested</value>
     </labels>
     <labels>
+        <fullName>BTN_Pre_Screen_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN_Pre_Screen_Participant</shortDescription>
+        <value>Pre-Screen Participant</value>
+    </labels>
+    <labels>
         <fullName>BTN_Previous</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -5465,7 +5472,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>No Payment Information Available</shortDescription>
-        <value>Error</value>
+        <value>Sorry, your card has not been activated in the system. Please contact  the payment provider directly</value>
     </labels>
     <labels>
         <fullName>No_permission_Visits_tab</fullName>
@@ -7130,6 +7137,13 @@ View study documents and other resources including articles and videos related t
         <protected>true</protected>
         <shortDescription>PG Add Patient Header</shortDescription>
         <value>Add a Participant</value>
+    </labels>
+    <labels>
+        <fullName>PG_Add_Patients_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Add_Patients_Header</shortDescription>
+        <value>Add Participant(s)</value>
     </labels>
     <labels>
         <fullName>PG_BLS_Header</fullName>
@@ -10927,6 +10941,13 @@ View study documents and other resources including articles and videos related t
         <protected>true</protected>
         <shortDescription>Primary Investigator</shortDescription>
         <value>Primary Investigator</value>
+    </labels>
+    <labels>
+        <fullName>Principal_Investigator</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Principal_Investigator</shortDescription>
+        <value>Principal Investigator</value>
     </labels>
     <labels>
         <fullName>Profile_Menu_Account_Settings</fullName>
