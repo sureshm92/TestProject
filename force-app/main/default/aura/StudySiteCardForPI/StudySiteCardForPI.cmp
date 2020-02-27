@@ -137,9 +137,10 @@
                             </aura:iteration>
 
                             <aura:if isTrue="{!v.addParticipantInfo.disabled == false}">
+                                <div data-gtm="btn_AddParticipant_menu">
                                 <c:uiHeaderMenu aura:id="menuId" class="mode-block">
                                     <aura:set attribute="title">
-                                        <div data-gtm="btn_AddParticipant_menu" class="apollo-btn primary slds-align-bottom">
+                                        <div class="apollo-btn primary slds-align-bottom">
                                             <div title="Add Participant">{!v.addParticipantInfo.label}</div>
                                             <c:RRIcon color="blue" iconName="icon-chevron-down" class="chevron"/>
                                         </div>
@@ -151,12 +152,11 @@
                                             </div>
                                         </aura:if>
                                         <aura:if isTrue="{!action.id == 'uploadPatient'}">
-                                            <div data-gtm="btn_UploadParticipants_action">
-                                                <c:uiMenuItem label="{!action.label}" onclick="{!c.doAction}" itemValue="{!action.id}"/>
-                                            </div>
+                                            <c:uiMenuItem label="{!action.label}" onclick="{!c.doAction}" itemValue="{!action.id}"/>
                                         </aura:if>
                                     </aura:iteration>
                                 </c:uiHeaderMenu>
+                                </div>
                             </aura:if>
                         </div>
                     </div>

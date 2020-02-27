@@ -3,7 +3,7 @@
     <fullName>Check_empty_TA</fullName>
     <active>false</active>
     <errorConditionFormula>IF(
- AND( Clinical_Trial_Profile__r.Therapeutic_Area__c =&#39;&#39;, OR(ISPICKVAL( Participant_Status__c, &#39;Referral Sent to PI&#39;),ISPICKVAL( Participant_Status__c, &#39;Enrollment Success&#39;))), true,false)</errorConditionFormula>
+ AND( Clinical_Trial_Profile__r.Therapeutic_Area__c =&#39;&#39;, OR(ISPICKVAL( Participant_Status__c, &#39;Received&#39;),ISPICKVAL( Participant_Status__c, &#39;Enrollment Success&#39;))), true,false)</errorConditionFormula>
     <errorDisplayField>Participant_Status__c</errorDisplayField>
     <errorMessage>Please fill Therapeutic Area on Clinical Trial Profile prior status changing.</errorMessage>
 </ValidationRule>

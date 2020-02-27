@@ -519,7 +519,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Admin</shortDescription>
-        <value>IQVIA Admin</value>
+        <value>Study Team</value>
     </labels>
     <labels>
         <fullName>Admin_Label</fullName>
@@ -5185,7 +5185,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MS Chat Disclaimer</shortDescription>
-        <value>If you have a medical emergency, please contact emergency medical services. If you do not hear from your provider&#39;s office within 3 business days, please contact the office directly.</value>
+        <value>If you have a medical emergency, please contact your local emergency medical services. If you do not receive a timely response to your message, please contact your study center directly.</value>
     </labels>
     <labels>
         <fullName>MS_Empty_Chat</fullName>
@@ -5472,7 +5472,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>No Payment Information Available</shortDescription>
-        <value>Error</value>
+        <value>Sorry, your card has not been activated in the system. Please contact  the payment provider directly</value>
     </labels>
     <labels>
         <fullName>No_permission_Visits_tab</fullName>

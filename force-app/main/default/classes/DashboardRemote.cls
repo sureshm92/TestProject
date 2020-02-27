@@ -347,7 +347,8 @@ public without sharing class DashboardRemote {
         ViewPatientsRemote.InitData initData = new ViewPatientsRemote.InitData();
         initData.peStatusStateMap = PEStatusState.STATUSES_MAP;
         initData.peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
-        initData.isInvited = ![SELECT Id FROM User WHERE ContactId =: participantId LIMIT 1].isEmpty();
+        Id participantContactId = [SELECT Contact__c FROM Participant__c WHERE Id =: participantId].Contact__c;
+        initData.isInvited = ![SELECT Id FROM User WHERE ContactId =: participantContactId].isEmpty();  
 
 
         List<Participant_Enrollment__c> pes =

@@ -73,13 +73,23 @@ public class Test_ParticipantService {
             return null;
         }
     }
+    public class ParticipantServiceMock implements System.StubProvider {
+
+        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
+                List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
+            if (stubbedMethodName == 'getState') {
+                return new ParticipantService.ParticipantState();
+            }
+            return null;
+        }
+    }
 
     @IsTest
     static void participantServiceTest() {
         // Set mocks:
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
-
+        ParticipantService.setMock(new ParticipantServiceMock());
         // Test logic
         Test.startTest();
         ParticipantService.getParticipantState();
@@ -92,7 +102,7 @@ public class Test_ParticipantService {
         // Set mocks:
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock(PEStatusState.PE_STATUS_ENROLLMENT_FAILED));
         CommunityService.setMock(new CommunityServiceMock());
-
+        ParticipantService.setMock(new ParticipantServiceMock());
         // Test logic
         Test.startTest();
         ParticipantService.getInstance().getState();
@@ -104,7 +114,7 @@ public class Test_ParticipantService {
         // Set mocks:
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS));
         CommunityService.setMock(new CommunityServiceMock());
-
+        ParticipantService.setMock(new ParticipantServiceMock());
         // Test logic
         Test.startTest();
         ParticipantService.getInstance().getState();
@@ -116,7 +126,7 @@ public class Test_ParticipantService {
         // Set mocks:
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
-
+        ParticipantService.setMock(new ParticipantServiceMock());
         Test.startTest();
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
         Boolean showTerms = participantState.showTerms;
@@ -130,11 +140,11 @@ public class Test_ParticipantService {
         // Set mocks:
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
-
+        ParticipantService.setMock(new ParticipantServiceMock());
         Test.startTest();
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
         participantState.ctp = getPE(null).Clinical_Trial_Profile__r;
-        Boolean isShow = ParticipantService.getInstance().showVisits();
+        Boolean isShow = participantState.showVisits;
         Test.stopTest();
 
         System.assertEquals(false, isShow);
@@ -146,7 +156,7 @@ public class Test_ParticipantService {
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
         DatabaseService.setMock(new DatabaseServiceMock());
-
+        ParticipantService.setMock(new ParticipantServiceMock());
         Test.startTest();
         ParticipantService.createParticipantAndUpdatePE(getParticipant(), getPE(null));
         Test.stopTest();

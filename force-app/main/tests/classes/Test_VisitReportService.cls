@@ -4,9 +4,15 @@
 @IsTest
 private class Test_VisitReportService {
 
+    @TestSetup
+    static void init() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+    }
+
     @IsTest
     static void integrationTest() {
-        TestData.loadTestData();
         TestData testData = new TestData();
         testData.ctp.Shareback_Availability_Timing__c = 1;
         update testData.ctp;

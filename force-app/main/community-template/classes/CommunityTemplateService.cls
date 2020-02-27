@@ -11,13 +11,6 @@ public without sharing class CommunityTemplateService {
     public static final String PERMISSION_COMMUNITY_DEFAULT_NAME = 'Community_Default';
     public static final String PERMISSION_COMMUNITY_GSK_NAME = 'Community_GSK_Pan_Oncology';
 
-    public static final String COMMUNITY_DEFAULT_NAME = 'Default';
-    public static final String COMMUNITY_GSK_NAME = 'GSK';
-    public static final Map<String, String> NETWORK_BY_TEMPLATE = new Map<String, String>{
-            COMMUNITY_DEFAULT_NAME => CommunityService.IQVIA_NETWORK_NAME,
-            COMMUNITY_GSK_NAME => CommunityService.GSK_NETWORK_NAME
-    };
-    
     public static final String TEMPLATE_DEFAULT = 'Default';
     public static final Map<String, String> RESOURCES_URL_MAP = getResourcesURLMap();
     public static final Map<String, Network> NETWORKS_MAP = getNetworksMap();
@@ -33,6 +26,13 @@ public without sharing class CommunityTemplateService {
     public static CommunityTemplate getTemplateByCommunityName(String communityName){
         for(CommunityTemplate communityTemplate : TEMPLATES_MAP.values()){
             if(communityTemplate.communityName == communityName) return communityTemplate;
+        }
+        return getDefaultTemplate();
+    }
+
+    public static CommunityTemplate getTemplateByPermissionSetName(String permissionSetName) {
+        for(CommunityTemplate template : TEMPLATES_MAP.values()){
+            if(template.permissionSet == permissionSetName) return template;
         }
         return getDefaultTemplate();
     }

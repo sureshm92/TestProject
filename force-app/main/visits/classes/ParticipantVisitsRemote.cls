@@ -18,7 +18,7 @@ public without sharing class ParticipantVisitsRemote {
     @AuraEnabled
     public static List<PatientVisitService.VisitWrapper> getVisitsPreview() {
         try {
-            return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class)).getVisitWrappers(PatientVisitService.VISIT_MODE_CURRENT, 3);
+            return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class)).getVisitWrappers(PatientVisitService.VISIT_MODE_CURRENT, 5);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }

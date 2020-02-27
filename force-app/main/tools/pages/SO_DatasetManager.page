@@ -1,0 +1,396 @@
+<!--
+ - Created by Slav on 13.02.2020.
+ -->
+
+<apex:page id="SO_DatasetManager" controller="SO_DatasetManagerController" docType="html-5.0" standardStylesheets="false" lightningStylesheets="true" tabStyle="SObject_Dataset_Manager__tab">
+    <apex:stylesheet value="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"/>
+    <apex:includeScript value="https://code.jquery.com/jquery-1.12.4.js"/>
+    <apex:includeScript value="https://code.jquery.com/ui/1.12.1/jquery-ui.js"/>
+    <script>
+        j$ = jQuery.noConflict();
+
+        function getFilename (fullPath) {
+            return fullPath.split('\\').pop().split('/').pop();
+        };
+
+        function download () {
+            var elementA = document.createElement('a');
+            elementA.setAttribute('href', 'data:text/plain;base64,{!downloadBody}');
+            elementA.setAttribute('download', '{!downloadFileName}');
+            elementA.style.display = 'none';
+            document.body.appendChild(elementA);
+            elementA.click();
+            document.body.removeChild(elementA);
+        };
+
+        function exportConfig () {
+            var elementB = document.createElement('a');
+            elementB.setAttribute('href', 'data:text/plain;base64,{!exportBody}');
+            elementB.setAttribute('download', '{!exportFileName}');
+            elementB.style.display = 'none';
+            document.body.appendChild(elementB);
+            elementB.click();
+            document.body.removeChild(elementB);
+        };
+
+        function setReference (row) {
+            j$("[id$=':" + row + ":fieldValue']").val(j$("[id$=':" + row + ":valueOptions']").val());
+        }
+
+        function clearMessages () {
+            j$("[id$='messagesTop']").text('');
+            j$("[id$='messagesBottom']").text('');
+        };
+
+        j$(window).scroll(function() {
+            sessionStorage.scrollTop = j$(this).scrollTop();
+        });
+
+        j$(document).ready(function() {
+            if (sessionStorage.scrollTop) {
+                j$(window).scrollTop(sessionStorage.scrollTop);
+            }
+            j$("[id$='container']").css('opacity', 1);
+        });
+
+    </script>
+
+    <div id="container" class="container" style="opacity:0">
+        <apex:sectionHeader title="SObject Dataset Manager"/>
+        <apex:form id="theForm">
+            <apex:outputPanel id="panel" layout="block" style="margin:5px; padding:10px; padding-top:2px;">
+                <apex:pageMessages id="messagesTop" escape="false"/>
+                <c:SO_Spinner/>
+                <apex:tabPanel switchType="client" selectedTab="loadTab" id="tabbedPanel" onClick="clearMessages();">
+
+                    <!--============ T A B   "C R E A T E" ===========-->
+                    <apex:tab id="createTab" label="Create" name="create">
+                        <apex:pageBlock title="Create SObject Dataset">
+                            <div style="padding-top:8px; padding-bottom:4px;">
+                                <span id="configFile" class="input" style="white-space:nowrap;">
+                                    <apex:inputFile id="config_open" value="{!configFile.body}" filename="{!configFile.name}" disabled="{!editEnabled}"
+                                                    onChange="showSpinner(); loadConfig();" styleClass="file-type" style="height:26px!important;"/>
+                                    <span id="config_name" class="info-label">{!configFile.name}</span>
+                                </span>
+                                <script>
+                                    j$("[id$='config_open']").change(function(){
+                                        j$("[id$='config_name']").html(getFilename(j$(this).val()));
+                                    });
+                                </script>
+                                &nbsp;
+                                <apex:commandButton id="testRun" value="Test Run" action="{!testRun}" onClick="showSpinner();" disabled="{!editEnabled || !exportEnabled}" styleClass="button"/>
+                                &nbsp;
+                                <apex:commandButton id="liveRun" value="Live Run" action="{!startCreate}" onClick="showSpinner();" disabled="{!editEnabled || !exportEnabled}" styleClass="button"/>
+                                &nbsp;
+                                <apex:commandButton id="saveResults" value="Save Results" onClick="exportConfig();" disabled="{!editEnabled || !deployed}" styleClass="button"/>
+                            </div>
+                        </apex:pageBlock>
+                    </apex:tab>
+
+                    <!--============ T A B   "V I E W" ===========-->
+                    <apex:tab id="viewTab" label="View" name="view">
+                        <apex:pageBlock title="View Created SObjects">
+
+                            <apex:pageBlockTable value="{!createdRecords}" var="record" id="table" rowClasses="even, odd" headerClass="header" >
+                                <apex:column headerValue="SObject Name" styleClass="column">
+                                    <apex:outputText escape="false" value="{!record.objectName}"/>
+                                </apex:column>
+                                <apex:column headerValue="API Name" styleClass="column">
+                                    <apex:outputText escape="false" value="{!record.apiName}"/>
+                                </apex:column>
+                                <apex:column headerValue="Id" styleClass="column">
+                                    <apex:outputLink value="/{!record.recordId}" target="_blank">{!record.recordId}</apex:outputLink>
+                                </apex:column>
+                            </apex:pageBlockTable>
+
+                        </apex:pageBlock>
+                    </apex:tab>
+
+                    <!--============ T A B   "D E L E T E" ===========-->
+                    <apex:tab id="deleteTab" label="Delete" name="delete">
+                        <apex:pageBlock title="Delete Dataset">
+                            <apex:actionRegion>
+                            <div id="resultFile" class="input">
+                                <apex:inputFile id="resultFile_input" value="{!resultFile.body}" filename="{!resultFile.name}" styleClass="file-type" />
+                                <div id="resultFile_selected" class="info-label">{!resultFile.name}</div>
+                            </div>
+                            </apex:actionRegion>
+                            <div class="annotation" style="margin-left:140px;">File size up to 25 MB</div>
+                            <script>
+                                j$("[id$='resultFile_input']").change(function(){
+                                    j$("[id$='resultFile_selected']").html(getFilename(j$(this).val()));
+                                });
+                            </script>
+
+                            <div>
+                                <apex:commandButton id="delete" value="Delete" action="{!startDelete}" onClick="showSpinner();" styleClass="button"/>
+                            </div>
+                        </apex:pageBlock>
+                    </apex:tab>
+
+                    <!--============ T A B   "B U I L D" ===========-->
+                    <apex:tab id="buildTab" label="Build" name="build">
+
+                        <apex:pageBlock id="buildPageBlock" title="Build Dataset Config">
+
+                            <!--------------------- AVAILABLE OBJECTS -------------------->
+                            <apex:pageBlockSection title="Available SObjects" columns="1" collapsible="false" >
+                                <apex:selectList size="8" value="{!selectedObject}" style="font-size:11px;">
+                                    <apex:actionSupport event="onchange" action="{!objectChange}" onSubmit="showSpinner();"/>
+                                    <apex:selectOptions value="{!objectSelectOptions}"/>
+                                </apex:selectList>
+                            </apex:pageBlockSection>
+
+                            <div style="padding-top:8px; padding-bottom:4px;">
+                                <apex:commandButton id="query" value="Query" action="{!queryObject}" disabled="{!selectedObject == null}" onClick="showSpinner();" styleClass="button"/>
+                                &nbsp;
+                                <apex:commandButton id="includeEmpty" value="Include (no values)" action="{!includeEmptyRecord}" disabled="{!editEnabled || selectedObject == null}" onClick="showSpinner();" styleClass="button"/>
+                            </div>
+
+                            <!--------------------- CONFIG OBJECTS -------------------->
+                            <apex:pageBlockSection title="SObjects Included in Config" columns="1" collapsible="false">
+                                <apex:variable var="index" value="{!-1}"/>
+                                <apex:pageBlockTable value="{!configObjects}" var="config" id="configTable" rowClasses="even, odd" headerClass="header" style="margin-top:-12px;">
+                                    <apex:column headerValue="Actions" styleClass="column" style="white-space:nowrap; float:left;">
+                                        <apex:variable var="index" value="{!index + 1}" />
+                                        <span style="display:{!IF(!editEnabled, 'inline', 'none')}">
+                                            <apex:commandLink value="Remove" action="{!removeRecord}" onClick="showSpinner();" styleClass="action">
+                                                <apex:param name="index" value="{!index}" assignTo="{!index}"/>
+                                            </apex:commandLink>
+                                        </span>
+                                        <span style="display:{!IF(!editEnabled, 'inline', 'none')}">
+                                            &nbsp;
+                                            <apex:commandLink value="Edit" action="{!editConfig}" onClick="showSpinner();" styleClass="action">
+                                                <apex:param name="index" value="{!index}" assignTo="{!index}"/>
+                                            </apex:commandLink>
+                                        </span>
+                                        <span style="display:{!IF(!editEnabled && index>0, 'inline', 'none')}">
+                                            &nbsp;
+                                            <apex:commandLink value="Up⬆" action="{!moveUp}" onClick="showSpinner();" styleClass="action">
+                                                <apex:param name="index" value="{!index}" assignTo="{!index}"/>
+                                            </apex:commandLink>
+                                        </span>
+                                        <span style="display:{!IF(!editEnabled && index<configSize-1, 'inline', 'none')}">
+                                            &nbsp;
+                                            <apex:commandLink value="Down⬇" action="{!moveDown}" onClick="showSpinner();" styleClass="action">
+                                                <apex:param name="index" value="{!index}" assignTo="{!index}"/>
+                                            </apex:commandLink>
+                                        </span>
+                                    </apex:column>
+
+                                    <apex:column headerValue="SObject" styleClass="column">
+                                        <apex:outputText escape="false" value="{!config.apiName} [{!config.objectName}]" style="white-space:nowrap;"/>
+                                    </apex:column>
+                                    <apex:column headerValue="Values" styleClass="column">
+                                        <!--------------------- E D I T    P A N E L -------------------->
+                                        <div style="display:{!IF(editEnabled && index==editIndex, 'block', 'none')}">
+                                            <apex:variable var="row" value="{!-1}"/>
+                                            <apex:pageBlockTable value="{!config.editFields}" var="field" rowClasses="even, odd" headerClass="header" >
+                                                <apex:column headerValue="Field" styleClass="column">
+                                                    <apex:variable var="row" value="{!row + 1}" />
+                                                    <apex:outputLabel value="{!field.name}:" styleClass="editLabel"/>
+                                                </apex:column>
+
+                                                <apex:column headerValue="Options" styleClass="column" style="white-space:nowrap;">
+                                                    <apex:selectList id="valueOptions" size="1" rendered="{!field.valueOptions != null}" style="font-size:11px;">
+                                                        <apex:selectOptions value="{!field.valueOptions}"/>
+                                                    </apex:selectList>
+                                                    &nbsp;
+                                                    <apex:commandLink value="Set" rendered="{!field.valueOptions != null}" onClick="setReference({!row}); return false;" style="color:blue;font-weight:bold;"/>
+                                                </apex:column>
+
+                                                <apex:column headerValue="Value" styleClass="column" style="width:95%">
+                                                    <apex:inputText id="fieldValue" value="{!field.value}" styleClass="editInput"/>
+                                                </apex:column>
+                                            </apex:pageBlockTable>
+
+                                            <div style="padding-top:8px; padding-bottom:4px;text-align:center;">
+                                                <apex:commandButton value="Apply" action="{!applyChanges}" onClick="showSpinner();" styleClass="button" style="width:60px;height:22px;"/>
+                                                &nbsp;&nbsp;
+                                                <apex:commandButton value="Cancel" action="{!cancelEdit}" onClick="showSpinner();" styleClass="button" style="width:60px;height:22px;"/>
+                                            </div>
+                                        </div>
+                                        <!--------------------------------------------------------------->
+                                        <div style="display:{!IF(!editEnabled || index!=editIndex, 'block', 'none')}; border:{!IF(config.error, '2px solid red', 'none')};">
+                                            <apex:outputText escape="false" value="{!config.valueString}"/>
+                                        </div>
+                                    </apex:column>
+                                    <apex:column headerValue="Record Id" styleClass="column">
+                                        <apex:outputLink value="/{!config.recordId}" target="_blank">{!config.recordId}</apex:outputLink>
+                                    </apex:column>
+                                </apex:pageBlockTable>
+                            </apex:pageBlockSection>
+
+                            <div style="padding-top:8px; padding-bottom:4px;">
+                                <apex:actionFunction action="{!loadConfig}" name="loadConfig"/>
+                                <span id="configFile" class="input" style="white-space:nowrap;">
+                                    <apex:inputFile id="config_open" value="{!configFile.body}" filename="{!configFile.name}" disabled="{!editEnabled}"
+                                                    onChange="showSpinner(); loadConfig();" styleClass="file-type" style="height:26px!important;"/>
+                                    <span id="config_name" class="info-label">{!configFile.name}</span>
+                                </span>
+                                <script>
+                                    j$("[id$='config_open']").change(function(){
+                                        j$("[id$='config_name']").html(getFilename(j$(this).val()));
+                                    });
+                                </script>
+                                &nbsp;
+                                <apex:commandButton id="test" value="Test Run" action="{!testRun}" onClick="showSpinner();" disabled="{!editEnabled || !exportEnabled}" styleClass="button"/>
+                                &nbsp;
+                                <apex:commandButton id="export" value="Save Config" onClick="exportConfig();" disabled="{!editEnabled || !exportEnabled}" styleClass="button"/>
+                            </div>
+
+                            <!--------------------- QUERIED RECORDS -------------------->
+                            <apex:pageBlockSection title="Queried Records {!selectedObjectLabel}" columns="1" collapsible="false" >
+                                <apex:variable var="index" value="{!-1}"/>
+                                <apex:pageBlockTable value="{!queriedRecords}" var="record" id="table" rowClasses="even, odd" headerClass="header" style="margin-top:-12px;">
+                                    <apex:column headerValue="Action" styleClass="column">
+                                        <apex:variable var="index" value="{!index + 1}" />
+                                        <apex:commandLink value="Include" action="{!includeRecord}" onClick="showSpinner();" rendered="{!!editEnabled}" style="color:#178200;font-weight:bold;">
+                                            <apex:param name="index" value="{!index}" assignTo="{!index}"/>
+                                        </apex:commandLink>
+                                    </apex:column>
+                                    <apex:column headerValue="Name" rendered="{!nameAvailable}" styleClass="column">
+                                        <apex:outputText escape="false" value="{!queriedRecords[index].name}"/>
+                                    </apex:column>
+                                    <apex:column headerValue="Id" styleClass="column">
+                                        <apex:outputLink value="/{!queriedRecords[index].Id}" target="_blank">{!queriedRecords[index].Id}</apex:outputLink>
+                                    </apex:column>
+                                </apex:pageBlockTable>
+                            </apex:pageBlockSection>
+                        </apex:pageBlock>
+
+                    </apex:tab>
+                </apex:tabPanel>
+
+                <br/>
+                <apex:pageMessages id="messagesBottom" escape="false"/>
+            </apex:outputPanel>
+        </apex:form>
+    </div>
+
+    <style>
+        .pbSubheader {
+            color: #00f !important;
+        }
+        .column {
+             vertical-align: top !important;
+        }
+        .editLabel {
+            height:14px;
+            white-space:nowrap;
+            font-size:11px;
+            font-weight:bold;
+            font-size:11px;
+        }
+        .editInput {
+            width:100% !important;
+            height:14px;
+            font-size:11px;
+            margin-top:0px !important;
+            color:blue;
+        }
+        .input {
+            width:300px;
+            height:24px;
+            margin:2px;
+            border:1px solid #dddddd;       /*lightgrey;*/
+            border-radius: 3px;
+        }
+        .file-type {
+            float: left;
+            position: relative;
+            width: 120px;
+            margin: auto;
+            cursor: pointer;
+            height: 24px;
+            border-radius: 3px;
+            outline: 0;
+        }
+        .file-type:after {
+            background: lightblue; /*#ccc;*/
+            border:1px solid #bbb;
+            color: #000;
+            font-family: monospace;
+            font-size: 12px;
+            text-align: center;
+            position: absolute;     /* important */
+            top: 0;                 /* important */
+            left: 0;                /* important */
+            width: 118px;
+            height: 24px;
+            margin-top: 0px;
+            line-height: 24px;
+            border-radius: 3px;
+            content: 'Load File';
+        }
+        .info-label {
+            width: 200px;
+            height: 24px!important;
+            border: none;
+            margin-left: 4px;
+            color: #00f;
+            font-family: monospace !important;
+            font-weight: 600;
+            line-height: 24px;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .annotation {
+            font-size:10px;
+            color:#000000;
+            text-align:left;
+            white-space: nowrap;
+        }
+        .button {
+            width: 120px;
+            height: 26px;
+            font-size: 11px !important;
+            background: lightblue!important;
+        }
+        .action {
+            color: #004db3 !important;
+            font-weight: bold;
+        }
+        .header {
+            background-color: lightgrey !important;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /*------------------ spinner style --------------------*/
+		.popupBack {
+			background-color:black;
+			width: 5000px;
+			height: 5000px;
+			position: absolute;
+			top: 0;
+			left: 0;
+			opacity: 0.3;
+			filter: alpha(opacity = 50);
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+		-moz-opacity: 0.3;
+		-khtml-opacity: 0.3;
+			z-index: 9998;
+		}
+		.popupFront {
+			background-color: #ccccaa;
+			border-width: 2px;
+			border-style: solid;
+			z-index: 9999;
+			left: 50%;
+			padding:10px;
+			position: absolute;
+			text-align: center;
+			/* ---------------- */
+			width: 300px;
+			margin-left: -160px;
+			top:100px;
+		}
+		.spinnerStyle {
+			position:absolute;
+			top:200px;
+			left:47%;
+			z-index: 9999;
+		}
+    </style>
+</apex:page>

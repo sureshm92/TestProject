@@ -205,7 +205,9 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
                 .build()
         );
         setup();
-        delete [SELECT Id FROM Clinical_Trial_Profile__c];
+        List<Clinical_Trial_Profile__c> clinicalTrialProfiles = [SELECT Id FROM Clinical_Trial_Profile__c];
+        delete [SELECT Id FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN :clinicalTrialProfiles];
+        delete clinicalTrialProfiles;
         Clinical_Trial_Profile__c t1 = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType());
         t1.NCT_Number__c = 'NCT00000000';
         t1.Protocol_ID__c = 'NCT00000000';
@@ -297,7 +299,11 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
                 .build()
         );
         setup();
-        delete [SELECT Id FROM Clinical_Trial_Profile__c];
+
+        List<Clinical_Trial_Profile__c> clinicalTrialProfiles = [SELECT Id FROM Clinical_Trial_Profile__c];
+        delete [SELECT Id FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN :clinicalTrialProfiles];
+        delete clinicalTrialProfiles;
+
         Clinical_Trial_Profile__c t1 = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType());
         t1.NCT_Number__c = 'NCT00000000';
         t1.Protocol_ID__c = 'NCT00000000';
@@ -384,7 +390,10 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
                 .build()
         );
         setup();
-        delete [SELECT Id FROM Clinical_Trial_Profile__c];
+        List<Clinical_Trial_Profile__c> clinicalTrialProfiles = [SELECT Id FROM Clinical_Trial_Profile__c];
+        delete [SELECT Id FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN :clinicalTrialProfiles];
+        delete clinicalTrialProfiles;
+
         Clinical_Trial_Profile__c t1 = (Clinical_Trial_Profile__c) TestDataFactory.getSObject(Clinical_Trial_Profile__c.getSObjectType());
         t1.NCT_Number__c = 'NCT00000000';
         t1.Protocol_ID__c = 'NCT00000000';

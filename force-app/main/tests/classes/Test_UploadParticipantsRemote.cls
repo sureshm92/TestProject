@@ -12,7 +12,7 @@ public class Test_UploadParticipantsRemote {
         List<String> headerColumns = Action_UploadParticipantsRemote.HEADER_COLUMNS;
         List<String> mandatoryHeaders = Action_UploadParticipantsRemote.MANDATORY_HEADER_COLUMNS;
 
-        List<LabelValueItem> statuses = Action_UploadParticipantsRemote.getParticipantsStatuses();
+        List<LabelValueItem> statuses = Action_UploadParticipantsRemote.getParticipantsStatuses(tstData.ss.Id);
 
         List<String> csvFileLines = new List<String>();
         csvFileLines.add('First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language');

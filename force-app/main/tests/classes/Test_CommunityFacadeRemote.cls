@@ -15,7 +15,8 @@ private class Test_CommunityFacadeRemote {
                 AccountId = acc1.id,
                 LastName = 'portalTestUser1',
                 RRCookiesAllowedCookie__c = false,
-                RRLanguageAllowedCookie__c = true
+                RRLanguageAllowedCookie__c = true,
+                userCommunytyType__c = CommunityService.USER_MODE_HCP
         );
         insert conCase;
 

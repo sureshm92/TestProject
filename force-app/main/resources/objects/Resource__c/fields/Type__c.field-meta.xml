@@ -12,9 +12,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>None</fullName>
+                <fullName>Helpful Links</fullName>
                 <default>true</default>
-                <label>None</label>
+                <label>Helpful Links</label>
             </value>
             <value>
                 <fullName>Relevant Links</fullName>
@@ -22,14 +22,9 @@
                 <label>Relevant Links</label>
             </value>
             <value>
-                <fullName>Helpful Links</fullName>
-                <default>false</default>
-                <label>Helpful Links</label>
-            </value>
-            <value>
                 <fullName>Patient advocacy groups</fullName>
                 <default>false</default>
-                <label>Patient advocacy groups</label>
+                <label>Patient Advocacy Groups</label>
             </value>
             <value>
                 <fullName>For Caregivers and Families</fullName>
@@ -40,6 +35,11 @@
                 <fullName>Articles for caregivers</fullName>
                 <default>false</default>
                 <label>Articles for caregivers</label>
+            </value>
+            <value>
+                <fullName>None</fullName>
+                <default>false</default>
+                <label>None</label>
             </value>
         </valueSetDefinition>
     </valueSet>

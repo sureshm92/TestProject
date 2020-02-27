@@ -670,7 +670,7 @@ private class Test_BaseCRCPCommunity {
             Action_ChangeHCPStatusByPIRemote.changeHCPEnrollmentStatus(hcpEnrollment.Id, StudyActions.ACT_HCP_ON_HOLD, '');
             Action_ChangeHCPStatusByPIRemote.changeHCPEnrollmentStatus(hcpEnrollment.Id, StudyActions.ACT_HCP_ACTIVATE_FOR_ALL, '');
             Action_ChangePEStatusByPIRemote.getReferralDeclineReasons();
-            Action_ChangePEStatusByPIRemote.updatePE(JSON.serialize(passedMrrPE), PEStatusState.PE_STATUS_REFERRAL_ON_HOLD, '', '');
+            Action_ChangePEStatusByPIRemote.updatePE(JSON.serialize(passedMrrPE), PEStatusState.PE_STATUS_RECEIVED, '', '');
         }
         Test.stopTest();
     }
@@ -699,7 +699,7 @@ private class Test_BaseCRCPCommunity {
         Test.startTest();
         System.runAs(piUser) {
             Action_InviteRPRemote.getInviteDetail();
-            Action_InviteRPRemote.inviteNewHCP('test', 'hcp', '12345','test@mail.com.fake', null, 'test-protocol',null);
+            Action_InviteRPRemote.inviteNewHCP('test', 'hcp', '12345','test@mail.com.fake', null, 'test-protocol',new List<String>());
         }
         Test.stopTest();
     }
@@ -776,7 +776,7 @@ private class Test_BaseCRCPCommunity {
         System.runAs(piUser) {
             ReferralProfileRemote.getReferralProfileDetail(passedMrrPE.Id, CommunityService.USER_MODE_PI);
             //ReferralProfileRemote.getPEStatusHistory(passedMrrPE.Id, CommunityService.USER_MODE_PI, null);
-            ReferralProfileRemote.changePEStatusByBtn(passedMrrPE.Id, 'Referral Accepted');
+            ReferralProfileRemote.changePEStatusByBtn(passedMrrPE.Id, 'Received');
             //ReferralProfileRemote.changePEStatus(passedMrrPE.Id, 'Contact Successful', 'Some Notes', CommunityService.USER_MODE_PI);
             ReportsRemote.getInitData(study.Id, CommunityService.USER_MODE_PI, null);
             RRIconTableController.getFilterInfoAndSummaryInfo();

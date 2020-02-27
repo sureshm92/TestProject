@@ -60,7 +60,7 @@ public without sharing class ParticipantWorkflowService {
         for(Participant_Enrollment_Status_History__c pesh: [
                 SELECT Id, Date__c, Status__c, Reason__c, Notes__c, CreatedBy.Name,
                         ParticipantEnrollment__r.Referral_Source__c, ParticipantEnrollment__r.Referral_Completedby_Name__c,
-                        ParticipantEnrollment__r.Source_Type__c
+                        ParticipantEnrollment__r.Source_Type__c, ParticipantEnrollment__r.PI_Contact__r.Name
                 FROM Participant_Enrollment_Status_History__c
                 WHERE ParticipantEnrollment__c = :pe.Id
                 ORDER BY Date__c DESC]){
@@ -110,7 +110,7 @@ public without sharing class ParticipantWorkflowService {
             List<Participant_Enrollment_Status_History__c> peshList = peshMap.get(step.DeveloperName);
             stepWrapper.state = outcomesMap.get(peshList[0].Status__c).State__c;
             stepWrapper.status = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,peshList[0].Status__c)
-                    + ' ' + peshList[0].Date__c.format('dd/MM/yyyy');
+                    + ' ' + peshList[0].Date__c.date().format();
             stepWrapper.outcome = peshList[0].Status__c;
             for(Participant_Enrollment_Status_History__c pesh: peshList){
                 ParticipantWorkflowHistoryWrapper historyWrapper = createHistoryWrapper(pesh, step);
@@ -171,16 +171,18 @@ public without sharing class ParticipantWorkflowService {
                     replace('##Notes',notesString);
         }
         if(step.History_Item_Details_Template_Label__c == null || step.History_Item_Details_Template_Label__c == ''){
-            historyWrapper.detail = ' '+ TranslateHelper.getLabelValue('PE_Status_History_On_Date') +' ' + pesh.Date__c.format('dd/MM/yyyy')
+            historyWrapper.detail = ' '+ TranslateHelper.getLabelValue('PE_Status_History_On_Date') +' ' + pesh.Date__c.date().format()
                     + ' ' + TranslateHelper.getLabelValue('PG_IMI_L_by_user') + ' '+ pesh.CreatedBy.Name;
         }
         else{
             String sourceString = pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c == null
                     || pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c == '' ?
-                    pesh.ParticipantEnrollment__r.Source_Type__c:
+                    (pesh.ParticipantEnrollment__r.Source_Type__c == ParticipantEnrollmentService.PE_SOURCE_TYPE_EPR?
+                            pesh.ParticipantEnrollment__r.Source_Type__c
+                            :pesh.ParticipantEnrollment__r.PI_Contact__r.Name):
                     pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c;
             historyWrapper.detail = ' ' + TranslateHelper.getLabelValue(step.History_Item_Details_Template_Label__c).
-                    replace('##Date',pesh.Date__c.format('dd/MM/yyyy')).
+                    replace('##Date',pesh.Date__c.date().format()).
                     replace('##ByUser',pesh.CreatedBy.Name).
                     replace('##Source', sourceString);
         }
@@ -263,22 +265,22 @@ public without sharing class ParticipantWorkflowService {
                         }
                         when 'time' {
                             currentFieldWrapper.type = 'time';
-                            if(pe.get(fieldSetting.Field_Name__c) instanceof Datetime) {
-                                currentFieldWrapper.value = pe.get(fieldSetting.Field_Name__c)==null?'':((DateTime)pe.get(fieldSetting.Field_Name__c)).format('TT:MM');
+                            if(pe.get(fieldSetting.Field_Name__c) instanceof Time) {
+                                currentFieldWrapper.value = String.valueOf((Time)pe.get(fieldSetting.Field_Name__c));
                             }
                             else {
-                                currentFieldWrapper.value = String.valueOf((Time)pe.get(fieldSetting.Field_Name__c));
+                                currentFieldWrapper.value = pe.get(fieldSetting.Field_Name__c)==null?'':((DateTime)pe.get(fieldSetting.Field_Name__c)).format('TT:MM');
                             }
                         }
                         when 'date' {
                             currentFieldWrapper.type = 'date';
-                            if(pe.get(fieldSetting.Field_Name__c) instanceof Datetime) {
-                                currentFieldWrapper.value = pe.get(fieldSetting.Field_Name__c)==null?'': ((DateTime)pe.get(fieldSetting.Field_Name__c)).format('yyyy-MM-dd');
-                            }
-                            else {
+                            if(pe.get(fieldSetting.Field_Name__c) instanceof Date) {
                                 System.debug('fieldSetting.Field_Name__c');
                                 System.debug(pe.get(fieldSetting.Field_Name__c));
-                                currentFieldWrapper.value = pe.get(fieldSetting.Field_Name__c)==null?'':((Date)pe.get(fieldSetting.Field_Name__c)).format();
+                                currentFieldWrapper.value = pe.get(fieldSetting.Field_Name__c)==null?'':String.valueOf(pe.get(fieldSetting.Field_Name__c));
+                            }
+                            else {
+                                currentFieldWrapper.value = pe.get(fieldSetting.Field_Name__c)==null?'': ((DateTime)pe.get(fieldSetting.Field_Name__c)).format('yyyy-MM-dd');
                             }
                         }
                         when 'text' {
@@ -398,7 +400,7 @@ public without sharing class ParticipantWorkflowService {
         for(Participant_Enrollment_Status_History__c pesh: [
                 SELECT Id, Date__c, Status__c, Reason__c, Notes__c, CreatedBy.Name,
                         ParticipantEnrollment__r.Referral_Source__c, ParticipantEnrollment__r.Referral_Completedby_Name__c,
-                        ParticipantEnrollment__r.Source_Type__c
+                        ParticipantEnrollment__r.Source_Type__c, ParticipantEnrollment__r.PI_Contact__r.Name
                 FROM Participant_Enrollment_Status_History__c
                 WHERE ParticipantEnrollment__c IN :peIds
                 ORDER BY Date__c DESC]){
@@ -433,7 +435,9 @@ public without sharing class ParticipantWorkflowService {
         if(pesh!=null){
             result.title = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pesh.Status__c);
             result.reason = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c,pesh.Reason__c);
-            result.dateOccured = pesh.Date__c.format('dd-MMM-yyyy');
+            if(pesh.Date__c != null){
+                result.dateOccured = pesh.Date__c.date().format();
+            }
             result.state = outcomesMap.get(pesh.Status__c).State__c;
             result.left = PEStatusState.STATUS_STATE_SUCCESS;
             if(previousStep != null) previousStep.right = PEStatusState.STATUS_STATE_SUCCESS;

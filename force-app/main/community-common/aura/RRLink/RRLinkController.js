@@ -3,8 +3,9 @@
  */
 ({
     doInit: function (component, event, helper) {
-        if(!component.get('v.href')){
-            var page = component.get('v.page') ? component.get('v.page') : '';
+        var page = component.get('v.page');
+        if(!component.get('v.href') || page){
+            if(!page) page = '';
             component.set('v.href', communityService.getCommunityURLPathPrefix() + '/' + page);
         }
     },

@@ -43,10 +43,10 @@ public class Test_PatientDelegateRemote {
 
     @IsTest
     static void getYourPatientFirstNameTest() {
+        Test.startTest();
         TestData.loadTestData();
         TestData testData = new TestData();
 
-        Test.startTest();
         System.runAs(testData.participantUser){
             String patientFirstName = PatientDelegateRemote.getYourPatientFirstName();
         }
@@ -140,7 +140,7 @@ public class Test_PatientDelegateRemote {
         PatientDelegateService.setMock(new PatientDelegateServiceMock());
 
         Test.startTest();
-        PatientDelegateRemote.withdrawDelegate(jamesContact.Id);
+        PatientDelegateRemote.withdrawDelegate(jamesContact.Id, false);
         Test.stopTest();
 
         Contact delegate = [
