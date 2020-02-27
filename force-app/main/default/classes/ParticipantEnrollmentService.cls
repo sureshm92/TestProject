@@ -42,6 +42,10 @@ public without sharing class ParticipantEnrollmentService {
     public static final String STUDY_SITES_FILTER_DATA_FIELD = 'studySites';
     public static final String STATUSES_FILTER_DATA_FIELD = 'statuses';
 
+    public static final String PE_SOURCE_TYPE_PI = 'Principal Investigator';
+    public static final String PE_SOURCE_TYPE_RP = 'Referring Provider';
+    public static final String PE_SOURCE_TYPE_EPR = 'Digital Recruitment';
+
     //Map <SObject value field; SObject label field> for interdependent filter data for every Filter Data Filter Map
     public static final Map<String,Map<String,String>> FILTER_FIELD_MAP = new Map<String,Map<String,String>>{
             STUDIES_FILTER_DATA_FIELD => new Map<String,String>{'Study_Site__r.Clinical_Trial_Profile__c' => 'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c'},
@@ -347,6 +351,7 @@ public without sharing class ParticipantEnrollmentService {
             'Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c',
             'Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c',
             'Clinical_Trial_Profile__r.CommunityTemplate__c',
+            'Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c',
             'CreatedDate',
             'Enrolled_Date__c',
             'HCP__c',

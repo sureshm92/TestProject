@@ -17,7 +17,8 @@
         var actionRemoveDelegate = component.get('v.parentComponent').find('actionRemoveDelegate');
         actionRemoveDelegate.execute(messText, function () {
             communityService.executeAction(component, 'withdrawDelegate', {
-                'contactId': contact.Id
+                contactId: contact.Id,
+                removeHimself: false
             }, function () {
                 parent.find('mainSpinner').hide();
                 parent.refresh();

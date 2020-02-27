@@ -4,14 +4,6 @@
 
 public without sharing class AddPatientByPIRemote {
 
-    //TODO:update
-    public static final List<String> PE_STATUSES = new List<String>{
-            PEStatusState.PE_STATUS_CONTACT_ATTEMPTED,
-            PEStatusState.PE_STATUS_ELIGIBILITY_PASSED,
-            PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS,
-            PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
-    };
-    
     public class FormData {
         @AuraEnabled public List<LabelValueItem> countriesLVList = CountryStateUtil.getCountries();
         @AuraEnabled public Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
@@ -23,17 +15,7 @@ public without sharing class AddPatientByPIRemote {
         @AuraEnabled public Clinical_Trial_Profile__c ctp;
         @AuraEnabled public Study_Site__c ss;
         
-        public FormData() {
-            peStatusLVList = new List<LabelValueItem>();
-            for (String status : PE_STATUSES) {
-                peStatusLVList.add(
-                        new LabelValueItem(
-                                TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, status),
-                                status
-                        )
-                );
-            }
-        }
+        public FormData() {}
     }
     
     @AuraEnabled
@@ -44,6 +26,15 @@ public without sharing class AddPatientByPIRemote {
                 initData.ss =  StudySiteService.getStudySiteForPIById(ssId);
                 initData.ctp = TrialService.getTrial(initData.ss.Clinical_Trial_Profile__c);
                 initData.visitPlansLVList = StudySiteService.getVisitPlansLVList(ssId);
+                initData.peStatusLVList = new List<LabelValueItem>();
+                for (String status : PEStatusState.getAddPatientByPIStatuses(initData.ctp)) {
+                    initData.peStatusLVList.add(
+                            new LabelValueItem(
+                                    TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, status),
+                                    status
+                            )
+                    );
+                }
             }
             return initData;
         } catch (Exception e) {

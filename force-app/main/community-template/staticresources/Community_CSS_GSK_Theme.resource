@@ -46,3 +46,20 @@
     color: #FFFFFF;
 }
 
+.cp-body-cell {
+    background: white;
+    border-radius: 4px;
+    padding: 30px 12px 10px;
+}
+
+.cp-login-title {
+    color: #444444;
+}
+
+.lg-form-element {
+    color: #868686;
+}
+
+.lg-form-element input {
+    color: #868686;
+}

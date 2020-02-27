@@ -213,38 +213,44 @@ public without sharing class PatientDelegateService {
         insert alertList;
     }
 
-    public void resetDelegate(Id contactId) {
-        List<Patient_Delegate__c> pdList = [
-                SELECT Id
-                FROM Patient_Delegate__c
-                WHERE Participant__r.Contact__c != :CommunityService.getInstance().getCurrentContactId()
-                AND Contact__c = :contactId
-        ];
+    public void resetDelegate(Id contactId, Boolean removeHimself) {
+        Id ownerContactId = ParticipantContext.getCurrentParticipant().Contact__c;
+        String filter = DatabaseService.fieldEqual('Contact__c', contactId) + 'AND'
+                + (removeHimself ? DatabaseService.fieldNotEqual('Participant__r.Contact__c', ownerContactId)
+                : DatabaseService.fieldEqual('Participant__r.Contact__c', CommunityService.getInstance().getCurrentContactId()));
 
-        List<User> delegateUser = [
-                SELECT Id, IsActive
-                FROM User
-                WHERE ContactId = :contactId
-                AND IsActive = TRUE
-        ];
-        User delUser;
-        if (!delegateUser.isEmpty()) {
-            delUser = delegateUser.get(0);
-            List<Conversation__c> patientConversations = ConversationService.getSharedConversations(UserInfo.getUserId());
-            if (patientConversations != null) {
-                ConversationService.removeConversationSharesForUser(CollectionUtil.getObjectIds(patientConversations), delUser.Id);
+        List<Patient_Delegate__c> patientDelegates = (List<Patient_Delegate__c>) DatabaseService.query(
+                new List<String>{'Id'},
+                Patient_Delegate__c.getSObjectType(),
+                filter
+        );
+        if(!patientDelegates.isEmpty()) {
+            delete patientDelegates;
+
+            Id searchContactId = removeHimself ? ownerContactId : contactId;
+            List<User> teamUsers = [
+                    SELECT Id
+                    FROM User
+                    WHERE ContactId =: searchContactId
+                    AND IsActive = TRUE
+            ];
+            if (!teamUsers.isEmpty()) {
+                Id ownerUserId = removeHimself ? teamUsers.get(0).Id : UserInfo.getUserId();
+                Id delegateUserId = removeHimself ? UserInfo.getUserId() : teamUsers.get(0).Id;
+                List<Conversation__c> patientConversations = ConversationService.getSharedConversations(ownerUserId);
+                if (patientConversations != null) {
+                    ConversationService.removeConversationSharesForUser(CollectionUtil.getObjectIds(patientConversations), delegateUserId);
+                }
             }
         }
 
-        List<Patient_Delegate__c> patientDelegate = [
-                SELECT Id
-                FROM Patient_Delegate__c
-                WHERE Participant__r.Contact__c = :CommunityService.getInstance().getCurrentContactId()
-                AND Contact__c = :contactId
-        ];
-        delete patientDelegate;
-
-        if (pdList.isEmpty() && delUser != null) CommunityService.deactivateUsers(new List<Id>{contactId});
+        List<Patient_Delegate__c> patientDelegate = [SELECT Id FROM Patient_Delegate__c WHERE Contact__c = :contactId];
+        List<Participant__c> participants = [SELECT Id FROM Participant__c WHERE Contact__c = :contactId];
+        if(patientDelegate.isEmpty() && participants.isEmpty()) {
+            CommunityService.deactivateUsers(new List<Id>{
+                    contactId
+            });
+        }
     }
 
     public static Participant__c getParticipantByDelegateContactId(Id contactId) {
