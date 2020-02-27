@@ -30,12 +30,13 @@
             <div class="mrr-alert fail" id="anchor">
                 <c:RRIcon iconName="icon-close-circle"/>
                 <div class="main-title">{!v.pe.Participant__r.Full_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Failed}</div>
+                <aura:if isTrue="{!!v.isInvited}">
                 <button class="apollo-btn primary"
                         data-gtm="BTN_InviteToPP"
-                        disabled="{!v.isInvited}"
                         onclick="{!c.inviteToPortal}">
                     {!$Label.c.Invite_Participant_To_Portal}
                 </button>
+                </aura:if>
                 <button class="apollo-btn tertiary"
                         data-gtm="BTN_BackToParticipant"
                         onclick="{!c.backToParticipant}">{!$Label.c.PG_MRR_BTN_Back_to_My_Participant}</button>
@@ -47,13 +48,13 @@
             <div class="mrr-alert pass" id="anchor">
                 <c:RRIcon iconName="icon-check-circle"/>
                 <div class="main-title">{!v.pe.Participant__r.Full_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Passed}</div>
-                <button class="apollo-btn primary"
-                        onclick="{!c.inviteToPortal}"
-                        data-gtm="BTN_InviteToPP"
-                        disabled="{!v.isInvited}"
-                        title="{!v.actions.referToThisStudy.disableReason}">
-                    {!$Label.c.Invite_Participant_To_Portal}
-                </button>
+                <aura:if isTrue="{!!v.isInvited}">
+                    <button class="apollo-btn primary"
+                            data-gtm="BTN_InviteToPP"
+                            onclick="{!c.inviteToPortal}">
+                        {!$Label.c.Invite_Participant_To_Portal}
+                    </button>
+                </aura:if>
                 <button class="apollo-btn tertiary"
                         data-gtm="BTN_BackToParticipant"
                         onclick="{!c.backToParticipant}">{!$Label.c.PG_MRR_BTN_Back_to_My_Participant}</button>
