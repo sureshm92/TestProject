@@ -22,7 +22,7 @@ private class Test_SurveyResponseTriggerHandler {
         insert schedule;
 
         Trial_Survey__c tsAllSee = new Trial_Survey__c(
-                Active_On_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
+                Active_On_Status__c = PEStatusState.PE_STATUS_RECEIVED,
                 Clinical_Trial_Profile__c = testData.ctp.Id,
                 Expires_After_Days__c = 999,
                 Reminder_Schedule__c = schedule.Id,
@@ -63,7 +63,7 @@ private class Test_SurveyResponseTriggerHandler {
         insert schedule;
 
         Trial_Survey__c tsOnlyDelegates = new Trial_Survey__c(
-                Active_On_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
+                Active_On_Status__c = PEStatusState.PE_STATUS_RECEIVED,
                 Clinical_Trial_Profile__c = testData.ctp.Id,
                 Expires_After_Days__c = 999,
                 Reminder_Schedule__c = schedule.Id,

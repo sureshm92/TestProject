@@ -44,10 +44,10 @@ public without sharing class PEStatusState {
     public static final String PE_STATUS_REFERRAL_ACCEPTED = 'Referral Accepted';
     public static final String PE_STATUS_REFERRAL_ON_HOLD = 'Referral On Hold';
     public static final String PE_STATUS_REFERRAL_DECLINED = 'Referral Declined';
-    public static final String PE_STATUS_CONTACT_SUCCESSFUL = 'Contact Successful';
-    public static final String PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS = 'Contact Attempt in Progress';
-    public static final String PE_STATUS_CONTACT_FAILED = 'Contact Failed';
-    public static final String PE_STATUS_SCREENING_COMPLETE = 'Screening Complete';
+//    public static final String PE_STATUS_CONTACT_SUCCESSFUL = 'Contact Successful';
+//    public static final String PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS = 'Contact Attempt in Progress';
+//    public static final String PE_STATUS_CONTACT_FAILED = 'Contact Failed';
+//    public static final String PE_STATUS_SCREENING_COMPLETE = 'Screening Complete';
 
 
 
@@ -106,7 +106,6 @@ public without sharing class PEStatusState {
     };
     
     public static final List<String> PE_STATUS_GROUP_ALUMNI = new List<String>{
-            PE_STATUS_REFERRAL_DECLINED,
             PE_STATUS_ELIGIBILITY_FAILED,
             PE_STATUS_SCREENING_FAILED,
             PE_STATUS_UNABLE_TO_SCREEN,
@@ -116,7 +115,8 @@ public without sharing class PEStatusState {
             PE_STATUS_EXCLUDED_FROM_REFERRING,
             PE_STATUS_PARTICIPATION_COMPLETE,
             PE_STATUS_TRIAL_COMPLETE,
-            PE_STATUS_DROP_OUT
+            PE_STATUS_DROP_OUT,
+            PE_STATUS_REFERRAL_DECLINED
     };
     
     public static final List<String> PE_STATUS_GROUP_IN_PROGRESS = new List<String>{

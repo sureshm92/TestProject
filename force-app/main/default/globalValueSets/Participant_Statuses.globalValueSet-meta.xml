@@ -16,44 +16,9 @@
         <label>Pending Referral</label>
     </customValue>
     <customValue>
-        <fullName>Referral Sent to PI</fullName>
-        <default>false</default>
-        <label>Referral Sent to PI</label>
-    </customValue>
-    <customValue>
-        <fullName>Referral Accepted</fullName>
-        <default>false</default>
-        <label>Referral Accepted</label>
-    </customValue>
-    <customValue>
-        <fullName>Referral On Hold</fullName>
-        <default>false</default>
-        <label>Referral On Hold</label>
-    </customValue>
-    <customValue>
-        <fullName>Referral Declined</fullName>
-        <default>false</default>
-        <label>Referral Declined</label>
-    </customValue>
-    <customValue>
         <fullName>Excluded from Referring</fullName>
         <default>false</default>
         <label>Excluded from Referring</label>
-    </customValue>
-    <customValue>
-        <fullName>Contact Successful</fullName>
-        <default>false</default>
-        <label>Contact Successful</label>
-    </customValue>
-    <customValue>
-        <fullName>Contact Attempt In Progress</fullName>
-        <default>false</default>
-        <label>Contact Attempt In Progress</label>
-    </customValue>
-    <customValue>
-        <fullName>Contact Failed</fullName>
-        <default>false</default>
-        <label>Contact Failed</label>
     </customValue>
     <customValue>
         <fullName>Eligibility Passed</fullName>
@@ -64,11 +29,6 @@
         <fullName>Eligibility Failed</fullName>
         <default>false</default>
         <label>Eligibility Failed</label>
-    </customValue>
-    <customValue>
-        <fullName>Screening Complete</fullName>
-        <default>false</default>
-        <label>Screening Complete</label>
     </customValue>
     <customValue>
         <fullName>Screening In Progress</fullName>
@@ -169,6 +129,54 @@
         <fullName>Randomization Failed</fullName>
         <default>false</default>
         <label>Randomization Failed</label>
+    </customValue>
+    <customValue>
+        <fullName>Contact Failed</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Contact Failed</label>
+    </customValue>
+    <customValue>
+        <fullName>Contact Attempt In Progress</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Contact Attempt In Progress</label>
+    </customValue>
+    <customValue>
+        <fullName>Contact Successful</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Contact Successful</label>
+    </customValue>
+    <customValue>
+        <fullName>Referral Declined</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Referral Declined</label>
+    </customValue>
+    <customValue>
+        <fullName>Referral On Hold</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Referral On Hold</label>
+    </customValue>
+    <customValue>
+        <fullName>Referral Accepted</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Referral Accepted</label>
+    </customValue>
+    <customValue>
+        <fullName>Referral Sent to PI</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Referral Sent to PI</label>
+    </customValue>
+    <customValue>
+        <fullName>Screening Complete</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Screening Complete</label>
     </customValue>
     <masterLabel>Participant Statuses</masterLabel>
     <sorted>false</sorted>
