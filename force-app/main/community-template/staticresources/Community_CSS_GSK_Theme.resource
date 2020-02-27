@@ -46,11 +46,19 @@
     color: #FFFFFF;
 }
 
+.cp-content {
+    align-items: center;
+}
+
 .cp-body-cell {
     background: white;
     border-radius: 4px;
-    padding: 30px 12px 15px;
+    padding: 0 15px 0;
     margin-top: 10px;
+}
+
+.cp-logo-block{
+    margin-top: 20px;
 }
 
 .cp-login-title {
