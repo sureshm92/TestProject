@@ -391,7 +391,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     }
     //Moved to PESH Trigger Handler
 
-
     @TestVisible
     private static void setChangedDate(List<Participant_Enrollment__c> newList) {
         for (Participant_Enrollment__c pe : newList) {
@@ -408,13 +407,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     private static void getPaymentInformation(List<Participant_Enrollment__c> newList) {
         Map<Id, Participant_Enrollment__c> newMap = new Map<Id, Participant_Enrollment__c>();
         newMap.putAll(newList);
-//        List<Participant_Enrollment__c> peList = [
-//                SELECT Study_Site__c, Participant__r.Status__c, Participant__r.Balance__c, Screening_ID__c,
-//                        Participant__r.First_Name__c, Participant__r.Last_Name__c, Participant__r.Email__c,
-//                        Clinical_Trial_Profile__r.Protocol_ID__c
-//                FROM Participant_Enrollment__c
-//                WHERE Id IN:newMap.keySet()
-//        ];
         Set<Id> ssIds = new Set<Id>();
         for (Participant_Enrollment__c pe : newList) ssIds.add(pe.Study_Site__c);
 
@@ -466,15 +458,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     @TestVisible
     private static void createInvitations(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
-//        List<Participant_Enrollment__c> enrollments = [
-//                SELECT Id,
-//                        Clinical_Trial_Profile__c,
-//                        Clinical_Trial_Profile__r.CommunityTemplate__c,
-//                        Participant_Status__c
-//                FROM Participant_Enrollment__c
-//                WHERE Id IN:newList
-//        ];
-
         Map<Id, List<Participant_Enrollment__c>> ctpPE = new Map<Id, List<Participant_Enrollment__c>>();
         Map<String, Id> communitiesMap = CommunityService.getCommunityIdsMap();
         Map<Id, String> networkByPE = new Map<Id, String>();
@@ -573,11 +556,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     private static void setSourceTypeHandler(List<Participant_Enrollment__c> enrollments) {
         for (Participant_Enrollment__c pe : enrollments) {
             if ('PI' == pe.Referral_Source__c) {
-                pe.Source_Type__c = 'Principal Investigator';
+                pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_PI;
             } else if (pe.Referral_Source__c != null && pe.Referral_Source__c.contains('HCP')) {
-                pe.Source_Type__c = 'Referring Provider';
+                pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_RP;
             } else {
-                pe.Source_Type__c = 'Digital Recruitment';
+                pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_EPR;
             }
         }
     }
@@ -648,30 +631,12 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 }
             }
         }
-        System.debug('peEnrollSuccessWithParticipating' + peEnrollSuccessWithParticipating);
-
-//        List<Participant_Enrollment__c> peWithParticipating = [
-//                SELECT Id, Clinical_Trial_Profile__c, Visit_Plan__c
-//                FROM Participant_Enrollment__c
-//                WHERE Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
-//                AND Id IN:peEnrollSuccessIds
-//        ];
-
         Set<Id> ctpIds = new Set<Id>();
         for (Participant_Enrollment__c pe : peEnrollSuccessWithParticipating) ctpIds.add(pe.Clinical_Trial_Profile__c);
         Map<Id, Clinical_Trial_Profile__c> ctpMap = new Map<Id, Clinical_Trial_Profile__c>();
         for(Id ctpId : ctpIds){
             ctpMap.put(ctpId, (Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(ctpId));
-            System.debug('ctp:'+ PETriggerBuffer.getSObject(ctpId));
         }
-        System.debug('ctpMap' + ctpMap);
-
-//        [
-//                SELECT Id, Visit_Plan__c
-//                FROM Clinical_Trial_Profile__c
-//                WHERE Id IN :ctpIds
-//        ]);
-
         Set<Id> visitPlanIds = new Set<Id>();
         for (Clinical_Trial_Profile__c ctp : ctpMap.values()) visitPlanIds.add(ctp.Visit_Plan__c);
         for (Participant_Enrollment__c pe : enrollments) visitPlanIds.add(pe.Visit_Plan__c);
@@ -698,22 +663,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     @TestVisible
     private static void createStudyAlerts(List<Participant_Enrollment__c> enrollments, Map<Id, Participant_Enrollment__c> oldMap) {
-//        Set<Id> peEnrollSuccessIds = new Set<Id>();
-//        for (Participant_Enrollment__c pe : enrollments) {
-//            if (pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
-//                if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
-//                        || pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) {
-//                    peEnrollSuccessIds.add(pe.Id);
-//                }
-//            }
-//        }
-//
-//        List<Participant_Enrollment__c> peWithParticipating = [
-//                SELECT Id, Participant__c, Participant_Contact__c
-//                FROM Participant_Enrollment__c
-//                WHERE Id IN:peEnrollSuccessIds
-//                AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
-//        ];
         List<Participant_Enrollment__c> peEnrollSuccessWithParticipating = new List<Participant_Enrollment__c>();
         for (Participant_Enrollment__c pe : enrollments) {
             if (oldMap == null || pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
@@ -836,7 +785,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     private static List<Participant_Enrollment_Status_History__c> createHistoryRecordsForPE(Participant_Enrollment__c participantEnrollment) {
         PEStatusState currentState = PEStatusState.STATUSES_MAP.get(participantEnrollment.Participant_Status__c);
-        System.debug('currentState:' + currentState);
         List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
         if (currentState != null) {
             for (PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE) {
@@ -857,7 +805,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 ));
             }
         }
-        System.debug('statusHistories:' + statusHistories);
         return statusHistories;
     }
 
