@@ -45,7 +45,7 @@
                         <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-order_2 slds-medium-order_1 left-column">
                             <div class="delegate-info-panel">
                                 <c:DelegateLevelInfoTable userMode="{!v.userMode}"/>
-                                <c:DelegatesDisclaimer/>
+<!--                                <c:DelegatesDisclaimer/>-->
                             </div>
                             <div class="button-panel-mobile rr-medium-up-hide">
                                 <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center">

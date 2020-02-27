@@ -38,6 +38,7 @@ private class Test_Batch_PSECreateInvitation {
                 SELECT
                         Id,
                         Clinical_Trial_Profile__c,
+                        Clinical_Trial_Profile__r.CommunityTemplate__c,
                         Days_After_Enrolled__c,
                         Participant_Contact__c,
                         Participant_Status__c

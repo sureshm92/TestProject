@@ -46,6 +46,7 @@ public with sharing class ActionExecutor {
         Action_Execution_Setting__c actionSetting = getSetting(act.Type__c);
         try {
             action.execute();
+
             act.Status__c = ACTION_STATUS_COMPLETED;
             history.Is_Success__c = true;
         } catch (Exception e) {
@@ -60,6 +61,7 @@ public with sharing class ActionExecutor {
                 DMLService.insertRecord(act);
                 DMLService.setLookup(history, 'Action__c', act);
                 DMLService.insertRecord(history);
+                DMLService.resetLookup();
             }
         }
     }
@@ -71,6 +73,7 @@ public with sharing class ActionExecutor {
             Type actionType = Type.forName(act.Type__c);
             Action action = (Action) JSON.deserialize(act.Body__c, actionType);
             action.execute();
+
             act.Status__c = ACTION_STATUS_COMPLETED;
             history.Is_Success__c = true;
         } catch (Exception e) {
@@ -78,6 +81,7 @@ public with sharing class ActionExecutor {
             history.Error_Message__c = e.getMessage();
             history.Stack_Trace__c = e.getStackTraceString();
             history.Is_Success__c = false;
+
             if(act.Execution_Histories__r.size() < actionSetting.Repetitions_Count__c - 1) {
                 act.Status__c = ACTION_STATUS_PENDING;
                 act.Execution_Time__c = nextExecutionDatetime;
@@ -90,6 +94,7 @@ public with sharing class ActionExecutor {
                 DMLService.updateRecord(act);
                 DMLService.setLookup(history, 'Action__c', act);
                 DMLService.insertRecord(history);
+                DMLService.resetLookup();
             } else {
                 DMLService.deleteRecord(act);
             }

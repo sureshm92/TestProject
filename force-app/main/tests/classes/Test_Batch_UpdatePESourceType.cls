@@ -22,7 +22,7 @@ public class Test_Batch_UpdatePESourceType {
                                          	FROM Participant_Enrollment__c
         									WHERE Id = :peId];
 
-        system.assertEquals('Referring Provider', result.Source_Type__c);
+        system.assertEquals(ParticipantEnrollmentService.PE_SOURCE_TYPE_RP, result.Source_Type__c);
     }
 
 }

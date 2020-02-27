@@ -19,11 +19,16 @@ public without sharing class PSEStatusHistoryRemote {
     @AuraEnabled
     public static String getParticipationStatusHistory(Id peId){
         try{
+            List<Participant_Enrollment__c> enrollments = [SELECT Id, Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c
+            FROM Participant_Enrollment__c WHERE Id = :peId];
+            if(enrollments.isEmpty()) return '';
+            List<String> participationFlowSteps = PEStatusState.getParticipationFlowSteps(enrollments[0]);
+
             List<Participant_Enrollment_Status_History__c> histories = [
                     SELECT Id, Status__c, Date__c
                     FROM Participant_Enrollment_Status_History__c
                     WHERE ParticipantEnrollment__c =: peId
-                    AND Status__c IN: PEStatusState.PE_STATUS_GROUP_PARTICIPATION_FLOW
+                    AND Status__c IN: participationFlowSteps
                     ORDER BY Date__c DESC
             ];
 

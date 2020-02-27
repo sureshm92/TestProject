@@ -34,7 +34,9 @@ private class Test_PatientVisitSchedule {
         insert visits;
         TestData testDataInstance = new TestData();
         testDataInstance.ctp.Visit_Plan__c = vp.Id;
+        System.debug('ctp updated');
         update testDataInstance.ctp;
+        PETriggerBuffer.clearBuffer();
         testDataInstance.updatePEStatusEnrollmentSuccess();
         Test.stopTest();
         List<Patient_Visit__c> patientVisits = [
