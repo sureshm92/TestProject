@@ -5465,7 +5465,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>No Payment Information Available</shortDescription>
-        <value>Error</value>
+        <value>Sorry, your card has not been activated in the system. Please contact  the payment provider directly</value>
     </labels>
     <labels>
         <fullName>No_permission_Visits_tab</fullName>
