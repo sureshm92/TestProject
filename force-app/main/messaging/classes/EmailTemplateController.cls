@@ -124,7 +124,7 @@ global without sharing class EmailTemplateController {
     global String signatureValue {
         get {
             try {
-                if (getDataProvider().userMode == CommunityModeService.USER_MODE_PARTICIPANT) {
+                if (signatureValue == null && getDataProvider().userMode == CommunityModeService.USER_MODE_PARTICIPANT) {
                     String signatureLabel = getTemplateProperties().get('EmailTemplateSignatureLabel');
                     return prepareLineBreaks(TranslateHelper.getLabelValue(signatureLabel));
                 }
