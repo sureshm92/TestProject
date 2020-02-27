@@ -26,8 +26,7 @@ public class Test_DuplicateContactController {
                     Language_Preference__c          = 'en_US',
                     Referred_Date__c                = '2019-10-02T10:00:00-05:00',
                     Data_Source__c                  = 'Company',
-                    acceptedTermsAndConditions__c   = '2019-10-02T10:00:00-05:00',
-                    Referral_Sent_to_PI__c          = 'Referral Sent to PI'
+                    acceptedTermsAndConditions__c   = '2019-10-02T10:00:00-05:00'
             );
 //            insert referral;
 

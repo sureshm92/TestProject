@@ -46,9 +46,10 @@
                 </div>
             <aura:if isTrue="{!!v.actionDisabled}">
                 <div>
-                    <lightning:button class="apollo-btn secondary slds-box" disabled="true" onclick="{!c.doAddDelegate}">{!$Label.c.Add_Another_Delegate}
-                        <c:RRIcon class='rr-icon--left' color="#297dfd"
+                    <lightning:button class="apollo-btn secondary slds-box" disabled="true" onclick="{!c.doAddDelegate}">
+                        <c:RRIcon color="#297dfd"
                                   iconName="icon-plus"/>
+                        <div>{!$Label.c.Add_Another_Delegate}</div>
                     </lightning:button>
                 </div>
             </aura:if>
@@ -68,9 +69,10 @@
         </div>
         <aura:if isTrue="{!!v.actionDisabled}">
             <div>
-                <lightning:button class="apollo-btn secondary slds-box" onclick="{!c.doAddProvider}">{!$Label.c.BTN_Add_Provider}
-                    <c:RRIcon class='rr-icon--left' color="#297dfd"
+                <lightning:button class="apollo-btn secondary slds-box" onclick="{!c.doAddProvider}">
+                    <c:RRIcon color="#297dfd"
                               iconName="icon-plus"/>
+                    <div>{!$Label.c.BTN_Add_Provider}</div>
                 </lightning:button>
             </div>
         </aura:if>
