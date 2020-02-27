@@ -170,7 +170,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             ProviderPaymentsService.checkPEForReimbursableActivities((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
-    
+
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
@@ -391,7 +391,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     }
     //Moved to PESH Trigger Handler
 
-
     @TestVisible
     private static void setChangedDate(List<Participant_Enrollment__c> newList) {
         for (Participant_Enrollment__c pe : newList) {
@@ -408,15 +407,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     private static void getPaymentInformation(List<Participant_Enrollment__c> newList) {
         Map<Id, Participant_Enrollment__c> newMap = new Map<Id, Participant_Enrollment__c>();
         newMap.putAll(newList);
-        List<Participant_Enrollment__c> peList = [
-                SELECT Study_Site__c, Participant__r.Status__c, Participant__r.Balance__c, Screening_ID__c,
-                        Participant__r.First_Name__c, Participant__r.Last_Name__c, Participant__r.Email__c,
-                        Clinical_Trial_Profile__r.Protocol_ID__c
-                FROM Participant_Enrollment__c
-                WHERE Id IN:newMap.keySet()
-        ];
         Set<Id> ssIds = new Set<Id>();
-        for (Participant_Enrollment__c pe : peList) ssIds.add(pe.Study_Site__c);
+        for (Participant_Enrollment__c pe : newList) ssIds.add(pe.Study_Site__c);
 
         List<PaymentVendorSettings__c> paymentVendorSettings = [
                 SELECT Id, Payment_Vendor__r.Payment_Vendor_Id__c, Study_Site__c
@@ -426,11 +418,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         Map<Id, PaymentVendorSettings__c> pvsBySsIds = new Map<Id, PaymentVendorSettings__c>();
         for (PaymentVendorSettings__c pvs : paymentVendorSettings) pvsBySsIds.put(pvs.Study_Site__c, pvs);
 
-        for (Participant_Enrollment__c pe : peList) {
+        for (Participant_Enrollment__c pe : newList) {
             if (pvsBySsIds.keySet().contains(pe.Study_Site__c)) {
-                Participant__c participant = pe.Participant__r;
+                Participant__c participant = (Participant__c)PETriggerBuffer.getSObject(pe.Participant__c);
                 Action_GetCardDetails actionGetCardDetails = new Action_GetCardDetails(
-                        pe.Clinical_Trial_Profile__r.Protocol_ID__c,
+                        ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).Protocol_ID__c,
                         pe.Screening_ID__c,
                         participant);
 
@@ -466,25 +458,16 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     @TestVisible
     private static void createInvitations(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
-        List<Participant_Enrollment__c> enrollments = [
-                SELECT Id,
-                        Clinical_Trial_Profile__c,
-                        Clinical_Trial_Profile__r.CommunityTemplate__c,
-                        Participant_Status__c
-                FROM Participant_Enrollment__c
-                WHERE Id IN:newList
-        ];
-
         Map<Id, List<Participant_Enrollment__c>> ctpPE = new Map<Id, List<Participant_Enrollment__c>>();
         Map<String, Id> communitiesMap = CommunityService.getCommunityIdsMap();
         Map<Id, String> networkByPE = new Map<Id, String>();
-        for (Participant_Enrollment__c pe : enrollments) {
+        for (Participant_Enrollment__c pe : newList) {
             if (ctpPE.get(pe.Clinical_Trial_Profile__c) == null) {
                 ctpPE.put(pe.Clinical_Trial_Profile__c, new List<Participant_Enrollment__c>());
             }
             ctpPE.get(pe.Clinical_Trial_Profile__c).add(pe);
 
-            String communityName = CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).communityName;
+            String communityName = CommunityTemplateService.getTemplate(((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).CommunityTemplate__c).communityName;
             networkByPE.put(pe.Id, communitiesMap.get(communityName));
         }
 
@@ -573,11 +556,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     private static void setSourceTypeHandler(List<Participant_Enrollment__c> enrollments) {
         for (Participant_Enrollment__c pe : enrollments) {
             if ('PI' == pe.Referral_Source__c) {
-                pe.Source_Type__c = 'Principal Investigator';
+                pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_PI;
             } else if (pe.Referral_Source__c != null && pe.Referral_Source__c.contains('HCP')) {
-                pe.Source_Type__c = 'Referring Provider';
+                pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_RP;
             } else {
-                pe.Source_Type__c = 'Digital Recruitment';
+                pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_EPR;
             }
         }
     }
@@ -638,31 +621,22 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     @TestVisible
     private static void createVisitsSchedule(List<Participant_Enrollment__c> enrollments, Map<Id, Participant_Enrollment__c> oldMap) {
-        Set<Id> peEnrollSuccessIds = new Set<Id>();
+        List<Participant_Enrollment__c> peEnrollSuccessWithParticipating = new List<Participant_Enrollment__c>();
         for (Participant_Enrollment__c pe : enrollments) {
             if (oldMap == null || pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
-                if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
-                        || pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) {
-                    peEnrollSuccessIds.add(pe.Id);
+                if ((pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+                        || pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS)
+                        && ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).Patient_Portal_Enabled__c) {
+                    peEnrollSuccessWithParticipating.add(pe);
                 }
             }
         }
-
-        List<Participant_Enrollment__c> peWithParticipating = [
-                SELECT Id, Clinical_Trial_Profile__c, Visit_Plan__c
-                FROM Participant_Enrollment__c
-                WHERE Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
-                AND Id IN:peEnrollSuccessIds
-        ];
-
         Set<Id> ctpIds = new Set<Id>();
-        for (Participant_Enrollment__c pe : peWithParticipating) ctpIds.add(pe.Clinical_Trial_Profile__c);
-        Map<Id, Clinical_Trial_Profile__c> ctpMap = new Map<Id, Clinical_Trial_Profile__c>([
-                SELECT Id, Visit_Plan__c
-                FROM Clinical_Trial_Profile__c
-                WHERE Id IN :ctpIds
-        ]);
-
+        for (Participant_Enrollment__c pe : peEnrollSuccessWithParticipating) ctpIds.add(pe.Clinical_Trial_Profile__c);
+        Map<Id, Clinical_Trial_Profile__c> ctpMap = new Map<Id, Clinical_Trial_Profile__c>();
+        for(Id ctpId : ctpIds){
+            ctpMap.put(ctpId, (Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(ctpId));
+        }
         Set<Id> visitPlanIds = new Set<Id>();
         for (Clinical_Trial_Profile__c ctp : ctpMap.values()) visitPlanIds.add(ctp.Visit_Plan__c);
         for (Participant_Enrollment__c pe : enrollments) visitPlanIds.add(pe.Visit_Plan__c);
@@ -673,7 +647,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         ]);
 
         List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
-        for (Participant_Enrollment__c pe : peWithParticipating) {
+        for (Participant_Enrollment__c pe : peEnrollSuccessWithParticipating) {
             Clinical_Trial_Profile__c ctp = ctpMap.get(pe.Clinical_Trial_Profile__c);
             Id vpId = pe.Visit_Plan__c;
             if (vpId == null) vpId = ctp.Visit_Plan__c;
@@ -689,28 +663,22 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     @TestVisible
     private static void createStudyAlerts(List<Participant_Enrollment__c> enrollments, Map<Id, Participant_Enrollment__c> oldMap) {
-        Set<Id> peEnrollSuccessIds = new Set<Id>();
+        List<Participant_Enrollment__c> peEnrollSuccessWithParticipating = new List<Participant_Enrollment__c>();
         for (Participant_Enrollment__c pe : enrollments) {
-            if (pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
-                if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
-                        || pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS) {
-                    peEnrollSuccessIds.add(pe.Id);
+            if (oldMap == null || pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
+                if ((pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+                        || pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS)
+                        && ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).Patient_Portal_Enabled__c) {
+                    peEnrollSuccessWithParticipating.add(pe);
                 }
             }
         }
-
-        List<Participant_Enrollment__c> peWithParticipating = [
-                SELECT Id, Participant__c, Participant_Contact__c
-                FROM Participant_Enrollment__c
-                WHERE Id IN:peEnrollSuccessIds
-                AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
-        ];
         List<Id> participantIds = new List<Id>();
-        for (Participant_Enrollment__c pe : peWithParticipating) participantIds.add(pe.Participant__c);
+        for (Participant_Enrollment__c pe : peEnrollSuccessWithParticipating) participantIds.add(pe.Participant__c);
 
         Map<Id, List<Id>> delegateCntByParticipant = PatientDelegateService.getDelegatedContactIdsByParticipantIdMap(participantIds);
         List<Alert__c> alerts = new List<Alert__c>();
-        for (Participant_Enrollment__c pe : peWithParticipating) {
+        for (Participant_Enrollment__c pe : peEnrollSuccessWithParticipating) {
             if(pe.Participant_Contact__c != null){
                 alerts.add(new Alert__c(
                         Contact__c = pe.Participant_Contact__c,
@@ -817,7 +785,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     private static List<Participant_Enrollment_Status_History__c> createHistoryRecordsForPE(Participant_Enrollment__c participantEnrollment) {
         PEStatusState currentState = PEStatusState.STATUSES_MAP.get(participantEnrollment.Participant_Status__c);
-        System.debug('currentState:' + currentState);
         List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
         if (currentState != null) {
             for (PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE) {
@@ -838,7 +805,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 ));
             }
         }
-        System.debug('statusHistories:' + statusHistories);
         return statusHistories;
     }
 

@@ -124,7 +124,7 @@ global without sharing class EmailTemplateController {
     global String signatureValue {
         get {
             try {
-                if (getDataProvider().userMode == CommunityModeService.USER_MODE_PARTICIPANT) {
+                if (signatureValue == null && getDataProvider().userMode == CommunityModeService.USER_MODE_PARTICIPANT) {
                     String signatureLabel = getTemplateProperties().get('EmailTemplateSignatureLabel');
                     return prepareLineBreaks(TranslateHelper.getLabelValue(signatureLabel));
                 }
@@ -189,10 +189,10 @@ global without sharing class EmailTemplateController {
     private Map<String, String> getTemplateProperties() {
         if (sourceRecordId !=null) {
             String userModeString = getDataProvider().userMode;
-            String templateName = TemplatePropertiesService.getTemplatePropertiesBySObject(sourceRecordId, emailRecipientId, userModeString);
-            if (templateName != null) {
-                return CommunityTemplateService.getTemplate(templateName).properties;
-            }
+            Boolean isDelegateBoolean = getDataProvider().isDelegate;
+            return CommunityTemplateService.getTemplate(
+                    TemplatePropertiesService.getTemplatePropertiesBySObject(
+                            sourceRecordId, emailRecipientId, userModeString, isDelegateBoolean)).properties;
         }
         return CommunityTemplateService.getDefaultTemplate().properties;
     }

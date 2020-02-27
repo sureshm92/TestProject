@@ -12,24 +12,19 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Referral Sent to PI</fullName>
+                <fullName>Received</fullName>
                 <default>false</default>
-                <label>Referral Sent to PI</label>
+                <label>Received</label>
             </value>
             <value>
-                <fullName>Referral Accepted</fullName>
+                <fullName>Contact Attempted</fullName>
                 <default>false</default>
-                <label>Referral Accepted</label>
+                <label>Contact Attempted</label>
             </value>
             <value>
-                <fullName>Contact Attempt In Progress</fullName>
+                <fullName>Successfully Contacted</fullName>
                 <default>false</default>
-                <label>Contact Attempt In Progress</label>
-            </value>
-            <value>
-                <fullName>Contact Successful</fullName>
-                <default>false</default>
-                <label>Contact Successful</label>
+                <label>Successfully Contacted</label>
             </value>
             <value>
                 <fullName>Eligibility Passed</fullName>
@@ -42,9 +37,9 @@
                 <label>Screening In Progress</label>
             </value>
             <value>
-                <fullName>Screening Complete</fullName>
+                <fullName>Screening Passed</fullName>
                 <default>false</default>
-                <label>Screening Complete</label>
+                <label>Screening Passed</label>
             </value>
             <value>
                 <fullName>Enrollment Success</fullName>
@@ -86,22 +81,17 @@
         <valueSettings>
             <controllingFieldValue>unchecked</controllingFieldValue>
             <controllingFieldValue>checked</controllingFieldValue>
-            <valueName>Referral Sent to PI</valueName>
+            <valueName>Received</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>unchecked</controllingFieldValue>
             <controllingFieldValue>checked</controllingFieldValue>
-            <valueName>Referral Accepted</valueName>
+            <valueName>Contact Attempted</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>unchecked</controllingFieldValue>
             <controllingFieldValue>checked</controllingFieldValue>
-            <valueName>Contact Attempt In Progress</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>unchecked</controllingFieldValue>
-            <controllingFieldValue>checked</controllingFieldValue>
-            <valueName>Contact Successful</valueName>
+            <valueName>Successfully Contacted</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>unchecked</controllingFieldValue>
@@ -116,7 +106,7 @@
         <valueSettings>
             <controllingFieldValue>unchecked</controllingFieldValue>
             <controllingFieldValue>checked</controllingFieldValue>
-            <valueName>Screening Complete</valueName>
+            <valueName>Screening Passed</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>unchecked</controllingFieldValue>

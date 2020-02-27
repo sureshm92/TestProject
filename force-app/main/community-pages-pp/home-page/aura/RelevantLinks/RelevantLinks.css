@@ -23,7 +23,7 @@
 }
 
 .THIS .sv-body{
-    min-height: 220px;
+    min-height: 165px;
     position: relative;
 }
 
@@ -43,7 +43,7 @@
 }
 
 .THIS .sv-body .link-container:last-child{
-    padding-bottom: 25px;
+    padding-bottom: 20px;
 }
 
 .THIS.rr-white-panel + .rr-white-panel:not(.condensed){

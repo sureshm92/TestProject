@@ -318,7 +318,7 @@
                 <leftValueReference>myVariable_current.Participant_Status__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Referral Accepted</stringValue>
+                    <stringValue>Received</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -367,7 +367,7 @@
                 <leftValueReference>myVariable_current.Participant_Status__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Referral Accepted</stringValue>
+                    <stringValue>Received</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -431,7 +431,7 @@
                 <leftValueReference>myVariable_old.Participant_Status__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Referral Accepted</stringValue>
+                    <stringValue>Received</stringValue>
                 </rightValue>
             </conditions>
             <label>Previously Met - Prev</label>
