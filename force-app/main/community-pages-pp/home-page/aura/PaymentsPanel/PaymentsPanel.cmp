@@ -44,11 +44,7 @@
                         </c:RRLink>
                     </div>
                     <aura:set attribute="else">
-                        <div class="error-message">
-                            <c:RRIcon iconName="icon-alert-circle"/>
-                            {!$Label.c.No_Payment_Information_Available}
-                        </div>
-                        <c:EmptyListStub iconName="none" message="{!$Label.c.PG_VP_L_No_Items_display}"/>
+                        <c:EmptyListStub iconName="none" message="{!$Label.c.No_Payment_Information_Available}"/>
                     </aura:set>
                 </aura:if>
             </aura:if>

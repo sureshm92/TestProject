@@ -41,7 +41,8 @@ public without sharing class TrialService {
             'Video_And_Articles_Are_Available__c',
             'Tasks_Are_Available__c',
             'Travel_Vendor_Is_Available__c',
-            'Visit_Schedule_Is_Available__c'
+            'Visit_Schedule_Is_Available__c',
+            'Participant_Workflow_Final_Step__c'
     };
     
     private static TrialService instance;

@@ -60,7 +60,7 @@ public without sharing class ParticipantWorkflowService {
         for(Participant_Enrollment_Status_History__c pesh: [
                 SELECT Id, Date__c, Status__c, Reason__c, Notes__c, CreatedBy.Name,
                         ParticipantEnrollment__r.Referral_Source__c, ParticipantEnrollment__r.Referral_Completedby_Name__c,
-                        ParticipantEnrollment__r.Source_Type__c
+                        ParticipantEnrollment__r.Source_Type__c, ParticipantEnrollment__r.PI_Contact__r.Name
                 FROM Participant_Enrollment_Status_History__c
                 WHERE ParticipantEnrollment__c = :pe.Id
                 ORDER BY Date__c DESC]){
@@ -177,7 +177,9 @@ public without sharing class ParticipantWorkflowService {
         else{
             String sourceString = pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c == null
                     || pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c == '' ?
-                    pesh.ParticipantEnrollment__r.Source_Type__c:
+                    (pesh.ParticipantEnrollment__r.Source_Type__c == ParticipantEnrollmentService.PE_SOURCE_TYPE_EPR?
+                            pesh.ParticipantEnrollment__r.Source_Type__c
+                            :pesh.ParticipantEnrollment__r.PI_Contact__r.Name):
                     pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c;
             historyWrapper.detail = ' ' + TranslateHelper.getLabelValue(step.History_Item_Details_Template_Label__c).
                     replace('##Date',pesh.Date__c.date().format()).
@@ -398,7 +400,7 @@ public without sharing class ParticipantWorkflowService {
         for(Participant_Enrollment_Status_History__c pesh: [
                 SELECT Id, Date__c, Status__c, Reason__c, Notes__c, CreatedBy.Name,
                         ParticipantEnrollment__r.Referral_Source__c, ParticipantEnrollment__r.Referral_Completedby_Name__c,
-                        ParticipantEnrollment__r.Source_Type__c
+                        ParticipantEnrollment__r.Source_Type__c, ParticipantEnrollment__r.PI_Contact__r.Name
                 FROM Participant_Enrollment_Status_History__c
                 WHERE ParticipantEnrollment__c IN :peIds
                 ORDER BY Date__c DESC]){
