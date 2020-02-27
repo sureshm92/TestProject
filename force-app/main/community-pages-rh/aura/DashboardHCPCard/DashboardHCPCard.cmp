@@ -8,6 +8,8 @@
     <aura:attribute name="hcpe" type="Object"/>
     <aura:attribute name="parent" type="Aura.Component"/>
 
+    <aura:method name="refresh" action="{!c.doRefresh}" access="public"/>
+
     <!-- component body -->
         <div class="db-hcp-card">
             <div class="db-hcp-card-title">

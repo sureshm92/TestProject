@@ -9,8 +9,8 @@ NOT (ISPICKVAL(Participant_Study_Enrollment__r.Status__c, &quot;Trial Complete&q
 NOT (ISPICKVAL(Participant_Study_Enrollment__r.Status__c,&quot;Drop out&quot;))
 ),
 AND (
-NOT (ISPICKVAL(Participant_Status__c, &quot;Referral Declined&quot;)),
-NOT (ISPICKVAL(Participant_Status__c, &quot;Contact Failed&quot;)),
+NOT (ISPICKVAL(Participant_Status__c, &quot;Received&quot;)),
+NOT (ISPICKVAL(Participant_Status__c, &quot;Unable to Reach&quot;)),
 NOT (ISPICKVAL(Participant_Status__c, &quot;Eligibility Failed&quot;)),
 NOT (ISPICKVAL(Participant_Status__c, &quot;Screening Failed&quot;)),
 NOT (ISPICKVAL(Participant_Status__c, &quot;Enrollment Failed&quot;)),

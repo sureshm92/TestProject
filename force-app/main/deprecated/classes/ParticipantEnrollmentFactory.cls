@@ -42,7 +42,7 @@ public without sharing class ParticipantEnrollmentFactory {
         pe.Participant__c = participant.Id;
         pe.Participant_Status__c  = 'Enrollment Success';
         insert pe;
-        pe.Participant_Status__c  = 'Referral Sent to PI';
+        pe.Participant_Status__c  = 'Received';
         update pe;
     }
     

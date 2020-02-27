@@ -17,16 +17,23 @@ public without sharing class PETriggerBuffer {
         }
         return sobj;
     }
-    
+
+    public static void clearBuffer(){
+        buffer.clear();
+    }
+
     private static void updateBuffer(){
+        System.debug('buffer init');
         List<Participant_Enrollment__c> newList = Trigger.new;
         List<Id> ssIds = new List<Id>();
         List<Id> hcpeIds = new List<Id>();
         List<Id> participantIds = new List<Id>();
+        List<Id> ctpIds = new List<Id>();
         for (Participant_Enrollment__c pe : newList) {
             if (pe.Study_Site__c != null) ssIds.add(pe.Study_Site__c);
             if (pe.HCP__c != null) hcpeIds.add(pe.HCP__c);
             if (pe.Participant__c != null) participantIds.add(pe.Participant__c);
+            if (pe.Clinical_Trial_Profile__c != null) ctpIds.add(pe.Clinical_Trial_Profile__c);
         }
         buffer.putAll([
                 SELECT Id, Principal_Investigator__c,
@@ -58,9 +65,24 @@ public without sharing class PETriggerBuffer {
                         Contact__r.Visit_Results_Opt_In__c,
                         Name,
                         IsCountry_NOT_Eligible_for_Emails__c,
-                        Emancipation_in_progress__c
+                        Emancipation_in_progress__c,
+                        Status__c,
+                        Balance__c,
+                        First_Name__c,
+                        Last_Name__c,
+                        Email__c
+
                 FROM Participant__c
                 WHERE Id IN:participantIds
+        ]);
+        buffer.putAll([
+                SELECT Id,
+                        Patient_Portal_Enabled__c,
+                        Visit_Plan__c,
+                        Protocol_ID__c,
+                        CommunityTemplate__c
+                FROM Clinical_Trial_Profile__c
+                WHERE Id IN:ctpIds
         ]);
     }
 
