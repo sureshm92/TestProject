@@ -11,7 +11,7 @@
                 var rootComponent = component.get('v.parent');
                 rootComponent.find('mainSpinner').show();
                 var changePEStatusAction = rootComponent.find('changePEStatusByPIAction');
-                changePEStatusAction.execute(pe, 'Referral Accepted', null, null, function () {
+                changePEStatusAction.execute(pe, 'Received', null, null, function () {
                     rootComponent.refresh();
                 });
                 break

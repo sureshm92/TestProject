@@ -8,6 +8,7 @@
     <aura:attribute name="userMode" type="String"/>
     <aura:attribute name="pe" type="Object"/>
     <aura:attribute name="isInvited" type="boolean" default="false"/>
+    <aura:attribute name="showParticipationSteps" type="boolean" default="true"/>
     <!-- component body: -->
     <div class="{!'vpi-clip-item-borders ' + if(v.isArabic, 'rtl', '')}">
         <div class="vpi-fields">
@@ -27,15 +28,17 @@
                         {!$Label.c.Action_Required}
                     </div>
                     <aura:set attribute="else">
-                        <aura:if isTrue="{!v.isInvited}">
-                            <div class="slds-has-block-links--space" data-gtm="Label_Invited">
-                                {!$Label.c.Invited}
-                            </div>
-                            <aura:set attribute="else">
-                                <div class="slds-has-block-links--space2" data-gtm="Label_Not_Invited">
-                                    {!$Label.c.Not_Invited}
+                        <aura:if isTrue="{!!v.showParticipationSteps}">
+                            <aura:if isTrue="{!v.isInvited}">
+                                <div class="slds-has-block-links--space" data-gtm="Label_Invited">
+                                    {!$Label.c.Invited}
                                 </div>
-                            </aura:set>
+                                <aura:set attribute="else">
+                                    <div class="slds-has-block-links--space2" data-gtm="Label_Not_Invited">
+                                        {!$Label.c.Not_Invited}
+                                    </div>
+                                </aura:set>
+                            </aura:if>
                         </aura:if>
                     </aura:set>
                 </aura:if>

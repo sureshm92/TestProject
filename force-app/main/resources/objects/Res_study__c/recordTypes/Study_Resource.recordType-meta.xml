@@ -6,11 +6,11 @@
     <picklistValues>
         <picklist>Active_On_Status__c</picklist>
         <values>
-            <fullName>Contact Attempt In Progress</fullName>
+            <fullName>Contact Attempted</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Contact Successful</fullName>
+            <fullName>Successfully Contacted</fullName>
             <default>false</default>
         </values>
         <values>
@@ -34,15 +34,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Referral Accepted</fullName>
+            <fullName>Received</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Referral Sent to PI</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Screening Complete</fullName>
+            <fullName>Screening Passed</fullName>
             <default>false</default>
         </values>
         <values>
@@ -61,11 +57,11 @@
     <picklistValues>
         <picklist>Expires_On_Status__c</picklist>
         <values>
-            <fullName>Contact Attempt In Progress</fullName>
+            <fullName>Contact Attempted</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Contact Successful</fullName>
+            <fullName>Successfully Contacted</fullName>
             <default>false</default>
         </values>
         <values>
@@ -89,15 +85,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Referral Accepted</fullName>
+            <fullName>Received</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Referral Sent to PI</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Screening Complete</fullName>
+            <fullName>Screening Passed</fullName>
             <default>false</default>
         </values>
         <values>
