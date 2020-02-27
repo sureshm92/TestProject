@@ -140,7 +140,7 @@ public class Test_PatientDelegateRemote {
         PatientDelegateService.setMock(new PatientDelegateServiceMock());
 
         Test.startTest();
-        PatientDelegateRemote.withdrawDelegate(jamesContact.Id);
+        PatientDelegateRemote.withdrawDelegate(jamesContact.Id, false);
         Test.stopTest();
 
         Contact delegate = [
