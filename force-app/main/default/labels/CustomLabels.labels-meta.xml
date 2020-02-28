@@ -1024,7 +1024,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>BTN_Pre_Screen_Participant</shortDescription>
-        <value>Pre-Screen Participant</value>
+        <value>Pre-screen Participant</value>
     </labels>
     <labels>
         <fullName>BTN_Previous</fullName>
@@ -4585,6 +4585,27 @@
         <value>You should only invite a participant&#39;s provider with the participant&#39;s explicit permission. Upon registration, the provider will be able to track a participant&#39;s status.</value>
     </labels>
     <labels>
+        <fullName>HealthCare_Delegates_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare_Delegates_Email</shortDescription>
+        <value>Delegate&#39;s email address</value>
+    </labels>
+    <labels>
+        <fullName>HealthCare_Delegates_First_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare_Delegates_First_Name</shortDescription>
+        <value>Delegate&#39;s first name</value>
+    </labels>
+    <labels>
+        <fullName>HealthCare_Delegates_Last_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HealthCare_Delegates_Last_Name</shortDescription>
+        <value>Delegate&#39;s last name</value>
+    </labels>
+    <labels>
         <fullName>HealthCare_Provider</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -5291,6 +5312,20 @@
         <protected>false</protected>
         <shortDescription>Medical Record Review</shortDescription>
         <value>Medical Record Review</value>
+    </labels>
+    <labels>
+        <fullName>Message_For_Delegates</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message_For_Delegates</shortDescription>
+        <value>Unless the participant is a minor or otherwise requires a legal guardian, a delegate should only be entered with the participant&#39;s explicit permission. Upon registration, the delegate will be able to view the participant information available via the Patient Portal.</value>
+    </labels>
+    <labels>
+        <fullName>Message_For_Providers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message_For_Providers</shortDescription>
+        <value>You should only invite a participant&#39;s provider with the participant&#39;s explicit permission. Upon registration, the provider will be able to track a participant&#39;s status.</value>
     </labels>
     <labels>
         <fullName>MetabolicPanel</fullName>
@@ -12125,6 +12160,13 @@ View study documents and other resources including articles and videos related t
         <protected>true</protected>
         <shortDescription>Set Reminder</shortDescription>
         <value>Set Reminder</value>
+    </labels>
+    <labels>
+        <fullName>Sharing_Options_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sharing_Options_Message</shortDescription>
+        <value>Upon registration, a delegate or provider added here will be able to view the participant&#39;s status in the study. Delegates can also see other participant information available via the Patient Portal. Unless the participant is a minor or otherwise requires a legal guardian, a delegate or provider should only be entered with the participant&#39;s explicit permission.</value>
     </labels>
     <labels>
         <fullName>Sodium</fullName>
