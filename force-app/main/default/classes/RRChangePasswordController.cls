@@ -162,7 +162,7 @@ public without sharing class RRChangePasswordController {
         }
 
         try {
-            mainPortal = Site.getPathPrefix().contains('/gsk/');
+            mainPortal = !Site.getPathPrefix().contains('/gsk/');
         }catch(Exception e) {
             mainPortal = true;
         }
