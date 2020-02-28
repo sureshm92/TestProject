@@ -55,26 +55,7 @@ public without sharing class ContactService {
             System.debug('EXCEPTION: ' + e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-
-    public static void updateCurrentPEOnContacts(List<Id> contactIds) {
-        List<Contact> contacts = [
-                SELECT Id, Current_Participant_Enrollment__c
-                FROM Contact
-                WHERE Id IN:contactIds
-        ];
-        Map<Id, List<Id>> availablePEIdsByContactIdMap = PatientDelegateService.getAvailablePEIdsListByContactIdMap(contactIds);
-        for (Contact contact : contacts) {
-            List<Id> peIds = availablePEIdsByContactIdMap.get(contact.Id);
-            if (peIds == null) peIds = new List<Id>();
-            if (peIds.size() == 0) {
-                contact.Current_Participant_Enrollment__c = null;
-            } else if (!peIds.contains(contact.Current_Participant_Enrollment__c)) {
-                contact.Current_Participant_Enrollment__c = peIds[0];
-            }
-        }
-        update contacts;
-    }
-
+    
     public static Participant_Enrollment__c getCurrentPE(Id contactId) {
         Contact contact = [
                 SELECT Id,
@@ -111,6 +92,7 @@ public without sharing class ContactService {
                         Resource__c,
                         Resource__r.Title__c,
                         Resource__r.RecordType.DeveloperName,
+                        Resource__r.Content_Type__c,
                         Visible_In_Alumni__c,
                         Visible_To_Delegates__c,
                         Clinical_Trial_Profile__c,
@@ -124,6 +106,18 @@ public without sharing class ContactService {
         for (Res_study__c resStudy : resStudyList) resourceIds.add(resStudy.Resource__c);
         Map<Id, List<ContentDocumentLinkService.TranslatedContentItem>> translatedItemsMap =
                 ((ContentDocumentLinkService) ClassFactory.newInstance(ContentDocumentLinkService.class)).getTranslatedItemsForResources(resourceIds);
+        List<String> COIsOfParticipant = new List<String>();
+        List<Therapeutic_Area_Patient__c> therapeuticAreaPatients = [
+                SELECT Therapeutic_Area__r.Name
+                FROM Therapeutic_Area_Patient__c WHERE Participant__r.Contact__c =: contactId];
+        for(Therapeutic_Area_Patient__c tap : therapeuticAreaPatients) {
+            COIsOfParticipant.add(tap.Therapeutic_Area__r.Name);
+        }
+        Map<Id, Resource__c> relatedResources = new Map<Id, Resource__c>([
+                SELECT Id, Title__c, RecordType.DeveloperName, Content_Type__c,
+                (SELECT Id FROM Therapeutic_Area_Assignments__r WHERE Therapeutic_Area__r.Name IN: COIsOfParticipant)
+                FROM Resource__c WHERE Id IN: resourceIds
+        ]);
 
         Map<Id, List<Res_study__c>> resStudyByCtpIdMap = new Map<Id, List<Res_study__c>>();
         Set<Id> resStudyResourceIds = new Set<Id>();
@@ -174,16 +168,25 @@ public without sharing class ContactService {
                     if (StudyResourceVisibilityService.isResourceVisibleForPE(
                             resStudy, pe, contentLangByResId.get(resStudy.Resource__c),
                             CommunityService.USER_MODE_PARTICIPANT, isDelegate)) {
-                        resources.add(new ResourceService.ResourceWrapper(resStudy.Resource__r, translatedItemsMap.get(resStudy.Resource__c)));
+                        resources.add(new ResourceService.ResourceWrapper(relatedResources.get(resStudy.Resource__c), translatedItemsMap.get(resStudy.Resource__c)));
                     }
                 }
             }
-            Set<String> peHistorySatuses = historyStatusesByPEIdMap.get(pe.Id);
-            Boolean hadEnrolmentSuccess = peHistorySatuses != null && peHistorySatuses.contains(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS);
+            Set<String> peHistoryStatuses = historyStatusesByPEIdMap.get(pe.Id);
+            resources = ResourceService.sortResourcesByCOI(resources);
+            resources = ResourceService.removeTranslations(resources);
+            Boolean hadEnrolmentSuccess = peHistoryStatuses != null && peHistoryStatuses.contains(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS);
             pastWrappersList.add(new PastStudyWrapper(ctpMap.get(pe.Clinical_Trial_Profile__c), pe, resources, hadEnrolmentSuccess));
 
         }
         return pastWrappersList;
+    }
+
+    public static List<Participant_Enrollment__c> getPastEnrollments(Id contactId) {
+        String filter = DatabaseService.fieldEqual('Participant_Contact__c', contactId) +
+                'AND' + DatabaseService.fieldInValues('Participant_Status__c', PEStatusState.PE_STATUS_GROUP_ALUMNI);
+        return (List<Participant_Enrollment__c>) DatabaseService.query(
+                ParticipantEnrollmentService.PE_COMMON_FIELDS, Participant_Enrollment__c.getSObjectType(), filter);
     }
 
     public static void updateNextNotifyDate(Id cntId, Datetime lastLoginDateByContactId, Boolean isDelegate) {
@@ -216,5 +219,55 @@ public without sharing class ContactService {
         if(!String.isEmpty(contact.Second_Choice_Language__c)) preferredLaguages.add(contact.Second_Choice_Language__c);
         if(!String.isEmpty(contact.Third_Choice_Language__c)) preferredLaguages.add(contact.Third_Choice_Language__c);
         return preferredLaguages;
+    }
+    
+    public static Contact getContact(Id contactId){
+        if(contactId == null) return null;
+        return [
+                SELECT Id,
+                        Name,
+                        Is_First_Logon__c,
+                        Full_Name__c,
+                        Salutation,
+                        FirstName,
+                        MiddleName,
+                        LastName,
+                        Suffix,
+                        primaryContact__c,
+                        userCommunityMode__c,
+                        userCommunityDelegateId__c,
+                        userCommunytyType__c,
+                        UserCommunityIsDelegate__c,
+                        HCP_DelegateAccessLevel__c,
+                        PI_DelegateAccessLevel__c,
+                        userCommunity_ShowTour__c,
+                        Current_Participant_Enrollment__c,
+                        Last_Session_Id__c,
+                        Language__c,
+                        Second_Choice_Language__c,
+                        MailingLatitude,
+                        MailingLongitude,
+                        MailingCountry,
+                        MailingCity,
+                        MailingPostalCode,
+                        MailingState,
+                        MailingStreet,
+                        PI_My_Studies_Filters__c,
+                        Third_Choice_Language__c,
+                        Participant_Opt_In_Status_Emails__c,
+                        Account.OwnerId,
+                        Account.Name,
+                        Account.Phone,
+                        Account.BillingStreet,
+                        Account.BillingCity,
+                        Account.BillingState,
+                        Account.Fax,
+                        Account.BillingCountry,
+                        Account.BillingPostalCode,
+                        Account.BillingCountryCode,
+                        Phone
+                FROM Contact
+                WHERE Id = :contactId
+        ];
     }
 }

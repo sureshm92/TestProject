@@ -27,7 +27,7 @@ public class TestDataFactory {
                     'Medical_Record_Review_Status__c' => 'Pass',
                     'Pre_screening_Status__c' => 'Pass',
                     'Patient_ID__c' => '12345678',
-                    'Participant_Status__c' => 'Referral Sent to PI',
+                    'Participant_Status__c' => 'Received',
                     'Referral_Source__c' => 'HCP'
             },
 
@@ -39,7 +39,8 @@ public class TestDataFactory {
                     'Mailing_Country_Code__c' => 'US',
                     'Mailing_State_Code__c' => 'NY',
                     'Mailing_Zip_Postal_Code__c' => '1234231234',
-                    'Preferred_Language__c' => 'en_US'
+                    'Preferred_Language__c' => 'en_US',
+                    'Adult__c' => true
             },
 
             Resource_Action__c.getSObjectType() => new Map<String, Object>{
@@ -246,7 +247,8 @@ public class TestDataFactory {
                 Phone__c = '55313535',
                 Email__c = 'part1@email.com',
                 Mailing_Country_Code__c = 'US',
-                Mailing_State_Code__c = 'AL'
+                Mailing_State_Code__c = 'AL',
+                Adult__c = true
         );
         insert participant;
         Participant_Enrollment__c pe = new Participant_Enrollment__c(
@@ -257,7 +259,7 @@ public class TestDataFactory {
                 Study_Site__c = studySite.Id,
                 Patient_ID__c = 'SomePatientId1',
                 Referral_Source__c = 'HCP',
-                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
+                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED,
                 Participant__c = participant.Id,
                 Screening_ID__c = 'PESCR1'
         );

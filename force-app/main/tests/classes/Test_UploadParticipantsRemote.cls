@@ -1,0 +1,26 @@
+/**
+ * Created by alekseymoseev on 12/10/19.
+ */
+@IsTest
+public class Test_UploadParticipantsRemote {
+
+    @IsTest
+    public static void testUpdateParticipantsRemote() {
+        TestData.loadTestData();
+        TestData tstData = new TestData();
+
+        List<String> headerColumns = Action_UploadParticipantsRemote.HEADER_COLUMNS;
+        List<String> mandatoryHeaders = Action_UploadParticipantsRemote.MANDATORY_HEADER_COLUMNS;
+
+        List<LabelValueItem> statuses = Action_UploadParticipantsRemote.getParticipantsStatuses(tstData.ss.Id);
+
+        List<String> csvFileLines = new List<String>();
+        csvFileLines.add('First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language');
+        csvFileLines.add('Test1,Tst,Test2,tst2Test,Male,1980-11-11,tst@tseststest.tst,+1123456789,Mobile,+1133456789,Home,Test str,New York,New York,12121,United States,United States of America');
+        Action_UploadParticipantsRemote.uploadParticipants(csvFileLines, 'TestFile', tstData.ss.Id, statuses[2].value, false);
+
+        List<Participant__c> participants = [SELECT Id FROM Participant__c];
+        system.assert(!participants.isEmpty());
+    }
+
+}

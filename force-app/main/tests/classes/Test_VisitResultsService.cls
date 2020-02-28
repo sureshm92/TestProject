@@ -4,6 +4,13 @@
 
 @IsTest
 private class Test_VisitResultsService {
+    @TestSetup
+    static void init() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+    }
+
     @IsTest
     private static void getVisitResultsGroupNames_test() {
 
@@ -15,12 +22,11 @@ private class Test_VisitResultsService {
 
         System.assert( testNames[0].equals('Vitals'));
     }
-    
+
     @IsTest
     private static void getVisitResultWrappersForDashboard_test() {
         VisitResultsService service = new VisitResultsService();
 
-        TestData.loadTestData();
         TestData testData = new TestData();
         testData.ctp.Shareback_Availability_Timing__c = 1;
         update testData.ctp;
@@ -122,7 +128,6 @@ private class Test_VisitResultsService {
                 .build()
         );
 
-        TestData.loadTestData();
         TestData testData = new TestData();
         testData.ctp.Shareback_Availability_Timing__c = 1;
         update testData.ctp;
@@ -194,7 +199,7 @@ private class Test_VisitResultsService {
 
     @IsTest
     private static void getVisitResultsContainer_test() {
-        VisitResultsService service = new VisitResultsService();
+
         List<Visit_Result_TypeM__mdt> types = new List<Visit_Result_TypeM__mdt>{
                 new Visit_Result_TypeM__mdt()
         };
@@ -206,7 +211,6 @@ private class Test_VisitResultsService {
                 .build()
         );
 
-        TestData.loadTestData();
         TestData testData = new TestData();
         testData.ctp.Shareback_Availability_Timing__c = 1;
         update testData.ctp;
@@ -288,8 +292,9 @@ private class Test_VisitResultsService {
         insert visitResults;
 
         System.runAs(testData.participantUser) {
+            VisitResultsService service = new VisitResultsService();
             VisitResultsService.VisitResultsContainer container = service.getVisitResultsContainer('Vitals');
-            System.assert(container.wrappers.size() > 4);
+            System.assertEquals(1, container.wrappers.size());
         }
 
         Test.stopTest();

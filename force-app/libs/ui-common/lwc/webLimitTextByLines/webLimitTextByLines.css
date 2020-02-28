@@ -1,0 +1,27 @@
+/**
+ * Created by Igor Malyuta on 08.01.2020.
+ */
+.block-with-text {
+    overflow: hidden;
+    position: relative;
+    padding-right: 1em;
+    word-break: break-word;
+    word-wrap: break-word;
+}
+
+.block-with-text:before {
+    content: '...';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.block-with-text:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 1em;
+    height: 1em;
+    margin-top: 0.2em;
+    background: inherit;
+}

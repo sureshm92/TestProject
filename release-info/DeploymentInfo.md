@@ -81,9 +81,10 @@
 
 ## IV. Post-Deployment steps:
 
-1. Admin Panel
-    1. Go to App Launcher > Click on Admin Panel item > Click on an icon and run all a bathes in queue
-    2. Verification step: Make screenshot this setting.
+1. Batch Control Panel
+    1. Go to Setup > Users > Permission Sets > Choose "PP: Batch Control Panel" and assign it to your user
+    2. Go to App Launcher > Click on Batch Control Panel item > Click on an icon and run all a bathes in queue
+    3. Verification step: Make screenshot this setting.
 
 2. Run the batch
     1. Go to Developer Console > Debug > Open execute Anonymous > Insert Batch_UpdateScreeningIds.run();> Execute
@@ -122,8 +123,20 @@
     10. One column on the layout put Component “VisitReportContainer” and click “Publish”
     11. Verification step: Make screenshot this setting.
 
-
-
-
-
-
+    Go to Setup > All community > Click on Builder button near IQVIA Referral Hub > Click on Gear > Find “Messages” (If the page doesn't exist, create it with next properties)
+    
+    1. Click on the Gear and New Page
+    2. Choose standard page
+    3. Click on button New Blank Page and choose OneColumnLayout
+    4. Fill in the following fields 
+    5. Name: Messages
+    6. URL: messages
+    7. Page Access: Community Default Setting: Required Login
+    8. Title: Messages
+    9. Verification step: Make screenshot this setting.
+    10. One column on the layout put Component “Messages Page” and click “Publish”
+    11. Verification step: Make screenshot this setting.
+    
+    
+    
+    

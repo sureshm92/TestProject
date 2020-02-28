@@ -1,0 +1,82 @@
+/**
+ * Created by Leonid Bartenev
+ */
+
+@keyframes animate-stripes {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 60px 0;
+    }
+}
+
+@keyframes auto-progress {
+    0% {
+        width: 0%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+.THIS .progress-bar {
+    background-color: #a0a0a0;
+    height: 27px;
+    width: 216px;
+    margin: 50px auto;
+    border-radius: 5px;
+    box-shadow: 0 1px 5px #717171 inset, 0 1px 0 #fff;
+}
+
+.THIS.overlay-screen{
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: rgba(255, 255, 255, 0.58);
+    z-index: 10000;
+}
+
+.THIS .stripes {
+    background-size: 30px 30px;
+    background-image: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, .15) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, .15) 50%,
+            rgba(255, 255, 255, .15) 75%,
+            transparent 75%,
+            transparent
+    );
+}
+
+.THIS .stripes.animated {
+    animation: animate-stripes 0.6s linear infinite;
+}
+
+.THIS .stripes.animated.slower {
+    animation-duration: 1.25s;
+}
+
+.THIS .stripes.reverse {
+    animation-direction: reverse;
+}
+
+.THIS .progress-bar-inner {
+    display: block;
+    height: 28px;
+    width: 0%;
+    background-color: #d4d4d4;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+    position: relative;
+    animation: auto-progress 2s infinite linear;
+}

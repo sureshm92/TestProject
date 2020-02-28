@@ -3,5 +3,6 @@
  */
 trigger ResStudyTrigger on Res_study__c (before insert, before update, before delete, after insert, after delete) {
 
-    TriggerHandlerExecutor.execute(ResStudyTriggerHandler.class);
+    TriggerHandlerExecutor.execute(ResStudyTriggerHandler.PlatformEventProcessor.class);
+    TriggerHandlerExecutor.execute(ResStudyTriggerHandler.CertificateResourceProcessor.class);
 }

@@ -4,8 +4,7 @@
 
 <aura:component description="ViewPatients"  implements="forceCommunity:availableForAllPageTypes" controller="ViewPatientsRemote">
 
-    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community_js)}"
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
 
     <!--attributes:-->
@@ -15,29 +14,49 @@
     <aura:attribute name="isInitialized" type="Boolean" default="false" access="private"/>
     <aura:attribute name="emptyListMessage" type="String" access="private" default="{!$Label.c.PG_VP_L_No_Items}"/>
     <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="hasEmancipatedParticipants" type="Boolean" default="false"/>
 
     <!--handlers:-->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+    <aura:handler event="c:uiEvent" name="onInit" action="{!c.doNeedsGuardian}"/>
 
 
     <!--component body:-->
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
 
+
     <div class="rr-min-body-height">
         <aura:if isTrue="{!v.isInitialized}">
 
-                <div class="vp-navigation">
+            <aura:if isTrue="{!v.hasEmancipatedParticipants}">
+                <div class="emancipation-notification">
+                    <span class="emancipation-notification-msg"><c:RRIcon iconName="warning"/> {!$Label.c.One_or_more_Participants_reached_Majority}</span>
+                    <span class="emancipation-notification-link"><a data-gtm="link_Filter_emancip" href="javascript:void(0);" onclick="{!c.filterEmancipations}">{!$Label.c.Filter_Participant_s}</a></span>
+                </div>
+            </aura:if>
+
+                <div class="vp-navigation" style="margin-top: 30px;">
                     <aura:if isTrue="{!empty(v.parent)}">
-                        <aura:if isTrue="{!v.userMode == 'PI'}">
-                            <c:RRNavigationPath>
-                                <c:RRNPathItem label="{!$Label.c.PG_RP_L_My_Referrals}"/>
-                            </c:RRNavigationPath>
-                            <aura:set attribute="else">
+                            <aura:if isTrue="{!v.userMode == 'PI'}">
+                                <div class="navigation-breadcrumbs">
                                 <c:RRNavigationPath>
-                                    <c:RRNPathItem label="{!$Label.c.PG_VP_L_My_Patients}"/>
+                                    <c:RRNPathItem label="{!$Label.c.PG_RP_L_My_Referrals}"/>
                                 </c:RRNavigationPath>
-                            </aura:set>
+                                <aura:set attribute="else">
+                                    <c:RRNavigationPath>
+                                        <c:RRNPathItem label="{!$Label.c.PG_VP_L_My_Patients}"/>
+                                    </c:RRNavigationPath>
+                                </aura:set>
+                                </div>
+                            </aura:if>
+                        <aura:if isTrue="{!v.userMode != 'HCP'}">
+                            <div class="vp-export-btn">
+                                <button class="apollo-btn secondary" data-gtm="BTN_My_Participants_Export_All" onclick="{!c.doExport}">
+                                        {!$Label.c.BTN_Export_All}
+                                </button>
+                            </div>
                         </aura:if>
+
                     </aura:if>
                 </div>
             <aura:if isTrue="{!v.userMode == 'HCP'}">

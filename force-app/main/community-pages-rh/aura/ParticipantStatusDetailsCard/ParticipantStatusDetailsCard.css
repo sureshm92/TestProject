@@ -1,0 +1,57 @@
+/**
+ * Created by Andrii Kryvolap.
+ */
+.THIS .label{
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.THIS .rrs-container{
+    width: 100%;
+}
+
+.THIS.step-form{
+    width: 80%;
+}
+.THIS.step-card-title,
+.THIS .outcome-form-element{
+    margin-bottom: 16px;
+}
+.THIS.step-card-title{
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+}
+.THIS .step-history-title{
+    margin-top: 16px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+}
+.THIS .history-item-title{
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+    word-break: break-all;
+}
+.THIS .history-item-detail{
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+}
+.THIS .field-group-title{
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.THIS .form-field{
+    margin-bottom: 20px;
+
+}

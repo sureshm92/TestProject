@@ -52,6 +52,7 @@
                 sobjectType: 'Participant__c'
             });
             component.set('v.genders', initData.genders);
+            component.set('v.phoneTypes', initData.phoneTypes);
             component.set('v.counries', initData.countries);
             component.set('v.statesByCountyMap', initData.statesByCountryMap);
             component.set('v.markers',helper.fillMarkers(component));
@@ -63,7 +64,6 @@
                 else{
                     component.set('v.currentState', 'No Active Sites');
                 }
-
             }else{
                 component.set('v.currentState', 'Select Source')
             }
@@ -172,10 +172,27 @@
         helper.checkFields(component);
     },
 
+    doCheckDateOfBith: function (component, event, helper) {
+        helper.checkParticipantNeedsGuardian(component, helper);
+        helper.checkFields(component);
+    },
+
+    doNeedsGuardian: function (component, event, helper) {
+        let participant = component.get('v.participant');
+        if (participant.Health_care_proxy_is_needed__c) {
+            helper.setDelegate(component);
+        } else {
+            component.set('v.emailDelegateRepeat', '');
+        }
+        component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
+    },
+
     doSaveParticipant: function (component) {
         debugger;
         var participant = component.get('v.participant');
         console.log('participant', JSON.parse(JSON.stringify(participant)));
+        var delegateParticipant = component.get('v.delegateParticipant');
+        console.log('delegateParticipant', JSON.parse(JSON.stringify(delegateParticipant)));
 
         var trial = component.get('v.trial');
         var hcpeId = component.get('v.hcpeId');
@@ -186,6 +203,7 @@
             hcpeId: hcpeId,
             pEnrollmentJSON: JSON.stringify(pEnrollment),
             participantJSON: JSON.stringify(participant),
+            participantDelegateJSON: JSON.stringify(delegateParticipant),
             delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             component.set('v.currentState', 'Refer Success');
@@ -235,11 +253,17 @@
             var states = statesMapByCountry[countryCode];
             if(!states) states = [];
             emptyStates = states.length === 0;
-            component.set('v.states', states);
+            if (component.get('v.selectedCountry') != participant.Mailing_Country_Code__c || component.get('v.states').length != states.length) {
+                component.set('v.states', states);
+            }
+            if (states.length == 0) {
+                component.set('v. participant.Mailing_Country_Code__c', null);
+            }
         }else{
             component.set('v.states', []);
         }
-        if(component.get('v.countryInitialized')) component.set('v.participant.Mailing_State_Code__c', null);
+
+        component.set('v.selectedCountry', participant.Mailing_Country_Code__c);
         helper.checkFields(component);
     }
 

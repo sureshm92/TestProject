@@ -1,0 +1,23 @@
+
+.THIS .edit-icon {
+    height: 29px;
+    top: 0px;
+    left: 0px;
+    padding: 0px;
+    width: 30px;
+    fill: grey;
+    position: absolute;
+}
+
+.THIS .edit-btn {
+    width: 2rem;
+    height: 2rem;
+    top: -2rem;
+    right: 0.5rem;
+    float: right;
+    background: #F6F7FB;
+}
+
+.THIS .grey-text {
+    color: grey;
+}

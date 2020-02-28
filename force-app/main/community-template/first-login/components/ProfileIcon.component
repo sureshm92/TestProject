@@ -1,0 +1,129 @@
+<!--
+ - Created by Nargiz Mamedova on 10/11/2019.
+ -->
+
+<apex:component id="ProfileIcon" controller="ProfileIconController" allowDML="true">
+    <apex:includeScript value="{!$Resource.jquery224}"/>
+
+    <script type='text/javascript'>
+        function uploadFiles(input) {
+            const file = input.files[0];
+            const fr = new FileReader();
+            fr.onload = function () {
+                var attachment = window.btoa(fr.result);
+                debugger;
+                uploadFile(file.name, attachment, file.type, function () {
+                    setTimeout(function () {
+                        updateFileURL();
+                    }, 500);
+                });
+            };
+            fr.readAsBinaryString(file);
+        }
+
+        function uploadFile(fileName, fileBody, contentType, callback) {
+            showSpinner();
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.ProfileIconController.upload}',
+                fileName, fileBody, contentType,
+                function (result, event) {
+                    debugger;
+                    if (event.status) {
+                        callback();
+                    } else if (event.type === 'exception') {
+                        console.error(event.message + '\n' + event.where);
+                    } else {
+                        console.error(event.message);
+                    }
+                },
+                {escape: true}
+            );
+        }
+
+        function updateFileURL() {
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.ProfileIconController.getPhotoURL}',
+                function (result, event) {
+                    debugger;
+                    if (event.status) {
+                        $('.profileURL').attr('src', result);
+                        hideSpinner();
+                    } else if (event.type === 'exception') {
+                        console.error(event.message + '\n' + event.where);
+                    } else {
+                        console.error(event.message);
+                    }
+                },
+                {escape: true}
+            );
+        }
+
+        $(document).ready(function () {
+            updateFileURL();
+        })
+    </script>
+
+    <style>
+        .profile-image-container {
+            display: flex;
+            position: relative;
+            justify-content: space-around;
+        }
+
+        .prfile-img-stub {
+            width: 100px;
+            min-height: 50px;
+            margin: 10px auto;
+        }
+
+        .prfile-btn-container {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .btn-upload-photo {
+            position: relative;
+            margin: 0 auto;
+            cursor: pointer;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .btn-upload-photo svg {
+            width: 20px;
+            height: 22px;
+            fill: #999999;
+            margin-right: 5px;
+            flex-shrink: 0;
+        }
+
+        .btn-upload-photo .input-control {
+            position: absolute;
+            top: 0;
+            right: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+    </style>
+
+    <apex:outputPanel id="profilePhoto" styleClass="profile-image-container">
+        <div style="position: relative">
+            <div style="position: relative; min-height: 100px">
+                <c:Spinner/>
+                <div class="prfile-img-stub">
+                    <apex:image styleClass="profileURL"/>
+                </div>
+            </div>
+            <div class="prfile-btn-container">
+                <div class="btn-upload-photo">
+                    <svg>
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!$Resource.rr_community_icons}/icons.svg#icon-camera"></use>
+                    </svg>
+                    {!$Label.PG_Login_BTN_Upload_Photo}
+                    <input class="input-control" type="file" multiple="false" id="fileinput" onchange="uploadFiles(this);"/>
+                </div>
+            </div>
+        </div>
+    </apex:outputPanel>
+
+</apex:component>

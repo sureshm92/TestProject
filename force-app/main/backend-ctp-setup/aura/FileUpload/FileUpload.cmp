@@ -1,0 +1,69 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId, lightning:availableForFlowScreens, force:lightningQuickAction" access="global" controller="FileUploadController">
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+    <!-- attributes -->
+    <aura:attribute name="fileType" type="List" default="['.pdf']"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="fileWrapper" type="Object"/>
+
+    <!-- component body: -->
+    <article class="slds-card slds-card_boundary related_list_card_border_top forceRelatedListCardDesktop">
+        <div class="related_list_themed_border_top"></div>
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container slds-icon-standard-file" title="file">
+                        <lightning:icon iconName="standard:file" size="small" alternativeText="File image" />
+                    </span>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <a class="slds-card__header-link slds-truncate" title="Files">
+                            <span>
+                                {!$Label.c.Files} ({!v.fileWrapper.listOfFiles.length})
+                            </span>
+                        </a>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <aura:if isTrue="{!v.fileWrapper.listOfFiles.length > 0}">
+            <div class="slds-card__body slds-card__body_inner">
+                <table class="slds-table slds-table--bordered">
+                    <thead>
+                    <tr>
+                        <th>{!$Label.c.File_Upload_Name}</th>
+                        <th>{!$Label.c.File_Type}</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <aura:iteration items="{!v.fileWrapper.listOfFiles}" var="file">
+                        <tr>
+                            <td><a href="" id="{!file.content.Id}" onclick="{!c.previewFile}">{!file.fileName}</a></td>
+                            <td>{!file.content.FileType}</td>
+                            <td  class="slds-text-align--right" id="{!file.content.Id}">
+                                <lightning:buttonIcon iconName="utility:close" alternativeText="Delete" onclick="{!c.deleteSelectedFile}"/>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                    </tbody>
+                </table>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.fileWrapper.listOfLanguages.length > 0}">
+            <footer class="slds-card__footer">
+                <lightning:select name="{!$Label.c.PG_AH_H_Language}" label="{!$Label.c.PG_AH_H_Language}" value="{!v.fileWrapper.currentLanguageCode}" required="true">
+                    <aura:iteration items="{!v.fileWrapper.listOfLanguages}" var="languageItem">
+                        <option value="{!languageItem.value}">{!languageItem.label}</option>
+                    </aura:iteration>
+                </lightning:select>
+                <lightning:fileUpload label="" multiple="false"
+                                      accept="{!v.fileType}" recordId="{!v.recordId}"
+                                      onuploadfinished="{!c.saveFile}" />
+            </footer>
+        </aura:if>
+        <c:RRSpinner aura:id="spinner" size="small"/>
+    </article>
+
+</aura:component>

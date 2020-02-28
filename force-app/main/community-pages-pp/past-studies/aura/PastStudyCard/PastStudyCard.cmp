@@ -1,0 +1,61 @@
+<aura:component description="PastStudyCard">
+
+    <!-- attributes: -->
+    <aura:attribute name="ctp" type="Clinical_Trial_Profile__c"/>
+    <aura:attribute name="pe" type="Participant_Enrollment__c"/>
+    <aura:attribute name="resources" type="ResourceService.ResourceWrapper[]"/>
+    <aura:attribute name="showReport" type="Boolean"/>
+
+    <!-- component body: -->
+    <div class="rr-white-panel padding">
+        <div class="slds-grid slds-wrap slds-gutters" style="align-items: stretch">
+            <div class="slds-col slds-size--1-of-1 slds-large-size_2-of-3">
+                <aura:if isTrue="{!!empty(v.ctp.Profile_Picture__c)}">
+                    <img class="profile-pic" src="{!v.ctp.Profile_Picture__c}"/>
+                </aura:if>
+                <div class="study-title">{!v.ctp.Study_Code_Name__c} ({!v.ctp.Therapeutic_Area__r.Name})</div>
+                <div class="study-description">{!v.ctp.Detailed_Description__c}</div>
+
+                <div class="rr-fields-cutter">
+                    <div class="rr-fields-container">
+                        <div class="rr-output-field">
+                            <div class="label">{!$Label.c.PE_Investigator_Name}</div>
+                            <div class="value">{!v.pe.Study_Site__r.Principal_Investigator__r.Name}</div>
+                        </div>
+                        <div class="rr-output-field">
+                            <div class="label">{!$Label.c.PS_Enrollment_Date}</div>
+                            <div class="value">
+                                <div class="rp-max-length">
+                                    <lightning:formattedDateTime value="{!v.pe.Enrolled_DateTime__c}"
+                                                                 year="numeric" month="2-digit" day="2-digit"/>
+<!--                                    <ui:outputDate format="MM-dd-yyyy" value="{!v.pe.Enrolled_DateTime__c}"/>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rr-output-field">
+                            <div class="label">{!$Label.c.PS_Site_Location}</div>
+                            <div class="value ">
+                                <div class="rp-max-length">{!v.pe.Study_Site__r.Site__r.Name}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-3 db-charts">
+                <aura:if isTrue="{!v.showReport}">
+                    <div class="resource-item">
+                        <c:VisitSummaryReportLink peId="{!v.pe.Id}"/>
+                    </div>
+                </aura:if>
+                <aura:if isTrue="{!v.ctp.Study_Documents_Are_Available__c}">
+                    <aura:iteration items="{!v.resources}" var="resourceWrapper">
+                        <div class="resource-item">
+                            <c:ResourceLink resourceWrapper="{!resourceWrapper}"/>
+                        </div>
+                    </aura:iteration>
+                </aura:if>
+            </div>
+        </div>
+    </div>
+
+</aura:component>

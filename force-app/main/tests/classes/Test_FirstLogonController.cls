@@ -5,27 +5,40 @@
 @IsTest(IsParallel=false)
 private class Test_FirstLogonController {
 
-    @IsTest(SeeAllData=true)
-    public static void testChangePasswordController() {
+    @IsTest//(SeeAllData=true)
+    public static void testFirstLogonController() {
         TestData.loadTestData();
         TestData testData = new TestData();
-        //run test:
+
         Test.startTest();
         System.runAs(testData.participantUser) {
             // Instantiate a new controller with all parameters in the page
             FirstLogonController controller = new FirstLogonController();
-            controller.oldPassword = '123456';
             controller.newPassword = 'qwerty1';
             controller.verifyNewPassword = 'qwerty1';
-            System.assertEquals(controller.changePassword(), null);
+            System.assertEquals(controller.setPassword(), null);
             controller.showProfileAction();
-            controller.oldPassword = 'qwerty1';
-            controller.newPassword = 'NewPas1234';
-            controller.verifyNewPassword = 'NewPas1234';
-            controller.browserLanguage = '["en_US","",""]';
-            controller.changePassword();
-            controller.updateBrowserLanguageAction();
+            controller.account.Name = 'new Name';
+            controller.contact.Fax = 'new Fax';
+            controller.contact.OwnerId = UserContext.getUser().Id;
+            controller.updateNameOfAccount();
             controller.updateLanguageAction();
+            controller.updateStatesAction();
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    public static void testChangePasswordPageController() {
+        TestData.loadTestData();
+        TestData testData = new TestData();
+
+        Test.startTest();
+        System.runAs(testData.participantUser) {
+            ChangePasswordPageController controller = new ChangePasswordPageController();
+            controller.browserLanguage = '["en-US","",""]';
+            controller.init();
+            controller.updateBrowserLanguageAction();
         }
         Test.stopTest();
     }

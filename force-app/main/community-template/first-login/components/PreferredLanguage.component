@@ -1,0 +1,168 @@
+<!--
+ - Created by Yulia Yakushenkova on 10/11/2019.
+ -->
+
+<apex:component id="PreferredLanguage">
+
+    <apex:attribute name="contact" description="" type="Contact" required="true"/>
+    <apex:attribute name="language_" description="" type="User"/> <!-- only for fix deployment bug, must be removed -->
+
+    <style>
+        .line-tabs tr td {
+            padding: 10px;
+            padding-bottom: 0;
+            width: 50%;
+        }
+
+        .section-header {
+            font-size: 30px;
+            font-weight: 600;
+            line-height: 36px;
+        }
+
+        .btn-upload-photo svg {
+            width: 20px;
+            height: 22px;
+            fill: #999999;
+            margin-right: 5px;
+            flex-shrink: 0;
+        }
+
+        .slds-gutters {
+            margin-right: -0.75rem;
+            margin-left: -0.75rem;
+        }
+
+        .slds-gutters .slds-col {
+            padding-right: 0.75rem;
+            padding-left: 0.75rem;
+        }
+
+        .rr-form-element {
+            margin-top: 10px !important;
+            margin-bottom: 10px !important;
+        }
+
+        .rr-form-element .password-input {
+            position: relative;
+        }
+
+        .rr-form-element.error input {
+            border-color: red;
+        }
+
+        .section-description {
+            color: #333333;
+            font-size: 13px;
+            line-height: 16px;
+        }
+
+        .rr-bottom-bar .bar-content {
+            justify-content: right;
+        }
+
+       /* styles for language options input fields */
+        button.slds-button_icon::before {
+            content: attr(help-text);
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 12px;
+            line-height: 18px;
+            position: absolute;
+            z-index: 999;
+            text-align: left;
+            bottom: 9999px;
+            left: 50%;
+            background: #042459;
+            color: #e0e0e0;
+            min-height: 32px;
+            min-width: 200px;
+            opacity: 0;
+            transition: opacity 0.4s ease-out;
+        }
+
+        button.slds-button_icon:hover::before {
+            opacity: 1;
+            bottom: 24px;
+            left: -130px;
+        }
+    </style>
+
+
+    <div id="header" class="section-header" style="margin-top: 30px">{!$Label.PG_Login_H_Language_Options}</div>
+    <div class="section-description">{!$Label.PG_Login_H_Language_Description}</div>
+
+    <div class="slds-grid slds-wrap slds-gutters">
+        <div id="langSelectContainer" class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+            <label>{!$Label.PG_AS_F_Preferred_Language}
+                <span class="slds-form-element__icon" style="inline; float:right">
+                    <button type="button" class="slds-button slds-button_icon"
+                            aria-describedby="salesforce-lightning-helptext-bubble_e9d01f7b-4039-a66d-d7d6-3859dd5f1248"
+                            help-text="{!$Label.PG_AS_F_Preferred_Language_Help_Text}">
+                        <lightning-primitive-icon
+                                lightning-primitiveicon_primitiveicon-host="">
+                            <svg lightning-primitiveIcon_primitiveIcon="" focusable="false"
+                                 data-key="info" aria-hidden="true"
+                                 class="slds-button__icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 24 24" id="info">
+                                        <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9 12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3 0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z"></path>
+                                    </svg>
+                            </svg>
+                        </lightning-primitive-icon>
+                        <span class="slds-assistive-text"></span>
+                    </button>
+                </span>
+            </label>
+            <apex:inputField styleClass="slds-input" value="{!contact.Language__c}" onChange="updatePage();"/>
+        </div>
+        <div id="langSelectContainer" class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+            <label>{!$Label.PG_AS_F_2nd_Choice_Language}
+                <span class="slds-form-element__icon" style="inline; float:right">
+                    <button type="button" class="slds-button slds-button_icon"
+                            aria-describedby="salesforce-lightning-helptext-bubble_e9d01f7b-4039-a66d-d7d6-3859dd5f1248"
+                            help-text="{!$Label.PG_AS_F_2nd_Choice_Language_Help_Text}">
+                        <lightning-primitive-icon
+                                lightning-primitiveicon_primitiveicon-host="">
+                            <svg lightning-primitiveIcon_primitiveIcon="" focusable="false"
+                                 data-key="info" aria-hidden="true"
+                                 class="slds-button__icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 24 24" id="info">
+                                        <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9 12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3 0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z"></path>
+                                    </svg>
+                            </svg>
+                        </lightning-primitive-icon>
+                        <span class="slds-assistive-text"></span>
+                    </button>
+                </span>
+            </label>
+            <apex:inputField styleClass="slds-input" value="{!contact.Second_Choice_Language__c}"
+                             onChange="updatePage();"/>
+        </div>
+        <div id="langSelectContainer" class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">
+            <label>{!$Label.PG_AS_F_3rd_Choice_Language}
+                <span class="slds-form-element__icon" style="inline; float:right">
+                    <button type="button" class="slds-button slds-button_icon"
+                            aria-describedby="salesforce-lightning-helptext-bubble_e9d01f7b-4039-a66d-d7d6-3859dd5f1248"
+                            help-text="{!$Label.PG_AS_F_3rd_Choice_Language_Help_Text}">
+                        <lightning-primitive-icon
+                                lightning-primitiveicon_primitiveicon-host="">
+                            <svg lightning-primitiveIcon_primitiveIcon="" focusable="false"
+                                 data-key="info" aria-hidden="true"
+                                 class="slds-button__icon">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 24 24" id="info">
+                                    <path d="M12 .9C5.9.9.9 5.9.9 12s5 11.1 11.1 11.1 11.1-5 11.1-11.1S18.1.9 12 .9zm0 5.6c.8 0 1.4.6 1.4 1.4s-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4.6-1.4 1.4-1.4zm2.3 9.7c0 .2-.2.4-.5.4h-3.6c-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5.2 0 .4-.2.4-.4v-1.9c0-.2-.2-.5-.4-.5-.3 0-.5-.1-.5-.4v-.9c0-.3.2-.5.5-.5h2.7c.3 0 .5.2.5.5v3.7c0 .2.2.4.4.4.3 0 .5.2.5.5v.9z"></path>
+                                </svg>
+                            </svg>
+                        </lightning-primitive-icon>
+                        <span class="slds-assistive-text"></span>
+                    </button>
+                </span>
+            </label>
+            <apex:inputField styleClass="slds-input" value="{!contact.Third_Choice_Language__c}"
+                             onChange="updatePage();"/>
+        </div>
+    </div>
+</apex:component>

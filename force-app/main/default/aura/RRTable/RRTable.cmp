@@ -1,9 +1,0 @@
-<!--
- - Created by Leonid Bartenev
- -->
-
-<aura:component description="RRTable">
-    <table class="rr-table">
-        {!v.body}
-    </table>
-</aura:component>

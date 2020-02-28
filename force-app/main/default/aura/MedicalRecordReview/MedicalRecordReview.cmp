@@ -3,8 +3,7 @@
  -->
 
 <aura:component description="MedicalRecordReview" implements="forceCommunity:availableForAllPageTypes" controller="MedicalRecordReviewRemote">
-    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- atributes: -->
     <aura:attribute name="trialId" type="String"/>
@@ -19,6 +18,7 @@
     <aura:attribute name="resultData" type="String"/>
     <aura:attribute name="actions" type="Object"/>
     <aura:attribute name="accessUserLevel" type="String"/>
+    <aura:attribute name="anchor" type="String"/>
 
     <!-- handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -67,7 +67,7 @@
                 <aura:if isTrue="{!v.mrrResult == 'Fail'}">
                     <div class="mrr-alert fail">
                         <c:RRIcon iconName="icon-close-circle"/>
-                        <div class="main-title">{!v.searchResult.pe.Patient_ID__c}&nbsp;{!$Label.c.PG_MRR_R_Failed}</div>
+                        <div class="main-title" id="anchor">{!v.searchResult.pe.Participant_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Failed}</div>
                         <button class="apollo-btn primary"
                                 onclick="{!c.doClearForm}">
                             <!--disabled="{!v.actions.medicalRecordReview.disabled}"
@@ -82,7 +82,7 @@
                 <aura:if isTrue="{!v.mrrResult == 'Pass'}">
                     <div class="mrr-alert pass">
                         <c:RRIcon iconName="icon-check-circle"/>
-                        <div class="main-title">{!v.searchResult.pe.Patient_ID__c}&nbsp;{!$Label.c.PG_MRR_R_Passed}</div>
+                        <div class="main-title" id="anchor">{!v.searchResult.pe.Participant_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Passed}</div>
                         <button class="apollo-btn primary"
                                 onclick="{!c.doReferPatient}"
                                 disabled="{!v.actions.referToThisStudy.disabled}"

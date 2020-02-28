@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>47.0</apiVersion>
+    <available>true</available>
+    <description>Study Site on Participant Enrollment was Changed Email For PI</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>PE SS Changed for PI</name>
+    <style>none</style>
+    <subject>The participant has been transferred to another Study Site</subject>
+    <type>visualforce</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

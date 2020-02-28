@@ -1,0 +1,91 @@
+/**
+ * Created by Igor Malyuta on 04.01.2020.
+ */
+.con-wrapper {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.con-unread-place {
+    background: none;
+    min-width: 10px;
+    min-height: 10px;
+    margin-right: 5px;
+}
+
+.con-unread-bubble {
+    background: #297dfd;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+}
+
+.con-icon {
+    width: 41px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.con-content {
+    margin-left: 10px;
+    width: 80%;
+}
+
+.con-title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2px;
+}
+
+.con-name {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000;
+    max-width: 215px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.con-time {
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.con-description {
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.con-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.con-last-message-part {
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19px;
+    padding-top: 8px;
+}
+
+@media screen and (max-width: 480px){
+    .con-name {
+        max-width: 172px;
+    }
+}

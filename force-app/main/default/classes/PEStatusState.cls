@@ -6,14 +6,14 @@ public without sharing class PEStatusState {
 
     public class StatusStep{
         public String name;
-        public Map<String, String> states;
+        public Map<String, List<String>> states;
 
-        public StatusStep(String name, Map<String, String> states){
+        public StatusStep(String name, Map<String, List<String>> states){
             this.name = name;
             this.states = states;
         }
         
-        public String getStatus(String state){
+        public List<String> getStatus(String state){
             return states.get(state);
         }
     }
@@ -21,6 +21,7 @@ public without sharing class PEStatusState {
     public static final String STATUS_STATE_IN_PROGRESS = 'in_progress';
     public static final String STATUS_STATE_SUCCESS = 'success';
     public static final String STATUS_STATE_FAILURE = 'failure';
+    public static final String STATUS_STATE_NEUTRAL = 'neutral';
     public static final List<String> STATUS_STATE_LIST = new List<String> {
             STATUS_STATE_SUCCESS,
             STATUS_STATE_IN_PROGRESS,
@@ -31,27 +32,50 @@ public without sharing class PEStatusState {
     public static final String PE_ST_REFERRED = Label.PE_ST_Referred;
     public static final String PE_ST_REFERRAL_ACCEPTANCE = Label.PE_ST_Referral_Acceptance;
     public static final String PE_ST_CONTACT_ATTEMPTS = Label.PE_ST_Contact_Attempts;
-    public static final String PE_ST_ELIGIBILITY = Label.PE_ST_Eligibility;
-    public static final String PE_ST_INITIAL_VISIT_SCREENING = Label.PE_ST_Initial_Visit_And_Screening;
+    public static final String PE_ST_INITIAL_VISIT_ELIGIBILITY = Label.PE_ST_Initial_Visit_And_Screening;
+    public static final String PE_ST_SCREENING = Label.PE_ST_Eligibility;
     public static final String PE_ST_ENROLLED_RANDOMIZED = Label.PE_ST_Enrolled_Randomized;
     
     //participant statuses:
+
+    //deprecated statuses
+    //TODO:check
     public static final String PE_STATUS_REFERRAL_SENT_TO_PI = 'Referral Sent to PI';
     public static final String PE_STATUS_REFERRAL_ACCEPTED = 'Referral Accepted';
     public static final String PE_STATUS_REFERRAL_ON_HOLD = 'Referral On Hold';
     public static final String PE_STATUS_REFERRAL_DECLINED = 'Referral Declined';
-    public static final String PE_STATUS_CONTACT_SUCCESSFUL = 'Contact Successful';
-    public static final String PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS = 'Contact Attempt In Progress';
-    public static final String PE_STATUS_CONTACT_FAILED = 'Contact Failed';
+//    public static final String PE_STATUS_CONTACT_SUCCESSFUL = 'Contact Successful';
+//    public static final String PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS = 'Contact Attempt in Progress';
+//    public static final String PE_STATUS_CONTACT_FAILED = 'Contact Failed';
+//    public static final String PE_STATUS_SCREENING_COMPLETE = 'Screening Complete';
+
+
+
+    //Received Step
+    public static final String PE_STATUS_RECEIVED = 'Received'; //TODO:check
+    //Contact Step
+    public static final String PE_STATUS_SUCCESSFULLY_CONTACTED = 'Successfully Contacted';//TODO:check
+    public static final String PE_STATUS_CONTACT_ATTEMPTED = 'Contact Attempted';//TODO:check
+    public static final String PE_STATUS_CONTACTED_NOT_SUITABLE = 'Contacted - Not Suitable';//TODO:check
+    public static final String PE_STATUS_UNABLE_TO_REACH = 'Unable to Reach';//TODO:check
+    //Eligibility Step
     public static final String PE_STATUS_ELIGIBILITY_PASSED = 'Eligibility Passed';
     public static final String PE_STATUS_ELIGIBILITY_FAILED = 'Eligibility Failed';
-    public static final String PE_STATUS_SCREENING_COMPLETE = 'Screening Complete';
+    //Screening Step
     public static final String PE_STATUS_SCREENING_IN_PROGRESS= 'Screening In Progress';
+    public static final String PE_STATUS_SCREENING_PASSED = 'Screening Passed';
+    public static final String PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD = 'Screening Passed - Wash Out Period';//TODO:check
     public static final String PE_STATUS_SCREENING_FAILED = 'Screening Failed';
+    public static final String PE_STATUS_UNABLE_TO_SCREEN = 'Unable to Screen';
+    //Enrollment Step
     public static final String PE_STATUS_ENROLLMENT_OLD = 'Enrolled';
     public static final String PE_STATUS_ENROLLMENT_SUCCESS = 'Enrollment Success';
     public static final String PE_STATUS_ENROLLMENT_FAILED = 'Enrollment Failed';
-    
+    //Randomization Step
+    public static final String PE_STATUS_RANDOMIZATION_SUCCESS = 'Randomization Success';//TODO:check
+    public static final String PE_STATUS_RANDOMIZATION_FAILED = 'Randomization Failed';//TODO:check
+
+
     public static final String PE_STATUS_PENDING_REFERRAL = 'Pending Referral';
     public static final String PE_STATUS_EXCLUDED_FROM_REFERRING = 'Excluded from Referring';
     public static final String PE_STATUS_FAILED_REVIEW = 'Failed Review';
@@ -67,12 +91,17 @@ public without sharing class PEStatusState {
     public static final String PE_STATUSES_ACTIVE = 'Active';
     public static final String PE_STATUSES_INACTIVE = 'Inactive';
 
+    public static final String PW_FINAL_STEP_RANDOMIZATION = 'Randomization';
+    public static final String PW_FINAL_STEP_ENROLLMENT = 'Enrollment';
+
     //status groups:
     public static final List<String> PE_STATUS_GROUP_FAILED = new List<String>{
             PE_STATUS_REFERRAL_DECLINED,
-            PE_STATUS_CONTACT_FAILED,
+            PE_STATUS_CONTACTED_NOT_SUITABLE,
+            PE_STATUS_UNABLE_TO_REACH,
             PE_STATUS_ELIGIBILITY_FAILED,
             PE_STATUS_SCREENING_FAILED,
+            PE_STATUS_UNABLE_TO_SCREEN,
             PE_STATUS_ENROLLMENT_FAILED,
             PE_STATUS_FAILED_REVIEW,
             PE_STATUS_FAILED_REFERRAL,
@@ -80,50 +109,55 @@ public without sharing class PEStatusState {
     };
     
     public static final List<String> PE_STATUS_GROUP_ALUMNI = new List<String>{
-            PE_STATUS_REFERRAL_DECLINED,
             PE_STATUS_ELIGIBILITY_FAILED,
             PE_STATUS_SCREENING_FAILED,
+            PE_STATUS_UNABLE_TO_SCREEN,
             PE_STATUS_ENROLLMENT_FAILED,
             PE_STATUS_FAILED_REVIEW,
             PE_STATUS_FAILED_REFERRAL,
             PE_STATUS_EXCLUDED_FROM_REFERRING,
             PE_STATUS_PARTICIPATION_COMPLETE,
             PE_STATUS_TRIAL_COMPLETE,
-            PE_STATUS_DROP_OUT
+            PE_STATUS_DROP_OUT,
+            PE_STATUS_REFERRAL_DECLINED
     };
     
     public static final List<String> PE_STATUS_GROUP_IN_PROGRESS = new List<String>{
             PE_STATUS_REFERRAL_SENT_TO_PI,
             PE_STATUS_REFERRAL_ACCEPTED,
             PE_STATUS_REFERRAL_ON_HOLD,
-            PE_STATUS_CONTACT_SUCCESSFUL,
-            PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS,
+            PE_STATUS_RECEIVED,
+            PE_STATUS_SUCCESSFULLY_CONTACTED,
+            PE_STATUS_CONTACT_ATTEMPTED,
             PE_STATUS_ELIGIBILITY_PASSED,
-            PE_STATUS_SCREENING_COMPLETE,
+            PE_STATUS_SCREENING_PASSED,
+            PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD,
             PE_STATUS_SCREENING_IN_PROGRESS
     };
     
     public static final List<String> PE_STATUS_GROUP_IN_PROGRESS_NOT_ON_HOLD = new List<String>{
             PE_STATUS_REFERRAL_SENT_TO_PI,
             PE_STATUS_REFERRAL_ACCEPTED,
-            PE_STATUS_CONTACT_SUCCESSFUL,
-            PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS,
+            PE_STATUS_RECEIVED,
+            PE_STATUS_SUCCESSFULLY_CONTACTED,
+            PE_STATUS_CONTACT_ATTEMPTED,
             PE_STATUS_ELIGIBILITY_PASSED,
-            PE_STATUS_SCREENING_COMPLETE,
+            PE_STATUS_SCREENING_PASSED,
+            PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD,
             PE_STATUS_SCREENING_IN_PROGRESS
     };
-    
-    public static final List<String> PE_STATUS_GROUP_PARTICIPATION_FLOW = new List<String>{
-            PE_STATUS_ENROLLMENT_SUCCESS,
+    //TODO:check
+    public static final List<String> PE_STATUS_GROUP_PARTICIPATION_FLOW_WITHOUT_INITIAL = new List<String>{
             PE_STATUS_TREATMENT_PERIOD_STARTED,
             PE_STATUS_FOLLOW_UP_PERIOD_STARTED,
             PE_STATUS_PARTICIPATION_COMPLETE,
             PE_STATUS_TRIAL_COMPLETE
     };
-    
-    
+
+    //TODO:check
     public static final List<String> PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS = new List<String>{
             PE_STATUS_ENROLLMENT_SUCCESS,
+            PE_STATUS_RANDOMIZATION_SUCCESS,
             PE_STATUS_TREATMENT_PERIOD_STARTED,
             PE_STATUS_FOLLOW_UP_PERIOD_STARTED
     };
@@ -141,64 +175,100 @@ public without sharing class PEStatusState {
             PE_STATUS_REFERRAL_SENT_TO_PI,
             PE_STATUS_REFERRAL_ACCEPTED,
             PE_STATUS_REFERRAL_ON_HOLD,
-            PE_STATUS_CONTACT_SUCCESSFUL,
-            PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS,
+            PE_STATUS_RECEIVED,
+            PE_STATUS_SUCCESSFULLY_CONTACTED,
+            PE_STATUS_CONTACT_ATTEMPTED,
             PE_STATUS_ELIGIBILITY_PASSED,
-            PE_STATUS_SCREENING_COMPLETE,
+            PE_STATUS_SCREENING_PASSED,
+            PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD,
             PE_STATUS_SCREENING_IN_PROGRESS,
             PE_STATUS_ENROLLMENT_SUCCESS,
+            PE_STATUS_RANDOMIZATION_SUCCESS,
             PE_STATUS_TREATMENT_PERIOD_STARTED,
             PE_STATUS_FOLLOW_UP_PERIOD_STARTED,
             PE_STATUS_PARTICIPATION_COMPLETE
     };
 
-     public static final List<String> PE_STATUS_GROUP_INACTIVE = new List<String>{
-             PE_STATUS_REFERRAL_DECLINED,
-             PE_STATUS_CONTACT_FAILED,
-             PE_STATUS_ELIGIBILITY_FAILED,
-             PE_STATUS_SCREENING_FAILED,
-             PE_STATUS_ENROLLMENT_FAILED,
-             PE_STATUS_TRIAL_COMPLETE,
-             PE_STATUS_DROP_OUT,
-             PE_STATUS_DECEASED
+    public static final List<String> PE_STATUS_GROUP_INACTIVE = new List<String>{
+            PE_STATUS_REFERRAL_DECLINED,
+            PE_STATUS_CONTACTED_NOT_SUITABLE,
+            PE_STATUS_UNABLE_TO_REACH,
+            PE_STATUS_ELIGIBILITY_FAILED,
+            PE_STATUS_SCREENING_FAILED,
+            PE_STATUS_UNABLE_TO_SCREEN,
+            PE_STATUS_ENROLLMENT_FAILED,
+            PE_STATUS_RANDOMIZATION_FAILED,
+            PE_STATUS_TRIAL_COMPLETE,
+            PE_STATUS_DROP_OUT,
+            PE_STATUS_DECEASED
+    };
+
+    public static final List<String> PE_STATUS_GROUP_VISIT_PLAN_CHECK = new List<String>{
+            PE_STATUS_FAILED_REFERRAL,
+            PE_STATUS_FAILED_REVIEW,
+            PE_STATUS_PENDING_REFERRAL,
+            PE_STATUS_REFERRAL_SENT_TO_PI,
+            PE_STATUS_REFERRAL_ACCEPTED,
+            PE_STATUS_REFERRAL_ON_HOLD,
+            PE_STATUS_REFERRAL_DECLINED,
+            PE_STATUS_RECEIVED,
+            PE_STATUS_EXCLUDED_FROM_REFERRING,
+            PE_STATUS_SUCCESSFULLY_CONTACTED,
+            PE_STATUS_CONTACT_ATTEMPTED,
+            PE_STATUS_CONTACTED_NOT_SUITABLE,
+            PE_STATUS_UNABLE_TO_REACH,
+            PE_STATUS_ELIGIBILITY_PASSED,
+            PE_STATUS_ELIGIBILITY_FAILED,
+            PE_STATUS_SCREENING_PASSED,
+            PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD,
+            PE_STATUS_SCREENING_IN_PROGRESS,
+            PE_STATUS_SCREENING_FAILED,
+            PE_STATUS_UNABLE_TO_SCREEN
+    };
+
+    public static final List<String> PE_STATUS_GROUP_PARTICIPANT_IMPORT_WITHOUT_FINAL = new List<String>{
+            PE_STATUS_RECEIVED,
+            PE_STATUS_SUCCESSFULLY_CONTACTED,
+            PE_STATUS_SCREENING_PASSED
+    };
+
+    public static final List<String> PE_STATUS_GROUP_ADD_PATIENT_BY_PI_WITHOUT_FINAL = new List<String>{
+            PE_STATUS_CONTACT_ATTEMPTED,
+            PE_STATUS_ELIGIBILITY_PASSED,
+            PE_STATUS_SCREENING_IN_PROGRESS
     };
 
     public static List<String> PE_STATUS_GROUP_IN_PROGRESS_ALL;
     public static List<String> PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL;
 
     // Table with data: Status Step -> available states and real statuses names
+    //TODO:check
     public static List<StatusStep> STATUS_STEPS_TABLE = new List<StatusStep>{
-            new StatusStep(PE_ST_REFERRED,
-                    new Map<String, String>{
-                            STATUS_STATE_SUCCESS => PE_STATUS_REFERRAL_SENT_TO_PI
-                    }),
             new StatusStep(PE_ST_REFERRAL_ACCEPTANCE,
-                    new Map<String, String>{
-                            STATUS_STATE_SUCCESS => PE_STATUS_REFERRAL_ACCEPTED,
-                            STATUS_STATE_IN_PROGRESS => PE_STATUS_REFERRAL_ON_HOLD,
-                            STATUS_STATE_FAILURE => PE_STATUS_REFERRAL_DECLINED
+                    new Map<String, List<String>>{
+                            STATUS_STATE_SUCCESS => new List<String>{PE_STATUS_RECEIVED}
                     }),
             new StatusStep(PE_ST_CONTACT_ATTEMPTS,
-                    new Map<String, String>{
-                            STATUS_STATE_SUCCESS => PE_STATUS_CONTACT_SUCCESSFUL,
-                            STATUS_STATE_IN_PROGRESS => PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS,
-                            STATUS_STATE_FAILURE => PE_STATUS_CONTACT_FAILED
+                    new Map<String, List<String>>{
+                            STATUS_STATE_SUCCESS => new List<String>{PE_STATUS_SUCCESSFULLY_CONTACTED},
+                            STATUS_STATE_IN_PROGRESS => new List<String>{PE_STATUS_CONTACT_ATTEMPTED},
+                            STATUS_STATE_FAILURE => new List<String>{PE_STATUS_UNABLE_TO_REACH, PE_STATUS_CONTACTED_NOT_SUITABLE}
                     }),
-            new StatusStep(PE_ST_ELIGIBILITY,
-                    new Map<String, String>{
-                            STATUS_STATE_SUCCESS => PE_STATUS_ELIGIBILITY_PASSED,
-                            STATUS_STATE_FAILURE => PE_STATUS_ELIGIBILITY_FAILED
+            new StatusStep(PE_ST_INITIAL_VISIT_ELIGIBILITY,
+                    new Map<String, List<String>>{
+                            STATUS_STATE_SUCCESS => new List<String>{PE_STATUS_ELIGIBILITY_PASSED},
+                            STATUS_STATE_FAILURE => new List<String>{PE_STATUS_ELIGIBILITY_FAILED}
                     }),
-            new StatusStep(PE_ST_INITIAL_VISIT_SCREENING,
-                    new Map<String, String>{
-                            STATUS_STATE_SUCCESS => PE_STATUS_SCREENING_COMPLETE,
-                            STATUS_STATE_IN_PROGRESS => PE_STATUS_SCREENING_IN_PROGRESS,
-                            STATUS_STATE_FAILURE => PE_STATUS_SCREENING_FAILED
+            new StatusStep(PE_ST_SCREENING,
+                    new Map<String, List<String>>{
+                            STATUS_STATE_SUCCESS => new List<String>{PE_STATUS_SCREENING_PASSED, PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD},
+                            STATUS_STATE_IN_PROGRESS => new List<String>{PE_STATUS_SCREENING_IN_PROGRESS},
+                            STATUS_STATE_FAILURE => new List<String>{PE_STATUS_SCREENING_FAILED, PE_STATUS_UNABLE_TO_SCREEN}
                     }),
             new StatusStep(PE_ST_ENROLLED_RANDOMIZED,
-                    new Map<String, String>{
-                            STATUS_STATE_SUCCESS => PE_STATUS_ENROLLMENT_SUCCESS,
-                            STATUS_STATE_FAILURE => PE_STATUS_ENROLLMENT_FAILED
+                    new Map<String, List<String>>{
+                            STATUS_STATE_SUCCESS => new List<String>{PE_STATUS_ENROLLMENT_SUCCESS, PE_STATUS_RANDOMIZATION_SUCCESS},
+                            STATUS_STATE_FAILURE => new List<String>{PE_STATUS_ENROLLMENT_FAILED, PE_STATUS_RANDOMIZATION_FAILED}
                     })
 
     };
@@ -217,23 +287,29 @@ public without sharing class PEStatusState {
     public static List<String> STATUSES_ON_HOLD;
     public static List<String> STATUSES_IN_PROGRESS;
     public static List<String> STATUSES_ENROLLED;
-
+    //Update with new statuses
     public static Map<String, Integer> PE_ORDERED_STATUSES = new Map<String, Integer>{
             PE_STATUS_REFERRAL_SENT_TO_PI => 1,
             PE_STATUS_REFERRAL_ACCEPTED => 1,
             PE_STATUS_REFERRAL_ON_HOLD => 1,
             PE_STATUS_REFERRAL_DECLINED => 1,
-            PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS => 2,
-            PE_STATUS_CONTACT_SUCCESSFUL => 2,
-            PE_STATUS_CONTACT_FAILED => 2,
+            PE_STATUS_RECEIVED => 1,
+            PE_STATUS_CONTACT_ATTEMPTED => 2,
+            PE_STATUS_SUCCESSFULLY_CONTACTED => 2,
+            PE_STATUS_CONTACTED_NOT_SUITABLE => 2,
+            PE_STATUS_UNABLE_TO_REACH => 2,
             PE_STATUS_ELIGIBILITY_PASSED => 3,
             PE_STATUS_ELIGIBILITY_FAILED => 3,
-            PE_STATUS_SCREENING_COMPLETE => 4,
+            PE_STATUS_SCREENING_PASSED => 4,
+            PE_STATUS_SCREENING_PASSED_WASH_OUT_PERIOD => 4,
             PE_STATUS_SCREENING_IN_PROGRESS => 4,
             PE_STATUS_SCREENING_FAILED => 4,
+            PE_STATUS_UNABLE_TO_SCREEN => 4,
             PE_STATUS_ENROLLMENT_OLD => 5,
             PE_STATUS_ENROLLMENT_SUCCESS => 5,
             PE_STATUS_ENROLLMENT_FAILED => 5,
+            PE_STATUS_RANDOMIZATION_SUCCESS => 5,
+            PE_STATUS_RANDOMIZATION_FAILED => 5,
             PE_STATUS_TREATMENT_PERIOD_STARTED => 6,
             PE_STATUS_FOLLOW_UP_PERIOD_STARTED => 7,
             PE_STATUS_PARTICIPATION_COMPLETE => 8,
@@ -293,18 +369,20 @@ public without sharing class PEStatusState {
                 if(i > 2){
                     if(stateName == STATUS_STATE_SUCCESS){
                         if(i == STATUS_STEPS_TABLE.size()){
-                            STATUSES_ENROLLED.add(step.getStatus(stateName));
+                            STATUSES_ENROLLED.addAll(step.getStatus(stateName));
                         }else{
-                            STATUSES_IN_PROGRESS.add(step.getStatus(stateName));
+                            STATUSES_IN_PROGRESS.addAll(step.getStatus(stateName));
                         }
                     }else if(stateName == STATUS_STATE_FAILURE){
-                        STATUSES_FAILED.add(step.getStatus(stateName));
+                        STATUSES_FAILED.addAll(step.getStatus(stateName));
                     }else if(stateName == STATUS_STATE_IN_PROGRESS){
-                        STATUSES_ON_HOLD.add(step.getStatus(stateName));
+                        STATUSES_ON_HOLD.addAll(step.getStatus(stateName));
                     }
                 }
-                ALL_USED_STATUSES.add(step.states.get(stateName));
-                STATUSES_MAP.put(step.states.get(stateName), new PEStatusState(step.name, stateName, i));
+                ALL_USED_STATUSES.addAll(step.states.get(stateName));
+                for(String status: step.states.get(stateName)){
+                    STATUSES_MAP.put(status, new PEStatusState(step.name, stateName, i));
+                }
             }
             i++;
         }
@@ -326,24 +404,24 @@ public without sharing class PEStatusState {
         };
         return resList;
     }
-    
-    public static List<LabelValueItem> getStepsLVList(){
-        List<LabelValueItem> resList = new List<LabelValueItem>{
-                new LabelValueItem(Label.PES_L_All_Steps, null)
-        };
-        for(StatusStep step : STATUS_STEPS_TABLE){
-            resList.add(new LabelValueItem(step.name, '(\'' + String.join(step.states.values(), '\',\'') + '\')'));
-        }
-        return resList;
-    }
+    //deprecated
+//    public static List<LabelValueItem> getStepsLVList(){
+//        List<LabelValueItem> resList = new List<LabelValueItem>{
+//                new LabelValueItem(Label.PES_L_All_Steps, null)
+//        };
+//        for(StatusStep step : STATUS_STEPS_TABLE){
+//            resList.add(new LabelValueItem(step.name, '(\'' + String.join(step.states.values(), '\',\'') + '\')'));
+//        }
+//        return resList;
+//    }
     
     public static List<LabelValueItem> getAcceptenceStatusesLVList(){
         List<LabelValueItem> resList = new List<LabelValueItem>{
-                new LabelValueItem(Label.PES_L_All_acceptance_statuses, null),
-                new LabelValueItem(Label.PG_MRR_L_Pending, '(\'' + ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI + '\')'),
-                new LabelValueItem(Label.DI_L_Accepted, '(\'' + STATUS_STEPS_TABLE[1].states.get(STATUS_STATE_SUCCESS) + '\')'),
-                new LabelValueItem(Label.PG_MSS_L_On_hold, '(\'' + STATUS_STEPS_TABLE[1].states.get(STATUS_STATE_IN_PROGRESS) + '\')'),
-                new LabelValueItem(Label.DI_L_Declined, '(\'' + STATUS_STEPS_TABLE[1].states.get(STATUS_STATE_FAILURE) + '\')')
+                new LabelValueItem(Label.PES_L_All_acceptance_statuses, null)//,
+//                new LabelValueItem(Label.PG_MRR_L_Pending, '(\'' + ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI + '\')'),
+//                new LabelValueItem(Label.DI_L_Accepted, '(\'' + STATUS_STEPS_TABLE[1].states.get(STATUS_STATE_SUCCESS) + '\')'),
+//                new LabelValueItem(Label.PG_MSS_L_On_hold, '(\'' + STATUS_STEPS_TABLE[1].states.get(STATUS_STATE_IN_PROGRESS) + '\')'),
+//                new LabelValueItem(Label.DI_L_Declined, '(\'' + STATUS_STEPS_TABLE[1].states.get(STATUS_STATE_FAILURE) + '\')')
         };
         return resList;
     }
@@ -358,10 +436,48 @@ public without sharing class PEStatusState {
         };
         return resList;
     }
+
+    private static String getCTPParticipantWorkflowFinalStep(Clinical_Trial_Profile__c ctp){
+        if(ctp.Participant_Workflow_Final_Step__c == PW_FINAL_STEP_RANDOMIZATION){
+            return PE_STATUS_RANDOMIZATION_SUCCESS;
+        }
+        else{
+            return PE_STATUS_ENROLLMENT_SUCCESS;
+        }
+    }
+
+    public static String getParticipationFlowInitialStep(Participant_Enrollment__c pe){
+        return getCTPParticipantWorkflowFinalStep(pe.Clinical_Trial_Profile__r);
+    }
+
+    public static String getEnrollmentFlowFinalStep(Clinical_Trial_Profile__c ctp){
+        return getCTPParticipantWorkflowFinalStep(ctp);
+    }
+
+    public static List<String> getParticipantImportStatuses(Clinical_Trial_Profile__c ctp){
+        List<String> steps = new List<String>();
+        steps.addAll(PE_STATUS_GROUP_PARTICIPANT_IMPORT_WITHOUT_FINAL);
+        steps.add(getEnrollmentFlowFinalStep(ctp));
+        return  steps;
+    }
+
+    public static List<String> getAddPatientByPIStatuses(Clinical_Trial_Profile__c ctp){
+        List<String> steps = new List<String>();
+        steps.addAll(PE_STATUS_GROUP_ADD_PATIENT_BY_PI_WITHOUT_FINAL);
+        steps.add(getEnrollmentFlowFinalStep(ctp));
+        return  steps;
+    }
+
+    public static List<String> getParticipationFlowSteps(Participant_Enrollment__c pe){
+        List<String> flowSteps = new List<String>();
+        flowSteps.add(getParticipationFlowInitialStep(pe));
+        flowSteps.addAll(PE_STATUS_GROUP_PARTICIPATION_FLOW_WITHOUT_INITIAL);
+        return  flowSteps;
+    }
     
-    public static List<LabelValueItem> getParticipationFlowSteps(){
+    public static List<LabelValueItem> getParticipationFlowStepsLV(Participant_Enrollment__c pe){
         List<LabelValueItem> translatedStatuses = new List<LabelValueItem>();
-        for(String status : PE_STATUS_GROUP_PARTICIPATION_FLOW) {
+        for(String status : getParticipationFlowSteps(pe)) {
             translatedStatuses.add(new LabelValueItem(
                     TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, status),
                     status

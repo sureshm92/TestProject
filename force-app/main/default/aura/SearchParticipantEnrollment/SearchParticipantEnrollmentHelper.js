@@ -19,6 +19,7 @@
                 searchResult.pe = JSON.parse(response.getReturnValue());
                 component.set('v.searchResult', searchResult);
                 component.set("v.mrrResult", status);
+                console.log('sR', JSON.parse(JSON.stringify(component.get('v.searchResult'))));
             } else {
                 communityService.logErrorFromResponse(response);
                 communityService.showErrorToastFromResponse(response);
@@ -38,7 +39,6 @@
                         if(e.data.pdfContent){
                             gizmoData = e.data.pdfContent;
                         }
-                        console.log('gizmoData>>', gizmoData);
                         if(e.data.success){
                             helper.updateMRRStatus(component, 'Pass', gizmoData);
                         }else{

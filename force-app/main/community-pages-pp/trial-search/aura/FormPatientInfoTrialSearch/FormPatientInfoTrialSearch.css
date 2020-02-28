@@ -1,0 +1,71 @@
+/**
+ * Created by Leonid Bartenev
+ */
+
+.THIS .rr-form-element + .rr-form-element {
+    margin-top: 0;
+}
+
+.THIS .rr-form-element {
+    margin-bottom: 10px;
+}
+
+.THIS .ap-section-title {
+    text-align: left;
+    font-size: 20px;
+    line-height: 36px;
+}
+
+.THIS .ap-section + .ap-section {
+    margin-top: 20px;
+}
+
+.THIS .ap-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    margin-bottom: 80px;
+}
+
+.THIS .apollo-btn.custom-cancel {
+    background-color: #e8e8e8;
+}
+
+.THIS .rr-form-element .slds-form-element__label {
+    display: none;
+}
+
+.THIS .rr-form-element .cRrSelect .slds-select_container .slds-select {
+    margin-top: 0;
+}
+
+.THIS .label {
+    text-align: initial;
+}
+
+.THIS .checkBox-desc {
+    height: 16px;
+    width: 16px;
+    border: 1px solid #D9D9D9;
+    border-radius: 2px;
+    background-color: #FFFFFF;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.THIS .disclaimer {
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.THIS .disclaimer-box {
+    display: flex;
+    margin-top: 30px;
+}
+
+.THIS .btn-send {
+    display: block;
+    margin-top: 30px;
+}

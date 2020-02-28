@@ -1,0 +1,102 @@
+<!--
+ - Created by Igor Malyuta on 24.12.2019.
+ -->
+
+<!-- Message Board -->
+<template>
+    <template if:true={hideEmptyStub}>
+        <c-web-spinner></c-web-spinner>
+        <div class="ms-board" data-gtm="ms-board">
+            <c-message-board-header user-mode={userMode} is-multiple-mode={isMultipleMode} is-past-study={isPastStudy}
+                                    enrollments={enrollments} selected-enrollment={selectedEnrollment}
+                                    patient-delegates={patientDelegates}
+                                    onback={handleBackClick}
+                                    onselectionchange={handleSelectionChange}
+                                    onenrollmentselect={handleEnrollmentSelect}></c-message-board-header>
+            <div class="ms-board-body" data-gtm="ms-board-body">
+                <template if:true={messageWrappers}>
+                    <template for:each={messageWrappers} for:item="msWr">
+                        <c-message-item key={msWr.message.Id} item={msWr} user-mode={userMode}></c-message-item>
+                    </template>
+                </template>
+            </div>
+            <template if:true={isPIMode}>
+                <div class="ms-board-footer-pi">
+                    <div style="min-height: 67px;">
+                        <div class="ms-send-pi-combined-input">
+                            <label for="pi-input"></label>
+                            <input id="pi-input" class="ms-pi-input" data-gtm="ms-pi-input"
+                                   type="text" maxlength="500" placeholder={labels.inputPlaceholderLabel}
+                                   value={messageText} autocomplete="off"
+                                   onchange={handleMessageText} onkeyup={handleInputEnter}/>
+                            <template if:true={attachment}>
+                                <lightning-pill class="ms-file-pill" label={attachment.fileName}
+                                                title={attachment.fileName} variant="plain"
+                                                onremove={handleFilePreviewRemove}>
+                                    <c-web-icon icon-name={attachment.icon} icon-color="#297DFD"
+                                                icon-size="small" style="margin-right: 2px;"></c-web-icon>
+                                </lightning-pill>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="ms-send-pi-buttons">
+                        <div style="flex-grow: 1;">{labels.limitLabel}</div>
+
+                        <div class="slds-form-element" style="margin: 0 12px;">
+                            <div class="slds-form-element__control">
+                                <div class="slds-file-selector slds-file-selector_files">
+                                    <label class="slds-file-selector__body" for="input-file">
+                                        <template if:true={isAttachEnable}>
+                                            <input id="input-file" data-gtm="BTN_upload"
+                                                   class="slds-file-selector__input ms-file-upload"
+                                                   type="file" accept={fileTypes}
+                                                   onchange={handleFileSelect}/>
+                                        </template>
+                                        <span class="slds-file-selector__button slds-button">
+                                                    <span class="apollo-btn secondary ms-att-file-label"
+                                                          style={attachBTNStyle}>{labels.attFileLabel}</span>
+                                                    <span class="ms-att-file-icon" data-gtm="BTN_upload_mob"
+                                                          style={attachBTNStyle}>
+                                                        <c-web-icon icon-name="attachment"
+                                                                    icon-color="#297DFD"></c-web-icon>
+                                                    </span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button data-gtm="ms-send-pi-button" class="apollo-btn primary ms-send-button"
+                                onclick={handleSendClick} disabled>{labels.sendBtnLabel}
+                        </button>
+                    </div>
+                </div>
+            </template>
+            <template if:false={isPIMode}>
+                <div class="ms-board-footer-part">
+                    <lightning-combobox
+                            class="ms-select-templates"
+                            data-gtm="ms-pa-select"
+                            label={labels.selectLabel}
+                            value={messageText}
+                            placeholder={labels.selectPlaceholderLabel}
+                            dropdown-alignment="bottom-left"
+                            options={messageTemplateOptions}
+                            onchange={handleMessageText}></lightning-combobox>
+
+                    <button class="apollo-btn primary ms-send-button"
+                            data-gtm="ms-send-pa-button"
+                            onclick={handleSendClick} disabled>{labels.sendBtnLabel}
+                    </button>
+                </div>
+            </template>
+        </div>
+    </template>
+    <template if:false={hideEmptyStub}>
+        <div class="ms-empty-chat" data-gtm="ms-empty-chat">
+            <c-web-icon icon-name="messages-bubble-square" icon-color="#a6a6a6" icon-width="40" icon-height="36"
+                        style="padding-top: 32px;"></c-web-icon>
+            <div class="ms-empty-chat-label">{labels.emptyChatLabel}</div>
+        </div>
+    </template>
+</template>

@@ -1,0 +1,24 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="AbstractNavigation" extensible="true" abstract="true" extends="c:CommunityContext">
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doChangeItemsList}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="menuItems" type="List" access="public"/>
+    <aura:attribute name="currentPage" type="String" access="public"/>
+    <aura:attribute name="mode" type="String" access="public"/>
+    <aura:attribute name="scrollRequired" type="Boolean" access="public" default="false"/>
+    <aura:attribute name="scrollDirection" type="String" access="public" default="left"/>
+
+    <!-- handlers: -->
+    <aura:handler event="forceCommunity:routeChange" action="{!c.doCurrentPageChange}"/>
+    <aura:handler name="onModeChange" event="c:uiEvent" action="{!c.doChangeItemsList}"/>
+
+    <!-- methods: -->
+    <aura:method name="refresh" access="public" action="{!c.doChangeItemsList}"/>
+
+    {!v.body}
+
+</aura:component>

@@ -1,0 +1,43 @@
+<aura:component controller="ResourceRemote" description="ResourceContainer" implements="forceCommunity:availableForAllPageTypes">
+
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"/>
+
+    <!--ATTRIBUTES-->
+
+    <aura:attribute name="resourceMode" type="String" default="Default" description="Possible values are 'Default', 'Favorite', 'Documents'"/>
+    <aura:attribute name="noTAMessage" type="String" default="{!null}"/>
+    <aura:attribute name="documentsResourceMode" type="String" default="Documents" access="private" description="constant variable"/>
+    <aura:attribute name="studyDocumentsAvailable" type="Boolean" default="true"/>
+    <aura:attribute name="videoArticlesAvailable" type="Boolean" default="true"/>
+
+    <!--HANDLERS-->
+
+    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+
+    <!--COMPONENT BODY-->
+
+    <aura:if isTrue="{!and(v.resourceMode != v.documentsResourceMode, v.videoArticlesAvailable)}">
+        <aura:if isTrue="{!v.noTAMessage != null}">
+            <div class="resource-noTAMessage">
+                <aura:unescapedHtml value="{!v.noTAMessage}"/>
+            </div>
+            <aura:set attribute="else">
+                <lightning:layout horizontalAlign="center" class="width-limiter">
+                    <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6" flexibility="auto" size="12">
+                        <c:Resource resourceType="Video" resourceMode="{!v.resourceMode}" isAvailable="{!v.videoArticlesAvailable}"/>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6" flexibility="auto" size="12" class="resource-right">
+                        <c:Resource resourceType="Article" resourceMode="{!v.resourceMode}" isAvailable="{!v.videoArticlesAvailable}"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+                <div class="resource-disclaimer">
+                    {!$Label.c.Resources_Expiration_Date_Disclaimer}
+                </div>
+            </aura:set>
+        </aura:if>
+        <aura:set attribute="else">
+            <c:StudyDocumentContainer isAvailable="{!v.studyDocumentsAvailable}"/>
+        </aura:set>
+    </aura:if>
+
+</aura:component>

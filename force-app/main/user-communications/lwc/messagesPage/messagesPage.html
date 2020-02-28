@@ -1,0 +1,64 @@
+<!--
+ - Created by Igor Malyuta on 21.12.2019.
+ -->
+
+<!-- Messages Page -->
+<template>
+    <div class="ms-disc-place">
+        <template if:true={initialized}>
+            <template if:false={isPIMode}>
+                <div class="ms-disclaimer">{labels.disclaimerLabel}</div>
+                <div class="ms-disclaimer-mob">
+                    <div class={disclaimerFullClass}>{labels.disclaimerLabel}</div>
+                    <div class={disclaimerLessClass}>
+                        <c-web-limit-text-by-lines max-lines="1" title={labels.disclaimerLabel}>
+                            <span slot="body">{labels.disclaimerLabel}</span>
+                        </c-web-limit-text-by-lines>
+                    </div>
+                    <button class="apollo-btn text disc-btn" onclick={handleShowMoreClick}>{showBTNLabel}</button>
+                </div>
+            </template>
+        </template>
+    </div>
+    <div class="ms-page rr-width-limiter side-padding rr-min-body-height">
+        <div class="ms-container slds-grid slds-wrap" data-gtm="ms-container">
+            <c-web-spinner></c-web-spinner>
+            <template if:true={initialized}>
+                <div class={leftPartClass}>
+                    <div class="ms-mes-header">
+                        <div class="ms-title">{labels.messagesLabel}</div>
+                        <div class="ms-btn-new" data-gtm="ms-btn-plus" onclick={handleNewMessageClick}>
+                            <c-web-icon icon-name="icon-plus" icon-color="white"></c-web-icon>
+                        </div>
+                    </div>
+                    <template if:true={hideEmptyStub}>
+                        <template if:true={creationMode}>
+                            <div class="ms-new-mode">{labels.newMessLabel}</div>
+                        </template>
+                        <div class="ms-conversations-board" data-gtm="ms-conversations-board">
+                            <template if:true={conversationWrappers}>
+                                <template for:each={conversationWrappers} for:item="conWr">
+                                    <c-conversation-item key={conWr.conversation.Id} item={conWr} user-mode={userMode}
+                                                         onopenconversation={handleOpenConversation}></c-conversation-item>
+                                </template>
+                            </template>
+                        </div>
+                    </template>
+                    <template if:false={hideEmptyStub}>
+                        <div class="ms-empty-conversations" data-gtm="ms-empty-conversations">
+                            <c-web-icon icon-name="list-bullets-1" icon-color="#a6a6a6"></c-web-icon>
+                            <div class="ms-empty-conversations-label">{labels.emptyConversationLabel}</div>
+                        </div>
+                    </template>
+                </div>
+                <div class={rightPartClass}>
+                    <c-message-board user-mode={userMode}
+                                     first-con-wr={firstConWrapper}
+                                     onconversationupdate={handleMessageSend}
+                                     onmultiplymailing={handleRefreshEvent}
+                                     onback={handleBoardClose}></c-message-board>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

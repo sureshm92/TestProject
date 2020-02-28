@@ -12,17 +12,17 @@
             debugger;
             var initData = JSON.parse(returnValue);
             component.set('v.skipUpdate', true);
-            console.log('FILTER DATA>>',initData);
-            component.set("v.filterData", initData.referringClinicsFilter.filterData);
-            component.set("v.filterValues", initData.referringClinicsFilter.filterValues);
-            component.set("v.sortData", initData.referringClinicsFilter.sortData);
-            component.set("v.paginationData", initData.paginationData);
-            component.set("v.filteredReferringClinics", initData.filteredReferringClinics);
+            component.set('v.filterData', initData.referringClinicsFilter.filterData);
+            component.set('v.filterValues', initData.referringClinicsFilter.filterValues);
+            component.set('v.sortData', initData.referringClinicsFilter.sortData);
+            component.set('v.paginationData', initData.paginationData);
+            component.set('v.filteredReferringClinics', initData.filteredReferringClinics);
+            component.set('v.isButtonDisabled', initData.isButtonDisabled);
             component.set('v.trialId',initData.trialId);
             component.set('v.ssId',initData.ssId);
             component.set('v.skipUpdate', false);
-            component.set("v.showSpinner", false);
-            component.set("v.isInitialized", true);
+            component.set('v.showSpinner', false);
+            component.set('v.isInitialized', true);
         })
     },
 

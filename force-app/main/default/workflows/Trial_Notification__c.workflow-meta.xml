@@ -8,8 +8,7 @@
             <field>Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>patientupdates@cp.clinicalresearch.com</senderAddress>
-        <senderType>OrgWideEmailAddress</senderType>
+        <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Trial_Alert_Received_Delegate</template>
     </alerts>
     <alerts>
@@ -51,7 +50,7 @@
             <name>Trial_Alert_received_by_IQVIA</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Contact.Email</field>
             <operation>notEqual</operation>
@@ -64,7 +63,7 @@
             <name>Alert_received_delegate</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Contact.Email</field>
             <operation>notEqual</operation>
@@ -82,7 +81,7 @@
             <name>Send_alert_about_CTP_become_enrolled</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Trial_Notification__c.Need_To_Send_Alert__c</field>
             <operation>equals</operation>
@@ -96,7 +95,7 @@
             <name>CTP_become_enrolled_delegate</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Trial_Notification__c.Need_To_Send_Alert__c</field>
             <operation>equals</operation>

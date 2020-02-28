@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Fields__c</field>
-        <value xsi:type="xsd:string">NewStatus__c, Date__c, Reason__c, Notes__c,  ParticipantEnrollment__r.Patient_ID__c, ParticipantEnrollment__r.Referral_Source__c, ParticipantEnrollment__r.Study_Site__r.Protocol_ID__c,                       ParticipantEnrollment__r.Study_Site__r.Study_Site_Number__c, ParticipantEnrollment__r.Referral_ID__c</value>
+        <value xsi:type="xsd:string">Status__c, Date__c, Reason__c, Notes__c,  ParticipantEnrollment__r.Patient_ID__c, ParticipantEnrollment__r.Referral_Source__c, ParticipantEnrollment__r.Study_Site__r.Protocol_ID__c,                       ParticipantEnrollment__r.Study_Site__r.Study_Site_Number__c, ParticipantEnrollment__r.Referral_ID__c</value>
     </values>
     <values>
         <field>Named_Credential__c</field>
@@ -16,6 +16,6 @@
     </values>
     <values>
         <field>Referral_Sources__c</field>
-        <value xsi:type="xsd:string">Autocruitment</value>
+        <value xsi:type="xsd:string">Autocruitment,23andMe</value>
     </values>
 </CustomMetadata>

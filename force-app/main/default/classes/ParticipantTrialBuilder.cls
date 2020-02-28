@@ -7,11 +7,13 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
     private Participant_Enrollment__c pe;
 
     public ParticipantTrialBuilder() {
-        pe = ParticipantService.getInstance().getState().pe;
+        ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
+        pe = ps.pe;
         if(pe != null) setTrial(pe.Study_Site__r.Clinical_Trial_Profile__c);
 
         studyAction = getStudyActions();
         trialDetail.tabs = getStudyTabs();
+        trialDetail.communityName = ps.communityName;
     }
 
     public override TrialDetail createTrial() {
@@ -98,19 +100,23 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                         backHomeAction
                 ));
             }
-
+    
             tabs.add(new TrialDetail.StudyTab(
                     'tab-tasks',
                     'task',
                     Label.PG_SW_Tab_Tasks,
                     backHomeAction
             ));
-            tabs.add(new TrialDetail.StudyTab(
-                    'tab-resources',
-                    'resources',
-                    Label.PG_SW_Tab_Resources,
-                    backHomeAction
-            ));
+
+            if(participantState.ctp.Study_Documents_Are_Available__c || participantState.ctp.Video_And_Articles_Are_Available__c){
+                tabs.add(new TrialDetail.StudyTab(
+                        'tab-resources',
+                        'resources',
+                        Label.PG_SW_Tab_Resources,
+                        backHomeAction
+                ));
+            }
+
             if (participantState.showVisits) {
                 tabs.add(new TrialDetail.StudyTab(
                         'tab-lab-results',

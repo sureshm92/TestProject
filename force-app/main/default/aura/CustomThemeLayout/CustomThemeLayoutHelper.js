@@ -1,6 +1,0 @@
-/**
- * Created by Leonid Bartenev
- */
-({
-
-})

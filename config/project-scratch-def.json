@@ -7,12 +7,14 @@
         "Communities",
         "SiteForceContributor",
         "Sites",
-        "SurveyCreatorUser",
         "Workflow",
         "DefaultWorkflowUser",
         "StateAndCountryPicklist"
     ],
     "settings": {
+        "apexSettings": {
+            "enableDisableParallelApexTesting": true
+        },
         "experienceBundleSettings": {
             "enableExperienceBundleMetadata": true
         },
@@ -28,6 +30,11 @@
         },
         "surveySettings": {
             "enableSurvey": true
+        },
+        "securitySettings": {
+            "sessionSettings": {
+                "enableCacheAndAutocomplete": false
+            }
         }
     }
 }

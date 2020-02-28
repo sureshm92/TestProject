@@ -14,6 +14,7 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap){
             overrideStatusChangedBy(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
             populateOverrideFields(newList);
+            populateDateOnTrialComplete(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
         }
 
         public override void afterInsert(List<SObject> newList) {
@@ -22,15 +23,11 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap){
             updateClinicalTrialProfile(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
-            CTPSendNotificationService ctpService = (CTPSendNotificationService) ClassFactory.newInstance(CTPSendNotificationService.class);
-            ctpService.updateRelatedTrialNotifications(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
-            ctpService.removeSentNotifications();
+            deleteTravelVendors(newList, (Map<Id, Clinical_Trial_Profile__c>)oldMap);
             updateNextNotifyDateByCTP((List<Clinical_Trial_Profile__c>)newList);
         }
 
         public override void beforeDelete(List<SObject> oldList) {
-            CTPSendNotificationService ctpService = (CTPSendNotificationService) ClassFactory.newInstance(CTPSendNotificationService.class);
-            ctpService.removeRelatedTrialNotificationsOnDelete(oldList);
         }
     }
 
@@ -71,6 +68,24 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
                 ctp.Override_Description__c = ctp.Detailed_Description__c;
             }
         }
+    }
+
+    private static void deleteTravelVendors(List<Clinical_Trial_Profile__c> newList, Map<Id, Clinical_Trial_Profile__c> oldMap){
+        List<Id> ctpIdsForUpdate = new List<Id>();
+        for (Clinical_Trial_Profile__c ctp : newList){
+            Clinical_Trial_Profile__c ctpOld = oldMap.get(ctp.Id);
+            if(!ctp.Travel_Vendor_Is_Available__c && ctpOld.Travel_Vendor_Is_Available__c) {
+                ctpIdsForUpdate.add(ctp.Id);
+            }
+        }
+
+        List<TravelVendorSettings__c> travelVendorSettingsToDelete = [
+                SELECT Id
+                FROM TravelVendorSettings__c
+                WHERE Study_Site__r.Clinical_Trial_Profile__c IN: ctpIdsForUpdate
+        ];
+        delete travelVendorSettingsToDelete;
+        SettingStoreService.deleteSettings('TravelVendorSetupFilter' , ctpIdsForUpdate);
     }
 
     private static void updateNextNotifyDateByCTP(List<Clinical_Trial_Profile__c> trialProfiles){
@@ -140,5 +155,15 @@ public with sharing class ClinicalTrialProfileTriggerHandler{
         }
 
         if(!forUpdateContacts.isEmpty()) update forUpdateContacts;
+    }
+
+    private static void populateDateOnTrialComplete(List<SObject> newList, Map<Id, Clinical_Trial_Profile__c> oldMap) {
+        for(Object obj : newList){
+            Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) obj;
+            if(oldMap != null && ctp.Status__c == ClinicalTrialProfileService.STATUS_COMPLETED
+                && oldMap.get(ctp.Id).Status__c != ctp.Status__c) {
+                ctp.Trial_Complete__c = Date.today();
+            }
+        }
     }
 }

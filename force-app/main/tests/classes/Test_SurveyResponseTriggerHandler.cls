@@ -15,13 +15,14 @@ private class Test_SurveyResponseTriggerHandler {
         TestData.loadTestData();
         TestData testData = new TestData();
 
+        Test.startTest();
         Reminder_Schedule__c schedule = new Reminder_Schedule__c(
                 First_Reminder_day__c = 1
         );
         insert schedule;
 
         Trial_Survey__c tsAllSee = new Trial_Survey__c(
-                Active_On_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
+                Active_On_Status__c = PEStatusState.PE_STATUS_RECEIVED,
                 Clinical_Trial_Profile__c = testData.ctp.Id,
                 Expires_After_Days__c = 999,
                 Reminder_Schedule__c = schedule.Id,
@@ -37,7 +38,6 @@ private class Test_SurveyResponseTriggerHandler {
                 invitationAll.Id => 'Patient or any Delegate'
         });
 
-        Test.startTest();
         Map<Id, List<Id>> invitationSubmitter = new Map<Id, List<Id>>{
                 invitationAll.Id => new List<Id>{
                         testData.pe.Participant_Contact__c
@@ -56,13 +56,14 @@ private class Test_SurveyResponseTriggerHandler {
         TestData.loadTestData();
         TestData testData = new TestData();
 
+        Test.startTest();
         Reminder_Schedule__c schedule = new Reminder_Schedule__c(
                 First_Reminder_day__c = 1
         );
         insert schedule;
 
         Trial_Survey__c tsOnlyDelegates = new Trial_Survey__c(
-                Active_On_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
+                Active_On_Status__c = PEStatusState.PE_STATUS_RECEIVED,
                 Clinical_Trial_Profile__c = testData.ctp.Id,
                 Expires_After_Days__c = 999,
                 Reminder_Schedule__c = schedule.Id,
@@ -85,7 +86,6 @@ private class Test_SurveyResponseTriggerHandler {
         );
         insert delegateContact;
 
-        Test.startTest();
         Map<Id, List<Id>> invitationSubmitter = new Map<Id, List<Id>>{
                 invitationDelegates.Id => new List<Id>{
                         delegateContact.Id

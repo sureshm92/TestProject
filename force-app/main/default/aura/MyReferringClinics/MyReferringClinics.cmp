@@ -1,8 +1,7 @@
 <!--Created by D.Yasinskyi on 30.03.2018.-->
 <aura:component controller="MyReferringClinicsController" description="MyReferringClinics"
                 implements="forceCommunity:availableForAllPageTypes">
-    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community_js)}"
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
                   afterScriptsLoaded="{!c.doInit}"/>
 
     <!-- attributes: -->
@@ -15,7 +14,8 @@
     <aura:attribute name="sortData" type="Object"/>
     <aura:attribute name="filterData" type="Object"/>
     <aura:attribute name="filterValues" type="Object"/>
-    <aura:attribute name="isInitialized"                type="Boolean" default="{!false}"   access="private"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="{!false}" access="private"/>
+    <aura:attribute name="isButtonDisabled" type="Boolean"/>
 
 
     <!-- handlers: -->
@@ -39,7 +39,7 @@
                 </c:RRNavigationPath>
                 <div class="rr-summary-panel slds-grid slds-wrap slds-grid_vertical-stretch slds-gutters_medium">
                     <div class="slds-col slds-size_1-of-1 mrc-invite-btn-container">
-                        <button class="apollo-btn primary mrc-invite-btn" onclick="{!c.doShowInviteRP}">
+                        <button class="apollo-btn primary mrc-invite-btn" data-gtm="BTN_InviteRP" onclick="{!c.doShowInviteRP}" disabled="{!v.isButtonDisabled}">
                             {!$Label.c.PG_MRC_BTN_Invite_Referring_Provider}
                         </button>
                     </div>
@@ -54,9 +54,9 @@
                                    sortVariants="{!v.sortData.sortVariants}"
                                    allRecordsCount="{!v.paginationData.allRecordsCount}"
                                    currentPageCount="{!v.paginationData.currentPageCount}"
-                                   itemTitle="{!$Label.c.PG_MRZ_L_clinics}">
+                                   itemTitle="{!$Label.c.PG_MRZ_L_Referring_Providers}">
 
-                        <c:rrSelect value="{!v.filterValues.statusFilter}" options="{!v.filterData.statusOptions}" placeholder="{!v.filterData.statusFilterPlaceholder}" otherOptionLabel="{!$Label.c.PG_MRZ_L_No_filter}"/>
+                        <c:rrSelect value="{!v.filterValues.statusFilter}" options="{!v.filterData.statusOptions}" placeholder="{!v.filterData.statusFilterPlaceholder}" otherOptionLabel="{!$Label.c.PG_MRZ_L_All_Statuses}"/>
                         <c:rrSelect value="{!v.filterValues.trialId}" options="{!v.filterData.studyPickList}" useSentenceFont="false" placeholder="{!$Label.c.PG_VP_L_Studies}" onchange="{!c.studyStatusChange}"/>
                         <c:rrSelect value="{!v.filterValues.ssId}" options="{!v.filterData.studySitePickList}" useSentenceFont="false" placeholder="{!$Label.c.PG_VP_L_Study_sites}" onchange="{!c.statusChange}"/>
                     </c:FilterPanel>

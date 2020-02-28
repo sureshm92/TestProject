@@ -15,12 +15,12 @@
             component.set("v.mrrResult", status);
             spinner.hide();
         })
+
     },
 
     addEventListener: function (component, helper) {
         if(!component.serveyGizmoResultHandler){
             component.serveyGizmoResultHandler = $A.getCallback(function(e) {
-                //window.removeEventListener('message', component.serveyGizmoResultHandler);
                 if(component.isValid()){
                     if(e.data.messageType === 'SurveyGizmoResult'){
                         if(e.data.success){
@@ -28,7 +28,6 @@
                         }else{
                             helper.updateMRRStatus(component, 'Fail');
                         }
-                        console.log('Gizmo mrr result: ' + window.atob(e.data.pdfContent));
                         component.set('v.resultData', e.data.pdfContent);
                     } else if(e.data.messageType === 'SurveyGizmoHeight'){
                         component.set('v.frameHeight', e.data.value + 'px');

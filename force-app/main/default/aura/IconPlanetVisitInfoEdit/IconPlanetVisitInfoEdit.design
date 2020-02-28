@@ -1,8 +1,0 @@
-<!--
- - Created by AlexKetch on 7/17/2019.
- -->
-
-<design:component>
-    <design:attribute  name="IconsPackageName" label="Icons package Name" />
-    <design:attribute name="IconsPackageFIlePath" label="Icons Package path" />
-</design:component>

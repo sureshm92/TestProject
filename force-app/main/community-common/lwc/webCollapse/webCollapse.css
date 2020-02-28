@@ -1,0 +1,51 @@
+/**
+ * Created by Yulia Yakushenkova on 11/29/2019.
+ */
+
+.rr-collapse-panel .label-block {
+    font-size: 1rem;
+    height: 49px;
+    display: inline-flex;
+    align-items: center;
+    color: #595959;
+}
+
+.rr-collapse-panel .label-block .label {
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 600;
+    margin-left: 11px;
+}
+
+.rr-collapse-panel .label-block .rr-icon-default {
+    fill: black;
+    width: 14px;
+    height: 14px;
+    transform-origin: center;
+    transition: 0.25s ease-out;
+    transform: rotate(90deg);
+    position: relative;
+    top: -1px;
+    margin-right: 10px;
+}
+
+.rr-collapse-panel.collapsed .label-block .rr-icon-default {
+    transform: rotate(0deg);
+}
+
+.rr-collapse-panel.collapsed {
+    background-color: #f8f9fb;
+    color: #595959;
+    transition: background-color .5s;
+    height: 49px;
+}
+
+.rr-collapse-panel .body {
+    overflow: hidden;
+    max-height: 3000px;
+}
+
+.rr-collapse-panel.collapsed .body {
+    max-height: 0;
+    opacity: 0;
+}

@@ -5,21 +5,48 @@
 ({
     doConnect: function (component, event, helper) {
         component.find('spinner').show();
-        var pe = component.get('v.pe');
-        var hcProvider = component.get('v.healthCareProvider');
-        communityService.executeAction(component, 'inviteHP', {
-            peId: pe.Id,
-            hp: JSON.stringify(hcProvider)
-        }, function (returnValue) {
-            var parent = component.get('v.parent');
-            parent.set('v.healthCareProviders', returnValue);
-            component.find('spinner').hide();
-        })
+        var refProvider = JSON.parse(JSON.stringify(component.get('v.refProvider')));
+        if (refProvider) {
+            helper.showHideProvider(component);
+        } else {
+            var pe = component.get('v.pe');
+            var hcProvider = component.get('v.healthCareProvider');
+            console.log('hc', JSON.parse(JSON.stringify(hcProvider)));
+            console.log('PEE', JSON.parse(JSON.stringify(pe)));
+            communityService.executeAction(component, 'inviteHP', {
+                peId: pe.Id,
+                hp: JSON.stringify(hcProvider)
+            }, function (returnValue) {
+                var parent = component.get('v.parent');
+                console.log('PARENT', component.get('v.parent'));
+                parent.set('v.healthCareProviders', returnValue);
+                component.find('spinner').hide();
+            })
+        }
     },
+
+    /*doInit: function (component, event, helper) {
+        var provider = component.get('v.forThisProvider');
+        var delegate = component.get('v.delegates');
+        if (provider == 'isDelegates') {
+        var pe = component.get('v.pe');
+        communityService.executeAction(component, 'getStatusDelegates', {participantId: pe.Participant__c}, function (returnValue) {
+            component.set('v.statusesDelegates', returnValue);
+        var listStatuses = component.get('v.statusesDelegates');
+        for (var i = 0; i < listStatuses.length; i++) {
+                if (delegate.Contact__c == listStatuses[i].Contact__c) {
+                        component.set('v.delegateActive', true);
+                        break;
+                }
+            }
+        });
+        }
+    },*/
+
 
     checkFields: function (component, event, helper) {
         var hcp = component.get('v.healthCareProvider');
-        if(event.getSource().getLocalId() == 'hcpEmail' && component.get('v.providerFound')){
+        if (event.getSource().getLocalId() == 'hcpEmail' && component.get('v.providerFound')) {
             component.set('v.providerFound', false);
             hcp.First_Name__c = null;
             hcp.Last_Name__c = null;
@@ -31,7 +58,7 @@
 
     checkContact: function (component, event, helper) {
         var email = event.getSource().get('v.value');
-        if(email && communityService.isValidEmail(email)) {
+        if (email && communityService.isValidEmail(email)) {
             component.find('spinner').show();
             var pe = component.get('v.pe');
             communityService.executeAction(component, 'checkDuplicate', {
@@ -44,13 +71,13 @@
                     component.set('v.healthCareProvider.Last_Name__c', returnValue.lastName);
                     component.find('lastNameInput').focus();
                     component.set('v.providerFound', true);
-                    component.set('v.isDuplicate',returnValue.isDuplicate);
-                    if(returnValue.firstName && returnValue.lastName){
+                    component.set('v.isDuplicate', returnValue.isDuplicate);
+                    if (returnValue.firstName && returnValue.lastName) {
                         component.set('v.isValid', true);
                     }
                     component.find('spinner').hide();
                 } else {
-                    component.set('v.isDuplicate',returnValue.isDuplicate);
+                    component.set('v.isDuplicate', returnValue.isDuplicate);
                     component.find('spinner').hide();
                 }
             });
@@ -62,7 +89,7 @@
         var hcProvider = component.get('v.healthCareProvider');
         component.get('v.parent').disconnectHCP(component.get('v.index'));
         communityService.executeAction(component, 'stopSharing', {hpId: hcProvider.Id}, function (returnValue) {
-           component.get('v.parent').disconnectHCP(component.get('v.index'));
+            component.get('v.parent').disconnectHCP(component.get('v.index'));
             component.find('spinner').hide();
         })
     },

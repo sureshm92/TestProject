@@ -1,0 +1,46 @@
+<!--
+ - Created by Andrii Kryvolap.
+ -->
+
+<aura:component description="ParticipantStatusDetailsCardField">
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="field" type="Object"/>
+    <aura:attribute name="editable" type="Boolean"/>
+    <aura:attribute name="required" type="Boolean"/>
+    <aura:attribute name="todayDate" type="Date"/>
+
+
+
+    <aura:handler name="change" value="{!v.field.value}" action="{!c.onValueChange}"/>
+    <div class="{!'slds-col form-field ' + v.field.style }">
+        <aura:if isTrue="{!v.field.type=='text'}">
+            <lightning:input label="{!v.field.title}" type="text" value="{!v.field.value}"
+                             disabled="{!v.field.readonly || !v.editable}"
+                             required="{!and(or(v.required,v.field.dependent), v.field.required)}"
+                             onblur="{!c.onBlur}"/>
+        </aura:if>
+        <aura:if isTrue="{!v.field.type=='picklist'}">
+            <div class="label"><aura:if isTrue="{!and(or(v.required,v.field.dependent), v.field.required)}"><abbr title="required" class="slds-required">*</abbr></aura:if>{!v.field.title}</div>
+            <c:rrSelect options="{!v.field.values}" value="{!v.field.value}"
+                        placeholder=""
+                        disabled="{!v.field.readonly || !v.editable}"
+                        required="{!and(or(v.required,v.field.dependent), v.field.required)}"/>
+        </aura:if>
+        <aura:if isTrue="{!v.field.type=='date'}">
+            <lightning:input label="{!v.field.title}" type="date"
+                             min="{!if(v.field.onlyFutureDate,v.todayDate,'')}"
+                             max="{!if(v.field.onlyPastDate,v.todayDate,'')}"
+                             value="{!v.field.value}"
+                             disabled="{!v.field.readonly || !v.editable}"
+                             required="{!and(or(v.required,v.field.dependent), v.field.required)}"
+                             onblur="{!c.onBlur}"/>
+        </aura:if>
+        <aura:if isTrue="{!v.field.type=='time'}">
+            <lightning:input label="{!v.field.title}" type="time" value="{!v.field.value}"
+                             disabled="{!v.field.readonly || !v.editable}"
+                             required="{!and(or(v.required,v.field.dependent), v.field.required)}"
+                             onblur="{!c.onBlur}"/>
+        </aura:if>
+    </div>
+
+</aura:component>

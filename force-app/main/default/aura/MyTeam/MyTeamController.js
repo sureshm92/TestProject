@@ -1,5 +1,7 @@
 ({
     doInit: function (component, event, helper) {
+        if(!communityService.isInitialized()) return;
+        if(communityService.getCurrentCommunityMode().isDelegate && component.get('v.userMode') == 'Participant') communityService.navigateToHome();
         component.set("v.showSpinner", true);
         component.set("v.ignoreUpdates", true);
         var selectedParent = component.get("v.piSelectedParent");

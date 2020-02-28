@@ -1,0 +1,45 @@
+/**
+ * Created by Igor Malyuta on 12.04.2019.
+ */
+.THIS.icons-container {
+    display: flex;
+    overflow: hidden;
+    height: 32px;
+    justify-content: space-between;
+}
+
+.THIS .icons-row{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.THIS .icons-row .icon:last-child .dots {
+    display: none;
+}
+
+.THIS .icon {
+    position: relative;
+    display: flex;
+}
+
+.THIS .icon-item{
+    padding-left: 10px;
+    fill: #999;
+}
+
+.THIS .dots{
+    padding-left: 2px;
+    padding-top: 10px;
+    font-weight: bold;
+    position: absolute;
+    left: 32px;
+}
+
+.THIS .icon-item:hover{
+    fill: #595959;
+}
+
+.THIS .free-space {
+    flex-shrink: 0;
+    width: 32px;
+}

@@ -1,0 +1,45 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="Action_UpdatePatientInfo" controller="AddPatientByPIRemote">
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- private attributes: -->
+    <aura:attribute name="pe" type="Participant_Enrollment__c" access="private"/>
+    <aura:attribute name="participant" type="Participant__c" access="private"/>
+    <aura:attribute name="callback" type="Object" access="private"/>
+    <aura:attribute name="formData" type="AddPatientByPIRemote.FormData" access="private"/>
+    <aura:attribute name="initialized" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="isFinalUpdate" type="Boolean"/>
+    <aura:attribute name="isValid" type="Boolean"/>
+
+
+    <!-- methods -->
+    <aura:method name="execute" action="{!c.doExecute}" access="public">
+        <aura:attribute name="pe" type="Participant_Enrollment__c"/>
+        <aura:attribute name="isFinalUpdate" type="Boolean"/>
+        <aura:attribute name="callback" type="Function"/>
+        <aura:attribute name="cancelCallback" type="Function"/>
+    </aura:method>
+
+    <!-- component body: -->
+    <c:Popup aura:id="dialog" title="{!$Label.c.PG_EPP_Header}" size="large" showScroll="true">
+        <c:RRSpinner aura:id="spinner" fixed="true" size="medium"/>
+        <aura:if isTrue="{!v.initialized}">
+            <div class="form-content">
+                <div class="ap-top-info">{! '* ' +  $Label.c.PG_AP_T_Indicate_Req_Fields}</div>
+                <c:Form_EditPatientInfo aura:id="editForm" participant="{!v.participant}" pe="{!v.pe}" formData="{!v.formData}"
+                                        updateMode="true" isFinalUpdate="{!v.isFinalUpdate}" isValid="{!v.isValid}"/>
+                <div class="ap-bottom-info">{!$Label.c.PG_AP_T_Sub_Info}</div>
+            </div>
+        </aura:if>
+
+        <!-- dialog buttons: -->
+        <aura:set attribute="footerButtons">
+            <button class="apollo-btn secondary" onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</button>
+            <button class="apollo-btn primary" disabled="{!!v.isValid}" onclick="{!c.doUpdate}">{!$Label.c.RP_BTN_Save_Changes}</button>
+        </aura:set>
+    </c:Popup>
+
+</aura:component>

@@ -1,0 +1,81 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component implements="forceCommunity:themeLayout" controller="CommunityFacadeRemote">
+    <ltng:require styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_Stub, $Resource.proximanova + '/proximanova.css')}"
+                  scripts="{!$Resource.rr_community_js}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="search" type="Aura.Component[]"/>
+    <aura:attribute name="navBar" type="Aura.Component[]"/>
+    <aura:attribute name="profileMenu" type="Aura.Component[]"/>
+    <aura:attribute name="sidebarFooter" type="Aura.Component[]"/>
+    <aura:attribute name="showSideMenu" type="Boolean" default="false"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false"/>
+    <aura:attribute name="isArabic" type="Boolean"/>
+    <aura:attribute name="template" type="String"/>
+
+    <aura:attribute name="allModes" type="Object[]"/>
+    <aura:attribute name="currentMode" type="Object"/>
+    <aura:attribute name="showModeSwitcher" type="Boolean" default="false"/>
+    <aura:attribute name="logoURL" type="String"/>
+    <aura:attribute name="communityName" type="String"/>
+
+    <!-- events: -->
+    <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized"/>
+
+    <!-- methods: -->
+    <aura:method name="init" action="{!c.doInit}" access="public"/>
+
+    <aura:if isTrue="{!v.isInitialized}">
+        <div class="{!'rr-all-content ' + $Browser.formFactor + ' ' + if(v.showSideMenu, ' bodyShift ', ' ') + if(v.availableModes.length > 1, ' with-selector ', '')}">
+            <div class="{!'rr-header-content ' + if(v.showModeSwitcher, ' multi-mode ', ' ') + if(v.isInitialized, 'main-header-brand', 'main-header-neutral')}" >
+                <aura:if isTrue="{!v.isInitialized}">
+                    <div class="{!'layout-header rr-width-limiter side-padding ' + if(v.isArabic, 'rtl', '')}">
+                        <div class="menu-btn" onclick="{!c.switchSideMenu}">
+                            <img src="{!$Resource.rr_community_icons + '/menu_btn.png'}" class="chevron" style="height: 32px; width: 32px"/>
+                        </div>
+                        <div class="logo-container">
+                            <img src="{!if(v.currentMode.userMode == 'Participant', v.logoURL, $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}" class="title-logo" onclick="{!c.doGoHome}"/>
+                        </div>
+
+                        <div class="navigation-block">
+                            <c:CommunityNavigation aura:id="navigation" mode="{!v.currentMode.userMode}" />
+                        </div>
+                        <div class="right-block" data-gtm="community_mode_switcher">
+                            <aura:if isTrue="{!v.showModeSwitcher}">
+                                <c:CommunityModeSwitcher allModes="{!v.allModes}" currentMode="{!v.currentMode}" onModeChange="{!c.doRefresh}"/>
+                            </aura:if>
+                            <c:ProfileMenu aura:id="profileMenu" userMode="{!v.currentMode.userMode}"/>
+                        </div>
+                    </div>
+                </aura:if>
+            </div>
+
+            <div class="{!'rr-header-margin ' + if(v.showModeSwitcher, ' multi-mode', '')}"></div>
+            <div class="rr-body-content rr-min-body-height">
+                <aura:if isTrue="{!v.isInitialized}">
+                    <c:CommunityNavigationMobile aura:id="navigationMobile"
+                                                 showSideMenu="{!v.showSideMenu}"
+                                                 mode="{!v.currentMode.userMode}"
+                                                 class="{!if(v.availableModes.length > 1, ' multi-mode', '')}"/>
+                </aura:if>
+                {!v.body}
+            </div>
+            <aura:if isTrue="{!v.isInitialized}">
+                <div class="footer">
+                    <div class="rr-width-limiter" style="padding: 0 15px">
+                        <c:CommunityFooter />
+                    </div>
+                </div>
+                <c:CookiesInfo/>
+            </aura:if>
+
+            <c:Alerts aura:id="alerts"/>
+        </div>
+
+    </aura:if>
+
+</aura:component>

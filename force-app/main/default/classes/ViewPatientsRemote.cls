@@ -12,11 +12,14 @@ public without sharing class ViewPatientsRemote {
         public List<Id> trialIds;
         public Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
         public List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
-        public MyPatientsStatistics statistics;
-        public List<ReferralProfileRemote.ChangeStatusButton> btnList = ReferralProfileRemote.createButtonsList(null);
+        public Boolean isInvited;
+     //   public MyPatientsStatistics statistics;
+     //   public List<ReferralProfileRemote.ChangeStatusButton> btnList = ReferralProfileRemote.createButtonsList(null);
     }
 
     public class PEWrapper{
+        public boolean isInvited;
+        public Boolean hasEmancipatedParticipants;
         public ParticipantItem pItem;
         public Map<String, StudyActions.Action> actions;
         public List<StudyActions.Action> participantCardActions;
@@ -25,6 +28,12 @@ public without sharing class ViewPatientsRemote {
         public PEWrapper(Participant_Enrollment__c pe, Map<String, StudyActions.Action> actions){
             this.pItem = new ParticipantItem(pe);
             this.actions = actions;
+        }
+        public PEWrapper(Participant_Enrollment__c pe, Map<String, StudyActions.Action> actions, Boolean isInvited){
+            this.pItem = new ParticipantItem(pe);
+            this.actions = actions;
+            this.isInvited = isInvited;
+            this.hasEmancipatedParticipants = pe.Participant__r != null ? pe.Participant__r.Emancipation_in_progress__c : false;
         }
     }
 
@@ -61,7 +70,7 @@ public without sharing class ViewPatientsRemote {
             };
             if(mode == CommunityService.USER_MODE_PI) excludedStatuses.add(ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL);
             initData.peFilter.additionalFilter = ' Participant_Status__c NOT IN (\'' + String.join(excludedStatuses, '\', \'') + '\') ';
-            if(trialId == null) initData.statistics = MyPatientsStatistics.getStatistics(initData.peFilterData.trialIds, mode);
+            //if(trialId == null) initData.statistics = MyPatientsStatistics.getStatistics(initData.peFilterData.trialIds, mode);
             ParticipantEnrollmentService.PEFilter filterCopy = (ParticipantEnrollmentService.PEFilter) JSON.deserialize(JSON.serialize(initData.peFilter), ParticipantEnrollmentService.PEFilter.class);
             if(btnFilter != null && mode == CommunityService.USER_MODE_PI){
                 if(btnFilter.equalsIgnoreCase('Pending')){
@@ -127,7 +136,7 @@ public without sharing class ViewPatientsRemote {
     }
 
     @AuraEnabled
-    public static String getRecords(String filterJSON, String paginationJSON, String piBtnFilter, String userMode, Boolean studyChanged, String delegateId){
+    public static String getRecords(String filterJSON, String paginationJSON, String piBtnFilter, String userMode, Boolean studyChanged, String delegateId, Boolean emancipatedPE){
         ParticipantEnrollmentService.PEFilter filter = (ParticipantEnrollmentService.PEFilter)JSON.deserialize(filterJSON, ParticipantEnrollmentService.PEFilter.class);
         SearchResult result = new SearchResult();
         result.peFilterData = ParticipantEnrollmentService.getPEFilterData(filter.study, userMode, true, delegateId);
@@ -177,6 +186,9 @@ public without sharing class ViewPatientsRemote {
                 filter.additionalFilter += + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\''
                         + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_NOT_INTERESTED + '\''
                         + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING + '\'';
+            }
+            if(emancipatedPE){
+                filter.additionalFilter += ' AND Participant__r.Emancipation_in_progress__c = true ';
             }
             System.debug('additionalFilter' + filter.additionalFilter);
             result.paginationData = pagination;
@@ -270,7 +282,7 @@ public without sharing class ViewPatientsRemote {
                     FROM Participant__c
                     WHERE Id =: participantId
             ];
-            String filter = ' AND Participant_Status__c =\'' +  PEStatusState.STATUS_STEPS_TABLE[5].states.get(PEStatusState.STATUS_STATE_SUCCESS) + '\' ';
+            String filter = ' AND Participant_Status__c IN (\'' + String.join(PEStatusState.STATUS_STEPS_TABLE[4].states.get(PEStatusState.STATUS_STATE_SUCCESS), '\',\'')  + '\') ';
             filter += ' AND Participant__c=\'' + participantId + '\'' ;
             initData.alreadyEnrolled = ParticipantEnrollmentService.getPEnrolmentsCountCommon(mode, filter, delegateId) > 0;
             return JSON.serialize(initData);
@@ -278,28 +290,63 @@ public without sharing class ViewPatientsRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-
-    @AuraEnabled
-    public static String getStatistics(String mode, String delegateId){
-        try{
-            return JSON.serialize(MyPatientsStatistics.getStatistics(TrialService.getAvailableTrialIds(mode, delegateId), mode));
-        }catch (Exception e){
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-        }
-    }
+//deprecated
+//    @AuraEnabled
+//    public static String getStatistics(String mode, String delegateId){
+//        try{
+//            return JSON.serialize(MyPatientsStatistics.getStatistics(TrialService.getAvailableTrialIds(mode, delegateId), mode));
+//        }catch (Exception e){
+//            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+//        }
+//    }
 
     private static List<PEWrapper> convertToPEWrapperList(List<Participant_Enrollment__c> participantEnrollments, String userMode){
         return convertToPEWrapperList(participantEnrollments, userMode, null);
     }
     private static List<PEWrapper> convertToPEWrapperList(List<Participant_Enrollment__c> participantEnrollments, String userMode, String delegateId){
         List<PEWrapper> resultList = new List<PEWrapper>();
-        for(Participant_Enrollment__c pe : participantEnrollments){
-            if(userMode == CommunityService.USER_MODE_HCP){
-                resultList.add(new PEWrapper(pe, new StudyActionsHCP(pe, delegateId).actions));
-            }else{
-                resultList.add(new PEWrapper(pe, new StudyActionsPI(pe).actions));
+        List<ParticipantItem> participantItems = new List<ParticipantItem>();
+        Set<Id> idParticipants = new Set<Id>();
+        Set<Id> idParticipantsOnUser = new Set<Id>();
+        for (Participant_Enrollment__c pe : participantEnrollments) {
+            idParticipants.add(pe.Participant_Contact__c);
+        }
+        Map<Id, User> usersMapId = new Map<Id, User>([
+                                                        SELECT
+                                                                Id,
+                                                                ContactId
+                                                        FROM User
+                                                        WHERE  ContactId
+                                                        IN : idParticipants
+        ]);
+        for (User us : usersMapId.values()) {
+            idParticipantsOnUser.add(us.ContactId);
+        }
+        for (Participant_Enrollment__c pe : participantEnrollments) {
+            PEWrapper newPeWrapper;
+            if (userMode == CommunityService.USER_MODE_HCP) {
+                newPeWrapper = new PEWrapper(pe, new StudyActionsHCP(pe, delegateId).actions);
+                resultList.add(newPeWrapper);
+                participantItems.add(newPeWrapper.pItem);
+            } else {
+                if (userMode == CommunityService.USER_MODE_PI) {
+                    if (pe.Participant_Contact__c != null && idParticipantsOnUser.contains(pe.Participant_Contact__c)) {
+                        newPeWrapper = new PEWrapper(pe, new StudyActionsPI(pe).actions, true);
+                        resultList.add(newPeWrapper);
+                        participantItems.add(newPeWrapper.pItem);
+                    } else {
+                        newPeWrapper = new PEWrapper(pe, new StudyActionsPI(pe).actions, false);
+                        resultList.add(newPeWrapper);
+                        participantItems.add(newPeWrapper.pItem);
+                    }
+                } else {
+                    newPeWrapper = new PEWrapper(pe, new StudyActionsPI(pe).actions);
+                    resultList.add(newPeWrapper);
+                    participantItems.add(newPeWrapper.pItem);
+                }
             }
         }
+        ParticipantWorkflowService.populatePatientItemsWithPathWrappers(participantItems);
         return resultList;
     }
 

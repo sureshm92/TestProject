@@ -3,7 +3,7 @@
 #
 
 #misc:
-*/readme.md
+**readme.*
 package.xml
 AppSwitcher.appMenu
 FlowInterview.All
@@ -27,4 +27,6 @@ force-app/main/default/profiles/IQVIA RH Profile.profile-meta.xml
 #flows
 force-app/main/default/flows/net_promoter_score.flow-meta.xml
 force-app/main/default/flows/customer_satisfaction.flow-meta.xml
+
+
 

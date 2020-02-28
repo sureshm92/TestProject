@@ -3,7 +3,6 @@
  */
 ({
     doInit: function (component) {
-
         if(!communityService.isInitialized()) return;
         if(communityService.getUserMode() !== 'HCP') communityService.navigateToPage('');
         var spinner = component.find('mainSpinner');
@@ -37,6 +36,7 @@
                 spinner.hide();
             })
         }
+
     },
 
     doGoHome: function () {

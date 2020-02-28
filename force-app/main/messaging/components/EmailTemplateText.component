@@ -12,6 +12,7 @@
     <apex:attribute name="parametersProvider" type="String" assignTo="{!emailParametersProvider}" access="global" description=""/>
     <apex:attribute name="sourceId" assignTo="{!sourceRecordId}" type="Id" description="target of data extraction" access="global" />
     <apex:attribute name="addBreaks" assignTo="{!replaceLineBreaksOnHTMLBreaks}" type="Boolean" default="false" description="" access="global"/>
+    <apex:attribute name="showDelegateSSTable" assignTo="{!showDelegateSSTableValue}" type="Boolean" default="false" description="" access="global" required="false"/>
 
     <apex:attribute name="header" assignTo="{!headerValue}" type="String" description=""/>
     <apex:attribute name="title" assignTo="{!titleValue}" type="String" description=""/>
@@ -19,6 +20,7 @@
     <apex:attribute name="body" assignTo="{!bodyValue}" type="String" description=""/>
     <apex:attribute name="signature" assignTo="{!signatureValue}" type="String" description=""/>
     <apex:attribute name="preSignature" assignTo="{!preSignatureValue}" type="String" description=""/>
+    <apex:attribute name="multiplePIMessage" assignTo="{!multiplePIMessageValue}" type="Boolean" default="false" description="send message with all PI names to new RP"/>
 
     <!-- component body: -->
     {!headerValue}
@@ -29,6 +31,8 @@
 
     <!-- for delegates: -->
     <c:EmailTemplateDelegateText userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}" delegateLevelsHCP="{!delegateLevelsHCP}"/>
+
+    <c:EmailTemplateDelegateParticipantText userId="{!emailRecipientId}" rendered="{!(isDelegate && userCommunityType == 'Participant')}" params="{!dataParametersValue}"/>
 
     <apex:componentBody />
 

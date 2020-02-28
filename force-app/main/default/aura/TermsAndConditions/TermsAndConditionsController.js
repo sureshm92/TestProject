@@ -1,13 +1,23 @@
 ({
     doInit: function (component, event, helper) {
-        var isPortalTC = component.get('v.isPortalTC');
+        let currentCommunityMode = communityService.getCurrentCommunityMode();
+        if(currentCommunityMode) component.set('v.userMode', currentCommunityMode.userMode);
+
         var titleCode = component.get('v.titleCode');
+        let ctpId = communityService.getUrlParameter('id');
+        var isPortalTC;
+        if(ctpId) {
+            isPortalTC = false;
+        } else {
+            isPortalTC = component.get('v.isPortalTC');
+        }
+
         if(titleCode === 'PrivacyPolicy'){
-            component.set('v.title', $A.get('$Label.c.PG_TC_H_Privacy_Policy'))
+            component.set('v.title', $A.get('$Label.c.PG_TC_H_Privacy_Policy'));
         }else if(titleCode === 'CookiePolicy'){
-            component.set('v.title', $A.get('$Label.c.PG_TC_H_Cookie_Policy'))
+            component.set('v.title', $A.get('$Label.c.PG_TC_H_Cookie_Policy'));
         }else{
-            component.set('v.title', $A.get('$Label.c.PG_TC_H_Terms_And_Conditions'))
+            component.set('v.title', $A.get('$Label.c.PG_TC_H_Terms_And_Conditions'));
         }
         component.find('mainSpinner').show();
         if(isPortalTC){
@@ -29,7 +39,7 @@
                 });
             }else{
                 if(!component.get('v.ctpId')) {
-                    component.set('v.ctpId', communityService.getUrlParameter('id'));
+                    component.set('v.ctpId', ctpId);
                 }
                 communityService.executeAction(component, 'getTrialTcData', {
                     ctpId: component.get('v.ctpId')

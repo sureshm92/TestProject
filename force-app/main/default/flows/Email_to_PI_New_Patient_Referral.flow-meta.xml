@@ -267,7 +267,7 @@
                 <leftValueReference>myVariable_current.Participant_Status__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Referral Sent to PI</stringValue>
+                    <stringValue>Received</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -298,7 +298,7 @@
                 <leftValueReference>myVariable_current.Participant_Status__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Referral Accepted</stringValue>
+                    <stringValue>Received</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -393,7 +393,7 @@
                 <leftValueReference>myVariable_old.Participant_Status__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Referral Sent to PI</stringValue>
+                    <stringValue>Received</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -424,7 +424,7 @@
                 <leftValueReference>myVariable_old.Participant_Status__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Referral Accepted</stringValue>
+                    <stringValue>Received</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -490,7 +490,7 @@
     </processMetadataValues>
     <processType>Workflow</processType>
     <startElementReference>myDecision</startElementReference>
-    <status>Active</status>
+    <status>Obsolete</status>
     <variables>
         <name>myVariable_current</name>
         <dataType>SObject</dataType>

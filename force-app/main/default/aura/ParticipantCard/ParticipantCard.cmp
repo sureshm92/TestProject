@@ -11,6 +11,8 @@
     <aura:attribute name="changeStatusBtnList" type="List" />
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="userMode" type="String"/>
+    <aura:attribute name="isInvited" type="Boolean"/>
+    <aura:attribute name="hasEmancipatedParticipants" type="Boolean"/>
 
     <!-- component body: -->
     <aura:if isTrue="{!v.participantItem.showParticipationSteps}">
@@ -20,11 +22,10 @@
         <aura:set attribute="else">
             <c:ViewPatientItem pe="{!v.participantItem.pe}"
                                actions="{!v.actions}"
-                               peStatusesPathList="{!v.participantItem.peStatusesPathList}"
-                               peStatusStateMap="{!v.participantItem.peStatusStateMap}"
+                               pathItems="{!v.participantItem.pathItems}"
                                changeStatusBtnList="{!v.changeStatusBtnList}"
-                               singlePatientView="{!v.singlePatientView}"
-                               parent="{!v.parent}"/>
+                               parent="{!v.parent}"
+                               isInvited="{!v.isInvited}"/>
         </aura:set>
     </aura:if>
 

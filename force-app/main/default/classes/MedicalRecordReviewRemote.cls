@@ -99,6 +99,7 @@ public without sharing class MedicalRecordReviewRemote {
             participantEnrollment.Medical_Record_Review_Status__c = status;
             participantEnrollment.MRR_Survey_Results_URL__c = surveyGizmoData;
             participantEnrollment.Medical_Record_Review_Completed_by__c = CommunityService.getUserContact().Id;
+            participantEnrollment.Medical_Record_Review_Completed_Date__c = Datetime.now();
             if(status == ParticipantEnrollmentService.MRR_STATUS_PASS){
                 participantEnrollment.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL;
             }else{

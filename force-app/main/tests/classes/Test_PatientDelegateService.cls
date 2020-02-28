@@ -69,13 +69,46 @@ public class Test_PatientDelegateService {
         }
     }
 
+    class PatientDelegateServiceMock implements StubProvider {
+        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
+                List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs
+        ) {
+            switch on stubbedMethodName {
+                when 'getParticipant' {
+                    return firstParticipant;
+                }
+                when 'getDelegateContact' {
+                    return firstDelegateContact;
+                }
+                when 'getDelegatedContactIds' {
+                    return new List<Id>{firstDelegateContact.Id};
+                }
+                when 'resetDelegate' {
+                    Id contactId = firstDelegateContact.Id;
+                    Contact delegateContact = new Contact(
+                            Id = contactId,
+                            userCommunityMode__c = null
+                    );
+                    update delegateContact;
 
+                    List<Patient_Delegate__c> patientDelegate = [
+                            SELECT Id
+                            FROM Patient_Delegate__c
+                            WHERE Contact__c =: contactId
+                    ];
+                    delete patientDelegate;
+                }
+            }
+            return null;
+        }
+    }
     // Tests: ----------------------------------------------------------------------------------------------------------
 
     @IsTest
     static void patientDelegateServiceTest() {
         refreshTestData();
         DatabaseService.setMock(new DatabaseServiceMock());
+        PatientDelegateService.setMock(new PatientDelegateServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
 
         Test.startTest();
@@ -118,18 +151,36 @@ public class Test_PatientDelegateService {
 
     @IsTest
     static void resetDelegateTest() {
-        refreshTestData();
 
-        CommunityService.setMock(new CommunityServiceMock());
+        TestData.loadTestData();
+        TestData testData = new TestData();
 
-        Test.startTest();
-        PatientDelegateService.getInstance().resetDelegate(firstDelegateContact.Id);
-        Test.stopTest();
+        Contact delegateContact = new Contact(
+                FirstName = 'Joseph',
+                LastName = 'Davis',
+                Email = 'jdavis@somemail.com'
+        );
+        upsert delegateContact;
+
+        //Patient_Delegates:
+        Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
+                Contact__c = delegateContact.Id,
+                Contact__r = delegateContact,
+                Participant__c = testData.participant.Id,
+                Participant__r = testData.participant
+        );
+        upsert patientDelegate;
+
+        System.runAs(testData.participantUser){
+            Test.startTest();
+            PatientDelegateService.getInstance().resetDelegate(delegateContact.Id, false);
+            Test.stopTest();
+        }
 
         Contact contactFromDB = [
                 SELECT userCommunityMode__c, userCommunytyType__c
                 FROM Contact
-                WHERE Id = :firstDelegateContact.Id
+                WHERE Id = :delegateContact.Id
         ].get(0);
         System.assertEquals(null, contactFromDB.userCommunityMode__c);
         System.assertEquals(null, contactFromDB.userCommunytyType__c);

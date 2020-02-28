@@ -7,6 +7,7 @@
         component.find('spinner').show();
         communityService.executeAction(component, 'getInitData', {}, function (response) {
             component.set('v.taskPanelWrapper', response.taskPanelWrapper);
+            component.set('v.taskConfig', response.taskPanelWrapper.taskConfig);
             component.set('v.adHocWrapper', response.adHocWrapper);
             component.set('v.filter', response.filter);
             component.set('v.patientStatusOptions', response.patientStatusOptions);
@@ -41,12 +42,11 @@
 
     createClick: function (component, event, helper) {
         component.find('spinner').show();
-
         communityService.executeAction(component, 'createTasks', {
-            'taskPanelWrapper': JSON.stringify(component.get('v.taskPanelWrapper')),
-            'adHocWrapper': JSON.stringify(component.get('v.adHocWrapper')),
-            'filter': JSON.stringify(component.get('v.filter')),
-            'activeTab': component.get('v.selectedTab')
+            config: JSON.stringify(component.get('v.taskConfig')),
+            adHoc: JSON.stringify(component.get('v.adHocWrapper')),
+            filter: JSON.stringify(component.get('v.filter')),
+            activeTab: component.get('v.selectedTab')
         }, function (found) {
             if (found)
                 communityService.showSuccessToast(

@@ -2,16 +2,17 @@
  * Created by Leonid Bartenev
  */
 
-@IsTest(IsParallel=true)
+@IsTest
 public class Test_ParticipantService {
 
     public class ParticipantEnrollmentServiceMock implements StubProvider {
 
         String participant_Status;
 
-        public ParticipantEnrollmentServiceMock(){}
+        public ParticipantEnrollmentServiceMock() {
+        }
 
-        public ParticipantEnrollmentServiceMock(String participant_Status){
+        public ParticipantEnrollmentServiceMock(String participant_Status) {
             this.participant_Status = participant_Status;
         }
 
@@ -25,8 +26,8 @@ public class Test_ParticipantService {
             return null;
         }
     }
-    
-    public class PatientDelegateServiceMock implements StubProvider{
+
+    public class PatientDelegateServiceMock implements StubProvider {
         public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
                 List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
             if (stubbedMethodName == 'isDelegate') {
@@ -35,14 +36,14 @@ public class Test_ParticipantService {
             return null;
         }
     }
-    
+
     public class CommunityServiceMock implements StubProvider {
         public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
                 List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
             if (stubbedMethodName == 'getCurrentContactId') {
                 return TestDataFactory.getFakeId(Contact.getSObjectType());
             }
-            if(stubbedMethodName == 'getUserContactImpl') {
+            if (stubbedMethodName == 'getUserContactImpl') {
                 String c = '{"attributes":{"type":"Contact"},"FirstName":"TestF","LastName":"TestL","Name":"TestF TestL"}';
                 return (Contact) JSON.deserialize(c, Contact.class);
             }
@@ -57,15 +58,27 @@ public class Test_ParticipantService {
                 return (Database.SaveResult)
                         JSON.deserialize('{"id":"0030v00000Dcyq3AAB","success":true,"errors":[]}', Database.SaveResult.class);
             }
-            if(stubbedMethodName == 'upsertToDB') {
+            if (stubbedMethodName == 'upsertToDB') {
             }
-            if(stubbedMethodName == 'queryImpl' && listOfArgs.size() > 1) {
+            if (stubbedMethodName == 'queryImpl' && listOfArgs.size() > 1) {
                 SObjectType sObjectType = (SObjectType) listOfArgs[1];
                 if (sObjectType == Visit__c.getSObjectType()) {
                     return new Visit__c(Name = 'TestVisit', Visit_Schedule__c = 'Week 1', Icons__c = '');
-                } else if (SObjectType == Account.getSObjectType()){
-                    return new List<Account>{new Account(Id = TestDataFactory.getFakeId(Account.getSObjectType()))};
+                } else if (SObjectType == Account.getSObjectType()) {
+                    return new List<Account>{
+                            new Account(Id = TestDataFactory.getFakeId(Account.getSObjectType()))
+                    };
                 }
+            }
+            return null;
+        }
+    }
+    public class ParticipantServiceMock implements System.StubProvider {
+
+        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
+                List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
+            if (stubbedMethodName == 'getState') {
+                return new ParticipantService.ParticipantState();
             }
             return null;
         }
@@ -76,7 +89,7 @@ public class Test_ParticipantService {
         // Set mocks:
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
-
+        ParticipantService.setMock(new ParticipantServiceMock());
         // Test logic
         Test.startTest();
         ParticipantService.getParticipantState();
@@ -89,7 +102,7 @@ public class Test_ParticipantService {
         // Set mocks:
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock(PEStatusState.PE_STATUS_ENROLLMENT_FAILED));
         CommunityService.setMock(new CommunityServiceMock());
-
+        ParticipantService.setMock(new ParticipantServiceMock());
         // Test logic
         Test.startTest();
         ParticipantService.getInstance().getState();
@@ -101,7 +114,7 @@ public class Test_ParticipantService {
         // Set mocks:
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock(PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS));
         CommunityService.setMock(new CommunityServiceMock());
-
+        ParticipantService.setMock(new ParticipantServiceMock());
         // Test logic
         Test.startTest();
         ParticipantService.getInstance().getState();
@@ -113,7 +126,7 @@ public class Test_ParticipantService {
         // Set mocks:
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
-
+        ParticipantService.setMock(new ParticipantServiceMock());
         Test.startTest();
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
         Boolean showTerms = participantState.showTerms;
@@ -127,11 +140,11 @@ public class Test_ParticipantService {
         // Set mocks:
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
-
+        ParticipantService.setMock(new ParticipantServiceMock());
         Test.startTest();
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
         participantState.ctp = getPE(null).Clinical_Trial_Profile__r;
-        Boolean isShow = ParticipantService.getInstance().showVisits();
+        Boolean isShow = participantState.showVisits;
         Test.stopTest();
 
         System.assertEquals(false, isShow);
@@ -143,7 +156,7 @@ public class Test_ParticipantService {
         ParticipantEnrollmentService.setMock(new ParticipantEnrollmentServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
         DatabaseService.setMock(new DatabaseServiceMock());
-        insert new Account(Name = 'Participant');
+        ParticipantService.setMock(new ParticipantServiceMock());
         Test.startTest();
         ParticipantService.createParticipantAndUpdatePE(getParticipant(), getPE(null));
         Test.stopTest();
@@ -157,9 +170,28 @@ public class Test_ParticipantService {
         System.assertEquals('Female', genderLVList.get(1).value);
     }
 
+    @IsTest
+    static void isParticipantsAgeOfMajorityTest() {
+        System.debug(JSON.serializePretty(ParticipantService.checkParticipantsAgeOfMajority(new List<Participant__c>{new Participant__c(
+                Last_Name__c = 'Participant',
+                Date_of_Birth__c = '2002-03-10',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'AL',
+                Adult__c = true
+        ),
+                new Participant__c(
+                Last_Name__c = 'Participant',
+                Date_of_Birth__c = '2000-03-10',
+                Mailing_Country_Code__c = 'US',
+                Mailing_State_Code__c = 'AL',
+                Adult__c = false
+                )
+        })));
+    }
+
     //Mock data: -------------------------------------------------------------------------------------------------------
     static Participant_Enrollment__c getPE(String partStatus) {
-        if(partStatus == null) partStatus = PEStatusState.PE_STATUS_REFERRAL_DECLINED;
+        if (partStatus == null) partStatus = PEStatusState.PE_STATUS_REFERRAL_DECLINED;
 
         Terms_And_Conditions__c tc = new Terms_And_Conditions__c(Active__c = false);
 
@@ -196,11 +228,11 @@ public class Test_ParticipantService {
                 Name = 'Test SS1',
                 Clinical_Trial_Profile__c = trial.Id,
                 Clinical_Trial_Profile__r = trial,
-                Site__r =  new Account(Name = 'Clinic'),
+                Site__r = new Account(Name = 'Clinic'),
                 Principal_Investigator__r = pi,
                 Override_PI_Referral_Status__c = StudySiteService.PI_S_INVITATION_SENT,
                 Study_Site_Key__c = '12132123132313',
-                Study_Site_Phone__c =  '+1(232) 222-3434'
+                Study_Site_Phone__c = '+1(232) 222-3434'
         );
 
         return new Participant_Enrollment__c(

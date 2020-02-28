@@ -53,10 +53,24 @@ private class Test_Batch_CopyEnrollmentHistory {
         );
         insert participant;
 
+        List<Account> accounts = new List<Account>();
+        Account participantsAccount = new Account(
+                Name = 'Participant'
+        );
+        accounts.add(participantsAccount);
+
         Account piAccount = new Account(
                 Name = 'PI Account'
         );
-        insert piAccount;
+        accounts.add(piAccount);
+
+        Account studySiteAccount = new Account(
+                Name = 'Study Site Account',
+                BillingLatitude = 41.766594,
+                BillingLongitude = -74.991509
+        );
+        accounts.add(studySiteAccount);
+        insert accounts;
 
         Contact piContact = new Contact(
                 FirstName = 'PI',
@@ -83,12 +97,6 @@ private class Test_Batch_CopyEnrollmentHistory {
         );
         insert study;
 
-        Account studySiteAccount = new Account(
-                Name = 'Study Site Account',
-                BillingLatitude = 41.766594,
-                BillingLongitude = -74.991509
-        );
-        insert studySiteAccount;
         Study_Site__c studySite = new Study_Site__c(
                 Principal_Investigator__c = piContact.Id,
                 Clinical_Trial_Profile__c = study.Id,
@@ -101,9 +109,10 @@ private class Test_Batch_CopyEnrollmentHistory {
         insert studySite;
 
         Participant_Enrollment__c pe = new Participant_Enrollment__c(
+                Clinical_Trial_Profile__c = study.Id,
                 Patient_ID__c = 'SomePatientId1',
                 Referral_Source__c = 'HCP',
-                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
+                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED,
                 Participant__c = participant.Id,
                 PI_Contact__c = piContact.Id,
                 Screening_ID__c = 'PESCR1',
@@ -134,6 +143,7 @@ private class Test_Batch_CopyEnrollmentHistory {
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
 
         TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.DeleteStatusHistoryOnDeleteHandler.class);
         TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class);

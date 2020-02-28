@@ -10,7 +10,7 @@ public without sharing class HelpController {
         try{
             UserContact userContact = new UserContact();
             userContact.currentContact = CommunityService.getUserContact();
-            userContact.isDelegate = PatientDelegateService.getInstance().isDelegate();
+            userContact.isDelegate = ParticipantContext.isCurrentDelegate();
             HelpInitData initData = new HelpInitData();
             initData.userContact = userContact;
             initData.helpTopicSettings = new List<HelpController.HelpTopicWrapper>();
@@ -84,6 +84,8 @@ public without sharing class HelpController {
         newCase.OwnerId = UserInfo.getUserId();
         newCase.Priority = priority;
         newCase.Reason = reason;
+        Id conId = UserContext.getUserContactId();
+        newCase.CommunityName__c = CommunityModeService.getUserCommunityModes(conId)[0].template.communityName;
         newCase.setOptions(dmlOptions);
 
         try {

@@ -4,84 +4,64 @@
 
 @IsTest
 private without sharing class Test_ContactService {
-    
+
 
     @IsTest
     private static void defaultPEOnContact() {
-        Account participantsAccount = new Account(
-                Name = 'Participant'
-        );
-        insert participantsAccount;
-        Participant__c participant = new Participant__c(
-                First_Name__c = 'Participant',
-                Last_Name__c = 'Participant',
-                Phone__c = '55313535',
-                Email__c = 'part1@email.com',
-                Mailing_Country_Code__c = 'US',
-                Mailing_State_Code__c = 'AL'
-        );
-        insert participant;
-        Participant_Enrollment__c pe1 = new Participant_Enrollment__c(
-                Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
-                Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
-                Patient_ID__c = 'SomePatientId1',
-                Referral_Source__c = 'HCP',
-                Participant_Status__c = PEStatusState.PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS,
-                Participant__c = participant.Id,
-                Screening_ID__c = 'PESCR1'
-        );
-        insert pe1;
-        Contact delegate1 = new Contact(LastName = 'Del1');
-        insert delegate1;
-        Patient_Delegate__c pd1 = new Patient_Delegate__c(Participant__c = participant.Id, Contact__c = delegate1.Id);
-        insert pd1;
-        
-        System.debug('>>> ' + [SELECT Id FROM Patient_Delegate__c WHERE Participant__c IN: (new List<Id>{participant.Id})]);
-        
+        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
+
+        TestData.loadTestData();
+        TestData testData = new TestData();
+
         Test.startTest();
-        
-        //case1:
-        Id pContactId = [SELECT Id, Contact__c FROM Participant__c WHERE Id =: participant.Id].Contact__c;
-        Contact contact = [SELECT Id, Current_Participant_Enrollment__c FROM Contact WHERE Id =: pContactId];
-        System.assert(contact.Current_Participant_Enrollment__c == pe1.Id);
-        delegate1 = [SELECT Id, Current_Participant_Enrollment__c FROM Contact WHERE Id =: delegate1.Id];
-        System.assert(delegate1.Current_Participant_Enrollment__c == pe1.Id);
-    
-        //case2:
-        pe1.Participant_Status__c = PEStatusState.PE_STATUS_DROP_OUT;
-        update pe1;
-        contact = [SELECT Id, Current_Participant_Enrollment__c FROM Contact WHERE Id =: pContactId];
-        System.assert(contact.Current_Participant_Enrollment__c == null);
-        delegate1 = [SELECT Id, Current_Participant_Enrollment__c FROM Contact WHERE Id =: delegate1.Id];
-        System.assert(delegate1.Current_Participant_Enrollment__c == null);
 
-        //case3:
-        Participant_Enrollment__c pe2 = new Participant_Enrollment__c(
-                Patient_ID__c = 'SomePatientId2',
-                Referral_Source__c = 'HCP',
-                Participant_Status__c = PEStatusState.PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS,
-                Participant__c = participant.Id,
-                Screening_ID__c = '1343242'
-        );
-        insert pe2;
-        contact = [SELECT Id, Current_Participant_Enrollment__c FROM Contact WHERE Id =: pContactId];
-        System.assert(contact.Current_Participant_Enrollment__c == pe2.Id);
-        delegate1 = [SELECT Id, Current_Participant_Enrollment__c FROM Contact WHERE Id =: delegate1.Id];
-        System.assert(delegate1.Current_Participant_Enrollment__c == pe2.Id);
+        System.runAs(testData.participantUser) {
+            CommunityFacadeRemote.isFirstLogon();
+            CommunityFacadeRemote.acceptTerms();
+            CommunityFacadeRemote.getCommunityData();
 
-        //case4:
-        pe1.Participant_Status__c = PEStatusState.PE_STATUS_CONTACT_ATTEMPT_IN_PROGRESS;
+        }
+
+        //case getCurrentPe:
+        Participant_Enrollment__c pe1 = ContactService.getCurrentPE(testData.participantUser.ContactId);
+        System.assert(pe1.Id == testData.pe.Id);
+
+        //case applyRelevantNames:
+        Contact contact = ContactService.getContact(testData.participantUser.ContactId);
+        ContactService.applyRelevantNames(contact);
+
+        pe1.Participant_Status__c = PEStatusState.PE_STATUS_TRIAL_COMPLETE;
         update pe1;
-        contact = [SELECT Id, Current_Participant_Enrollment__c FROM Contact WHERE Id =: pContactId];
-        System.assert(contact.Current_Participant_Enrollment__c == pe2.Id);
-        delegate1 = [SELECT Id, Current_Participant_Enrollment__c FROM Contact WHERE Id =: delegate1.Id];
-        System.assert(delegate1.Current_Participant_Enrollment__c == pe2.Id);
-    
-        //case5:
-        delete pd1;
-        delegate1 = [SELECT Id, Current_Participant_Enrollment__c FROM Contact WHERE Id =: delegate1.Id];
-        System.assert(delegate1.Current_Participant_Enrollment__c == null);
-    
+
+        System.runAs(testData.participantUser) {
+            CommunityFacadeRemote.isFirstLogon();
+            CommunityFacadeRemote.acceptTerms();
+            CommunityFacadeRemote.getCommunityData();
+
+        }
+
+        System.runAs(testData.createPatientDelegate()) {
+            CommunityFacadeRemote.isFirstLogon();
+            CommunityFacadeRemote.acceptTerms();
+            CommunityFacadeRemote.getCommunityData();
+
+        }
+
+        //case getPastStudyWrappers:
+        List<ContactService.PastStudyWrapper> pastStudyWrappers = new List<ContactService.PastStudyWrapper>();
+        Id conId = testData.participantUser.ContactId;
+        pastStudyWrappers.addAll(ContactService.getPastStudyWrappers(conId));
+
+        //case getPastEnrollments
+        List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
+        peList.addAll(ContactService.getPastEnrollments(conId));
+
+        //case NextNotifyDate
+        Datetime dt = Datetime.newInstance(2020, 1, 1);
+        ContactService.updateNextNotifyDate(conId, dt, false);
+        Contact delCon = [SELECT Id, LastName FROM Contact WHERE LastName = 'Delegate'];
+        ContactService.updateNextNotifyDate(delCon.Id, dt, true);
+
         Test.stopTest();
     }
 

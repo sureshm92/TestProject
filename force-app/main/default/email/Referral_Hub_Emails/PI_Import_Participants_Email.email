@@ -1,0 +1,28 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Import_Participants}"
+                         recipientType="User"
+                         relatedToType="Study_Site__c"
+                         language="{!relatedTo.Principal_Investigator__r.Language__c}">
+
+    <messaging:htmlEmailBody >
+        <c:EmailTemplate userType="PI"
+                         sourceId="{!relatedTo.Id}"
+                         header="{!$Label.Email_Header_Import_Participants_Completed}"
+                         title="{!$Label.Email_Title}"
+                         greeting="{!$Label.Email_User_Greeting}"
+                         body="{!$Label.Email_Body_Participant_Import_Completed}"
+                         signature="{!$Label.Email_Signature_RH}">
+        </c:EmailTemplate>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailTemplateText userType="PI"
+                             sourceId="{!relatedTo.Id}"
+                             header="{!$Label.Email_Header_Import_Participants_Completed}"
+                             title="{!$Label.Email_Title}"
+                             greeting="{!$Label.Email_User_Greeting}"
+                             body="{!$Label.Email_Body_Participant_Import_Completed}"
+                             signature="{!$Label.Email_Signature_RH}">
+        </c:EmailTemplateText>
+    </messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>

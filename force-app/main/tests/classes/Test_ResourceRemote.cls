@@ -3,25 +3,19 @@ public class Test_ResourceRemote {
 
     @TestSetup
     public static void setup() {
+        Test.startTest();
+        TestData.loadTestData();
+        TestData testData = new TestData();
 
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class);
-
-        Participant__c singleParticipant = (Participant__c) TestDataFactory.getSObject(Participant__c.getSObjectType());
-        Resource__c singleResource = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType());
-        insert new List<SObject>{
-                singleParticipant,
-                singleResource
-        };
-        Resource_Action__c singleAction = new Resource_Action__c(Participant__c = singleParticipant.Id, Resource__c = singleResource.Id, IsVoted__c = false, IsFavorite__c = false);
+        Resource__c singleResource = new Resource__c();
+        insert singleResource;
+        Resource_Action__c singleAction = new Resource_Action__c(Participant__c = testData.participant.Id, Resource__c = singleResource.Id, IsVoted__c = false, IsFavorite__c = false);
         insert singleAction;
+        Test.stopTest();
     }
 
     @IsTest
     public static void setResourceAction_ActionExist_Test() {
-        TestData.loadTestData();
         List<Resource__c> resources = [SELECT Id FROM Resource__c];
         delete [SELECT Id FROM Resource_Action__c];
 
@@ -38,7 +32,6 @@ public class Test_ResourceRemote {
 
     @IsTest
     public static void setResourceAction_ActionDoesNotExist_Test() {
-        TestData.loadTestData();
         delete [SELECT Id FROM Resource_Action__c];
         List<Resource__c> resources = [SELECT Id FROM Resource__c];
 
@@ -116,8 +109,17 @@ public class Test_ResourceRemote {
                 .then(new ResourceService.ResourceWrapperContainer(new List<ResourceService.ResourceWrapper>()))
                 .build()
        );
+        ClassFactory.putStubTypeByClassName(ContactService.class, StubBuilder.newInstance(ContactService.class)
+                .when('getPreferredLanguages')
+                .then(new List<String>{'en_US'})
+                .build()
+       );
         Test.startTest();
-        ResourceService.ResourceWrapperContainer container = ResourceRemote.getStudyDocuments();
+        ResourceService.ResourceWrapperContainer container;
+        TestData testData = new TestData();
+        System.runAs(testData.participantUser) {
+            container = ResourceRemote.getStudyDocuments();
+        }
         Test.stopTest();
 
         System.assert(String.isBlank(container.errorMessage));
@@ -146,14 +148,8 @@ public class Test_ResourceRemote {
 
     @IsTest
     public static void getTrialId_Positive_Test() {
-        TestData.loadTestData();
         TestData testData = new TestData();
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ResourceService.class, StubBuilder.newInstance(ResourceService.class)
-                .when('getParticipantState')
-                .then(Test_ResourceRemote.getParticipantState())
-                .build()
-       );
+
         Test.startTest();
         String trialId;
         System.runAs(testData.participantUser)
@@ -206,11 +202,18 @@ public class Test_ResourceRemote {
 
     @IsTest
     public static void getNoTAMessage_AlumniPatient_Test() {
-        TestData.loadTestData();
         TestData testData = new TestData();
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateParticipantForDelegateHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.AddPaymentInformationHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
 
-        testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_GROUP_ALUMNI.get(0);
-        update testData.pe;
+        testData.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_GROUP_ALUMNI.get(0));
+        Contact contact = [SELECT Id, Current_Participant_Enrollment__c FROM Contact WHERE Id =: testData.participant.Contact__c];
+        contact.Current_Participant_Enrollment__c = null;
+        update contact;
 
         Test.startTest();
         String noTAMessage;
@@ -224,7 +227,6 @@ public class Test_ResourceRemote {
 
     @IsTest
     public static void getNoTAMessage_NotAlumniPatient_Test() {
-        TestData.loadTestData();
         TestData testData = new TestData();
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory.putStubTypeByClassName(ResourceService.class, StubBuilder.newInstance(ResourceService.class)

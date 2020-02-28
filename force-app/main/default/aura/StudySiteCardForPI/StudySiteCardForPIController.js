@@ -3,6 +3,16 @@
  */
 
 ({
+    doInit: function (component, event, helper) {
+        var actions = component.get("v.siteWrapper").actions;
+        actions.forEach(function(action, index) {
+            if ('addPatient' == action.id) {
+                console.log(action);
+                component.set("v.addParticipantInfo", action);
+            }
+        });
+    },
+
     trimChanges: function (component, event, helper) {
         var val = event.getSource().get('v.value');
         event.getSource().set('v.value', val.trim());
@@ -65,8 +75,14 @@
         var trialId = siteWrapper.studySite.Clinical_Trial_Profile__c;
         var trial = siteWrapper.studySite.Clinical_Trial_Profile__r;
         var studyListViewComponent = component.get('v.studyListViewComponent');
-        var actionId = event.currentTarget.id;
-        if (!actionId) actionId = event.getSource().getLocalId();
+        var actionId = (event.currentTarget && event.currentTarget.id ? event.currentTarget.id : undefined);
+        if (!actionId && event.getSource()) {
+            if (event.getSource().get('v.itemValue')) {
+                actionId = event.getSource().get('v.itemValue');
+            } else {
+                actionId = event.getSource().getLocalId();
+            }
+        }
         switch (actionId) {
             case 'noThanks':
                 studyListViewComponent.showOpenNoTanksModal(trialId, studySiteId);
@@ -83,6 +99,9 @@
                 break;
             case 'addPatient':
                 communityService.navigateToPage('add-patient?id=' + trialId + '&ssId=' + studySiteId);
+                break;
+            case 'uploadPatient':
+                studyListViewComponent.find('actionUploadParticipants').execute(studySiteId, function(studySiteId) {});
                 break;
         }
     },

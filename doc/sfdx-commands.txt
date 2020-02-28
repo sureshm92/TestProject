@@ -31,5 +31,19 @@ sfdx force:user:password:generate
 sfdx force:user:display
 
 10) Обновление CI variable
-sfdx force:auth:web:login -d -a sandBoxAlias -r https://test.salesforce.com
+sfdx force:auth:web:login -a sandBoxAlias -r https://test.salesforce.com
 sfdx force:org:display -u sandBoxAlias --verbose
+
+11) Mark Scratch Org for deletion:
+sfdx force:org:delete -u scratchOrgAlias
+
+12) deploy zip file:
+Create connections in
+a) To Sandbox
+sfdx force:auth:web:login -d -a destOrgAliasSandbox -r https://test.salesforce.com
+b) To Prod
+sfdx force:auth:web:login -d -a destOrgAliasProd
+c) Test deploy:
+sfdx force:mdapi:deploy --testlevel RunLocalTests --wait 60 --checkonly -u destOrgAlias --zipfile zipName
+d) Real deploy:
+sfdx force:mdapi:deploy --testlevel RunLocalTests --wait 60 -u destOrgAlias --zipfile zipName

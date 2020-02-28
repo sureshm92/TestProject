@@ -1,0 +1,47 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="CommunityModeSwitcher" controller="CommunityFacadeRemote">
+
+    <!-- attributes: -->
+    <aura:attribute name="currentMode" type="Object"/>
+    <aura:attribute name="allModes" type="Object[]"/>
+
+    <!-- events: -->
+    <aura:registerEvent access="global" name="onModeChange" type="c:uiEvent"/>
+
+    <!-- component body: -->
+    <c:uiHeaderMenu aura:id="menu" class="mode-block">
+        <aura:set attribute="title">
+            <div class="mode-label" title="{!v.currentMode.label}">{!v.currentMode.groupLabel}</div>
+            <c:RRIcon color="white" iconName="icon-chevron-down" class="chevron"/>
+        </aura:set>
+        <aura:iteration var="item" items="{!v.allModes}">
+            <c:uiMenuItem label="{!item.label}" onclick="{!c.doSelectItem}"
+                          isSelected="{!or(v.currentMode.key == item.key, v.currentMode.groupKey == item.key)}"
+                          itemValue="{!item}"
+                          closeAfterClick="{!and(!item.isGroup, !item.isSplitter)}"
+                          class="{!'menu-item ' + if(item.isGroup, ' group ', '') + if(item.isSplitter, ' splitter ', '')}">
+                <aura:if isTrue="{!item.isGroup}">
+                    <aura:if isTrue="{!item.isOpen}">
+                        <c:RRIcon color="black" iconName="icon-chevron-down" class="menu-chevron"/>
+                        <aura:set attribute="else">
+                            <c:RRIcon color="black" iconName="icon-chevron-right" class="menu-chevron"/>
+                        </aura:set>
+                    </aura:if>
+                </aura:if>
+                <div class="overflow-ellipsis">{!item.label}</div>
+            </c:uiMenuItem>
+            <aura:iteration items="{!item.subModes}" var="subItem">
+                <c:uiMenuItem label="{!subItem.label}" onclick="{!c.doSelectItem}"
+                              isSelected="{!v.currentMode.key == subItem.key}"
+                              itemValue="{!subItem}" class="{!'menu-sub-item ' + if(and(item.isGroup, item.isOpen), '', 'hidden')}">
+                    <div class="overflow-ellipsis">{!subItem.label}</div>
+                </c:uiMenuItem>
+            </aura:iteration>
+        </aura:iteration>
+    </c:uiHeaderMenu>
+
+    <c:auraPubsub aura:id="pubsub"/>
+</aura:component>

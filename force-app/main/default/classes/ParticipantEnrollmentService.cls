@@ -20,9 +20,8 @@ public without sharing class ParticipantEnrollmentService {
     public static final String PART_STATUS_PENDING_REFERRAL = 'Pending Referral';
     public static final String PART_STATUS_FAILED_REVIEW = 'Failed Review';
     public static final String PART_STATUS_FAILED_REFERRAL = 'Failed Referral';
-    public static final String PART_STATUS_REFERRAL_SENT_TO_PI = 'Referral Sent to PI';
     public static final String PART_STATUS_EXCLUDED_FROM_REFERRING = 'Excluded from Referring';
-    public static final String PART_STATUS_ACCEPTED = 'Referral Accepted';
+    public static final String PART_STATUS_RECEIVED = 'Received';
     // Non referral reason
     public static final String NON_REF_REASON_STATUS_NOT_INTERESTED = 'No Longer Interested';
     public static final String NON_REF_REASON_STATUS_FAILED_PE_SCREENING = 'Failed Pre-Eligibility Screening';
@@ -41,6 +40,10 @@ public without sharing class ParticipantEnrollmentService {
     public static final String STUDIES_FILTER_DATA_FIELD = 'studies';
     public static final String STUDY_SITES_FILTER_DATA_FIELD = 'studySites';
     public static final String STATUSES_FILTER_DATA_FIELD = 'statuses';
+
+    public static final String PE_SOURCE_TYPE_PI = 'Principal Investigator';
+    public static final String PE_SOURCE_TYPE_RP = 'Referring Provider';
+    public static final String PE_SOURCE_TYPE_EPR = 'Digital Recruitment';
 
     //Map <SObject value field; SObject label field> for interdependent filter data for every Filter Data Filter Map
     public static final Map<String,Map<String,String>> FILTER_FIELD_MAP = new Map<String,Map<String,String>>{
@@ -297,10 +300,22 @@ public without sharing class ParticipantEnrollmentService {
         return getPEnrolmentsByStatus(userMode, statuses, recordsLimit, null);
     }
 
+
+
     public static List<Participant_Enrollment__c> getPEnrolmentsByStatus(String userMode, List<String> statuses, Integer recordsLimit, String delegateId){
         String filter = ' AND Participant_Status__c IN (\'' + String.join(statuses, '\',\'') + '\') ';
         if(recordsLimit != null) filter += ' LIMIT ' + recordsLimit;
         return getPEnrolmentsCommon(userMode, filter, delegateId);
+    }
+
+    public static List<Participant_Enrollment__c> getPEEnrollmentsByPI(String userMode, Id piId) {
+        String filter = ' Study_Site__c != NULL AND Study_Site__r.Principal_Investigator__c = \'' + piId + '\'';
+        List<Participant_Enrollment__c> peList = DatabaseService.query(
+                PE_COMMON_FIELDS,
+                Participant_Enrollment__c.getSObjectType(),
+                filter
+        );
+        return peList;
     }
 
     public static List<Participant_Enrollment__c> getReferredPEList(String userMode, String filter){
@@ -309,7 +324,7 @@ public without sharing class ParticipantEnrollmentService {
         return getPEnrolmentsCommon(userMode, filter);
     }
 
-    private static final List<String> PE_COMMON_FIELDS = new List<String>{
+    public static final List<String> PE_COMMON_FIELDS = new List<String>{
             'Id',
             'Clinical_Trial_Profile__r.Profile_Picture__c',
             'Clinical_Trial_Profile__r.Patient_Portal_Enabled__c',
@@ -326,12 +341,26 @@ public without sharing class ParticipantEnrollmentService {
             'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
             'Clinical_Trial_Profile__r.Visit_Plan__c',
             'Clinical_Trial_Profile__r.Visit_Data_Shareback__c',
+            'Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c',
+            'Clinical_Trial_Profile__r.Protocol_ID__c',
+            'Clinical_Trial_Profile__r.Study_Documents_Are_Available__c',
+            'Clinical_Trial_Profile__r.Tasks_Are_Available__c',
+            'Clinical_Trial_Profile__r.Payment_Is_Available__c',
+            'Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c',
+            'Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c',
+            'Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c',
+            'Clinical_Trial_Profile__r.CommunityTemplate__c',
+            'Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c',
             'CreatedDate',
             'Enrolled_Date__c',
+            'Enrolled_DateTime__c',
             'HCP__c',
             'HCP__r.Status__c',
             'HCP__r.HCP_Contact__c',
             'HCP__r.HCP_Contact__r.Name',
+            'HCP__r.HCP_Contact__r.FirstName',
+            'HCP__r.HCP_Contact__r.LastName',
+            'HCP__r.HCP_Contact__r.Email',
             'HCP__r.HCP_Contact__r.Salutation',
             'HCP__r.HCP_Contact__r.Language__c',
             'HCP__r.HCP_Contact__r.AccountId',
@@ -356,16 +385,24 @@ public without sharing class ParticipantEnrollmentService {
             'Participant_Name__c',
             'Participant_Surname__c',
             'Participant__c',
+            'Participant__r.Adult__c',
+            'Participant__r.Marketing_Flag__c',
+            'Participant__r.Emancipation_in_progress__c',
             'Participant__r.First_Name__c',
             'Participant__r.Last_Name__c',
             'Participant__r.Middle_Name__c',
             'Participant__r.Full_Name__c',
+            'Participant__r.Nickname__c',
+            'Participant__r.Suffix__c',
             'Participant__r.Date_of_Birth__c',
             'Participant__r.Birth_Year__c',
             'Participant__r.Gender__c',
             'Participant__r.Email__c',
+            'Participant__r.IsCountry_NOT_Eligible_for_Emails__c',
             'Participant__r.Phone__c',
             'Participant__r.Phone_Type__c',
+            'Participant__r.Alternative_Phone_Number__c',
+            'Participant__r.Alternative_Phone_Type__c',
             'Participant__r.Mailing_State__c',
             'Participant__r.Mailing_City__c',
             'Participant__r.Mailing_State_Code__c',
@@ -393,9 +430,14 @@ public without sharing class ParticipantEnrollmentService {
             'Referral_Completedby_Name__c',
             'Source_Type__c',
             'Visit_Plan__c',
+            'Visit_Plan__r.Name',
+            'IVRS_IWRS__c',
+            'Show_Referring_Provider__c',
             'Study_Name__c',
             'Study_Site__c',
             'Study_Site__r.Name',
+            'Study_Site__r.Is_Virtual_Study_Site__c',
+            'Study_Site__r.Study_Site_Type__c',
             'Study_Site__r.Approved_Lng__c',
             'Study_Site__r.Override_PI_Referral_Status__c',
             'Study_Site__r.Clinical_Trial_Profile__c',
@@ -417,12 +459,25 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Site__r.Name',
             'Study_Site__r.Site__r.BillingStreet',
             'Study_Site__r.Site__r.BillingPostalCode',
+            'Study_Site__r.Site__r.BillingCountryCode',
             'Study_Site__r.Principal_Investigator__r.Name',
             'Study_Site__r.Principal_Investigator__r.Salutation',
             'Study_Site__r.Principal_Investigator__r.Language__c',
             'Study_Site__r.Study_Site_Phone__c',
             'Study_Site__r.Visit_Results_Sharing__c',
-            'Screening_ID__c'
+            'Study_Site__r.Messages_Are_Available__c',
+            'Study_Site__r.SMS_Are_Available__c',
+            'Screening_ID__c',
+            'Washout_Run_In_Applies__c',
+            'Final_Consent_Date__c',
+            'Informed_Consent_Date__c',
+            'Initial_visit_occurred_flag__c',
+            'Initial_visit_occurred_date__c',
+            'Initial_visit_scheduled_date__c',
+            'Initial_visit_scheduled_time__c',
+            'PI_Contact__c',
+            'Initial_visit_scheduled_flag__c',
+            'Revisit_Date__c'
     };
 
     public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter){
@@ -478,8 +533,9 @@ public without sharing class ParticipantEnrollmentService {
                         ') ';
 
         } else{
-            if(PatientDelegateService.getInstance().isDelegate()){
-                delegatesFilter = ' OR Participant__c = \'' + PatientDelegateService.getInstance().getParticipant().Id + '\' ';
+            List<Id> delegatedParticipants = PatientDelegateService.getDelegatedParticipantIds(CommunityService.getUserContact().Id);
+            if(delegatedParticipants != null && delegatedParticipants.size() > 0){
+                delegatesFilter = ' OR ' + DatabaseService.fieldInValues('Participant__c', delegatedParticipants);
             }
             return '( ' +
                     '   Participant__r.Contact__c = \'' + CommunityService.getUserContact().Id + '\' ' +

@@ -3,8 +3,7 @@
  -->
 <aura:component controller="PatientDelegateRemote" description="PatientDelegateItem">
 
-    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community_js)}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"/>
 
     <!-- attributes: -->
     <aura:attribute name="contact" type="Object" required="true"/>
@@ -19,10 +18,10 @@
             {!v.contact.Email}
         </div>
         <div class="mti-button-container">
-            <button class="apollo-btn tertiary" onclick="{!c.doEdit}"
+            <!--button class="apollo-btn tertiary" onclick="{!c.doEdit}"
                     title="{!$Label.c.Button_Edit_Details}">
                 {!$Label.c.Button_Edit_Details}
-            </button>
+            </button-->
             <button class="apollo-btn tertiary" onclick="{!c.doRemove}"
                     title="{!$Label.c.Button_Remove}">
                 {!$Label.c.Button_Remove}
