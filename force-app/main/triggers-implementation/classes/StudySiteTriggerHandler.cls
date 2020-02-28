@@ -48,12 +48,16 @@ public without sharing class StudySiteTriggerHandler {
             updateRecruitmentStatus(newList);
         }
 
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+        //START INC9339329 14/02/2020 Sumit S
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             piDoesNotReimburse(newList);
+        }
+        //END INC9339329
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             overrideStatusChangedBy(newList, (Map<Id, Study_Site__c>)oldMap);
             updateRecruitmentStatus(newList);
         }
-    }
 
     public class CreateHCPEnrollmentsForRPInWhiteListHandler extends TriggerHandler{
 
