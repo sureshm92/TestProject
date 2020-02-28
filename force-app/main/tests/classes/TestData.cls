@@ -105,23 +105,7 @@ public class TestData {
         pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
         update pe;
     }
-    
-    /**
-     * ONLY FOR DEPLOY
-     */
-    public void createPSE() {
-        pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
-        update pe;
-        pse = [
-                SELECT Id,
-                        Participant_Contact__c,
-                        Screening_ID__c,
-                        Clinical_Trial_Profile__c,
-                        CreatedDate
-                FROM Participant_Study_Enrollment__c
-                WHERE Participant__c =: participant.Id
-        ];
-    }
+
 
     /**
      * Fill Enrolled_Date__c on PE
