@@ -23,7 +23,7 @@
                 <lightning:layout class="slds-p-around--large" horizontalAlign="center" verticalAlign="start"
                                   multipleRows="true">
                     <lightning:layoutItem size="12" class="cen visit-assessment-inf">
-                        <p class="visit-assessment-inf">{!$Label.c.Visit_Results_Tab_If_Is_Empty_Body}</p>
+                        <p class="white-space visit-assessment-inf">{!$Label.c.Visit_Results_Tab_If_Is_Empty_Body}</p>
                     </lightning:layoutItem>
                 </lightning:layout>
             </div>
@@ -37,7 +37,7 @@
 
                         <lightning:layout class="slds-p-around--large" horizontalAlign="center" verticalAlign="start">
                             <lightning:layoutItem size="12" class=" visit-assessment-inf" flexibility="shrink">
-                                <div aura:id="opt-in-body">
+                            <div aura:id="opt-in-body" style="white-space: pre" >
                                     <aura:if isTrue="{!!v.isDelegate}">
                                         <p>{!$Label.c.Visit_Results_Tab_If_Is_Not_Opt_In + ' '}
                                             <span class="to-modal-link" onclick="{!c.openOptInModal}"> {!$Label.c.Visit_Results_Tab_Linked_Text}</span>
@@ -60,7 +60,7 @@
                             <lightning:layout class="slds-p-around--large" horizontalAlign="center" verticalAlign="start"
                                               multipleRows="true">
                                 <lightning:layoutItem size="12" class="cen visit-assessment-inf">
-                                    <p class="visit-assessment-inf">{!$Label.c.Visit_Results_Tab_No_Results}</p>
+                                    <p class="white-space visit-assessment-inf">{!$Label.c.Visit_Results_Tab_No_Results}</p>
                                 </lightning:layoutItem>
                             </lightning:layout>
 
