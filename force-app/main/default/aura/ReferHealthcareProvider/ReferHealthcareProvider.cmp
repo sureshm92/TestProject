@@ -26,8 +26,28 @@
                 <aura:if isTrue="{!!v.fromActionParticipant &amp;&amp; v.refProvider &amp;&amp; !v.fromEmancipParticipant}">
                 <div class="header">{!$Label.c.HealthCare_Provider}</div>
                 </aura:if>
-                <div class="healthcare-info">{!!v.fromEmancipParticipant ? $Label.c.HealCare_Provider_Message : $Label.c.BTN_Participant_Would_Like_Share_Info}
+            <div class="healthcare-info">{!!v.fromEmancipParticipant ? $Label.c.Sharing_Options_Message : $Label.c.BTN_Participant_Would_Like_Share_Info}</div>
+
+
+            <aura:if isTrue="{!!v.fromEmancipParticipant}">
+                <div class="referring">{!$Label.c.Delegates}</div>
+                <div class="healthcare-info">{!!v.fromEmancipParticipant ? $Label.c.Message_For_Delegates : ''}</div>
+                <div class="slds-grid slds-wrap slds-size--1-of-1">
+                    <aura:iteration items="{!v.delegates}" var="delegate" indexVar="index">
+                        <c:ReferHealthcareProviderForm forThisProvider="isDelegates" delegates = "{!delegate}" index = "{!index}" parent="{!this}"
+                                                       pe="{!v.pe}" actionDisabled="{!v.actionDisabled}" printMode="{!v.printMode}"/>
+                    </aura:iteration>
                 </div>
+                <aura:if isTrue="{!!v.actionDisabled}">
+                    <div>
+                        <lightning:button class="apollo-btn secondary slds-box" disabled="true" onclick="{!c.doAddDelegate}">{!$Label.c.Add_Another_Delegate}
+                            <c:RRIcon class='rr-icon--left' color="#297dfd"
+                                      iconName="icon-plus"/>
+                        </lightning:button>
+                    </div>
+                </aura:if>
+            </aura:if>
+
                 <aura:if isTrue="{!v.fromActionParticipant &amp;&amp; v.refProvider}">
                 <div class="referring">{!$Label.c.Referring_Provider}</div>
                     <div class="slds-grid slds-wrap slds-size--1-of-1">
@@ -35,23 +55,6 @@
                                                    pe="{!v.pe}" actionDisabled="{!v.actionDisabled}" printMode="{!v.printMode}"/>
                     </div>
                 </aura:if>
-            <aura:if isTrue="{!!v.fromEmancipParticipant}">
-                <div class="referring">{!$Label.c.Delegates}</div>
-                <div class="slds-grid slds-wrap slds-size--1-of-1">
-                    <aura:iteration items="{!v.delegates}" var="delegate" indexVar="index">
-                        <c:ReferHealthcareProviderForm forThisProvider="isDelegates" delegates = "{!delegate}" index = "{!index}" parent="{!this}"
-                                                       pe="{!v.pe}" actionDisabled="{!v.actionDisabled}" printMode="{!v.printMode}"/>
-                    </aura:iteration>
-                </div>
-            <aura:if isTrue="{!!v.actionDisabled}">
-                <div>
-                    <lightning:button class="apollo-btn secondary slds-box" disabled="true" onclick="{!c.doAddDelegate}">{!$Label.c.Add_Another_Delegate}
-                        <c:RRIcon class='rr-icon--left' color="#297dfd"
-                                  iconName="icon-plus"/>
-                    </lightning:button>
-                </div>
-            </aura:if>
-            </aura:if>
             <!--<div class="slds-col slds-size&#45;&#45;1-of-4 referring-provider-header">
                 <aura:if isTrue="{!v.pe.HCP_Contact_HCPEnroll__r.Name}">
                     <div class="rp-label">{!$Label.c.HealthCare_Provider_RP}</div>
@@ -59,6 +62,7 @@
                 </aura:if>
             </div>-->
         <div class="referring">{!!v.fromEmancipParticipant ? $Label.c.Other_Providers : ''}</div>
+            <div class="healthcare-info">{!!v.fromEmancipParticipant ? $Label.c.Message_For_Providers : ''}</div>
         <div class="slds-grid slds-wrap slds-size--1-of-1">
             <aura:iteration items="{!v.healthCareProviders}" var="hcProvider" indexVar="index">
                 <c:ReferHealthcareProviderForm forThisProvider="isHealthCare" healthCareProvider = "{!hcProvider}" index = "{!index}" parent="{!this}"
