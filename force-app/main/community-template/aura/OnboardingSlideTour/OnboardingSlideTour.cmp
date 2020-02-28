@@ -4,7 +4,7 @@
 
 <aura:component description="OnboardingSlideTour" implements="forceCommunity:availableForAllPageTypes" controller="OnboardingSlideTourRemote">
 
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require scripts="{!$Resource.rr_community_js}"/>
 
     <!-- attributes: -->
     <aura:attribute name="title" type="String" default=""/>
