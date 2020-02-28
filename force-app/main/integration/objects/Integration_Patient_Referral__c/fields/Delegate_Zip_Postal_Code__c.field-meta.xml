@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Referral_Sent_to_PI__c</fullName>
+    <fullName>Delegate_Zip_Postal_Code__c</fullName>
     <externalId>false</externalId>
-    <label>Referral_Sent_to_PI</label>
-    <length>255</length>
+    <label>Delegate Zip/Postal Code</label>
+    <length>25</length>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Text</type>

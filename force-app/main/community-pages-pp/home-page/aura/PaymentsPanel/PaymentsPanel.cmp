@@ -21,13 +21,11 @@
                             <tr>
                                 <th>{!$Label.c.Home_Page_Payments_Card_Status}</th>
                                 <th class="amount-of-money">{!$Label.c.Home_Page_Payments_Balance}</th>
-                                <th class="amount-of-money">{!$Label.c.Home_Page_Payments_Pending_Payments}</th>
                             </tr>
                             <aura:iteration var="card" items="{!v.initData.cards}">
                                 <tr>
                                     <td>{!card.status}</td>
                                     <td class="amount-of-money">${!card.balance}</td>
-                                    <td class="amount-of-money">${!v.initData.pendingPayments}</td>
                                 </tr>
                             </aura:iteration>
                         </c:RRTable>

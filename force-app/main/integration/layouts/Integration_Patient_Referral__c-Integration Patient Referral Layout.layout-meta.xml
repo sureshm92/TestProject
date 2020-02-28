@@ -99,7 +99,7 @@
                 <field>acceptedTermsAndConditions__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Referral_Sent_to_PI__c</field>
             </layoutItems>
             <layoutItems>
@@ -226,7 +226,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h2F000000eCre</masterLabel>
+        <masterLabel>00h3O000000OCdR</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

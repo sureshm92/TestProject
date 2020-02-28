@@ -20,7 +20,6 @@ public without sharing class ParticipantEnrollmentService {
     public static final String PART_STATUS_PENDING_REFERRAL = 'Pending Referral';
     public static final String PART_STATUS_FAILED_REVIEW = 'Failed Review';
     public static final String PART_STATUS_FAILED_REFERRAL = 'Failed Referral';
-    public static final String PART_STATUS_REFERRAL_SENT_TO_PI = 'Referral Sent to PI';
     public static final String PART_STATUS_EXCLUDED_FROM_REFERRING = 'Excluded from Referring';
     public static final String PART_STATUS_RECEIVED = 'Received';
     // Non referral reason
@@ -354,6 +353,7 @@ public without sharing class ParticipantEnrollmentService {
             'Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c',
             'CreatedDate',
             'Enrolled_Date__c',
+            'Enrolled_DateTime__c',
             'HCP__c',
             'HCP__r.Status__c',
             'HCP__r.HCP_Contact__c',
