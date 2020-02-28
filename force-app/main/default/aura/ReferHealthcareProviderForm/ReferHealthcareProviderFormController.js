@@ -25,7 +25,7 @@
         }
     },
 
-    doInit: function (component, event, helper) {
+    /*doInit: function (component, event, helper) {
         var provider = component.get('v.forThisProvider');
         var delegate = component.get('v.delegates');
         if (provider == 'isDelegates') {
@@ -41,7 +41,7 @@
             }
         });
         }
-    },
+    },*/
 
 
     checkFields: function (component, event, helper) {

@@ -9,7 +9,7 @@
         console.log(pe);
         var statusesMap = component.get('v.peStatusStateMap');
         var currentPEState = statusesMap[pe.Participant_Status__c];
-        component.set('v.showPath', currentPEState !== undefined && !(communityService.getUserMode() === 'PI' && pe.Participant_Status__c === 'Referral Sent to PI'));
+        component.set('v.showPath', currentPEState !== undefined );
         component.set('v.userMode', communityService.getUserMode());
         var additionalName = [];
         if (pe.Participant_Name__c) additionalName.push(pe.Participant_Name__c);

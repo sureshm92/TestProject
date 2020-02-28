@@ -5631,7 +5631,7 @@
         <editable>true</editable>
         <field>Res_study__c.Expires_On_Status__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Res_study__c.Notify_On_Availability__c</field>

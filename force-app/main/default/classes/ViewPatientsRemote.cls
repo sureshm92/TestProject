@@ -136,7 +136,7 @@ public without sharing class ViewPatientsRemote {
     }
 
     @AuraEnabled
-    public static String getRecords(String filterJSON, String paginationJSON, String piBtnFilter, String userMode, Boolean studyChanged, String delegateId){
+    public static String getRecords(String filterJSON, String paginationJSON, String piBtnFilter, String userMode, Boolean studyChanged, String delegateId, Boolean emancipatedPE){
         ParticipantEnrollmentService.PEFilter filter = (ParticipantEnrollmentService.PEFilter)JSON.deserialize(filterJSON, ParticipantEnrollmentService.PEFilter.class);
         SearchResult result = new SearchResult();
         result.peFilterData = ParticipantEnrollmentService.getPEFilterData(filter.study, userMode, true, delegateId);
@@ -186,6 +186,9 @@ public without sharing class ViewPatientsRemote {
                 filter.additionalFilter += + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_HAD_DISC_NOT_INTERESTED + '\''
                         + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_NOT_INTERESTED + '\''
                         + ' AND Non_Referral_Reason__c !=\''+ParticipantEnrollmentService.NON_REF_REASON_STATUS_FAILED_PE_SCREENING + '\'';
+            }
+            if(emancipatedPE){
+                filter.additionalFilter += ' AND Participant__r.Emancipation_in_progress__c = true ';
             }
             System.debug('additionalFilter' + filter.additionalFilter);
             result.paginationData = pagination;

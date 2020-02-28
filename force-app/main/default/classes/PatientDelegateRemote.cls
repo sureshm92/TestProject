@@ -46,9 +46,9 @@ public without sharing class PatientDelegateRemote {
     }
 
     @AuraEnabled
-    public static void withdrawDelegate(String contactId) {
+    public static void withdrawDelegate(String contactId, Boolean removeHimself) {
         try{
-            PatientDelegateService.getInstance().resetDelegate(contactId);
+            PatientDelegateService.getInstance().resetDelegate(contactId, removeHimself);
         }catch (Exception e){
             AuraHelper.throwException(e);
         }

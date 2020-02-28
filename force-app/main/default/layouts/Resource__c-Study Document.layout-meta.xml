@@ -47,6 +47,7 @@
         <style>CustomLinks</style>
     </layoutSections>
     <relatedLists>
+        <excludeButtons>New</excludeButtons>
         <fields>Clinical_Trial_Profile__c.NAME</fields>
         <fields>NAME</fields>
         <fields>Clinical_Trial_Profile__c.Status__c</fields>
@@ -70,7 +71,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h1X000000nW9D</masterLabel>
+        <masterLabel>00h1X0000012AVn</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

@@ -207,6 +207,19 @@ public virtual without sharing class ResourceService {
         return rwSorted;
     }
 
+    public static List<ResourceWrapper> removeTranslations(List<ResourceWrapper> resourceWrappers) {
+        List<String> availableLanForUser = ContactService.getPreferredLanguages();
+
+        for (ResourceWrapper c : resourceWrappers) {
+            List<ContentDocumentLinkService.TranslatedContentItem> translationsOfSD = new List<ContentDocumentLinkService.TranslatedContentItem>();
+            for(ContentDocumentLinkService.TranslatedContentItem translation : c.translations) {
+                if (availableLanForUser.contains(translation.languageCode)) translationsOfSD.add(translation);
+            }
+            c.translations = translationsOfSD;
+        }
+        return resourceWrappers;
+    }
+
     @TestVisible
     private List<ResourceService.ResourceWrapper> getResourceWrappers(List<Resource__c> resources) {
         List<Id> resourceIds = new List<Id>();
