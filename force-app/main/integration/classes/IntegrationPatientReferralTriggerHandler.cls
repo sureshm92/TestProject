@@ -86,10 +86,11 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
         private void upsertParticipantAndPE() {
             Map<String, Participant__c> newParticipantsMap = new Map<String, Participant__c>();
             Map<String, Contact> newDelegateContactsMap = new Map<String, Contact>();
+            Account participantAccount = [SELECT Id FROM Account WHERE Name = 'Participant' LIMIT 1];
             for (Integration_Patient_Referral__c ipr : newList) {
                 newParticipantsMap.put(ipr.referralID__c, convertToParticipant(ipr));
                 if (!String.isBlank(ipr.Delegate_First_Name__c) && !String.isBlank(ipr.Delegate_Last_Name__c)) {
-                    newDelegateContactsMap.put(ipr.referralID__c, convertToDelegateContact(ipr));
+                    newDelegateContactsMap.put(ipr.referralID__c, convertToDelegateContact(ipr, participantAccount));
                 }
             }
 
@@ -195,7 +196,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
         return participant;
     }
 
-    private static Contact convertToDelegateContact(Integration_Patient_Referral__c ipr) {
+    private static Contact convertToDelegateContact(Integration_Patient_Referral__c ipr, Account participantAccount) {
         Contact newContact = new Contact(
                 FirstName = ipr.Delegate_First_Name__c,
                 MiddleName = ipr.Delegate_Middle_Name__c,
@@ -204,7 +205,8 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 MailingCountryCode = ipr.Address_Country__c,
                 MailingState = ipr.Delegate_Mailing_State__c,
                 MailingCity = ipr.Delegate_Mailing_City__c,
-                MailingPostalCode = ipr.Delegate_Zip_Postal_Code__c
+                MailingPostalCode = ipr.Delegate_Zip_Postal_Code__c,
+                AccountId = participantAccount.Id
         );
         if ('Home' == ipr.Delegate_Phone_Number_Type__c) {
             newContact.HomePhone = ipr.Delegate_Daytime_Phone_Number__c;
