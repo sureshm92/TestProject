@@ -31,7 +31,16 @@
         let hasEmancipatedParticipants = childCmp.get('v.hasEmancipatedParticipants');
         if (hasEmancipatedParticipants) {
             component.set('v.hasEmancipatedParticipants', true);
+            component.set('v.parent', childCmp);
+        } else {
+            component.set('v.hasEmancipatedParticipants', false);
+            component.set('v.parent', childCmp);
         }
-    }
+    },
+
+    filterEmancipations: function(component, event, helper){
+    	var rootCmp = component.get('v.parent');
+        rootCmp.filterEmancipationsOnly();
+    },
 
 })

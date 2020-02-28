@@ -1,5 +1,5 @@
 global without sharing class Batch_UpdateParticipantEnrollmentRP implements Database.Batchable<SObject> {
-    private static final String SourceTypeRP = 'Referring Provider';
+    private static final String SourceTypeRP = ParticipantEnrollmentService.PE_SOURCE_TYPE_RP;
     private static final String ReferralSourceHCP = 'HCP';
 
 

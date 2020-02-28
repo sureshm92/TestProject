@@ -35,44 +35,44 @@
                 </div>
             </aura:if>
         </div>
-        <aura:if isTrue="{!v.userMode == 'PI'}">
-            <div class="slds-grid vpi-status-btns slds-gutters_x-small slds-wrap">
-                <div class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_4-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_4-of-12'}">
-                    <button class="{!'apollo-btn secondary'}"
-                            title="{!$Label.c.BTN_Participant_Information}"
-                            onclick="{!c.showEditParticipantInformation}"
-                            value="personalInfoAnchor">
-                        {!$Label.c.BTN_Participant_Information}
-                    </button>
-                </div>
-                <div class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_4-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_4-of-12'}">
-                    <button class="{!'apollo-btn secondary'}"
-                            title="{!$Label.c.BTN_HealthCare_Providers}"
-                            onclick="{!c.showEditParticipantInformation}"
-                            value="healthCareProvider">
-                        {!$Label.c.BTN_HealthCare_Providers}
-                    </button>
-                </div>
-                <div class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_4-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_4-of-12'}">
-                    <button class="{!'apollo-btn secondary'}"
-                            title="{!$Label.c.BTN_Status_Details}"
-                            onclick="{!c.showEditParticipantInformation}"
-                            value="statusDetailsAnchor">
-                        {!$Label.c.BTN_Status_Details}
-                    </button>
-                </div>
-                <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">
-                    <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12">
-                        <button class="{!'apollo-btn secondary'}"
-                                title="{!$Label.c.BTN_Screener_Responses}"
-                                onclick="{!c.showEditParticipantInformation}"
-                                value="screenerResponsesAnchor">
-                            {!$Label.c.BTN_Screener_Responses}
-                        </button>
-                    </div>
-                </aura:if>
-            </div>
-        </aura:if>
+<!--        <aura:if isTrue="{!v.userMode == 'PI'}">-->
+<!--            <div class="slds-grid vpi-status-btns slds-gutters_x-small slds-wrap">-->
+<!--                <div class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_4-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_4-of-12'}">-->
+<!--                    <button class="{!'apollo-btn secondary'}"-->
+<!--                            title="{!$Label.c.BTN_Participant_Information}"-->
+<!--                            onclick="{!c.showEditParticipantInformation}"-->
+<!--                            value="personalInfoAnchor">-->
+<!--                        {!$Label.c.BTN_Participant_Information}-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <div class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_4-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_4-of-12'}">-->
+<!--                    <button class="{!'apollo-btn secondary'}"-->
+<!--                            title="{!$Label.c.BTN_HealthCare_Providers}"-->
+<!--                            onclick="{!c.showEditParticipantInformation}"-->
+<!--                            value="healthCareProvider">-->
+<!--                        {!$Label.c.BTN_HealthCare_Providers}-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <div class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_4-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_4-of-12'}">-->
+<!--                    <button class="{!'apollo-btn secondary'}"-->
+<!--                            title="{!$Label.c.BTN_Status_Details}"-->
+<!--                            onclick="{!c.showEditParticipantInformation}"-->
+<!--                            value="statusDetailsAnchor">-->
+<!--                        {!$Label.c.BTN_Status_Details}-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">-->
+<!--                    <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12">-->
+<!--                        <button class="{!'apollo-btn secondary'}"-->
+<!--                                title="{!$Label.c.BTN_Screener_Responses}"-->
+<!--                                onclick="{!c.showEditParticipantInformation}"-->
+<!--                                value="screenerResponsesAnchor">-->
+<!--                            {!$Label.c.BTN_Screener_Responses}-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </aura:if>-->
+<!--            </div>-->
+<!--        </aura:if>-->
     </div>
 
 </aura:component>

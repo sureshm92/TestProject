@@ -228,7 +228,7 @@ public class Test_ResourceService {
                         'Participant_Name__c' => singleParticipant.First_Name__c,
                         'Participant_Surname__c' => singleParticipant.Last_Name__c,
                         'Patient_ID__c' => '12345678',
-                        'Participant_Status__c' => 'Referral Sent to PI',
+                        'Participant_Status__c' => 'Received',
                         'Referral_Source__c' => 'HCP',
                         'Study_Site__c' => studySite.Id,
                         'Participant__c' => singleParticipant.Id

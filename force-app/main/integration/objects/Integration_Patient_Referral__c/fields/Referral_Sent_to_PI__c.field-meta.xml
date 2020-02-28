@@ -4,7 +4,7 @@
     <externalId>false</externalId>
     <label>Referral_Sent_to_PI</label>
     <length>255</length>
-    <required>true</required>
+    <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>

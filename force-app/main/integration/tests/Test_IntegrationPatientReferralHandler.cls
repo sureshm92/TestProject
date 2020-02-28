@@ -112,7 +112,6 @@ private class Test_IntegrationPatientReferralHandler {
                 siteSelected__c = 'SS1',
                 Referred_Date__c  = '2019-10-02T10:00:00-05:00',
                 referralID__c = '1234343242',
-                Referral_Sent_to_PI__c = 'Referral Sent to PI',
                 acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00'
         );
         Integration_Patient_Referral__c ipr2 = new Integration_Patient_Referral__c(
@@ -131,7 +130,6 @@ private class Test_IntegrationPatientReferralHandler {
                 siteSelected__c = 'SS1',
                 Referred_Date__c  = '2019-10-02T10:00:00-05:00',
                 referralID__c = '1232141212',
-                Referral_Sent_to_PI__c = 'Referral Sent to PI',
                 acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00'
         );
         Integration_Patient_Referral__c ipr3 = new Integration_Patient_Referral__c(
@@ -149,7 +147,6 @@ private class Test_IntegrationPatientReferralHandler {
                 siteSelected__c = 'SS1',
                 Referred_Date__c  = '2019-10-02T10:00:00-05:00',
                 referralID__c = '444323423',
-                Referral_Sent_to_PI__c = 'Referral Sent to PI',
                 acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00'
         );
 
@@ -173,7 +170,6 @@ private class Test_IntegrationPatientReferralHandler {
                 siteSelected__c = 'SS1',
                 Referred_Date__c  = '2019-10-02T10:00:00-05:00',
                 referralID__c = '4443234231',
-                Referral_Sent_to_PI__c = 'Referral Sent to PI',
                 acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00'
         );
         

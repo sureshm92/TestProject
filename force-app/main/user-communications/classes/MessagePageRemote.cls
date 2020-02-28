@@ -205,6 +205,7 @@ public without sharing class MessagePageRemote {
     @AuraEnabled
     public static ConversationWrapper sendMessage(Conversation__c conversation, String messageText, String fileJSON) {
         try {
+            conversation = ConversationService.getConversations(new List<Id>{conversation.Id}).get(0);
             Contact userContact = UserContext.getUserContact();
 
             String senderName;

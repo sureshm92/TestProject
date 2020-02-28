@@ -42,7 +42,7 @@ public without sharing class ParticipantEnrollmentFactory {
         pe.Participant__c = participant.Id;
         pe.Participant_Status__c  = 'Enrollment Success';
         insert pe;
-        pe.Participant_Status__c  = 'Referral Sent to PI';
+        pe.Participant_Status__c  = 'Received';
         update pe;
     }
     
@@ -100,7 +100,7 @@ public without sharing class ParticipantEnrollmentFactory {
                 Study_Site__c = studySite.Id,
                 Patient_ID__c = 'SomePatientId1',
                 //Referral_Source__c = 'HCP',
-                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
+                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED,
                 Screening_ID__c = screeningId
         );
         return new PEWrapper(participant, pe);

@@ -105,16 +105,20 @@
             </lightning:button>
         </aura:set>
         <aura:set attribute="footerButtons">
-            <div data-gtm="BTNS_Popup_Save_Cancel">
-                <lightning:button class="apollo-btn secondary slds-float_right slds-button--neutral"
-                                  disabled="{!!v.isValid}"
-                                  onclick="{!c.doUpdateCancel}">{!$Label.c.BTN_Save_All_Tabs}</lightning:button>
+            <div class="partinfo-footer-buttons" data-gtm="BTNS_Popup_Save_Cancel">
+                <lightning:button class="apollo-btn tertiary"
+                                  onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</lightning:button>
                 <aura:if isTrue="{!v.checkTabs == 'participantDetails'}">
-                    <lightning:button class="apollo-btn secondary slds-float_left" disabled="{!!v.isValid}"
+                    <lightning:button class="apollo-btn secondary" disabled="{!!v.isValid}"
                                       onclick="{!c.doUpdate}">{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button>
                 </aura:if>
-                <lightning:button class="apollo-btn secondary slds-float_right slds-button--reset"
-                                  onclick="{!c.doCancel}">{!$Label.c.BTN_Cancel}</lightning:button>
+                <aura:if isTrue="{!v.checkTabs == 'Status'}">
+                    <lightning:button class="apollo-btn secondary" disabled="{!!v.participantPath.currentStep.editable || !v.statusDetailValid}"
+                                      onclick="{!c.doUpdatePatientStatus}">{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button>
+                </aura:if>
+                <lightning:button class="apollo-btn secondary slds-button--neutral"
+                                  disabled="{!!v.isValid || ! v.statusDetailValid}"
+                                  onclick="{!c.doUpdateCancel}">{!$Label.c.BTN_Save_All_Tabs}</lightning:button>
             </div>
         </aura:set>
     </c:Popup>

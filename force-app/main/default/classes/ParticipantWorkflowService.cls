@@ -23,7 +23,7 @@ public without sharing class ParticipantWorkflowService {
         Map<String, Participant_Workflow_Form_Field__mdt> fieldsMap = getFieldsMap(ctp);
         Boolean previousStepSuccess = false;
         for(Participant_Workflow_Step__mdt step : steps){
-            if(step.Condition__c == null || step.Condition__c =='' || ConditionCheckerService.checkConditionForObject(step.Condition__c, ctp)){
+            if(String.isBlank(step.Condition__c) || ConditionCheckerService.checkConditionForObject(step.Condition__c, ctp)){
                 ParticipantWorkflowStepWrapper stepWrapper = createStepWrapper(step, outcomesMap, peshMapByStep, previousStepSuccess, fieldsMap, pe);
                 previousStepSuccess = stepWrapper.state == PEStatusState.STATUS_STATE_SUCCESS;
 
@@ -60,7 +60,7 @@ public without sharing class ParticipantWorkflowService {
         for(Participant_Enrollment_Status_History__c pesh: [
                 SELECT Id, Date__c, Status__c, Reason__c, Notes__c, CreatedBy.Name,
                         ParticipantEnrollment__r.Referral_Source__c, ParticipantEnrollment__r.Referral_Completedby_Name__c,
-                        ParticipantEnrollment__r.Source_Type__c
+                        ParticipantEnrollment__r.Source_Type__c, ParticipantEnrollment__r.PI_Contact__r.Name
                 FROM Participant_Enrollment_Status_History__c
                 WHERE ParticipantEnrollment__c = :pe.Id
                 ORDER BY Date__c DESC]){
@@ -84,22 +84,22 @@ public without sharing class ParticipantWorkflowService {
         stepWrapper.title = TranslateHelper.getLabelValue(step.Name_Label__c);
         stepWrapper.cardTitle = TranslateHelper.getLabelValue(step.Card_Name_Label__c);
         stepWrapper.historyTitle = TranslateHelper.getLabelValue(step.History_Label__c);
-        stepWrapper.outcomePlaceholder = step.Outcome_Placeholder_Label__c == null || step.Outcome_Placeholder_Label__c ==''?
+        stepWrapper.outcomePlaceholder = String.isBlank(step.Outcome_Placeholder_Label__c)?
                 TranslateHelper.getLabelValue('PG_RP_L_Not_selected'):
                 TranslateHelper.getLabelValue(step.Outcome_Placeholder_Label__c);
         stepWrapper.stepHistory = new List<ParticipantWorkflowService.ParticipantWorkflowHistoryWrapper>();
         if(!peshMap.containsKey(step.DeveloperName)){
-            Boolean stepSuccessfull =(step.Success_Condition__c != null && step.Success_Condition__c !='') && ConditionCheckerService.checkConditionForObject(step.Success_Condition__c, pe);
+            Boolean stepSuccessful =String.isNotBlank(step.Success_Condition__c) && ConditionCheckerService.checkConditionForObject(step.Success_Condition__c, pe);
 
-            Boolean stepInProgress = (step.In_Progress_Condition__c == null || step.In_Progress_Condition__c =='') || ConditionCheckerService.checkConditionForObject(step.In_Progress_Condition__c, pe);
+            Boolean stepInProgress = String.isBlank(step.In_Progress_Condition__c) || ConditionCheckerService.checkConditionForObject(step.In_Progress_Condition__c, pe);
             stepWrapper.state = previousStepSuccess?
-                    (stepSuccessfull?
+                    (stepSuccessful?
                             PEStatusState.STATUS_STATE_SUCCESS
                             :(stepInProgress?
                                     PEStatusState.STATUS_STATE_IN_PROGRESS
                                     :PEStatusState.STATUS_STATE_NEUTRAL))
                     :PEStatusState.STATUS_STATE_NEUTRAL;
-            if(stepSuccessfull && step.Success_Date_Field__c != null){
+            if(stepSuccessful && step.Success_Date_Field__c != null){
                 stepWrapper.status = ((Date)pe.get(step.Success_Date_Field__c)).format();
             }
             else{
@@ -110,7 +110,7 @@ public without sharing class ParticipantWorkflowService {
             List<Participant_Enrollment_Status_History__c> peshList = peshMap.get(step.DeveloperName);
             stepWrapper.state = outcomesMap.get(peshList[0].Status__c).State__c;
             stepWrapper.status = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,peshList[0].Status__c)
-                    + ' ' + peshList[0].Date__c.format('dd/MM/yyyy');
+                    + ' ' + peshList[0].Date__c.date().format();
             stepWrapper.outcome = peshList[0].Status__c;
             for(Participant_Enrollment_Status_History__c pesh: peshList){
                 ParticipantWorkflowHistoryWrapper historyWrapper = createHistoryWrapper(pesh, step);
@@ -157,9 +157,9 @@ public without sharing class ParticipantWorkflowService {
     private static ParticipantWorkflowHistoryWrapper createHistoryWrapper(Participant_Enrollment_Status_History__c pesh, Participant_Workflow_Step__mdt step){
         ParticipantWorkflowHistoryWrapper historyWrapper = new ParticipantWorkflowHistoryWrapper();
         String statusString = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pesh.Status__c);
-        String reasonString = (pesh.Reason__c!=null && pesh.Reason__c.trim() != ''?' - ' + TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c,pesh.Reason__c.trim()):'');
-        String notesString = (pesh.Notes__c!=null && pesh.Notes__c.trim() != ''?', ' + pesh.Notes__c.trim():'');
-        if(step.History_Item_Title_Template_Label__c == null || step.History_Item_Title_Template_Label__c == ''){
+        String reasonString = (String.isNotBlank(pesh.Reason__c)?' - ' + TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c,pesh.Reason__c.trim()):'');
+        String notesString = (String.isNotBlank(pesh.Notes__c)?', ' + pesh.Notes__c.trim():'');
+        if(String.isEmpty(step.History_Item_Title_Template_Label__c)){
             historyWrapper.title = statusString
                     + reasonString
                     + notesString;
@@ -170,17 +170,18 @@ public without sharing class ParticipantWorkflowService {
                     replace('##Reason',reasonString).
                     replace('##Notes',notesString);
         }
-        if(step.History_Item_Details_Template_Label__c == null || step.History_Item_Details_Template_Label__c == ''){
-            historyWrapper.detail = ' '+ TranslateHelper.getLabelValue('PE_Status_History_On_Date') +' ' + pesh.Date__c.format('dd/MM/yyyy')
+        if(String.isBlank(step.History_Item_Details_Template_Label__c)){
+            historyWrapper.detail = ' '+ TranslateHelper.getLabelValue('PE_Status_History_On_Date') +' ' + pesh.Date__c.date().format()
                     + ' ' + TranslateHelper.getLabelValue('PG_IMI_L_by_user') + ' '+ pesh.CreatedBy.Name;
         }
         else{
-            String sourceString = pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c == null
-                    || pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c == '' ?
-                    pesh.ParticipantEnrollment__r.Source_Type__c:
+            String sourceString = String.isBlank(pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c)?
+                    (pesh.ParticipantEnrollment__r.Source_Type__c == ParticipantEnrollmentService.PE_SOURCE_TYPE_EPR?
+                            pesh.ParticipantEnrollment__r.Source_Type__c
+                            :pesh.ParticipantEnrollment__r.PI_Contact__r.Name):
                     pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c;
             historyWrapper.detail = ' ' + TranslateHelper.getLabelValue(step.History_Item_Details_Template_Label__c).
-                    replace('##Date',pesh.Date__c.format('dd/MM/yyyy')).
+                    replace('##Date',pesh.Date__c.date().format()).
                     replace('##ByUser',pesh.CreatedBy.Name).
                     replace('##Source', sourceString);
         }
@@ -190,7 +191,7 @@ public without sharing class ParticipantWorkflowService {
     private static List<ParticipantWorkflowFieldGroupWrapper> createFieldGroupWrapperes(Participant_Workflow_Step__mdt step,
             Map<String, Participant_Workflow_Form_Field__mdt> fieldsMap, Participant_Enrollment__c pe, Map<String, List<String>> fieldDependencyMap){
         List<ParticipantWorkflowFieldGroupWrapper> result = new List<ParticipantWorkflowService.ParticipantWorkflowFieldGroupWrapper>();
-        if(step.Form_Fields__c != null && step.Form_Fields__c != ''){
+        if(String.isNotBlank(step.Form_Fields__c)){
             for(string fieldGroupString : step.Form_Fields__c.split('\\|')){
                 ParticipantWorkflowFieldGroupWrapper groupWrapper = new ParticipantWorkflowFieldGroupWrapper();
                 List<String> fieldGroupStringParts = fieldGroupString.split('#');
@@ -245,7 +246,7 @@ public without sharing class ParticipantWorkflowService {
                     currentFieldWrapper.onlyPastDate = fieldSetting.Only_Past_Dates__c;
                     currentFieldWrapper.numOccurences = 1;
                     currentFieldWrapper.fieldType = fieldSetting.Type__c;
-                    if(fieldSetting.Depends_On_Field__c != null && fieldSetting.Depends_On_Field__c != ''){
+                    if(String.isNotBlank(fieldSetting.Depends_On_Field__c)){
                         currentFieldWrapper.dependent = true;
                         currentFieldWrapper.readonly = true;
                         if(!fieldDependencyMap.containsKey(fieldSetting.Depends_On_Field__c)){
@@ -263,22 +264,22 @@ public without sharing class ParticipantWorkflowService {
                         }
                         when 'time' {
                             currentFieldWrapper.type = 'time';
-                            if(pe.get(fieldSetting.Field_Name__c) instanceof Datetime) {
-                                currentFieldWrapper.value = pe.get(fieldSetting.Field_Name__c)==null?'':((DateTime)pe.get(fieldSetting.Field_Name__c)).format('TT:MM');
+                            if(pe.get(fieldSetting.Field_Name__c) instanceof Time) {
+                                currentFieldWrapper.value = String.valueOf((Time)pe.get(fieldSetting.Field_Name__c));
                             }
                             else {
-                                currentFieldWrapper.value = String.valueOf((Time)pe.get(fieldSetting.Field_Name__c));
+                                currentFieldWrapper.value = pe.get(fieldSetting.Field_Name__c)==null?'':((DateTime)pe.get(fieldSetting.Field_Name__c)).format('TT:MM');
                             }
                         }
                         when 'date' {
                             currentFieldWrapper.type = 'date';
-                            if(pe.get(fieldSetting.Field_Name__c) instanceof Datetime) {
-                                currentFieldWrapper.value = pe.get(fieldSetting.Field_Name__c)==null?'': ((DateTime)pe.get(fieldSetting.Field_Name__c)).format('yyyy-MM-dd');
-                            }
-                            else {
+                            if(pe.get(fieldSetting.Field_Name__c) instanceof Date) {
                                 System.debug('fieldSetting.Field_Name__c');
                                 System.debug(pe.get(fieldSetting.Field_Name__c));
-                                currentFieldWrapper.value = pe.get(fieldSetting.Field_Name__c)==null?'':((Date)pe.get(fieldSetting.Field_Name__c)).format();
+                                currentFieldWrapper.value = pe.get(fieldSetting.Field_Name__c)==null?'':String.valueOf(pe.get(fieldSetting.Field_Name__c));
+                            }
+                            else {
+                                currentFieldWrapper.value = pe.get(fieldSetting.Field_Name__c)==null?'': ((DateTime)pe.get(fieldSetting.Field_Name__c)).format('yyyy-MM-dd');
                             }
                         }
                         when 'text' {
@@ -286,7 +287,7 @@ public without sharing class ParticipantWorkflowService {
                             currentFieldWrapper.value =  (String)pe.get(fieldSetting.Field_Name__c);
                         }
                         when 'boolean' {
-                            if(fieldSetting.True_Value_Label__c== null || fieldSetting.True_Value_Label__c =='') {
+                            if(String.isBlank(fieldSetting.True_Value_Label__c)) {
                                 currentFieldWrapper.type = 'checkbox';
                                 currentFieldWrapper.value = String.valueOf((Boolean)pe.get(fieldSetting.Field_Name__c));
                             }
@@ -312,7 +313,7 @@ public without sharing class ParticipantWorkflowService {
 
     public static Participant_Enrollment_Status_History__c createPESHFromStepWrapper(ParticipantWorkflowStepWrapper stepWrapper, String peId){
         Participant_Enrollment_Status_History__c pesh;
-        if(stepWrapper.outcome != null && stepWrapper.outcome != ''){
+        if(String.isNotBlank(stepWrapper.outcome)){
             pesh = new Participant_Enrollment_Status_History__c(
                     Status__c = stepWrapper.outcome,
                     Reason__c = stepWrapper.reason,
@@ -328,7 +329,7 @@ public without sharing class ParticipantWorkflowService {
         if(!stepWrapper.formFieldGroups.isEmpty()){
             for(ParticipantWorkflowService.ParticipantWorkflowFieldGroupWrapper fieldGroup: stepWrapper.formFieldGroups) {
                 for (ParticipantWorkflowService.ParticipantWorkflowFieldWrapper field: fieldGroup.fields){
-                    if( field.readonly || field.value == null || field.value == ''){
+                    if( field.readonly || String.isBlank(field.value)){
                         continue;
                     }
                     switch on field.fieldType{
@@ -358,7 +359,7 @@ public without sharing class ParticipantWorkflowService {
                 SELECT Field_Name__c, Type__c, Condition__c, True_Value_Label__c, Title_Label__c, False_Value_Label__c,
                         DeveloperName, Required_for_Steps__c, Readonly_for_Steps__c, Depends_On_Field__c, Only_Future_Dates__c, Only_Past_Dates__c
                 FROM Participant_Workflow_Form_Field__mdt]){
-            if(field.Condition__c == null || field.Condition__c ==''|| ConditionCheckerService.checkConditionForObject(field.Condition__c, ctp)){
+            if(String.isBlank(field.Condition__c) || ConditionCheckerService.checkConditionForObject(field.Condition__c, ctp)){
                 result.put(field.DeveloperName, field);
             }
         }
@@ -388,7 +389,7 @@ public without sharing class ParticipantWorkflowService {
         for(Clinical_Trial_Profile__c ctp : StudyTrialService.getFullTrials(ctpIds)){
             List<Participant_Workflow_Step__mdt> stepList = new List<Participant_Workflow_Step__mdt>();
             for(Participant_Workflow_Step__mdt step : steps){
-                if(step.Condition__c == null || step.Condition__c =='' || ConditionCheckerService.checkConditionForObject(step.Condition__c, ctp)){
+                if(String.isBlank(step.Condition__c) || ConditionCheckerService.checkConditionForObject(step.Condition__c, ctp)){
                     stepList.add(step);
                 }
             }
@@ -398,7 +399,7 @@ public without sharing class ParticipantWorkflowService {
         for(Participant_Enrollment_Status_History__c pesh: [
                 SELECT Id, Date__c, Status__c, Reason__c, Notes__c, CreatedBy.Name,
                         ParticipantEnrollment__r.Referral_Source__c, ParticipantEnrollment__r.Referral_Completedby_Name__c,
-                        ParticipantEnrollment__r.Source_Type__c
+                        ParticipantEnrollment__r.Source_Type__c, ParticipantEnrollment__r.PI_Contact__r.Name
                 FROM Participant_Enrollment_Status_History__c
                 WHERE ParticipantEnrollment__c IN :peIds
                 ORDER BY Date__c DESC]){
@@ -434,7 +435,7 @@ public without sharing class ParticipantWorkflowService {
             result.title = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pesh.Status__c);
             result.reason = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c,pesh.Reason__c);
             if(pesh.Date__c != null){
-                result.dateOccured = pesh.Date__c.format('dd-MMM-yyyy');
+                result.dateOccured = pesh.Date__c.date().format();
             }
             result.state = outcomesMap.get(pesh.Status__c).State__c;
             result.left = PEStatusState.STATUS_STATE_SUCCESS;

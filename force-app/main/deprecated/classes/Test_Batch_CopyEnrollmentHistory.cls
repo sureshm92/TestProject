@@ -112,7 +112,7 @@ private class Test_Batch_CopyEnrollmentHistory {
                 Clinical_Trial_Profile__c = study.Id,
                 Patient_ID__c = 'SomePatientId1',
                 Referral_Source__c = 'HCP',
-                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI,
+                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED,
                 Participant__c = participant.Id,
                 PI_Contact__c = piContact.Id,
                 Screening_ID__c = 'PESCR1',

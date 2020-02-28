@@ -173,7 +173,7 @@ public class Test_PatientDelegateService {
 
         System.runAs(testData.participantUser){
             Test.startTest();
-            PatientDelegateService.getInstance().resetDelegate(delegateContact.Id);
+            PatientDelegateService.getInstance().resetDelegate(delegateContact.Id, false);
             Test.stopTest();
         }
 

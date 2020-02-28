@@ -29,6 +29,13 @@ public without sharing class CommunityTemplateService {
         }
         return getDefaultTemplate();
     }
+
+    public static CommunityTemplate getTemplateByPermissionSetName(String permissionSetName) {
+        for(CommunityTemplate template : TEMPLATES_MAP.values()){
+            if(template.permissionSet == permissionSetName) return template;
+        }
+        return getDefaultTemplate();
+    }
     
     public static CommunityTemplate getDefaultTemplate(){
         return getTemplate(TEMPLATE_DEFAULT);

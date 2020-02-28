@@ -146,6 +146,10 @@ private class Test_BaseCRCPCommunity {
         insert hcpEnrollment;
         hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
         update hcpEnrollment;
+        hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_A;
+        update hcpEnrollment;
+        hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
+        update hcpEnrollment;
         
         Site_Staff__c  siteStaff = new Site_Staff__c(
                 Site_Contact__c = piDelegateContact.Id,
@@ -649,7 +653,7 @@ private class Test_BaseCRCPCommunity {
 //            ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_PI, null);
             ViewPatientsRemote.getInitDataForPatientProfile(participant.Id, CommunityService.USER_MODE_PI, null);
 //            ViewPatientsRemote.getStatistics(CommunityService.USER_MODE_PI, null);
-            ViewPatientsRemote.getRecords(JSON.serialize(vpResult.peFilter), JSON.serialize(vpResult.paginationData), 'Pending', CommunityService.USER_MODE_PI, false, null);
+            ViewPatientsRemote.getRecords(JSON.serialize(vpResult.peFilter), JSON.serialize(vpResult.paginationData), 'Pending', CommunityService.USER_MODE_PI, false, null, false);
             StudyClinicDashboardRemote.getInitData(study.Id, studySiteAccount.Id);
         }
         Test.stopTest();
@@ -670,7 +674,7 @@ private class Test_BaseCRCPCommunity {
             Action_ChangeHCPStatusByPIRemote.changeHCPEnrollmentStatus(hcpEnrollment.Id, StudyActions.ACT_HCP_ON_HOLD, '');
             Action_ChangeHCPStatusByPIRemote.changeHCPEnrollmentStatus(hcpEnrollment.Id, StudyActions.ACT_HCP_ACTIVATE_FOR_ALL, '');
             Action_ChangePEStatusByPIRemote.getReferralDeclineReasons();
-            Action_ChangePEStatusByPIRemote.updatePE(JSON.serialize(passedMrrPE), PEStatusState.PE_STATUS_REFERRAL_ON_HOLD, '', '');
+            Action_ChangePEStatusByPIRemote.updatePE(JSON.serialize(passedMrrPE), PEStatusState.PE_STATUS_RECEIVED, '', '');
         }
         Test.stopTest();
     }
@@ -776,7 +780,7 @@ private class Test_BaseCRCPCommunity {
         System.runAs(piUser) {
             ReferralProfileRemote.getReferralProfileDetail(passedMrrPE.Id, CommunityService.USER_MODE_PI);
             //ReferralProfileRemote.getPEStatusHistory(passedMrrPE.Id, CommunityService.USER_MODE_PI, null);
-            ReferralProfileRemote.changePEStatusByBtn(passedMrrPE.Id, 'Referral Accepted');
+            ReferralProfileRemote.changePEStatusByBtn(passedMrrPE.Id, 'Received');
             //ReferralProfileRemote.changePEStatus(passedMrrPE.Id, 'Contact Successful', 'Some Notes', CommunityService.USER_MODE_PI);
             ReportsRemote.getInitData(study.Id, CommunityService.USER_MODE_PI, null);
             RRIconTableController.getFilterInfoAndSummaryInfo();

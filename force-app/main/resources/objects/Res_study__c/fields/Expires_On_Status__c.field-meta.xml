@@ -11,259 +11,174 @@
         <restricted>true</restricted>
         <valueSetName>Participant_Statuses</valueSetName>
         <valueSettings>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
-            <valueName>Contact Successful</valueName>
+            <controllingFieldValue>Unable to Reach</controllingFieldValue>
+            <controllingFieldValue>Contact Attempted</controllingFieldValue>
+            <valueName>Successfully Contacted</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <valueName>Contact Attempt In Progress</valueName>
+            <controllingFieldValue>Unable to Reach</controllingFieldValue>
+            <valueName>Contact Attempted</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
+            <controllingFieldValue>Unable to Reach</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Eligibility Passed</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
+            <controllingFieldValue>Unable to Reach</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Eligibility Failed</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
+            <controllingFieldValue>Unable to Reach</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
-            <valueName>Screening Complete</valueName>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Contact Attempted</controllingFieldValue>
+            <valueName>Screening Passed</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
+            <controllingFieldValue>Unable to Reach</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Screening In Progress</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
+            <controllingFieldValue>Unable to Reach</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Screening Failed</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
+            <controllingFieldValue>Unable to Reach</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Enrollment Success</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
+            <controllingFieldValue>Unable to Reach</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Enrollment Failed</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
+            <controllingFieldValue>Unable to Reach</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Treatment Period Started</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
+            <controllingFieldValue>Unable to Reach</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
+            <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Follow-Up Period Started</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
+            <controllingFieldValue>Unable to Reach</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
+            <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <valueName>Participation Complete</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
+            <controllingFieldValue>Unable to Reach</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
+            <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Trial Complete</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
+            <controllingFieldValue>Unable to Reach</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
+            <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Drop Out</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Contact Failed</controllingFieldValue>
+            <controllingFieldValue>Unable to Reach</controllingFieldValue>
             <controllingFieldValue>Trial Complete</controllingFieldValue>
             <controllingFieldValue>Eligibility Passed</controllingFieldValue>
             <controllingFieldValue>Drop Out</controllingFieldValue>
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
-            <controllingFieldValue>Screening Complete</controllingFieldValue>
+            <controllingFieldValue>Screening Passed</controllingFieldValue>
             <controllingFieldValue>Screening In Progress</controllingFieldValue>
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Enrollment Success</controllingFieldValue>
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <controllingFieldValue>Contact Successful</controllingFieldValue>
+            <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
+            <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
             <valueName>Deceased</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <valueName>Referral Accepted</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <valueName>Referral On Hold</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <valueName>Referral Declined</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <valueName>Excluded from Referring</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Referral Sent to PI</controllingFieldValue>
-            <controllingFieldValue>Referral Accepted</controllingFieldValue>
-            <controllingFieldValue>Referral On Hold</controllingFieldValue>
-            <controllingFieldValue>Referral Declined</controllingFieldValue>
-            <controllingFieldValue>Contact Attempt In Progress</controllingFieldValue>
-            <valueName>Contact Failed</valueName>
+            <controllingFieldValue>Contact Attempted</controllingFieldValue>
+            <valueName>Unable to Reach</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

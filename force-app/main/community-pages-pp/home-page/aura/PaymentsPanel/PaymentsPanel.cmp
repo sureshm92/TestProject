@@ -21,13 +21,11 @@
                             <tr>
                                 <th>{!$Label.c.Home_Page_Payments_Card_Status}</th>
                                 <th class="amount-of-money">{!$Label.c.Home_Page_Payments_Balance}</th>
-                                <th class="amount-of-money">{!$Label.c.Home_Page_Payments_Pending_Payments}</th>
                             </tr>
                             <aura:iteration var="card" items="{!v.initData.cards}">
                                 <tr>
                                     <td>{!card.status}</td>
                                     <td class="amount-of-money">${!card.balance}</td>
-                                    <td class="amount-of-money">${!v.initData.pendingPayments}</td>
                                 </tr>
                             </aura:iteration>
                         </c:RRTable>
@@ -44,11 +42,7 @@
                         </c:RRLink>
                     </div>
                     <aura:set attribute="else">
-                        <div class="error-message">
-                            <c:RRIcon iconName="icon-alert-circle"/>
-                            {!$Label.c.No_Payment_Information_Available}
-                        </div>
-                        <c:EmptyListStub iconName="none" message="{!$Label.c.PG_VP_L_No_Items_display}"/>
+                        <c:EmptyListStub iconName="none" message="{!$Label.c.No_Payment_Information_Available}"/>
                     </aura:set>
                 </aura:if>
             </aura:if>

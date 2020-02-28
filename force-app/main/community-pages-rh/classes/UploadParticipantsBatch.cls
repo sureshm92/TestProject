@@ -177,11 +177,18 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
                     listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'mandatory field is empty - Postal Code');
                 }
-                if (String.isEmpty(DateOfBirth) || Date.valueOf(DateOfBirth) > System.today()) {
-                    hasErrors = true;
-                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'Date of Birth, can\'t be empty or in the future');
+                try {
+                    if (String.isEmpty(DateOfBirth) || Date.valueOf(DateOfBirth) > System.today()) {
+                        hasErrors = true;
+                        system.debug('ERROR: ' + totalRecordCount + ', ' + 'Date of Birth, can\'t be empty or in the future');
 
-                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Date of Birth, can\'t be empty or in the future');
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Date of Birth, can\'t be empty or in the future');
+                    }
+                } catch (Exception exp) {
+                    hasErrors = true;
+                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'Date of Birth, Incorrect value');
+
+                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Date of Birth, Incorrect value');
                 }
 
                 if (!hasErrors) {
