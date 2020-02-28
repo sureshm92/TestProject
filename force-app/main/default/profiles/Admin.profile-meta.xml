@@ -3649,6 +3649,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Alternative_Phone_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Integration_Patient_Referral__c.Delegate_Daytime_Phone_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3669,12 +3674,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Mailing_City__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Mailing_State__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Integration_Patient_Referral__c.Delegate_Middle_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Patient_Referral__c.Delegate_Phone_Number_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Delegate_Zip_Postal_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5611,7 +5631,7 @@
         <editable>true</editable>
         <field>Res_study__c.Expires_On_Status__c</field>
         <readable>true</readable>
-    </fieldPermissions>    
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Res_study__c.Notify_On_Availability__c</field>

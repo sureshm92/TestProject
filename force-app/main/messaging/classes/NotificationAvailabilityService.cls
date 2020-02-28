@@ -143,7 +143,10 @@ public without sharing class NotificationAvailabilityService {
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_PI) {
             if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
                 Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
-                if (pe.Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c) {
+                if(pe == null || pe.Study_Site__r == null || pe.Study_Site__r.Principal_Investigator__r == null){
+                    checkForNotification = false;
+                }
+                else if (pe.Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c) {
                     checkForNotification = true;
                 }
             }else if (objType == CONTACT) {

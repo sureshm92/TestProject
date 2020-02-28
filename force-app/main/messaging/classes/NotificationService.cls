@@ -4,10 +4,6 @@
 
 public without sharing class NotificationService {
     static public List<String> participantStatusListForHCP = new List<String>{
-            PEStatusState.PE_STATUS_REFERRAL_ACCEPTED,
-            PEStatusState.PE_STATUS_REFERRAL_DECLINED,
-            PEStatusState.PE_STATUS_REFERRAL_ON_HOLD,
-            PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
             PEStatusState.PE_STATUS_RECEIVED,
             PEStatusState.PE_STATUS_EXCLUDED_FROM_REFERRING,
             PEStatusState.PE_STATUS_FAILED_REFERRAL,
@@ -15,10 +11,6 @@ public without sharing class NotificationService {
     };
 
     static public List<String> participantStatusListForPT = new List<String>{
-            PEStatusState.PE_STATUS_REFERRAL_ACCEPTED,
-            PEStatusState.PE_STATUS_REFERRAL_DECLINED,
-            PEStatusState.PE_STATUS_REFERRAL_ON_HOLD,
-            PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
             PEStatusState.PE_STATUS_RECEIVED
     };
 
@@ -81,7 +73,7 @@ public without sharing class NotificationService {
 
     public static String checkHCPNotificationType(Participant_Enrollment__c peForCheck, Boolean notContains) {
         if (notContains) return NotificationCatalog.MESSAGE_TO_HCP_REFERRAL_STATUS_UPDATE_TYPE;
-
+        //TODO: remove Declined/On Hold/ Accepted
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ACCEPTED) {
             return NotificationCatalog.MESSAGE_TO_HCP_PATIENT_ACCEPTED_TYPE;
         }
@@ -97,7 +89,7 @@ public without sharing class NotificationService {
     public static String checkPatientNotificationType(Participant_Enrollment__c peForCheck, Boolean notContains) {
 
         if (notContains) return NotificationCatalog.MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE;
-
+        //TODO: remove Declined/On Hold/ Accepted
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_DECLINED) {
             return NotificationCatalog.MESSAGE_TO_PT_PATIENT_DECLINED_TYPE;
         }
@@ -108,13 +100,14 @@ public without sharing class NotificationService {
     }
 
     public static String checkPatientNotificationVTType(Participant_Enrollment__c peForCheck) {
+        //TODO:remove Declined/On hold
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_DECLINED) {
             return NotificationCatalog.MESSAGE_TO_PT_PATIENT_DECLINED_VT_TYPE;
         }
         if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ON_HOLD) {
             return NotificationCatalog.MESSAGE_TO_PT_PATIENT_ON_HOLD_VT_TYPE;
         }
-        if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI
+        if (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED
                 && peForCheck.Referral_Source__c == 'HCP') {
             return NotificationCatalog.MESSAGE_TO_PT_NEW_STUDY_HCP_VT_TYPE;
         }
@@ -124,10 +117,7 @@ public without sharing class NotificationService {
             return NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE;
         }
         if (peForCheck.Referral_Source__c != 'HCP' && peForCheck.Referral_Source__c != 'PI'
-                && (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI
-                || (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ACCEPTED
-                && peForCheck.IsAutoaccepted__c)
-                || peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED)) {
+                && (peForCheck.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED)) {
             return NotificationCatalog.MESSAGE_TO_PT_NEW_STUDY_eRP_VT_TYPE;
         }
         return null;

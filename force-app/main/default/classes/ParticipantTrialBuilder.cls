@@ -7,11 +7,13 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
     private Participant_Enrollment__c pe;
 
     public ParticipantTrialBuilder() {
-        pe = ParticipantService.getInstance().getState().pe;
+        ParticipantService.ParticipantState ps = ParticipantService.getInstance().getState();
+        pe = ps.pe;
         if(pe != null) setTrial(pe.Study_Site__r.Clinical_Trial_Profile__c);
 
         studyAction = getStudyActions();
         trialDetail.tabs = getStudyTabs();
+        trialDetail.communityName = ps.communityName;
     }
 
     public override TrialDetail createTrial() {

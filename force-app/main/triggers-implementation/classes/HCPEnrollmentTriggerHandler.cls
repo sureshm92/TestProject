@@ -33,6 +33,7 @@ public without sharing class HCPEnrollmentTriggerHandler {
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createHCPUserOrSendNotification(newList, (Map<Id, HCP_Enrollment__c>) oldMap);
+            sendOnHoldNotification(newList, (Map<Id, HCP_Enrollment__c>) oldMap);
         }
     }
 
@@ -134,6 +135,20 @@ public without sharing class HCPEnrollmentTriggerHandler {
 
         if (contactIdsForCreateUsers.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(contactIdsForCreateUsers);
         insert notifications;
+    }
+
+    @TestVisible
+    private static void sendOnHoldNotification(List<HCP_Enrollment__c> newList, Map<Id, HCP_Enrollment__c> oldMap) {
+        List<Notification__c> notificationsToSend = new List<Notification__c>();
+        for(HCP_Enrollment__c hcpe : newList){
+            if(HCPEnrollmentService.STATUS_GROUP_ON_HOLD.contains(hcpe.Status__c) && hcpe.Status__c != oldMap.get(hcpe.Id).Status__c){
+                notificationsToSend.add(new Notification__c(
+                        Recipient__c = hcpe.HCP_Contact__c,
+                        WhatId__c = hcpe.Id,
+                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_HCP_HCPE_ON_HOLD_TYPE));
+            }
+        }
+        if(!notificationsToSend.isEmpty()) insert notificationsToSend;
     }
 
     @TestVisible

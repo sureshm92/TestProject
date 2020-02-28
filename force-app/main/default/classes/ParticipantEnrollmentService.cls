@@ -20,7 +20,6 @@ public without sharing class ParticipantEnrollmentService {
     public static final String PART_STATUS_PENDING_REFERRAL = 'Pending Referral';
     public static final String PART_STATUS_FAILED_REVIEW = 'Failed Review';
     public static final String PART_STATUS_FAILED_REFERRAL = 'Failed Referral';
-    public static final String PART_STATUS_REFERRAL_SENT_TO_PI = 'Referral Sent to PI';
     public static final String PART_STATUS_EXCLUDED_FROM_REFERRING = 'Excluded from Referring';
     public static final String PART_STATUS_RECEIVED = 'Received';
     // Non referral reason

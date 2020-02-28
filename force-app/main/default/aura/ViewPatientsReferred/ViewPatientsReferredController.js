@@ -75,7 +75,8 @@
             piBtnFilter: piBtnFilter,
             userMode: communityService.getUserMode(),
             studyChanged: studyWasChanged,
-            delegateId: communityService.getDelegateId()
+            delegateId: communityService.getDelegateId(),
+            emancipatedPE: component.get('v.showEmancipatedOnly')
         }, function (returnValue) {
             if (component.get('v.peFilter').searchText !== searchText) return;
             var result = JSON.parse(returnValue);
@@ -90,8 +91,18 @@
             component.set('v.paginationData.currentPage', result.paginationData.currentPage);
             component.set('v.paginationData.currentPageCount', result.paginationData.currentPageCount);
             component.set('v.skipUpdate', false);
+            if (communityService.getUserMode() != 'Participant' && result.peList) {
+                for (let pItem in result.peList) {
+                    var hasEmancipatedParticipants = false;
+                    if (result.peList[pItem].hasEmancipatedParticipants) {
+                        hasEmancipatedParticipants = true;
+                        break;
+                    }
+                }
+                component.set('v.hasEmancipatedParticipants', hasEmancipatedParticipants);
+                component.getEvent('onInit').fire();
+            }
             spinner.hide();
-
         })
     },
 
@@ -105,5 +116,10 @@
             filter.peBtnFilter = null;
         }
         component.set('v.peFilter', filter);
-    }
+    },
+
+    filterEmancipations: function(component, event, helper){
+        console.log('aaaaa');
+    	component.set('v.showEmancipatedOnly', true);
+    },
 })

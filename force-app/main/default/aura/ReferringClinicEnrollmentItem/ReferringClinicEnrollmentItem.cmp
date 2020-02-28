@@ -20,7 +20,7 @@
                 <div class="{! 'rcei-status status-' + v.enrollmentData.status}">{!v.enrollmentData.statusLabel}</div>
             </div>
             <div class="rcei-info">
-                <div class="rcei-name">{!$Label.c.Primary_Investigator}:
+                <div class="rcei-name">{!$Label.c.Principal_Investigator}:
                     <span class="rcei-name-ss-and-pi">{!v.enrollmentData.enrollment.Study_Site__r.Principal_Investigator__r.Salutation + ' ' + v.enrollmentData.enrollment.Study_Site__r.Principal_Investigator__r.Name}</span>
                 </div>
             </div>
