@@ -206,7 +206,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 MailingState = ipr.Delegate_Mailing_State__c,
                 MailingCity = ipr.Delegate_Mailing_City__c,
                 MailingPostalCode = ipr.Delegate_Zip_Postal_Code__c,
-                AccountId = participantAccount.Id;
+                AccountId = participantAccount.Id
         );
         if ('Home' == ipr.Delegate_Phone_Number_Type__c) {
             newContact.HomePhone = ipr.Delegate_Daytime_Phone_Number__c;
