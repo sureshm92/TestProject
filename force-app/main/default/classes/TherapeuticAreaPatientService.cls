@@ -68,10 +68,8 @@ public without sharing class TherapeuticAreaPatientService {
                 List<Participant_Enrollment__c> participantEnrollments = TherapeuticAreaPatientService.selectPEnrollmentsByIds(deleteList);
                 for (Therapeutic_Area_Patient__c areaPatient : areaPatients) {
                     for (Participant_Enrollment__c participantEnrollment : participantEnrollments) {
-                        if (areaPatient.Therapeutic_Area__c == participantEnrollment.Clinical_Trial_Profile__r.Therapeutic_Area__c &&
-                                !deleteIds.contains(areaPatient.Id)) {
+                        if (areaPatient.Therapeutic_Area__c == participantEnrollment.Clinical_Trial_Profile__r.Therapeutic_Area__c) {
                             deleteAreaPatients.add(areaPatient);
-                            deleteIds.add(areaPatient.Id);
                         }
                     }
                 }
