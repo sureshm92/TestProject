@@ -40,8 +40,8 @@ public without sharing class StudySiteTriggerHandler {
         }
     }
     
-    public class PrepareAdditionalFieldsHandler extends TriggerHandler{
-        
+    public class PrepareAdditionalFieldsHandler extends TriggerHandler {
+
         public override void beforeInsert(List<SObject> newList) {
             prepareAdditionalFields(newList);
             overrideStatusChangedBy(newList, null);
@@ -55,9 +55,10 @@ public without sharing class StudySiteTriggerHandler {
         //END INC9339329
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            overrideStatusChangedBy(newList, (Map<Id, Study_Site__c>)oldMap);
+            overrideStatusChangedBy(newList, (Map<Id, Study_Site__c>) oldMap);
             updateRecruitmentStatus(newList);
         }
+    }
 
     public class CreateHCPEnrollmentsForRPInWhiteListHandler extends TriggerHandler{
 
