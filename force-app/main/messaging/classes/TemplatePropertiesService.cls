@@ -10,16 +10,14 @@ public with sharing class TemplatePropertiesService {
         List<Participant_Enrollment__c> currPEList;
         String filter;
         Id partConId = recipientId;
-
         if (recipientId.getSobjectType() == User.getSObjectType()) {
-            recipientId = [
+            partConId = [
                     SELECT Id, Contact.Id
                     FROM User
                     WHERE Id = :recipientId
             ].Contact.Id;
         }
-
-        if(isDelegate) partConId = PatientDelegateService.getParticipantByDelegateContactId(recipientId).Contact__c;
+        if (isDelegate) partConId = PatientDelegateService.getParticipantByDelegateContactId(recipientId).Contact__c;
 
         if (resourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
             filter = DatabaseService.fieldEqual('Id', resourceId);
@@ -76,9 +74,11 @@ public with sharing class TemplatePropertiesService {
                     Participant_Enrollment__c.getSObjectType(),
                     filter
             );
-            if(enrollments != null) peList.addAll(enrollments);
-            if(peList[0].Clinical_Trial_Profile__r.CommunityTemplate__c != null) templateName = peList[0].Clinical_Trial_Profile__r.CommunityTemplate__c;
+
+            if (enrollments != null) peList.addAll(enrollments);
+            if (peList[0].Clinical_Trial_Profile__r.CommunityTemplate__c != null) templateName = peList[0].Clinical_Trial_Profile__r.CommunityTemplate__c;
         }
+
         return templateName;
     }
 }
