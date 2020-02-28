@@ -39,7 +39,8 @@ public without sharing class PENotificationTriggerHandler {
                         Participant_Status__c,
                         Is_Virtual_Study_Site__c,
                         Referral_Source__c,
-                        IsAutoaccepted__c
+                        IsAutoaccepted__c,
+                        Source_Type__c
                 FROM Participant_Enrollment__c
                 WHERE Id IN :newList
         ];
@@ -80,10 +81,11 @@ public without sharing class PENotificationTriggerHandler {
                                 Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DROP_OUT_TYPE
                         ));
                     }
+
+                }
+                if(oldMap == null || pe.Participant_Status__c != ((Participant_Enrollment__c) oldMap.get(pe.Id)).Participant_Status__c){
                     //Forming additional notification for PI
-                    if (pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI
-                            || (pe.Participant_Status__c == PEStatusState.PE_STATUS_REFERRAL_ACCEPTED
-                            && pe.IsAutoaccepted__c)) {
+                    if (pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED && pe.Source_Type__c != ParticipantEnrollmentService.PE_SOURCE_TYPE_PI) {
                         notifications.add(new Notification__c(
                                 Recipient__c = pe.Study_Site__r.Principal_Investigator__r.Id,
                                 WhatId__c = pe.Id,
@@ -93,7 +95,7 @@ public without sharing class PENotificationTriggerHandler {
                 }
             }
 
-            if (notifyHCPType != null) {
+            if (notifyHCPType != null)  {
                 notifications.add(new Notification__c(
                         Recipient__c = pe.HCP_Contact_HCPEnroll__c,
                         WhatId__c = pe.Id,

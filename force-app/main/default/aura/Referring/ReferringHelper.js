@@ -152,12 +152,15 @@
             console.log('isNeedGuardian: ' + returnValue);
             var isNeedGuardian = (returnValue == 'true');
             console.log('checkNeedsGuardian - SUCCESS: ' + isNeedGuardian);
-            component.set('v.needsGuardian', isNeedGuardian);
-            component.set('v.participant.Health_care_proxy_is_needed__c', isNeedGuardian);
-            component.set('v.participant.Adult__c', !isNeedGuardian);
 
-            if (isNeedGuardian) {
-                helper.setDelegate(component);
+            if (isNeedGuardian != component.get('v.needsGuardian')) {
+                component.set('v.needsGuardian', isNeedGuardian);
+                component.set('v.participant.Health_care_proxy_is_needed__c', isNeedGuardian);
+                component.set('v.participant.Adult__c', !isNeedGuardian);
+
+                if (isNeedGuardian) {
+                    helper.setDelegate(component);
+                }
             }
         }, null, function () {
             spinner.hide();

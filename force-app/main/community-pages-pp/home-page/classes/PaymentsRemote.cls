@@ -4,7 +4,6 @@
 
 public without sharing class PaymentsRemote {
     public class InitData{
-        @AuraEnabled public String pendingPayments;
         @AuraEnabled public List<RemoteCall_GetCardDetails.Card> cards;
         @AuraEnabled public String href;
         @AuraEnabled public Boolean informationAvailable;
@@ -31,7 +30,6 @@ public without sharing class PaymentsRemote {
             if(remoteCallGetCardDetails.log.Success__c) {
                 initData.informationAvailable = true;
                 initData.cards = result;
-                initData.pendingPayments = '0.00';
             }
 
             if(!pvs.isEmpty()) initData.href = pvs[0].Payment_Vendor__r.Link_Vendor__c;

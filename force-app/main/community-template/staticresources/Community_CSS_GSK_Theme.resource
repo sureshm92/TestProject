@@ -46,14 +46,28 @@
     color: #FFFFFF;
 }
 
+.cp-content {
+    align-items: center;
+}
+
 .cp-body-cell {
     background: white;
     border-radius: 4px;
-    padding: 30px 12px 10px;
+    padding: 0 15px 0;
+    margin-top: 10px;
+}
+
+.cp-logo-block{
+    margin: 20px auto auto;
 }
 
 .cp-login-title {
-    color: #444444;
+    color: #ea6621;
+    height: 48px;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 48px;
+    text-align: center;
 }
 
 .lg-form-element {
@@ -62,4 +76,5 @@
 
 .lg-form-element input {
     color: #868686;
+    border-bottom: 1px solid;
 }
