@@ -78,7 +78,7 @@ public without sharing class Action_AssignContactPermissions implements Action{
     private void deletePermissions(){
         List<User> users = [
                 SELECT Id, ContactId, (SELECT Id, PermissionSet.Name FROM PermissionSetAssignments)
-                FROM User WHERE ContactId IN: contactPermissionsToRemoveMap.keySet()
+                FROM User WHERE ContactId IN: contactPermissionsToRemoveMap.keySet() AND IsActive = TRUE
         ];
         List<PermissionSetAssignment> psaRemoveList = new List<PermissionSetAssignment>();
         for(User user : users){
