@@ -52,7 +52,8 @@ public without sharing class ParticipantService {
         participantState.currentContactId = userContact.userCommunityDelegateId__c;
         if (participantState.currentContactId == null) participantState.currentContactId = userContact.Id;
         participantState.isDelegate = userContact.userCommunityDelegateId__c != null;
-        participantState.currentUserId = [SELECT Id FROM User WHERE ContactId = :participantState.currentContactId LIMIT 1].Id;
+        List<User> participantUser = [SELECT Id FROM User WHERE ContactId = :participantState.currentContactId LIMIT 1];
+        if (!participantUser.isEmpty()) participantState.currentUserId = participantUser.get(0).Id;
         if (userContact.Current_Participant_Enrollment__c != null) {
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(userContact.Current_Participant_Enrollment__c, CommunityService.USER_MODE_PARTICIPANT);
             if (pe != null) {

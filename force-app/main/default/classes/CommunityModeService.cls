@@ -126,7 +126,7 @@ public without sharing class CommunityModeService {
             CommunityMode mode = new CommunityMode(
                     USER_MODE_PARTICIPANT,
                     participant.First_Name__c + ' ' + participant.Last_Name__c,
-                    delegateId, //participant.Contact__c,
+                    participant.Contact__c,
                     null,
                     hasPastStudies ? CommunityTemplateService.getTemplate(pastPEList[0].Clinical_Trial_Profile__r.CommunityTemplate__c) : CommunityTemplateService.getDefaultTemplate()
             );
@@ -137,7 +137,7 @@ public without sharing class CommunityModeService {
                     mode.addSubMode(new CommunityMode(
                             USER_MODE_PARTICIPANT,
                             pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                            delegateId, //pe.Participant__r.Contact__c,
+                            pe.Participant__r.Contact__c,
                             pe,
                             CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c)
                     ));
