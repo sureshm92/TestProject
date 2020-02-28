@@ -7,8 +7,6 @@ public without sharing class DashboardRemote {
     public static final String INITIAL_VISIT_SCHEDULED = 'Initial Visit Scheduled';
     
     class PIData{
-        Integer waitingAcceptence;
-        List<ListItem> waitingAcceptenceList;
         List<DonutItem> referralsReceived = new List<DonutItem>();
         List<FunnelData> funnelData;
         
@@ -157,15 +155,9 @@ public without sharing class DashboardRemote {
                 Integer piSuccessContacted = 0;
                 Integer piOnHoldContacted = 0;
                 Integer piDeclineContacted = 0;
-                List<Participant_Enrollment__c> waitingAcceptencePeList = new List<Participant_Enrollment__c>();
                 List<Participant_Enrollment__c> waitingToBeContactedPeList = new List<Participant_Enrollment__c>();
                 List<Participant_Enrollment__c> contactAtemptedList = new List<Participant_Enrollment__c>();
                 for (Participant_Enrollment__c pe : peList) {
-                    if (ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI.contains(pe.Participant_Status__c)) {
-                        if (waitingAcceptencePeList.size() < 3) {
-                            waitingAcceptencePeList.add(pe);
-                        }
-                    }
                     if (PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS).contains(pe.Participant_Status__c)) {
                         piAccepted += 1;
                     }
@@ -187,20 +179,10 @@ public without sharing class DashboardRemote {
                         contactAtemptedList.add(pe);
                     }
                 }
-                piData.waitingAcceptenceList = preparePEList(waitingAcceptencePeList, userMode, delegateId);
-
-                // acceptance data
-                /*piData.waitingAcceptenceList = preparePEList(
-                        ParticipantEnrollmentService.getPEnrolmentsByStatus(userMode, new List<String>{
-                                ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI
-                        }, 3), userMode,
-                        delegateId
-                );*/
 //                Integer piPending = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS));
                 //Integer piAccepted = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[0].states.get(PEStatusState.STATUS_STATE_SUCCESS));
 //                Integer piOnHold = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_IN_PROGRESS));
 //                Integer piDeclined = ParticipantEnrollmentService.getPEnrolmentsCount(userMode, PEStatusState.STATUS_STEPS_TABLE[1].states.get(PEStatusState.STATUS_STATE_FAILURE));
-                piData.waitingAcceptence = 0;// piPending;
                 piData.referralsReceived.addAll(new List<DonutItem>{
                         new DonutItem(Label.DI_L_Accepted, piAccepted , DonutItem.Type.SUCCSESS)/*,
                         new DonutItem(Label.DI_L_On_hold, piOnHold , DonutItem.Type.ON_HOLD),
