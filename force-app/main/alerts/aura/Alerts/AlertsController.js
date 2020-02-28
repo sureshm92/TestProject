@@ -29,7 +29,9 @@
             });
         }
         var currentAlertIndex = component.get('v.currentAlertIndex') + 1;
+        console.log('currentAlertIndex ' + currentAlertIndex);
         var alerts = component.get('v.alerts');
+        console.log('alerts.length = ' + alerts.length + ' for that alerts: ' + JSON.stringify(alerts));
         if(currentAlertIndex < alerts.length){
             component.set('v.currentAlertIndex', currentAlertIndex);
             component.set('v.currentAlert', alerts[currentAlertIndex]);
@@ -37,8 +39,9 @@
         }else{
             component.find('alertsDialog').set('v.showModal', false);
             component.set('v.currentAlert', null);
+            console.log('Current alert ' + component.get('v.currentAlert'));
             component.find('onboardingSlideTour').initialShow();
             component.find('motivationalMessages').show();
         }
     }
-})
+});
