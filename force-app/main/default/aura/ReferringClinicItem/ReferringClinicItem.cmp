@@ -18,11 +18,11 @@
             <div class="rci-info">
                 <div class="rci-inline">
                     <span class="info-labels">{!$Label.c.Account_Name}:</span>
-                    {!v.clinicWrapper.hcpContact.Account.Name+ ', '}
+                    {!v.clinicWrapper.hcpContact.Account.Name+ ' '}
                     <span class="info-labels">{!$Label.c.PG_RSS_L_Address}:</span>
-                        {! if(v.clinicWrapper.hcpContact.Account.BillingStreet == null,'',v.clinicWrapper.hcpContact.Account.BillingStreet + ', ')}
-                        {! if(v.clinicWrapper.hcpContact.Account.BillingCity == '','',v.clinicWrapper.hcpContact.Account.BillingCity + ', ')}
-                        {! if(empty(v.clinicWrapper.hcpContact.Account.BillingPostalCode),'',v.clinicWrapper.hcpContact.Account.BillingPostalCode + ', ')}
+                        {! if(v.clinicWrapper.hcpContact.Account.BillingStreet == null,'',v.clinicWrapper.hcpContact.Account.BillingStreet + if(v.clinicWrapper.hcpContact.Account.BillingCity, ', ', ' '))}
+                        {! if(v.clinicWrapper.hcpContact.Account.BillingCity == '','',v.clinicWrapper.hcpContact.Account.BillingCity + if(v.clinicWrapper.hcpContact.Account.BillingPostalCode, ', ', ' '))}
+                        {! if(empty(v.clinicWrapper.hcpContact.Account.BillingPostalCode),'',v.clinicWrapper.hcpContact.Account.BillingPostalCode + ' ')}
                 </div>
                 <div class="rci-inline"><span class="info-labels">{!$Label.c.PG_RSS_L_Phone}:</span>{!v.clinicWrapper.hcpContact.Account.Phone}</div>
             </div>
