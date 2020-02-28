@@ -39,6 +39,7 @@
 
     showChanged: function (component) {
         var isShow = component.get("v.showModal");
+        console.log('showModal ' + isShow);
         if(isShow){
             if(component._closeModal) window.addEventListener('keyup', component._closeModal);
         }else{
@@ -55,4 +56,4 @@
         var closeCallback = component.get('v.closeCallback');
         if(closeCallback) closeCallback();
     }
-})
+});
