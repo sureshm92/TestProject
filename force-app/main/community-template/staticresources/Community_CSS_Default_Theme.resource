@@ -20,7 +20,7 @@
 }
 
 .cp-logo-block{
-    margin-top: 50px;
+    margin: 50px auto auto;
 }
 
 .cp-login-title{
