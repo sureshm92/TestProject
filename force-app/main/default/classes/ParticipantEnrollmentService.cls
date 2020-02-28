@@ -353,6 +353,7 @@ public without sharing class ParticipantEnrollmentService {
             'Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c',
             'CreatedDate',
             'Enrolled_Date__c',
+            'Enrolled_DateTime__c',
             'HCP__c',
             'HCP__r.Status__c',
             'HCP__r.HCP_Contact__c',
