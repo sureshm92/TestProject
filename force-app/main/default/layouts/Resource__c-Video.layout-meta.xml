@@ -207,6 +207,7 @@
         <relatedList>Therapeutic_Area_Assignment__c.Resource__c</relatedList>
     </relatedLists>
     <relatedLists>
+        <excludeButtons>New</excludeButtons>
         <fields>Clinical_Trial_Profile__c.NAME</fields>
         <fields>Clinical_Trial_Profile__c.Status__c</fields>
         <fields>Clinical_Trial_Profile__c.Study_Type__c</fields>
@@ -226,7 +227,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h1X000000nW9E</masterLabel>
+        <masterLabel>00h1X0000012AVo</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
