@@ -43,7 +43,7 @@
                                 <span class="visit-result-item-value">{!visitResultWrapper.value == null ? '-' : visitResultWrapper.value}</span>
                                 <span class="visit-result-item-name">{!visitResultWrapper.name}</span>
                                 <span class="{!visitResultWrapper.measurement != null ? 'visit-result-item-measurement' : 'hidden'}">
-                                    {!'(' + visitResultWrapper.measurement + ')'}
+                                    <aura:unescapedHtml value="{!'(' + visitResultWrapper.measurement + ')'}"/>
                                 </span>
                             </div>
                         </aura:iteration>

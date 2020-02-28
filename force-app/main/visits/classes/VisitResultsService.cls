@@ -3,9 +3,11 @@ public inherited sharing class VisitResultsService {
     public static final String DASHBOARD_TYPE_HOME_PAGE = 'Home Page';
 
     private VisitResultMService metadataService;
+    private Map<String, String> visitResultsMeasurementNamesMap;
 
     public VisitResultsService() {
         this.metadataService = (VisitResultMService) ClassFactory.newInstance(VisitResultMService.class);
+        this.visitResultsMeasurementNamesMap = metadataService.getVisitResultsMeasurementNamesMap();
     }
 
     public List<String> getVisitResultsGroupNames(String visitResultsMode) {
@@ -34,7 +36,7 @@ public inherited sharing class VisitResultsService {
             if (visitResult != null && visitResult.Actual_Value__c != null) {
                 listIsNotEmpty = true;
             }
-            wrappers.add(new VisitResultWrapper(visitResult, TranslateHelper.getLabelValue(singleConfig.Dashboard_Name__c)));
+            wrappers.add(new VisitResultWrapper(visitResult, TranslateHelper.getLabelValue(singleConfig.Dashboard_Name__c), this.visitResultsMeasurementNamesMap));
         }
         return listIsNotEmpty ? wrappers : new List<VisitResultWrapper>();
     }
@@ -77,7 +79,8 @@ public inherited sharing class VisitResultsService {
             wrappers.add(new VisitResultWrapper(
                     visitResultsByTypeDeveloperNames.get(singleVRT.DeveloperName),
                     TranslateHelper.getLabelValue(singleVRT.DeveloperName),
-                    TranslateHelper.getLabelValue(singleVRT.Description_Label_Api_Name__c)
+                    TranslateHelper.getLabelValue(singleVRT.Description_Label_Api_Name__c),
+                    this.visitResultsMeasurementNamesMap
             ));
         }
         return wrappers;
@@ -123,6 +126,10 @@ public inherited sharing class VisitResultsService {
         public String description;
 
         public VisitResultWrapper(Visit_Result__c visitResult, String name, String description) {
+            this(visitResult, name, description, null);
+        }
+
+        public VisitResultWrapper(Visit_Result__c visitResult, String name, String description, Map<String, String> measurementNamesMap) {
 
             this.name = name;
             this.description = description;
@@ -130,16 +137,32 @@ public inherited sharing class VisitResultsService {
                 this.value = visitResult.Actual_Value__c;
                 this.minValue = visitResult.Min_Value__c;
                 this.maxValue = visitResult.Max_Value__c;
+                String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
+                if(measurementNamesMap != null && measurementNamesMap.containsKey(measurementLowerCase)){
+                    this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/',' / ');
+                }
+                else{
                 this.measurement = visitResult.Measurement__c.replace('/',' / ');
             }
         }
+        }
 
         public VisitResultWrapper(Visit_Result__c visitResult, String name) {
+            this(visitResult, name, new Map<String, String>());
+        }
+
+        public VisitResultWrapper(Visit_Result__c visitResult, String name, Map<String, String> measurementNamesMap) {
             this.name = name;
             if (visitResult != null) {
                 this.value = visitResult.Actual_Value__c;
+                String measurementLowerCase = visitResult.Measurement__c.toLowerCase();
+                if(measurementNamesMap != null && measurementNamesMap.containsKey(measurementLowerCase)){
+                    this.measurement = measurementNamesMap.get(measurementLowerCase).replace('/',' / ');
+                }
+                else{
                 this.measurement = visitResult.Measurement__c.replace('/',' / ');
             }
         }
     }
+}
 }
