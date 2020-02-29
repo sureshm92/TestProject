@@ -27,7 +27,9 @@ public class TestData {
         List<String> contactLastNames = new List<String>{
                 participant.Name,
                 'HCPTD',
-                'PITD'
+                'PITD',
+                'HCPDelTD',
+                'PIDelTD'
         };
         List<User> users = [
                 SELECT Id, ContactId, LastName
@@ -104,6 +106,7 @@ public class TestData {
         update pe;
     }
 
+
     /**
      * Fill Enrolled_Date__c on PE
      * @param status some of PEStatusState
@@ -168,6 +171,15 @@ public class TestData {
         );
         contacts.add(piContact);
 
+        Contact piDelegateContact = new Contact(
+                FirstName = 'PIDelTD',
+                LastName = 'PIDelTD',
+                Email = 'pi_delegate@emil.com',
+                AccountId = piAccount.Id,
+                userCommunityMode__c = 'PI'
+        );
+        contacts.add(piDelegateContact);
+
         hcpContact = new Contact(
                 FirstName = 'HCPTD',
                 LastName = 'HCPTD',
@@ -176,6 +188,16 @@ public class TestData {
                 MailingLatitude = 40.766594,
                 MailingLongitude = -73.991509
         );
+
+        Contact  hcpDelegateContact = new Contact(
+                FirstName = 'HCPDelTD',
+                LastName = 'HCPDelTD',
+                Email = 'hcp_delegate@emil.com',
+                AccountId = hcpAccount.Id
+        );
+        contacts.add(hcpDelegateContact);
+
+
         contacts.add(hcpContact);
         insert contacts;
 
@@ -237,6 +259,20 @@ public class TestData {
         insert hcpEnrollment;
         hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
         update hcpEnrollment;
+
+        Site_Staff__c  siteStaff = new Site_Staff__c(
+                Site_Contact__c = piDelegateContact.Id,
+                Delegate_Level__c = DelegateService.DELEGATE_LEVEL_1,
+                Study_Site__c = studySite.Id
+        );
+        insert siteStaff;
+
+        RP_Delegate_Relationship__c   rpDelegate = new RP_Delegate_Relationship__c(
+                Referring_Provider__c = hcpDelegateContact.Id,
+                Delegate_Access_Level__c = DelegateService.DELEGATE_LEVEL_1,
+                Delegate__c = hcpContact.Id
+        );
+        insert rpDelegate;
 
 
         Participant__c participant = new Participant__c(

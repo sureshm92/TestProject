@@ -55,7 +55,7 @@ public without sharing class Action_AssignContactPermissions implements Action{
         for(PermissionSet ps : permissionSets) permissionIdByNameMap.put(ps.Name, ps.Id);
         List<User> users = [
                 SELECT Id, ContactId, (SELECT Id, PermissionSet.Name FROM PermissionSetAssignments)
-                FROM User WHERE ContactId IN: contactPermissionsMap.keySet()
+                FROM User WHERE ContactId IN: contactPermissionsMap.keySet() AND IsActive = TRUE
         ];
         List<PermissionSetAssignment> psaList = new List<PermissionSetAssignment>();
         for(User user : users){
@@ -78,7 +78,7 @@ public without sharing class Action_AssignContactPermissions implements Action{
     private void deletePermissions(){
         List<User> users = [
                 SELECT Id, ContactId, (SELECT Id, PermissionSet.Name FROM PermissionSetAssignments)
-                FROM User WHERE ContactId IN: contactPermissionsToRemoveMap.keySet()
+                FROM User WHERE ContactId IN: contactPermissionsToRemoveMap.keySet() AND IsActive = TRUE
         ];
         List<PermissionSetAssignment> psaRemoveList = new List<PermissionSetAssignment>();
         for(User user : users){
