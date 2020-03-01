@@ -159,15 +159,6 @@ public without sharing class PatientDelegateService {
             }
         }
 
-        List<Participant__c> participant = DatabaseService.getInstance().queryImpl(
-                new List<String>{
-                        'Id',
-                        'Contact__c'
-                },
-                Participant__c.getSObjectType(),
-                DatabaseService.fieldEqual('Contact__c', CommunityService.getUserContact().Id)
-        );
-
         List<User> delegateUser = [SELECT Id FROM User WHERE ContactId = :newDelegate.Id AND IsActive = TRUE];
         if (!delegateUser.isEmpty()) {
             List<Conversation__c> patientConversation = ConversationService.getSharedConversations(UserInfo.getUserId());
@@ -180,6 +171,14 @@ public without sharing class PatientDelegateService {
         }
 
         createPDAlerts(newDelegate);
+
+        List<Participant__c> participant = DatabaseService.getInstance().queryImpl(
+                new List<String>{
+                        'Id', 'Contact__c', 'Contact__r.Current_Participant_Enrollment__c'
+                },
+                Participant__c.getSObjectType(),
+                DatabaseService.fieldEqual('Contact__c', CommunityService.getUserContact().Id)
+        );
 
         if (participant.size() == 0) {
             throw new PatientDelegateServiceException('Wrong contact: ' + CommunityService.getUserContact().Id);

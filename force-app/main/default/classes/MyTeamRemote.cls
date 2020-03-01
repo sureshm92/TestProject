@@ -438,6 +438,7 @@ public without sharing class MyTeamRemote {
                 ];
                 Participant__c participant = ParticipantService.getInstance().getState().participant;
                 contactDelegate.AccountId = user.Contact.AccountId;
+                contactDelegate.Current_Participant_Enrollment__c = participant.Contact__r.Current_Participant_Enrollment__c;
                 contactDelegate.Language__c = UserInfo.getLanguage();
                 contactDelegate.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
                 contactDelegate.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
