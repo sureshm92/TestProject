@@ -56,7 +56,7 @@
                                     <aura:if isTrue="{!equals(v.participantState.communityName, 'IQVIA Referral Hub')}">
                                         <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.png'}"/>
                                     </aura:if>
-                                    <aura:if isTrue="{!equals(v.participantState.comunityName, 'GSK Community')}">
+                                    <aura:if isTrue="{!equals(v.participantState.communityName, 'GSK Community')}">
                                         <img class="contrast-logo" src="{!$Resource.GSK_Logos + '/gsk-full.png'}"/>
                                     </aura:if>
                                 </div>
