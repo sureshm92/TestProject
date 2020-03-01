@@ -26,15 +26,7 @@ public without sharing class AddPatientByPIRemote {
                 initData.ss =  StudySiteService.getStudySiteForPIById(ssId);
                 initData.ctp = TrialService.getTrial(initData.ss.Clinical_Trial_Profile__c);
                 initData.visitPlansLVList = StudySiteService.getVisitPlansLVList(ssId);
-                initData.peStatusLVList = new List<LabelValueItem>();
-                for (String status : PEStatusState.getAddPatientByPIStatuses(initData.ctp)) {
-                    initData.peStatusLVList.add(
-                            new LabelValueItem(
-                                    TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, status),
-                                    status
-                            )
-                    );
-                }
+                initData.peStatusLVList = PEStatusState.getAddPatientByPIStatusesLV(initData.ctp);
             }
             return initData;
         } catch (Exception e) {

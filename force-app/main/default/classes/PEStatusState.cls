@@ -461,11 +461,21 @@ public without sharing class PEStatusState {
         return  steps;
     }
 
+    public static List<LabelValueItem> getParticipantImportStatusesLV(Clinical_Trial_Profile__c ctp){
+        return  getStatusesLV(getParticipantImportStatuses(ctp), new Map<String, String>{
+                PE_STATUS_RECEIVED => TranslateHelper.getLabelValue('PWS_Contact_Outcome_Placeholder')
+        });
+    }
+
     public static List<String> getAddPatientByPIStatuses(Clinical_Trial_Profile__c ctp){
         List<String> steps = new List<String>();
         steps.addAll(PE_STATUS_GROUP_ADD_PATIENT_BY_PI_WITHOUT_FINAL);
         steps.add(getEnrollmentFlowFinalStep(ctp));
         return  steps;
+    }
+
+    public static List<LabelValueItem> getAddPatientByPIStatusesLV(Clinical_Trial_Profile__c ctp){
+        return  getStatusesLV(getAddPatientByPIStatuses(ctp), null);
     }
 
     public static List<String> getParticipationFlowSteps(Participant_Enrollment__c pe){
@@ -476,14 +486,25 @@ public without sharing class PEStatusState {
     }
     
     public static List<LabelValueItem> getParticipationFlowStepsLV(Participant_Enrollment__c pe){
-        List<LabelValueItem> translatedStatuses = new List<LabelValueItem>();
-        for(String status : getParticipationFlowSteps(pe)) {
-            translatedStatuses.add(new LabelValueItem(
-                    TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, status),
-                    status
-            ));
+        return getStatusesLV(getParticipationFlowSteps(pe), null);
+    }
+
+    private static List<LabelValueItem> getStatusesLV(List<String> statuses, Map<String, String> overrideLabels){
+        List<LabelValueItem> statusesLV = new List<LabelValueItem>();
+        for(String status : statuses) {
+            if(overrideLabels != null && overrideLabels.containsKey(status)){
+                statusesLV.add(new LabelValueItem(overrideLabels.get(status),
+                        status
+                ));
+            }
+            else{
+                statusesLV.add(new LabelValueItem(
+                        TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, status),
+                        status
+                ));
+            }
         }
-        return translatedStatuses;
+        return statusesLV;
     }
 
 }
