@@ -52,7 +52,9 @@ public without sharing class ParticipantService {
         participantState.currentContactId = userContact.userCommunityDelegateId__c;
         if (participantState.currentContactId == null) participantState.currentContactId = userContact.Id;
         participantState.isDelegate = userContact.userCommunityDelegateId__c != null;
-        participantState.currentUserId = [SELECT Id FROM User WHERE ContactId = :participantState.currentContactId LIMIT 1].Id;
+        List<User> participantUser = [SELECT Id FROM User WHERE ContactId = :participantState.currentContactId LIMIT 1];
+        if (!participantUser.isEmpty()) participantState.currentUserId = participantUser.get(0).Id;
+        else participantState.currentUserId = CommunityService.getUserId();
         if (userContact.Current_Participant_Enrollment__c != null) {
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(userContact.Current_Participant_Enrollment__c, CommunityService.USER_MODE_PARTICIPANT);
             if (pe != null) {
@@ -80,9 +82,7 @@ public without sharing class ParticipantService {
             }
         }
         participantState.welcomeMessage = getWelcomeMessage();
-        if (!CommunityModeService.getUserCommunityModes(participantState.currentContactId).isEmpty()){
-            participantState.communityName = CommunityModeService.getUserCommunityModes(participantState.currentContactId).get(0).template.communityName;
-        }
+        participantState.communityName = UserContext.getCurrentCommunityName();
     }
 
     public static Participant__c getParticipant(Id sourceId) {
@@ -109,6 +109,7 @@ public without sharing class ParticipantService {
                         Mailing_Zip_Postal_Code__c,
                         Contact__c,
                         Conditions__c,
+                        Contact__r.Current_Participant_Enrollment__c,
                         Contact__r.Visit_Results_Opt_In__c,
                         Contact__r.Participant_Opt_In_Status_Emails__c,
                         Marketing_Flag__c
@@ -273,7 +274,7 @@ public without sharing class ParticipantService {
         for (Age_of_Majority__mdt mdt : ageOfMajorities) codesByAges.put(mdt.Country_Code__c, mdt);
 
         for (Participant__c prt : participants) {
-            if(prt.Adult__c || String.isBlank(prt.Date_of_Birth__c)) continue;
+            if (prt.Adult__c || String.isBlank(prt.Date_of_Birth__c)) continue;
             try {
                 Date birthDate = Date.newInstance(
                         Integer.valueOf(prt.Date_of_Birth__c.substring(0, 4)),
@@ -289,7 +290,7 @@ public without sharing class ParticipantService {
                         codesByAges.get(prt.Mailing_Country_Code__c) : codesByAges.get(null);
                 if ((prt.Mailing_Country_Code__c == ageOfMajority.Country_Code__c
                         && (prt.Mailing_State_Code__c == ageOfMajority.State_Code__c || String.isBlank(ageOfMajority.State_Code__c)))
-                        || (String.isBlank(ageOfMajority.Country_Code__c))){
+                        || (String.isBlank(ageOfMajority.Country_Code__c))) {
                     prt.Adult__c = participantAge >= ageOfMajority.Age__c;
                 }
             } catch (Exception e) {

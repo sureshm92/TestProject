@@ -1,7 +1,9 @@
 <messaging:emailTemplate
         subject="{!$Label.Email_Subject_Trial_Complete_for_Delegate}"
         recipientType="Contact"
-        relatedToType="Participant_Enrollment__c">
+        relatedToType="Participant_Enrollment__c"
+        language="{!recipient.Language__c}">
+
     <messaging:htmlEmailBody>
         <c:EmailTemplate recipientId="{!recipient.Id}"
                          parametersProvider="Email_Template_Parameters_From_PE"

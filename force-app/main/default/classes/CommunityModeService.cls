@@ -78,7 +78,6 @@ public without sharing class CommunityModeService {
             List<Participant_Enrollment__c> pastPEList = pePastMap.get(userParticipant.Id);
             Boolean hasPastStudies = pastPEList != null && pastPEList.size() > 0;
 
-            //TODO: Add right template for decoupled delegate in Prospect view
             CommunityTemplate currentTemplate;
             String sitePrefix = Site.getPathPrefix().replace('/s', '').replace('/', '');
             List<PermissionSetAssignment> permissions = [
@@ -87,6 +86,7 @@ public without sharing class CommunityModeService {
             for(PermissionSetAssignment permission : permissions) {
                 if(permission.PermissionSet.Name.containsIgnoreCase(sitePrefix)) {
                     currentTemplate = CommunityTemplateService.getTemplateByPermissionSetName(permission.PermissionSet.Name);
+                    if(currentTemplate != null) break;
                 }
             }
 

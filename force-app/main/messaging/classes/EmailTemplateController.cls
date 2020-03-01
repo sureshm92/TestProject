@@ -125,7 +125,7 @@ global without sharing class EmailTemplateController {
         get {
             try {
                 if (signatureValue == null && getDataProvider().userMode == CommunityModeService.USER_MODE_PARTICIPANT) {
-                    String signatureLabel = getTemplateProperties().get('EmailTemplateSignatureLabel');
+                    String signatureLabel = getPropertiesService().getPropertyValue('EmailTemplateSignatureLabel');
                     return prepareLineBreaks(TranslateHelper.getLabelValue(signatureLabel));
                 }
                 return prepareLineBreaks(signatureValue);
@@ -186,21 +186,24 @@ global without sharing class EmailTemplateController {
         set;
     }
 
-    private Map<String, String> getTemplateProperties() {
-        if (sourceRecordId !=null) {
-            String userModeString = getDataProvider().userMode;
-            Boolean isDelegateBoolean = getDataProvider().isDelegate;
-            return CommunityTemplateService.getTemplate(
-                    TemplatePropertiesService.getTemplatePropertiesBySObject(
-                            sourceRecordId, emailRecipientId, userModeString, isDelegateBoolean)).properties;
+    private TemplatePropertiesService propertiesService;
+    public TemplatePropertiesService getPropertiesService() {
+        if(propertiesService == null) {
+            if (sourceRecordId != null) {
+                propertiesService = new TemplatePropertiesService(
+                        sourceRecordId, emailRecipientId, getDataProvider().userMode, getDataProvider().isDelegate);
+            } else{
+                propertiesService = new TemplatePropertiesService();
+            }
         }
-        return CommunityTemplateService.getDefaultTemplate().properties;
+
+        return propertiesService;
     }
 
     global String emailTemplateBackground {
         get {
             try {
-                emailTemplateBackground = getTemplateProperties().get('EmailTemplateBackgr');
+                emailTemplateBackground = getPropertiesService().getPropertyValue('EmailTemplateBackgr');
                 return emailTemplateBackground;
             } catch (Exception e) {
                 EmailService.sendException(e, null);
@@ -213,7 +216,7 @@ global without sharing class EmailTemplateController {
     global String emailTemplateTextBackground {
         get {
             try {
-                emailTemplateTextBackground = getTemplateProperties().get('EmailTemplateTextBackgr');
+                emailTemplateTextBackground = getPropertiesService().getPropertyValue('EmailTemplateTextBackgr');
                 return emailTemplateTextBackground;
             } catch (Exception e) {
                 EmailService.sendException(e, null);
@@ -226,7 +229,7 @@ global without sharing class EmailTemplateController {
     global String emailTemplateHeaderBackground {
         get {
             try {
-                emailTemplateHeaderBackground = getTemplateProperties().get('EmailTemplateHeaderBackgr');
+                emailTemplateHeaderBackground = getPropertiesService().getPropertyValue('EmailTemplateHeaderBackgr');
                 return emailTemplateHeaderBackground;
             } catch (Exception e) {
                 EmailService.sendException(e, null);
@@ -239,7 +242,7 @@ global without sharing class EmailTemplateController {
     global String emailTemplateHeader {
         get {
             try {
-                emailTemplateHeader = getTemplateProperties().get('EmailTemplateHeader');
+                emailTemplateHeader = getPropertiesService().getPropertyValue('EmailTemplateHeader');
                 return emailTemplateHeader;
             } catch (Exception e) {
                 EmailService.sendException(e, null);
@@ -252,7 +255,7 @@ global without sharing class EmailTemplateController {
     global String emailTemplateTitle {
         get {
             try {
-                emailTemplateTitle = getTemplateProperties().get('EmailTemplateTitle');
+                emailTemplateTitle = getPropertiesService().getPropertyValue('EmailTemplateTitle');
                 return emailTemplateTitle;
             } catch (Exception e) {
                 EmailService.sendException(e, null);
@@ -265,7 +268,7 @@ global without sharing class EmailTemplateController {
     global String emailTemplateBrandLogo {
         get {
             try {
-                emailTemplateBrandLogo = getTemplateProperties().get('EmailTemplateBrandLogo');
+                emailTemplateBrandLogo = getPropertiesService().getPropertyValue('EmailTemplateBrandLogo');
                 return emailTemplateBrandLogo;
             } catch (Exception e) {
                 EmailService.sendException(e, null);
@@ -278,7 +281,7 @@ global without sharing class EmailTemplateController {
     global String emailTemplateBottomLogo {
         get {
             try {
-                emailTemplateBottomLogo = getTemplateProperties().get('EmailTemplateBottomLogo');
+                emailTemplateBottomLogo = getPropertiesService().getPropertyValue('EmailTemplateBottomLogo');
                 return emailTemplateBottomLogo;
             } catch (Exception e) {
                 EmailService.sendException(e, null);
@@ -291,7 +294,7 @@ global without sharing class EmailTemplateController {
     global String emailTemplateBrandLogoCSS {
         get {
             try {
-                emailTemplateBrandLogoCSS = getTemplateProperties().get('EmailTemplateBrandLogoCSS');
+                emailTemplateBrandLogoCSS = getPropertiesService().getPropertyValue('EmailTemplateBrandLogoCSS');
                 return emailTemplateBrandLogoCSS;
             } catch (Exception e) {
                 EmailService.sendException(e, null);
@@ -495,7 +498,7 @@ global without sharing class EmailTemplateController {
                 if (headerLabel != null) headerValue = TranslateHelper.getLabelValue(headerLabel, getUserLanguageCode());
                 if (titleLabel != null) titleValue = TranslateHelper.getLabelValue(titleLabel, getUserLanguageCode());
                 if (getDataProvider().userMode == CommunityModeService.USER_MODE_PARTICIPANT) {
-                    String signatureLabelForTranslate = getTemplateProperties().get('EmailTemplateSignatureLabel');
+                    String signatureLabelForTranslate = getPropertiesService().getPropertyValue('EmailTemplateSignatureLabel');
                     signatureValue = prepareLineBreaks(TranslateHelper.getLabelValue(signatureLabelForTranslate));
                 } else {
                     if (signatureLabel != null) signatureValue = TranslateHelper.getLabelValue(signatureLabel, getUserLanguageCode());

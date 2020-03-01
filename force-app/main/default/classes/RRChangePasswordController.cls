@@ -52,7 +52,10 @@ public without sharing class RRChangePasswordController {
     public String country {get; set;}
     public String state {get; set;}
     public Boolean isStateRequired {get; set;}
-    public Boolean mainPortal {get; set;}
+    public Boolean mainPortal {
+        get { return !Site.getPathPrefix().startsWith('/gsk');}
+        set;
+    }
 
     private Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
     private Map<String, String> countryCodeByName = new Map<String, String>();
@@ -159,12 +162,6 @@ public without sharing class RRChangePasswordController {
         state = contact.MailingStateCode;
         if (!String.isBlank(country)) {
             updateStatesAction();
-        }
-
-        try {
-            mainPortal = !Site.getPathPrefix().contains('/gsk/');
-        }catch(Exception e) {
-            mainPortal = true;
         }
     }
 
