@@ -27,5 +27,4 @@
             params.callback(selection);
         })
     }
-
-})
+});
