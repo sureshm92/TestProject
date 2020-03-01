@@ -32,8 +32,7 @@ public with sharing class TemplatePropertiesService {
                         WHERE Id = :recipientId
                 ].Contact.Id;
             }
-            if (isDelegate) partConId = PatientDelegateService.getParticipantByDelegateContactId(recipientId).Contact__c;
-
+            if (isDelegate) partConId = PatientDelegateService.getParticipantByDelegateContactId(partConId).Contact__c;
 
             String filter;
             Id enrollmentId;
