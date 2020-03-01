@@ -79,16 +79,16 @@
                                 <div class="rr-form-element slds-col slds-size--1-of-1">
                                     {!v.participantMsgWithName}
                                 </div>
-                                <div class="slds-col slds-size--1-of-1">
+                                <div class="slds-col slds-size--1-of-1 radioInvite">
                                     <lightning:input type="radio" label="Invite" name="options" value="1" checked="{!v.selectedOption == '1'}" onchange="{!c.doHandleRadioClick}"/>
                                     <lightning:input type="radio" label="Do not invite" name="options" value="2" checked="{!v.selectedOption == '2'}" onchange="{!c.doHandleRadioClick}"/>
                                 </div>
-                                <div class="rr-form-element slds-col slds-size--1-of-1" style="margin-top: 15px;">
+                                <div class="rr-form-element slds-col slds-size--1-of-1" style="margin-top: 30px;">
                                     {!$Label.c.PG_EMN_MSG_Update_Participant_Info}
                                 </div>
                                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
                                     <div class="label">
-                                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_First_name}
+                                        {!$Label.c.PG_AS_F_First_name}<abbr title="required" class="slds-required">*</abbr>
                                     </div>
                                     <lightning:input type="text" value="{!v.participant.First_Name__c}" required="true"
                                                      onblur="{!c.doCheckFields}"/>
@@ -101,8 +101,8 @@
                                                      onblur="{!c.doCheckFields}"/>
                                 </div>
                                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
-                                    <div class="label"><abbr title="required"
-                                                             class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Last_name}</div>
+                                    <div class="label">{!$Label.c.PG_AS_F_Last_name}<abbr title="required"
+                                                             class="slds-required">*</abbr></div>
                                     <lightning:input type="text" value="{!v.participant.Last_Name__c}" required="true"
                                                      onblur="{!c.doCheckFields}"/>
                                 </div>
@@ -119,16 +119,16 @@
                                                      onblur="{!c.doCheckFields}"/>
                                 </div>
                                 <div class="rr-form-element slds-col slds-size--1-of-3'">
-                                    <div class="label"><abbr title="required"
-                                                             class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Date_of_Birth}
+                                    <div class="label">{!$Label.c.PG_AS_F_Date_of_Birth}<abbr title="required"
+                                                             class="slds-required">*</abbr>
                                     </div>
                                     <lightning:input max="{!v.todayDate}" type="date" value="{!v.participant.Date_of_Birth__c}"
                                                      required="true"
                                                      onblur="{!c.doCheckfields}" onchange="{!c.doCheckFields}"/>
                                 </div>
                                 <div class="rr-form-element slds-col slds-size--1-of-3">
-                                    <div class="label"><abbr title="required"
-                                                             class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Gender}</div>
+                                    <div class="label">{!$Label.c.PG_AS_F_Gender}<abbr title="required"
+                                                             class="slds-required">*</abbr></div>
                                     <c:rrSelect options="{!v.formData.genderLVList}" value="{!v.participant.Gender__c}"
                                                 placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false" onchange="{!c.doCheckFields}"/>
                                 </div>
@@ -142,27 +142,27 @@
                                     {!$Label.c.PG_EMN_MSG_Update_Contact_Info}
                                 </div>
                                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                                    <div class="label"><abbr title="required"
-                                                             class="slds-required">*</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
+                                    <div class="label">{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}<abbr title="required"
+                                                             class="slds-required">*</abbr>
                                     </div>
                                     <lightning:input aura:id="phoneInput" type="text" value="{!v.participant.Phone__c}" required="true"
                                                      onblur="{!c.doCheckFields}"/>
                                 </div>
                                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                                    <div class="label"><abbr title="required"
-                                                             class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Phone_Type}</div>
+                                    <div class="label">{!$Label.c.PG_AP_F_Phone_Type}<abbr title="required"
+                                                             class="slds-required">*</abbr></div>
                                     <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!v.participant.Phone_Type__c}"
                                                 placeholder="{!$Label.c.PG_AC_Select}" required="true" onchange="{!c.doCheckFields}"/>
                                 </div>
                                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                                    <div class="label"><abbr title="required"
-                                                             class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Email_address}
+                                    <div class="label">{!$Label.c.PG_AS_F_Email_address}<abbr title="required"
+                                                             class="slds-required">*</abbr>
                                     </div>
                                     <lightning:input  aura:id="emailInput" type="email" value="{!v.participant.Email__c}" required="true"
                                                       onblur="{!c.doCheckFields}"/>
                                 </div>
                                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                                    <div class="label"><abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_Country}
+                                    <div class="label">{!$Label.c.PE_Country}<abbr title="required" class="slds-required">*</abbr>
                                     </div>
                                     <c:rrSelect options="{!v.formData.countriesLVList}"
                                                 value="{!v.participant.Mailing_Country_Code__c}"
@@ -170,17 +170,17 @@
                                 </div>
                                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                                     <div class="label">
-                                        <aura:if isTrue="{!!empty(v.statesLVList)}">
+                                        {!$Label.c.PE_State}<aura:if isTrue="{!!empty(v.statesLVList)}">
                                             <abbr title="required" class="slds-required">*</abbr>
-                                        </aura:if>{!$Label.c.PE_State}
+                                        </aura:if>
                                     </div>
                                     <c:rrSelect aura:id="stateField" options="{!v.statesLVList}" disabled="{!empty(v.statesLVList)}"
                                                 value="{!v.participant.Mailing_State_Code__c}"
                                                 placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false" onchange="{!c.doStateChange}"/>
                                 </div>
                                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                                    <div class="label"><abbr title="required"
-                                                             class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Zip_Postal_Code}
+                                    <div class="label">{!$Label.c.PG_AS_F_Zip_Postal_Code}<abbr title="required"
+                                                             class="slds-required">*</abbr>
                                     </div>
                                     <lightning:input type="text" value="{!v.participant.Mailing_Zip_Postal_Code__c}"
                                                      required="true" onblur="{!c.doCheckFields}"/>
@@ -230,7 +230,7 @@
                                         <aura:if isTrue="{!!delegateItem.Id}">
                                             <div class="rr-form-element slds-col slds-size--1-of-3">
                                                 <div class="label">
-                                                    <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_First_name}
+                                                    {!$Label.c.PG_AS_F_First_name}<abbr title="required" class="slds-required">*</abbr>
                                                 </div>
                                                 <lightning:input type="text" value="{!delegateItem.First_Name__c}"
                                                                  required="{!v.currentTab == '2'}" onblur="{!c.doCheckDelegateFields}"/>
@@ -244,7 +244,7 @@
                                             </div>
                                             <div class="rr-form-element slds-col slds-size--1-of-3">
                                                 <div class="label">
-                                                    <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Last_name}
+                                                    {!$Label.c.PG_AS_F_Last_name}<abbr title="required" class="slds-required">*</abbr>
                                                 </div>
                                                 <lightning:input type="text" value="{!delegateItem.Last_Name__c}"
                                                                  required="{!v.currentTab == '2'}" onblur="{!c.doCheckDelegateFields}"/>
@@ -252,34 +252,34 @@
                                         </aura:if>
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
                                             <div class="label">
-                                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
+                                                {!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}<abbr title="required" class="slds-required">*</abbr>
                                             </div>
                                             <lightning:input aura:id="{!'phoneDInput' + ind}" type="text" value="{!delegateItem.Phone__c}"
                                                              required="{!v.currentTab == '2'}"  onblur="{!c.doCheckDelegateFields}"/>
                                         </div>
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
                                             <div class="label">
-                                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Phone_Type}
+                                                {!$Label.c.PG_AS_F_Phone_Type}<abbr title="required" class="slds-required">*</abbr>
                                             </div>
                                             <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!delegateItem.Phone_Type__c}" useSentenceFont="false"/>
                                         </div>
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
                                             <div class="label">
-                                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Email_address}
+                                                {!$Label.c.PG_AS_F_Email_address}<abbr title="required" class="slds-required">*</abbr>
                                             </div>
                                             <lightning:input aura:id="{!'emailDInput' + ind}" type="email" value="{!delegateItem.Email__c}"
                                                              required="{!v.currentTab == '2'}" onblur="{!c.doCheckDelegateFields}"/>
                                         </div>
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
                                             <div class="label">
-                                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PE_Country}
+                                                {!$Label.c.PE_Country}<abbr title="required" class="slds-required">*</abbr>
                                             </div>
                                             <c:rrSelect options="{!v.formData.countriesLVList}" value="{!delegateItem.Mailing_Country_Code__c}"
                                                         placeholder="{!$Label.c.PG_AC_Select}" useSentenceFont="false" onchange="{!c.doDelegateCountryCodeChanged}"/>
                                         </div>
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
                                             <div class="label">
-                                                <aura:if isTrue="{!!empty(delegateItem.statesDelegateLVList)}"><abbr title="required" class="slds-required">*</abbr></aura:if>{!$Label.c.PE_State}
+                                                {!$Label.c.PE_State}<aura:if isTrue="{!!empty(delegateItem.statesDelegateLVList)}"><abbr title="required" class="slds-required">*</abbr></aura:if>
                                             </div>
                                             <c:rrSelect options="{!delegateItem.statesDelegateLVList}" disabled="{!empty(delegateItem.statesDelegateLVList)}"
                                                         value="{!delegateItem.Mailing_State_Code__c}" placeholder="{!$Label.c.PG_AC_Select}"
@@ -287,7 +287,7 @@
                                         </div>
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
                                             <div class="label">
-                                                <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Zip_Postal_Code}
+                                                {!$Label.c.PG_AS_F_Zip_Postal_Code}<abbr title="required" class="slds-required">*</abbr>
                                             </div>
                                             <lightning:input type="text" value="{!delegateItem.Mailing_Zip_Postal_Code__c}"
                                                              required="{!v.currentTab == '2'}" onblur="{!c.doCheckDelegateFields}"/>

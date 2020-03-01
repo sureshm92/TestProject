@@ -101,7 +101,8 @@
         </div>
         <aura:set attribute="headerButtons">
             <lightning:button onclick="{!c.doPrint}" name="Print" class="{!'slds-button slds-button&#45;&#45;icon-inverse'}">
-                <c:RRIcon iconName="icon-print" class="print-icon"/>
+                <!--<c:RRIcon iconName="icon-print" class="print-icon"/> -->
+                <img class="print-icon" src="{!$Resource.icon_printIcon}" width="16" height="16"/>
             </lightning:button>
         </aura:set>
         <aura:set attribute="footerButtons">
@@ -116,7 +117,7 @@
                     <lightning:button class="apollo-btn secondary" disabled="{!!v.participantPath.currentStep.editable || !v.statusDetailValid}"
                                       onclick="{!c.doUpdatePatientStatus}">{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button>
                 </aura:if>
-                <lightning:button class="apollo-btn secondary slds-button--neutral"
+                <lightning:button class="apollo-btn primary slds-button--neutral"
                                   disabled="{!!v.isValid || ! v.statusDetailValid}"
                                   onclick="{!c.doUpdateCancel}">{!$Label.c.BTN_Save_All_Tabs}</lightning:button>
             </div>

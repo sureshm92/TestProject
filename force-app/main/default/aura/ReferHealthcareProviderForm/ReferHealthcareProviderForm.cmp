@@ -106,7 +106,7 @@
 
 
         <div class="{!'slds-col ' + if(v.printMode, 'slds-size--2-of-12', 'slds-size--3-of-12 slds-large-size--2-of-12')}"
-             style="margin-top:23px">
+             style="margin-top:15px">
             <aura:if isTrue="{!v.forThisProvider == 'isRef'}">
                 <button class="apollo-btn secondary slds-button" onclick="{!c.doConnect}"
                         disabled="{!v.printMode || (v.healthCareProvider.Status__c != 'No Sharing' &amp;&amp; (!v.isValid || v.actionDisabled || v.isDuplicate)) || !v.refProvider}"

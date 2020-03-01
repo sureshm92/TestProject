@@ -18,14 +18,11 @@
 
 .THIS .emancipation-notification {
     background: #FF9300;
-    fill: white;
     height: 100%;
-    color: black;
+    color: #fff;
     line-height: 45px;
     font-size: 1rem;
-    border: 0.1px solid;
-    border-color: lightgrey;
-    argin-bottom: 30px;
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.16)
 }
 
 .THIS .emancipation-notification-msg {
@@ -36,6 +33,17 @@
 .THIS .emancipation-notification-link {
     text-align: right;
     padding: 4px 16px;
+}
+
+.THIS .emancipation-notification-link a {
+   padding-bottom: 3px;
+    border-bottom: 1px solid #fff;
+    color: #fff;
+}
+
+.THIS .warning-icon {
+    margin-right: 10px;
+    margin-top: -2px;
 }
 
 
