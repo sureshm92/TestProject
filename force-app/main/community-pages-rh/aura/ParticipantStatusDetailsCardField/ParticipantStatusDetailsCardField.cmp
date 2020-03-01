@@ -5,7 +5,7 @@
 <aura:component description="ParticipantStatusDetailsCardField">
     <aura:attribute name="parent" type="Aura.Component"/>
     <aura:attribute name="field" type="Object"/>
-    <aura:attribute name="editable" type="Boolean"/>
+    <aura:attribute name="editable" type="Boolean" default="true"/>
     <aura:attribute name="required" type="Boolean"/>
     <aura:attribute name="todayDate" type="Date"/>
 

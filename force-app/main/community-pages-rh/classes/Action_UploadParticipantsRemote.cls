@@ -14,16 +14,7 @@ public without sharing class Action_UploadParticipantsRemote {
         List<Study_Site__c> sites = [SELECT Id, Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c FROM Study_Site__c WHERE Id = :studySiteId];
         if(sites.isEmpty())
             return participantStatuses;
-        for (String status : PEStatusState.getParticipantImportStatuses(sites[0].Clinical_Trial_Profile__r)) {
-            participantStatuses.add(
-                    new LabelValueItem(
-                            TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, status),
-                            status
-                    )
-            );
-        }
-
-        return participantStatuses;
+        return PEStatusState.getParticipantImportStatusesLV(sites[0].Clinical_Trial_Profile__r);
     }
 
     @AuraEnabled

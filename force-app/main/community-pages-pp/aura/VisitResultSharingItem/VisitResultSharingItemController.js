@@ -2,6 +2,14 @@
  * Created by Leonid Bartenev
  */
 ({
+    doCountryChanged: function (component, event, hepler) {
+        var visitResult = component.get('v.visitResult');
+        if(!visitResult.countryCodes){
+            visitResult.type = 'All';
+            component.set('v.visitResult', visitResult);
+        }
+    },
+
     doGlobalCountryChanged: function (component, event, hepler) {
         let visitResult = component.get('v.visitResult');
         let globalCountries = component.get('v.globalCountries');
@@ -17,7 +25,6 @@
             visitResult.type = 'Countries';
             visitResult.countryCodes = globalCountries;
         }
-        console.log('Global change mode');
         component.set('v.visitResult', visitResult);
     },
 
@@ -33,7 +40,6 @@
         visitResult.countryCodes = null;
         visitResult.type = 'All';
         component.set('v.visitResult', visitResult);
-        console.log('close mode ' + JSON.stringify(visitResult));
     },
 
     doGlobalTypeChanged: function (component, event, helper) {
