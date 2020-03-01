@@ -5,6 +5,30 @@
     padding: 16px 0 0;
 }
 
+.THIS .p-container.large {
+    height: 585px;
+}
+
+.THIS .p-container .p-content {
+	padding: 30px 24px;
+}
+
+.THIS .p-container.large > div:last-child{
+    height: 100%;
+}
+
+.THIS .p-container .p-footer {
+    padding: 15px 15px 15px 24px;
+    position: absolute;
+    bottom: 72px;
+    right: 0;
+    width: 100%;
+}
+
+.THIS .p-container .p-footer .rr-cb-label{
+	margin-top: 3px;
+}
+
 .THIS .vpi-title{
     font-size: 18px;
     font-weight: 600;
@@ -21,6 +45,18 @@
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
     padding: 2px 10px;
     font-size: 1rem;
+}
+
+.THIS .rr-form-element label, 
+.THIS .rr-form-element .label,
+.THIS .slds-form-element__label {
+    font-size: .875rem;
+}
+
+.THIS .ap-section .ap-section-title + .slds-grid .rr-cb-label {
+    font-size: 1rem;
+    color: #000;
+    margin-top: 2px;
 }
 
 .THIS .vpi-title.link{
@@ -207,20 +243,26 @@
 }
 
 .THIS .rr-form-element + .rr-form-element{
-    margin-top: 0;
+    margin-top: 10px;
 }
 
 .THIS .rr-form-element{
     margin-bottom: 10px;
 }
 
-.THIS .ap-section-title{
-    font-size: 20px;
-    line-height: 36px;
+.THIS .p-footer .rr-form-element{
+    margin-bottom: 0;
 }
 
-.THIS .ap-section + .ap-section{
-    margin-top: 20px;
+.THIS .ap-section-title{
+    font-size: 18px;
+    line-height: 24px;
+    color: #000;
+    margin-bottom: 7px;
+}
+
+.THIS .ap-section{
+    margin-top: 30px;
 }
 
 .THIS .ap-buttons{
@@ -236,6 +278,14 @@
 
 .THIS .rr-form-element .slds-form-element__label{
     display: none;
+}
+
+.THIS .radioInvite .slds-form-element:first-child {
+    margin: 5px 0 10px;
+}
+
+.THIS .radioInvite .slds-form-element:last-child {
+    margin: 5px 0 0;
 }
 
 .THIS .rr-form-element .cRrSelect .slds-select_container .slds-select{
