@@ -22,11 +22,37 @@
     overflow-y: auto;
 }
 
+.THIS .slds-table thead th {
+	background: #f8f9fb; 
+    border: none;
+}
+
+.THIS .slds-table_bordered tbody th:hover,
+.THIS .slds-table_bordered tbody td:hover,
+.THIS .slds-table_bordered tbody tr:hover,
+.THIS .slds-table_bordered:not(.slds-no-row-hover) tbody tr:hover > th:not(.slds-has-focus),
+.THIS .slds-table_bordered:not(.slds-no-row-hover) tbody tr:hover > td:not(.slds-has-focus){
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    box-shadow: none;
+}
+
+.THIS .slds-table_bordered tbody th,
+.THIS .slds-table_bordered tbody td {
+    box-shadow: none;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid #f8f9fb;
+}
+
+.THIS .slds-table_bordered {
+    border: none;
+}
+
 .THIS ::-webkit-scrollbar{
-    width: 8px;
+    width: 4px;
 }
 .THIS ::-webkit-scrollbar-thumb{
-    width: 8px;
+    width: 4px;
     border-radius: 4px;
     background-color: #999999;
     box-shadow: 0 8px 8px 0 rgba(0,0,0,0.16);

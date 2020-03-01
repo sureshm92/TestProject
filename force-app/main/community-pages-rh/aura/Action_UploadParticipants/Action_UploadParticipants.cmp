@@ -25,20 +25,26 @@
     </aura:method>
 
 
-    <div class="mrc-invite-popup">
+    <div class="mrc-invite-popup uploadParticipants">
         <c:Popup aura:id="uploadParticipantsDialog" title="{!$Label.c.SS_Upload_Participants}" size="medium">
             <c:RRSpinner aura:id="upModalSpinner" size="medium" showSpinner="false"/>
             <div class="slds-grid slds-grid_vertical">
                 <div class="slds-grid slds-wrap slds-scrollable">
                     <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small">
-                            <div class="input-fields-labels"><abbr class="slds-required" title="required">* </abbr><b>Add File:</b><span style="float: right;"><ui:outputURL aura:id="oURL" value="{!$Resource.PARTICIPANTS_TEMPLATE}" label="Download Template"/></span></div>
+                            <div class="input-fields-labels">                             
+                                <b>Add File:</b>
+                                <abbr class="slds-required" title="required">* </abbr>
+                                <span style="float: right;">
+                                    <ui:outputURL aura:id="oURL" value="{!$Resource.PARTICIPANTS_TEMPLATE}" label="Download Template"/>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="slds-grid slds-wrap slds-scrollable">
                     <div class="slds-size_2-of-2 slds-p-horizontal_x-medium">
-                        <div class="slds-m-around--small" data-gtm="pnl_UploadNewParticipants_importFile">
+                        <div class="slds-m-around--small uploadFiles" data-gtm="pnl_UploadNewParticipants_importFile">
                             <div class="input-fields-labels" style="color: blue;">
                                 {!v.fullFileName}
                                 <aura:if isTrue="{!!empty(v.fullFileName)}">
@@ -62,7 +68,8 @@
                 <div class="slds-grid slds-wrap slds-scrollable">
                     <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small" data-gtm="pnl_UploadNewParticipants_status">
-                            <div class="input-fields-labels"><abbr class="slds-required" title="required">* </abbr>{!$Label.c.PG_AP_F_Patient_Status}</div>
+                            <div class="input-fields-labels">
+                                {!$Label.c.PG_AP_F_Patient_Status}<abbr class="slds-required" title="required">*</abbr></div>
                             <c:rrSelect id="statusesPicklist"
                                         options="{!v.participantStatuses}"
                                         value="{!v.selectedStatus}"

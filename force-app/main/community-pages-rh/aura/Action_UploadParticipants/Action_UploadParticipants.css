@@ -1,0 +1,17 @@
+.THIS .p-container .p-content {
+    padding: 0 16px 30px;
+}
+
+.THIS .slds-file-selector,
+.THIS .slds-file-selector__dropzone {
+    width: 100%;
+}
+
+.THIS .slds-grid .slds-m-around--small {
+    margin-bottom: 0;
+}
+
+.THIS .slds-grid .slds-m-around--small.uploadFiles {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
