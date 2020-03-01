@@ -220,13 +220,13 @@ export default class MessageBoard extends LightningElement {
 
     handleMessageText(event) {
         this.messageText = event.target.value;
-        this.isAttachEnable = this.messageText != null;
+        this.isAttachEnable = !this.attachment && this.messageText != null;
         this.checkSendBTNAvailability();
     }
 
     handleInputEnter(event) {
         this.messageText = event.target.value;
-        this.isAttachEnable = this.messageText != null;
+        this.isAttachEnable = !this.attachment && this.messageText != null;
         this.checkSendBTNAvailability();
         if (!this.isHoldMode && this.messageText && event.keyCode === 13) this.handleSendClick();
     }
