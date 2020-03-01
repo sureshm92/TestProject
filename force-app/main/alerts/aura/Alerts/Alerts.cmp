@@ -18,23 +18,25 @@
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
 
     <!-- component body-->
-    <c:Popup aura:id="alertsDialog" title="{!if(v.currentAlert, v.currentAlert.title, '')}" size="medium" closeButtonClicked="{!v.closeBtnClicked}">
-        <aura:if isTrue="{!v.currentAlert}">
-            <aura:if isTrue="{!!empty(v.currentAlert.params.Logo)}">
-                <div class="al-logo">
-                   <img src="{!v.currentAlert.params.Logo}"/>
-                </div>
+    <aura:if isTrue="{!v.currentAlert}">
+        <c:Popup aura:id="alertsDialog" title="{!if(v.currentAlert, v.currentAlert.title, '')}" size="medium" closeButtonClicked="{!v.closeBtnClicked}">
+            <aura:if isTrue="{!v.currentAlert}">
+                <aura:if isTrue="{!!empty(v.currentAlert.params.Logo)}">
+                    <div class="al-logo">
+                        <img src="{!v.currentAlert.params.Logo}"/>
+                    </div>
+                </aura:if>
+                <aura:if isTrue="{!and(empty(v.currentAlert.params.Logo), !empty(v.currentAlert.params.LogoText))}">
+                    <div class="al-logo-text">{!v.currentAlert.params.LogoText}</div>
+                </aura:if>
             </aura:if>
-            <aura:if isTrue="{!and(empty(v.currentAlert.params.Logo), !empty(v.currentAlert.params.LogoText))}">
-                <div class="al-logo-text">{!v.currentAlert.params.LogoText}</div>
-            </aura:if>
-        </aura:if>
 
-        <div><aura:unescapedHtml value="{!if(v.currentAlert, v.currentAlert.body, '')}"/></div>
-        <aura:set attribute="footerButtons">
-            <button class="apollo-btn primary" onclick="{!c.doShowNext}">OK</button>
-        </aura:set>
-    </c:Popup>
+            <div><aura:unescapedHtml value="{!if(v.currentAlert, v.currentAlert.body, '')}"/></div>
+            <aura:set attribute="footerButtons">
+                <button class="apollo-btn primary" onclick="{!c.doShowNext}">OK</button>
+            </aura:set>
+        </c:Popup>
+    </aura:if>
 
     <c:OnboardingSlideTour aura:id="onboardingSlideTour"/>
     <c:MotivationalMessages aura:id="motivationalMessages"/>

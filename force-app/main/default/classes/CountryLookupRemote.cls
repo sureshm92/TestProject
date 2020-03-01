@@ -32,7 +32,7 @@ public with sharing class CountryLookupRemote {
 
     @AuraEnabled(Cacheable = true)
     public static List<LookupSearchResult> searchCountries(String searchTerm, String value, Boolean includeStates,
-            Boolean isInclude,String ctpId) {
+            Boolean isInclude, String ctpId) {
         try {
             String icon = isInclude ? INCLUDE_ICON : EXCLUDE_ICON;
 

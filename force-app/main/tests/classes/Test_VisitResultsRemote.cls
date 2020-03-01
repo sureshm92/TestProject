@@ -130,7 +130,7 @@ public with sharing class Test_VisitResultsRemote {
     @IsTest
     static void getVisitResultWrappersForDashboard_test() {
         List<VisitResultsService.VisitResultWrapper> wrappers = new List<VisitResultsService.VisitResultWrapper>{
-                new VisitResultsService.VisitResultWrapper(null, null, null)
+                new VisitResultsService.VisitResultWrapper(null, null, null, null)
         };
 
         ClassFactory.clearStubTypesByClassNamesMap();

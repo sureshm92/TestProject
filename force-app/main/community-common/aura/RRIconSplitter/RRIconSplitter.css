@@ -24,19 +24,19 @@
 
 .THIS .icon-item{
     padding-left: 10px;
-    fill: #999;
+    fill: #999 !important;
 }
 
 .THIS .dots{
     padding-left: 2px;
-    padding-top: 10px;
+    padding-top: 13px;
     font-weight: bold;
     position: absolute;
     left: 32px;
 }
 
 .THIS .icon-item:hover{
-    fill: #595959;
+    fill: #595959 !important;
 }
 
 .THIS .free-space {

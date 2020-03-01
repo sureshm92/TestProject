@@ -136,7 +136,6 @@ public without sharing class VisitResultSharingPanelRemote {
             ];
             Set<Id> selectedSSIds = new Set<Id>();
             for (Study_Site__c ss : studySites) {
-                if (selectedSSIds.size() > 5) break;
                 if (ctp.Shareback_Settings_on_StudySites__c && ss.Visit_Results_Sharing__c ||
                         !ctp.Shareback_Settings_on_StudySites__c && !ss.Visit_Results_Sharing__c) selectedSSIds.add(ss.Id);
             }
