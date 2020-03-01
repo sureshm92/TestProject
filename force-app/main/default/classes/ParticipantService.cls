@@ -80,9 +80,7 @@ public without sharing class ParticipantService {
             }
         }
         participantState.welcomeMessage = getWelcomeMessage();
-        if (!CommunityModeService.getUserCommunityModes(participantState.currentContactId).isEmpty()){
-            participantState.communityName = CommunityModeService.getUserCommunityModes(participantState.currentContactId).get(0).template.communityName;
-        }
+        participantState.communityName = UserContext.getCurrentCommunityName();
     }
 
     public static Participant__c getParticipant(Id sourceId) {
@@ -274,7 +272,7 @@ public without sharing class ParticipantService {
         for (Age_of_Majority__mdt mdt : ageOfMajorities) codesByAges.put(mdt.Country_Code__c, mdt);
 
         for (Participant__c prt : participants) {
-            if(prt.Adult__c || String.isBlank(prt.Date_of_Birth__c)) continue;
+            if (prt.Adult__c || String.isBlank(prt.Date_of_Birth__c)) continue;
             try {
                 Date birthDate = Date.newInstance(
                         Integer.valueOf(prt.Date_of_Birth__c.substring(0, 4)),
@@ -290,7 +288,7 @@ public without sharing class ParticipantService {
                         codesByAges.get(prt.Mailing_Country_Code__c) : codesByAges.get(null);
                 if ((prt.Mailing_Country_Code__c == ageOfMajority.Country_Code__c
                         && (prt.Mailing_State_Code__c == ageOfMajority.State_Code__c || String.isBlank(ageOfMajority.State_Code__c)))
-                        || (String.isBlank(ageOfMajority.Country_Code__c))){
+                        || (String.isBlank(ageOfMajority.Country_Code__c))) {
                     prt.Adult__c = participantAge >= ageOfMajority.Age__c;
                 }
             } catch (Exception e) {
