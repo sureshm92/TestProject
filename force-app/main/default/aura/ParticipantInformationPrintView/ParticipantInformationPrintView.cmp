@@ -104,7 +104,7 @@
                 </div>
                 <aura:if isTrue="{!v.pe}">
                     <div id="healthCareProvider">
-                        <c:ReferHealthcareProvider pe="{!v.pe}" actionDisabled="true" printMode="true"/>
+                        <c:ReferHealthcareProviderPrintView pe="{!v.pe}"/>
                     </div>
                 </aura:if>
                 <!--Status Detail Path-->

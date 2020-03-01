@@ -21,7 +21,8 @@
                 <aura:if isTrue="{!!empty(v.value)}">
                     <div class="icon" style="{!'background-color: ' + v.backgroundColor}">
                         <c:RRIcon resource="{!$Resource.Icons_legend}" iconName="{!icon}"
-                                  class="{!'icon-item ' + v.class}"/>
+                                  class="{!'icon-item ' + v.class}"
+                                  color="black"/>
                         <div class="dots">...</div>
                     </div>
                     <aura:set attribute="else">

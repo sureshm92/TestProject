@@ -121,6 +121,7 @@ public without sharing class EmailService {
         msg.setToAddresses(new List<String>{
                 emailAddr
         });
+        msg.setTreatTargetObjectAsRecipient(false);
         return msg;
     }
 

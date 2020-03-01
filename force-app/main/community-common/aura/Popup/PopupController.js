@@ -39,12 +39,11 @@
 
     showChanged: function (component) {
         var isShow = component.get("v.showModal");
-        console.log('showModal ' + isShow);
-        if(isShow){
-            if(component._closeModal) window.addEventListener('keyup', component._closeModal);
-        }else{
-            if(component._closeModal) window.removeEventListener('keyup', component._closeModal);
-        }
+            if(isShow){
+                if(component._closeModal) window.addEventListener('keyup', component._closeModal);
+            }else{
+                if(component._closeModal) window.removeEventListener('keyup', component._closeModal);
+            }
     },
 
     doPreventScrollEvent: function (component, event) {
@@ -56,4 +55,4 @@
         var closeCallback = component.get('v.closeCallback');
         if(closeCallback) closeCallback();
     }
-});
+})

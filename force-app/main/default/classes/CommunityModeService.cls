@@ -117,7 +117,7 @@ public without sharing class CommunityModeService {
             splitter.isSplitter = true;
             modes.add(splitter);
         }
-        String delegateId = UserContext.getUserContactId();
+
         for(Id participantId : delegatedParticipantIds){
             Participant__c participant = participantsMap.get(participantId);
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(participantId);

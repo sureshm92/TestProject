@@ -45,6 +45,15 @@ public inherited sharing class VisitResultMService {
         return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(query, true);
     }
 
+    public List<Visit_Result_Measurement_Name__mdt> getVisitResultMeasurementNames() {
+
+        String query = 'SELECT Id, ' +
+                'Display_Name__c,' +
+                'Alternate_Names__c ' +
+                'FROM Visit_Result_Measurement_Name__mdt ';
+        return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class)).query(query, true);
+    }
+
     public List<String> getVisitResultGroupNames(String visitResultMode) {
 
         List<Visit_Result_GroupM__mdt> visitResultGroups = this.getVisitResultGroups(false, visitResultMode);
@@ -53,5 +62,18 @@ public inherited sharing class VisitResultMService {
             visitResultGroupNames.add(singleVisitResultGroup.Label);
         }
         return visitResultGroupNames;
+    }
+    public Map<String, String> getVisitResultsMeasurementNamesMap(){
+        List<Visit_Result_Measurement_Name__mdt> visitResultMeasurementNames = this.getVisitResultMeasurementNames();
+        Map<String, String> visitResultsMeasurementNamesMap = new Map<String, String>();
+        for(Visit_Result_Measurement_Name__mdt vrmnSetting : visitResultMeasurementNames){
+            visitResultsMeasurementNamesMap.put(vrmnSetting.Display_Name__c.toLowerCase(),vrmnSetting.Display_Name__c);
+            if(vrmnSetting.Alternate_Names__c != null){
+                for( String alternateName : vrmnSetting.Alternate_Names__c.split(';')){
+                    visitResultsMeasurementNamesMap.put(alternateName.toLowerCase(),vrmnSetting.Display_Name__c);
+                }
+            }
+        }
+        return visitResultsMeasurementNamesMap;
     }
 }

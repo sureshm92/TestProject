@@ -40,17 +40,22 @@ public without sharing class StudySiteTriggerHandler {
         }
     }
     
-    public class PrepareAdditionalFieldsHandler extends TriggerHandler{
-        
+    public class PrepareAdditionalFieldsHandler extends TriggerHandler {
+
         public override void beforeInsert(List<SObject> newList) {
             prepareAdditionalFields(newList);
             overrideStatusChangedBy(newList, null);
             updateRecruitmentStatus(newList);
         }
 
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+        //START INC9339329 14/02/2020 Sumit S
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             piDoesNotReimburse(newList);
-            overrideStatusChangedBy(newList, (Map<Id, Study_Site__c>)oldMap);
+        }
+        //END INC9339329
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            overrideStatusChangedBy(newList, (Map<Id, Study_Site__c>) oldMap);
             updateRecruitmentStatus(newList);
         }
     }
