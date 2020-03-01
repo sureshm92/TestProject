@@ -16,11 +16,27 @@
     </values>
     <values>
         <field>Form_Fields__c</field>
-        <value xsi:type="xsd:string">Visit_Plan,Final_Consent;Screening_ID,blank</value>
+        <value xsi:type="xsd:string">Visit_Plan,Final_Consent;Randomization_ID,blank</value>
+    </values>
+    <values>
+        <field>History_Item_Details_Template_Label__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>History_Item_Title_Template_Label__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>History_Label__c</field>
         <value xsi:type="xsd:string">PWS_Randomization_History_Title</value>
+    </values>
+    <values>
+        <field>In_Progress_Condition__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>In_Progress_Date_Field__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Name_Label__c</field>
@@ -33,5 +49,17 @@
     <values>
         <field>Order__c</field>
         <value xsi:type="xsd:double">6.0</value>
+    </values>
+    <values>
+        <field>Outcome_Placeholder_Label__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Success_Condition__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Success_Date_Field__c</field>
+        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>

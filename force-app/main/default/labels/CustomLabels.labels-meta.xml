@@ -6080,6 +6080,13 @@ View study documents and other resources including articles and videos related t
         <value>Details</value>
     </labels>
     <labels>
+        <fullName>PE_Enrollment_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE Enrollment ID</shortDescription>
+        <value>Enrollment ID</value>
+    </labels>
+    <labels>
         <fullName>PE_Info_PopUp_Title</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6127,6 +6134,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PE Phone number</shortDescription>
         <value>Phone number</value>
+    </labels>
+    <labels>
+        <fullName>PE_Randomization_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE Randomization ID</shortDescription>
+        <value>Randomization ID</value>
     </labels>
     <labels>
         <fullName>PE_Referral_Id</fullName>

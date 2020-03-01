@@ -114,7 +114,7 @@
                                       onclick="{!c.doUpdate}">{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button>
                 </aura:if>
                 <aura:if isTrue="{!v.checkTabs == 'Status'}">
-                    <lightning:button class="apollo-btn secondary" disabled="{!!v.participantPath.currentStep.editable || !v.statusDetailValid}"
+                    <lightning:button class="apollo-btn secondary" disabled="{!!v.statusDetailValid}"
                                       onclick="{!c.doUpdatePatientStatus}">{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button>
                 </aura:if>
                 <lightning:button class="apollo-btn primary slds-button--neutral"

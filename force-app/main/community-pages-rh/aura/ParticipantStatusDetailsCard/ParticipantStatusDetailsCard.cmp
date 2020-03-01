@@ -46,7 +46,7 @@
                 </aura:if>
                 <div class="slds-grid slds-wrap slds-gutters">
                     <aura:iteration items="{!fieldsGroup.fields}" var="field">
-                        <c:ParticipantStatusDetailsCardField field="{!field}" parent="{!this}" editable="{!v.stepWrapper.editable}" required="{!v.stepWrapper.currentOutcomeSuccess}" todayDate="{!v.todayDate}"/>
+                        <c:ParticipantStatusDetailsCardField field="{!field}" parent="{!this}" required="{!v.stepWrapper.currentOutcomeSuccess}" todayDate="{!v.todayDate}"/>
                     </aura:iteration>
                 </div>
             </aura:iteration>
