@@ -46,12 +46,12 @@
                     for( var j = 0; j < stepWrapper.formFieldGroups[i].fields.length;j++){
                         if(dependentFields.indexOf(stepWrapper.formFieldGroups[i].fields[j].field)!=-1){
                             if(params.value==='false'){
-                                stepWrapper.formFieldGroups[i].fields[j].required = false;
+                                // stepWrapper.formFieldGroups[i].fields[j].required = false;
                                 stepWrapper.formFieldGroups[i].fields[j].value = '';
                                 stepWrapper.formFieldGroups[i].fields[j].readonly = true;
                             }
                             else{
-                                stepWrapper.formFieldGroups[i].fields[j].required = true;
+                                // stepWrapper.formFieldGroups[i].fields[j].required = true;
                                 stepWrapper.formFieldGroups[i].fields[j].readonly = false;
                             }
                         }
