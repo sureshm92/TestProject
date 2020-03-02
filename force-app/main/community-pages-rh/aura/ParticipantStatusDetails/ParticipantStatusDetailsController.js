@@ -10,5 +10,5 @@
         component.set('v.participantWorkflowWrapper.currentStep',steps[event.currentTarget.dataset.stepInd]);
         component.set('v.participantWorkflowWrapper.steps', steps);
         component.set('v.participantWorkflowWrapper.currentStepInd', event.currentTarget.dataset.stepInd);
-    }
+    },
 })

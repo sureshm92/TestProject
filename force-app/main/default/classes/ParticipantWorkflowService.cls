@@ -582,6 +582,7 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled public Map<String, List<String>> fieldDependencyMap;
         @AuraEnabled public List<String> successOutcomes;
         @AuraEnabled public Boolean currentOutcomeSuccess;
+        @AuraEnabled public Boolean isCurrentStepValid = true;
     }
 
     public class ParticipantWorkflowHistoryWrapper{

@@ -6,7 +6,6 @@
     <aura:attribute name="stepWrapper" type="Object" required="true"/>
     <aura:attribute name="reasonList" type="List" access="private"/>
     <aura:attribute name="updateInProgress" type="Boolean"  access="private"/>
-    <aura:attribute name="isValid" type="Boolean" default="true"  access="public"/>
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="notesRequired" type="Boolean" default="false"/>
     <aura:attribute name="todayDate" type="Date"/>
