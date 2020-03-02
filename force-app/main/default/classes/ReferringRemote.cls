@@ -186,10 +186,10 @@ public without sharing class ReferringRemote {
                 newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
                 newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
                 newContact.userCommunityIsDelegate__c = true;
-                newContact.MailingCountryCode = participantDelegate.Mailing_Country_Code__c;
-                newContact.MailingStateCode = participantDelegate.Mailing_State_Code__c;
-                newContact.MailingCountry = participantDelegate.Mailing_Country__c;
-                newContact.MailingState = participantDelegate.Mailing_State__c;
+                newContact.MailingCountryCode = participant.Mailing_Country_Code__c;
+                newContact.MailingStateCode = participant.Mailing_State_Code__c;
+                newContact.MailingCountry = participant.Mailing_Country__c;
+                newContact.MailingState = participant.Mailing_State__c;
                 if ('Home' == participantDelegate.Phone_Type__c) {
                     newContact.HomePhone = participantDelegate.Phone__c;
                 } if ('Mobile' == participantDelegate.Phone_Type__c) {
