@@ -24,15 +24,17 @@ public with sharing class TemplatePropertiesService {
     private String getTemplateName(Id resourceId, Id recipientId, String userModeString, Boolean isDelegate) {
         String templateName;
         try {
-            Id partConId = recipientId;
             if (recipientId.getSobjectType() == User.getSObjectType()) {
-                partConId = [
-                        SELECT Id, Contact.Id
+                recipientId = [
+                        SELECT Id, ContactId
                         FROM User
                         WHERE Id = :recipientId
-                ].Contact.Id;
+                ].ContactId;
             }
+            Id partConId = recipientId;
+
             if (isDelegate) partConId = PatientDelegateService.getParticipantByDelegateContactId(partConId).Contact__c;
+            if(partConId == null) return templateName;
 
             String filter;
             Id enrollmentId;
@@ -60,8 +62,8 @@ public with sharing class TemplatePropertiesService {
 
             if (filter == null) {
                 if (enrollmentId == null) {
-                    Id currentPEId = ContactService.getCurrentPE(partConId).Id;
-                    enrollmentId = currentPEId != null ? currentPEId : PatientDelegateService.getPastPEIdsForContact(partConId)[0];
+                    Participant_Enrollment__c currentPE = ContactService.getCurrentPE(partConId);
+                    enrollmentId = currentPE != null ? currentPE.Id : PatientDelegateService.getPastPEIdsForContact(partConId)[0];
                 }
                 filter = DatabaseService.fieldEqual('Id', enrollmentId);
             }
