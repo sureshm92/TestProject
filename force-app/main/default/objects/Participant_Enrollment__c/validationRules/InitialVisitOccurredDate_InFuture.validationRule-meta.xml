@@ -3,6 +3,6 @@
     <fullName>InitialVisitOccurredDate_InFuture</fullName>
     <active>true</active>
     <description>Initial Visit Occurred Date should all allow present and past dates only.</description>
-    <errorConditionFormula>Initial_visit_occurred_date__c &gt;  TODAY()</errorConditionFormula>
+    <errorConditionFormula>ISCHANGED(Initial_visit_occurred_date__c) &amp;&amp; Initial_visit_occurred_date__c &gt;  TODAY()</errorConditionFormula>
     <errorMessage>Initial Visit Occurred Date cannot be future date.</errorMessage>
 </ValidationRule>

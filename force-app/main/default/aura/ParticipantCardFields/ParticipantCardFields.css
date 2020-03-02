@@ -17,7 +17,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    border-radius: 4px;
+    border-radius: 2px;
 }
 .THIS .slds-has-block-links--space2{
     background: #999;
@@ -28,7 +28,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    border-radius: 4px;
+    border-radius: 2px;
 }
 .THIS .slds-has-block-links--space3{
     background: #FF9300;
@@ -39,7 +39,7 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    border-radius: 4px;
+    border-radius: 2px;
 }
 
 .THIS.rtl .vpi-fields{
