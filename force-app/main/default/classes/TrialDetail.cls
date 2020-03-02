@@ -50,6 +50,8 @@ public with sharing class TrialDetail {
         public String hcpStatus;
         public String hcpStatusLabel;
         public String studySiteId;
+        public String drivingDirection;
+        public String otherGuidance;
 
 
         public Integer compareTo(Object compareTo) {
