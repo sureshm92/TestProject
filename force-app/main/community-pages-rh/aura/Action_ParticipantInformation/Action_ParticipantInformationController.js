@@ -99,7 +99,7 @@
     doUpdateCancel: function (component, event, helper) {
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
-        var stepWrapper = component.get('v.participantPath.currentStep');
+        var pathWrapper = component.get('v.participantPath');
         var statusDetailValid = component.get('v.statusDetailValid');
         pe.Participant__r = participant;
         component.find('spinner').show();
@@ -113,7 +113,7 @@
             actionParams = {
                 participantJSON: JSON.stringify(participant),
                 peJSON: JSON.stringify(pe),
-                stepWrapperJSON: JSON.stringify(stepWrapper),
+                pathWrapperJSON: JSON.stringify(pathWrapper),
                 peId: pe.Id
             };
         }
@@ -148,14 +148,15 @@
     },
 
     doUpdatePatientStatus: function (component, event, helper) {
-        var stepWrapper = component.get('v.participantPath.currentStep');
-        var pe = component.get('v.pe');
-        var statusDetailValid = component.get('v.statusDetailValid');
+        let pathWrapper = component.get('v.participantPath');
+        pathWrapper.steps[pathWrapper.currentStepInd] = pathWrapper.currentStep;
+        let pe = component.get('v.pe');
+        let statusDetailValid = component.get('v.statusDetailValid');
         if(statusDetailValid){
             component.find('spinner').show();
-            console.log(JSON.stringify(stepWrapper));
+            console.log(JSON.stringify(pathWrapper));
             communityService.executeAction(component, 'updatePatientStatus', {
-                stepWrapperJSON: JSON.stringify(stepWrapper),
+                pathWrapperJSON: JSON.stringify(pathWrapper),
                 peId: pe.Id
             }, function (returnValueJSON) {
                 var returnValue = JSON.parse(returnValueJSON);

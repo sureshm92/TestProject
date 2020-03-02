@@ -89,6 +89,10 @@
                 <field>Study_Site_PI_Contact__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Degrees_of_Separation__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Study__c</field>
             </layoutItems>
