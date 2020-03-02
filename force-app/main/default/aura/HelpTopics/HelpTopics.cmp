@@ -41,6 +41,7 @@
                         {!v.selectedTopicSettings.displaySolution}
                 </div>
             </div>
+            <!--
             <aura:if isTrue="{!and(!v.selectedTopicSettings.submitRequired, !empty(v.selectedTopic))}">
                 <div class="ht-panel">
 
@@ -66,11 +67,11 @@
                     </aura:if>
 
                     <div class="slds-grid slds-wrap">
-                        <div class="h-body-label slds-col slds-size_1-of-2 slds-medium-size--12-of-12 ht-sub-label">
+                        <div class="h-body-label slds-col slds-size_1-of-2 slds-medium-size 12-of-12 ht-sub-label">
                                 {!$Label.c.PG_HLP_F_Screenshot_optional}
                         </div>
                         <div id="h-body-file-upload ht-label"
-                             class="slds-col slds-size_1-of-2 slds-medium-size--12-of-12 slds-text-align--right slds-form-element">
+                             class="slds-col slds-size_1-of-2 slds-medium-size 12-of-12 slds-text-align right slds-form-element">
                             <div ondragover="{!c.onDragOver}" ondrop="{!c.onDrop}" class="slds-form-element__control">
                                 <div class="slds-file-selector slds-file-selector_files">
                                     <div class="slds-file-selector__dropzone">
@@ -89,10 +90,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="h-body-file-upload-pills slds-col slds-size_1-of-1 slds-medium-size--12-of-12 slds-grid slds-wrap ht-label">
+                        <div class="h-body-file-upload-pills slds-col slds-size_1-of-1 slds-medium-size 12-of-12 slds-grid slds-wrap ht-label">
                             <aura:iteration items="{!v.fileList}" var="file">
                                 <lightning:pill
-                                        class="h-file-pill slds-col slds-size_1-of-2 slds-medium-size--1-of-5"
+                                        class="h-file-pill slds-col slds-size_1-of-2 slds-medium-size 1-of-5"
                                         name="{!file.tmpId}" label="{!file.fileName}"
                                         onremove="{!c.handleRemoveFile}">
                                     <aura:set attribute="media">
@@ -109,7 +110,7 @@
                     </div>
                 </div>
             </aura:if>
-
+        -->
         </div>
     </div>
     </aura:if>

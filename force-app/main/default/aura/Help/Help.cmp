@@ -23,7 +23,7 @@
         <div class="h-header">
             <aura:if isTrue="{!or(v.userMode == 'HCP',v.userMode == 'Participant')}">
                 <div class="h-header-info">
-                    {!$Label.c.PG_HLP_HI_HCP}
+                    <!--{!$Label.c.PG_HLP_HI_HCP}-->
                     <div class="h-header-info-bold-text">{!$Label.c.PG_HLP_H_Dial_911}</div>
                 </div>
             </aura:if>
