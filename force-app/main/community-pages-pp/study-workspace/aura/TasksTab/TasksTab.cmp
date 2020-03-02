@@ -12,6 +12,7 @@
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="tasksAvailable" type="Boolean" default="true"/>
     <aura:attribute name="emptyTrial" type="Boolean" default="true"/>
+    <aura:attribute name="showCreateTaskButton" type="Boolean" default="false"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -24,8 +25,9 @@
             <!-- open tasks: -->
             <aura:if isTrue="{!v.taskMode == 'Open'}">
                 <div class="tt-title">{!$Label.c.Task_Tab_Open_Tasks}
-                    <button class="apollo-btn primary"
-                            onclick="{!c.doCreateNewTask}">{!$Label.c.BTN_Create_New_Task}</button>
+                    <aura:if isTrue="{!v.showCreateTaskButton}">
+                        <button class="apollo-btn primary" onclick="{!c.doCreateNewTask}">{!$Label.c.BTN_Create_New_Task}</button>
+                    </aura:if>
                 </div>
                 <div class="rr-white-panel">
                     <c:RRTable>

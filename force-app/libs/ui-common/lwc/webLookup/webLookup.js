@@ -14,6 +14,7 @@ export default class WebLookup extends LightningElement {
     @api selection = [];
     @api placeholder = '';
     @api isMultiEntry = false;
+    @api resultLimit;
     @api errors = [];
     @api scrollAfterNItems;
     @api customKey;
@@ -48,6 +49,8 @@ export default class WebLookup extends LightningElement {
             }
             return result;
         });
+        if(this.resultLimit) {
+        }
     }
 
     @api
@@ -147,6 +150,7 @@ export default class WebLookup extends LightningElement {
         const newSelection = [...this.selection];
         newSelection.push(selectedItem);
         this.selection = newSelection;
+        this.changeInputAvailability();
 
         // Reset search
         this.searchTerm = '';
@@ -188,6 +192,7 @@ export default class WebLookup extends LightningElement {
     handleRemoveSelectedItem(event) {
         const recordId = event.currentTarget.name;
         this.selection = this.selection.filter(item => item.id !== recordId);
+        this.changeInputAvailability();
         // Notify parent components that selection has changed
         this.dispatchEvent(new CustomEvent('selectionchange'));
     }
@@ -226,7 +231,7 @@ export default class WebLookup extends LightningElement {
 
     get getInputClass() {
         let css =
-            'slds-input slds-combobox__input has-custom-height ' +
+            'search-input slds-input slds-combobox__input has-custom-height ' +
             (this.errors.length === 0 ? '' : 'has-custom-error ');
         if (!this.isMultiEntry) {
             css +=
@@ -309,5 +314,16 @@ export default class WebLookup extends LightningElement {
 
     get isExpanded() {
         return this.hasResults();
+    }
+
+    changeInputAvailability() {
+        let searchInput = this.template.querySelector('.search-input');
+        if(searchInput && this.resultLimit) {
+            if(parseInt(this.resultLimit) === this.selection.length) {
+                searchInput.setAttribute('disabled', 'true');
+            } else {
+                searchInput.removeAttribute('disabled');
+            }
+        }
     }
 }

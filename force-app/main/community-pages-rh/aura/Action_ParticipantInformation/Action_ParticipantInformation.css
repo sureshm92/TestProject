@@ -230,7 +230,7 @@
 }
 
 .THIS .p-container .slds-tabs_default__item:first-child {
- 	padding-left: 0;   
+ 	padding-left: 0;
 }
 
 .THIS .p-container .slds-tabs_default__link {
@@ -264,7 +264,7 @@
 
 .THIS .p-container .slds-tabs_default__item:not(.slds-is-active):hover::after {
     background-color: #297dfd;
-    height: 2px;  
+    height: 2px;
     transition: none;
     width: 85%;
     margin-left: 8%;

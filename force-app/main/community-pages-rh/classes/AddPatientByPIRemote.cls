@@ -26,15 +26,7 @@ public without sharing class AddPatientByPIRemote {
                 initData.ss =  StudySiteService.getStudySiteForPIById(ssId);
                 initData.ctp = TrialService.getTrial(initData.ss.Clinical_Trial_Profile__c);
                 initData.visitPlansLVList = StudySiteService.getVisitPlansLVList(ssId);
-                initData.peStatusLVList = new List<LabelValueItem>();
-                for (String status : PEStatusState.getAddPatientByPIStatuses(initData.ctp)) {
-                    initData.peStatusLVList.add(
-                            new LabelValueItem(
-                                    TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, status),
-                                    status
-                            )
-                    );
-                }
+                initData.peStatusLVList = PEStatusState.getAddPatientByPIStatusesLV(initData.ctp);
             }
             return initData;
         } catch (Exception e) {
@@ -46,6 +38,7 @@ public without sharing class AddPatientByPIRemote {
     public static void saveParticipant(String participantJSON, String peJSON){
         try{
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
+            trimParticipantFields(participant);
             Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
             participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI;
             PEStatusState currentState = PEStatusState.STATUSES_MAP.get(pe.Participant_Status__c);
@@ -67,5 +60,12 @@ public without sharing class AddPatientByPIRemote {
         }catch (Exception e){
             AuraHelper.throwException(e);
         }
+    }
+
+    private static void trimParticipantFields(Participant__c participant){
+        participant.Phone__c = participant.Phone__c.trim();
+        participant.First_Name__c = participant.First_Name__c.trim();
+        participant.Last_Name__c = participant.Last_Name__c.trim();
+        participant.Email__c = participant.Email__c.trim();
     }
 }

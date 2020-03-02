@@ -172,7 +172,7 @@
 
 .THIS.cAction_ParticipantInformation .p-container .slds-tabs_default__item:not(.slds-is-active):hover::after {
     background-color: #297dfd;
-    height: 2px;  
+    height: 2px;
     transition: none;
     width: 85%;
     margin-left: 8%;

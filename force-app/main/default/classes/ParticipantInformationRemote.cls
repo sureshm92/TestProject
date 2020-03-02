@@ -222,36 +222,46 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
-    public static String updatePatientStatus(String stepWrapperJSON, String peId){
+    public static String updatePatientStatus(String pathWrapperJSON, String peId){
         Participant_Enrollment__c pe = new Participant_Enrollment__c(Id = peId);
-        return updatePatientStatus(stepWrapperJSON, pe);
+        return updatePatientStatus(pathWrapperJSON, pe);
     }
 
-    public static String updatePatientStatus(String stepWrapperJSON, Participant_Enrollment__c pe){
+    public static String updatePatientStatus(String pathWrapperJSON, Participant_Enrollment__c pe){
         try {
-            ParticipantWorkflowService.ParticipantWorkflowStepWrapper stepWrapper =
-                    (ParticipantWorkflowService.ParticipantWorkflowStepWrapper)JSON.deserialize(stepWrapperJSON, ParticipantWorkflowService.ParticipantWorkflowStepWrapper.class);
-            ParticipantWorkflowService.populatePEFromStepWrapper(stepWrapper, pe);
+            ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper =
+                    (ParticipantWorkflowService.ParticipantWorkflowWrapper)JSON.deserialize(pathWrapperJSON, ParticipantWorkflowService.ParticipantWorkflowWrapper.class);
+            ParticipantWorkflowService.populatePEFromWorkflowWrapper(pathWrapper, pe);
             update pe;
-            Participant_Enrollment_Status_History__c pesh = ParticipantWorkflowService.createPESHFromStepWrapper(stepWrapper, pe.Id);
+            Participant_Enrollment_Status_History__c pesh = ParticipantWorkflowService.createPESHFromPathWrapper(pathWrapper, pe.Id);
             if(pesh != null){
                 insert pesh;
             }
             pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);
             Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(pe.Clinical_Trial_Profile__c);
             if (pe == null) throw new CommunityServiceException('Participant enrollment not found');
-            return JSON.serialize(ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe));
+            return JSON.serialize( new UpdateResponse(pe, ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe)));
         } catch (Exception e) {
             System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());        }
     }
 
     @AuraEnabled
-    public static String updatePatientInfoAndStatus(String participantJSON, String peJSON, String stepWrapperJSON, String peId){
+    public static String updatePatientInfoAndStatus(String participantJSON, String peJSON, String pathWrapperJSON, String peId){
         Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
         Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
         update participant;
-        return updatePatientStatus(stepWrapperJSON, pe);
+        return updatePatientStatus(pathWrapperJSON, pe);
+    }
+
+    public class UpdateResponse{
+        @AuraEnabled public Participant_Enrollment__c pe;
+        @AuraEnabled public ParticipantWorkflowService.ParticipantWorkflowWrapper participantPath;
+
+        public UpdateResponse(Participant_Enrollment__c pe, ParticipantWorkflowService.ParticipantWorkflowWrapper participantPath){
+            this.pe = pe;
+            this.participantPath = participantPath;
+        }
     }
 
 
