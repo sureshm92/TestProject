@@ -7115,7 +7115,7 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG AS L Select conditions</shortDescription>
         <value>Select up to 5 medical conditions that you would be interested in for participating
-            in a clinical trial.</value>
+            in a clinical trial. To see specific information relevant to your diagnosis, please select relevant conditions of interest.</value>
     </labels>
     <labels>
         <fullName>PG_AS_T1_Contact_Info</fullName>
@@ -7529,7 +7529,7 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG_DrivingDirection</shortDescription>
         <value>Driving directions</value>
-    </labels>        
+    </labels>
     <labels>
         <fullName>PG_EMN_MSG_Update_Contact_Info</fullName>
         <language>en_US</language>
@@ -7746,6 +7746,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG HLP HI PI</shortDescription>
         <value>If your concern is medical related, please contact the study specific Medical Director (Advisor). If you want to know more about your clinical trial enrollment status, please contact your assigned Clinical Research Associate (CRA/Monitor).</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_HI_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG HLP HI Participant</shortDescription>
+        <value>To report a problem or share feedback with ##CommunityName, please link to the appropriate form below.</value>
     </labels>
     <labels>
         <fullName>PG_HLP_H_Application_Help</fullName>
