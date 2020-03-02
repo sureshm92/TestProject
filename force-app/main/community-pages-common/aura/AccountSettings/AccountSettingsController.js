@@ -74,7 +74,7 @@
 
     doSwitchOptInEmail: function (component, event, helper) {
         let initData = component.get('v.initData');
-        let optInEmail = component.get('v.personWrapper.optInEmail');
+        let optInEmail = component.get('v.optInEmail');
         communityService.executeAction(component, 'changeOptInEmail', {
             participantOptInStatusEmail: optInEmail,
             hcpOptInPatientEmail: initData.myContact.HCP_Opt_In_Patient_Status_Emails__c,
@@ -86,11 +86,11 @@
     },
 
     doSwitchOptInSMS: function (component, event, helper) {
-        let personWrapper = component.get('v.personWrapper');
+        let optInSMS = component.get('v.optInSMS');
         communityService.executeAction(component, 'changeOptInSMS', {
-            participantOptInStatusSMS: personWrapper.optInSMS
+            participantOptInStatusSMS: optInSMS
         }, function () {
-            component.find('contact-info-section').scrollOnMobileField(personWrapper.optInSMS);
+            component.find('contact-info-section').scrollOnMobileField(optInSMS);
         });
     },
 
@@ -157,6 +157,8 @@
 
     onEditPerson: function (component, event, helper) {
         let personWrapper = event.getSource().get('v.personWrapper');
+        component.set('v.optInEmail', personWrapper.optInEmail);
+        component.set('v.optInSMS', personWrapper.optInSMS);
         component.set('v.personWrapper', personWrapper);
     }
 });
