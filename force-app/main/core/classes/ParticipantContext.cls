@@ -86,7 +86,8 @@ public without sharing class ParticipantContext {
             }else{
                 currentContact = UserContext.getUserContact();
             }
-            currentUser = [SELECT Id, FirstName, LastName, Name FROM User WHERE ContactId =: currentContact.Id];
+            List<User> users = [SELECT Id, FirstName, LastName, Name FROM User WHERE ContactId =: currentContact.Id];
+            if (!users.isEmpty()) currentUser = users[0];
             //current PT
             currentParticipant = ParticipantService.getParticipant(currentContact.Id);
             //current PE
