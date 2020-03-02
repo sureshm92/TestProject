@@ -2094,9 +2094,9 @@
 
             We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##CommunityName.
 
-            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Created_By_PI</fullName>
@@ -2107,9 +2107,9 @@
 
             We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##CommunityName.
 
-            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Delegate</fullName>
@@ -2123,11 +2123,11 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial Patient Delegate After Text</shortDescription>
-        <value>To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in IQVIA Referral Hub and Patient Portal.
+        <value>To assist you in tracking ##ParticipantFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in ##CommunityName.
 
             Your username is ##UserName. Please click the Enroll Now button to create your password.
 
-            Please note that enrollment in IQVIA Referral Hub and Patient Portal is not a requirement for ##ParticipantFirstName to be enrolled into the clinical research study.</value>
+            Please note that enrollment in ##CommunityName is not a requirement for ##ParticipantFirstName to be enrolled into the clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Patient_Virtual</fullName>
@@ -2138,9 +2138,9 @@
 
             We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##CommunityName.
 
-            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Medication_Task_Reminder</fullName>
@@ -2754,7 +2754,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Footer Address</shortDescription>
-        <value>IQVIA, 4820 Emperor Blvd, Durham, North Carolina 27703, USA</value>
+        <value>Powered by IQVIA, 4820 Emperor Blvd, Durham, North Carolina 27703, USA</value>
     </labels>
     <labels>
         <fullName>Email_Footer_Privacy_Policy</fullName>
