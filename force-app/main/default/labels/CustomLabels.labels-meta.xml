@@ -7115,7 +7115,7 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG AS L Select conditions</shortDescription>
         <value>Select up to 5 medical conditions that you would be interested in for participating
-            in a clinical trial.</value>
+            in a clinical trial. To see specific information relevant to your diagnosis, please select relevant conditions of interest.</value>
     </labels>
     <labels>
         <fullName>PG_AS_T1_Contact_Info</fullName>
