@@ -67,7 +67,7 @@ public without sharing class ParticipantTriggerHandler {
         List<String> emails = new List<String>();
         newList = ParticipantService.checkParticipantsAgeOfMajority(newList);
         for(Participant__c participant : newList){
-            if(participant.Contact__c == null && participant.Email__c != null){
+            if(participant.Contact__c == null){
                 emails.add(participant.Email__c);
                 Contact newContact = new Contact();
                 newContact.LastName = participant.Last_Name__c;

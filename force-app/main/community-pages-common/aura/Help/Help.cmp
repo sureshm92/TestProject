@@ -5,7 +5,8 @@
 
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String" access="private"/>
-    <aura:attribute type="Boolean" name="isInitialized" access="private" default="false"/>
+    <aura:attribute name="helpText" type="String"/>
+    <aura:attribute name="isInitialized" type="Boolean"  access="private" default="false"/>
 
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
@@ -20,9 +21,15 @@
             <div class="slds-col slds-size_2-of-3 h-left-col slds-p-right_large">
                 <div class="h-title">{!$Label.c.PG_HLP_H_Help}</div>
         <div class="h-header">
-            <aura:if isTrue="{!or(v.userMode == 'HCP',v.userMode == 'Participant')}">
+            <aura:if isTrue="{!v.userMode == 'HCP'}">
                 <div class="h-header-info">
                     {!$Label.c.PG_HLP_HI_HCP}
+                    <div class="h-header-info-bold-text">{!$Label.c.PG_HLP_H_Dial_911}</div>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!v.userMode == 'Participant'}">
+                <div class="h-header-info">
+                    {!v.helpText}
                     <div class="h-header-info-bold-text">{!$Label.c.PG_HLP_H_Dial_911}</div>
                 </div>
             </aura:if>
