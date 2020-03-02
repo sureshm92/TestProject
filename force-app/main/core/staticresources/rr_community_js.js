@@ -83,7 +83,11 @@ window.communityService = (function () {
                         console.error(e);
                         var message = e.message;
                         if (!debugMode) message = e.message.split('\n')[0];
-                        service.showErrorToast('ERROR', message);
+                        if(message.includes('INVALID_EMAIL_ADDRESS')) {
+                            service.showErrorToast('ERROR', 'Invalid Email')
+                        } else  {
+                            service.showErrorToast('ERROR', message);
+                        }
                         //throw e;
                     } finally {
                         if (finalCallback) finalCallback();
