@@ -221,6 +221,10 @@
     width: 850px;
 }
 
+.THIS #p-modal .p-container.large .p-content {
+ 	max-height: 55vh;   
+}
+
 .THIS #p-modal .p-container .p-content {
     padding: 30px 24px;
 }

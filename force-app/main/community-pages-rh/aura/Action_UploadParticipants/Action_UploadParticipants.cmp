@@ -29,14 +29,15 @@
         <c:Popup aura:id="uploadParticipantsDialog" title="{!$Label.c.SS_Upload_Participants}" size="medium">
             <c:RRSpinner aura:id="upModalSpinner" size="medium" showSpinner="false"/>
             <div class="slds-grid slds-grid_vertical">
-                <div class="slds-grid slds-wrap slds-scrollable">
+                <div class="slds-grid slds-wrap">
                     <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small">
                             <div class="input-fields-labels">                             
-                                <b>Add File:</b>
-                                <abbr class="slds-required" title="required">* </abbr>
+                                <b>Add File<abbr class="slds-required" title="required">* </abbr></b>
+                               
                                 <span style="float: right;">
                                     <ui:outputURL aura:id="oURL" value="{!$Resource.PARTICIPANTS_TEMPLATE}" label="Download Template"/>
+                                     <img class="upload-icon" src="{!$Resource.icon_download}" width="16" height="16"/>
                                 </span>
                             </div>
                         </div>
@@ -45,27 +46,28 @@
                 <div class="slds-grid slds-wrap slds-scrollable">
                     <div class="slds-size_2-of-2 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small uploadFiles" data-gtm="pnl_UploadNewParticipants_importFile">
-                            <div class="input-fields-labels" style="color: blue;">
+                           
+                            <lightning:input aura:id="file-input" type="file" files="{!v.FileList}" accept=".xls, .xlsx, .csv"
+                                             name="file" multiple="false" onchange="{!c.upload}"/>
+                             <div class="input-fields-labels">
                                 {!v.fullFileName}
                                 <aura:if isTrue="{!!empty(v.fullFileName)}">
                                     <a href="javascript:void(0)" onclick="{!c.doClearFile}">
-                                        <c:RRIcon color="blue" iconName="icon-close"/>
+                                         <img class="upload-close" src="{!$Resource.icon_delete}" width="14" height="14"/>
                                     </a>
                                 </aura:if>
                             </div>
-                            <lightning:input aura:id="file-input" type="file" files="{!v.FileList}" accept=".xls, .xlsx, .csv"
-                                             name="file" multiple="false" onchange="{!c.upload}"/>
                         </div>
                     </div>
                 </div>
-                <div class="slds-grid slds-wrap slds-scrollable">
+                <div class="slds-grid slds-wrap">
                     <div class="slds-size_2-of-2 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small">
                             <div class="input-fields-labels"><b>{!$Label.c.PG_AP_F_Patient_Status_Select}</b></div>
                         </div>
                     </div>
                 </div>
-                <div class="slds-grid slds-wrap slds-scrollable">
+                <div class="slds-grid slds-wrap">
                     <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small" data-gtm="pnl_UploadNewParticipants_status">
                             <div class="input-fields-labels">
@@ -88,7 +90,7 @@
                         <div class="slds-size--10-of-12">{!$Label.c.Create_Users_Checkbox_on_Import}</div>
                     </div>
                     <div class="slds-col slds-size--5-of-12">
-                    <button class="apollo-btn secondary" data-gtm="btn_UploadNewParticipants_cancel"
+                    <button class="apollo-btn tertiary" data-gtm="btn_UploadNewParticipants_cancel"
                             onclick="{!c.doCancel}">
                         {!$Label.c.BTN_Cancel}
                     </button>
