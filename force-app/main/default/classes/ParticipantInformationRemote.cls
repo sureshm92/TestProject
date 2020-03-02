@@ -240,7 +240,7 @@ public without sharing class ParticipantInformationRemote {
             pe = ParticipantEnrollmentService.getParticipantEnrollment(pe.Id, CommunityService.USER_MODE_PI);
             Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(pe.Clinical_Trial_Profile__c);
             if (pe == null) throw new CommunityServiceException('Participant enrollment not found');
-            return JSON.serialize(ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe));
+            return JSON.serialize( new UpdateResponse(pe, ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe)));
         } catch (Exception e) {
             System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());        }
@@ -252,6 +252,16 @@ public without sharing class ParticipantInformationRemote {
         Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
         update participant;
         return updatePatientStatus(pathWrapperJSON, pe);
+    }
+
+    public class UpdateResponse{
+        @AuraEnabled public Participant_Enrollment__c pe;
+        @AuraEnabled public ParticipantWorkflowService.ParticipantWorkflowWrapper participantPath;
+
+        public UpdateResponse(Participant_Enrollment__c pe, ParticipantWorkflowService.ParticipantWorkflowWrapper participantPath){
+            this.pe = pe;
+            this.participantPath = participantPath;
+        }
     }
 
 
