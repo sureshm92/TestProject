@@ -181,8 +181,10 @@
 
 @media (max-width: 800px) {
     .THIS .ss-info-buttons .apollo-btn {
-       font-size: 12px;
-       min-height: 58px;
+       font-size: 1rem;
+    }
+    .THIS #contactInformation .ss-info-details .pi-save-btn {
+        padding: 6px 0;
     }
 }
 
@@ -236,8 +238,4 @@
         width: 100%;
     }
 
-    .THIS .ss-info-buttons .apollo-btn {
-        font-size: 14px;
-        min-height: unset;
-    }
 }

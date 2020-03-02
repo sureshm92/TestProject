@@ -36,23 +36,25 @@
         var options = component.get('v.options');
         if (options.ssSelectionType !== 'All' && options.ssSelectionType !== 'Disabled') {
             component.find('ssSelectLookup').focus();
+            options.selectedSSIds = '';
         } else {
             options.selectedSSIds = '';
-            component.set('v.options', options);
         }
+        component.set('v.options', options);
     },
 
     doCountrySelectionTypeChange: function (component, event, helper) {
         var options = component.get('v.options');
         if (options.countrySelectionType !== 'All' && options.countrySelectionType !== 'Disabled') {
             component.find('shareBackCountryLookup').focus();
+            if (options.countrySelectionType === 'Countries') options.ssSelectionType = 'All';
         }
         else {
             options.ssSelectionType = options.countrySelectionType;
             options.selectedSSIds = '';
             options.selectedCountries = '';
-            component.set('v.options', options);
         }
+        component.set('v.options', options);
     },
 
     doCountrySelectionChange: function (component, event, helper) {
@@ -109,4 +111,4 @@
             if (!component.get('v.options.globalShareBck')) component.refresh();
         });
     }
-})
+});

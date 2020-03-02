@@ -16,9 +16,10 @@ h1, h2, h3, h4, h5, h6{
 
 body{
     font-size: 13px;
-}doi
+}
 
- a {
+ a,
+.slds-button {
      color: #297dfd;
  }
 
@@ -1231,6 +1232,20 @@ select.rr-select-error,
     align-items: center;
 }
 
+/*------------------------------------- Messages -----------------------------------------------*/
+
+.siteforceContentArea .ms-disclaimer[c-messagesPage_messagesPage]{
+    height: auto;
+    padding: 10px 15px;
+    line-height: 1rem;
+}
+
+@media all and (max-width: 767px){
+    .siteforceContentArea .ms-container[c-messagesPage_messagesPage],
+    .siteforceContentArea .ms-board-body[c-messageBoard_messageBoard]{
+        height: auto;
+    }
+}
 
 /*-------------------------------------------------------- Common -------------------------------------------------------------*/
 .comm-panels-container.uiContainerManager.siteforcePanelsContainer{

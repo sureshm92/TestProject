@@ -1423,14 +1423,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Community Private Policy Link</shortDescription>
-        <value>https://infohotfix-iqviaconnect.cs128.force.com/s/privacy-policy</value>
+        <value>https://infohotfix-iqviaconnect.cs89.force.com/s/privacy-policy</value>
     </labels>
     <labels>
         <fullName>CommunityURL</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CommunityURL</shortDescription>
-        <value>https://cp.clinicalresearch.com</value>
+        <value>https://infohotfix-iqviaconnect.cs89.force.com</value>
     </labels>
     <labels>
         <fullName>Complete_By_Date</fullName>
@@ -6080,6 +6080,13 @@ View study documents and other resources including articles and videos related t
         <value>Details</value>
     </labels>
     <labels>
+        <fullName>PE_Enrollment_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE Enrollment ID</shortDescription>
+        <value>Enrollment ID</value>
+    </labels>
+    <labels>
         <fullName>PE_Info_PopUp_Title</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6127,6 +6134,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PE Phone number</shortDescription>
         <value>Phone number</value>
+    </labels>
+    <labels>
+        <fullName>PE_Randomization_ID</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE Randomization ID</shortDescription>
+        <value>Randomization ID</value>
     </labels>
     <labels>
         <fullName>PE_Referral_Id</fullName>
@@ -7510,6 +7524,13 @@ View study documents and other resources including articles and videos related t
         <value>referred from</value>
     </labels>
     <labels>
+        <fullName>PG_DrivingDirection</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_DrivingDirection</shortDescription>
+        <value>Driving directions</value>
+    </labels>        
+    <labels>
         <fullName>PG_EMN_MSG_Update_Contact_Info</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -7669,6 +7690,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG HLP BTN Submit Your Problem</shortDescription>
         <value>Submit Your Problem</value>
+    </labels>
+    <labels>
+        <fullName>PG_HLP_BTN_View_Knowledge_Article</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG HLP BTN View Knowledge Article</shortDescription>
+        <value>View Knowledge Article</value>
     </labels>
     <labels>
         <fullName>PG_HLP_F_Placeholder_Briefly_Explain</fullName>
@@ -9102,6 +9130,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG Or R Not attended</shortDescription>
         <value>Not attended</value>
+    </labels>
+    <labels>
+        <fullName>PG_OtherGuidance</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG_OtherGuidance</shortDescription>
+        <value>Other guidance</value>
     </labels>
     <labels>
         <fullName>PG_PP_LNK2_Contact_IQVIA</fullName>
@@ -13068,7 +13103,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Total Cholesterol</shortDescription>
-        <value>Total cholesterol</value>
+        <value>Total Cholesterol</value>
     </labels>
     <labels>
         <fullName>Total_Cholesterol_Description</fullName>
@@ -13568,7 +13603,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit Results Tab Disclaimer</shortDescription>
-        <value>This data is being provided as part of your participation in a clinical research study.  It is for research purposes only. Values are only available for vitals recorded for the visit date displayed.  If you have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
+        <value>This data is being provided as part of your participation in a clinical research study.  It is for research purposes only. Values are only available for vitals recorded for the visit date displayed.  If you have questions or concerns about this data, please contact the study doctor at your study center.</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Expected_Range</fullName>
@@ -13583,15 +13618,15 @@ View study documents and other resources including articles and videos related t
         <protected>true</protected>
         <shortDescription>Visit_Results_Tab_If_Is_Empty_Body</shortDescription>
         <value>Visit assessment information is not available for this clinical research study.
-            If you have questions or concerns, please contact the Principal Investigator at your study center.</value>
+If you have questions or concerns, please contact the study doctor at your study center.</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_If_Is_Not_Opt_In</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_1</shortDescription>
-        <value>This data is being provided as part of your participation in a clinical research study. It is for research purposes only.
-            If you would like to view your data</value>
+        <value>This data is being provided as part of your participation in a clinical research study.
+            It is for research purposes only. If you would like to view your data</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_If_Is_Not_Opt_In_2</fullName>
@@ -13599,7 +13634,14 @@ View study documents and other resources including articles and videos related t
         <protected>true</protected>
         <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_2</shortDescription>
         <value>. You can opt-out at any time. Once data becomes available it will begin to display. If you
-            have questions or concerns about this data, please contact the Principal Investigator at your study center.</value>
+have questions or concerns about this data, please contact the study doctor at your study center.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_If_Is_Not_Opt_In_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_1</shortDescription>
+        <value>Visit assessment information is not available for this clinical study.</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Labs</fullName>

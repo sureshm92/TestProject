@@ -1,21 +1,19 @@
-
 .THIS .edit-icon {
-    height: 29px;
-    top: 0px;
+    top: 2px;
     left: 0px;
     padding: 0px;
-    width: 30px;
-    fill: grey;
+    width: 18px;
     position: absolute;
 }
 
 .THIS .edit-btn {
     width: 2rem;
     height: 2rem;
-    top: -2rem;
-    right: 0.5rem;
+    top: -2.1rem;
+    right: 0;
     float: right;
-    background: #F6F7FB;
+    background: none;
+    border: none;
 }
 
 .THIS .grey-text {
