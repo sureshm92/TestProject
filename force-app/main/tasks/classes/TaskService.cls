@@ -86,7 +86,7 @@ public without sharing class TaskService {
 
     public List<Task> getTasksCommon(String filter, String sortOrder) {
         CommunityMode currentMode = UserContext.getCurrentUserMode();
-        Boolean isDecoupled = (ParticipantContext.getCurrentParticipantId() != null);
+        Boolean isDecoupled = (ParticipantContext.getOwnParticipant() != null);
 
         String commonFilter = '';
         String ownerVisibility = ' AND Visible_For__c INCLUDES (\'' + TASK_VISIBILITY_OWNER + '\') ';
@@ -104,9 +104,10 @@ public without sharing class TaskService {
         }else{
             // Not decoupled delegate
             commonFilter = '(' +
-                    '(OwnerId = \'' + ParticipantContext.getOwnUserId() + '\'' + ownerVisibility + ') OR ' +
-                    '(OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\'' + delegatesVisibility + ')' +
-                    ')';
+                    '(OwnerId = \'' + ParticipantContext.getOwnUserId() + '\'' + ownerVisibility + ')';
+            if (ParticipantContext.getCurrentUserId() != null)
+                commonFilter += ' OR ' + '(OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\'' + delegatesVisibility + ')';
+            commonFilter += ')';
         }
         if(filter != null) commonFilter += ' AND ' + filter;
         if(sortOrder != null) commonFilter += ' ' + sortOrder;
