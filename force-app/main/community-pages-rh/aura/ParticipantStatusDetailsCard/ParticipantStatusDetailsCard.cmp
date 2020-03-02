@@ -17,6 +17,9 @@
         <aura:attribute name="fieldName" type="String"/>
         <aura:attribute name="value" type="String"/>
     </aura:method>
+    <aura:method name="populateFields" action="{!c.doPopulateFields}" access="public">
+        <aura:attribute name="fieldMap" type="Object"/>
+    </aura:method>
     <div class="step-card-title">
             {!v.stepWrapper.cardTitle}
     </div>

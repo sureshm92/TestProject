@@ -27,7 +27,19 @@
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
+        <field>Populate_Fields_Map__c</field>
+        <value xsi:type="xsd:string">Informed_Consent__c=&gt;true</value>
+    </values>
+    <values>
+        <field>Populate_from_Field__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Readonly_for_Steps__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Required_Condition__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
