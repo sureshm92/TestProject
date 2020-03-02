@@ -12,15 +12,6 @@
     padding-bottom: 10px;
 }
 
-.THIS .vpi-status-btns {
-    padding: 0 0 25px 15px;
-    justify-content: center;
-}
-
-.THIS .vpi-status-btns .slds-col {
-    text-align: center;
-}
-
 .THIS .path-panel .collapse-section{
     padding: 10px 0 0;
     font-size: 14px;
@@ -33,12 +24,32 @@
     background-color: white;
 }
 
-@media all and (max-width: 768px) {
-    .THIS .vpi-status-btns .apollo-btn {
+.THIS .vpi-status-btns {
+    display: flex;
+    justify-content: center;
+    padding-left: 63%;
+
+}
+
+.THIS .vpi-status-btns > div {
+    text-align: center;
+}
+
+.THIS .vpi-status-btns button{
+    margin-top: 15px;
+    margin-bottom: 25px;
+    min-width: auto;
+
+}
+
+@media all and (max-width: 768px){
+    .THIS .vpi-status-btns button{
+        margin: 5px 0 10px 0;
         width: 100%;
     }
-    
     .THIS .vpi-status-btns {
-        padding: 0 15px 25px 15px;
+        padding-right: 15px;
+        margin-top: 15px;
+        margin-bottom: 15px;
     }
 }
