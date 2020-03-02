@@ -168,6 +168,10 @@
     justify-content: center;
 }
 
+.THIS .arrow-down {
+    margin: 2px 0 0 8px;
+}
+
 @media (max-width: 925px) {
     .THIS .ss-info-headers {
         overflow: hidden;
@@ -181,10 +185,8 @@
 
 @media (max-width: 800px) {
     .THIS .ss-info-buttons .apollo-btn {
-       font-size: 1rem;
-    }
-    .THIS #contactInformation .ss-info-details .pi-save-btn {
-        padding: 6px 0;
+       font-size: 12px;
+       min-height: 58px;
     }
 }
 
@@ -238,4 +240,8 @@
         width: 100%;
     }
 
+    .THIS .ss-info-buttons .apollo-btn {
+        font-size: 14px;
+        min-height: unset;
+    }
 }
