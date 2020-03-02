@@ -148,10 +148,10 @@
     },
 
     doUpdatePatientStatus: function (component, event, helper) {
-        debugger;
-        var pathWrapper = component.get('v.participantPath');
-        var pe = component.get('v.pe');
-        var statusDetailValid = component.get('v.statusDetailValid');
+        let pathWrapper = component.get('v.participantPath');
+        pathWrapper.steps[pathWrapper.currentStepInd] = pathWrapper.currentStep;
+        let pe = component.get('v.pe');
+        let statusDetailValid = component.get('v.statusDetailValid');
         if(statusDetailValid){
             component.find('spinner').show();
             console.log(JSON.stringify(pathWrapper));
