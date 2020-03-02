@@ -16,7 +16,7 @@
         <aura:if isTrue="{!v.field.type=='text'}">
             <lightning:input label="{!v.field.title}" type="text" value="{!v.field.value}"
                              disabled="{!v.field.readonly || !v.editable}"
-                             required="{!and(or(v.required,v.field.dependent), v.field.required)}"
+                             required="{!and(!v.field.readonly,and(or(v.required,v.field.dependent), v.field.required))}"
                              onblur="{!c.onBlur}"/>
         </aura:if>
         <aura:if isTrue="{!v.field.type=='picklist'}">
@@ -24,7 +24,7 @@
             <c:rrSelect options="{!v.field.values}" value="{!v.field.value}"
                         placeholder=""
                         disabled="{!v.field.readonly || !v.editable}"
-                        required="{!and(or(v.required,v.field.dependent), v.field.required)}"/>
+                        required="{!and(!v.field.readonly,and(or(v.required,v.field.dependent), v.field.required))}"/>
         </aura:if>
         <aura:if isTrue="{!v.field.type=='date'}">
             <lightning:input label="{!v.field.title}" type="date"
@@ -32,13 +32,13 @@
                              max="{!if(v.field.onlyPastDate,v.todayDate,'')}"
                              value="{!v.field.value}"
                              disabled="{!v.field.readonly || !v.editable}"
-                             required="{!and(or(v.required,v.field.dependent), v.field.required)}"
+                             required="{!and(!v.field.readonly,and(or(v.required,v.field.dependent), v.field.required))}"
                              onblur="{!c.onBlur}"/>
         </aura:if>
         <aura:if isTrue="{!v.field.type=='time'}">
             <lightning:input label="{!v.field.title}" type="time" value="{!v.field.value}"
                              disabled="{!v.field.readonly || !v.editable}"
-                             required="{!and(or(v.required,v.field.dependent), v.field.required)}"
+                             required="{!and(!v.field.readonly,and(or(v.required,v.field.dependent), v.field.required))}"
                              onblur="{!c.onBlur}"/>
         </aura:if>
     </div>
