@@ -41,20 +41,22 @@ public with sharing class Batch_UpdatePETrialCompleteAndSendNotify implements Da
         List<Notification__c> notifications = new List<Notification__c>();
         for(Id ctp : ctpIdsByPE.keySet()) {
             for(Participant_Enrollment__c pe : ctpIdsByPE.get(ctp)) {
-                notifications.add(
-                        new Notification__c(
-                                Recipient__c = pe.Participant__r.Contact__c,
-                                WhatId__c = ctp,
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE
-                        )
-                );
+                if (pe.Participant__r.Contact__c != null) {
+                    notifications.add(
+                            new Notification__c(
+                                    Recipient__c = pe.Participant__r.Contact__c,
+                                    WhatId__c = pe.Id,
+                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE
+                            )
+                    );
+                }
                 if(partPerDelegateIds.containsKey(pe.Participant__c)) {
                     for(Id delegateId : partPerDelegateIds.get(pe.Participant__c)) {
                         notifications.add(
                                 new Notification__c(
                                         Recipient__c = delegateId,
-                                        WhatId__c = ctp,
-                                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE
+                                        WhatId__c = pe.Id,
+                                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE_DGT
                                 )
                         );
                     }
@@ -64,6 +66,5 @@ public with sharing class Batch_UpdatePETrialCompleteAndSendNotify implements Da
         insert notifications;
     }
 
-    public void finish(Database.BatchableContext param1) {
-    }
+    public void finish(Database.BatchableContext param1) {}
 }

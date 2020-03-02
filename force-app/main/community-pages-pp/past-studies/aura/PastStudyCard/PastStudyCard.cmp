@@ -26,7 +26,9 @@
                             <div class="label">{!$Label.c.PS_Enrollment_Date}</div>
                             <div class="value">
                                 <div class="rp-max-length">
-                                    <ui:outputDate format="MM-dd-yyyy" value="{!v.pe.Enrolled_Date__c}"/>
+                                    <lightning:formattedDateTime value="{!v.pe.Enrolled_DateTime__c}"
+                                                                 year="numeric" month="2-digit" day="2-digit"/>
+<!--                                    <ui:outputDate format="MM-dd-yyyy" value="{!v.pe.Enrolled_DateTime__c}"/>-->
                                 </div>
                             </div>
                         </div>

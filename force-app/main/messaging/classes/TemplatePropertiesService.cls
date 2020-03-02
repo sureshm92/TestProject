@@ -4,81 +4,82 @@
 
 public with sharing class TemplatePropertiesService {
 
-    public static String getTemplatePropertiesBySObject(Id resourceId, Id recipientId, String userModeString, Boolean isDelegate) {
+    private Map<String, String> properties;
+
+    public TemplatePropertiesService() {
+        properties = CommunityTemplateService.getDefaultTemplate().properties;
+    }
+
+    public TemplatePropertiesService(Id resourceId, Id recipientId, String userModeString, Boolean isDelegate) {
+        String templateName = getTemplateName(resourceId, recipientId, userModeString, isDelegate);
+        properties = !String.isEmpty(templateName) ?
+                CommunityTemplateService.getTemplate(templateName).properties :
+                CommunityTemplateService.getDefaultTemplate().properties;
+    }
+
+    public String getPropertyValue(String key) {
+        return properties.get(key);
+    }
+
+    private String getTemplateName(Id resourceId, Id recipientId, String userModeString, Boolean isDelegate) {
         String templateName;
-        List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
-        List<Participant_Enrollment__c> currPEList;
-        String filter;
-        Id partConId = recipientId;
-
-        if (recipientId.getSobjectType() == User.getSObjectType()) {
-            recipientId = [
-                    SELECT Id, Contact.Id
-                    FROM User
-                    WHERE Id = :recipientId
-            ].Contact.Id;
-        }
-
-        if(isDelegate) partConId = PatientDelegateService.getParticipantByDelegateContactId(recipientId).Contact__c;
-
-        if (resourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
-            filter = DatabaseService.fieldEqual('Id', resourceId);
-
-        } else if (resourceId.getSobjectType() == User.getSObjectType()) {
-            filter = DatabaseService.fieldEqual('Participant_Contact__c', partConId);
-
-        } else if (resourceId.getSobjectType() == Case.getSObjectType()) {
-            Case cs = [SELECT Id, CommunityName__c FROM Case WHERE Id = :resourceId];
-            Community_Template__mdt commTemplate = [
-                    SELECT Id, DeveloperName, Community_Name__c
-                    FROM Community_Template__mdt
-                    WHERE Community_Name__c = :cs.CommunityName__c
-            ];
-            templateName = commTemplate.DeveloperName;
-
-        } else if (resourceId.getSobjectType() == Contact.getSObjectType()
-                && userModeString == CommunityService.USER_MODE_PARTICIPANT) {
-            currPEList.add(ContactService.getCurrentPE(partConId));
-            List<Id> pastPEList = new List<Id>();
-            if (currPEList.isEmpty()) {
-                pastPEList = PatientDelegateService.getPastPEIdsForContact(partConId);
-                filter = DatabaseService.fieldEqual('Id', pastPEList[0]);
-            } else {
-                filter = DatabaseService.fieldEqual('Id', currPEList[0].Id);
+        try {
+            Id partConId = recipientId;
+            if (recipientId.getSobjectType() == User.getSObjectType()) {
+                partConId = [
+                        SELECT Id, Contact.Id
+                        FROM User
+                        WHERE Id = :recipientId
+                ].Contact.Id;
             }
+            if (isDelegate) partConId = PatientDelegateService.getParticipantByDelegateContactId(recipientId).Contact__c;
 
-        } else if (resourceId.getSobjectType() == Task.getSObjectType()) {
-            Task task = [SELECT Id, WhatId FROM Task WHERE Id = :resourceId];
 
-            if (task.WhatId != null) {
-                filter = DatabaseService.fieldEqual('Id', task.WhatId);
-            } else if (task.WhatId == null && userModeString == CommunityService.USER_MODE_PARTICIPANT) {
-                currPEList.add(ContactService.getCurrentPE(partConId));
-                List<Id> pastPEList = new List<Id>();
-                if (currPEList.isEmpty()) {
-                    pastPEList = PatientDelegateService.getPastPEIdsForContact(partConId);
-                    filter = DatabaseService.fieldEqual('Id', pastPEList[0]);
-                } else {
-                    filter = DatabaseService.fieldEqual('Id', currPEList[0].Id);
+            String filter;
+            Id enrollmentId;
+            if (resourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
+                filter = DatabaseService.fieldEqual('Id', resourceId);
+            } else if (resourceId.getSobjectType() == User.getSObjectType()) {
+                filter = DatabaseService.fieldEqual('Participant_Contact__c', partConId);
+            } else if (resourceId.getSobjectType() == Case.getSObjectType()) {
+                Case cs = [SELECT Id, CommunityName__c FROM Case WHERE Id = :resourceId];
+                if (cs != null) {
+                    Community_Template__mdt commTemplate = [
+                            SELECT Id, DeveloperName, Community_Name__c
+                            FROM Community_Template__mdt
+                            WHERE Community_Name__c = :cs.CommunityName__c
+                    ];
+                    templateName = commTemplate.DeveloperName;
                 }
+            } else if (resourceId.getSobjectType() == Task.getSObjectType()) {
+                Task task = [SELECT Id, WhatId FROM Task WHERE Id = :resourceId];
+                if (task != null && task.WhatId != null) filter = DatabaseService.fieldEqual('Id', task.WhatId);
+            } else if (resourceId.getSobjectType() == SurveyInvitation.getSObjectType()) {
+                SurveyInvitation invitation = [SELECT Id, Participant_Enrollment__c FROM SurveyInvitation WHERE Id = :resourceId];
+                enrollmentId = invitation.Participant_Enrollment__c;
             }
 
-        } else if (resourceId.getSobjectType() == SurveyInvitation.getSObjectType()) {
-            SurveyInvitation survInv = [SELECT Id, Participant_Enrollment__c FROM SurveyInvitation WHERE Id = :resourceId];
-            filter = DatabaseService.fieldEqual('Id', survInv.Participant_Enrollment__c);
+            if (filter == null) {
+                if (enrollmentId == null) {
+                    Id currentPEId = ContactService.getCurrentPE(partConId).Id;
+                    enrollmentId = currentPEId != null ? currentPEId : PatientDelegateService.getPastPEIdsForContact(partConId)[0];
+                }
+                filter = DatabaseService.fieldEqual('Id', enrollmentId);
+            }
+            if (templateName == null && filter != null) {
+                List<Participant_Enrollment__c> enrollments = (List<Participant_Enrollment__c>) DatabaseService.query(
+                        new List<String>{
+                                'Clinical_Trial_Profile__r.CommunityTemplate__c'
+                        },
+                        Participant_Enrollment__c.getSObjectType(),
+                        filter
+                );
+                if (enrollments != null) templateName = enrollments[0].Clinical_Trial_Profile__r.CommunityTemplate__c;
+            }
+        } catch (Exception e) {
+            EmailService.sendException(e, null);
         }
 
-        if (templateName == null && filter != null) {
-            List<Participant_Enrollment__c> enrollments = (List<Participant_Enrollment__c>) DatabaseService.query(
-                    new List<String>{
-                            'Id', 'Clinical_Trial_Profile__r.CommunityTemplate__c', 'Participant_Contact__c'
-                    },
-                    Participant_Enrollment__c.getSObjectType(),
-                    filter
-            );
-            if(enrollments != null) peList.addAll(enrollments);
-            if(peList[0].Clinical_Trial_Profile__r.CommunityTemplate__c != null) templateName = peList[0].Clinical_Trial_Profile__r.CommunityTemplate__c;
-        }
         return templateName;
     }
 }

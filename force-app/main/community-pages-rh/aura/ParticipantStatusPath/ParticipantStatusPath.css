@@ -21,6 +21,11 @@
     line-height: 1;
 }
 
+.THIS .slds-grid .vpi-state.current .vri-state-label:last-child{
+    font-weight: 400;
+}
+
+
 .THIS .vpi-line-div{
     height: 22px;
     border-top: 3px solid;

@@ -7,9 +7,9 @@
         communityService.executeAction(component, 'getAlerts', {
             userMode: communityService.getUserMode()
         }, function (returnValue) {
-            var alerts = JSON.parse(returnValue);
+            let alerts = JSON.parse(returnValue);
             component.set('v.alerts', alerts);
-            var currentAlertIndex = 0;
+            let currentAlertIndex = 0;
             component.set('v.currentAlertIndex', currentAlertIndex);
             if(alerts.length > 0) {
                 component.set('v.currentAlert', alerts[currentAlertIndex]);
@@ -22,23 +22,27 @@
     },
 
     doShowNext: function (component) {
-        var currAlert = component.get('v.currentAlert');
+        let currAlert = component.get('v.currentAlert');
         if(currAlert){
             communityService.executeAction(component, 'setAlertViewed', {
                 alertId: currAlert.id
             });
         }
-        var currentAlertIndex = component.get('v.currentAlertIndex') + 1;
-        var alerts = component.get('v.alerts');
+        let currentAlertIndex = component.get('v.currentAlertIndex') + 1;
+        console.log('currentAlertIndex ' + currentAlertIndex);
+        let alerts = component.get('v.alerts');
+        console.log('alerts.length = ' + alerts.length + ' for that alerts: ' + JSON.stringify(alerts));
+        let popup = component.find('alertsDialog');
         if(currentAlertIndex < alerts.length){
             component.set('v.currentAlertIndex', currentAlertIndex);
             component.set('v.currentAlert', alerts[currentAlertIndex]);
-            component.find('alertsDialog').show();
+            if(popup) popup.show();
         }else{
-            component.find('alertsDialog').set('v.showModal', false);
+            if(popup) popup.set('v.showModal', false);
             component.set('v.currentAlert', null);
+            console.log('Current alert ' + component.get('v.currentAlert'));
             component.find('onboardingSlideTour').initialShow();
             component.find('motivationalMessages').show();
         }
     }
-})
+});

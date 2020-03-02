@@ -27,8 +27,8 @@
         </div>
         <div class="visit-result-slider">
             <c:RRSlider value="{!v.wrapper.value}" minValue="{!v.wrapper.minValue}" maxValue="{!v.wrapper.maxValue}"/>
-            <div class="{!v.showExpectedRange ? 'visit-result-range' : 'hidden'}">
-                <aura:unescapedHtml value="{!$Label.c.Visit_Results_Tab_Expected_Range + ': ' + v.expectedRange}"/>
+            <div class="{!v.showExpectedRange ? 'visit-result-range' : 'hidden'}" title="{!$Label.c.Visit_Results_Tab_Expected_Range + ': ' + v.expectedRange}">
+                {!$Label.c.Visit_Results_Tab_Expected_Range + ': ' + v.expectedRange}
             </div>
         </div>
         <lightning:helptext content="{!v.wrapper.description}" class="visit-result-item-description"/>

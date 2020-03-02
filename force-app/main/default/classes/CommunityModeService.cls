@@ -78,7 +78,6 @@ public without sharing class CommunityModeService {
             List<Participant_Enrollment__c> pastPEList = pePastMap.get(userParticipant.Id);
             Boolean hasPastStudies = pastPEList != null && pastPEList.size() > 0;
 
-            //TODO: Add right template for decoupled delegate in Prospect view
             CommunityTemplate currentTemplate;
             String sitePrefix = Site.getPathPrefix().replace('/s', '').replace('/', '');
             List<PermissionSetAssignment> permissions = [
@@ -87,6 +86,7 @@ public without sharing class CommunityModeService {
             for(PermissionSetAssignment permission : permissions) {
                 if(permission.PermissionSet.Name.containsIgnoreCase(sitePrefix)) {
                     currentTemplate = CommunityTemplateService.getTemplateByPermissionSetName(permission.PermissionSet.Name);
+                    if(currentTemplate != null) break;
                 }
             }
 
@@ -117,7 +117,7 @@ public without sharing class CommunityModeService {
             splitter.isSplitter = true;
             modes.add(splitter);
         }
-        String delegateId = UserContext.getUserContactId();
+
         for(Id participantId : delegatedParticipantIds){
             Participant__c participant = participantsMap.get(participantId);
             List<Participant_Enrollment__c> peList = peListByParticipantIdMap.get(participantId);
@@ -126,7 +126,7 @@ public without sharing class CommunityModeService {
             CommunityMode mode = new CommunityMode(
                     USER_MODE_PARTICIPANT,
                     participant.First_Name__c + ' ' + participant.Last_Name__c,
-                    delegateId, //participant.Contact__c,
+                    participant.Contact__c,
                     null,
                     hasPastStudies ? CommunityTemplateService.getTemplate(pastPEList[0].Clinical_Trial_Profile__r.CommunityTemplate__c) : CommunityTemplateService.getDefaultTemplate()
             );
@@ -137,7 +137,7 @@ public without sharing class CommunityModeService {
                     mode.addSubMode(new CommunityMode(
                             USER_MODE_PARTICIPANT,
                             pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                            delegateId, //pe.Participant__r.Contact__c,
+                            pe.Participant__r.Contact__c,
                             pe,
                             CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c)
                     ));

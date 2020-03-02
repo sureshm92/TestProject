@@ -107,7 +107,8 @@ public without sharing class LeadConversionHelper {
                         Patient_Count__c = lead.Patient_Count__c,
                         Pre_Screened_Count__c = lead.Pre_Screened_Count__c,
                         Pre_Screened_and_Did_Not_Qualify_Count__c = lead.Pre_Screened_and_Did_Not_Qualify_Count__c,
-                        Status__c = hcpeStatus
+                        Status__c = hcpeStatus,
+                        Degrees_of_Separation__c = lead.Degrees_Of_Separation__c
                 );
                 leadConvertedToEnrollmentMap.put(lead.Id, hcpe);
                 hcpEnrollmentsToCreate.add(hcpe);

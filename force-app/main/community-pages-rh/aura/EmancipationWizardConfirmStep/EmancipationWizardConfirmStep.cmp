@@ -19,13 +19,14 @@
     <!-- component body: -->
     <div class="participant-info-container">
         <div class="ap-section">
-            <div style="background: #F6F7FB; border: 0.1px solid; border-color: lightgrey; margin-top: 15px;">
+            <div style="background: #F6F7FB; border: 0.1px solid; border-color: lightgrey; margin-top: 15px;padding-top: 10px">
                 <div class="ap-section-title" style="margin-left: 10px;">{!$Label.c.BTN_Participant_Information}</div>
                 <lightning:button onclick="{!c.doEditParticipant}" name="Edit" class="slds-button edit-btn slds-button--icon-inverse">
-                    <c:RRIcon iconName="icon-edit" class="edit-icon"/>
+                    <!--<c:RRIcon iconName="icon-edit" class="edit-icon"/> -->
+                     <img class="edit-icon" src="{!$Resource.icon_edit}" width="16" height="16"/>
                 </lightning:button>
 
-                <div class="slds-grid slds-gutters slds-wrap" style="margin: 10px 10px;">
+                <div class="slds-grid slds-gutters slds-wrap" style="margin: 10px 0;">
                     <div class="rr-form-element grey-text slds-col slds-size--1-of-1">
                         {!v.participantMsgWithName}
                     </div>
