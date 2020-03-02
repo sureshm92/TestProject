@@ -10,8 +10,8 @@ public with sharing class TemplatePropertiesService {
         properties = CommunityTemplateService.getDefaultTemplate().properties;
     }
 
-    public TemplatePropertiesService(Id resourceId, Id recipientId, String userModeString, Boolean isDelegate) {
-        String templateName = getTemplateName(resourceId, recipientId, userModeString, isDelegate);
+    public TemplatePropertiesService(Id resourceId, Id recipientId, String userMode, Boolean isDelegate) {
+        String templateName = getTemplateName(resourceId, recipientId, userMode, isDelegate);
         properties = !String.isEmpty(templateName) ?
                 CommunityTemplateService.getTemplate(templateName).properties :
                 CommunityTemplateService.getDefaultTemplate().properties;
@@ -21,25 +21,28 @@ public with sharing class TemplatePropertiesService {
         return properties.get(key);
     }
 
-    private String getTemplateName(Id resourceId, Id recipientId, String userModeString, Boolean isDelegate) {
+    private String getTemplateName(Id resourceId, Id recipientId, String userMode, Boolean isDelegate) {
         String templateName;
         try {
-            Id partConId = recipientId;
             if (recipientId.getSobjectType() == User.getSObjectType()) {
-                partConId = [
-                        SELECT Id, Contact.Id
+                recipientId = [
+                        SELECT Id, ContactId
                         FROM User
                         WHERE Id = :recipientId
-                ].Contact.Id;
+                ].ContactId;
             }
-            if (isDelegate) partConId = PatientDelegateService.getParticipantByDelegateContactId(recipientId).Contact__c;
+            Id partConId = recipientId;
 
+            if (isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT) {
+                partConId = PatientDelegateService.getParticipantByDelegateContactId(partConId).Contact__c;
+            }
+            if(partConId == null) return templateName;
 
             String filter;
             Id enrollmentId;
             if (resourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
                 filter = DatabaseService.fieldEqual('Id', resourceId);
-            } else if (resourceId.getSobjectType() == User.getSObjectType()) {
+            } else if (resourceId.getSobjectType() == User.getSObjectType() && userMode == CommunityService.USER_MODE_PARTICIPANT) {
                 filter = DatabaseService.fieldEqual('Participant_Contact__c', partConId);
             } else if (resourceId.getSobjectType() == Case.getSObjectType()) {
                 Case cs = [SELECT Id, CommunityName__c FROM Case WHERE Id = :resourceId];
@@ -61,8 +64,8 @@ public with sharing class TemplatePropertiesService {
 
             if (filter == null) {
                 if (enrollmentId == null) {
-                    Id currentPEId = ContactService.getCurrentPE(partConId).Id;
-                    enrollmentId = currentPEId != null ? currentPEId : PatientDelegateService.getPastPEIdsForContact(partConId)[0];
+                    Participant_Enrollment__c currentPE = ContactService.getCurrentPE(partConId);
+                    enrollmentId = currentPE != null ? currentPE.Id : PatientDelegateService.getPastPEIdsForContact(partConId)[0];
                 }
                 filter = DatabaseService.fieldEqual('Id', enrollmentId);
             }
