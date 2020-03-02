@@ -172,7 +172,7 @@ public without sharing class RRChangePasswordController {
             update contact;
 //            if(translation.Language__c != null) {
 //                userVal.LanguageLocaleKey = translation.Language__c;
-//                update userVal;
+            update userVal;
 //            }
 
             if (tcId!=null) {
