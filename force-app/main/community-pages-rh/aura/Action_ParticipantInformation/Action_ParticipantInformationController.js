@@ -100,6 +100,7 @@
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
         var pathWrapper = component.get('v.participantPath');
+        pathWrapper.steps[pathWrapper.currentStepInd] = pathWrapper.currentStep;
         var statusDetailValid = component.get('v.statusDetailValid');
         pe.Participant__r = participant;
         component.find('spinner').show();
@@ -159,8 +160,10 @@
                 pathWrapperJSON: JSON.stringify(pathWrapper),
                 peId: pe.Id
             }, function (returnValueJSON) {
+                debugger;
                 var returnValue = JSON.parse(returnValueJSON);
-                component.set('v.participantPath',returnValue);
+                component.set('v.participantPath',returnValue.participantPath);
+                component.set('v.pe', returnValue.pe);
                 var callback = component.get('v.callback');
                 if(callback){
                     callback(pe);
