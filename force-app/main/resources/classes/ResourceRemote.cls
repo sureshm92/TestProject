@@ -69,7 +69,9 @@ public with sharing class ResourceRemote {
             if ((state.value == ParticipantService.ParticipantStates.ALUMNI) && (state.participant.Conditions__c == 0)) {
                 String noTAMessage;
                 String message = Label.Resources_No_Therapeutic_Area;
-                String goToProfile = '<br /><a href="/s/account-settings">' + Label.Resources_Go_To_Your_Profile + '</a>';
+                String goToProfile = '<br /><a href="';
+                if(state.communityName.equals(CommunityService.GSK_NETWORK_NAME)) goToProfile += '/gsk';
+                goToProfile += '/s/account-settings">' + Label.Resources_Go_To_Your_Profile + '</a>';
                 noTAMessage = String.format(message, new List<String>{
                         goToProfile
                 });
