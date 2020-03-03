@@ -17,6 +17,8 @@
             component.set('v.contactChanged', initData.contactChanged);
             component.set('v.personWrapper', initData.contactSectionData.personWrapper);
             component.set('v.contactSectionData', initData.contactSectionData);
+            component.set('v.optInEmail', initData.contactSectionData.personWrapper.optInEmail);
+            component.set('v.optInSMS', initData.contactSectionData.personWrapper.optInSMS);
 
             component.set('v.contact', initData.myContact);
             component.set('v.currentEmail', initData.myContact.Email);
@@ -80,9 +82,7 @@
             hcpOptInPatientEmail: initData.myContact.HCP_Opt_In_Patient_Status_Emails__c,
             hcpOptInStudyEmail: initData.myContact.HCP_Opt_In_Study_Emails__c,
             hcpOptInRefStatusEmail: initData.myContact.HCP_Opt_In_Referral_Status_Emails__c
-        }, function () {
-            //do nothing
-        });
+        }, function () {});
     },
 
     doSwitchOptInSMS: function (component, event, helper) {
