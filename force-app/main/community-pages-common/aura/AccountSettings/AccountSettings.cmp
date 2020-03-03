@@ -144,7 +144,7 @@
                                     </aura:if>
                                 </div>
                             </aura:if>
-                            <div style="height: 25px"></div>
+                            <div style="height: 25px" id="coi"></div>
                             <div class="as-email-preference">
                                 <div class="as-title ">{!$Label.c.PG_AS_L_Conditions_of_Interest}</div>
                                 <div class="as-sub-title">
