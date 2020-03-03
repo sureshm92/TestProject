@@ -16,6 +16,17 @@
     border: none;
 }
 
-.THIS .grey-text {
-    color: grey;
+.THIS .ap-section .rr-form-element .grey-text {
+    color: #444;
+}
+
+.THIS .bold-title {
+    font-weight: 600;
+    color: #000;
+}
+
+.THIS .participantOption,
+.THIS .delegateMsg{
+    margin-top: 0;
+    margin-bottom: 20px;
 }

@@ -6,7 +6,6 @@
     <aura:attribute name="stepWrapper" type="Object" required="true"/>
     <aura:attribute name="reasonList" type="List" access="private"/>
     <aura:attribute name="updateInProgress" type="Boolean"  access="private"/>
-    <aura:attribute name="isValid" type="Boolean" default="true"  access="public"/>
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="notesRequired" type="Boolean" default="false"/>
     <aura:attribute name="todayDate" type="Date"/>
@@ -17,6 +16,9 @@
     <aura:method name="fieldChanged" action="{!c.doCheckDependentFields}" access="public">
         <aura:attribute name="fieldName" type="String"/>
         <aura:attribute name="value" type="String"/>
+    </aura:method>
+    <aura:method name="populateFields" action="{!c.doPopulateFields}" access="public">
+        <aura:attribute name="fieldMap" type="Object"/>
     </aura:method>
     <div class="step-card-title">
             {!v.stepWrapper.cardTitle}
@@ -33,7 +35,9 @@
                     <div class="slds-col slds-size--1-of-2 outcome-form-element">
                         <div class="label">{!$Label.c.PG_ACPE_L_Reason}</div>
                         <c:rrSelect options="{!v.reasonList}" value="{!v.stepWrapper.reason}"
-                                    placeholder="{!if(empty(v.reasonList),'',$Label.c.PG_RP_L_Not_selected)}" disabled="{!or(empty(v.stepWrapper.outcome),empty(v.reasonList))}"/>
+                                    placeholder="{!if(empty(v.reasonList),'',$Label.c.PG_RP_L_Not_selected)}"
+                                    disabled="{!or(empty(v.stepWrapper.outcome),empty(v.reasonList))}"
+                                    setValueAsSelected="true"/>
                     </div>
                     <div class="slds-col slds-size--1-of-1 outcome-form-element">
                         <lightning:input label="{!$Label.c.PG_ACPE_L_Notes+' ('+if(v.notesRequired,$Label.c.PG_ACPE_L_required,$Label.C.PG_ACPE_L_optional)+')'}" type="text" value="{!v.stepWrapper.notes}"/>
