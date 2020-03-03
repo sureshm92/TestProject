@@ -7529,7 +7529,7 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>PG_DrivingDirection</shortDescription>
         <value>Driving directions</value>
-    </labels>        
+    </labels>
     <labels>
         <fullName>PG_EMN_MSG_Update_Contact_Info</fullName>
         <language>en_US</language>
@@ -12929,6 +12929,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>Task Subject Complete Your Profile</shortDescription>
         <value>Please, complete your profile under Account Settings</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Select_COI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Subject Select COI</shortDescription>
+        <value>If you want to see more study resources related to diagnosis, please select relevant conditions of interest in account settings</value>
     </labels>
     <labels>
         <fullName>Task_Tab_Completed_Tasks</fullName>

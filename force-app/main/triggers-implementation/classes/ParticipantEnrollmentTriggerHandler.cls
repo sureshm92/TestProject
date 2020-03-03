@@ -86,6 +86,18 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
+    public class CreateEnrollmentTasks extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            createTasks((List<Participant_Enrollment__c>) newList);
+        }
+    }
+
+    public class CompleteEnrollmentTasks extends TriggerHandler {
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            completeTasks((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+    }
+
     public class SetSourceTypeHandler extends TriggerHandler {
 
         public override void beforeInsert(List<SObject> newList) {
@@ -504,6 +516,76 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     }
 
     @TestVisible
+    private static void createTasks(List<Participant_Enrollment__c> newList) {
+        List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c>();
+        Set<Id> participantContactIds = new Set<Id>();
+        for (Participant_Enrollment__c pe : newList) {
+            if (pe.Participant_Contact__c != null &&
+                    ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).Tasks_Are_Available__c) {
+                participantContactIds.add(pe.Participant_Contact__c);
+                enrollments.add(pe);
+            }
+        }
+
+        if (enrollments.isEmpty()) return;
+
+        Map<Id, User> usersByContactId = new Map<Id, User>();
+        for (User user : CommunityService.getCommunityUsersByContactIds(participantContactIds)) {
+            usersByContactId.put(user.ContactId, user);
+        }
+
+        List<Task> tasks = new List<Task>();
+        for (Participant_Enrollment__c pe : enrollments) {
+            // COI tasks for GSK
+            String communityTemplate = ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).CommunityTemplate__c;
+            if (communityTemplate == CommunityTemplateService.TEMPLATE_GSK &&
+                    !PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c) &&
+                    usersByContactId.get(pe.Participant_Contact__c) != null) {
+                tasks.add(new Task (
+                        OwnerId = usersByContactId.get(pe.Participant_Contact__c).Id,
+                        Subject = TaskService.TASK_CODE_SELECT_COI,
+                        Task_Code__c = TaskService.TASK_CODE_SELECT_COI,
+                        Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED,
+                        Status = TaskService.TASK_STATUS_OPEN,
+                        Priority = TaskService.TASK_PRIORITY_NORMAL,
+                        WhatId = pe.Id,
+                        WhoId = pe.Participant_Contact__c,
+                        Visible_For__c = TaskService.TASK_VISIBILITY_ALL
+                ));
+            }
+        }
+        if (!tasks.isEmpty()) insert tasks;
+    }
+
+    @TestVisible
+    private static void completeTasks(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+        Set<Id> peIds = new Set<Id>();
+        for (Participant_Enrollment__c pe : newList) {
+            if (PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)) {
+                peIds.add(pe.Id);
+            }
+        }
+
+        if (peIds.isEmpty()) return;
+
+        List<Task> tasks = new List<Task>([
+                SELECT Status, Completed_Date__c
+                FROM Task
+                WHERE WhatId IN :peIds
+                    AND Task_Code__c = :TaskService.TASK_CODE_SELECT_COI
+                    AND Status != :TaskService.TASK_STATUS_COMPLETED
+        ]);
+
+        if (!tasks.isEmpty()) {
+            for (Task task : tasks) {
+                task.Status = TaskService.TASK_STATUS_COMPLETED;
+                task.Completed_Date__c = Datetime.now();
+            }
+            update tasks;
+        }
+    }
+
+        @TestVisible
     private static void createPrimaryHistoryEntry(
             List<Participant_Enrollment__c> enrollments,
             Map<Id, Participant_Enrollment__c> oldMap
