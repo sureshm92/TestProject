@@ -40,6 +40,7 @@
     <aura:method name="doCallback" action="{!c.doCallback}" access="public"/>
     <aura:method name="doUpdate" action="{!c.doUpdate}" access="public"/>
     <aura:method name="doUpdatePatientStatus" action="{!c.doUpdatePatientStatus}" access="public"/>
+    <aura:method name="statusDetailValidityCheck" action="{!c.doCheckStatusDetailValidity}" access="public"/>
 
 
     <!-- component body: -->
@@ -75,7 +76,7 @@
                         </div>
                     </lightning:tab>
                     <lightning:tab aura:id="Status" label="{!$Label.c.BTN_Status_Details}" onactive="{!c.checkTabs}">
-                        <c:ParticipantStatusDetails participantWorkflowWrapper="{!v.participantPath}" parent="{!this}" isValid="{!v.statusDetailValid}"/>
+                        <c:ParticipantStatusDetails participantWorkflowWrapper="{!v.participantPath}" parent="{!this}"/>
                     </lightning:tab>
                     <lightning:tab class="slds-tabs_default__item" aura:id="Provider"
                                    label="{!$Label.c.Tab_Sharing_Options}"

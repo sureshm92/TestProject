@@ -30,7 +30,7 @@
             <div class="mrr-alert fail" id="anchor">
                 <c:RRIcon iconName="icon-close-circle"/>
                 <div class="main-title">{!v.pe.Participant__r.Full_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Failed}</div>
-                <aura:if isTrue="{!!v.isInvited}">
+                <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c}">
                 <button class="apollo-btn primary"
                         data-gtm="BTN_InviteToPP"
                         onclick="{!c.inviteToPortal}">
@@ -48,7 +48,7 @@
             <div class="mrr-alert pass" id="anchor">
                 <c:RRIcon iconName="icon-check-circle"/>
                 <div class="main-title">{!v.pe.Participant__r.Full_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Passed}</div>
-                <aura:if isTrue="{!!v.isInvited}">
+                <aura:if isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c}">
                     <button class="apollo-btn primary"
                             data-gtm="BTN_InviteToPP"
                             onclick="{!c.inviteToPortal}">

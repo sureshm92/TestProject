@@ -44,6 +44,18 @@
     border-bottom: 1px solid #f8f9fb;
 }
 
+.THIS .slds-table_striped tbody tr:nth-of-type(2n) > td,
+.THIS .slds-table_striped tbody tr:nth-of-type(2n) > th{
+    background-color: transparent;
+}
+
+.THIS .slds-table:not(.slds-no-row-hover) tbody tr:hover > td, 
+.THIS .slds-table:not(.slds-no-row-hover) tbody tr:hover > th, 
+.THIS .slds-table:not(.slds-no-row-hover) tbody tr:focus > td, 
+.THIS .slds-table:not(.slds-no-row-hover) tbody tr:focus > th {
+    background-color: #f8f9fb;
+}
+
 .THIS .slds-table_bordered {
     border: none;
 }

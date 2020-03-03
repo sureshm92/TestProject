@@ -32,7 +32,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         this.selectedStatus = selectedStatus;
         this.createUsers = createUsers;
 
-        studySiteDetails = [SELECT Id, Name, Principal_Investigator__c, Clinical_Trial_Profile__c FROM Study_Site__c WHERE Id = :studySiteId];
+        studySiteDetails = [SELECT Id, Name, Principal_Investigator__c, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE Id = :studySiteId];
 
         listOfFailedRecordsWithMsg.add('Row Index, Failed Reason');
         String line = header.trim().removeEnd(',').trim().removeEnd(',');
@@ -83,6 +83,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         }
 
         try {
+            Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+            String permissionSetName = CommunityTemplateService.getTemplate(studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
+
             Map<Id, Contact> contactsById = new Map<Id, Contact>();
             Map<Id, Participant__c> participantsByContact = new Map<Id, Participant__c>();
             Map<Id, Participant_Enrollment__c> participantEnrollmentsByContact = new Map<Id, Participant_Enrollment__c>();
@@ -264,6 +267,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         contactsById.put(participantContact.Id, participantContact);
                         participantsByContact.put(participantContact.Id, participant);
                         participantEnrollmentsByContact.put(participantContact.Id, participantEnrollment);
+
+                        actionAssignContactPermissions.addPermission(participantContact.Id, permissionSetName);
                     }
                 } else {
                     errorRecordCount++;
@@ -385,8 +390,11 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     if (!createUsersMap.isEmpty()) {
                         ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(createUsersMap);
                     }
-                    if(!insertUsersWithDefaultSettings.isEmpty()){
+                    if (!insertUsersWithDefaultSettings.isEmpty()) {
                         ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(insertUsersWithDefaultSettings);
+                    }
+                    if (!actionAssignContactPermissions.isEmpty()) {
+                        ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                     }
                 }
 

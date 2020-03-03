@@ -3,6 +3,6 @@
     <fullName>InitialVisitScheduledDate_InPast</fullName>
     <active>true</active>
     <description>Initial Visit Scheduled Date should allow present and future dates only.</description>
-    <errorConditionFormula>Initial_visit_scheduled_date__c &lt; TODAY()</errorConditionFormula>
+    <errorConditionFormula>ISCHANGED(Initial_visit_scheduled_date__c ) &amp;&amp; Initial_visit_scheduled_date__c &lt; TODAY()</errorConditionFormula>
     <errorMessage>Initial Visit Scheduled Date cannot be in the past</errorMessage>
 </ValidationRule>

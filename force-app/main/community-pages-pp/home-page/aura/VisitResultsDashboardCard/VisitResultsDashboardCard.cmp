@@ -4,61 +4,48 @@
 <aura:component description="VisitResultsDashboardCard" controller="VisitResultsRemote">
 
     <!-- ATTRIBUTES -->
-
     <aura:attribute name="ctpId" type="String" required="true"/>
-
     <aura:attribute name="visitResultWrappers" type="Object[]" access="private"/>
-
     <aura:attribute name="VisitResultPage" type="String" access="private"/>
 
     <!-- HANDLERS -->
-
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
     <!-- COMPONENT BODY -->
-
     <aura:if isTrue="{!and(v.visitResultWrappers.length != 0, v.ctpId != null)}">
-        <c:RRPanel>
-
-            <aura:set attribute="header">
-                <div class="objective-link">
-                    <div>{!$Label.c.Visit_Results_Dashboard_My_Results}</div>
-                    <div class="objective-section">
-                        <div class="visit-results-disclaimer objective-text">{!$Label.c.Visit_Results_Tab_Disclaimer}</div>
-                        <div class="objective-link">
-                            <c:RRLink page="{!v.VisitResultPage}">{!$Label.c.BTN_Learn_More}
-                                <c:RRIcon iconName="icon-chevron-right"/>
-                            </c:RRLink>
-                        </div>
+        <c:HomePreviewTablePanel title="{!$Label.c.Visit_Results_Dashboard_My_Results}">
+            <div class="objective-link">
+                <div class="objective-section">
+                    <div class="visit-results-disclaimer objective-text">{!$Label.c.Visit_Results_Tab_Disclaimer}</div>
+                    <div class="objective-link">
+                        <c:RRLink page="{!v.VisitResultPage}">{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-right"/></c:RRLink>
                     </div>
                 </div>
-            </aura:set>
+            </div>
 
-            <aura:set attribute="body">
-                <div class="visit-results-body">
-                    <div class="visit-results-title">{!$Label.c.Visit_Results_Tab_Vitals}</div>
-                    <div class="visit-results-container">
-                        <aura:iteration items="{!v.visitResultWrappers}" var="visitResultWrapper">
-                            <div class="visit-results-item">
-                                <span class="visit-result-item-value">{!visitResultWrapper.value == null ? '-' : visitResultWrapper.value}</span>
-                                <span class="visit-result-item-name">{!visitResultWrapper.name}</span>
-                                <span class="{!visitResultWrapper.measurement != null ? 'visit-result-item-measurement' : 'hidden'}">
+            <div class="visit-results-body">
+                <div class="visit-results-title">{!$Label.c.Visit_Results_Tab_Vitals}</div>
+                <div class="visit-results-container">
+                    <aura:iteration items="{!v.visitResultWrappers}" var="visitResultWrapper">
+                        <div class="visit-results-item">
+                            <span class="visit-result-item-value">{!visitResultWrapper.value == null ? '-' : visitResultWrapper.value}</span>
+                            <span class="visit-result-item-name">{!visitResultWrapper.name}</span>
+                            <span class="{!visitResultWrapper.measurement != null ? 'visit-result-item-measurement' : 'hidden'}">
                                     <aura:unescapedHtml value="{!'(' + visitResultWrapper.measurement + ')'}"/>
                                 </span>
-                            </div>
-                        </aura:iteration>
-                    </div>
-                    <div class="visit-results-panel-disclaimer">{!$Label.c.Visit_Results_Tab_Panel_Disclaimer}</div>
+                        </div>
+                    </aura:iteration>
                 </div>
-            </aura:set>
+                <div class="visit-results-panel-disclaimer">{!$Label.c.Visit_Results_Tab_Panel_Disclaimer}</div>
+            </div>
 
             <aura:set attribute="footer">
-                <div class="visit-results-footer" onclick="{!c.navigateToPage}">
-                    {!$Label.c.Resources_See_All}
-                </div>
+                <c:RRLink page="{!v.VisitResultPage}">
+                    {!$Label.c.PG_L_See_All}
+                    <aura:if isTrue="{!v.isArabic}"><c:RRIcon iconName="icon-chevron-left"/></aura:if>
+                    <aura:if isTrue="{!!v.isArabic}"><c:RRIcon iconName="icon-chevron-right"/></aura:if>
+                </c:RRLink>
             </aura:set>
-
-        </c:RRPanel>
+        </c:HomePreviewTablePanel>
     </aura:if>
-
 </aura:component>

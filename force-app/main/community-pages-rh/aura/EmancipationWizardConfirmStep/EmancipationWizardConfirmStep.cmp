@@ -19,7 +19,7 @@
     <!-- component body: -->
     <div class="participant-info-container">
         <div class="ap-section">
-            <div style="background: #F6F7FB; border: 0.1px solid; border-color: lightgrey; margin-top: 15px;padding-top: 10px">
+            <div style="background: #F6F7FB; margin-top: 15px;padding-top: 10px">
                 <div class="ap-section-title" style="margin-left: 10px;">{!$Label.c.BTN_Participant_Information}</div>
                 <lightning:button onclick="{!c.doEditParticipant}" name="Edit" class="slds-button edit-btn slds-button--icon-inverse">
                     <!--<c:RRIcon iconName="icon-edit" class="edit-icon"/> -->
@@ -30,15 +30,15 @@
                     <div class="rr-form-element grey-text slds-col slds-size--1-of-1">
                         {!v.participantMsgWithName}
                     </div>
-                    <div class="rr-form-element grey-text slds-col slds-size--1-of-1">
+                    <div class="rr-form-element slds-col slds-size--1-of-1 participantOption">
                             {!v.selectedOption == '1' ? 'Invite' : 'Do not invite'}
                     </div>
 
-                    <div class="rr-form-element slds-col slds-size--1-of-3">
-                        {!$Label.c.PG_AP_H_Patient_Details}:
+                    <div class="rr-form-element slds-col slds-size--1-of-3 bold-title">
+                        {!$Label.c.PG_AP_H_Patient_Details}
                     </div>
-                    <div class="rr-form-element slds-col slds-size--2-of-3">
-                        {!$Label.c.PG_AP_H_Patient_Contact_Information}:
+                    <div class="rr-form-element slds-col slds-size--2-of-3 bold-title">
+                        {!$Label.c.PG_AP_H_Patient_Contact_Information}
                     </div>
 
                     <div class="rr-form-element slds-col slds-size--1-of-3">
@@ -78,26 +78,26 @@
     <div class="delegate-info-container">
         <!-- Delegate information: -->
         <div class="ap-section">
-            <div style="background: #F6F7FB; border: 0.1px solid; border-color: lightgrey; margin-top: 15px;">
+            <div style="background: #F6F7FB; margin-top: 15px;padding-top: 10px;min-height:40px">
                 <div class="ap-section-title" style="margin-left: 10px;">{!$Label.c.PG_Ref_L_Delegate_Information}</div>
                 <lightning:button onclick="{!c.doEditDelegate}" name="Edit" class="slds-button edit-btn slds-button--icon-inverse">
-                    <c:RRIcon iconName="icon-edit" class="edit-icon"/>
+                     <img class="edit-icon" src="{!$Resource.icon_edit}" width="16" height="16"/>
                 </lightning:button>
 
                 <aura:iteration items="{!v.delegateItems}" var="delegateItem" indexVar="ind">
                     <div class="slds-grid slds-gutters slds-wrap rr-form-element" style="margin: 10px 10px;">
-                        <div class="rr-form-element grey-text slds-col slds-size--1-of-1">
+                        <div class="rr-form-element grey-text slds-col slds-size--1-of-1 ">
                             {!delegateItem.continueDelegateMsg}
                         </div>
-                        <div class="rr-form-element grey-text slds-col slds-size--1-of-1">
+                        <div class="rr-form-element slds-col slds-size--1-of-1 delegateMsg">
                             {!delegateItem.selectedOption == '1' ? 'Continue' : 'Do not continue'}
                         </div>
 
-                        <div class="rr-form-element slds-col slds-size--1-of-3">
-                            {!$Label.c.PG_AP_H_Patient_Details}:
+                        <div class="rr-form-element slds-col slds-size--1-of-3 bold-titles">
+                            {!$Label.c.PG_AP_H_Patient_Details}
                         </div>
-                        <div class="rr-form-element slds-col slds-size--2-of-3">
-                            {!$Label.c.PG_AP_H_Patient_Contact_Information}:
+                        <div class="rr-form-element slds-col slds-size--2-of-3 bold-titles">
+                            {!$Label.c.PG_AP_H_Patient_Contact_Information}
                         </div>
 
                         <div class="rr-form-element slds-col slds-size--1-of-3">

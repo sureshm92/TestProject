@@ -64,6 +64,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         public override void beforeInsert(List<SObject> newList) {
             setChangedDate(newList);
+            updateWithStepSuccessFlags(newList);
         }
 
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -603,12 +604,18 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     ));
                 }
             } else if (oldMap == null) {
-                histories.addAll(createHistoryRecordsForPE(pe));
+                histories.addAll(ParticipantWorkflowService.createHistoryRecordsForPE(pe, (Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)));
             }
         }
         if (!histories.isEmpty()) {
             TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler.class);
             insert histories;
+        }
+    }
+    @TestVisible
+    private static void updateWithStepSuccessFlags(List<Participant_Enrollment__c> enrollments) {
+        for (Participant_Enrollment__c pe : enrollments) {
+            ParticipantWorkflowService.updatePEWithPreviousStatusesSuccess(pe, (Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c));
         }
     }
 
@@ -813,29 +820,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         if (newParticipants.size() > 0) insert newParticipants;
     }
 
-    private static List<Participant_Enrollment_Status_History__c> createHistoryRecordsForPE(Participant_Enrollment__c participantEnrollment) {
-        PEStatusState currentState = PEStatusState.STATUSES_MAP.get(participantEnrollment.Participant_Status__c);
-        List<Participant_Enrollment_Status_History__c> statusHistories = new List<Participant_Enrollment_Status_History__c>();
-        if (currentState != null) {
-            for (PEStatusState.StatusStep step : PEStatusState.STATUS_STEPS_TABLE) {
-                if (step.name == currentState.name) {
-                    statusHistories.add(new Participant_Enrollment_Status_History__c(
-                            Notes__c = participantEnrollment.Last_Status_Changed_Notes__c,
-                            Date__c = Datetime.now(),
-                            ParticipantEnrollment__c = participantEnrollment.Id,
-                            Status__c = participantEnrollment.Participant_Status__c
-                    ));
-                    break;
-                }
-                statusHistories.add(new Participant_Enrollment_Status_History__c(
-                        Notes__c = '',
-                        Date__c = Datetime.now(),
-                        ParticipantEnrollment__c = participantEnrollment.Id,
-                        Status__c = step.states.get(PEStatusState.STATUS_STATE_SUCCESS)[0]
-                ));
-            }
-        }
-        return statusHistories;
-    }
+
 
 }

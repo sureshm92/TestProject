@@ -1,0 +1,57 @@
+/**
+ * Created by Igor Iosifov on 2020-02-26.
+ */
+
+@IsTest
+private class Test_Batch_ConversationReminder {
+
+    @TestSetup
+    static void setup() {
+
+        bypassTriggers();
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+
+        Contact contactWithoutUnreadConversations = new Contact(
+                FirstName = 'Empty',
+                LastName = 'Empty',
+                Email = 'Empty@email.com',
+                Unread_Conversation_Count__c = 0
+        );
+        insert contactWithoutUnreadConversations;
+
+        Participant_Enrollment__c pe = [SELECT Id,PI_Contact__c FROM Participant_Enrollment__c LIMIT 1];
+
+        Conversation__c conversation = new Conversation__c(
+                Participant_Enrollment__c = pe.Id,
+                haveUnreadForPI__c = true,
+                FirstUnreadDate__c = Datetime.now().addDays(-6)
+        );
+        insert conversation;
+    }
+
+    @IsTest
+    static void test() {
+        Test.startTest();
+        Database.executeBatch(new Batch_ConversationReminder());
+        Test.stopTest();
+        List<Contact> allContacts = [SELECT Id FROM Contact];
+        List<Contact> updatedContacts = [SELECT Id FROM Contact WHERE Unread_Conversation_Count__c != NULL];
+        System.assertEquals(allContacts.size(), updatedContacts.size());
+        List<Notification__c> notifications = [SELECT Id FROM Notification__c];
+        System.assertEquals(2, notifications.size()); // PI + his delegate = 2 persons who will receive messages
+    }
+
+    private static void bypassTriggers() {
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.DeleteStatusHistoryOnDeleteHandler.class);
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class);
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.SwitchContactUserModeHandler.class);
+        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreateStatusHistoryHandler.class);
+        TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
+    }
+}

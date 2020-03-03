@@ -8,6 +8,7 @@ public class TasksRemote {
         @AuraEnabled public List<OpenTask> openTasksWrapper;
         @AuraEnabled public List<CompletedTask> completedTasks;
         @AuraEnabled public String emptyText;
+        @AuraEnabled public Boolean showCreateTaskButton = false;
     }
 
     public class OpenTask {
@@ -86,6 +87,7 @@ public class TasksRemote {
             } else {
                 participantTasks.emptyText = Label.PG_Task_Tab_No_Tasks;
             }
+            if (ParticipantContext.getCurrentUser() != null) participantTasks.showCreateTaskButton = true;
         } catch (Exception e) {
             return (ParticipantTasks) AuraHelper.throwException(e);
         }

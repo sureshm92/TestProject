@@ -30,18 +30,6 @@
     padding: 15px 0;
 }
 
-.THIS .visit-results-footer {
-    width: 100%;
-    color: #297DFD;
-    font-family: "Proxima Nova";
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 20px;
-    text-align: center;
-    background-color: rgba(216, 216, 216, 0.25);
-    cursor: pointer;
-}
-
 .THIS .visit-results-item {
     width: 25%;
     padding: 5px;
@@ -94,7 +82,7 @@
 }
 
 .THIS .hptp-body {
-    padding-top: 10px;
+    padding: 0 15px 15px 15px;
 }
 
 .THIS .objective-section{

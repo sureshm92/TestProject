@@ -3,7 +3,7 @@
                          relatedToType="Participant_Enrollment__c"
                          language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody >
+    <messaging:htmlEmailBody>
         <c:EmailTemplate recipientId="{!recipient.Id}"
                          sourceId="{!relatedTo.Id}"
                          parametersProvider="Email_Template_Parameters_From_PE"
@@ -12,11 +12,12 @@
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Medication_Task_Reminder}"
                          signature="{!$Label.Email_Signature_PPST}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
+                              resourceId="{!relatedTo.Id}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
+    <messaging:plainTextEmailBody>
         <c:EmailTemplateText recipientId="{!recipient.Id}"
                              sourceId="{!relatedTo.Id}"
                              parametersProvider="Email_Template_Parameters_From_PE"
@@ -25,7 +26,8 @@
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Medication_Task_Reminder}"
                              signature="{!$Label.Email_Signature_PPST}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
+                                  resourceId="{!relatedTo.Id}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 

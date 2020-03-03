@@ -35,7 +35,9 @@ public abstract with sharing class TrialBuilder {
                         BillingStateCode,
                         Phone,
                         BillingLongitude,
-                        BillingLatitude
+                        BillingLatitude,
+            			Driving_Directions__c,
+            			Parking_Instructions__c
                 FROM Account
                 WHERE Id IN :accIds
         ];
@@ -54,6 +56,8 @@ public abstract with sharing class TrialBuilder {
         wrapper.studySiteId = studySiteId;
         wrapper.hcpStatus = hcpStatus;
         wrapper.hcpStatusLabel = TranslateHelper.getPickListLabel(HCP_Enrollment__c.Status__c, hcpStatus);
+        wrapper.drivingDirection = acc.Driving_Directions__c;
+        wrapper.otherGuidance = acc.Parking_Instructions__c;
         return wrapper;
     }
 
