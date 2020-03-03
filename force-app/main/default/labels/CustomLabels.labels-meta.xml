@@ -12945,6 +12945,13 @@ View study documents and other resources including articles and videos related t
         <value>Please, complete your profile under Account Settings</value>
     </labels>
     <labels>
+        <fullName>Task_Subject_Select_COI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Subject Select COI</shortDescription>
+        <value>If you want to see more study resources related to diagnosis, please select relevant conditions of interest in account settings</value>
+    </labels>
+    <labels>
         <fullName>Task_Tab_Completed_Tasks</fullName>
         <language>en_US</language>
         <protected>false</protected>

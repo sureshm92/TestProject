@@ -102,21 +102,23 @@ public with sharing class TrialSearchHelper {
     }
 
     public void createSubscribeConnection(Id ctpId) {
-        Topic__c topic = NotificationService.getTopicOrCreateNew(ctpId);
-        CommunityService communityService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
-        Id conId = communityService.getCurrentContactId();
-        List<Contact_Topic__c> subAlreadyExist = [
+        Id conId = CommunityService.getInstance().getCurrentContactId();
+        List<Contact_Topic__c> existedContactTopics = [
                 SELECT Id, Contact__c
                 FROM Contact_Topic__c
                 WHERE Contact__c = :conId
         ];
-        if (subAlreadyExist.isEmpty()) {
-            subAlreadyExist.add(new Contact_Topic__c(
-                    Contact__c = conId,
-                    Topic__c = topic.Id
-            ));
+        if (existedContactTopics.isEmpty()) {
             try {
-                insert subAlreadyExist;
+                insert new Contact_Topic__c(
+                        Contact__c = conId,
+                        Topic__c = NotificationService.getTopicOrCreateNew(ctpId).Id
+                );
+                insert new Notification__c(
+                        WhatId__c = ctpId,
+                        Recipient__c = conId,
+                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_COI_CTP_TYPE
+                );
             } catch (DmlException e) {
             }
         }

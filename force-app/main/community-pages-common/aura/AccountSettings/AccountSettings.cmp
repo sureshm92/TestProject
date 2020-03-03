@@ -19,7 +19,7 @@
 
     <aura:attribute name="isUpdated" type="Boolean"/>
     <aura:attribute name="closeButtonClicked" type="Boolean" default="false"
-                    description="if close button on popap clicked, this value will change"/>
+                    description="if close button on popup clicked, this value will change"/>
     <aura:attribute name="showModal" type="Boolean" default="false"/>
 
     <!-- handlers: -->
@@ -144,7 +144,7 @@
                                     </aura:if>
                                 </div>
                             </aura:if>
-                            <div style="height: 25px"></div>
+                            <div style="height: 25px" id="coi"></div>
                             <div class="as-email-preference">
                                 <div class="as-title ">{!$Label.c.PG_AS_L_Conditions_of_Interest}</div>
                                 <div class="as-sub-title">
