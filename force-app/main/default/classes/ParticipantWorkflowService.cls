@@ -185,7 +185,7 @@ public without sharing class ParticipantWorkflowService {
                     replace('##Notes',notesString);
         }
         if(String.isBlank(step.History_Item_Details_Template_Label__c)){
-            historyWrapper.detail = ' '+ TranslateHelper.getLabelValue('PE_Status_History_On_Date') +' ' + pesh.Date__c.date().format()
+            historyWrapper.detail = ' '+ TranslateHelper.getLabelValue('PE_Status_History_On_Date') +' ' + pesh.Date__c.format()
                     + ' ' + TranslateHelper.getLabelValue('PG_IMI_L_by_user') + ' '+ pesh.CreatedBy.Name;
         }
         else{
@@ -195,7 +195,7 @@ public without sharing class ParticipantWorkflowService {
                             :pesh.ParticipantEnrollment__r.PI_Contact__r.Name):
                     pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c;
             historyWrapper.detail = ' ' + TranslateHelper.getLabelValue(step.History_Item_Details_Template_Label__c).
-                    replace('##Date',pesh.Date__c.date().format()).
+                    replace('##Date',pesh.Date__c.format()).
                     replace('##ByUser',pesh.CreatedBy.Name).
                     replace('##Source', sourceString);
         }
