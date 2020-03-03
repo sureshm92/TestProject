@@ -14,6 +14,8 @@ public with sharing class Test_Batch_CreateBecomeAdultNotification {
 
         String birthdayToReceiveAlert = String.valueOf(Datetime.now().addDays(7).addYears(-18)).substring(0,10);
         Participant__c participant = new Participant__c(
+                First_Name__c = 'newParticipant',
+                Last_Name__c = 'newParticipant',
                 Date_of_Birth__c = birthdayToReceiveAlert,
                 Mailing_Country_Code__c = 'US',
                 Mailing_State_Code__c = 'AL'
