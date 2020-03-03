@@ -58,12 +58,12 @@ public class TestData {
                 SELECT Id,
                         Participant_Contact__c,
                         Participant_Contact__r.Visit_Results_Opt_In__c,
-                        Screening_ID__c
+                        Screening_ID__c, Medical_Record_Review_Completed_Date__c
                 FROM Participant_Enrollment__c
                 WHERE Participant__c = :participant.Id
         ];
         hcpEnrollment = [
-                SELECT Id
+                SELECT Id, Orientation_Date__c
                 FROM HCP_Enrollment__c
                 WHERE HCP_Contact__r.LastName = 'HCPTD'
                 LIMIT 1
@@ -225,7 +225,8 @@ public class TestData {
                 Study_Documents_Are_Available__c = true,
                 Video_And_Articles_Are_Available__c = true,
                 Travel_Vendor_Is_Available__c = true,
-                Relevant_Links_Are_Available__c = true
+                Relevant_Links_Are_Available__c = true,
+                Sponsor_Pays_for_Referral_Activity__c = 'Yes'
         );
         insert study;
 
@@ -245,7 +246,8 @@ public class TestData {
                 Site__c = studySiteAccount.Id,
                 Study_Site_Type__c = 'Traditional',
                 Suppress_Participant_Emails__c = false,
-                Study_Site_Number__c = 'SS1'
+                Study_Site_Number__c = 'SS1',
+                Billable_Code_CRM_Number__c = 'Test_Billable_Code'
         );
         insert studySite;
         studySite.Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED;
