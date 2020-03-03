@@ -3778,7 +3778,7 @@
     </objectPermissions>
     <pageAccesses>
         <apexPage>ChangePassword</apexPage>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
         <apexPage>CustomLabelRenderPage</apexPage>
@@ -3790,11 +3790,11 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>ImportPatientsCSV</apexPage>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
         <apexPage>RRChangePassword</apexPage>
-        <enabled>false</enabled>
+        <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
         <apexPage>RRPDFViewer</apexPage>
