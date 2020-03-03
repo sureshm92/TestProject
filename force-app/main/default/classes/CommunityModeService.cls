@@ -78,24 +78,12 @@ public without sharing class CommunityModeService {
             List<Participant_Enrollment__c> pastPEList = pePastMap.get(userParticipant.Id);
             Boolean hasPastStudies = pastPEList != null && pastPEList.size() > 0;
 
-            CommunityTemplate currentTemplate;
-            String sitePrefix = Site.getPathPrefix().replace('/s', '').replace('/', '');
-            List<PermissionSetAssignment> permissions = [
-                    SELECT PermissionSet.Name FROM PermissionSetAssignment WHERE AssigneeId = :UserInfo.getUserId()
-            ];
-            for(PermissionSetAssignment permission : permissions) {
-                if(permission.PermissionSet.Name.containsIgnoreCase(sitePrefix)) {
-                    currentTemplate = CommunityTemplateService.getTemplateByPermissionSetName(permission.PermissionSet.Name);
-                    if(currentTemplate != null) break;
-                }
-            }
-
             CommunityMode mode = new CommunityMode(
                     USER_MODE_PARTICIPANT,
                     userParticipant.First_Name__c + ' ' + userParticipant.Last_Name__c,
                     null,
                     null,
-                    currentTemplate != null ? currentTemplate : CommunityTemplateService.getDefaultTemplate()
+                    CommunityTemplateService.getTemplateByCommunityName(UserContext.getCurrentCommunityName())
             );
             mode.hasPastStudies = hasPastStudies;
             modes.add(mode);

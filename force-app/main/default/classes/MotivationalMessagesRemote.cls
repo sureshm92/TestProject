@@ -51,8 +51,7 @@ public without sharing class MotivationalMessagesRemote {
 
             TranslateHelper.translate(messageForShow);
 
-            String resultMessage = communityMode.isDelegate ?
-                    getMessageForDelegate(messageForShow, participantState) : getMessageForParticipant(messageForShow, participantState);
+            String resultMessage = getMessage(messageForShow, participantState);
 
             resultMessage = CatalogParametersHelper.prepareMergeFields(
                     resultMessage,
@@ -66,20 +65,7 @@ public without sharing class MotivationalMessagesRemote {
         return null;
     }
 
-    private static String getMessageForDelegate(Motivational_Message__c messageForShow, ParticipantService.ParticipantState participantState) {
-        if (messageForShow == null) return null;
-        if (SettingStoreService.get(messageForShow.Name + participantState.pe.Id, UserInfo.getUserId()) != null) return null;
-
-        MotivationalMessages message = new MotivationalMessages(messageForShow);
-        SettingStoreService.save(
-                messageForShow.Name + participantState.pe.Id,
-                message,
-                MotivationalMessagesRemote.MotivationalMessages.class
-        );
-        return message.message;
-    }
-
-    private static String getMessageForParticipant(Motivational_Message__c messageForShow, ParticipantService.ParticipantState participantState) {
+    private static String getMessage(Motivational_Message__c messageForShow, ParticipantService.ParticipantState participantState) {
         if (messageForShow == null) return null;
         if (participantState.pe.Motivational_Message_Id__c == messageForShow.Id) return null;
 

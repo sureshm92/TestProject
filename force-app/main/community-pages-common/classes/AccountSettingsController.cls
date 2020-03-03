@@ -10,6 +10,7 @@ public without sharing class AccountSettingsController {
             initData.myContact = getCurrentContact();
             ContactService.applyRelevantNames(initData.myContact);
             initData.cookieSettings = getCookieSettings();
+            initData.cookieDescription = Label.AccountSettings_Cookie_Description;
 
             if (initData.myContact.primaryContact__c == null) {
                 if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
@@ -37,6 +38,10 @@ public without sharing class AccountSettingsController {
                         initData.contactSectionData.participantHasUpdateTasks = !tasks.isEmpty();
                     }
 
+                    initData.cookieDescription = Label.PP_Account_Settings_Cookie_Description;
+                    initData.cookieDescription = initData.cookieDescription.replace(
+                            '##CommunityWelcome', UserContext.getTemplateProperty('CommunityWelcome')
+                    );
                     ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
                     List<Participant_Enrollment__c> participantEnrollments = new List<Participant_Enrollment__c>();
                     List<Id> peIds = new List<Id>();
@@ -338,10 +343,10 @@ public without sharing class AccountSettingsController {
         @AuraEnabled public Contact myContact;
         @AuraEnabled public String userName;
         @AuraEnabled public String message;
+        @AuraEnabled public String cookieDescription;
         @AuraEnabled public List<CookieSettings> cookieSettings;
         @AuraEnabled public Boolean isSMSAvailableFromSS = false;
         @AuraEnabled public ContactSectionData contactSectionData = new ContactSectionData();
-
         @AuraEnabled public Participant__c participant;
     }
 

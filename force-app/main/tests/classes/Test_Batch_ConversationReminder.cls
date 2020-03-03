@@ -33,14 +33,29 @@ private class Test_Batch_ConversationReminder {
 
     @IsTest
     static void test() {
+        delete [SELECT Id FROM Notification__c];
+
         Test.startTest();
         Database.executeBatch(new Batch_ConversationReminder());
         Test.stopTest();
-        List<Contact> allContacts = [SELECT Id FROM Contact];
-        List<Contact> updatedContacts = [SELECT Id FROM Contact WHERE Unread_Conversation_Count__c != NULL];
+        List<Contact> allContacts = [
+                SELECT Id
+                FROM Contact
+        ];
+        List<Contact> updatedContacts = [
+                SELECT Id
+                FROM Contact
+                WHERE Unread_Conversation_Count__c != NULL
+        ];
         System.assertEquals(allContacts.size(), updatedContacts.size());
+        List<Contact> contactsToReceiveEmail = [
+                SELECT Id
+                FROM Contact
+                WHERE Unread_Conversation_Count__c != NULL
+                AND Unread_Conversation_Count__c != 0
+        ];
         List<Notification__c> notifications = [SELECT Id FROM Notification__c];
-        System.assertEquals(2, notifications.size()); // PI + his delegate = 2 persons who will receive messages
+        System.assertEquals(contactsToReceiveEmail.size(), notifications.size());
     }
 
     private static void bypassTriggers() {
