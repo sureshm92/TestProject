@@ -10,8 +10,12 @@
 }
 
 .THIS .p-container .p-content {
-	padding: 0 24px 30px;
-    max-height: 55vh;
+	padding: 0 24px 40px;
+    max-height: 79%;
+}
+
+.THIS .p-content .form-content {
+    padding-bottom: 15px;
 }
 
 .THIS .p-container.large > div:last-child{
