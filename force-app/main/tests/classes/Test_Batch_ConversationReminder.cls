@@ -33,6 +33,8 @@ private class Test_Batch_ConversationReminder {
 
     @IsTest
     static void test() {
+        delete [SELECT Id FROM Notification__c];
+
         Test.startTest();
         Database.executeBatch(new Batch_ConversationReminder());
         Test.stopTest();
