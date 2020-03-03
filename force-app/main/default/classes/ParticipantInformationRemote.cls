@@ -188,6 +188,8 @@ public without sharing class ParticipantInformationRemote {
                             MailingPostalCode,
                             MailingStateCode,
                             MailingCountryCode,
+                            MailingState,
+                            MailingCountry,
                             Email,
                             HomePhone,
                             MobilePhone,
