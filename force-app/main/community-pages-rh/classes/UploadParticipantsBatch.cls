@@ -32,7 +32,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         this.selectedStatus = selectedStatus;
         this.createUsers = createUsers;
 
-        studySiteDetails = [SELECT Id, Name, Principal_Investigator__c, Clinical_Trial_Profile__c FROM Study_Site__c WHERE Id = :studySiteId];
+        studySiteDetails = [SELECT Id, Name, Principal_Investigator__c, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE Id = :studySiteId];
 
         listOfFailedRecordsWithMsg.add('Row Index, Failed Reason');
         String line = header.trim().removeEnd(',').trim().removeEnd(',');
@@ -83,6 +83,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         }
 
         try {
+            Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+            String permissionSetName = CommunityTemplateService.getTemplate(studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
+
             Map<Id, Contact> contactsById = new Map<Id, Contact>();
             Map<Id, Participant__c> participantsByContact = new Map<Id, Participant__c>();
             Map<Id, Participant_Enrollment__c> participantEnrollmentsByContact = new Map<Id, Participant_Enrollment__c>();
@@ -264,6 +267,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         contactsById.put(participantContact.Id, participantContact);
                         participantsByContact.put(participantContact.Id, participant);
                         participantEnrollmentsByContact.put(participantContact.Id, participantEnrollment);
+
+                        actionAssignContactPermissions.addPermission(participantContact.Id, permissionSetName);
                     }
                 } else {
                     errorRecordCount++;
@@ -326,92 +331,100 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 system.debug('!contactsById.isEmpty()');
                 if (!participantsByContact.isEmpty()) {
                     system.debug('!participantsByContact.isEmpty()');
-                    List<Database.SaveResult> saveReses = Database.insert(participantsByContact.values());
-                    for (Database.SaveResult saveRes : saveReses) {
-                        if (!saveRes.isSuccess()) {
-                            Database.Error error = saveRes.getErrors().get(0);
-                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
-                            system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
-                        } else {
-                            insertedContacts.add(saveRes.getId());
+                    try {
+                        List<Database.SaveResult> saveReses = Database.insert(participantsByContact.values());
+                        for (Database.SaveResult saveRes : saveReses) {
+                            if (!saveRes.isSuccess()) {
+                                Database.Error error = saveRes.getErrors().get(0);
+                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
+                                system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
+                            } else {
+                                insertedContacts.add(saveRes.getId());
+                            }
                         }
+                    } catch (Exception exp) {
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant record insert: ' + exp.getMessage());
+                        system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant record insert: ' + exp.getMessage());
                     }
                 }
             }
 
 
-                for (Contact participantContact : contactsById.values()) {
-                    Participant_Enrollment__c participantEnrollment = participantEnrollmentsByContact.get(participantContact.Id);
-                    if (participantsByContact.get(participantContact.Id) != null) {
-                        participantEnrollment.Participant__c = participantsByContact.get(participantContact.Id).Id;
-                    }
+            for (Contact participantContact : contactsById.values()) {
+                Participant_Enrollment__c participantEnrollment = participantEnrollmentsByContact.get(participantContact.Id);
+                if (participantsByContact.get(participantContact.Id) != null) {
+                    participantEnrollment.Participant__c = participantsByContact.get(participantContact.Id).Id;
                 }
+            }
 
-                if (!participantEnrollmentsByContact.isEmpty()) {
-                    system.debug('!participantEnrollmentsByContact.isEmpty()');
-                    List<Database.SaveResult> saveReses = Database.insert(participantEnrollmentsByContact.values());
-                    for (Database.SaveResult saveRes : saveReses) {
-                        if (!saveRes.isSuccess()) {
-                            errorRecordCount++;
-                            Database.Error error = saveRes.getErrors().get(0);
-                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
-                            system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
-                        }
+            if (!participantEnrollmentsByContact.isEmpty()) {
+                system.debug('!participantEnrollmentsByContact.isEmpty()');
+                List<Database.SaveResult> saveReses = Database.insert(participantEnrollmentsByContact.values());
+                for (Database.SaveResult saveRes : saveReses) {
+                    if (!saveRes.isSuccess()) {
+                        errorRecordCount++;
+                        Database.Error error = saveRes.getErrors().get(0);
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
+                        system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
                     }
                 }
-                if(createUsers) {
-                    if(!insertedContacts.isEmpty()){
-                        for(Contact c : contactsById.values()){
-                            if(insertedContacts.contains(participantsByContact.get(c.Id).Id)){
-                                if(participantEnrollmentsByContact.get(c.Id) != null) {
-                                    createUsersMap.put(participantEnrollmentsByContact.get(c.Id).Participant_Contact__c, participantEnrollmentsByContact.get(c.Id).PI_Contact__c);
-                                } else {
-                                    insertUsersWithDefaultSettings.add(c.Id);
-                                }
+            }
+            if(createUsers) {
+                if(!insertedContacts.isEmpty()){
+                    for(Contact c : contactsById.values()){
+                        if(insertedContacts.contains(participantsByContact.get(c.Id).Id)){
+                            if(participantEnrollmentsByContact.get(c.Id) != null) {
+                                createUsersMap.put(participantEnrollmentsByContact.get(c.Id).Participant_Contact__c, participantEnrollmentsByContact.get(c.Id).PI_Contact__c);
+                            } else {
+                                insertUsersWithDefaultSettings.add(c.Id);
                             }
                         }
                     }
-                    if(!duplicateContacts.isEmpty()){
-                        for(Contact cont : duplicateContacts.values()){
-                            if(!duplicateContactUsersMap.keySet().contains(cont.Id)){
-                                if(participantEnrollmentsByContact.get(cont.Id) != null) {
-                                    createUsersMap.put(participantEnrollmentsByContact.get(cont.Id).Participant_Contact__c, participantEnrollmentsByContact.get(cont.Id).PI_Contact__c);
-                                } else {
-                                    insertUsersWithDefaultSettings.add(cont.Id);
-                                }
+                }
+                if(!duplicateContacts.isEmpty()){
+                    for(Contact cont : duplicateContacts.values()){
+                        if(!duplicateContactUsersMap.keySet().contains(cont.Id)){
+                            if(participantEnrollmentsByContact.get(cont.Id) != null) {
+                                createUsersMap.put(participantEnrollmentsByContact.get(cont.Id).Participant_Contact__c, participantEnrollmentsByContact.get(cont.Id).PI_Contact__c);
+                            } else {
+                                insertUsersWithDefaultSettings.add(cont.Id);
                             }
                         }
                     }
-                    if (!createUsersMap.isEmpty()) {
-                        ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(createUsersMap);
-                    }
-                    if(!insertUsersWithDefaultSettings.isEmpty()){
-                        ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(insertUsersWithDefaultSettings);
-                    }
                 }
+                if (!createUsersMap.isEmpty()) {
+                    ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(createUsersMap);
+                }
+                if (!insertUsersWithDefaultSettings.isEmpty()) {
+                    ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(insertUsersWithDefaultSettings);
+                }
+                if (!actionAssignContactPermissions.isEmpty()) {
+                    ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                }
+            }
 
-                List<Participant_Study_Enrollment__c> partStdEnrolls = new List<Participant_Study_Enrollment__c>();
-                for (Contact participantContact : contactsById.values()) {
-                    Participant_Enrollment__c participantEnrollment = participantEnrollmentsByContact.get(participantContact.Id);
-                    partStdEnrolls.add(new Participant_Study_Enrollment__c(Clinical_Trial_Profile__c = studySiteDetails.Clinical_Trial_Profile__c,
-                            Participant__c = participantEnrollment.Participant__c,
-                            Participant_Contact__c = participantContact.Id,
-                            Participant_Enrollment__c = participantEnrollment.Id,
-                            PI_Contact__c = studySiteDetails.Principal_Investigator__c,
-                            Study_Site__c = studySiteDetails.Id));
-                }
+            List<Participant_Study_Enrollment__c> partStdEnrolls = new List<Participant_Study_Enrollment__c>();
+            for (Contact participantContact : contactsById.values()) {
+                Participant_Enrollment__c participantEnrollment = participantEnrollmentsByContact.get(participantContact.Id);
+                partStdEnrolls.add(new Participant_Study_Enrollment__c(Clinical_Trial_Profile__c = studySiteDetails.Clinical_Trial_Profile__c,
+                        Participant__c = participantEnrollment.Participant__c,
+                        Participant_Contact__c = participantContact.Id,
+                        Participant_Enrollment__c = participantEnrollment.Id,
+                        PI_Contact__c = studySiteDetails.Principal_Investigator__c,
+                        Study_Site__c = studySiteDetails.Id));
+            }
 
-                if (!partStdEnrolls.isEmpty()) {
-                    system.debug('!partStdEnrolls.isEmpty()');
-                    List<Database.SaveResult> saveReses = Database.insert(partStdEnrolls);
-                    for (Database.SaveResult saveRes : saveReses) {
-                        if (!saveRes.isSuccess()) {
-                            Database.Error error = saveRes.getErrors().get(0);
-                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Study Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
-                            system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
-                        }
+            if (!partStdEnrolls.isEmpty()) {
+                system.debug('!partStdEnrolls.isEmpty()');
+                List<Database.SaveResult> saveReses = Database.insert(partStdEnrolls);
+                for (Database.SaveResult saveRes : saveReses) {
+                    if (!saveRes.isSuccess()) {
+                        Database.Error error = saveRes.getErrors().get(0);
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Study Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
+                        system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
                     }
                 }
+            }
 
             system.debug('HEAP SIZE IS: ' + limits.getHeapSize() + ' enforced is: ' + limits.getLimitHeapSize() + 'on totalRecordCount: ' + totalRecordCount);
         } catch (Exception exp) {
@@ -469,13 +482,15 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         failedMsgsEfa.setBody(Blob.valueOf(failedRecordsCSVMsgs));
 
         Savepoint sp = Database.setSavepoint();
-        Messaging.sendEmail(new Messaging.SingleEmailMessage[] { adminEmailToSend });
+        if (!Test.isRunningTest()) {
+            Messaging.sendEmail(new Messaging.SingleEmailMessage[] { adminEmailToSend });
+        }
         Database.rollback(sp);
 
-        String htmlBody = adminEmailToSend.getHtmlBody();
+        String htmlBody = (!Test.isRunningTest() ? adminEmailToSend.getHtmlBody() : 'test');
         htmlBody = htmlBody.replace('##SucRecCount', '' + (totalRecordCount - errorRecordCount));
         htmlBody = htmlBody.replace('##TotalRecCount', '' + totalRecordCount);
-        String plainBody = adminEmailToSend.getPlainTextBody();
+        String plainBody = (!Test.isRunningTest() ? adminEmailToSend.getPlainTextBody() : 'test');
         plainBody = plainBody.replace('##SucRecCount', '' + (totalRecordCount - errorRecordCount));
         plainBody = plainBody.replace('##TotalRecCount', '' + totalRecordCount);
 

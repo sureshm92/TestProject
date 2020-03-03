@@ -2,6 +2,10 @@
  * Created by Andrii Kryvolap.
  */
 ({
+    doInit : function (component, event, helper) {
+        let field = component.get('v.field');
+        component.set('v.previousValue', field.value);
+    },
     onValueChange: function (component, event, helper) {
         let parent = component.get('v.parent');
         let field = component.get('v.field');
@@ -12,12 +16,19 @@
     onBlur: function (component, event, helper) {
         let parent = component.get('v.parent');
         let field = component.get('v.field');
-        if(parent!=null && field != undefined){
+        let previousValue = component.get('v.previousValue');
+        if(parent!=null && field !== undefined){
             let validity = event.getSource().get('v.validity');
             field.valid = validity.valid;
             component.set('v.field', field);
             parent.fieldChanged(field.field, field.value);
         }
+        debugger;
+        if((previousValue === '' || previousValue === undefined || previousValue === null) && (field.value !== undefined
+            && field.value !== null && field.value !== '' && field.populateFields !== undefined && field.populateFields !== null)){
+            parent.populateFields(field.populateFields);
+        }
+        component.set('v.previousValue', field.value);
 
 
     }

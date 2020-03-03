@@ -47,7 +47,7 @@ public with sharing class IntegrationVisitTriggerHandler{
         Map<Id, Patient_Visit__c> visitsToUpdateMap = new Map<Id, Patient_Visit__c>();
         List<Patient_Visit__c> visitsToInsert = new List<Patient_Visit__c>();
         Map<String, Decimal> maxCompletedVisitMap = new Map<String, Decimal>();
-        Set<Patient_Visit__c> visitsToDelete = new Set<Patient_Visit__c>();
+        Map<Id, Patient_Visit__c> visitsToDeleteMap = new Map<Id, Patient_Visit__c>();
         for(Integration_Visit__c integrationVisit : integrationVisits) {
             Boolean matchFound = false;
             Participant_Enrollment__c pe = peMap.get(integrationVisit.USUBJID__c);
@@ -69,7 +69,7 @@ public with sharing class IntegrationVisitTriggerHandler{
                             visitsToUpdateMap.put(visit.Id, visit);
                         } else {
                             visit.Status__c = 'Pending';
-                            visitsToDelete.add(visit);
+                            visitsToDeleteMap.put(visit.Id, visit);
                         }
                     }
                 }
@@ -97,7 +97,7 @@ public with sharing class IntegrationVisitTriggerHandler{
     
         update integrationVisits;
         update visitsToUpdateMap.values();
-        delete new List<Patient_Visit__c>(visitsToDelete);
+        delete visitsToDeleteMap.values();
         insert visitsToInsert;
     }
 

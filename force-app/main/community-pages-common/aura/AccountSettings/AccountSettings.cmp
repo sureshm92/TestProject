@@ -9,6 +9,8 @@
     <aura:attribute name="contactSectionData" type="Object"/>
     <aura:attribute name="personWrapper" type="Object"/>
     <aura:attribute name="contact" type="Contact"/>
+    <aura:attribute name="optInEmail" type="Boolean"/>
+    <aura:attribute name="optInSMS" type="Boolean"/>
 
     <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
     <aura:attribute name="showEmailPrefSpinner" type="Boolean" default="false" access="private"/>
@@ -17,7 +19,7 @@
 
     <aura:attribute name="isUpdated" type="Boolean"/>
     <aura:attribute name="closeButtonClicked" type="Boolean" default="false"
-                    description="if close button on popap clicked, this value will change"/>
+                    description="if close button on popup clicked, this value will change"/>
     <aura:attribute name="showModal" type="Boolean" default="false"/>
 
     <!-- handlers: -->
@@ -123,7 +125,7 @@
                                                  variant="label-hidden"
                                                  messageToggleInactive="{!$Label.c.BTN_Off}"
                                                  class="slds-col ah-toggle"
-                                                 checked="{!v.personWrapper.optInEmail}"
+                                                 checked="{!v.optInEmail}"
                                                  onchange="{!c.doSwitchOptInEmail}"/>
                                 {!$Label.c.PG_AS_L_Opt_In_Participant_Status_Emails}
                             </div>
@@ -136,13 +138,13 @@
                                                          variant="label-hidden"
                                                          messageToggleInactive="{!$Label.c.BTN_Off}"
                                                          class="slds-col ah-toggle"
-                                                         checked="{!v.personWrapper.optInSMS}"
+                                                         checked="{!v.optInSMS}"
                                                          onchange="{!c.doSwitchOptInSMS}"/>
                                         {!$Label.c.PG_AS_L_Opt_In_Participant_Status_SMS}
                                     </aura:if>
                                 </div>
                             </aura:if>
-                            <div style="height: 25px"></div>
+                            <div style="height: 25px" id="coi"></div>
                             <div class="as-email-preference">
                                 <div class="as-title ">{!$Label.c.PG_AS_L_Conditions_of_Interest}</div>
                                 <div class="as-sub-title">
@@ -162,7 +164,7 @@
                 <div class="as-email-preference">
                     <div class="as-title">{!$Label.c.AccountSettings_Cookie_Settings}</div>
                     <div class="as-sub-title"
-                         style="margin-bottom: 15px">{!if(v.userMode == 'Participant', $Label.c.PP_Account_Settings_Cookie_Description, $Label.c.AccountSettings_Cookie_Description)}
+                         style="margin-bottom: 15px">{!v.initData.cookieDescription}
                     </div>
                     <div class="collapse-section slds-m-top--large">
                         <c:RRCollapse label="{!$Label.c.AccountSettings_Strictly_Necessary_Cookies}" isCollapsed="true">

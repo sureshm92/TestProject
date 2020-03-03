@@ -35,6 +35,12 @@ public without sharing class HelpController {
                     'Display_Solution_Label__c',
                     'Description_Placeholder_Label__c'
             });
+
+            Map<String, String> paramMap = new Map<String, String>{
+                    'CommunityBrandName' => UserContext.getTemplateProperty('CommunityBrandName'),
+                    'CommunityWelcome' => UserContext.getTemplateProperty('CommunityWelcome')
+            };
+
             for(Help_Topic__mdt topic : helpTopics){
                 HelpTopicWrapper tw = new HelpTopicWrapper();
                 tw.type = topic.CaseType__c;
@@ -46,8 +52,12 @@ public without sharing class HelpController {
                 tw.knowledgeArticleLink = topic.Knowledge_Article_Link__c;
                 tw.userTypes = topic.User_Types__c;
                 tw.order = (Integer)topic.Order__c;
+
                 tw.displayName = topic.Display_Name_Label__c;
+                tw.displayName = TranslateHelper.replaceParams(tw.displayName, '##', paramMap);
                 tw.displaySolution = topic.Display_Solution_Label__c;
+                tw.displaySolution = TranslateHelper.replaceParams(tw.displaySolution, '##', paramMap);
+
                 tw.descriptionPlaceholder = topic.Description_Placeholder_Label__c;
                 tw.submitRequired = topic.Submit_Required__c;
                 tw.escalated = topic.Is_Escalated__c;
