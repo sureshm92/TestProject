@@ -8,6 +8,7 @@
             component.set('v.completedTasks', participantTasks.completedTasks);
             component.set('v.emptyTaskLabel', participantTasks.emptyText);
             component.set('v.initialized', true);
+            component.set('v.showCreateTaskButton', participantTasks.showCreateTaskButton);
         }, null, function () {
             component.find('spinner').hide();
         })

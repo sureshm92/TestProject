@@ -26,7 +26,9 @@
                 <aura:if isTrue="{!!v.fromActionParticipant &amp;&amp; v.refProvider &amp;&amp; !v.fromEmancipParticipant}">
                 <div class="header">{!$Label.c.HealthCare_Provider}</div>
                 </aura:if>
-            <div class="healthcare-info">{!!v.fromEmancipParticipant ? $Label.c.Sharing_Options_Message : $Label.c.BTN_Participant_Would_Like_Share_Info}</div>
+            <aura:if isTrue="{!v.fromEmancipParticipant}">
+            <div class="healthcare-info">{!$Label.c.BTN_Participant_Would_Like_Share_Info}</div>
+            </aura:if>
 
 
             <aura:if isTrue="{!!v.fromEmancipParticipant}">

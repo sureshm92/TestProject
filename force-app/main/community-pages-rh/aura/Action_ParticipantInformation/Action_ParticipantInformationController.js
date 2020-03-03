@@ -100,6 +100,7 @@
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
         var pathWrapper = component.get('v.participantPath');
+        pathWrapper.steps[pathWrapper.currentStepInd] = pathWrapper.currentStep;
         var statusDetailValid = component.get('v.statusDetailValid');
         pe.Participant__r = participant;
         component.find('spinner').show();
@@ -148,10 +149,10 @@
     },
 
     doUpdatePatientStatus: function (component, event, helper) {
-        debugger;
-        var pathWrapper = component.get('v.participantPath');
-        var pe = component.get('v.pe');
-        var statusDetailValid = component.get('v.statusDetailValid');
+        let pathWrapper = component.get('v.participantPath');
+        pathWrapper.steps[pathWrapper.currentStepInd] = pathWrapper.currentStep;
+        let pe = component.get('v.pe');
+        let statusDetailValid = component.get('v.statusDetailValid');
         if(statusDetailValid){
             component.find('spinner').show();
             console.log(JSON.stringify(pathWrapper));
@@ -159,8 +160,10 @@
                 pathWrapperJSON: JSON.stringify(pathWrapper),
                 peId: pe.Id
             }, function (returnValueJSON) {
+                debugger;
                 var returnValue = JSON.parse(returnValueJSON);
-                component.set('v.participantPath',returnValue);
+                component.set('v.participantPath',returnValue.participantPath);
+                component.set('v.pe', returnValue.pe);
                 var callback = component.get('v.callback');
                 if(callback){
                     callback(pe);
@@ -170,5 +173,23 @@
             });
         }
 
+    },
+    doCheckStatusDetailValidity : function (component, event, helper) {
+        debugger;
+        let currentStepInd = component.get('v.participantPath.currentStepInd');
+        let steps = component.get('v.participantPath.steps');
+        let currentStep = component.get('v.participantPath.currentStep');
+        let isValid = true;
+        for (let ind = 0; ind < steps.length; ind++) {
+            if (ind !== currentStepInd && !steps[ind].isCurrentStepValid) {
+                isValid = false;
+                break;
+            }
+            if(ind === currentStepInd && !currentStep.isCurrentStepValid){
+                isValid = false;
+                break;
+            }
+        }
+        component.set('v.statusDetailValid', isValid);
     },
 });

@@ -17,6 +17,8 @@
             component.set('v.contactChanged', initData.contactChanged);
             component.set('v.personWrapper', initData.contactSectionData.personWrapper);
             component.set('v.contactSectionData', initData.contactSectionData);
+            component.set('v.optInEmail', initData.contactSectionData.personWrapper.optInEmail);
+            component.set('v.optInSMS', initData.contactSectionData.personWrapper.optInSMS);
 
             component.set('v.contact', initData.myContact);
             component.set('v.currentEmail', initData.myContact.Email);
@@ -74,23 +76,21 @@
 
     doSwitchOptInEmail: function (component, event, helper) {
         let initData = component.get('v.initData');
-        let optInEmail = component.get('v.personWrapper.optInEmail');
+        let optInEmail = component.get('v.optInEmail');
         communityService.executeAction(component, 'changeOptInEmail', {
             participantOptInStatusEmail: optInEmail,
             hcpOptInPatientEmail: initData.myContact.HCP_Opt_In_Patient_Status_Emails__c,
             hcpOptInStudyEmail: initData.myContact.HCP_Opt_In_Study_Emails__c,
             hcpOptInRefStatusEmail: initData.myContact.HCP_Opt_In_Referral_Status_Emails__c
-        }, function () {
-            //do nothing
-        });
+        }, function () {});
     },
 
     doSwitchOptInSMS: function (component, event, helper) {
-        let personWrapper = component.get('v.personWrapper');
+        let optInSMS = component.get('v.optInSMS');
         communityService.executeAction(component, 'changeOptInSMS', {
-            participantOptInStatusSMS: personWrapper.optInSMS
+            participantOptInStatusSMS: optInSMS
         }, function () {
-            component.find('contact-info-section').scrollOnMobileField(personWrapper.optInSMS);
+            component.find('contact-info-section').scrollOnMobileField(optInSMS);
         });
     },
 
@@ -157,6 +157,8 @@
 
     onEditPerson: function (component, event, helper) {
         let personWrapper = event.getSource().get('v.personWrapper');
+        component.set('v.optInEmail', personWrapper.optInEmail);
+        component.set('v.optInSMS', personWrapper.optInSMS);
         component.set('v.personWrapper', personWrapper);
     }
 });

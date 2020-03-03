@@ -80,7 +80,10 @@ public without sharing class PETriggerBuffer {
                         Patient_Portal_Enabled__c,
                         Visit_Plan__c,
                         Protocol_ID__c,
-                        CommunityTemplate__c
+                        CommunityTemplate__c,
+                        Tasks_Are_Available__c,
+                        Initial_Visit_Required__c,
+                        Participant_Workflow_Final_Step__c
                 FROM Clinical_Trial_Profile__c
                 WHERE Id IN:ctpIds
         ]);
