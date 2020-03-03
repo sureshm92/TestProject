@@ -106,7 +106,7 @@ public without sharing class NotificationAvailabilityService {
             if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
                 Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
                 Contact contact = contactByIdMap.get(contactId);
-                if (((contact.UserCommunityIsDelegate__c && contact.Participant_Opt_In_Status_Emails__c) || pe.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c)
+                if (((contact.UserCommunityIsDelegate__c && contact.Participant_Opt_In_Status_Emails__c) || !contact.UserCommunityIsDelegate__c && pe.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c)
                         && !pe.Study_Site__r.Suppress_Participant_Emails__c
                         && !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c
                         && !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c) {

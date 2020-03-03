@@ -106,7 +106,7 @@ public without sharing class HCPEnrollmentTriggerHandler {
         for (User user : CommunityService.getCommunityUsersByContactIds(hcpContactIds)) contactIdsWithCreatedUser.add(user.ContactId);
         Set<Id> contactIdsForCreateUsers = new Set<Id>();
         Map<Id, HCP_Enrollment__c> newMap = new Map<Id, HCP_Enrollment__c>(newList);
-        Map<Id, Contact> alreadyCreatedContactsMap = new Map<Id, Contact>([SELECT Id, Is_First_Logon__c FROM Contact WHERE Id IN :hcpContactIds AND Is_First_Logon__c = false]);
+        Map<Id, Contact> alreadyCreatedContactsMap = new Map<Id, Contact>([SELECT Id, Is_First_Logon__c FROM Contact WHERE Id IN :hcpContactIds]);
         List<Healthcare_Provider__c> hps = [SELECT Id, HCP_Enrollment__c FROM Healthcare_Provider__c WHERE HCP_Enrollment__c IN :newMap.keySet()];
         Map<Id, Healthcare_Provider__c> hpsByHCPE = new Map<Id, Healthcare_Provider__c>();
         for (Healthcare_Provider__c hp : hps) {
@@ -120,8 +120,6 @@ public without sharing class HCPEnrollmentTriggerHandler {
                 if (contactIdsWithCreatedUser.contains(hcpe.HCP_Contact__c)) {
                     if (hpsByHCPE.get(hcpe.Id) != null || alreadyCreatedContactsMap.containsKey(hcpe.HCP_Contact__c)) {
                         notificationType = NotificationCatalog.MESSAGE_TO_HCP_NEW_STUDY_BY_PI_TYPE;
-                    } else {
-                        notificationType = NotificationCatalog.MESSAGE_TO_HCP_NEW_STUDY_TYPE;
                     }
                     notifications.add(new Notification__c(
                             Recipient__c = hcpe.HCP_Contact__c,//hcpe.Id,
