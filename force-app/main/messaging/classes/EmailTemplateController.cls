@@ -64,7 +64,12 @@ global without sharing class EmailTemplateController {
         get {
             try {
                 setDefaultValues();
-                String resValue = TranslateHelper.replaceParams(bodyValue, PARAM_PREFIX, getDataProvider().parameters);
+                String commNameFull = getPropertiesService().getPropertyValue('EmailTemplateCommunityNameLabel');
+                String commNameShort = getPropertiesService().getPropertyValue('EmailTemplateCommunityNameShort');
+                Map<String, String> parametersMap = getDataProvider().parameters;
+                parametersMap.put('CommunityName', commNameFull);
+                parametersMap.put('ShortCommunityName', commNameShort);
+                String resValue = TranslateHelper.replaceParams(bodyValue, PARAM_PREFIX, parametersMap);
                 return prepareLineBreaks(resValue);
             } catch (Exception e) {
                 EmailService.sendException(e, null);
@@ -188,11 +193,11 @@ global without sharing class EmailTemplateController {
 
     private TemplatePropertiesService propertiesService;
     public TemplatePropertiesService getPropertiesService() {
-        if(propertiesService == null) {
+        if (propertiesService == null) {
             if (sourceRecordId != null) {
                 propertiesService = new TemplatePropertiesService(
                         sourceRecordId, emailRecipientId, getDataProvider().userMode, getDataProvider().isDelegate);
-            } else{
+            } else {
                 propertiesService = new TemplatePropertiesService();
             }
         }

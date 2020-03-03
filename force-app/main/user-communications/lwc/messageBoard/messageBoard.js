@@ -152,7 +152,6 @@ export default class MessageBoard extends LightningElement {
             setTimeout(function () {
                 context.clearMessage();
                 let footerClass = '.ms-board-footer-' + (context.userMode === 'PI' ? 'pi' : 'part');
-                console.log('Class: ' + footerClass);
                 context.template.querySelector(footerClass).style.pointerEvents = context.isHoldMode ? 'none' : 'all';
             }, 50);
 
