@@ -174,4 +174,22 @@
         }
 
     },
+    doCheckStatusDetailValidity : function (component, event, helper) {
+        debugger;
+        let currentStepInd = component.get('v.participantPath.currentStepInd');
+        let steps = component.get('v.participantPath.steps');
+        let currentStep = component.get('v.participantPath.currentStep');
+        let isValid = true;
+        for (let ind = 0; ind < steps.length; ind++) {
+            if (ind !== currentStepInd && !steps[ind].isCurrentStepValid) {
+                isValid = false;
+                break;
+            }
+            if(ind === currentStepInd && !currentStep.isCurrentStepValid){
+                isValid = false;
+                break;
+            }
+        }
+        component.set('v.statusDetailValid', isValid);
+    },
 });

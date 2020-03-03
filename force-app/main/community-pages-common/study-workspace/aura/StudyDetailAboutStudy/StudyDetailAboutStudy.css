@@ -446,3 +446,18 @@
 .THIS .socialnetworks .slds-m-around_x-small {
     margin: 0 .25rem;
 }
+
+.THIS .direction {
+    margin-top: 10px;
+}
+
+.THIS .direction-title{
+    margin-bottom: 5px !important;
+}
+
+.THIS .direction-info{
+    margin-bottom: 10px !important;
+    color: #444;
+    font-size: 1rem;
+    line-height: 16px;
+}

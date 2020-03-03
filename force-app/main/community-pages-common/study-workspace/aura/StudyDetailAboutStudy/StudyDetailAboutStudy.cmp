@@ -138,6 +138,18 @@
                                                     </div>
                                                 </aura:if>
                                             </div>
+                                            <aura:if isTrue="{! and( v.userMode != 'HCP', v.userMode != 'PI' )}" >
+                                                <div class="direction">
+                                                    <aura:if isTrue="{! not(empty(accountWithEnrollments.drivingDirection))}">
+                                                        <div class="name direction-title">{!$Label.c.PG_DrivingDirection}</div>
+                                                        <div class="direction-info"> {!accountWithEnrollments.drivingDirection} </div>
+                                                    </aura:if>
+                                                    <aura:if isTrue="{! not(empty(accountWithEnrollments.otherGuidance))}">
+                                                        <div class="name direction-title">{!$Label.c.PG_OtherGuidance}</div>
+                                                        <div class="direction-info"> {!accountWithEnrollments.otherGuidance} </div>
+                                                    </aura:if>
+                                                </div>
+                                            </aura:if>
                                         </div>
                                     </aura:iteration>
                                     <aura:if isTrue="{!and(and(v.userMode == 'HCP', !v.studyDetail.actions.sendSiteRequest.disabled),not(empty(v.studyDetail.hcpe)))}">

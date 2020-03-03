@@ -185,7 +185,7 @@ public without sharing class ParticipantWorkflowService {
                     replace('##Notes',notesString);
         }
         if(String.isBlank(step.History_Item_Details_Template_Label__c)){
-            historyWrapper.detail = ' '+ TranslateHelper.getLabelValue('PE_Status_History_On_Date') +' ' + pesh.Date__c.date().format()
+            historyWrapper.detail = ' '+ TranslateHelper.getLabelValue('PE_Status_History_On_Date') +' ' + pesh.Date__c.format()
                     + ' ' + TranslateHelper.getLabelValue('PG_IMI_L_by_user') + ' '+ pesh.CreatedBy.Name;
         }
         else{
@@ -195,7 +195,7 @@ public without sharing class ParticipantWorkflowService {
                             :pesh.ParticipantEnrollment__r.PI_Contact__r.Name):
                     pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c;
             historyWrapper.detail = ' ' + TranslateHelper.getLabelValue(step.History_Item_Details_Template_Label__c).
-                    replace('##Date',pesh.Date__c.date().format()).
+                    replace('##Date',pesh.Date__c.format()).
                     replace('##ByUser',pesh.CreatedBy.Name).
                     replace('##Source', sourceString);
         }
@@ -270,6 +270,15 @@ public without sharing class ParticipantWorkflowService {
                         }
                         else{
                             fieldDependencyMap.get(fieldSetting.Depends_On_Field__c).add(fieldSetting.Field_Name__c);
+                        }
+                    }
+                    if(String.isNotBlank(fieldSetting.Populate_Fields_Map__c)){
+                        currentFieldWrapper.populateFields = new Map<String, String>();
+                        for(String fieldValueString : fieldSetting.Populate_Fields_Map__c.split(';')){
+                            List<String> fieldValuePair = fieldValueString.split('=>');
+                            if(fieldValuePair.size() == 2){
+                                currentFieldWrapper.populateFields.put(fieldValuePair[0].trim(),fieldValuePair[1].trim());
+                            }
                         }
                     }
                     Object fieldvalue;
@@ -397,7 +406,7 @@ public without sharing class ParticipantWorkflowService {
         Map<String, Participant_Workflow_Form_Field__mdt> result = new Map<String, Participant_Workflow_Form_Field__mdt>();
         for(Participant_Workflow_Form_Field__mdt field: [
                 SELECT Field_Name__c, Type__c, Condition__c, True_Value_Label__c, Title_Label__c, False_Value_Label__c,
-                        DeveloperName, Required_for_Steps__c, Readonly_for_Steps__c, Depends_On_Field__c, Only_Future_Dates__c, Only_Past_Dates__c, Required_Condition__c, Populate_from_Field__c
+                        DeveloperName, Required_for_Steps__c, Readonly_for_Steps__c, Depends_On_Field__c, Only_Future_Dates__c, Only_Past_Dates__c, Required_Condition__c, Populate_from_Field__c, Populate_Fields_Map__c
                 FROM Participant_Workflow_Form_Field__mdt]){
             if(String.isBlank(field.Condition__c) || ConditionCheckerService.checkConditionForObject(field.Condition__c, ctp)){
                 result.put(field.DeveloperName, field);
@@ -582,6 +591,7 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled public Map<String, List<String>> fieldDependencyMap;
         @AuraEnabled public List<String> successOutcomes;
         @AuraEnabled public Boolean currentOutcomeSuccess;
+        @AuraEnabled public Boolean isCurrentStepValid = true;
     }
 
     public class ParticipantWorkflowHistoryWrapper{
@@ -608,6 +618,7 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled public Boolean dependent;
         @AuraEnabled public Boolean onlyFutureDate;
         @AuraEnabled public Boolean onlyPastDate;
+        @AuraEnabled public Map<String, String> populateFields;
     }
 
     public class PathStepWrapper{

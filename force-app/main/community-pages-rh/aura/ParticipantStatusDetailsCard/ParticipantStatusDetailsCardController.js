@@ -46,12 +46,12 @@
                     for( var j = 0; j < stepWrapper.formFieldGroups[i].fields.length;j++){
                         if(dependentFields.indexOf(stepWrapper.formFieldGroups[i].fields[j].field)!=-1){
                             if(params.value==='false'){
-                                stepWrapper.formFieldGroups[i].fields[j].required = false;
+                                // stepWrapper.formFieldGroups[i].fields[j].required = false;
                                 stepWrapper.formFieldGroups[i].fields[j].value = '';
                                 stepWrapper.formFieldGroups[i].fields[j].readonly = true;
                             }
                             else{
-                                stepWrapper.formFieldGroups[i].fields[j].required = true;
+                                // stepWrapper.formFieldGroups[i].fields[j].required = true;
                                 stepWrapper.formFieldGroups[i].fields[j].readonly = false;
                             }
                         }
@@ -61,5 +61,18 @@
             }
             component.set('v.updateInProgress', false);
         }
+    },
+    doPopulateFields : function (component, event, helper) {
+        let stepWrapper = component.get('v.stepWrapper');
+        let params = event.getParam('arguments');
+        let fieldMap = params.fieldMap;
+        for(let i = 0; i < stepWrapper.formFieldGroups.length; i++ ){
+            for( let j = 0; j < stepWrapper.formFieldGroups[i].fields.length;j++){
+                if(fieldMap.hasOwnProperty(stepWrapper.formFieldGroups[i].fields[j].field)){
+                    stepWrapper.formFieldGroups[i].fields[j].value = fieldMap[stepWrapper.formFieldGroups[i].fields[j].field];
+                }
+            }
+        }
+        component.set('v.stepWrapper.formFieldGroups', stepWrapper.formFieldGroups);
     },
 })
