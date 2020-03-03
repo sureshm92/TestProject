@@ -63,7 +63,7 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
-    public static void updateParticipantAndDelegates(String participantS, String participantContactS, String delegatesS, List<String> doNotContinueIds, Boolean needsInvite) {
+    public static void updateParticipantAndDelegates(String participantS, String participantContactS, String delegatesS, List<String> doNotContinueIds, Boolean needsInvite, String studySiteId) {
         try {
             Participant__c participant = (Participant__c)JSON.deserialize(participantS, Participant__c.class);
             Contact participantContact = (Contact)JSON.deserialize(participantContactS, Contact.class);
@@ -79,10 +79,14 @@ public without sharing class ParticipantInformationRemote {
                 update participantContact;
             }
 
+            Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+            Study_Site__c studySiteDetails = [SELECT Id, Name, Principal_Investigator__c, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE Id = :studySiteId];
+            String permissionSetName = CommunityTemplateService.getTemplate(studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
             Map<Id, Id> toCreateUser = new Map<Id, Id>();
             if (needsInvite) {
                 system.debug('needsInvite: ' + needsInvite);
                 toCreateUser.put(participant.Contact__c, null);
+                actionAssignContactPermissions.addPermission(participant.Contact__c, permissionSetName);
             }
 
             List<Contact> delegateContacts = [SELECT Id FROM Contact WHERE Id IN :doNotContinueIds];
@@ -163,6 +167,9 @@ public without sharing class ParticipantInformationRemote {
 
             system.debug('toCreateUser: ' + toCreateUser);
             if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
+            if (!actionAssignContactPermissions.isEmpty()) {
+                ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+            }
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
@@ -197,7 +204,9 @@ public without sharing class ParticipantInformationRemote {
                     Last_Name__c = cnt.LastName,
                     Mailing_Zip_Postal_Code__c = cnt.MailingPostalCode,
                     Mailing_State_Code__c = cnt.MailingStateCode,
+                    Mailing_State__c = cnt.MailingState,
                     Mailing_Country_Code__c = cnt.MailingCountryCode,
+                    Mailing_Country__c = cnt.MailingCountry,
                     Email__c = cnt.Email
                 );
 
