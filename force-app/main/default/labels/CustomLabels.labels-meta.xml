@@ -4180,7 +4180,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 06 B Participant</shortDescription>
-        <value>The IQVIA™ Patient Portal is a personalized platform that allows patients to receive information about their participation in a clinical research study.</value>
+        <value>The ##CommunityBrandName is a personalized platform that allows patients to receive information about their participation in a clinical research study.</value>
     </labels>
     <labels>
         <fullName>HT_06_B_RP</fullName>
@@ -4201,7 +4201,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 06 H Participant</shortDescription>
-        <value>What is the IQVIA™ Patient Portal?</value>
+        <value>What is the ##CommunityBrandName?</value>
     </labels>
     <labels>
         <fullName>HT_06_H_RP</fullName>
@@ -4243,7 +4243,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 07 H Participant</shortDescription>
-        <value>Can I report medical problems on the Patient Portal?</value>
+        <value>Can I report medical problems on the ##CommunityWelcome?</value>
     </labels>
     <labels>
         <fullName>HT_07_H_RP</fullName>
@@ -5822,7 +5822,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT Header PP</shortDescription>
-        <value>Patient Portal Walkthrough</value>
+        <value>##CommunityWelcome Walkthrough</value>
     </labels>
     <labels>
         <fullName>OT_PI_S1_H</fullName>
@@ -7950,7 +7950,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Home Welcome Message</shortDescription>
-        <value>Hi ##UserName, welcome to Patient Portal! You can see your study status and all related information below.</value>
+        <value>Hi ##UserName, welcome to ##CommunityWelcome! You can see your study status and all related information below.</value>
     </labels>
     <labels>
         <fullName>PG_Home_Welcome_Message_Alumni</fullName>
@@ -10626,13 +10626,13 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP Account Settings Cookie Description</shortDescription>
-        <value>Some essential features on Patient Portal site just won&#39;t work
+        <value>Some essential features on ##CommunityWelcome site just won't work
             without cookies.
             And having other cookies switched off can seriously affect the way you&#39;ll be able to enjoy our
             services.
             Please check your cookie settings below and turn on any cookies you&#39;re happy with.
-            &amp;quot;Strictly necessary&amp;quot; cookies can&#39;t be turned off.
-            However &amp;quot;Functional&amp;quot; cookies can be turned on or off below.</value>
+            "Strictly necessary" cookies can&#39;t be turned off.
+            However "Functional" cookies can be turned on or off below.</value>
     </labels>
     <labels>
         <fullName>PP_HLP_T1_Feedback</fullName>
