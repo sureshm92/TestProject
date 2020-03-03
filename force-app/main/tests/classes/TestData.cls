@@ -63,7 +63,7 @@ public class TestData {
                 WHERE Participant__c = :participant.Id
         ];
         hcpEnrollment = [
-                SELECT Id
+                SELECT Id, HCP_Contact__c
                 FROM HCP_Enrollment__c
                 WHERE HCP_Contact__r.LastName = 'HCPTD'
                 LIMIT 1
@@ -186,7 +186,9 @@ public class TestData {
                 Email = 'hcp@emil.com',
                 AccountId = hcpAccount.Id,
                 MailingLatitude = 40.766594,
-                MailingLongitude = -73.991509
+                MailingLongitude = -73.991509,
+                userCommunytyType__c = CommunityService.USER_MODE_HCP,
+                userCommunityMode__c = CommunityService.USER_MODE_HCP
         );
 
         Contact  hcpDelegateContact = new Contact(

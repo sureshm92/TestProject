@@ -280,6 +280,8 @@ global without sharing class ReferHealthcareProviderRemote {
                     Language__c = UserInfo.getLanguage(),
                     HCP_Opt_In_Referral_Status_Emails__c = true,
                     RP_Invited_By_PI__c = true,
+                    userCommunityMode__c = CommunityService.USER_MODE_HCP,
+                    userCommunytyType__c = CommunityService.USER_MODE_HCP,
                     //MailingCountry = studySite.Site__r.BillingCountry));
                     MailingCountry = piContact.MailingCountry,
                     MailingState = piContact.MailingState));
