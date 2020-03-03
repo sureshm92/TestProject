@@ -185,7 +185,7 @@ public without sharing class ParticipantWorkflowService {
                     replace('##Notes',notesString);
         }
         if(String.isBlank(step.History_Item_Details_Template_Label__c)){
-            historyWrapper.detail = ' '+ TranslateHelper.getLabelValue('PE_Status_History_On_Date') +' ' + pesh.Date__c.date().format()
+            historyWrapper.detail = ' '+ TranslateHelper.getLabelValue('PE_Status_History_On_Date') +' ' + pesh.Date__c.format()
                     + ' ' + TranslateHelper.getLabelValue('PG_IMI_L_by_user') + ' '+ pesh.CreatedBy.Name;
         }
         else{
@@ -195,7 +195,7 @@ public without sharing class ParticipantWorkflowService {
                             :pesh.ParticipantEnrollment__r.PI_Contact__r.Name):
                     pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c;
             historyWrapper.detail = ' ' + TranslateHelper.getLabelValue(step.History_Item_Details_Template_Label__c).
-                    replace('##Date',pesh.Date__c.date().format()).
+                    replace('##Date',pesh.Date__c.format()).
                     replace('##ByUser',pesh.CreatedBy.Name).
                     replace('##Source', sourceString);
         }
@@ -480,7 +480,7 @@ public without sharing class ParticipantWorkflowService {
             result.title = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,pesh.Status__c);
             result.reason = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Non_Enrollment_Reason__c,pesh.Reason__c);
             if(pesh.Date__c != null){
-                result.dateOccured = pesh.Date__c.format();
+                result.dateOccured = pesh.Date__c.date().format();
             }
             result.state = outcomesMap.get(pesh.Status__c).State__c;
             result.left = PEStatusState.STATUS_STATE_SUCCESS;
@@ -494,12 +494,7 @@ public without sharing class ParticipantWorkflowService {
                 result.state = PEStatusState.STATUS_STATE_SUCCESS;
                 result.left = PEStatusState.STATUS_STATE_SUCCESS;
                 if(step.Success_Date_Field__c != null && pe.get(step.Success_Date_Field__c)!= null){
-                    if(pe.get(step.Success_Date_Field__c) instanceof Datetime){
-                        result.dateOccured = ((Datetime)pe.get(step.Success_Date_Field__c)).format();
-                    }
-                    else{
-                        result.dateOccured = ((Date)pe.get(step.Success_Date_Field__c)).format();
-                    }
+                    result.dateOccured = ((Date)pe.get(step.Success_Date_Field__c)).format();
                 }
                 if(previousStep != null) previousStep.right = PEStatusState.STATUS_STATE_SUCCESS;
 
@@ -508,13 +503,7 @@ public without sharing class ParticipantWorkflowService {
                 result.state = PEStatusState.STATUS_STATE_IN_PROGRESS;
                 result.left = PEStatusState.STATUS_STATE_SUCCESS;
                 if(step.In_Progress_Date_Field__c != null && pe.get(step.In_Progress_Date_Field__c) != null){
-                    if(pe.get(step.Success_Date_Field__c) instanceof Datetime){
-                        result.dateOccured = ((Datetime)pe.get(step.In_Progress_Date_Field__c)).format();
-                    }
-                    else{
-                        result.dateOccured = ((Date)pe.get(step.In_Progress_Date_Field__c)).format();
-                    }
-
+                    result.dateOccured = ((Date)pe.get(step.In_Progress_Date_Field__c)).format();
                 }
                 if(previousStep != null) previousStep.right = PEStatusState.STATUS_STATE_SUCCESS;
             }
