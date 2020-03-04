@@ -37,7 +37,7 @@ public with sharing class CTPNotificationTriggerHandler {
                 notificationsForSubs.add(new Notification__c(
                         Topic__c = topic.Id,
                         WhatId__c = ctp.Id,
-                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_COI_CTP_TYPE
+                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_COI_CTP_START_ENROLL_TYPE
                 ));
             }
         }

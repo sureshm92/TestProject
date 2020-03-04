@@ -8,6 +8,7 @@
     <!-- public attributes: -->
     <aura:attribute name="pe" type="Participant_Enrollment__c" access="public"/>
     <aura:attribute name="participant" type="Participant__c" access="public"/>
+    <aura:attribute name="participantDelegate" type="Contact" access="public"/>
     <aura:attribute name="formData" type="AddPatientByPIRemote.FormData" access="public"/>
     <aura:attribute name="updateMode" type="Boolean" default="false" access="public"/>
     <aura:attribute name="isValid" type="Boolean" default="false" access="public"/>
@@ -94,26 +95,50 @@
 
         <!-- contact information: -->
         <div class="ap-section">
+            <aura:if isTrue="{!!v.participant.Adult__c}">
+                <div class="ap-section-title">{!$Label.c.PG_Ref_L_Delegate_Information}</div>
+                <div class="slds-grid slds-gutters slds-wrap">
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                        <div class="label"><abbr title="required"
+                                                 class="slds-required">*</abbr>{!$Label.c.PG_AS_F_First_name}</div>
+                        <lightning:input type="text" value="{!v.participantDelegate.FirstName}" required="{!!v.participant.Adult__c}"
+                                         onblur="{!c.doCheckFields}"/>
+                    </div>
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                        <div class="label"><abbr title="required"
+                                                 class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Last_name}</div>
+                        <lightning:input type="text" value="{!v.participantDelegate.LastName}" required="{!!v.participant.Adult__c}"
+                                         onblur="{!c.doCheckFields}"/>
+                    </div>
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                        <div class="label"><abbr title="required"
+                                                 class="slds-required">*</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
+                        </div>
+                        <lightning:input type="text" value="{!v.participantDelegate.Phone}" required="{!!v.participant.Adult__c}"
+                                         onblur="{!c.doCheckFields}"/>
+                    </div>
+                </div>
+            </aura:if>
             <div class="ap-section-title">{!$Label.c.PG_AP_H_Contact_Information}</div>
             <div class="slds-grid slds-gutters slds-wrap">
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                     <div class="label"><abbr title="required"
                                              class="slds-required">*</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
                     </div>
-                    <lightning:input type="text" value="{!v.participant.Phone__c}" required="true"
+                    <lightning:input type="text" value="{!v.participant.Phone__c}" required="{!v.participant.Adult__c}"
                                      onblur="{!c.doCheckFields}"/>
                 </div>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                     <div class="label"><abbr title="required"
                                              class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Phone_Type}</div>
                     <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!v.participant.Phone_Type__c}"
-                                placeholder="{!$Label.c.PG_AC_Select}" required="true" onchange="{!c.doCheckFields}"/>
+                                placeholder="{!$Label.c.PG_AC_Select}" required="{!v.participant.Adult__c}" onchange="{!c.doCheckFields}"/>
                 </div>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                     <div class="label"><abbr title="required"
                                              class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Email_address}
                     </div>
-                    <lightning:input  aura:id="emailInput" type="email" value="{!v.participant.Email__c}" required="true"
+                    <lightning:input  aura:id="emailInput" type="email" value="{!v.participant.Email__c}" required="{!v.participant.Adult__c}"
                                       onblur="{!c.doCheckFields}"/>
                 </div>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">

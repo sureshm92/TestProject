@@ -70,9 +70,12 @@
                 participant.Last_Name__c.trim() &&
                 inputDate <= currentDate &&
                 participant.Gender__c.trim() &&
-                participant.Phone__c.trim() &&
-                participant.Phone_Type__c.trim() &&
-                component.find('emailInput').get('v.validity').valid &&
+                (!participant.Adult__c || participant.Phone__c.trim()) &&
+                (!participant.Adult__c || participant.Phone_Type__c.trim()) &&
+                (!participant.Adult__c || component.find('emailInput').get('v.validity').valid) &&
+                (participant.Adult__c || participantDelegate.Phone.trim()) &&
+                (participant.Adult__c || participantDelegate.FirstName.trim()) &&
+                (participant.Adult__c || participantDelegate.LastName.trim()) &&
                 participant.Mailing_Zip_Postal_Code__c.trim() !== ''){
                         isValid = true;
                 } else {
@@ -86,14 +89,17 @@
                 participant.Last_Name__c &&
                 participant.Date_of_Birth__c &&
                 participant.Gender__c &&
-                participant.Phone__c &&
-                participant.Phone_Type__c &&
+                (!participant.Adult__c || participant.Phone__c.trim()) &&
+                (!participant.Adult__c || participant.Phone_Type__c.trim()) &&
+                (!participant.Adult__c || component.find('emailInput').get('v.validity').valid) &&
+                (participant.Adult__c || participantDelegate.Phone.trim()) &&
+                (participant.Adult__c || participantDelegate.FirstName.trim()) &&
+                (participant.Adult__c || participantDelegate.LastName.trim()) &&
                 participant.Email__c &&
                 participant.Mailing_Zip_Postal_Code__c !== '' &&
                 pe &&
                 pe.Participant_Status__c &&
                 (pe.Visit_Plan__c || isVisitPlanNotRequired) &&
-                component.find('emailInput').get('v.validity').valid &&
                 pe.Screening_ID__c &&
                 stateVaild;
             if(component.get('v.fromActionParticipant') && !isRemovedValue){
@@ -102,9 +108,12 @@
                     participant.Last_Name__c.trim() &&
                     inputDate <= currentDate &&
                     participant.Gender__c.trim() &&
-                    participant.Phone__c.trim() &&
-                    participant.Phone_Type__c.trim() &&
-                    component.find('emailInput').get('v.validity').valid &&
+                    (!participant.Adult__c || participant.Phone__c.trim()) &&
+                    (!participant.Adult__c || participant.Phone_Type__c.trim()) &&
+                    (!participant.Adult__c || component.find('emailInput').get('v.validity').valid) &&
+                    (participant.Adult__c || participantDelegate.Phone.trim()) &&
+                    (participant.Adult__c || participantDelegate.FirstName.trim()) &&
+                    (participant.Adult__c || participantDelegate.LastName.trim()) &&
                     participant.Mailing_Zip_Postal_Code__c.trim() !== ''){
                     isValid = true;
                 } else {

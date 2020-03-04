@@ -40,6 +40,7 @@
                     component.find('spinner').hide();
                     component.set('v.anchor', params.anchorScroll);
                     component.set('v.pe', returnValue.enrollment);
+                    component.set('v.participantDelegate', returnValue.participantDelegate);
                     component.set('v.participant', pe.Participant__r);
                     formComponent.createDataStamp();
                     formComponent.checkFields();

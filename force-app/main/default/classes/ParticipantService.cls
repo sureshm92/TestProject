@@ -158,7 +158,8 @@ public without sharing class ParticipantService {
             message = Label.PG_Home_Welcome_Message_Alumni;
         } else {
             message = Label.PG_Home_Welcome_Message;
-            message = message.replace('##CommunityWelcome', UserContext.getTemplateProperty('CommunityWelcome'));
+            String communityName = TranslateHelper.getLabelValue(UserContext.getTemplateProperty('CommunityWelcome'));
+            message = message.replace('##CommunityWelcome', communityName);
         }
 
         return message.replace('##UserName', userName);

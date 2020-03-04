@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="dqa-view-more">
-            <c:RRLink page="my-referrals?filter=pending" class="apollo-btn text">{!$Label.c.BTN_View_all}</c:RRLink>
+            <c:RRLink page="my-referrals" class="apollo-btn text">{!$Label.c.BTN_View_all}</c:RRLink>
         </div>
     </div>
 

@@ -17,3 +17,8 @@
 .THIS .accordion-content{
     padding: 0 10px;
 }
+
+.THIS .platform-level-checkbox {
+    display: flex;
+    padding: 8px 0 76px;
+}

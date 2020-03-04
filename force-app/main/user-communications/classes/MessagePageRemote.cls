@@ -312,6 +312,7 @@ public without sharing class MessagePageRemote {
 
             List<Participant_Enrollment__c> matchingEnrollments = new List<Participant_Enrollment__c>();
             for (Participant_Enrollment__c pe : enrollments) {
+                if(pe.Participant__r == null || pe.Participant__r.Full_Name__c == null) continue;
                 if (pe.Participant__r.Full_Name__c.containsIgnoreCase(searchTerm)) matchingEnrollments.add(pe);
             }
 
