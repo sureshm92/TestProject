@@ -48,6 +48,7 @@ public without sharing class MotivationalMessagesRemote {
                 Date messageDate = enrolledDate.addDays(msg.Number_of_Days_Active_after_Enrollment__c.intValue());
                 if (messageDate <= Date.today()) messageForShow = msg;
             }
+            if (messageForShow == null) return null;
 
             TranslateHelper.translate(messageForShow);
 

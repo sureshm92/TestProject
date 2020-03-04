@@ -192,13 +192,25 @@ public with sharing class TrialSearchHelper {
         return ctpsLanguageApprove;
     }
 
-    private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(List<Clinical_Trial_Profile__c> ctps) {
+    private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(List<Clinical_Trial_Profile__c> CTPs) {
+        List<Id> ctpIds = new List<Id>();
+        for (Clinical_Trial_Profile__c ctp : CTPs)
+            if (!isCtpEnrolling(ctp)) ctpIds.add(ctp.Id);
+
+        List<Id> existedTopics = new List<Id>();
+        for (Contact_Topic__c ct : [
+                SELECT Topic__r.TopicId__c
+                FROM Contact_Topic__c
+                WHERE Topic__r.TopicId__c IN :ctpIds
+                AND Contact__c  = :CommunityService.getInstance().getCurrentContactId()
+        ]) existedTopics.add(ct.Topic__r.TopicId__c);
+
         List<TrialSearchContainerRemote.TrialTDO> trialTDOS = new List<TrialSearchContainerRemote.TrialTDO>();
-        for (Clinical_Trial_Profile__c ctp : ctps) {
+        for (Clinical_Trial_Profile__c ctp : CTPs) {
             TrialSearchContainerRemote.TrialTDO tdo = new TrialSearchContainerRemote.TrialTDO();
             tdo.ctp = ctp;
             tdo.isEnrollingCTP = isCtpEnrolling(ctp);
-            tdo.relatedNotificationExists = !ctp.Trial_Notifications__r.isEmpty();
+            tdo.relatedNotificationExists = existedTopics.contains(ctp.Id);
             trialTDOS.add(tdo);
         }
         return trialTDOS;
