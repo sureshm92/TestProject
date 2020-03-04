@@ -7332,7 +7332,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DBPI L Referrals Waiting For First Contact</shortDescription>
-        <value>Time Waiting for First Contact</value>
+        <value>Time from Received to Contacted</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Referrals_waiting_to_be_contacted</fullName>
@@ -13816,4 +13816,3 @@ have questions or concerns about this data, please contact the study doctor at y
         <value>Name</value>
     </labels>
 </CustomLabels>
-
