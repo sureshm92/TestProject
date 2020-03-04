@@ -97,7 +97,13 @@
             delete delegateItems[ind].continueDelegateMsg;
         }
         console.log(doNotContinueIds);
+
         console.log(JSON.stringify(component.get('v.contact')));
+        console.log(JSON.stringify(component.get('v.participant')));
+        console.log(JSON.stringify(component.get('v.delegateItems')));
+
+        console.log(component.get('v.pe.Study_Site__c'));
+        console.log((component.get('v.selectedOption') == '1'));
 
         communityService.executeAction(component, 'updateParticipantAndDelegates', {
             participantS: JSON.stringify(component.get('v.participant')),

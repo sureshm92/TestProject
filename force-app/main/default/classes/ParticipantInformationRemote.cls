@@ -80,12 +80,13 @@ public without sharing class ParticipantInformationRemote {
             }
 
             Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
-            Study_Site__c studySiteDetails = [SELECT Id, Name, Principal_Investigator__c, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE Id = :studySiteId];
-            String permissionSetName = CommunityTemplateService.getTemplate(studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
             Map<Id, Id> toCreateUser = new Map<Id, Id>();
             if (needsInvite) {
                 system.debug('needsInvite: ' + needsInvite);
                 toCreateUser.put(participant.Contact__c, null);
+
+                Study_Site__c studySiteDetails = [SELECT Id, Name, Principal_Investigator__c, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE Id = :studySiteId];
+                String permissionSetName = CommunityTemplateService.getTemplate(studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
                 actionAssignContactPermissions.addPermission(participant.Contact__c, permissionSetName);
             }
 
@@ -105,6 +106,21 @@ public without sharing class ParticipantInformationRemote {
 
                 update notPatientDelegatesEver;
             }
+
+            List<Contact> contactsToUpdate = new List<Contact>();
+            for (Participant__c delegateParticipant : delegates) {
+                contactsToUpdate.add(new Contact(
+                        Id = delegateParticipant.Contact__c,
+                        MailingState = delegateParticipant.Mailing_State__c,
+                        MailingCountry = delegateParticipant.Mailing_Country__c,
+                        MailingStateCode = delegateParticipant.Mailing_State_Code__c,
+                        MailingCountryCode = delegateParticipant.Mailing_Country_Code__c,
+                        MailingPostalCode = delegateParticipant.Mailing_Zip_Postal_Code__c,
+                        Email = delegateParticipant.Email__c,
+                        Phone = delegateParticipant.Phone__c
+                ));
+            }
+            update contactsToUpdate;
 
             // TODO: the functionality which will be used in future
             /*if (!delegates.isEmpty()) {

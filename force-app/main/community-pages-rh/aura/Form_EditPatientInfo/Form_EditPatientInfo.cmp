@@ -100,20 +100,20 @@
                     <div class="label"><abbr title="required"
                                              class="slds-required">*</abbr>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
                     </div>
-                    <lightning:input type="text" value="{!v.participant.Phone__c}" required="true"
+                    <lightning:input type="text" value="{!v.participant.Phone__c}" required="{!v.participant.Adult__c}"
                                      onblur="{!c.doCheckFields}"/>
                 </div>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                     <div class="label"><abbr title="required"
                                              class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Phone_Type}</div>
                     <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!v.participant.Phone_Type__c}"
-                                placeholder="{!$Label.c.PG_AC_Select}" required="true" onchange="{!c.doCheckFields}"/>
+                                placeholder="{!$Label.c.PG_AC_Select}" required="{!v.participant.Adult__c}" onchange="{!c.doCheckFields}"/>
                 </div>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                     <div class="label"><abbr title="required"
                                              class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Email_address}
                     </div>
-                    <lightning:input  aura:id="emailInput" type="email" value="{!v.participant.Email__c}" required="true"
+                    <lightning:input  aura:id="emailInput" type="email" value="{!v.participant.Email__c}" required="{!v.participant.Adult__c}"
                                       onblur="{!c.doCheckFields}"/>
                 </div>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
