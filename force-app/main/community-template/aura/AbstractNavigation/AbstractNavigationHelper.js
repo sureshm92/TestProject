@@ -149,7 +149,7 @@
                 this.allPagesMap['dashboard'],
                 this.allPagesMap['my-referrals'],
                 //this.allPagesMap['my-referring-clinics'],
-                this.allPagesMap['reports'],
+                //this.allPagesMap['reports'],
                 this.allPagesMap['messages'],
                 this.allPagesMap['help']
             ],

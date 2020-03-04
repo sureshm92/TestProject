@@ -6,7 +6,7 @@ public with sharing class ManualTaskRemote {
 
     public static Boolean createTasks(TaskService.TaskConfig taskConfig, ManualTaskFilter filter) {
         try {
-            Batch_CreateAdminTasks.launch(filter.getContactsWithPE(), taskConfig);
+            Batch_CreateAdminTasks.launch(filter.getContactsWithWhatIds(), taskConfig);
             return true;
         } catch (Exception e) {
             return (Boolean) AuraHelper.throwException(e);
