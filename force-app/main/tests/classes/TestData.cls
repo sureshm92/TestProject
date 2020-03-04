@@ -192,7 +192,9 @@ public class TestData {
                 Email = 'hcp@emil.com',
                 AccountId = hcpAccount.Id,
                 MailingLatitude = 40.766594,
-                MailingLongitude = -73.991509
+                MailingLongitude = -73.991509,
+                userCommunytyType__c = CommunityService.USER_MODE_HCP,
+                userCommunityMode__c = CommunityService.USER_MODE_HCP
         );
 
         Contact  hcpDelegateContact = new Contact(
