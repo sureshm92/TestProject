@@ -1440,6 +1440,13 @@
         <value>GatherSHAREKnow Participant Hub</value>
     </labels>
     <labels>
+        <fullName>Community_IQVIA_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community IQVIA PP</shortDescription>
+        <value>IQVIA™ Patient Portal</value>
+    </labels>
+    <labels>
         <fullName>Community_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10626,13 +10633,13 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP Account Settings Cookie Description</shortDescription>
-        <value>Some essential features on ##CommunityWelcome site just won't work
+        <value>Some essential features on ##CommunityWelcome site just won&#39;t work
             without cookies.
             And having other cookies switched off can seriously affect the way you&#39;ll be able to enjoy our
             services.
             Please check your cookie settings below and turn on any cookies you&#39;re happy with.
-            "Strictly necessary" cookies can&#39;t be turned off.
-            However "Functional" cookies can be turned on or off below.</value>
+            &quot;Strictly necessary&quot; cookies can&#39;t be turned off.
+            However &quot;Functional&quot; cookies can be turned on or off below.</value>
     </labels>
     <labels>
         <fullName>PP_HLP_T1_Feedback</fullName>
@@ -13830,4 +13837,3 @@ have questions or concerns about this data, please contact the study doctor at y
         <value>Name</value>
     </labels>
 </CustomLabels>
-
