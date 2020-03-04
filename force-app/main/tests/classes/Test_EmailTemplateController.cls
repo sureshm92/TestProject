@@ -58,7 +58,7 @@ public with sharing class Test_EmailTemplateController {
             provider.isDelegate         = false;
             provider.userMode           = CommunityService.USER_MODE_HCP;
             s = controller.bodyValue;
-
+            Test.stopTest();
             controller = new EmailTemplateController();
             controller.bodyValue = 'body ## value';
             try {
