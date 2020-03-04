@@ -117,14 +117,6 @@
                         <lightning:input type="text" value="{!v.participantDelegate.Phone}" required="{!!v.participant.Adult__c}"
                                          onblur="{!c.doCheckFields}"/>
                     </div>
-
-                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
-                        <div class="label"><abbr title="required"
-                                                 class="slds-required">*</abbr>{!$Label.c.PG_AS_F_Email_address}
-                        </div>
-                        <lightning:input  aura:id="emailInput" type="email" value="{!v.participant.Email__c}" required="{!v.participant.Adult__c}"
-                                          onblur="{!c.doCheckFields}"/>
-                    </div>
                 </div>
             </aura:if>
             <div class="ap-section-title">{!$Label.c.PG_AP_H_Contact_Information}</div>
