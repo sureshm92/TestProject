@@ -162,7 +162,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AL Title Welcome To The PH</shortDescription>
-        <value>Welcome to the Patient Portal!</value>
+        <value>Welcome to the ##CommunityWelcome!</value>
     </labels>
     <labels>
         <fullName>ARM</fullName>
@@ -1433,6 +1433,34 @@
         <value>https://infohotfix-iqviaconnect.cs89.force.com</value>
     </labels>
     <labels>
+        <fullName>Community_GSK</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community GSK</shortDescription>
+        <value>GatherSHAREKnow Participant Hub</value>
+    </labels>
+    <labels>
+        <fullName>Community_IQVIA_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community IQVIA PP</shortDescription>
+        <value>IQVIA™ Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Community_IQVIA_RH_Help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Community IQVIA RH Help</shortDescription>
+        <value>IQVIA about Referral Hub</value>
+    </labels>
+    <labels>
+        <fullName>Community_PP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community PP</shortDescription>
+        <value>Patient Portal</value>
+    </labels>
+    <labels>
         <fullName>Complete_By_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2166,7 +2194,7 @@
 
             Thank you for participating. Your contribution to the clinical research study has been very important.
 
-            Please login to the ##ShortCommunityName for the latest clinical research information and for future updates on the clinical research study.</value>
+            Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Once_at_Trial_Completion_PT</fullName>
@@ -2177,7 +2205,7 @@
 
             Thank you for participating. Your contribution to the clinical research study has been very important.
 
-            Please login to the ##ShortCommunityName for the latest clinical research information and for future updates on the clinical research study.</value>
+            Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PA_New_Mess</fullName>
@@ -2254,7 +2282,7 @@
         <shortDescription>Thanks for request</shortDescription>
         <value>Thank you for submitting a request for additional information about ##StudyCode. Someone from the study team will be in touch with you.
 
-            Please login to the ##ShortCommunityName to check your clinical research trial matches at any time.</value>
+            Please login to the IQVIA Patient Portal to check your clinical research trial matches at any time.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Participant_Import_Completed</fullName>
@@ -2274,9 +2302,9 @@
 
             We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##CommunityName.
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
 
-            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient1</fullName>
@@ -2287,9 +2315,9 @@
 
             We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##CommunityName.
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
 
-            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient10</fullName>
@@ -2331,7 +2359,7 @@
 
             You will be contacted by the Study Site Team regarding next steps in the study process.
 
-            To assist you in tracking where you are in the clinical research study, please log in to the ##ShortCommunityName.
+            To assist you in tracking where you are in the clinical research study, please log in to the IQVIA Patient Portal.
 
             Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
@@ -2362,7 +2390,7 @@
 
             Thank you for participating. Your contribution to the clinical research study has been very important.
 
-            Please login to the ##ShortCommunityName for the latest clinical research information and for future updates on the clinical research study.</value>
+            Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient2</fullName>
@@ -2373,9 +2401,9 @@
 
             We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##CommunityName.
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
 
-            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient3</fullName>
@@ -2406,7 +2434,7 @@
         <shortDescription>Email Body Patient7</shortDescription>
         <value>Your referral has been placed on hold for the clinical research study: ##StudyName.
 
-            To see additional information, log in to the ##ShortCommunityName, and then go to &quot;My Studies.&quot;</value>
+            To see additional information, log in to the IQVIA Patient Portal, and then go to &quot;My Studies.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient8</fullName>
@@ -2449,7 +2477,7 @@
         <shortDescription>Email Body Patient CreatedDate</shortDescription>
         <value>&quot;We haven&#39;t heard from you in a while.
 
-            Please log in to the ##ShortCommunityName to view all the latest information on your clinical research study.&quot;</value>
+            Please log in to the IQVIA Patient Portal to view all the latest information on your clinical research study.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient_Log_In</fullName>
@@ -2458,16 +2486,16 @@
         <shortDescription>Email Body Patient Log In</shortDescription>
         <value>We haven&#39;t heard from you in a while.
 
-            Please login to the ##ShortCommunityName to view all the latest information on your clinical research study.</value>
+            Please login to the IQVIA Patient Portal to view all the latest information on your clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Plain_Summary</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Plain Summary</shortDescription>
-        <value>New documents from ##StudyName clinical research study are now available on the ##ShortCommunityName.   
+        <value>New documents from ##StudyName clinical research study are now available on the IQVIA Patient Portal.   
 
-            Please login to the ##ShortCommunityName to view this information.</value>
+            Please login to the IQVIA Patient Portal to view this information.</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP1</fullName>
@@ -4166,7 +4194,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 06 B Participant</shortDescription>
-        <value>The IQVIA™ Patient Portal is a personalized platform that allows patients to receive information about their participation in a clinical research study.</value>
+        <value>The ##CommunityBrandName is a personalized platform that allows patients to receive information about their participation in a clinical research study.</value>
     </labels>
     <labels>
         <fullName>HT_06_B_RP</fullName>
@@ -4187,7 +4215,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 06 H Participant</shortDescription>
-        <value>What is the IQVIA™ Patient Portal?</value>
+        <value>What is the ##CommunityBrandName?</value>
     </labels>
     <labels>
         <fullName>HT_06_H_RP</fullName>
@@ -4229,7 +4257,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 07 H Participant</shortDescription>
-        <value>Can I report medical problems on the Patient Portal?</value>
+        <value>Can I report medical problems on the ##CommunityWelcome?</value>
     </labels>
     <labels>
         <fullName>HT_07_H_RP</fullName>
@@ -5808,7 +5836,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>OT Header PP</shortDescription>
-        <value>Patient Portal Walkthrough</value>
+        <value>##CommunityWelcome Walkthrough</value>
     </labels>
     <labels>
         <fullName>OT_PI_S1_H</fullName>
@@ -7943,7 +7971,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Home Welcome Message</shortDescription>
-        <value>Hi ##UserName, welcome to Patient Portal! You can see your study status and all related information below.</value>
+        <value>Hi ##UserName, welcome to ##CommunityWelcome! You can see your study status and all related information below.</value>
     </labels>
     <labels>
         <fullName>PG_Home_Welcome_Message_Alumni</fullName>
@@ -10619,13 +10647,13 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP Account Settings Cookie Description</shortDescription>
-        <value>Some essential features on Patient Portal site just won&#39;t work
+        <value>Some essential features on ##CommunityWelcome site just won&#39;t work
             without cookies.
             And having other cookies switched off can seriously affect the way you&#39;ll be able to enjoy our
             services.
             Please check your cookie settings below and turn on any cookies you&#39;re happy with.
-            &amp;quot;Strictly necessary&amp;quot; cookies can&#39;t be turned off.
-            However &amp;quot;Functional&amp;quot; cookies can be turned on or off below.</value>
+            &quot;Strictly necessary&quot; cookies can&#39;t be turned off.
+            However &quot;Functional&quot; cookies can be turned on or off below.</value>
     </labels>
     <labels>
         <fullName>PP_HLP_T1_Feedback</fullName>
@@ -12936,6 +12964,13 @@ View study documents and other resources including articles and videos related t
         <protected>false</protected>
         <shortDescription>Task Subject Complete Your Profile</shortDescription>
         <value>Please, complete your profile under Account Settings</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Select_COI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Subject Select COI</shortDescription>
+        <value>If you want to see more study resources related to diagnosis, please select relevant conditions of interest in account settings</value>
     </labels>
     <labels>
         <fullName>Task_Tab_Completed_Tasks</fullName>

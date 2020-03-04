@@ -6,7 +6,7 @@
     <encodingKey>UTF-8</encodingKey>
     <name>Trial Alert Received Delegate</name>
     <style>none</style>
-    <subject>An alert for a clinical research study you may be interested in has been set</subject>
+    <subject>Potential clinical research study alert</subject>
     <type>visualforce</type>
     <uiType>Aloha</uiType>
 </EmailTemplate>

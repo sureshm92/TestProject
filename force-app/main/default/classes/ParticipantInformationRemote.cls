@@ -63,7 +63,7 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
-    public static void updateParticipantAndDelegates(String participantS, String participantContactS, String delegatesS, List<String> doNotContinueIds, Boolean needsInvite) {
+    public static void updateParticipantAndDelegates(String participantS, String participantContactS, String delegatesS, List<String> doNotContinueIds, Boolean needsInvite, String studySiteId) {
         try {
             Participant__c participant = (Participant__c)JSON.deserialize(participantS, Participant__c.class);
             Contact participantContact = (Contact)JSON.deserialize(participantContactS, Contact.class);
@@ -76,13 +76,26 @@ public without sharing class ParticipantInformationRemote {
 
             update participant;
             if (participantContact.Id != null) {
+                participantContact.Email = participant.Email__c;
+                if (participant.Phone_Type__c == 'Home') {
+                    participantContact.HomePhone = participant.Phone__c;
+                } if (participant.Phone_Type__c == 'Mobile') {
+                    participantContact.MobilePhone = participant.Phone__c;
+                } else {
+                    participantContact.Phone = participant.Phone__c;
+                }
                 update participantContact;
             }
 
+            Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
             Map<Id, Id> toCreateUser = new Map<Id, Id>();
             if (needsInvite) {
                 system.debug('needsInvite: ' + needsInvite);
                 toCreateUser.put(participant.Contact__c, null);
+
+                Study_Site__c studySiteDetails = [SELECT Id, Name, Principal_Investigator__c, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE Id = :studySiteId];
+                String permissionSetName = CommunityTemplateService.getTemplate(studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
+                actionAssignContactPermissions.addPermission(participant.Contact__c, permissionSetName);
             }
 
             List<Contact> delegateContacts = [SELECT Id FROM Contact WHERE Id IN :doNotContinueIds];
@@ -101,6 +114,21 @@ public without sharing class ParticipantInformationRemote {
 
                 update notPatientDelegatesEver;
             }
+
+            List<Contact> contactsToUpdate = new List<Contact>();
+            for (Participant__c delegateParticipant : delegates) {
+                contactsToUpdate.add(new Contact(
+                        Id = delegateParticipant.Contact__c,
+                        MailingState = delegateParticipant.Mailing_State__c,
+                        MailingCountry = delegateParticipant.Mailing_Country__c,
+                        MailingStateCode = delegateParticipant.Mailing_State_Code__c,
+                        MailingCountryCode = delegateParticipant.Mailing_Country_Code__c,
+                        MailingPostalCode = delegateParticipant.Mailing_Zip_Postal_Code__c,
+                        Email = delegateParticipant.Email__c,
+                        Phone = delegateParticipant.Phone__c
+                ));
+            }
+            update contactsToUpdate;
 
             // TODO: the functionality which will be used in future
             /*if (!delegates.isEmpty()) {
@@ -163,6 +191,9 @@ public without sharing class ParticipantInformationRemote {
 
             system.debug('toCreateUser: ' + toCreateUser);
             if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
+            if (!actionAssignContactPermissions.isEmpty()) {
+                ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+            }
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
@@ -181,6 +212,8 @@ public without sharing class ParticipantInformationRemote {
                             MailingPostalCode,
                             MailingStateCode,
                             MailingCountryCode,
+                            MailingState,
+                            MailingCountry,
                             Email,
                             HomePhone,
                             MobilePhone,
@@ -197,7 +230,9 @@ public without sharing class ParticipantInformationRemote {
                     Last_Name__c = cnt.LastName,
                     Mailing_Zip_Postal_Code__c = cnt.MailingPostalCode,
                     Mailing_State_Code__c = cnt.MailingStateCode,
+                    Mailing_State__c = cnt.MailingState,
                     Mailing_Country_Code__c = cnt.MailingCountryCode,
+                    Mailing_Country__c = cnt.MailingCountry,
                     Email__c = cnt.Email
                 );
 

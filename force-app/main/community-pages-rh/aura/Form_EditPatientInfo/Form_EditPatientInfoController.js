@@ -31,10 +31,8 @@
         let screeningIdRequired = false;
         var isEnrollmentSuccess = false;
         var today = new Date();
-        var dateToday = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate());
-        var currDate = new Date(dateToday);
         var inDate = new Date(participant.Date_of_Birth__c);
-        var currentDate = currDate.setHours(0, 0, 0, 0);
+        var currentDate = today.setHours(0, 0, 0, 0);
         var inputDate = inDate.setHours(0, 0, 0, 0);
         if(pe.MRN_Id__c){
             component.set('v.disableSourceId', true);
@@ -72,9 +70,9 @@
                 participant.Last_Name__c.trim() &&
                 inputDate <= currentDate &&
                 participant.Gender__c.trim() &&
-                participant.Phone__c.trim() &&
-                participant.Phone_Type__c.trim() &&
-                component.find('emailInput').get('v.validity').valid &&
+                (!participant.Adult__c || participant.Phone__c.trim()) &&
+                (!participant.Adult__c || participant.Phone_Type__c.trim()) &&
+                (!participant.Adult__c || component.find('emailInput').get('v.validity').valid) &&
                 participant.Mailing_Zip_Postal_Code__c.trim() !== ''){
                         isValid = true;
                 } else {

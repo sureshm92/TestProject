@@ -361,6 +361,7 @@ private class Test_BaseCRCPCommunity {
             StudyListViewController.getStudyTrialList(CommunityService.USER_MODE_PI);
             StudyDetailViewController.getTrialDetail(testData.ctp.Id, CommunityService.USER_MODE_PI);
             StudyDetailAboutStudyRemote.setTrialAcceptedForPI(testData.ctp.Id, null,null);
+            StudyDetailAboutStudyRemote.getDocuments(CommunityService.USER_MODE_PI, testData.ctp.Id);
             DashboardRemote.getInitData(CommunityService.USER_MODE_HCP, null,null);
             AccountSettingsController.getInitData(CommunityService.USER_MODE_HCP);
             AccountSettingsController.changeEmail('new@emil.com');
@@ -501,7 +502,10 @@ private class Test_BaseCRCPCommunity {
             Participant_Enrollment__c pe = [SELECT Id FROM Participant_Enrollment__c LIMIT 1];
             String refInitDataJSON = ReferringRemote.getInitData(testData.ctp.Id, pe.Id, testData.hcpEnrollment.Id, CommunityService.USER_MODE_HCP, null);
             ReferringRemote.InitData refInitData = (ReferringRemote.InitData) JSON.deserialize(refInitDataJSON, ReferringRemote.InitData.class);
-            insert new Participant__c();
+            insert new Participant__c(First_Name__c = 'FN1',
+                    Last_Name__c = 'LN1',
+                    Phone__c = '121231233333',
+                    Email__c = 'NewTestPartOne@email.com');
             Participant__c participant2 = new Participant__c(
                     First_Name__c = 'FN',
                     Last_Name__c = 'LN',

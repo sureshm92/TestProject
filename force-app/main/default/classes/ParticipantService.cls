@@ -153,8 +153,14 @@ public without sharing class ParticipantService {
             userName = participants[0].Full_Name__c;
         }
 
-        String message = participantState.value == ParticipantStates.ALUMNI
-                ? Label.PG_Home_Welcome_Message_Alumni : Label.PG_Home_Welcome_Message;
+        String message;
+        if(participantState.value == ParticipantStates.ALUMNI) {
+            message = Label.PG_Home_Welcome_Message_Alumni;
+        } else {
+            message = Label.PG_Home_Welcome_Message;
+            String communityName = TranslateHelper.getLabelValue(UserContext.getTemplateProperty('CommunityWelcome'));
+            message = message.replace('##CommunityWelcome', communityName);
+        }
 
         return message.replace('##UserName', userName);
     }

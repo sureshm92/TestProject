@@ -102,21 +102,23 @@ public with sharing class TrialSearchHelper {
     }
 
     public void createSubscribeConnection(Id ctpId) {
-        Topic__c topic = NotificationService.getTopicOrCreateNew(ctpId);
-        CommunityService communityService = (CommunityService) ClassFactory.newInstance(CommunityService.class);
-        Id conId = communityService.getCurrentContactId();
-        List<Contact_Topic__c> subAlreadyExist = [
+        Id conId = CommunityService.getInstance().getCurrentContactId();
+        List<Contact_Topic__c> existedContactTopics = [
                 SELECT Id, Contact__c
                 FROM Contact_Topic__c
                 WHERE Contact__c = :conId
         ];
-        if (subAlreadyExist.isEmpty()) {
-            subAlreadyExist.add(new Contact_Topic__c(
-                    Contact__c = conId,
-                    Topic__c = topic.Id
-            ));
+        if (existedContactTopics.isEmpty()) {
             try {
-                insert subAlreadyExist;
+                insert new Contact_Topic__c(
+                        Contact__c = conId,
+                        Topic__c = NotificationService.getTopicOrCreateNew(ctpId).Id
+                );
+                insert new Notification__c(
+                        WhatId__c = ctpId,
+                        Recipient__c = conId,
+                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_NEW_COI_CTP_TYPE
+                );
             } catch (DmlException e) {
             }
         }
@@ -190,13 +192,25 @@ public with sharing class TrialSearchHelper {
         return ctpsLanguageApprove;
     }
 
-    private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(List<Clinical_Trial_Profile__c> ctps) {
+    private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(List<Clinical_Trial_Profile__c> CTPs) {
+        List<Id> ctpIds = new List<Id>();
+        for (Clinical_Trial_Profile__c ctp : CTPs)
+            if (!isCtpEnrolling(ctp)) ctpIds.add(ctp.Id);
+
+        List<Id> existedTopics = new List<Id>();
+        for (Contact_Topic__c ct : [
+                SELECT Topic__r.TopicId__c
+                FROM Contact_Topic__c
+                WHERE Topic__r.TopicId__c IN :ctpIds
+                AND Contact__c  = :CommunityService.getInstance().getCurrentContactId()
+        ]) existedTopics.add(ct.Topic__r.TopicId__c);
+
         List<TrialSearchContainerRemote.TrialTDO> trialTDOS = new List<TrialSearchContainerRemote.TrialTDO>();
-        for (Clinical_Trial_Profile__c ctp : ctps) {
+        for (Clinical_Trial_Profile__c ctp : CTPs) {
             TrialSearchContainerRemote.TrialTDO tdo = new TrialSearchContainerRemote.TrialTDO();
             tdo.ctp = ctp;
             tdo.isEnrollingCTP = isCtpEnrolling(ctp);
-            tdo.relatedNotificationExists = !ctp.Trial_Notifications__r.isEmpty();
+            tdo.relatedNotificationExists = existedTopics.contains(ctp.Id);
             trialTDOS.add(tdo);
         }
         return trialTDOS;
