@@ -22,7 +22,7 @@
                 <div class="rr-header-content main-header-brand">
                     <div class="rr-width-limiter side-padding header-block">
                         <div class="logo-click" onclick="{!c.doGoHome}">
-                            <img src="{!if(v.currentMode.userMode == 'Participant', v.logoURL, $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}"
+                            <img src="{!if(v.mode == 'Participant', v.logoURL, $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}"
                                  class="logo-block"/>
                         </div>
                     </div>
