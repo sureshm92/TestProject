@@ -93,8 +93,10 @@ public without sharing class TaskEditRemote {
             taskToUpsert.Originator__c = ParticipantContext.isCurrentDelegate() ? 'Delegate' : 'Participant';
             if (taskToUpsert.Visible_For__c == null) taskToUpsert.Visible_For__c = 'Owner;Delegates';
 
-            if (taskToUpsert.Task_Type__c != TaskService.TASK_TYPE_NOT_SELECTED) {
+            if (taskToUpsert.Task_Type__c != TaskService.TASK_TYPE_NOT_SELECTED && String.isNotBlank(taskToUpsert.Task_Type__c)) {
                 taskToUpsert.WhatId = ParticipantContext.getCurrentPEId();
+            } else {
+                taskToUpsert.WhatId = ParticipantContext.getCurrentParticipantId();
             }
 
             if (taskWrapper.activityDate != null) {
@@ -186,8 +188,9 @@ public without sharing class TaskEditRemote {
                 FROM Contact
                 WHERE Id = :CommunityService.getInstance().getCurrentContactId()
         ];
-        if (!currentContact.isEmpty())
+        if (!currentContact.isEmpty()) {
             return currentContact[0].Participant_Opt_In_Status_Emails__c;
+        }
         return false;
     }
 
