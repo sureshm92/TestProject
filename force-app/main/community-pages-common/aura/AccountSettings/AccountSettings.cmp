@@ -19,7 +19,7 @@
 
     <aura:attribute name="isUpdated" type="Boolean"/>
     <aura:attribute name="closeButtonClicked" type="Boolean" default="false"
-                    description="if close button on popap clicked, this value will change"/>
+                    description="if close button on popup clicked, this value will change"/>
     <aura:attribute name="showModal" type="Boolean" default="false"/>
 
     <!-- handlers: -->
@@ -144,7 +144,7 @@
                                     </aura:if>
                                 </div>
                             </aura:if>
-                            <div style="height: 25px"></div>
+                            <div style="height: 25px" id="coi"></div>
                             <div class="as-email-preference">
                                 <div class="as-title ">{!$Label.c.PG_AS_L_Conditions_of_Interest}</div>
                                 <div class="as-sub-title">
@@ -164,7 +164,7 @@
                 <div class="as-email-preference">
                     <div class="as-title">{!$Label.c.AccountSettings_Cookie_Settings}</div>
                     <div class="as-sub-title"
-                         style="margin-bottom: 15px">{!if(v.userMode == 'Participant', $Label.c.PP_Account_Settings_Cookie_Description, $Label.c.AccountSettings_Cookie_Description)}
+                         style="margin-bottom: 15px">{!v.initData.cookieDescription}
                     </div>
                     <div class="collapse-section slds-m-top--large">
                         <c:RRCollapse label="{!$Label.c.AccountSettings_Strictly_Necessary_Cookies}" isCollapsed="true">

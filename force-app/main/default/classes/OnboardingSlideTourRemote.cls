@@ -87,7 +87,9 @@ public without sharing class OnboardingSlideTourRemote {
                 TranslateHelper.prepareLabelFields(tourList[0].Onboarding_Tour__r, new Set<String>{
                         'Title__c'
                 });
-                tour.title = tourList[0].Onboarding_Tour__r.Title__c;
+                tour.title =
+                        tourList[0].Onboarding_Tour__r.Title__c.replace(
+                                '##CommunityWelcome', UserContext.getTemplateProperty('CommunityWelcome'));
             }
             tour.slides = outputSlides;
             tour.showOnStartup = showOnStartup(userMode);

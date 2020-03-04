@@ -44,6 +44,9 @@ public without sharing class RRChangePasswordController {
 
     public Translation__c translation {get; set;}
     public String browserLanguage {get; set;}
+    public String communityLogo {get; set;}
+    public String themeCSS {get; set;}
+    public String backgroundStyle {get; set;}
 
     private String previousLanguage;
 
@@ -138,7 +141,6 @@ public without sharing class RRChangePasswordController {
             tcText = portalTC.T_C_Text__c;
             tcId = portalTC.Id;
         }
-
         isParticipant = contact.userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT && !contact.UserCommunityIsDelegate__c;
         if(isParticipant) {
             participant = [
@@ -323,6 +325,12 @@ public without sharing class RRChangePasswordController {
             //translate state
             participant.Mailing_State__c = CountryStateUtil.getStateName(participant.Mailing_Country_Code__c, participant.Mailing_State_Code__c);
         }
+    }
+    
+    public void initTemplateData(){
+        themeCSS = UserContext.getTemplateProperty(CommunityTemplateService.PROPERTY_THEME_CSS);
+        backgroundStyle = UserContext.getTemplateProperty('LoginBackground');
+        communityLogo = UserContext.getTemplateProperty(CommunityTemplateService.PROPERTY_COMMUNITY_LOGO);
     }
 
     public void updateBrowserLanguageAction(){
