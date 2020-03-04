@@ -70,9 +70,9 @@
                 participant.Last_Name__c.trim() &&
                 inputDate <= currentDate &&
                 participant.Gender__c.trim() &&
-                participant.Phone__c.trim() &&
-                participant.Phone_Type__c.trim() &&
-                component.find('emailInput').get('v.validity').valid &&
+                (!participant.Adult__c || participant.Phone__c.trim()) &&
+                (!participant.Adult__c || participant.Phone_Type__c.trim()) &&
+                (!participant.Adult__c || component.find('emailInput').get('v.validity').valid) &&
                 participant.Mailing_Zip_Postal_Code__c.trim() !== ''){
                         isValid = true;
                 } else {
