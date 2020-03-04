@@ -55,7 +55,12 @@
                             <c:ManualTaskLookup label="Study" selection="{!v.filter.studies}" objType="study"/>
                         </div>
                         <div class="slds-col slds-size--1-of-2">
-                            <div style="padding: 52.5px"></div>
+                            <div class="platform-level-checkbox">
+                                <lightning:input type="checkbox" label="Platform-level Task" disabled="{!v.selectedTab != 'task'}"
+                                                 value="{!v.filter.isPlatformLevel}"
+                                                 checked="{!v.filter.isPlatformLevel}"/>
+                                <lightning:helptext content="Toggle in Study Configuration will be ignored"/>
+                            </div>
                             <c:ManualTaskLookup label="Select country" selection="{!v.filter.countries}"
                                                 objType="countries"/>
                             <c:ManualTaskLookup label="Select Site" selection="{!v.filter.sites}" objType="site"/>
