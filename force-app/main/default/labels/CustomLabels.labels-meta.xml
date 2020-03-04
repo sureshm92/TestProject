@@ -162,7 +162,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>AL Title Welcome To The PH</shortDescription>
-        <value>Welcome to the Patient Portal!</value>
+        <value>Welcome to the ##CommunityWelcome!</value>
     </labels>
     <labels>
         <fullName>ARM</fullName>

@@ -45,8 +45,8 @@ public without sharing class HelpController {
             });
 
             Map<String, String> paramMap = new Map<String, String>{
-                    'CommunityBrandName' => UserContext.getTemplateProperty('CommunityBrandName'),
-                    'CommunityWelcome' => UserContext.getTemplateProperty('CommunityWelcome')
+                    'CommunityBrandName' => TranslateHelper.getLabelValue(UserContext.getTemplateProperty('CommunityBrandName')),
+                    'CommunityWelcome' => TranslateHelper.getLabelValue(UserContext.getTemplateProperty('CommunityWelcome'))
             };
 
             for (Help_Topic__mdt topic : helpTopics) {

@@ -13,6 +13,9 @@
     <aura:attribute name="mode" type="String"/>
     <aura:attribute name="logoURL" type="String"/>
 
+    <!-- events: -->
+    <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized"/>
+
     <!-- methods: -->
     <aura:method name="init" action="{!c.doInit}" access="public"/>
 
