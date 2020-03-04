@@ -10,8 +10,11 @@ public without sharing class NotificationAvailabilityService {
     private static final String SURVEY_INVITATION_OBJ_NAME = 'SurveyInvitation';
     private static final String CONTACT = 'Contact';
     private static final String TASK_OBJ_NAME = 'Task';
+    private static final String PARTICIPANT_OBJ_NAME = 'Participant__c';
 
     private Map<Id, Contact> contactByIdMap;
+    private List<String> allPermissions;
+    private Map<Id, List<String>> permissionSetsByConIdMap;
 
     private Map<Id, SObject> objectsByIds;
 
@@ -21,11 +24,33 @@ public without sharing class NotificationAvailabilityService {
                 SELECT Id,
                         Participant_Opt_In_Status_Emails__c,
                         Participant_Opt_In_Status_SMS__c,
-                        UserCommunityIsDelegate__c
+                        UserCommunityIsDelegate__c,
+                        userCommunityMode__c
                 FROM Contact
                 WHERE Id IN:recipientIds
         ];
         for (Contact con : contacts) contactByIdMap.put(con.Id, con);
+
+        allPermissions = new List<String>(CommunityTemplateService.getAllPermissionSets());
+
+        permissionSetsByConIdMap = new Map<Id, List<String>>();
+        List<User> users = [
+                SELECT Id, ContactId
+                FROM User
+                WHERE ContactId = :contacts
+        ];
+        List<PermissionSetAssignment> userPerSetAssignments = [
+                SELECT Id, AssigneeId, Assignee.ContactId, PermissionSet.Name
+                FROM PermissionSetAssignment
+                WHERE AssigneeId IN :users AND PermissionSet.Name IN:allPermissions
+        ];
+
+
+        for (PermissionSetAssignment perAssign : userPerSetAssignments) {
+            Id assigneeContactId = perAssign.Assignee.ContactId;
+            if (!permissionSetsByConIdMap.containsKey(assigneeContactId)) permissionSetsByConIdMap.put(assigneeContactId, new List<String>());
+            permissionSetsByConIdMap.get(assigneeContactId).add(perAssign.PermissionSet.Name);
+        }
 
         Map<String, List<Id>> objectsByStrings = new Map<String, List<Id>>();
         objectsByIds = new Map<Id, SObject>();
@@ -49,30 +74,64 @@ public without sharing class NotificationAvailabilityService {
         //Map <Id, SObject>
         for (String objType : objectsByStrings.keySet()) {
             if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
-                List<Participant_Enrollment__c> listPE = [
-                        SELECT Id, Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
-                                Study_Site__r.Suppress_Participant_Emails__c,
-                                Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c,
-                                Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                                Study_Site__r.SMS_Are_Available__c,
-                                Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
-                                HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c
-                        FROM Participant_Enrollment__c
-                        WHERE Id IN:objectsByStrings.get(objType)
-                ];
+                List<Participant_Enrollment__c> listPE = getPEList(new Set<Id>(objectsByStrings.get(objType)));
                 for (Participant_Enrollment__c pe : listPE) {
                     objectsByIds.put(pe.Id, pe);
+                }
+            }
+            if (objType == PARTICIPANT_OBJ_NAME) {
+                List<Participant__c> participants = [
+                        SELECT Id,
+                                Contact__r.Participant_Opt_In_Status_Emails__c,
+                                Contact__r.Participant_Opt_In_Status_SMS__c,
+                                IsCountry_NOT_Eligible_for_Emails__c
+                        FROM Participant__c
+                        WHERE Id IN:objectsByStrings.get(objType)
+                ];
+                for (Participant__c participant : participants) {
+                    objectsByIds.put(participant.Id, participant);
                 }
             }
             if (objType == CLINICAL_TRIAL_PROFILE_OBJ_NAME) {
                 List<Clinical_Trial_Profile__c> listCTP = [
                         SELECT Id,
-                                Suppress_Participant_Emails__c
+                                Suppress_Participant_Emails__c,
+                                CommunityTemplate__c
                         FROM Clinical_Trial_Profile__c
                         WHERE Id IN:objectsByStrings.get(objType)
                 ];
                 for (Clinical_Trial_Profile__c ctp : listCTP) {
                     objectsByIds.put(ctp.Id, ctp);
+                }
+            }
+            if (objType == SURVEY_INVITATION_OBJ_NAME) {
+                List<SurveyInvitation> survInvList = [
+                        SELECT Id,
+                                Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+                        FROM SurveyInvitation
+                        WHERE Id IN:objectsByStrings.get(objType)
+                ];
+                for (SurveyInvitation sur : survInvList) {
+                    objectsByIds.put(sur.Id, sur);
+                }
+            }
+            if (objType == TASK_OBJ_NAME) {
+                List<Task> taskList = [
+                        SELECT Id,
+                                WhatId,
+                                Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+                        FROM Task
+                        WHERE Id IN:objectsByStrings.get(objType)
+                ];
+                Set<Id> peIds = new Set<Id>();
+                for (Task tsk : taskList) {
+                    Id whatId = tsk.WhatId;
+                    if (whatId != null && whatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) peIds.add(whatId);
+                    objectsByIds.put(tsk.Id, tsk);
+                }
+                List<Participant_Enrollment__c> peList = getPEList(peIds);
+                for (Participant_Enrollment__c pe : peList) {
+                    objectsByIds.put(pe.Id, pe);
                 }
             }
             if (objType == HCP_ENROLLMENT_OBJ_NAME) {
@@ -113,6 +172,12 @@ public without sharing class NotificationAvailabilityService {
 
                     checkForNotification = true;
                 }
+            } else if (objType == PARTICIPANT_OBJ_NAME) {
+                Participant__c participant = (Participant__c) objectsByIds.get(Id.valueOf(whatId));
+                if (participant != null && participant.Contact__r.Participant_Opt_In_Status_Emails__c
+                        && !participant.IsCountry_NOT_Eligible_for_Emails__c) {
+                    checkForNotification = true;
+                }
             } else if (objType == CLINICAL_TRIAL_PROFILE_OBJ_NAME) {
                 Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) objectsByIds.get(Id.valueOf(whatId));
                 if (!ctp.Suppress_Participant_Emails__c && contactByIdMap.get(contactId).Participant_Opt_In_Status_Emails__c) checkForNotification = true;
@@ -135,7 +200,7 @@ public without sharing class NotificationAvailabilityService {
                 if (hcpe.HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c) {
                     checkForNotification = true;
                 }
-            } else if (objType == CONTACT){
+            } else if (objType == CONTACT) {
                 checkForNotification = true;
             }
 
@@ -143,13 +208,12 @@ public without sharing class NotificationAvailabilityService {
         if (recipientType == NotificationService.NOTIFICATION_RECIPIENT_TYPE_PI) {
             if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
                 Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
-                if(pe == null || pe.Study_Site__r == null || pe.Study_Site__r.Principal_Investigator__r == null){
+                if (pe == null || pe.Study_Site__r == null || pe.Study_Site__r.Principal_Investigator__r == null) {
                     checkForNotification = false;
-                }
-                else if (pe.Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c) {
+                } else if (pe.Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c) {
                     checkForNotification = true;
                 }
-            }else if (objType == CONTACT) {
+            } else if (objType == CONTACT) {
                 checkForNotification = true;
             }
         }
@@ -167,4 +231,81 @@ public without sharing class NotificationAvailabilityService {
         }
         return isAvailable;
     }
+
+    public Boolean isDeferNotification(Id contactId, String whatId){
+        List<String> userCommunityPerms = permissionSetsByConIdMap.get(contactId);
+        return userCommunityPerms !=null && !userCommunityPerms.contains(getCommunityTemplate(contactId, whatId).permissionSet);
+    }
+
+    public String getOrgWideEmail(Id contactId, String whatId, String orgWideEmailTarget) {
+        if (orgWideEmailTarget != EmailService.COMMUNITY_ORG_WIDE_ADDRESS_ST_SPECIFIC) return orgWideEmailTarget;
+        return getCommunityTemplate(contactId, whatId).properties.get(CommunityTemplateService.PROPERTY_ORG_WIDE_EMAIL_ADDRESS);
+    }
+
+    public CommunityTemplate getCommunityTemplate(Id contactId, String whatId) {
+        CommunityTemplate communityTemplate = CommunityTemplateService.getDefaultTemplate();
+        String objType = null;
+        Id objId;
+
+        List<String> permSet = new List<String>();
+
+        if (whatId != null) {
+            objId = whatId;
+            objType = String.valueOf(objId.getSobjectType());
+        }
+        if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
+            Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
+            communityTemplate = CommunityTemplateService.getTemplate(pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
+        } else if (objType == CLINICAL_TRIAL_PROFILE_OBJ_NAME) {
+            Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) objectsByIds.get(Id.valueOf(whatId));
+            communityTemplate = CommunityTemplateService.getTemplate(ctp.CommunityTemplate__c);
+        } else if (objType == SURVEY_INVITATION_OBJ_NAME) {
+            SurveyInvitation surveyInv = (SurveyInvitation) objectsByIds.get(Id.valueOf(whatId));
+            if (surveyInv.Participant_Enrollment__c != null) {
+                SurveyInvitation surv = (SurveyInvitation) objectsByIds.get(Id.valueOf(whatId));
+                communityTemplate = CommunityTemplateService.getTemplate(surv.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
+            } else {
+                permSet = permissionSetsByConIdMap.get(contactId);
+                if (!permSet.contains(CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME)) {
+                    communityTemplate = CommunityTemplateService.getTemplateByPermissionSetName(permSet[0]);
+                }
+            }
+        } else if (objType == TASK_OBJ_NAME) {
+            Task task = (Task) objectsByIds.get(Id.valueOf(whatId));
+            if (task.Survey_Invitation__c != null) {
+                communityTemplate = CommunityTemplateService.getTemplate(
+                        task.Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
+            } else if (task.WhatId != null && task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
+                Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(task.WhatId));
+                communityTemplate = CommunityTemplateService.getTemplate(pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
+            } else {
+                permSet = permissionSetsByConIdMap.get(contactId);
+                if (!permSet.contains(CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME)) {
+                    communityTemplate = CommunityTemplateService.getTemplateByPermissionSetName(permSet[0]);
+                }
+            }
+        } else if (objType == null || objType == CONTACT) {
+            permSet = permissionSetsByConIdMap.get(contactId);
+            if (!permSet.contains(CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME)) {
+                communityTemplate = CommunityTemplateService.getTemplateByPermissionSetName(permSet[0]);
+            }
+        }
+        return communityTemplate;
+    }
+
+    private List<Participant_Enrollment__c> getPEList(Set<Id> peIds) {
+        return [
+                SELECT Id, Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c,
+                        Study_Site__r.Suppress_Participant_Emails__c,
+                        Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c,
+                        Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                        Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                        Study_Site__r.SMS_Are_Available__c,
+                        Participant__r.IsCountry_NOT_Eligible_for_Emails__c,
+                        HCP__r.HCP_Contact__r.HCP_Opt_In_Patient_Status_Emails__c
+                FROM Participant_Enrollment__c
+                WHERE Id IN:peIds
+        ];
+    }
+
 }
