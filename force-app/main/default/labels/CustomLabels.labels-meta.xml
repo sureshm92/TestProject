@@ -2747,7 +2747,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Contact Greeting</shortDescription>
-        <value>Dear ##Contact,</value>
+        <value>Dear ##RecipientFirstName,</value>
     </labels>
     <labels>
         <fullName>Email_Delegate_Greeting</fullName>
