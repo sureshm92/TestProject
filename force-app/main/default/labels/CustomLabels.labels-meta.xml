@@ -1447,6 +1447,13 @@
         <value>IQVIA™ Patient Portal</value>
     </labels>
     <labels>
+        <fullName>Community_IQVIA_RH_Help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Community IQVIA RH Help</shortDescription>
+        <value>IQVIA about Referral Hub</value>
+    </labels>
+    <labels>
         <fullName>Community_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2747,7 +2754,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Contact Greeting</shortDescription>
-        <value>Dear ##RecipientFirstName,</value>
+        <value>Dear ##Contact,</value>
     </labels>
     <labels>
         <fullName>Email_Delegate_Greeting</fullName>
