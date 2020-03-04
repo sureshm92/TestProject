@@ -361,6 +361,7 @@ private class Test_BaseCRCPCommunity {
             StudyListViewController.getStudyTrialList(CommunityService.USER_MODE_PI);
             StudyDetailViewController.getTrialDetail(testData.ctp.Id, CommunityService.USER_MODE_PI);
             StudyDetailAboutStudyRemote.setTrialAcceptedForPI(testData.ctp.Id, null,null);
+            StudyDetailAboutStudyRemote.getDocuments(CommunityService.USER_MODE_PI, testData.ctp.Id);
             DashboardRemote.getInitData(CommunityService.USER_MODE_HCP, null,null);
             AccountSettingsController.getInitData(CommunityService.USER_MODE_HCP);
             AccountSettingsController.changeEmail('new@emil.com');

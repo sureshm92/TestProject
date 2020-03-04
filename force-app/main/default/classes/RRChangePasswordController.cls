@@ -72,7 +72,7 @@ public without sharing class RRChangePasswordController {
     }
 
     private void init(){
-        Id userId = '0053O000001Bbn6QAC'; //UserInfo.getUserId();
+        Id userId = UserInfo.getUserId();
         userVal = [
                 SELECT Id, Name, Username, FirstName, LastName, FullPhotoUrl,
                         Contact.FirstName,
