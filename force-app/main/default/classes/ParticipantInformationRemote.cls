@@ -98,14 +98,14 @@ public without sharing class ParticipantInformationRemote {
                 actionAssignContactPermissions.addPermission(participant.Contact__c, permissionSetName);
             }
 
-            List<Contact> delegateContacts = [SELECT Id FROM Contact WHERE Id IN :doNotContinueIds];
             List<Patient_Delegate__c> notPatientDelegatesEver = [SELECT Id,
                                                                  Participant__c,
                                                                  Contact__c,
                                                                  Status__c
                                                           FROM Patient_Delegate__c
                                                           WHERE Participant__c = :participant.Id AND
-                                                                Contact__c IN :delegateContacts];
+                                                                Contact__c IN :doNotContinueIds AND
+                                                                Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS];
             if (!notPatientDelegatesEver.isEmpty()) {
                 system.debug('patientDelegates: ' + notPatientDelegatesEver);
                 for (Patient_Delegate__c patientDelegate : notPatientDelegatesEver) {
