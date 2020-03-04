@@ -222,12 +222,12 @@
                                         <div class="rr-form-element slds-col slds-size--1-of-1" style="margin-top: 15px;">
                                             {!$Label.c.PG_Ref_L_Delegate_ensure_info_uptodate}
                                         </div>
-                                        <aura:if isTrue="{!delegateItem.Id}">
+                                        <aura:if isTrue="{!delegateItem.Contact__c}">
                                             <div class="rr-form-element slds-col slds-size--1-of-1">
                                                 {!$Label.c.PG_Ref_L_Delegate_update_info_uptodate}
                                             </div>
                                         </aura:if>
-                                        <aura:if isTrue="{!!delegateItem.Id}">
+                                        <aura:if isTrue="{!!delegateItem.Contact__c}">
                                             <div class="rr-form-element slds-col slds-size--1-of-3">
                                                 <div class="label">
                                                     {!$Label.c.PG_AS_F_First_name}<abbr title="required" class="slds-required">*</abbr>
