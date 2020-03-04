@@ -2,51 +2,51 @@
  * Created by Igor Malyuta on 04.10.2019.
  */
 
-public class Batch_CreateAdminTasks implements Database.Batchable<PEByContactWrapper>, Database.Stateful {
+public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContactWrapper>, Database.Stateful {
 
     private TaskService.TaskConfig taskConfig;
-    private Map<Id, List<Participant_Enrollment__c>> contactsWithPE;
-    private Map<Id, List<Participant_Enrollment__c>> failedContactsWithPE;
+    private Map<Id, List<Id>> contactsWithWhatIds;
+    private Map<Id, List<Id>> failedContactsWithWhatIds;
 
     private Id userId;
     private Integer taskCreated;
     private Integer launchCount;
 
-    public Batch_CreateAdminTasks(Map<Id, List<Participant_Enrollment__c>> contactsWithPE, TaskService.TaskConfig taskConfig,
+    public Batch_CreateAdminTasks(Map<Id, List<Id>> contactsWithWhatIds, TaskService.TaskConfig taskConfig,
             Id userId, Integer taskCreated, Integer launchCount) {
-        this.contactsWithPE = contactsWithPE;
-        this.failedContactsWithPE = new Map<Id, List<Participant_Enrollment__c>>();
+        this.contactsWithWhatIds = contactsWithWhatIds;
+        this.failedContactsWithWhatIds = new Map<Id, List<Id>>();
         this.taskConfig = taskConfig;
         this.userId = userId;
         this.taskCreated = taskCreated;
         this.launchCount = launchCount;
     }
 
-    public List<PEByContactWrapper> start(Database.BatchableContext param1) {
-        List<PEByContactWrapper> wrappers = new List<Batch_CreateAdminTasks.PEByContactWrapper>();
-        for (Id conId : contactsWithPE.keySet()) {
-            wrappers.add(new PEByContactWrapper(conId, contactsWithPE.get(conId)));
+    public List<WhatIdByContactWrapper> start(Database.BatchableContext param1) {
+        List<WhatIdByContactWrapper> wrappers = new List<Batch_CreateAdminTasks.WhatIdByContactWrapper>();
+        for (Id conId : contactsWithWhatIds.keySet()) {
+            wrappers.add(new WhatIdByContactWrapper(conId, contactsWithWhatIds.get(conId)));
         }
 
         return wrappers;
     }
 
-    public void execute(Database.BatchableContext param1, List<PEByContactWrapper> wrappers) {
-        Map<Id, List<Participant_Enrollment__c>> peByContactIds = new Map<Id, List<Participant_Enrollment__c>>();
-        for (PEByContactWrapper wrapper : wrappers) peByContactIds.put(wrapper.contactId, wrapper.enrollments);
+    public void execute(Database.BatchableContext param1, List<WhatIdByContactWrapper> wrappers) {
+        Map<Id, List<Id>> whatIdByContactIds = new Map<Id, List<Id>>();
+        for (WhatIdByContactWrapper wrapper : wrappers) whatIdByContactIds.put(wrapper.contactId, wrapper.whatIds);
 
         try {
             List<User> users = [
                     SELECT Id, ContactId, Name, TimeZoneSidKey
                     FROM User
-                    WHERE ContactId IN :peByContactIds.keySet()
+                    WHERE ContactId IN :whatIdByContactIds.keySet()
                     AND IsActive = TRUE
                     AND Profile.Name = :CommunityService.COMMUNITY_USER_PROFILE_NAME
             ];
 
             List<Task> tasks = new List<Task>();
             for (User user : users) {
-                for(Participant_Enrollment__c pe : peByContactIds.get(user.ContactId)) {
+                for(Id whatId : whatIdByContactIds.get(user.ContactId)) {
                     Datetime activityDT;
                     if(taskConfig.endTime != null) {
                         activityDT = DateTimeConverterUtil.getUserDT(
@@ -72,7 +72,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<PEByContactWra
                             Activity_Datetime__c = activityDT,
                             ReminderDateTime = reminderDT,
                             Visible_For__c = taskConfig.visibility,
-                            WhatId = pe.Id,
+                            WhatId = whatId,
                             WhoId = user.ContactId,
                             Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED
                     ));
@@ -81,14 +81,14 @@ public class Batch_CreateAdminTasks implements Database.Batchable<PEByContactWra
             insert tasks;
             taskCreated += tasks.size();
         } catch (Exception e) {
-            failedContactsWithPE.putAll(peByContactIds);
+            failedContactsWithWhatIds.putAll(whatIdByContactIds);
         }
     }
 
     public void finish(Database.BatchableContext param1) {
-        if (!failedContactsWithPE.isEmpty() && launchCount < 3) {
+        if (!failedContactsWithWhatIds.isEmpty() && launchCount < 3) {
             Database.executeBatch(
-                    new Batch_CreateAdminTasks(failedContactsWithPE, taskConfig, userId, taskCreated, ++launchCount));
+                    new Batch_CreateAdminTasks(failedContactsWithWhatIds, taskConfig, userId, taskCreated, ++launchCount));
         } else {
             //Send email to Admin
             try {
@@ -102,11 +102,11 @@ public class Batch_CreateAdminTasks implements Database.Batchable<PEByContactWra
                 String messageBody = 'Task Subject: ' + taskConfig.subject + '\n';
                 messageBody += 'Task(s) created = ' + taskCreated
                         + '. Task(s) failed = '
-                        + (failedContactsWithPE.isEmpty() ? '0' : '' + (failedContactsWithPE.values().size() + '\n'));
-                if (!failedContactsWithPE.isEmpty()) {
+                        + (failedContactsWithWhatIds.isEmpty() ? '0' : '' + (failedContactsWithWhatIds.values().size() + '\n'));
+                if (!failedContactsWithWhatIds.isEmpty()) {
                     messageBody += 'Failed contact ids:\n';
                     Integer i = 0;
-                    for (Id conId : failedContactsWithPE.keySet()) {
+                    for (Id conId : failedContactsWithWhatIds.keySet()) {
                         messageBody += conId + ', ';
                         if (Math.mod(3, i) == 0) messageBody += '\n';
                         i++;
@@ -125,18 +125,18 @@ public class Batch_CreateAdminTasks implements Database.Batchable<PEByContactWra
         }
     }
 
-    public static void launch(Map<Id, List<Participant_Enrollment__c>> contactsWithPE, TaskService.TaskConfig adminTask) {
-        Database.executeBatch(new Batch_CreateAdminTasks(contactsWithPE, adminTask, UserInfo.getUserId(), 0, 1));
+    public static void launch(Map<Id, List<Id>> contactsWithWhatIds, TaskService.TaskConfig adminTask) {
+        Database.executeBatch(new Batch_CreateAdminTasks(contactsWithWhatIds, adminTask, UserInfo.getUserId(), 0, 1));
     }
 
-    public class PEByContactWrapper {
+    public class WhatIdByContactWrapper {
 
         public Id contactId;
-        public List<Participant_Enrollment__c> enrollments;
+        public List<Id> whatIds;
 
-        public PEByContactWrapper(Id contactId, List<Participant_Enrollment__c> enrollments) {
+        public WhatIdByContactWrapper(Id contactId, List<Id> whatIds) {
             this.contactId = contactId;
-            this.enrollments = enrollments;
+            this.whatIds = whatIds;
         }
     }
 }

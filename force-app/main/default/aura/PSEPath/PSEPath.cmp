@@ -37,7 +37,7 @@
         </div>
         <aura:if isTrue="{!v.userMode == 'PI'}">
             <div class="slds-grid vpi-status-btns slds-gutters_x-small slds-wrap" data-gtm="BTN_Participant_Details">
-                <div class="{!'slds-col slds-size_1-of-1 slds-small-size_6-of-12'}">
+                <div class="slds-col slds-size_1-of-1 slds-small-size_6-of-12">
                     <button class="{!'apollo-btn secondary'}"
                             title="{!$Label.c.BTN_View_Participant_Details}"
                             onclick="{!c.showEditParticipantInformation}"
@@ -45,6 +45,15 @@
                                     {!$Label.c.BTN_View_Participant_Details}
                                 </button>
                 </div>
+            <!--<aura:if isTrue="{!empty(v.pe.MRR_Survey_Results_URL__c) &amp;&amp; !v.actions.screenerResponses.disabled &amp;&amp; v.pe.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c}">
+                <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12">
+                <lightning:button class="slds-button&#45;&#45;neutral"
+                title="{!$Label.c.BTN_Pre_Screen_Participant}"
+                onclick="{!c.showEditParticipantInformation}">
+                {!$Label.c.BTN_Pre_Screen_Participant}
+                </lightning:button>
+                </div>
+                </aura:if>-->
             </div>
 <!--            <div class="slds-grid vpi-status-btns slds-gutters_x-small slds-wrap">-->
 <!--                <div class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_4-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_4-of-12'}">-->

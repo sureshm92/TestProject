@@ -28,8 +28,8 @@ public without sharing class PaymentsRemote {
             ];
 
             if(remoteCallGetCardDetails.log.Success__c) {
-                initData.informationAvailable = true;
                 initData.cards = result;
+                if(!result.isEmpty()) initData.informationAvailable = true;
             }
 
             if(!pvs.isEmpty()) initData.href = pvs[0].Payment_Vendor__r.Link_Vendor__c;
