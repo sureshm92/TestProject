@@ -13,6 +13,9 @@
     <aura:attribute name="mode" type="String"/>
     <aura:attribute name="logoURL" type="String"/>
 
+    <!-- methods: -->
+    <aura:method name="init" action="{!c.doInit}" access="public"/>
+
     <aura:if isTrue="{!v.isInitialized}">
         <aura:if isTrue="{!v.languageChecked}">
             <div class="rr-all-content">
