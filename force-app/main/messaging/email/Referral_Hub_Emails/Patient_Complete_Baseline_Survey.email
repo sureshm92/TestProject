@@ -26,7 +26,8 @@
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Complete_Baseline_Survey}"
                              signature="{!$Label.Email_Signature_Survey}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Complete_Baseline_Survey}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Complete_Baseline_Survey}"
+                                  surveyId="{!relatedTo.Id}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 
