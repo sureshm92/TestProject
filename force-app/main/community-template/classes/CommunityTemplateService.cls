@@ -82,6 +82,11 @@ public without sharing class CommunityTemplateService {
         }
         return null;
     }
+
+    public static String getUrlPathPrefix(String templateName){
+        CommunityTemplate template = getTemplate(templateName);
+        return NETWORKS_MAP.get(template.communityName).UrlPathPrefix;
+    }
     
     
     public static Map<String, Network> getNetworksMap(){
