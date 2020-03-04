@@ -76,6 +76,14 @@ public without sharing class ParticipantInformationRemote {
 
             update participant;
             if (participantContact.Id != null) {
+                participantContact.Email = participant.Email__c;
+                if (participant.Phone_Type__c == 'Home') {
+                    participantContact.HomePhone = participant.Phone__c;
+                } if (participant.Phone_Type__c == 'Mobile') {
+                    participantContact.MobilePhone = participant.Phone__c;
+                } else {
+                    participantContact.Phone = participant.Phone__c;
+                }
                 update participantContact;
             }
 
