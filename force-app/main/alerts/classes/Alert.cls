@@ -93,6 +93,10 @@ public class Alert {
                 cardParametersValueMap = CatalogParametersHelper.getParamsValueMap(alertObject, card.Parameters__c);
             }
 
+            cardParametersValueMap.put(
+                    'CommunityWelcome',
+                    TranslateHelper.getLabelValue(UserContext.getTemplateProperty('CommunityWelcome'))
+            );
             cardParametersValueMap.put('UserName', userName);
             resultList.add(new Alert(
                     CatalogParametersHelper.prepareLabel(card.Title_label__c, cardParametersValueMap),
