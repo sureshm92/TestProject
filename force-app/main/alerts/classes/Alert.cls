@@ -91,12 +91,12 @@ public class Alert {
                 SObject alertObject = objectsMap.get(dbAlert.Record_ID__c);
                 if(alertObject == null) throw new AlertException('Alert ' + dbAlert.Name + ' has wrong Record Id field: ' + dbAlert.Record_ID__c);
                 cardParametersValueMap = CatalogParametersHelper.getParamsValueMap(alertObject, card.Parameters__c);
-                cardParametersValueMap.put(
-                        'CommunityWelcome',
-                        TranslateHelper.getLabelValue(UserContext.getTemplateProperty('CommunityWelcome'))
-                );
             }
 
+            cardParametersValueMap.put(
+                    'CommunityWelcome',
+                    TranslateHelper.getLabelValue(UserContext.getTemplateProperty('CommunityWelcome'))
+            );
             cardParametersValueMap.put('UserName', userName);
             resultList.add(new Alert(
                     CatalogParametersHelper.prepareLabel(card.Title_label__c, cardParametersValueMap),
