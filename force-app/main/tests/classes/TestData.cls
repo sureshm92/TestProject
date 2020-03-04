@@ -59,9 +59,12 @@ public class TestData {
         ];
         pe = [
                 SELECT Id,
-                        Participant_Contact__c,
+                        Participant_Contact__c,Participant_Status__c,
                         Participant_Contact__r.Visit_Results_Opt_In__c,
-                        Screening_ID__c, Medical_Record_Review_Completed_Date__c
+                        Screening_ID__c, Medical_Record_Review_Completed_Date__c,
+                        Study_Site__r.Principal_Investigator__c,
+                        Study_Site__r.Principal_Investigator__r.Name,
+                        Study_Site__r.Principal_Investigator__r.Title
                 FROM Participant_Enrollment__c
                 WHERE Participant__c = :participant.Id
         ];
