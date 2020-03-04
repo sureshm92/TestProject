@@ -99,12 +99,16 @@
         console.log(doNotContinueIds);
         console.log(JSON.stringify(component.get('v.contact')));
 
+        console.log(component.get('v.pe.Study_Site__c'));
+        console.log((component.get('v.selectedOption') == '1'));
+
         communityService.executeAction(component, 'updateParticipantAndDelegates', {
             participantS: JSON.stringify(component.get('v.participant')),
             participantContactS: JSON.stringify(component.get('v.contact')),
             delegatesS: JSON.stringify(component.get('v.delegateItems')),
             doNotContinueIds: doNotContinueIds,
-            needsInvite: (component.get('v.selectedOption') == '1')
+            needsInvite: (component.get('v.selectedOption') == '1'),
+            studySiteId: component.get('v.pe.Study_Site__c')
         }, function () {
             console.log('Emancipation wizard completed!');
             component.set('v.pe.Participant__r', component.get('v.participant'));

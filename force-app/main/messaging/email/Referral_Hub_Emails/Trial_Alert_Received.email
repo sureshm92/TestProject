@@ -1,12 +1,12 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Trial_Search_Match_Alert_Received}"
                          recipientType="Contact"
-                         relatedToType="Trial_Notification__c"
-                         language="{!relatedTo.Contact__r.Language__c}">
+                         relatedToType="Clinical_Trial_Profile__c"
+                         language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody >
-        <c:EmailTemplate recipientId="{!relatedTo.Contact__c}"
+        <c:EmailTemplate recipientId="{!recipient.Id}"
                          sourceId="{!relatedTo.Id}"
-                         parametersProvider="Email_Template_Parameters_From_TN"
+                         parametersProvider="Email_Template_Parameters_From_CTP"
                          header="{!$Label.Trial_Search_Header}"
                          title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_Contact_Greeting}"
@@ -17,10 +17,9 @@
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
-
-        <c:EmailTemplateText recipientId="{!relatedTo.Contact__c}"
+        <c:EmailTemplateText recipientId="{!recipient.Id}"
                              sourceId="{!relatedTo.Id}"
-                             parametersProvider="Email_Template_Parameters_From_TN"
+                             parametersProvider="Email_Template_Parameters_From_CTP"
                              header="{!$Label.Trial_Search_Header}"
                              title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_Contact_Greeting}"

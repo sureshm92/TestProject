@@ -12,6 +12,7 @@ public without sharing class CommunityTemplateService {
     public static final String PERMISSION_COMMUNITY_GSK_NAME = 'Community_GSK_Pan_Oncology';
 
     public static final String TEMPLATE_DEFAULT = 'Default';
+    public static final String TEMPLATE_GSK = 'GSK';
     public static final Map<String, String> RESOURCES_URL_MAP = getResourcesURLMap();
     public static final Map<String, Network> NETWORKS_MAP = getNetworksMap();
     public static final Map<String, CommunityTemplate> TEMPLATES_MAP = getTemplatesMap();
@@ -80,6 +81,11 @@ public without sharing class CommunityTemplateService {
             return url;
         }
         return null;
+    }
+
+    public static String getUrlPathPrefix(String templateName){
+        CommunityTemplate template = getTemplate(templateName);
+        return NETWORKS_MAP.get(template.communityName).UrlPathPrefix;
     }
     
     
