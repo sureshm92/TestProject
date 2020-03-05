@@ -90,14 +90,16 @@ public without sharing class DashboardRemote {
         String studyName;
         String studyId;
         Integer daysAdded;
+        Boolean isAbleToEdit;
 
-        WaitingContactItem(String Id, String name, String source, String studyName, String studyId, Integer daysAdded) {
+        WaitingContactItem(String Id, String name, String source, String studyName, String studyId, Integer daysAdded,  Boolean isAbleToEdit) {
             this.Id = Id;
             this.name = name;
             this.source = source;
             this.studyName = studyName;
             this.studyId = studyId;
             this.daysAdded = daysAdded;
+            this.isAbleToEdit = isAbleToEdit;
         }
     }
     //TODO Review
@@ -238,7 +240,7 @@ public without sharing class DashboardRemote {
                     }
                 }
 
-                piData.physiciansWaitingForApprovalList = prepareHCPEList(physiciansWaitingForApprovalPEList, userMode);
+                piData.physiciansWaitingForApprovalList = prepareHCPEList(physiciansWaitingForApprovalPEList, userMode, piId);
 
                 /*Integer phPending = HCPEnrollmentService.getHCPEnrollmentsCountForPI(HCPEnrollmentService.STATUS_GROUP_PENDING);
                 Integer phDeclined = HCPEnrollmentService.getHCPEnrollmentsCountForPI(HCPEnrollmentService.STATUS_GROUP_DECLINED);
@@ -256,7 +258,7 @@ public without sharing class DashboardRemote {
                 piData.waitingTimeToContact = prepareWaitingList(userMode, delegateId, piId);
 
                 // awaiting contact
-                piData.awaitingToContact = prepareAwaitingContactList(userMode, delegateId, contactAtemptedList);
+                piData.awaitingToContact = prepareAwaitingContactList(userMode, delegateId, contactAtemptedList, piId);
                 piData.participantsWaitingContact = piData.awaitingToContact.size();
 
                 piData.funnelData = prepareDataForFunnelChart(piId);
@@ -347,28 +349,59 @@ public without sharing class DashboardRemote {
         return JSON.serialize(initData);
     }
 
-    private static List<ListItem> prepareHCPEList(List<HCP_Enrollment__c> hcpeList, String userMode){
+    private static List<ListItem> prepareHCPEList(List<HCP_Enrollment__c> hcpeList, String userMode, Id piId){
         List<ListItem> resList = new List<ListItem>();
+        Id currentUserId = CommunityService.getInstance().getCurrentContactId();
+        Set<Id> avaliableIds = new Set<Id>();
+        if(piId != currentUserId){
+            Set<Id> ssId = new Set<Id>();
+            for(HCP_Enrollment__c hcpe : hcpeList){
+                ssId.add(hcpe.Study_Site__c);
+            }
+            for (Site_Staff__c ssStaff : [
+                    SELECT Id,
+                            Study_Site__c
+                    FROM Site_Staff__c
+                    WHERE Study_Site__c IN :ssId AND Site_Contact__c = :currentUserId AND Delegate_Level__c = 'Level 1'
+            ]) {
+                avaliableIds.add(ssStaff.Study_Site__c);
+            }
+        }
         for(HCP_Enrollment__c hcpe : hcpeList){
-            Map<String, StudyActions.Action> actions = new StudyActionsPI(hcpe).actions;
-            Set<String> actionIds = HCPEnrollmentService.HCP_CHANGE_STATUS_MAP.get(hcpe.Status__c).keySet();
-            for(String actionId : actionIds){
-                StudyActions.Action action = actions.get(actionId);
-                if(action.cssClass == 'green'){
-                    resList.add(new ListItem(hcpe, action));
-                    break;
+            if(avaliableIds.isEmpty()) {
+                Map<String, StudyActions.Action> actions = new StudyActionsPI(hcpe).actions;
+                Set<String> actionIds = HCPEnrollmentService.HCP_CHANGE_STATUS_MAP.get(hcpe.Status__c).keySet();
+                for (String actionId : actionIds) {
+                    StudyActions.Action action = actions.get(actionId);
+                    if (action.cssClass == 'green') {
+                        resList.add(new ListItem(hcpe, action));
+                        break;
+                    }
+                }
+            } else {
+                if(avaliableIds.contains(hcpe.Study_Site__c)) {
+                    Map<String, StudyActions.Action> actions = new StudyActionsPI(hcpe).actions;
+                    Set<String> actionIds = HCPEnrollmentService.HCP_CHANGE_STATUS_MAP.get(hcpe.Status__c).keySet();
+                    for (String actionId : actionIds) {
+                        StudyActions.Action action = actions.get(actionId);
+                        if (action.cssClass == 'green') {
+                            resList.add(new ListItem(hcpe, action));
+                            break;
+                        }
+                    }
                 }
             }
         }
         return resList;
     }
+
     private static List<ListItem> preparePEList(List<Participant_Enrollment__c> peList, String userMode){
         return preparePEList(peList, userMode, null);
     }
 
     private static List<ListItem> preparePEList(List<Participant_Enrollment__c> peList, String userMode, String delegateId){
         List<ListItem> resList = new List<ListItem>();
-        for(Participant_Enrollment__c pe : peList){
+        for(Participant_Enrollment__c pe : peList){ 
             StudyActions studyActions;
             if(userMode == CommunityService.USER_MODE_HCP) {
                 studyActions = new StudyActionsHCP(pe, delegateId);
@@ -542,8 +575,19 @@ public without sharing class DashboardRemote {
         return new BarItem(color, width, title, '' + count);
     }
 
-    private static List<WaitingContactItem> prepareAwaitingContactList(String userMode, String delegateId, List<Participant_Enrollment__c> contactAtemptedList) {
+    private static List<WaitingContactItem> prepareAwaitingContactList(String userMode, String delegateId, List<Participant_Enrollment__c> contactAtemptedList, Id piId) {
         List<WaitingContactItem> resList = new List<WaitingContactItem>();
+        Id currentContaId = CommunityService.getInstance().getCurrentContactId();
+        Set<Id> avaliableSS = new Set<Id>();
+        if(piId != currentContaId){
+            Set<Id> ssId = new Set<Id>();
+            for (Participant_Enrollment__c pe : contactAtemptedList) {
+                ssId.add(pe.Study_Site__c);
+            }
+            for(Site_Staff__c sstaff : [SELECT Id, Study_Site__c FROM Site_Staff__c WHERE Study_Site__c IN :ssId AND Site_Contact__c = :currentContaId]){
+                avaliableSS.add(sstaff.Study_Site__c);
+            }
+        }
 
         /*List<Participant_Enrollment__c> pes =
                 ParticipantEnrollmentService.getPEnrolmentsByStatus(
@@ -552,8 +596,18 @@ public without sharing class DashboardRemote {
                         null,
                         delegateId);*/
         for (Participant_Enrollment__c pe : contactAtemptedList) {
-            Integer daysAdded = pe.CreatedDate.date().daysBetween(System.today());
-            resList.add(new WaitingContactItem(pe.Participant__c, pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c, pe.Source_Type__c, pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, pe.Study_Site__r.Clinical_Trial_Profile__c, daysAdded));
+            if(avaliableSS.isEmpty()) {
+                Integer daysAdded = pe.CreatedDate.date().daysBetween(System.today());
+                resList.add(new WaitingContactItem(pe.Participant__c, pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c, pe.Source_Type__c, pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, pe.Study_Site__r.Clinical_Trial_Profile__c, daysAdded, true));
+            } else {
+                if(avaliableSS.contains(pe.Study_Site__c)){
+                    Integer daysAdded = pe.CreatedDate.date().daysBetween(System.today());
+                    resList.add(new WaitingContactItem(pe.Participant__c, pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c, pe.Source_Type__c, pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, pe.Study_Site__r.Clinical_Trial_Profile__c, daysAdded, true));
+                } else {
+                    Integer daysAdded = pe.CreatedDate.date().daysBetween(System.today());
+                    resList.add(new WaitingContactItem(pe.Participant__c, pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c, pe.Source_Type__c, pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, pe.Study_Site__r.Clinical_Trial_Profile__c, daysAdded, false));
+                }
+            }
         }
 
         return resList;

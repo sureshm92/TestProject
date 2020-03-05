@@ -32,6 +32,14 @@
     color: black;
 }
 
+.THIS .svg-funnel-js .svg-funnel-js__labels .svg-funnel-js__label .label__title {
+    color: black;
+}
+
+.THIS .svg-funnel-js .svg-funnel-js__labels .svg-funnel-js__label .label__percentage {
+    color: black;
+}
+
 .THIS .funnel {
     margin: 24px auto;
     width: 100%;

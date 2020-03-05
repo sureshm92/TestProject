@@ -17,7 +17,6 @@
             });
         });
         var notesRequired = component.get('v.notesRequired');
-        debugger;
         isCurrentStepValid = isCurrentStepValid && ((stepWrapper.outcomeList === undefined || stepWrapper.outcomeList.length== 0)
             ||(stepWrapper.outcome === undefined || stepWrapper.outcome ==='')
             ||!notesRequired

@@ -182,8 +182,12 @@ global without sharing class ReferHealthcareProviderRemote {
                                                    FROM   Patient_Delegate__c
                                                    WHERE  Participant__c  =: participantId
                                                   ];
-        if (listDelegates.isEmpty()) listDelegates.add(new Patient_Delegate__c());
-        return listDelegates;
+        /*if (listDelegates.isEmpty()) listDelegates.add(new Patient_Delegate__c());*/
+        if (listDelegates.isEmpty()) {
+            return null;
+        } else {
+            return listDelegates;
+        }
     }
 
 
@@ -280,6 +284,8 @@ global without sharing class ReferHealthcareProviderRemote {
                     Language__c = UserInfo.getLanguage(),
                     HCP_Opt_In_Referral_Status_Emails__c = true,
                     RP_Invited_By_PI__c = true,
+                    userCommunityMode__c = CommunityService.USER_MODE_HCP,
+                    userCommunytyType__c = CommunityService.USER_MODE_HCP,
                     //MailingCountry = studySite.Site__r.BillingCountry));
                     MailingCountry = piContact.MailingCountry,
                     MailingState = piContact.MailingState));

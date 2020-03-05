@@ -60,7 +60,8 @@
     </values>
     <values>
         <field>Success_Condition__c</field>
-        <value xsi:type="xsd:string">Initial_visit_occurred_flag__c == true</value>
+        <value xsi:type="xsd:string">Initial_visit_occurred_flag__c == true &#38;&#38; Informed_Consent__c == true
+        </value>
     </values>
     <values>
         <field>Success_Date_Field__c</field>
