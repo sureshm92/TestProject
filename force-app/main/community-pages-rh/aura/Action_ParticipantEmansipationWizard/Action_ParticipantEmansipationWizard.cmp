@@ -252,7 +252,9 @@
                                         </aura:if>
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
                                             <div class="label">
-                                                {!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}<abbr title="required" class="slds-required">*</abbr>
+                                                <span style="white-space: nowrap; width: 85%; overflow: hidden; text-overflow: ellipsis;">
+                                                    {!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
+                                                </span><abbr title="required" class="slds-required">*</abbr>
                                             </div>
                                             <lightning:input aura:id="{!'phoneDInput' + ind}" type="text" value="{!delegateItem.Phone__c}"
                                                              required="{!v.currentTab == '2'}"  onblur="{!c.doCheckDelegateFields}"/>
