@@ -45,6 +45,7 @@ public without sharing class TravelSupportRemote {
         }
     }
 
+    @TestVisible
     private List<TravelWrapper> getTravelWrappersRemotely(RemoteCall_GetTravelBookingDetails.BookingResponse bookingResponse, Boolean isHomePage) {
         List<TravelWrapper> travelWrappers = new List<TravelWrapper>();
         if (bookingResponse == null) return travelWrappers;

@@ -89,7 +89,7 @@
         let doNotContinueIds = [];
         let delegateItems = component.get('v.delegateItems');
         for (let ind = 0; ind < delegateItems.length; ind++) {
-            if (delegateItems[ind].Id != undefined && delegateItems[ind].selectedOption == '2') {
+            if (delegateItems[ind].Contact__c != undefined && delegateItems[ind].selectedOption == '2') {
                 doNotContinueIds.push(delegateItems[ind].Contact__c);
             }
             delete delegateItems[ind].selectedOption;
@@ -97,13 +97,6 @@
             delete delegateItems[ind].continueDelegateMsg;
         }
         console.log(doNotContinueIds);
-
-        console.log(JSON.stringify(component.get('v.contact')));
-        console.log(JSON.stringify(component.get('v.participant')));
-        console.log(JSON.stringify(component.get('v.delegateItems')));
-
-        console.log(component.get('v.pe.Study_Site__c'));
-        console.log((component.get('v.selectedOption') == '1'));
 
         communityService.executeAction(component, 'updateParticipantAndDelegates', {
             participantS: JSON.stringify(component.get('v.participant')),

@@ -8,8 +8,8 @@
     <apex:attribute name="params" type="String" assignTo="{!dataParams}" description=""/>
     <!-- component body -->
     --------------------------------------------------------------------------
-    <apex:repeat value="{!delegateStudySites}" var="studySite">
-        Study Name: {!studySite.studyName}
+    <apex:repeat value="{!delegateStudyNames}" var="studyName">
+        Study Name: {!studyName}
     </apex:repeat>
     --------------------------------------------------------------------------
     {!afterText}

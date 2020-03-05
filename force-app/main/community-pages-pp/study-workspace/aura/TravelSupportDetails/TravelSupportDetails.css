@@ -104,7 +104,7 @@
 .THIS .select-container {
     display: flex;
     padding: 0 2% 2% 25px;
-    place-items: center;
+    align-items: center;
     color: #666666;
 }
 .THIS.mode-block {

@@ -32,6 +32,7 @@ window.communityService = (function () {
     var service = {
 
         initialize: function (component) {
+            if(service.isInitialized()) return;
             service.executeAction(component, 'getCommunityData', null, function (returnValue) {
                 console.log('Mode data: ' + returnValue);
                 var communityData = JSON.parse(returnValue);
@@ -57,7 +58,7 @@ window.communityService = (function () {
                 console.log('is TC accepted: ' + isTCAcceptedFlag);
                 console.log('URL path prefix: ' + communityURLPathPrefix);
                 component.init();
-                if (!service.isTCAccepted()) {
+                if (!service.isTCAccepted() && service.getPageName() !== 'terms-and-conditions') {
                     service.navigateToPage('terms-and-conditions?ret=' + service.createRetString());
                 } else {
                     $A.get('e.c:EventCommunityInitialized').fire();

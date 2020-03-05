@@ -34,31 +34,39 @@
     doCheckDependentFields : function (component, event, helper) {
 
         var stepWrapper = component.get('v.stepWrapper');
-        helper.checkValidity(component, event, helper, stepWrapper);
         var updateInProgress = component.get('v.updateInProgress');
-        if(!updateInProgress){
+        if(!updateInProgress) {
             component.set('v.updateInProgress', true);
             var params = event.getParam('arguments');
             var fieldName = params.fieldName;
-            if(stepWrapper.fieldDependencyMap.hasOwnProperty(fieldName)){
+            if (stepWrapper.fieldDependencyMap.hasOwnProperty(fieldName)) {
                 var dependentFields = stepWrapper.fieldDependencyMap[fieldName];
-                for(var i = 0; i < stepWrapper.formFieldGroups.length; i++ ){
-                    for( var j = 0; j < stepWrapper.formFieldGroups[i].fields.length;j++){
-                        if(dependentFields.indexOf(stepWrapper.formFieldGroups[i].fields[j].field)!=-1){
-                            if(params.value==='false'){
+                for (var i = 0; i < stepWrapper.formFieldGroups.length; i++) {
+                    for (var j = 0; j < stepWrapper.formFieldGroups[i].fields.length; j++) {
+                        if (dependentFields.indexOf(stepWrapper.formFieldGroups[i].fields[j].field) != -1) {
+                            if (params.value === 'false') {
                                 // stepWrapper.formFieldGroups[i].fields[j].required = false;
                                 stepWrapper.formFieldGroups[i].fields[j].value = '';
                                 stepWrapper.formFieldGroups[i].fields[j].readonly = true;
-                            }
-                            else{
+                            } else {
                                 // stepWrapper.formFieldGroups[i].fields[j].required = true;
+                                debugger;
                                 stepWrapper.formFieldGroups[i].fields[j].readonly = false;
+                                if (stepWrapper.formFieldGroups[i].fields[j].populateFromDependent !== null) {
+                                    for (var k = 0; k < stepWrapper.formFieldGroups.length; k++) {
+                                        for (var l = 0; l < stepWrapper.formFieldGroups[k].fields.length; l++) {
+                                            if (stepWrapper.formFieldGroups[i].fields[j].populateFromDependent === stepWrapper.formFieldGroups[k].fields[l].field)
+                                                stepWrapper.formFieldGroups[i].fields[j].value = stepWrapper.formFieldGroups[k].fields[l].value;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
+                    component.set('v.stepWrapper.formFieldGroups', stepWrapper.formFieldGroups);
                 }
-                component.set('v.stepWrapper.formFieldGroups', stepWrapper.formFieldGroups);
             }
+            helper.checkValidity(component, event, helper, stepWrapper);
             component.set('v.updateInProgress', false);
         }
     },

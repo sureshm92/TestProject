@@ -4,18 +4,6 @@
 
 public without sharing class MotivationalMessagesRemote {
 
-    public class MotivationalMessages {
-        Id recordId;
-        Integer numberOfDays;
-        String message;
-
-        MotivationalMessages(Motivational_Message__c messageForShow) {
-            recordId = messageForShow.Id;
-            numberOfDays = messageForShow.Number_of_Days_Active_after_Enrollment__c.intValue();
-            message = messageForShow.Message__c;
-        }
-    }
-
     @AuraEnabled
     public static String getMotivationalMessage(String userMode) {
         try {

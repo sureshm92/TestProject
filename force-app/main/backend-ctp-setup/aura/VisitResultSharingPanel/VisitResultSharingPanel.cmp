@@ -110,7 +110,8 @@
                                                                           onchange="{!c.doSSSelectionChange}"
                                                                           onblur="{!c.doSSSelectionChange}"
                                                                           selectedCountries="{!v.options.selectedCountries}"
-                                                                          includeSS="{!v.options.ssSelectionType == 'Study Sites'}"/>
+                                                                          includeSS="{!v.options.ssSelectionType == 'Study Sites'}"
+                                                                          maxWidth="300px"/>
                                         </aura:if>
                                     </div>
                                 </div>
