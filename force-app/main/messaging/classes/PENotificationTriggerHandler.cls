@@ -119,15 +119,13 @@ public without sharing class PENotificationTriggerHandler {
                 participantConIds, new List<String>{'Id'}
         );
         for (Notification__c n : notifications) {
-            if (conDelegatesByPartConMap.containsKey(n.Recipient__c)) {
+            if (!NotificationService.excludedNotificationTypesForDelegate.contains(n.Notification_Type__c) && conDelegatesByPartConMap.containsKey(n.Recipient__c)) {
                 for (Contact conDel : conDelegatesByPartConMap.get(n.Recipient__c)) {
-                    if (!NotificationService.excludedNotificationTypesForDelegate.contains(n.Notification_Type__c)) {
-                        listNotificationForDelegate.add(new Notification__c(
-                                Recipient__c = conDel.Id,
-                                WhatId__c = n.WhatId__c,
-                                Notification_Type__c = n.Notification_Type__c
-                        ));
-                    }
+                    listNotificationForDelegate.add(new Notification__c(
+                            Recipient__c = conDel.Id,
+                            WhatId__c = n.WhatId__c,
+                            Notification_Type__c = n.Notification_Type__c
+                    ));
                 }
             }
         }
