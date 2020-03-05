@@ -42,6 +42,15 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
+    public static void updatePatientInfoWithDelegate(String participantJSON, String peJSON, String delegateJSON) {
+        AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON);
+        if (!String.isBlank(delegateJSON)) {
+            Contact delegateParticipant = (Contact) JSON.deserialize(delegateJSON, Contact.class);
+            update delegateParticipant;
+        }
+    }
+
+    @AuraEnabled
     public static void createUserForPatientProtal(String peJSON, Boolean sendEmails) {
         Participant_Enrollment__c pe = (Participant_Enrollment__c) JSON.deserialize(peJSON, Participant_Enrollment__c.class);
         if (sendEmails) {
@@ -286,6 +295,20 @@ public without sharing class ParticipantInformationRemote {
         Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
         Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
         update participant;
+        return updatePatientStatus(pathWrapperJSON, pe);
+    }
+
+    @AuraEnabled
+    public static String updatePatientInfoAndStatusWithDelegate(String participantJSON, String peJSON, String pathWrapperJSON, String peId, String delegateJSON) {
+        Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
+        Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
+        update participant;
+
+        if (!String.isBlank(delegateJSON)) {
+            Contact delegateParticipant = (Contact) JSON.deserialize(delegateJSON, Contact.class);
+            update delegateParticipant;
+        }
+
         return updatePatientStatus(pathWrapperJSON, pe);
     }
 
