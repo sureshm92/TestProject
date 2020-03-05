@@ -29,6 +29,8 @@
     <aura:attribute name="loading" type="Boolean" default="true"/>
     <aura:attribute name="bypassValueChange" type="Boolean"/>
 
+    <aura:attribute name="maxWidth" type="String" default=""/>
+
     <!-- handlers: -->
     <aura:handler name="change" value="{!v.value}" action="{!c.doValueChange}"/>
 
@@ -136,7 +138,7 @@
                     <div id="{# globalId + '_selection' }" role="listbox" aria-orientation="horizontal">
                         <ul class="slds-listbox slds-listbox_inline slds-p-top_xxx-small" role="group" aria-label="Selected Options:">
                             <aura:iteration items="{!v.selection}" var="item">
-                                <li role="presentation" class="slds-listbox__item">
+                                <li role="presentation" class="slds-listbox__item" style="{!if(v.maxWidth != '', 'max-width:'+ v.maxWidth, '')}">
                                     <lightning:pill label="{!if(and(!empty(item.subtitle),v.extendedPill), item.title + ', ' + item.subtitle, item.title)}" onremove="{!c.onRemoveSelectedItem}" name="{!item.id}">
                                         <aura:set attribute="media">
                                             <lightning:icon iconName="{! empty(item.icon) ? 'standard:default' : item.icon}" />
