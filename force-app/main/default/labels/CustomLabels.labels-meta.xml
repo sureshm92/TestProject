@@ -5873,7 +5873,7 @@
         <protected>true</protected>
         <shortDescription>OT Participant GSK S75 Text</shortDescription>
         <value>Take action on tasks that have been assigned to you or created by you or your delegate using the Open Task List.
-View study documents and other resources including articles and videos related to the study or the condition being studied from Resources.</value>
+            View study documents and other resources including articles and videos related to the study or the condition being studied from Resources.</value>
     </labels>
     <labels>
         <fullName>OT_Participant_S1_H</fullName>
@@ -12257,3 +12257,1598 @@ View study documents and other resources including articles and videos related t
         <fullName>Source_ID</fullName>
         <language>en_US</language>
         <protected>true</protected>
+        <shortDescription>Source_ID</shortDescription>
+        <value>Source ID</value>
+    </labels>
+    <labels>
+        <fullName>Studies_FindSitesForStudy</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies_FindSitesForStudy</shortDescription>
+        <value>Find Sites For This Study</value>
+    </labels>
+    <labels>
+        <fullName>Studies_GlobalSearchPlaceholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies_GlobalSearchPlaceholder</shortDescription>
+        <value>Global Search for Study</value>
+    </labels>
+    <labels>
+        <fullName>Studies_SearchForMoreButtonLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies_SearchForMoreButtonLabel</shortDescription>
+        <value>Search for More Studies</value>
+    </labels>
+    <labels>
+        <fullName>Studies_SearchForMoreLabel</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies_SearchForMoreLabel</shortDescription>
+        <value>Don&#39;t see a study that you could refer your patients to?</value>
+    </labels>
+    <labels>
+        <fullName>Studies_SearchPlaceholder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Studies_SearchPlaceholder</shortDescription>
+        <value>Search for Study</value>
+    </labels>
+    <labels>
+        <fullName>StudyStub</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>StudyStub</shortDescription>
+        <value>This study</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Ad_hoc_Visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>StudyVisit Ad hoc Visit</shortDescription>
+        <value>Ad hoc</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Information_Not_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>StudyVisit Information Not Available</shortDescription>
+        <value>Information not available</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Blood</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will need to give some blood, which will be used to check your health and to see how your body responds to and processes the study medication. In the optional genetic research sub-study, blood samples will be used to see how genes affect the way the study medication works.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Brief_Physical_Examination</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>These are checks of your general health and may be brief or a complete examination. At the visits during the treatment period, you have a brief physical examination. This will include skin, lungs, heart and blood vessels, and abdomen. At the screening and follow-up visit, you will have a complete physical examination. This will include skin, heart and blood vessels, stomach and intestines, airways and neurological assessment (nerves), and any other necessary checks. Your height and weight will also be measured.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Chest_X_Rays</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>The study doctor will perform a test that takes an image of the inside of your chest to check the health of your lungs.  You will have this test once between Weeks 48 and 51.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_ECG</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>The study doctor will perform  a procedure during which sticky pads  are placed on your chest, arms, and  legs. The pads are connected by wires  to a machine that checks the rhythm  and activity of your heart.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Fasting</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>Before some visits, you will need to fast (not eat or drink anything, except water) for at least 6 hours before the visit.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Follow_Up_Period</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Hands_And_Feet_X_Rays</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>The study doctor will perform a test that takes an image of the inside of your hands and feet to check the health of your joints.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Joint_Assessment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>An appropriately trained person (or doctor or nurse) will examine your joints and count how many are swollen and/or tender, by pressing on your joints with their fingers/hands. The pressing on the joints may cause some discomfort and pain for any joints that are tender.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Lung_Function_Test</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>This test will be performed to measure the amount of air you have in your lungs and how well you can move that air by forcibly blowing into a spirometer (lung function machine).</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Lung_Health_Check</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>The study doctor will check the health  of your lungs and any coughing by listening to the sound of your breathing with a stethoscope. They will also ask  you about any breathlessness and measure the amount of oxygen in  your blood.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_No_Food_Or_Drink</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_No_Study_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>If you take part in contRAst-X, the long-term extension study, you will not have this follow-up visit.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Pregnancy_Test</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>If you are a woman who is able to get pregnant, you will have a pregnancy test at regular intervals during the study. The test at screening will be a blood test and the remaining tests will be urine tests. The effects of the investigational medication on unborn babies is not known.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Questions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will be asked some questions about your health in general, your sleep, your pain and energy level, and how RA is affecting your daily life. There are also optional participant questionnaires, where you can provide feedback about your experience in the study.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Questions2</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will speak to a member of the study team who will ask you questions about your health, any medications you have taken, and how you are feeling. This will happen every 1 to 4 weeks and may be done by phone or at the study center.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Receive_Medication</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will receive enough study medication to last until your next visit. You will also receive information on how to take and store the study medication.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Return_Medication</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Study_Medication_Capsules</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will receive the study medication capsules every 4 weeks. You will also receive information on how to take and store the study medication.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Study_Medication_Injection</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will receive the study medication injection at the study center.
+            For visits at Study Weeks 0, 1, 12 and 13, you will need to stay at the study center for 1 hour after you have received the study medication injection.
+            For visits at Study Week 3, 5–7, 9–11, 14, 15, 17–23, 25–35, 37–47, 49–51 you may be able to self-administer the study medication injection at home. Your study doctor will let you know whether this option is available. If you self-administer the study medication injection, you will receive a supply of pre-filled syringes every 4 weeks.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Treatment_Period</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed euismod enim. Curabitur consectetur nunc eget nisi fringilla dignissim. Cras auctor felis aliquet imperdiet pulvinar. Sed semper vestibulum nisl, sed porttitor quam.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Urine_Tests</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>You will be asked to provide urine samples, which will be used to check your health.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_Vital_Signs</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>Your blood pressure, heart rate, breathing rate, and body temperature, will be measured.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Legend_X_Rays</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Legend description</shortDescription>
+        <value>The study doctor will perform a test that takes an image of the inside of your chest (to check the health of your lungs) and hands and feet (to check the health of your joints).</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Popup_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Popup text</shortDescription>
+        <value>Please be aware that you will be redirected to the travel service setup and will need a travel service packet in order to complete the process. If you have not received a packet, travel support may not be available at your study center and you should check with a member of your study team. 
+
+            By clicking OK, you are consenting to participate in the travel support service and leaving the IQVIA TM Patient Portal website. The Terms of Use and Privacy Policy on other  websites may be different from those of this website. Please refer to the Privacy Policy and Terms of Use of these other websites as we cannot control or be  responsible for their policies, terms of use, or legal/regulatory compliance.</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Unscheduled_Visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>StudyVisit Unscheduled Visit</shortDescription>
+        <value>Unscheduled Visit</value>
+    </labels>
+    <labels>
+        <fullName>StudyVisit_Variable</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>StudyVisit Variable</shortDescription>
+        <value>Variable</value>
+    </labels>
+    <labels>
+        <fullName>Study_Team</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Team</shortDescription>
+        <value>Study Team</value>
+    </labels>
+    <labels>
+        <fullName>Study_Visit_Unavailable</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Visit Unavailable</shortDescription>
+        <value>Unavailable</value>
+    </labels>
+    <labels>
+        <fullName>Success</fullName>
+        <categories>visit configuration</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Success</shortDescription>
+        <value>Success</value>
+    </labels>
+    <labels>
+        <fullName>Success_Creation</fullName>
+        <categories>visit configuration</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>The record has been created successfully.</shortDescription>
+        <value>The record has been created successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Successfully_Contacted</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Successfully_Contacted</shortDescription>
+        <value>Successfully Contacted</value>
+    </labels>
+    <labels>
+        <fullName>Systolic</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Systolic</shortDescription>
+        <value>Systolic</value>
+    </labels>
+    <labels>
+        <fullName>Systolic_Blood_Pr</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Systolic Blood Pr</shortDescription>
+        <value>Systolic blood pressure</value>
+    </labels>
+    <labels>
+        <fullName>Systolic_Blood_Pr_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Systolic Blood Pr Description</shortDescription>
+        <value>Systolic blood pressure is a measure of how hard your blood is pushed against the walls of the arteries when the heart is beating and pushing out blood.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Complete_Your_Question</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Complete Your Question.</shortDescription>
+        <value>Complete Your Question.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Complete_description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Complete description.</shortDescription>
+        <value>Complete description.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Email_can_t_be_empty</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Email can`t be empty!</shortDescription>
+        <value>Email can`t be empty!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Email_was_successfully_sent</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Email was successfully sent!</shortDescription>
+        <value>Email was successfully sent!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Emails_are_same</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Emails are same!</shortDescription>
+        <value>Emails are same!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Incorrect_enrollment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Incorrect enrollment!</shortDescription>
+        <value>Incorrect enrollment!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Incorrect_user_data</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Incorrect user data</shortDescription>
+        <value>Incorrect user data</value>
+    </labels>
+    <labels>
+        <fullName>TST_Invalid_email_address</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Invalid email address!</shortDescription>
+        <value>Invalid email address!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Permissions_should_be_the_same_for_study</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Permissions should be the same for study!</shortDescription>
+        <value>A team member&#39;s permissions must be the same for each site within a given study. This functionality will be enhanced in an upcoming release.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Request_to_invite_a_referring_provider</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Request to invite a referring provider</shortDescription>
+        <value>Request to invite a referring provider has been successfully submitted</value>
+    </labels>
+    <labels>
+        <fullName>TST_Screenshot_Wrong_Format</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Screenshot Wrong Format</shortDescription>
+        <value>Wrong file format</value>
+    </labels>
+    <labels>
+        <fullName>TST_Screenshot_size_limit_2MB_exceeded</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Screenshot size limit(2MB) exceeded!</shortDescription>
+        <value>Screenshot size limit(2MB) exceeded!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Screenshots_size_limit_10MB_exceeded</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Screenshots size limit(10MB) exceeded!</shortDescription>
+        <value>Screenshots size limit(3MB) exceeded!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Something_went_wrong</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Something went wrong!</shortDescription>
+        <value>Something went wrong!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Study_was_successfully_declined</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Study was successfully declined!</shortDescription>
+        <value>Study was successfully declined!</value>
+    </labels>
+    <labels>
+        <fullName>TST_Thank_you_for_logging_a_problem_We_will_investigate_and_get_back_to_you</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Thank you for logging a problem.  We will investigate and get back to you.</shortDescription>
+        <value>Thank you for logging a problem.  We will investigate and get back to you.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Thank_you_for_submitting_your_question</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Thank you for submitting your question.</shortDescription>
+        <value>Thank you for submitting your question.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Thank_you_for_using_our_help</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Thank you for using our help.</shortDescription>
+        <value>Thank you for using our help.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Thank_you_for_your_feedback</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Thank you for your feedback!</shortDescription>
+        <value>Thank you for your feedback!</value>
+    </labels>
+    <labels>
+        <fullName>TST_The_status_of_this_record_is_locked_by_site_administration_For_more_inform</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST &quot;The status of this record is locked by site administration. For more inform</shortDescription>
+        <value>&quot;The status of this record is locked by site administration. For more information contact IQVIA.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Wrong_email_format</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Wrong email format.</shortDescription>
+        <value>Wrong email format.</value>
+    </labels>
+    <labels>
+        <fullName>TST_You_cannot_add_primary_investigator_as_a_delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST You cannot add primary investigator as a delegate.</shortDescription>
+        <value>You cannot add primary investigator as a delegate.</value>
+    </labels>
+    <labels>
+        <fullName>TST_You_cannot_add_referring_provider_as_a_delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST You cannot add referring provider as a delegate.</shortDescription>
+        <value>You cannot add referring provider as a delegate.</value>
+    </labels>
+    <labels>
+        <fullName>TST_You_cannot_add_yourself_as_a_delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST You cannot add yourself as a delegate.</shortDescription>
+        <value>You cannot add yourself as a delegate.</value>
+    </labels>
+    <labels>
+        <fullName>TST_You_have_successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST You have successfully</shortDescription>
+        <value>You have successfully</value>
+    </labels>
+    <labels>
+        <fullName>TST_You_have_successfully_created_permissions_for</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST You have successfully created permissions for</shortDescription>
+        <value>You have successfully created permissions for</value>
+    </labels>
+    <labels>
+        <fullName>TST_You_have_successfully_updated_permissions_for</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST You have successfully updated permissions for</shortDescription>
+        <value>You have successfully updated permissions for</value>
+    </labels>
+    <labels>
+        <fullName>TST_Your_email_address_has_been_updated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Your email address has been updated.</shortDescription>
+        <value>Your email address has been updated.</value>
+    </labels>
+    <labels>
+        <fullName>TST_Your_password_has_been_changed_successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST Your password has been changed successfully.</shortDescription>
+        <value>Your password has been changed successfully.</value>
+    </labels>
+    <labels>
+        <fullName>TST_activated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST activated</shortDescription>
+        <value>activated</value>
+    </labels>
+    <labels>
+        <fullName>TST_approved</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST approved</shortDescription>
+        <value>approved</value>
+    </labels>
+    <labels>
+        <fullName>TST_attended_orientation_and_activated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST attended orientation and activated</shortDescription>
+        <value>attended orientation and activated</value>
+    </labels>
+    <labels>
+        <fullName>TST_deactivated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST deactivated</shortDescription>
+        <value>deactivated</value>
+    </labels>
+    <labels>
+        <fullName>TST_declined</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST declined</shortDescription>
+        <value>declined</value>
+    </labels>
+    <labels>
+        <fullName>TST_has_been_successfully_excluded</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST has been successfully excluded.</shortDescription>
+        <value>has been successfully excluded.</value>
+    </labels>
+    <labels>
+        <fullName>TST_put_On_Hold</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TST put On Hold</shortDescription>
+        <value>put On Hold</value>
+    </labels>
+    <labels>
+        <fullName>TS_Add_Vendor</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Add Vendor</shortDescription>
+        <value>Add Vendor</value>
+    </labels>
+    <labels>
+        <fullName>TS_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Disclaimer</shortDescription>
+        <value>I agree to the</value>
+    </labels>
+    <labels>
+        <fullName>TS_Disclaimer1</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Disclaimer 1</shortDescription>
+        <value>, and to share my contact details or contact details of another person (who has provided their consent) and be contacted by IQVIA, a study doctor, and other affiliated companies regarding this clinical study.</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Another_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Another Country</shortDescription>
+        <value>Select another country</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Another_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Another Study Site</shortDescription>
+        <value>Select another Study Site</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Country</shortDescription>
+        <value>Select country</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Country_Or_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Country Or Study Site</shortDescription>
+        <value>Select Country or Study Site</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Study_Site</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Study Site</shortDescription>
+        <value>Select Study Site</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_Travel_Vendor_First</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select Travel Vendor First</shortDescription>
+        <value>Select Travel Vendor First</value>
+    </labels>
+    <labels>
+        <fullName>TS_Select_or_add_vendor_first</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Select or add vendor first</shortDescription>
+        <value>Select or add vendor first</value>
+    </labels>
+    <labels>
+        <fullName>TS_Study_Site_Number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TS Study Site Number</shortDescription>
+        <value>Study Site Number</value>
+    </labels>
+    <labels>
+        <fullName>TTL_Create_Task</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title for Create_Task</shortDescription>
+        <value>Create Task</value>
+    </labels>
+    <labels>
+        <fullName>TTL_Edit_Task</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Title Edit Task</shortDescription>
+        <value>Edit Task</value>
+    </labels>
+    <labels>
+        <fullName>Tab_HealthCare_Provider</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Tab_HealthCare_Provider</shortDescription>
+        <value>Healthcare Provider</value>
+    </labels>
+    <labels>
+        <fullName>Tab_Sharing_Options</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Tab_Sharing_Options</shortDescription>
+        <value>Sharing Options</value>
+    </labels>
+    <labels>
+        <fullName>Task_Details</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Details</shortDescription>
+        <value>Task Details</value>
+    </labels>
+    <labels>
+        <fullName>Task_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Name</shortDescription>
+        <value>Task Name</value>
+    </labels>
+    <labels>
+        <fullName>Task_Reminder_Details</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Reminder Details</shortDescription>
+        <value>Task Reminder Details</value>
+    </labels>
+    <labels>
+        <fullName>Task_Reminders_Missing</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Reminders Missing</shortDescription>
+        <value>Currently all recipients do not have their communication preference set to receive emails. Some task reminders may not be delivered.</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Complete_Baseline_Survey</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Subject Complete Baseline Survey</shortDescription>
+        <value>Please complete your TransCelerate Study Baseline Survey</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Complete_Survey</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Subject Complete Survey</shortDescription>
+        <value>Please complete the ##SurveyName</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Complete_Your_Profile</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Subject Complete Your Profile</shortDescription>
+        <value>Please, complete your profile under Account Settings</value>
+    </labels>
+    <labels>
+        <fullName>Task_Subject_Select_COI</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Subject Select COI</shortDescription>
+        <value>If you want to see more study resources related to diagnosis, please select relevant conditions of interest in account settings</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Completed_Tasks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Tab Completed Tasks</shortDescription>
+        <value>Completed Tasks</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_My_Tasks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Tab My Tasks</shortDescription>
+        <value>My Tasks</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Open_Tasks</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Tab Open Tasks</shortDescription>
+        <value>Open Task</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Col_Complete_By</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task_Tab_Table_Col_Complete_By</shortDescription>
+        <value>Complete By</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Col_Completed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task_Tab_Table_Col_Completed</shortDescription>
+        <value>Completed</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Col_Completed_By</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task_Tab_Table_Col_Complete_By</shortDescription>
+        <value>Complete By</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Col_Name</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task_Tab_Table_Col_Name</shortDescription>
+        <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Col_Priority</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task_Tab_Table_Col_Priority</shortDescription>
+        <value>Priority</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Status_Expired</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Tab Table Status Expired</shortDescription>
+        <value>Expired</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Status_Ignored</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Tab Table Status Ignored</shortDescription>
+        <value>Ignored</value>
+    </labels>
+    <labels>
+        <fullName>Task_Tab_Table_Status_In_Progress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Tab Table Status In Progress</shortDescription>
+        <value>In Progress</value>
+    </labels>
+    <labels>
+        <fullName>Task_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Type</shortDescription>
+        <value>Task Type</value>
+    </labels>
+    <labels>
+        <fullName>Task_Type_Medication</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Type Medication</shortDescription>
+        <value>Medication</value>
+    </labels>
+    <labels>
+        <fullName>Task_Type_Not_Selected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Type Not Selected</shortDescription>
+        <value>Not Selected</value>
+    </labels>
+    <labels>
+        <fullName>Task_Type_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Task Type Visit</shortDescription>
+        <value>Visit</value>
+    </labels>
+    <labels>
+        <fullName>Test_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Test Label</shortDescription>
+        <value>Test_Label</value>
+    </labels>
+    <labels>
+        <fullName>Test_Label_With_Param</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Test Label With Param</shortDescription>
+        <value>For this: ##param1, use this: ##zzz</value>
+    </labels>
+    <labels>
+        <fullName>Thank_you_for_your_Interest</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>COI Toast Alert Me When CTP appears</shortDescription>
+        <value>Thank you for your interest in {0}. We will contact you when the clinical research study would be created for this.</value>
+    </labels>
+    <labels>
+        <fullName>This_Participant_has_reached_legal_age_of_emancipation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>This Participant has reached legal age of emancipation</shortDescription>
+        <value>This Participant has reached legal age of emancipation, but continues to require legal guardianship. Please verify that this is correct.</value>
+    </labels>
+    <labels>
+        <fullName>Toast_Changes_Successfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Changes made successfully</shortDescription>
+        <value>Changes made successfully</value>
+    </labels>
+    <labels>
+        <fullName>Toast_Contact_Inf_Not_Updated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast Contact Inf Not Updated</shortDescription>
+        <value>Please update your contact information.</value>
+    </labels>
+    <labels>
+        <fullName>Toast_Enter_Mob_Num</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast Enter Mob Num</shortDescription>
+        <value>Please enter a mobile number.</value>
+    </labels>
+    <labels>
+        <fullName>Toast_ICF</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast ICF</shortDescription>
+        <value>Patients cannot be enrolled without signing the Informed Consent Form</value>
+    </labels>
+    <labels>
+        <fullName>Toast_TimeZone</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Toast TimeZone</shortDescription>
+        <value>The browser timezone not match with your profile timezone. Please set correct timezone {0}.</value>
+    </labels>
+    <labels>
+        <fullName>Total_Cholesterol</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Total Cholesterol</shortDescription>
+        <value>Total Cholesterol</value>
+    </labels>
+    <labels>
+        <fullName>Total_Cholesterol_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Total Cholesterol Description</shortDescription>
+        <value>Cholesterol is a type of fat made by the liver that is found in your blood. You can also take in cholesterol by eating certain foods, such as meat, fish, eggs, and dairy products. Your total cholesterol value is the sum of your low-density lipoprotein (LDL, or &quot;bad&quot; cholesterol) and your high-density lipoprotein (HDL, or &quot;good&quot; cholesterol) and your triglycerides.</value>
+    </labels>
+    <labels>
+        <fullName>Total_protein</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Total protein</shortDescription>
+        <value>Total protein</value>
+    </labels>
+    <labels>
+        <fullName>Total_protein_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Total protein Description</shortDescription>
+        <value>Proteins are important for growth and development of the body by helping to make tissues and cells. The total protein test measures the total amount of two types of protein, albumin and globulin, in your blood sample. Total protein is measured to check the health of your liver and kidneys.</value>
+    </labels>
+    <labels>
+        <fullName>Travel_Support_Link</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Travel Support Link</shortDescription>
+        <value>https://www.primarius.cloud/</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Alert_me_when_enrollment_starts</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Alert me when enrollment starts</shortDescription>
+        <value>Alert me when enrollment starts</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Conditions_of_interest</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Conditions of interest</shortDescription>
+        <value>Conditions of interest</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Contact_the_study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Contact the study</shortDescription>
+        <value>Contact the study</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Enrolling</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Enrolling</shortDescription>
+        <value>Enrolling</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Enrollment_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Enrollment Status</shortDescription>
+        <value>Enrollment Status</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Find_Another_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch Find Another Study</shortDescription>
+        <value>Find another study</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_No_trial_matches_available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_No trial matches available</shortDescription>
+        <value>No trial matches available at this time. Check back shortly.</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Not_Yet_Enrolling</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Not Yet Enrolling</shortDescription>
+        <value>Not yet enrolling</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Search_for_another_condition</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Search for another condition</shortDescription>
+        <value>Search for another condition</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_See_Qualify</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch See Qualify</shortDescription>
+        <value>See if I qualify</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Send_To_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch Send To Study</shortDescription>
+        <value>Send to study</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Studies_you_may_be_interested_in</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Studies you may be interested in</shortDescription>
+        <value>Studies you may be interested in</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Study_contacted</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Study contacted</shortDescription>
+        <value>Study contacted</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Therapeutic_area</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Therapeutic area</shortDescription>
+        <value>Therapeutic area</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Toast_Alert_Me_When_Trial_Start</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch Toast Alert Me When Trial Start</shortDescription>
+        <value>Thank you for your interest in {0}. We will contact you when the clinical research study begins enrollment.</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Toast_Contact_The_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch Toast Contact The Study</shortDescription>
+        <value>Thank you for your interest in {0}.  Someone from the study team will contact you shortly.</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_Update_Search_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch_Update Search Results</shortDescription>
+        <value>Update Search Results</value>
+    </labels>
+    <labels>
+        <fullName>TrialSearch_We_will_alert_you</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialSearch We will alert you</shortDescription>
+        <value>We will alert you when enrollment starts</value>
+    </labels>
+    <labels>
+        <fullName>Trial_Search_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Trial Search Header</shortDescription>
+        <value>An alert has been set on a clinical research study you may be interested in</value>
+    </labels>
+    <labels>
+        <fullName>Trial_Search_Message_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Trial Search Message Header</shortDescription>
+        <value>A clinical research study you may be interested in has started enrolling</value>
+    </labels>
+    <labels>
+        <fullName>Triglycerides</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Triglycerides</shortDescription>
+        <value>Triglycerides</value>
+    </labels>
+    <labels>
+        <fullName>Triglycerides_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Triglycerides Description</shortDescription>
+        <value>Triglycerides are a type of fat found in your blood. Your body uses triglycerides to give you energy. When you eat too many calories, your body will store these calories as triglycerides to use later. Most fats that we eat, such as animal fats and trans fats, are triglycerides. However, the body also produces triglycerides from the carbohydrates that we eat. When your triglycerides are high, they can build in the walls of your cells and block the blood flow, just like LDL cholesterol.</value>
+    </labels>
+    <labels>
+        <fullName>Trygilicerides</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Triglycerides</shortDescription>
+        <value>Triglycerides</value>
+    </labels>
+    <labels>
+        <fullName>Trygilicerides_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Triglycerides Description</shortDescription>
+        <value>Triglycerides are a type of fat found in your blood. Your body uses triglycerides to give you energy. When you eat too many calories, your body will store these calories as triglycerides to use later. Most fats that we eat, such as animal fats and trans fats, are triglycerides. However, the body also produces triglycerides from the carbohydrates that we eat. When your triglycerides are high, they can build in the walls of your cells and block the blood flow, just like LDL cholesterol.</value>
+    </labels>
+    <labels>
+        <fullName>UOM_Kilometers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UOM Kilometers</shortDescription>
+        <value>Kilometers</value>
+    </labels>
+    <labels>
+        <fullName>UOM_Miles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UOM Miles</shortDescription>
+        <value>Miles</value>
+    </labels>
+    <labels>
+        <fullName>URL_Cookies</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>URL Cookies</shortDescription>
+        <value>value_not_set</value>
+    </labels>
+    <labels>
+        <fullName>URL_Interactive_Advertising_Bureau</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>URL Interactive Advertising Bureau</shortDescription>
+        <value>value_not_set</value>
+    </labels>
+    <labels>
+        <fullName>Update_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Update Participant</shortDescription>
+        <value>Update Participant</value>
+    </labels>
+    <labels>
+        <fullName>VPN_AddDate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>VPN AddDate</shortDescription>
+        <value>Add visit date</value>
+    </labels>
+    <labels>
+        <fullName>VPN_Sel_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>VPN Sel Date</shortDescription>
+        <value>Select date</value>
+    </labels>
+    <labels>
+        <fullName>VR_ALT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR ALT</shortDescription>
+        <value>ALT</value>
+    </labels>
+    <labels>
+        <fullName>VR_AST</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR 	AST</shortDescription>
+        <value>AST</value>
+    </labels>
+    <labels>
+        <fullName>VR_Albumin</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Albumin</shortDescription>
+        <value>Albumin</value>
+    </labels>
+    <labels>
+        <fullName>VR_Alkaline_Phosphatase</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Alkaline Phosphatase</shortDescription>
+        <value>Alkaline Phosphatase</value>
+    </labels>
+    <labels>
+        <fullName>VR_BUN</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR BUN</shortDescription>
+        <value>BUN</value>
+    </labels>
+    <labels>
+        <fullName>VR_Body_Mass_Index</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Body Mass Index</shortDescription>
+        <value>Body Mass Index</value>
+    </labels>
+    <labels>
+        <fullName>VR_Calcium</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Calcium</shortDescription>
+        <value>Calcium</value>
+    </labels>
+    <labels>
+        <fullName>VR_Creatinine</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Creatinine</shortDescription>
+        <value>Creatinine</value>
+    </labels>
+    <labels>
+        <fullName>VR_Diastolic_Blood_Pr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Diastolic Blood Pr.</shortDescription>
+        <value>Diastolic Blood Pr.</value>
+    </labels>
+    <labels>
+        <fullName>VR_Glucose</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Glucose</shortDescription>
+        <value>Glucose</value>
+    </labels>
+    <labels>
+        <fullName>VR_Height</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Height</shortDescription>
+        <value>Height</value>
+    </labels>
+    <labels>
+        <fullName>VR_Hematocrit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Hematocrit</shortDescription>
+        <value>Hematocrit</value>
+    </labels>
+    <labels>
+        <fullName>VR_Hemoglobin</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Hemoglobin</shortDescription>
+        <value>Hemoglobin</value>
+    </labels>
+    <labels>
+        <fullName>VR_High_density_Lipoprotein</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR High-density Lipoprotein</shortDescription>
+        <value>High-density Lipoprotein</value>
+    </labels>
+    <labels>
+        <fullName>VR_Low_density_Lipoprotein</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Low-density Lipoprotein</shortDescription>
+        <value>Low-density Lipoprotein</value>
+    </labels>
+    <labels>
+        <fullName>VR_Platelet_Count</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Platelet Count</shortDescription>
+        <value>Platelet Count</value>
+    </labels>
+    <labels>
+        <fullName>VR_Potassium</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Potassium</shortDescription>
+        <value>Potassium</value>
+    </labels>
+    <labels>
+        <fullName>VR_Pulse</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Pulse</shortDescription>
+        <value>Pulse</value>
+    </labels>
+    <labels>
+        <fullName>VR_RBC_Count</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR RBC Count</shortDescription>
+        <value>RBC Count</value>
+    </labels>
+    <labels>
+        <fullName>VR_Respiratory_Rate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Respiratory Rate</shortDescription>
+        <value>Respiratory Rate</value>
+    </labels>
+    <labels>
+        <fullName>VR_Sodium</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Sodium</shortDescription>
+        <value>Sodium</value>
+    </labels>
+    <labels>
+        <fullName>VR_Systolic_Blood_Pr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Systolic Blood Pr.</shortDescription>
+        <value>Systolic Blood Pr.</value>
+    </labels>
+    <labels>
+        <fullName>VR_Total_Cholesterol</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Total Cholesterol</shortDescription>
+        <value>Total Cholesterol</value>
+    </labels>
+    <labels>
+        <fullName>VR_Total_protein</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Total protein</shortDescription>
+        <value>Total protein</value>
+    </labels>
+    <labels>
+        <fullName>VR_Triglycerides</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Triglycerides</shortDescription>
+        <value>Triglycerides</value>
+    </labels>
+    <labels>
+        <fullName>VR_Visits_Not_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Visits Not Available</shortDescription>
+        <value>Visit information is not available for this research study.  If you have questions or concerns, please contact the study doctor at your study center.</value>
+    </labels>
+    <labels>
+        <fullName>VR_WBC_Count</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR WBC Count</shortDescription>
+        <value>WBC Count</value>
+    </labels>
+    <labels>
+        <fullName>VR_Weight</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Weight</shortDescription>
+        <value>Weight</value>
+    </labels>
+    <labels>
+        <fullName>View_Visit_Legend</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View Visit Legend</shortDescription>
+        <value>View Visit Legend</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Icons</fullName>
+        <categories>Visit Icons</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Icons</shortDescription>
+        <value>Visit Icons</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Number</fullName>
+        <categories>visit configuration</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>visit configuration</shortDescription>
+        <value>visit number</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Order</fullName>
+        <categories>visit configuration</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Order</shortDescription>
+        <value>Visit Order</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Patient_Portal_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Patient Portal Name</shortDescription>
+        <value>PP Name</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Result_Report_No_Data</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Result Report No Data</shortDescription>
+        <value>Visit reports are only available for assessments taken during the clinical trial. If you have questions or concerns, please contact the study doctor at your study center.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Dashboard_My_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Dashboard My Results</shortDescription>
+        <value>My Results</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Disclaimer</shortDescription>
+        <value>This data is being provided as part of your participation in a clinical research study.  It is for research purposes only. Values are only available for vitals recorded for the visit date displayed.  If you have questions or concerns about this data, please contact the study doctor at your study center.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Expected_Range</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Expected Range</shortDescription>
+        <value>Expected Range</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_If_Is_Empty_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_If_Is_Empty_Body</shortDescription>
+        <value>Visit assessment information is not available for this clinical research study.
+            If you have questions or concerns, please contact the study doctor at your study center.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_If_Is_Not_Opt_In</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_1</shortDescription>
+        <value>This data is being provided as part of your participation in a clinical research study.
+            It is for research purposes only. If you would like to view your data</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_If_Is_Not_Opt_In_2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_2</shortDescription>
+        <value>. You can opt-out at any time. Once data becomes available it will begin to display. If you
+            have questions or concerns about this data, please contact the study doctor at your study center.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_If_Is_Not_Opt_In_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_1</shortDescription>
+        <value>Visit assessment information is not available for this clinical study.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Labs</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Labs</shortDescription>
+        <value>Labs</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Linked_Text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_Linked_Text</shortDescription>
+        <value>click here to opt-in</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Modal_Body</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_Modal_Body</shortDescription>
+        <value>Do you consent to opt-in to viewing your data?</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Modal_Title</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit_Results_Tab_Modal_Title</shortDescription>
+        <value>Opt-in to view data</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_No_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab No Results</shortDescription>
+        <value>Check back periodically to view visit assessment information.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Panel_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Panel Disclaimer</shortDescription>
+        <value>Values are only available for assessments recorded and received for the visit date displayed.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Result_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Result Date</shortDescription>
+        <value>Results from</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Vitals</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Vitals</shortDescription>
+        <value>Vitals</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Schedule</fullName>
+        <categories>visit configuration</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Schedule</shortDescription>
+        <value>Visit Schedule</value>
+    </labels>
+    <labels>
+        <fullName>Visit_b_Add_Visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit b Add Visit</shortDescription>
+        <value>Add Visit</value>
+    </labels>
+    <labels>
+        <fullName>Visit_b_Close</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit b Close</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>Visit_b_Create_Visit_Plan</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit b Create Visit Plan</shortDescription>
+        <value>Create Visit Plan</value>
+    </labels>
+    <labels>
+        <fullName>Visit_b_Save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit b Save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>Vitals</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Vitals</shortDescription>
+        <value>Vitals</value>
+    </labels>
+    <labels>
+        <fullName>WBC_Count</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>WBC Count</shortDescription>
+        <value>WBC count</value>
+    </labels>
+    <labels>
+        <fullName>WBC_Count_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>WBC Count Description</shortDescription>
+        <value>White blood cells (WBC or leukocytes) are cells that can be found in your blood and in body tissues that are important for your immune system (your body&#39;s defense responses). WBCs fight infections, cancer, and also remove poison, waste products, and damaged cells from your body. When you are fighting off an infection, the number of white blood cells increases. WBC count is measured to check your general health and to check for conditions that influence your body&#39;s white blood cell production. A high WBC count can mean you have an infection.</value>
+    </labels>
+    <labels>
+        <fullName>Weight</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Weight</shortDescription>
+        <value>Weight</value>
+    </labels>
+    <labels>
+        <fullName>Weight_Description</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Weight Description</shortDescription>
+        <value>Your weight is the measurement of your body mass in kilograms (kg) or in pounds.</value>
+    </labels>
+    <labels>
+        <fullName>empty_visits</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>empty visits</shortDescription>
+        <value>there are no planned visits yet</value>
+    </labels>
+    <labels>
+        <fullName>successType</fullName>
+        <categories>visit configuration</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>successType</shortDescription>
+        <value>success</value>
+    </labels>
+    <labels>
+        <fullName>success_deleteon</fullName>
+        <categories>visit configuration</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>deleted successfully.</shortDescription>
+        <value>deleted successfully.</value>
+    </labels>
+    <labels>
+        <fullName>update_resource_content</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>update resource content</shortDescription>
+        <value>Do you want to mark  resource content as updated?</value>
+    </labels>
+    <labels>
+        <fullName>visit_Name</fullName>
+        <categories>configuation table</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>configuation table</shortDescription>
+        <value>Name</value>
+    </labels>
+</CustomLabels>
