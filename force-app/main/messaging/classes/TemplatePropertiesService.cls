@@ -56,7 +56,13 @@ public with sharing class TemplatePropertiesService {
                 }
             } else if (resourceId.getSobjectType() == Task.getSObjectType()) {
                 Task task = [SELECT Id, WhatId FROM Task WHERE Id = :resourceId];
-                if (task != null && task.WhatId != null) filter = DatabaseService.fieldEqual('Id', task.WhatId);
+                if (task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType() && task.WhatId != null) {
+                    filter = DatabaseService.fieldEqual('Id', task.WhatId);
+                } else {
+                    Participant_Enrollment__c currentPE = ContactService.getCurrentPE(partConId);
+                    enrollmentId = currentPE != null ? currentPE.Id : PatientDelegateService.getPastPEIdsForContact(partConId)[0];
+                    filter = DatabaseService.fieldEqual('Id', enrollmentId);
+                }
             } else if (resourceId.getSobjectType() == SurveyInvitation.getSObjectType()) {
                 SurveyInvitation invitation = [SELECT Id, Participant_Enrollment__c FROM SurveyInvitation WHERE Id = :resourceId];
                 enrollmentId = invitation.Participant_Enrollment__c;
