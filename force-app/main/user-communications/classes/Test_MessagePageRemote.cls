@@ -20,7 +20,7 @@ private class Test_MessagePageRemote {
 
         Test.startTest();
         System.runAs(testData.participantUser) {
-            MessagePageRemote.getInitData('Large');
+            MessagePageRemote.getInitData('Large', false);
         }
         Test.stopTest();
     }
@@ -40,7 +40,7 @@ private class Test_MessagePageRemote {
 
         Test.startTest();
         System.runAs(testData.piUser) {
-            MessagePageRemote.getInitData('Large');
+            MessagePageRemote.getInitData('Large', false);
         }
         Test.stopTest();
     }
@@ -51,7 +51,7 @@ private class Test_MessagePageRemote {
 
         Test.startTest();
         System.runAs(testData.participantUser) {
-            MessagePageRemote.createConversation(testData.pe, 'hi everyone!', null);
+            MessagePageRemote.createConversation(testData.pe, 'hi everyone!', null, false);
         }
         Test.stopTest();
     }
@@ -82,7 +82,7 @@ private class Test_MessagePageRemote {
 
         Test.startTest();
         System.runAs(testData.participantUser) {
-            MessagePageRemote.markConversationAsRead(conversation);
+            MessagePageRemote.markConversationAsRead(conversation, false);
         }
         Test.stopTest();
     }

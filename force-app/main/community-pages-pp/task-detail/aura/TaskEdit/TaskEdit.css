@@ -7,7 +7,6 @@
     margin: 25px auto 30px;
 }
 
-
 .THIS.cRRTopBar.top-bar {
     background: none;
     box-shadow: none;
@@ -45,6 +44,10 @@
 
 .THIS.cRRTopBar .header .title {
     font-size: 20px;
+}
+
+.THIS .rr-white-panel {
+    overflow: visible;
 }
 
 .THIS.rr-body-content {

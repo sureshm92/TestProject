@@ -18,7 +18,7 @@
     scroll-behavior: smooth;
     display: flex;
     flex-direction: column-reverse;
-    -ms-flex-direction: column-reverse;
+    -ms-flex-direction: column;
 }
 
 .ms-board-body::-webkit-scrollbar {

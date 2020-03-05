@@ -211,9 +211,9 @@ public without sharing class ReferringRemote {
                 insert ptDelegateRef;
 
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
-                if (!actionAssignContactPermissions.isEmpty()) {
+                /*if (!actionAssignContactPermissions.isEmpty()) {
                     ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
-                }
+                }*/
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
