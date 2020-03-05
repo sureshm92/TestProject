@@ -26,6 +26,10 @@ public without sharing class DatabaseService {
         return queryImpl(fields, objectType, filter, null, null, null);
     }
 
+    public List<SObject> queryImpl(List<String> fields, SObjectType objectType, String filter, String orderBy){
+        return queryImpl(fields, objectType, filter, orderBy, null, null);
+    }
+
     public List<SObject> queryImpl(List<String> fields, SObjectType objectType, String filter, String orderBy, Integer limitNumber){
         return queryImpl(fields, objectType, filter, orderBy, limitNumber, null);
     }
@@ -66,6 +70,10 @@ public without sharing class DatabaseService {
 
     public static List<SObject> query(List<String> fields, SObjectType objectType, String filter){
         return getInstance().queryImpl(fields, objectType, filter);
+    }
+
+    public static List<SObject> query(List<String> fields, SObjectType objectType, String filter, String orderBy){
+        return getInstance().queryImpl(fields, objectType, filter, orderBy);
     }
 
     public static List<SObject> query(List<String> fields, SObjectType objectType, String filter, String orderBy, Integer limitNumber){
