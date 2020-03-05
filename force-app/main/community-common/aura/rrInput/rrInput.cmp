@@ -58,7 +58,7 @@
                     </div>
                     <aura:set attribute="else">
                         <lightning:input aura:id="rr-input" type="{!v.type}" class="{!if(v.errorMessage != '', 'rr-input-error','')}"
-                                         disabled="{!v.disabled}"  placeholder="{!v.placeholder}" value="{!v.valueString}" label="" name="" max="{!v.maxValue}"/>
+                                         disabled="{!v.disabled}" onchange="{!c.checkField}"  placeholder="{!v.placeholder}" value="{!v.valueString}" label="" name="" maxlength="200" max="{!v.maxValue}"/>
                     </aura:set>
                 </aura:if>
             </aura:if>
