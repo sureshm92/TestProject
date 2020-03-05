@@ -12,7 +12,7 @@
                          body="{!$Label.Email_Body_Survey_Reminder}"
                          signature="{!$Label.Email_Signature_Survey}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Complete_Baseline_Survey}"
-                              buttonURL="/s/survey?inv={!relatedTo.Id}"/>
+                              surveyId="{!relatedTo}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
@@ -26,7 +26,7 @@
                              body="{!$Label.Email_Body_Survey_Reminder}"
                              signature="{!$Label.Email_Signature_Survey}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Complete_Baseline_Survey}"
-                                  buttonURL="/s/survey?inv={!relatedTo.Id}"/>
+                                  surveyId="{!relatedTo}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 </messaging:emailTemplate>
