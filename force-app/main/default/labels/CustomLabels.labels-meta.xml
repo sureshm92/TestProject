@@ -6147,7 +6147,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PE Phone number</shortDescription>
-        <value>Phone number</value>
+        <value>Phone Number</value>
     </labels>
     <labels>
         <fullName>PE_Randomization_ID</fullName>
@@ -6785,14 +6785,14 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Email address</shortDescription>
-        <value>Email address</value>
+        <value>Email Address</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_First_name</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F First name</shortDescription>
-        <value>First name</value>
+        <value>First Name</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Gender</fullName>
@@ -6869,7 +6869,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Last name</shortDescription>
-        <value>Last name</value>
+        <value>Last Name</value>
     </labels>
     <labels>
         <fullName>PG_AS_F_Locale_For_Date_Format</fullName>
@@ -7023,7 +7023,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS F Zip Postal Code</shortDescription>
-        <value>Zip/Postal code</value>
+        <value>Zip/Postal Code</value>
     </labels>
     <labels>
         <fullName>PG_AS_H_Change_Password</fullName>
@@ -9692,7 +9692,7 @@ View study documents and other resources including articles and videos related t
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L Primary daytime telephone number</shortDescription>
-        <value>Primary daytime telephone number</value>
+        <value>Daytime Telephone Number</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Re_enter_email_address</fullName>
