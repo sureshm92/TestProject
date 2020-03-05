@@ -22,7 +22,8 @@ public without sharing class NotificationService {
 
     static public List<String> notificationTypeDelegateNotSent = new List<String>{
             NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE,
-            NotificationCatalog.MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE
+            NotificationCatalog.MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE,
+            NotificationCatalog.MESSAGE_TO_PT_DROP_OUT_TYPE
     };
 
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
