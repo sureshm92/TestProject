@@ -6,9 +6,9 @@ public without sharing class EmailService {
     public class SendEmailTemplateException extends Exception {
     }
 
-    public static final String COMMUNITY_ORG_WIDE_ADDRESS_REFERRAL = '	IQVIA Referral Hub_Updated';
-    public static final String COMMUNITY_ORG_WIDE_ADDRESS_PATIENT = 'IQVIA Patient Portal_Updated';
-    public static final String COMMUNITY_ORG_WIDE_ADDRESS_GSK_PATIENT = 'GSK Patients_Updated';
+    public static final String COMMUNITY_ORG_WIDE_ADDRESS_REFERRAL = 'IQVIA Referral Hub';
+    public static final String COMMUNITY_ORG_WIDE_ADDRESS_PATIENT = 'IQVIA Patient Portal';
+    public static final String COMMUNITY_ORG_WIDE_ADDRESS_GSK_PATIENT = 'GatherSHAREKnow Participant Hub';
     public static final String COMMUNITY_ORG_WIDE_ADDRESS_ST_SPECIFIC = 'Study Specific';
 
     private static final Map<String, Id> templateNameIdMap = new Map<String, Id>();
