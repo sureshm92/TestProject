@@ -15,7 +15,7 @@
     <aura:handler name="change" value="{!v.field.value}" action="{!c.onValueChange}"/>
     <div class="{!'slds-col form-field ' + v.field.style }">
         <aura:if isTrue="{!v.field.type=='text'}">
-            <lightning:input label="{!v.field.title}" type="text" value="{!v.field.value}"
+            <lightning:input aura:id="fieldInput" label="{!v.field.title}" type="text" value="{!v.field.value}"
                              disabled="{!v.field.readonly || !v.editable}"
                              required="{!and(!v.field.readonly,and(or(v.required,v.field.dependent), v.field.required))}"
                              onblur="{!c.onBlur}"/>
@@ -28,7 +28,8 @@
                         required="{!and(!v.field.readonly,and(or(v.required,v.field.dependent), v.field.required))}"/>
         </aura:if>
         <aura:if isTrue="{!v.field.type=='date'}">
-            <lightning:input label="{!v.field.title}" type="date"
+            <lightning:input aura:id="fieldInput"
+                             label="{!v.field.title}" type="date"
                              min="{!if(v.field.onlyFutureDate,v.todayDate,'')}"
                              max="{!if(v.field.onlyPastDate,v.todayDate,'')}"
                              value="{!v.field.value}"
@@ -37,7 +38,8 @@
                              onblur="{!c.onBlur}"/>
         </aura:if>
         <aura:if isTrue="{!v.field.type=='time'}">
-            <lightning:input label="{!v.field.title}" type="time" value="{!v.field.value}"
+            <lightning:input aura:id="fieldInput"
+                             label="{!v.field.title}" type="time" value="{!v.field.value}"
                              disabled="{!v.field.readonly || !v.editable}"
                              required="{!and(!v.field.readonly,and(or(v.required,v.field.dependent), v.field.required))}"
                              onblur="{!c.onBlur}"/>
