@@ -4,32 +4,35 @@
 
 public without sharing class MessageService {
 
-    public static List<Message__c> getMessages(Id conId) {
-        return [
-                SELECT Id,
-                        CreatedDate,
-                        Conversation__c,
-                        DocId__c,
-                        Message_Content__c,
-                        Sender_Name__c
-                FROM Message__c
-                WHERE Conversation__c = :conId
-                ORDER BY CreatedDate DESC
-        ];
+    public static List<Message__c> getMessages(Id conId, String sortOrder) {
+        if(String.isEmpty(sortOrder)) sortOrder = 'DESC';
+        return (List<Message__c>) DatabaseService.query(
+                new List<String>{'Id',
+                        'CreatedDate',
+                        'Conversation__c',
+                        'DocId__c',
+                        'Message_Content__c',
+                        'Sender_Name__c'},
+                Message__c.getSObjectType(),
+                DatabaseService.fieldEqual('Conversation__c', conId),
+                'CreatedDate ' + sortOrder
+        );
     }
 
-    public static Map<Id, List<Message__c>> getMessagesByConversations(List<Id> conIds) {
-        List<Message__c> messages = [
-                SELECT Id,
-                        CreatedDate,
-                        Conversation__c,
-                        DocId__c,
-                        Message_Content__c,
-                        Sender_Name__c
-                FROM Message__c
-                WHERE Conversation__c IN:conIds
-                ORDER BY CreatedDate DESC
-        ];
+    public static Map<Id, List<Message__c>> getMessagesByConversations(List<Id> conIds, String sortOrder) {
+        if(String.isEmpty(sortOrder)) sortOrder = 'DESC';
+        List<Message__c> messages = (List<Message__c>) DatabaseService.query(
+                new List<String>{'Id',
+                        'CreatedDate',
+                        'Conversation__c',
+                        'DocId__c',
+                        'Message_Content__c',
+                        'Sender_Name__c'},
+                Message__c.getSObjectType(),
+                DatabaseService.fieldInValues('Conversation__c', conIds),
+                'CreatedDate ' + sortOrder
+        );
+
         Map<Id, List<Message__c>> messagesByConversation = new Map<Id, List<Message__c>>();
         for (Message__c message : messages) {
             if (!messagesByConversation.containsKey(message.Conversation__c)) {

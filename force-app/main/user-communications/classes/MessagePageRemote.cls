@@ -57,7 +57,7 @@ public without sharing class MessagePageRemote {
     }
 
     @AuraEnabled
-    public static MSPageData getInitData(String formFactor) {
+    public static MSPageData getInitData(String formFactor, Boolean isIE) {
         try {
             MSPageData pageData = new MSPageData();
             pageData.userMode = UserContext.getCurrentUserMode().userMode;
@@ -112,7 +112,10 @@ public without sharing class MessagePageRemote {
                 for (Conversation__c con : conversations) conversationsByIds.put(con.Id, con);
 
                 Map<Id, List<Message__c>> messagesByConversation =
-                        MessageService.getMessagesByConversations(new List<Id>(conversationsByIds.keySet()));
+                        MessageService.getMessagesByConversations(
+                                new List<Id>(conversationsByIds.keySet()),
+                                (isIE ? 'ASC' : 'DESC')
+                        );
 
                 Map<Id, Map<Id, ContentDocumentLink>> documentLinksByMesByCon =
                         MessageService.getAttachmentsByConversation(new List<Id>(conversationsByIds.keySet()));
@@ -148,14 +151,15 @@ public without sharing class MessagePageRemote {
     }
 
     @AuraEnabled
-    public static ConversationWrapper createConversation(Participant_Enrollment__c enrollment, String messageText, String fileJSON) {
+    public static ConversationWrapper createConversation(Participant_Enrollment__c enrollment,
+            String messageText, String fileJSON, Boolean isIE) {
         try {
             Conversation__c newConversation = new Conversation__c(Participant_Enrollment__c = enrollment.Id);
             insert newConversation;
 
             ConversationService.createConversationSharesForMembers(newConversation.Id, enrollment);
             newConversation.Participant_Enrollment__r = enrollment;
-            return sendMessage(newConversation, messageText, fileJSON);
+            return sendMessage(newConversation, messageText, fileJSON, isIE);
         } catch (Exception e) {
             return (ConversationWrapper) AuraHelper.throwException(e);
         }
@@ -187,13 +191,13 @@ public without sharing class MessagePageRemote {
                     if (index >= 0) peIdsWithoutConversation.remove(index);
                 }
                 for (Conversation__c exCon : ConversationService.getConversations(conIds)) {
-                    sendMessage(exCon, messageText, fileJSON);
+                    sendMessage(exCon, messageText, fileJSON, null);
                 }
             }
 
             if (!peIdsWithoutConversation.isEmpty()) {
                 for (String peId : peIdsWithoutConversation) {
-                    createConversation(enrollmentMap.get(peId), messageText, fileJSON);
+                    createConversation(enrollmentMap.get(peId), messageText, fileJSON, null);
                 }
             }
 
@@ -203,8 +207,9 @@ public without sharing class MessagePageRemote {
     }
 
     @AuraEnabled
-    public static ConversationWrapper sendMessage(Conversation__c conversation, String messageText, String fileJSON) {
+    public static ConversationWrapper sendMessage(Conversation__c conversation, String messageText, String fileJSON, Boolean isIE) {
         try {
+            if(isIE == null) isIE = false;
             conversation = ConversationService.getConversations(new List<Id>{conversation.Id}).get(0);
             Contact userContact = UserContext.getUserContact();
 
@@ -248,7 +253,7 @@ public without sharing class MessagePageRemote {
                 participantsDelegateNames = ConversationService.getYourParticipantsDelegateNames(UserInfo.getUserId());
             }
 
-            List<Message__c> messages = MessageService.getMessages(conversation.Id);
+            List<Message__c> messages = MessageService.getMessages(conversation.Id, (isIE ? 'ASC' : 'DESC'));
             List<Id> docIds = new List<Id>();
             for(Message__c mes : messages) {
                 if(mes.DocId__c != null) docIds.add(mes.DocId__c);
@@ -266,7 +271,7 @@ public without sharing class MessagePageRemote {
     }
 
     @AuraEnabled
-    public static ConversationWrapper markConversationAsRead(Conversation__c conversation) {
+    public static ConversationWrapper markConversationAsRead(Conversation__c conversation, Boolean isIE) {
         try {
             update new Conversation__c(
                     Id = conversation.Id,
@@ -276,7 +281,7 @@ public without sharing class MessagePageRemote {
             conversation.haveUnreadForParticipant__c = false;
             conversation.haveUnreadForPI__c = false;
 
-            List<Message__c> messages = MessageService.getMessages(conversation.Id);
+            List<Message__c> messages = MessageService.getMessages(conversation.Id, (isIE ? 'ASC' : 'DESC'));
 
             Map<Id, List<String>> participantsDelegateNames;
             if(CommunityService.getUserContact().userCommunityMode__c == CommunityService.USER_MODE_PI) {
