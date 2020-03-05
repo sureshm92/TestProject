@@ -42,6 +42,15 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
+    public static void updatePatientInfoWithDelegate(String participantJSON, String peJSON, String delegateJSON) {
+        AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON);
+        if (!String.isBlank(delegateJSON)) {
+            Contact delegateParticipant = (Contact) JSON.deserialize(delegateJSON, Contact.class);
+            update delegateParticipant;
+        }
+    }
+
+    @AuraEnabled
     public static void createUserForPatientProtal(String peJSON, Boolean sendEmails) {
         Participant_Enrollment__c pe = (Participant_Enrollment__c) JSON.deserialize(peJSON, Participant_Enrollment__c.class);
         if (sendEmails) {
@@ -76,27 +85,36 @@ public without sharing class ParticipantInformationRemote {
 
             update participant;
             if (participantContact.Id != null) {
+                participantContact.Email = participant.Email__c;
+                if (participant.Phone_Type__c == 'Home') {
+                    participantContact.HomePhone = participant.Phone__c;
+                } if (participant.Phone_Type__c == 'Mobile') {
+                    participantContact.MobilePhone = participant.Phone__c;
+                } else {
+                    participantContact.Phone = participant.Phone__c;
+                }
                 update participantContact;
             }
 
             Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
-            Study_Site__c studySiteDetails = [SELECT Id, Name, Principal_Investigator__c, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE Id = :studySiteId];
-            String permissionSetName = CommunityTemplateService.getTemplate(studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
             Map<Id, Id> toCreateUser = new Map<Id, Id>();
             if (needsInvite) {
                 system.debug('needsInvite: ' + needsInvite);
                 toCreateUser.put(participant.Contact__c, null);
+
+                Study_Site__c studySiteDetails = [SELECT Id, Name, Principal_Investigator__c, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE Id = :studySiteId];
+                String permissionSetName = CommunityTemplateService.getTemplate(studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
                 actionAssignContactPermissions.addPermission(participant.Contact__c, permissionSetName);
             }
 
-            List<Contact> delegateContacts = [SELECT Id FROM Contact WHERE Id IN :doNotContinueIds];
             List<Patient_Delegate__c> notPatientDelegatesEver = [SELECT Id,
                                                                  Participant__c,
                                                                  Contact__c,
                                                                  Status__c
                                                           FROM Patient_Delegate__c
                                                           WHERE Participant__c = :participant.Id AND
-                                                                Contact__c IN :delegateContacts];
+                                                                Contact__c IN :doNotContinueIds AND
+                                                                Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS];
             if (!notPatientDelegatesEver.isEmpty()) {
                 system.debug('patientDelegates: ' + notPatientDelegatesEver);
                 for (Patient_Delegate__c patientDelegate : notPatientDelegatesEver) {
@@ -105,6 +123,21 @@ public without sharing class ParticipantInformationRemote {
 
                 update notPatientDelegatesEver;
             }
+
+            List<Contact> contactsToUpdate = new List<Contact>();
+            for (Participant__c delegateParticipant : delegates) {
+                contactsToUpdate.add(new Contact(
+                        Id = delegateParticipant.Contact__c,
+                        MailingState = delegateParticipant.Mailing_State__c,
+                        MailingCountry = delegateParticipant.Mailing_Country__c,
+                        MailingStateCode = delegateParticipant.Mailing_State_Code__c,
+                        MailingCountryCode = delegateParticipant.Mailing_Country_Code__c,
+                        MailingPostalCode = delegateParticipant.Mailing_Zip_Postal_Code__c,
+                        Email = delegateParticipant.Email__c,
+                        Phone = delegateParticipant.Phone__c
+                ));
+            }
+            update contactsToUpdate;
 
             // TODO: the functionality which will be used in future
             /*if (!delegates.isEmpty()) {
@@ -167,9 +200,9 @@ public without sharing class ParticipantInformationRemote {
 
             system.debug('toCreateUser: ' + toCreateUser);
             if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
-            if (!actionAssignContactPermissions.isEmpty()) {
+            /*if (!actionAssignContactPermissions.isEmpty()) {
                 ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
-            }
+            }*/
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
@@ -262,6 +295,20 @@ public without sharing class ParticipantInformationRemote {
         Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
         Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
         update participant;
+        return updatePatientStatus(pathWrapperJSON, pe);
+    }
+
+    @AuraEnabled
+    public static String updatePatientInfoAndStatusWithDelegate(String participantJSON, String peJSON, String pathWrapperJSON, String peId, String delegateJSON) {
+        Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
+        Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
+        update participant;
+
+        if (!String.isBlank(delegateJSON)) {
+            Contact delegateParticipant = (Contact) JSON.deserialize(delegateJSON, Contact.class);
+            update delegateParticipant;
+        }
+
         return updatePatientStatus(pathWrapperJSON, pe);
     }
 

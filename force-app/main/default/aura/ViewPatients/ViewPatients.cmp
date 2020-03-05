@@ -36,7 +36,7 @@
             </aura:if>
 
                 <div class="vp-navigation" style="margin-top: 30px;">
-                    <aura:if isTrue="{!empty(v.parent)}">
+                    <!--<aura:if isTrue="{!empty(v.parent)}">-->
                             <aura:if isTrue="{!v.userMode == 'PI'}">
                                 <div class="navigation-breadcrumbs">
                                 <c:RRNavigationPath>
@@ -56,8 +56,7 @@
                                 </button>
                             </div>
                         </aura:if>
-
-                    </aura:if>
+                    <!--</aura:if>-->
                 </div>
             <aura:if isTrue="{!v.userMode == 'HCP'}">
                 <c:MedicalRecordReviewLog showStatistics="false" studyFilterEnabled="true" trialId="{!v.trialId}"

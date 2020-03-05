@@ -4,6 +4,7 @@
 
 import {LightningElement, api, track} from 'lwc';
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
+import {createCustomEvent} from 'c/ieCustomEvent';
 
 import emptyChatLabel from '@salesforce/label/c.MS_Empty_Chat';
 import selectLabel from '@salesforce/label/c.MS_Select';
@@ -18,7 +19,7 @@ import fileWrongExtLabel from '@salesforce/label/c.MS_Attach_File_Unsup_Type';
 import createConversation from '@salesforce/apex/MessagePageRemote.createConversation';
 import sendMessage from '@salesforce/apex/MessagePageRemote.sendMessage';
 import sendMultipleMessage from '@salesforce/apex/MessagePageRemote.sendMultipleMessage';
-import formFactor from "@salesforce/client/formFactor";
+import formFactor from '@salesforce/client/formFactor';
 
 const attIconMap = {
     csv: 'attach-file-csv',
@@ -206,7 +207,7 @@ export default class MessageBoard extends LightningElement {
 
     //Handlers:---------------------------------------------------------------------------------------------------------
     handleBackClick(event) {
-        this.dispatchEvent(new CustomEvent('back'));
+        this.dispatchEvent(createCustomEvent('back'));
     }
 
     handleEnrollmentSelect(event) {
@@ -250,12 +251,11 @@ export default class MessageBoard extends LightningElement {
             })
                 .then(function () {
                     context.fireMultipleSendEvent();
+                    if (context.spinner) context.spinner.hide();
                 })
                 .catch(function (error) {
-                    console.error('Error in sendMultipleMessage():' + JSON.stringify(error));
+                    console.error('Error in sendMultipleMessage():' + error.message);
                     context.notifyUser('Error', error.message, 'error');
-                })
-                .finally(function () {
                     if (context.spinner) context.spinner.hide();
                 });
         } else {
@@ -263,32 +263,32 @@ export default class MessageBoard extends LightningElement {
                 createConversation({
                     enrollment: this.selectedEnrollment,
                     messageText: messageText,
-                    fileJSON: JSON.stringify(fileList)
+                    fileJSON: JSON.stringify(fileList),
+                    isIE: navigator.userAgent.match(/Trident/) !== null
                 })
                     .then(function (data) {
                         context.fireSendEvent(data);
+                        if (context.spinner) context.spinner.hide();
                     })
                     .catch(function (error) {
-                        console.error('Error in createConversation():' + JSON.stringify(error));
+                        console.error('Error in createConversation():' + error.message);
                         context.notifyUser('Error', error.message, 'error');
-                    })
-                    .finally(function () {
                         if (context.spinner) context.spinner.hide();
                     });
             } else {
                 sendMessage({
                     conversation: this.conversation,
                     messageText: messageText,
-                    fileJSON: JSON.stringify(fileList)
+                    fileJSON: JSON.stringify(fileList),
+                    isIE: navigator.userAgent.match(/Trident/) !== null
                 })
                     .then(function (data) {
                         context.fireSendEvent(data);
+                        if (context.spinner) context.spinner.hide();
                     })
                     .catch(function (error) {
-                        console.error('Error in sendMessage():' + JSON.stringify(error));
+                        console.error('Error in sendMessage():' + error.message);
                         context.notifyUser('Error', error.message, 'error');
-                    })
-                    .finally(function () {
                         if (context.spinner) context.spinner.hide();
                     });
             }
@@ -319,6 +319,10 @@ export default class MessageBoard extends LightningElement {
             + '; pointer-events: ' + (this.isSendEnable && this.isAttachEnable ? 'all' : 'none');
     }
 
+    get sendPAStyle() {
+        return (navigator.userAgent.match(/Trident/) ? 'margin-bottom: 5px;' : '');
+    }
+
     checkSendBTNAvailability() {
         let sendBtn = this.template.querySelector('.ms-send-button');
         if (this.messageText && (this.selectedEnrollment || this.selectedEnrollments) && !this.isHoldMode) {
@@ -339,7 +343,7 @@ export default class MessageBoard extends LightningElement {
     }
 
     fireSendEvent(wrapper) {
-        this.dispatchEvent(new CustomEvent('conversationupdate', {
+        this.dispatchEvent(createCustomEvent('conversationupdate', {
             detail: {
                 conWr: wrapper
             }
@@ -348,7 +352,7 @@ export default class MessageBoard extends LightningElement {
     }
 
     fireMultipleSendEvent() {
-        this.dispatchEvent(new CustomEvent('multiplymailing'));
+        this.dispatchEvent(createCustomEvent('multiplymailing'));
     }
 
     notifyUser(title, message, variant) {

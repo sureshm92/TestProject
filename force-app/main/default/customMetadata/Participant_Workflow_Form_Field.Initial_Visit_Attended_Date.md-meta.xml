@@ -32,7 +32,7 @@
     </values>
     <values>
         <field>Populate_from_Field__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Initial_visit_scheduled_date__c</value>
     </values>
     <values>
         <field>Readonly_for_Steps__c</field>

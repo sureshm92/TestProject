@@ -7,6 +7,7 @@ public without sharing class CommunityTemplateService {
     //Template properties:
     public static final String PROPERTY_COMMUNITY_LOGO = 'CommunityLogo';
     public static final String PROPERTY_THEME_CSS = 'ThemeCSS';
+    public static final String PROPERTY_ORG_WIDE_EMAIL_ADDRESS = 'OrgWideEmailAddress';
 
     public static final String PERMISSION_COMMUNITY_DEFAULT_NAME = 'Community_Default';
     public static final String PERMISSION_COMMUNITY_GSK_NAME = 'Community_GSK_Pan_Oncology';

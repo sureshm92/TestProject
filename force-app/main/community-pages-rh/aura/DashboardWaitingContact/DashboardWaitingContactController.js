@@ -2,11 +2,9 @@
  * Created by Alexey Moseev.
  */
 ({
-
     showEditParticipantInformation: function (component, event, helper) {
         var rootComponent = component.get('v.parent');
         rootComponent.find('mainSpinner').show();
-
         communityService.executeAction(component, 'getParticipantData', {
             userMode:communityService.getUserMode(),
             delegateId:communityService.getDelegateId(),
@@ -23,6 +21,20 @@
                 rootComponent.refresh();
             });
         });
-    }
+    },
+
+    sortRecords: function(component, event, helper){
+        console.log('sortREcords>>>');
+        var peList = component.get('v.peList');
+        if(component.get('v.defaultSorting')){
+            peList = peList.sort((a, b) => (a.daysAdded > b.daysAdded) ? 1 : -1);
+            component.set('v.peList',peList);
+            component.set('v.defaultSorting',false);
+        } else {
+            peList = peList.sort((a, b) => (a.daysAdded > b.daysAdded) ? -1 : 1);
+            component.set('v.peList',peList);
+            component.set('v.defaultSorting',true);
+        }
+    },
 
 })

@@ -20,6 +20,11 @@ public without sharing class NotificationService {
             NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE
     };
 
+    static public List<String> notificationTypeDelegateNotSent = new List<String>{
+            NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE,
+            NotificationCatalog.MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE
+    };
+
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
     static public String NOTIFICATION_STATUS_PROCESSED = 'Processed';
     static public String NOTIFICATION_STATUS_FAILED = 'Failed';
@@ -225,6 +230,7 @@ public without sharing class NotificationService {
             recipientIds.add(n.Recipient__c);
         }
         NotificationAvailabilityService availabilityService = new NotificationAvailabilityService(recipientIds, whatIds);
+        Map<Id, String> orgWideEmailByNotifyMap = new Map<Id, String>();
         List<Notification__c> emailNotifications = new List<Notification__c>();
         List<Notification__c> smsNotifications = new List<Notification__c>();
         List<Notification__c> pushNotifications = new List<Notification__c>();
@@ -237,9 +243,11 @@ public without sharing class NotificationService {
             for (Notification_Target__mdt nt : notificationType.Notification_Targets__r) {
                 if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_EMAIL) {
                     if (n.Recipient__c != null) {
+                        if(availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c)) continue;
                         if (!notificationTypeFirstEmail.contains(n.Notification_Type__c)) {
                             if (availabilityService.isAvailable(n.WhatId__c, notificationType.Recipient_Type__c, nt.Target_Type__c, n.Recipient__c)) {
                                 emailNotifications.add(n);
+                                orgWideEmailByNotifyMap.put(n.Id, availabilityService.getOrgWideEmail(n.Recipient__c, n.WhatId__c, nt.Org_Wide_Email_Address__c));
                                 sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                             } else {
                                 sendResultService.setSkipped(n.Id, nt.Target_Type__c);
@@ -266,7 +274,7 @@ public without sharing class NotificationService {
         }
         sendResultService.updateResults();
 
-        if (!emailNotifications.isEmpty()) EmailService.send(emailNotifications);
+        if (!emailNotifications.isEmpty()) EmailService.send(emailNotifications, orgWideEmailByNotifyMap);
         if (!smsNotifications.isEmpty()) SMSService.sendQueueable(smsNotifications);
     }
 

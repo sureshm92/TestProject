@@ -40,6 +40,7 @@
                     component.find('spinner').hide();
                     component.set('v.anchor', params.anchorScroll);
                     component.set('v.pe', returnValue.enrollment);
+                    component.set('v.participantDelegate', returnValue.participantDelegate);
                     component.set('v.participant', pe.Participant__r);
                     formComponent.createDataStamp();
                     formComponent.checkFields();
@@ -59,9 +60,10 @@
         var pe = component.get('v.pe');
         pe.Participant__r = participant;
         component.find('spinner').show();
-        communityService.executeAction(component, 'updatePatientInfo', {
+        communityService.executeAction(component, 'updatePatientInfoWithDelegate', {
             participantJSON: JSON.stringify(participant),
-            peJSON: JSON.stringify(pe)
+            peJSON: JSON.stringify(pe),
+            delegateJSON: JSON.stringify(component.get('v.participantDelegate'))
         }, function () {
             if (component.get('v.saveAndChangeStep')) {
                 component.set('v.saveAndChangeStep', false);
@@ -104,18 +106,20 @@
         var statusDetailValid = component.get('v.statusDetailValid');
         pe.Participant__r = participant;
         component.find('spinner').show();
-        var actionName = 'updatePatientInfo' ;
+        var actionName = 'updatePatientInfoWithDelegate';
         var actionParams = {
             participantJSON: JSON.stringify(participant),
-            peJSON: JSON.stringify(pe)
+            peJSON: JSON.stringify(pe),
+            delegateJSON: JSON.stringify(component.get('v.participantDelegate'))
         };
         if(statusDetailValid){
-            actionName = 'updatePatientInfoAndStatus';
+            actionName = 'updatePatientInfoAndStatusWithDelegate';
             actionParams = {
                 participantJSON: JSON.stringify(participant),
                 peJSON: JSON.stringify(pe),
                 pathWrapperJSON: JSON.stringify(pathWrapper),
-                peId: pe.Id
+                peId: pe.Id,
+                delegateJSON: JSON.stringify(component.get('v.participantDelegate'))
             };
         }
         communityService.executeAction(component, actionName, actionParams , function () {

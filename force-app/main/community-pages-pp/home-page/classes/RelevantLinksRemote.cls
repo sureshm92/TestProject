@@ -53,8 +53,7 @@ public without sharing class RelevantLinksRemote {
             for(LabelValueItem t : typeLabelValues) {
                 LinksWrapper lw = new LinksWrapper();
                 for(Res_study__c rs : resStudiesVisibleForParticipant) {
-                    if(rs.Resource__r.Type__c.equals(t.value) ||
-                            (rs.Resource__r.Type__c.equals('None') && t.value.equals('Helpful Links'))) {
+                    if(rs.Resource__r.Type__c.equals(t.value)) {
                         lw.resources.add(rs.Resource__r);
                     }
                 }

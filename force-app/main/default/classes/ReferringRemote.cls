@@ -168,6 +168,10 @@ public without sharing class ReferringRemote {
 
             if (participantDelegate != null && !String.isEmpty(participantDelegate.Last_Name__c) &&
                     !String.isEmpty(participantDelegate.Email__c)) {
+                Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+                Study_Site__c studySiteDetails = [SELECT Id, Name, Principal_Investigator__c, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE Id = :enrollment.Study_Site__c];
+                String permissionSetName = CommunityTemplateService.getTemplate(studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
+
                 Contact newContact = new Contact();
                 newContact.FirstName = participantDelegate.First_Name__c;
                 newContact.LastName = participantDelegate.Last_Name__c;
@@ -199,17 +203,7 @@ public without sharing class ReferringRemote {
                 }
                 insert newContact;
 
-                /*participantDelegate.Contact__c = newContact.Id;
-                participantDelegate.Adult__c = true;
-                ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participantDelegate, null);
-
-                List<Alert__c> alertsForInsert = new List<Alert__c>();
-                alertsForInsert.add(new Alert__c(
-                        Contact__c = newContact.Id,
-                        Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH
-                ));*/
-
-                //insert alertsForInsert;
+                actionAssignContactPermissions.addPermission(newContact.Id, permissionSetName);
 
                 Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                 ptDelegateRef.Participant__c = participant.Id;
@@ -217,6 +211,9 @@ public without sharing class ReferringRemote {
                 insert ptDelegateRef;
 
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
+                /*if (!actionAssignContactPermissions.isEmpty()) {
+                    ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                }*/
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);

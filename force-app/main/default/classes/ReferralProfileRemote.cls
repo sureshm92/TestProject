@@ -7,6 +7,7 @@ public without sharing class ReferralProfileRemote {
     class InitData {
         ParticipantWorkflowService.ParticipantWorkflowWrapper steps;
         Participant_Enrollment__c enrollment;
+        Contact participantDelegate;
         List<LabelValueItem> visitPlanLVList;
         Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
         List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
@@ -91,6 +92,10 @@ public without sharing class ReferralProfileRemote {
             Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(pe.Clinical_Trial_Profile__c);
             if (pe == null) throw new CommunityServiceException('Participant enrollment not found');
             initData.enrollment = pe;
+
+            List<Contact> delegates = [SELECT Id, FirstName, LastName, Phone FROM Contact WHERE Id IN (SELECT Contact__c FROM Patient_Delegate__c WHERE Participant__c = :pe.Participant__c AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)];
+            if (!delegates.isEmpty()) initData.participantDelegate = delegates[0];
+
             initData.visitPlanLVList = StudySiteService.getVisitPlansLVList(pe.Study_Site__c);
             initData.steps = ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe);
             initData.isEnrolled = !PEStatusState.STATUSES_MAP.containsKey(pe.Participant_Status__c) || pe.Participant_Status__c.startsWith('Enrollment');

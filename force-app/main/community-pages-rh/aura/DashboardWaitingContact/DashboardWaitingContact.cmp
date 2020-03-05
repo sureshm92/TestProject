@@ -14,6 +14,7 @@
     <aura:attribute name="peStatusesPathList" type="List"/>
     <aura:attribute name="peStatusStateMap" type="Map"/>
     <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="defaultSorting" type="Boolean" default="{!true}"/>
 
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
@@ -38,7 +39,11 @@
                                 <div class="slds-truncate" title="Study">{!$Label.c.PI_DB_PAC_Study_Header}</div>
                             </th>
                             <th class="" scope="col">
-                                <div class="slds-truncate" title="Added">{!$Label.c.PI_DB_PAC_Added_Header}</div>
+                                <div class="slds-truncate" title="Added">{!$Label.c.PI_DB_PAC_Added_Header}
+                                    <span class="sort-icon" onclick="{!c.sortRecords}">
+                                        <lightning:icon iconName="utility:sort" size="xx-small"/>
+                                    </span>
+                                </div>
                             </th>
                         </tr>
                     </thead>
@@ -47,13 +52,23 @@
                             <tr class="slds-hint-parent">
                                 <th scope="row">
                                     <div class="slds-truncate">
+                                        <aura:if isTrue="{!item.isAbleToEdit}">
                                         <a id="{!item.Id}" onclick="{!c.showEditParticipantInformation}" href="javascript:void(0);">{!item.name}</a>
+                                            <aura:set attribute="else">
+                                                <span>{!item.name}</span>
+                                            </aura:set>
+                                        </aura:if>
                                     </div>
                                 </th>
                                 <td><div class="slds-truncate">{!item.source}</div></td>
                                 <td>
                                     <div class="slds-truncate">
+                                        <aura:if isTrue="{!item.isAbleToEdit}">
                                         <c:RRLink label="{!item.studyName}" page="{!'study-workspace?id=' + item.studyId}"/>
+                                            <aura:set attribute="else">
+                                                <span>{!item.studyName}</span>
+                                            </aura:set>
+                                        </aura:if>
                                     </div>
                                 </td>
                                 <td><div class="slds-truncate">{!'' + item.daysAdded + ' days ago'}</div></td>
