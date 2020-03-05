@@ -4,9 +4,16 @@
 
 @IsTest
 public class Test_RelevantLinksRemote {
+
+    @TestSetup
+    static void setup() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+    }
+
     @IsTest
     public static void emptyResources_Test() {
-        TestData.loadTestData();
         TestData td = new TestData();
         RelevantLinksRemote.InitData initData = new RelevantLinksRemote.InitData();
 
@@ -20,7 +27,6 @@ public class Test_RelevantLinksRemote {
 
     @IsTest
     public static void visibleResource_Test() {
-        TestData.loadTestData();
         TestData td = new TestData();
         RelevantLinksRemote.InitData initData = new RelevantLinksRemote.InitData();
         Resource__c relLink = new Resource__c(
@@ -63,7 +69,6 @@ public class Test_RelevantLinksRemote {
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateParticipantForDelegateHandler.class);
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class);
         TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
-        TestData.loadTestData();
         TestData td = new TestData();
         RelevantLinksRemote.InitData initData = new RelevantLinksRemote.InitData();
         Resource__c relLink = new Resource__c(

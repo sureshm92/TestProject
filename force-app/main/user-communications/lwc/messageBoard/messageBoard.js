@@ -19,7 +19,7 @@ import fileWrongExtLabel from '@salesforce/label/c.MS_Attach_File_Unsup_Type';
 import createConversation from '@salesforce/apex/MessagePageRemote.createConversation';
 import sendMessage from '@salesforce/apex/MessagePageRemote.sendMessage';
 import sendMultipleMessage from '@salesforce/apex/MessagePageRemote.sendMultipleMessage';
-import formFactor from "@salesforce/client/formFactor";
+import formFactor from '@salesforce/client/formFactor';
 
 const attIconMap = {
     csv: 'attach-file-csv',
@@ -263,7 +263,8 @@ export default class MessageBoard extends LightningElement {
                 createConversation({
                     enrollment: this.selectedEnrollment,
                     messageText: messageText,
-                    fileJSON: JSON.stringify(fileList)
+                    fileJSON: JSON.stringify(fileList),
+                    isIE: navigator.userAgent.match(/Trident/) !== null
                 })
                     .then(function (data) {
                         context.fireSendEvent(data);
@@ -278,7 +279,8 @@ export default class MessageBoard extends LightningElement {
                 sendMessage({
                     conversation: this.conversation,
                     messageText: messageText,
-                    fileJSON: JSON.stringify(fileList)
+                    fileJSON: JSON.stringify(fileList),
+                    isIE: navigator.userAgent.match(/Trident/) !== null
                 })
                     .then(function (data) {
                         context.fireSendEvent(data);
@@ -315,6 +317,10 @@ export default class MessageBoard extends LightningElement {
         return 'opacity: ' + (this.isSendEnable && this.isAttachEnable ? '1' : '0.5')
             + '; cursor: ' + (this.isSendEnable && this.isAttachEnable ? 'pointer' : 'default')
             + '; pointer-events: ' + (this.isSendEnable && this.isAttachEnable ? 'all' : 'none');
+    }
+
+    get sendPAStyle() {
+        return (navigator.userAgent.match(/Trident/) ? 'margin-bottom: 5px;' : '');
     }
 
     checkSendBTNAvailability() {
