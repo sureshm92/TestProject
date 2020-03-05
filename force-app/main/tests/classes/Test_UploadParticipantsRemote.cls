@@ -4,9 +4,15 @@
 @IsTest
 public class Test_UploadParticipantsRemote {
 
+    @TestSetup
+    static void setup() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+    }
+
     @IsTest
     public static void testUpdateParticipantsRemote() {
-        TestData.loadTestData();
         TestData tstData = new TestData();
         List<String> headerColumns = Action_UploadParticipantsRemote.HEADER_COLUMNS;
         List<String> mandatoryHeaders = Action_UploadParticipantsRemote.MANDATORY_HEADER_COLUMNS;
@@ -31,8 +37,7 @@ public class Test_UploadParticipantsRemote {
         Action_UploadParticipantsRemote.uploadParticipants(csvFileLines2, 'TestFile', tstData.ss.Id, statuses[2].value, false);
 
         List<Participant__c> participants = [SELECT Id FROM Participant__c];
-        system.assert(!participants.isEmpty());
-        Test.stopTest();
+        System.assert(!participants.isEmpty());
     }
 
 }

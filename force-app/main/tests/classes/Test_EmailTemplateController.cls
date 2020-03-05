@@ -82,6 +82,13 @@ public with sharing class Test_EmailTemplateController {
             String emailTemplateBrandLogoCSS = controller.emailTemplateBrandLogoCSS;
             String dataParametersValue = controller.dataParametersValue;
         }
+
+        testDataInstance.hcpEnrollment = [
+                SELECT Id,
+                        HCP_Contact__c
+                FROM HCP_Enrollment__c
+                WHERE Id = :testDataInstance.hcpEnrollment.Id
+        ];
         Healthcare_Provider__c provider = new Healthcare_Provider__c(Participant_Enrollment__c = testDataInstance.pe.Id, HCP_Enrollment__c = testDataInstance.hcpEnrollment.Id);
         insert provider;
         System.runAs(testDataInstance.hcpUser) {
