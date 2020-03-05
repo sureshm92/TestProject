@@ -153,10 +153,7 @@
                 delegateItems[ind].First_Name__c && delegateItems[ind].First_Name__c.trim() &&
                 delegateItems[ind].Last_Name__c && delegateItems[ind].Last_Name__c.trim())) {
 
-                let states = delegateItems[ind].statesDelegateLVList;
                 isDelegatesValid = (isDelegatesValid &&
-                    (delegateItems[ind].Mailing_Country_Code__c &&
-                        (!states || (states && states.length == 0) || delegateItems[ind].Mailing_State_Code__c) &&
                         (delegateItems[ind].Mailing_Zip_Postal_Code__c && delegateItems[ind].Mailing_Zip_Postal_Code__c.trim()) &&
                         delegateItems[ind].Email__c &&
                         delegateItems[ind].Phone_Type__c &&

@@ -96,15 +96,10 @@ public without sharing class ParticipantInformationRemote {
                 update participantContact;
             }
 
-            Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
             Map<Id, Id> toCreateUser = new Map<Id, Id>();
             if (needsInvite) {
                 system.debug('needsInvite: ' + needsInvite);
                 toCreateUser.put(participant.Contact__c, null);
-
-                Study_Site__c studySiteDetails = [SELECT Id, Name, Principal_Investigator__c, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE Id = :studySiteId];
-                String permissionSetName = CommunityTemplateService.getTemplate(studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
-                actionAssignContactPermissions.addPermission(participant.Contact__c, permissionSetName);
             }
 
             List<Patient_Delegate__c> notPatientDelegatesEver = [SELECT Id,
@@ -139,70 +134,8 @@ public without sharing class ParticipantInformationRemote {
             }
             update contactsToUpdate;
 
-            // TODO: the functionality which will be used in future
-            /*if (!delegates.isEmpty()) {
-                Set<Id> excludeIds = new Set<Id>((List<Id>)doNotContinueIds);
-                system.debug('delegates.isEmpty(): ' + delegates.isEmpty());
-                List<Patient_Delegate__c> patientDelegatesToInsert = new List<Patient_Delegate__c>();
-                List<Participant__c> delegatesToUpdate = new List<Participant__c>();
-                List<Participant__c> delegatesToInsert = new List<Participant__c>();
-                for (Participant__c delegate : delegates) {
-                    if (!String.isBlank(delegate.Id) && !excludeIds.contains(delegate.Id)) {
-                        system.debug('delegatesToUpdate: ' + delegate);
-                        delegatesToUpdate.add(delegate);
-                    } else if (String.isBlank(delegate.Id) && !String.isBlank(delegate.First_Name__c) &&
-                            !String.isBlank(delegate.Last_Name__c) && !String.isBlank(delegate.Email__c)) {
-                        delegatesToInsert.add(delegate);
-                        system.debug('delegatesToInsert: ' + delegate);
-                    }
-                }
-                if (!delegatesToUpdate.isEmpty()) {
-                    update delegatesToUpdate;
-                }
-
-                if (!delegatesToInsert.isEmpty()) {
-                    system.debug('delegatesToInsert.isEmpty(): ' + delegatesToInsert.isEmpty());
-                    List<Participant__c> filteredDelegates = new List<Participant__c>();
-                    ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(delegatesToInsert);
-                    for (Participant__c delegate : delegatesToInsert) {
-                        Participant__c delegateFromDatabase = duplicateService.findDuplicate(delegate);
-                        if (delegateFromDatabase != null) {
-                            filteredDelegates.add(delegateFromDatabase);
-                        } else {
-                            //check contact duplicate:
-                            if (duplicateService.findDuplicateContact(delegate) != null) {
-                                delegate.Contact__c = duplicateService.findDuplicateContact(delegate).Id;
-                            }
-                            filteredDelegates.add(delegate);
-                        }
-                    }
-                    upsert filteredDelegates;
-
-                    List<Participant__c> newDelegates = [SELECT Id, Contact__c FROM Participant__c WHERE Id IN :(new Map<Id, Participant__c>(delegatesToInsert)).keySet()];
-                    for (Participant__c newDelegate : newDelegates) {
-                        if (newDelegate.Contact__c != null) {
-                            patientDelegatesToInsert.add(
-                                    new Patient_Delegate__c(
-                                            Participant__c = participant.Id,
-                                            Contact__c = newDelegate.Contact__c,
-                                            Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
-                                    )
-                            );
-                            toCreateUser.put(newDelegate.Contact__c, null);
-                        }
-                    }
-
-                    if (!patientDelegatesToInsert.isEmpty()) {
-                        insert patientDelegatesToInsert;
-                    }
-                }
-            }*/
-
             system.debug('toCreateUser: ' + toCreateUser);
             if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
-            /*if (!actionAssignContactPermissions.isEmpty()) {
-                ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
-            }*/
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
