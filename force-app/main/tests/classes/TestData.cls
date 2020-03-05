@@ -61,6 +61,11 @@ public class TestData {
                 SELECT Id,
                         Participant_Contact__c,Participant_Status__c,
                         Participant_Contact__r.Visit_Results_Opt_In__c,
+                        Initial_visit_scheduled_date__c,
+                        Initial_visit_occurred_date__c,
+                        Initial_visit_scheduled_time__c,
+                        Initial_visit_occurred_flag__c,
+                        Initial_visit_scheduled_flag__c,
                         Screening_ID__c, Medical_Record_Review_Completed_Date__c,
                         Study_Site__r.Principal_Investigator__c,
                         Study_Site__r.Principal_Investigator__r.Name,
@@ -69,7 +74,7 @@ public class TestData {
                 WHERE Participant__c = :participant.Id
         ];
         hcpEnrollment = [
-                SELECT Id, Orientation_Date__c
+                SELECT Id, Orientation_Date__c, HCP_Contact__c
                 FROM HCP_Enrollment__c
                 WHERE HCP_Contact__r.LastName = 'HCPTD'
                 LIMIT 1

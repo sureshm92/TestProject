@@ -8,7 +8,6 @@ public class Test_UploadParticipantsRemote {
     public static void testUpdateParticipantsRemote() {
         TestData.loadTestData();
         TestData tstData = new TestData();
-        Test.startTest();
         List<String> headerColumns = Action_UploadParticipantsRemote.HEADER_COLUMNS;
         List<String> mandatoryHeaders = Action_UploadParticipantsRemote.MANDATORY_HEADER_COLUMNS;
 

@@ -271,6 +271,9 @@ public without sharing class ParticipantWorkflowService {
                         else{
                             fieldDependencyMap.get(fieldSetting.Depends_On_Field__c).add(fieldSetting.Field_Name__c);
                         }
+                        if(String.isNotBlank(fieldSetting.Populate_from_Field__c)){
+                            currentFieldWrapper.populateFromDependent = fieldSetting.Populate_from_Field__c;
+                        }
                     }
                     if(String.isNotBlank(fieldSetting.Populate_Fields_Map__c)){
                         currentFieldWrapper.populateFields = new Map<String, String>();
@@ -619,6 +622,7 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled public Boolean onlyFutureDate;
         @AuraEnabled public Boolean onlyPastDate;
         @AuraEnabled public Map<String, String> populateFields;
+        @AuraEnabled public String  populateFromDependent;
     }
 
     public class PathStepWrapper{
