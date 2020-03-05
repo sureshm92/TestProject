@@ -7,7 +7,6 @@
         component.set('v.previousValue', field.value);
     },
     onValueChange: function (component, event, helper) {
-        debugger;
         let parent = component.get('v.parent');
         let field = component.get('v.field');
         if(field!==undefined && field.type !== 'picklist'){
