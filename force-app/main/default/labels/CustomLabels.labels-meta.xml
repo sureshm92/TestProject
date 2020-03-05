@@ -2022,7 +2022,7 @@
         <shortDescription>Email Body Available</shortDescription>
         <value>New visit data is available.
 
-            Please login to the IQVIA Patient Portal to view the latest visit data.</value>
+            Please login to the ##ShortCommunityName to view the latest visit data.</value>
     </labels>
     <labels>
         <fullName>Email_Body_By_PI_RP1</fullName>
@@ -2058,7 +2058,7 @@
 
             Thank you for participating. Your contribution to the clinical research study has been very important.
 
-            Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
+            Please login to the ##ShortCommunityName for the latest clinical research information and for future updates on the clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Delegate_Permission_Changed</fullName>
@@ -2194,7 +2194,7 @@
 
             Thank you for participating. Your contribution to the clinical research study has been very important.
 
-            Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
+            Please login to the ##ShortCommunityName for the latest clinical research information and for future updates on the clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Once_at_Trial_Completion_PT</fullName>
@@ -2205,14 +2205,14 @@
 
             Thank you for participating. Your contribution to the clinical research study has been very important.
 
-            Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
+            Please login to the ##ShortCommunityName for the latest clinical research information and for future updates on the clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PA_New_Mess</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PA New Mess</shortDescription>
-        <value>You have a new message from your study center. Please login to the IQVIA Patient Portal to view your messages.</value>
+        <value>You have a new message from your study center. Please login to the ##ShortCommunityName to view your messages.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI1</fullName>
@@ -2282,7 +2282,7 @@
         <shortDescription>Thanks for request</shortDescription>
         <value>Thank you for submitting a request for additional information about ##StudyCode. Someone from the study team will be in touch with you.
 
-            Please login to the IQVIA Patient Portal to check your clinical research trial matches at any time.</value>
+            Please login to the ##ShortCommunityName to check your clinical research trial matches at any time.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Participant_Import_Completed</fullName>
@@ -2302,9 +2302,9 @@
 
             We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##CommunityName.
 
-            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient1</fullName>
@@ -2315,9 +2315,9 @@
 
             We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##CommunityName.
 
-            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient10</fullName>
@@ -2359,9 +2359,9 @@
 
             You will be contacted by the Study Site Team regarding next steps in the study process.
 
-            To assist you in tracking where you are in the clinical research study, please log in to the IQVIA Patient Portal.
+            To assist you in tracking where you are in the clinical research study, please log in to the ##ShortCommunityName.
 
-            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient16</fullName>
@@ -2390,7 +2390,7 @@
 
             Thank you for participating. Your contribution to the clinical research study has been very important.
 
-            Please login to the IQVIA Patient Portal for the latest clinical research information and for future updates on the clinical research study.</value>
+            Please login to the ##ShortCommunityName for the latest clinical research information and for future updates on the clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient2</fullName>
@@ -2401,9 +2401,9 @@
 
             We are reaching out to you on behalf of the Study Team to let you know that we have received your information and that a member of the Study Team will contact you regarding the next steps in the enrollment process.
 
-            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the IQVIA Referral Hub and Patient Portal.
+            To assist you in tracking where you are in the clinical research study referral process, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to enroll in the ##CommunityName.
 
-            Please note that enrollment in IQVIA Patient Portal is not a requirement to be enrolled into the research study: ##StudyName.</value>
+            Please note that enrollment in ##ShortCommunityName is not a requirement to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient3</fullName>
@@ -2434,7 +2434,7 @@
         <shortDescription>Email Body Patient7</shortDescription>
         <value>Your referral has been placed on hold for the clinical research study: ##StudyName.
 
-            To see additional information, log in to the IQVIA Patient Portal, and then go to &quot;My Studies.&quot;</value>
+            To see additional information, log in to the ##ShortCommunityName, and then go to &quot;My Studies.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient8</fullName>
@@ -2454,7 +2454,7 @@
         <shortDescription>Email Body Patient9</shortDescription>
         <value>The study team has updated your referral status for clinical study: ##StudyName.
 
-            To see additional information, log in to the IQVIA Patient Portal, and then go to &quot;My Studies.&quot;</value>
+            To see additional information, log in to the ##ShortCommunityName, and then go to &quot;My Studies.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient_Become_Adult</fullName>
@@ -2477,7 +2477,7 @@
         <shortDescription>Email Body Patient CreatedDate</shortDescription>
         <value>&quot;We haven&#39;t heard from you in a while.
 
-            Please log in to the IQVIA Patient Portal to view all the latest information on your clinical research study.&quot;</value>
+            Please log in to the ##ShortCommunityName to view all the latest information on your clinical research study.&quot;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient_Log_In</fullName>
@@ -2486,16 +2486,16 @@
         <shortDescription>Email Body Patient Log In</shortDescription>
         <value>We haven&#39;t heard from you in a while.
 
-            Please login to the IQVIA Patient Portal to view all the latest information on your clinical research study.</value>
+            Please login to the ##ShortCommunityName to view all the latest information on your clinical research study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Plain_Summary</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Plain Summary</shortDescription>
-        <value>New documents from ##StudyName clinical research study are now available on the IQVIA Patient Portal.   
+        <value>New documents from ##StudyName clinical research study are now available on the ##ShortCommunityName.   
 
-            Please login to the IQVIA Patient Portal to view this information.</value>
+            Please login to the ##ShortCommunityName to view this information.</value>
     </labels>
     <labels>
         <fullName>Email_Body_RP1</fullName>
@@ -2652,7 +2652,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Share Resource</shortDescription>
-        <value>An IQVIA Patient Portal user thought you might be interested in this content: ##UrlShare.
+        <value>An ##ShortCommunityName user thought you might be interested in this content: ##UrlShare.
 
 
             We hope you find this information helpful.</value>
@@ -2662,9 +2662,9 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Summary Certificate</shortDescription>
-        <value>A new reward certificate from ##StudyName clinical research study is  now available on the IQVIA Patient Portal.   
+        <value>A new reward certificate from ##StudyName clinical research study is  now available on the ##ShortCommunityName.   
 
-            Please login to the IQVIA Patient Portal to view this information.</value>
+            Please login to the ##ShortCommunityName to view this information.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Summary_Document</fullName>
@@ -2672,7 +2672,7 @@
         <protected>false</protected>
         <shortDescription>Email Body Summary Document</shortDescription>
         <value>New study documents are available.
-            Please log in to the IQVIA Patient Portal to view the latest Study Documents.</value>
+            Please log in to the ##ShortCommunityName to view the latest Study Documents.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Survey_Final_Reminder</fullName>
@@ -2713,7 +2713,7 @@
         <shortDescription>Email Body Trial Alert</shortDescription>
         <value>An alert on a clinical research study you may be interested in has been created.  We will notify you when ##StudyName enrollment begins.
 
-            Please login to the IQVIA Patient Portal to check your clinical research trial matches at any time.</value>
+            Please login to the ##ShortCommunityName to check your clinical research trial matches at any time.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Trial_Message</fullName>
@@ -2722,7 +2722,7 @@
         <shortDescription>Email Body Trial Message</shortDescription>
         <value>A clinical research study you may be interested in has started enrolling.
 
-            Please login to the IQVIA Patient Portal to check your clinical research trial matches for additional details.</value>
+            Please login to the ##ShortCommunityName to check your clinical research trial matches for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_User_Lockout</fullName>
@@ -3256,9 +3256,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature</shortDescription>
-        <value>We are excited to continue this journey with you.
-
-            Sincerely,
+        <value>Sincerely,
 
             The GSK Participant Hub team</value>
     </labels>
@@ -5875,7 +5873,7 @@
         <protected>true</protected>
         <shortDescription>OT Participant GSK S75 Text</shortDescription>
         <value>Take action on tasks that have been assigned to you or created by you or your delegate using the Open Task List.
-View study documents and other resources including articles and videos related to the study or the condition being studied from Resources.</value>
+            View study documents and other resources including articles and videos related to the study or the condition being studied from Resources.</value>
     </labels>
     <labels>
         <fullName>OT_Participant_S1_H</fullName>
@@ -13663,7 +13661,7 @@ View study documents and other resources including articles and videos related t
         <protected>true</protected>
         <shortDescription>Visit_Results_Tab_If_Is_Empty_Body</shortDescription>
         <value>Visit assessment information is not available for this clinical research study.
-If you have questions or concerns, please contact the study doctor at your study center.</value>
+            If you have questions or concerns, please contact the study doctor at your study center.</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_If_Is_Not_Opt_In</fullName>
@@ -13679,7 +13677,7 @@ If you have questions or concerns, please contact the study doctor at your study
         <protected>true</protected>
         <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_2</shortDescription>
         <value>. You can opt-out at any time. Once data becomes available it will begin to display. If you
-have questions or concerns about this data, please contact the study doctor at your study center.</value>
+            have questions or concerns about this data, please contact the study doctor at your study center.</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_If_Is_Not_Opt_In_Delegate</fullName>
