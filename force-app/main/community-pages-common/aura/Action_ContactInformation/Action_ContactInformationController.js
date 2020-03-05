@@ -52,11 +52,18 @@
     doScrollInto: function (component, event, helper) {
         let smsOptIn = event.getParam('arguments').smsOptIn;
         let personWrapper = component.get('v.personWrapper');
+        let regex = RegExp(component.get('v.phonePattern'));
         personWrapper.optInSMS = smsOptIn;
+        component.set('v.personWrapper', personWrapper);
+        component.set('v.reRender', false);
+        component.set('v.reRender', true);
+        let phone = personWrapper.homePhone;
+        component.set('v.isAllFieldsValid', regex.test(phone));
 
         if(personWrapper.optInSMS && !personWrapper.mobilePhone) {
             communityService.showInfoToast('', $A.get('$Label.c.Toast_Enter_Mob_Num'));
             component.find('mobileAnchor').scrollInto();
+            helper.setFieldsValidity(component);
         }
     },
 

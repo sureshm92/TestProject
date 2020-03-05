@@ -1,13 +1,21 @@
 /**Created by D.Yasinskyi on 23.05.2018*/
 public without sharing class HelpController {
 
+
+    @AuraEnabled
+    public static String getHelpText() {
+        String communityHelpText = TranslateHelper.getLabelValue(UserContext.getTemplateProperty('CommunityHelpAbout'));
+        String helpLabel = Label.PG_HLP_HI_HCP;
+        return helpLabel.replace('##CommunityHelpAbout', communityHelpText);
+    }
+
     /**
      * This is initialize method for current user.
      * @return UserContact
      */
     @AuraEnabled
     public static String getHelpInitData(String userMode) {
-        try{
+        try {
             UserContact userContact = new UserContact();
             userContact.currentContact = CommunityService.getUserContact();
             userContact.isDelegate = ParticipantContext.isCurrentDelegate();
@@ -17,7 +25,7 @@ public without sharing class HelpController {
             initData.helpTopicOptions = new List<LabelValueItem>();
             String userModefilter = '%' + userMode + '%';
             List<Help_Topic__mdt> helpTopics = [
-                    SELECT  CaseType__c, CaseDescription__c,CaseSubject__c,
+                    SELECT CaseType__c, CaseDescription__c,CaseSubject__c,
                             CasePriority__c, CaseReason__c,
                             Display_Name_Label__c, Display_Solution_Label__c,
                             Description_Placeholder_Label__c,
@@ -37,11 +45,11 @@ public without sharing class HelpController {
             });
 
             Map<String, String> paramMap = new Map<String, String>{
-                    'CommunityBrandName' => UserContext.getTemplateProperty('CommunityBrandName'),
-                    'CommunityWelcome' => UserContext.getTemplateProperty('CommunityWelcome')
+                    'CommunityBrandName' => TranslateHelper.getLabelValue(UserContext.getTemplateProperty('CommunityBrandName')),
+                    'CommunityWelcome' => TranslateHelper.getLabelValue(UserContext.getTemplateProperty('CommunityWelcome'))
             };
 
-            for(Help_Topic__mdt topic : helpTopics){
+            for (Help_Topic__mdt topic : helpTopics) {
                 HelpTopicWrapper tw = new HelpTopicWrapper();
                 tw.type = topic.CaseType__c;
                 tw.subject = topic.CaseSubject__c;
@@ -51,7 +59,7 @@ public without sharing class HelpController {
                 tw.userDescriptionRequired = topic.User_Description_Required__c;
                 tw.knowledgeArticleLink = topic.Knowledge_Article_Link__c;
                 tw.userTypes = topic.User_Types__c;
-                tw.order = (Integer)topic.Order__c;
+                tw.order = (Integer) topic.Order__c;
 
                 tw.displayName = topic.Display_Name_Label__c;
                 tw.displayName = TranslateHelper.replaceParams(tw.displayName, '##', paramMap);
@@ -66,13 +74,13 @@ public without sharing class HelpController {
 
             initData.helpTopicSettings.sort();
 
-            for(Integer i=0; i< initData.helpTopicSettings.size(); i++){
-                initData.helpTopicOptions.add(new LabelValueItem(initData.helpTopicSettings[i].displayName,String.valueOf(i)));
+            for (Integer i = 0; i < initData.helpTopicSettings.size(); i++) {
+                initData.helpTopicOptions.add(new LabelValueItem(initData.helpTopicSettings[i].displayName, String.valueOf(i)));
             }
 
             return JSON.serialize(initData);
-        }catch (Exception e) {
-           return (String) AuraHelper.throwException(e);
+        } catch (Exception e) {
+            return (String) AuraHelper.throwException(e);
         }
     }
 
@@ -80,13 +88,13 @@ public without sharing class HelpController {
     public static void createCase(String subject, String description, String type, String priority, String reason, String files, Boolean isClosed, Boolean isEscalated) {
         Savepoint sp = Database.setSavepoint();
         List<AssignmentRule> ars = getCaseAssignmentRule();
-        if(ars.isEmpty()) throw new AuraHandledException(Label.No_Case_Assign);
+        if (ars.isEmpty()) throw new AuraHandledException(Label.No_Case_Assign);
 
         Database.DMLOptions dmlOptions = new Database.DMLOptions();
         dmlOptions.assignmentRuleHeader.assignmentRuleId = ars[0].Id;
 
         Case newCase = new Case();
-        newCase.Status = (isClosed?'Closed':(isEscalated?'Escalated':'New'));
+        newCase.Status = (isClosed ? 'Closed' : (isEscalated ? 'Escalated' : 'New'));
         newCase.Origin = 'Web';
         newCase.Description = description;
         newCase.Type = type;
@@ -100,7 +108,7 @@ public without sharing class HelpController {
 
         try {
             insert newCase;
-            if(String.isNotEmpty(files)){
+            if (String.isNotEmpty(files)) {
                 List<HelpController.FileContainer> fileContainers =
                         (List<HelpController.FileContainer>) JSON.deserialize(files, List<HelpController.FileContainer>.class);
                 addFiles(newCase.Id, fileContainers);
@@ -149,7 +157,7 @@ public without sharing class HelpController {
 
         List<ContentVersion> files = new List<ContentVersion>();
 
-        for(HelpController.FileContainer file : fileContainers){
+        for (HelpController.FileContainer file : fileContainers) {
 
             ContentVersion conVer = new ContentVersion();
             conVer.ContentLocation = 'S'; // S specify this document is in SF, use E for external files
@@ -162,20 +170,20 @@ public without sharing class HelpController {
         insert files;
         createContentDocumentLink(parentId, files);
     }
-    
+
     private static void createContentDocumentLink(Id parentId, List<ContentVersion> files) {
 
         Set<Id> contentDocumentIds = new Set<Id>();
         List<ContentDocumentLink> links = new List<ContentDocumentLink>();
-        for(ContentVersion file : files){
+        for (ContentVersion file : files) {
             contentDocumentIds.add(file.Id);
         }
 
-        List<ContentVersion> contentVersions = [SELECT ContentDocumentId FROM ContentVersion WHERE Id =:contentDocumentIds];
+        List<ContentVersion> contentVersions = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :contentDocumentIds];
 
-        for(ContentVersion file : contentVersions){
+        for (ContentVersion file : contentVersions) {
             //Create ContentDocumentLink
-            ContentDocumentLink cdl= new ContentDocumentLink();
+            ContentDocumentLink cdl = new ContentDocumentLink();
             cdl.ContentDocumentId = file.ContentDocumentId;
             cdl.LinkedEntityId = parentId; // you can use objectId,GroupId etc
             cdl.ShareType = 'I'; // Inferred permission, checkout description of ContentDocumentLink object for more details
@@ -191,7 +199,7 @@ public without sharing class HelpController {
         List<LabelValueItem> helpTopicOptions;
     }
 
-    public class HelpTopicWrapper implements Comparable{
+    public class HelpTopicWrapper implements Comparable {
         Boolean userDescriptionRequired;
         String knowledgeArticleLink;
         String type;
@@ -207,11 +215,10 @@ public without sharing class HelpController {
         Boolean submitRequired;
         Boolean escalated;
 
-        public Integer compareTo(Object compObject){
+        public Integer compareTo(Object compObject) {
             HelpTopicWrapper compareToObj = (HelpTopicWrapper) compObject;
-            if(order == compareToObj.order)
-                return compareToObj.userTypes.length() - userTypes.length();
-            else
+            if (order == compareToObj.order)
+                return compareToObj.userTypes.length() - userTypes.length(); else
                     return order - compareToObj.order;
         }
     }

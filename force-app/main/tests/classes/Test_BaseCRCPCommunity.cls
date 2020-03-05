@@ -232,6 +232,7 @@ private class Test_BaseCRCPCommunity {
         Test.startTest();
         System.runAs(testData.hcpUser) {
             Action_RequestToReferByHCPRemote.requestToReferForHCP(testData.ss.Id,testData.hcpEnrollment.Id, null);
+            Action_RequestToReferByHCPRemote.requestToReferForHCP(testData.ss.Id,null, null);
         }
         Test.stopTest();
     }
@@ -423,6 +424,9 @@ private class Test_BaseCRCPCommunity {
         System.runAs(testData.piUser) {
             Action_InviteRPRemote.getInviteDetail();
             Action_InviteRPRemote.inviteNewHCP('test', 'hcp', '12345','test@mail.com.fake', null, 'test-protocol',new List<String>());
+            Action_InviteRPRemote.inviteExistingHCP([SELECT Id FROM Contact WHERE Email = 'hcp@emil.com'].Id, null);
+            Action_InviteRPRemote.SiteWrapper wrapper = new Action_InviteRPRemote.SiteWrapper(null, null);
+            Action_InviteRPRemote.SiteWrapper wrapper2 = new Action_InviteRPRemote.SiteWrapper(null, null, null, null);
         }
         Test.stopTest();
     }
@@ -441,6 +445,8 @@ private class Test_BaseCRCPCommunity {
             );
 
             Healthcare_Provider__c hp = ReferHealthcareProviderRemote.inviteHP(testData.pe.Id,JSON.serialize(provider))[0];
+            hp.Status__c = ReferHealthcareProviderRemote.HP_S_NOSHARING;
+            Healthcare_Provider__c hp2 = ReferHealthcareProviderRemote.inviteHP(testData.pe.Id,JSON.serialize(hp))[0];
             ReferHealthcareProviderRemote.checkDuplicate(testData.pe.Id,'testHP@mail.com.fake');
             ReferHealthcareProviderRemote.stopSharing(hp.Id);
         }
@@ -502,7 +508,10 @@ private class Test_BaseCRCPCommunity {
             Participant_Enrollment__c pe = [SELECT Id FROM Participant_Enrollment__c LIMIT 1];
             String refInitDataJSON = ReferringRemote.getInitData(testData.ctp.Id, pe.Id, testData.hcpEnrollment.Id, CommunityService.USER_MODE_HCP, null);
             ReferringRemote.InitData refInitData = (ReferringRemote.InitData) JSON.deserialize(refInitDataJSON, ReferringRemote.InitData.class);
-            insert new Participant__c();
+            insert new Participant__c(First_Name__c = 'FN1',
+                    Last_Name__c = 'LN1',
+                    Phone__c = '121231233333',
+                    Email__c = 'NewTestPartOne@email.com');
             Participant__c participant2 = new Participant__c(
                     First_Name__c = 'FN',
                     Last_Name__c = 'LN',

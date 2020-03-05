@@ -104,6 +104,10 @@ global without sharing class EmailTemplateController {
         get {
             try {
                 setDefaultValues();
+                String title = getPropertiesService().getPropertyValue('EmailTemplateTitleLabel');
+                if (title != null && getDataProvider().userMode == CommunityModeService.USER_MODE_PARTICIPANT) {
+                    titleValue = title;
+                }
                 return titleValue;
             } catch (Exception e) {
                 EmailService.sendException(e, null);
@@ -129,8 +133,8 @@ global without sharing class EmailTemplateController {
     global String signatureValue {
         get {
             try {
-                if (signatureValue == null && getDataProvider().userMode == CommunityModeService.USER_MODE_PARTICIPANT) {
-                    String signatureLabel = getPropertiesService().getPropertyValue('EmailTemplateSignatureLabel');
+                String signatureLabel = getPropertiesService().getPropertyValue('EmailTemplateSignatureLabel');
+                if (signatureLabel != null && getDataProvider().userMode == CommunityModeService.USER_MODE_PARTICIPANT) {
                     return prepareLineBreaks(TranslateHelper.getLabelValue(signatureLabel));
                 }
                 return prepareLineBreaks(signatureValue);

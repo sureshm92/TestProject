@@ -39,9 +39,8 @@ public without sharing class AccountSettingsController {
                     }
 
                     initData.cookieDescription = Label.PP_Account_Settings_Cookie_Description;
-                    initData.cookieDescription = initData.cookieDescription.replace(
-                            '##CommunityWelcome', UserContext.getTemplateProperty('CommunityWelcome')
-                    );
+                    String communityName = TranslateHelper.getLabelValue(UserContext.getTemplateProperty('CommunityWelcome'));
+                    initData.cookieDescription = initData.cookieDescription.replace('##CommunityWelcome', communityName);
                     ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
                     List<Participant_Enrollment__c> participantEnrollments = new List<Participant_Enrollment__c>();
                     List<Id> peIds = new List<Id>();

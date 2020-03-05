@@ -8,6 +8,6 @@
     </values>
     <values>
         <field>Value__c</field>
-        <value xsi:type="xsd:string">display: none;</value>
+        <value xsi:type="xsd:string">font-size: 24px; font-weight: bold; line-height: 28px;</value>
     </values>
 </CustomMetadata>

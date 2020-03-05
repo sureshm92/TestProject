@@ -31,7 +31,7 @@
             </aura:if>
 
 
-            <aura:if isTrue="{!!v.fromEmancipParticipant}">
+            <aura:if isTrue="{!!v.fromEmancipParticipant &amp;&amp; v.delegates != null}">
                 <div class="referring">{!$Label.c.Delegates}</div>
                 <div class="healthcare-info">{!!v.fromEmancipParticipant ? $Label.c.Message_For_Delegates : ''}</div>
                 <div class="slds-grid slds-wrap slds-size--1-of-1">
@@ -40,14 +40,15 @@
                                                        pe="{!v.pe}" actionDisabled="{!v.actionDisabled}" printMode="{!v.printMode}"/>
                     </aura:iteration>
                 </div>
-                <aura:if isTrue="{!!v.actionDisabled}">
+                <!--<aura:if isTrue="{!!v.actionDisabled}">
                     <div>
-                        <lightning:button class="apollo-btn secondary slds-box" disabled="true" onclick="{!c.doAddDelegate}">{!$Label.c.Add_Another_Delegate}
-                            <c:RRIcon class='rr-icon--left' color="#297dfd"
+                        <lightning:button class="apollo-btn secondary slds-box" disabled="true" onclick="{!c.doAddDelegate}">
+                            <c:RRIcon color="#297dfd"
                                       iconName="icon-plus"/>
+                            <div>{!$Label.c.Add_Another_Delegate}</div>
                         </lightning:button>
                     </div>
-                </aura:if>
+                </aura:if>-->
             </aura:if>
 
                 <aura:if isTrue="{!v.fromActionParticipant &amp;&amp; v.refProvider}">

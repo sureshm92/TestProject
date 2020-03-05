@@ -201,7 +201,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
         this.conversationWrappers = null;
         this.enrollments = null;
 
-        getInit({formFactor: formFactor})
+        getInit({formFactor: formFactor, isIE: navigator.userAgent.match(/Trident/) !== null})
             .then(data => {
                 if (!data.isPageEnabled) {
                     this[NavigationMixin.Navigate]({

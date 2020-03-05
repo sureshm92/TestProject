@@ -42,6 +42,10 @@
 
 }
 
+.THIS .slds-small-size_6-of-12{
+    margin-left: 175px;
+}
+
 @media all and (max-width: 768px){
     .THIS .vpi-status-btns button{
         margin: 5px 0 10px 0;

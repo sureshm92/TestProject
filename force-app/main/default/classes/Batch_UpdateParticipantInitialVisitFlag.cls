@@ -19,6 +19,7 @@ global without sharing class Batch_UpdateParticipantInitialVisitFlag implements 
         for (Participant_Enrollment__c pe : scope) {
             if(PEStatusState.PE_ORDERED_STATUSES.get(pe.Participant_Status__c) != null && PEStatusState.PE_ORDERED_STATUSES.get(pe.Participant_Status__c) > PEStatusState.PE_ORDERED_STATUSES.get(PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED)){
                 pe.Initial_visit_occurred_flag__c = true;
+                pe.Informed_Consent__c = true;
                 peToUpdate.add(pe);
             }
 

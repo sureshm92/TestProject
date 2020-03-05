@@ -147,6 +147,26 @@ public class Test_ResourceRemote {
     }
 
     @IsTest
+    public static void getStudyDocuments_Exception_Test() {
+
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(ResourceService.class, StubBuilder.newInstance(ResourceService.class)
+                .when('getStudyDocuments')
+                .then(new AuraHandledException('Test Exception'))
+                .build()
+        );
+        Boolean isExceptionThrown = false;
+        Test.startTest();
+        try {
+            ResourceService.ResourceWrapperContainer container = ResourceRemote.getStudyDocuments();
+        } catch (Exception e) {
+            isExceptionThrown = true;
+        }
+        Test.stopTest();
+        System.assert(true, isExceptionThrown);
+    }
+
+    @IsTest
     public static void getTrialId_Positive_Test() {
         TestData testData = new TestData();
 

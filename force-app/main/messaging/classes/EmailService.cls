@@ -8,6 +8,8 @@ public without sharing class EmailService {
 
     public static final String COMMUNITY_ORG_WIDE_ADDRESS_REFERRAL = 'IQVIA Referral Hub';
     public static final String COMMUNITY_ORG_WIDE_ADDRESS_PATIENT = 'IQVIA Patient Portal';
+    public static final String COMMUNITY_ORG_WIDE_ADDRESS_GSK_PATIENT = 'GatherSHAREKnow Participant Hub';
+    public static final String COMMUNITY_ORG_WIDE_ADDRESS_ST_SPECIFIC = 'Study Specific';
 
     private static final Map<String, Id> templateNameIdMap = new Map<String, Id>();
     private static final Map<String, Id> orgWideEmailAddressesMap = new Map<String, Id>();
@@ -51,16 +53,7 @@ public without sharing class EmailService {
         return newEmail;
     }
 
-    public static String getOrgWideEmailAddressByContactId(Id contactId) {
-        String userMode = CommunityService.getContactUserMode(contactId);
-        if (userMode != null && userMode.equalsIgnoreCase(CommunityService.USER_MODE_PARTICIPANT)) {
-            return COMMUNITY_ORG_WIDE_ADDRESS_PATIENT;
-        } else {
-            return COMMUNITY_ORG_WIDE_ADDRESS_REFERRAL;
-        }
-    }
-
-    public static void send(List<Notification__c> notifications) {
+    public static void send(List<Notification__c> notifications, Map<Id, String> orgWideEmailByNotifyMap) {
         NotificationResultService sendResultService = new NotificationResultService(notifications);
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
         List<Notification__c> notificationShareEmail = new List<Notification__c>();
@@ -69,7 +62,7 @@ public without sharing class EmailService {
                 notificationShareEmail.add(n);
             } else {
                 Notification_Target__mdt emailTarget = NotificationService.getNotificationTarget(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
-                emailMessages.add(createEmail(getEmailTemplateId(emailTarget.Email_Template__c), n.Recipient__c, n.WhatId__c, emailTarget.Org_Wide_Email_Address__c));
+                emailMessages.add(createEmail(getEmailTemplateId(emailTarget.Email_Template__c), n.Recipient__c, n.WhatId__c, orgWideEmailByNotifyMap.get(n.Id)));
             }
         }
         List<Messaging.SendEmailResult> resultList = Messaging.sendEmail(emailMessages, false);

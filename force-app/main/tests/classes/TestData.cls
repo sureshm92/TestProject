@@ -59,14 +59,22 @@ public class TestData {
         ];
         pe = [
                 SELECT Id,
-                        Participant_Contact__c,
+                        Participant_Contact__c,Participant_Status__c,
                         Participant_Contact__r.Visit_Results_Opt_In__c,
-                        Screening_ID__c, Medical_Record_Review_Completed_Date__c
+                        Initial_visit_scheduled_date__c,
+                        Initial_visit_occurred_date__c,
+                        Initial_visit_scheduled_time__c,
+                        Initial_visit_occurred_flag__c,
+                        Initial_visit_scheduled_flag__c,
+                        Screening_ID__c, Medical_Record_Review_Completed_Date__c,
+                        Study_Site__r.Principal_Investigator__c,
+                        Study_Site__r.Principal_Investigator__r.Name,
+                        Study_Site__r.Principal_Investigator__r.Title
                 FROM Participant_Enrollment__c
                 WHERE Participant__c = :participant.Id
         ];
         hcpEnrollment = [
-                SELECT Id, Orientation_Date__c
+                SELECT Id, Orientation_Date__c, HCP_Contact__c
                 FROM HCP_Enrollment__c
                 WHERE HCP_Contact__r.LastName = 'HCPTD'
                 LIMIT 1
@@ -189,7 +197,9 @@ public class TestData {
                 Email = 'hcp@emil.com',
                 AccountId = hcpAccount.Id,
                 MailingLatitude = 40.766594,
-                MailingLongitude = -73.991509
+                MailingLongitude = -73.991509,
+                userCommunytyType__c = CommunityService.USER_MODE_HCP,
+                userCommunityMode__c = CommunityService.USER_MODE_HCP
         );
 
         Contact  hcpDelegateContact = new Contact(
