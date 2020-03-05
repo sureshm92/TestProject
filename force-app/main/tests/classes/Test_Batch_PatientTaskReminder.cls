@@ -5,7 +5,9 @@
 public with sharing class Test_Batch_PatientTaskReminder {
     @IsTest
     static void testBatchExecute() {
+        TriggerHandlerExecutor.bypassHandler(NotificationTriggerHandler.CheckFieldsHandler.class);
         TestData.loadTestData();
+        delete [SELECT Id FROM Notification__c];
 
         Test.startTest();
         TestData testData = new TestData();
@@ -54,5 +56,8 @@ public with sharing class Test_Batch_PatientTaskReminder {
         ];
         new Batch_PatientTaskReminder().execute(null, tasks);
         Test.stopTest();
+
+        List<Notification__c> notifications = [SELECT Id FROM Notification__c];
+        System.assertEquals(tasks.size(), notifications.size());
     }
 }

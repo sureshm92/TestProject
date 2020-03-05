@@ -93,13 +93,6 @@
                             {!delegateItem.selectedOption == '1' ? 'Continue' : 'Do not continue'}
                         </div>
 
-                        <div class="rr-form-element slds-col slds-size--1-of-3 bold-titles">
-                            {!$Label.c.PG_AP_H_Patient_Details}
-                        </div>
-                        <div class="rr-form-element slds-col slds-size--2-of-3 bold-titles">
-                            {!$Label.c.PG_AP_H_Patient_Contact_Information}
-                        </div>
-
                         <div class="rr-form-element slds-col slds-size--1-of-3">
                             <span class="grey-text">{!$Label.c.PG_L_Name}: </span> {!delegateItem.First_Name__c + ' ' + delegateItem.Last_Name__c}
                         </div>
@@ -107,27 +100,11 @@
                             <span class="grey-text">{!$Label.c.PE_Phone_number}: </span> {!delegateItem.Phone__c}
                         </div>
                         <div class="rr-form-element slds-col slds-size--1-of-3">
-                            <span class="grey-text">{!$Label.c.PE_Country}: </span> {!delegateItem.Mailing_Country__c}
-                        </div>
-
-                        <div class="rr-form-element slds-col slds-size--1-of-3">
-                            <span class="grey-text">{!$Label.c.RP_DOB_label}: </span> {!delegateItem.Date_of_Birth__c}
-                        </div>
-                        <div class="rr-form-element slds-col slds-size--1-of-3">
                             <span class="grey-text">{!$Label.c.PG_AP_F_Phone_Type}: </span> {!delegateItem.Phone_Type__c}
                         </div>
-                        <div class="rr-form-element slds-col slds-size--1-of-3">
-                            <span class="grey-text">{!$Label.c.PE_State}: </span> {!delegateItem.Mailing_State__c}
-                        </div>
 
                         <div class="rr-form-element slds-col slds-size--1-of-3">
-                            <span class="grey-text">{!$Label.c.PG_AS_F_Gender}: </span> {!delegateItem.Gender__c}
-                        </div>
-                        <div class="rr-form-element slds-col slds-size--1-of-3">
                             <span class="grey-text">{!$Label.c.PG_AS_F_Email_address}: </span> {!delegateItem.Email__c}
-                        </div>
-                        <div class="rr-form-element slds-col slds-size--1-of-3">
-                            <span class="grey-text">{!$Label.c.PG_AS_F_Zip_Postal_Code}: </span> {!delegateItem.Mailing_Zip_Postal_Code__c}
                         </div>
                     </div>
                 </aura:iteration>
