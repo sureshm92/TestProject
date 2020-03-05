@@ -37,7 +37,6 @@
         var updateInProgress = component.get('v.updateInProgress');
         if(!updateInProgress) {
             component.set('v.updateInProgress', true);
-            helper.checkValidity(component, event, helper, stepWrapper);
             var params = event.getParam('arguments');
             var fieldName = params.fieldName;
             if (stepWrapper.fieldDependencyMap.hasOwnProperty(fieldName)) {
@@ -67,6 +66,7 @@
                     component.set('v.stepWrapper.formFieldGroups', stepWrapper.formFieldGroups);
                 }
             }
+            helper.checkValidity(component, event, helper, stepWrapper);
             component.set('v.updateInProgress', false);
         }
     },
