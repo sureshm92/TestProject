@@ -32,9 +32,14 @@
 
     onKeyUp: function(component, event, helpler){
         //checks for "enter" key
+        var usernameField = component.find("username");
+        var userPasswordField = component.find('password');
         if (event.getParam('keyCode')===13) {
+            usernameField.focus();
+            userPasswordField.focus();
             helpler.handleLogin(component, event, helpler);
         }
+
     },
 
     navigateToForgotPassword: function(cmp, event, helper) {
