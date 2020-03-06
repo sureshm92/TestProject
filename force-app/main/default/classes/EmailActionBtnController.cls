@@ -36,18 +36,18 @@ global without sharing class EmailActionBtnController {
             }
             if (resourceIdString.getSobjectType() == Clinical_Trial_Profile__c.getSObjectType()) {
                 communityTemplate = [
-                        SELECT Id, CommunityTemplate__c
+                        SELECT CommunityTemplate__c
                         FROM Clinical_Trial_Profile__c
                         WHERE Id = :resourceIdString
                 ].CommunityTemplate__c;
             }
             if (resourceIdString.getSobjectType() == Task.getSObjectType()) {
-                Task task = [SELECT Id, WhatId FROM Task WHERE Id =: resourceIdString];
+                Task task = [SELECT WhatId FROM Task WHERE Id =: resourceIdString];
                 peId = task.WhatId;
             }
             if (resourceIdString.getSobjectType() == SurveyInvitation.getSObjectType()) {
                 SurveyInvitation survey = [
-                        SELECT Id, Participant_Enrollment__c
+                        SELECT Participant_Enrollment__c
                         FROM SurveyInvitation
                         WHERE Id = :resourceIdString
                 ];

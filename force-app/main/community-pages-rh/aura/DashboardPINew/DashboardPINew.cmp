@@ -16,7 +16,7 @@
     <!-- component body: -->
 
     <aura:if isTrue="{!v.delegatePIPicklistvalues.length &gt; 1}">
-        <div class="pi-picklist-container">
+        <div class="pi-picklist-container" data-gtm="DDL_Pi_Picker">
             <c:rrSelect value="{!v.currentPi}" options="{!v.delegatePIPicklistvalues}" onchange="{!c.refreshData}"/>
         </div>
     </aura:if>
