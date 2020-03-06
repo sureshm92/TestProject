@@ -869,7 +869,7 @@ public without sharing class ParticipantEnrollmentService {
             participant.Has_Studies_In_Progress__c = false;
             participant.Has_Past_Studies__c = false;
             for (Participant_Enrollment__c pe : peByParticipant.get(partKey)) {
-                if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(pe.Participant_Status__c)) {
+                if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL.contains(pe.Participant_Status__c)) {
                     participant.Has_Studies_In_Progress__c = true;
                 }
                 if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)) {
