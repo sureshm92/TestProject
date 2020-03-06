@@ -133,11 +133,13 @@ global without sharing class EmailTemplateController {
     global String signatureValue {
         get {
             try {
-                String signatureLabel = getPropertiesService().getPropertyValue('EmailTemplateSignatureLabel');
-                if (signatureLabel != null && getDataProvider().userMode == CommunityModeService.USER_MODE_PARTICIPANT) {
-                    return prepareLineBreaks(TranslateHelper.getLabelValue(signatureLabel));
-                }
-                return prepareLineBreaks(signatureValue);
+                String commNameFull = getPropertiesService().getPropertyValue('EmailTemplateCommunitySignature');
+                String commNameShort = getPropertiesService().getPropertyValue('EmailTemplateCommunitySignShort');
+                Map<String, String> parametersMap = getDataProvider().parameters;
+                parametersMap.put('CommunityNameSignature', commNameFull);
+                parametersMap.put('SignatureShortCommunityName', commNameShort);
+                String resValue = TranslateHelper.replaceParams(signatureValue, PARAM_PREFIX, parametersMap);
+                return prepareLineBreaks(TranslateHelper.getLabelValue(resValue));
             } catch (Exception e) {
                 EmailService.sendException(e, null);
                 return e.getMessage();

@@ -36,21 +36,20 @@ global without sharing class EmailActionBtnController {
             }
             if (resourceIdString.getSobjectType() == Clinical_Trial_Profile__c.getSObjectType()) {
                 communityTemplate = [
-                        SELECT Id, CommunityTemplate__c
+                        SELECT CommunityTemplate__c
                         FROM Clinical_Trial_Profile__c
                         WHERE Id = :resourceIdString
                 ].CommunityTemplate__c;
             }
             if (resourceIdString.getSobjectType() == Task.getSObjectType()) {
-                Task task = [SELECT Id, WhatId FROM Task WHERE Id =: resourceIdString AND WhatId != NULL];
+                Task task = [SELECT WhatId FROM Task WHERE Id =: resourceIdString];
                 peId = task.WhatId;
             }
             if (resourceIdString.getSobjectType() == SurveyInvitation.getSObjectType()) {
                 SurveyInvitation survey = [
-                        SELECT Id, Participant_Enrollment__c
+                        SELECT Participant_Enrollment__c
                         FROM SurveyInvitation
                         WHERE Id = :resourceIdString
-                        AND Participant_Enrollment__c != NULL
                 ];
                 peId = survey.Participant_Enrollment__c;
             }
@@ -58,7 +57,7 @@ global without sharing class EmailActionBtnController {
                 communityTemplate = [
                         SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
                         FROM Participant_Enrollment__c
-                        WHERE Id = :resourceIdString].Clinical_Trial_Profile__r.CommunityTemplate__c;
+                        WHERE Id = :peId].Clinical_Trial_Profile__r.CommunityTemplate__c;
             }
         }
 

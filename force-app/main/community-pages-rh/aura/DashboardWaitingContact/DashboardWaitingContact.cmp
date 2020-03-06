@@ -25,60 +25,70 @@
             <div class="db-qal-title">
                 {!v.dashboardTitle}
             </div>
-            <div class="db-qal-items slds-grid slds-wrap slds-scrollable"  style="height: 200px; margin-top: 15px;">
+            <div class="db-qal-items slds-grid slds-wrap slds-scrollable" style="height: 200px; margin-top: 15px;">
                 <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
                     <thead>
-                        <tr class="slds-line-height_reset">
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Name">{!$Label.c.PI_DB_PAC_Name_Header}</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Source">{!$Label.c.PI_DB_PAC_Source_Header}</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Study">{!$Label.c.PI_DB_PAC_Study_Header}</div>
-                            </th>
-                            <th class="" scope="col">
-                                <div class="slds-truncate" title="Added">{!$Label.c.PI_DB_PAC_Added_Header}
-                                    <span class="sort-icon" onclick="{!c.sortRecords}">
+                    <tr class="slds-line-height_reset">
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Name">{!$Label.c.PI_DB_PAC_Name_Header}</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Source">{!$Label.c.PI_DB_PAC_Source_Header}</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Study">{!$Label.c.PI_DB_PAC_Study_Header}</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Added">{!$Label.c.PI_DB_PAC_Added_Header}
+                                <span class="sort-icon" onclick="{!c.sortRecords}">
                                         <lightning:icon iconName="utility:sort" size="xx-small"/>
                                     </span>
-                                </div>
-                            </th>
-                        </tr>
+                            </div>
+                        </th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <aura:iteration items="{!v.peList}" var="item" indexVar="ind">
-                            <tr class="slds-hint-parent">
-                                <th scope="row">
-                                    <div class="slds-truncate">
-                                        <aura:if isTrue="{!item.isAbleToEdit}">
-                                        <a id="{!item.Id}" onclick="{!c.showEditParticipantInformation}" href="javascript:void(0);">{!item.name}</a>
-                                            <aura:set attribute="else">
-                                                <span>{!item.name}</span>
-                                            </aura:set>
-                                        </aura:if>
-                                    </div>
-                                </th>
-                                <td><div class="slds-truncate">{!item.source}</div></td>
-                                <td>
-                                    <div class="slds-truncate">
-                                        <aura:if isTrue="{!item.isAbleToEdit}">
-                                        <c:RRLink label="{!item.studyName}" page="{!'study-workspace?id=' + item.studyId}"/>
-                                            <aura:set attribute="else">
-                                                <span>{!item.studyName}</span>
-                                            </aura:set>
-                                        </aura:if>
-                                    </div>
-                                </td>
-                                <td><div class="slds-truncate">{!'' + item.daysAdded + ' days ago'}</div></td>
-                            </tr>
-                        </aura:iteration>
+                    <aura:iteration items="{!v.peList}" var="item" indexVar="ind">
+                        <tr class="slds-hint-parent">
+                            <th scope="row">
+                                <div class="slds-truncate">
+                                    <aura:if isTrue="{!item.isAbleToEdit}">
+                                        <div data-gtm="LNK_View_Participants_Details">
+                                            <a id="{!item.Id}" onclick="{!c.showEditParticipantInformation}"
+                                               href="javascript:void(0);">{!item.name}</a>
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <span>{!item.name}</span>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </th>
+                            <td>
+                                <div class="slds-truncate">{!item.source}</div>
+                            </td>
+                            <td>
+                                <div class="slds-truncate">
+                                    <aura:if isTrue="{!item.isAbleToEdit}">
+                                        <div data-gtm="LNK_View_CTP_Details">
+                                            <c:RRLink label="{!item.studyName}"
+                                                      page="{!'study-workspace?id=' + item.studyId}"/>
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <span>{!item.studyName}</span>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="slds-truncate">{!'' + item.daysAdded + ' days ago'}</div>
+                            </td>
+                        </tr>
+                    </aura:iteration>
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="dqa-view-more">
+        <div class="dqa-view-more" data-gtm="LNK_View_All_Participants">
             <c:RRLink page="my-referrals" class="apollo-btn text">{!$Label.c.BTN_View_all}</c:RRLink>
         </div>
     </div>

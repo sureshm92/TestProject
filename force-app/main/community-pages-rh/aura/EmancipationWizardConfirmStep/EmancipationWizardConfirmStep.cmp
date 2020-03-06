@@ -21,10 +21,10 @@
         <div class="ap-section">
             <div style="background: #F6F7FB; margin-top: 15px;padding-top: 10px">
                 <div class="ap-section-title" style="margin-left: 10px;">{!$Label.c.BTN_Participant_Information}</div>
-                <lightning:button onclick="{!c.doEditParticipant}" name="Edit" class="slds-button edit-btn slds-button--icon-inverse">
+                <button data-gtm="BTN_EditParticipant_Wizard" onclick="{!c.doEditParticipant}" name="Edit" class="slds-button edit-btn slds-button--icon-inverse">
                     <!--<c:RRIcon iconName="icon-edit" class="edit-icon"/> -->
                      <img class="edit-icon" src="{!$Resource.icon_edit}" width="16" height="16"/>
-                </lightning:button>
+                </button>
 
                 <div class="slds-grid slds-gutters slds-wrap" style="margin: 10px 0;">
                     <div class="rr-form-element grey-text slds-col slds-size--1-of-1">
@@ -80,9 +80,9 @@
         <div class="ap-section">
             <div style="background: #F6F7FB; margin-top: 15px;padding-top: 10px;min-height:40px">
                 <div class="ap-section-title" style="margin-left: 10px;">{!$Label.c.PG_Ref_L_Delegate_Information}</div>
-                <lightning:button onclick="{!c.doEditDelegate}" name="Edit" class="slds-button edit-btn slds-button--icon-inverse">
+                <button data-gtm="BTN_EditDelegate_Wizard" onclick="{!c.doEditDelegate}" name="Edit" class="slds-button edit-btn slds-button--icon-inverse">
                      <img class="edit-icon" src="{!$Resource.icon_edit}" width="16" height="16"/>
-                </lightning:button>
+                </button>
 
                 <aura:iteration items="{!v.delegateItems}" var="delegateItem" indexVar="ind">
                     <div class="slds-grid slds-gutters slds-wrap rr-form-element" style="margin: 10px 10px;">
