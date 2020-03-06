@@ -136,7 +136,7 @@ global without sharing class EmailTemplateController {
                 String commNameFull = getPropertiesService().getPropertyValue('EmailTemplateCommunitySignature');
                 String commNameShort = getPropertiesService().getPropertyValue('EmailTemplateCommunitySignShort');
                 Map<String, String> parametersMap = getDataProvider().parameters;
-                parametersMap.put('CommunityNameSignature', commNameFull);
+                parametersMap.put('SignatureFullCommunityName', commNameFull);
                 parametersMap.put('SignatureShortCommunityName', commNameShort);
                 String resValue = TranslateHelper.replaceParams(signatureValue, PARAM_PREFIX, parametersMap);
                 return prepareLineBreaks(TranslateHelper.getLabelValue(resValue));
