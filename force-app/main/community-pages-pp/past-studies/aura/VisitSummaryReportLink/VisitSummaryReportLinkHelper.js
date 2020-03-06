@@ -72,7 +72,6 @@
     },
 
     fillData: function (component, reportData, iqviaLogo, isSave) {
-        debugger;
         let helper = this;
         var doc = new jsPDF('l', 'pt', 'A4', true);
         let textFooter = $A.get('$Label.c.Report_Visits_Result_Text_Footer');

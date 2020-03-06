@@ -1,7 +1,7 @@
 ({
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
-        debugger;
+
         if (communityService.getUserMode() !== "PI") communityService.navigateToPage('');
         var trialId = communityService.getUrlParameter('id');
         var ssId = communityService.getUrlParameter('ssId');
@@ -9,7 +9,6 @@
             trialId: trialId ? trialId : null,
             ssId : ssId ? ssId : null
         }, function (returnValue) {
-            debugger;
             var initData = JSON.parse(returnValue);
             component.set('v.skipUpdate', true);
             component.set('v.filterData', initData.referringClinicsFilter.filterData);
@@ -27,7 +26,6 @@
     },
 
     doUpdateRecords: function (component){
-        debugger;
         if(component.get('v.skipUpdate')) return;
         var spinner = component.find('recordListSpinner');
         spinner.show();
@@ -43,7 +41,6 @@
             trialChanged: trialChanged
         }, function (returnValue) {
             var initData = JSON.parse(returnValue);
-            debugger;
             component.set('v.skipUpdate', true);
             if(trialChanged){
                 component.set("v.filterData.studySitePickList", initData.referringClinicsFilter.filterData.studySitePickList);

@@ -34,7 +34,6 @@
     saveParticipant : function (component, pe, callback) {
         var helper = this;
         var participant = component.get('v.participant');
-        debugger;
         communityService.executeAction(component, 'saveParticipant', {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe)

@@ -164,7 +164,6 @@
                 pathWrapperJSON: JSON.stringify(pathWrapper),
                 peId: pe.Id
             }, function (returnValueJSON) {
-                debugger;
                 var returnValue = JSON.parse(returnValueJSON);
                 component.set('v.participantPath',returnValue.participantPath);
                 component.set('v.pe', returnValue.pe);
@@ -179,7 +178,6 @@
 
     },
     doCheckStatusDetailValidity : function (component, event, helper) {
-        debugger;
         let currentStepInd = component.get('v.participantPath.currentStepInd');
         let steps = component.get('v.participantPath.steps');
         let currentStep = component.get('v.participantPath.currentStep');

@@ -17,7 +17,6 @@
             communityService.showErrorToast('Error', $A.get('$Label.c.TST_Something_went_wrong'));
             return;
         }
-        debugger;
         var parent = component.get('v.parent');
         var comp = parent.find('changeHCPStatusByPIAction');
         comp.execute(enrollment, actionId, parent);

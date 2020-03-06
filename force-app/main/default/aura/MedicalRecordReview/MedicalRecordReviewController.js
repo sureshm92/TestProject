@@ -10,7 +10,6 @@
         var recId = communityService.getUrlParameter("id");
         var hcpeId = communityService.getUrlParameter("hcpeid");
         var delegateId = communityService.getDelegateId();
-        debugger;
 
         if(recId){
             component.set('v.trialId', recId);
@@ -20,7 +19,6 @@
                 hcpeId: hcpeId,
                 delegateId : delegateId
             }, function (returnValue) {
-                debugger;
                 var initData = JSON.parse(returnValue);
                 var searchData = {
                     participantId : ''
