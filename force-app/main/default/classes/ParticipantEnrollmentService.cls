@@ -9,13 +9,17 @@ public without sharing class ParticipantEnrollmentService {
     public static final String MRR_STATUS_FAIL = 'Fail';
     public static final String MRR_STATUS_PENDING = 'Pending';
     public static final String MRR_STATUS_NOT_REQUIRED = 'Not Required';
-    public static final List<String> MRR_COMPLETION_STATUSES = new List<String>{MRR_STATUS_FAIL, MRR_STATUS_PASS};
+    public static final List<String> MRR_COMPLETION_STATUSES = new List<String>{
+            MRR_STATUS_FAIL, MRR_STATUS_PASS
+    };
     // Pre Eligibility Screening statuses
     public static final String PES_STATUS_PASS = 'Pass';
     public static final String PES_STATUS_FAIL = 'Fail';
     public static final String PES_STATUS_PENDING = 'Pending';
     public static final String PES_STATUS_NOT_REQUIRED = 'Not Required';
-    public static final List<String> PES_COMPLETION_STATUSES = new List<String>{PES_STATUS_FAIL, PES_STATUS_PASS};
+    public static final List<String> PES_COMPLETION_STATUSES = new List<String>{
+            PES_STATUS_FAIL, PES_STATUS_PASS
+    };
     // Participant statuses
     public static final String PART_STATUS_PENDING_REFERRAL = 'Pending Referral';
     public static final String PART_STATUS_FAILED_REVIEW = 'Failed Review';
@@ -46,31 +50,37 @@ public without sharing class ParticipantEnrollmentService {
     public static final String PE_SOURCE_TYPE_EPR = 'Digital Recruitment';
 
     //Map <SObject value field; SObject label field> for interdependent filter data for every Filter Data Filter Map
-    public static final Map<String,Map<String,String>> FILTER_FIELD_MAP = new Map<String,Map<String,String>>{
-            STUDIES_FILTER_DATA_FIELD => new Map<String,String>{'Study_Site__r.Clinical_Trial_Profile__c' => 'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c'},
-            STUDY_SITES_FILTER_DATA_FIELD => new Map<String,String>{'Study_Site__c' => 'Study_Site__r.Name'},
-            STATUSES_FILTER_DATA_FIELD => new Map<String,String>{'Participant_Status__c' => 'Participant_Status__c'}
+    public static final Map<String, Map<String, String>> FILTER_FIELD_MAP = new Map<String, Map<String, String>>{
+            STUDIES_FILTER_DATA_FIELD => new Map<String, String>{
+                    'Study_Site__r.Clinical_Trial_Profile__c' => 'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c'
+            },
+            STUDY_SITES_FILTER_DATA_FIELD => new Map<String, String>{
+                    'Study_Site__c' => 'Study_Site__r.Name'
+            },
+            STATUSES_FILTER_DATA_FIELD => new Map<String, String>{
+                    'Participant_Status__c' => 'Participant_Status__c'
+            }
     };
 
     private static ParticipantEnrollmentService instance;
 
-    public static ParticipantEnrollmentService getInstance(){
-        if(instance == null) instance = new ParticipantEnrollmentService();
+    public static ParticipantEnrollmentService getInstance() {
+        if (instance == null) instance = new ParticipantEnrollmentService();
         return instance;
     }
 
-    public static void setMock(StubProvider stubProvider){
+    public static void setMock(StubProvider stubProvider) {
         instance = (ParticipantEnrollmentService) Test.createStub(ParticipantEnrollmentService.class, stubProvider);
     }
 
-    public List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFieldsImpl(String userMode, List<String> customFields, String filter){
+    public List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFieldsImpl(String userMode, List<String> customFields, String filter) {
         return getPEnrolmentsCommonCustomFieldsImpl(userMode, customFields, filter, null);
     }
 
-    public List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFieldsImpl(String userMode, List<String> customFields, String filter, String delegateId){
+    public List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFieldsImpl(String userMode, List<String> customFields, String filter, String delegateId) {
         String defaultFilter = ' Study_Site__c != NULL ';// AND ' + getUserModeFilter(userMode, delegateId);
-        if(userMode == CommunityService.USER_MODE_HCP && !(filter != null && filter.contains(' AND Id='))){
-                defaultFilter += '  AND (' + getUserModeFilter(userMode, delegateId) + getHealthcareProviderFilter() + ') ';
+        if (userMode == CommunityService.USER_MODE_HCP && !(filter != null && filter.contains(' AND Id='))) {
+            defaultFilter += '  AND (' + getUserModeFilter(userMode, delegateId) + getHealthcareProviderFilter() + ') ';
             defaultFilter += filter != null ? filter : '';
         } else {
             defaultFilter += ' AND ' + getUserModeFilter(userMode, delegateId);
@@ -82,26 +92,26 @@ public without sharing class ParticipantEnrollmentService {
                 Participant_Enrollment__c.getSObjectType(),
                 defaultFilter
         );
-        if(userMode != CommunityService.USER_MODE_PARTICIPANT) TranslateHelper.translate(peList);
+        if (userMode != CommunityService.USER_MODE_PARTICIPANT) TranslateHelper.translate(peList);
         return peList;
     }
 
-    public Participant_Enrollment__c getParticipantEnrollmentImpl(Id peId, String userMode){
+    public Participant_Enrollment__c getParticipantEnrollmentImpl(Id peId, String userMode) {
         return getParticipantEnrollmentImpl(peId, userMode, null);
     }
 
-    public Participant_Enrollment__c getParticipantEnrollmentImpl(Id peId, String userMode, String delegateId){
+    public Participant_Enrollment__c getParticipantEnrollmentImpl(Id peId, String userMode, String delegateId) {
         List<Participant_Enrollment__c> peList = getPEnrolmentsCommon(userMode, ' AND Id=\'' + peId + '\'', delegateId);
-        if(peList.size() > 0) return peList[0];
+        if (peList.size() > 0) return peList[0];
         return null;
     }
 
-    public Participant_Enrollment__c createParticipantEnrollmentImpl(Clinical_Trial_Profile__c trial, HCP_Enrollment__c hcpEnrollment, String participantId){
+    public Participant_Enrollment__c createParticipantEnrollmentImpl(Clinical_Trial_Profile__c trial, HCP_Enrollment__c hcpEnrollment, String participantId) {
         String mrrStatus = MRR_STATUS_NOT_REQUIRED;
-        if(trial.Link_to_Medical_Record_Review__c != null) mrrStatus = MRR_STATUS_PENDING;
+        if (trial.Link_to_Medical_Record_Review__c != null) mrrStatus = MRR_STATUS_PENDING;
 
         String pesStatus = PES_STATUS_NOT_REQUIRED;
-        if(trial.Link_to_Pre_screening__c != null) pesStatus = PES_STATUS_PENDING;
+        if (trial.Link_to_Pre_screening__c != null) pesStatus = PES_STATUS_PENDING;
 
 
         Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
@@ -111,7 +121,7 @@ public without sharing class ParticipantEnrollmentService {
                 Referral_Source__c = PE_REFERRAL_SOURCE_HCP
         );
 
-        if(hcpEnrollment!=null){
+        if (hcpEnrollment != null) {
             participantEnrollment.HCP__c = hcpEnrollment.Id;
             participantEnrollment.HCP__r = hcpEnrollment;
             participantEnrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;
@@ -121,14 +131,14 @@ public without sharing class ParticipantEnrollmentService {
         return participantEnrollment;
     }
 
-    public List<Participant_Enrollment__c> getPendingParticipantEnrollmentsImpl(Id trialId, Id hcpEnrollmentId){
+    public List<Participant_Enrollment__c> getPendingParticipantEnrollmentsImpl(Id trialId, Id hcpEnrollmentId) {
         return getPendingParticipantEnrollmentsImpl(trialId, hcpEnrollmentId, null);
     }
 
-    public List<Participant_Enrollment__c> getPendingParticipantEnrollmentsImpl(Id trialId, Id hcpEnrollmentId, String delegateId){
+    public List<Participant_Enrollment__c> getPendingParticipantEnrollmentsImpl(Id trialId, Id hcpEnrollmentId, String delegateId) {
         return getPEnrolmentsCommon(
                 CommunityService.USER_MODE_HCP,
-                ' AND Clinical_Trial_Profile__c=\'' +trialId + '\''+(hcpEnrollmentId!=null?' AND HCP__c =\'' + hcpEnrollmentId + '\'':'')+' AND Participant_Status__c = \'' + PART_STATUS_PENDING_REFERRAL + '\'',
+                ' AND Clinical_Trial_Profile__c=\'' + trialId + '\'' + (hcpEnrollmentId != null ? ' AND HCP__c =\'' + hcpEnrollmentId + '\'' : '') + ' AND Participant_Status__c = \'' + PART_STATUS_PENDING_REFERRAL + '\'',
                 delegateId
         );
     }
@@ -136,7 +146,7 @@ public without sharing class ParticipantEnrollmentService {
 
     // Static facade: --------------------------------------------------------------------------------------------------
 
-    public static Participant_Enrollment__c findParticipantEnrollment(HCP_Enrollment__c hcpEnrollment, String participantId){
+    public static Participant_Enrollment__c findParticipantEnrollment(HCP_Enrollment__c hcpEnrollment, String participantId) {
         //find all participant enrollments for this patientId, clinic and trial
         List<Participant_Enrollment__c> participantEnrollments = [
                 SELECT Id, HCP__c, Name,
@@ -149,137 +159,149 @@ public without sharing class ParticipantEnrollmentService {
                         Referral_Source__c,
                         Screening_ID__c
                 FROM Participant_Enrollment__c
-                WHERE Study_Site__c != NULL AND  HCP__r.HCP_Contact__r.AccountId =: hcpEnrollment.HCP_Contact__r.AccountId
-                AND HCP__r.Study_Site__r.Clinical_Trial_Profile__c =: hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__c
-                AND Patient_ID__c =: participantId
+                WHERE Study_Site__c != NULL AND HCP__r.HCP_Contact__r.AccountId = :hcpEnrollment.HCP_Contact__r.AccountId
+                AND HCP__r.Study_Site__r.Clinical_Trial_Profile__c = :hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__c
+                AND Patient_ID__c = :participantId
         ];
-        if(participantEnrollments.size() > 0) return participantEnrollments[0];
+        if (participantEnrollments.size() > 0) return participantEnrollments[0];
         return null;
     }
 
-    public static List<Participant_Enrollment__c> getParticipantEnrollmentsForParticipant(){
+    public static List<Participant_Enrollment__c> getParticipantEnrollmentsForParticipant() {
         return getPEnrolmentsCommon(CommunityService.USER_MODE_PARTICIPANT, null);
     }
 
-    public static Participant_Enrollment__c getParticipantEnrollment(Id peId, String userMode){
+    public static Participant_Enrollment__c getParticipantEnrollment(Id peId, String userMode) {
         return getParticipantEnrollment(peId, userMode, null);
     }
 
-    public static Participant_Enrollment__c getParticipantEnrollment(Id peId, String userMode, String delegateId){
+    public static Participant_Enrollment__c getParticipantEnrollment(Id peId, String userMode, String delegateId) {
         return getInstance().getParticipantEnrollmentImpl(peId, userMode, delegateId);
     }
 
-    public static List<Participant_Enrollment__c> getPendingParticipantEnrollments(Id trialId, Id hcpEnrollmentId){
+    public static List<Participant_Enrollment__c> getPendingParticipantEnrollments(Id trialId, Id hcpEnrollmentId) {
         return getPendingParticipantEnrollments(trialId, hcpEnrollmentId, null);
     }
 
-    public static List<Participant_Enrollment__c> getPendingParticipantEnrollments(Id trialId, Id hcpEnrollmentId, String delegateId){
+    public static List<Participant_Enrollment__c> getPendingParticipantEnrollments(Id trialId, Id hcpEnrollmentId, String delegateId) {
         return getInstance().getPendingParticipantEnrollmentsImpl(trialId, hcpEnrollmentId, delegateId);
     }
 
-    public static Map<Id, Integer> getPreScreeningsAllByTrial(Id clinicId){
+    public static Map<Id, Integer> getPreScreeningsAllByTrial(Id clinicId) {
         return getPECountMapByTrialsForPI(
                 'AND Pre_screening_Status__c IN (\'' + String.join(PES_COMPLETION_STATUSES, '\', \'') + '\')' +
                         ' AND HCP__r.HCP_Contact__r.AccountId = \'' + clinicId + '\' '
         );
     }
 
-    public static Map<Id, Integer> getPreScreeningsPassedByTrial(Id clinicId){
+    public static Map<Id, Integer> getPreScreeningsPassedByTrial(Id clinicId) {
         return getPECountMapByTrialsForPI(
                 'AND Pre_screening_Status__c = \'' + PES_STATUS_PASS + '\' ' +
                         ' AND HCP__r.HCP_Contact__r.AccountId = \'' + clinicId + '\' '
         );
     }
 
-    public static Map<Id, Integer> getMRRAllByTrial(Id clinicId){
+    public static Map<Id, Integer> getMRRAllByTrial(Id clinicId) {
         return getPECountMapByTrialsForPI(
                 'AND Medical_Record_Review_Status__c IN (\'' + String.join(MRR_COMPLETION_STATUSES, '\', \'') + '\')' +
                         ' AND HCP__r.HCP_Contact__r.AccountId = \'' + clinicId + '\' '
         );
     }
 
-    public static Map<Id, Integer> getMRRPassedByTrial(Id clinicId){
+    public static Map<Id, Integer> getMRRPassedByTrial(Id clinicId) {
         return getPECountMapByTrialsForPI(
                 'AND Medical_Record_Review_Status__c = \'' + MRR_STATUS_PASS + '\'' +
                         ' AND HCP__r.HCP_Contact__r.AccountId = \'' + clinicId + '\' '
         );
     }
 
-    public static Map<Id, Integer> getPreScreeningsAllByTrial(){
-        return getPECountMapByTrialsForPI('AND Pre_screening_Status__c != \'' + PES_STATUS_NOT_REQUIRED + '\'' );
+    public static Map<Id, Integer> getPreScreeningsAllByTrial() {
+        return getPECountMapByTrialsForPI('AND Pre_screening_Status__c != \'' + PES_STATUS_NOT_REQUIRED + '\'');
     }
 
-    public static Map<Id, Integer> getPreScreeningsPassedByTrial(){
+    public static Map<Id, Integer> getPreScreeningsPassedByTrial() {
         return getPECountMapByTrialsForPI('AND Pre_screening_Status__c = \'' + PES_STATUS_PASS + '\'');
     }
 
-    public static Map<Id, Integer> getMRRAllByTrial(){
+    public static Map<Id, Integer> getMRRAllByTrial() {
         return getPECountMapByTrialsForPI('AND Medical_Record_Review_Status__c != \'' + MRR_STATUS_NOT_REQUIRED + '\'');
     }
 
-    public static Map<Id, Integer> getMRRPassedByTrial(){
+    public static Map<Id, Integer> getMRRPassedByTrial() {
         return getPECountMapByTrialsForPI('AND Medical_Record_Review_Status__c = \'' + MRR_STATUS_PASS + '\'');
     }
 
-    public static Map<Id, Integer> getReferredByTrial(){
-        return getPECountMapByTrialsForPI('AND Participant_Status__c IN  (\'' + String.join(new List<String>(PEStatusState.ALL_USED_STATUSES),'\',\'') + '\')');
+    public static Map<Id, Integer> getReferredByTrial() {
+        return getPECountMapByTrialsForPI('AND Participant_Status__c IN  (\'' + String.join(new List<String>(PEStatusState.ALL_USED_STATUSES), '\',\'') + '\')');
     }
 
-    public static Map<Id, Integer> getPECountMapByTrialsForPI(String filter){
+    public static Map<Id, Integer> getPECountMapByTrialsForPI(String filter) {
         String query = 'SELECT Study_Site__r.Clinical_Trial_Profile__c trialId, count(Name) amount ' +
                 ' FROM Participant_Enrollment__c ' +
                 ' WHERE Study_Site__c != NULL AND ' + getUserModeFilter(CommunityService.USER_MODE_PI);
-        if(filter != null){
+        if (filter != null) {
             query += filter;
         }
         query += ' GROUP BY Study_Site__r.Clinical_Trial_Profile__c';
         Map<Id, Integer> resMap = new Map<Id, Integer>();
-        for(AggregateResult ar : Database.query(query)){
-            resMap.put((Id)ar.get('trialId'), (Integer)ar.get('amount'));
+        for (AggregateResult ar : Database.query(query)) {
+            resMap.put((Id) ar.get('trialId'), (Integer) ar.get('amount'));
         }
         return resMap;
     }
 
-    public static Integer getPEnrolmentsCount(List<Id> trialIds, String userMode, List<String> statuses){
+    public static Integer getPEnrolmentsCount(List<Id> trialIds, String userMode, List<String> statuses) {
         return getPEnrolmentsCount(trialIds, userMode, statuses, null, null);
     }
 
-    public static Integer getPEnrolmentsCount(List<Id> trialIds, String userMode, List<String> statuses, String delegateId){
-        return getPEnrolmentsCount(trialIds, userMode, statuses, null,delegateId);
+    public static Integer getPEnrolmentsCount(List<Id> trialIds, String userMode, List<String> statuses, String delegateId) {
+        return getPEnrolmentsCount(trialIds, userMode, statuses, null, delegateId);
     }
 
-    public static Integer getPEnrolmentsCount(String userMode, String status){
-        return getPEnrolmentsCount(null, userMode, new List<String>{status}, null, null);
+    public static Integer getPEnrolmentsCount(String userMode, String status) {
+        return getPEnrolmentsCount(null, userMode, new List<String>{
+                status
+        }, null, null);
     }
 
-    public static Integer getPEnrolmentsCount(String userMode, String status, String delegateId){
-        return getPEnrolmentsCount(null, userMode, new List<String>{status}, null, delegateId);
+    public static Integer getPEnrolmentsCount(String userMode, String status, String delegateId) {
+        return getPEnrolmentsCount(null, userMode, new List<String>{
+                status
+        }, null, delegateId);
     }
 
-    public static Integer getPEnrolmentsCount(String userMode, List<String> statuses){
+    public static Integer getPEnrolmentsCount(String userMode, List<String> statuses) {
         return getPEnrolmentsCount(null, userMode, statuses, null, null);
     }
 
-    public static Integer getPEnrolmentsCount(String userMode, List<String> statuses, String delegateId){
+    public static Integer getPEnrolmentsCount(String userMode, List<String> statuses, String delegateId) {
         return getPEnrolmentsCount(null, userMode, statuses, null, delegateId);
     }
 
-    public static Integer getPEnrolmentsCount(List<Id> trialIds, String userMode, String status, String reason){
-        return getPEnrolmentsCount(trialIds, userMode, new List<String>{status}, new List<String>{reason}, null);
+    public static Integer getPEnrolmentsCount(List<Id> trialIds, String userMode, String status, String reason) {
+        return getPEnrolmentsCount(trialIds, userMode, new List<String>{
+                status
+        }, new List<String>{
+                reason
+        }, null);
     }
 
-    public static Integer getPEnrolmentsCount(List<Id> trialIds, String userMode, String status, String reason, String delegateId){
-        return getPEnrolmentsCount(trialIds, userMode, new List<String>{status}, new List<String>{reason}, delegateId);
+    public static Integer getPEnrolmentsCount(List<Id> trialIds, String userMode, String status, String reason, String delegateId) {
+        return getPEnrolmentsCount(trialIds, userMode, new List<String>{
+                status
+        }, new List<String>{
+                reason
+        }, delegateId);
     }
 
-    public static Integer getPEnrolmentsCount(List<Id> trialIds, String userMode, List<String> statuses, List<String> reasons){
+    public static Integer getPEnrolmentsCount(List<Id> trialIds, String userMode, List<String> statuses, List<String> reasons) {
         return getPEnrolmentsCount(trialIds, userMode, statuses, reasons, null);
     }
 
-    public static Integer getPEnrolmentsCount(List<Id> trialIds, String userMode, List<String> statuses, List<String> reasons, String delegateId){
+    public static Integer getPEnrolmentsCount(List<Id> trialIds, String userMode, List<String> statuses, List<String> reasons, String delegateId) {
         String filter = ' AND Participant_Status__c IN (\'' + String.join(statuses, '\',\'') + '\')';
-        if(trialIds != null) filter += ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(trialIds, '\',\'') + '\') ';
-        if(reasons != null) filter += ' AND Non_Referral_Reason__c IN (\'' + String.join(reasons, '\',\'')  + '\')';
+        if (trialIds != null) filter += ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(trialIds, '\',\'') + '\') ';
+        if (reasons != null) filter += ' AND Non_Referral_Reason__c IN (\'' + String.join(reasons, '\',\'') + '\')';
         return getPEnrolmentsCountCommon(userMode, filter, delegateId);
     }
 
@@ -296,15 +318,14 @@ public without sharing class ParticipantEnrollmentService {
         return Database.countQuery(query);
     }
 
-    public static List<Participant_Enrollment__c> getPEnrolmentsByStatus(String userMode, List<String> statuses, Integer recordsLimit){
+    public static List<Participant_Enrollment__c> getPEnrolmentsByStatus(String userMode, List<String> statuses, Integer recordsLimit) {
         return getPEnrolmentsByStatus(userMode, statuses, recordsLimit, null);
     }
 
 
-
-    public static List<Participant_Enrollment__c> getPEnrolmentsByStatus(String userMode, List<String> statuses, Integer recordsLimit, String delegateId){
+    public static List<Participant_Enrollment__c> getPEnrolmentsByStatus(String userMode, List<String> statuses, Integer recordsLimit, String delegateId) {
         String filter = ' AND Participant_Status__c IN (\'' + String.join(statuses, '\',\'') + '\') ';
-        if(recordsLimit != null) filter += ' LIMIT ' + recordsLimit;
+        if (recordsLimit != null) filter += ' LIMIT ' + recordsLimit;
         return getPEnrolmentsCommon(userMode, filter, delegateId);
     }
 
@@ -318,8 +339,8 @@ public without sharing class ParticipantEnrollmentService {
         return peList;
     }
 
-    public static List<Participant_Enrollment__c> getReferredPEList(String userMode, String filter){
-        if(filter == null) filter = '';
+    public static List<Participant_Enrollment__c> getReferredPEList(String userMode, String filter) {
+        if (filter == null) filter = '';
         filter += ' AND Participant_Status__c IN (\'' + String.join(new List<String>(PEStatusState.ALL_USED_STATUSES), '\',\'') + '\') ';
         return getPEnrolmentsCommon(userMode, filter);
     }
@@ -481,29 +502,29 @@ public without sharing class ParticipantEnrollmentService {
             'Revisit_Date__c'
     };
 
-    public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter){
+    public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter) {
         return getPEnrolmentsCommonCustomFields(userMode, customFields, filter, null);
     }
 
-    public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter, String delegateId){
+    public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(String userMode, List<String> customFields, String filter, String delegateId) {
         return getInstance().getPEnrolmentsCommonCustomFieldsImpl(userMode, customFields, filter, delegateId);
     }
 
-    public static List<Participant_Enrollment__c> getPEnrolmentsCommon(String userMode, String filter){
+    public static List<Participant_Enrollment__c> getPEnrolmentsCommon(String userMode, String filter) {
         return getPEnrolmentsCommon(userMode, filter, null);
     }
 
-    public static List<Participant_Enrollment__c> getPEnrolmentsCommon(String userMode, String filter, String delegateId){
+    public static List<Participant_Enrollment__c> getPEnrolmentsCommon(String userMode, String filter, String delegateId) {
         List<Participant_Enrollment__c> peList = getPEnrolmentsCommonCustomFields(userMode, PE_COMMON_FIELDS, filter, delegateId);
-        for(Participant_Enrollment__c pe : peList){
-            if(pe.getSObject('Participant__r') != null){
+        for (Participant_Enrollment__c pe : peList) {
+            if (pe.getSObject('Participant__r') != null) {
                 //translate country:
-                String countryCode = (String)pe.getSObject('Participant__r').get('Mailing_Country_Code__c');
+                String countryCode = (String) pe.getSObject('Participant__r').get('Mailing_Country_Code__c');
                 String country = CountryStateUtil.getCountryName(countryCode);
                 pe.getSObject('Participant__r').put('Mailing_Country__c', country);
 
                 //translate state
-                String stateCode = (String)pe.getSObject('Participant__r').get('Mailing_State_Code__c');
+                String stateCode = (String) pe.getSObject('Participant__r').get('Mailing_State_Code__c');
                 String state = CountryStateUtil.getStateName(countryCode, stateCode);
                 pe.getSObject('Participant__r').put('Mailing_State__c', state);
             }
@@ -511,31 +532,31 @@ public without sharing class ParticipantEnrollmentService {
         return peList;
     }
 
-    private static String getUserModeFilter(String userMode){
+    private static String getUserModeFilter(String userMode) {
         return getUserModeFilter(userMode, null);
     }
 
-    private static String getUserModeFilter(String userMode, String delegateId){
+    private static String getUserModeFilter(String userMode, String delegateId) {
         String delegatesFilter = '';
         if (userMode == CommunityService.USER_MODE_PI) {
             List<Id> delegatedSSIds = DelegateService.getDelegatedStudySiteIds();
-            if(delegatedSSIds.size() > 0) delegatesFilter = ' OR Study_Site__c IN (\'' + String.join(delegatedSSIds, '\',\'') + '\')' ;
+            if (delegatedSSIds.size() > 0) delegatesFilter = ' OR Study_Site__c IN (\'' + String.join(delegatedSSIds, '\',\'') + '\')' ;
             return '( ' +
                     '   Study_Site__r.Principal_Investigator__c = \'' + CommunityService.getUserContact().Id + '\' ' +
                     delegatesFilter +
                     ') ';
         } else if (userMode == CommunityService.USER_MODE_HCP) {
             String contactId = CommunityService.getUserContact().Id;
-                if (delegateId != null && delegateId != '') {
-                    contactId = delegateId;
-                }
-                return '(' +
-                        '   HCP__r.HCP_Contact__c = \'' + contactId + '\'' +
-                        ') ';
+            if (delegateId != null && delegateId != '') {
+                contactId = delegateId;
+            }
+            return '(' +
+                    '   HCP__r.HCP_Contact__c = \'' + contactId + '\'' +
+                    ') ';
 
-        } else{
+        } else {
             List<Id> delegatedParticipants = PatientDelegateService.getDelegatedParticipantIds(CommunityService.getUserContact().Id);
-            if(delegatedParticipants != null && delegatedParticipants.size() > 0){
+            if (delegatedParticipants != null && delegatedParticipants.size() > 0) {
                 delegatesFilter = ' OR ' + DatabaseService.fieldInValues('Participant__c', delegatedParticipants);
             }
             return '( ' +
@@ -545,12 +566,12 @@ public without sharing class ParticipantEnrollmentService {
         }
     }
 
-    public static Participant_Enrollment__c createParticipantEnrollment(Clinical_Trial_Profile__c trial, HCP_Enrollment__c hcpEnrollment, String participantId){
+    public static Participant_Enrollment__c createParticipantEnrollment(Clinical_Trial_Profile__c trial, HCP_Enrollment__c hcpEnrollment, String participantId) {
         return getInstance().createParticipantEnrollmentImpl(trial, hcpEnrollment, participantId);
     }
 
     //contains selected filter values
-    public class PEFilter{
+    public class PEFilter {
         public String mode;
         public List<Id> trialIds;
         public Id study;
@@ -573,7 +594,7 @@ public without sharing class ParticipantEnrollmentService {
         public String referringClinic;
         public String dateField;
 
-        public PEFilter(PEFilterData filterData){
+        public PEFilter(PEFilterData filterData) {
             mode = filterData.mode;
             trialIds = filterData.trialIds;
             dateField = filterData.dateField;
@@ -581,7 +602,7 @@ public without sharing class ParticipantEnrollmentService {
     }
 
     //contains pick list values for PEFilter
-    public class PEFilterData{
+    public class PEFilterData {
         public String mode;
         public List<Id> trialIds;
         public List<LabelValueItem> studies;
@@ -589,28 +610,28 @@ public without sharing class ParticipantEnrollmentService {
         public List<LabelValueItem> referringStatuses = PEStatusState.getReferringStatusesLVList();
         public List<LabelValueItem> reviewResults;
         public List<LabelValueItem> source;
-        public List<LabelValueItem>  activePE;
-        public List<LabelValueItem>  statuses;
-        public List<LabelValueItem>  activeParticipantStatus;
-        public List<LabelValueItem>  inactiveParticipantStatus;
+        public List<LabelValueItem> activePE;
+        public List<LabelValueItem> statuses;
+        public List<LabelValueItem> activeParticipantStatus;
+        public List<LabelValueItem> inactiveParticipantStatus;
         public List<LabelValueItem> excludedFromReferring;
         public List<LabelValueItem> referringClinics;
         public List<LabelValueItem> dateRanges = DateRangeFilterData.getRanges();
         public List<LabelValueItem> sortVariants;
         public List<LabelValueItem> acceptenceStatuses = PEStatusState.getAcceptenceStatusesLVList();
         public List<LabelValueItem> enrollmentStatuses = PEStatusState.getEnrollmentStatusesLVList();
-        public PEFilterData(){
+        public PEFilterData() {
             sortVariants = new List<LabelValueItem>();
-            sortVariants.addAll( SortOrder.SORT_TYPES);
+            sortVariants.addAll(SortOrder.SORT_TYPES);
         }
         public String dateField = 'CreatedDate';
     }
 
-    public static PEFilterData getPEFilterData(Id trialId, String mode, Boolean restrictTrial){
+    public static PEFilterData getPEFilterData(Id trialId, String mode, Boolean restrictTrial) {
         return getPEFilterData(trialId, mode, restrictTrial, null);
     }
 
-    public static PEFilterData getPEFilterData(Id trialId, String mode, Boolean restrictTrial, String delegateId){
+    public static PEFilterData getPEFilterData(Id trialId, String mode, Boolean restrictTrial, String delegateId) {
         Id userContactId = CommunityService.getUserContact().Id;
         Clinical_Trial_Profile__c trial;
         PEFilterData peFilterData = new PEFilterData();
@@ -627,7 +648,7 @@ public without sharing class ParticipantEnrollmentService {
                 peFilterData.studies.add(new LabelValueItem(trial.Study_Code_Name__c, trial.Id));
             }
         }else*/{
-            for(String id : trialsMap.keySet()){
+            for (String id : trialsMap.keySet()) {
                 peFilterData.trialIds.add(id);
                 trial = trialsMap.get(id);
                 peFilterData.studies.add(new LabelValueItem(trial.Study_Code_Name__c, trial.Id));
@@ -636,109 +657,109 @@ public without sharing class ParticipantEnrollmentService {
         //init study sites:
         peFilterData.studySites = new List<LabelValueItem>();
         peFilterData.studySites.add(new LabelValueItem(Label.PG_Report_L_All_study_sites, null));
-        if(mode == CommunityService.USER_MODE_HCP){
+        if (mode == CommunityService.USER_MODE_HCP) {
             List<Study_Site__c> studySites;
-            if(restrictTrial && trialId!=null){
+            if (restrictTrial && trialId != null) {
                 studySites = StudySiteService.getStudySitesForHCPByTrialId(trialId);
-            }
-            else{
+            } else {
                 studySites = StudySiteService.getStudySitesForHCP(peFilterData.trialIds, delegateId);
             }
-            for(Study_Site__c ss : studySites) peFilterData.studySites.add(new LabelValueItem(ss.Name, ss.Id));
+            for (Study_Site__c ss : studySites) peFilterData.studySites.add(new LabelValueItem(ss.Name, ss.Id));
         }
-        if(mode == CommunityService.USER_MODE_PI){
+        if (mode == CommunityService.USER_MODE_PI) {
             List<Study_Site__c> studySites;
-            if(restrictTrial && trialId!=null){
+            if (restrictTrial && trialId != null) {
                 studySites = StudySiteService.getStudySiteForPIByTrialId(trialId);
-            }
-            else{
+            } else {
                 studySites = StudySiteService.getStudySitesForPI();
             }
-            for(Study_Site__c ss : studySites) peFilterData.studySites.add(new LabelValueItem(ss.Name, ss.Id));
+            for (Study_Site__c ss : studySites) peFilterData.studySites.add(new LabelValueItem(ss.Name, ss.Id));
         }
 
         peFilterData.referringClinics = new List<LabelValueItem>();
         peFilterData.referringClinics.add(new LabelValueItem(Label.PG_Report_L_All_referring_clinics, null));
-        for(Account clinic : HCPEnrollmentService.getReferringClinics(peFilterData.trialIds)){
+        for (Account clinic : HCPEnrollmentService.getReferringClinics(peFilterData.trialIds)) {
             peFilterData.referringClinics.add(new LabelValueItem(clinic.Name, clinic.Id));
         }
-        peFilterData.activePE = new List<LabelValueItem>{new LabelValueItem(PEStatusState.PE_STATUSES_ACTIVE,PEStatusState.PE_STATUSES_ACTIVE), new LabelValueItem(PEStatusState.PE_STATUSES_INACTIVE,PEStatusState.PE_STATUSES_INACTIVE)};
+        peFilterData.activePE = new List<LabelValueItem>{
+                new LabelValueItem(PEStatusState.PE_STATUSES_ACTIVE, PEStatusState.PE_STATUSES_ACTIVE), new LabelValueItem(PEStatusState.PE_STATUSES_INACTIVE, PEStatusState.PE_STATUSES_INACTIVE)
+        };
         peFilterData.activeParticipantStatus = new List<LabelValueItem>();
         for (Integer i = 0, j = PEStatusState.PE_STATUS_GROUP_ACTIVE.size(); i < j; i++) {
-            peFilterData.activeParticipantStatus.add(new LabelValueItem(PEStatusState.PE_STATUS_GROUP_ACTIVE[i],PEStatusState.PE_STATUS_GROUP_ACTIVE[i]));
+            peFilterData.activeParticipantStatus.add(new LabelValueItem(PEStatusState.PE_STATUS_GROUP_ACTIVE[i], PEStatusState.PE_STATUS_GROUP_ACTIVE[i]));
         }
         peFilterData.inactiveParticipantStatus = new List<LabelValueItem>();
         for (Integer i = 0, j = PEStatusState.PE_STATUS_GROUP_INACTIVE.size(); i < j; i++) {
-            peFilterData.inactiveParticipantStatus.add(new LabelValueItem(PEStatusState.PE_STATUS_GROUP_INACTIVE[i],PEStatusState.PE_STATUS_GROUP_INACTIVE[i]));
+            peFilterData.inactiveParticipantStatus.add(new LabelValueItem(PEStatusState.PE_STATUS_GROUP_INACTIVE[i], PEStatusState.PE_STATUS_GROUP_INACTIVE[i]));
         }
         return peFilterData;
     }
-    public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, PaginationData paginationData){
+    public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, PaginationData paginationData) {
         return getParticipantEnrollments(filter, paginationData, null);
     }
 
-    public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, PaginationData paginationData, String delegateId){
+    public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, PaginationData paginationData, String delegateId) {
         //prepare filter string:
         String filterStr = ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') + '\') ';
-        if(!String.isEmpty(filter.additionalFilter)) filterStr += ' AND ' + filter.additionalFilter + ' ';
-        if(filter.searchText != null) filter.searchText = filter.searchText.trim();
-        if(String.isEmpty(filter.searchText)){
-            if(!String.isEmpty(filter.study)) filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + filter.study + '\' ';
-            if(!String.isEmpty(filter.studySite)) filterStr += ' AND Study_Site__c = \'' + filter.studySite + '\' ';
-            if(!String.isEmpty(filter.referringStatus)) filterStr += 'AND Participant_Status__c IN ' + filter.referringStatus + ' ';
+        if (!String.isEmpty(filter.additionalFilter)) filterStr += ' AND ' + filter.additionalFilter + ' ';
+        if (filter.searchText != null) filter.searchText = filter.searchText.trim();
+        if (String.isEmpty(filter.searchText)) {
+            if (!String.isEmpty(filter.study)) filterStr += ' AND Study_Site__r.Clinical_Trial_Profile__c = \'' + filter.study + '\' ';
+            if (!String.isEmpty(filter.studySite)) filterStr += ' AND Study_Site__c = \'' + filter.studySite + '\' ';
+            if (!String.isEmpty(filter.referringStatus)) filterStr += 'AND Participant_Status__c IN ' + filter.referringStatus + ' ';
             //if(!String.isEmpty(filter.enrollmentStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.enrollmentStatus + ' ';
             //if(!String.isEmpty(filter.acceptenceStatus)) filterStr += ' AND Participant_Status__c IN ' + filter.acceptenceStatus + ' ';
-            if(!String.isEmpty(filter.referringClinic)) filterStr += ' AND HCP__r.HCP_Contact__r.AccountId = \'' + filter.referringClinic + '\' ';
-            if(!String.isEmpty(filter.source)) filterStr += ' AND Referral_Source_ID__c = \'' + filter.source + '\' ';
-            if(!String.isEmpty(filter.participantStatus)) filterStr += ' AND Participant_Status__c = \'' + filter.participantStatus + '\' ';
-            if(!String.isEmpty(filter.activePE) && String.isEmpty(filter.participantStatus)) {
-                if(filter.activePE == PEStatusState.PE_STATUSES_ACTIVE){
+            if (!String.isEmpty(filter.referringClinic)) filterStr += ' AND HCP__r.HCP_Contact__r.AccountId = \'' + filter.referringClinic + '\' ';
+            if (!String.isEmpty(filter.source)) filterStr += ' AND Referral_Source_ID__c = \'' + filter.source + '\' ';
+            if (!String.isEmpty(filter.participantStatus)) filterStr += ' AND Participant_Status__c = \'' + filter.participantStatus + '\' ';
+            if (!String.isEmpty(filter.activePE) && String.isEmpty(filter.participantStatus)) {
+                if (filter.activePE == PEStatusState.PE_STATUSES_ACTIVE) {
                     filterStr += ' AND Participant_Status__c  IN (\'' + String.join(PEStatusState.PE_STATUS_GROUP_ACTIVE, '\',\'') + '\') ';
-                } else{
+                } else {
                     filterStr += ' AND Participant_Status__c  IN (\'' + String.join(PEStatusState.PE_STATUS_GROUP_INACTIVE, '\',\'') + '\') ';
                 }
             }
-            if(filter.startDate != null && filter.endDate != null && filter.startDate < filter.endDate){
+            if (filter.startDate != null && filter.endDate != null && filter.startDate < filter.endDate) {
                 //TODO
             }
         }
-        if(!String.isEmpty(filter.dateRange)){
+        if (!String.isEmpty(filter.dateRange)) {
             filterStr += ' AND ' + filter.dateField + ' ' + filter.dateRange + ' ';
         }
-        if(!filter.sortType.contains('Alphabetical')) filterStr += ' ORDER BY ' + filter.sortType;
+        if (!filter.sortType.contains('Alphabetical')) filterStr += ' ORDER BY ' + filter.sortType;
         System.debug('FILTER STRING: ' + filterStr);
 
         //get PE List:
         List<Participant_Enrollment__c> peList = getPEnrolmentsCommon(filter.mode, filterStr, delegateId);
         List<Participant_Enrollment__c> filteredPEList = new List<Participant_Enrollment__c>();
         //Filter by search string:
-        if(filter != null && !String.isEmpty(filter.searchText) ){
-            for(Participant_Enrollment__c pe : peList){
+        if (filter != null && !String.isEmpty(filter.searchText)) {
+            for (Participant_Enrollment__c pe : peList) {
                 Boolean isFound = false;
-                for(String searchField : filter.searchFields){
+                for (String searchField : filter.searchFields) {
                     String searchFieldValue = getSObjectFieldValue(pe, searchField) + '';
-                    for(String searchWord: filter.searchText.split(' ')){
-                        if(searchFieldValue.containsIgnoreCase(searchWord)){
+                    for (String searchWord : filter.searchText.split(' ')) {
+                        if (searchFieldValue.containsIgnoreCase(searchWord)) {
                             isFound = true;
                             break;
                         }
                     }
                 }
-                if(isFound) filteredPEList.add(pe);
+                if (isFound) filteredPEList.add(pe);
             }
             peList = filteredPEList;
         }
 
         //sort
-        if(filter != null && filter.sortType.contains('Alphabetical')){
+        if (filter != null && filter.sortType.contains('Alphabetical')) {
             List<String> fields = filter.sortType.split(',');
             String type = fields[0];
             List<String> orderList = new List<String>();
             Map<String, Participant_Enrollment__c> peMap = new Map<String, Participant_Enrollment__c>();
-            for(Participant_Enrollment__c pe : peList){
+            for (Participant_Enrollment__c pe : peList) {
                 String key = '';
-                for(String field : fields){
-                    if(!field.contains('Alphabetical')) key += ' ' + getSObjectFieldValue(pe, field.trim());
+                for (String field : fields) {
+                    if (!field.contains('Alphabetical')) key += ' ' + getSObjectFieldValue(pe, field.trim());
                 }
                 key += pe.Id;
                 orderList.add(key.toLowerCase());
@@ -746,23 +767,23 @@ public without sharing class ParticipantEnrollmentService {
             }
             orderList.sort();
 
-            if( type.equalsIgnoreCase('Alphabetical_DESC')){
+            if (type.equalsIgnoreCase('Alphabetical_DESC')) {
                 List<String> reversed = new List<String>();
-                for(Integer i = orderList.size() - 1; i >= 0; i--){
+                for (Integer i = orderList.size() - 1; i >= 0; i--) {
                     reversed.add(orderList[i]);
                 }
                 orderList = reversed;
             }
             List<Participant_Enrollment__c> sortedList = new List<Participant_Enrollment__c>();
-            for(String key : orderList) sortedList.add(peMap.get(key));
+            for (String key : orderList) sortedList.add(peMap.get(key));
             peList = sortedList;
         }
 
         //Pagination:
-        if(paginationData != null){
+        if (paginationData != null) {
             paginationData.setRecordsCount(peList.size());
             List<Participant_Enrollment__c> pageList = new List<Participant_Enrollment__c>();
-            for(Integer i = paginationData.offset; i < paginationData.endOffset; i++){
+            for (Integer i = paginationData.offset; i < paginationData.endOffset; i++) {
                 pageList.add(peList[i]);
             }
             return pageList;
@@ -770,12 +791,12 @@ public without sharing class ParticipantEnrollmentService {
         return peList;
     }
 
-    private static Object getSObjectFieldValue(SObject sObj, String fieldPath){
+    private static Object getSObjectFieldValue(SObject sObj, String fieldPath) {
         List<String> pathItems = fieldPath.split('\\.');
         SObject currentSObject = sObj;
-        for(Integer i = 0; i < pathItems.size() - 1; i++) {
+        for (Integer i = 0; i < pathItems.size() - 1; i++) {
             currentSObject = currentSObject.getSObject(pathItems[i]);
-            if(currentSObject == null) return null;
+            if (currentSObject == null) return null;
         }
         return currentSObject.get(pathItems[pathItems.size() - 1]);
     }
@@ -785,29 +806,27 @@ public without sharing class ParticipantEnrollmentService {
                 SELECT
                         Id,
                         External_Key__c,
-                        IsSubjectIDverifiedInSDH__c,
-                (
+                        IsSubjectIDverifiedInSDH__c, (
                         SELECT
                                 Id,
                                 Date__c,
                                 Status__c
-                        FROM    Participant_Enrollment_Status_History__r
+                        FROM Participant_Enrollment_Status_History__r
                 )
-                FROM    Participant_Enrollment__c
-                WHERE   External_Key__c IN : externalKeys
-                LIMIT   10000
+                FROM Participant_Enrollment__c
+                WHERE External_Key__c IN :externalKeys
+                LIMIT 10000
         ];
     }
 
-    public static String getHealthcareProviderFilter(){
+    public static String getHealthcareProviderFilter() {
         List<String> enrollmentsIds = getHealthcareProviderPE();
         if (!enrollmentsIds.isEmpty()) {
-            return ' OR ' + 'Id IN (\'' + String.join(enrollmentsIds, '\',\'') + '\'' +')';
-        }
-        else return '';
+            return ' OR ' + 'Id IN (\'' + String.join(enrollmentsIds, '\',\'') + '\'' + ')';
+        } else return '';
     }
-    
-    public static List<String> getHealthcareProviderPE(){
+
+    public static List<String> getHealthcareProviderPE() {
         String contactId = CommunityService.getUserContact().Id;
         List<String> enrollmentsIds = new List<String>();
         List<Healthcare_Provider__c> hpList = [
@@ -818,11 +837,58 @@ public without sharing class ParticipantEnrollmentService {
                 WHERE HCP_Enrollment__r.HCP_Contact__c = :contactId
                 AND Status__c != :ReferHealthcareProviderRemote.HP_S_NOSHARING
         ];
-        if(!hpList.isEmpty()) {
+        if (!hpList.isEmpty()) {
             for (Integer i = 0; i < hpList.size(); i++) {
                 enrollmentsIds.add(hpList[i].Participant_Enrollment__c);
             }
         }
         return enrollmentsIds;
+    }
+
+    public static void updateParticipantState(List<Participant__c> participants) {
+        List<Participant_Enrollment__c> enrollments = [
+                SELECT Id, Participant__c, Participant_Status__c
+                FROM Participant_Enrollment__c
+                WHERE Participant__c IN:participants
+                ORDER BY Participant__c
+        ];
+        Map<Id, List<Participant_Enrollment__c>> peByParticipant = new Map<Id, List<Participant_Enrollment__c>>();
+        for (Participant_Enrollment__c pe : enrollments) {
+            Id partId = pe.Participant__c;
+            if (!peByParticipant.containsKey(partId)) peByParticipant.put(partId, new List<Participant_Enrollment__c>());
+            peByParticipant.get(partId).add(pe);
+        }
+
+        Map<Id, Participant__c> allParticipants = new Map<Id, Participant__c>();
+        for(Participant__c participant : participants) allParticipants.put(participant.Id, participant);
+
+        List<Participant__c> updatedParticipants = new List<Participant__c>();
+        for (Id partKey : allParticipants.keySet()) {
+            if (!peByParticipant.containsKey(partKey)) continue;
+
+            Participant__c participant = allParticipants.get(partKey);
+            participant.Has_Studies_In_Progress__c = false;
+            participant.Has_Past_Studies__c = false;
+            for (Participant_Enrollment__c pe : peByParticipant.get(partKey)) {
+                if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL.contains(pe.Participant_Status__c)) {
+                    participant.Has_Studies_In_Progress__c = true;
+                }
+                if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)) {
+                    participant.Has_Past_Studies__c = true;
+                }
+            }
+            updatedParticipants.add(participant);
+        }
+
+        if(!updatedParticipants.isEmpty()) update updatedParticipants;
+    }
+
+    public static void updateParticipantStateById(List<Id> participantIds) {
+        List<Participant__c> participants = [
+                SELECT Id, Has_Studies_In_Progress__c, Has_Past_Studies__c
+                FROM Participant__c
+                WHERE Id IN:participantIds
+        ];
+        updateParticipantState(participants);
     }
 }

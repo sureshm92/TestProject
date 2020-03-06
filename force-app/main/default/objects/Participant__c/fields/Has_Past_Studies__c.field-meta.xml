@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Has_Past_Studies__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Checks if Participant has Enrollment&#39;s in Alumni statuses</description>
+    <externalId>false</externalId>
+    <label>Has Past Studies</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>
