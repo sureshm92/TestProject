@@ -14,7 +14,7 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c (before insert
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.AddPaymentInformationHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CreateParticipantForDelegateHandler.class);
-
+    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class);
 
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class);
@@ -24,6 +24,5 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c (before insert
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CreateEnrollmentTasks.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class);
-//    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
 }

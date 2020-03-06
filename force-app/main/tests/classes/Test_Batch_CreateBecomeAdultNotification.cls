@@ -42,7 +42,7 @@ public with sharing class Test_Batch_CreateBecomeAdultNotification {
         Contact delegate = new Contact(
                 FirstName = 'Patient',
                 LastName = 'Delegate',
-                Email = 'jsmith@somemail.com',
+                Email = 'delegate@somemail.com',
                 AccountId = participant.Contact__r.AccountId,
                 Current_Participant_Enrollment__c = pe.Id,
                 userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT,
@@ -58,15 +58,21 @@ public with sharing class Test_Batch_CreateBecomeAdultNotification {
                 Participant__r = participant
         );
         insert patientDelegate;
-
+        delete [SELECT Id FROM Alert__c];
     }
+
     @IsTest
     static void test() {
         Test.startTest();
         Database.executeBatch(new Batch_CreateBecomeAdultNotification());
         Test.stopTest();
         List<Alert__c> alerts = [SELECT Id FROM Alert__c];
-        System.assertEquals(2,alerts.size());
+        List<Contact> delegates = [
+                SELECT Id
+                FROM Contact
+                WHERE  Email = 'delegate@somemail.com'
+        ];
+        System.assertEquals(delegates.size(),alerts.size());
     }
 
     private static void bypassTriggers() {

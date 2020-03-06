@@ -165,7 +165,9 @@ public without sharing class NotificationAvailabilityService {
             if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
                 Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
                 Contact contact = contactByIdMap.get(contactId);
-                if (pe != null && contact != null && ((contact.UserCommunityIsDelegate__c && contact.Participant_Opt_In_Status_Emails__c) || pe.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c)
+                if (pe != null && contact != null &&
+                        ((contact.UserCommunityIsDelegate__c && contact.Participant_Opt_In_Status_Emails__c)
+                                || (!contact.UserCommunityIsDelegate__c && pe.Participant__r.Contact__r.Participant_Opt_In_Status_Emails__c))
                         && !pe.Study_Site__r.Suppress_Participant_Emails__c
                         && !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c
                         && !pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c) {
@@ -244,15 +246,10 @@ public without sharing class NotificationAvailabilityService {
 
     public CommunityTemplate getCommunityTemplate(Id contactId, String whatId) {
         CommunityTemplate communityTemplate = CommunityTemplateService.getDefaultTemplate();
-        String objType = null;
-        Id objId;
+        String objType = whatId != null ? String.valueOf(((Id)whatId).getSobjectType()) : null;
 
         List<String> permSet = new List<String>();
 
-        if (whatId != null) {
-            objId = whatId;
-            objType = String.valueOf(objId.getSobjectType());
-        }
         if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
             Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
             communityTemplate = CommunityTemplateService.getTemplate(pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c);

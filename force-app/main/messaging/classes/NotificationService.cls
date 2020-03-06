@@ -20,6 +20,12 @@ public without sharing class NotificationService {
             NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE
     };
 
+    static public List<String> excludedNotificationTypesForDelegate = new List<String>{
+            NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE,
+            NotificationCatalog.MESSAGE_TO_PT_REFERRAL_STATUS_UPDATE_TYPE,
+            NotificationCatalog.MESSAGE_TO_PT_DROP_OUT_TYPE
+    };
+
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
     static public String NOTIFICATION_STATUS_PROCESSED = 'Processed';
     static public String NOTIFICATION_STATUS_FAILED = 'Failed';

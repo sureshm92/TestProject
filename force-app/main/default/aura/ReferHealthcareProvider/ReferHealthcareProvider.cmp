@@ -74,11 +74,11 @@
         </div>
         <aura:if isTrue="{!!v.actionDisabled}">
             <div>
-                <lightning:button class="apollo-btn secondary slds-box" onclick="{!c.doAddProvider}">
+                <button data-gtm="BTN_AddProvider_mngmt" class="apollo-btn secondary slds-box" onclick="{!c.doAddProvider}">
                     <c:RRIcon color="#297dfd"
                               iconName="icon-plus"/>
                     <div>{!$Label.c.BTN_Add_Provider}</div>
-                </lightning:button>
+                </button>
             </div>
         </aura:if>
         </div>

@@ -9,7 +9,6 @@
         communityService.navigateToPage('referring?id=' + trialId +(hcpeId?'&hcpeid='+hcpeId:''));
     },
     requestToRefer : function (component, event, helper) {
-        debugger;
         var refreshSource = component.get('v.parentComponent');
         var studySiteWrapper = component.get('v.studySiteWrapper');
         if (!studySiteWrapper) {

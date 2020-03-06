@@ -176,7 +176,8 @@ export default class VisitsPath extends LightningElement {
         let spinner = this.template.querySelector('c-web-spinner');
         spinner.show();
 
-        this.selectedPV.Planned_Date__c = this.planDate;
+        if(this.planDate) this.selectedPV.Planned_Date__c = this.planDate;
+        else this.selectedPV.Planned_Date__c = null;
 
         let context = this;
         updatePV({visit: JSON.stringify(this.selectedPV)})

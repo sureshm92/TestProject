@@ -9,7 +9,6 @@
     },
 
     doChangeStatus: function (component, event, helper) {
-        debugger;
         var spinner = component.find('dialogSpinner');
         spinner.show();
         var refreshSource = component.get('v.refreshSource');
@@ -41,7 +40,6 @@
 
     doExecute: function (component, event, hepler) {
         //init params:
-        debugger;
         var params = event.getParam('arguments');
         component.set('v.hcpEnrollment', params.hcpEnrollment);
         component.set('v.actionId', params.actionId);
