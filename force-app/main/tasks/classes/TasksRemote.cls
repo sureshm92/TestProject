@@ -96,12 +96,12 @@ public class TasksRemote {
 
     private static void createOriginatorsList(List<OpenTask> tasks) {
         for (OpenTask taskWrapper : tasks) {
-            switch on taskWrapper.originator {
+            switch on taskWrapper.openTask.Originator__c {
                 when 'Participant' {
                     taskWrapper.originator = Label.Patient;
                 }
                 when 'Delegate' {
-                    taskWrapper.originator = Label.Patient;
+                    taskWrapper.originator = Label.Delegate;
                 }
                 when else {
                     taskWrapper.originator = Label.Admin;

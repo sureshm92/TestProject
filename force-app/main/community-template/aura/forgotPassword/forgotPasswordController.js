@@ -10,7 +10,6 @@
     },
     
     setExpId: function (component, event, helper) {
-        debugger;
         var expId = event.getParam('expid');
         if (expId) {
             component.set("v.expid", expId);

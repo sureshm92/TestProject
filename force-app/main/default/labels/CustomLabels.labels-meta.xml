@@ -3199,7 +3199,7 @@
 
             Sincerely,
 
-            ##CommunityNameSignature</value>
+            ##SignatureFullCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_1</fullName>
@@ -3220,7 +3220,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature 3</shortDescription>
-        <value>##CommunityNameSignature</value>
+        <value>##SignatureFullCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_4</fullName>
@@ -3271,7 +3271,7 @@
 
             Sincerely,
 
-            ##CommunityNameSignature</value>
+            ##SignatureFullCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_PPST</fullName>
@@ -3291,7 +3291,7 @@
 
             Sincerely,
 
-            ##CommunityNameSignature</value>
+            ##SignatureFullCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Plain_Summary</fullName>
@@ -3430,7 +3430,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Initial</shortDescription>
-        <value>Please enroll in the IQVIA Referral Hub and Patient Portal</value>
+        <value>Welcome to Platform</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Initial_Patient</fullName>
@@ -3598,7 +3598,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Reset Your Password</shortDescription>
-        <value>Reset Your Password - IQVIA Referral Hub</value>
+        <value>Reset Your Password</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Share_By_RP</fullName>
@@ -7340,7 +7340,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DBPI L Providers waiting for activation</shortDescription>
-        <value>Referring Providers Waiting For Activation</value>
+        <value>Referring Providers Waiting for Activation</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Providers_waiting_for_approval_and_activation</fullName>
@@ -7774,7 +7774,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG HLP HI HCP</shortDescription>
-        <value>To report a problem or share feedback with IQVIA about Referral Hub, please link to the appropriate form below.</value>
+        <value>To report a problem or share feedback with ##CommunityHelpAbout, please link to the appropriate form below.</value>
     </labels>
     <labels>
         <fullName>PG_HLP_HI_PI</fullName>

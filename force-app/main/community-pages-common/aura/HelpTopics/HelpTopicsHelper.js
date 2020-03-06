@@ -10,7 +10,6 @@
     },
 
     addFile: function (component, file)  {
-        debugger;
         if (file.size > this.FILE_SIZE_LIMIT) {
             communityService.showToast('error', 'error', $A.get('$Label.c.TST_Screenshot_size_limit_2MB_exceeded'));
             return;
@@ -24,7 +23,6 @@
         var fr = new FileReader();
         var helper = this;
         fr.onloadend = $A.getCallback(function() {
-            debugger;
             var fileContents = fr.result;
             var base64Mark = 'base64,';
             var dataStart = fileContents.indexOf(base64Mark) + base64Mark.length;
@@ -47,7 +45,6 @@
     },
 
     createNewCase: function (component,subject,  text, type, priority, reason, isClosed, isEscalated)  {
-        debugger;
         var fileList = component.get('v.fileList');
         if(fileList) if(!this.checkSizeLimit(this, fileList)) return;
         var spinner = component.find('spinner');

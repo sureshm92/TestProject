@@ -4,19 +4,26 @@
 
 @IsTest
 public class Test_PaymentsRemote {
+    public class ParticipantServiceMock implements System.StubProvider {
+        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
+                List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
+            if (stubbedMethodName == 'getState') {
+                return new ParticipantService.ParticipantState();
+            }
+            return null;
+        }
+    }
 
     @IsTest
     public static void testBehavior() {
-        TestData.loadTestData();
-        TestData td = new TestData();
+        PaymentsRemote.InitData initData;
 
-        PaymentsRemote.InitData initData = new PaymentsRemote.InitData();
         Test.startTest();
-        System.runAs(td.participantUser) {
-            Test.setMock(HttpCalloutMock.class, new GetCardDetailsHttpCalloutMock());
-            initData = PaymentsRemote.getPaymentData();
-        }
+        ParticipantService.setMock(new ParticipantServiceMock());
+        Test.setMock(HttpCalloutMock.class, new GetCardDetailsHttpCalloutMock());
+        initData = PaymentsRemote.getPaymentData();
         Test.stopTest();
-//        System.assertEquals(2, initData.cards.size());
+
+        System.assertEquals(2, initData.cards.size());
     }
 }

@@ -50,7 +50,6 @@
                                 stepWrapper.formFieldGroups[i].fields[j].readonly = true;
                             } else {
                                 // stepWrapper.formFieldGroups[i].fields[j].required = true;
-                                debugger;
                                 stepWrapper.formFieldGroups[i].fields[j].readonly = false;
                                 if (stepWrapper.formFieldGroups[i].fields[j].populateFromDependent !== null && stepWrapper.formFieldGroups[i].fields[j].value === null) {
                                     for (var k = 0; k < stepWrapper.formFieldGroups.length; k++) {
