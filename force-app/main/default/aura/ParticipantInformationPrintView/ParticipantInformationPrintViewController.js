@@ -3,7 +3,6 @@
  */
 ({
     doInit: function (component, event, helper) {
-        debugger;
         if (!communityService.isInitialized()) return;
         var peId = communityService.getUrlParameter('id');
         communityService.executeAction(component, 'getPrintInformation', {
@@ -11,7 +10,6 @@
             userMode: communityService.getUserMode(),
             delegateId: communityService.getDelegateId(),
         }, function (returnValue) {
-            debugger;
             returnValue = JSON.parse(returnValue);
             component.set('v.isFinalUpdate', true);
             component.set('v.initialized', true);

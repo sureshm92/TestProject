@@ -3,7 +3,6 @@
  */
 ({
     doStatusChanged: function (component) {
-        debugger;
         var status = component.get('v.status');
         var overrideStatusLabel = component.get('v.overrideStatusLabel');
         if(status){

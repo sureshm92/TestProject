@@ -1,6 +1,5 @@
 ({
     doInit: function (component, event, helper) {
-        debugger;
         var enrollmentWrapper = component.get("v.enrollmentWrapper");
         component.set("v.status", enrollmentWrapper.enrollment.Status__c.split(' (')[0]);
     },
