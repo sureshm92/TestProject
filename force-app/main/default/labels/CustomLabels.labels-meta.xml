@@ -8821,7 +8821,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRZ L Search for a referring clinic</shortDescription>
-        <value>Search...</value>
+        <value>Search</value>
     </labels>
     <labels>
         <fullName>PG_MRZ_L_Search_for_a_study_site</fullName>
