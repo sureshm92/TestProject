@@ -836,7 +836,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         List<Participant__c> participants = new List<Participant__c>();
         for (Participant_Enrollment__c pe : newList) {
             if (oldMap == null || oldMap != null && pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
-                participants.add((Participant__c) PETriggerBuffer.getSObject(pe.Participant__c));
+                Participant__c participant = (Participant__c) PETriggerBuffer.getSObject(pe.Participant__c);
+                if(participant != null) participants.add(participant);
             }
         }
 
