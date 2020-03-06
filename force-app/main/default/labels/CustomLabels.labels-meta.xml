@@ -7774,7 +7774,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG HLP HI HCP</shortDescription>
-        <value>To report a problem or share feedback with IQVIA about Referral Hub, please link to the appropriate form below.</value>
+        <value>To report a problem or share feedback with ##CommunityHelpAbout, please link to the appropriate form below.</value>
     </labels>
     <labels>
         <fullName>PG_HLP_HI_PI</fullName>
