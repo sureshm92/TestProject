@@ -36,7 +36,7 @@
             <div class="main-layout slds-grid slds-gutters slds-wrap">
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12">
                     <div class="slds-grid slds-grid_vertical slds-gutters">
-                        <div class="slds-col">
+                        <div class="slds-col slds-size_1-of-1">
                             <aura:if isTrue="{!v.participantState.value != 'ALUMNI'}">
                                 <aura:if
                                         isTrue="{!!empty(v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__r.Profile_Picture__c)}">
@@ -62,7 +62,7 @@
                                 </div>
                             </aura:if>
                         </div>
-                        <div class="slds-col">
+                        <div class="slds-col slds-size_1-of-1">
                             <c:OpenTaskPreviewPanel isAlumni="{!v.participantState.value == 'ALUMNI'}"/>
                         </div>
                         <aura:if isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}">
