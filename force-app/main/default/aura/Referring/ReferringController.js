@@ -4,7 +4,7 @@
 ({
     doInit: function (component, event, helper) {
         if(!communityService.isInitialized()) return;
-        debugger;
+
         var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         component.set('v.todayDate', todayDate);
         var trialId = communityService.getUrlParameter("id");
@@ -29,7 +29,6 @@
             userMode: communityService.getUserMode(),
             delegateId : communityService.getDelegateId()
         }, function (returnValue) {
-            debugger;
             var initData = JSON.parse(returnValue);
             component.set('v.trialId', trialId);
             component.set('v.hcpeId', hcpeId);
@@ -101,7 +100,6 @@
     },
 
     doStillInterested: function (component,event,helper) {
-        debugger;
         var trial = component.get('v.trial');
         var hcpeId = component.get('v.hcpeId');
         window.scrollTo(0, 0);
@@ -118,7 +116,6 @@
     },
 
     doSelectSite: function (component, event, helper) {
-        debugger;
         var trial = component.get('v.trial');
         var hcpeId = event.target.dataset.hcpeId;
         component.set('v.hcpeId',hcpeId);
@@ -188,7 +185,6 @@
     },
 
     doSaveParticipant: function (component) {
-        debugger;
         var participant = component.get('v.participant');
         console.log('participant', JSON.parse(JSON.stringify(participant)));
         var delegateParticipant = component.get('v.delegateParticipant');

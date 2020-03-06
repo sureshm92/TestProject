@@ -3199,7 +3199,7 @@
 
             Sincerely,
 
-            The IQVIA Patient Portal and Referral Hub Support Teams</value>
+            ##SignatureFullCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_1</fullName>
@@ -3220,7 +3220,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature 3</shortDescription>
-        <value>The IQVIA Referral Hub Support Team</value>
+        <value>##SignatureFullCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_4</fullName>
@@ -3240,7 +3240,7 @@
 
             Sincerely,
 
-            The IQVIA Patient Portal Support Team</value>
+            ##SignatureShortCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Forgot_Password</fullName>
@@ -3252,15 +3252,6 @@
             To keep your account secure, please don&#39;t forward this email to anyone.</value>
     </labels>
     <labels>
-        <fullName>Email_Signature_GSK</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Signature</shortDescription>
-        <value>Sincerely,
-
-            The GSK Participant Hub team</value>
-    </labels>
-    <labels>
         <fullName>Email_Signature_New</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3269,7 +3260,7 @@
 
             Sincerely,
 
-            The IQVIA Patient Portal Support Team</value>
+            ##SignatureShortCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_New_Participant_Delegate</fullName>
@@ -3280,7 +3271,7 @@
 
             Sincerely,
 
-            The IQVIA Referral Hub and Patient Portal Support Teams</value>
+            ##SignatureFullCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_PPST</fullName>
@@ -3289,7 +3280,7 @@
         <shortDescription>Email_Signature_PPST</shortDescription>
         <value>Sincerely,
 
-            The IQVIA Patient Portal Support Team</value>
+            ##SignatureShortCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Patient</fullName>
@@ -3300,7 +3291,7 @@
 
             Sincerely,
 
-            The IQVIA Referral Hub and Patient Portal Support Teams</value>
+            ##SignatureFullCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Plain_Summary</fullName>
@@ -3310,7 +3301,8 @@
         <value>We look forward to hearing from you. Please feel free to contact us if you have any questions.
 
             Sincerely,
-            The IQVIA Patient Portal Support Team</value>
+
+            ##SignatureShortCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Plain_Summary_Available</fullName>
@@ -3321,7 +3313,7 @@
 
             Sincerely,
 
-            The IQVIA Patient Portal Support Team</value>
+            ##SignatureShortCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_RH</fullName>
@@ -3341,7 +3333,7 @@
         <shortDescription>Email Signature Resource</shortDescription>
         <value>Sincerely,
 
-            The IQVIA Patient Portal Support Team</value>
+            ##SignatureShortCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Summary_Certificate</fullName>
@@ -3352,7 +3344,7 @@
 
             Sincerely,
 
-            The IQVIA Patient Portal Support Team</value>
+            ##SignatureShortCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Summary_Document</fullName>
@@ -3362,7 +3354,8 @@
         <value>We are excited to continue this journey with you.
 
             Sincerely,
-            The IQVIA Patient Portal Support Team</value>
+
+            ##SignatureShortCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Survey</fullName>
@@ -3373,7 +3366,7 @@
 
             Sincerely,
 
-            The IQVIA Patient Portal Support Team</value>
+            ##SignatureShortCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Trial_Completed</fullName>
@@ -3384,7 +3377,7 @@
 
             Sincerely,
 
-            The IQVIA Patient Portal Support Team</value>
+            ##SignatureShortCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_VT</fullName>
@@ -3393,7 +3386,7 @@
         <shortDescription>Email Signature VT</shortDescription>
         <value>Sincerely,
 
-            IQVIA Study Team</value>
+            ##SignatureShortCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_drop_out</fullName>
@@ -3402,7 +3395,7 @@
         <shortDescription>Email Signature drop out</shortDescription>
         <value>Best Regards,
 
-            IQVIA Study Team</value>
+            ##SignatureShortCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Case</fullName>
@@ -3437,7 +3430,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Initial</shortDescription>
-        <value>Please enroll in the IQVIA Referral Hub and Patient Portal</value>
+        <value>Welcome to Platform</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Initial_Patient</fullName>
@@ -3605,7 +3598,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Reset Your Password</shortDescription>
-        <value>Reset Your Password - IQVIA Referral Hub</value>
+        <value>Reset Your Password</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Share_By_RP</fullName>
@@ -6155,7 +6148,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PE Patient Id</shortDescription>
-        <value>Patient Id</value>
+        <value>Patient ID</value>
     </labels>
     <labels>
         <fullName>PE_Patient_Phone_number</fullName>
@@ -6583,6 +6576,13 @@
         <protected>true</protected>
         <shortDescription>PG AP F IVRS IWRS Id</shortDescription>
         <value>IVRS/IWRS ID</value>
+    </labels>
+    <labels>
+        <fullName>PG_AP_F_Language</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_AP_F_Language</shortDescription>
+        <value>Language</value>
     </labels>
     <labels>
         <fullName>PG_AP_F_Patient_Status</fullName>
@@ -7340,7 +7340,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DBPI L Providers waiting for activation</shortDescription>
-        <value>Referring Providers Waiting For Activation</value>
+        <value>Referring Providers Waiting for Activation</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Providers_waiting_for_approval_and_activation</fullName>
@@ -7774,7 +7774,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG HLP HI HCP</shortDescription>
-        <value>To report a problem or share feedback with IQVIA about Referral Hub, please link to the appropriate form below.</value>
+        <value>To report a problem or share feedback with ##CommunityHelpAbout, please link to the appropriate form below.</value>
     </labels>
     <labels>
         <fullName>PG_HLP_HI_PI</fullName>
@@ -8744,14 +8744,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRR L Please complete pre-eligibility screening for:</shortDescription>
-        <value>Please complete pre-eligibility screening for:</value>
+        <value>Please complete the pre-eligibility screening so that your patient may be referred to:</value>
     </labels>
     <labels>
         <fullName>PG_MRR_Note_Remember</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRR Note Remember</shortDescription>
-        <value>NOTE: Please remember that you will need to enter your patient&#39;s information into the IQVIA™ Referral Hub website in order to be able to refer the patient to the Principal Investigator.</value>
+        <value>NOTE: The first step of the referral process is the clinical pre-eligibility screening. That portion of the referral process may be completed without your patient’s participation and then saved, but you will need to enter your patient’s basic demographic and contact information and provide confirmation of their consent for the referral to be completed.</value>
     </labels>
     <labels>
         <fullName>PG_MRR_R_Failed</fullName>
@@ -8828,7 +8828,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRZ L Search for a referring clinic</shortDescription>
-        <value>Search for an RP</value>
+        <value>Search</value>
     </labels>
     <labels>
         <fullName>PG_MRZ_L_Search_for_a_study_site</fullName>
@@ -10116,7 +10116,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SPE L Patient Id tip</shortDescription>
-        <value>Example: EMR, medical Record ID, or other types of patient identification in your system</value>
+        <value>Example: Please enter an ID, such as MRN, that is used by your office to identify this patient, but is not allow the patient to be identified by those without access to your system</value>
     </labels>
     <labels>
         <fullName>PG_SPE_L_Patient_Information</fullName>
@@ -10130,21 +10130,21 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SPE L Patient&#39;s first name (Optional)</shortDescription>
-        <value>Patient&#39;s first name (Optional)</value>
+        <value>Patient&#39;s first name (optional)</value>
     </labels>
     <labels>
         <fullName>PG_SPE_L_Patient_s_first_name_Optional_tip</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SPE L Patient&#39;s first name (Optional) tip</shortDescription>
-        <value>Enter your patient&#39;s name so that you can remember your patient for future reference</value>
+        <value>Enter your patient’s name to make it easier to find that person on the My Patients page after pre-screening. The patient’s name will not be shared with anyone until the referral is completed, but will become required at that time.</value>
     </labels>
     <labels>
         <fullName>PG_SPE_L_Patient_s_last_name_Optional</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SPE L Patient&#39;s last name (Optional)</shortDescription>
-        <value>Patient&#39;s last name (Optional)</value>
+        <value>Patient&#39;s last name (optional)</value>
     </labels>
     <labels>
         <fullName>PG_SPE_L_Ready_to_refer_this_patient_to_this_study</fullName>

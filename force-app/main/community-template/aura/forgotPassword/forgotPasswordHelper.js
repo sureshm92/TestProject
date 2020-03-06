@@ -4,13 +4,11 @@
     },
     
     handleForgotPassword: function (component, event, helpler) {
-        debugger;
         var username = component.find("username").get("v.value");
         var checkEmailUrl = component.get("v.checkEmailUrl");
         var action = component.get("c.forgotPassword");
         action.setParams({username:username, checkEmailUrl:checkEmailUrl});
         action.setCallback(this, function(a) {
-            debugger;
             var rtnValue = a.getReturnValue();
             if (rtnValue != null) {
                component.set("v.errorMessage",rtnValue);

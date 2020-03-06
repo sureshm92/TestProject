@@ -51,7 +51,6 @@
             var oldPE = JSON.parse(dataStamp);
             var isRemovedValue =
                 (oldPE.Participant__r.First_Name__c && !participant.First_Name__c) ||
-                (oldPE.Participant__r.Middle_Name__c && !participant.Middle_Name__c.trim()) ||
                 (oldPE.Participant__r.Last_Name__c && !participant.Last_Name__c) ||
                 (oldPE.Participant__r.Date_of_Birth__c && !participant.Date_of_Birth__c) ||
                 (oldPE.Participant__r.Gender__c && !participant.Gender__c) ||
