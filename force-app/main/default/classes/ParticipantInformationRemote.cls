@@ -46,7 +46,9 @@ public without sharing class ParticipantInformationRemote {
         AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON);
         if (!String.isBlank(delegateJSON)) {
             Contact delegateParticipant = (Contact) JSON.deserialize(delegateJSON, Contact.class);
-            update delegateParticipant;
+            if (delegateParticipant != null) {
+                update delegateParticipant;
+            }
         }
     }
 
@@ -239,7 +241,9 @@ public without sharing class ParticipantInformationRemote {
 
         if (!String.isBlank(delegateJSON)) {
             Contact delegateParticipant = (Contact) JSON.deserialize(delegateJSON, Contact.class);
-            update delegateParticipant;
+            if (delegateParticipant != null) {
+                update delegateParticipant;
+            }
         }
 
         return updatePatientStatus(pathWrapperJSON, pe);
