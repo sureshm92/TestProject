@@ -6148,7 +6148,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PE Patient Id</shortDescription>
-        <value>Patient Id</value>
+        <value>Patient ID</value>
     </labels>
     <labels>
         <fullName>PE_Patient_Phone_number</fullName>
@@ -8744,14 +8744,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRR L Please complete pre-eligibility screening for:</shortDescription>
-        <value>Please complete pre-eligibility screening for:</value>
+        <value>Please complete the pre-eligibility screening so that your patient may be referred to:</value>
     </labels>
     <labels>
         <fullName>PG_MRR_Note_Remember</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRR Note Remember</shortDescription>
-        <value>NOTE: Please remember that you will need to enter your patient&#39;s information into the IQVIA™ Referral Hub website in order to be able to refer the patient to the Principal Investigator.</value>
+        <value>NOTE: The first step of the referral process is the clinical pre-eligibility screening. That portion of the referral process may be completed without your patient’s participation and then saved, but you will need to enter your patient’s basic demographic and contact information and provide confirmation of their consent for the referral to be completed.</value>
     </labels>
     <labels>
         <fullName>PG_MRR_R_Failed</fullName>
@@ -10116,7 +10116,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SPE L Patient Id tip</shortDescription>
-        <value>Example: EMR, medical Record ID, or other types of patient identification in your system</value>
+        <value>Example: Please enter an ID, such as MRN, that is used by your office to identify this patient, but is not allow the patient to be identified by those without access to your system</value>
     </labels>
     <labels>
         <fullName>PG_SPE_L_Patient_Information</fullName>
@@ -10130,21 +10130,21 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SPE L Patient&#39;s first name (Optional)</shortDescription>
-        <value>Patient&#39;s first name (Optional)</value>
+        <value>Patient&#39;s first name (optional)</value>
     </labels>
     <labels>
         <fullName>PG_SPE_L_Patient_s_first_name_Optional_tip</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SPE L Patient&#39;s first name (Optional) tip</shortDescription>
-        <value>Enter your patient&#39;s name so that you can remember your patient for future reference</value>
+        <value>Enter your patient’s name to make it easier to find that person on the My Patients page after pre-screening. The patient’s name will not be shared with anyone until the referral is completed, but will become required at that time.</value>
     </labels>
     <labels>
         <fullName>PG_SPE_L_Patient_s_last_name_Optional</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SPE L Patient&#39;s last name (Optional)</shortDescription>
-        <value>Patient&#39;s last name (Optional)</value>
+        <value>Patient&#39;s last name (optional)</value>
     </labels>
     <labels>
         <fullName>PG_SPE_L_Ready_to_refer_this_patient_to_this_study</fullName>
