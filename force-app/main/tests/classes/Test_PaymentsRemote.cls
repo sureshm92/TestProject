@@ -5,18 +5,25 @@
 @IsTest
 public class Test_PaymentsRemote {
 
-    @IsTest
+    @IsTest(SeeAllData = true)
     public static void testBehavior() {
-        TestData.loadTestData();
-        TestData td = new TestData();
 
-        PaymentsRemote.InitData initData = new PaymentsRemote.InitData();
+        User user = [
+                SELECT Id
+                FROM User
+                WHERE ContactId != NULL
+                LIMIT 1
+        ];
+
+        PaymentsRemote.InitData initData;
+
         Test.startTest();
-        System.runAs(td.participantUser) {
+        System.runAs(user) {
             Test.setMock(HttpCalloutMock.class, new GetCardDetailsHttpCalloutMock());
             initData = PaymentsRemote.getPaymentData();
         }
         Test.stopTest();
-//        System.assertEquals(2, initData.cards.size());
+
+        System.assertEquals(2, initData.cards.size());
     }
 }
