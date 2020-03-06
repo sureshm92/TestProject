@@ -237,11 +237,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_UpdateParticipantInitialVisitFlag</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_UpdateRecords</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_UpdateScreeningIds</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_UpdateTrialsNewWorkflowFields</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
