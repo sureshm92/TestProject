@@ -4,24 +4,24 @@
 
 @IsTest
 public class Test_PaymentsRemote {
+    public class ParticipantServiceMock implements System.StubProvider {
+        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
+                List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs) {
+            if (stubbedMethodName == 'getState') {
+                return new ParticipantService.ParticipantState();
+            }
+            return null;
+        }
+    }
 
-    @IsTest(SeeAllData = true)
+    @IsTest
     public static void testBehavior() {
-
-        User user = [
-                SELECT Id
-                FROM User
-                WHERE ContactId != NULL
-                LIMIT 1
-        ];
-
         PaymentsRemote.InitData initData;
 
         Test.startTest();
-        System.runAs(user) {
-            Test.setMock(HttpCalloutMock.class, new GetCardDetailsHttpCalloutMock());
-            initData = PaymentsRemote.getPaymentData();
-        }
+        ParticipantService.setMock(new ParticipantServiceMock());
+        Test.setMock(HttpCalloutMock.class, new GetCardDetailsHttpCalloutMock());
+        initData = PaymentsRemote.getPaymentData();
         Test.stopTest();
 
         System.assertEquals(2, initData.cards.size());
