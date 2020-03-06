@@ -110,6 +110,17 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
+    public class UpdateParticipantState extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            updateParticipantStudyStatus(newList, null);
+        }
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            updateParticipantStudyStatus(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+
+    }
+
     // Handlers: On study ----------------------------------------------------------------------------------------------
     public class DeactivateDeceasedUsersHandler extends TriggerHandler {
 
@@ -820,6 +831,15 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         if (newParticipants.size() > 0) insert newParticipants;
     }
 
+    @TestVisible
+    private static void updateParticipantStudyStatus(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+        List<Participant__c> participants = new List<Participant__c>();
+        for (Participant_Enrollment__c pe : newList) {
+            if (oldMap == null || oldMap != null && pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c) {
+                participants.add((Participant__c) PETriggerBuffer.getSObject(pe.Participant__c));
+            }
+        }
 
-
+        ParticipantEnrollmentService.updateParticipantState(participants);
+    }
 }

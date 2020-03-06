@@ -59,19 +59,21 @@ public without sharing class PETriggerBuffer {
         ]);
         buffer.putAll([
                 SELECT Id,
-                        Contact__c,
-                        Full_Name__c,
                         Adult__c,
-                        Contact__r.Visit_Results_Opt_In__c,
-                        Name,
-                        IsCountry_NOT_Eligible_for_Emails__c,
-                        Emancipation_in_progress__c,
-                        Status__c,
                         Balance__c,
+                        Contact__c,
+                        Contact__r.Visit_Results_Opt_In__c,
+                        Email__c,
+                        Emancipation_in_progress__c,
                         First_Name__c,
+                        Full_Name__c,
+                        Has_Studies__c,
+                        Has_Studies_In_Progress__c,
+                        Has_Past_Studies__c,
+                        IsCountry_NOT_Eligible_for_Emails__c,
                         Last_Name__c,
-                        Email__c
-
+                        Name,
+                        Status__c
                 FROM Participant__c
                 WHERE Id IN:participantIds
         ]);
