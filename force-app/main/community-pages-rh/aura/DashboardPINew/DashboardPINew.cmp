@@ -36,7 +36,7 @@
                         parent="{!v.parent}"
                         itemsList="{!v.piData.physiciansWaitingForApprovalList}"
                         itemsType="hcpWaitingApproval"
-                        title="{!$Label.c.PG_DBPI_L_Providers_waiting_for_activation}"
+                        title="{!'' + v.piData.physiciansWaitingForApprovalList.length + ' ' + $Label.c.PG_DBPI_L_Providers_waiting_for_activation}"
                         viewMoreLink="my-referring-clinics?showPending=true"
                         viewMoreTag="LNK_Dashboard_Physicians_Waiting_Approval_View_More"/>
             </div>
