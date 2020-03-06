@@ -3430,7 +3430,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Initial</shortDescription>
-        <value>Please enroll in the IQVIA Referral Hub and Patient Portal</value>
+        <value>Welcome to Platform</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Initial_Patient</fullName>
@@ -3598,7 +3598,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Reset Your Password</shortDescription>
-        <value>Reset Your Password - IQVIA Referral Hub</value>
+        <value>Reset Your Password</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Share_By_RP</fullName>
