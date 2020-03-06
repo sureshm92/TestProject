@@ -114,22 +114,22 @@ public without sharing class PENotificationTriggerHandler {
         }
 
         //get Delegates for Participant
-        List<Notification__c> listNotificationForDelegate = new List<Notification__c>();
-        Map<Id, List<Contact>> conDelegatesByPartConMap = PatientDelegateService.getDelegatedCntsByParticipantCnt(
+        List<Notification__c> delegateNotifications = new List<Notification__c>();
+        Map<Id, List<Contact>> delegateContactsByPartCnt = PatientDelegateService.getDelegatedCntsByParticipantCnt(
                 participantConIds, new List<String>{'Id'}
         );
         for (Notification__c n : notifications) {
-            if (!NotificationService.excludedNotificationTypesForDelegate.contains(n.Notification_Type__c) && conDelegatesByPartConMap.containsKey(n.Recipient__c)) {
-                for (Contact conDel : conDelegatesByPartConMap.get(n.Recipient__c)) {
-                    listNotificationForDelegate.add(new Notification__c(
-                            Recipient__c = conDel.Id,
+            if (!NotificationService.excludedNotificationTypesForDelegate.contains(n.Notification_Type__c) && delegateContactsByPartCnt.containsKey(n.Recipient__c)) {
+                for (Contact contact : delegateContactsByPartCnt.get(n.Recipient__c)) {
+                    delegateNotifications.add(new Notification__c(
+                            Recipient__c = contact.Id,
                             WhatId__c = n.WhatId__c,
                             Notification_Type__c = n.Notification_Type__c
                     ));
                 }
             }
         }
-        notifications.addAll(listNotificationForDelegate);
+        notifications.addAll(delegateNotifications);
 
         insert notifications;
     }
