@@ -99,7 +99,7 @@ public without sharing class PatientDelegateTriggerHandler {
                 SELECT Id,
                         Participant__c,
                         Participant_Contact__c,
-                        Clinical_Trial_Profile__r.Community_Template__c
+                        Clinical_Trial_Profile__r.CommunityTemplate__c
                 FROM Participant_Enrollment__c
                 WHERE Participant__c IN: allDelegatedParticipantIds OR Participant_Contact__c IN: contactIds
         ];
@@ -109,7 +109,7 @@ public without sharing class PatientDelegateTriggerHandler {
             if(pe.Participant_Contact__c != null && pe.Participant__c != null) participantIdByContactIdMap.put(pe.Participant_Contact__c, pe.Participant__c);
             Set<String> permissions = participantPermissions.get(pe.Participant__c);
             if (permissions == null) permissions = new Set<String>();
-            permissions.add(CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.Community_Template__c).permissionSet);
+            permissions.add(CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet);
             participantPermissions.put(pe.Participant__c, permissions);
         }
         

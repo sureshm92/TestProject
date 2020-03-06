@@ -90,6 +90,12 @@
                     <c:rrSelect options="{!v.formData.genderLVList}" value="{!v.participant.Gender__c}"
                                 placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false" onchange="{!c.doCheckFields}"/>
                 </div>
+                <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3'}">
+                    <div class="label"><abbr title="required"
+                                             class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Language}</div>
+                    <c:rrSelect options="{!v.formData.languageLVList}" value="{!v.participant.Preferred_Language__c}"
+                                placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false" onchange="{!c.doCheckFields}"/>
+                </div>
             </div>
         </div>
 

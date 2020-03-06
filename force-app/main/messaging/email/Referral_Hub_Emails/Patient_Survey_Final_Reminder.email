@@ -1,6 +1,7 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Survey_Final_Reminder}"
                          recipientType="Contact"
-                         relatedToType="SurveyInvitation">
+                         relatedToType="SurveyInvitation"
+                         language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody >
         <c:EmailTemplate recipientId="{!recipient.Id}"
