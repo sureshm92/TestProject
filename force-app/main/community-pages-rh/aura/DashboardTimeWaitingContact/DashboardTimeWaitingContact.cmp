@@ -27,7 +27,7 @@
                 </aura:iteration>
             </div>
         </div>
-        <div class="dqa-view-more">
+        <div class="dqa-view-more" data-gtm="LNK_View_All">
             <c:RRLink page="my-referrals" class="apollo-btn text">{!$Label.c.BTN_View_all}</c:RRLink>
         </div>
     </div>
