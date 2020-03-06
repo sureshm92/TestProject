@@ -5357,6 +5357,13 @@
         <value>You should only invite a participant&#39;s provider with the participant&#39;s explicit permission. Upon registration, the provider will be able to track a participant&#39;s status.</value>
     </labels>
     <labels>
+        <fullName>Message_Studies_Length</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message_Studies_Length</shortDescription>
+        <value>You cannot enter more than 200 characters</value>
+    </labels>
+    <labels>
         <fullName>MetabolicPanel</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8821,7 +8828,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRZ L Search for a referring clinic</shortDescription>
-        <value>Search for an RP</value>
+        <value>Search...</value>
     </labels>
     <labels>
         <fullName>PG_MRZ_L_Search_for_a_study_site</fullName>

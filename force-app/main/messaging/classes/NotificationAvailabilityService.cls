@@ -246,15 +246,10 @@ public without sharing class NotificationAvailabilityService {
 
     public CommunityTemplate getCommunityTemplate(Id contactId, String whatId) {
         CommunityTemplate communityTemplate = CommunityTemplateService.getDefaultTemplate();
-        String objType = null;
-        Id objId;
+        String objType = whatId != null ? String.valueOf(((Id)whatId).getSobjectType()) : null;
 
         List<String> permSet = new List<String>();
 
-        if (whatId != null) {
-            objId = whatId;
-            objType = String.valueOf(objId.getSobjectType());
-        }
         if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
             Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
             communityTemplate = CommunityTemplateService.getTemplate(pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c);

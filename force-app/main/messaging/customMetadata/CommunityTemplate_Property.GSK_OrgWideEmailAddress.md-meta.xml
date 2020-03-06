@@ -8,6 +8,6 @@
     </values>
     <values>
         <field>Value__c</field>
-        <value xsi:type="xsd:string">GSK Patients_Updated</value>
+        <value xsi:type="xsd:string">GatherSHAREKnow Participant Hub</value>
     </values>
 </CustomMetadata>

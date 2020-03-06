@@ -222,34 +222,7 @@
                                         <div class="rr-form-element slds-col slds-size--1-of-1" style="margin-top: 15px;">
                                             {!$Label.c.PG_Ref_L_Delegate_ensure_info_uptodate}
                                         </div>
-                                        <aura:if isTrue="{!delegateItem.Contact__c}">
-                                            <div class="rr-form-element slds-col slds-size--1-of-1">
-                                                {!$Label.c.PG_Ref_L_Delegate_update_info_uptodate}
-                                            </div>
-                                        </aura:if>
-                                        <aura:if isTrue="{!!delegateItem.Contact__c}">
-                                            <div class="rr-form-element slds-col slds-size--1-of-3">
-                                                <div class="label">
-                                                    {!$Label.c.PG_AS_F_First_name}<abbr title="required" class="slds-required">*</abbr>
-                                                </div>
-                                                <lightning:input type="text" value="{!delegateItem.First_Name__c}"
-                                                                 required="{!v.currentTab == '2'}" onblur="{!c.doCheckDelegateFields}"/>
-                                            </div>
-                                            <div class="rr-form-element slds-col slds-size--1-of-3">
-                                                <div class="label">
-                                                    {!$Label.c.PG_AS_F_Middle_name}
-                                                </div>
-                                                <lightning:input type="text" value="{!delegateItem.Middle_Name__c}"
-                                                                 onblur="{!c.doCheckfields}"/>
-                                            </div>
-                                            <div class="rr-form-element slds-col slds-size--1-of-3">
-                                                <div class="label">
-                                                    {!$Label.c.PG_AS_F_Last_name}<abbr title="required" class="slds-required">*</abbr>
-                                                </div>
-                                                <lightning:input type="text" value="{!delegateItem.Last_Name__c}"
-                                                                 required="{!v.currentTab == '2'}" onblur="{!c.doCheckDelegateFields}"/>
-                                            </div>
-                                        </aura:if>
+
                                         <div class="rr-form-element slds-col slds-size--1-of-3">
                                             <div class="label">
                                                 <span style="white-space: nowrap; width: 85%; overflow: hidden; text-overflow: ellipsis;">
@@ -272,36 +245,9 @@
                                             <lightning:input aura:id="{!'emailDInput' + ind}" type="email" value="{!delegateItem.Email__c}"
                                                              required="{!v.currentTab == '2'}" onblur="{!c.doCheckDelegateFields}"/>
                                         </div>
-                                        <div class="rr-form-element slds-col slds-size--1-of-3">
-                                            <div class="label">
-                                                {!$Label.c.PE_Country}<abbr title="required" class="slds-required">*</abbr>
-                                            </div>
-                                            <c:rrSelect options="{!v.formData.countriesLVList}" value="{!delegateItem.Mailing_Country_Code__c}"
-                                                        placeholder="{!$Label.c.PG_AC_Select}" useSentenceFont="false" onchange="{!c.doDelegateCountryCodeChanged}"/>
-                                        </div>
-                                        <div class="rr-form-element slds-col slds-size--1-of-3">
-                                            <div class="label">
-                                                {!$Label.c.PE_State}<aura:if isTrue="{!!empty(delegateItem.statesDelegateLVList)}"><abbr title="required" class="slds-required">*</abbr></aura:if>
-                                            </div>
-                                            <c:rrSelect options="{!delegateItem.statesDelegateLVList}" disabled="{!empty(delegateItem.statesDelegateLVList)}"
-                                                        value="{!delegateItem.Mailing_State_Code__c}" placeholder="{!$Label.c.PG_AC_Select}"
-                                                        useSentenceFont="false" onchange="{!c.doDelegateStateChange}"/>
-                                        </div>
-                                        <div class="rr-form-element slds-col slds-size--1-of-3">
-                                            <div class="label">
-                                                {!$Label.c.PG_AS_F_Zip_Postal_Code}<abbr title="required" class="slds-required">*</abbr>
-                                            </div>
-                                            <lightning:input type="text" value="{!delegateItem.Mailing_Zip_Postal_Code__c}"
-                                                             required="{!v.currentTab == '2'}" onblur="{!c.doCheckDelegateFields}"/>
-                                        </div>
                                     </div>
                                 </div>
                             </aura:iteration>
-                        </div>
-                        <div>
-                            <button class="apollo-btn secondary" disabled="true" style="margin-top: 10px; box-shadow: none; border: none; font-weight: 600; background-color: rgb(255, 255, 255);" onclick="{!c.doAddDelegate}">{!$Label.c.Add_Delegate}
-                                <div style="margin-left: -125px;"><c:RRIcon color="#297dfd" iconName="icon-plus"/></div>
-                            </button>
                         </div>
                     </div>
                 </aura:if>
