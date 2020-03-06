@@ -3199,7 +3199,7 @@
 
             Sincerely,
 
-            ##CommunityNameSignature</value>
+            The IQVIA Patient Portal and Referral Hub Support Teams</value>
     </labels>
     <labels>
         <fullName>Email_Signature_1</fullName>
@@ -3220,7 +3220,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature 3</shortDescription>
-        <value>##CommunityNameSignature</value>
+        <value>The IQVIA Referral Hub Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_4</fullName>
@@ -3240,7 +3240,7 @@
 
             Sincerely,
 
-            ##SignatureShortCommunityName</value>
+            The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Forgot_Password</fullName>
@@ -3252,6 +3252,15 @@
             To keep your account secure, please don&#39;t forward this email to anyone.</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_GSK</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature</shortDescription>
+        <value>Sincerely,
+
+            The GSK Participant Hub team</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_New</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3260,7 +3269,7 @@
 
             Sincerely,
 
-            ##SignatureShortCommunityName</value>
+            The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_New_Participant_Delegate</fullName>
@@ -3271,7 +3280,7 @@
 
             Sincerely,
 
-            ##CommunityNameSignature</value>
+            The IQVIA Referral Hub and Patient Portal Support Teams</value>
     </labels>
     <labels>
         <fullName>Email_Signature_PPST</fullName>
@@ -3280,7 +3289,7 @@
         <shortDescription>Email_Signature_PPST</shortDescription>
         <value>Sincerely,
 
-            ##SignatureShortCommunityName</value>
+            The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Patient</fullName>
@@ -3291,7 +3300,7 @@
 
             Sincerely,
 
-            ##CommunityNameSignature</value>
+            The IQVIA Referral Hub and Patient Portal Support Teams</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Plain_Summary</fullName>
@@ -3301,8 +3310,7 @@
         <value>We look forward to hearing from you. Please feel free to contact us if you have any questions.
 
             Sincerely,
-
-            ##SignatureShortCommunityName</value>
+            The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Plain_Summary_Available</fullName>
@@ -3313,7 +3321,7 @@
 
             Sincerely,
 
-            ##SignatureShortCommunityName</value>
+            The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_RH</fullName>
@@ -3333,7 +3341,7 @@
         <shortDescription>Email Signature Resource</shortDescription>
         <value>Sincerely,
 
-            ##SignatureShortCommunityName</value>
+            The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Summary_Certificate</fullName>
@@ -3344,7 +3352,7 @@
 
             Sincerely,
 
-            ##SignatureShortCommunityName</value>
+            The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Summary_Document</fullName>
@@ -3354,8 +3362,7 @@
         <value>We are excited to continue this journey with you.
 
             Sincerely,
-
-            ##SignatureShortCommunityName</value>
+            The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Survey</fullName>
@@ -3366,7 +3373,7 @@
 
             Sincerely,
 
-            ##SignatureShortCommunityName</value>
+            The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Trial_Completed</fullName>
@@ -3377,7 +3384,7 @@
 
             Sincerely,
 
-            ##SignatureShortCommunityName</value>
+            The IQVIA Patient Portal Support Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_VT</fullName>
@@ -3386,7 +3393,7 @@
         <shortDescription>Email Signature VT</shortDescription>
         <value>Sincerely,
 
-            ##SignatureShortCommunityName</value>
+            IQVIA Study Team</value>
     </labels>
     <labels>
         <fullName>Email_Signature_drop_out</fullName>
@@ -3395,7 +3402,7 @@
         <shortDescription>Email Signature drop out</shortDescription>
         <value>Best Regards,
 
-            ##SignatureShortCommunityName</value>
+            IQVIA Study Team</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Case</fullName>
@@ -6578,6 +6585,13 @@
         <value>IVRS/IWRS ID</value>
     </labels>
     <labels>
+        <fullName>PG_AP_F_Language</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_AP_F_Language</shortDescription>
+        <value>Language</value>
+    </labels>
+    <labels>
         <fullName>PG_AP_F_Patient_Status</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8821,7 +8835,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG MRZ L Search for a referring clinic</shortDescription>
-        <value>Search...</value>
+        <value>Search for an RP</value>
     </labels>
     <labels>
         <fullName>PG_MRZ_L_Search_for_a_study_site</fullName>
