@@ -28,33 +28,40 @@ global without sharing class EmailActionBtnController {
     }
 
     private String getCurrentCommunityURL() {
-        String communityTemplate = 'Default';
-        if (resourceIdString != null && resourceIdString.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
-            Participant_Enrollment__c pe = [
-                    SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
-                    FROM Participant_Enrollment__c
-                    WHERE Id = :resourceIdString
-            ];
-            communityTemplate = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
-        } else if (resourceIdString != null && resourceIdString.getSobjectType() == Clinical_Trial_Profile__c.getSObjectType()) {
-            Clinical_Trial_Profile__c ctp = [
-                    SELECT Id, CommunityTemplate__c
-                    FROM Clinical_Trial_Profile__c
-                    WHERE Id = :resourceIdString
-            ];
-            communityTemplate = ctp.CommunityTemplate__c;
-        } else if (resourceIdString != null && resourceIdString.getSobjectType() == Task.getSObjectType()) {
-            Task task = [SELECT Id, WhatId FROM Task WHERE Id =: resourceIdString];
-            Participant_Enrollment__c pe = [
-                    SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
-                    FROM Participant_Enrollment__c
-                    WHERE Id = :task.WhatId
-            ];
-            communityTemplate = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+        String communityTemplate = CommunityTemplateService.TEMPLATE_DEFAULT;
+        Id peId;
+        if (resourceIdString != null) {
+            if (resourceIdString.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
+                peId = resourceIdString;
+            }
+            if (resourceIdString.getSobjectType() == Clinical_Trial_Profile__c.getSObjectType()) {
+                communityTemplate = [
+                        SELECT CommunityTemplate__c
+                        FROM Clinical_Trial_Profile__c
+                        WHERE Id = :resourceIdString
+                ].CommunityTemplate__c;
+            }
+            if (resourceIdString.getSobjectType() == Task.getSObjectType()) {
+                Task task = [SELECT WhatId FROM Task WHERE Id =: resourceIdString];
+                peId = task.WhatId;
+            }
+            if (resourceIdString.getSobjectType() == SurveyInvitation.getSObjectType()) {
+                SurveyInvitation survey = [
+                        SELECT Participant_Enrollment__c
+                        FROM SurveyInvitation
+                        WHERE Id = :resourceIdString
+                ];
+                peId = survey.Participant_Enrollment__c;
+            }
+            if (peId != null) {
+                communityTemplate = [
+                        SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
+                        FROM Participant_Enrollment__c
+                        WHERE Id = :peId].Clinical_Trial_Profile__r.CommunityTemplate__c;
+            }
         }
 
         String communityName = CommunityTemplateService.getTemplate(communityTemplate).communityName;
-        String urlStr = CommunityTemplateService.getCommunityURL(communityName);
-        return urlStr;
+        return CommunityTemplateService.getCommunityURL(communityName);
     }
 }
