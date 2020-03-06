@@ -698,7 +698,7 @@ public without sharing class ParticipantEnrollmentService {
         return getParticipantEnrollments(filter, paginationData, null);
     }
 
-    public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, PaginationData paginationData, String delegateId) {
+    public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, String delegateId){
         //prepare filter string:
         String filterStr = ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') + '\') ';
         if (!String.isEmpty(filter.additionalFilter)) filterStr += ' AND ' + filter.additionalFilter + ' ';
@@ -779,6 +779,15 @@ public without sharing class ParticipantEnrollmentService {
             peList = sortedList;
         }
 
+        return peList;
+    }
+
+    public static List<Participant_Enrollment__c> getParticipantEnrollments(PEFilter filter, PaginationData paginationData, String delegateId) {
+        List<Participant_Enrollment__c> peList = getParticipantEnrollments(filter, delegateId);
+        return getParticipantEnrollmentsPaginated(peList, paginationData);
+    }
+
+    public static List<Participant_Enrollment__c> getParticipantEnrollmentsPaginated(List<Participant_Enrollment__c> peList, PaginationData paginationData) {
         //Pagination:
         if (paginationData != null) {
             paginationData.setRecordsCount(peList.size());
