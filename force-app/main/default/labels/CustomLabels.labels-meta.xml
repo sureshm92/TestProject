@@ -3199,7 +3199,7 @@
 
             Sincerely,
 
-            ##CommunityNameSignature</value>
+            ##SignatureFullCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_1</fullName>
@@ -3220,7 +3220,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature 3</shortDescription>
-        <value>##CommunityNameSignature</value>
+        <value>##SignatureFullCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_4</fullName>
@@ -3271,7 +3271,7 @@
 
             Sincerely,
 
-            ##CommunityNameSignature</value>
+            ##SignatureFullCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_PPST</fullName>
@@ -3291,7 +3291,7 @@
 
             Sincerely,
 
-            ##CommunityNameSignature</value>
+            ##SignatureFullCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Plain_Summary</fullName>
