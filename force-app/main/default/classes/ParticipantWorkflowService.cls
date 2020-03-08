@@ -381,23 +381,32 @@ public without sharing class ParticipantWorkflowService {
         if(!stepWrapper.formFieldGroups.isEmpty()){
             for(ParticipantWorkflowService.ParticipantWorkflowFieldGroupWrapper fieldGroup: stepWrapper.formFieldGroups) {
                 for (ParticipantWorkflowService.ParticipantWorkflowFieldWrapper field: fieldGroup.fields){
-                    if( field.readonly || String.isBlank(field.value)){
+                    if( field.readonly){
                         continue;
                     }
-                    switch on field.fieldType{
-                        when 'visitplan','text'{
-                            pe.put(field.field, field.value);
-                        }
-                        when 'time' {
-                            List<String> strTimeSplit = field.value.split(':');
-                            pe.put(field.field, Time.newInstance( Integer.valueOf(strTimeSplit[0]) ,Integer.valueOf(strTimeSplit[1]),0,0));
-                        }
-                        when 'date' {
-                            System.debug(field.value);
-                            pe.put(field.field, Date.valueOf(field.value));
-                        }
-                        when 'boolean' {
-                            pe.put(field.field, Boolean.valueOf(field.value));
+                    if(String.isBlank(field.value) && field.fieldType != 'boolean'){
+                        pe.put(field.field, null);
+                    }
+                    else if(field.fieldType == 'boolean'){
+                        pe.put(field.field, false);
+                    }
+                    else{
+                        switch on field.fieldType {
+                            when 'visitplan', 'text' {
+                                pe.put(field.field, field.value);
+                            }
+                            when 'time' {
+
+                                List<String> strTimeSplit = field.value.split(':');
+                                pe.put(field.field, Time.newInstance(Integer.valueOf(strTimeSplit[0]), Integer.valueOf(strTimeSplit[1]), 0, 0));
+                            }
+                            when 'date' {
+                                System.debug(field.value);
+                                pe.put(field.field, Date.valueOf(field.value));
+                            }
+                            when 'boolean' {
+                                pe.put(field.field, Boolean.valueOf(field.value));
+                            }
                         }
                     }
                 }
@@ -574,7 +583,10 @@ public without sharing class ParticipantWorkflowService {
                     break;
                 }
                 if(String.isNotBlank(step.Success_Checkbox_Field__c))
-                    participantEnrollment.put(step.Success_Checkbox_Field__c, true);
+                    for(String field:step.Success_Checkbox_Field__c.split(';')){
+                        participantEnrollment.put(field, true);
+                    }
+
             }
         }
     }
