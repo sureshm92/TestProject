@@ -31,6 +31,7 @@
                 returnValue = JSON.parse(returnValue);
                 //component.set('v.statusSteps', returnValue.steps);
                 component.set('v.formData.visitPlansLVList', returnValue.visitPlanLVList);
+                debugger;
                 component.set('v.participantPath',returnValue.steps);
                 component.set('v.isFinalUpdate', false);
                 component.set('v.initialized', true);
@@ -102,7 +103,6 @@
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
         var pathWrapper = component.get('v.participantPath');
-        pathWrapper.steps[pathWrapper.currentStepInd] = pathWrapper.currentStep;
         var statusDetailValid = component.get('v.statusDetailValid');
         pe.Participant__r = participant;
         component.find('spinner').show();
@@ -154,7 +154,6 @@
 
     doUpdatePatientStatus: function (component, event, helper) {
         let pathWrapper = component.get('v.participantPath');
-        pathWrapper.steps[pathWrapper.currentStepInd] = pathWrapper.currentStep;
         let pe = component.get('v.pe');
         let statusDetailValid = component.get('v.statusDetailValid');
         if(statusDetailValid){
@@ -178,16 +177,10 @@
 
     },
     doCheckStatusDetailValidity : function (component, event, helper) {
-        let currentStepInd = component.get('v.participantPath.currentStepInd');
         let steps = component.get('v.participantPath.steps');
-        let currentStep = component.get('v.participantPath.currentStep');
         let isValid = true;
         for (let ind = 0; ind < steps.length; ind++) {
-            if (ind !== currentStepInd && !steps[ind].isCurrentStepValid) {
-                isValid = false;
-                break;
-            }
-            if(ind === currentStepInd && !currentStep.isCurrentStepValid){
+            if (!steps[ind].isCurrentStepValid) {
                 isValid = false;
                 break;
             }
