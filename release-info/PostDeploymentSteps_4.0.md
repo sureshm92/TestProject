@@ -33,7 +33,7 @@
      * Go to Setup > Object Manager > Resource > Record type > For all record type for everyone in turn > Open Record Type > In PickList Conuty and Conutys activate all values.
      * Verification step: Make screenshot this setting.
      * Verification step: Make screenshot this setting.
-
+     
 4) Batch Control Panel (PEH-1407)
     1) Go to Setup > Batch Control Panel > Click on button "Add new Job"
         - Select batch – "Batch_ConversationReminder" 
@@ -44,7 +44,7 @@
     2) Create new Batch Detail
     3) Click on "Run" button near the batch in "Action" column.
     3) Verification step: Make screenshot this setting.
-
+    
 5) Batch Control Panel 
     1) Go to Setup > Batch Control Panel > Click on button "Add new Job"
         - Select batch – "Batch_ProcessActionSetupObjects" 
@@ -55,15 +55,15 @@
     2) Create new Batch Detail
     3) Click on "Run" button near the batch in "Action" column.
     3) Verification step: Make screenshot this setting.
-
+    
 6) Batch (REF-773)
     1) Go to Setup > Developer Console Debug > Open Execute Anonymous Window > Past ‘Database.executeBatch(new Batch_UpdateParticipantEnrollmentRP(), 20);’ > Click Execute
     2) Verification step: Make screenshot status logs.
-
+    
 7) Batch (REF-745)
     1) Go to Setup > Developer Console Debug > Open Execute Anonymous Window > Past ‘Database.executeBatch(new Batch_UpdatePEStatuses('ParticipantEnrollmentId'));’ > Click Execute
     2) Verification step: Make screenshot status logs.
-
+    
 8) Batch (REF-745)
     1) Go to Setup > Developer Console Debug > Open Execute Anonymous Window > Past ‘Database.executeBatch(new Batch_UpdatePESHStatuses('ParticipantEnrollmentId'));’ > Click Execute
     2) Verification step: Make screenshot status logs.
