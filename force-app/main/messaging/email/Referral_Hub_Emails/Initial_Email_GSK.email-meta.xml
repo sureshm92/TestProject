@@ -4,7 +4,7 @@
     <available>true</available>
     <description>Initial Email For GSK Community</description>
     <encodingKey>UTF-8</encodingKey>
-    <name>Initial Email_GSK</name>
+    <name>Initial Email GSK</name>
     <style>none</style>
     <subject>Enroll in the IQVIA Referral Hub</subject>
     <type>visualforce</type>
