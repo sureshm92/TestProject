@@ -5,6 +5,10 @@
 public with sharing class TemplatePropertiesService {
 
     private Map<String, String> properties;
+    
+    public TemplatePropertiesService(String templateName){
+        properties = CommunityTemplateService.getTemplate(templateName).properties;
+    }
 
     public TemplatePropertiesService() {
         properties = CommunityTemplateService.getDefaultTemplate().properties;
