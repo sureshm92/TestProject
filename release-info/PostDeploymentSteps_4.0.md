@@ -36,8 +36,8 @@
 
 4) Batch Control Panel (PEH-1407)
     1) Go to Setup > Batch Control Panel > Click on button "Add new Job"
-        - Select batch – "ConversationReminder" 
-        - Batch lable "ConversationReminder" 
+        - Select batch – "Batch_ConversationReminder" 
+        - Batch label "ConversationReminder" 
         - Select Interval mode – "Minutes" 
         - Relaunch interval - "10" 
         - Scope size – "200" 
@@ -45,13 +45,13 @@
     3) Click on "Run" button near the batch in "Action" column.
     3) Verification step: Make screenshot this setting.
 
-5) Batch Control Panel (PEH-1407)
+5) Batch Control Panel 
     1) Go to Setup > Batch Control Panel > Click on button "Add new Job"
-        - Select batch – "ConversationReminder" 
-        - Batch lable "ConversationReminder" 
+        - Select batch – "Batch_ProcessActionSetupObjects" 
+        - Batch label "ProcessActionSetupObjects" 
         - Select Interval mode – "Minutes" 
-        - Relaunch interval - "10" 
-        - Scope size – "200" 
+        - Relaunch interval - "2" 
+        - Scope size – "50" 
     2) Create new Batch Detail
     3) Click on "Run" button near the batch in "Action" column.
     3) Verification step: Make screenshot this setting.
