@@ -4,7 +4,7 @@
 .THIS .rr-card{
     margin-top: 50px;
     border-bottom: 1px solid #d9d9d9;
-    height: 40px;
+    min-height: 40px;
 }
 
 .THIS .rr-card .rr-card-ico{
@@ -19,6 +19,8 @@
     color: #666666;
     font-size: 13px;
     line-height: 17px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .THIS .rr-primary-text{

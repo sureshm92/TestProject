@@ -7354,7 +7354,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG DBPI L Providers waiting for activation</shortDescription>
-        <value>Referring Providers Waiting for Activation</value>
+        <value>Providers Awaiting Activation</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_L_Providers_waiting_for_approval_and_activation</fullName>
