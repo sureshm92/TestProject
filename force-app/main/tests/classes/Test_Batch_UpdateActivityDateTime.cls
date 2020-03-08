@@ -7,7 +7,7 @@ private class Test_Batch_UpdateActivityDateTime {
     @IsTest
     static void batchExecute() {
         TestData.loadTestData();
-        User user = [SELECT Id FROM User WHERE Account.Name = 'Participant' LIMIT 1];
+        User user = [SELECT Id FROM User WHERE Account.Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1];
         List<Task> tasksList = new List<Task>{new Task(
                 Subject = 'Some',
                 OwnerId = user.Id,
