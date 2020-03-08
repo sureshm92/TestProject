@@ -177,7 +177,7 @@ public class Test_PatientDelegateRemote {
         );
         insert testContact;
 
-        Account accountPartic = new Account(Name = 'Participant');
+        Account accountPartic = new Account(Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME);
         insert accountPartic;
 
         Contact delegateContact = new Contact(

@@ -86,7 +86,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
         private void upsertParticipantAndPE() {
             Map<String, Participant__c> newParticipantsMap = new Map<String, Participant__c>();
             Map<String, Contact> newDelegateContactsMap = new Map<String, Contact>();
-            Account participantAccount = [SELECT Id FROM Account WHERE Name = 'Participant' LIMIT 1];
+            Account participantAccount = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE ];
             for (Integration_Patient_Referral__c ipr : newList) {
                 newParticipantsMap.put(ipr.referralID__c, convertToParticipant(ipr));
                 if (!String.isBlank(ipr.Delegate_First_Name__c) && !String.isBlank(ipr.Delegate_Last_Name__c)) {

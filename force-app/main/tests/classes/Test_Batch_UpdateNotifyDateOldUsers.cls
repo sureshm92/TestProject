@@ -8,7 +8,7 @@ private class Test_Batch_UpdateNotifyDateOldUsers {
     static void init() {
         List<Account> accounts = new List<Account>();
         Account participantsAccount = new Account(
-                Name = 'Participant'
+                Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
         );
         accounts.add(participantsAccount);
         Account piAccount = new Account(
