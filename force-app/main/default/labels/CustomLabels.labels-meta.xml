@@ -3925,6 +3925,13 @@
         <value>Initial Visit Attended Date</value>
     </labels>
     <labels>
+        <fullName>FD_PE_Field_Initial_Visit_Attended_Validation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FD PE Field Initial Visit Attended Validation</shortDescription>
+        <value>Initial Visit required before Screening</value>
+    </labels>
+    <labels>
         <fullName>FD_PE_Field_Initial_Visit_Scheduled_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3958,6 +3965,13 @@
         <protected>true</protected>
         <shortDescription>FG PE Informed Consent</shortDescription>
         <value>Informed Consent</value>
+    </labels>
+    <labels>
+        <fullName>FG_PE_Inf_Consent_Validation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FG PE Informed Consent</shortDescription>
+        <value>Consent required before Screening</value>
     </labels>
     <labels>
         <fullName>FG_PE_Wash_Out</fullName>
