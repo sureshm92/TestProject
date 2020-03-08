@@ -381,13 +381,13 @@ public without sharing class ParticipantWorkflowService {
         if(!stepWrapper.formFieldGroups.isEmpty()){
             for(ParticipantWorkflowService.ParticipantWorkflowFieldGroupWrapper fieldGroup: stepWrapper.formFieldGroups) {
                 for (ParticipantWorkflowService.ParticipantWorkflowFieldWrapper field: fieldGroup.fields){
-                    if( field.readonly){
+                    if( field.readonly && !field.dependent){
                         continue;
                     }
                     if(String.isBlank(field.value) && field.fieldType != 'boolean'){
                         pe.put(field.field, null);
                     }
-                    else if(field.fieldType == 'boolean'){
+                    else if(String.isBlank(field.value) && field.fieldType == 'boolean'){
                         pe.put(field.field, false);
                     }
                     else{
@@ -512,7 +512,7 @@ public without sharing class ParticipantWorkflowService {
         }
         else{
             result.title = TranslateHelper.getLabelValue(step.Card_Name_Label__c);
-            if(step.Success_Condition__c != null && ConditionCheckerService.checkConditionForObject(step.Success_Condition__c, pe)){
+            if(step.Success_Condition__c != null && ConditionCheckerService.checkConditionForObject(step.Success_Condition__c, pe) && (previousStep == null || previousStep.state == PEStatusState.STATUS_STATE_SUCCESS)){
                 result.state = PEStatusState.STATUS_STATE_SUCCESS;
                 result.left = PEStatusState.STATUS_STATE_SUCCESS;
                 if(step.Success_Date_Field__c != null && pe.get(step.Success_Date_Field__c)!= null){
@@ -525,7 +525,7 @@ public without sharing class ParticipantWorkflowService {
                 }
 
             }
-            else if(step.In_Progress_Condition__c != null && ConditionCheckerService.checkConditionForObject(step.In_Progress_Condition__c, pe)){
+            else if(step.In_Progress_Condition__c != null && ConditionCheckerService.checkConditionForObject(step.In_Progress_Condition__c, pe) && (previousStep == null || previousStep.state == PEStatusState.STATUS_STATE_SUCCESS)){
                 result.state = PEStatusState.STATUS_STATE_IN_PROGRESS;
                 result.left = PEStatusState.STATUS_STATE_SUCCESS;
                 if(step.In_Progress_Date_Field__c != null && pe.get(step.In_Progress_Date_Field__c) != null){
