@@ -387,7 +387,7 @@ public without sharing class ParticipantWorkflowService {
                     if(String.isBlank(field.value) && field.fieldType != 'boolean'){
                         pe.put(field.field, null);
                     }
-                    else if(field.fieldType == 'boolean'){
+                    else if(String.isBlank(field.value) && field.fieldType == 'boolean'){
                         pe.put(field.field, false);
                     }
                     else{
