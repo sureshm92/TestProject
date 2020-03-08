@@ -192,7 +192,7 @@ public class Test_PatientDelegateService {
     private static void refreshTestData() {
         //Accounts:
         accountPartic = new Account(
-                Name = 'Participant'
+                Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
         );
         upsert accountPartic;
 
