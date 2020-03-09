@@ -64,6 +64,7 @@
         communityService.executeAction(component, 'updatePatientInfoWithDelegate', {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
+            contJSON: JSON.stringify(participant.Contact__r),
             delegateJSON: JSON.stringify(component.get('v.participantDelegate'))
         }, function () {
             if (component.get('v.saveAndChangeStep')) {
@@ -110,6 +111,7 @@
         var actionParams = {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
+            contJSON: JSON.stringify(participant.Contact__r),
             delegateJSON: JSON.stringify(component.get('v.participantDelegate'))
         };
         if(statusDetailValid){
@@ -119,7 +121,8 @@
                 peJSON: JSON.stringify(pe),
                 pathWrapperJSON: JSON.stringify(pathWrapper),
                 peId: pe.Id,
-                delegateJSON: JSON.stringify(component.get('v.participantDelegate'))
+                delegateJSON: JSON.stringify(component.get('v.participantDelegate')),
+                contJSON: JSON.stringify(participant.Contact__r)
             };
         }
         communityService.executeAction(component, actionName, actionParams , function () {
