@@ -22,6 +22,7 @@
     <aura:attribute name="useSentenceFont" type="Boolean" default="true"/>
     <aura:attribute name="validity" type="Object"/>
     <aura:attribute name="onchange" type="Aura.Action"/>
+    <aura:attribute name="fromAddParticipantPage" type="Boolean" default="false"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
