@@ -43,7 +43,7 @@ private class Test_ManualTaskLookupRemote {
     @IsTest
     static void searchSponsorTest() {
         //Mock data for search
-        Account searchingAcc = new Account(Name = 'Participant');
+        Account searchingAcc = new Account(Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME);
         insert searchingAcc;
         List<String> searchingAccIds = new List<String>();
         searchingAccIds.add(searchingAcc.Id);

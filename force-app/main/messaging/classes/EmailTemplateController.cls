@@ -47,7 +47,8 @@ global without sharing class EmailTemplateController {
     global Boolean showDelegateTableValue { get; set; }
     global Boolean multiplePIMessageValue { get; set; }
     global Boolean showDelegateSSTableValue { get; set; }
-
+    global String communityTemplateValue {get; set;}
+    
     global Boolean hasPIRPDelegationRecords {
         get {
             try {
@@ -136,7 +137,7 @@ global without sharing class EmailTemplateController {
                 String commNameFull = getPropertiesService().getPropertyValue('EmailTemplateCommunitySignature');
                 String commNameShort = getPropertiesService().getPropertyValue('EmailTemplateCommunitySignShort');
                 Map<String, String> parametersMap = getDataProvider().parameters;
-                parametersMap.put('CommunityNameSignature', commNameFull);
+                parametersMap.put('SignatureFullCommunityName', commNameFull);
                 parametersMap.put('SignatureShortCommunityName', commNameShort);
                 String resValue = TranslateHelper.replaceParams(signatureValue, PARAM_PREFIX, parametersMap);
                 return prepareLineBreaks(TranslateHelper.getLabelValue(resValue));
@@ -200,7 +201,9 @@ global without sharing class EmailTemplateController {
     private TemplatePropertiesService propertiesService;
     public TemplatePropertiesService getPropertiesService() {
         if (propertiesService == null) {
-            if (sourceRecordId != null) {
+            if(communityTemplateValue != null) {
+                propertiesService = new TemplatePropertiesService(communityTemplateValue);
+            } else if (sourceRecordId != null) {
                 propertiesService = new TemplatePropertiesService(
                         sourceRecordId, emailRecipientId, getDataProvider().userMode, getDataProvider().isDelegate);
             } else {

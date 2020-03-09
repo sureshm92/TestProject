@@ -3,7 +3,6 @@
  */
 ({
     doExecute: function (component, event) {
-        debugger;
         var params = event.getParam('arguments');
         var study = params.study;
         var studySiteId = params.studySiteId;

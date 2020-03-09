@@ -3,7 +3,6 @@
  */
 ({
     doSort: function (component, event, helper) {
-        debugger;
         let sortDirection = component.get('v.filter.sortDirection');
         component.set('v.filter.sortField', event.currentTarget.dataset.order);
         if(sortDirection === 'ASC'){

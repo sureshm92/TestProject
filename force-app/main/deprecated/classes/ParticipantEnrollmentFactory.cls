@@ -28,7 +28,7 @@ public without sharing class ParticipantEnrollmentFactory {
         Contact contact = new Contact();
         contact.LastName = screeningId;
         contact.Email = 'dz@hp.com';
-        contact.AccountId = [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME].Id;
+        contact.AccountId = [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE ].Id;
         insert contact;
         Participant__c participant = new Participant__c();
         participant.Contact__c = contact.Id;

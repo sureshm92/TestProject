@@ -42,7 +42,7 @@
                                 <c:RRIcon iconName="chart-review-sent" class="rr-card-ico"/>
                                 <div class="rr-secondary-text" style="padding-top: 4px">{!$Label.c.PG_MRR_L_Please_complete_medical_record_review_for}</div>
                                 <aura:if isTrue="{!!empty(v.hcpEnrollment)}">
-                                    <div class="rr-primary-text">{!v.hcpEnrollment.HCP_Contact__r.Salutation} {!v.hcpEnrollment.HCP_Contact__r.Name}</div>
+                                    <div class="rr-primary-text">{!v.hcpEnrollment.HCP_Contact__r.Salutation ? v.hcpEnrollment.HCP_Contact__r.Salutation + ' ' : ''} {!v.hcpEnrollment.HCP_Contact__r.Name}</div>
                                     <div class="rr-secondary-text">{!$Label.c.PG_DBPI_at + ' ' + v.hcpEnrollment.Study_Site__r.Name}</div>
                                     <aura:set attribute="else">
                                         <aura:if isTrue="{!!empty(v.hcpContact)}">
@@ -51,6 +51,7 @@
                                     </aura:set>
                                 </aura:if>
                             </div>
+                            <br/>
                             <div class="rr-secondary-text" style="padding-top: 20px">{!$Label.c.PG_MRR_Note_Remember}</div>
                         </div>
                         <div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12 right-column">

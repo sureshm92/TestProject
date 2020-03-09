@@ -10,7 +10,6 @@
         var isCreate = params.isCreate;
         var mainspinner = refreshSource.find('mainSpinner');
         mainspinner.show();
-        debugger;
         component.set('v.delegate', delegate);
         component.set('v.refreshSource', refreshSource);
         var test = JSON.stringify(delegate);
