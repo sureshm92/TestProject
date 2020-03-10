@@ -22,14 +22,17 @@ public without sharing class ParametersDataProvider {
     public Id recipientContactId;
     public String recipientLanguage;
     public String parametersProviderName;
+    public String communityTemplateName;
 
-    public ParametersDataProvider(Id sourceId, String recipientName, Id recipientId, String recipientLanguage, String parametersProviderName, String userType, String outputMode, Boolean multiplePIMessage){
+    public ParametersDataProvider(Id sourceId, String recipientName, Id recipientId, String recipientLanguage, String parametersProviderName, String userType, String outputMode, Boolean multiplePIMessage,
+    String communityTemplateName){
         this.userMode = userType;
         this.recipientName = recipientName;
         this.recipientId = recipientId;
         this.multiplePIMessage = multiplePIMessage;
         this.recipientLanguage = recipientLanguage;
         this.parametersProviderName = parametersProviderName;
+        this.communityTemplateName = communityTemplateName;
         parameters = new Map<String, String>();
         updateRecipientName();
         if(sourceId != null){
@@ -108,6 +111,7 @@ public without sharing class ParametersDataProvider {
                         Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
                         Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                         Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
+                        Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                         Study_Site__r.Study_Site_Phone__c,
                         Study_Site__r.Site__r.BillingStreet,
                         Study_Site__r.Site__r.BillingCity,
@@ -117,7 +121,8 @@ public without sharing class ParametersDataProvider {
                         Motivational_Message_Id__c,
                         HCP__c
                 FROM Participant_Enrollment__c
-                WHERE Id =: sourceId OR Participant__r.Contact__c =: sourceId LIMIT 1
+                WHERE (Id =: sourceId OR Participant__r.Contact__c =: sourceId)
+                AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c =: communityTemplateName LIMIT 1
         ];
 
         if(pe.Is_Virtual_Study_Site__c) recipientFirstName = pe.Participant__r.First_Name__c;
@@ -359,7 +364,7 @@ public without sharing class ParametersDataProvider {
                 if(pe != null){
                     parameters.put('ParticipantName', pe.Participant__r.Full_Name__c);
                     parameters.put('ParticipantFirstName', pe.Participant__r.First_Name__c);
-                    parameters.put('StudyName', pe.Clinical_Trial_Profile__r.Study_Code_Name__c);
+                    //parameters.put('StudyName', pe.Clinical_Trial_Profile__r.Study_Code_Name__c);
                 }
                 parameters.put('UserName', getCommunityUserName(contactId));
             }else{
