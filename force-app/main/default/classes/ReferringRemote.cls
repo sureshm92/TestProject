@@ -163,8 +163,9 @@ public without sharing class ReferringRemote {
             enrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;
             enrollment.Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
             enrollment.Show_Referring_Provider__c = true;
+            String language = UserInfo.getLanguage();
 
-            ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participant, enrollment);
+            ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participant, enrollment, language);
 
             if (participantDelegate != null && !String.isEmpty(participantDelegate.Last_Name__c) &&
                     !String.isEmpty(participantDelegate.Email__c)) {

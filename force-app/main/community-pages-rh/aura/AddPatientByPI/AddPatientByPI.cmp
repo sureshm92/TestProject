@@ -14,6 +14,7 @@
     <aura:attribute name="ss" type="Study_Site__c"/>
     <aura:attribute name="isValid" type="Boolean"/>
     <aura:attribute name="initialized" type="Boolean" default="false"/>
+    <aura:attribute name="userLanguage" type="String"/>
 
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
@@ -34,6 +35,7 @@
                 <c:Form_EditPatientInfo aura:id="editForm"
                                         fromAddParticipantPage="true"
                                         participant="{!v.participant}"
+                                        userLanguage="{!v.userLanguage}"
                                         pe="{!v.pe}"
                                         formData="{!v.formData}"
                                         isValid="{!v.isValid}"
