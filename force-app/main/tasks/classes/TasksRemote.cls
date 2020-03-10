@@ -95,9 +95,9 @@ public class TasksRemote {
     }
 
     @AuraEnabled
-    public static void markAsCompleted(Id taskId) {
+    public static void taskClicked(String id, String message) {
         try {
-            TaskService.getInstance().completeTask(taskId);
+            if (Pattern.compile('\\bautocomplete=true\\b').matcher(message).find()) TaskService.getInstance().completeTask(id);
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
