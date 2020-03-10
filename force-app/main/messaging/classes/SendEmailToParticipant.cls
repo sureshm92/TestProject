@@ -33,8 +33,7 @@ public without sharing class SendEmailToParticipant {
     }
 
     public static List<Notification__c> createTaskReminderEmail(Task task, Contact paCont,
-            List<Contact> delegates, Map<Id, TimeZone> timeZoneByContact
-    ) {
+            List<Contact> delegates, Map<Id, TimeZone> timeZoneByContact) {
         List<Notification__c> notifications = new List<Notification__c>();
         if (task.Task_Type__c == null) return notifications;
 
@@ -42,7 +41,7 @@ public without sharing class SendEmailToParticipant {
         String delegateNotificationType = PATIENT_DELEGATE_EMAIL_REMINDERS_TYPE_MAP.get(task.Task_Type__c);
         Id whatId = task.Id;
 
-        if (task.Task_Type__c.equals(TaskService.TASK_TYPE_SURVEY)) {
+        if (task.Task_Type__c.equals(TaskService.TASK_TYPE_SURVEY) && task.Survey_Invitation__c != null) {
             if (task.Reminder_Schedule__c == null) return notifications;
 
             whatId = task.Survey_Invitation__c;
@@ -72,7 +71,8 @@ public without sharing class SendEmailToParticipant {
             }
 
             delegateNotificationType = patientNotificationType;
-        } else if (task.Task_Type__c.equals(TaskService.TASK_TYPE_MEDICATION) || task.Task_Type__c.equals(TaskService.TASK_TYPE_VISIT)) {
+        }
+        if (task.Task_Type__c.equals(TaskService.TASK_TYPE_MEDICATION) || task.Task_Type__c.equals(TaskService.TASK_TYPE_VISIT)) {
             whatId = task.WhatId;
         }
 
