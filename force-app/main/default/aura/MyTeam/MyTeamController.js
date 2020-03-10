@@ -13,7 +13,6 @@
             userMode: component.get('v.userMode'),
             parentId: selectedParent?selectedParent:communityService.getDelegateId()
         }, function (returnValue) {
-            debugger;
             var initData = JSON.parse(returnValue);
             component.set("v.delegates", initData.delegates);
             component.set("v.delegateOptions", initData.delegateOptions);

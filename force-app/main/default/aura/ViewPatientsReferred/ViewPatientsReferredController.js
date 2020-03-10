@@ -36,13 +36,9 @@
             spinner.hide();
 
             if (communityService.getUserMode() != 'Participant' && initData.currentPageList) {
-                for (let pItem in initData.currentPageList) {
-                    if (initData.currentPageList[pItem].hasEmancipatedParticipants) {
-                        component.set('v.hasEmancipatedParticipants', true);
-                        component.getEvent('onInit').fire();
-
-                        break;
-                    }
+                if (initData.hasEmancipatedParticipants) {
+                    component.set('v.hasEmancipatedParticipants', initData.hasEmancipatedParticipants);
+                    component.getEvent('onInit').fire();
                 }
             }
         });
@@ -60,7 +56,6 @@
             }
         }
         var filterJSON = JSON.stringify(filter);
-        debugger;
         var paginationJSON = JSON.stringify(component.get('v.paginationData'));
         var piBtnFilter = component.get('v.piBtnFilter');
         var action = component.get('c.getRecords');
@@ -91,7 +86,7 @@
             component.set('v.paginationData.currentPage', result.paginationData.currentPage);
             component.set('v.paginationData.currentPageCount', result.paginationData.currentPageCount);
             component.set('v.skipUpdate', false);
-            if (communityService.getUserMode() != 'Participant' && result.peList) {
+            /*if (communityService.getUserMode() != 'Participant' && result.peList) {
                 for (let pItem in result.peList) {
                     var hasEmancipatedParticipants = false;
                     if (result.peList[pItem].hasEmancipatedParticipants) {
@@ -101,7 +96,7 @@
                 }
                 component.set('v.hasEmancipatedParticipants', hasEmancipatedParticipants);
                 component.getEvent('onInit').fire();
-            }
+            }*/
             spinner.hide();
         })
     },

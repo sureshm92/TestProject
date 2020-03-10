@@ -30,6 +30,7 @@
     <apex:attribute name="preSignature" assignTo="{!preSignatureValue}" type="String" description=""/>
     <apex:attribute name="multiplePIMessage" assignTo="{!multiplePIMessageValue}" type="Boolean" default="false"
                     description="send message with all PI names to new RP"/>
+    <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}" description="Community template name"/>
 
 
     <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="HTML"/>
@@ -53,7 +54,8 @@
 
                 <c:EmailTemplateDelegateParticipant userId="{!emailRecipientId}"
                                                     rendered="{!(isDelegate && userCommunityType == 'Participant')}"
-                                                    params="{!dataParametersValue}"/>
+                                                    params="{!dataParametersValue}"
+                                                    commTemplate="{!communityTemplateValue}"/>
 
                 <div style="margin-top: 20px; margin-bottom: 30px;">
                     <apex:componentBody/>

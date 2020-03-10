@@ -30,7 +30,6 @@
             contactEmail: '',
             parentId: parentId?parentId:communityService.getDelegateId()
         }, function (returnValue) {
-            debugger;
             var contactData = JSON.parse(returnValue);
             component.set('v.delegate', contactData.delegates[0]);
             component.set('v.delegateOptions', contactData.delegateOptions);
@@ -74,7 +73,6 @@
             contactEmail: delegate.delegateContact.Email.toLowerCase().trim(),
             parentId: communityService.getUrlParameter('id')?communityService.getUrlParameter('id'):communityService.getDelegateId()
         }, function (returnValue) {
-            debugger;
             var contactData = JSON.parse(returnValue);
             var userMode = component.get('v.userMode');
             var parentId = component.get('v.parentId');
@@ -85,7 +83,6 @@
             else{
                 component.set('v.currentTab', 'all-same');
             }
-            debugger;
             if (contactData.delegates[0].delegateContact.Id === contactData.currentUserContactId) {
                 communityService.showToast('error', 'error', $A.get('$Label.c.TST_You_cannot_add_yourself_as_a_delegate'));
             } else if(userMode === 'HCP' && parentId !== undefined && contactData.delegates[0].delegateContact.Id === parentId){
@@ -119,7 +116,6 @@
     },
 
     doSaveChanges: function (component, event, helper) {
-        debugger;
         var delegate = component.get('v.delegate');
         var allTrialLevel = component.get('v.allTrialLevel');
         var currentTab = component.get('v.currentTab');

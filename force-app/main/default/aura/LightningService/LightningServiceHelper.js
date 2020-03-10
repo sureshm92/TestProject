@@ -27,7 +27,6 @@
         navigationEvt.fire();
     },
     showCustomModal: function (modalParams) {
-        debugger;
         $A.createComponent("lightning:overlayLibrary", {},
             function(overlayLib, status) {
                 if (status === "SUCCESS") {

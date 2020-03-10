@@ -10,7 +10,7 @@ public without sharing class AddPatientByPIRemote {
         @AuraEnabled public List<LabelValueItem> genderLVList = ParticipantService.getGenderLVList();
         @AuraEnabled public List<LabelValueItem> phoneTypeLVList = SObjectHelper.getPicklistLabelValueList(Participant__c.Phone_Type__c);
         @AuraEnabled public List<LabelValueItem> referredByLVList = SObjectHelper.getPicklistLabelValueList(Participant_Enrollment__c.Referred_By__c);
-        @AuraEnabled public List<LabelValueItem> languageLVList = SObjectHelper.getPicklistLabelValueList(Participant__c.Preferred_Language__c);
+        @AuraEnabled public List<LabelValueItem> languageLVList = SObjectHelper.getPicklistLabelValueList(Contact.Language__c);
         @AuraEnabled public List<LabelValueItem> peStatusLVList;
         @AuraEnabled public List<LabelValueItem> visitPlansLVList;
         @AuraEnabled public Clinical_Trial_Profile__c ctp;
@@ -52,10 +52,12 @@ public without sharing class AddPatientByPIRemote {
     }
     
     @AuraEnabled
-    public static void updatePatientInfo(String participantJSON, String peJSON){
+    public static void updatePatientInfo(String participantJSON, String peJSON, String contJSON){
         try{
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
             Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
+            Contact cont = (Contact)JSON.deserialize(contJSON, Contact.class);
+            update cont;
             update pe;
             update participant;
         }catch (Exception e){

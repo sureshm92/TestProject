@@ -145,4 +145,12 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
     public override String getBatchDescription() {
         return 'This job sends Emails and SMS when new Study Document is available';
     }
+
+    public override String getRecommendedIntervalMode() {
+        return Batch_ScheduledAbstract.INTERVAL_HOURS;
+    }
+
+    public override Integer getRecommendedRelaunchInterval() {
+        return 1;
+    }
 }

@@ -25,8 +25,9 @@
                     <aura:iteration items="{!v.tasks}" var="task">
                         <tr>
                             <td>
-                                <c:RRLink label="{!task.Subject}"
-                                          page="{!if(empty(task.Action_URL__c), 'task-detail?id=' + task.Id, task.Action_URL__c)}"/>
+                                <c:RRLink label="{!task.Subject}" identifier="{!task.Id}"
+                                          page="{!if(empty(task.Action_URL__c), 'task-detail?id=' + task.Id, task.Action_URL__c)}"
+                                          onclick="{!c.doTaskClick}"/>
                             </td>
                             <td>
                                 <aura:if isTrue="{!task.Status == 'In Progress'}">

@@ -3,7 +3,6 @@
  */
 ({
     doInit: function (component) {
-        debugger;
         component.set('v.isInitialized', false);
         var spinner = component.find('mainSpinner');
         spinner.show();

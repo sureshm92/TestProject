@@ -24,7 +24,6 @@
      * Verification step: Make screenshot this setting.
      * One column on the layout put Component “Messages Page” and click “Publish”
      * Verification step: Make screenshot this setting.
-     
 
 2) **Activate languages, PEH-1407**
      * Go to Setup > Object Manager > Resource > Record type > For all record type for everyone in turn > Open Record Type > In PickList Language and Languages activate all languages.
@@ -34,26 +33,42 @@
      * Go to Setup > Object Manager > Resource > Record type > For all record type for everyone in turn > Open Record Type > In PickList Conuty and Conutys activate all values.
      * Verification step: Make screenshot this setting.
      * Verification step: Make screenshot this setting.
-2) Change First login Page and add thia page in profile
+     
+4) Batch Control Panel 
 
+    Go to Setup > Batch Control Panel and add or edit batch jobs according to the table:
 
-4)	Batch Control Panel (PEH-1407)
-a)	Go to Setup > Batch Control Panel > Click on button “Add new Job” > Select batch – ‘ConversationReminder’ > Batch lable ‘ConversationReminder’ > Select Interval mode – ‘Minutes’ > Relaunch interval - ‘10’ > Scope size – ‘200’ > Create new Batch Detail > Click on ‘Run’ button near the batch in ‘Action’ column.
-b)	Verification step: Make screenshot this setting.
+|Batch Name                               | Job Name                           | Interval mode | Interval | Scope |
+|-----------------------------------------|------------------------------------|---------------|----------|-------|
+|Batch_ConversationReminder               | ConversationReminder               | Days          | 1        | 200   |
+|Batch_CreateBecomeAdultNotification      | CreateBecomeAdultNotification      | Days          | 1        | 200   |
+|Batch_CreateParticipantLoginNotification | CreateParticipantLoginNotification | Days          | 1        | 200   |
+|Batch_CreateSummaryNotifications         | CreateSummaryNotifications         | Hours         | 1        | 200   |
+|Batch_DataBecomesAvailable               | DataBecomesAvailable               | Hours         | 1        | 200   |
+|Batch_DeleteProcessedNotifications       | DeleteProcessedNotifications       | Days          | 1        | 200   |
+|Batch_IntegrationVisitProcess            | IntegrationVisitProcess            | Hours         | 1        | 200   |
+|Batch_PatientTaskExpire                  | PatientTaskExpire                  | Days          | 1        | 200   |
+|Batch_PatientTaskReminder                | PatientTaskReminder                | Days          | 1        | 200   |
+|Batch_ProcessAction                      | ProcessAction                      | Minutes       | 5        | 10    |
+|Batch_ProcessActionSetupObjects          | ProcessActionSetupObjects          | Minutes       | 2        | 200   |
+|Batch_ProcessNotifications               | ProcessNotifications               | Minutes       | 2        | 200   |
+|Batch_PSECreateInvitation                | PSECreateInvitation                | Hours         | 2        | 200   |
+|Batch_UserCreatedDateNotification        | UserCreatedDateNotification        | Days          | 1        | 200   |
 
-5)	Batch (REF-773)
-a)	Go to Setup > Developer Console Debug > Open Execute Anonymous Window > Past ‘Database.executeBatch(new Batch_UpdateParticipantEnrollmentRP(), 20);’ > Click Execute
-b)	Verification step: Make screenshot status logs.
+    
+6) Batch (REF-773)
+    1) Go to Setup > Developer Console Debug > Open Execute Anonymous Window > Past ‘Database.executeBatch(new Batch_UpdateParticipantEnrollmentRP(), 20);’ > Click Execute
+    2) Verification step: Make screenshot status logs.
+    
+7) Batch (REF-745)
+    1) Go to Setup > Developer Console Debug > Open Execute Anonymous Window > Past ‘Database.executeBatch(new Batch_UpdatePEStatuses('ParticipantEnrollmentId'));’ > Click Execute
+    2) Verification step: Make screenshot status logs.
+    
+8) Batch (REF-745)
+    1) Go to Setup > Developer Console Debug > Open Execute Anonymous Window > Past ‘Database.executeBatch(new Batch_UpdatePESHStatuses('ParticipantEnrollmentId'));’ > Click Execute
+    2) Verification step: Make screenshot status logs.
 
-6)	Batch (REF-745)
-a)	Go to Setup > Developer Console Debug > Open Execute Anonymous Window > Past ‘Database.executeBatch(new Batch_UpdatePEStatuses('ParticipantEnrollmentId'));’ > Click Execute
-b)	Verification step: Make screenshot status logs.
-
-7)	Batch (REF-745)
-a)	Go to Setup > Developer Console Debug > Open Execute Anonymous Window > Past ‘Database.executeBatch(new Batch_UpdatePESHStatuses('ParticipantEnrollmentId'));’ > Click Execute
-b)	Verification step: Make screenshot status logs.
-
-8)	Batch (PEH-747)
-c)	Go to Setup > Developer Console Debug > Open Execute Anonymous Window > Past ‘Database.executeBatch(new Batch_UpdatePatientDelegateStatuses(), 200);’ > Click Execute
-d)	Verification step: Make screenshot status logs.
+9) Batch (PEH-747)
+    1) Go to Setup > Developer Console Debug > Open Execute Anonymous Window > Past ‘Database.executeBatch(new Batch_UpdatePatientDelegateStatuses(), 200);’ > Click Execute
+    2)Verification step: Make screenshot status logs.
 

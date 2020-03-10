@@ -104,6 +104,13 @@ public class Test_PatientDelegateService {
     }
     // Tests: ----------------------------------------------------------------------------------------------------------
 
+    @TestSetup
+    static void setup() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+    }
+
     @IsTest
     static void patientDelegateServiceTest() {
         refreshTestData();
@@ -152,7 +159,6 @@ public class Test_PatientDelegateService {
     @IsTest
     static void resetDelegateTest() {
 
-        TestData.loadTestData();
         TestData testData = new TestData();
 
         Contact delegateContact = new Contact(
@@ -192,7 +198,7 @@ public class Test_PatientDelegateService {
     private static void refreshTestData() {
         //Accounts:
         accountPartic = new Account(
-                Name = 'Participant'
+                Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
         );
         upsert accountPartic;
 

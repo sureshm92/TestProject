@@ -37,13 +37,13 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
-    public static void updatePatientInfo(String participantJSON, String peJSON) {
-        AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON);
+    public static void updatePatientInfo(String participantJSON, String peJSON, String contJSON) {
+        AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON, contJSON);
     }
 
     @AuraEnabled
-    public static void updatePatientInfoWithDelegate(String participantJSON, String peJSON, String delegateJSON) {
-        AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON);
+    public static void updatePatientInfoWithDelegate(String participantJSON, String peJSON, String contJSON, String delegateJSON) {
+        AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON, contJSON);
         if (!String.isBlank(delegateJSON)) {
             Contact delegateParticipant = (Contact) JSON.deserialize(delegateJSON, Contact.class);
             if (delegateParticipant != null) {
@@ -234,10 +234,12 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
-    public static String updatePatientInfoAndStatusWithDelegate(String participantJSON, String peJSON, String pathWrapperJSON, String peId, String delegateJSON) {
+    public static String updatePatientInfoAndStatusWithDelegate(String participantJSON, String peJSON, String pathWrapperJSON, String peId, String delegateJSON, String contJSON) {
         Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
         Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
+        Contact cont = (Contact)JSON.deserialize(contJSON, Contact.class);
         update participant;
+        update cont;
 
         if (!String.isBlank(delegateJSON)) {
             Contact delegateParticipant = (Contact) JSON.deserialize(delegateJSON, Contact.class);

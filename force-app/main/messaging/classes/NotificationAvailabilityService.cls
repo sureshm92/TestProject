@@ -281,7 +281,7 @@ public without sharing class NotificationAvailabilityService {
                     communityTemplate = CommunityTemplateService.getTemplateByPermissionSetName(permSet[0]);
                 }
             }
-        } else if (objType == null || objType == CONTACT) {
+        } else if (objType == null || objType == CONTACT || objType == PARTICIPANT_OBJ_NAME) {
             permSet = permissionSetsByConIdMap.get(contactId);
             if (!permSet.contains(CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME)) {
                 communityTemplate = CommunityTemplateService.getTemplateByPermissionSetName(permSet[0]);

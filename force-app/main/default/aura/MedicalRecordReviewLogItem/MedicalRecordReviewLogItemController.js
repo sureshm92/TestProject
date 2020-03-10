@@ -36,7 +36,6 @@
         }, function (retrunValue) {
             component.set("v.participantEnrollment", {});
             pEnroll.Participant_Status__c = retrunValue;
-            debugger;
             helper.setData(component, pEnroll);
             //communityService.showToast("success", "success", pEnroll.Name + " " + $A.get("$Label.c.TST_has_been_successfully_excluded"));
             component.set("v.participantEnrollment", pEnroll);

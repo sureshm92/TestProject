@@ -5,7 +5,8 @@
 <aura:component description="ParticipantStatusDetailsCard">
     <aura:attribute name="stepWrapper" type="Object" required="true"/>
     <aura:attribute name="reasonList" type="List" access="private"/>
-    <aura:attribute name="updateInProgress" type="Boolean"  access="private"/>
+    <aura:attribute name="updateInProgress" type="Boolean"  default="false"/>
+    <aura:attribute name="partInfoForm" type="Aura.Component" />
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="notesRequired" type="Boolean" default="false"/>
     <aura:attribute name="todayDate" type="Date"/>
@@ -13,13 +14,9 @@
     <aura:handler name="change" value="{!v.stepWrapper.outcome}" action="{!c.updateReasonList}"/>
     <aura:handler name="change" value="{!v.stepWrapper.reason}" action="{!c.updateNotesRequired}"/>
     <aura:handler name="change" value="{!v.stepWrapper.notes}" action="{!c.checkNotesRequiredValidity}"/>
-    <aura:method name="fieldChanged" action="{!c.doCheckDependentFields}" access="public">
-        <aura:attribute name="fieldName" type="String"/>
-        <aura:attribute name="value" type="String"/>
-    </aura:method>
-    <aura:method name="populateFields" action="{!c.doPopulateFields}" access="public">
-        <aura:attribute name="fieldMap" type="Object"/>
-    </aura:method>
+
+    <aura:method name="updateFieldValidity" action="{!c.doUpdateFieldValidity}" access="public"/>
+
     <div class="step-card-title">
             {!v.stepWrapper.cardTitle}
     </div>
@@ -50,15 +47,10 @@
                 </aura:if>
                 <div class="slds-grid slds-wrap slds-gutters">
                     <aura:iteration items="{!fieldsGroup.fields}" var="field">
-                        <c:ParticipantStatusDetailsCardField field="{!field}" parent="{!this}" required="{!v.stepWrapper.currentOutcomeSuccess}" todayDate="{!v.todayDate}"/>
+                        <c:ParticipantStatusDetailsCardField aura:id="statusDetailField" field="{!field}" parent="{!v.parent}" required="{!v.stepWrapper.currentOutcomeSuccess}" todayDate="{!v.todayDate}" updateInProgress="{!v.updateInProgress}"/>
                     </aura:iteration>
                 </div>
             </aura:iteration>
-<!--            <aura:if isTrue="{!v.stepWrapper.editable}">-->
-<!--                <button class="apollo-btn secondary" onclick="{!c.doSaveChanges}" disabled="{!!v.isValid}">-->
-<!--                        {!$Label.c.RP_BTN_Save_Changes}-->
-<!--                </button>-->
-<!--            </aura:if>-->
         </div>
     </aura:if>
     <aura:if isTrue="{!v.stepWrapper.historyTitle != '' || !empty(v.stepWrapper.stepHistory)}">

@@ -13,7 +13,6 @@
             var missingFields = helper.getEmptyFieldNames(component, formComponent);
             if(!formComponent.get('v.isValid')){
                 parent.set('v.saveAndChangeStep', true);
-                debugger;
                 document.getElementById('personalInfoAnchor').scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
                 setTimeout(function(){
                     communityService.showSuccessToast('', $A.get('$Label.c.RP_Missing_Fields') + ': ' + missingFields, 1000);

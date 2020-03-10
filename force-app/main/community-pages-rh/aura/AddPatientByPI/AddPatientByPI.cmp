@@ -32,6 +32,7 @@
             <div class="ap-top-info">{! '* ' +  $Label.c.PG_AP_T_Indicate_Req_Fields}</div>
             <div class="rr-white-panel padding">
                 <c:Form_EditPatientInfo aura:id="editForm"
+                                        fromAddParticipantPage="true"
                                         participant="{!v.participant}"
                                         pe="{!v.pe}"
                                         formData="{!v.formData}"

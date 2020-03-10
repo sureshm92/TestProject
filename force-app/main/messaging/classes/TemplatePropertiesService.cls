@@ -5,6 +5,10 @@
 public with sharing class TemplatePropertiesService {
 
     private Map<String, String> properties;
+    
+    public TemplatePropertiesService(String templateName){
+        properties = CommunityTemplateService.getTemplate(templateName).properties;
+    }
 
     public TemplatePropertiesService() {
         properties = CommunityTemplateService.getDefaultTemplate().properties;
@@ -22,6 +26,7 @@ public with sharing class TemplatePropertiesService {
     }
 
     private String getTemplateName(Id resourceId, Id recipientId, String userMode, Boolean isDelegate) {
+        if(userMode != CommunityModeService.USER_MODE_PARTICIPANT) return CommunityTemplateService.TEMPLATE_DEFAULT;
         String templateName;
         try {
             if (recipientId.getSobjectType() == User.getSObjectType()) {

@@ -4,9 +4,16 @@
 
 @IsTest
 private class Test_Batch_UpdatePETrialCompleteNotify {
+
+    @TestSetup
+    static void setup() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+    }
+
     @IsTest
     static void testBehavior() {
-        TestData.loadTestData();
         TestData testData = new TestData();
         testData.createPatientDelegate();
 

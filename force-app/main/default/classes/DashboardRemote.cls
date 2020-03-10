@@ -15,7 +15,7 @@ public without sharing class DashboardRemote {
         List<DonutItem> referralsApproved = new List<DonutItem>();
 
         Integer physiciansWaitingForApproval;
-        List<ListItem> physiciansWaitingForApprovalList;
+        List<ListItem> physiciansWaitingForApprovalList = new List<ListItem>();
         List<DonutItem> siteRequests = new List<DonutItem>();
 
         List<BarItem> waitingTimeToContact = new List<BarItem>();

@@ -11,7 +11,6 @@
     },
 
     onFacebookClick: function (component, event, helper) {
-        debugger;
         let r = component.get('v.linkToShare');
         let ss = component.get('v.facebookIconClass');
         window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(component.get('v.linkToShare'))
