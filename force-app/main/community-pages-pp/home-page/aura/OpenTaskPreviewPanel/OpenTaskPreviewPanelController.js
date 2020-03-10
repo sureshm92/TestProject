@@ -12,13 +12,9 @@
     },
 
     doTaskClick: function (component, event, helper) {
-        let message = event.getParam('message');
-        let identifier = event.getParam('identifier');
-
-        if (/\bautocomplete=true\b/i.test(message)) {
-            communityService.executeAction(component, 'markAsCompleted', {
-                taskId: identifier
-            });
-        }
+        communityService.executeAction(component, 'taskClicked', {
+            id: event.getParam('identifier'),
+            message: event.getParam('message')
+        });
     }
 });
