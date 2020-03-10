@@ -94,6 +94,15 @@ public class TasksRemote {
         return participantTasks;
     }
 
+    @AuraEnabled
+    public static void taskClicked(String id, String message) {
+        try {
+            if (Pattern.compile('\\bautocomplete=true\\b').matcher(message).find()) TaskService.getInstance().completeTask(id);
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+
     private static void createOriginatorsList(List<OpenTask> tasks) {
         for (OpenTask taskWrapper : tasks) {
             switch on taskWrapper.openTask.Originator__c {

@@ -5,9 +5,16 @@
 @IsTest
 private class Test_TaskRemote {
 
+
+    @TestSetup
+    static void setup() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+    }
+
     @IsTest
     static void getInitData() {
-        TestData.loadTestData();
         TestData testData = new TestData();
 
         Task task = new Task();
