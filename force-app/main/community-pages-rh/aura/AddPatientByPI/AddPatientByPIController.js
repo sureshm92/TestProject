@@ -5,6 +5,10 @@
     doInit: function (component, event, helper) {
         if(!communityService.isInitialized()) return;
         var ssId = communityService.getUrlParameter('ssId');
+        communityService.executeAction(component, 'getUserLanguage', {}, function(returnValue) {
+            component.set('v.userLanguage', returnValue);
+        });
+
         communityService.executeAction(component, 'getInitData', {
             ssId: ssId
         }, function (formData) {
