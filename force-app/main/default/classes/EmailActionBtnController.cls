@@ -30,6 +30,7 @@ global without sharing class EmailActionBtnController {
     private String getCurrentCommunityURL() {
         String communityTemplate = CommunityTemplateService.TEMPLATE_DEFAULT;
         Id peId;
+        List<Id> peIds = new List<Id>();
         if (resourceIdString != null) {
             if (resourceIdString.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
                 peId = resourceIdString;
@@ -42,7 +43,7 @@ global without sharing class EmailActionBtnController {
                 ].CommunityTemplate__c;
             }
             if (resourceIdString.getSobjectType() == Task.getSObjectType()) {
-                Task task = [SELECT WhatId FROM Task WHERE Id =: resourceIdString];
+                Task task = [SELECT WhatId FROM Task WHERE Id = :resourceIdString];
                 peId = task.WhatId;
             }
             if (resourceIdString.getSobjectType() == SurveyInvitation.getSObjectType()) {
@@ -53,11 +54,24 @@ global without sharing class EmailActionBtnController {
                 ];
                 peId = survey.Participant_Enrollment__c;
             }
+            if (resourceIdString.getSobjectType() == Participant__c.getSObjectType()) {
+                Id conId = [
+                        SELECT Id, Contact__c
+                        FROM Participant__c
+                        WHERE Id = :resourceIdString
+                ].Contact__c;
+                peIds = PatientDelegateService.getAvailablePEIdsForContact(conId);
+                if (peIds.isEmpty()) {
+                    peIds = PatientDelegateService.getPastPEIdsForContact(conId);
+                }
+                peId = peIds[0];
+            }
             if (peId != null) {
                 communityTemplate = [
                         SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
                         FROM Participant_Enrollment__c
-                        WHERE Id = :peId].Clinical_Trial_Profile__r.CommunityTemplate__c;
+                        WHERE Id = :peId
+                ].Clinical_Trial_Profile__r.CommunityTemplate__c;
             }
         }
 
