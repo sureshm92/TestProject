@@ -123,4 +123,12 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
     public override String getBatchDescription() {
         return 'This job create Survey Tasks from time-based Trial Survey templates on Clinical Trial Profile';
     }
+
+    public override String getRecommendedIntervalMode() {
+        return Batch_ScheduledAbstract.INTERVAL_HOURS;
+    }
+
+    public override Integer getRecommendedRelaunchInterval() {
+        return 2;
+    }
 }

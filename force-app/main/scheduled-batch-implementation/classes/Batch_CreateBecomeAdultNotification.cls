@@ -118,4 +118,13 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
         }
         return nowAdultParticipantOrBecomeSooner;
     }
+
+    public override String getRecommendedIntervalMode() {
+        return Batch_ScheduledAbstract.INTERVAL_DAYS;
+    }
+
+    public override Integer getRecommendedRelaunchInterval() {
+        return 1;
+    }
+
 }
