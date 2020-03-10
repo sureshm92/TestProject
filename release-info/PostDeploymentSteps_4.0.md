@@ -34,27 +34,28 @@
      * Verification step: Make screenshot this setting.
      * Verification step: Make screenshot this setting.
      
-4) Batch Control Panel (PEH-1407)
-    1) Go to Setup > Batch Control Panel > Click on button "Add new Job"
-        - Select batch – "Batch_ConversationReminder" 
-        - Batch label "ConversationReminder" 
-        - Select Interval mode – "Minutes" 
-        - Relaunch interval - "10" 
-        - Scope size – "200" 
-    2) Create new Batch Detail
-    3) Click on "Run" button near the batch in "Action" column.
-    3) Verification step: Make screenshot this setting.
-    
-5) Batch Control Panel 
-    1) Go to Setup > Batch Control Panel > Click on button "Add new Job"
-        - Select batch – "Batch_ProcessActionSetupObjects" 
-        - Batch label "ProcessActionSetupObjects" 
-        - Select Interval mode – "Minutes" 
-        - Relaunch interval - "2" 
-        - Scope size – "50" 
-    2) Create new Batch Detail
-    3) Click on "Run" button near the batch in "Action" column.
-    3) Verification step: Make screenshot this setting.
+4) Batch Control Panel 
+
+    Go to Setup > Batch Control Panel and add or edit batch jobs according to the table:
+
+|Batch Name                               | Job Name                           | Interval mode | Interval | Scope |
+|-----------------------------------------|------------------------------------|---------------|----------|-------|
+|Batch_ConversationReminder               | ConversationReminder               | Days          | 1        | 200   |
+|Batch_CreateBecomeAdultNotification      | CreateBecomeAdultNotification      | Days          | 1        | 200   |
+|Batch_CreateParticipantLoginNotification | CreateParticipantLoginNotification | Days          | 1        | 200   |
+|Batch_CreateSummaryNotifications         | CreateSummaryNotifications         | Hours         | 1        | 200   |
+|Batch_DataBecomesAvailable               | DataBecomesAvailable               | Hours         | 1        | 200   |
+|Batch_DeleteProcessedNotifications       | DeleteProcessedNotifications       | Days          | 1        | 200   |
+|Batch_IntegrationVisitProcess            | IntegrationVisitProcess            | Hours         | 1        | 200   |
+|Batch_PatientTaskExpire                  | PatientTaskExpire                  | Days          | 1        | 200   |
+|Batch_PatientTaskReminder                | PatientTaskReminder                | Days          | 1        | 200   |
+|Batch_ProcessAction                      | ProcessAction                      | Minutes       | 5        | 10    |
+|Batch_ProcessActionSetupObjects          | ProcessActionSetupObjects          | Minutes       | 2        | 200   |
+|Batch_ProcessNotifications               | ProcessNotifications               | Minutes       | 2        | 200   |
+|Batch_PSECreateInvitation                | PSECreateInvitation                | Hours         | 2        | 200   |
+|Batch_UserAfterOneYearNotification       | UserAfterOneYearNotification       | Days          | 1        | 200   |
+|Batch_UserCreatedDateNotification        | UserCreatedDateNotification        | Days          | 1        | 200   |
+
     
 6) Batch (REF-773)
     1) Go to Setup > Developer Console Debug > Open Execute Anonymous Window > Past ‘Database.executeBatch(new Batch_UpdateParticipantEnrollmentRP(), 20);’ > Click Execute
