@@ -3,7 +3,7 @@
     <fullName>Revisit_Date_is_available</fullName>
     <active>true</active>
     <description>Revisit Date is editable if Washout/Run In Applies marks as selected</description>
-    <errorConditionFormula>AND(
+    <errorConditionFormula>AND(!ISBLANK(Revisit_Date__c),
 ISCHANGED(Revisit_Date__c),
 Washout_Run_In_Applies__c=FALSE)</errorConditionFormula>
     <errorMessage>Revisit Date is available only if Washout/Run In Applies is marked</errorMessage>
