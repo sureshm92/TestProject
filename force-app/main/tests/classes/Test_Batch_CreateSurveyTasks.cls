@@ -10,6 +10,7 @@ private class Test_Batch_CreateSurveyTasks {
         List<Survey> survey = [SELECT Id, Name FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
         if (survey.isEmpty()) return;
 
+        TestData.loadTestData();
         TestData testData = new TestData();
 
         Id communityId = CommunityService.getCommunityId(null);
