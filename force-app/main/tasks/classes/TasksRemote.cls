@@ -94,6 +94,15 @@ public class TasksRemote {
         return participantTasks;
     }
 
+    @AuraEnabled
+    public static void markAsCompleted(Id taskId) {
+        try {
+            TaskService.getInstance().completeTask(taskId);
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+
     private static void createOriginatorsList(List<OpenTask> tasks) {
         for (OpenTask taskWrapper : tasks) {
             switch on taskWrapper.openTask.Originator__c {
