@@ -62,7 +62,7 @@ export default class WebPopup extends LightningElement {
         return (this.showModal ? 'transition-show' : '');
     }
 
-    get conteinerSizeClass() {
+    get containerSizeClass() {
         return 'p-container ' + this.size;
     }
 
