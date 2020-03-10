@@ -10,6 +10,7 @@ private class Test_Batch_CreateSurveyTasks {
         List<Survey> survey = [SELECT Id, Name FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
         if (survey.isEmpty()) return;
 
+        Test.startTest();
         TestData.loadTestData();
         TestData testData = new TestData();
 
@@ -27,7 +28,6 @@ private class Test_Batch_CreateSurveyTasks {
                 invitation.Id => SurveyService.SURVEY_RESPONSE_PATIENT_ONLY
         };
 
-        Test.startTest();
         Batch_CreateSurveyTasks.launch(invitationsVisible);
         Test.stopTest();
 
