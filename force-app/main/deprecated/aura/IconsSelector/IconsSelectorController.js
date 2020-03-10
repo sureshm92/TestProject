@@ -3,7 +3,6 @@
  */
 ({
     select: function (component, event, helper) {
-        debugger;
      const divSelector  =  component.find('selector');
         $A.util.toggleClass(divSelector, 'selected');
         let sel = component.get('v.selected');

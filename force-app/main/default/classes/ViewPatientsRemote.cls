@@ -13,6 +13,7 @@ public without sharing class ViewPatientsRemote {
         public Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
         public List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
         public Boolean isInvited;
+        public Boolean hasEmancipatedParticipants;
      //   public MyPatientsStatistics statistics;
      //   public List<ReferralProfileRemote.ChangeStatusButton> btnList = ReferralProfileRemote.createButtonsList(null);
     }
@@ -88,7 +89,10 @@ public without sharing class ViewPatientsRemote {
             }
 
             //records for current filter and pagination
-            List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollments(filterCopy, initData.paginationData, delegateId);
+            //List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollments(filterCopy, initData.paginationData, delegateId);
+            List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollments(filterCopy, delegateId);
+            initData.hasEmancipatedParticipants = checkHasEmancipatedParticipants(peList);
+            peList = ParticipantEnrollmentService.getParticipantEnrollmentsPaginated(peList, initData.paginationData);
             List<LabelValueItem> peSource = new List<LabelValueItem>{new LabelValueItem(Label.PG_MRR_L_All_Sources, null)};
             Map<String,String> sourceMap = new Map<String,String>();
             List<LabelValueItem> trialFilterData = new  List<LabelValueItem>{new LabelValueItem(Label.PG_MRRL_L_All_studies, null)};
@@ -126,6 +130,16 @@ public without sharing class ViewPatientsRemote {
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
+    }
+
+    private static Boolean checkHasEmancipatedParticipants(List<Participant_Enrollment__c> peList) {
+        for (Participant_Enrollment__c pe : peList) {
+            if (pe.Participant__r != null && pe.Participant__r.Emancipation_in_progress__c) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     class SearchResult{

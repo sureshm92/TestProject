@@ -14,7 +14,6 @@
             trialId: trialId,
             delegateId: communityService.getDelegateId()
         }, function (returnValue) {
-            debugger;
             var initData = JSON.parse(returnValue);
             component.set('v.skipUpdate', true);
             component.set('v.trial', initData.trial);

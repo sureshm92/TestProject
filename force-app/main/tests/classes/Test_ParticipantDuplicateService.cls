@@ -7,7 +7,7 @@ private class Test_ParticipantDuplicateService {
     
     @IsTest
     static void test() {
-        insert  new Account(Name = 'Participant');
+        insert  new Account(Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME);
         Participant__c participantWithBY = new Participant__c(
                 First_Name__c = 'Max',
                 Last_Name__c = 'James',

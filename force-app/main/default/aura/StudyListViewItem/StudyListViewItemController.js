@@ -106,7 +106,6 @@
         var currentStudy = cmp.get('v.currentStudy');
         var trial = currentStudy.trial;
         var trialId = trial.Id;
-        debugger;
         var siteId = event.target.dataset.siteId;
 
         communityService.navigateToPage('my-patients?id=' + trialId + (siteId ? '&siteId=' + siteId : ''));
@@ -303,7 +302,7 @@
         var states = component.get('v.states');
         if (states) {
             for (let i = 0; i < states.length; i++) {
-                if (states[i].value == currentSS.Site__r.BillingStateCode) {
+                if (states[i].value === currentSS.Site__r.BillingStateCode) {
                     currentSS.Site__r.BillingState = states[i].label;
                     break;
                 }

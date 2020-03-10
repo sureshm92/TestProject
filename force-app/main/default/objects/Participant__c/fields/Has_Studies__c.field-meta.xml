@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Has_Studies__c</fullName>
+    <description>Checks if Participant in Prospect mode</description>
+    <externalId>false</externalId>
+    <formula>OR( Has_Studies_In_Progress__c , Has_Past_Studies__c )</formula>
+    <label>Has Studies</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

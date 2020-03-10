@@ -7,15 +7,43 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Depends_On_Field__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>False_Value_Label__c</field>
         <value xsi:type="xsd:string">BTN_No</value>
+    </values>
+    <values>
+        <field>False_Value_Validation_Error_Label__c</field>
+        <value xsi:type="xsd:string">FD_PE_Field_Initial_Visit_Attended_Validation</value>
     </values>
     <values>
         <field>Field_Name__c</field>
         <value xsi:type="xsd:string">Initial_visit_occurred_flag__c</value>
     </values>
     <values>
+        <field>Only_Future_Dates__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Only_Past_Dates__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Populate_Fields_Map__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Populate_from_Field__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Readonly_for_Steps__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Required_Condition__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>

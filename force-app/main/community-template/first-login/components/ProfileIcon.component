@@ -11,7 +11,6 @@
             const fr = new FileReader();
             fr.onload = function () {
                 var attachment = window.btoa(fr.result);
-                debugger;
                 uploadFile(file.name, attachment, file.type, function () {
                     setTimeout(function () {
                         updateFileURL();
@@ -27,7 +26,6 @@
                 '{!$RemoteAction.ProfileIconController.upload}',
                 fileName, fileBody, contentType,
                 function (result, event) {
-                    debugger;
                     if (event.status) {
                         callback();
                     } else if (event.type === 'exception') {
@@ -44,7 +42,6 @@
             Visualforce.remoting.Manager.invokeAction(
                 '{!$RemoteAction.ProfileIconController.getPhotoURL}',
                 function (result, event) {
-                    debugger;
                     if (event.status) {
                         $('.profileURL').attr('src', result);
                         hideSpinner();

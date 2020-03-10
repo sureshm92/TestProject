@@ -61,9 +61,11 @@
         component.set('v.isAllFieldsValid', regex.test(phone));
 
         if(personWrapper.optInSMS && !personWrapper.mobilePhone) {
-            communityService.showInfoToast('', $A.get('$Label.c.Toast_Enter_Mob_Num'));
             component.find('mobileAnchor').scrollInto();
             helper.setFieldsValidity(component);
+            setTimeout(function () {
+                communityService.showInfoToast('', $A.get('$Label.c.Toast_Enter_Mob_Num'));
+            }, 800);
         }
     },
 

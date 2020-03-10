@@ -18,6 +18,7 @@
     <aura:attribute name="fromActionParticipant" type="Boolean" default="false"/>
     <aura:attribute name="disableSourceId" type="Boolean" default="true"/>
     <aura:attribute name="hideHelp" type="Boolean" default="true"/>
+    <aura:attribute name="fromAddParticipantPage" type="Boolean" default="false"/>
 
     <!-- private attributes: -->
     <aura:attribute name="screeningRequired" type="Boolean" default="false" access="private"/>
@@ -90,12 +91,22 @@
                     <c:rrSelect options="{!v.formData.genderLVList}" value="{!v.participant.Gender__c}"
                                 placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false" onchange="{!c.doCheckFields}"/>
                 </div>
+                <aura:if isTrue="{!v.fromAddParticipantPage}">
                 <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3'}">
                     <div class="label"><abbr title="required"
                                              class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Language}</div>
-                    <c:rrSelect options="{!v.formData.languageLVList}" value="{!v.participant.Preferred_Language__c}"
-                                placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false" onchange="{!c.doCheckFields}"/>
+                    <c:rrSelect options="{!v.formData.languageLVList}" fromAddParticipantPage="true"
+                                required="true" useSentenceFont="false" onchange="{!c.doCheckFields}"/>
                 </div>
+                    <aura:set attribute="else">
+                        <div class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3'}">
+                            <div class="label"><abbr title="required"
+                                                     class="slds-required">*</abbr>{!$Label.c.PG_AP_F_Language}</div>
+                            <c:rrSelect options="{!v.formData.languageLVList}" value="{!v.participant.Contact__r.Language__c}"
+                                        placeholder="{!$Label.c.PG_AC_Select}" required="true" useSentenceFont="false" onchange="{!c.doCheckFields}"/>
+                        </div>
+                    </aura:set>
+                </aura:if>
             </div>
         </div>
 

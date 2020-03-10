@@ -70,6 +70,10 @@
                 <behavior>Edit</behavior>
                 <field>Populate_Fields_Map__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>False_Value_Validation_Error_Label__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
