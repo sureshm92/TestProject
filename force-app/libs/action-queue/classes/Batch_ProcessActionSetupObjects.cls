@@ -36,11 +36,12 @@ public without sharing class Batch_ProcessActionSetupObjects extends Batch_Sched
     public override virtual String getBatchDescription() {
         return 'Execute pending execution actions with DML operations on setup objects';
     }
-    
-    
+
+    public override Integer getRecommendedRelaunchInterval() {
+        return 2;
+    }
+
     public override virtual void finalAction() {
         delete processedActions;
     }
-
-
 }

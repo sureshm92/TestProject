@@ -53,7 +53,6 @@
 |Batch_ProcessActionSetupObjects          | ProcessActionSetupObjects          | Minutes       | 2        | 200   |
 |Batch_ProcessNotifications               | ProcessNotifications               | Minutes       | 2        | 200   |
 |Batch_PSECreateInvitation                | PSECreateInvitation                | Hours         | 2        | 200   |
-|Batch_UserAfterOneYearNotification       | UserAfterOneYearNotification       | Days          | 1        | 200   |
 |Batch_UserCreatedDateNotification        | UserCreatedDateNotification        | Days          | 1        | 200   |
 
     
