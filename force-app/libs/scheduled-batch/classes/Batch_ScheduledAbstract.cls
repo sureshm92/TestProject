@@ -4,6 +4,12 @@
 
 public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObject>, Database.Stateful{
 
+    public static final String INTERVAL_MINUTES = 'Minutes';
+    public static final String INTERVAL_HOURS = 'Hours';
+    public static final String INTERVAL_DAYS = 'Days';
+    public static final String INTERVAL_WEEKS = 'Weeks';
+    public static final String INTERVAL_MONTHS = 'Months';
+
     public abstract Type getType();
 
     /**
@@ -12,7 +18,15 @@ public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObj
     public virtual String getBatchDescription() {
         return null;
     }
-    
+
+    public virtual String getRecommendedIntervalMode() {
+        return INTERVAL_MINUTES;
+    }
+
+    public virtual Integer getRecommendedRelaunchInterval() {
+        return 10;
+    }
+
     public virtual void finalAction(){
     
     }

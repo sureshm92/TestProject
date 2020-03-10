@@ -87,4 +87,12 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
     public override String getBatchDescription() {
         return 'This job sends Emails and SMS when new Visit Data becomes available';
     }
+
+    public override String getRecommendedIntervalMode() {
+        return Batch_ScheduledAbstract.INTERVAL_HOURS;
+    }
+
+    public override Integer getRecommendedRelaunchInterval() {
+        return 1;
+    }
 }
