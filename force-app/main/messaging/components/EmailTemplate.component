@@ -54,7 +54,8 @@
 
                 <c:EmailTemplateDelegateParticipant userId="{!emailRecipientId}"
                                                     rendered="{!(isDelegate && userCommunityType == 'Participant')}"
-                                                    params="{!dataParametersValue}"/>
+                                                    params="{!dataParametersValue}"
+                                                    commTemplate="{!communityTemplateValue}"/>
 
                 <div style="margin-top: 20px; margin-bottom: 30px;">
                     <apex:componentBody/>

@@ -66,30 +66,20 @@ public with sharing class Batch_ConversationReminder extends Batch_ScheduledAbst
                     }
                 }
             }
-
         }
     }
 
     public override void finish(Database.BatchableContext param1) {
         super.finish(param1);
-        // checking if contact has unread conversations or not
-        List<Contact> contacts = [SELECT Id, Unread_Conversation_Count__c FROM Contact];
-        List<Contact> contactsToUpdate = new List<Contact>();
 
-        for (Contact contact : contacts) {
-            //case 1 and 2: if contact doesn't have unread messages
-            if (!contactsAndTheirThreads.containsKey(contact.Id)) {
-                // we're not updating if field Unread_Conversation_Count is already equals 0
-                if (contact.Unread_Conversation_Count__c == 0) {
-                    continue;
-                } else {
-                    contact.Unread_Conversation_Count__c = 0;
-                    contactsToUpdate.add(contact);
-                }
-            } else {
-                contact.Unread_Conversation_Count__c = contactsAndTheirThreads.get(contact.Id);
-                contactsToUpdate.add(contact);
-            }
+        List<Contact> contactsToUpdate = [
+                SELECT Id,
+                        Unread_Conversation_Count__c
+                FROM Contact
+                WHERE Id IN :contactsAndTheirThreads.keySet()
+        ];
+        for (Contact contact : contactsToUpdate) {
+            contact.Unread_Conversation_Count__c = contactsAndTheirThreads.get(contact.Id);
         }
         update contactsToUpdate;
 
