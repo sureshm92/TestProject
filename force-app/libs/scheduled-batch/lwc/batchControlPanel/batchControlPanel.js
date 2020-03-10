@@ -116,10 +116,10 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     get batchClasses() {
         let options = [];
         if (this.notAddedBatches) {
-            this.notAddedBatches.forEach((name) => {
+            this.notAddedBatches.forEach(available => {
                 options.push({
-                    label: name,
-                    value: name
+                    label: available.className,
+                    value: available.className
                 });
             });
         }
@@ -244,6 +244,14 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     handleClassChange(event) {
         this.batchDetail.Name = event.target.value;
         this.batchDetail.Panel_Label__c = this.batchDetail.Name.substring(6, this.batchDetail.Name.length);
+
+        let context = this;
+        this.notAddedBatches.forEach(available => {
+            if(available.className === context.batchDetail.Name) {
+                context.batchDetail.Interval_Mode__c = available.intervalMode;
+                context.batchDetail.Relaunch_Interval__c = available.relaunchInterval;
+            }
+        });
     }
 
     handleLabelChange(event) {
@@ -297,8 +305,10 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     }
 
     handleAddJobClick(event) {
-        this.batchDetail.Name = this.notAddedBatches[0];
+        this.batchDetail.Name = this.notAddedBatches[0].className;
         this.batchDetail.Panel_Label__c = this.batchDetail.Name.substring(6, this.batchDetail.Name.length);
+        this.batchDetail.Interval_Mode__c = this.notAddedBatches[0].intervalMode;
+        this.batchDetail.Relaunch_Interval__c = this.notAddedBatches[0].relaunchInterval;
 
         this.template.querySelector('c-web-modal').show();
     }
@@ -348,7 +358,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
     }
 
     initPageContent(data) {
-        this.notAddedBatches = data.availableBatches;
+        this.notAddedBatches = data.defaultSettings;
         this.showAddNew = this.notAddedBatches.length > 0;
         this.jobMap.clear();
 

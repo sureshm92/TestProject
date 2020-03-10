@@ -25,6 +25,7 @@
 .THIS .resource-image-container > img {
     display: block;
     position: relative;
+    height: 123px;
 }
 
 .THIS .resource-description {

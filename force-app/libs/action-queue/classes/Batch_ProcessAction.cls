@@ -31,4 +31,7 @@ public with sharing class Batch_ProcessAction extends Batch_ScheduledAbstract im
         return 'Execute pending execution actions';
     }
 
+    public override Integer getRecommendedRelaunchInterval() {
+        return 5;
+    }
 }
