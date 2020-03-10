@@ -31,6 +31,7 @@
                 returnValue = JSON.parse(returnValue);
                 //component.set('v.statusSteps', returnValue.steps);
                 component.set('v.formData.visitPlansLVList', returnValue.visitPlanLVList);
+                debugger;
                 component.set('v.participantPath',returnValue.steps);
                 component.set('v.isFinalUpdate', false);
                 component.set('v.initialized', true);
@@ -63,6 +64,7 @@
         communityService.executeAction(component, 'updatePatientInfoWithDelegate', {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
+            contJSON: JSON.stringify(participant.Contact__r),
             delegateJSON: JSON.stringify(component.get('v.participantDelegate'))
         }, function () {
             if (component.get('v.saveAndChangeStep')) {
@@ -102,7 +104,6 @@
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
         var pathWrapper = component.get('v.participantPath');
-        pathWrapper.steps[pathWrapper.currentStepInd] = pathWrapper.currentStep;
         var statusDetailValid = component.get('v.statusDetailValid');
         pe.Participant__r = participant;
         component.find('spinner').show();
@@ -110,6 +111,7 @@
         var actionParams = {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
+            contJSON: JSON.stringify(participant.Contact__r),
             delegateJSON: JSON.stringify(component.get('v.participantDelegate'))
         };
         if(statusDetailValid){
@@ -119,7 +121,8 @@
                 peJSON: JSON.stringify(pe),
                 pathWrapperJSON: JSON.stringify(pathWrapper),
                 peId: pe.Id,
-                delegateJSON: JSON.stringify(component.get('v.participantDelegate'))
+                delegateJSON: JSON.stringify(component.get('v.participantDelegate')),
+                contJSON: JSON.stringify(participant.Contact__r)
             };
         }
         communityService.executeAction(component, actionName, actionParams , function () {
@@ -154,7 +157,6 @@
 
     doUpdatePatientStatus: function (component, event, helper) {
         let pathWrapper = component.get('v.participantPath');
-        pathWrapper.steps[pathWrapper.currentStepInd] = pathWrapper.currentStep;
         let pe = component.get('v.pe');
         let statusDetailValid = component.get('v.statusDetailValid');
         if(statusDetailValid){
@@ -164,7 +166,6 @@
                 pathWrapperJSON: JSON.stringify(pathWrapper),
                 peId: pe.Id
             }, function (returnValueJSON) {
-                debugger;
                 var returnValue = JSON.parse(returnValueJSON);
                 component.set('v.participantPath',returnValue.participantPath);
                 component.set('v.pe', returnValue.pe);
@@ -179,17 +180,10 @@
 
     },
     doCheckStatusDetailValidity : function (component, event, helper) {
-        debugger;
-        let currentStepInd = component.get('v.participantPath.currentStepInd');
         let steps = component.get('v.participantPath.steps');
-        let currentStep = component.get('v.participantPath.currentStep');
         let isValid = true;
         for (let ind = 0; ind < steps.length; ind++) {
-            if (ind !== currentStepInd && !steps[ind].isCurrentStepValid) {
-                isValid = false;
-                break;
-            }
-            if(ind === currentStepInd && !currentStep.isCurrentStepValid){
+            if (!steps[ind].isCurrentStepValid) {
                 isValid = false;
                 break;
             }

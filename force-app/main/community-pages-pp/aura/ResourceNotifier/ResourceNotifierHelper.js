@@ -4,11 +4,9 @@
 ({
     showUpdateWarning: function (component, event, helper) {
         var modalBody;
-        debugger;
         $A.createComponent("c:ResourceUpdateWarning", {},
             function (content, status, errorMessage) {
                 if (status === "SUCCESS") {
-                    debugger;
                     helper.showCustomModal({
                         header: "Application Confirmation",
                         body: content,
@@ -38,7 +36,6 @@
     },
 
     onSetupdatedDate: function (component, event, helper) {
-        debugger;
         helper.enqueue(component, 'c.setUpdateDate', {recordId: component.get('v.recordId')})
             .then(res => {
                     return new Promise($A.getCallback(function (resolve, reject) {

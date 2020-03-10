@@ -1,6 +1,5 @@
 ({
     doShowHCPEnrollmentStatusDetail: function (component, event, helper) {
-        debugger;
         var HCPEnrollment = event.getParam('arguments').HCPEnrollment;
         if(!HCPEnrollment) {
             communityService.showToast("error", "error", $A.get("$Label.c.TST_Something_went_wrong"));
@@ -18,7 +17,6 @@
         });
         action.setCallback(this, function (response) {
             if (response.getState() === "SUCCESS") {
-                debugger;
                 var historyList = JSON.parse(response.getReturnValue());
                 component.set("v.historyList", historyList);
                 component.set("v.showSpinner", false);
@@ -30,7 +28,6 @@
         $A.enqueueAction(action);
     },
     doShowStudySiteStatusDetail: function (component, event, helper) {
-        debugger;
         var studySite = event.getParam('arguments').studySite;
         if(!studySite) {
             communityService.showToast("error", "error", $A.get("$Label.c.TST_Something_went_wrong"));

@@ -146,7 +146,7 @@ public class TestData {
 
         List<Account> accounts = new List<Account>();
         Account participantsAccount = new Account(
-                Name = 'Participant'
+                Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
         );
         accounts.add(participantsAccount);
 

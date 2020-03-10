@@ -5,7 +5,7 @@
     <messaging:htmlEmailBody >
         <c:EmailTemplate recipientId="{!recipient.Id}"
                          sourceId="{!recipient.Id}"
-                         communityTemplate="Default">
+                         communityTemplate="GSK">
 <!--                         showDelegateTable="true">-->
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Enroll_Now}"
                               buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
@@ -15,7 +15,7 @@
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText recipientId="{!recipient.Id}"
                              sourceId="{!recipient.Id}"
-                             communityTemplate="Default">
+                             communityTemplate="GSK">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Enroll_Now}"
                                   buttonURL="{!$Network.NetworkUrlForUserEmails}"/>
         </c:EmailTemplateText>

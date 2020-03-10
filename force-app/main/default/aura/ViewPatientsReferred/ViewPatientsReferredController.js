@@ -56,7 +56,6 @@
             }
         }
         var filterJSON = JSON.stringify(filter);
-        debugger;
         var paginationJSON = JSON.stringify(component.get('v.paginationData'));
         var piBtnFilter = component.get('v.piBtnFilter');
         var action = component.get('c.getRecords');

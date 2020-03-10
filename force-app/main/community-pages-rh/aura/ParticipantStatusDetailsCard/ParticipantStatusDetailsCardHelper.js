@@ -3,8 +3,8 @@
  */
 ({
     checkValidity : function (component, event, helper, stepWrapper){
-        var isCurrentStepValid = true;
-        var currentOutcomeSuccess = stepWrapper.successOutcomes.indexOf(stepWrapper.outcome)!== -1;
+        let isCurrentStepValid = true;
+        let currentOutcomeSuccess = stepWrapper.successOutcomes.indexOf(stepWrapper.outcome)!== -1;
         console.log('currentOutcomeSuccess ' + currentOutcomeSuccess);
         stepWrapper.formFieldGroups.forEach(function (group) {
             group.fields.forEach(function (field) {
@@ -16,7 +16,7 @@
                 }
             });
         });
-        var notesRequired = component.get('v.notesRequired');
+        let notesRequired = component.get('v.notesRequired');
         isCurrentStepValid = isCurrentStepValid && ((stepWrapper.outcomeList === undefined || stepWrapper.outcomeList.length== 0)
             ||(stepWrapper.outcome === undefined || stepWrapper.outcome ==='')
             ||!notesRequired
@@ -24,7 +24,7 @@
         );
         console.log('isCurrentStepValid ' + isCurrentStepValid );
         component.set('v.stepWrapper.isCurrentStepValid', isCurrentStepValid);
-        let parent = component.get('v.parent');
-        parent.statusDetailValidityCheck();
-    }
+        let partInfoForm = component.get('v.partInfoForm');
+        partInfoForm.statusDetailValidityCheck();
+    },
 })

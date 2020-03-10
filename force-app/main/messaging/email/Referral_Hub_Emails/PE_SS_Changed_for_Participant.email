@@ -23,5 +23,5 @@
                              body="{!$Label.Email_Body_SS_on_PE_Was_Changed_To_Participant}"
                              signature="{!$Label.Email_Signature}">
         </c:EmailTemplateText>
-    </messaging:plainTextEmailBody> 
+    </messaging:plainTextEmailBody>
 </messaging:emailTemplate>

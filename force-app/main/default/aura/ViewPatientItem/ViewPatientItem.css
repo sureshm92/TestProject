@@ -146,7 +146,6 @@
 
 .THIS .vpi-state.in_progress .vri-state-label{
     color: #000;
-    font-weight: 600;
 }
 
 .THIS .vpi-state.failure .vri-state-label{

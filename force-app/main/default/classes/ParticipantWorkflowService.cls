@@ -13,6 +13,7 @@ public without sharing class ParticipantWorkflowService {
         Map<String, Participant_Workflow_Form_Field__mdt> fieldsMap = getFieldsMap(ctp);
         Boolean previousStepSuccess = false;
         Integer currentStepInd = 0;
+        Boolean nonNeutralStepFound = false;
         for(Participant_Workflow_Step__mdt step : steps){
             ParticipantWorkflowStepWrapper stepWrapper = createStepWrapper(step, outcomesMap, peshMapByStep, previousStepSuccess, fieldsMap, pe, ctp);
             previousStepSuccess = stepWrapper.state == PEStatusState.STATUS_STATE_SUCCESS;
@@ -20,7 +21,7 @@ public without sharing class ParticipantWorkflowService {
             if (stepWrapper.state == PEStatusState.STATUS_STATE_SUCCESS
                     || stepWrapper.state == PEStatusState.STATUS_STATE_IN_PROGRESS
                     || stepWrapper.state == PEStatusState.STATUS_STATE_FAILURE) {
-                wrapper.currentStep = stepWrapper;
+                nonNeutralStepFound = true;
                 wrapper.currentStepInd = currentStepInd;
                 if (!wrapper.steps.isEmpty()) {
                     wrapper.steps[wrapper.steps.size() - 1].editable = false;
@@ -29,10 +30,10 @@ public without sharing class ParticipantWorkflowService {
             wrapper.steps.add(stepWrapper);
             currentStepInd++;
         }
-        if(wrapper.currentStep == null){
-            wrapper.currentStep = wrapper.steps[wrapper.steps.size()-1];
+        if(!nonNeutralStepFound){
             wrapper.currentStepInd = wrapper.steps.size()-1;
         }
+        wrapper.steps[wrapper.currentStepInd].isCurrentStep = true;
         return wrapper;
     }
 
@@ -262,9 +263,17 @@ public without sharing class ParticipantWorkflowService {
                     currentFieldWrapper.onlyPastDate = fieldSetting.Only_Past_Dates__c;
                     currentFieldWrapper.numOccurences = 1;
                     currentFieldWrapper.fieldType = fieldSetting.Type__c;
+                    if(String.isNotBlank(fieldSetting.False_Value_Validation_Error_Label__c)){
+                        currentFieldWrapper.validationMessageIfFalse = TranslateHelper.getLabelValue(fieldSetting.False_Value_Validation_Error_Label__c);
+                    }
                     if(String.isNotBlank(fieldSetting.Depends_On_Field__c)){
                         currentFieldWrapper.dependent = true;
-                        currentFieldWrapper.readonly = true;
+                        if((Boolean)pe.get(fieldSetting.Depends_On_Field__c)){
+                            currentFieldWrapper.readonly = false;
+                        }
+                        else{
+                            currentFieldWrapper.readonly = true;
+                        }
                         if(!fieldDependencyMap.containsKey(fieldSetting.Depends_On_Field__c)){
                             fieldDependencyMap.put(fieldSetting.Depends_On_Field__c, new List<String>{fieldSetting.Field_Name__c});
                         }
@@ -372,23 +381,32 @@ public without sharing class ParticipantWorkflowService {
         if(!stepWrapper.formFieldGroups.isEmpty()){
             for(ParticipantWorkflowService.ParticipantWorkflowFieldGroupWrapper fieldGroup: stepWrapper.formFieldGroups) {
                 for (ParticipantWorkflowService.ParticipantWorkflowFieldWrapper field: fieldGroup.fields){
-                    if( field.readonly || String.isBlank(field.value)){
+                    if( field.readonly && !field.dependent){
                         continue;
                     }
-                    switch on field.fieldType{
-                        when 'visitplan','text'{
-                            pe.put(field.field, field.value);
-                        }
-                        when 'time' {
-                            List<String> strTimeSplit = field.value.split(':');
-                            pe.put(field.field, Time.newInstance( Integer.valueOf(strTimeSplit[0]) ,Integer.valueOf(strTimeSplit[1]),0,0));
-                        }
-                        when 'date' {
-                            System.debug(field.value);
-                            pe.put(field.field, Date.valueOf(field.value));
-                        }
-                        when 'boolean' {
-                            pe.put(field.field, Boolean.valueOf(field.value));
+                    if(String.isBlank(field.value) && field.fieldType != 'boolean'){
+                        pe.put(field.field, null);
+                    }
+                    else if(String.isBlank(field.value) && field.fieldType == 'boolean'){
+                        pe.put(field.field, false);
+                    }
+                    else{
+                        switch on field.fieldType {
+                            when 'visitplan', 'text' {
+                                pe.put(field.field, field.value);
+                            }
+                            when 'time' {
+
+                                List<String> strTimeSplit = field.value.split(':');
+                                pe.put(field.field, Time.newInstance(Integer.valueOf(strTimeSplit[0]), Integer.valueOf(strTimeSplit[1]), 0, 0));
+                            }
+                            when 'date' {
+                                System.debug(field.value);
+                                pe.put(field.field, Date.valueOf(field.value));
+                            }
+                            when 'boolean' {
+                                pe.put(field.field, Boolean.valueOf(field.value));
+                            }
                         }
                     }
                 }
@@ -409,7 +427,8 @@ public without sharing class ParticipantWorkflowService {
         Map<String, Participant_Workflow_Form_Field__mdt> result = new Map<String, Participant_Workflow_Form_Field__mdt>();
         for(Participant_Workflow_Form_Field__mdt field: [
                 SELECT Field_Name__c, Type__c, Condition__c, True_Value_Label__c, Title_Label__c, False_Value_Label__c,
-                        DeveloperName, Required_for_Steps__c, Readonly_for_Steps__c, Depends_On_Field__c, Only_Future_Dates__c, Only_Past_Dates__c, Required_Condition__c, Populate_from_Field__c, Populate_Fields_Map__c
+                        DeveloperName, Required_for_Steps__c, Readonly_for_Steps__c, Depends_On_Field__c, Only_Future_Dates__c, Only_Past_Dates__c, Required_Condition__c, Populate_from_Field__c, Populate_Fields_Map__c,
+                        False_Value_Validation_Error_Label__c
                 FROM Participant_Workflow_Form_Field__mdt]){
             if(String.isBlank(field.Condition__c) || ConditionCheckerService.checkConditionForObject(field.Condition__c, ctp)){
                 result.put(field.DeveloperName, field);
@@ -493,16 +512,20 @@ public without sharing class ParticipantWorkflowService {
         }
         else{
             result.title = TranslateHelper.getLabelValue(step.Card_Name_Label__c);
-            if(step.Success_Condition__c != null && ConditionCheckerService.checkConditionForObject(step.Success_Condition__c, pe)){
+            if(step.Success_Condition__c != null && ConditionCheckerService.checkConditionForObject(step.Success_Condition__c, pe) && (previousStep == null || previousStep.state == PEStatusState.STATUS_STATE_SUCCESS)){
                 result.state = PEStatusState.STATUS_STATE_SUCCESS;
                 result.left = PEStatusState.STATUS_STATE_SUCCESS;
                 if(step.Success_Date_Field__c != null && pe.get(step.Success_Date_Field__c)!= null){
                     result.dateOccured = ((Date)pe.get(step.Success_Date_Field__c)).format();
                 }
-                if(previousStep != null) previousStep.right = PEStatusState.STATUS_STATE_SUCCESS;
+                result.isCurrent = true;
+                if(previousStep != null) {
+                    previousStep.right = PEStatusState.STATUS_STATE_SUCCESS;
+                    previousStep.isCurrent = false;
+                }
 
             }
-            else if(step.In_Progress_Condition__c != null && ConditionCheckerService.checkConditionForObject(step.In_Progress_Condition__c, pe)){
+            else if(step.In_Progress_Condition__c != null && ConditionCheckerService.checkConditionForObject(step.In_Progress_Condition__c, pe) && (previousStep == null || previousStep.state == PEStatusState.STATUS_STATE_SUCCESS)){
                 result.state = PEStatusState.STATUS_STATE_IN_PROGRESS;
                 result.left = PEStatusState.STATUS_STATE_SUCCESS;
                 if(step.In_Progress_Date_Field__c != null && pe.get(step.In_Progress_Date_Field__c) != null){
@@ -564,14 +587,16 @@ public without sharing class ParticipantWorkflowService {
                     break;
                 }
                 if(String.isNotBlank(step.Success_Checkbox_Field__c))
-                    participantEnrollment.put(step.Success_Checkbox_Field__c, true);
+                    for(String field:step.Success_Checkbox_Field__c.split(';')){
+                        participantEnrollment.put(field, true);
+                    }
+
             }
         }
     }
 
     public class ParticipantWorkflowWrapper{
         @AuraEnabled public List<ParticipantWorkflowStepWrapper> steps;
-        @AuraEnabled public ParticipantWorkflowStepWrapper currentStep;
         @AuraEnabled public Integer currentStepInd;
     }
 
@@ -595,6 +620,7 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled public List<String> successOutcomes;
         @AuraEnabled public Boolean currentOutcomeSuccess;
         @AuraEnabled public Boolean isCurrentStepValid = true;
+        @AuraEnabled public Boolean isCurrentStep = false;
     }
 
     public class ParticipantWorkflowHistoryWrapper{
@@ -623,6 +649,7 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled public Boolean onlyPastDate;
         @AuraEnabled public Map<String, String> populateFields;
         @AuraEnabled public String  populateFromDependent;
+        @AuraEnabled public String validationMessageIfFalse;
     }
 
     public class PathStepWrapper{
