@@ -15,6 +15,7 @@ public without sharing class AddPatientByPIRemote {
         @AuraEnabled public List<LabelValueItem> visitPlansLVList;
         @AuraEnabled public Clinical_Trial_Profile__c ctp;
         @AuraEnabled public Study_Site__c ss;
+        @AuraEnabled public String userLanguage;
         
         public FormData() {}
     }
@@ -28,6 +29,7 @@ public without sharing class AddPatientByPIRemote {
                 initData.ctp = TrialService.getTrial(initData.ss.Clinical_Trial_Profile__c);
                 initData.visitPlansLVList = StudySiteService.getVisitPlansLVList(ssId);
                 initData.peStatusLVList = PEStatusState.getAddPatientByPIStatusesLV(initData.ctp);
+                initData.userLanguage = getUserLanguage();
             }
             return initData;
         } catch (Exception e) {
