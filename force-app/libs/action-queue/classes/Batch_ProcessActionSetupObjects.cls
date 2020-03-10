@@ -37,10 +37,6 @@ public without sharing class Batch_ProcessActionSetupObjects extends Batch_Sched
         return 'Execute pending execution actions with DML operations on setup objects';
     }
 
-    public override String getRecommendedIntervalMode() {
-        return Batch_ScheduledAbstract.INTERVAL_MINUTES;
-    }
-
     public override Integer getRecommendedRelaunchInterval() {
         return 2;
     }

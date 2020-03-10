@@ -101,4 +101,13 @@ public with sharing class Batch_ConversationReminder extends Batch_ScheduledAbst
     public override String getBatchDescription() {
         return 'This job sends Email notification to PI and his delegates if they have messages that are unread for 5 days and more';
     }
+
+    public override String getRecommendedIntervalMode() {
+        return Batch_ScheduledAbstract.INTERVAL_DAYS;
+    }
+
+    public override Integer getRecommendedRelaunchInterval() {
+        return 1;
+    }
+
 }
