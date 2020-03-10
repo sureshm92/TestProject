@@ -40,8 +40,9 @@
                         <aura:iteration items="{!v.openTasks}" var="taskWrapper">
                             <tr>
                                 <td>
-                                    <c:RRLink label="{!taskWrapper.openTask.Subject}"
-                                              page="{!if(empty(taskWrapper.openTask.Action_URL__c), 'task-detail?id=' + taskWrapper.openTask.Id, taskWrapper.openTask.Action_URL__c)}"/>
+                                    <c:RRLink label="{!taskWrapper.openTask.Subject}" identifier="{!taskWrapper.openTask.Id}"
+                                              page="{!if(empty(taskWrapper.openTask.Action_URL__c), 'task-detail?id=' + taskWrapper.openTask.Id, taskWrapper.openTask.Action_URL__c)}"
+                                              onclick="{!c.doTaskClick}"/>
                                 </td>
                                 <td>
                                         {!taskWrapper.originator}
