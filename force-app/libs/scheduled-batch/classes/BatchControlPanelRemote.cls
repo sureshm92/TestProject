@@ -220,7 +220,7 @@ public without sharing class BatchControlPanelRemote {
                 settings.relaunchInterval = instance.getRecommendedRelaunchInterval();
             }
         } catch (Exception e) {
-            throw new BatchControlException('Can\'t create instance of this type');
+            throw new BatchControlException('Can\'t create instance of this type (' + className + ')');
         }
 
         return settings;

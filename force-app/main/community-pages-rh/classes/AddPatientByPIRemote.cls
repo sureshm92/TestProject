@@ -10,7 +10,7 @@ public without sharing class AddPatientByPIRemote {
         @AuraEnabled public List<LabelValueItem> genderLVList = ParticipantService.getGenderLVList();
         @AuraEnabled public List<LabelValueItem> phoneTypeLVList = SObjectHelper.getPicklistLabelValueList(Participant__c.Phone_Type__c);
         @AuraEnabled public List<LabelValueItem> referredByLVList = SObjectHelper.getPicklistLabelValueList(Participant_Enrollment__c.Referred_By__c);
-        @AuraEnabled public List<LabelValueItem> languageLVList = SObjectHelper.getPicklistLabelValueList(User.LanguageLocaleKey);
+        @AuraEnabled public List<LabelValueItem> languageLVList = SObjectHelper.getPicklistLabelValueList(Contact.Language__c);
         @AuraEnabled public List<LabelValueItem> peStatusLVList;
         @AuraEnabled public List<LabelValueItem> visitPlansLVList;
         @AuraEnabled public Clinical_Trial_Profile__c ctp;
