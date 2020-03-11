@@ -3,7 +3,7 @@
  */
 ({
     doInit: function (component) {
-        component.set('v.isInitialized', false);
+        //component.set('v.isInitialized', false);
         var spinner = component.find('mainSpinner');
         spinner.show();
         if (!communityService.isInitialized()) return;
