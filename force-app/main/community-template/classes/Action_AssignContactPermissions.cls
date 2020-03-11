@@ -17,6 +17,10 @@ public without sharing class Action_AssignContactPermissions implements Action{
     public void addPermissions(Id contactId, Set<String> permissionSets){
         for(String permission : permissionSets) addPermission(contactId, permission);
     }
+
+    public Set<String> getAssignedPermissions(Id contactId) {
+        return contactPermissionsMap.get(contactId);
+    }
     
     public void deletePermission(Id contactId, String permissionSet){
         Set<String> permissions = contactPermissionsToRemoveMap.get(contactId);
