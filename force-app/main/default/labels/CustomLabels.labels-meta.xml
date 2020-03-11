@@ -1490,6 +1490,13 @@
         <value>Create</value>
     </labels>
     <labels>
+        <fullName>Create_Users_Allow_Several_Minutes</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create Users Checkbox on Import</shortDescription>
+        <value>Please allow several minutes for file processing. We recommend importing files of no more than fifty participant records at a time. Only records after headings and instructions will be processed.</value>
+    </labels>
+    <labels>
         <fullName>Create_Users_Checkbox_on_Import</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -4056,6 +4063,14 @@
         <protected>false</protected>
         <shortDescription>Empty address</shortDescription>
         <value>A Google map is not available for this study site location.</value>
+    </labels>
+    <labels>
+        <fullName>GSK_Login_Sub_Title</fullName>
+        <categories>GSK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>GSK Login Sub Title</shortDescription>
+        <value>A quick blurb explaining what participants are logging into</value>
     </labels>
     <labels>
         <fullName>GSK_Text_Logo</fullName>

@@ -169,8 +169,8 @@ public without sharing class ParticipantService {
         return participantState;
     }
 
-    public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe) {
-        participant.Preferred_Language__c = UserInfo.getLanguage();
+    public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe, String userLanguage) {
+        participant.Preferred_Language__c = userLanguage;
         ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(participant);
         Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
         if (participantFromDatabase != null) {
@@ -205,8 +205,8 @@ public without sharing class ParticipantService {
         return getInstance().getState();
     }
 
-    public static void createParticipantAndUpdatePE(Participant__c participant, Participant_Enrollment__c pe) {
-        getInstance().createParticipantAndUpdatePEImpl(participant, pe);
+    public static void createParticipantAndUpdatePE(Participant__c participant, Participant_Enrollment__c pe, String userLanguage) {
+        getInstance().createParticipantAndUpdatePEImpl(participant, pe, userLanguage);
     }
 
     public static List<LabelValueItem> getGenderLVList() {
