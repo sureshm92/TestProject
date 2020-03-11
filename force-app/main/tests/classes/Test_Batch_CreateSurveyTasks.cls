@@ -7,12 +7,12 @@ private class Test_Batch_CreateSurveyTasks {
 
     @IsTest
     static void testBehavior() {
-        List<Survey> survey = [SELECT Id, Name FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
-        if (survey.isEmpty()) return;
-
-        Test.startTest();
         TestData.loadTestData();
         TestData testData = new TestData();
+
+        Test.startTest();
+        List<Survey> survey = [SELECT Id, Name FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
+        if (survey.isEmpty()) return;
 
         Id communityId = CommunityService.getCommunityId(null);
         SurveyInvitation invitation = SurveyService.getInstance().generateInvitation(
