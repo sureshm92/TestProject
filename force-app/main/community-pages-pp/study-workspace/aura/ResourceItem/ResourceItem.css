@@ -15,6 +15,7 @@
 .THIS .resource-image-container > img {
     display: block;
     position: relative;
+    height: 88px;
 }
 
 .THIS .resource-description-footer {
