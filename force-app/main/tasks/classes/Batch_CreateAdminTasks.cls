@@ -86,7 +86,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
     }
 
     public void finish(Database.BatchableContext param1) {
-        if (!failedContactsWithWhatIds.isEmpty() && launchCount < 3) {
+        if (!failedContactsWithWhatIds.isEmpty() && launchCount < 3 && !Test.isRunningTest()) {
             Database.executeBatch(
                     new Batch_CreateAdminTasks(failedContactsWithWhatIds, taskConfig, userId, taskCreated, ++launchCount));
         } else {
