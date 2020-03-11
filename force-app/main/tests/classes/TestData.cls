@@ -239,7 +239,8 @@ public class TestData {
                 Video_And_Articles_Are_Available__c = true,
                 Travel_Vendor_Is_Available__c = true,
                 Relevant_Links_Are_Available__c = true,
-                Sponsor_Pays_for_Referral_Activity__c = 'Yes'
+                Sponsor_Pays_for_Referral_Activity__c = 'Yes',
+                CommunityTemplate__c = CommunityTemplateService.TEMPLATE_DEFAULT
         );
         insert study;
 
