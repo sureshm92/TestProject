@@ -17,6 +17,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     private Account participantAccount;
     private Id uploaderContactId;
     private Boolean createUsers;
+    private User uploadUser;
 
     private String emailError = '';
     Boolean valid = true;
@@ -60,9 +61,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         }
 
         if (valid) {
-            User usr = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
-            if (usr != null) {
-                uploaderContactId = usr.ContactId;
+            uploadUser = [SELECT ContactId, Contact.MailingCountry, Contact.MailingCountryCode, Contact.Language__c FROM User WHERE Id = :UserInfo.getUserId()];
+            if (uploadUser != null) {
+                uploaderContactId = uploadUser.ContactId;
             }
             participantAccount = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE];
             csvLines = csvFileLines;
@@ -114,11 +115,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 String PhoneType = '';
                 String Phone2 = '';
                 String PhoneType2 = '';
-                String StreetAddress = '';
-                String City = '';
                 String State = '';
                 String PostalCode = '';
-                String Country = '';
                 String Language = '';
 
                 totalRecordCount++;
@@ -136,11 +134,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 PhoneType = headerIndexes.get('PHONE TYPE') != null && csvRecordData[headerIndexes.get('PHONE TYPE')] != null ? csvRecordData[headerIndexes.get('PHONE TYPE')].trim() : null;
                 Phone2 = headerIndexes.get('PHONE2') != null && csvRecordData[headerIndexes.get('PHONE2')] != null ? csvRecordData[headerIndexes.get('PHONE2')].trim() : null;
                 PhoneType2 = headerIndexes.get('PHONE TYPE2') != null && csvRecordData[headerIndexes.get('PHONE TYPE2')] != null ? csvRecordData[headerIndexes.get('PHONE TYPE2')].trim() : null;
-                StreetAddress = headerIndexes.get('STREET ADDRESS') != null && csvRecordData[headerIndexes.get('STREET ADDRESS')] != null ? csvRecordData[headerIndexes.get('STREET ADDRESS')].trim() : null;
-                City = headerIndexes.get('CITY') != null && csvRecordData[headerIndexes.get('CITY')] != null ? csvRecordData[headerIndexes.get('CITY')].trim() : null;
                 State = headerIndexes.get('STATE') != null && csvRecordData[headerIndexes.get('STATE')] != null ? csvRecordData[headerIndexes.get('STATE')].trim() : null;
                 PostalCode = headerIndexes.get('POSTAL CODE') != null && csvRecordData[headerIndexes.get('POSTAL CODE')] != null ? csvRecordData[headerIndexes.get('POSTAL CODE')].trim() : null;
-                Country = headerIndexes.get('COUNTRY') != null && csvRecordData[headerIndexes.get('COUNTRY')] != null ? csvRecordData[headerIndexes.get('COUNTRY')].trim() : null;
                 Language = headerIndexes.get('LANGUAGE') != null && csvRecordData[headerIndexes.get('LANGUAGE')] != null ? csvRecordData[headerIndexes.get('LANGUAGE')].trim() : null;
 
 
@@ -167,12 +162,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     system.debug('ERROR: ' + totalRecordCount + ', ' + 'State, mandatory field is empty');
 
                     listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'mandatory field is empty - State');
-                }
-                if (String.isEmpty(Country)) {
-                    hasErrors = true;
-                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'Country, mandatory field is empty');
-
-                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'mandatory field is empty - Country');
                 }
                 if (String.isEmpty(PostalCode)) {
                     hasErrors = true;
@@ -204,13 +193,13 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                     Email = EmailAddress,
                                     Phone = Phone,
                                     MobilePhone = Phone2,
-                                    MailingStreet = StreetAddress,
-                                    MailingCity = City,
                                     MailingState = State,
-                                    MailingCountry = Country,
+                                    MailingCountry = uploadUser.Contact.MailingCountry,
+                                    MailingCountryCode = uploadUser.Contact.MailingCountryCode,
                                     MailingPostalCode = PostalCode,
                                     userCommunityMode__c = PARTICIPANT_USER_MODE,
-                                    Consent_To_Inform_About_Study__c = createUsers);
+                                    Consent_To_Inform_About_Study__c = createUsers,
+                                    Language__c = (String.isBlank(Language) ? uploadUser.Contact.Language__c : Language));
 
                     Participant__c participant =
                             new Participant__c(First_Name__c = FirstName,
@@ -221,11 +210,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                     Email__c = EmailAddress,
                                     Phone__c = Phone,
                                     Phone_Type__c = PhoneType,
-                                    Language_Preference_Code__c = Language,
-                                    Mailing_Street__c = StreetAddress,
-                                    Mailing_City__c = City,
+                                    Language_Preference_Code__c = (String.isBlank(Language) ? uploadUser.Contact.Language__c : Language),
                                     Mailing_State__c = State,
-                                    Mailing_Country__c = Country,
+                                    Mailing_Country__c = uploadUser.Contact.MailingCountry,
                                     Mailing_Zip_Postal_Code__c = PostalCode);
 
                     //Duplicates check
@@ -269,6 +256,12 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         participantEnrollmentsByContact.put(participantContact.Id, participantEnrollment);
 
                         actionAssignContactPermissions.addPermission(participantContact.Id, permissionSetName);
+                    } else {
+                        errorRecordCount++;
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: Incorrect data');
+                        listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
+
+                        continue;
                     }
                 } else {
                     errorRecordCount++;
@@ -347,28 +340,28 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant record insert: ' + exp.getMessage());
                     }
                 }
-            }
 
-
-            for (Contact participantContact : contactsById.values()) {
-                Participant_Enrollment__c participantEnrollment = participantEnrollmentsByContact.get(participantContact.Id);
-                if (participantsByContact.get(participantContact.Id) != null) {
-                    participantEnrollment.Participant__c = participantsByContact.get(participantContact.Id).Id;
+                for (Contact participantContact : contactsById.values()) {
+                    Participant_Enrollment__c participantEnrollment = participantEnrollmentsByContact.get(participantContact.Id);
+                    if (participantsByContact.get(participantContact.Id) != null) {
+                        participantEnrollment.Participant__c = participantsByContact.get(participantContact.Id).Id;
+                    }
                 }
-            }
 
-            if (!participantEnrollmentsByContact.isEmpty()) {
-                system.debug('!participantEnrollmentsByContact.isEmpty()');
-                List<Database.SaveResult> saveReses = Database.insert(participantEnrollmentsByContact.values());
-                for (Database.SaveResult saveRes : saveReses) {
-                    if (!saveRes.isSuccess()) {
-                        errorRecordCount++;
-                        Database.Error error = saveRes.getErrors().get(0);
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
-                        system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
+                if (!participantEnrollmentsByContact.isEmpty()) {
+                    system.debug('!participantEnrollmentsByContact.isEmpty()');
+                    List<Database.SaveResult> saveReses = Database.insert(participantEnrollmentsByContact.values());
+                    for (Database.SaveResult saveRes : saveReses) {
+                        if (!saveRes.isSuccess()) {
+                            errorRecordCount++;
+                            Database.Error error = saveRes.getErrors().get(0);
+                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
+                            system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
+                        }
                     }
                 }
             }
+
             if(createUsers) {
                 if(!insertedContacts.isEmpty()){
                     for(Contact c : contactsById.values()){
