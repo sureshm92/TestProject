@@ -11,6 +11,8 @@
     <aura:attribute name="translatedTitle" type="String"/>
     <aura:attribute name="translatedSubTitle" type="String"/>
 
+    <!--handlers: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!-- component body: -->
     <aura:if isTrue="{!v.languageChecked}">
         <div class="login-theme-background all-content" style="background: linear-gradient(90deg, #EC3D27 0%, #f7ec68 100%);">
