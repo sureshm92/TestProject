@@ -1490,6 +1490,13 @@
         <value>Create</value>
     </labels>
     <labels>
+        <fullName>Create_Users_Allow_Several_Minutes</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create Users Checkbox on Import</shortDescription>
+        <value>Please allow several minutes for file processing. We recommend importing files of no more than fifty participant records at a time. Only records after headings and instructions will be processed.</value>
+    </labels>
+    <labels>
         <fullName>Create_Users_Checkbox_on_Import</fullName>
         <language>en_US</language>
         <protected>true</protected>
