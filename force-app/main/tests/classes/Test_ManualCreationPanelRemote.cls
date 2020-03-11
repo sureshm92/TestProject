@@ -27,7 +27,7 @@ private class Test_ManualCreationPanelRemote {
         Test.stopTest();
     }
 
-    @IsTest
+    //@IsTest  // TODO For error localization
     static void testSurveyTaskCreation() {
         TestData.loadTestData();
 
