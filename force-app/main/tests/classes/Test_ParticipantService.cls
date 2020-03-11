@@ -157,8 +157,9 @@ public class Test_ParticipantService {
         CommunityService.setMock(new CommunityServiceMock());
         DatabaseService.setMock(new DatabaseServiceMock());
         ParticipantService.setMock(new ParticipantServiceMock());
+        String language = 'ru';
         Test.startTest();
-        ParticipantService.createParticipantAndUpdatePE(getParticipant(), getPE(null));
+        ParticipantService.createParticipantAndUpdatePE(getParticipant(), getPE(null), language);
         Test.stopTest();
     }
 

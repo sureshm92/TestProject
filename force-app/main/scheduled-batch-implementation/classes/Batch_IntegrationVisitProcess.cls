@@ -42,4 +42,12 @@ public without sharing class Batch_IntegrationVisitProcess extends Batch_Schedul
     public override Type getType() {
         return Batch_IntegrationVisitProcess.class;
     }
+
+    public override String getRecommendedIntervalMode() {
+        return Batch_ScheduledAbstract.INTERVAL_HOURS;
+    }
+
+    public override Integer getRecommendedRelaunchInterval() {
+        return 1;
+    }
 }

@@ -6,6 +6,7 @@ global without sharing class EmailTemplateDelegatePartController {
 
     global String delegateUserId { get; set; }
     global String dataParams {get; set;}
+    global String commTemplateStr {get; set;}
 
     public List<String> getDelegateStudyNames() {
         Id delConId = [SELECT Id, Contact.Id FROM User WHERE Id = :delegateUserId].Contact.Id;
@@ -19,9 +20,11 @@ global without sharing class EmailTemplateDelegatePartController {
         List<String> delegateStudyNames = new List<String>();
         if (!availablePeIds.isEmpty()) {
             List<Participant_Enrollment__c> delegatePE = [
-                    SELECT Id, Clinical_Trial_Profile__r.Study_Code_Name__c
+                    SELECT Id, Clinical_Trial_Profile__r.Study_Code_Name__c,
+                            Clinical_Trial_Profile__r.CommunityTemplate__c
                     FROM Participant_Enrollment__c
                     WHERE Id IN:availablePeIds
+                    AND Clinical_Trial_Profile__r.CommunityTemplate__c =: commTemplateStr
             ];
             for (Participant_Enrollment__c pe : delegatePE) delegateStudyNames.add(pe.Clinical_Trial_Profile__r.Study_Code_Name__c);
         }

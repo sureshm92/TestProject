@@ -39,12 +39,14 @@ public without sharing class BatchControlPanelRemote {
             for (Batch_Detail__c bc : batchDetails) panelBatchNames.add(bc.Name);
 
             PanelWrapper wrapper = new PanelWrapper();
-            wrapper.availableBatches = new List<String>();
             for (String batchName : batchNames) {
-                if (!panelBatchNames.contains(batchName)) wrapper.availableBatches.add(batchName);
+                if (!panelBatchNames.contains(batchName)) {
+                    wrapper.availableBatches.add(batchName);
+                    JobDefSettings defSettings = getDefSettings(batchName);
+                    if(defSettings != null) wrapper.defaultSettings.add(defSettings);
+                }
             }
 
-            wrapper.intervalMods = new List<String>();
             for (PicklistEntry ple : Batch_Detail__c.Interval_Mode__c.getDescribe().getPicklistValues()) {
                 wrapper.intervalMods.add(ple.value);
             }
@@ -206,6 +208,24 @@ public without sharing class BatchControlPanelRemote {
         }
     }
 
+    private static JobDefSettings getDefSettings(String className) {
+        JobDefSettings settings;
+        try {
+            Type bType = Type.forName(className);
+            if(bType != null){
+                settings = new JobDefSettings();
+                settings.className = className;
+                Batch_ScheduledAbstract instance = (Batch_ScheduledAbstract) bType.newInstance();
+                settings.intervalMode = instance.getRecommendedIntervalMode();
+                settings.relaunchInterval = instance.getRecommendedRelaunchInterval();
+            }
+        } catch (Exception e) {
+            throw new BatchControlException('Can\'t create instance of this type (' + className + ')');
+        }
+
+        return settings;
+    }
+
     public class JobWrapper {
         @AuraEnabled public String css;
         @AuraEnabled public Batch_Detail__c detail;
@@ -266,9 +286,16 @@ public without sharing class BatchControlPanelRemote {
         }
     }
 
+    public class JobDefSettings {
+        @AuraEnabled public String className;
+        @AuraEnabled public String intervalMode;
+        @AuraEnabled public Integer relaunchInterval;
+    }
+
     public class PanelWrapper {
-        @AuraEnabled public List<String> availableBatches;
-        @AuraEnabled public List<String> intervalMods;
+        @AuraEnabled public List<String> availableBatches = new List<String>();
+        @AuraEnabled public List<JobDefSettings> defaultSettings = new List<JobDefSettings>();
+        @AuraEnabled public List<String> intervalMods = new List<String>();
         @AuraEnabled public List<JobWrapper> jobWrappers;
     }
 }

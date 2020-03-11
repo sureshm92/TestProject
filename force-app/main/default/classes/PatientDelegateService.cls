@@ -219,18 +219,20 @@ public without sharing class PatientDelegateService {
                 : DatabaseService.fieldEqual('Participant__r.Contact__c', CommunityService.getInstance().getCurrentContactId()));
 
         List<Patient_Delegate__c> patientDelegates = (List<Patient_Delegate__c>) DatabaseService.query(
-                new List<String>{'Id'},
+                new List<String>{
+                        'Id'
+                },
                 Patient_Delegate__c.getSObjectType(),
                 filter
         );
-        if(!patientDelegates.isEmpty()) {
+        if (!patientDelegates.isEmpty()) {
             delete patientDelegates;
 
             Id searchContactId = removeHimself ? ownerContactId : contactId;
             List<User> teamUsers = [
                     SELECT Id
                     FROM User
-                    WHERE ContactId =: searchContactId
+                    WHERE ContactId = :searchContactId
                     AND IsActive = TRUE
             ];
             if (!teamUsers.isEmpty()) {
@@ -245,7 +247,7 @@ public without sharing class PatientDelegateService {
 
         List<Patient_Delegate__c> patientDelegate = [SELECT Id FROM Patient_Delegate__c WHERE Contact__c = :contactId];
         List<Participant__c> participants = [SELECT Id FROM Participant__c WHERE Contact__c = :contactId];
-        if(patientDelegate.isEmpty() && participants.isEmpty()) {
+        if (patientDelegate.isEmpty() && participants.isEmpty()) {
             CommunityService.deactivateUsers(new List<Id>{
                     contactId
             });
@@ -452,6 +454,98 @@ public without sharing class PatientDelegateService {
         }).get(contactId);
     }
 
+    public static void updatePermissionSets(Set<Id> contactIds) {
+        Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+        Patient_Delegate__c[] pdList = [
+                SELECT Id, Contact__c, Participant__c
+                FROM Patient_Delegate__c
+                WHERE Contact__c IN:contactIds AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
+        ];
+        Map<Id, Set<Id>> delegatedParticipantsMap = new Map<Id, Set<Id>>();
+        Set<Id> allDelegatedParticipantIds = new Set<Id>();
+        for (Patient_Delegate__c pd : pdList) {
+            Set<Id> delegatedParticipants = delegatedParticipantsMap.get(pd.Contact__c);
+            if (delegatedParticipants == null) delegatedParticipants = new Set<Id>();
+            delegatedParticipants.add(pd.Participant__c);
+            delegatedParticipantsMap.put(pd.Contact__c, delegatedParticipants);
+            allDelegatedParticipantIds.add(pd.Participant__c);
+        }
 
+        List<Participant_Enrollment__c> peList = [
+                SELECT Id,
+                        Participant__c,
+                        Participant_Contact__c,
+                        Clinical_Trial_Profile__r.CommunityTemplate__c
+                FROM Participant_Enrollment__c
+                WHERE Participant__c IN:allDelegatedParticipantIds OR Participant_Contact__c IN:contactIds
+        ];
+        Map<Id, Set<String>> participantPermissions = new Map<Id, Set<String>>();
+        Map<Id, Id> participantIdByContactIdMap = new Map<Id, Id>();
+        for (Participant_Enrollment__c pe : peList) {
+            if (pe.Participant_Contact__c != null && pe.Participant__c != null) participantIdByContactIdMap.put(pe.Participant_Contact__c, pe.Participant__c);
+            Set<String> permissions = participantPermissions.get(pe.Participant__c);
+            if (permissions == null) permissions = new Set<String>();
+            permissions.add(CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet);
+            participantPermissions.put(pe.Participant__c, permissions);
+        }
+
+        for (Id contactId : contactIds) {
+            Set<String> communityPermissionSets = CommunityTemplateService.getAllPermissionSets();
+            //assign own permission sets:
+            Id ownParticipantId = participantIdByContactIdMap.get(contactId);
+            Set<String> ownPermissions;
+            if (ownParticipantId != null) ownPermissions = participantPermissions.get(ownParticipantId);
+            if (ownPermissions != null) actionAssignContactPermissions.addPermissions(contactId, ownPermissions);
+            //assign all permission sets from available participants:
+            Set<Id> participantIds = delegatedParticipantsMap.get(contactId);
+            if (participantIds != null && !participantPermissions.isEmpty()) {
+                for (Id participantId : participantIds) {
+                    if (participantPermissions.containsKey(participantId)) {
+                        for (String participantPermissionSet : participantPermissions.get(participantId)) {
+                            if (communityPermissionSets.contains(participantPermissionSet)) {
+                                actionAssignContactPermissions.addPermission(contactId, participantPermissionSet);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        List<User> users = [
+                SELECT Id, ContactId, (
+                        SELECT Id, PermissionSet.Name
+                        FROM PermissionSetAssignments
+                        WHERE PermissionSet.Name IN:CommunityTemplateService.getAllPermissionSets()
+                )
+                FROM User
+                WHERE ContactId IN:contactIds
+        ];
+        Map<Id, Set<String>> contactPermissionsMap = new Map<Id, Set<String>>();
+        for (User user : users) {
+            if (!contactPermissionsMap.containsKey(user.ContactId)) {
+                contactPermissionsMap.put(user.ContactId, new Set<String>());
+            }
+            for (PermissionSetAssignment assignment : user.PermissionSetAssignments) {
+                contactPermissionsMap.get(user.ContactId).add(assignment.PermissionSet.Name);
+            }
+        }
+
+        for (Id conId : contactIds) {
+            Set<String> currentPerms = contactPermissionsMap.get(conId);
+            if (currentPerms == null) continue;
+
+            Set<String> actualPermissions = actionAssignContactPermissions.getAssignedPermissions(conId);
+            for (String permissionName : currentPerms) {
+                if (!actualPermissions.contains(permissionName)) {
+                    actionAssignContactPermissions.deletePermission(conId, permissionName);
+                }
+            }
+        }
+
+        //add action to queue
+        if (!actionAssignContactPermissions.isEmpty()) {
+            ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+        }
+    }
 }
 

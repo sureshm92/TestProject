@@ -55,4 +55,13 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
     public override String getBatchDescription() {
         return 'This job sends Emails and SMS when participant does not login in community X days';
     }
+
+    public override String getRecommendedIntervalMode() {
+        return Batch_ScheduledAbstract.INTERVAL_DAYS;
+    }
+
+    public override Integer getRecommendedRelaunchInterval() {
+        return 1;
+    }
+
 }
