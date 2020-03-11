@@ -13,7 +13,6 @@
         } else if(title === 'Forgot Password'){
             component.set('v.translatedTitle', $A.get('$Label.c.PG_Forgot_Password_Title'));
             component.set('v.translatedSubTitle', $A.get(''));
-
         }
     }
-})
+});

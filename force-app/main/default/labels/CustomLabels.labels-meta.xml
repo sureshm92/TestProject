@@ -4058,6 +4058,14 @@
         <value>A Google map is not available for this study site location.</value>
     </labels>
     <labels>
+        <fullName>GSK_Login_Sub_Title</fullName>
+        <categories>GSK</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>GSK Login Sub Title</shortDescription>
+        <value>A quick blurb explaining what participants are logging into</value>
+    </labels>
+    <labels>
         <fullName>GSK_Text_Logo</fullName>
         <language>en_US</language>
         <protected>false</protected>
