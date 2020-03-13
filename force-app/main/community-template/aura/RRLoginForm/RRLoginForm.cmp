@@ -25,6 +25,8 @@
     <aura:attribute name="communityForgotPasswordUrl" type="String" access="private"/>
     <aura:attribute name="communitySelfRegisterUrl" type="String" access="private"/>
 
+    <aura:attribute name="paddingTop" type="String" access="private" default="40px"/>
+
     <aura:registerevent name="sitePropagatedStartUrl" type="c:setStartUrl"/>
     <aura:dependency resource="c:setStartUrl" type="EVENT"/>
     <!-- Please uncomment -->
@@ -34,7 +36,7 @@
     <aura:handler event="c:setExpId" action="{!c.setExpId}"/>
     <aura:dependency resource="c:setExpId" type="EVENT"/>
 
-    <div>
+    <div style="{!'padding-top: ' + v.paddingTop}">
         <aura:renderIf isTrue="{!v.isUsernamePasswordEnabled}">
             <span>
                 <aura:renderIf isTrue="{!v.showError}">
