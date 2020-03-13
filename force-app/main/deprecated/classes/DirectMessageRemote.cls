@@ -4,7 +4,7 @@
 
 public without sharing class DirectMessageRemote {
 
-/*    @AuraEnabled(Cacheable = true)
+    @AuraEnabled(Cacheable = true)
     public static List<Conversation> getConversations() {
         List<Conversation> result = new List<Conversation>();
 
@@ -177,5 +177,5 @@ public without sharing class DirectMessageRemote {
                 }
             }
         }
-    }*/
+    }
 }
