@@ -26,6 +26,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     private Set<String> listOfFailedRecords = new Set<String>();
     private Set<String> listOfFailedRecordsWithMsg = new Set<String>();
 
+    public Set<String> genderLVSet = new Set<String>();
+    public Set<String> phoneTypeLVSet = new Set<String>();
+    public Set<String> laguageLVSet = new Set<String>();
+
     public UploadParticipantsBatch(List<List<String>> csvFileLines, String header, String studySiteId, String selectedStatus, Boolean headerFailed, Map<String, Integer> headerIndexes, Boolean createUsers) {
         uploadTime = DateTime.now();
         Integer totalRowCount = csvFileLines.size();
@@ -67,6 +71,19 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             }
             participantAccount = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE];
             csvLines = csvFileLines;
+
+            List<LabelValueItem> genderLVList = SObjectHelper.getPicklistLabelValueList(Participant__c.Gender__c);
+            for (LabelValueItem lb : genderLVList) {
+                genderLVSet.add(lb.value);
+            }
+            List<LabelValueItem> phoneTypeLVList = SObjectHelper.getPicklistLabelValueList(Participant__c.Phone_Type__c);
+            for (LabelValueItem lb : phoneTypeLVList) {
+                phoneTypeLVSet.add(lb.value);
+            }
+            List<LabelValueItem> languageLVList = SObjectHelper.getPicklistLabelValueList(Participant__c.Language_Preference_Code__c);
+            for (LabelValueItem lb : languageLVList) {
+                laguageLVSet.add(lb.value);
+            }
         }
     }
 
@@ -157,6 +174,18 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
                     listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'mandatory field is empty - Phone');
                 }
+                if (!String.isEmpty(PhoneType) && !phoneTypeLVSet.contains(PhoneType)) {
+                    hasErrors = true;
+                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'Phone Type, value is not correct');
+
+                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'value is not correct - Phone Type');
+                }
+                if (!String.isEmpty(Sex) && !genderLVSet.contains(Sex)) {
+                    hasErrors = true;
+                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'Gender, value is not correct');
+
+                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'value is not correct - Gender');
+                }
                 if (String.isEmpty(State)) {
                     hasErrors = true;
                     system.debug('ERROR: ' + totalRecordCount + ', ' + 'State, mandatory field is empty');
@@ -182,6 +211,12 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
                     listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Date of Birth, Incorrect value');
                 }
+                if (!String.isBlank(Language) && String.isBlank(uploadUser.Contact.Language__c) && !laguageLVSet.contains(Language)) {
+                    hasErrors = true;
+                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'Language, Incorrect value');
+
+                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Language, Incorrect value');
+                }
 
                 if (!hasErrors) {
                     Contact participantContact =
@@ -205,11 +240,14 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             new Participant__c(First_Name__c = FirstName,
                                     Last_Name__c = LastName,
                                     Middle_Name__c = MiddleName,
+                                    Nickname__c = Nickname,
                                     Gender__c = Sex,
                                     Date_of_Birth__c = DateOfBirth,
                                     Email__c = EmailAddress,
                                     Phone__c = Phone,
                                     Phone_Type__c = PhoneType,
+                                    Alternative_Phone_Number__c = Phone2,
+                                    Alternative_Phone_Type__c = PhoneType2,
                                     Language_Preference_Code__c = (String.isBlank(Language) ? uploadUser.Contact.Language__c : Language),
                                     Mailing_State__c = State,
                                     Mailing_Country__c = uploadUser.Contact.MailingCountry,
