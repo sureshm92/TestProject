@@ -131,9 +131,8 @@ public class TestData {
         insert history;
     }
 
-    public static void loadTestData() {
-        TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
-
+    public static void loadTestData(List<String> externalExecuteTriggerNames) {
+        bypassTriggers(externalExecuteTriggerNames);
         List<Terms_And_Conditions__c> tcList = new List<Terms_And_Conditions__c>();
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(
                 Active__c = true
@@ -202,7 +201,7 @@ public class TestData {
                 userCommunityMode__c = CommunityService.USER_MODE_HCP
         );
 
-        Contact  hcpDelegateContact = new Contact(
+        Contact hcpDelegateContact = new Contact(
                 FirstName = 'HCPDelTD',
                 LastName = 'HCPDelTD',
                 Email = 'hcp_delegate@emil.com',
@@ -276,14 +275,14 @@ public class TestData {
         hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
         update hcpEnrollment;
 
-        Site_Staff__c  siteStaff = new Site_Staff__c(
+        Site_Staff__c siteStaff = new Site_Staff__c(
                 Site_Contact__c = piDelegateContact.Id,
                 Delegate_Level__c = DelegateService.DELEGATE_LEVEL_1,
                 Study_Site__c = studySite.Id
         );
         insert siteStaff;
 
-        RP_Delegate_Relationship__c   rpDelegate = new RP_Delegate_Relationship__c(
+        RP_Delegate_Relationship__c rpDelegate = new RP_Delegate_Relationship__c(
                 Referring_Provider__c = hcpDelegateContact.Id,
                 Delegate_Access_Level__c = DelegateService.DELEGATE_LEVEL_1,
                 Delegate__c = hcpContact.Id
@@ -315,6 +314,7 @@ public class TestData {
                 Screening_ID__c = 'PESCR1'
         );
         insert pe;
+        update pe;
 
         Referral_Network__c referralNetwork = new Referral_Network__c(
                 Name = 'Test Referral Network'
@@ -340,6 +340,16 @@ public class TestData {
 
     }
 
+    /**
+    loadTestData() is suitable for most cases (almost all triggers are off)
+
+    @param List<String> externalExecuteTriggerNames - The list of triggers' names you need to execute additionally.
+
+    */
+    public static void loadTestData() {
+        loadTestData(null);
+    }
+
     public static void createTCAcceptance() {
         User hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
 
@@ -350,4 +360,52 @@ public class TestData {
         insert tc_acceptance;
     }
 
+    public static void bypassTriggers(List<String> externalExecuteTriggerNames) {
+        List<ApexTrigger> triggers = [
+                SELECT Id,
+                        Name,
+                        Body
+                FROM ApexTrigger
+        ];
+        List<String> bypassTriggerNames = new List<String>();
+        for (ApexTrigger apexTrigger : triggers) {
+            List<String> codeStrings = String.valueOf(apexTrigger.Body).split(';');
+            for (String codeString : codeStrings) {
+                if (!codeString.contains('execute')) continue;
+                String open = 'execute(';
+                String close = '.class';
+                bypassTriggerNames.add(codeString.substringBetween(open, close));
+            }
+        }
+
+        List<String> executeTriggerNames = new List<String>();
+        executeTriggerNames.add('ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler');
+        executeTriggerNames.add('ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler');
+        executeTriggerNames.add('ParticipantTriggerHandler.CreateContactsForParticipantsHandler');
+        executeTriggerNames.add('HCPEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler');
+        executeTriggerNames.add('HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotificationHandler');
+        executeTriggerNames.add('ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler');
+        executeTriggerNames.add('StudySiteTriggerHandler.CreatePIOrSendNotificationHandler');
+
+        if (externalExecuteTriggerNames != null && !externalExecuteTriggerNames.isEmpty()) {
+            executeTriggerNames.addAll(externalExecuteTriggerNames);
+        }
+        for (String name : executeTriggerNames) {
+            if (bypassTriggerNames.contains(name)) {
+                bypassTriggerNames.remove(bypassTriggerNames.indexOf(name));
+            }
+        }
+
+        try {
+            for (String name : bypassTriggerNames) {
+                TriggerHandlerExecutor.bypassHandler(Type.forName(name));
+            }
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
 }
+
+
+
+

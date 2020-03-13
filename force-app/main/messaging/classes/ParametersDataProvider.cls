@@ -25,7 +25,7 @@ public without sharing class ParametersDataProvider {
     public String communityTemplateName;
 
     public ParametersDataProvider(Id sourceId, String recipientName, Id recipientId, String recipientLanguage, String parametersProviderName, String userType, String outputMode, Boolean multiplePIMessage,
-    String communityTemplateName){
+            String communityTemplateName) {
         this.userMode = userType;
         this.recipientName = recipientName;
         this.recipientId = recipientId;
@@ -35,34 +35,34 @@ public without sharing class ParametersDataProvider {
         this.communityTemplateName = communityTemplateName;
         parameters = new Map<String, String>();
         updateRecipientName();
-        if(sourceId != null){
-            if(parametersProviderName == null){
+        if (sourceId != null) {
+            if (parametersProviderName == null) {
                 if (sourceId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
                     initParamsFromPE(sourceId);
                 } else if (sourceId.getSobjectType() == HCP_Enrollment__c.getSObjectType()) {
                     initParamsFromHCPE(sourceId);
                 } else if (sourceId.getSobjectType() == Study_Site__c.getSObjectType()) {
                     initParamsFromSS(sourceId);
-                } else if(sourceId.getSobjectType() == Contact.getSObjectType()){
+                } else if (sourceId.getSobjectType() == Contact.getSObjectType()) {
                     initParamsFromContact(sourceId);
-                } else if(sourceId.getSobjectType() == User.getSObjectType()){
+                } else if (sourceId.getSobjectType() == User.getSObjectType()) {
                     initParamsFromUser(sourceId);
-                } else if(sourceId.getSobjectType() == Task.getSObjectType()){
+                } else if (sourceId.getSobjectType() == Task.getSObjectType()) {
                     initParamsFromTask(sourceId);
                 }
-            }else{
+            } else {
                 Parameters_Provider__mdt pp = CatalogParametersHelper.getParametersProviderMetadata(parametersProviderName);
                 parameters = CatalogParametersHelper.getParamsValueMap(sourceId, pp, recipientLanguage);
             }
-        }else{
+        } else {
             initDummyParams();
         }
 
         String clinicalResearchCommunityURL = 'IQVIA Clinical Research Community at https://www.clinicalresearch.com';
         Id networkId = Network.getNetworkId();
-        Auth.AuthConfiguration authConfig = new Auth.AuthConfiguration(networkId,'');
+        Auth.AuthConfiguration authConfig = new Auth.AuthConfiguration(networkId, '');
         String clinicalResearchCommunityForgotPasswordURL = 'IQVIA Clinical Research Community Forgot password at' + authConfig.getForgotPasswordUrl();
-        if(outputMode == 'HTML') {
+        if (outputMode == 'HTML') {
             clinicalResearchCommunityURL = '<a href="https://www.clinicalresearch.com" target="_blank">IQVIA Clinical Research Community</a>';
             clinicalResearchCommunityForgotPasswordURL = authConfig.getForgotPasswordUrl();
         }
@@ -71,16 +71,16 @@ public without sharing class ParametersDataProvider {
         parameters.put('RecipientFirstName', recipientFirstName);
         parameters.put('ForgotPasswordURL', clinicalResearchCommunityForgotPasswordURL);
 
-        if(isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT){
+        if (isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT) {
             Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientContactId);
-            if(participant != null){
+            if (participant != null) {
                 parameters.put('ParticipantFirstName', participant.First_Name__c);
             }
         }
         System.debug('Parameters: ' + JSON.serializePretty(parameters));
     }
 
-    private void initParamsFromPE(Id sourceId){
+    private void initParamsFromPE(Id sourceId) {
         Participant_Enrollment__c pe = [
                 SELECT Id, Name,
                         Referral_Source__c,
@@ -121,11 +121,12 @@ public without sharing class ParametersDataProvider {
                         Motivational_Message_Id__c,
                         HCP__c
                 FROM Participant_Enrollment__c
-                WHERE (Id =: sourceId OR Participant__r.Contact__c =: sourceId)
-                AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c =: communityTemplateName LIMIT 1
+                WHERE (Id = :sourceId OR Participant__r.Contact__c = :sourceId)
+                AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplateName
+                LIMIT 1
         ];
 
-        if(pe.Is_Virtual_Study_Site__c) recipientFirstName = pe.Participant__r.First_Name__c;
+        if (pe.Is_Virtual_Study_Site__c) recipientFirstName = pe.Participant__r.First_Name__c;
 
         parameters = new Map<String, String>{
                 'PIName' => getFullContactName(pe.Study_Site__r.Principal_Investigator__r),
@@ -139,12 +140,12 @@ public without sharing class ParametersDataProvider {
                 'SSName' => pe.Study_Site__r.Name,
                 'StudyCodeName' => pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                 'SSAddress' => pe.Study_Site__r.Site__r.BillingStreet != null ? pe.Study_Site__r.Site__r.BillingStreet : '',
-                'SSCity' => pe.Study_Site__r.Site__r.BillingCity != null ? pe.Study_Site__r.Site__r.BillingCity +',' : '',
+                'SSCity' => pe.Study_Site__r.Site__r.BillingCity != null ? pe.Study_Site__r.Site__r.BillingCity + ',' : '',
                 'SSPostalCode' => pe.Study_Site__r.Site__r.BillingPostalCode != null ? pe.Study_Site__r.Site__r.BillingPostalCode : '',
                 'SSPhone' => pe.Study_Site__r.Study_Site_Phone__c != null ? pe.Study_Site__r.Study_Site_Phone__c : ''
         };
 
-        if(pe.HCP__c != null){
+        if (pe.HCP__c != null) {
             parameters.putAll(new Map<String, String>{
                     'HCPName' => getFullContactName(pe.HCP__r.HCP_Contact__r),
                     'HCPLanguage' => pe.HCP__r.HCP_Contact__r.Language__c,
@@ -164,60 +165,64 @@ public without sharing class ParametersDataProvider {
         });
     }
 
-    private void initParamsFromHCPE(Id hcpeId){
+    private void initParamsFromHCPE(Id hcpeId) {
         HCP_Enrollment__c hcpe;
-        String piNames='';
-        hcpe = [SELECT Id,
-                Name,
-                HCP_Contact__r.Name,
-                HCP_Contact__r.FirstName,
-                HCP_Contact__r.LastName,
-                HCP_Contact__r.Salutation,
-                HCP_Contact__r.Language__c,
-                Study_Site__r.Name,
-                Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
-                Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
-                Study_Site__r.Principal_Investigator__c,
-                Study_Site__r.Principal_Investigator__r.Language__c,
-                Study_Site__r.Principal_Investigator__r.Name,
-                Study_Site__r.Principal_Investigator__r.FirstName,
-                Study_Site__r.Principal_Investigator__r.LastName,
-                Study_Site__r.Principal_Investigator__r.Salutation,
-                Study_Site__r.Study_Site_Phone__c,
-                HCP_Contact__c
-        FROM HCP_Enrollment__c
-        WHERE Id = :hcpeId ];
-        if(multiplePIMessage) {
-            Map<Id,HCP_Enrollment__c> hcpeMap = new Map<Id,HCP_Enrollment__c>([SELECT Id,
-                    Name,
-                    HCP_Contact__r.Name,
-                    HCP_Contact__r.FirstName,
-                    HCP_Contact__r.LastName,
-                    HCP_Contact__r.Salutation,
-                    HCP_Contact__r.Language__c,
-                    Study_Site__r.Name,
-                    Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
-                    Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                    Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
-                    Study_Site__r.Principal_Investigator__c,
-                    Study_Site__r.Principal_Investigator__r.Language__c,
-                    Study_Site__r.Principal_Investigator__r.Name,
-                    Study_Site__r.Principal_Investigator__r.FirstName,
-                    Study_Site__r.Principal_Investigator__r.LastName,
-                    Study_Site__r.Principal_Investigator__r.Salutation,
-                    Study_Site__r.Study_Site_Phone__c,
-                    HCP_Contact__c
-            FROM HCP_Enrollment__c
-            WHERE HCP_Contact__c = :hcpe.HCP_Contact__c]);
-            Map<Id,Contact> piMap = new Map<Id,Contact>();
-            for(HCP_Enrollment__c hcpEnrollment : hcpeMap.values()){
-                piMap.put(hcpEnrollment.Study_Site__r.Principal_Investigator__c,hcpEnrollment.Study_Site__r.Principal_Investigator__r);
+        String piNames = '';
+        hcpe = [
+                SELECT Id,
+                        Name,
+                        HCP_Contact__r.Name,
+                        HCP_Contact__r.FirstName,
+                        HCP_Contact__r.LastName,
+                        HCP_Contact__r.Salutation,
+                        HCP_Contact__r.Language__c,
+                        Study_Site__r.Name,
+                        Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
+                        Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                        Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
+                        Study_Site__r.Principal_Investigator__c,
+                        Study_Site__r.Principal_Investigator__r.Language__c,
+                        Study_Site__r.Principal_Investigator__r.Name,
+                        Study_Site__r.Principal_Investigator__r.FirstName,
+                        Study_Site__r.Principal_Investigator__r.LastName,
+                        Study_Site__r.Principal_Investigator__r.Salutation,
+                        Study_Site__r.Study_Site_Phone__c,
+                        HCP_Contact__c
+                FROM HCP_Enrollment__c
+                WHERE Id = :hcpeId
+        ];
+        if (multiplePIMessage) {
+            Map<Id, HCP_Enrollment__c> hcpeMap = new Map<Id, HCP_Enrollment__c>([
+                    SELECT Id,
+                            Name,
+                            HCP_Contact__r.Name,
+                            HCP_Contact__r.FirstName,
+                            HCP_Contact__r.LastName,
+                            HCP_Contact__r.Salutation,
+                            HCP_Contact__r.Language__c,
+                            Study_Site__r.Name,
+                            Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Official_Title__c,
+                            Study_Site__r.Principal_Investigator__c,
+                            Study_Site__r.Principal_Investigator__r.Language__c,
+                            Study_Site__r.Principal_Investigator__r.Name,
+                            Study_Site__r.Principal_Investigator__r.FirstName,
+                            Study_Site__r.Principal_Investigator__r.LastName,
+                            Study_Site__r.Principal_Investigator__r.Salutation,
+                            Study_Site__r.Study_Site_Phone__c,
+                            HCP_Contact__c
+                    FROM HCP_Enrollment__c
+                    WHERE HCP_Contact__c = :hcpe.HCP_Contact__c
+            ]);
+            Map<Id, Contact> piMap = new Map<Id, Contact>();
+            for (HCP_Enrollment__c hcpEnrollment : hcpeMap.values()) {
+                piMap.put(hcpEnrollment.Study_Site__r.Principal_Investigator__c, hcpEnrollment.Study_Site__r.Principal_Investigator__r);
             }
-            for(Contact c : piMap.values()){
+            for (Contact c : piMap.values()) {
                 piNames += getFullContactName(c) + ', ';
             }
-            if(piNames != null) {
+            if (piNames != null) {
                 piNames = piNames.removeEnd(', ');
             }
         }
@@ -240,7 +245,7 @@ public without sharing class ParametersDataProvider {
 
     }
 
-    private void initParamsFromSS(Id ssId){
+    private void initParamsFromSS(Id ssId) {
         Study_Site__c ss = [
                 SELECT Id, Name,
                         Principal_Investigator__r.Name,
@@ -274,7 +279,7 @@ public without sharing class ParametersDataProvider {
 
     }
 
-    private void initParamsFromTask(Id taskId){
+    private void initParamsFromTask(Id taskId) {
         Task task = [
                 SELECT
                         Id,
@@ -283,7 +288,7 @@ public without sharing class ParametersDataProvider {
                         OwnerId,
                         Task_Code__c
                 FROM Task
-                WHERE Id =: taskId
+                WHERE Id = :taskId
         ];
 
         User emailOwner = [
@@ -291,7 +296,7 @@ public without sharing class ParametersDataProvider {
                         LanguageLocaleKey,
                         ContactId
                 FROM User
-                WHERE Id =: task.OwnerId
+                WHERE Id = :task.OwnerId
         ];
         //TaskTriggerHandler.processDefaultFieldValues(new List<Task> {task}, emailOwner.LanguageLocaleKey);
 
@@ -302,7 +307,7 @@ public without sharing class ParametersDataProvider {
 
     }
 
-    private void initParamsFromContact(Id contactId){
+    private void initParamsFromContact(Id contactId) {
         Contact cnt = [
                 SELECT Id,
                         Name,
@@ -316,17 +321,17 @@ public without sharing class ParametersDataProvider {
                         OwnerId,
                         Owner.ContactId
                 FROM Contact
-                WHERE Id =: contactId
+                WHERE Id = :contactId
         ];
         initDelegates(cnt);
         isDelegate = cnt.UserCommunityIsDelegate__c;
         userMode = cnt.userCommunityMode__c;
         parameters = new Map<String, String>();
         parameters.put('FullName', getFullContactName(cnt));
-        if(userMode == CommunityService.USER_MODE_PI){
+        if (userMode == CommunityService.USER_MODE_PI) {
             parameters.put('PIName', getFullContactName(cnt));
             parameters.put('PILanguage', cnt.Language__c);
-        }else if(userMode == CommunityService.USER_MODE_HCP){
+        } else if (userMode == CommunityService.USER_MODE_HCP) {
             List<HCP_Enrollment__c> hcpe = [
                     SELECT Id, Name,
                             HCP_Contact__r.Name,
@@ -348,47 +353,59 @@ public without sharing class ParametersDataProvider {
                             HCP_Contact__c
                     FROM HCP_Enrollment__c
                     WHERE HCP_Contact__c = :cnt.Id AND
-                    ( Status__c = :HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O OR Status__c = :HCPEnrollmentService.HCP_S_ACTIVATED OR Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION)
-                    ORDER BY CreatedDate DESC LIMIT 1
+                    (Status__c = :HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O OR Status__c = :HCPEnrollmentService.HCP_S_ACTIVATED OR Status__c = :HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION)
+                    ORDER BY CreatedDate DESC
+                    LIMIT 1
             ];
             if (!hcpe.isEmpty()) {
                 initParamsFromHCPE(hcpe[0].Id);
             }
             parameters.put('HCPName', getFullContactName(cnt));
             parameters.put('HCPLanguage', cnt.Language__c);
-        }else if(userMode == CommunityService.USER_MODE_PARTICIPANT){
+        } else if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             parameters.put('ParticipantLanguage', cnt.Language__c);
 
-            if(isDelegate) {
-                Participant_Enrollment__c pe = ContactService.getCurrentPE(contactId);
-                if(pe != null){
+            if (isDelegate) {
+                List<Id> conIds = new List<Id>{cnt.Id};
+                Map<Id, List<Id>> delegatedParticipantIdsMap = PatientDelegateService.getDelegatedParticipantIdsMap(conIds);
+                List<Participant_Enrollment__c> listPe = new List<Participant_Enrollment__c>();
+                List<Id> partIds = delegatedParticipantIdsMap.get(cnt.Id);
+                listPe = [
+                        SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                                Participant__r.Full_Name__c,
+                                Participant__r.First_Name__c,
+                                Participant__r.Contact__c
+                        FROM Participant_Enrollment__c
+                        WHERE Participant__c IN: partIds
+                        AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplateName
+                ];
+                Participant_Enrollment__c pe = listPe[0];
+                if (pe != null) {
                     parameters.put('ParticipantName', pe.Participant__r.Full_Name__c);
                     parameters.put('ParticipantFirstName', pe.Participant__r.First_Name__c);
-                    //parameters.put('StudyName', pe.Clinical_Trial_Profile__r.Study_Code_Name__c);
                 }
                 parameters.put('UserName', getCommunityUserName(contactId));
-            }else{
+            } else {
                 initParamsFromPE(contactId);
             }
         }
     }
 
-    private void initParamsFromUser(Id userId){
-        User user = [SELECT Id, ContactId FROM User WHERE Id =: userId];
+    private void initParamsFromUser(Id userId) {
+        User user = [SELECT Id, ContactId FROM User WHERE Id = :userId];
         initParamsFromContact(user.ContactId);
     }
 
-    public String getUserName(){
-        if(recipientName != null) return recipientName;
+    public String getUserName() {
+        if (recipientName != null) return recipientName;
         String userNameParam;
-        if(isDelegate) {
+        if (isDelegate) {
             userNameParam = 'FullName';
-        }
-        else{
+        } else {
             userNameParam = userMode + 'Name';
         }
         String name = parameters.get(userNameParam);
-        if(name == null) {
+        if (name == null) {
             name = parameters.get('ParticipantContactFirstName');
         }
 
@@ -400,18 +417,18 @@ public without sharing class ParametersDataProvider {
         return !userList.isEmpty() ? userList.get(0).Username : '';
     }
 
-    public String getUserLanguage(){
-        if(recipientLanguage != null) return recipientLanguage;
+    public String getUserLanguage() {
+        if (recipientLanguage != null) return recipientLanguage;
         String langParam = userMode + 'Language';
         String language = parameters.get(langParam);
-        if(language != null) return language;
+        if (language != null) return language;
         return DEFAULT_LANGUAGE;
     }
 
-    private void initDummyParams(){
+    private void initDummyParams() {
         List<Email_Dummy_Parameter__mdt> mparams = [SELECT Id, Label, Value__c FROM Email_Dummy_Parameter__mdt];
         parameters = new Map<String, String>();
-        for(Email_Dummy_Parameter__mdt mparam : mparams) parameters.put(mparam.Label, mparam.Value__c);
+        for (Email_Dummy_Parameter__mdt mparam : mparams) parameters.put(mparam.Label, mparam.Value__c);
     }
 
     private void initDelegates(Contact cnt) {
@@ -453,26 +470,26 @@ public without sharing class ParametersDataProvider {
         delegateLevelsHCP.sort();
     }
 
-    private String getFullContactName(Contact c){
+    private String getFullContactName(Contact c) {
         String fullName = c.Name;
-        if(c.Salutation != null) fullName = c.Salutation + ' ' + fullName;
+        if (c.Salutation != null) fullName = c.Salutation + ' ' + fullName;
         return fullName;
     }
 
-    private String getFullParticipantName(Participant__c participant){
+    private String getFullParticipantName(Participant__c participant) {
         List<String> nameParts = new List<String>();
-        if(participant.First_Name__c != null) nameParts.add(participant.First_Name__c);
-        if(participant.Last_Name__c != null) nameParts.add(participant.Last_Name__c);
+        if (participant.First_Name__c != null) nameParts.add(participant.First_Name__c);
+        if (participant.Last_Name__c != null) nameParts.add(participant.Last_Name__c);
         return String.join(nameParts, ' ');
     }
 
-    private String getParticipantLanguage(Participant__c participant){
+    private String getParticipantLanguage(Participant__c participant) {
         String participantLanguage = participant.Contact__r.Language__c;
-        if(participant.Contact__c == null) participantLanguage = participant.Language_Preference_Code__c;
+        if (participant.Contact__c == null) participantLanguage = participant.Language_Preference_Code__c;
         return participantLanguage;
     }
 
-    private void updateRecipientName(){
+    private void updateRecipientName() {
         if (recipientId == null) return ;
         if (recipientId.getSobjectType() == User.getSObjectType()) {
             User recipientUser = [
@@ -483,7 +500,7 @@ public without sharing class ParametersDataProvider {
                             Contact.userCommunityMode__c,
                             LanguageLocaleKey
                     FROM User
-                    WHERE Id =: recipientId
+                    WHERE Id = :recipientId
             ];
             recipientUserId = recipientUser.Id;
             recipientContactId = recipientUser.ContactId;
@@ -493,7 +510,7 @@ public without sharing class ParametersDataProvider {
             isDelegate = recipientUser.Contact.UserCommunityIsDelegate__c;
             userMode = recipientUser.Contact.userCommunityMode__c;
 
-        }else{
+        } else {
             Contact cnt = [
                     SELECT Id,
                             Name, FirstName, LastName,
@@ -501,7 +518,8 @@ public without sharing class ParametersDataProvider {
                             UserCommunityIsDelegate__c,
                             userCommunityMode__c
                     FROM Contact
-                    WHERE Id =: recipientId];
+                    WHERE Id = :recipientId
+            ];
             recipientContactId = recipientId;
             recipientName = cnt.Name;
             recipientFirstName = cnt.FirstName;

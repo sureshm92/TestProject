@@ -1,7 +1,7 @@
 /**
  * Created by Igor Malyuta on 01.10.2019.
  */
-@IsTest(SeeAllData=true)
+@IsTest
 private class Test_ManualCreationPanelRemote {
 
     @IsTest
@@ -27,7 +27,7 @@ private class Test_ManualCreationPanelRemote {
         Test.stopTest();
     }
 
-    //@IsTest  // TODO For error localization
+    @IsTest(SeeAllData=true)
     static void testSurveyTaskCreation() {
         TestData.loadTestData();
 
@@ -79,7 +79,7 @@ private class Test_ManualCreationPanelRemote {
         Test.stopTest();
     }
 
-    @IsTest
+    @IsTest(SeeAllData=true)
     static void testSearchSurveys() {
         List<Survey> surveys = new List<Survey> ([SELECT Name FROM Survey WHERE ActiveVersionId != NULL LIMIT 1]);
         System.assertEquals(1, surveys.size());
@@ -90,7 +90,7 @@ private class Test_ManualCreationPanelRemote {
         System.assert(searchResults.size() > 0);
     }
 
-    @IsTest
+    @IsTest(SeeAllData=true)
     static void testSearchSurveysByValue() {
         List<Survey> surveys = new List<Survey> ([SELECT Id FROM Survey WHERE ActiveVersionId != NULL LIMIT 1]);
         System.assertEquals(1, surveys.size());

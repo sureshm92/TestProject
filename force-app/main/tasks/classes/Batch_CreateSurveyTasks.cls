@@ -40,7 +40,7 @@ public class Batch_CreateSurveyTasks implements Database.Batchable<InvitationsWr
     }
 
     public void finish(Database.BatchableContext param1) {
-        if (!failedInvitation.isEmpty() && launchCount < 3) {
+        if (!failedInvitation.isEmpty() && launchCount < 3 && !Test.isRunningTest()) {
             Database.executeBatch(
                     new Batch_CreateSurveyTasks(failedInvitation, userId, taskCreated, ++launchCount), 30);
         } else {
@@ -60,7 +60,7 @@ public class Batch_CreateSurveyTasks implements Database.Batchable<InvitationsWr
                     messageBody += 'Failed contact ids:\n';
                     for(Integer i = 0; i < failedContactIds.size(); i++) {
                         messageBody += failedContactIds.get(i) + ', ';
-                        if(Math.mod(3, i) == 0) messageBody += '\n';
+                        if(Math.mod(3, i + 1) == 0) messageBody += '\n';
                     }
 
                     messageBody = messageBody.removeEnd(', ');

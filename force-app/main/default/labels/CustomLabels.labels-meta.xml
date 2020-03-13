@@ -3437,7 +3437,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Initial</shortDescription>
-        <value>Welcome to Platform</value>
+        <value>Please enroll in the IQVIA Referral Hub and Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Initial_GSK</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Initial</shortDescription>
+        <value>Please enroll in the GatherSHAREKnow Participant Hub</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Initial_Patient</fullName>
