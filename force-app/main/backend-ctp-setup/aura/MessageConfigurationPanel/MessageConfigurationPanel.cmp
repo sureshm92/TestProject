@@ -91,7 +91,7 @@
                         <aura:if isTrue="{!v.ssItems}">
                             <aura:iteration items="{!v.ssItems}" var="item">
                                 <c:StudySiteItem item="{!item}" parent="{!this}" viewMode="{!v.viewMode}"
-                                                 showHelp="{!item.conversationsFound}"
+                                                 showHelp="{!item.hadAssignments}"
                                                  helpText="Messages on this study site are put on hold"
                                                  helpIcon="utility:end_chat" helpIconVariant="warning" scrollLeft="{!v.scrollLeft}"/>
                             </aura:iteration>
