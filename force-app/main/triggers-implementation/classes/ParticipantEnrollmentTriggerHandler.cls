@@ -382,14 +382,13 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         if (!alertsForInsert.isEmpty()) {
             insert alertsForInsert;
         }
-        if (toCreateUser.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
+        if (toCreateUser.size() > 0) CommunityService.createParticipantUsersAsync(toCreateUser, actionAssignContactPermissions);
         if (!notifications.isEmpty()) {
             insert notifications;
         }
         if (!contactsForChangeMode.isEmpty()) {
             update contactsForChangeMode;
         }
-        if(!actionAssignContactPermissions.isEmpty()) ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
     }
     //Moved to PESH Trigger Handler
 
