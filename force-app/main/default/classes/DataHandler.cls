@@ -23,13 +23,13 @@ public with sharing class DataHandler implements PostInstallDX {
         Id recordType3dParty = SchemaUtil.getRecordTypeIdByName(
                 'Third_Party_Condition_of_Interests'
                 , Therapeutic_Area__c.getSObjectType());
-        List<Therapeutic_Area__c> tas = [SELECT Id,type__c,RecordTypeId FROM Therapeutic_Area__c];
+        List<Therapeutic_Area__c> tas = [SELECT Id, Type__c, RecordTypeId FROM Therapeutic_Area__c];
         for (Therapeutic_Area__c ta : tas) {
-            if (ta.type__c == 'COI') {
+            if (ta.Type__c == 'COI') {
                 ta.RecordTypeId = recordTypeCOIId;
-            } else if (ta.type__c == 'TA') {
+            } else if (ta.Type__c == 'TA') {
                 ta.RecordTypeId = recordTypeTAIId;
-            } else if (ta.type__c == '3dPartyCOI') {
+            } else if (ta.Type__c == '3dPartyCOI') {
                 ta.RecordTypeId = recordType3dParty;
             }
         }
