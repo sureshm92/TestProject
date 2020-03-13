@@ -7,11 +7,13 @@ private class Test_Batch_CreateSurveyTasks {
 
     @IsTest
     static void testBehavior() {
+        TestData.loadTestData();
+
+        Test.startTest();
+        TestData testData = new TestData();
+
         List<Survey> survey = [SELECT Id, Name FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
         if (survey.isEmpty()) return;
-
-        TestData.loadTestData();
-        TestData testData = new TestData();
 
         Id communityId = CommunityService.getCommunityId(null);
         SurveyInvitation invitation = SurveyService.getInstance().generateInvitation(
@@ -27,7 +29,6 @@ private class Test_Batch_CreateSurveyTasks {
                 invitation.Id => SurveyService.SURVEY_RESPONSE_PATIENT_ONLY
         };
 
-        Test.startTest();
         Batch_CreateSurveyTasks.launch(invitationsVisible);
         Test.stopTest();
 

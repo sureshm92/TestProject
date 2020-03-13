@@ -23,20 +23,21 @@ public with sharing class IntegrationVisitResultService {
         List<Visit_Result__c> resultsToUpdate = new List<Visit_Result__c>();
 
         for(Integration_VisitResult__c iResult : iResults){
+            String codeResult = iResult.TESTCD__c.toUpperCase();
+            if (resultTypesByCodes.containsKey(codeResult)) {
+                String visitKey = iResult.USUBJID__c + iResult.VISIT__c + iResult.VSDTC__c;
+                String key = visitKey + resultTypesByCodes.get(codeResult).DeveloperName;
 
-            String visitKey = iResult.USUBJID__c + iResult.VISIT__c + iResult.VSDTC__c;
-            String key = visitKey + resultTypesByCodes.get(iResult.TESTCD__c.toUpperCase()).DeveloperName;
-
-            if(resultsByExternalIds.containsKey(key)){
-
-                Visit_Result__c result = resultsByExternalIds.get(key);
-                if(iResult.IsDeletedInSDH__c == 'N') {
-                    resultsToUpdate.add(this.populateVisitResult(result, visitKey, iResult));
-                } else {
-                    resultsToDelete.add(result);
+                if(resultsByExternalIds.containsKey(key)){
+                    Visit_Result__c result = resultsByExternalIds.get(key);
+                    if(iResult.IsDeletedInSDH__c == 'N') {
+                        resultsToUpdate.add(this.populateVisitResult(result, visitKey, iResult));
+                    } else {
+                        resultsToDelete.add(result);
+                    }
+                } else if(visitsByExternalIds.containsKey(visitKey)){
+                    newResults.add(this.createNewResult(visitsByExternalIds.get(visitKey), visitKey, iResult));
                 }
-            } else if(visitsByExternalIds.containsKey(visitKey)){
-                newResults.add(this.createNewResult(visitsByExternalIds.get(visitKey), visitKey, iResult));
             }
         }
 

@@ -4,6 +4,7 @@
 
 ({
     doInit: function (component, event, helper) {
+
         communityService.executeAction(component, 'getInitData', null, function (formData) {
             var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
             component.set('v.formData', formData);
@@ -18,11 +19,20 @@
             component.set('v.sendEmails', false);
             var params = event.getParam('arguments');
             var pe = JSON.parse(JSON.stringify(params.pe));
+            var contId = pe.Participant__r.Contact__c;
             component.set('v.isInvited', params.isInvited);
             if(params.actions) component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
             component.set('v.popUpTitle', pe.Participant__r.Full_Name__c);
             component.set('v.rootComponent', params.rootComponent);
             if (params.callback) component.set('v.callback', params.callback);
+            if (component.get('v.isInvited')) {
+                communityService.executeAction(component, 'getUserLanguage', {
+                    contId: contId
+                }, function (returnValue) {
+                    component.set('v.userInfo', returnValue);
+                    console.log('USERINFO', JSON.stringify(returnValue));
+                });
+            }
             communityService.executeAction(component, 'getSteps', {
                 peId: pe.Id,
                 userMode: communityService.getUserMode(),
@@ -59,12 +69,15 @@
     doUpdate: function (component, event, helper) {
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
+        var userInfo = component.get('v.userInfo');
         pe.Participant__r = participant;
         component.find('spinner').show();
+        if(component.get('v.isInvited')){
+            communityService.executeAction(component, 'updateUserLanguage', {userJSON: JSON.stringify(userInfo)})
+        }
         communityService.executeAction(component, 'updatePatientInfoWithDelegate', {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
-            contJSON: JSON.stringify(participant.Contact__r),
             delegateJSON: JSON.stringify(component.get('v.participantDelegate'))
         }, function () {
             if (component.get('v.saveAndChangeStep')) {
@@ -101,6 +114,7 @@
         component.set('v.checkTabs', checking.getLocalId());
     },
     doUpdateCancel: function (component, event, helper) {
+        var userInfo = component.get('v.userInfo');
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
         var pathWrapper = component.get('v.participantPath');
@@ -111,7 +125,6 @@
         var actionParams = {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
-            contJSON: JSON.stringify(participant.Contact__r),
             delegateJSON: JSON.stringify(component.get('v.participantDelegate'))
         };
         if(statusDetailValid){
@@ -122,8 +135,10 @@
                 pathWrapperJSON: JSON.stringify(pathWrapper),
                 peId: pe.Id,
                 delegateJSON: JSON.stringify(component.get('v.participantDelegate')),
-                contJSON: JSON.stringify(participant.Contact__r)
             };
+        }
+        if(component.get('v.isInvited')){
+            communityService.executeAction(component, 'updateUserLanguage', {userJSON: JSON.stringify(userInfo)})
         }
         communityService.executeAction(component, actionName, actionParams , function () {
             var callback = component.get('v.callback');

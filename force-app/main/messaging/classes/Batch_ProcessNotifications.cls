@@ -28,4 +28,7 @@ public without sharing class Batch_ProcessNotifications extends Batch_ScheduledA
         return 'Send all pending notifications to recipients';
     }
 
+    public override Integer getRecommendedRelaunchInterval() {
+        return 2;
+    }
 }

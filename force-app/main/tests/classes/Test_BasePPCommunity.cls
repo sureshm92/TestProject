@@ -29,6 +29,7 @@ private class Test_BasePPCommunity {
         Test.startTest();
         TestData testDataInstance = new TestData();
         System.runAs(testDataInstance.piUser){
+            String userLanguage = 'ru';
             Participant__c participant = new Participant__c(
                     First_Name__c = 'NewP',
                     Last_Name__c = 'NewP',
@@ -44,7 +45,7 @@ private class Test_BasePPCommunity {
                     Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
             );
             try{
-                AddPatientByPIRemote.saveParticipant(JSON.serialize(participant), JSON.serialize(pe));
+                AddPatientByPIRemote.saveParticipant(JSON.serialize(participant), JSON.serialize(pe), userLanguage);
                 for(Participant_Enrollment__c pe2 : [SELECT Name, Referral_ID__c, Participant_Key__c FROM Participant_Enrollment__c]){
                     System.debug('XXX_PE: ' + pe2);
                 }

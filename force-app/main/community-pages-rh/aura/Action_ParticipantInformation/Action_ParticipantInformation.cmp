@@ -28,6 +28,7 @@
     <aura:attribute name="isInvited" type="Boolean" access="public"/>
     <aura:attribute name="sendEmails" type="Boolean" default="false"/>
     <aura:attribute name="participantPath" type="Object"/>
+    <aura:attribute name="userInfo" type="Object"/>
 
 
     <!-- methods -->
@@ -71,6 +72,8 @@
                             <c:Form_EditPatientInfo aura:id="editForm" fromActionParticipant="true"
                                                     participant="{!v.participant}" pe="{!v.pe}"
                                                     participantDelegate="{!v.participantDelegate}"
+                                                    userInfo="{!v.userInfo}"
+                                                    isInvited="{!v.isInvited}"
                                                     formData="{!v.formData}"
                                                     updateMode="true"
                                                     isValid="{!v.isValid}"

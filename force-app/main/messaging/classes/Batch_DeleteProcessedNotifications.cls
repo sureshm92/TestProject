@@ -43,4 +43,11 @@ public without sharing class Batch_DeleteProcessedNotifications extends Batch_Sc
         return 'Delete all processed notifications without failed send result';
     }
 
+    public override String getRecommendedIntervalMode() {
+        return Batch_ScheduledAbstract.INTERVAL_DAYS;
+    }
+
+    public override Integer getRecommendedRelaunchInterval() {
+        return 1;
+    }
 }

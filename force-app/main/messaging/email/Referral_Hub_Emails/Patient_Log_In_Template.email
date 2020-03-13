@@ -1,8 +1,8 @@
-<messaging:emailTemplate subject="{!$Label.Participant_Not_Logged_In}" 
-            recipientType="Contact" 
-            relatedToType="Participant__c">
+<messaging:emailTemplate subject="{!$Label.Participant_Not_Logged_In}"
+                         recipientType="Contact"
+                         relatedToType="Participant__c">
 
-    <messaging:htmlEmailBody >
+    <messaging:htmlEmailBody>
         <c:EmailTemplate recipientId="{!recipient.Id}"
                          parametersProvider="PP_Participant"
                          sourceId="{!relatedTo.Id}"
@@ -11,11 +11,12 @@
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Patient_Log_In}"
                          signature="{!$Label.Email_Signature_Plain_Summary}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
+                              resourceId="{!relatedTo.Id}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
+    <messaging:plainTextEmailBody>
         <c:EmailTemplateText recipientId="{!recipient.Id}"
                              parametersProvider="PP_Participant"
                              sourceId="{!relatedTo.Id}"
@@ -24,7 +25,8 @@
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Patient_Log_In}"
                              signature="{!$Label.Email_Signature_Plain_Summary}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
+                                  resourceId="{!relatedTo.Id}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 </messaging:emailTemplate>

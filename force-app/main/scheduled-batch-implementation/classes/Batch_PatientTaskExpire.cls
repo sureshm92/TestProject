@@ -32,4 +32,11 @@ public with sharing class Batch_PatientTaskExpire extends Batch_ScheduledAbstrac
         return 'This job sets the task status to expired, provided that their end date matches the current one or their invitation has expired (only for the "survey" type)';
     }
 
+    public override String getRecommendedIntervalMode() {
+        return Batch_ScheduledAbstract.INTERVAL_DAYS;
+    }
+
+    public override Integer getRecommendedRelaunchInterval() {
+        return 1;
+    }
 }
