@@ -29,7 +29,7 @@ global without sharing class EmailActionBtnController {
 
     private String getCurrentCommunityURL() {
         String communityTemplate = CommunityTemplateService.TEMPLATE_DEFAULT;
-        Id peId, participantId;
+        Id peId, participantId, contactId;
         List<Id> peIds = new List<Id>();
         if (resourceIdString != null) {
             if (resourceIdString.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
@@ -43,10 +43,15 @@ global without sharing class EmailActionBtnController {
                 ].CommunityTemplate__c;
             }
             if (resourceIdString.getSobjectType() == Task.getSObjectType()) {
-                Task task = [SELECT WhatId FROM Task WHERE Id = :resourceIdString AND WhatId != NULL];
-                if (task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
-                    peId = task.WhatId;
-                } else participantId = task.WhatId;
+                Task task = [SELECT WhatId, OwnerId FROM Task WHERE Id = :resourceIdString];
+                if (task.WhatId != null) {
+                    if (task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
+                        peId = task.WhatId;
+                    }
+                    else {
+                        participantId = task.WhatId;
+                    }
+                } else contactId = [SELECT Id, ContactId FROM User WHERE Id = :task.OwnerId].ContactId;
             }
             if (resourceIdString.getSobjectType() == SurveyInvitation.getSObjectType()) {
                 SurveyInvitation survey = [
@@ -57,14 +62,17 @@ global without sharing class EmailActionBtnController {
                 peId = survey.Participant_Enrollment__c;
             }
             if (resourceIdString.getSobjectType() == Participant__c.getSObjectType() || participantId != null) {
-                Id conId = [
+                contactId = [
                         SELECT Id, Contact__c
                         FROM Participant__c
                         WHERE Id = :resourceIdString
                 ].Contact__c;
-                peIds = PatientDelegateService.getAvailablePEIdsForContact(conId);
+
+            }
+            if (contactId != null) {
+                peIds = PatientDelegateService.getAvailablePEIdsForContact(contactId);
                 if (peIds.isEmpty()) {
-                    peIds = PatientDelegateService.getPastPEIdsForContact(conId);
+                    peIds = PatientDelegateService.getPastPEIdsForContact(contactId);
                 }
                 peId = peIds[0];
             }
