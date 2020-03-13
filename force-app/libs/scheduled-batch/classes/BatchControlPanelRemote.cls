@@ -26,7 +26,7 @@ public without sharing class BatchControlPanelRemote {
             List<ApexClass> batches = (List<ApexClass>) [FIND :SCHEDULED_EXTENDS IN ALL FIELDS RETURNING ApexClass(Id, Name)][0];
             List<String> batchNames = new List<String>();
             for (ApexClass batch : batches) {
-                if (batch.Name.equals('BatchControlPanelRemote')) continue;
+                if (batch.Name.equals('BatchControlPanelRemote') || batch.Name.equals('Test_BatchControlPanelRemote')) continue;
                 batchNames.add(batch.Name);
             }
 
