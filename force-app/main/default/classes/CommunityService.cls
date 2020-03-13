@@ -176,9 +176,13 @@ public without sharing class CommunityService {
                 newPortalUsers.add(createUser(cont, locale, language, timeZone));
             }
         }
-       System.debug('newPortalUsers' + newPortalUsers);
+        System.debug('newPortalUsers' + newPortalUsers);
         insert newPortalUsers;
         System.debug('Portal users successfully created = ' + newPortalUsers.size());
+    }
+
+    public static void createParticipantUsersAsync(Map<Id, Id> contactIdsMap, Action_AssignContactPermissions actionAssignContactPermissions) {
+        System.enqueueJob(new CreateParticipantUsersAsync(contactIdsMap, actionAssignContactPermissions));
     }
 
     public static User createUser(Contact cont, String locale, String language, String timeZone){
@@ -321,4 +325,24 @@ public without sharing class CommunityService {
         }
         return isNewSession;
     }
+
+    public class CreateParticipantUsersAsync implements Queueable {
+        Action_AssignContactPermissions actionAssignContactPermissions;
+        Map<Id, Id> contactIdsMap = new Map<Id, Id>();
+
+        public CreateParticipantUsersAsync(Map<Id, Id> contactIdsMap, Action_AssignContactPermissions actionAssignContactPermissions) {
+            this.contactIdsMap = contactIdsMap;
+            this.actionAssignContactPermissions = actionAssignContactPermissions;
+        }
+
+        public void execute(QueueableContext context) {
+            ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(contactIdsMap);
+
+            if (actionAssignContactPermissions != null && !actionAssignContactPermissions.isEmpty()) {
+                ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+            }
+        }
+
+    }
+
 }
