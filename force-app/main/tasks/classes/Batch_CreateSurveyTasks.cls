@@ -60,7 +60,7 @@ public class Batch_CreateSurveyTasks implements Database.Batchable<InvitationsWr
                     messageBody += 'Failed contact ids:\n';
                     for(Integer i = 0; i < failedContactIds.size(); i++) {
                         messageBody += failedContactIds.get(i) + ', ';
-                        if(Math.mod(3, i) == 0) messageBody += '\n';
+                        if(Math.mod(3, i + 1) == 0) messageBody += '\n';
                     }
 
                     messageBody = messageBody.removeEnd(', ');
