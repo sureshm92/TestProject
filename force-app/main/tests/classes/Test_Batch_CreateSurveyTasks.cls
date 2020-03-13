@@ -8,9 +8,10 @@ private class Test_Batch_CreateSurveyTasks {
     @IsTest
     static void testBehavior() {
         TestData.loadTestData();
-        TestData testData = new TestData();
 
         Test.startTest();
+        TestData testData = new TestData();
+
         List<Survey> survey = [SELECT Id, Name FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
         if (survey.isEmpty()) return;
 
