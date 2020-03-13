@@ -29,7 +29,7 @@ global without sharing class EmailActionBtnController {
 
     private String getCurrentCommunityURL() {
         String communityTemplate = CommunityTemplateService.TEMPLATE_DEFAULT;
-        Id peId;
+        Id peId, participantId;
         List<Id> peIds = new List<Id>();
         if (resourceIdString != null) {
             if (resourceIdString.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
@@ -43,8 +43,10 @@ global without sharing class EmailActionBtnController {
                 ].CommunityTemplate__c;
             }
             if (resourceIdString.getSobjectType() == Task.getSObjectType()) {
-                Task task = [SELECT WhatId FROM Task WHERE Id = :resourceIdString];
-                peId = task.WhatId;
+                Task task = [SELECT WhatId FROM Task WHERE Id = :resourceIdString AND WhatId != NULL];
+                if (task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
+                    peId = task.WhatId;
+                } else participantId = task.WhatId;
             }
             if (resourceIdString.getSobjectType() == SurveyInvitation.getSObjectType()) {
                 SurveyInvitation survey = [
@@ -54,7 +56,7 @@ global without sharing class EmailActionBtnController {
                 ];
                 peId = survey.Participant_Enrollment__c;
             }
-            if (resourceIdString.getSobjectType() == Participant__c.getSObjectType()) {
+            if (resourceIdString.getSobjectType() == Participant__c.getSObjectType() || participantId != null) {
                 Id conId = [
                         SELECT Id, Contact__c
                         FROM Participant__c
