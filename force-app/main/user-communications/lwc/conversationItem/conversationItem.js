@@ -41,7 +41,7 @@ export default class ConversationItem extends LightningElement {
 
     handleConversationClick(event) {
         if(this.item.unread) {
-            markRead({conversation: this.item.conversation, isIE: navigator.userAgent.match(/Trident/) !== null})
+            markRead({conversation: this.item.conversation, isIE: navigator.userAgent.match(/Trident|Edge/) !== null})
                 .then((data) => {
                         try {
                             this.item = data;
