@@ -9320,7 +9320,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Designed Text</shortDescription>
-        <value>##PatientFirstName has designated you as their delegate. You are allowed to view the following information. You may choose to withdraw from your delegate appointment at any time. Doing so will prevent you from seeing any more information associated with ##PatientFirstName. If you withdraw in error, kindly contact your patient to be reappoointed as a delegate.</value>
+        <value>##PatientFirstName has designated you as their delegate. You are allowed to view the following information. You may choose to withdraw from your delegate appointment at any time. Doing so will prevent you from seeing any more information associated with ##PatientFirstName. If you withdraw in error, kindly contact your patient to be reappointed as a delegate.</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Disclaimer</fullName>
