@@ -339,6 +339,13 @@ public class TestData {
         update contactForUpdate;
 
     }
+
+    /**
+    loadTestData() is suitable for most cases (almost all triggers are off)
+
+    @param List<String> externalExecuteTriggerNames - The list of triggers' names you need to execute additionally.
+
+    */
     public static void loadTestData() {
         loadTestData(null);
     }
@@ -378,8 +385,9 @@ public class TestData {
         executeTriggerNames.add('HCPEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler');
         executeTriggerNames.add('HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotificationHandler');
         executeTriggerNames.add('ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler');
-        executeTriggerNames.add('StudySiteTriggerHandler.CreatePIOrSendNotificationHandler'); //piUser
-        if (externalExecuteTriggerNames != null && !externalExecuteTriggerNames.isEmpty()){
+        executeTriggerNames.add('StudySiteTriggerHandler.CreatePIOrSendNotificationHandler');
+
+        if (externalExecuteTriggerNames != null && !externalExecuteTriggerNames.isEmpty()) {
             executeTriggerNames.addAll(externalExecuteTriggerNames);
         }
         for (String name : executeTriggerNames) {
@@ -387,8 +395,13 @@ public class TestData {
                 bypassTriggerNames.remove(bypassTriggerNames.indexOf(name));
             }
         }
-        for (String name : bypassTriggerNames) {
-            TriggerHandlerExecutor.bypassHandler(Type.forName(name));//try catch
+
+        try {
+            for (String name : bypassTriggerNames) {
+                TriggerHandlerExecutor.bypassHandler(Type.forName(name));
+            }
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
 }
