@@ -113,8 +113,7 @@ public without sharing class MessagePageRemote {
 
                 Map<Id, List<Message__c>> messagesByConversation =
                         MessageService.getMessagesByConversations(
-                                new List<Id>(conversationsByIds.keySet()),
-                                (isIE ? 'ASC' : 'DESC')
+                                new List<Id>(conversationsByIds.keySet())
                         );
 
                 Map<Id, Map<Id, ContentDocumentLink>> documentLinksByMesByCon =
@@ -138,7 +137,7 @@ public without sharing class MessagePageRemote {
                     }
                     pageData.conversationWrappers.add(getConversationWrapper(
                             pageData.userMode, conversation,
-                            getMessageWrappers(messagesByConversation.get(conversation.Id), documentLinksByMesByCon.get(conversation.Id)),
+                            messagesByConversation.get(conversation.Id), documentLinksByMesByCon.get(conversation.Id), isIE,
                             participantsDelegateNames)
                     );
                 }
@@ -209,8 +208,10 @@ public without sharing class MessagePageRemote {
     @AuraEnabled
     public static ConversationWrapper sendMessage(Conversation__c conversation, String messageText, String fileJSON, Boolean isIE) {
         try {
-            if(isIE == null) isIE = false;
-            conversation = ConversationService.getConversations(new List<Id>{conversation.Id}).get(0);
+            if (isIE == null) isIE = false;
+            conversation = ConversationService.getConversations(new List<Id>{
+                    conversation.Id
+            }).get(0);
             Contact userContact = UserContext.getUserContact();
 
             String senderName;
@@ -249,20 +250,20 @@ public without sharing class MessagePageRemote {
             insert message;
 
             Map<Id, List<String>> participantsDelegateNames;
-            if(CommunityService.getUserContact().userCommunityMode__c == CommunityService.USER_MODE_PI) {
+            if (CommunityService.getUserContact().userCommunityMode__c == CommunityService.USER_MODE_PI) {
                 participantsDelegateNames = ConversationService.getYourParticipantsDelegateNames(UserInfo.getUserId());
             }
 
-            List<Message__c> messages = MessageService.getMessages(conversation.Id, (isIE ? 'ASC' : 'DESC'));
+            List<Message__c> messages = MessageService.getMessages(conversation.Id);
             List<Id> docIds = new List<Id>();
-            for(Message__c mes : messages) {
-                if(mes.DocId__c != null) docIds.add(mes.DocId__c);
+            for (Message__c mes : messages) {
+                if (mes.DocId__c != null) docIds.add(mes.DocId__c);
             }
 
             return getConversationWrapper(
                     CommunityService.getUserContact().userCommunityMode__c,
                     conversation,
-                    getMessageWrappers(messages, MessageService.getAttachments(conversation.Id)),
+                    messages, MessageService.getAttachments(conversation.Id), isIE,
                     participantsDelegateNames
             );
         } catch (Exception e) {
@@ -281,17 +282,17 @@ public without sharing class MessagePageRemote {
             conversation.haveUnreadForParticipant__c = false;
             conversation.haveUnreadForPI__c = false;
 
-            List<Message__c> messages = MessageService.getMessages(conversation.Id, (isIE ? 'ASC' : 'DESC'));
+            List<Message__c> messages = MessageService.getMessages(conversation.Id);
 
             Map<Id, List<String>> participantsDelegateNames;
-            if(CommunityService.getUserContact().userCommunityMode__c == CommunityService.USER_MODE_PI) {
+            if (CommunityService.getUserContact().userCommunityMode__c == CommunityService.USER_MODE_PI) {
                 participantsDelegateNames = ConversationService.getYourParticipantsDelegateNames(UserInfo.getUserId());
             }
 
             return getConversationWrapper(
                     CommunityService.getUserContact().userCommunityMode__c,
                     conversation,
-                    getMessageWrappers(messages, MessageService.getAttachments(conversation.Id)),
+                    messages, MessageService.getAttachments(conversation.Id), isIE,
                     participantsDelegateNames
             );
         } catch (Exception e) {
@@ -317,7 +318,7 @@ public without sharing class MessagePageRemote {
 
             List<Participant_Enrollment__c> matchingEnrollments = new List<Participant_Enrollment__c>();
             for (Participant_Enrollment__c pe : enrollments) {
-                if(pe.Participant__r == null || pe.Participant__r.Full_Name__c == null) continue;
+                if (pe.Participant__r == null || pe.Participant__r.Full_Name__c == null) continue;
                 if (pe.Participant__r.Full_Name__c.containsIgnoreCase(searchTerm)) matchingEnrollments.add(pe);
             }
 
@@ -352,7 +353,8 @@ public without sharing class MessagePageRemote {
     }
 
     private static ConversationWrapper getConversationWrapper(String userMode, Conversation__c conversation,
-            List<MessageWrapper> messageWrappers, Map<Id, List<String>> delegateNamesByParticipant) {
+            List<Message__c> messages, Map<Id, ContentDocumentLink> documentLinksMap, Boolean ascendingOrder,
+            Map<Id, List<String>> delegateNamesByParticipant) {
         ConversationWrapper conWr = new ConversationWrapper();
         conWr.conversation = conversation;
 
@@ -377,7 +379,7 @@ public without sharing class MessagePageRemote {
             conWr.unread = conversation.haveUnreadForPI__c;
             Participant__c participant = conversation.Participant_Enrollment__r.Participant__r;
             conTitle = participant.Full_Name__c;
-            if(delegateNamesByParticipant.containsKey(participant.Id)) {
+            if (delegateNamesByParticipant.containsKey(participant.Id)) {
                 conWr.patientDelegates = String.join(delegateNamesByParticipant.get(participant.Id), ', ');
                 conTitle += ', ' + conWr.patientDelegates;
             }
@@ -388,12 +390,15 @@ public without sharing class MessagePageRemote {
         conWr.fullName = conFullName;
         conWr.description = conDescription;
 
-        if (!messageWrappers.isEmpty()) {
-            conWr.messages = messageWrappers;
-            conWr.haveAttachment = messageWrappers.get(0).attachmentWrapper != null;
-            Message__c lastMessage = messageWrappers.get(0).message;
+        if (!messages.isEmpty()) {
+            Message__c lastMessage = messages.get(0);
             conWr.lastUpdate = lastMessage.CreatedDate.date();
             conWr.lastMessagePart = lastMessage.Message_Content__c;
+
+            if(ascendingOrder) CollectionUtil.sortByField(messages, 'CreatedDate', false);
+            List<MessageWrapper> messageWrappers = getMessageWrappers(messages, documentLinksMap);
+            conWr.haveAttachment = messageWrappers.get(0).attachmentWrapper != null;
+            conWr.messages = messageWrappers;
         }
         return conWr;
     }
