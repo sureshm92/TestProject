@@ -226,16 +226,20 @@ public without sharing class PEStatusState {
             PE_STATUS_UNABLE_TO_SCREEN
     };
 
-    public static final List<String> PE_STATUS_GROUP_PARTICIPANT_IMPORT_WITHOUT_FINAL = new List<String>{
+    public static final List<String> PE_STATUS_GROUP_PARTICIPANT_IMPORT = new List<String>{
             PE_STATUS_RECEIVED,
             PE_STATUS_SUCCESSFULLY_CONTACTED,
-            PE_STATUS_SCREENING_PASSED
+            PE_STATUS_SCREENING_PASSED,
+            PE_STATUS_RANDOMIZATION_SUCCESS,
+            PE_STATUS_ENROLLMENT_SUCCESS
     };
 
-    public static final List<String> PE_STATUS_GROUP_ADD_PATIENT_BY_PI_WITHOUT_FINAL = new List<String>{
+    public static final List<String> PE_STATUS_GROUP_ADD_PATIENT_BY_PI = new List<String>{
             PE_STATUS_CONTACT_ATTEMPTED,
             PE_STATUS_ELIGIBILITY_PASSED,
-            PE_STATUS_SCREENING_IN_PROGRESS
+            PE_STATUS_SCREENING_IN_PROGRESS,
+            PE_STATUS_RANDOMIZATION_SUCCESS,
+            PE_STATUS_ENROLLMENT_SUCCESS
     };
 
     public static final List<String> PE_STATUS_GROUP_PI_VISIBLE;
@@ -455,15 +459,8 @@ public without sharing class PEStatusState {
         return getCTPParticipantWorkflowFinalStep(pe.Clinical_Trial_Profile__r);
     }
 
-    public static String getEnrollmentFlowFinalStep(Clinical_Trial_Profile__c ctp){
-        return getCTPParticipantWorkflowFinalStep(ctp);
-    }
-
     public static List<String> getParticipantImportStatuses(Clinical_Trial_Profile__c ctp){
-        List<String> steps = new List<String>();
-        steps.addAll(PE_STATUS_GROUP_PARTICIPANT_IMPORT_WITHOUT_FINAL);
-        steps.add(getEnrollmentFlowFinalStep(ctp));
-        return  steps;
+        return  ParticipantWorkflowService.filterStatusesForCTPSettings(PE_STATUS_GROUP_PARTICIPANT_IMPORT, ctp);
     }
 
     public static List<LabelValueItem> getParticipantImportStatusesLV(Clinical_Trial_Profile__c ctp){
@@ -473,10 +470,7 @@ public without sharing class PEStatusState {
     }
 
     public static List<String> getAddPatientByPIStatuses(Clinical_Trial_Profile__c ctp){
-        List<String> steps = new List<String>();
-        steps.addAll(PE_STATUS_GROUP_ADD_PATIENT_BY_PI_WITHOUT_FINAL);
-        steps.add(getEnrollmentFlowFinalStep(ctp));
-        return  steps;
+        return  ParticipantWorkflowService.filterStatusesForCTPSettings(PE_STATUS_GROUP_ADD_PATIENT_BY_PI, ctp);
     }
 
     public static List<LabelValueItem> getAddPatientByPIStatusesLV(Clinical_Trial_Profile__c ctp){
