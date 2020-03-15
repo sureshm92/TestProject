@@ -238,6 +238,8 @@ public without sharing class PEStatusState {
             PE_STATUS_SCREENING_IN_PROGRESS
     };
 
+    public static final List<String> PE_STATUS_GROUP_PI_VISIBLE;
+
     public static List<String> PE_STATUS_GROUP_IN_PROGRESS_ALL;
     public static List<String> PE_STATUS_GROUP_NOT_IN_PROGRESS_ALL;
 
@@ -333,6 +335,9 @@ public without sharing class PEStatusState {
         };
         PE_STATUS_GROUP_PARTICIPANT.addAll(PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS);
 
+        PE_STATUS_GROUP_PI_VISIBLE = new List<String>();
+        PE_STATUS_GROUP_PI_VISIBLE.addAll(PE_STATUS_GROUP_ACTIVE);
+        PE_STATUS_GROUP_PI_VISIBLE.addAll(PE_STATUS_GROUP_INACTIVE);
         prepare();
     }
 
