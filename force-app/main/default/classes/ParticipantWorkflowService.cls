@@ -7,7 +7,7 @@ public without sharing class ParticipantWorkflowService {
     public static ParticipantWorkflowWrapper prepareParticipantWorkflow(Clinical_Trial_Profile__c ctp, Participant_Enrollment__c pe){
         ParticipantWorkflowWrapper wrapper = new ParticipantWorkflowWrapper();
         wrapper.steps = new List<ParticipantWorkflowService.ParticipantWorkflowStepWrapper>();
-        List<Participant_Workflow_Step__mdt> steps = getWorkflowSteps( ctp, pe);
+        List<Participant_Workflow_Step__mdt> steps = getWorkflowSteps( ctp);
         Map<String, Participant_Workflow_Outcome__mdt> outcomesMap = getOutcomesMap(steps);
         Map<String, List<Participant_Enrollment_Status_History__c>> peshMapByStep = getPESHByStep(pe, outcomesMap);
         Map<String, Participant_Workflow_Form_Field__mdt> fieldsMap = getFieldsMap(ctp);
@@ -37,7 +37,7 @@ public without sharing class ParticipantWorkflowService {
         return wrapper;
     }
 
-    private static List<Participant_Workflow_Step__mdt> getWorkflowSteps(Clinical_Trial_Profile__c ctp, Participant_Enrollment__c pe){
+    private static List<Participant_Workflow_Step__mdt> getWorkflowSteps(Clinical_Trial_Profile__c ctp){
         List<Participant_Workflow_Step__mdt> eligibleSteps = new List<Participant_Workflow_Step__mdt>();
         for(Participant_Workflow_Step__mdt step:[
                 SELECT DeveloperName, Condition__c, Name_Label__c, Order__c, History_Label__c,
@@ -544,7 +544,7 @@ public without sharing class ParticipantWorkflowService {
     }
 
     public static List<Participant_Enrollment_Status_History__c> createHistoryRecordsForPE(Participant_Enrollment__c participantEnrollment, Clinical_Trial_Profile__c ctp) {
-        List<Participant_Workflow_Step__mdt> steps = getWorkflowSteps( ctp, participantEnrollment);
+        List<Participant_Workflow_Step__mdt> steps = getWorkflowSteps( ctp);
         Map<String, Participant_Workflow_Outcome__mdt> outcomesMap = getOutcomesMap(steps);
         Map<String, String> successfulStatusesForSteps = new Map<String, String>();
         for(Participant_Workflow_Outcome__mdt outcome: outcomesMap.values()){
@@ -578,7 +578,7 @@ public without sharing class ParticipantWorkflowService {
     }
 
     public static void updatePEWithPreviousStatusesSuccess(Participant_Enrollment__c participantEnrollment, Clinical_Trial_Profile__c ctp) {
-        List<Participant_Workflow_Step__mdt> steps = getWorkflowSteps( ctp, participantEnrollment);
+        List<Participant_Workflow_Step__mdt> steps = getWorkflowSteps( ctp);
         Map<String, Participant_Workflow_Outcome__mdt> outcomesMap = getOutcomesMap(steps);
         Participant_Workflow_Outcome__mdt currentOutcome = outcomesMap.get(participantEnrollment.Participant_Status__c);
         if (currentOutcome != null) {
@@ -593,6 +593,18 @@ public without sharing class ParticipantWorkflowService {
 
             }
         }
+    }
+
+    public static List<String> filterStatusesForCTPSettings(List<String> statuses,Clinical_Trial_Profile__c ctp){
+        List<Participant_Workflow_Step__mdt> steps = getWorkflowSteps( ctp);
+        Map<String, Participant_Workflow_Outcome__mdt> outcomesMap = getOutcomesMap(steps);
+        List<String> filteredStatuses = new List<String>();
+        for (String status : statuses) {
+            if(outcomesMap.containsKey(status)){
+               filteredStatuses.add(status);
+            }
+        }
+        return filteredStatuses;
     }
 
     public class ParticipantWorkflowWrapper{
