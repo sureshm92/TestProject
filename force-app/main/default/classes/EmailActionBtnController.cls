@@ -61,11 +61,19 @@ global without sharing class EmailActionBtnController {
                 ];
                 peId = survey.Participant_Enrollment__c;
             }
-            if (resourceIdString.getSobjectType() == Participant__c.getSObjectType() || participantId != null) {
+            if (resourceIdString.getSobjectType() == Participant__c.getSObjectType()) {
                 contactId = [
                         SELECT Id, Contact__c
                         FROM Participant__c
                         WHERE Id = :resourceIdString
+                ].Contact__c;
+
+            }
+            if (participantId != null) {
+                contactId = [
+                        SELECT Id, Contact__c
+                        FROM Participant__c
+                        WHERE Id = :participantId
                 ].Contact__c;
 
             }
