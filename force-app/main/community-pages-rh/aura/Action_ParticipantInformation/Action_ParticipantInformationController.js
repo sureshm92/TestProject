@@ -73,24 +73,28 @@
         pe.Participant__r = participant;
         component.find('spinner').show();
         if(component.get('v.isInvited')){
-            communityService.executeAction(component, 'updateUserLanguage', {userJSON: JSON.stringify(userInfo)})
-        }
-        communityService.executeAction(component, 'updatePatientInfoWithDelegate', {
-            participantJSON: JSON.stringify(participant),
-            peJSON: JSON.stringify(pe),
-            delegateJSON: JSON.stringify(component.get('v.participantDelegate'))
-        }, function () {
-            if (component.get('v.saveAndChangeStep')) {
-                component.set('v.saveAndChangeStep', false);
+            communityService.executeAction(component, 'updateUserLanguage', {userJSON: JSON.stringify(userInfo)
+            }, function () {
+                communityService.executeAction(component, 'updatePatientInfoWithDelegate', {
+                    participantJSON: JSON.stringify(participant),
+                    peJSON: JSON.stringify(pe),
+                    delegateJSON: JSON.stringify(component.get('v.participantDelegate'))
+                }, function () {
+                    if (component.get('v.saveAndChangeStep')) {
+                        component.set('v.saveAndChangeStep', false);
+                    }
+                    var callback = component.get('v.callback');
+                    if(callback){
+                        callback(pe);
+                    }
+                }, null, function () {
+                    component.find('spinner').hide();
+                });
+            }, function () {
+                component.find('spinner').hide();
 
-            }
-            var callback = component.get('v.callback');
-            if(callback){
-                callback(pe);
-            }
-        }, null, function () {
-            component.find('spinner').hide();
-        });
+            })
+        }
     },
 
     doCallback: function (component, event, helper) {
@@ -138,19 +142,24 @@
             };
         }
         if(component.get('v.isInvited')){
-            communityService.executeAction(component, 'updateUserLanguage', {userJSON: JSON.stringify(userInfo)})
+            communityService.executeAction(component, 'updateUserLanguage', {userJSON: JSON.stringify(userInfo)
+            }, function () {
+                communityService.executeAction(component, actionName, actionParams , function () {
+                    var callback = component.get('v.callback');
+                    if(callback){
+                        callback(pe);
+                    }
+                    component.find('spinner').hide();
+                    var comp = component.find('dialog');
+                    comp.hide();
+                }, null, function () {
+                    component.find('spinner').hide();
+                });
+            }, function () {
+                component.find('spinner').hide();
+
+            })
         }
-        communityService.executeAction(component, actionName, actionParams , function () {
-            var callback = component.get('v.callback');
-            if(callback){
-                callback(pe);
-            }
-            component.find('spinner').hide();
-            var comp = component.find('dialog');
-            comp.hide();
-        }, null, function () {
-            component.find('spinner').hide();
-        });
     },
 
     createUserForPatient: function(component, event, helper){

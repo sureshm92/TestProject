@@ -88,8 +88,9 @@ public without sharing class RelevantLinksRemote {
             List<Id> peIds = PatientDelegateService.getPastPEIdsForContact(currentContactId);
             if(peIds != null) {
                 enrollments = [
-                        SELECT Id, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c,
-                                Study_Site__r.Site__r.BillingCountryCode, Participant_Status__c, Study_Site__r.Approved_Lng__c
+                        SELECT Id, Days_After_Enrolled__c, Participant_Status__c, Clinical_Trial_Profile__c,
+                                Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c, Study_Site__r.Approved_Lng__c,
+                                Study_Site__r.Site__r.BillingCountryCode
                         FROM Participant_Enrollment__c
                         WHERE Id IN: peIds AND Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c = TRUE
                 ];
