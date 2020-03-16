@@ -38,10 +38,28 @@ private class Test_ManualCreationPanelRemote {
         insert schedule;
 
         List<Survey> surveys = new List<Survey> ([SELECT Id FROM Survey WHERE ActiveVersionId != NULL LIMIT 1]);
-        System.assertEquals(1, surveys.size());
+        if(surveys.isEmpty()) return;
+
+        List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c>([
+                SELECT Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Name, Clinical_Trial_Profile__r.Study_Code_Name__c
+                FROM Participant_Enrollment__c
+                WHERE Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE
+                    AND Clinical_Trial_Profile__r.CommunityTemplate__c = :CommunityTemplateService.TEMPLATE_DEFAULT
+                LIMIT 1
+        ]);
+        if(enrollments.isEmpty()) return;
+
+        List<LookupSearchResult> searchResults = new List<LookupSearchResult>();
+        searchResults.add(new LookupSearchResult(
+                enrollments[0].Clinical_Trial_Profile__c,
+                'Clinical_Trial_Profile__c',
+                'custom:custom86',
+                enrollments[0].Clinical_Trial_Profile__r.Name,
+                'Code name ' + enrollments[0].Clinical_Trial_Profile__r.Study_Code_Name__c));
 
         ManualTaskFilter filter = new ManualTaskFilter();
         filter.statuses = new List<String>{PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS};
+        filter.studies = searchResults;
 
         TaskService.TaskConfig taskConfig = new TaskService.TaskConfig();
 
@@ -59,5 +77,27 @@ private class Test_ManualCreationPanelRemote {
         ManualCreationPanelRemote.searchReminderScheduleByValue(schedule.Id);
         ManualCreationPanelRemote.searchReminderSchedule('RS', '');
         Test.stopTest();
+    }
+
+    @IsTest(SeeAllData=true)
+    static void testSearchSurveys() {
+        List<Survey> surveys = new List<Survey> ([SELECT Name FROM Survey WHERE ActiveVersionId != NULL LIMIT 1]);
+        if(surveys.isEmpty()) return;
+
+        List<LookupSearchResult> searchResults = new List<LookupSearchResult>();
+        searchResults = ManualCreationPanelRemote.searchSurveys(surveys.get(0).Name, '');
+
+        System.assert(searchResults.size() > 0);
+    }
+
+    @IsTest(SeeAllData=true)
+    static void testSearchSurveysByValue() {
+        List<Survey> surveys = new List<Survey> ([SELECT Id FROM Survey WHERE ActiveVersionId != NULL LIMIT 1]);
+        if(surveys.isEmpty()) return;
+
+        List<LookupSearchResult> searchResults = new List<LookupSearchResult>();
+        searchResults = ManualCreationPanelRemote.searchSurveysByValue(surveys.get(0).Id);
+
+        System.assert(searchResults.size() > 0);
     }
 }

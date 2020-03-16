@@ -26,7 +26,7 @@ public without sharing class BatchControlPanelRemote {
             List<ApexClass> batches = (List<ApexClass>) [FIND :SCHEDULED_EXTENDS IN ALL FIELDS RETURNING ApexClass(Id, Name)][0];
             List<String> batchNames = new List<String>();
             for (ApexClass batch : batches) {
-                if (batch.Name.equals('BatchControlPanelRemote')) continue;
+                if (batch.Name.equals('BatchControlPanelRemote') || batch.Name.equals('Test_BatchControlPanelRemote')) continue;
                 batchNames.add(batch.Name);
             }
 
@@ -220,7 +220,7 @@ public without sharing class BatchControlPanelRemote {
                 settings.relaunchInterval = instance.getRecommendedRelaunchInterval();
             }
         } catch (Exception e) {
-            throw new BatchControlException('Can\'t create instance of this type');
+            throw new BatchControlException('Can\'t create instance of this type (' + className + ')');
         }
 
         return settings;

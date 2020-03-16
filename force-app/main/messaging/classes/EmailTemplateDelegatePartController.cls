@@ -16,6 +16,7 @@ global without sharing class EmailTemplateDelegatePartController {
         }
         Id partCon = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :partIds[0]].Contact__c;
         List<Id> availablePeIds = PatientDelegateService.getAvailablePEIdsForContact(partCon);
+        availablePeIds.addAll(PatientDelegateService.getPastPEIdsForContact(partCon));
 
         List<String> delegateStudyNames = new List<String>();
         if (!availablePeIds.isEmpty()) {

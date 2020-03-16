@@ -69,6 +69,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             resetNotesAndSetChangeDate(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createPrimaryHistoryEntry((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
 
@@ -292,23 +294,14 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             Participant__c participant = (Participant__c) PETriggerBuffer.getSObject(pe.Participant__c);
             if (participant != null && participant.Contact__c != null) participantContactIds.add(participant.Contact__c);
         }
-        Map<Id, Set<String>> userPermissionSetsMap = new Map<Id, Set<String>>();
-        for (User usr : CommunityService.getCommunityUsersByContactIds(participantContactIds)) {
-            usersByContactId.put(usr.ContactId, usr);
-            Set<String> pSets = new Set<String>();
-            for(PermissionSetAssignment pma : usr.PermissionSetAssignments) pSets.add(pma.PermissionSet.Name);
-            userPermissionSetsMap.put(usr.Id, pSets);
-        }
 
         //process PE items:
         List<Alert__c> alertsForInsert = new List<Alert__c>();
-        Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
         for (Participant_Enrollment__c newPE : newList) {
             Study_Site__c ss = (Study_Site__c) PETriggerBuffer.getSObject(newPE.Study_Site__c);
             HCP_Enrollment__c hcpe = (HCP_Enrollment__c) PETriggerBuffer.getSObject(newPE.HCP__c);
             Participant__c participant = (Participant__c) PETriggerBuffer.getSObject(newPE.Participant__c);
             User participantUser;
-            String permissionSetName = CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
             if (participant != null && participant.Contact__c != null) participantUser = usersByContactId.get(participant.Contact__c);
             Boolean updateCriteria = true;
             if (oldMap != null) {
@@ -346,10 +339,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                                 Contact__c = participant.Contact__c,
                                 Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH
                         ));
-                        actionAssignContactPermissions.addPermission(newPE.Participant_Contact__c, permissionSetName);
-                    } else if(!userPermissionSetsMap.get(participantUser.Id).contains(permissionSetName)){
-                        System.debug('ASSIGN NEW PERMISSION SET');
-                        actionAssignContactPermissions.addPermission(newPE.Participant_Contact__c, permissionSetName);
                     }else {
                         System.debug('NOTIFY USER');
                         if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP) {
@@ -383,13 +372,18 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             insert alertsForInsert;
         }
         if (toCreateUser.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
-        if (!notifications.isEmpty()) {
-            insert notifications;
+        if (!notifications.isEmpty()) insert notifications;
+        if (!contactsForChangeMode.isEmpty()) update contactsForChangeMode;
+
+        Map<Id, List<Id>> delegatesByParticipant =
+                PatientDelegateService.getDelegateContactIdsByPAContactIs(new List<Id>(participantContactIds));
+        Set<Id> allContactIds = new Set<Id>(participantContactIds);
+        for(Id partKey : delegatesByParticipant.keySet()) {
+            for(Id delConId : delegatesByParticipant.get(partKey)) {
+                allContactIds.add(delConId);
+            }
         }
-        if (!contactsForChangeMode.isEmpty()) {
-            update contactsForChangeMode;
-        }
-        if(!actionAssignContactPermissions.isEmpty()) ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+        PatientDelegateService.updatePermissionSets(allContactIds);
     }
     //Moved to PESH Trigger Handler
 

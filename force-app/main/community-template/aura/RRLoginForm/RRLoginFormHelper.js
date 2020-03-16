@@ -11,7 +11,7 @@
         'expid'  : 'e.c:setExpId'
     },
 
-    handleLogin: function (component, event, helpler) {
+    handleLogin: function (component, event, helper) {
         var username = component.find("username").get("v.value");
         var password = component.find("password").get("v.value");
         var action = component.get("c.login");
@@ -25,6 +25,7 @@
             if (rtnValue !== null) {
                 component.set("v.errorMessage", rtnValue);
                 component.set("v.showError", true);
+                component.set("v.paddingTop", 0);
             }
         });
         $A.enqueueAction(action);

@@ -264,7 +264,7 @@ export default class MessageBoard extends LightningElement {
                     enrollment: this.selectedEnrollment,
                     messageText: messageText,
                     fileJSON: JSON.stringify(fileList),
-                    isIE: navigator.userAgent.match(/Trident/) !== null
+                    isIE: navigator.userAgent.match(/Trident|Edge/) !== null
                 })
                     .then(function (data) {
                         context.fireSendEvent(data);
@@ -280,7 +280,7 @@ export default class MessageBoard extends LightningElement {
                     conversation: this.conversation,
                     messageText: messageText,
                     fileJSON: JSON.stringify(fileList),
-                    isIE: navigator.userAgent.match(/Trident/) !== null
+                    isIE: navigator.userAgent.match(/Trident|Edge/) !== null
                 })
                     .then(function (data) {
                         context.fireSendEvent(data);
