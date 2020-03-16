@@ -215,7 +215,7 @@ public without sharing class PatientDelegateService {
     public void resetDelegate(Id contactId, Boolean removeHimself) {
         Id ownerContactId = ParticipantContext.getCurrentParticipant().Contact__c;
         String filter = DatabaseService.fieldEqual('Contact__c', contactId) + 'AND'
-                + (removeHimself ? DatabaseService.fieldNotEqual('Participant__r.Contact__c', ownerContactId)
+                + (removeHimself ? DatabaseService.fieldEqual('Participant__r.Contact__c', ownerContactId)
                 : DatabaseService.fieldEqual('Participant__r.Contact__c', CommunityService.getInstance().getCurrentContactId()));
 
         List<Patient_Delegate__c> patientDelegates = (List<Patient_Delegate__c>) DatabaseService.query(
