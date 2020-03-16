@@ -62,7 +62,8 @@ public without sharing class EmailService {
                 notificationShareEmail.add(n);
             } else {
                 Notification_Target__mdt emailTarget = NotificationService.getNotificationTarget(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
-                emailMessages.add(createEmail(getEmailTemplateId(emailTarget.Email_Template__c), n.Recipient__c, n.WhatId__c, orgWideEmailByNotifyMap.get(n.Id)));
+                String emailTemplate = n.IsDelegate__c ? emailTarget.Email_Template_Delegate__c : emailTarget.Email_Template__c;
+                emailMessages.add(createEmail(getEmailTemplateId(emailTemplate), n.Recipient__c, n.WhatId__c, orgWideEmailByNotifyMap.get(n.Id)));
             }
         }
         List<Messaging.SendEmailResult> resultList = Messaging.sendEmail(emailMessages, false);

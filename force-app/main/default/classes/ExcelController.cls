@@ -44,6 +44,9 @@ public class ExcelController {
         
         String filter;
         List<String> filters = new List<String>();
+        if(userMode == CommunityService.USER_MODE_PI){
+            filters.add(DatabaseService.fieldInValues('Participant_Status__c', PEStatusState.PE_STATUS_GROUP_PI_VISIBLE));
+        }
         if (!String.isBlank(study)) filters.add(' Study_Site__r.Clinical_Trial_Profile__c = \'' + study + '\' ');
         if (!String.isBlank(referringClinic)) filters.add(' HCP__r.HCP_Contact__r.AccountId = \'' + referringClinic + '\' ');
         if (!String.isEmpty(dateRange)) filters.add(' CreatedDate ' + EncodingUtil.urlDecode(dateRange, 'UTF-8'));
