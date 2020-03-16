@@ -17,6 +17,7 @@ public class TestData {
     public HCP_Enrollment__c hcpEnrollment;
     private static Contact hcpContact;
     private static Terms_And_Conditions__c studyTC;
+
     public TestData() {
         participant = [
                 SELECT Id, Name, First_Name__c, Last_Name__c, Email__c, Status__c, Balance__c, Contact__c, Contact__r.AccountId
@@ -131,8 +132,8 @@ public class TestData {
         insert history;
     }
 
-    public static void loadTestData() {
-        TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
+    public static void loadTestData(Boolean bypass, List<String> externalExecuteTriggerNames) {
+        if(bypass) bypassTriggers(externalExecuteTriggerNames);
 
         List<Terms_And_Conditions__c> tcList = new List<Terms_And_Conditions__c>();
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(
@@ -202,7 +203,7 @@ public class TestData {
                 userCommunityMode__c = CommunityService.USER_MODE_HCP
         );
 
-        Contact  hcpDelegateContact = new Contact(
+        Contact hcpDelegateContact = new Contact(
                 FirstName = 'HCPDelTD',
                 LastName = 'HCPDelTD',
                 Email = 'hcp_delegate@emil.com',
@@ -239,7 +240,8 @@ public class TestData {
                 Video_And_Articles_Are_Available__c = true,
                 Travel_Vendor_Is_Available__c = true,
                 Relevant_Links_Are_Available__c = true,
-                Sponsor_Pays_for_Referral_Activity__c = 'Yes'
+                Sponsor_Pays_for_Referral_Activity__c = 'Yes',
+                CommunityTemplate__c = CommunityTemplateService.TEMPLATE_DEFAULT
         );
         insert study;
 
@@ -275,14 +277,14 @@ public class TestData {
         hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
         update hcpEnrollment;
 
-        Site_Staff__c  siteStaff = new Site_Staff__c(
+        Site_Staff__c siteStaff = new Site_Staff__c(
                 Site_Contact__c = piDelegateContact.Id,
                 Delegate_Level__c = DelegateService.DELEGATE_LEVEL_1,
                 Study_Site__c = studySite.Id
         );
         insert siteStaff;
 
-        RP_Delegate_Relationship__c   rpDelegate = new RP_Delegate_Relationship__c(
+        RP_Delegate_Relationship__c rpDelegate = new RP_Delegate_Relationship__c(
                 Referring_Provider__c = hcpDelegateContact.Id,
                 Delegate_Access_Level__c = DelegateService.DELEGATE_LEVEL_1,
                 Delegate__c = hcpContact.Id
@@ -315,6 +317,7 @@ public class TestData {
         );
         insert pe;
 
+
         Referral_Network__c referralNetwork = new Referral_Network__c(
                 Name = 'Test Referral Network'
         );
@@ -336,7 +339,21 @@ public class TestData {
         Contact contactForUpdate = [SELECT Id, Current_Participant_Enrollment__c FROM Contact WHERE Id = :peForContactUpdate.Participant_Contact__c];
         contactForUpdate.Current_Participant_Enrollment__c = pe.Id;
         update contactForUpdate;
+    }
 
+    /**
+    loadTestData() is suitable for most cases (almost all triggers are off)
+
+    @param List<String> externalExecuteTriggerNames - The list of triggers' names you need to execute additionally.
+
+    */
+    public static void loadTestData() {
+        loadTestData(true, null);
+    }
+    
+    @IsTest
+    public static void runAllTriggers() {
+        loadTestData(false, null);
     }
 
     public static void createTCAcceptance() {
@@ -349,4 +366,57 @@ public class TestData {
         insert tc_acceptance;
     }
 
+    public static void bypassTriggers(List<String> externalExecuteTriggerNames) {
+        List<ApexTrigger> triggers = [
+                SELECT Id,
+                        Name,
+                        Body
+                FROM ApexTrigger
+        ];
+        List<String> bypassTriggerNames = new List<String>();
+        for (ApexTrigger apexTrigger : triggers) {
+            List<String> codeStrings = String.valueOf(apexTrigger.Body).split(';');
+            for (String codeString : codeStrings) {
+                if (!codeString.contains('execute')) continue;
+                String open = 'execute(';
+                String close = '.class';
+                bypassTriggerNames.add(codeString.substringBetween(open, close));
+            }
+        }
+
+        List<String> executeTriggerNames = new List<String>();
+        executeTriggerNames.add('ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler');
+        executeTriggerNames.add('ParticipantTriggerHandler.CreateContactsForParticipantsHandler');
+        executeTriggerNames.add('HCPEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler');
+        executeTriggerNames.add('HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotificationHandler');
+        executeTriggerNames.add('ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler');
+        executeTriggerNames.add('StudySiteTriggerHandler.CreatePIOrSendNotificationHandler');
+        executeTriggerNames.add('StudySiteTriggerHandler.SwitchContactUserModeHandler');
+        executeTriggerNames.add('ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler');
+        executeTriggerNames.add('ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR');
+        executeTriggerNames.add('ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandle');
+        executeTriggerNames.add('ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler');
+        executeTriggerNames.add('ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler');
+
+        if (externalExecuteTriggerNames != null && !externalExecuteTriggerNames.isEmpty()) {
+            executeTriggerNames.addAll(externalExecuteTriggerNames);
+        }
+        for (String name : executeTriggerNames) {
+            if (bypassTriggerNames.contains(name)) {
+                bypassTriggerNames.remove(bypassTriggerNames.indexOf(name));
+            }
+        }
+
+        try {
+            for (String name : bypassTriggerNames) {
+                TriggerHandlerExecutor.bypassHandler(Type.forName(name));
+            }
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
 }
+
+
+
+

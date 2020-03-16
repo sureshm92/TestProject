@@ -29,7 +29,8 @@ global without sharing class EmailActionBtnController {
 
     private String getCurrentCommunityURL() {
         String communityTemplate = CommunityTemplateService.TEMPLATE_DEFAULT;
-        Id peId;
+        Id peId, participantId, contactId;
+        List<Id> peIds = new List<Id>();
         if (resourceIdString != null) {
             if (resourceIdString.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
                 peId = resourceIdString;
@@ -42,8 +43,15 @@ global without sharing class EmailActionBtnController {
                 ].CommunityTemplate__c;
             }
             if (resourceIdString.getSobjectType() == Task.getSObjectType()) {
-                Task task = [SELECT WhatId FROM Task WHERE Id =: resourceIdString];
-                peId = task.WhatId;
+                Task task = [SELECT WhatId, OwnerId FROM Task WHERE Id = :resourceIdString];
+                if (task.WhatId != null) {
+                    if (task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
+                        peId = task.WhatId;
+                    }
+                    else {
+                        participantId = task.WhatId;
+                    }
+                } else contactId = [SELECT Id, ContactId FROM User WHERE Id = :task.OwnerId].ContactId;
             }
             if (resourceIdString.getSobjectType() == SurveyInvitation.getSObjectType()) {
                 SurveyInvitation survey = [
@@ -53,11 +61,35 @@ global without sharing class EmailActionBtnController {
                 ];
                 peId = survey.Participant_Enrollment__c;
             }
+            if (resourceIdString.getSobjectType() == Participant__c.getSObjectType()) {
+                contactId = [
+                        SELECT Id, Contact__c
+                        FROM Participant__c
+                        WHERE Id = :resourceIdString
+                ].Contact__c;
+
+            }
+            if (participantId != null) {
+                contactId = [
+                        SELECT Id, Contact__c
+                        FROM Participant__c
+                        WHERE Id = :participantId
+                ].Contact__c;
+
+            }
+            if (contactId != null) {
+                peIds = PatientDelegateService.getAvailablePEIdsForContact(contactId);
+                if (peIds.isEmpty()) {
+                    peIds = PatientDelegateService.getPastPEIdsForContact(contactId);
+                }
+                peId = peIds[0];
+            }
             if (peId != null) {
                 communityTemplate = [
                         SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
                         FROM Participant_Enrollment__c
-                        WHERE Id = :peId].Clinical_Trial_Profile__r.CommunityTemplate__c;
+                        WHERE Id = :peId
+                ].Clinical_Trial_Profile__r.CommunityTemplate__c;
             }
         }
 

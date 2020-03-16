@@ -115,9 +115,11 @@ private class Test_MessagePageRemote {
 
     @TestSetup
     static void setup() {
+        Test.startTest();
         TestData.loadTestData();
         List<Study_Site__c> studySites = [SELECT Id, Messages_Are_Available__c FROM Study_Site__c];
         for(Study_Site__c ss : studySites) ss.Messages_Are_Available__c = true;
         update studySites;
+        Test.stopTest();
     }
 }

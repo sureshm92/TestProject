@@ -84,10 +84,15 @@ window.communityService = (function () {
                         console.error(e);
                         var message = e.message;
                         if (!debugMode) message = e.message.split('\n')[0];
+                        console.log('ERROR', message);
                         if(message.includes('INVALID_EMAIL_ADDRESS')) {
                             service.showErrorToast('ERROR', 'Invalid Email')
                         } else  {
-                            service.showErrorToast('ERROR', message);
+                            if(message.includes('[LanguageLocaleKey]')) {
+                                service.showWarningToast('Error', 'This language is not set up on Referral Hub');
+                            } else {
+                                service.showErrorToast('ERROR', message);
+                            }
                         }
                         //throw e;
                     } finally {

@@ -116,7 +116,7 @@ public with sharing class Test_EmailTemplateController {
                 WHERE NCT_Number__c = 'NCT99999999'
         ];
         Account ssAccount = [
-                Select Id
+                SELECT Id
                 FROM Account
                 WHERE Name = 'Study Site Account'
         ];
@@ -153,7 +153,7 @@ public with sharing class Test_EmailTemplateController {
         Test.startTest();
         TestData testDataInstance = new TestData();
         delete [
-                SELECT ID
+                SELECT Id
                 FROM HCP_Enrollment__c
         ];
         System.runAs(testDataInstance.hcpUser) {
@@ -227,6 +227,7 @@ public with sharing class Test_EmailTemplateController {
     private static ParametersDataProvider getDataProvider(EmailTemplateController controller) {
         controller.sourceRecordId = UserInfo.getUserId();
         controller.replaceLineBreaksOnHTMLBreaks = true;
+        controller.communityTemplateValue = CommunityTemplateService.TEMPLATE_DEFAULT;
 
         ParametersDataProvider provider = controller.getDataProvider();
         provider.userMode = 'userType';

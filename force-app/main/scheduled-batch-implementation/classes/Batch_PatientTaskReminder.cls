@@ -42,6 +42,14 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
         return 'Sends Email Reminders about existing Tasks';
     }
 
+    public override String getRecommendedIntervalMode() {
+        return Batch_ScheduledAbstract.INTERVAL_DAYS;
+    }
+
+    public override Integer getRecommendedRelaunchInterval() {
+        return 1;
+    }
+
     private void sendRemindersParticipantTeam(List<Task> tasks) {
         List<Id> allContactsIds = new List<Id>();
         for(Task t : tasks) allContactsIds.add(t.WhoId);

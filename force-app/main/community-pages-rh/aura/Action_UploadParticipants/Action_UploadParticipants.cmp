@@ -90,16 +90,19 @@
                         <div class="slds-size--10-of-12">{!$Label.c.Create_Users_Checkbox_on_Import}</div>
                     </div>
                     <div class="slds-col slds-size--5-of-12">
-                    <button class="apollo-btn tertiary" data-gtm="btn_UploadNewParticipants_cancel"
-                            onclick="{!c.doCancel}">
-                        {!$Label.c.BTN_Cancel}
-                    </button>
-                    <button class="apollo-btn primary" onclick="{!c.doImport}"
-                            data-gtm="btn_UploadNewParticipants_import"
-                            disabled="{!empty(v.selectedStatus)||empty(v.fileName)}"
-                            title="{!empty(v.selectedStatus)||empty(v.fileName) ? $Label.c.PG_MRC_RF_Not_all_Req_Fields : ''}">
-                        {!$Label.c.BTN_Import}
-                    </button>
+                        <button class="apollo-btn tertiary" data-gtm="btn_UploadNewParticipants_cancel"
+                                onclick="{!c.doCancel}">
+                            {!$Label.c.BTN_Cancel}
+                        </button>
+                        <button class="apollo-btn primary" onclick="{!c.doImport}"
+                                data-gtm="btn_UploadNewParticipants_import"
+                                disabled="{!empty(v.selectedStatus)||empty(v.fileName)}"
+                                title="{!empty(v.selectedStatus)||empty(v.fileName) ? $Label.c.PG_MRC_RF_Not_all_Req_Fields : ''}">
+                            {!$Label.c.BTN_Import}
+                        </button>
+                    </div>
+                    <div class="slds-col slds-size--1-of-1 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center" style="margin-top: 10px;">
+                        {!$Label.c.Create_Users_Allow_Several_Minutes}
                     </div>
                 </div>
             </aura:set>

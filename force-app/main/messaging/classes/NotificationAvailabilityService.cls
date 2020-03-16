@@ -6,6 +6,7 @@ public without sharing class NotificationAvailabilityService {
 
     private static final String PARTICIPANT_ENROLLMENT_OBJ_NAME = 'Participant_Enrollment__c';
     private static final String CLINICAL_TRIAL_PROFILE_OBJ_NAME = 'Clinical_Trial_Profile__c';
+    private static final String STUDY_SITE_OBJ_NAME = 'Study_Site__c';
     private static final String HCP_ENROLLMENT_OBJ_NAME = 'HCP_Enrollment__c';
     private static final String SURVEY_INVITATION_OBJ_NAME = 'SurveyInvitation';
     private static final String CONTACT = 'Contact';
@@ -212,10 +213,10 @@ public without sharing class NotificationAvailabilityService {
                 Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
                 if (pe == null || pe.Study_Site__r == null || pe.Study_Site__r.Principal_Investigator__r == null) {
                     checkForNotification = false;
-                } else if (pe.Study_Site__r.Principal_Investigator__r.Participant_Opt_In_Status_Emails__c) {
+                } else{
                     checkForNotification = true;
                 }
-            } else if (objType == CONTACT) {
+            } else if (objType == CONTACT || objType == STUDY_SITE_OBJ_NAME) {
                 checkForNotification = true;
             }
         }
@@ -281,7 +282,7 @@ public without sharing class NotificationAvailabilityService {
                     communityTemplate = CommunityTemplateService.getTemplateByPermissionSetName(permSet[0]);
                 }
             }
-        } else if (objType == null || objType == CONTACT) {
+        } else if (objType == null || objType == CONTACT || objType == PARTICIPANT_OBJ_NAME) {
             permSet = permissionSetsByConIdMap.get(contactId);
             if (!permSet.contains(CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME)) {
                 communityTemplate = CommunityTemplateService.getTemplateByPermissionSetName(permSet[0]);

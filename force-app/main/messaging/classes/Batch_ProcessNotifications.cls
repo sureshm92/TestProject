@@ -10,7 +10,7 @@ public without sharing class Batch_ProcessNotifications extends Batch_ScheduledA
                         Status__c,
                         WhatId__c, Recipient__c,
                         Notification_Type__c, Email__c,
-                        From__c
+                        From__c, IsDelegate__c
                 FROM Notification__c
                 WHERE Status__c =: NotificationService.NOTIFICATION_STATUS_PENDING
         ]);
@@ -28,4 +28,7 @@ public without sharing class Batch_ProcessNotifications extends Batch_ScheduledA
         return 'Send all pending notifications to recipients';
     }
 
+    public override Integer getRecommendedRelaunchInterval() {
+        return 2;
+    }
 }

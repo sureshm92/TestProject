@@ -69,6 +69,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             resetNotesAndSetChangeDate(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createPrimaryHistoryEntry((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
 
@@ -88,12 +90,16 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     }
 
     public class CreateEnrollmentTasks extends TriggerHandler {
-        public override void afterInsert(List<SObject> newList) {
-            createTasks((List<Participant_Enrollment__c>) newList);
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createTasks((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
 
     public class CompleteEnrollmentTasks extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            createTasks((List<Participant_Enrollment__c>) newList, null);
+        }
+        
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             completeTasks((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
@@ -292,23 +298,14 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             Participant__c participant = (Participant__c) PETriggerBuffer.getSObject(pe.Participant__c);
             if (participant != null && participant.Contact__c != null) participantContactIds.add(participant.Contact__c);
         }
-        Map<Id, Set<String>> userPermissionSetsMap = new Map<Id, Set<String>>();
-        for (User usr : CommunityService.getCommunityUsersByContactIds(participantContactIds)) {
-            usersByContactId.put(usr.ContactId, usr);
-            Set<String> pSets = new Set<String>();
-            for(PermissionSetAssignment pma : usr.PermissionSetAssignments) pSets.add(pma.PermissionSet.Name);
-            userPermissionSetsMap.put(usr.Id, pSets);
-        }
 
         //process PE items:
         List<Alert__c> alertsForInsert = new List<Alert__c>();
-        Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
         for (Participant_Enrollment__c newPE : newList) {
             Study_Site__c ss = (Study_Site__c) PETriggerBuffer.getSObject(newPE.Study_Site__c);
             HCP_Enrollment__c hcpe = (HCP_Enrollment__c) PETriggerBuffer.getSObject(newPE.HCP__c);
             Participant__c participant = (Participant__c) PETriggerBuffer.getSObject(newPE.Participant__c);
             User participantUser;
-            String permissionSetName = CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
             if (participant != null && participant.Contact__c != null) participantUser = usersByContactId.get(participant.Contact__c);
             Boolean updateCriteria = true;
             if (oldMap != null) {
@@ -346,10 +343,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                                 Contact__c = participant.Contact__c,
                                 Alert_Code__c = Alert.ALERT_CODE_WELCOME_PH
                         ));
-                        actionAssignContactPermissions.addPermission(newPE.Participant_Contact__c, permissionSetName);
-                    } else if(!userPermissionSetsMap.get(participantUser.Id).contains(permissionSetName)){
-                        System.debug('ASSIGN NEW PERMISSION SET');
-                        actionAssignContactPermissions.addPermission(newPE.Participant_Contact__c, permissionSetName);
                     }else {
                         System.debug('NOTIFY USER');
                         if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP) {
@@ -383,13 +376,18 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             insert alertsForInsert;
         }
         if (toCreateUser.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
-        if (!notifications.isEmpty()) {
-            insert notifications;
+        if (!notifications.isEmpty()) insert notifications;
+        if (!contactsForChangeMode.isEmpty()) update contactsForChangeMode;
+
+        Map<Id, List<Id>> delegatesByParticipant =
+                PatientDelegateService.getDelegateContactIdsByPAContactIs(new List<Id>(participantContactIds));
+        Set<Id> allContactIds = new Set<Id>(participantContactIds);
+        for(Id partKey : delegatesByParticipant.keySet()) {
+            for(Id delConId : delegatesByParticipant.get(partKey)) {
+                allContactIds.add(delConId);
+            }
         }
-        if (!contactsForChangeMode.isEmpty()) {
-            update contactsForChangeMode;
-        }
-        if(!actionAssignContactPermissions.isEmpty()) ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+        PatientDelegateService.updatePermissionSets(allContactIds);
     }
     //Moved to PESH Trigger Handler
 
@@ -528,14 +526,16 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     }
 
     @TestVisible
-    private static void createTasks(List<Participant_Enrollment__c> newList) {
+    private static void createTasks(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c>();
         Set<Id> participantContactIds = new Set<Id>();
         for (Participant_Enrollment__c pe : newList) {
-            if (pe.Participant_Contact__c != null &&
-                    ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).Tasks_Are_Available__c) {
-                participantContactIds.add(pe.Participant_Contact__c);
-                enrollments.add(pe);
+            if((oldMap == null || oldMap.get(pe.Id).Participant_Status__c != pe.Participant_Status__c) && pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED){
+                if (pe.Participant_Contact__c != null &&
+                        ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).Tasks_Are_Available__c) {
+                    participantContactIds.add(pe.Participant_Contact__c);
+                    enrollments.add(pe);
+                }
             }
         }
 
@@ -551,10 +551,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             // COI tasks for GSK
             String communityTemplate = ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).CommunityTemplate__c;
             if (communityTemplate == CommunityTemplateService.TEMPLATE_GSK &&
-                    !PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c) &&
-                    usersByContactId.get(pe.Participant_Contact__c) != null) {
-                tasks.add(new Task (
-                        OwnerId = usersByContactId.get(pe.Participant_Contact__c).Id,
+                    !PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)) {
+                Task t = new Task (
                         Subject = TaskService.TASK_CODE_SELECT_COI,
                         Task_Code__c = TaskService.TASK_CODE_SELECT_COI,
                         Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED,
@@ -563,7 +561,15 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         WhatId = pe.Id,
                         WhoId = pe.Participant_Contact__c,
                         Visible_For__c = TaskService.TASK_VISIBILITY_ALL
-                ));
+                );
+                if(usersByContactId.get(pe.Participant_Contact__c) != null){
+                    //if user exist then assign to him:
+                    t.OwnerId = usersByContactId.get(pe.Participant_Contact__c).Id;
+                }else{
+                    //if not, then mark owner contact, and task will be reassigned when user for this contact will be created
+                    t.Owner_Contact__c = pe.Participant_Contact__c;
+                }
+                tasks.add(t);
             }
         }
         if (!tasks.isEmpty()) insert tasks;

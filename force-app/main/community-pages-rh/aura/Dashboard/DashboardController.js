@@ -3,7 +3,7 @@
  */
 ({
     doInit: function (component) {
-        component.set('v.isInitialized', false);
+        //component.set('v.isInitialized', false);
         var spinner = component.find('mainSpinner');
         spinner.show();
         if (!communityService.isInitialized()) return;
@@ -22,7 +22,6 @@
             var responseData = JSON.parse(returnValue);
             if(communityService.getUserMode() === 'PI'){
                 component.set('v.piData', responseData);
-                console.log('responseData>>>>',responseData);
             }else{
                 component.set('v.hcpData', responseData);
             }

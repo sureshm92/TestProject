@@ -21,6 +21,12 @@
     -ms-flex-direction: column;
 }
 
+@supports (-ms-ime-align:auto) {
+    .ms-board-body {
+        flex-direction: column;
+    }
+}
+
 .ms-board-body::-webkit-scrollbar {
     width: 7px;
 }

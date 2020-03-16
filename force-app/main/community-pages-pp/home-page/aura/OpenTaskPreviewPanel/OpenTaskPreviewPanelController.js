@@ -9,5 +9,12 @@
         }, null, function () {
             component.find('spinner').hide();
         })
+    },
+
+    doTaskClick: function (component, event, helper) {
+        communityService.executeAction(component, 'taskClicked', {
+            id: event.getParam('identifier'),
+            message: event.getParam('message')
+        });
     }
-})
+});
