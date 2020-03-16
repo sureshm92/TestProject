@@ -183,7 +183,7 @@ public class MCloudSMSSender {
                 Map<String, String> failedNumbers = new Map<String, String>();
                 if (responseBean.invalidSubscribers != null) {
                     for (InvalidSubscriber invalidSubscriber : responseBean.invalidSubscribers) {
-                        System.debug('INVALID NUMBER: ====> ' + invalidSubscriber.mobileNumber + ' - ' + invalidSubscriber.validationErrorMessage);
+                        System.debug('INVALID NUMBER: ' + invalidSubscriber.mobileNumber + ' - ' + invalidSubscriber.validationErrorMessage);
                         failedNumbers.put(invalidSubscriber.mobileNumber, invalidSubscriber.validationErrorMessage);
                     }
                 }
@@ -201,7 +201,7 @@ public class MCloudSMSSender {
         } catch (Exception e) {
             String errorMessage = e.getMessage() + ' ' + e.getStackTraceString();
             if (System.isFuture()) {
-                System.debug('ERROR: ====> ' + errorMessage);
+                System.debug('ERROR: ' + errorMessage);
             } else {
                 SendException se = new SendException();
                 se.setMessage(errorMessage);
@@ -252,7 +252,7 @@ public class MCloudSMSSender {
         ResponseBean responseBean = (ResponseBean) JSON.deserialize(response.getBody(), ResponseBean.class);
 
         if (response.getStatusCode() == 200) {
-            System.debug('DELIVERY STATUS: ====> ' + response.getBody());
+            System.debug('DELIVERY STATUS: ' + response.getBody());
         } else {
             SendException e = new SendException();
             String errMsg = '';

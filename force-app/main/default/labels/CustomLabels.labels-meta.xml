@@ -2464,6 +2464,15 @@
             To see additional information, log in to the ##ShortCommunityName, and then go to &quot;My Studies.&quot;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Patient9_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Patient9 Delegate</shortDescription>
+        <value>The study team has updated  ##PatientFirstName&#39;s referral status for clinical study ##StudyName
+
+            To see additional information, log in to the ##ShortCommunityName and then go to "My Studies".</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Patient_Become_Adult</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -2755,6 +2764,17 @@
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
         <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the clinical research study: ##StudyName. If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
+    </labels>
+    <labels>
+        <fullName>Email_Body_Welcome_to_Study_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Welcome to Study Delegate</shortDescription>
+        <value>Congratulations, your ##PatientFirstName have been enrolled in ##StudyName clinical research study.   
+
+            To assist you in tracking ##PatientFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the ##SignatureFullCommunityName.
+
+            Please note that enrollment in ##ShortCommunityName is not a requirement for ##PatientFirstName to be enrolled into the research study: ##StudyName.</value>
     </labels>
     <labels>
         <fullName>Email_Contact_Greeting</fullName>
@@ -3100,6 +3120,13 @@
         <value>Your referral status has been updated</value>
     </labels>
     <labels>
+        <fullName>Email_Header_Referral_Status_Updated_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Header Referral Status Updated Delegate</shortDescription>
+        <value>Your patient&#39;s referral status has changed</value>
+    </labels>
+    <labels>
         <fullName>Email_Header_Review_and_accept_a_new_study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3182,6 +3209,13 @@
         <protected>true</protected>
         <shortDescription>Email_Header_Visit_Task_Reminder_Delegate</shortDescription>
         <value>This is a reminder of your patient&#39;s upcoming visit</value>
+    </labels>
+    <labels>
+        <fullName>Email_Header_Welcome_to_Study_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Header Welcome to Study Delegate</shortDescription>
+        <value>Your patient has been enrolled to a clinical research study</value>
     </labels>
     <labels>
         <fullName>Email_Header_Your_Access_Level_Has_Been_Changed</fullName>
@@ -3437,7 +3471,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Initial</shortDescription>
-        <value>Welcome to Platform</value>
+        <value>Please enroll in the IQVIA Referral Hub and Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Initial_GSK</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Initial</shortDescription>
+        <value>Please enroll in the GatherSHAREKnow Participant Hub</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Initial_Patient</fullName>
@@ -9320,7 +9361,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Designed Text</shortDescription>
-        <value>##PatientFirstName has designated you as their delegate. You are allowed to view the following information. You may choose to withdraw from your delegate appointment at any time. Doing so will prevent you from seeing any more information associated with ##PatientFirstName. If you withdraw in error, kindly contact your patient to be reappoointed as a delegate.</value>
+        <value>##PatientFirstName has designated you as their delegate. You are allowed to view the following information. You may choose to withdraw from your delegate appointment at any time. Doing so will prevent you from seeing any more information associated with ##PatientFirstName. If you withdraw in error, kindly contact your patient to be reappointed as a delegate.</value>
     </labels>
     <labels>
         <fullName>PG_PST_L_Delegates_Disclaimer</fullName>

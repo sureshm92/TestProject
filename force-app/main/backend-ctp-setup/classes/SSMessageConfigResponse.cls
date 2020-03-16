@@ -40,7 +40,7 @@ public with sharing class SSMessageConfigResponse {
                 if (value) {
                     item.emptyAssignments = false;
                 } else if (mt.value.equals(TYPE_MESSAGE) && ssIdsWithConversations.contains(ss.Id)) {
-                    item.conversationsFound = true;
+                    item.hadAssignments = true;
                 }
             }
             studySiteItems.add(item);

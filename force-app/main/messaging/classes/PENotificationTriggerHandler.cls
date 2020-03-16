@@ -13,7 +13,7 @@ public without sharing class PENotificationTriggerHandler {
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createNotificationByStatus(newList, oldMap);
+            createNotificationByStatus(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
 
@@ -26,10 +26,14 @@ public without sharing class PENotificationTriggerHandler {
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
-    private static void createNotificationByStatus(List<Participant_Enrollment__c> newList, Map<Id, SObject> oldMap) {
+    private static void createNotificationByStatus(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
+        List<String> peStatusesSuccess = new List<String>{
+                PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS,
+                PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS
+        };
         List<Notification__c> notifications = new List<Notification__c>();
         List<Id> participantConIds = new List<Id>();
-        List<Participant_Enrollment__c> listPE = [
+        List<Participant_Enrollment__c> PEs = [
                 SELECT Id,
                         HCP_Contact_HCPEnroll__c,
                         Participant__c,
@@ -42,74 +46,60 @@ public without sharing class PENotificationTriggerHandler {
                         IsAutoaccepted__c,
                         Source_Type__c
                 FROM Participant_Enrollment__c
-                WHERE Id IN :newList
+                WHERE Id IN :newList AND Participant__r.Contact__c != NULL
         ];
 
-        for (Participant_Enrollment__c pe : listPE) {
-            String notifyHCPType;
-            String notifyPTType;
-            if(pe.Participant__r.Contact__c != null) {
-                //Forming list notifications for HCPs and Patients
-                if (oldMap == null) {
-                    if (pe.HCP_Contact_HCPEnroll__c != null) notifyHCPType = NotificationService.checkHCPNotificationType(pe, false);
-                    notifyPTType =
-                            pe.Is_Virtual_Study_Site__c ? NotificationService.checkPatientNotificationVTType(pe)
-                                    : NotificationService.checkPatientNotificationType(pe, false);
-                } else if (pe.Participant_Status__c != ((Participant_Enrollment__c) oldMap.get(pe.Id)).Participant_Status__c) {
-                    if (pe.HCP_Contact_HCPEnroll__c != null) notifyHCPType = NotificationService.checkHCPNotificationType(pe,
-                            !NotificationService.participantStatusListForHCP.contains(pe.Participant_Status__c));
-                    notifyPTType =
-                            pe.Is_Virtual_Study_Site__c ? NotificationService.checkPatientNotificationVTType(pe)
-                                    : NotificationService.checkPatientNotificationType(pe, !NotificationService.participantStatusListForPT.contains(pe.Participant_Status__c));
-                    //Forming additional notification for Enrollment Success
-                    if ((pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
-                            || pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS )
-                            && pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
-                        participantConIds.add(pe.Participant__r.Contact__c);
-                        notifications.add(new Notification__c(
-                                Recipient__c = pe.Participant__r.Contact__c,
-                                WhatId__c = pe.Id,
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE
-                        ));
-                    }
-                    //Forming additional notification for Drop Out
-                    if (pe.Participant_Status__c == PEStatusState.PE_STATUS_DROP_OUT) {
-                        participantConIds.add(pe.Participant__r.Contact__c);
-                        notifications.add(new Notification__c(
-                                Recipient__c = pe.Participant__r.Contact__c,
-                                WhatId__c = pe.Id,
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DROP_OUT_TYPE
-                        ));
-                    }
-
-                }
-                if(oldMap == null || pe.Participant_Status__c != ((Participant_Enrollment__c) oldMap.get(pe.Id)).Participant_Status__c){
-                    //Forming additional notification for PI
-                    if (pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED && pe.Source_Type__c != ParticipantEnrollmentService.PE_SOURCE_TYPE_PI) {
-                        notifications.add(new Notification__c(
-                                Recipient__c = pe.Study_Site__r.Principal_Investigator__r.Id,
-                                WhatId__c = pe.Id,
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE
-                        ));
-                    }
-                }
+        for (Participant_Enrollment__c pe : PEs) {
+            String notifyHCPType, notifyPTType;
+            //Forming list notifications for HCPs and Patients
+            Boolean notContainsForPT = false, notContainsForHCP = false;
+            if (oldMap != null && pe.Participant_Status__c != (oldMap.get(pe.Id)).Participant_Status__c) {
+                notContainsForHCP = !NotificationService.participantStatusListForHCP.contains(pe.Participant_Status__c);
+                notContainsForPT = !NotificationService.participantStatusListForPT.contains(pe.Participant_Status__c);
             }
+            if (pe.HCP_Contact_HCPEnroll__c != null) notifyHCPType = NotificationService.checkHCPNotificationType(pe, notContainsForHCP);
+            notifyPTType = pe.Is_Virtual_Study_Site__c ? NotificationService.checkPatientNotificationVTType(pe)
+                            : NotificationService.checkPatientNotificationType(pe, notContainsForPT);
 
-            if (notifyHCPType != null)  {
-                notifications.add(new Notification__c(
-                        Recipient__c = pe.HCP_Contact_HCPEnroll__c,
-                        WhatId__c = pe.Id,
-                        Notification_Type__c = notifyHCPType
-                ));
+            String recipient;
+            if (notifyHCPType != null) {
+                recipient = pe.HCP_Contact_HCPEnroll__c;
+                notifications.add(new Notification__c(Recipient__c = recipient, WhatId__c = pe.Id, Notification_Type__c = notifyHCPType));
             }
-
             if (notifyPTType != null) {
+                recipient = pe.Participant__r.Contact__c;
+                notifications.add(new Notification__c(Recipient__c = recipient, WhatId__c = pe.Id, Notification_Type__c = notifyPTType));
                 participantConIds.add(pe.Participant__r.Contact__c);
-                notifications.add(new Notification__c(
-                        Recipient__c = pe.Participant__r.Contact__c,
-                        WhatId__c = pe.Id,
-                        Notification_Type__c = notifyPTType
-                ));
+            }
+
+            if (oldMap != null && pe.Participant_Status__c != (oldMap.get(pe.Id)).Participant_Status__c) {
+                String notificationTypePT;
+                //Forming additional notification for Enrollment Success
+                if (peStatusesSuccess.contains(pe.Participant_Status__c) && pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
+                    participantConIds.add(pe.Participant__r.Contact__c);
+                    notificationTypePT = NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE;
+                }
+                //Forming additional notification for Drop Out
+                if (pe.Participant_Status__c == PEStatusState.PE_STATUS_DROP_OUT) {
+                    notificationTypePT = NotificationCatalog.MESSAGE_TO_PT_DROP_OUT_TYPE;
+                }
+                if (notificationTypePT != null) {
+                    notifications.add(new Notification__c(
+                            Recipient__c = pe.Participant__r.Contact__c,
+                            WhatId__c = pe.Id,
+                            Notification_Type__c = notificationTypePT
+                    ));
+                }
+            }
+            if (oldMap == null || pe.Participant_Status__c != (oldMap.get(pe.Id)).Participant_Status__c) {
+                //Forming additional notification for PI
+                if (pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED && pe.Source_Type__c != ParticipantEnrollmentService.PE_SOURCE_TYPE_PI) {
+                    notifications.add(new Notification__c(
+                            Recipient__c = pe.Study_Site__r.Principal_Investigator__r.Id,
+                            WhatId__c = pe.Id,
+                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE
+                    ));
+                }
             }
         }
 
@@ -124,7 +114,8 @@ public without sharing class PENotificationTriggerHandler {
                     delegateNotifications.add(new Notification__c(
                             Recipient__c = contact.Id,
                             WhatId__c = n.WhatId__c,
-                            Notification_Type__c = n.Notification_Type__c
+                            Notification_Type__c = n.Notification_Type__c,
+                            IsDelegate__c = true
                     ));
                 }
             }
@@ -149,24 +140,23 @@ public without sharing class PENotificationTriggerHandler {
                         Study_Site__r.Principal_Investigator__c,
                         Participant_Contact__c
                 FROM Participant_Enrollment__c
-                WHERE Id IN :peIds AND Participant_Contact__c != null
+                WHERE Id IN :peIds AND Participant_Contact__c != NULL
         ]) {
-            if(pe.Participant_Contact__c != null) {
-                notificationList.add(new Notification__c(
-                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE,
-                        Recipient__c = pe.Participant_Contact__c,
-                        WhatId__c = pe.Id));
-            }
-            if(pe.Study_Site__r.Principal_Investigator__c != null) {
+            notificationList.add(new Notification__c(
+                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE,
+                    Recipient__c = pe.Participant_Contact__c,
+                    WhatId__c = pe.Id));
+            if (pe.Study_Site__r.Principal_Investigator__c != null) {
                 notificationList.add(new Notification__c(
                         Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE,
                         Recipient__c = pe.Study_Site__r.Principal_Investigator__c,
                         WhatId__c = pe.Id));
-                for(Site_Staff__c delegate : [
+                for (Site_Staff__c delegate : [
                         SELECT Id, Site_Contact__c
                         FROM Site_Staff__c
                         WHERE Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
-                        AND Study_Site__c = :pe.Study_Site__c]){
+                        AND Study_Site__c = :pe.Study_Site__c
+                ]) {
                     notificationList.add(new Notification__c(
                             Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE,
                             Recipient__c = delegate.Site_Contact__c,

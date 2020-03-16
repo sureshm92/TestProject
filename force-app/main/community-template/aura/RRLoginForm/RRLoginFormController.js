@@ -30,14 +30,14 @@
         helper.setBrandingCookie(component, event, helper);
     },
 
-    onKeyUp: function(component, event, helpler){
+    onKeyUp: function(component, event, helper){
         //checks for "enter" key
         var usernameField = component.find("username");
         var userPasswordField = component.find('password');
         if (event.getParam('keyCode')===13) {
             usernameField.focus();
             userPasswordField.focus();
-            helpler.handleLogin(component, event, helpler);
+            helper.handleLogin(component, event, helper);
         }
 
     },

@@ -15,7 +15,9 @@ private class Test_PatientVisitSchedule {
                 .then(null)
                 .build()
         );
-        TestData.loadTestData();
+        List<String> triggersToExecute = new List<String>();
+        triggersToExecute.add('ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler');
+        TestData.loadTestData(true, triggersToExecute);
         Test.startTest();
         Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test VP');
         insert vp;
