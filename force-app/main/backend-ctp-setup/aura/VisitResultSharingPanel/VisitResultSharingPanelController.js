@@ -91,6 +91,10 @@
     onChangeGlobal: function (component, event, helper) {
         if (!component.get('v.options.globalShareBck')) {
             communityService.showInfoToast('', 'For the changes to take effect, do not forget to click Save!');
+        } else {
+            var options = component.get('v.options');
+            options.countrySelectionType = 'Disabled';
+            component.set('v.options', options);
         }
     },
 

@@ -61,6 +61,7 @@
             sobjectType: 'Participant__c',
         };
         component.set('v.delegateParticipant', delegateParticipant);
+        component.set('v.emailDelegateRepeat', '');
     },
 
     checkFields: function (component) {
