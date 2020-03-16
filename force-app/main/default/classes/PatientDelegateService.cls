@@ -382,7 +382,7 @@ public without sharing class PatientDelegateService {
             List<Id> delegatedParticipantIds = new List<Id>();
             for (List<Id> participantIds : participantIdsByDelegatedContactIdMap.values()) delegatedParticipantIds.addAll(participantIds);
             String allDelegatedPEFilter = '';
-            if (filter != null) allDelegatedPEFilter = ' WHERE ' + filter;
+            if (String.isNotBlank(filter)) allDelegatedPEFilter = ' WHERE ' + filter;
             List<Participant__c> allDelegatedParticipants = DatabaseService.query(new List<String>{
                     'Id',
                     ' ( SELECT Id FROM Participant_Profile__r ' + allDelegatedPEFilter + ') '

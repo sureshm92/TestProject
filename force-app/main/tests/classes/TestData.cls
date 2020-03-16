@@ -17,6 +17,7 @@ public class TestData {
     public HCP_Enrollment__c hcpEnrollment;
     private static Contact hcpContact;
     private static Terms_And_Conditions__c studyTC;
+
     public TestData() {
         participant = [
                 SELECT Id, Name, First_Name__c, Last_Name__c, Email__c, Status__c, Balance__c, Contact__c, Contact__r.AccountId
@@ -133,6 +134,7 @@ public class TestData {
 
     public static void loadTestData(Boolean bypass, List<String> externalExecuteTriggerNames) {
         if(bypass) bypassTriggers(externalExecuteTriggerNames);
+
         List<Terms_And_Conditions__c> tcList = new List<Terms_And_Conditions__c>();
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(
                 Active__c = true
@@ -346,7 +348,7 @@ public class TestData {
 
     */
     public static void loadTestData() {
-        loadTestData(true,null);
+        loadTestData(true, null);
     }
     
     @IsTest
