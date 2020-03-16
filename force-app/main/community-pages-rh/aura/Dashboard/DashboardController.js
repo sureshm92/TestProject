@@ -22,7 +22,6 @@
             var responseData = JSON.parse(returnValue);
             if(communityService.getUserMode() === 'PI'){
                 component.set('v.piData', responseData);
-                console.log('responseData>>>>',responseData);
             }else{
                 component.set('v.hcpData', responseData);
             }
