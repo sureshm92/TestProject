@@ -131,8 +131,8 @@ public class TestData {
         insert history;
     }
 
-    public static void loadTestData(List<String> externalExecuteTriggerNames) {
-        bypassTriggers(externalExecuteTriggerNames);
+    public static void loadTestData(Boolean bypass, List<String> externalExecuteTriggerNames) {
+        if(bypass) bypassTriggers(externalExecuteTriggerNames);
         List<Terms_And_Conditions__c> tcList = new List<Terms_And_Conditions__c>();
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(
                 Active__c = true
@@ -346,7 +346,12 @@ public class TestData {
 
     */
     public static void loadTestData() {
-        loadTestData(null);
+        loadTestData(true,null);
+    }
+    
+    @IsTest
+    public static void runAllTriggers() {
+        loadTestData(false, null);
     }
 
     public static void createTCAcceptance() {
