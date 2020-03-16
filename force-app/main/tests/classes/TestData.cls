@@ -314,7 +314,7 @@ public class TestData {
                 Screening_ID__c = 'PESCR1'
         );
         insert pe;
-        update pe;
+
 
         Referral_Network__c referralNetwork = new Referral_Network__c(
                 Name = 'Test Referral Network'
@@ -337,7 +337,6 @@ public class TestData {
         Contact contactForUpdate = [SELECT Id, Current_Participant_Enrollment__c FROM Contact WHERE Id = :peForContactUpdate.Participant_Contact__c];
         contactForUpdate.Current_Participant_Enrollment__c = pe.Id;
         update contactForUpdate;
-
     }
 
     /**
@@ -380,12 +379,17 @@ public class TestData {
 
         List<String> executeTriggerNames = new List<String>();
         executeTriggerNames.add('ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler');
-        executeTriggerNames.add('ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler');
         executeTriggerNames.add('ParticipantTriggerHandler.CreateContactsForParticipantsHandler');
         executeTriggerNames.add('HCPEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler');
         executeTriggerNames.add('HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotificationHandler');
         executeTriggerNames.add('ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler');
         executeTriggerNames.add('StudySiteTriggerHandler.CreatePIOrSendNotificationHandler');
+        executeTriggerNames.add('StudySiteTriggerHandler.SwitchContactUserModeHandler');
+        executeTriggerNames.add('ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler');
+        executeTriggerNames.add('ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR');
+        executeTriggerNames.add('ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandle');
+        executeTriggerNames.add('ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler');
+        executeTriggerNames.add('ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler');
 
         if (externalExecuteTriggerNames != null && !externalExecuteTriggerNames.isEmpty()) {
             executeTriggerNames.addAll(externalExecuteTriggerNames);
