@@ -11,7 +11,7 @@ private class Test_Batch_UpdateParticipantEnrollmentRP {
         Test.startTest();
         List<String> triggersToExecute = new List<String>();
         triggersToExecute.add('ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler');
-        TestData.loadTestData(triggersToExecute);
+        TestData.loadTestData(true, triggersToExecute);
         TestData tstData = new TestData();
         peId = tstData.pe.Id;
         Participant_Enrollment__c startStatus = [SELECT Id, Show_Referring_Provider__c,
