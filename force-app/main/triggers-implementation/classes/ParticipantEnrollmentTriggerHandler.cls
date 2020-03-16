@@ -69,6 +69,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             resetNotesAndSetChangeDate(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+        }
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             createPrimaryHistoryEntry((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
 
