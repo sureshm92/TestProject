@@ -2770,7 +2770,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Welcome to Study Delegate</shortDescription>
-        <value>Congratulations, your ##PatientFirstName have been enrolled in ##StudyName clinical research study.   
+        <value>Congratulations, your ##PatientFirstName has been enrolled in ##StudyName clinical research study.
 
             To assist you in tracking ##PatientFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the ##SignatureFullCommunityName.
 
@@ -3640,6 +3640,13 @@
         <protected>false</protected>
         <shortDescription>Email Subject Referral Status Changed</shortDescription>
         <value>Your referral status has changed</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Referral_Status_Changed_Del</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Referral Status Changed</shortDescription>
+        <value>Your patient's referral status has changed</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Reset_Your_Password</fullName>
