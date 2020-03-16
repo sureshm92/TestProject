@@ -235,9 +235,13 @@ public without sharing class ParticipantInformationRemote {
 
     @AuraEnabled
     public static String updatePatientInfoAndStatusWithDelegate(String participantJSON, String peJSON, String pathWrapperJSON, String peId, String delegateJSON) {
-        Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
+        try{
+            Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
+            update participant;
+        }catch (Exception e){
+            AuraHelper.throwException(e);
+        }
         Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
-        update participant;
 
         if (!String.isBlank(delegateJSON)) {
             Contact delegateParticipant = (Contact) JSON.deserialize(delegateJSON, Contact.class);
@@ -250,8 +254,13 @@ public without sharing class ParticipantInformationRemote {
     }
     @AuraEnabled
     public static void updateUserLanguage(String userJSON) {
-        User userL = (User)JSON.deserialize(userJSON, User.class);
-        update userL;
+        try {
+            User userL = (User)JSON.deserialize(userJSON, User.class);
+            update userL;
+        } catch (Exception e){
+            AuraHelper.throwException(e);
+        }
+
 
     }
 
