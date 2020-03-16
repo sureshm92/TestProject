@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Welcome_To_The_Study}"
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Welcome_To_The_Study_Del}"
                          recipientType="Contact"
                          relatedToType="Participant_Enrollment__c"
                          language="{!recipient.Language__c}">

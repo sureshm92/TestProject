@@ -109,7 +109,7 @@ public without sharing class PENotificationTriggerHandler {
                 participantConIds, new List<String>{'Id'}
         );
         for (Notification__c n : notifications) {
-            if (delegateContactsByPartCnt.containsKey(n.Recipient__c)) {
+            if (n.Notification_Type__c != NotificationCatalog.MESSAGE_TO_PT_DROP_OUT_TYPE && delegateContactsByPartCnt.containsKey(n.Recipient__c)) {
                 for (Contact contact : delegateContactsByPartCnt.get(n.Recipient__c)) {
                     delegateNotifications.add(new Notification__c(
                             Recipient__c = contact.Id,

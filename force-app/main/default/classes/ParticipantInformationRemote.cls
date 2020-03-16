@@ -47,7 +47,11 @@ public without sharing class ParticipantInformationRemote {
         if (!String.isBlank(delegateJSON)) {
             Contact delegateParticipant = (Contact) JSON.deserialize(delegateJSON, Contact.class);
             if (delegateParticipant != null) {
-                update delegateParticipant;
+                try {
+                    update delegateParticipant;
+                } catch (Exception exp) {
+                    system.debug('No delegate was provided');
+                }
             }
         }
     }
@@ -246,14 +250,25 @@ public without sharing class ParticipantInformationRemote {
         if (!String.isBlank(delegateJSON)) {
             Contact delegateParticipant = (Contact) JSON.deserialize(delegateJSON, Contact.class);
             if (delegateParticipant != null) {
-                update delegateParticipant;
+                try {
+                    update delegateParticipant;
+                } catch (Exception exp) {
+                    system.debug('No delegate was provided');
+                }
             }
         }
 
         return updatePatientStatus(pathWrapperJSON, pe);
     }
+
     @AuraEnabled
     public static void updateUserLanguage(String userJSON) {
+        if (!String.isBlank(userJSON)) {
+            User userL = (User) JSON.deserialize(userJSON, User.class);
+            if (userL != null) {
+                update userL;
+            }
+        }
         try {
             User userL = (User)JSON.deserialize(userJSON, User.class);
             update userL;
@@ -278,6 +293,5 @@ public without sharing class ParticipantInformationRemote {
             this.participantPath = participantPath;
         }
     }
-
 
 }

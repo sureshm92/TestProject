@@ -66,9 +66,6 @@
                             <c:OpenTaskPreviewPanel isAlumni="{!v.participantState.value == 'ALUMNI'}"/>
                         </div>
                         <aura:if isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}">
-                            <div class="slds-col">
-                                <c:UpcomingVisitsPreviewPanel/>
-                            </div>
                             <aura:if
                                     isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c)}">
                                 <div class="slds-col">
@@ -76,12 +73,9 @@
                                 </div>
                             </aura:if>
                         </aura:if>
-                        <aura:if
-                                isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Payment_Is_Available__c, v.participantState.value != 'ALUMNI')}">
-                            <div class="slds-col">
-                                <c:PaymentsPanel/>
-                            </div>
-                        </aura:if>
+                        <div class="slds-col">
+                            <c:RelevantLinks/>
+                        </div>
                     </div>
                 </div>
                 <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">
@@ -90,13 +84,17 @@
                         <c:VisitResultsDashboardCard
                                 ctpId="{!v.participantState.pe.Study_Site__r.Clinical_Trial_Profile__c}"/>
                     </aura:if>
+                    <aura:if isTrue="{!and(v.participantState.isPremium, v.participantState.showVisits)}">
+                            <c:UpcomingVisitsPreviewPanel/>
+                    </aura:if>
+                    <aura:if
+                            isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Payment_Is_Available__c, v.participantState.value != 'ALUMNI')}">
+                            <c:PaymentsPanel/>
+                    </aura:if>
                     <aura:if
                             isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Video_And_Articles_Are_Available__c, v.participantState.value == 'ALUMNI')}">
                         <c:ResourceDashboardCard/>
                     </aura:if>
-                    <div class="slds-size_1-of-2">
-                        <c:RelevantLinks/>
-                    </div>
                 </div>
             </div>
             <c:ParticipantIRBChecker peId="{!v.participantState.pe.Id}"/>
