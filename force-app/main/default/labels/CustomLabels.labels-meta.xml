@@ -3775,6 +3775,13 @@
         <value>You have been enrolled to a clinical research study</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Welcome_To_The_Study_Del</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Welcome To The Study</shortDescription>
+        <value>Your patient has been enrolled to a clinical research study</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_Your_request_for_additonal_information</fullName>
         <language>en_US</language>
         <protected>true</protected>
