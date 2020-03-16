@@ -264,19 +264,16 @@ public without sharing class ParticipantInformationRemote {
     @AuraEnabled
     public static void updateUserLanguage(String userJSON) {
         if (!String.isBlank(userJSON)) {
-            User userL = (User) JSON.deserialize(userJSON, User.class);
-            if (userL != null) {
-                update userL;
+            try {
+                User userL = (User)JSON.deserialize(userJSON, User.class);
+                if (userL != null) {
+                    update userL;
+                }
+            } catch (Exception e){
+                AuraHelper.throwException(e);
             }
-        }
-        try {
-            User userL = (User)JSON.deserialize(userJSON, User.class);
-            update userL;
-        } catch (Exception e){
-            AuraHelper.throwException(e);
-        }
 
-
+        }
     }
 
     @AuraEnabled
