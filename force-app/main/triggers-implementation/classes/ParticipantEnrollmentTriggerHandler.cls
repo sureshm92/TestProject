@@ -545,10 +545,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             // COI tasks for GSK
             String communityTemplate = ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).CommunityTemplate__c;
             if (communityTemplate == CommunityTemplateService.TEMPLATE_GSK &&
-                    !PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c) &&
-                    usersByContactId.get(pe.Participant_Contact__c) != null) {
-                tasks.add(new Task (
-                        OwnerId = usersByContactId.get(pe.Participant_Contact__c).Id,
+                    !PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)) {
+                Task t = new Task (
                         Subject = TaskService.TASK_CODE_SELECT_COI,
                         Task_Code__c = TaskService.TASK_CODE_SELECT_COI,
                         Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED,
@@ -557,7 +555,15 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         WhatId = pe.Id,
                         WhoId = pe.Participant_Contact__c,
                         Visible_For__c = TaskService.TASK_VISIBILITY_ALL
-                ));
+                );
+                if(usersByContactId.get(pe.Participant_Contact__c) != null){
+                    //if user exist then assign to him:
+                    t.OwnerId = usersByContactId.get(pe.Participant_Contact__c).Id;
+                }else{
+                    //if not, then mark owner contact, and task will be reassigned when user for this contact will be created
+                    t.Owner_Contact__c = pe.Participant_Contact__c;
+                }
+                tasks.add(t);
             }
         }
         if (!tasks.isEmpty()) insert tasks;
