@@ -90,12 +90,16 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     }
 
     public class CreateEnrollmentTasks extends TriggerHandler {
-        public override void afterInsert(List<SObject> newList) {
-            createTasks((List<Participant_Enrollment__c>) newList);
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createTasks((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
 
     public class CompleteEnrollmentTasks extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            createTasks((List<Participant_Enrollment__c>) newList, null);
+        }
+        
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             completeTasks((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
@@ -522,14 +526,16 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     }
 
     @TestVisible
-    private static void createTasks(List<Participant_Enrollment__c> newList) {
+    private static void createTasks(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c>();
         Set<Id> participantContactIds = new Set<Id>();
         for (Participant_Enrollment__c pe : newList) {
-            if (pe.Participant_Contact__c != null &&
-                    ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).Tasks_Are_Available__c) {
-                participantContactIds.add(pe.Participant_Contact__c);
-                enrollments.add(pe);
+            if((oldMap == null || oldMap.get(pe.Id).Participant_Status__c != pe.Participant_Status__c) && pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED){
+                if (pe.Participant_Contact__c != null &&
+                        ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).Tasks_Are_Available__c) {
+                    participantContactIds.add(pe.Participant_Contact__c);
+                    enrollments.add(pe);
+                }
             }
         }
 
