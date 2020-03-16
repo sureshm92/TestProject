@@ -235,7 +235,8 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 }
             }
             if (!alertsForInsert.isEmpty()) insert alertsForInsert;
-            if (toCreateUser.size() > 0) CommunityService.createParticipantUsersAsync(toCreateUser, actionAssigContactPermissions);
+            if (toCreateUser.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
+            //if (toCreateUser.size() > 0) CommunityService.createParticipantUsersAsync(toCreateUser, actionAssigContactPermissions);
             if (!notifications.isEmpty()) insert notifications;
             if (!contactsForChangeMode.isEmpty()) update contactsForChangeMode;
 
