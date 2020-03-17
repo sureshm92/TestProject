@@ -87,7 +87,7 @@
 }
 
 .THIS .visit-schedule {
-    max-width: 80px;
+    max-width: 140px;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
