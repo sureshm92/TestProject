@@ -491,6 +491,8 @@ public without sharing class PatientDelegateService {
 
         for (Id contactId : contactIds) {
             Set<String> communityPermissionSets = CommunityTemplateService.getAllPermissionSets();
+            //reset permissions
+            actionAssignContactPermissions.deletePermissions(contactId, communityPermissionSets);
             //assign own permission sets:
             Id ownParticipantId = participantIdByContactIdMap.get(contactId);
             Set<String> ownPermissions;
@@ -507,37 +509,6 @@ public without sharing class PatientDelegateService {
                             }
                         }
                     }
-                }
-            }
-        }
-
-        List<User> users = [
-                SELECT Id, ContactId, (
-                        SELECT Id, PermissionSet.Name
-                        FROM PermissionSetAssignments
-                        WHERE PermissionSet.Name IN:CommunityTemplateService.getAllPermissionSets()
-                )
-                FROM User
-                WHERE ContactId IN:contactIds
-        ];
-        Map<Id, Set<String>> contactPermissionsMap = new Map<Id, Set<String>>();
-        for (User user : users) {
-            if (!contactPermissionsMap.containsKey(user.ContactId)) {
-                contactPermissionsMap.put(user.ContactId, new Set<String>());
-            }
-            for (PermissionSetAssignment assignment : user.PermissionSetAssignments) {
-                contactPermissionsMap.get(user.ContactId).add(assignment.PermissionSet.Name);
-            }
-        }
-
-        for (Id conId : contactIds) {
-            Set<String> currentPerms = contactPermissionsMap.get(conId);
-            if (currentPerms == null) continue;
-
-            Set<String> actualPermissions = actionAssignContactPermissions.getAssignedPermissions(conId);
-            for (String permissionName : currentPerms) {
-                if (!actualPermissions.contains(permissionName)) {
-                    actionAssignContactPermissions.deletePermission(conId, permissionName);
                 }
             }
         }
