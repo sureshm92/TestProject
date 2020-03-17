@@ -2468,7 +2468,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient9 Delegate</shortDescription>
-        <value>The study team has updated  ##PatientFirstName&#39;s referral status for clinical study ##StudyName
+        <value>The study team has updated  ##PatientFirstName&#39;s referral status for clinical study ##StudyName.
 
             To see additional information, log in to the ##ShortCommunityName and then go to "My Studies".</value>
     </labels>
