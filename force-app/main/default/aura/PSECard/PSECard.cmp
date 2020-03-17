@@ -15,7 +15,7 @@
     <aura:attribute name="isInvited" type="Boolean" default="false" access="public"/>
 
     <!-- component body:-->
-    <div class="rr-white-panel padding">
+    <div class="rr-white-panel padding" style="position: relative">
         <c:ParticipantCardHeader userMode="{!v.userMode}" pe="{!v.pe}" isReferral="false"/>
         <c:ParticipantCardIsEmansipated pe="{!v.pe}" parent="{!v.parent}" userMode="{!v.userMode}"/>
         <c:ParticipantCardFields userMode="{!v.userMode}" pe="{!v.pe}" showParticipationSteps="true" isInvited="{!v.isInvited}"/>
