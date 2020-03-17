@@ -54,6 +54,9 @@
     width: 100%;
     line-height: 22px;
     margin-top: 5px;
+    display: inline-block;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
 }
 
 .THIS .visit-results-panel-disclaimer {
