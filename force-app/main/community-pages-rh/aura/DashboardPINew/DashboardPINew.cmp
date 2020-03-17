@@ -30,7 +30,7 @@
         <div class="slds-col slds-large-size_2-of-3 slds-small-size_1-of-1 slds-medium-size_2-of-3">
             <c:FunnelChart funnelData = "{!v.piData.funnelData}"/>
         </div>
-        <div class="slds-col slds-size--1-of-3">
+        <div class="slds-col slds-large-size_1-of-3 slds-small-size_1-of-1 slds-medium-size_2-of-3">
             <div class="db-quick-actions-container">
                 <c:DashboardQuickActionList
                         parent="{!v.parent}"
