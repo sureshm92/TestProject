@@ -238,6 +238,8 @@ public without sharing class HCPEnrollmentTriggerHandler {
         }
         if (!hcpeMapWithUpdatedStatuses.isEmpty()) {
             Map<Id, List<HCP_Enrollment__c>> mapHCPEByHcpContact = new Map<Id, List<HCP_Enrollment__c>>();
+            List<HCP_Enrollment__c> hcpeWithUniqueHCP = new List<HCP_Enrollment__c>();
+            Set<Id> hcpWithSingleHCPE = new Set<Id>();
             for (HCP_Enrollment__c hcpe : [
                     SELECT Id,
                             HCP_Contact__c,
@@ -253,58 +255,46 @@ public without sharing class HCPEnrollmentTriggerHandler {
                     mapHCPEByHcpContact.get(hcpe.HCP_Contact__c).add(hcpe);
                 }
             }
-            Set<Id> hcpIds = new Set<Id>();
             List<Notification__c> listNotificationsToSend = new List<Notification__c>();
-            for (Id hcpeContact : mapHCPEByHcpContact.keySet()) {
-                if (mapHCPEByHcpContact.get(hcpeContact).size() > 1) {
+            for (Id hcpeContactId : mapHCPEByHcpContact.keySet()) {
+                List<HCP_Enrollment__c> enrollmentsForHcp = mapHCPEByHcpContact.get(hcpeContactId);
+                if (enrollmentsForHcp.size() > 1) {
                     listNotificationsToSend.add(new Notification__c(
-                            Recipient__c = hcpeContact,
-                            WhatId__c = mapHCPEByHcpContact.get(hcpeContact)[0].Id,
+                            Recipient__c = hcpeContactId,
+                            WhatId__c = enrollmentsForHcp[0].Id,
                             Notification_Type__c = NotificationCatalog.MESSAGE_TO_HCP_APPROVED_TYPE
                     ));
-                } else if (!mapHCPEByHcpContact.get(hcpeContact).isEmpty()) {
-                    hcpIds.add(hcpeContact);
+                } else {
+                    hcpeWithUniqueHCP.add(enrollmentsForHcp[0]);
+                    hcpWithSingleHCPE.add(hcpeContactId);
                 }
             }
-            if (!hcpIds.isEmpty()) {
-                List<PI_RP_Relationship__c> piRpRelationships = [
+            if (!hcpWithSingleHCPE.isEmpty()) {
+                Map<Id, Set<Id>> rpPiRelationshipsMap = new Map<Id, Set<Id>>();
+                for (PI_RP_Relationship__c relationship : [
                         SELECT PI_Contact__c,
                                 RP_Contact__c
                         FROM PI_RP_Relationship__c
-                        WHERE RP_Contact__c IN :hcpIds
-                ];
-                Map<Id, Id> whiteMapRP = new Map<Id, Id>();
-                Map<Id, Id> singleActivationMap = new Map<Id, Id>();
-                if (!piRpRelationships.isEmpty()) {
-                    for (PI_RP_Relationship__c piRpRel : piRpRelationships) {
-                        if (mapHCPEByHcpContact.get(piRpRel.RP_Contact__c)[0].Study_Site_PI_Contact__c == piRpRel.PI_Contact__c) {
-                            whiteMapRP.put(piRpRel.RP_Contact__c, mapHCPEByHcpContact.get(piRpRel.RP_Contact__c)[0].Id);
-                        } else {
-                            singleActivationMap.put(piRpRel.RP_Contact__c, mapHCPEByHcpContact.get(piRpRel.RP_Contact__c)[0].Id);
-                        }
+                        WHERE RP_Contact__c IN :hcpWithSingleHCPE
+                ]){
+                    if (!rpPiRelationshipsMap.containsKey(relationship.RP_Contact__c)) {
+                        rpPiRelationshipsMap.put(relationship.RP_Contact__c, new Set<Id>{relationship.PI_Contact__c});
                     }
-                } else {
-                    for (Id hcpId : hcpIds) {
-                        singleActivationMap.put(hcpId, mapHCPEByHcpContact.get(hcpId)[0].Id);
+                    else{
+                        rpPiRelationshipsMap.get(relationship.RP_Contact__c).add(relationship.PI_Contact__c);
                     }
                 }
-                if (!whiteMapRP.isEmpty()) {
-                    for (Id hcpId : whiteMapRP.keySet()) {
-                        listNotificationsToSend.add(new Notification__c(
-                                Recipient__c = hcpId,
-                                WhatId__c = whiteMapRP.get(hcpId),
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_HCP_APPROVED_TYPE
-                        ));
-                    }
-                }
-                if (!singleActivationMap.isEmpty()) {
-                    for (Id hcpId : singleActivationMap.keySet()) {
-                        listNotificationsToSend.add(new Notification__c(
-                                Recipient__c = hcpId,
-                                WhatId__c = singleActivationMap.get(hcpId),
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_HCP_APPROVED_SINGLE_TYPE
-                        ));
-                    }
+                for (HCP_Enrollment__c hcpEnrollment : hcpeWithUniqueHCP){
+                    Boolean wasApprovedByPIForAllStudies = rpPiRelationshipsMap.containsKey(hcpEnrollment.HCP_Contact__c)
+                            && rpPiRelationshipsMap.get(hcpEnrollment.HCP_Contact__c).contains(hcpEnrollment.Study_Site_PI_Contact__c);
+
+                    listNotificationsToSend.add(new Notification__c(
+                            Recipient__c = hcpEnrollment.HCP_Contact__c,
+                            WhatId__c = hcpEnrollment.Id,
+                            Notification_Type__c = (wasApprovedByPIForAllStudies?
+                                    NotificationCatalog.MESSAGE_TO_HCP_APPROVED_TYPE
+                                    :NotificationCatalog.MESSAGE_TO_HCP_APPROVED_SINGLE_TYPE)
+                    ));
                 }
             }
             if (!listNotificationsToSend.isEmpty()) insert listNotificationsToSend;

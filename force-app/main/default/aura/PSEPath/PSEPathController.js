@@ -17,7 +17,8 @@
         var rootComponent = component.get('v.parent');
         var pe = component.get('v.pe');
         var actions = component.get('v.actions');
-        rootComponent.find('updatePatientInfoAction').execute(pe, actions, rootComponent, function (enrollment) {
+        let isInvited = component.get('v.isInvited');
+        rootComponent.find('updatePatientInfoAction').execute(pe, actions, rootComponent, isInvited , function (enrollment) {
             component.set('v.pe', enrollment);
         });
     },

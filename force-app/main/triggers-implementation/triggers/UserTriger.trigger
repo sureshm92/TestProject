@@ -8,5 +8,6 @@ trigger UserTriger on User (before insert, before update, before delete, after i
     TriggerHandlerExecutor.execute(UserTriggerHandler.CreateCompleteYourProfileTaskHandler.class);
     TriggerHandlerExecutor.execute(UserTriggerHandler.UpdateUserRoleHandler.class);
     TriggerHandlerExecutor.execute(UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
+    TriggerHandlerExecutor.execute(UserTriggerHandler.AssignPendingTasksHandler.class);
 
 }

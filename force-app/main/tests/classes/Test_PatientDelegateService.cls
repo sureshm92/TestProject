@@ -129,7 +129,8 @@ public class Test_PatientDelegateService {
         PatientDelegateService.getInstance().getDelegateContact(patientDelegate.Contact__c);
         PatientDelegateService.getDelegateContacts(firstParticipantContact.Id);
         PatientDelegateService.getDelegatedContactIds(firstParticipantContact.Id);
-
+        PatientDelegateService.getDelegatedContactIdsEmailOptIn(firstParticipantContact.Id);
+        PatientDelegateService.getParticipantIdsByDelegatedContactIdMap(new List<Id> {firstDelegateContact.Id, secondDelegateContact.Id});
         Test.stopTest();
     }
 
@@ -179,6 +180,14 @@ public class Test_PatientDelegateService {
 
         System.runAs(testData.participantUser){
             Test.startTest();
+            PatientDelegateService.getInstance().getParticipant();
+            PatientDelegateService.getInstance().isDelegate();
+            PatientDelegateService.getInstance().getParticipantUserId();
+            PatientDelegateService.getInstance().getPDelegates();
+            PatientDelegateService.getInstance().getDelegateContact(delegateContact.Id);
+            PatientDelegateService.getInstance().getDelegatedUsersIds();
+            PatientDelegateService.getPEIdsListByContactIdMap(new List<Id> {testData.participant.Contact__c}, '', true);
+            PatientDelegateService.getForExclStatusPEIdsForContact(testData.participant.Contact__c, PEStatusState.PE_STATUS_GROUP_ACTIVE);
             PatientDelegateService.getInstance().resetDelegate(delegateContact.Id, false);
             Test.stopTest();
         }

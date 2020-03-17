@@ -42,7 +42,7 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
-    public static void updatePatientInfoWithDelegate(String participantJSON, String peJSON, String delegateJSON) {
+    public static void updatePatientInfoWithDelegate(String participantJSON, String peJSON, String delegateJSON, String userInfoJSON) {
         AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON);
         if (!String.isBlank(delegateJSON)) {
             Contact delegateParticipant = (Contact) JSON.deserialize(delegateJSON, Contact.class);
@@ -54,6 +54,7 @@ public without sharing class ParticipantInformationRemote {
                 }
             }
         }
+        updateUserLanguage(userInfoJSON);
     }
 
     @AuraEnabled
@@ -83,6 +84,11 @@ public without sharing class ParticipantInformationRemote {
             Participant__c participant = (Participant__c)JSON.deserialize(participantS, Participant__c.class);
             Contact participantContact = (Contact)JSON.deserialize(participantContactS, Contact.class);
             List<Participant__c> delegates = (List<Participant__c>)JSON.deserialize(delegatesS, List<Participant__c>.class);
+
+            Study_Site__c studySite = StudySiteService.getStudySiteForPIById(studySiteId);
+            Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+            String permissionSetName = CommunityTemplateService.getTemplate(studySite.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
+
             system.debug('Participant__c: ' + participant);
             system.debug('Contact: ' + participantContact);
             system.debug('List<Participant__c>: ' + delegates);
@@ -106,6 +112,7 @@ public without sharing class ParticipantInformationRemote {
             if (needsInvite) {
                 system.debug('needsInvite: ' + needsInvite);
                 toCreateUser.put(participant.Contact__c, null);
+                actionAssignContactPermissions.addPermission(participant.Contact__c, permissionSetName);
             }
 
             List<Patient_Delegate__c> notPatientDelegatesEver = [SELECT Id,
@@ -137,11 +144,15 @@ public without sharing class ParticipantInformationRemote {
                         Email = delegateParticipant.Email__c,
                         Phone = delegateParticipant.Phone__c
                 ));
+
             }
             update contactsToUpdate;
 
             system.debug('toCreateUser: ' + toCreateUser);
             if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
+            if (!actionAssignContactPermissions.isEmpty()) {
+                ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+            }
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
@@ -238,10 +249,14 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
-    public static String updatePatientInfoAndStatusWithDelegate(String participantJSON, String peJSON, String pathWrapperJSON, String peId, String delegateJSON) {
-        Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
+    public static String updatePatientInfoAndStatusWithDelegate(String participantJSON, String peJSON, String pathWrapperJSON, String peId, String delegateJSON, String userInfoJSON) {
+        try{
+            Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
+            update participant;
+        }catch (Exception e){
+            AuraHelper.throwException(e);
+        }
         Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
-        update participant;
 
         if (!String.isBlank(delegateJSON)) {
             Contact delegateParticipant = (Contact) JSON.deserialize(delegateJSON, Contact.class);
@@ -253,23 +268,23 @@ public without sharing class ParticipantInformationRemote {
                 }
             }
         }
+        updateUserLanguage(userInfoJSON);
 
         return updatePatientStatus(pathWrapperJSON, pe);
     }
 
-    @AuraEnabled
     public static void updateUserLanguage(String userJSON) {
         if (!String.isBlank(userJSON)) {
-            User userL = (User) JSON.deserialize(userJSON, User.class);
-            if (userL != null) {
-                update userL;
+            try {
+                User userL = (User)JSON.deserialize(userJSON, User.class);
+                if (userL != null) {
+                    update userL;
+                }
+            } catch (Exception e) {
+                throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
             }
-        }
-    }
 
-    @AuraEnabled
-    public static User getUserLanguage(String contId) {
-        return [SELECT Id, LanguageLocaleKey FROM User WHERE ContactId =: contId];
+        }
     }
 
     public class UpdateResponse{

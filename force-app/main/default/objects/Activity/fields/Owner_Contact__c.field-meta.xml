@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Owner_Contact__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Define owner contact in this field if user not exist. After user creation task will be auto assigned to this user</description>
+    <externalId>false</externalId>
+    <label>Owner Contact</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Activities</relationshipLabel>
+    <relationshipName>Activities</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

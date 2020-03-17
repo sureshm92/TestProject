@@ -2273,7 +2273,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_PI_Conv_Rem</shortDescription>
-        <value>You have ##UnreadConversationCount unread messages from referred patients waiting for your response. Please login to the IQVIA Patient Portal to view your messages.</value>
+        <value>You have unread messages from referred patients waiting for your response. Please login to the IQVIA Referral Hub to view your messages.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI_New_Mess</fullName>
@@ -2468,7 +2468,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient9 Delegate</shortDescription>
-        <value>The study team has updated  ##PatientFirstName&#39;s referral status for clinical study ##StudyName
+        <value>The study team has updated  ##PatientFirstName&#39;s referral status for clinical study ##StudyName.
 
             To see additional information, log in to the ##ShortCommunityName and then go to "My Studies".</value>
     </labels>
@@ -2770,7 +2770,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Welcome to Study Delegate</shortDescription>
-        <value>Congratulations, your ##PatientFirstName have been enrolled in ##StudyName clinical research study.   
+        <value>Congratulations, your ##PatientFirstName has been enrolled in ##StudyName clinical research study.
 
             To assist you in tracking ##PatientFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the ##SignatureFullCommunityName.
 
@@ -3297,7 +3297,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Signature New</shortDescription>
-        <value>We are excited to continue this journey with you.
+        <value>We are excited to be on this journey with you.
 
             Sincerely,
 
@@ -3642,6 +3642,13 @@
         <value>Your referral status has changed</value>
     </labels>
     <labels>
+        <fullName>Email_Subject_Referral_Status_Changed_Del</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Subject Referral Status Changed</shortDescription>
+        <value>Your patient's referral status has changed</value>
+    </labels>
+    <labels>
         <fullName>Email_Subject_Reset_Your_Password</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3766,6 +3773,13 @@
         <protected>true</protected>
         <shortDescription>Email Subject Welcome To The Study</shortDescription>
         <value>You have been enrolled to a clinical research study</value>
+    </labels>
+    <labels>
+        <fullName>Email_Subject_Welcome_To_The_Study_Del</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Subject Welcome To The Study</shortDescription>
+        <value>Your patient has been enrolled to a clinical research study</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Your_request_for_additonal_information</fullName>
@@ -4111,7 +4125,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>GSK Login Sub Title</shortDescription>
-        <value>A quick blurb explaining what participants are logging into</value>
+        <value>The participant hub for people taking part in the MDCI Oncology Study: A place to learn more about your study journey and clinical research.</value>
     </labels>
     <labels>
         <fullName>GSK_Text_Logo</fullName>

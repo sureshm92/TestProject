@@ -44,6 +44,14 @@ public without sharing class UserTriggerHandler {
             assignCommunityPermissionSetToUser(newList);
         }
     }
+    
+    public class AssignPendingTasksHandler extends TriggerHandler{
+        
+        public override void afterInsert(List<SObject> newList) {
+            assignTasks(newList);
+        }
+        
+    }
 
     // Logic: ----------------------------------------------------------------------------------------------------------
 
@@ -136,5 +144,28 @@ public without sharing class UserTriggerHandler {
         if(!actionAssignContactPermissions.isEmpty()) {
             ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
         }
+    }
+    
+    @TestVisible
+    private static void assignTasks(List<User> users){
+        //assign tasks from tmp user to new user
+        List<Id> conIds = new List<Id>();
+        Map<Id, User> usersByContactMap = new Map<Id, User>();
+        for(User user : users){
+            if(user.ContactId != null) {
+                conIds.add(user.ContactId);
+                usersByContactMap.put(user.ContactId, user);
+            }
+        }
+        List<Task> tasks = [
+                SELECT Id, Owner_Contact__c
+                FROM Task
+                WHERE Owner_Contact__c IN: conIds
+        ];
+        for(Task task : tasks){
+            task.OwnerId = usersByContactMap.get(task.Owner_Contact__c).Id;
+            task.Owner_Contact__c = null;
+        }
+        update tasks;
     }
 }
