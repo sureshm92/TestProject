@@ -26,7 +26,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     private Set<String> listOfFailedRecords = new Set<String>();
     private Set<String> listOfFailedRecordsWithMsg = new Set<String>();
 
-    public Set<String> genderLVSet = new Set<String>();
+    public Set<String> genderLVSet = new Set<String> { 'Female', 'Male' };
     public Set<String> phoneTypeLVSet = new Set<String>();
     public Set<String> laguageLVSet = new Set<String>();
 
@@ -72,10 +72,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             participantAccount = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE];
             csvLines = csvFileLines;
 
-            List<LabelValueItem> genderLVList = SObjectHelper.getPicklistLabelValueList(Participant__c.Gender__c);
-            for (LabelValueItem lb : genderLVList) {
-                genderLVSet.add(lb.value);
-            }
             List<LabelValueItem> phoneTypeLVList = SObjectHelper.getPicklistLabelValueList(Participant__c.Phone_Type__c);
             for (LabelValueItem lb : phoneTypeLVList) {
                 phoneTypeLVSet.add(lb.value);

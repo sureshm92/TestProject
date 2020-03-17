@@ -49,13 +49,13 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     public class CreateUsersOrSendNotificationsHandler extends TriggerHandler {
 
-        public override void afterInsert(List<SObject> newList) {
-            createUsersOrSendNotifications(newList, null);
-        }
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createUsersOrSendNotifications(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
-        }
+//        public override void afterInsert(List<SObject> newList) {
+//            createUsersOrSendNotifications(newList, null);
+//        }
+//
+//        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+//            createUsersOrSendNotifications(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+//        }
     }
     //Moved Eligibillity send to PESH Trigger
 
@@ -90,12 +90,16 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     }
 
     public class CreateEnrollmentTasks extends TriggerHandler {
-        public override void afterInsert(List<SObject> newList) {
-            createTasks((List<Participant_Enrollment__c>) newList);
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createTasks((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
     }
 
     public class CompleteEnrollmentTasks extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            createTasks((List<Participant_Enrollment__c>) newList, null);
+        }
+        
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             completeTasks((List<Participant_Enrollment__c>) newList, (Map<Id, Participant_Enrollment__c>) oldMap);
         }
@@ -522,14 +526,16 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     }
 
     @TestVisible
-    private static void createTasks(List<Participant_Enrollment__c> newList) {
+    private static void createTasks(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c>();
         Set<Id> participantContactIds = new Set<Id>();
         for (Participant_Enrollment__c pe : newList) {
-            if (pe.Participant_Contact__c != null &&
-                    ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).Tasks_Are_Available__c) {
-                participantContactIds.add(pe.Participant_Contact__c);
-                enrollments.add(pe);
+            if((oldMap == null || oldMap.get(pe.Id).Participant_Status__c != pe.Participant_Status__c) && pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED){
+                if (pe.Participant_Contact__c != null &&
+                        ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).Tasks_Are_Available__c) {
+                    participantContactIds.add(pe.Participant_Contact__c);
+                    enrollments.add(pe);
+                }
             }
         }
 
@@ -545,10 +551,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             // COI tasks for GSK
             String communityTemplate = ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).CommunityTemplate__c;
             if (communityTemplate == CommunityTemplateService.TEMPLATE_GSK &&
-                    !PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c) &&
-                    usersByContactId.get(pe.Participant_Contact__c) != null) {
-                tasks.add(new Task (
-                        OwnerId = usersByContactId.get(pe.Participant_Contact__c).Id,
+                    !PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)) {
+                Task t = new Task (
                         Subject = TaskService.TASK_CODE_SELECT_COI,
                         Task_Code__c = TaskService.TASK_CODE_SELECT_COI,
                         Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED,
@@ -557,7 +561,15 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         WhatId = pe.Id,
                         WhoId = pe.Participant_Contact__c,
                         Visible_For__c = TaskService.TASK_VISIBILITY_ALL
-                ));
+                );
+                if(usersByContactId.get(pe.Participant_Contact__c) != null){
+                    //if user exist then assign to him:
+                    t.OwnerId = usersByContactId.get(pe.Participant_Contact__c).Id;
+                }else{
+                    //if not, then mark owner contact, and task will be reassigned when user for this contact will be created
+                    t.Owner_Contact__c = pe.Participant_Contact__c;
+                }
+                tasks.add(t);
             }
         }
         if (!tasks.isEmpty()) insert tasks;

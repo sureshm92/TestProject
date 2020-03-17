@@ -8,6 +8,8 @@ public class TestData {
     public User piUser;
     public User hcpUser;
     public User participantUser;
+    public User hcpDelUser;
+    public User piDelUser;
     public Participant__c referral;
     public Participant__c participant;
     public Clinical_Trial_Profile__c ctp;
@@ -17,6 +19,7 @@ public class TestData {
     public HCP_Enrollment__c hcpEnrollment;
     private static Contact hcpContact;
     private static Terms_And_Conditions__c studyTC;
+
     public TestData() {
         participant = [
                 SELECT Id, Name, First_Name__c, Last_Name__c, Email__c, Status__c, Balance__c, Contact__c, Contact__r.AccountId
@@ -39,6 +42,8 @@ public class TestData {
         for (User user : users) {
             if (user.LastName == 'PITD') piUser = user;
             if (user.LastName == 'HCPTD') hcpUser = user;
+            if (user.LastName == 'PIDelTD') piDelUser = user;
+            if (user.LastName == 'HCPDelTD') hcpDelUser = user;
             if (user.LastName == participant.Name) participantUser = user;
         }
         ctp = [
@@ -133,6 +138,7 @@ public class TestData {
 
     public static void loadTestData(Boolean bypass, List<String> externalExecuteTriggerNames) {
         if(bypass) bypassTriggers(externalExecuteTriggerNames);
+
         List<Terms_And_Conditions__c> tcList = new List<Terms_And_Conditions__c>();
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(
                 Active__c = true
@@ -346,7 +352,7 @@ public class TestData {
 
     */
     public static void loadTestData() {
-        loadTestData(true,null);
+        loadTestData(true, null);
     }
     
     @IsTest
@@ -412,6 +418,32 @@ public class TestData {
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
+    }
+
+    public static void createPIDelegateUser(){
+        Contact delegateContact = [SELECT Id FROM Contact WHERE LastName = 'PIDelTD' LIMIT 1];
+        ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{
+                delegateContact.Id
+        });
+    }
+
+    public static void createHCPEWaitingAcceptance(){
+        Account hcpAccount = [SELECT Id FROM Account  WHERE Name = 'HCP Account' LIMIT 1];
+        Contact hcpPAContact = new Contact(
+                FirstName = 'HCPPATD',
+                LastName = 'HCPPATD',
+                Email = 'hcp_pending@emil.com',
+                AccountId = hcpAccount.Id
+        );
+        insert hcpPAContact;
+        Study_Site__c studySite = [SELECT Id FROM Study_Site__c WHERE Study_Site_Number__c = 'SS1' LIMIT 1];
+        HCP_Enrollment__c hcpEnrollment = new HCP_Enrollment__c(
+                Study_Site__c = studySite.Id,
+                HCP_Contact__c = hcpPAContact.Id,
+                Status__c = HCPEnrollmentService.HCP_S_ACTIVATION_PENDING
+        );
+        insert hcpEnrollment;
+
     }
 }
 
