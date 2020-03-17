@@ -45,6 +45,7 @@ public without sharing class RRChangePasswordController {
     public Translation__c translation {get; set;}
     public String browserLanguage {get; set;}
     public String communityLogo {get; set;}
+    public String resetPassLogo {get; set;}
     public String themeCSS {get; set;}
     public String backgroundStyle {get; set;}
 
@@ -328,6 +329,7 @@ public without sharing class RRChangePasswordController {
         themeCSS = UserContext.getTemplateProperty(CommunityTemplateService.PROPERTY_THEME_CSS);
         backgroundStyle = UserContext.getTemplateProperty('LoginBackground');
         communityLogo = UserContext.getTemplateProperty(CommunityTemplateService.PROPERTY_COMMUNITY_LOGO);
+        resetPassLogo = UserContext.getTemplateProperty(CommunityTemplateService.PROPERTY_RESET_PASS_LOGO);
     }
 
     public void updateBrowserLanguageAction(){
