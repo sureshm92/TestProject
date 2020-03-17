@@ -107,6 +107,7 @@ public with sharing class TrialSearchHelper {
                 SELECT Id, Contact__c
                 FROM Contact_Topic__c
                 WHERE Contact__c = :conId
+                AND Topic__r.TopicId__c = :ctpId
         ];
         if (existedContactTopics.isEmpty()) {
             try {
@@ -184,11 +185,7 @@ public with sharing class TrialSearchHelper {
 
     private List<Clinical_Trial_Profile__c> getCtpsLanguageApprove(List<Clinical_Trial_Profile__c> ctps) {
         List<Clinical_Trial_Profile__c> ctpsLanguageApprove = new List<Clinical_Trial_Profile__c>();
-        for (Clinical_Trial_Profile__c ctp : ctps) {
-            if (!ctp.Study_Site_Profiles__r.isEmpty()) {
-                ctpsLanguageApprove.add(ctp);
-            }
-        }
+        for (Clinical_Trial_Profile__c ctp : ctps) if (!ctp.Study_Site_Profiles__r.isEmpty()) ctpsLanguageApprove.add(ctp);
         return ctpsLanguageApprove;
     }
 
@@ -197,20 +194,23 @@ public with sharing class TrialSearchHelper {
         for (Clinical_Trial_Profile__c ctp : CTPs)
             if (!isCtpEnrolling(ctp)) ctpIds.add(ctp.Id);
 
-        List<Id> existedTopics = new List<Id>();
-        for (Contact_Topic__c ct : [
+        List<Contact_Topic__c> contactTopics = [
                 SELECT Topic__r.TopicId__c
                 FROM Contact_Topic__c
                 WHERE Topic__r.TopicId__c IN :ctpIds
-                AND Contact__c  = :CommunityService.getInstance().getCurrentContactId()
-        ]) existedTopics.add(ct.Topic__r.TopicId__c);
+                AND Contact__c = :CommunityService.getInstance().getCurrentContactId()
+        ];
+        List<String> existedTopics = new List<String>();
+        for (Contact_Topic__c ct : contactTopics) {
+            existedTopics.add(ct.Topic__r.TopicId__c);
+        }
 
         List<TrialSearchContainerRemote.TrialTDO> trialTDOS = new List<TrialSearchContainerRemote.TrialTDO>();
         for (Clinical_Trial_Profile__c ctp : CTPs) {
             TrialSearchContainerRemote.TrialTDO tdo = new TrialSearchContainerRemote.TrialTDO();
             tdo.ctp = ctp;
             tdo.isEnrollingCTP = isCtpEnrolling(ctp);
-            tdo.relatedNotificationExists = existedTopics.contains(ctp.Id);
+            tdo.relatedNotificationExists = existedTopics.contains(String.valueOf(ctp.Id));
             trialTDOS.add(tdo);
         }
         return trialTDOS;

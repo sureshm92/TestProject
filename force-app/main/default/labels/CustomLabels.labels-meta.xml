@@ -2273,7 +2273,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_PI_Conv_Rem</shortDescription>
-        <value>You have ##UnreadConversationCount unread messages from referred patients waiting for your response. Please login to the IQVIA Patient Portal to view your messages.</value>
+        <value>You have unread messages from referred patients waiting for your response. Please login to the IQVIA Referral Hub to view your messages.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI_New_Mess</fullName>
@@ -2468,7 +2468,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Patient9 Delegate</shortDescription>
-        <value>The study team has updated  ##PatientFirstName&#39;s referral status for clinical study ##StudyName
+        <value>The study team has updated  ##PatientFirstName&#39;s referral status for clinical study ##StudyName.
 
             To see additional information, log in to the ##ShortCommunityName and then go to "My Studies".</value>
     </labels>
@@ -3229,7 +3229,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Notification Greeting</shortDescription>
-        <value>Dear ##FirstName ,</value>
+        <value>Dear ##FirstName,</value>
     </labels>
     <labels>
         <fullName>Email_Signature</fullName>
@@ -3800,7 +3800,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Title</shortDescription>
-        <value>IQVIA™ Referral Hub</value>
+        <value>IQVIA™ Patient Portal</value>
     </labels>
     <labels>
         <fullName>Email_Title_All</fullName>
@@ -4125,7 +4125,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>GSK Login Sub Title</shortDescription>
-        <value>A quick blurb explaining what participants are logging into</value>
+        <value>The participant hub for people taking part in the MDCI Oncology Study: A place to learn more about your study journey and clinical research.</value>
     </labels>
     <labels>
         <fullName>GSK_Text_Logo</fullName>
