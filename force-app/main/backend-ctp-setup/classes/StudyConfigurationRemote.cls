@@ -3,7 +3,7 @@
  */
 
 public with sharing class StudyConfigurationRemote {
-    public static final String FEATURE_STUDY_CONFIGURATION = 'CTP';
+    public static final String FEATURE_STUDY_CONFIGURATION = 'Toggle_Feature_Delta';
 
     public class InitData {
         @AuraEnabled public Clinical_Trial_Profile__c ctp;
