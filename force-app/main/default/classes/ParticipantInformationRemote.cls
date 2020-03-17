@@ -84,6 +84,11 @@ public without sharing class ParticipantInformationRemote {
             Participant__c participant = (Participant__c)JSON.deserialize(participantS, Participant__c.class);
             Contact participantContact = (Contact)JSON.deserialize(participantContactS, Contact.class);
             List<Participant__c> delegates = (List<Participant__c>)JSON.deserialize(delegatesS, List<Participant__c>.class);
+
+            Study_Site__c studySite = StudySiteService.getStudySiteForPIById(studySiteId);
+            Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+            String permissionSetName = CommunityTemplateService.getTemplate(studySite.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
+
             system.debug('Participant__c: ' + participant);
             system.debug('Contact: ' + participantContact);
             system.debug('List<Participant__c>: ' + delegates);
@@ -107,6 +112,7 @@ public without sharing class ParticipantInformationRemote {
             if (needsInvite) {
                 system.debug('needsInvite: ' + needsInvite);
                 toCreateUser.put(participant.Contact__c, null);
+                actionAssignContactPermissions.addPermission(participant.Contact__c, permissionSetName);
             }
 
             List<Patient_Delegate__c> notPatientDelegatesEver = [SELECT Id,
@@ -138,11 +144,15 @@ public without sharing class ParticipantInformationRemote {
                         Email = delegateParticipant.Email__c,
                         Phone = delegateParticipant.Phone__c
                 ));
+
             }
             update contactsToUpdate;
 
             system.debug('toCreateUser: ' + toCreateUser);
             if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
+            if (!actionAssignContactPermissions.isEmpty()) {
+                ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+            }
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }
