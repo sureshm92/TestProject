@@ -107,6 +107,7 @@ public with sharing class TrialSearchHelper {
                 SELECT Id, Contact__c
                 FROM Contact_Topic__c
                 WHERE Contact__c = :conId
+                AND Topic__r.TopicId__c = :ctpId
         ];
         if (existedContactTopics.isEmpty()) {
             try {
