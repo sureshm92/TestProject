@@ -3229,7 +3229,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Notification Greeting</shortDescription>
-        <value>Dear ##FirstName ,</value>
+        <value>Dear ##FirstName,</value>
     </labels>
     <labels>
         <fullName>Email_Signature</fullName>
@@ -3297,7 +3297,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Signature New</shortDescription>
-        <value>We are excited to be on this journey with you.
+        <value>We are excited to continue this journey with you.
 
             Sincerely,
 
@@ -3800,7 +3800,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Title</shortDescription>
-        <value>IQVIA™ Referral Hub</value>
+        <value>IQVIA™ Patient Portal</value>
     </labels>
     <labels>
         <fullName>Email_Title_All</fullName>
