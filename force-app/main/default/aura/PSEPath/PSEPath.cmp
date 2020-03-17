@@ -15,6 +15,7 @@
     <aura:attribute name="peStatusStateMap" type="Map"/>
     <aura:attribute name="enrollmentPathItems" type="List"/>
     <aura:attribute name="actions" type="List"/>
+    <aura:attribute name="isInvited" type="Boolean" default="false" access="public"/>
 
     <!-- handler: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
