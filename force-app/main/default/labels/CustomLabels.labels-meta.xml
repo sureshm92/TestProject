@@ -2273,7 +2273,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email_Body_PI_Conv_Rem</shortDescription>
-        <value>You have ##UnreadConversationCount unread messages from referred patients waiting for your response. Please login to the IQVIA Patient Portal to view your messages.</value>
+        <value>You have ##UnreadConversationCount unread messages from referred patients waiting for your response. Please login to the IQVIA Referral Hub to view your messages.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI_New_Mess</fullName>
