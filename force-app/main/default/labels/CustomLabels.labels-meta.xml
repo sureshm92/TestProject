@@ -4125,7 +4125,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>GSK Login Sub Title</shortDescription>
-        <value>A quick blurb explaining what participants are logging into</value>
+        <value>The participant hub for people taking part in the MDCI Oncology Study: A place to learn more about your study journey and clinical research.</value>
     </labels>
     <labels>
         <fullName>GSK_Text_Logo</fullName>
