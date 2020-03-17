@@ -122,6 +122,14 @@ export default class MessageBoard extends LightningElement {
 
         this.needAfterRenderSetup = true;
         this.hideEmptyStub = true;
+
+        if(messageWrappers && messageWrappers.length > 3) {
+            let context = this;
+            setTimeout(function () {
+                let boardBody = context.template.querySelector('.ms-board-body');
+                if(boardBody) boardBody.scrollTop = boardBody.scrollHeight;
+            }, 50);
+        }
     }
 
     @api

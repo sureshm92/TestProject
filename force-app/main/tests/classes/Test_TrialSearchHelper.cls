@@ -60,9 +60,9 @@ private class Test_TrialSearchHelper {
             'Participant__c' => participant.Id
         });
         insert tap;
-        User usr = [SELECT Id FROM User WHERE ContactId = :participant.Contact__c];
         TrialSearchContainerRemote.TrialSearchContainer container;
         Test.startTest();
+        User usr = [SELECT Id FROM User WHERE ContactId = :participant.Contact__c];
         System.runAs(usr){
             container = new TrialSearchHelper().getInitTrialSearchContainer();
         }
