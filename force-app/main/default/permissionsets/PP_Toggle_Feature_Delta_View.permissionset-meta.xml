@@ -50,6 +50,10 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
         <object>Clinical_Trial_Profile__c</object>
-        <viewAllRecords>false</viewAllRecords>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+    <tabSettings>
+        <tab>Clinical_Trial_Profile__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>
