@@ -42,7 +42,7 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
-    public static void updatePatientInfoWithDelegate(String participantJSON, String peJSON, String delegateJSON) {
+    public static void updatePatientInfoWithDelegate(String participantJSON, String peJSON, String delegateJSON, String userInfoJSON) {
         AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON);
         if (!String.isBlank(delegateJSON)) {
             Contact delegateParticipant = (Contact) JSON.deserialize(delegateJSON, Contact.class);
@@ -54,6 +54,7 @@ public without sharing class ParticipantInformationRemote {
                 }
             }
         }
+        updateUserLanguage(userInfoJSON);
     }
 
     @AuraEnabled
@@ -238,7 +239,7 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
-    public static String updatePatientInfoAndStatusWithDelegate(String participantJSON, String peJSON, String pathWrapperJSON, String peId, String delegateJSON) {
+    public static String updatePatientInfoAndStatusWithDelegate(String participantJSON, String peJSON, String pathWrapperJSON, String peId, String delegateJSON, String userInfoJSON) {
         try{
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
             update participant;
@@ -257,11 +258,11 @@ public without sharing class ParticipantInformationRemote {
                 }
             }
         }
+        updateUserLanguage(userInfoJSON);
 
         return updatePatientStatus(pathWrapperJSON, pe);
     }
 
-    @AuraEnabled
     public static void updateUserLanguage(String userJSON) {
         if (!String.isBlank(userJSON)) {
             try {
@@ -269,16 +270,11 @@ public without sharing class ParticipantInformationRemote {
                 if (userL != null) {
                     update userL;
                 }
-            } catch (Exception e){
-                AuraHelper.throwException(e);
+            } catch (Exception e) {
+                throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
             }
 
         }
-    }
-
-    @AuraEnabled
-    public static User getUserLanguage(String contId) {
-        return [SELECT Id, LanguageLocaleKey FROM User WHERE ContactId =: contId];
     }
 
     public class UpdateResponse{
