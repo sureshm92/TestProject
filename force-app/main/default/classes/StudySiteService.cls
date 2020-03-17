@@ -224,6 +224,7 @@ public without sharing class StudySiteService {
             'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
             'Clinical_Trial_Profile__r.Orientation_Required__c',
             'Clinical_Trial_Profile__r.Patient_Portal_Enabled__c',
+            'Clinical_Trial_Profile__r.CommunityTemplate__c',
             'Principal_Investigator__r.Name',
             'Principal_Investigator__r.FirstName',
             'Principal_Investigator__r.LastName',

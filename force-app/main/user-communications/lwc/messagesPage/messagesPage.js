@@ -240,7 +240,10 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
     checkCanStartNewConversation() {
         if (!this.enrollments || this.enrollments.length < 1) return false;
         if (!this.conversationWrappers) return true;
-        if (this.userMode === 'PI') return true;
+        if (this.userMode === 'PI') {
+            return !(this.conversationWrappers.length === 1 && this.enrollments.length === 1);
+
+        }
 
         return this.getFreeEnrollments().length !== 0;
     }
