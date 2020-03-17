@@ -49,13 +49,13 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     public class CreateUsersOrSendNotificationsHandler extends TriggerHandler {
 
-        public override void afterInsert(List<SObject> newList) {
-            createUsersOrSendNotifications(newList, null);
-        }
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createUsersOrSendNotifications(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
-        }
+//        public override void afterInsert(List<SObject> newList) {
+//            createUsersOrSendNotifications(newList, null);
+//        }
+//
+//        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+//            createUsersOrSendNotifications(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
+//        }
     }
     //Moved Eligibillity send to PESH Trigger
 
