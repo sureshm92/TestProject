@@ -40,8 +40,7 @@
                         {!v.selectedTopicSettings.displaySolution}
                 </div>
             </div>
-            <!--
-            <aura:if isTrue="{!and(!v.selectedTopicSettings.submitRequired, !empty(v.selectedTopic))}">
+            <aura:if isTrue="{!and(!v.selectedTopicSettings.submitRequired, !empty(v.selectedTopic), v.userMode == 'PI')}">
                 <div class="ht-panel">
 
                     <lightning:radioGroup name="didSolveRG"
@@ -53,7 +52,7 @@
                                           class="ht-sub-label"/>
                 </div>
             </aura:if>
-            <aura:if isTrue="{!v.selectedTopicSettings.submitRequired||v.didThisHelp=='No'}">
+            <aura:if isTrue="{!(v.selectedTopicSettings.submitRequired || v.didThisHelp=='No') &amp;&amp; v.userMode == 'PI'}">
                 <div class="ht-panel">
 
                     <aura:if isTrue="{!v.selectedTopicSettings.userDescriptionRequired}">
@@ -109,7 +108,6 @@
                     </div>
                 </div>
             </aura:if>
-        -->
         </div>
     </div>
     </aura:if>
