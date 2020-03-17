@@ -9,8 +9,8 @@
     padding: 30px 5px 25px;
 }
 
-.arrow-border span{
-    text-align:center;
+.arrow-border span {
+    text-align: center;
     justify-items: center;
     float: left;
     width: 23px;
@@ -24,21 +24,22 @@
     -webkit-transition: all 0.4s;
 }
 
-.arrow-borders-right{
+.arrow-borders-right {
     justify-content: space-around;
 }
 
-.arrow-border span i{
+.arrow-border span i {
     font-size: 20px;
-    align-self:center;
+    align-self: center;
     color: #979797;
     transition: all 0.4s;
     -webkit-transition: all 0.4s;
     margin: 0 auto;
 }
-.arrow-border span i::before{
-    display:inline-block;
-    text-decoration:none;
+
+.arrow-border span i::before {
+    display: inline-block;
+    text-decoration: none;
 }
 
 .vis-path {
@@ -225,14 +226,47 @@
     }
 }
 
-@media screen and (min-width: 765px) and (max-width: 800px) {
+@media only screen and (min-width: 765px) and (max-width: 800px) and (orientation : portrait) {
     .path-section {
         padding: 30px 5px 25px;
-        max-width: 500px;
+        max-width: 750px;
     }
 
     .vis-path {
-        max-width: 350px;
+        max-width: 600px;
+        overflow-x: scroll;
+        -ms-overflow-style: none;
+        scroll-behavior: smooth;
+        padding-top: 16px;
+    }
+
+    .state {
+        min-width: 145px;
+    }
+
+    .state-label {
+        display: block;
+    }
+
+    .width-basis {
+        flex-basis: 0;
+    }
+
+    .state .state-ico-wrapper {
+        width: 32px;
+        height: 33px;
+        top: -17px;
+        left: -14px;
+    }
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+    .path-section {
+        max-width: 700px;
+    }
+
+    .vis-path {
+        max-width: 535px;
         overflow-x: scroll;
         -ms-overflow-style: none;
         scroll-behavior: smooth;
