@@ -38,6 +38,8 @@
             timezoneKey:   timezoneKey
         }, function () {
             location.reload()
+        }, function () {
+            component.find('spinner').hide();
         })
     }
 })
