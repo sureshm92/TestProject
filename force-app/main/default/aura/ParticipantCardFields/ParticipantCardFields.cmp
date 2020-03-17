@@ -28,16 +28,16 @@
                         {!$Label.c.Action_Required}
                     </div>
                     <aura:set attribute="else">
-                            <aura:if isTrue="{!v.isInvited}">
-                                <div class="slds-has-block-links--space" data-gtm="Label_Invited">
-                                    {!$Label.c.Invited}
+                            <!--<aura:if isTrue="{!v.isInvited}">-->
+                                <div class="{!v.isInvited ? 'slds-has-block-links--space' : 'slds-has-block-links--space2'}" data-gtm="{!v.isInvited ? 'Label_Invited' : 'Label_Not_Invited'}">
+                                    {!v.isInvited ? $Label.c.Invited : $Label.c.Not_Invited}
                                 </div>
-                                <aura:set attribute="else">
-                                    <div class="slds-has-block-links--space2" data-gtm="Label_Not_Invited">
+                                <!--<aura:set attribute="else">
+                                    <div class="slds-has-block-links&#45;&#45;space2" data-gtm="Label_Not_Invited">
                                         {!$Label.c.Not_Invited}
                                     </div>
                                 </aura:set>
-                            </aura:if>
+                            </aura:if>-->
                     </aura:set>
                 </aura:if>
                 <div class="vpi-field">
