@@ -12,6 +12,7 @@ public without sharing class ReferralProfileRemote {
         Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
         List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
         Boolean isEnrolled;
+        User userInfo;
     }
 
     class StatusStep {
@@ -90,6 +91,8 @@ public without sharing class ReferralProfileRemote {
             InitData initData = new InitData();
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId);
             Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(pe.Clinical_Trial_Profile__c);
+            List<User> participantUsers = [SELECT Id, LanguageLocaleKey FROM User WHERE ContactId =: pe.Participant_Contact__c];
+            initData.userInfo =  participantUsers.isEmpty()?null:participantUsers[0];
             if (pe == null) throw new CommunityServiceException('Participant enrollment not found');
             initData.enrollment = pe;
 

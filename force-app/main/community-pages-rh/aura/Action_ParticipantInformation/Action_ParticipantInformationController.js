@@ -25,14 +25,14 @@
             component.set('v.popUpTitle', pe.Participant__r.Full_Name__c);
             component.set('v.rootComponent', params.rootComponent);
             if (params.callback) component.set('v.callback', params.callback);
-            if (component.get('v.isInvited')) {
-                communityService.executeAction(component, 'getUserLanguage', {
-                    contId: contId
-                }, function (returnValue) {
-                    component.set('v.userInfo', returnValue);
-                    console.log('USERINFO', JSON.stringify(returnValue));
-                });
-            }
+            // if (component.get('v.isInvited')) {
+            //     communityService.executeAction(component, 'getUserLanguage', {
+            //         contId: contId
+            //     }, function (returnValue) {
+            //         component.set('v.userInfo', returnValue);
+            //         console.log('USERINFO', JSON.stringify(returnValue));
+            //     });
+            // }
             communityService.executeAction(component, 'getSteps', {
                 peId: pe.Id,
                 userMode: communityService.getUserMode(),
@@ -53,6 +53,7 @@
                     component.set('v.pe', returnValue.enrollment);
                     component.set('v.participantDelegate', returnValue.participantDelegate);
                     component.set('v.participant', pe.Participant__r);
+                    component.set('v.userInfo', returnValue.userInfo);
                     formComponent.createDataStamp();
                     formComponent.checkFields();
                 }), 15);
@@ -72,13 +73,14 @@
         var userInfo = component.get('v.userInfo');
         pe.Participant__r = participant;
         component.find('spinner').show();
-        if(component.get('v.isInvited')){
-            communityService.executeAction(component, 'updateUserLanguage', {userJSON: JSON.stringify(userInfo)})
-        }
+        // if(component.get('v.isInvited')){
+        //     communityService.executeAction(component, 'updateUserLanguage', {userJSON: JSON.stringify(userInfo)})
+        // }
         communityService.executeAction(component, 'updatePatientInfoWithDelegate', {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
-            delegateJSON: JSON.stringify(component.get('v.participantDelegate'))
+            delegateJSON: JSON.stringify(component.get('v.participantDelegate')),
+            userInfoJSON: JSON.stringify(userInfo)
         }, function () {
             if (component.get('v.saveAndChangeStep')) {
                 component.set('v.saveAndChangeStep', false);
@@ -125,7 +127,8 @@
         var actionParams = {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
-            delegateJSON: JSON.stringify(component.get('v.participantDelegate'))
+            delegateJSON: JSON.stringify(component.get('v.participantDelegate')),
+            userInfoJSON: JSON.stringify(userInfo)
         };
         if(statusDetailValid){
             actionName = 'updatePatientInfoAndStatusWithDelegate';
@@ -135,11 +138,12 @@
                 pathWrapperJSON: JSON.stringify(pathWrapper),
                 peId: pe.Id,
                 delegateJSON: JSON.stringify(component.get('v.participantDelegate')),
+                userInfoJSON: JSON.stringify(userInfo)
             };
         }
-        if(component.get('v.isInvited')){
-            communityService.executeAction(component, 'updateUserLanguage', {userJSON: JSON.stringify(userInfo)})
-        }
+        // if(component.get('v.isInvited')){
+        //     communityService.executeAction(component, 'updateUserLanguage', {userJSON: JSON.stringify(userInfo)})
+        // }
         communityService.executeAction(component, actionName, actionParams , function () {
             var callback = component.get('v.callback');
             if(callback){
@@ -161,8 +165,6 @@
             peJSON: JSON.stringify(pe),
             sendEmails: sendEmails
         }, function () {
-            var action = component.get('c.doUpdate');
-            $A.enqueueAction(action);
             component.set('v.isInvited', true);
             communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
         }, null, function () {
