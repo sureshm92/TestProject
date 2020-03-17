@@ -13,6 +13,7 @@
                          body="{!$Label.Email_Body_Trial_Message}"
                          signature="{!$Label.Email_Signature_New}">
              <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
+                               resourceId="{!relatedTo.Id}"
                                buttonURL="{!'/s/trial-search'}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
@@ -27,6 +28,7 @@
                              body="{!$Label.Email_Body_Trial_Message}"
                              signature="{!$Label.Email_Signature_New}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
+                                  resourceId="{!relatedTo.Id}"
                                   buttonURL="{!'/s/trial-search'}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
