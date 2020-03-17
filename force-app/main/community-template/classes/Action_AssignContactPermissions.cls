@@ -39,6 +39,7 @@ public without sharing class Action_AssignContactPermissions implements Action{
     
     
     public void execute() {
+        cleanReassignedPermissions();
         deletePermissions();
         insertPermissions();
     }
@@ -50,6 +51,23 @@ public without sharing class Action_AssignContactPermissions implements Action{
     
     public Boolean isDMLWithSetupObjects() {
         return true;
+    }
+    
+    private void cleanReassignedPermissions(){
+        //remove permission from remove map if this permission exist in assign map
+        Map<Id, Set<String>> resMap = new Map<Id, Set<String>>();
+        for(Id contactId : contactPermissionsToRemoveMap.keySet()){
+            Set<String> permissionsForRemove = new Set<String>();
+            Set<String> contactAssignedPerms = contactPermissionsMap.get(contactId);
+            if(contactAssignedPerms == null) contactAssignedPerms = new Set<String>();
+            for(String contactRemovePerm : contactPermissionsToRemoveMap.get(contactId)){
+                if(!contactAssignedPerms.contains(contactRemovePerm)){
+                    permissionsForRemove.add(contactRemovePerm);
+                }
+            }
+            resMap.put(contactId, permissionsForRemove);
+        }
+        contactPermissionsToRemoveMap = resMap;
     }
     
     private void insertPermissions(){
