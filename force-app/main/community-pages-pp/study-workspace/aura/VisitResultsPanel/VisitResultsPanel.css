@@ -25,7 +25,7 @@
 .THIS .visit-result-items-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    margin: 0 auto;
 }
 
 .THIS .visit-result-item-container {
@@ -33,6 +33,7 @@
     min-width: 275px;
     margin-right: 10px;
     margin-bottom: 15px;
+    box-sizing: border-box;
 }
 
 .THIS .visit-result-panel-disclaimer {
@@ -42,4 +43,15 @@
     font-weight: 600;
     line-height: 14px;
     text-align: center;
+}
+
+@media (max-width: 616px) {
+    .THIS .visit-result-items-container {
+        width: 285px;
+    }
+}
+@media (min-width: 617px) and (max-width: 901px)  {
+    .THIS .visit-result-items-container {
+        width: 570px;
+    }
 }
