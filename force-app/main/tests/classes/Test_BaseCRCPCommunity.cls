@@ -84,7 +84,6 @@ private class Test_BaseCRCPCommunity {
         System.runAs(testData.hcpUser) {
             String stringData = StudyListViewController.getHCPInitData(null);
             StudyListViewController.HCPInitData initData = (StudyListViewController.HCPInitData) JSON.deserializeStrict(stringData, StudyListViewController.HCPInitData.class);
-            
             StudyListViewController.searchStudies(JSON.serialize(initData.filterData), JSON.serialize(initData.sortData), JSON.serialize(initData.paginationData), false);
             StudyListViewController.searchStudies(JSON.serialize(initData.filterData), JSON.serialize(initData.sortData), JSON.serialize(initData.paginationData), true);
         }
@@ -517,7 +516,6 @@ private class Test_BaseCRCPCommunity {
                     Email__c = 'NewTestPart@email.com'
             );
             ReferringRemote.saveParticipant(testData.hcpEnrollment.Id, JSON.serialize(refInitData.participantEnrollment), JSON.serialize(participant2), null, null);
-            participant2 = [SELECT Id, Contact__c FROM Participant__c WHERE First_Name__c = 'FN' AND Last_Name__c = 'LN' LIMIT 1];
         }
         Test.stopTest();
         String vpResultJSON = ViewPatientsRemote.getInitData(testData.ctp.Id, testData.ss.Id, CommunityService.USER_MODE_HCP, null, CommunityService.USER_MODE_HCP, null);

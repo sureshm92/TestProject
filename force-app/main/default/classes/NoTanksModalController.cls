@@ -14,7 +14,7 @@ public without sharing class NoTanksModalController {
                 }
             }
             else{
-                deactivateStudySiteById(trialId, userMode);
+                deactivateStudySiteById(ssId, userMode);
             }
         }catch (Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
