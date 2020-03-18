@@ -29,13 +29,13 @@
             </aura:if>
             <aura:if isTrue="{!v.userMode == 'Participant'}">
                 <div class="h-header-info">
-                    {!v.helpText}
+                    <!--{!v.helpText}-->
                     <div class="h-header-info-bold-text">{!$Label.c.PG_HLP_H_Dial_911}</div>
                 </div>
             </aura:if>
             <aura:if isTrue="{!v.userMode == 'PI'}">
                 <div class="h-header-info">
-                    {!$Label.c.PG_HLP_HI_PI}
+                    <!---->{!$Label.c.PG_HLP_HI_PI}
                     <div class="h-header-info-bold-text">{!$Label.c.PG_HLP_H_Dial_911}</div>
                 </div>
             </aura:if>
