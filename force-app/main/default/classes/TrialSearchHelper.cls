@@ -86,6 +86,7 @@ public with sharing class TrialSearchHelper {
         Case caseContact = new Case(
                 OwnerId = queueGroup.Id,
                 Postal_code__c = participant.Mailing_Zip_Postal_Code__c,
+                CommunityName__c = UserContext.getCurrentCommunityName(),
                 Country__c = participant.Mailing_Country_Code__c,
                 Date_of_Birth__c = participant.Date_of_Birth__c,
                 State__c = participant.Mailing_State_Code__c,
@@ -99,6 +100,12 @@ public with sharing class TrialSearchHelper {
                 Study__c = ctp.Id
         );
         ((DatabaseProxy) (ClassFactory.newInstance(DatabaseProxy.class))).upsertRecord(caseContact, true);
+
+        insert new Notification__c(
+                WhatId__c = caseContact.Id,
+                Recipient__c = UserContext.getUserContactId(),
+                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TRIAL_SEARCH_REQUEST_TYPE
+        );
     }
 
     public void createSubscribeConnection(Id ctpId) {
