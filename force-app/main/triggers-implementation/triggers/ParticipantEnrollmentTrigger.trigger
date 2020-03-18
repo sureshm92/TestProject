@@ -7,7 +7,6 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c (before insert
     TriggerHandlerExecutor.execute(PETriggerHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class);
-//    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class);
     TriggerHandlerExecutor.execute(PENotificationTriggerHandler.SendEmailIfSSWasChanged.class);
@@ -21,7 +20,6 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c (before insert
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class);
     TriggerHandlerExecutor.execute(PENotificationTriggerHandler.CreateNotificationHandler.class);
-    TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CreateEnrollmentTasks.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
