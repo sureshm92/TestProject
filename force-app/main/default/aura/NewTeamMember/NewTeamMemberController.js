@@ -119,6 +119,7 @@
         var delegate = component.get('v.delegate');
         var allTrialLevel = component.get('v.allTrialLevel');
         var currentTab = component.get('v.currentTab');
+
         if (currentTab === 'all-same' && component.get('v.userMode') === 'HCP') {
             delegate.trialLevel.delegateLevel = allTrialLevel.delegateLevel;
         }
@@ -131,6 +132,9 @@
         }
 
         component.find('mainSpinner').show();
+        delegate.delegateContact.FirstName = delegate.delegateContact.FirstName.trim();
+        delegate.delegateContact.LastName = delegate.delegateContact.LastName.trim();
+
         if (component.get('v.userMode') === 'Participant') {
             communityService.executeAction(component, 'savePatientDelegate', {
                 delegate: JSON.stringify(delegate.delegateContact)
@@ -153,10 +157,10 @@
         var delegate = component.get('v.delegate');
         component.set('v.isCorrectEmail', communityService.isValidEmail(delegate.delegateContact.Email));
     },
+
     doCheckContactData: function (component, event, helper) {
         var delegate = component.get('v.delegate');
-        component.set('v.isCorrectContactData', delegate.delegateContact.FirstName.trim()!==''
-            && delegate.delegateContact.LastName.trim()!=='');
+        component.set('v.isCorrectContactData', delegate.delegateContact.FirstName.trim() !== ''
+            && delegate.delegateContact.LastName.trim() !== '');
     }
-
-})
+});
