@@ -57,11 +57,13 @@ public with sharing class TemplatePropertiesService {
                             FROM Community_Template__mdt
                             WHERE Community_Name__c = :cs.CommunityName__c
                     ];
-                    templateName = commTemplate.DeveloperName;
+                    return commTemplate.DeveloperName;
                 }
             } else if (resourceId.getSobjectType() == Task.getSObjectType()) {
-                Task task = [SELECT Id, WhatId FROM Task WHERE Id = :resourceId];
-                if (task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType() && task.WhatId != null) {
+                Task task = [SELECT Id, Community_Template_Name__c, WhatId FROM Task WHERE Id = :resourceId];
+                if(task.Community_Template_Name__c != null) {
+                    return task.Community_Template_Name__c;
+                } else if (task.WhatId != null && task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
                     filter = DatabaseService.fieldEqual('Id', task.WhatId);
                 } else {
                     Participant_Enrollment__c currentPE = ContactService.getCurrentPE(partConId);
