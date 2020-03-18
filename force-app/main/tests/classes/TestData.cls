@@ -156,7 +156,8 @@ public class TestData {
         accounts.add(participantsAccount);
 
         Account piAccount = new Account(
-                Name = 'PI Account'
+                Name = 'PI Account',
+                BillingCountry = 'United States'
         );
         accounts.add(piAccount);
 
@@ -173,7 +174,8 @@ public class TestData {
         Account studySiteAccount = new Account(
                 Name = 'Study Site Account',
                 BillingLatitude = 41.766594,
-                BillingLongitude = -74.991509
+                BillingLongitude = -74.991509,
+                BillingCountry = 'United States'
         );
         accounts.add(studySiteAccount);
         insert accounts;
@@ -183,6 +185,7 @@ public class TestData {
                 FirstName = 'PITD',
                 LastName = 'PITD',
                 Email = 'pi@emil.com',
+                MailingCountry = 'United States',
                 AccountId = piAccount.Id
         );
         contacts.add(piContact);
@@ -245,7 +248,8 @@ public class TestData {
                 Travel_Vendor_Is_Available__c = true,
                 Relevant_Links_Are_Available__c = true,
                 Sponsor_Pays_for_Referral_Activity__c = 'Yes',
-                CommunityTemplate__c = CommunityTemplateService.TEMPLATE_DEFAULT
+                CommunityTemplate__c = CommunityTemplateService.TEMPLATE_DEFAULT,
+                Logged_Out_Days_Notification__c = 1
         );
         insert study;
 
@@ -342,6 +346,7 @@ public class TestData {
         Participant_Enrollment__c peForContactUpdate = [SELECT Id, Participant_Contact__c FROM Participant_Enrollment__c WHERE Id = :pe.Id];
         Contact contactForUpdate = [SELECT Id, Current_Participant_Enrollment__c FROM Contact WHERE Id = :peForContactUpdate.Participant_Contact__c];
         contactForUpdate.Current_Participant_Enrollment__c = pe.Id;
+        contactForUpdate.Next_Notify_Date__c = Datetime.now().dateGmt();
         update contactForUpdate;
     }
 
