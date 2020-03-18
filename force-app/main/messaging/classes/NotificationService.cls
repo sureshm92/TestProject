@@ -17,7 +17,8 @@ public without sharing class NotificationService {
     static public List<String> notificationTypeFirstEmail = new List<String>{
             NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE,
             NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE,
-            NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE
+            NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE,
+            NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE
     };
 
     static public List<String> excludedNotificationTypesForDelegate = new List<String>{
