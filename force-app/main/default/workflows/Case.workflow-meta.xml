@@ -41,7 +41,7 @@
             <name>Sent_notification_to_Participant</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Case.CreatedById</field>
             <operation>notEqual</operation>

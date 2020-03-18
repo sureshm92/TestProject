@@ -43,6 +43,7 @@ public without sharing class NotificationCatalog {
 
     // for others
     static public String MESSAGE_TO_PT_NEW_COI_CTP_TYPE = 'Message_to_PT_New_COI_Ctp_Type';
+    static public String MESSAGE_TO_PT_TRIAL_SEARCH_REQUEST_TYPE = 'Message_To_PT_Trial_Search_Request';
     static public String MESSAGE_TO_PT_COI_CTP_START_ENROLL_TYPE = 'Message_to_PT_COI_Ctp_Start_Enroll_Type';
     static public String MESSAGE_TO_PT_NEW_STDDOC_CERTIFICATE_TYPE = 'Message_to_PT_StdDoc_Certificate_Type';
     static public String MESSAGE_TO_PT_CTP_TRIAL_COMPLETE_TYPE = 'Message_to_PT_CTP_Trial_Complete_Type';
