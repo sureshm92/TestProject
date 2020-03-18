@@ -41,8 +41,7 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
 
         Map<Id, Id> contactIdByCTPIds = new Map<Id, Id>();
         Map<Id, Integer> nearestNotificationByCTPIds = new Map<Id, Integer>();
-
-        System.debug(enrollments);
+        
         for (Participant_Enrollment__c pe : enrollments) {
             Id contactId = pe.Participant_Contact__c != null ? pe.Participant_Contact__c : pe.Participant__r.Contact__c;
             contactIdByCTPIds.put(contactId, pe.Clinical_Trial_Profile__c);
