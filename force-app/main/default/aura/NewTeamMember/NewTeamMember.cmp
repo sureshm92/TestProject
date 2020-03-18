@@ -159,18 +159,18 @@
                                         <aura:if isTrue="{!v.isStaff}">
                                             <button class="apollo-btn primary ntm-button" onclick="{!c.doSaveChanges}"
                                                     disabled="{!or(or(or(or(or(not(v.isCorrectEmail),
-                                                        and(not(v.isCorrectContactData),v.delegate.delegateContact.Id==undefined)),
-                                                        and(v.currentTab=='by-study',empty(v.changedLevels))),
-                                                        and(v.currentTab=='all-same',empty(v.changedLevelsAll))),
+                                                        and(not(v.isCorrectContactData), v.delegate.delegateContact.Id==undefined)),
+                                                        and(v.currentTab == 'by-study', empty(v.changedLevels))),
+                                                        and(v.currentTab == 'all-same', empty(v.changedLevelsAll))),
                                                         v.delegate.delegateContact.Id == v.currentUserContactId),
-                                                        and(not(empty(v.parentId)),v.delegate.delegateContact.Id == v.parentId))
+                                                        and(not(empty(v.parentId)), v.delegate.delegateContact.Id == v.parentId))
 }"
                                                     title="{!if(or(or(or(or(or(not(v.isCorrectEmail),
-                                                        and(not(v.isCorrectContactData),v.delegate.delegateContact.Id==undefined)),
-                                                        and(v.currentTab=='by-study',empty(v.changedLevels))),
-                                                        and(v.currentTab=='all-same',empty(v.changedLevelsAll))),
+                                                        and(not(v.isCorrectContactData), v.delegate.delegateContact.Id==undefined)),
+                                                        and(v.currentTab == 'by-study', empty(v.changedLevels))),
+                                                        and(v.currentTab == 'all-same', empty(v.changedLevelsAll))),
                                                         v.delegate.delegateContact.Id == v.currentUserContactId),
-                                                        and(not(empty(v.parentId)),v.delegate.delegateContact.Id == v.parentId)),
+                                                        and(not(empty(v.parentId)), v.delegate.delegateContact.Id == v.parentId)),
                                                         $Label.c.PG_NTM_T_Correct_Info,'')}">
                                                 {!$Label.c.PG_NTM_BTN_Save_Team_Member}
                                             </button>
@@ -178,7 +178,9 @@
                                                 <button class="apollo-btn primary ntm-button" onclick="{!c.doSaveChanges}"
                                                         disabled="{!or(
                                                                         or(
-                                                                            not(v.isCorrectEmail),
+                                                                            not(and(
+                                                                                v.isCorrectEmail,
+                                                                                v.isCorrectContactData)),
                                                                             empty(or(
                                                                                      v.delegate.delegateContact.FirstName,
                                                                                      v.delegate.delegateContact.LastName))),
