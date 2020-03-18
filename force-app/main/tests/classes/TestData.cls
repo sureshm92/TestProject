@@ -156,7 +156,8 @@ public class TestData {
         accounts.add(participantsAccount);
 
         Account piAccount = new Account(
-                Name = 'PI Account'
+                Name = 'PI Account',
+                BillingCountry = 'United States'
         );
         accounts.add(piAccount);
 
@@ -173,7 +174,8 @@ public class TestData {
         Account studySiteAccount = new Account(
                 Name = 'Study Site Account',
                 BillingLatitude = 41.766594,
-                BillingLongitude = -74.991509
+                BillingLongitude = -74.991509,
+                BillingCountry = 'United States'
         );
         accounts.add(studySiteAccount);
         insert accounts;
@@ -183,6 +185,7 @@ public class TestData {
                 FirstName = 'PITD',
                 LastName = 'PITD',
                 Email = 'pi@emil.com',
+                MailingCountry = 'United States',
                 AccountId = piAccount.Id
         );
         contacts.add(piContact);
