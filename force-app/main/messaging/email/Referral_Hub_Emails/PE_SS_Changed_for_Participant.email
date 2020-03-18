@@ -7,7 +7,7 @@
         <c:EmailTemplate userType="Participant"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_SS_on_PE_Was_Changed_To_Participant}"
-                         title="{!$Label.Email_Title}"
+                         title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_SS_on_PE_Was_Changed_To_Participant}"
                          signature="{!$Label.Email_Signature}">
@@ -18,7 +18,7 @@
         <c:EmailTemplateText userType="Participant"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_SS_on_PE_Was_Changed_To_Participant}"
-                             title="{!$Label.Email_Title}"
+                             title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_SS_on_PE_Was_Changed_To_Participant}"
                              signature="{!$Label.Email_Signature}">
