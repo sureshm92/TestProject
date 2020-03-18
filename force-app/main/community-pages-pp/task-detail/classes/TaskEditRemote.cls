@@ -87,6 +87,7 @@ public without sharing class TaskEditRemote {
             TaskEditDataWrapper taskWrapper = (TaskEditDataWrapper) JSON.deserialize(wrapper, TaskEditDataWrapper.class);
             Task taskToUpsert = (Task) JSON.deserialize(paramTask, Task.class);
 
+            taskToUpsert.Community_Template_Name__c = UserContext.getTemplateProperty(CommunityTemplateService.PROPERTY_TEMPLATE_NAME);
             taskToUpsert.OwnerId = ParticipantContext.getCurrentUserId();
             taskToUpsert.WhoId = ParticipantContext.getCurrentContactId();
 

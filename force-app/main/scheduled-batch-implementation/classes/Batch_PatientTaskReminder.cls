@@ -8,6 +8,7 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
         return Database.getQueryLocator([
                 SELECT Id,
                         OwnerId,
+                        Community_Template_Name__c,
                         Subject,
                         Survey_Invitation__c,
                         Start_Date__c,
