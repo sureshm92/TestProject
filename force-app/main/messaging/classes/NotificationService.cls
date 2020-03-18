@@ -245,7 +245,7 @@ public without sharing class NotificationService {
             for (Notification_Target__mdt nt : notificationType.Notification_Targets__r) {
                 if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_EMAIL) {
                     if (n.Recipient__c != null) {
-                        if(availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c)) continue;
+                        if (availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c)) continue;
                         if (!notificationTypeFirstEmail.contains(n.Notification_Type__c)) {
                             if (availabilityService.isAvailable(n.WhatId__c, notificationType.Recipient_Type__c, nt.Target_Type__c, n.Recipient__c)) {
                                 emailNotifications.add(n);
@@ -258,7 +258,10 @@ public without sharing class NotificationService {
                             emailNotifications.add(n);
                             sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                         }
-                    } else if (n.Recipient__c == null) emailNotifications.add(n);
+                    } else if (n.Recipient__c == null) {
+                        emailNotifications.add(n);
+                        orgWideEmailByNotifyMap.put(n.Id, availabilityService.getOrgWideEmail(n.From__c, n.WhatId__c, nt.Org_Wide_Email_Address__c));
+                    }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_SMS) {
                     if (availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c)) {
                         smsNotifications.add(n);
