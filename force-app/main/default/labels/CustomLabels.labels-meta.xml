@@ -3800,7 +3800,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Title</shortDescription>
-        <value>IQVIA™ Patient Portal</value>
+        <value>IQVIA™ Referral Hub</value>
     </labels>
     <labels>
         <fullName>Email_Title_All</fullName>

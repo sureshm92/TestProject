@@ -96,8 +96,8 @@
                         </button>
                         <button class="apollo-btn primary" onclick="{!c.doImport}"
                                 data-gtm="btn_UploadNewParticipants_import"
-                                disabled="{!empty(v.selectedStatus)||empty(v.fileName)}"
-                                title="{!empty(v.selectedStatus)||empty(v.fileName) ? $Label.c.PG_MRC_RF_Not_all_Req_Fields : ''}">
+                                disabled="{!!v.selectedStatus || !v.fileName}"
+                                title="{!(!v.selectedStatus || !v.fileName) ? $Label.c.PG_MRC_RF_Not_all_Req_Fields : ''}">
                             {!$Label.c.BTN_Import}
                         </button>
                     </div>
