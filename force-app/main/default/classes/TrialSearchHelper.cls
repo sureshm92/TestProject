@@ -101,11 +101,13 @@ public with sharing class TrialSearchHelper {
         );
         ((DatabaseProxy) (ClassFactory.newInstance(DatabaseProxy.class))).upsertRecord(caseContact, true);
 
-        insert new Notification__c(
-                WhatId__c = caseContact.Id,
-                Recipient__c = UserContext.getUserContactId(),
-                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TRIAL_SEARCH_REQUEST_TYPE
-        );
+        if(!Test.isRunningTest()) {
+            insert new Notification__c(
+                    WhatId__c = caseContact.Id,
+                    Recipient__c = UserContext.getUserContactId(),
+                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TRIAL_SEARCH_REQUEST_TYPE
+            );
+        }
     }
 
     public void createSubscribeConnection(Id ctpId) {
