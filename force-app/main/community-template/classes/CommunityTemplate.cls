@@ -19,7 +19,7 @@ public without sharing class CommunityTemplate {
         this.templateName = properties.get(CommunityTemplateService.PROPERTY_TEMPLATE_NAME);
         this.currentCommunityURL = Site.getBaseUrl();
         this.redirectURL = CommunityTemplateService.getCommunityURL(templateMdt.Community_Name__c);
-        this.needRedirect = communityName != UserContext.getCurrentCommunityName();
+        this.needRedirect = communityName != UserContext.getCurrentCommunityName() && !UserContext.isDummyContact();
     }
 
 }

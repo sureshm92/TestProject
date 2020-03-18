@@ -27,6 +27,7 @@ window.communityService = (function () {
     let subDomain;
     var messagesVisible;
     let currentCSSTheme = 'Community_CSS_Stub';
+    let isDummy;
 
     //community service functions:
     var service = {
@@ -40,6 +41,7 @@ window.communityService = (function () {
                 service.deleteCookies(preventedCookies);
                 console.log('preventedCookies: ' + JSON.stringify(preventedCookies));
                 subDomain = communityData.subDomain;
+                isDummy = communityData.isDummy;
                 communityMode = communityData.communityMode;
                 communityDelegateId = communityData.communityDelegateId;
                 isDelegate = communityData.isDelegate;
@@ -254,6 +256,7 @@ window.communityService = (function () {
         },
 
         navigateToPage: function (pageName) {
+            if(isDummy) return;
             var urlEvent = $A.get("e.force:navigateToURL");
             urlEvent.setParams({
                 url: '/' + pageName
