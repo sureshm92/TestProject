@@ -159,7 +159,6 @@ public class Test_PatientDelegateService {
 
     @IsTest
     static void resetDelegateTest() {
-
         TestData testData = new TestData();
 
         Contact delegateContact = new Contact(

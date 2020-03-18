@@ -167,6 +167,10 @@
         }, function () {
             component.set('v.isInvited', true);
             communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
+            var callback = component.get('v.callback');
+            if(callback){
+                callback(pe);
+            }
         }, null, function () {
             component.find('spinner').hide();
         });
