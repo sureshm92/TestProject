@@ -23,13 +23,15 @@
 }
 
 .THIS .visit-result-items-container {
-    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .THIS .visit-result-item-container {
-        display: inline-block;
-        margin-right: 10px;
-        margin-bottom: 15px;
+    width: 30%;
+    min-width: 275px;
+    margin-right: 10px;
+    margin-bottom: 15px;
 }
 
 .THIS .visit-result-panel-disclaimer {
