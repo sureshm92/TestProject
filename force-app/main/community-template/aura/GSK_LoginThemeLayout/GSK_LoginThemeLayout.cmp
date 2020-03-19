@@ -8,8 +8,8 @@
     <!-- attributes: -->
     <aura:attribute name="title" type="String"/>
     <aura:attribute name="subTitle" type="String"/>
-    <aura:attribute name="translatedTitle" type="String"/>
     <aura:attribute name="translatedSubTitle" type="String"/>
+    <aura:attribute name="translatedSubTitle2" type="String"/>
 
     <!--handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -21,6 +21,9 @@
                     <div class="login-form-panel">
                         <div class="brand-header">GatherSHAREKnow</div>
                         <div class="brand-sub-header">{!v.translatedSubTitle}</div>
+                        <aura:if isTrue="{!!empty(v.translatedSubTitle2)}">
+                            <div class="brand-sub-header">{!v.translatedSubTitle2}</div>
+                        </aura:if>
                         <div class="body-components">{!v.body}</div>
                     </div>
                     <div class="powered-by">Powered by <b>IQVIA</b></div>
