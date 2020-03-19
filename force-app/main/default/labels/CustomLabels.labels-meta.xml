@@ -3293,7 +3293,7 @@
             To keep your account secure, please don&#39;t forward this email to anyone.</value>
     </labels>
     <labels>
-        <fullName>Email_Signature_New</fullName>
+        <fullName>Email_Signature_New_Continue</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Signature New</shortDescription>
@@ -3304,7 +3304,7 @@
             ##SignatureShortCommunityName</value>
     </labels>
     <labels>
-        <fullName>Email_Signature_New_Participant_Delegate</fullName>
+        <fullName>Email_Signature_New</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature New Participant Delegate</shortDescription>
