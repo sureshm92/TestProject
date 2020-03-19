@@ -473,13 +473,14 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
-        @TestVisible
+    @TestVisible
     private static void createPrimaryHistoryEntry(
             List<Participant_Enrollment__c> enrollments,
             Map<Id, Participant_Enrollment__c> oldMap
     ) {
         List<Participant_Enrollment_Status_History__c> histories = new List<Participant_Enrollment_Status_History__c>();
         List<Participant_Enrollment__c> peListForTaskCreation = new List<Participant_Enrollment__c>();
+        Set<Id> participantContactIds = new Set<Id>();
         for (Participant_Enrollment__c pe : enrollments) {
             if (pe.Participant_Status__c == PEStatusState.PE_STATUS_RECEIVED) {
                 if (oldMap == null || (oldMap != null && oldMap.get(pe.Id).Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED)) {
@@ -491,9 +492,11 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                             Reason__c = pe.Non_Referral_Reason__c
                     ));
                     peListForTaskCreation.add(pe);
+                    if(pe.Participant_Contact__c != null) participantContactIds.add(pe.Participant_Contact__c);
                 }
             } else if (oldMap == null) {
                 peListForTaskCreation.add(pe);
+                if(pe.Participant_Contact__c != null) participantContactIds.add(pe.Participant_Contact__c);
                 histories.addAll(ParticipantWorkflowService.createHistoryRecordsForPE(pe, (Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)));
             }
         }
@@ -502,6 +505,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             insert histories;
         }
         createTasks(peListForTaskCreation);
+        PatientDelegateService.updateContactPermSetsWithDelegates(participantContactIds);
     }
     @TestVisible
     private static void updateWithStepSuccessFlags(List<Participant_Enrollment__c> enrollments) {
