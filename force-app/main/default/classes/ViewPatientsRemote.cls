@@ -119,7 +119,11 @@ public without sharing class ViewPatientsRemote {
             }
             initData.peFilterData.studies = trialFilterData;
             initData.peFilterData.studySites = ssFilterData;
-            initData.peFilterData.statuses = statusFilterData;
+            initData.peFilterData.statuses = new List<LabelValueItem>();
+            for ( LabelValueItem statusItem : statusFilterData){
+                initData.peFilterData.statuses.add( new LabelValueItem(TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, statusItem.value), statusItem.value));
+            }
+
             initData.peFilterData.source = peSource;
             initData.currentPageList = convertToPEWrapperList(
                     peList,
