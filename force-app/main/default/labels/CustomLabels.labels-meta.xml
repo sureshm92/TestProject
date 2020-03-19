@@ -1896,6 +1896,20 @@
         <value>Distolic Blood Pr</value>
     </labels>
     <labels>
+        <fullName>Do_Not_Continue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Do_Not_Continue</shortDescription>
+        <value>Do not continue</value>
+    </labels>
+    <labels>
+        <fullName>Do_Not_Invite</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Do_Not_Invite</shortDescription>
+        <value>Do not invite</value>
+    </labels>
+    <labels>
         <fullName>Doc_L_Oh_no_there_are_no_items_here</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13123,6 +13137,13 @@
         <protected>false</protected>
         <shortDescription>Task_Tab_Table_Col_Complete_By</shortDescription>
         <value>Complete By</value>
+    </labels>
+    <labels>
+        <fullName>Continue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Continue</shortDescription>
+        <value>Continue</value>
     </labels>
     <labels>
         <fullName>Task_Tab_Table_Col_Completed</fullName>
