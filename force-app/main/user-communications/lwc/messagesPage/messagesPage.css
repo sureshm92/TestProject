@@ -122,8 +122,6 @@
 }
 
 .ms-conversations-board {
-    display: flex;
-    flex-direction: column;
     max-height: 527px;
     overflow-y: auto;
     scroll-behavior: smooth;

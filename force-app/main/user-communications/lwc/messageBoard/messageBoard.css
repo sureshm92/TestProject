@@ -16,9 +16,6 @@
     overflow-x: hidden;
     overflow-y: auto;
     scroll-behavior: smooth;
-    display: flex;
-    flex-direction: column-reverse;
-    -ms-flex-direction: column;
 }
 
 @supports (-ms-ime-align:auto) {
