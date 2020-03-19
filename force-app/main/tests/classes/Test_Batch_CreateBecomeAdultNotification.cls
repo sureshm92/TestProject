@@ -18,7 +18,7 @@ public with sharing class Test_Batch_CreateBecomeAdultNotification {
                 Last_Name__c = 'newParticipant',
                 Date_of_Birth__c = birthdayToReceiveAlert,
                 Mailing_Country_Code__c = 'US',
-                Mailing_State_Code__c = 'AL'
+                Mailing_State_Code__c = 'MS'
         );
         insert participant;
 
@@ -72,7 +72,7 @@ public with sharing class Test_Batch_CreateBecomeAdultNotification {
                 FROM Contact
                 WHERE  Email = 'delegate@somemail.com'
         ];
-        System.assertEquals(delegates.size(),alerts.size());
+        System.assertEquals(delegates.size(), alerts.size());
     }
 
     private static void bypassTriggers() {
