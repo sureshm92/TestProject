@@ -3389,6 +3389,17 @@
             ##SignatureShortCommunityName</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_PT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature PT</shortDescription>
+        <value>Thank you for participating in the ##CommunityName.
+
+            Sincerely,
+
+            ##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_RH</fullName>
         <language>en_US</language>
         <protected>false</protected>
