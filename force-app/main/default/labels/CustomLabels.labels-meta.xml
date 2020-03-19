@@ -3324,6 +3324,17 @@
             ##SignatureShortCommunityName</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_Patient_Short</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Patient</shortDescription>
+        <value>Thank you for your interest in participating in clinical research.
+
+            Sincerely,
+
+            ##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_Patient</fullName>
         <language>en_US</language>
         <protected>false</protected>
