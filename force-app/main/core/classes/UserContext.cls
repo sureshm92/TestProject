@@ -94,7 +94,7 @@ public without sharing class UserContext {
     
     public static String getCurrentCommunityName(){
         if(currentCommunityName == null){
-            Site[] sites = [SELECT Id, MasterLabel FROM Site WHERE Name =: Site.getName() AND SiteType = 'ChatterNetworkPicasso'];
+            Site[] sites = [SELECT Id, MasterLabel FROM Site WHERE Name =: Site.getName()];
             if(sites.size() > 0) currentCommunityName = sites[0].MasterLabel;
         }
         if(currentCommunityName == 'IQVIA RH') currentCommunityName = 'IQVIA Referral Hub';
