@@ -7442,6 +7442,41 @@
         <value>Other</value>
     </labels>
     <labels>
+        <fullName>PG_DBPI_Days_11_To_15</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI Days_11_To_15</shortDescription>
+        <value>11-15 Days</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_Days_16_To_20</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI Days_16_To_20</shortDescription>
+        <value>16-20 Days</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_Days_6_To_10</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI Days_6_To_10</shortDescription>
+        <value>6-10 Days</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_Days_Greater_20</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI Days_Greater_20</shortDescription>
+        <value>&gt;20 Days</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_Days_Less_5</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI Days_Less_5</shortDescription>
+        <value>&lt;5 Days</value>
+    </labels>
+    <labels>
         <fullName>PG_DBPI_Dr</fullName>
         <language>en_US</language>
         <protected>false</protected>
