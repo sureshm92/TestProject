@@ -75,7 +75,7 @@ public without sharing class EmailService {
             }
         }
         sendResultService.updateResults();
-        if (!notificationShareEmail.isEmpty()) EmailService.sendEmailToExternalUser(notificationShareEmail);
+        if (!notificationShareEmail.isEmpty()) EmailService.sendEmailToExternalUser(notificationShareEmail, orgWideEmailByNotifyMap);
     }
 
     public static void sendEmail(String emailTemplate, Id recipientId, Id whatId) {
@@ -95,18 +95,18 @@ public without sharing class EmailService {
         return createEmail(emailTemplateId, contactId, whatId, null, orgWideEmAddress);
     }
 
-    public static void sendEmailToExternalUser(List<Notification__c> notifications) {
+    public static void sendEmailToExternalUser(List<Notification__c> notifications, Map<Id, String> orgWideEmailByNotifyMap) {
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
         List<Messaging.SingleEmailMessage> msgListToBeSend = new List<Messaging.SingleEmailMessage>();
         for (Notification__c n : notifications) {
             Notification_Target__mdt emailTarget = NotificationService.getNotificationTarget(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL);
-            msg = createMessage(n.WhatId__c, n.From__c, n.Email__c, emailTarget.Email_Template__c);
+            msg = createMessage(n.WhatId__c, n.From__c, n.Email__c, emailTarget.Email_Template__c, orgWideEmailByNotifyMap.get(n.Id));
             msgListToBeSend.add(msg);
         }
         Messaging.sendEmail(msgListToBeSend);
     }
 
-    public static Messaging.SingleEmailMessage createMessage(Id whatId, Id fromId, String emailAddr, String templateName) {
+    public static Messaging.SingleEmailMessage createMessage(Id whatId, Id fromId, String emailAddr, String templateName, String orgWideEmAddress) {
         EmailTemplate shareStudyEmailTemplate = [SELECT Id, Subject, Body FROM EmailTemplate WHERE DeveloperName = :templateName LIMIT 1];
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
         msg.setTemplateId(shareStudyEmailTemplate.Id);
@@ -116,6 +116,11 @@ public without sharing class EmailService {
                 emailAddr
         });
         msg.setTreatTargetObjectAsRecipient(false);
+
+        msg.setSaveAsActivity(false);
+        Id orgWideEmailAddressId = getOrgWideEmailAddressId(orgWideEmAddress);
+        System.debug('orgWideEmAddress<<<< ' + orgWideEmAddress);
+        if (orgWideEmailAddressId != null && !SystemService.isScratchOrg()) msg.setOrgWideEmailAddressId(orgWideEmailAddressId);
         return msg;
     }
 

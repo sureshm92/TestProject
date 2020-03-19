@@ -2772,7 +2772,7 @@
         <shortDescription>Email Body Welcome to Study Delegate</shortDescription>
         <value>Congratulations, your ##PatientFirstName has been enrolled in ##StudyName clinical research study.
 
-            To assist you in tracking ##PatientFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the ##SignatureFullCommunityName.
+            To assist you in tracking ##PatientFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the ##CommunityName.
 
             Please note that enrollment in ##ShortCommunityName is not a requirement for ##PatientFirstName to be enrolled into the research study: ##StudyName.</value>
     </labels>
@@ -3293,7 +3293,7 @@
             To keep your account secure, please don&#39;t forward this email to anyone.</value>
     </labels>
     <labels>
-        <fullName>Email_Signature_New</fullName>
+        <fullName>Email_Signature_New_Continue</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Signature New</shortDescription>
@@ -3304,7 +3304,7 @@
             ##SignatureShortCommunityName</value>
     </labels>
     <labels>
-        <fullName>Email_Signature_New_Participant_Delegate</fullName>
+        <fullName>Email_Signature_New</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature New Participant Delegate</shortDescription>
@@ -3320,6 +3320,17 @@
         <protected>true</protected>
         <shortDescription>Email_Signature_PPST</shortDescription>
         <value>Sincerely,
+
+            ##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Patient_Short</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Patient</shortDescription>
+        <value>Thank you for your interest in participating in clinical research.
+
+            Sincerely,
 
             ##SignatureShortCommunityName</value>
     </labels>
