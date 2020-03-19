@@ -33,10 +33,10 @@
                     <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
                         <div class="slds-m-around--small">
                             <div class="input-fields-labels">                             
-                                <b>Add File<abbr class="slds-required" title="required">* </abbr></b>
+                                <b>{!$Label.c.FU_Add_File}<abbr class="slds-required" title="required">* </abbr></b>
                                
                                 <span style="float: right;">
-                                    <ui:outputURL aura:id="oURL" value="{!$Resource.PARTICIPANTS_TEMPLATE}" label="Download Template"/>
+                                    <ui:outputURL aura:id="oURL" value="{!$Resource.PARTICIPANTS_TEMPLATE}" label="{!$Label.c.FU_Download_Template}"/>
                                      <img class="upload-icon" src="{!$Resource.icon_download}" width="16" height="16"/>
                                 </span>
                             </div>
@@ -96,8 +96,8 @@
                         </button>
                         <button class="apollo-btn primary" onclick="{!c.doImport}"
                                 data-gtm="btn_UploadNewParticipants_import"
-                                disabled="{!empty(v.selectedStatus)||empty(v.fileName)}"
-                                title="{!empty(v.selectedStatus)||empty(v.fileName) ? $Label.c.PG_MRC_RF_Not_all_Req_Fields : ''}">
+                                disabled="{!!v.selectedStatus || !v.fileName}"
+                                title="{!(!v.selectedStatus || !v.fileName) ? $Label.c.PG_MRC_RF_Not_all_Req_Fields : ''}">
                             {!$Label.c.BTN_Import}
                         </button>
                     </div>

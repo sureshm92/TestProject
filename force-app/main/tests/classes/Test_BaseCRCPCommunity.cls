@@ -84,7 +84,6 @@ private class Test_BaseCRCPCommunity {
         System.runAs(testData.hcpUser) {
             String stringData = StudyListViewController.getHCPInitData(null);
             StudyListViewController.HCPInitData initData = (StudyListViewController.HCPInitData) JSON.deserializeStrict(stringData, StudyListViewController.HCPInitData.class);
-            
             StudyListViewController.searchStudies(JSON.serialize(initData.filterData), JSON.serialize(initData.sortData), JSON.serialize(initData.paginationData), false);
             StudyListViewController.searchStudies(JSON.serialize(initData.filterData), JSON.serialize(initData.sortData), JSON.serialize(initData.paginationData), true);
         }
@@ -312,47 +311,6 @@ private class Test_BaseCRCPCommunity {
     }
 
     @IsTest
-    static void hcpDelegateTest() {
-        TestData testData = new TestData();
-        Contact hcpContact = [SELECT Id FROM Contact WHERE Email = 'hcp@emil.com'];
-        Test.startTest();
-        System.runAs(testData.hcpUser) {
-            MyTeamRemote.getInitData(CommunityService.USER_MODE_HCP, null);
-            MyTeamRemote.MyTeamDetail detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(MyTeamRemote.getContactData(CommunityService.USER_MODE_HCP, 'hcp_delegate@emil.com', null), MyTeamRemote.MyTeamDetail.class);
-            detail.delegates[0].trialLevel.delegateLevel = DelegateService.DELEGATE_LEVEL_2;
-            MyTeamRemote.saveDelegateLevelChanges(CommunityService.USER_MODE_HCP, JSON.serialize(detail.delegates[0]),hcpContact.Id);
-            detail.delegates[0].trialLevel.delegateLevel = '';
-            MyTeamRemote.saveDelegateLevelChanges(CommunityService.USER_MODE_HCP, JSON.serialize(detail.delegates[0]),hcpContact.Id);
-            detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(MyTeamRemote.getContactData(CommunityService.USER_MODE_HCP, 'hcp_delegate_new@emil.com',null), MyTeamRemote.MyTeamDetail.class);
-            detail.delegates[0].trialLevel.delegateLevel = DelegateService.DELEGATE_LEVEL_2;
-            detail.delegates[0].delegateContact.LastName = 'Test New HCP Delegate';
-            detail.delegates[0].delegateContact.FirstName = 'Test New HCP Delegate';
-            MyTeamRemote.saveDelegateLevelChanges(CommunityService.USER_MODE_HCP, JSON.serialize(detail.delegates[0]), hcpContact.Id);
-        }
-        Test.stopTest();
-    }
-    
-    @IsTest
-    static void piDelegateTest() {
-        TestData testData = new TestData();
-        Test.startTest();
-        System.runAs(testData.piUser) {
-            MyTeamRemote.getInitData(CommunityService.USER_MODE_PI, null);
-            MyTeamRemote.MyTeamDetail detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(MyTeamRemote.getContactData(CommunityService.USER_MODE_PI, 'pi_delegate@emil.com', null), MyTeamRemote.MyTeamDetail.class);
-            detail.delegates[0].delegateTrials[0].siteLevels[0].delegateLevel = DelegateService.DELEGATE_LEVEL_2;
-            MyTeamRemote.saveDelegateLevelChanges(CommunityService.USER_MODE_PI, JSON.serialize(detail.delegates[0]), null);
-            detail.delegates[0].delegateTrials[0].siteLevels[0].delegateLevel = '';
-            MyTeamRemote.saveDelegateLevelChanges(CommunityService.USER_MODE_PI, JSON.serialize(detail.delegates[0]), null);
-            detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(MyTeamRemote.getContactData(CommunityService.USER_MODE_PI, 'pi_delegate_new@emil.com', null), MyTeamRemote.MyTeamDetail.class);
-            detail.delegates[0].delegateTrials[0].siteLevels[0].delegateLevel = DelegateService.DELEGATE_LEVEL_2;
-            detail.delegates[0].delegateContact.LastName = 'Test New PI Delegate';
-            detail.delegates[0].delegateContact.FirstName = 'Test New PI Delegate';
-            MyTeamRemote.saveDelegateLevelChanges(CommunityService.USER_MODE_PI, JSON.serialize(detail.delegates[0]), null);
-        }
-        Test.stopTest();
-    }
-    
-    @IsTest
     static void basePITest1() {
         TestData testData = new TestData();
         Account hcpAccount = [SELECT Id FROM Account WHERE Name = 'HCP Account'];
@@ -517,7 +475,6 @@ private class Test_BaseCRCPCommunity {
                     Email__c = 'NewTestPart@email.com'
             );
             ReferringRemote.saveParticipant(testData.hcpEnrollment.Id, JSON.serialize(refInitData.participantEnrollment), JSON.serialize(participant2), null, null);
-            participant2 = [SELECT Id, Contact__c FROM Participant__c WHERE First_Name__c = 'FN' AND Last_Name__c = 'LN' LIMIT 1];
         }
         Test.stopTest();
         String vpResultJSON = ViewPatientsRemote.getInitData(testData.ctp.Id, testData.ss.Id, CommunityService.USER_MODE_HCP, null, CommunityService.USER_MODE_HCP, null);

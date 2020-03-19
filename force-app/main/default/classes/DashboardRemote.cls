@@ -418,10 +418,6 @@ public without sharing class DashboardRemote {
         return resList;
     }
 
-    private static List<ListItem> preparePEList(List<Participant_Enrollment__c> peList, String userMode) {
-        return preparePEList(peList, userMode, null);
-    }
-
     private static List<ListItem> preparePEList(List<Participant_Enrollment__c> peList, String userMode, String delegateId) {
         List<ListItem> resList = new List<ListItem>();
         for (Participant_Enrollment__c pe : peList) {

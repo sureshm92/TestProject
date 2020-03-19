@@ -12,6 +12,7 @@ public without sharing class NotificationAvailabilityService {
     private static final String CONTACT = 'Contact';
     private static final String TASK_OBJ_NAME = 'Task';
     private static final String PARTICIPANT_OBJ_NAME = 'Participant__c';
+    private static final String CASE_OBJ_NAME = 'Case';
 
     private Map<Id, Contact> contactByIdMap;
     private List<String> allPermissions;
@@ -149,6 +150,9 @@ public without sharing class NotificationAvailabilityService {
             if (objType == CONTACT) {
                 //TODO if Contact needs additional fields
             }
+            if (objType == CASE_OBJ_NAME) {
+                //TODO if Contact needs additional fields
+            }
 
             //TODO for other objects passing in WhatID
         }
@@ -185,6 +189,9 @@ public without sharing class NotificationAvailabilityService {
                 Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) objectsByIds.get(Id.valueOf(whatId));
                 if (!ctp.Suppress_Participant_Emails__c && contactByIdMap.get(contactId).Participant_Opt_In_Status_Emails__c) checkForNotification = true;
             } else if (objType == SURVEY_INVITATION_OBJ_NAME || objType == TASK_OBJ_NAME) {
+                Contact contact = contactByIdMap.get(contactId);
+                if (contact.Participant_Opt_In_Status_Emails__c) checkForNotification = true;
+            } else if (objType == CASE_OBJ_NAME) {
                 Contact contact = contactByIdMap.get(contactId);
                 if (contact.Participant_Opt_In_Status_Emails__c) checkForNotification = true;
             } else if (objType == null) {

@@ -23,15 +23,34 @@
         });
     },
 
-    sortRecords: function(component, event, helper){
-        console.log('sortREcords>>>');
+    sortRecords: function(component){
         var peList = component.get('v.peList');
         if(component.get('v.defaultSorting')){
-            peList = peList.sort((a, b) => (a.daysAdded > b.daysAdded) ? 1 : -1);
-            component.set('v.peList',peList);
+            peList.sort(function (a, b) {
+                var daysAddedA = a.daysAdded;
+                var daysAddedB = b.daysAdded;
+                if (daysAddedA < daysAddedB) {
+                    return -1;
+                }
+                if (daysAddedA > daysAddedB) {
+                    return 1;
+                }
+                return 0;
+            });
+            component.set('v.peList', peList);
             component.set('v.defaultSorting',false);
         } else {
-            peList = peList.sort((a, b) => (a.daysAdded > b.daysAdded) ? -1 : 1);
+            peList.sort(function (a, b) {
+                var daysAddedA = a.daysAdded;
+                var daysAddedB = b.daysAdded;
+                if (daysAddedA > daysAddedB) {
+                    return -1;
+                }
+                if (daysAddedA < daysAddedB) {
+                    return 1;
+                }
+                return 0;
+            });
             component.set('v.peList',peList);
             component.set('v.defaultSorting',true);
         }

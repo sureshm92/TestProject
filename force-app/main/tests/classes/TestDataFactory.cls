@@ -130,6 +130,7 @@ public class TestDataFactory {
 
     public static void createInitData() {
         TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
+        TriggerHandlerExecutor.bypassHandler(NotificationTriggerHandler.class);
 
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(
                 Active__c = true

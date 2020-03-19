@@ -360,6 +360,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     system.debug('!participantsByContact.isEmpty()');
                     try {
                         List<Database.SaveResult> saveReses = Database.insert(participantsByContact.values());
+                        Integer totalErrorCount = getErrorCount(saveReses);
+                        errorRecordCount = totalErrorCount;
                         for (Database.SaveResult saveRes : saveReses) {
                             if (!saveRes.isSuccess()) {
                                 Database.Error error = saveRes.getErrors().get(0);
@@ -385,9 +387,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 if (!participantEnrollmentsByContact.isEmpty()) {
                     system.debug('!participantEnrollmentsByContact.isEmpty()');
                     List<Database.SaveResult> saveReses = Database.insert(participantEnrollmentsByContact.values());
+                    Integer totalErrorCount = getErrorCount(saveReses);
+                    errorRecordCount = totalErrorCount;
                     for (Database.SaveResult saveRes : saveReses) {
                         if (!saveRes.isSuccess()) {
-                            errorRecordCount++;
                             Database.Error error = saveRes.getErrors().get(0);
                             listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
                             system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
@@ -430,28 +433,28 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 }
             }
 
-            List<Participant_Study_Enrollment__c> partStdEnrolls = new List<Participant_Study_Enrollment__c>();
-            for (Contact participantContact : contactsById.values()) {
-                Participant_Enrollment__c participantEnrollment = participantEnrollmentsByContact.get(participantContact.Id);
-                partStdEnrolls.add(new Participant_Study_Enrollment__c(Clinical_Trial_Profile__c = studySiteDetails.Clinical_Trial_Profile__c,
-                        Participant__c = participantEnrollment.Participant__c,
-                        Participant_Contact__c = participantContact.Id,
-                        Participant_Enrollment__c = participantEnrollment.Id,
-                        PI_Contact__c = studySiteDetails.Principal_Investigator__c,
-                        Study_Site__c = studySiteDetails.Id));
-            }
-
-            if (!partStdEnrolls.isEmpty()) {
-                system.debug('!partStdEnrolls.isEmpty()');
-                List<Database.SaveResult> saveReses = Database.insert(partStdEnrolls);
-                for (Database.SaveResult saveRes : saveReses) {
-                    if (!saveRes.isSuccess()) {
-                        Database.Error error = saveRes.getErrors().get(0);
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Study Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
-                        system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
-                    }
-                }
-            }
+//            List<Participant_Study_Enrollment__c> partStdEnrolls = new List<Participant_Study_Enrollment__c>();
+//            for (Contact participantContact : contactsById.values()) {
+//                Participant_Enrollment__c participantEnrollment = participantEnrollmentsByContact.get(participantContact.Id);
+//                partStdEnrolls.add(new Participant_Study_Enrollment__c(Clinical_Trial_Profile__c = studySiteDetails.Clinical_Trial_Profile__c,
+//                        Participant__c = participantEnrollment.Participant__c,
+//                        Participant_Contact__c = participantContact.Id,
+//                        Participant_Enrollment__c = participantEnrollment.Id,
+//                        PI_Contact__c = studySiteDetails.Principal_Investigator__c,
+//                        Study_Site__c = studySiteDetails.Id));
+//            }
+//
+//            if (!partStdEnrolls.isEmpty()) {
+//                system.debug('!partStdEnrolls.isEmpty()');
+//                List<Database.SaveResult> saveReses = Database.insert(partStdEnrolls);
+//                for (Database.SaveResult saveRes : saveReses) {
+//                    if (!saveRes.isSuccess()) {
+//                        Database.Error error = saveRes.getErrors().get(0);
+//                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Study Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
+//                        system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
+//                    }
+//                }
+//            }
 
             system.debug('HEAP SIZE IS: ' + limits.getHeapSize() + ' enforced is: ' + limits.getLimitHeapSize() + 'on totalRecordCount: ' + totalRecordCount);
         } catch (Exception exp) {
@@ -533,6 +536,18 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         if (!Test.isRunningTest()) {
             Messaging.sendEmail(new Messaging.SingleEmailMessage[] { emailToSend });
         }
+    }
+
+    private static Integer getErrorCount(List<Database.SaveResult> saveReses) {
+        Integer errorCount = 0;
+
+        for (Database.SaveResult saveRes : saveReses) {
+            if (!saveRes.isSuccess()) {
+                errorCount++;
+            }
+        }
+
+        return errorCount;
     }
 
 }

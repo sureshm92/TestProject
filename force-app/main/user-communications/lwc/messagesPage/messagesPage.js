@@ -105,6 +105,10 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
             + (this.leftDisplay ? 'visible' : 'hide');
     }
 
+    get conversationBoardStyles() {
+        return (navigator.userAgent.match(/Trident/) ? '' : 'display: flex; flex-direction: column;');
+    }
+
     get rightPartClass() {
         return 'slds-col slds-large-size--2-of-3 slds-medium-size--2-of-3 slds-small-size--1-of-1 ms-right '
             + (this.rightDisplay ? '' : 'hide');
@@ -240,8 +244,9 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
     checkCanStartNewConversation() {
         if (!this.enrollments || this.enrollments.length < 1) return false;
         if (!this.conversationWrappers) return true;
-        if (this.userMode === 'PI') return true;
-
+        if (this.userMode === 'PI') {
+            return !(this.conversationWrappers.length === 1 && this.enrollments.length === 1);
+        }
         return this.getFreeEnrollments().length !== 0;
     }
 
