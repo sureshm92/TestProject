@@ -147,7 +147,7 @@ window.communityService = (function () {
         setCurrentCommunityMode: function(mode){
             currentUserMode = mode;
             service.setThemeCSS();
-            if(mode.template.needRedirect){
+            if(mode.template.needRedirect && !isDummy){
                 document.location.href = mode.template.redirectURL;
             }
         },
