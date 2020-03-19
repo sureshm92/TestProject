@@ -360,6 +360,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     system.debug('!participantsByContact.isEmpty()');
                     try {
                         List<Database.SaveResult> saveReses = Database.insert(participantsByContact.values());
+                        Integer totalErrorCount = getErrorCount(saveReses);
+                        errorRecordCount = totalErrorCount;
                         for (Database.SaveResult saveRes : saveReses) {
                             if (!saveRes.isSuccess()) {
                                 Database.Error error = saveRes.getErrors().get(0);
@@ -385,9 +387,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 if (!participantEnrollmentsByContact.isEmpty()) {
                     system.debug('!participantEnrollmentsByContact.isEmpty()');
                     List<Database.SaveResult> saveReses = Database.insert(participantEnrollmentsByContact.values());
+                    Integer totalErrorCount = getErrorCount(saveReses);
+                    errorRecordCount = totalErrorCount;
                     for (Database.SaveResult saveRes : saveReses) {
                         if (!saveRes.isSuccess()) {
-                            errorRecordCount++;
                             Database.Error error = saveRes.getErrors().get(0);
                             listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
                             system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
@@ -533,6 +536,18 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         if (!Test.isRunningTest()) {
             Messaging.sendEmail(new Messaging.SingleEmailMessage[] { emailToSend });
         }
+    }
+
+    private static Integer getErrorCount(List<Database.SaveResult> saveReses) {
+        Integer errorCount = 0;
+
+        for (Database.SaveResult saveRes : saveReses) {
+            if (!saveRes.isSuccess()) {
+                errorCount++;
+            }
+        }
+
+        return errorCount;
     }
 
 }
