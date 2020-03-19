@@ -10627,6 +10627,13 @@
         <value>Active</value>
     </labels>
     <labels>
+        <fullName>PG_VP_L_Inactive</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG VP L Inactive</shortDescription>
+        <value>Inactive</value>
+    </labels>
+    <labels>
         <fullName>PG_VP_L_My_Patients</fullName>
         <language>en_US</language>
         <protected>false</protected>
