@@ -3173,7 +3173,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header Share</shortDescription>
-        <value>An IQVIA™ Referral Hub user shared this with you</value>
+        <value>##HeaderShortName user shared this with you</value>
     </labels>
     <labels>
         <fullName>Email_Header_Share_PH</fullName>

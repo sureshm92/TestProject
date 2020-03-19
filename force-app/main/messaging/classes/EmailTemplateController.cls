@@ -88,6 +88,9 @@ global without sharing class EmailTemplateController {
             try {
                 setDefaultValues();
                 if (headerValue.contains(PARAM_PREFIX)) {
+                    String commNameShort = getPropertiesService().getPropertyValue('EmailTemplateHeaderShortName');
+                    Map<String, String> parametersMap = getDataProvider().parameters;
+                    parametersMap.put('HeaderShortName', commNameShort);
                     String resValue = TranslateHelper.replaceParams(headerValue, PARAM_PREFIX, getDataProvider().parameters);
                     return prepareLineBreaks(resValue);
                 } else {
