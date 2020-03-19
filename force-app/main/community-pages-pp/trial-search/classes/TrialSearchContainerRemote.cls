@@ -1,7 +1,7 @@
 /**
  * Created by Yehor Dobrovolskyi
  */
-public with sharing class TrialSearchContainerRemote {
+public without sharing class TrialSearchContainerRemote {
 
 
     @AuraEnabled
