@@ -93,12 +93,12 @@ public without sharing class TaskService {
         String ownerVisibility = ' AND Visible_For__c INCLUDES (\'' + TASK_VISIBILITY_OWNER + '\') ';
         String delegatesVisibility = ' AND Visible_For__c INCLUDES (\'' + TASK_VISIBILITY_DELEGATES + '\') ';
         if(!ParticipantContext.isCurrentDelegate() || (isDecoupled && !currentMode.isDelegate)) {
-            // Owner or decoupled delegate in participant mode
+            // Owner or decoupled delegate in prospect view
             commonFilter = '(' +
                     'OwnerId = \'' + ParticipantContext.getOwnUserId() + '\'' + ownerVisibility +
                     ')';
         }else if(isDecoupled){
-            // Decoupled delegate in delegate mode
+            // Decoupled delegate in patient view
             commonFilter = '(' +
                     'OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\'' + delegatesVisibility +
                     ')';
@@ -212,6 +212,7 @@ public without sharing class TaskService {
                         Id,
                         ExpireDateTime__c,
                         Participant_Enrollment__r.Participant_Contact__c,
+                        Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
                         Reminder_Schedule__c,
                         Reminder_Schedule__r.First_Reminder_day__c,
                         Survey.Name
@@ -287,6 +288,9 @@ public without sharing class TaskService {
             String subject = Label.Task_Subject_Complete_Survey.replace('##SurveyName', inv.Survey.Name);
             for (TaskConfig tsc : tmpConfigs) {
                 tsc.code = TASK_CODE_COMPLETE_SURVEY;
+                tsc.communityTemplateName = CommunityTemplateService.getTemplate(
+                        inv.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+                ).templateName;
                 tsc.invitation = inv.Id;
                 tsc.priority = TASK_PRIORITY_CRITICAL;
                 tsc.reminderSchedule = inv.Reminder_Schedule__c;
@@ -333,6 +337,7 @@ public without sharing class TaskService {
 
         if (taskConfig.activityDate != null) task.Activity_Datetime__c = taskConfig.activityDate;
         if (taskConfig.code != null) task.Task_Code__c = taskConfig.code;
+        if (taskConfig.communityTemplateName != null) task.Community_Template_Name__c = taskConfig.communityTemplateName;
         if (taskConfig.invitation != null) task.Survey_Invitation__c = taskConfig.invitation;
         if (taskConfig.originator != null) task.Originator__c = taskConfig.originator;
         if (taskConfig.reminderDatetime != null) {
@@ -386,6 +391,7 @@ public without sharing class TaskService {
     public class TaskConfig {
         @AuraEnabled public Datetime activityDate;
         @AuraEnabled public String code;
+        @AuraEnabled public String communityTemplateName;
         @AuraEnabled public Id invitation;
         @AuraEnabled public String originator;
         @AuraEnabled public Id ownerId;

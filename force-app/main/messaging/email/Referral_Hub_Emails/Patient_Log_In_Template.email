@@ -1,10 +1,11 @@
 <messaging:emailTemplate subject="{!$Label.Participant_Not_Logged_In}"
                          recipientType="Contact"
-                         relatedToType="Participant__c">
+                         relatedToType="Clinical_Trial_Profile__c"
+                         language="{!recipient.Language__c}">
 
     <messaging:htmlEmailBody>
         <c:EmailTemplate recipientId="{!recipient.Id}"
-                         parametersProvider="PP_Participant"
+                         parametersProvider="Email_Template_Parameters_From_CTP"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Patient_Log_In}"
                          title="{!$Label.Email_Title_PH}"
@@ -18,7 +19,7 @@
 
     <messaging:plainTextEmailBody>
         <c:EmailTemplateText recipientId="{!recipient.Id}"
-                             parametersProvider="PP_Participant"
+                             parametersProvider="Email_Template_Parameters_From_CTP"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Patient_Log_In}"
                              title="{!$Label.Email_Title_PH}"

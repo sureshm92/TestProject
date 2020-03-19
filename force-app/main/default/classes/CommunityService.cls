@@ -181,8 +181,8 @@ public without sharing class CommunityService {
         System.debug('Portal users successfully created = ' + newPortalUsers.size());
     }
 
-    public static void createParticipantUsersAsync(Map<Id, Id> contactIdsMap, Action_AssignContactPermissions actionAssignContactPermissions) {
-        System.enqueueJob(new CreateParticipantUsersAsync(contactIdsMap, actionAssignContactPermissions));
+    public void createParticipantUsersAsync(Map<Id, Id> contactIdsMap, Set<Id> participantContactIds) {
+        System.enqueueJob(new CreateParticipantUsersAsync(contactIdsMap, participantContactIds));
     }
 
     public static User createUser(Contact cont, String locale, String language, String timeZone){
@@ -327,19 +327,27 @@ public without sharing class CommunityService {
     }
 
     public class CreateParticipantUsersAsync implements Queueable {
-        Action_AssignContactPermissions actionAssignContactPermissions;
+        Set<Id> participantContactIds;
         Map<Id, Id> contactIdsMap = new Map<Id, Id>();
 
-        public CreateParticipantUsersAsync(Map<Id, Id> contactIdsMap, Action_AssignContactPermissions actionAssignContactPermissions) {
+        public CreateParticipantUsersAsync(Map<Id, Id> contactIdsMap, Set<Id> participantContactIds) {
             this.contactIdsMap = contactIdsMap;
-            this.actionAssignContactPermissions = actionAssignContactPermissions;
+            this.participantContactIds = participantContactIds;
         }
 
         public void execute(QueueableContext context) {
             ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(contactIdsMap);
 
-            if (actionAssignContactPermissions != null && !actionAssignContactPermissions.isEmpty()) {
-                ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+            if (participantContactIds != null && !participantContactIds.isEmpty()) {
+                Map<Id, List<Id>> delegatesByParticipant =
+                        PatientDelegateService.getDelegateContactIdsByPAContactIs(new List<Id>(participantContactIds));
+                Set<Id> allContactIds = new Set<Id>(participantContactIds);
+                for(Id partKey : delegatesByParticipant.keySet()) {
+                    for(Id delConId : delegatesByParticipant.get(partKey)) {
+                        allContactIds.add(delConId);
+                    }
+                }
+                PatientDelegateService.updatePermissionSets(allContactIds);
             }
         }
 

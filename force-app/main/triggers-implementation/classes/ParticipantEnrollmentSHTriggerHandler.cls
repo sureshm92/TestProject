@@ -234,21 +234,17 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                     ));
                 }
             }
-            if (!alertsForInsert.isEmpty()) insert alertsForInsert;
-            if (toCreateUser.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
-            //if (toCreateUser.size() > 0) CommunityService.createParticipantUsersAsync(toCreateUser, actionAssigContactPermissions);
-            if (!notifications.isEmpty()) insert notifications;
-            if (!contactsForChangeMode.isEmpty()) update contactsForChangeMode;
 
-            Map<Id, List<Id>> delegatesByParticipant =
-                    PatientDelegateService.getDelegateContactIdsByPAContactIs(new List<Id>(participantContactIds));
-            Set<Id> allContactIds = new Set<Id>(participantContactIds);
-            for(Id partKey : delegatesByParticipant.keySet()) {
-                for(Id delConId : delegatesByParticipant.get(partKey)) {
-                    allContactIds.add(delConId);
+            if (!alertsForInsert.isEmpty()) insert alertsForInsert;
+            if (toCreateUser.size() > 0) {
+                if (Test.isRunningTest()) {
+                    ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
+                } else {
+                    ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsersAsync(toCreateUser, participantContactIds);
                 }
             }
-            PatientDelegateService.updatePermissionSets(allContactIds);
+            if (!notifications.isEmpty()) insert notifications;
+            if (!contactsForChangeMode.isEmpty()) update contactsForChangeMode;
         }
     }
 }

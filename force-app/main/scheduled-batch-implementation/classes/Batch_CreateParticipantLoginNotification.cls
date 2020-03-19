@@ -12,40 +12,75 @@ public without sharing class Batch_CreateParticipantLoginNotification extends Ba
                         Next_Notify_Date__c,
                         Participant_Opt_In_Status_Emails__c
                 FROM Contact
-                WHERE Next_Notify_Date__c <=: Datetime.now().dateGmt()
+                WHERE Next_Notify_Date__c <= :Datetime.now().dateGmt()
                 AND Current_Participant_Enrollment__c != NULL
         ]);
     }
 
     public void execute(Database.BatchableContext param1, List<Contact> contacts) {
-        List<Id> cntIds = new List<Id>();
-        for (Contact cnt : contacts) cntIds.add(cnt.Id);
-        Map<Id, Integer> conIdsAndNearestNotifyDate = ParticipantService.getNearestLogOutNotification(cntIds);
-        List<Notification__c> notifications = new List<Notification__c>();
-        List<Contact> listOfContactEmails = new List<Contact>();
-        List<Participant__c> participants = [SELECT Id, Contact__c FROM Participant__c WHERE Contact__c IN: cntIds];
-        Map<Id, Participant__c> participantByContactIdMap = new Map<Id, Participant__c>();
-        for(Participant__c p : participants) if (p.Contact__c != null) participantByContactIdMap.put(p.Contact__c, p);
-        for(Contact cnt : contacts) {
-            if(conIdsAndNearestNotifyDate.containsKey(cnt.Id)) {
-                cnt.Next_Notify_Date__c = Datetime.now().addDays(conIdsAndNearestNotifyDate.get(cnt.Id)).dateGmt();
-                listOfContactEmails.add(cnt);
-                Participant__c p = participantByContactIdMap.get(cnt.Id);
-                if(p != null){
-                    notifications.add(new Notification__c(
-                            Recipient__c = cnt.Id,
-                            WhatId__c = p.Id,
-                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE,
-                            Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
-                    ));
-                }
+        createNearestLogOutNotification(contacts);
+    }
+
+    @TestVisible
+    private static void createNearestLogOutNotification(List<Contact> contacts) {
+        List<Id> participantContIds = new List<Id>();
+        for (Contact cnt : contacts) participantContIds.add(cnt.Id);
+
+        List<Participant_Enrollment__c> enrollments = [
+                SELECT
+                        Id,
+                        Participant_Contact__c,
+                        Participant__r.Contact__c,
+                        Clinical_Trial_Profile__c,
+                        Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c
+                FROM Participant_Enrollment__c
+                WHERE Participant_Contact__c IN :participantContIds
+                AND Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL
+                AND Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c != NULL
+        ];
+
+        Map<Id, Id> contactIdByCTPIds = new Map<Id, Id>();
+        Map<Id, Integer> nearestNotificationByCTPIds = new Map<Id, Integer>();
+
+        for (Participant_Enrollment__c pe : enrollments) {
+            Id contactId = pe.Participant_Contact__c != null ? pe.Participant_Contact__c : pe.Participant__r.Contact__c;
+            contactIdByCTPIds.put(contactId, pe.Clinical_Trial_Profile__c);
+            Integer daysNotification = (Integer) pe.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c;
+
+            Id ctpId = pe.Clinical_Trial_Profile__c;
+
+            if (!nearestNotificationByCTPIds.containsKey(ctpId)) {
+                nearestNotificationByCTPIds.put(
+                        ctpId,
+                        daysNotification
+                );
+            }
+
+            Integer currentNotification = nearestNotificationByCTPIds.get(ctpId);
+            if (currentNotification > daysNotification) {
+                nearestNotificationByCTPIds.put(ctpId, daysNotification);
             }
         }
 
-        if (!listOfContactEmails.isEmpty()) {
-            update listOfContactEmails;
-            insert notifications;
+        List<Notification__c> notifications = new List<Notification__c>();
+        List<Contact> updateContacts = new List<Contact>();
+        for (Contact cnt : contacts) {
+            if (contactIdByCTPIds.containsKey(cnt.Id) && nearestNotificationByCTPIds.containsKey(contactIdByCTPIds.get(cnt.Id))) {
+                Integer nearestDay = nearestNotificationByCTPIds.get(contactIdByCTPIds.get(cnt.Id));
+                cnt.Next_Notify_Date__c = Datetime.now().addDays(nearestDay).dateGmt();
+                updateContacts.add(cnt);
+
+                notifications.add(new Notification__c(
+                        Recipient__c = cnt.Id,
+                        WhatId__c = contactIdByCTPIds.get(cnt.Id),
+                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_HAS_NOT_LOGGED_IN_TYPE,
+                        Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
+                ));
+            }
         }
+
+        update updateContacts;
+        insert notifications;
     }
 
     public override Type getType() {

@@ -17,7 +17,8 @@ public without sharing class NotificationService {
     static public List<String> notificationTypeFirstEmail = new List<String>{
             NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE,
             NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE,
-            NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE
+            NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE,
+            NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE
     };
 
     static public List<String> excludedNotificationTypesForDelegate = new List<String>{
@@ -244,11 +245,10 @@ public without sharing class NotificationService {
             for (Notification_Target__mdt nt : notificationType.Notification_Targets__r) {
                 if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_EMAIL) {
                     if (n.Recipient__c != null) {
-                        if(availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c)) continue;
+                        if (availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c)) continue;
                         if (!notificationTypeFirstEmail.contains(n.Notification_Type__c)) {
                             if (availabilityService.isAvailable(n.WhatId__c, notificationType.Recipient_Type__c, nt.Target_Type__c, n.Recipient__c)) {
                                 emailNotifications.add(n);
-                                orgWideEmailByNotifyMap.put(n.Id, availabilityService.getOrgWideEmail(n.Recipient__c, n.WhatId__c, nt.Org_Wide_Email_Address__c));
                                 sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                             } else {
                                 sendResultService.setSkipped(n.Id, nt.Target_Type__c);
@@ -257,7 +257,11 @@ public without sharing class NotificationService {
                             emailNotifications.add(n);
                             sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                         }
-                    } else if (n.Recipient__c == null) emailNotifications.add(n);
+                        orgWideEmailByNotifyMap.put(n.Id, availabilityService.getOrgWideEmail(n.Recipient__c, n.WhatId__c, nt.Org_Wide_Email_Address__c));
+                    } else if (n.Recipient__c == null) {
+                        emailNotifications.add(n);
+                        orgWideEmailByNotifyMap.put(n.Id, availabilityService.getOrgWideEmail(n.From__c, n.WhatId__c, nt.Org_Wide_Email_Address__c));
+                    }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_SMS) {
                     if (availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c)) {
                         smsNotifications.add(n);
