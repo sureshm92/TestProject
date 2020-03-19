@@ -38,6 +38,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Date of first unread message</displayNameOverride>
             <field>FirstUnreadDate__c</field>
             <table>Conversation__c</table>
         </columns>
@@ -80,13 +81,13 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <displayNameOverride>Participant</displayNameOverride>
+            <displayNameOverride>Participant name</displayNameOverride>
             <field>Participant_Enrollment__c.Participant__c</field>
             <table>Conversation__c</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <displayNameOverride>Participant Surname</displayNameOverride>
+            <displayNameOverride>Participant Last name</displayNameOverride>
             <field>Participant_Enrollment__c.Participant_Surname__c</field>
             <table>Conversation__c</table>
         </columns>
@@ -100,6 +101,12 @@
             <checkedByDefault>true</checkedByDefault>
             <displayNameOverride>PI name</displayNameOverride>
             <field>Participant_Enrollment__c.PI_Contact__c</field>
+            <table>Conversation__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Time elapsed since the first unread message (in days)</displayNameOverride>
+            <field>Elapsed_Days_First_Unread__c</field>
             <table>Conversation__c</table>
         </columns>
         <masterLabel>Conversations</masterLabel>

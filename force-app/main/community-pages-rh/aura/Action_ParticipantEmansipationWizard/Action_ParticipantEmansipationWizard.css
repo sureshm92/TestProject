@@ -290,6 +290,10 @@
     display: none;
 }
 
+.THIS .show-radiobutton-label .slds-form-element__label{
+    display: inline;
+}
+
 .THIS .radioInvite .slds-form-element:first-child {
     margin: 5px 0 10px;
 }

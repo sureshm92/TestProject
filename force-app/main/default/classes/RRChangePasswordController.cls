@@ -48,6 +48,7 @@ public without sharing class RRChangePasswordController {
     public String resetPassLogo {get; set;}
     public String themeCSS {get; set;}
     public String backgroundStyle {get; set;}
+    public String templateName {get; set;}
 
     private String previousLanguage;
 
@@ -326,10 +327,12 @@ public without sharing class RRChangePasswordController {
     }
     
     public void initTemplateData(){
+        templateName = UserContext.getCurrentUserMode().template.templateName;
         themeCSS = UserContext.getTemplateProperty(CommunityTemplateService.PROPERTY_THEME_CSS);
         backgroundStyle = UserContext.getTemplateProperty('LoginBackground');
         communityLogo = UserContext.getTemplateProperty(CommunityTemplateService.PROPERTY_COMMUNITY_LOGO);
         resetPassLogo = UserContext.getTemplateProperty(CommunityTemplateService.PROPERTY_RESET_PASS_LOGO);
+        
     }
 
     public void updateBrowserLanguageAction(){
