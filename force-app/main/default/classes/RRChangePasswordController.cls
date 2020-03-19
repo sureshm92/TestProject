@@ -327,12 +327,12 @@ public without sharing class RRChangePasswordController {
     }
     
     public void initTemplateData(){
-        templateName = UserContext.getCurrentUserMode().template.templateName;
-        themeCSS = UserContext.getTemplateProperty(CommunityTemplateService.PROPERTY_THEME_CSS);
-        backgroundStyle = UserContext.getTemplateProperty('LoginBackground');
-        communityLogo = UserContext.getTemplateProperty(CommunityTemplateService.PROPERTY_COMMUNITY_LOGO);
-        resetPassLogo = UserContext.getTemplateProperty(CommunityTemplateService.PROPERTY_RESET_PASS_LOGO);
-        
+        CommunityTemplate currentTemplate = UserContext.getCurruntCommunityTemplate();
+        templateName = currentTemplate.templateName;
+        themeCSS = currentTemplate.properties.get(CommunityTemplateService.PROPERTY_THEME_CSS);
+        backgroundStyle = currentTemplate.properties.get('LoginBackground');
+        communityLogo = currentTemplate.properties.get(CommunityTemplateService.PROPERTY_COMMUNITY_LOGO);
+        resetPassLogo = currentTemplate.properties.get(CommunityTemplateService.PROPERTY_RESET_PASS_LOGO);
     }
 
     public void updateBrowserLanguageAction(){
