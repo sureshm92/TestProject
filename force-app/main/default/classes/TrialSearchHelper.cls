@@ -102,11 +102,18 @@ public with sharing class TrialSearchHelper {
         ((DatabaseProxy) (ClassFactory.newInstance(DatabaseProxy.class))).upsertRecord(caseContact, true);
 
         if(!Test.isRunningTest()) {
-            insert new Notification__c(
+            Notification__c newNotification = new Notification__c(
                     WhatId__c = caseContact.Id,
-                    Recipient__c = UserContext.getUserContactId(),
                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TRIAL_SEARCH_REQUEST_TYPE
             );
+            List<Participant__c> partWithContId = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participant.Id];
+            if(!partWithContId.isEmpty()) {
+                newNotification.Recipient__c = partWithContId.get(0).Contact__c;
+            } else {
+                newNotification.Email__c = participant.Email__c;
+                newNotification.From__c = UserContext.getUserContactId();
+            }
+            insert newNotification;
         }
     }
 
