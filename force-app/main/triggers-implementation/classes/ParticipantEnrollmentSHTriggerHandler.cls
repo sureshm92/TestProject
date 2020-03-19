@@ -236,7 +236,13 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             }
 
             if (!alertsForInsert.isEmpty()) insert alertsForInsert;
-            if (toCreateUser.size() > 0) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsersAsync(toCreateUser, participantContactIds);
+            if (toCreateUser.size() > 0) {
+                if (Test.isRunningTest()) {
+                    ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
+                } else {
+                    ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsersAsync(toCreateUser, participantContactIds);
+                }
+            }
             if (!notifications.isEmpty()) insert notifications;
             if (!contactsForChangeMode.isEmpty()) update contactsForChangeMode;
         }
