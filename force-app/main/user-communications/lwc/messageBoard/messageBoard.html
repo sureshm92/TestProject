@@ -13,7 +13,7 @@
                                     onback={handleBackClick}
                                     onselectionchange={handleSelectionChange}
                                     onenrollmentselect={handleEnrollmentSelect}></c-message-board-header>
-            <div class="ms-board-body" data-gtm="ms-board-body">
+            <div class="ms-board-body" style={boardStyles} data-gtm="ms-board-body">
                 <template if:true={messageWrappers}>
                     <template for:each={messageWrappers} for:item="msWr">
                         <c-message-item key={msWr.message.Id} item={msWr} user-mode={userMode}></c-message-item>
