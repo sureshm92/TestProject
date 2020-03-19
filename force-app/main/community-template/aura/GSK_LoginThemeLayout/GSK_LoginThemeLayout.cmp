@@ -22,6 +22,7 @@
                         <div class="brand-header">GatherSHAREKnow</div>
                         <div class="brand-sub-header">{!v.translatedSubTitle}</div>
                         <aura:if isTrue="{!!empty(v.translatedSubTitle2)}">
+                            <br/>
                             <div class="brand-sub-header">{!v.translatedSubTitle2}</div>
                         </aura:if>
                         <div class="body-components">{!v.body}</div>
