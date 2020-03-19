@@ -34,7 +34,7 @@
                         <template if:true={creationMode}>
                             <div class="ms-new-mode">{labels.newMessLabel}</div>
                         </template>
-                        <div class="ms-conversations-board" data-gtm="ms-conversations-board">
+                        <div class="ms-conversations-board" style={conversationBoardStyles} data-gtm="ms-conversations-board">
                             <template if:true={conversationWrappers}>
                                 <template for:each={conversationWrappers} for:item="conWr">
                                     <c-conversation-item key={conWr.conversation.Id} item={conWr} user-mode={userMode}

@@ -80,7 +80,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="slds-truncate">{!'' + item.daysAdded + ' days ago'}</div>
+                                <div class="slds-truncate">{!'' + item.daysAdded + ' ' + $Label.c.DA_Days_Ago}</div>
                             </td>
                         </tr>
                     </aura:iteration>
