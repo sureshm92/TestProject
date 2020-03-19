@@ -50,6 +50,7 @@ public without sharing class RRChangePasswordController {
     public String backgroundStyle {get; set;}
     public String templateName {get; set;}
     public String currentCommunityName {get; set;}
+    public String siteName {get; set;}
 
     private String previousLanguage;
 
@@ -329,6 +330,7 @@ public without sharing class RRChangePasswordController {
     
     public void initTemplateData(){
         CommunityTemplate currentTemplate = UserContext.getCurruntCommunityTemplate();
+        siteName = Site.getName();
         currentCommunityName = UserContext.getCurrentCommunityName();
         templateName = currentTemplate.templateName;
         themeCSS = currentTemplate.properties.get(CommunityTemplateService.PROPERTY_THEME_CSS);
