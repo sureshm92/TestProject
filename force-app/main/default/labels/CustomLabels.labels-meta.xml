@@ -1525,6 +1525,13 @@
         <value>Creatinine is a waste product of the muscles. Creatinine is removed from the blood by the kidneys and then leaves the body through urine. This test measures the amount of creatinine in your blood. Creatinine is measured to check the health of your kidneys.</value>
     </labels>
     <labels>
+        <fullName>DA_Days_Ago</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DA Days Ago</shortDescription>
+        <value>days ago</value>
+    </labels>
+    <labels>
         <fullName>DI_L_Acceptance_pending</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -4059,6 +4066,13 @@
         <protected>true</protected>
         <shortDescription>FU Add File</shortDescription>
         <value>Add File</value>
+    </labels>
+    <labels>
+        <fullName>FU_Download_Template</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FU Download Template</shortDescription>
+        <value>Download Template</value>
     </labels>
     <labels>
         <fullName>FastingLipidProfile</fullName>
