@@ -7,7 +7,7 @@
         let title = component.get('v.title');
         component.set('v.translatedSubTitle', $A.get('$Label.c.GSK_Login_Sub_Title'));
         if(title === 'Email Sent'){
-            component.set('v.translatedSubTitle2', $A.get('$Label.c.PG_Email_Sent_Sub_Title'));
+            component.set('v.translatedSubTitle', $A.get('$Label.c.PG_Email_Sent_Sub_Title'));
         }
     }
 });
