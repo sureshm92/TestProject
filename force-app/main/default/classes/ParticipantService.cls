@@ -154,7 +154,7 @@ public without sharing class ParticipantService {
         }
 
         String message;
-        if(participantState.value == ParticipantStates.ALUMNI) {
+        if (participantState.value == ParticipantStates.ALUMNI) {
             message = Label.PG_Home_Welcome_Message_Alumni;
         } else {
             message = Label.PG_Home_Welcome_Message;
@@ -266,7 +266,6 @@ public without sharing class ParticipantService {
     }
 
     public static List<Participant__c> checkParticipantsAgeOfMajority(List<Participant__c> participants) {
-        Map<String, Age_of_Majority__mdt> codesByAges = new Map<String, Age_of_Majority__mdt>();
         List<Age_of_Majority__mdt> ageOfMajorities = [
                 SELECT
                         Country_Code__c,
@@ -277,7 +276,6 @@ public without sharing class ParticipantService {
                         Country_Code__c NULLS LAST,
                         State_Code__c NULLS LAST
         ];
-        for (Age_of_Majority__mdt mdt : ageOfMajorities) codesByAges.put(mdt.Country_Code__c, mdt);
 
         for (Participant__c prt : participants) {
             if (prt.Adult__c || String.isBlank(prt.Date_of_Birth__c)) continue;
@@ -292,12 +290,12 @@ public without sharing class ParticipantService {
                                 Date.newInstance(2000, Date.today().month(), Date.today().day()) ?
                                 Date.today().year() - birthDate.year() : Date.today().year() - birthDate.year() - 1;
 
-                Age_of_Majority__mdt ageOfMajority = codesByAges.get(prt.Mailing_Country_Code__c) != null ?
-                        codesByAges.get(prt.Mailing_Country_Code__c) : codesByAges.get(null);
-                if ((prt.Mailing_Country_Code__c == ageOfMajority.Country_Code__c
-                        && (prt.Mailing_State_Code__c == ageOfMajority.State_Code__c || String.isBlank(ageOfMajority.State_Code__c)))
-                        || (String.isBlank(ageOfMajority.Country_Code__c))) {
-                    prt.Adult__c = participantAge >= ageOfMajority.Age__c;
+                for (Age_of_Majority__mdt ageOfMajority : ageOfMajorities) {
+                    if (prt.Mailing_Country_Code__c == ageOfMajority.Country_Code__c || String.isBlank(ageOfMajority.Country_Code__c))
+                        if (prt.Mailing_State_Code__c == ageOfMajority.State_Code__c || String.isBlank(ageOfMajority.State_Code__c)) {
+                            prt.Adult__c = participantAge >= ageOfMajority.Age__c;
+                            break;
+                        }
                 }
             } catch (Exception e) {
             }
