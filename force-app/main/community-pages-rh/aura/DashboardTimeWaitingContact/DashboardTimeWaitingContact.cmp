@@ -22,7 +22,7 @@
                         {!item.title}
                     </div>
                     <div class="slds-col slds-size--9-of-12" style="margin-bottom: 10px;">
-                        <div style="{!'width: ' + item.width +'; background-color: ' + item.color + '; height: 20px; display: inline-block;'}"></div><div style="margin-left: 10px; display: inline-block;">{!'' + item.count + ' Patients'}</div>
+                        <div style="{!'width: ' + item.width +'; background-color: ' + item.color + '; height: 20px; display: inline-block;'}"></div><div style="margin-left: 10px; display: inline-block;">{!'' + item.count + ' ' + $Label.c.STP_ELSE_PT1}</div>
                     </div>
                 </aura:iteration>
             </div>

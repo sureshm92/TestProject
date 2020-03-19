@@ -1525,6 +1525,13 @@
         <value>Creatinine is a waste product of the muscles. Creatinine is removed from the blood by the kidneys and then leaves the body through urine. This test measures the amount of creatinine in your blood. Creatinine is measured to check the health of your kidneys.</value>
     </labels>
     <labels>
+        <fullName>DA_Days_Ago</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DA Days Ago</shortDescription>
+        <value>days ago</value>
+    </labels>
+    <labels>
         <fullName>DI_L_Acceptance_pending</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1887,6 +1894,20 @@
         <protected>true</protected>
         <shortDescription>Distolic Blood Pr</shortDescription>
         <value>Distolic Blood Pr</value>
+    </labels>
+    <labels>
+        <fullName>Do_Not_Continue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Do_Not_Continue</shortDescription>
+        <value>Do not continue</value>
+    </labels>
+    <labels>
+        <fullName>Do_Not_Invite</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Do_Not_Invite</shortDescription>
+        <value>Do not invite</value>
     </labels>
     <labels>
         <fullName>Doc_L_Oh_no_there_are_no_items_here</fullName>
@@ -4059,6 +4080,13 @@
         <protected>true</protected>
         <shortDescription>FU Add File</shortDescription>
         <value>Add File</value>
+    </labels>
+    <labels>
+        <fullName>FU_Download_Template</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FU Download Template</shortDescription>
+        <value>Download Template</value>
     </labels>
     <labels>
         <fullName>FastingLipidProfile</fullName>
@@ -10627,6 +10655,13 @@
         <value>Active</value>
     </labels>
     <labels>
+        <fullName>PG_VP_L_Inactive</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG VP L Inactive</shortDescription>
+        <value>Inactive</value>
+    </labels>
+    <labels>
         <fullName>PG_VP_L_My_Patients</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13102,6 +13137,13 @@
         <protected>false</protected>
         <shortDescription>Task_Tab_Table_Col_Complete_By</shortDescription>
         <value>Complete By</value>
+    </labels>
+    <labels>
+        <fullName>Continue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Continue</shortDescription>
+        <value>Continue</value>
     </labels>
     <labels>
         <fullName>Task_Tab_Table_Col_Completed</fullName>

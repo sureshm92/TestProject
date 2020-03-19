@@ -682,15 +682,15 @@ public without sharing class ParticipantEnrollmentService {
             peFilterData.referringClinics.add(new LabelValueItem(clinic.Name, clinic.Id));
         }
         peFilterData.activePE = new List<LabelValueItem>{
-                new LabelValueItem(PEStatusState.PE_STATUSES_ACTIVE, PEStatusState.PE_STATUSES_ACTIVE), new LabelValueItem(PEStatusState.PE_STATUSES_INACTIVE, PEStatusState.PE_STATUSES_INACTIVE)
+                new LabelValueItem(TranslateHelper.getLabelValue('PG_VP_L_Active'), PEStatusState.PE_STATUSES_ACTIVE), new LabelValueItem(TranslateHelper.getLabelValue('PG_VP_L_Inactive'), PEStatusState.PE_STATUSES_INACTIVE)
         };
         peFilterData.activeParticipantStatus = new List<LabelValueItem>();
         for (Integer i = 0, j = PEStatusState.PE_STATUS_GROUP_ACTIVE.size(); i < j; i++) {
-            peFilterData.activeParticipantStatus.add(new LabelValueItem(PEStatusState.PE_STATUS_GROUP_ACTIVE[i], PEStatusState.PE_STATUS_GROUP_ACTIVE[i]));
+            peFilterData.activeParticipantStatus.add(new LabelValueItem(TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,PEStatusState.PE_STATUS_GROUP_ACTIVE[i]), PEStatusState.PE_STATUS_GROUP_ACTIVE[i]));
         }
         peFilterData.inactiveParticipantStatus = new List<LabelValueItem>();
         for (Integer i = 0, j = PEStatusState.PE_STATUS_GROUP_INACTIVE.size(); i < j; i++) {
-            peFilterData.inactiveParticipantStatus.add(new LabelValueItem(PEStatusState.PE_STATUS_GROUP_INACTIVE[i], PEStatusState.PE_STATUS_GROUP_INACTIVE[i]));
+            peFilterData.inactiveParticipantStatus.add(new LabelValueItem(TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c,PEStatusState.PE_STATUS_GROUP_INACTIVE[i]), PEStatusState.PE_STATUS_GROUP_INACTIVE[i]));
         }
         return peFilterData;
     }
