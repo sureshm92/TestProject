@@ -241,6 +241,9 @@ public without sharing class StudyListViewController {
             studyDetailItem.trial = trial;
             Map<String, Study_Site__c> statusMap = new Map<String, Study_Site__c>();
             for (Integer i = 0; i < ss.size(); i++) {
+                if(ss[i].Study_Site_Type__c != null) {
+                    ss[i].Study_Site_Type__c = TranslateHelper.getPickListLabel(Study_Site__c.Study_Site_Type__c, ss[i].Study_Site_Type__c);
+                }
                 StudyDetailItem.StudySiteWithActions ssWrapper = new StudyDetailItem.StudySiteWithActions(ss[i], new StudyActionsPI(ss[i]).studySitePiActions, piAccounts.get(ss[i].Principal_Investigator__c).values());
                 ssWrapper.delegatePicklist = delegatesPicklistMap.get(ss[i].Id);
                 studyDetailItem.ssList.add(ssWrapper);

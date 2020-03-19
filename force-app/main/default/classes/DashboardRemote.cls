@@ -627,14 +627,14 @@ public without sharing class DashboardRemote {
         for (Participant_Enrollment__c pe : contactAtemptedList) {
             if(avaliableSS.isEmpty()) {
                 Integer daysAdded = pe.CreatedDate.date().daysBetween(System.today());
-                resList.add(new WaitingContactItem(pe.Participant__c, pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c, pe.Source_Type__c, pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, pe.Study_Site__r.Clinical_Trial_Profile__c, daysAdded, true));
+                resList.add(new WaitingContactItem(pe.Participant__c, pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c, TranslateHelper.getPickListLabel(Participant_Enrollment__c.Source_Type__c, pe.Source_Type__c), pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, pe.Study_Site__r.Clinical_Trial_Profile__c, daysAdded, true));
             } else {
                 if(avaliableSS.contains(pe.Study_Site__c)){
                     Integer daysAdded = pe.CreatedDate.date().daysBetween(System.today());
-                    resList.add(new WaitingContactItem(pe.Participant__c, pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c, pe.Source_Type__c, pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, pe.Study_Site__r.Clinical_Trial_Profile__c, daysAdded, true));
+                    resList.add(new WaitingContactItem(pe.Participant__c, pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c, TranslateHelper.getPickListLabel(Participant_Enrollment__c.Source_Type__c, pe.Source_Type__c), pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, pe.Study_Site__r.Clinical_Trial_Profile__c, daysAdded, true));
                 } else {
                     Integer daysAdded = pe.CreatedDate.date().daysBetween(System.today());
-                    resList.add(new WaitingContactItem(pe.Participant__c, pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c, pe.Source_Type__c, pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, pe.Study_Site__r.Clinical_Trial_Profile__c, daysAdded, false));
+                    resList.add(new WaitingContactItem(pe.Participant__c, pe.Participant__r.First_Name__c + ' ' + pe.Participant__r.Last_Name__c, TranslateHelper.getPickListLabel(Participant_Enrollment__c.Source_Type__c, pe.Source_Type__c), pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c, pe.Study_Site__r.Clinical_Trial_Profile__c, daysAdded, false));
                 }
             }
         }

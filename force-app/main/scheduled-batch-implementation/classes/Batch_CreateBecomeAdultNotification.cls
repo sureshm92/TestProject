@@ -74,7 +74,6 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
     }
 
     private static List<Participant__c> calculateParticipantsAgeOfMajority(List<Participant__c> participants) {
-        Map<String, Age_of_Majority__mdt> codesByAges = new Map<String, Age_of_Majority__mdt>();
         List<Age_of_Majority__mdt> ageOfMajorities = [
                 SELECT
                         Country_Code__c,
@@ -85,7 +84,6 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
                         Country_Code__c NULLS LAST,
                         State_Code__c NULLS LAST
         ];
-        for (Age_of_Majority__mdt mdt : ageOfMajorities) codesByAges.put(mdt.Country_Code__c, mdt);
 
         List<Participant__c> nowAdultParticipantOrBecomeSooner = new List<Participant__c>();
         for (Participant__c prt : participants) {
@@ -105,13 +103,14 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
                         Date.newInstance(2000, Date.today().month(), Date.today().day()) ?
                         Date.today().year() - birthDate.year() : Date.today().year() - birthDate.year() - 1;
 
-                Age_of_Majority__mdt ageOfMajority = codesByAges.get(prt.Mailing_Country_Code__c) != null ?
-                        codesByAges.get(prt.Mailing_Country_Code__c) : codesByAges.get(null);
-                if ((prt.Mailing_Country_Code__c == ageOfMajority.Country_Code__c
-                        && (prt.Mailing_State_Code__c == ageOfMajority.State_Code__c || String.isBlank(ageOfMajority.State_Code__c)))
-                        || (String.isBlank(ageOfMajority.Country_Code__c))) {
-                    prt.Adult__c = participantAge >= ageOfMajority.Age__c;
-                    if (participantAgePlus7Days >= ageOfMajority.Age__c && !prt.Adult__c) nowAdultParticipantOrBecomeSooner.add(prt); else if (prt.Adult__c) nowAdultParticipantOrBecomeSooner.add(prt);
+                for (Age_of_Majority__mdt ageOfMajority : ageOfMajorities) {
+                    if ((prt.Mailing_Country_Code__c == ageOfMajority.Country_Code__c
+                            && (prt.Mailing_State_Code__c == ageOfMajority.State_Code__c || String.isBlank(ageOfMajority.State_Code__c)))
+                            || (String.isBlank(ageOfMajority.Country_Code__c))) {
+                        prt.Adult__c = participantAge >= ageOfMajority.Age__c;
+                        if (participantAgePlus7Days >= ageOfMajority.Age__c && !prt.Adult__c) nowAdultParticipantOrBecomeSooner.add(prt);
+                        else if (prt.Adult__c) nowAdultParticipantOrBecomeSooner.add(prt);
+                    }
                 }
             } catch (Exception e) {
             }
