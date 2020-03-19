@@ -31,7 +31,7 @@
                         {!v.participantMsgWithName}
                     </div>
                     <div class="rr-form-element slds-col slds-size--1-of-1 participantOption">
-                            {!v.selectedOption == '1' ? 'Invite' : 'Do not invite'}
+                            {!v.selectedOption == '1' ? $Label.c.BTN_Invite : $Label.c.Do_Not_Invite}
                     </div>
 
                     <div class="rr-form-element slds-col slds-size--1-of-3 bold-title">
