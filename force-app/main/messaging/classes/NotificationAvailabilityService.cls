@@ -244,8 +244,10 @@ public without sharing class NotificationAvailabilityService {
     }
 
     public Boolean isDeferNotification(Id contactId, String whatId){
+        if(!permissionSetsByConIdMap.containsKey(contactId)) return true;
+        
         List<String> userCommunityPerms = permissionSetsByConIdMap.get(contactId);
-        return userCommunityPerms !=null && !userCommunityPerms.contains(getCommunityTemplate(contactId, whatId).permissionSet);
+        return !userCommunityPerms.contains(getCommunityTemplate(contactId, whatId).permissionSet);
     }
 
     public String getOrgWideEmail(Id contactId, String whatId, String orgWideEmailTarget) {
