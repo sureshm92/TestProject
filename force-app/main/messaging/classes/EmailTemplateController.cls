@@ -88,6 +88,9 @@ global without sharing class EmailTemplateController {
             try {
                 setDefaultValues();
                 if (headerValue.contains(PARAM_PREFIX)) {
+                    String commNameShort = getPropertiesService().getPropertyValue('EmailTemplateHeaderShortName');
+                    Map<String, String> parametersMap = getDataProvider().parameters;
+                    parametersMap.put('HeaderShortName', commNameShort);
                     String resValue = TranslateHelper.replaceParams(headerValue, PARAM_PREFIX, getDataProvider().parameters);
                     return prepareLineBreaks(resValue);
                 } else {
@@ -136,9 +139,11 @@ global without sharing class EmailTemplateController {
             try {
                 String commNameFull = getPropertiesService().getPropertyValue('EmailTemplateCommunitySignature');
                 String commNameShort = getPropertiesService().getPropertyValue('EmailTemplateCommunitySignShort');
+                String commName = getPropertiesService().getPropertyValue('EmailTemplateCommunityNameLabel');
                 Map<String, String> parametersMap = getDataProvider().parameters;
                 parametersMap.put('SignatureFullCommunityName', commNameFull);
                 parametersMap.put('SignatureShortCommunityName', commNameShort);
+                parametersMap.put('CommunityName', commName);
                 String resValue = TranslateHelper.replaceParams(signatureValue, PARAM_PREFIX, parametersMap);
                 return prepareLineBreaks(TranslateHelper.getLabelValue(resValue));
             } catch (Exception e) {

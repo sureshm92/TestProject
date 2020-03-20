@@ -3173,7 +3173,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Header Share</shortDescription>
-        <value>An IQVIA™ Referral Hub user shared this with you</value>
+        <value>##HeaderShortName user shared this with you</value>
     </labels>
     <labels>
         <fullName>Email_Header_Share_PH</fullName>
@@ -3383,6 +3383,17 @@
         <protected>false</protected>
         <shortDescription>Email Signature Plain Summary Available</shortDescription>
         <value>We are excited to continue this journey with you.
+
+            Sincerely,
+
+            ##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_PT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature PT</shortDescription>
+        <value>Thank you for participating in the ##CommunityName.
 
             Sincerely,
 
@@ -7429,6 +7440,41 @@
         <protected>false</protected>
         <shortDescription>PG CS L Other</shortDescription>
         <value>Other</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_Days_11_To_15</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI Days_11_To_15</shortDescription>
+        <value>11-15 Days</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_Days_16_To_20</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI Days_16_To_20</shortDescription>
+        <value>16-20 Days</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_Days_6_To_10</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI Days_6_To_10</shortDescription>
+        <value>6-10 Days</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_Days_Greater_20</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI Days_Greater_20</shortDescription>
+        <value>&gt;20 Days</value>
+    </labels>
+    <labels>
+        <fullName>PG_DBPI_Days_Less_5</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG DBPI Days_Less_5</shortDescription>
+        <value>&lt;5 Days</value>
     </labels>
     <labels>
         <fullName>PG_DBPI_Dr</fullName>

@@ -93,12 +93,12 @@ public without sharing class TaskService {
         String ownerVisibility = ' AND Visible_For__c INCLUDES (\'' + TASK_VISIBILITY_OWNER + '\') ';
         String delegatesVisibility = ' AND Visible_For__c INCLUDES (\'' + TASK_VISIBILITY_DELEGATES + '\') ';
         if(!ParticipantContext.isCurrentDelegate() || (isDecoupled && !currentMode.isDelegate)) {
-            // Owner or decoupled delegate in participant mode
+            // Owner or decoupled delegate in prospect view
             commonFilter = '(' +
                     'OwnerId = \'' + ParticipantContext.getOwnUserId() + '\'' + ownerVisibility +
                     ')';
         }else if(isDecoupled){
-            // Decoupled delegate in delegate mode
+            // Decoupled delegate in patient view
             commonFilter = '(' +
                     'OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\'' + delegatesVisibility +
                     ')';
