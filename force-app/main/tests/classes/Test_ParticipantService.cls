@@ -177,7 +177,7 @@ public class Test_ParticipantService {
                 Last_Name__c = 'Participant',
                 Date_of_Birth__c = '2002-03-10',
                 Mailing_Country_Code__c = 'US',
-                Mailing_State_Code__c = 'AL',
+                Mailing_State_Code__c = 'MS',
                 Adult__c = true
         ),
                 new Participant__c(

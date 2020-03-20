@@ -5,6 +5,7 @@
     <values>
         <field>Parameters__c</field>
         <value xsi:type="xsd:string">
+            PIName = Principal_Investigator__r.Full_Name__c
             StudyTitle = Name
             ReferralNetworkName = ReferralNetworkId__r.Name</value>
     </values>

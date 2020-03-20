@@ -3,14 +3,14 @@
  */
 
 public without sharing class NotificationResultService {
-    
+
     public static final String SEND_RESULT_STATUS_SKIPPED = 'Skipped';
     public static final String SEND_RESULT_STATUS_IN_PROGRESS = 'In Progress';
     public static final String SEND_RESULT_STATUS_FAILED = 'Failed';
     public static final String SEND_RESULT_STATUS_SENT = 'Sent';
-    
+
     private Map<Id, List<Send_Result__c>> sendResultsMap;
-    
+
     public NotificationResultService(List<Notification__c> notifications){
         List<Notification__c> notificationsWithResults = [
                 SELECT Id, (SELECT Id, Target_Type__c, Status__c FROM Send_Results__r)
@@ -22,26 +22,26 @@ public without sharing class NotificationResultService {
             sendResultsMap.put(n.Id, n.Send_Results__r);
         }
     }
-    
+
     public void setSkipped(Id notificationId, String targetType){
         setResultStatus(notificationId, targetType, SEND_RESULT_STATUS_SKIPPED, null);
     }
-    
+
     public void setInProgress(Id notificationId, String targetType){
         setResultStatus(notificationId, targetType, SEND_RESULT_STATUS_IN_PROGRESS, null);
     }
-    
+
     public void setFailed(Id notificationId, String targetType, String errorMessage){
         Send_Result__c sendResult = getSendResult(notificationId, targetType);
         sendResult.Status__c = SEND_RESULT_STATUS_SENT;
         sendResult.Error__c = errorMessage;
 
     }
-    
+
     public void setSent(Id notificationId, String targetType){
         getSendResult(notificationId, targetType).Status__c = SEND_RESULT_STATUS_SENT;
     }
-    
+
     public Send_Result__c getSendResult(Id notificationId, String targetType){
         List<Send_Result__c> sendResults = sendResultsMap.get(notificationId);
         if(sendResultsMap == null) sendResults = new List<Send_Result__c>();
@@ -61,8 +61,8 @@ public without sharing class NotificationResultService {
         }
         return result;
     }
-    
-    
+
+
     public void updateResults(){
         List<Send_Result__c> results = new List<Send_Result__c>();
         for(List<Send_Result__c> nResults : sendResultsMap.values()){
@@ -71,13 +71,13 @@ public without sharing class NotificationResultService {
         upsert results;
         updateNotificationsStatus();
     }
-    
+
     private void setResultStatus(Id notificationId, String targetType, String status, String errorMessage){
         Send_Result__c result = getSendResult(notificationId, targetType);
         result.Status__c = status;
         result.Error__c = errorMessage;
     }
-    
+
     private void updateNotificationsStatus(){
         List<Notification__c> notifications = [
                 SELECT Id, (SELECT Id, Status__c FROM Send_Results__r)
@@ -85,15 +85,13 @@ public without sharing class NotificationResultService {
                 WHERE Id IN: sendResultsMap.keySet()
         ];
         for(Notification__c n : notifications){
+            if(n.Send_Results__r.isEmpty()) continue;
+
             Boolean hasFailed = false;
             Boolean hasInProgress = false;
             for(Send_Result__c sr : n.Send_Results__r){
-                if(sr.Status__c == SEND_RESULT_STATUS_IN_PROGRESS){
-                    hasInProgress = true;
-                }
-                if(sr.Status__c == SEND_RESULT_STATUS_FAILED){
-                    hasFailed = true;
-                }
+                if(sr.Status__c == SEND_RESULT_STATUS_IN_PROGRESS) hasInProgress = true;
+                if(sr.Status__c == SEND_RESULT_STATUS_FAILED) hasFailed = true;
             }
             if(hasFailed){
                 n.Status__c = NotificationService.NOTIFICATION_STATUS_FAILED;

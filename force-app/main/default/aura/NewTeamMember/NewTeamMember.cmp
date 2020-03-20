@@ -123,7 +123,6 @@
                                     <div class="panel-heading">{!$Label.c.PG_NTM_L_Permissions}</div>
                                     <aura:if isTrue="{!v.userMode != 'HCP'}">
                                         <c:rrButtonTubSet>
-
                                             <c:rrButtonTubSetItem title="{!$Label.c.PG_NTM_L_Set_By_Study_Site}" tabId="by-study"
                                                                   currentTab="{!v.currentTab}" variant="underlined"/>
                                             <c:rrButtonTubSetItem title="{!$Label.c.PG_NTM_L_Set_Same_For_All_Studies}" tabId="all-same"
@@ -163,8 +162,7 @@
                                                         and(v.currentTab == 'by-study', empty(v.changedLevels))),
                                                         and(v.currentTab == 'all-same', empty(v.changedLevelsAll))),
                                                         v.delegate.delegateContact.Id == v.currentUserContactId),
-                                                        and(not(empty(v.parentId)), v.delegate.delegateContact.Id == v.parentId))
-}"
+                                                        and(not(empty(v.parentId)), v.delegate.delegateContact.Id == v.parentId))}"
                                                     title="{!if(or(or(or(or(or(not(v.isCorrectEmail),
                                                         and(not(v.isCorrectContactData), v.delegate.delegateContact.Id==undefined)),
                                                         and(v.currentTab == 'by-study', empty(v.changedLevels))),
@@ -189,7 +187,6 @@
                                                 </button>
                                             </aura:set>
                                         </aura:if>
-
                                     </div>
                                 </div>
                             </div>
