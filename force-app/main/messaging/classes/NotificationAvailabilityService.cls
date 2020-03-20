@@ -12,6 +12,7 @@ public without sharing class NotificationAvailabilityService {
     private static final String CONTACT = 'Contact';
     private static final String TASK_OBJ_NAME = 'Task';
     private static final String PARTICIPANT_OBJ_NAME = 'Participant__c';
+    private static final String CASE_OBJ_NAME = 'Case';
 
     private Map<Id, Contact> contactByIdMap;
     private List<String> allPermissions;
@@ -119,6 +120,7 @@ public without sharing class NotificationAvailabilityService {
             if (objType == TASK_OBJ_NAME) {
                 List<Task> taskList = [
                         SELECT Id,
+                                Community_Template_Name__c,
                                 WhatId,
                                 Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
                         FROM Task
@@ -147,6 +149,9 @@ public without sharing class NotificationAvailabilityService {
                 }
             }
             if (objType == CONTACT) {
+                //TODO if Contact needs additional fields
+            }
+            if (objType == CASE_OBJ_NAME) {
                 //TODO if Contact needs additional fields
             }
 
@@ -185,6 +190,9 @@ public without sharing class NotificationAvailabilityService {
                 Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) objectsByIds.get(Id.valueOf(whatId));
                 if (!ctp.Suppress_Participant_Emails__c && contactByIdMap.get(contactId).Participant_Opt_In_Status_Emails__c) checkForNotification = true;
             } else if (objType == SURVEY_INVITATION_OBJ_NAME || objType == TASK_OBJ_NAME) {
+                Contact contact = contactByIdMap.get(contactId);
+                if (contact.Participant_Opt_In_Status_Emails__c) checkForNotification = true;
+            } else if (objType == CASE_OBJ_NAME) {
                 Contact contact = contactByIdMap.get(contactId);
                 if (contact.Participant_Opt_In_Status_Emails__c) checkForNotification = true;
             } else if (objType == null) {
@@ -236,8 +244,10 @@ public without sharing class NotificationAvailabilityService {
     }
 
     public Boolean isDeferNotification(Id contactId, String whatId){
+        if(!permissionSetsByConIdMap.containsKey(contactId)) return true;
+        
         List<String> userCommunityPerms = permissionSetsByConIdMap.get(contactId);
-        return userCommunityPerms !=null && !userCommunityPerms.contains(getCommunityTemplate(contactId, whatId).permissionSet);
+        return !userCommunityPerms.contains(getCommunityTemplate(contactId, whatId).permissionSet);
     }
 
     public String getOrgWideEmail(Id contactId, String whatId, String orgWideEmailTarget) {
@@ -270,7 +280,9 @@ public without sharing class NotificationAvailabilityService {
             }
         } else if (objType == TASK_OBJ_NAME) {
             Task task = (Task) objectsByIds.get(Id.valueOf(whatId));
-            if (task.Survey_Invitation__c != null) {
+            if(task.Community_Template_Name__c != null) {
+                communityTemplate = CommunityTemplateService.getTemplate(task.Community_Template_Name__c);
+            } else if (task.Survey_Invitation__c != null) {
                 communityTemplate = CommunityTemplateService.getTemplate(
                         task.Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
             } else if (task.WhatId != null && task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {

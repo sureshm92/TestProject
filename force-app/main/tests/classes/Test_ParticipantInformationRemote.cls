@@ -36,6 +36,25 @@ private class Test_ParticipantInformationRemote {
         }
         Test.stopTest();
     }
+
+    @IsTest
+    static void testUpdatePatientInfo() {
+        TestData testData = new TestData();
+        Test.startTest();
+        System.runAs(testData.piUser) {
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(testData.pe.Id, CommunityService.USER_MODE_PI);
+            ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(testData.ctp, pe);
+            ParticipantInformationRemote.updatePatientInfo(JSON.serialize(testData.participant), JSON.serialize(testData.pe));
+            try {
+                ParticipantInformationRemote.createUserForPatientProtal(JSON.serialize(testData.pe), true);
+            } catch(Exception e){
+                System.debug('Exception');
+            }
+            ParticipantInformationRemote.getParticipantDelegates(JSON.serialize(testData.participant.Id));
+            ParticipantInformationRemote.updateUserLanguage(JSON.serialize(testData.participantUser));
+        }
+        Test.stopTest();
+    }
 }
 
 

@@ -308,6 +308,10 @@ export default class MessageBoard extends LightningElement {
         return this.userMode === 'PI';
     }
 
+    get boardStyles() {
+        return (navigator.userAgent.match(/Trident/) ? '' : 'display: flex; flex-direction: column-reverse;');
+    }
+
     get messageTemplateOptions() {
         let options = [];
         if (this.userMode === 'Participant' && this.messageTemplates) {
