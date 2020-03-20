@@ -41,4 +41,8 @@ public with sharing class Action_GetCardDetails implements Action{
     public Boolean isDMLWithSetupObjects() {
         return false;
     }
+    
+    public void postDML(Action__c dbAction, Execution_History__c executionHistory){
+    }
+
 }

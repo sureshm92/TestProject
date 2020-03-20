@@ -11,6 +11,7 @@ public without sharing class NotificationResultService {
     
     private Map<Id, List<Send_Result__c>> sendResultsMap;
     
+    
     public NotificationResultService(List<Notification__c> notifications){
         List<Notification__c> notificationsWithResults = [
                 SELECT Id, (SELECT Id, Target_Type__c, Status__c FROM Send_Results__r)
@@ -33,13 +34,12 @@ public without sharing class NotificationResultService {
     
     public void setFailed(Id notificationId, String targetType, String errorMessage){
         Send_Result__c sendResult = getSendResult(notificationId, targetType);
-        sendResult.Status__c = SEND_RESULT_STATUS_SENT;
+        sendResult.Status__c = SEND_RESULT_STATUS_FAILED;
         sendResult.Error__c = errorMessage;
-
     }
     
     public void setSent(Id notificationId, String targetType){
-        getSendResult(notificationId, targetType).Status__c = SEND_RESULT_STATUS_SENT;
+        setResultStatus(notificationId, targetType, SEND_RESULT_STATUS_SENT, null);
     }
     
     public Send_Result__c getSendResult(Id notificationId, String targetType){
@@ -62,10 +62,18 @@ public without sharing class NotificationResultService {
         return result;
     }
     
-    
     public void updateResults(){
+        updateResults(null);
+    }
+    
+    public void updateResults(IntegrationLog__c log){
         List<Send_Result__c> results = new List<Send_Result__c>();
         for(List<Send_Result__c> nResults : sendResultsMap.values()){
+            for(Send_Result__c sr : nResults) {
+                if(log != null && sr.Target_Type__c == NotificationService.NOTIFICATION_TARGET_TYPE_SMS) {
+                    sr.Integration_Log__c = log.Id;
+                }
+            }
             results.addAll(nResults);
         }
         upsert results;
