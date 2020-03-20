@@ -90,3 +90,37 @@
 .THIS .icon-link:hover {
     fill: #686868;
 }
+
+.THIS .slds-has-block-links--space{
+    background: #00c221;
+    fill: white;
+    padding: 0 16px;
+    text-align: center;
+    color: white;
+    position: absolute;
+    top: -5px;
+    right: 10px;
+    border-radius: 2px;
+}
+.THIS .slds-has-block-links--space2{
+    background: #999;
+    fill: white;
+    padding: 0 16px;
+    text-align: center;
+    color: white;
+    position: absolute;
+    top: -5px;
+    right: 10px;
+    border-radius: 2px;
+}
+.THIS .slds-has-block-links--space3{
+    background: #FF9300;
+    fill: white;
+    padding: 0 16px;
+    text-align: center;
+    color: white;
+    position: absolute;
+    top: -5px;
+    right: 10px;
+    border-radius: 2px;
+}
