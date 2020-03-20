@@ -265,6 +265,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
                             listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
                             system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
+
+                            continue;
                         }
                     } else {
                         dupclicateContactEmails.add(participantContact.Email);
@@ -360,7 +362,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     try {
                         List<Database.SaveResult> saveReses = Database.insert(participantsByContact.values());
                         Integer totalErrorCount = getErrorCount(saveReses);
-                        errorRecordCount = totalErrorCount;
+                        if (totalErrorCount > errorRecordCount && totalErrorCount <= totalRecordCount) {
+                            errorRecordCount = totalErrorCount;
+                        }
                         for (Database.SaveResult saveRes : saveReses) {
                             if (!saveRes.isSuccess()) {
                                 Database.Error error = saveRes.getErrors().get(0);
@@ -388,7 +392,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     system.debug('!participantEnrollmentsByContact.isEmpty()');
                     List<Database.SaveResult> saveReses = Database.insert(participantEnrollmentsByContact.values());
                     Integer totalErrorCount = getErrorCount(saveReses);
-                    errorRecordCount = totalErrorCount;
+                    if (totalErrorCount > errorRecordCount && totalErrorCount <= totalRecordCount) {
+                        errorRecordCount = totalErrorCount;
+                    }
                     for (Database.SaveResult saveRes : saveReses) {
                         if (!saveRes.isSuccess()) {
                             Database.Error error = saveRes.getErrors().get(0);

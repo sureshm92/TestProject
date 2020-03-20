@@ -9,7 +9,7 @@
                          parametersProvider="Email_Template_Parameters_From_CTP"
                          header="{!$Label.Trial_Search_Header}"
                          title="{!$Label.Email_Title_PH}"
-                         greeting="{!$Label.Email_User_Greeting}"
+                         greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Trial_Alert}"
                          signature="{!$Label.Email_Signature_New_Continue}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
@@ -23,7 +23,7 @@
                              parametersProvider="Email_Template_Parameters_From_CTP"
                              header="{!$Label.Trial_Search_Header}"
                              title="{!$Label.Email_Title_PH}"
-                             greeting="{!$Label.Email_User_Greeting}"
+                             greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Trial_Alert}"
                              signature="{!$Label.Email_Signature_New_Continue}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"

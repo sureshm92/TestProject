@@ -73,6 +73,8 @@ public with sharing class TemplatePropertiesService {
             } else if (resourceId.getSobjectType() == SurveyInvitation.getSObjectType()) {
                 SurveyInvitation invitation = [SELECT Id, Participant_Enrollment__c FROM SurveyInvitation WHERE Id = :resourceId];
                 enrollmentId = invitation.Participant_Enrollment__c;
+            }  else if (resourceId.getSobjectType() == Clinical_Trial_Profile__c.getSObjectType()) {
+                filter = DatabaseService.fieldEqual('Clinical_Trial_Profile__c', resourceId);
             }
 
             if (filter == null) {
