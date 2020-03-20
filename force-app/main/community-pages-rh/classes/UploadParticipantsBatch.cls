@@ -288,7 +288,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         contactsById.put(participantContact.Id, participantContact);
                         participantsByContact.put(participantContact.Id, participant);
                         participantEnrollmentsByContact.put(participantContact.Id, participantEnrollment);
-
                         actionAssignContactPermissions.addPermission(participantContact.Id, permissionSetName);
                     } else {
                         errorRecordCount++;
@@ -383,6 +382,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         participantEnrollment.Participant__c = participantsByContact.get(participantContact.Id).Id;
                     }
                 }
+            }
 
                 if (!participantEnrollmentsByContact.isEmpty()) {
                     system.debug('!participantEnrollmentsByContact.isEmpty()');
@@ -397,7 +397,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         }
                     }
                 }
-            }
+
 
             if(createUsers) {
                 if(!insertedContacts.isEmpty()){
