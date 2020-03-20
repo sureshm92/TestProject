@@ -3375,7 +3375,7 @@
 
             Sincerely,
 
-            ##SignatureShortCommunityName</value>
+            ##SignatureFullCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Plain_Summary</fullName>
@@ -3861,7 +3861,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Title All</shortDescription>
-        <value>IQVIA™ Referral Hub and Patient Portal</value>
+        <value>##TitleNewTM</value>
     </labels>
     <labels>
         <fullName>Email_Title_PH</fullName>
