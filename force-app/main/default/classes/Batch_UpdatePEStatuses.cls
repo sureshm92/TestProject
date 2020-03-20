@@ -46,7 +46,6 @@ global without sharing class Batch_UpdatePEStatuses implements Database.Batchabl
             TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class);
             TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.SendEmailIfSSWasChanged.class);
             TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class);
-            TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.AddPaymentInformationHandler.class);
             TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateParticipantForDelegateHandler.class);
 
 
