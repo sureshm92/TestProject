@@ -2793,7 +2793,7 @@
         <shortDescription>Email Body Welcome to Study Delegate</shortDescription>
         <value>Congratulations, your ##PatientFirstName has been enrolled in ##StudyName clinical research study.
 
-            To assist you in tracking ##PatientFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the ##CommunityName.
+            To assist you in tracking ##PatientFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the ##ShortCommunityName.
 
             Please note that enrollment in ##ShortCommunityName is not a requirement for ##PatientFirstName to be enrolled into the research study: ##StudyName.</value>
     </labels>
@@ -3334,6 +3334,17 @@
             Sincerely,
 
             ##SignatureFullCommunityName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_New_Short</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature New Participant Delegate</shortDescription>
+        <value>We are excited to be on this journey with you.
+
+            Sincerely,
+
+            ##SignatureShortCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_PPST</fullName>
