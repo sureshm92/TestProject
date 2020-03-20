@@ -29,17 +29,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
-    public class AddPaymentInformationHandler extends TriggerHandler {
-
-        public override void afterInsert(List<SObject> newList) {
-            getPaymentInformation(newList);
-        }
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            getPaymentInformationOnStatusChange(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
-        }
-    }
-
     public class StudySiteHistoryHandler extends TriggerHandler {
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -273,45 +262,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 pe.Participant_Status_Last_Changed_Date__c = Datetime.now();
             }
         }
-    }
-
-    @TestVisible
-    private static void getPaymentInformation(List<Participant_Enrollment__c> newList) {
-        Map<Id, Participant_Enrollment__c> newMap = new Map<Id, Participant_Enrollment__c>();
-        newMap.putAll(newList);
-        Set<Id> ssIds = new Set<Id>();
-        for (Participant_Enrollment__c pe : newList) ssIds.add(pe.Study_Site__c);
-
-        List<PaymentVendorSettings__c> paymentVendorSettings = [
-                SELECT Id, Payment_Vendor__r.Payment_Vendor_Id__c, Study_Site__c
-                FROM PaymentVendorSettings__c
-                WHERE Study_Site__c IN:ssIds
-        ];
-        Map<Id, PaymentVendorSettings__c> pvsBySsIds = new Map<Id, PaymentVendorSettings__c>();
-        for (PaymentVendorSettings__c pvs : paymentVendorSettings) pvsBySsIds.put(pvs.Study_Site__c, pvs);
-
-        for (Participant_Enrollment__c pe : newList) {
-            if (pvsBySsIds.keySet().contains(pe.Study_Site__c)) {
-                Participant__c participant = (Participant__c)PETriggerBuffer.getSObject(pe.Participant__c);
-                Action_GetCardDetails actionGetCardDetails = new Action_GetCardDetails(
-                        ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).Protocol_ID__c,
-                        pe.Screening_ID__c,
-                        participant);
-
-                if (!System.isBatch() && !System.isFuture()) ActionExecutor.executeAsync(actionGetCardDetails); else ActionExecutor.executeAsync(actionGetCardDetails, Datetime.now());
-            }
-        }
-    }
-
-    @TestVisible
-    private static void getPaymentInformationOnStatusChange(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
-        List<Participant_Enrollment__c> peToUpdate = new List<Participant_Enrollment__c>();
-        for (Participant_Enrollment__c participantEnrollment : newList) {
-            if (participantEnrollment.Participant_Status__c != oldMap.get(participantEnrollment.Id).Participant_Status__c) {
-                peToUpdate.add(participantEnrollment);
-            }
-        }
-        getPaymentInformation(peToUpdate);
     }
 
     @TestVisible
