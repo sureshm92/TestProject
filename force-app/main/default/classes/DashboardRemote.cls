@@ -69,6 +69,14 @@ public without sharing class DashboardRemote {
     private static String FROM_16_TO_20_DAYS = '16-20 Days';
     private static String GREATER_20_DAYS = '>20 Days';
 
+    private static Map<String, String> BarTitleLabelsMap = new Map<String, String>{
+            LEESS_5_DAYS => 'PG_DBPI_Days_Less_5',
+            FROM_6_TO_10_DAYS => 'PG_DBPI_Days_6_To_10',
+            FROM_11_TO_15_DAYS => 'PG_DBPI_Days_11_To_15',
+            FROM_16_TO_20_DAYS => 'PG_DBPI_Days_16_To_20',
+            GREATER_20_DAYS => 'PG_DBPI_Days_Greater_20'
+    };
+
     class BarItem {
         String color;
         String width;
@@ -596,7 +604,7 @@ public without sharing class DashboardRemote {
 
     private static BarItem prepareBarItem(String color, String title, Integer count, Integer maxPInD, String maxD) {
         String width = title == maxD ? '70%' : count != 0 ? '' + Math.Round(70 / Math.Round(maxPInD / count)) + '%' : '1%';
-        return new BarItem(color, width, title, '' + count);
+        return new BarItem(color, width, TranslateHelper.getLabelValue(BarTitleLabelsMap.get(title)), '' + count);
     }
 
     private static List<WaitingContactItem> prepareAwaitingContactList(String userMode, String delegateId, List<Participant_Enrollment__c> contactAtemptedList, Id piId) {
