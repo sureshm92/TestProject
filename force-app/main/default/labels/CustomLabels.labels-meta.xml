@@ -3364,7 +3364,7 @@
 
             Sincerely,
 
-            ##SignatureFullCommunityName</value>
+            ##SignatureShortCommunityName</value>
     </labels>
     <labels>
         <fullName>Email_Signature_Plain_Summary</fullName>
