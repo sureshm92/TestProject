@@ -3874,6 +3874,13 @@
         <value>Dear ##RecipientName,</value>
     </labels>
     <labels>
+        <fullName>Email_Ext_User_Greeting</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email User Greeting</shortDescription>
+        <value>Dear Guest,</value>
+    </labels>
+    <labels>
         <fullName>Email_User_Greeting_FirstName</fullName>
         <language>en_US</language>
         <protected>false</protected>
