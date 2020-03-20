@@ -120,6 +120,7 @@ public without sharing class NotificationAvailabilityService {
             if (objType == TASK_OBJ_NAME) {
                 List<Task> taskList = [
                         SELECT Id,
+                                Community_Template_Name__c,
                                 WhatId,
                                 Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
                         FROM Task
@@ -277,7 +278,9 @@ public without sharing class NotificationAvailabilityService {
             }
         } else if (objType == TASK_OBJ_NAME) {
             Task task = (Task) objectsByIds.get(Id.valueOf(whatId));
-            if (task.Survey_Invitation__c != null) {
+            if(task.Community_Template_Name__c != null) {
+                communityTemplate = CommunityTemplateService.getTemplate(task.Community_Template_Name__c);
+            } else if (task.Survey_Invitation__c != null) {
                 communityTemplate = CommunityTemplateService.getTemplate(
                         task.Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
             } else if (task.WhatId != null && task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
