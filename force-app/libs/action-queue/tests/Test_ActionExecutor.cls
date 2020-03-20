@@ -98,9 +98,10 @@ private class Test_ActionExecutor {
                 Execution_Time__c = testDatetime
         );
         insert action;
+        System.debug('ACTION: ' + action);
         ActionExecutor.executeAsync(action);
 
-        List<Action__c> queriedAction = [SELECT Id FROM Action__c];
+        List<Action__c> queriedAction = [SELECT Id, Type__c, Status__c, Body__c FROM Action__c];
         ActionExecutor.executeAsync(queriedAction[0]);
         Test.stopTest();
 
