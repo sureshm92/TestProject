@@ -154,7 +154,7 @@ public without sharing class PatientDelegateService {
 
     public void createPatientDelegate(Contact newDelegate) {
         for (Id contactId : getDelegatedContactIds()) {
-            if (String.valueOf(contactId) == String.valueOf(newDelegate.Id)) {
+            if (contactId == newDelegate.Id) {
                 throw new PatientDelegateServiceException(Label.PG_PST_L_Delegates_WrongAdd);
             }
         }

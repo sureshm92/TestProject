@@ -11,7 +11,7 @@
                          title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Patient9_Delegate}"
-                         signature="{!$Label.Email_Signature_Patient}">
+                         signature="{!$Label.Email_Signature_New_Short}">
             <c:EmailActionBtn buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"
                               resourceId="{!relatedTo.Id}"/>
         </c:EmailTemplate>
@@ -25,7 +25,7 @@
                              title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Patient9_Delegate}"
-                             signature="{!$Label.Email_Signature_Patient}">
+                             signature="{!$Label.Email_Signature_New_Short}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"
                                   resourceId="{!relatedTo.Id}"/>
         </c:EmailTemplateText>
