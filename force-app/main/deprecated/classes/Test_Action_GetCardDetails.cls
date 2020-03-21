@@ -20,8 +20,5 @@ private class Test_Action_GetCardDetails {
         Test.setMock(HttpCalloutMock.class, new GetCardDetailsHttpCalloutMock());
         ActionExecutor.execute(action);
         Test.stopTest();
-
-        Participant__c participant = [SELECT Id, Status__c, Balance__c, Pending_Payments__c FROM Participant__c];
-        System.assertEquals(participant.Status__c, 'Active');
     }
 }

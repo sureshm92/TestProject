@@ -71,7 +71,11 @@ public abstract class RemoteCall{
             if(!String.isEmpty(res.getBody())){
                 log.Response_Body__c = res.getBody().mid(0, IntegrationLog__c.Response_Body__c.getDescribe().length);
             }
-            if(res.getStatusCode() == 200 || res.getStatusCode() == 201) log.Success__c = true;
+            if(res.getStatusCode() == 200 || res.getStatusCode() == 201) {
+                log.Success__c = true;
+            }else{
+                log.Error_Message__c = res.getStatus();
+            }
             System.debug('RESPONSE STATUS: ' + res.getStatusCode() + ' ' + res.getStatus());
             return parseResponse(res.getBody());
         } catch (Exception e) {
@@ -87,8 +91,6 @@ public abstract class RemoteCall{
             log.Call_Duration__c = responseDT.getTime() - requestDT.getTime();
             if(logAutoInsert){
                 DMLService.insertRecord(log);
-            }else if(log.Error_Message__c != null) {
-                throw new RemoteCallException(log.Error_Message__c);
             }
         }
         return null;

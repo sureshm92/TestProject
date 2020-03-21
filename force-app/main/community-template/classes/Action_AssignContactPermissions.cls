@@ -53,6 +53,9 @@ public without sharing class Action_AssignContactPermissions implements Action{
         return true;
     }
     
+    public void postDML(Action__c dbAction, Execution_History__c executionHistory){
+    }
+    
     private void cleanReassignedPermissions(){
         //remove permission from remove map if this permission exist in assign map
         Map<Id, Set<String>> resMap = new Map<Id, Set<String>>();
