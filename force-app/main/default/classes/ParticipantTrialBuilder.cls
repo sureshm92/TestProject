@@ -119,7 +119,9 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                 ));
             }
 
-            if (participantState.showVisits) {
+            if (participantState.showVisits && participantState.pe.Participant_Contact__r.Visit_Results_Opt_In__c
+                    && VisitResultSharingService.isVisitResultAvailable()
+                    && !VisitResultSharingService.processResults().isEmpty()) {
                 tabs.add(new TrialDetail.StudyTab(
                         'tab-lab-results',
                         'reports',
