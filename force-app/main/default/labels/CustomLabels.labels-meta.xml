@@ -2791,7 +2791,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Welcome to Study Delegate</shortDescription>
-        <value>Congratulations, your ##PatientFirstName has been enrolled in ##StudyName clinical research study.
+        <value>Congratulations, ##PatientFirstName has been enrolled in ##StudyName clinical research study.
 
             To assist you in tracking ##PatientFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the ##ShortCommunityName.
 
