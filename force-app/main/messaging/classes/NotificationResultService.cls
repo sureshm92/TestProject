@@ -93,15 +93,13 @@ public without sharing class NotificationResultService {
                 WHERE Id IN: sendResultsMap.keySet()
         ];
         for(Notification__c n : notifications){
+            if(n.Send_Results__r.isEmpty()) continue;
+        
             Boolean hasFailed = false;
             Boolean hasInProgress = false;
             for(Send_Result__c sr : n.Send_Results__r){
-                if(sr.Status__c == SEND_RESULT_STATUS_IN_PROGRESS){
-                    hasInProgress = true;
-                }
-                if(sr.Status__c == SEND_RESULT_STATUS_FAILED){
-                    hasFailed = true;
-                }
+                if(sr.Status__c == SEND_RESULT_STATUS_IN_PROGRESS) hasInProgress = true;
+                if(sr.Status__c == SEND_RESULT_STATUS_FAILED) hasFailed = true;
             }
             if(hasFailed){
                 n.Status__c = NotificationService.NOTIFICATION_STATUS_FAILED;
