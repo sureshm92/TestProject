@@ -108,10 +108,8 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
                             && (prt.Mailing_State_Code__c == ageOfMajority.State_Code__c || String.isBlank(ageOfMajority.State_Code__c)))
                             || (String.isBlank(ageOfMajority.Country_Code__c))) {
                         prt.Adult__c = participantAge >= ageOfMajority.Age__c;
-                        if (participantAgePlus7Days >= ageOfMajority.Age__c && !prt.Adult__c) {
-                            nowAdultParticipantOrBecomeSooner.add(prt);
-                            break;
-                        } else if (prt.Adult__c) {
+                        if ((participantAgePlus7Days >= ageOfMajority.Age__c && !prt.Adult__c)
+                                || prt.Adult__c) {
                             nowAdultParticipantOrBecomeSooner.add(prt);
                             break;
                         }

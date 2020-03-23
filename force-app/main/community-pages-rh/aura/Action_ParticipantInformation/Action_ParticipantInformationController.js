@@ -41,7 +41,6 @@
                 returnValue = JSON.parse(returnValue);
                 //component.set('v.statusSteps', returnValue.steps);
                 component.set('v.formData.visitPlansLVList', returnValue.visitPlanLVList);
-                debugger;
                 component.set('v.participantPath',returnValue.steps);
                 component.set('v.isFinalUpdate', false);
                 component.set('v.initialized', true);

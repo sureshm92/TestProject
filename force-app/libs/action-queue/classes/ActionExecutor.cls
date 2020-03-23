@@ -9,6 +9,22 @@ public with sharing class ActionExecutor {
     public static String ACTION_STATUS_FAILED = 'Failed';
     public static String ACTION_STATUS_SCHEDULED = 'Scheduled';
     
+    public class ExecutionResult{
+        public Action action;
+        public Action__c dbAction;
+        public Execution_History__c executionHistory;
+        
+        public ExecutionResult(Action action, Action__c dbAction, Execution_History__c executionHistory){
+            this.action = action;
+            this.dbAction = dbAction;
+            this.executionHistory = executionHistory;
+        }
+        
+        public void complete(){
+            if(action != null) action.postDML(dbAction, executionHistory);
+        }
+    }
+    
     private static Map<String, Action_Execution_Setting__c> actionSettingsMap = new Map<String, Action_Execution_Setting__c>();
     private static Action_Execution_Setting__c orgDefaultSetting = new Action_Execution_Setting__c(
             Relaunch_Interval__c = 5,
@@ -36,7 +52,7 @@ public with sharing class ActionExecutor {
         return actionSetting;
     }
 
-    public static void execute(Action action){
+    public static ExecutionResult execute(Action action){
         Action__c act = new Action__c(
                 Type__c = action.getType().toString(),
                 Body__c = JSON.serializePretty(action),
@@ -46,7 +62,6 @@ public with sharing class ActionExecutor {
         Action_Execution_Setting__c actionSetting = getSetting(act.Type__c);
         try {
             action.execute();
-
             act.Status__c = ACTION_STATUS_COMPLETED;
             history.Is_Success__c = true;
         } catch (Exception e) {
@@ -57,6 +72,7 @@ public with sharing class ActionExecutor {
             history.Stack_Trace__c = e.getStackTraceString();
             history.Is_Success__c = false;
         } finally {
+            act.Body__c = JSON.serializePretty(action);
             if(!actionSetting.Remove_After_Complete__c || act.Status__c != ACTION_STATUS_COMPLETED) {
                 DMLService.insertRecord(act);
                 DMLService.setLookup(history, 'Action__c', act);
@@ -64,16 +80,16 @@ public with sharing class ActionExecutor {
                 DMLService.resetLookup();
             }
         }
+        return new ExecutionResult(action, act, history);
     }
 
-    public static void execute(Action__c act){
+    public static ExecutionResult execute(Action__c act){
         Execution_History__c history = new Execution_History__c();
         Action_Execution_Setting__c actionSetting = getSetting(act.Type__c);
+        Type actionType = Type.forName(act.Type__c);
+        Action action = (Action) JSON.deserialize(act.Body__c, actionType);
         try{
-            Type actionType = Type.forName(act.Type__c);
-            Action action = (Action) JSON.deserialize(act.Body__c, actionType);
             action.execute();
-
             act.Status__c = ACTION_STATUS_COMPLETED;
             history.Is_Success__c = true;
         } catch (Exception e) {
@@ -90,6 +106,7 @@ public with sharing class ActionExecutor {
                 act.Execution_Time__c = null;
             }
         } finally {
+            act.Body__c = JSON.serializePretty(action);
             if(!actionSetting.Remove_After_Complete__c || act.Status__c != ACTION_STATUS_COMPLETED) {
                 DMLService.updateRecord(act);
                 DMLService.setLookup(history, 'Action__c', act);
@@ -99,6 +116,7 @@ public with sharing class ActionExecutor {
                 DMLService.deleteRecord(act);
             }
         }
+        return new ExecutionResult(action, act, history);
     }
 
     public static void executeAsync(Action action, Datetime executeTime){

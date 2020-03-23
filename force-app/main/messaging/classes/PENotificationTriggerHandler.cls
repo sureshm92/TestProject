@@ -72,7 +72,7 @@ public without sharing class PENotificationTriggerHandler {
                 participantConIds.add(pe.Participant__r.Contact__c);
             }
 
-            if (oldMap != null && pe.Participant_Status__c != (oldMap.get(pe.Id)).Participant_Status__c) {
+            if (oldMap == null || pe.Participant_Status__c != (oldMap.get(pe.Id)).Participant_Status__c) {
                 String notificationTypePT;
                 //Forming additional notification for Enrollment Success
                 if (peStatusesSuccess.contains(pe.Participant_Status__c) && pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
@@ -87,7 +87,8 @@ public without sharing class PENotificationTriggerHandler {
                     notifications.add(new Notification__c(
                             Recipient__c = pe.Participant__r.Contact__c,
                             WhatId__c = pe.Id,
-                            Notification_Type__c = notificationTypePT
+                            Notification_Type__c = notificationTypePT,
+                            Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
                     ));
                 }
             }
@@ -140,12 +141,14 @@ public without sharing class PENotificationTriggerHandler {
                         Study_Site__r.Principal_Investigator__c,
                         Participant_Contact__c
                 FROM Participant_Enrollment__c
-                WHERE Id IN :peIds AND Participant_Contact__c != NULL
+                WHERE Id IN :peIds
         ]) {
-            notificationList.add(new Notification__c(
-                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE,
-                    Recipient__c = pe.Participant_Contact__c,
-                    WhatId__c = pe.Id));
+            if (pe.Participant_Contact__c != null) {
+                notificationList.add(new Notification__c(
+                        Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SS_WAS_CHANGED_TYPE,
+                        Recipient__c = pe.Participant_Contact__c,
+                        WhatId__c = pe.Id));
+            }
             if (pe.Study_Site__r.Principal_Investigator__c != null) {
                 notificationList.add(new Notification__c(
                         Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE,

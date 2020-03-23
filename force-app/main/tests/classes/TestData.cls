@@ -48,6 +48,7 @@ public class TestData {
         }
         ctp = [
                 SELECT Id, Therapeutic_Area__c,
+                        Study_Code_Name__c,
                         Patient_Portal_Enabled__c,
                         Terms_and_Conditions__c,
                         Initial_Visit_Required__c,
@@ -57,7 +58,7 @@ public class TestData {
                 WHERE NCT_Number__c = 'NCT99999999'
         ];
         ss = [
-                SELECT Id, Visit_Results_Sharing__c,
+                SELECT Id, Visit_Results_Sharing__c, Name,
                         Principal_Investigator__c
                 FROM Study_Site__c
                 WHERE Clinical_Trial_Profile__c = :ctp.Id
