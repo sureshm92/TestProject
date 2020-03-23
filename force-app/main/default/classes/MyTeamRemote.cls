@@ -155,8 +155,7 @@ public without sharing class MyTeamRemote {
                                             ? null : (staffTrialMap.get(delegateContact.Id).get(site.Id));
                             if (delegateRecord != null) {
                                 isDelegate = true;
-                                siteLevel.delegateLevel = TranslateHelper.getPickListLabel(Site_Staff__c.Delegate_Level__c, delegateRecord.Delegate_Level__c);
-                            }
+                                siteLevel.delegateLevel = delegateRecord.Delegate_Level__c;                            }
                             delegateTrial.siteLevels.add(siteLevel);
                         }
                         for (TrialDelegateWrapper tdw : delegateTrialsMap.values()) {
@@ -200,8 +199,7 @@ public without sharing class MyTeamRemote {
                     DelegateWrapper dw = new DelegateWrapper();
                     dw.delegateContact = delegateContact;
                     dw.trialLevel = new DelegateLevelWrapper();
-                    dw.trialLevel.delegateLevel = delegateLevels.get(delegateContact.Id) != null ? TranslateHelper.getPickListLabel(RP_Delegate_Relationship__c.Delegate_Access_Level__c,delegateLevels.get(delegateContact.Id)) : '';
-                    dw.trialLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getHCPDelegateLevelMap().get(parentId))
+                    dw.trialLevel.delegateLevel = delegateLevels.get(delegateContact.Id) != null ? delegateLevels.get(delegateContact.Id) : '';                    dw.trialLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getHCPDelegateLevelMap().get(parentId))
                             || delegateContact.Id == CommunityService.getUserContact().Id;
                     delegates.add(dw);
                 }
@@ -256,12 +254,12 @@ public without sharing class MyTeamRemote {
         if (userMode == CommunityService.USER_MODE_HCP) {
             delegateOptions.add(new LabelValueItem(Label.No_Access, ''));
             for (Schema.PicklistEntry ple : RP_Delegate_Relationship__c.Delegate_Access_Level__c.getDescribe().getPicklistValues()) {
-                delegateOptions.add(new LabelValueItem(TranslateHelper.getPickListLabel(RP_Delegate_Relationship__c.Delegate_Access_Level__c, ple.getLabel()), ple.getValue()));
+                delegateOptions.add(new LabelValueItem(ple.getLabel(), ple.getValue()));
             }
         } else if (userMode == CommunityService.USER_MODE_PI) {
             delegateOptions.add(new LabelValueItem(Label.No_Access, ''));
             for (Schema.PicklistEntry ple : Site_Staff__c.Delegate_Level__c.getDescribe().getPicklistValues()) {
-                delegateOptions.add(new LabelValueItem(TranslateHelper.getPickListLabel(Site_Staff__c.Delegate_Level__c, ple.getLabel()), ple.getValue()));
+                delegateOptions.add(new LabelValueItem(ple.getLabel(), ple.getValue()));
             }
         }
 
