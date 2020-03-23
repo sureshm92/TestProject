@@ -26,7 +26,6 @@
         let previousValue = component.get('v.previousValue');
         let validity;
         component.set('v.previousValue', field.value);
-        debugger;
         if (field !== undefined && field.type !== 'picklist' && field.value !== previousValue) {
             let fieldInput = component.find('fieldInput');
 

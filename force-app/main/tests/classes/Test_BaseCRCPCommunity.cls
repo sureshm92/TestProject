@@ -201,16 +201,24 @@ private class Test_BaseCRCPCommunity {
     static void baseHCPTest4() {
         TestData testData = new TestData();
         Contact hcpContact = [SELECT Id FROM Contact WHERE Email = 'hcp@emil.com'];
+        String templateName = 'Share_Social_Study_Template';
+        Id shareStudyEmailTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName = :templateName LIMIT 1].Id;
         Test.startTest();
         System.runAs(testData.hcpUser) {
             ApplicationHelpRemote.getInitData(CommunityService.USER_MODE_HCP);
             ApplicationHelpRemote.getInitData(CommunityService.USER_MODE_PI);
             ApplicationHelpRemote.getInitData(CommunityService.USER_MODE_PARTICIPANT);
-            SendEmailTemplate.sendShareEmail(testData.hcpEnrollment.Id, hcpContact.Id, 'Some@mail.com', 'Share_Social_Study_Template');
             ShareModalController.sendEmail(testData.hcpEnrollment.Id, hcpContact.Id, 'Some@mail.com', null);
+            SendEmailTemplate.sendShareEmail(testData.hcpEnrollment.Id, hcpContact.Id, 'Some@mail.com', templateName);
+            SendEmailTemplate.createEmail(templateName, hcpContact.Id, hcpContact.Id);
+            SendEmailTemplate.createEmail(shareStudyEmailTemplateId, hcpContact.Id, hcpContact.Id,testData.ctp.Id, true, 'HCP');
+            List<SendEmailTemplate.EmailMessageWrapper> emailMessageWrappers = new List<SendEmailTemplate.EmailMessageWrapper>();
+            emailMessageWrappers.add( new SendEmailTemplate.EmailMessageWrapper(testData.hcpEnrollment.Id, hcpContact.Id,templateName));
+            SendEmailTemplate.sendEmailMessages(emailMessageWrappers);
         }
         Test.stopTest();
     }
+    
     @IsTest
     static void baseHCPTest5() {
         TestData testData = new TestData();
@@ -364,11 +372,15 @@ private class Test_BaseCRCPCommunity {
     @IsTest
     static void basePITest4() {
         TestData testData = new TestData();
+        Contact piContact = [SELECT Id FROM Contact WHERE Email = 'pi@emil.com'];
+        String templateName = 'Share_Social_Study_Template';
+        Id shareStudyEmailTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName = :templateName LIMIT 1].Id;
         Test.startTest();
         System.runAs(testData.piUser) {
             String initDataString = StudyListViewController.getPIInitData();
             StudyListViewController.PIInitData initData = (StudyListViewController.PIInitData) JSON.deserializeStrict( initDataString, StudyListViewController.PIInitData.class);
             StudyListViewController.searchStudiesPI(JSON.serialize(initData.piStudiesFilter.filterData),JSON.serialize(initData.piStudiesFilter.sortData), JSON.serialize(initData.paginationData));
+            SendEmailTemplate.createEmail(shareStudyEmailTemplateId, piContact.Id, piContact.Id,testData.ctp.id, true, 'PI');
         }
         Test.stopTest();
     }
