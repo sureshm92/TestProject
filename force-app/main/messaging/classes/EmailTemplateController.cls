@@ -108,9 +108,15 @@ global without sharing class EmailTemplateController {
         get {
             try {
                 setDefaultValues();
-                String title = getPropertiesService().getPropertyValue('EmailTemplateTitleLabel');
-                if (title != null && getDataProvider().userMode == CommunityModeService.USER_MODE_PARTICIPANT) {
+                String title;
+                if (titleValue.contains(PARAM_PREFIX)) {
+                    title = getPropertiesService().getPropertyValue('EmailTemplateTitleNewTM');
                     titleValue = title;
+                } else {
+                    title = getPropertiesService().getPropertyValue('EmailTemplateTitleLabel');
+                    if (title != null && getDataProvider().userMode == CommunityModeService.USER_MODE_PARTICIPANT) {
+                        titleValue = title;
+                    }
                 }
                 return titleValue;
             } catch (Exception e) {
