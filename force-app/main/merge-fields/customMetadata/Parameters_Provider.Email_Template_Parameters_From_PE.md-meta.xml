@@ -8,7 +8,14 @@
         <value xsi:type="xsd:string">
             StudyTitle = Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c
             StudyName = Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c
+            StudyCodeName = Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c
             StudySiteName = Study_Site__r.Name
+            SSName = Study_Site__r.Name
+            SSAddress = Study_Site__r.Site__r.BillingStreet
+            SSCity = Study_Site__r.Site__r.BillingCity
+            SSPhone = Study_Site__r.Study_Site_Phone__c
+            SSPostalCode = Study_Site__r.Site__r.BillingPostalCode
+            PEProfileName = Name
             SitePhoneNumber = Study_Site__r.Study_Site_Phone__c
             ReferralSource = Referral_Source__c
             IsVirtual = Is_Virtual_Study_Site__c

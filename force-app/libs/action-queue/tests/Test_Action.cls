@@ -16,4 +16,9 @@ public with sharing class Test_Action implements Action{
     public Boolean isDMLWithSetupObjects() {
         return false;
     }
+    
+    public void postDML(Action__c dbAction, Execution_History__c executionHistory){
+    
+    }
+
 }
