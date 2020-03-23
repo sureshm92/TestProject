@@ -105,7 +105,10 @@ public inherited sharing class VisitResultsService {
 
         public VisitResultsContainer(Patient_Visit__c visit, List<VisitResultWrapper> wrappers, String groupName) {
             this.wrappers = wrappers;
-            this.visitDate = visit.Completed_Date__c == null ? Label.StudyVisit_Information_Not_Available : DateService.format(visit.Completed_Date__c, 'DD-MMM-YYYY');
+            if (visit.Completed_Date__c != null) {
+                Datetime dt = Datetime.newInstance(visit.Completed_Date__c.year(), visit.Completed_Date__c.month(), visit.Completed_Date__c.day(), 0, 0, 0);
+                this.visitDate = dt.format('dd-MMM-yyyy');
+            } else this.visitDate = Label.StudyVisit_Information_Not_Available;
             this.groupName = groupName;
         }
     }
