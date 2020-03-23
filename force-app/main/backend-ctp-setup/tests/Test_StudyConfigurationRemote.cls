@@ -17,6 +17,9 @@ private with sharing class Test_StudyConfigurationRemote {
         StudyConfigurationRemote.InitData initData = StudyConfigurationRemote.getInitData(td.ctp.Id);
         initData.ctp.Relevant_Links_Are_Available__c = true;
         StudyConfigurationRemote.saveChanges(initData.ctp);
+
+        List<LookupSearchResult> studySites = StudySiteSearchLookup.searchSSByTerm(td.ctp.Id, td.ss.Name, '', 'US');
+        studySites = StudySiteSearchLookup.searchSSByIds(td.ss.Id);
         Test.stopTest();
     }
 
