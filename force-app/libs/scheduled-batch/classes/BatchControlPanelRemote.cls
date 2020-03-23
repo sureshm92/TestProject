@@ -218,6 +218,7 @@ public without sharing class BatchControlPanelRemote {
                 Batch_ScheduledAbstract instance = (Batch_ScheduledAbstract) bType.newInstance();
                 settings.intervalMode = instance.getRecommendedIntervalMode();
                 settings.relaunchInterval = instance.getRecommendedRelaunchInterval();
+                settings.scopeSize = instance.getRecommendedScopeSize();
             }
         } catch (Exception e) {
             throw new BatchControlException('Can\'t create instance of this type (' + className + ')');
@@ -290,6 +291,7 @@ public without sharing class BatchControlPanelRemote {
         @AuraEnabled public String className;
         @AuraEnabled public String intervalMode;
         @AuraEnabled public Integer relaunchInterval;
+        @AuraEnabled public Integer scopeSize;
     }
 
     public class PanelWrapper {
