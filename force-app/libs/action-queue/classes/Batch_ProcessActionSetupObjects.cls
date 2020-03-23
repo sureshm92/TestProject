@@ -41,6 +41,11 @@ public without sharing class Batch_ProcessActionSetupObjects extends Batch_Sched
         return 2;
     }
 
+    public override Integer getRecommendedScopeSize() {
+        return 50;
+    }
+
+
     public override virtual void finalAction() {
         delete processedActions;
     }

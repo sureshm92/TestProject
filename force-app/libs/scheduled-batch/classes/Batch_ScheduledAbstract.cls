@@ -27,6 +27,10 @@ public abstract class Batch_ScheduledAbstract implements Database.Batchable<SObj
         return 10;
     }
 
+    public virtual Integer getRecommendedScopeSize() {
+        return 200;
+    }
+
     public virtual void finalAction(){
     
     }
