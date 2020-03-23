@@ -155,7 +155,8 @@ public without sharing class MyTeamRemote {
                                             ? null : (staffTrialMap.get(delegateContact.Id).get(site.Id));
                             if (delegateRecord != null) {
                                 isDelegate = true;
-                                siteLevel.delegateLevel = delegateRecord.Delegate_Level__c;                            }
+                                siteLevel.delegateLevel = delegateRecord.Delegate_Level__c;
+                            }
                             delegateTrial.siteLevels.add(siteLevel);
                         }
                         for (TrialDelegateWrapper tdw : delegateTrialsMap.values()) {
@@ -199,7 +200,8 @@ public without sharing class MyTeamRemote {
                     DelegateWrapper dw = new DelegateWrapper();
                     dw.delegateContact = delegateContact;
                     dw.trialLevel = new DelegateLevelWrapper();
-                    dw.trialLevel.delegateLevel = delegateLevels.get(delegateContact.Id) != null ? delegateLevels.get(delegateContact.Id) : '';                    dw.trialLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getHCPDelegateLevelMap().get(parentId))
+                    dw.trialLevel.delegateLevel = delegateLevels.get(delegateContact.Id) != null ? delegateLevels.get(delegateContact.Id) : '';
+                    dw.trialLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getHCPDelegateLevelMap().get(parentId))
                             || delegateContact.Id == CommunityService.getUserContact().Id;
                     delegates.add(dw);
                 }
