@@ -168,7 +168,7 @@ export default class MessageBoard extends LightningElement {
         }
     }
 
-    //Search Handlers:--------------------------------------------------------------------------------------------------
+    //PI Search Handler:--------------------------------------------------------------------------------------------------
     handleSelectionChange(event) {
         this.selectedEnrollments = event.detail.selection;
         this.checkSendBTNAvailability();
@@ -218,6 +218,7 @@ export default class MessageBoard extends LightningElement {
         this.dispatchEvent(createCustomEvent('back'));
     }
 
+    //Participant comboBox
     handleEnrollmentSelect(event) {
         let peId = event.detail.peId;
         this.selectedEnrollment = this.enrollments.filter(function (pe) {
@@ -240,6 +241,7 @@ export default class MessageBoard extends LightningElement {
     }
 
     handleSendClick() {
+        if(!this.selectedEnrollments || !this.selectedEnrollment) return;
         let messageText = this.messageText;
         let fileList;
         if (this.attachment) {

@@ -145,9 +145,11 @@ export default class MessageBoardHeader extends LightningElement {
 
     handleSelectionChange() {
         let lookUp = this.template.querySelector('c-web-lookup');
+        let selectedPE;
+        if(lookUp) selectedPE = lookUp.getSelection().length > 0 ? lookUp.getSelection() : null;
         this.dispatchEvent(new CustomEvent('selectionchange', {
             detail: {
-                selection: lookUp ? lookUp.getSelection() : null
+                selection: selectedPE
             }
         }));
     }
