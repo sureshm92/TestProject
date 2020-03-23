@@ -429,7 +429,7 @@ global without sharing class EmailTemplateController {
                         bodyLabel = LABEL_BODY_INITIAL_PATIENT_DELEGATE;
                         headerLabel = LABEL_HEADER_INITIAL_PATIENT_DELEGATE;
                         titleLabel = LABEL_TITLE_ALL;
-                        signatureLabel = LABEL_SIGNATURE_PATIENT_DELEGATE;
+                        signatureLabel = LABEL_SIGNATURE_NEW;
                     } else {
                         bodyLabel = LABEL_BODY_INITIAL_DELEGATE;
                         headerLabel = LABEL_HEADER_INITIAL_DELEGATE;
