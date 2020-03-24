@@ -20,8 +20,7 @@ public with sharing class Test_ParametersProviderService {
                         ReferralNetworkId__r.Name
                 FROM Study_Site__c WHERE Id = :testData.ss.Id
         ];
-
-        String resultValue = ParametersProviderService.substituteMergeFields('##PIName', 'PP_Study_Site',studySite, 'en_US');
+        String resultValue = ParametersProviderService.substituteMergeFields('##RecipientName', 'PP_Study_Site',studySite, 'en_US');
         System.assert(!resultValue.contains('##'));
     }
 }
