@@ -21,8 +21,9 @@ private class Test_TaskService {
         //ParticipantService.setMock(new ParticipantServiceMock());
         TestData.loadTestData();
         TestData testData = new TestData();
+
+        Test.startTest();
         System.runAs(testData.participantUser){
-            Test.startTest();
             TaskService.getInstance().getOpenTasks();
             TaskService.getInstance().getPreviewTasks();
             Task task = new Task();
@@ -39,7 +40,9 @@ private class Test_TaskService {
             TaskService.getInstance().createCompleteYourProfileTask(null, null, null);
             TaskService.getInstance().getOpenTasksFilter();
             TaskService.getInstance().completeCYPTaskForParticipant();
-            Test.stopTest();
+            // For coverage
+            TaskService.TaskConfig taskConfig = new TaskService.TaskConfig(task.OwnerId, task.Subject, task.Visible_For__c);
         }
+        Test.stopTest();
     }
 }
