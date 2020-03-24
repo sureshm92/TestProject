@@ -50,7 +50,7 @@ public without sharing class TravelSupportRemote {
         List<TravelWrapper> travelWrappers = new List<TravelWrapper>();
         if (bookingResponse == null) return travelWrappers;
         for(RemoteCall_GetTravelBookingDetails.TravelBooking travelBooking : bookingResponse.travelBookings) {
-            if (isHomePage && travelWrappers.size() == 3) break;
+            if (isHomePage && travelWrappers.size() == 5) break;
             if (travelBooking.departures != null) travelWrappers.add(new TravelWrapper(travelBooking.departures, travelBooking.visitname, travelBooking.status));
             if (travelBooking.accommodations != null) travelWrappers.add(new TravelWrapper(travelBooking.accommodations, travelBooking.visitname, travelBooking.status));
             if (travelBooking.returns != null) travelWrappers.add(new TravelWrapper(travelBooking.returns, travelBooking.visitname, travelBooking.status));
