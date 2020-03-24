@@ -22,7 +22,7 @@ public with sharing class Test_ParametrizedMessageService {
         ];
 
         ParametrizedMessageService parametrizedMessageService = new ParametrizedMessageService();
-        parametrizedMessageService.addMessage ('Message 1','##PIName', studySite.Id, 'PP_Study_Site', 'en_US');
+        parametrizedMessageService.addMessage ('Message 1','##RecipientName', studySite.Id, 'PP_Study_Site', 'en_US');
         parametrizedMessageService.processMessages();
         System.assert(!parametrizedMessageService.getMessage('Message 1').contains('##'));
     }
