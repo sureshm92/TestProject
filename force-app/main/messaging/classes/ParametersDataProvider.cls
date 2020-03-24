@@ -504,7 +504,8 @@ public without sharing class ParametersDataProvider {
             ];
             recipientUserId = recipientUser.Id;
             recipientContactId = recipientUser.ContactId;
-            recipientName = (recipientUser.Contact.Salutation == null ? '' : recipientUser.Contact.Salutation + ' ') + recipientUser.Contact.Name;
+            recipientName = (recipientUser.Contact.Salutation == null ? '' : recipientUser.Contact.Salutation + ' ')
+                    + recipientUser.Contact.Name;
             recipientFirstName = recipientUser.Contact.FirstName;
             recipientLanguage = recipientUser.LanguageLocaleKey;
             isDelegate = recipientUser.Contact.UserCommunityIsDelegate__c;
@@ -529,7 +530,9 @@ public without sharing class ParametersDataProvider {
         }
 
         if (recipientContactId != null) {
-            List<Participant__c> participants = [SELECT First_Name__c, Last_Name__c FROM Participant__c WHERE Contact__c = :recipientContactId];
+            List<Participant__c> participants = [
+                    SELECT First_Name__c, Last_Name__c FROM Participant__c WHERE Contact__c = :recipientContactId
+            ];
             if (participants.size() > 0) {
                 recipientName = getFullParticipantName(participants[0]);
                 recipientFirstName = participants[0].First_Name__c;
