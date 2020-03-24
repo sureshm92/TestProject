@@ -5,6 +5,7 @@
 
     <messaging:htmlEmailBody >
         <c:EmailTemplate userType="PI"
+                         recipientId="{!recipient.Id}"
                          sourceId="{!relatedTo.Id}"
                          parametersProvider="PP_Study_Site"
                          header="{!$Label.Email_Header_Import_Participants_Completed}"
@@ -17,6 +18,7 @@
 
     <messaging:plainTextEmailBody >
         <c:EmailTemplateText userType="PI"
+                             recipientId="{!recipient.Id}"
                              sourceId="{!relatedTo.Id}"
                              parametersProvider="PP_Study_Site"
                              header="{!$Label.Email_Header_Import_Participants_Completed}"
