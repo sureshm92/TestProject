@@ -22,8 +22,10 @@ public without sharing class ParametersProviderService {
         Map<String, String> paramsMap = getParamsMap(providerName);
         SObjectType sObjectType = getSObjectType(providerName);
         if(recordIds == null || recordIds.size() == 0 || paramsMap.size() == 0 || sObjectType == null) return resultList;
+        Set<String> valueSet = new Set<String>(paramsMap.values());
+        for(String value : paramsMap.values()) valueSet.add(value.toLowerCase());
         return DatabaseService.query(
-                paramsMap.values(),
+                new List<String>(valueSet),
                 sObjectType,
                 DatabaseService.fieldInValues('Id', recordIds)
         );
