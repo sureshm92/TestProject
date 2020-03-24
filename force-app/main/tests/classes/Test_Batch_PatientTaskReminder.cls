@@ -30,7 +30,8 @@ public with sharing class Test_Batch_PatientTaskReminder {
                 Status = 'Open',
                 ReminderDateTime = Datetime.now(),
                 OwnerId = testData.participantUser.Id,
-                WhoId = c.Id
+                WhoId = c.Id,
+                Visible_For__c = 'Owner'
         );
 
         List<Task> tasks = [
@@ -46,6 +47,7 @@ public with sharing class Test_Batch_PatientTaskReminder {
                         Reminder_Schedule__r.First_Reminder_day__c,
                         Reminder_Schedule__r.Second_Reminder_day__c,
                         Reminder_Schedule__r.Use_Final_Template__c,
+                        Community_Template_Name__c,
                         Visible_For__c,
                         WhatId,
                         WhoId
