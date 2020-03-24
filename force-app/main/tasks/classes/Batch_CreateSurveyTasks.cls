@@ -78,7 +78,8 @@ public class Batch_CreateSurveyTasks implements Database.Batchable<InvitationsWr
         Database.executeBatch(new Batch_CreateSurveyTasks(invitationsVisible, UserInfo.getUserId(), 0, 1), 30);
     }
 
-    private List<Id> countFailedTask(Map<Id, String> invitationsVisible) {
+    @TestVisible
+    private static List<Id> countFailedTask(Map<Id, String> invitationsVisible) {
         Map<Id, SurveyInvitation> surveyInvitation = new Map<Id, SurveyInvitation>([
                 SELECT
                         Id,

@@ -131,7 +131,7 @@ public with sharing class CollectionUtil {
                 || type == Schema.DisplayType.INTEGER || type == Schema.DisplayType.PERCENT) {
             return compareNumbers(Double.valueOf(a.get(field)), Double.valueOf(b.get(field)));
         } else if (type == Schema.DisplayType.DATE || type == Schema.DisplayType.DATETIME || type == Schema.DisplayType.TIME) {
-            return compareTime(Datetime.valueOf(a.get(field)), Datetime.valueOf(b.get(field)));
+            return compareTime((Datetime)a.get(field), (Datetime)b.get(field));
         } else {
             throw new SortingException('Type not sortable: ' + type);
         }
