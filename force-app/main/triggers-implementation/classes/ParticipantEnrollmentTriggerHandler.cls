@@ -450,16 +450,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 peListForTaskCreation.add(pe);
                 Clinical_Trial_Profile__c ctp =
                         (Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c);
-                if(pe.Participant_Contact__c != null) {
-                    participantContactIds.add(pe.Participant_Contact__c);
-                    if(pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS && ctp.Patient_Portal_Enabled__c) {
-                        notifications.add(new Notification__c(
-                                Recipient__c = pe.Participant_Contact__c,
-                                WhatId__c = pe.Id,
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE
-                        ));
-                    }
-                }
+                if(pe.Participant_Contact__c != null) participantContactIds.add(pe.Participant_Contact__c);
+
                 histories.addAll(ParticipantWorkflowService.createHistoryRecordsForPE(pe, ctp));
             }
         }
