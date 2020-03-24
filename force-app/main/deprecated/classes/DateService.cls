@@ -1,1 +1,3 @@
-public with sharing class DateService {}
+public with sharing class DateService {
+    // depricated
+}
