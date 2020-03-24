@@ -119,7 +119,7 @@ private class Test_MessagePageRemote {
         TestData testData = new TestData();
 
         Test.startTest();
-        System.runAs(testData.piUser) {  // new List<String> {testData.pe.Id}
+        System.runAs(testData.piUser) {
             MessagePageRemote.searchParticipant('Participant', new List<String> {''});
         }
         Test.stopTest();

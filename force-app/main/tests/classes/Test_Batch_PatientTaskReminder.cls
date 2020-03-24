@@ -3,14 +3,17 @@
  */
 @IsTest
 public with sharing class Test_Batch_PatientTaskReminder {
-    @IsTest
-    static void testBatchExecute() {
+
+    @TestSetup
+    static void setup() {
         TriggerHandlerExecutor.bypassHandler(NotificationTriggerHandler.CheckFieldsHandler.class);
-        TestData.loadTestData();
-        delete [SELECT Id FROM Notification__c];
 
         Test.startTest();
+        TestData.loadTestData();
+        delete [SELECT Id FROM Notification__c];
         TestData testData = new TestData();
+        Test.stopTest();
+
         List<Participant__c> participant = [
                 SELECT
                         Id,
@@ -23,41 +26,33 @@ public with sharing class Test_Batch_PatientTaskReminder {
         c.Participant_Opt_In_Status_Emails__c = true;
         update c;
 
+        Reminder_Schedule__c reminderSchedule = new Reminder_Schedule__c(
+                First_Reminder_day__c = 0,
+                Second_Reminder_day__c = 5
+        );
+        insert reminderSchedule;
+
         insert new Task(
                 Subject = 'Test Name',
                 Task_Type__c = 'Not Selected',
+                Start_Date__c = Date.today(),
                 Reminder_Date__c = Datetime.now(),
                 Status = 'Open',
                 ReminderDateTime = Datetime.now(),
+                Reminder_Schedule__c = reminderSchedule.Id,
                 OwnerId = testData.participantUser.Id,
+                Visible_For__c = TaskService.TASK_VISIBILITY_ALL,
                 WhoId = c.Id
         );
+    }
 
-        List<Task> tasks = [
-                SELECT Id,
-                        Description,
-                        OwnerId,
-                        Subject,
-                        Start_Date__c,
-                        Task_Type__c,
-                        ReminderDateTime,
-                        Reminder_Date__c,
-                        Reminder_Schedule__c,
-                        Reminder_Schedule__r.First_Reminder_day__c,
-                        Reminder_Schedule__r.Second_Reminder_day__c,
-                        Reminder_Schedule__r.Use_Final_Template__c,
-                        Visible_For__c,
-                        WhatId,
-                        WhoId
-                FROM Task
-                WHERE ReminderDateTime <= :Datetime.now()
-                AND Is_Reminder_Sent__c = FALSE
-                AND Status IN:TaskService.TASK_STATUS_GROUP_AVAILABLE
-        ];
-        new Batch_PatientTaskReminder().execute(null, tasks);
+    @IsTest
+    static void testBatchExecute() {
+        Test.startTest();
+        Database.executeBatch(new Batch_PatientTaskReminder());
         Test.stopTest();
 
         List<Notification__c> notifications = [SELECT Id FROM Notification__c];
-        System.assertEquals(tasks.size(), notifications.size());
+        System.assertEquals(1, notifications.size());
     }
 }
