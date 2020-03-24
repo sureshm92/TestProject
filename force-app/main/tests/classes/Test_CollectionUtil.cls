@@ -70,10 +70,6 @@ public with sharing class Test_CollectionUtil {
                 FROM Contact
         ];
 
-        CollectionUtil.sortByField(contacts, 'AssistantName', false);
-        System.assertEquals('Contact 2', contacts.get(1).FirstName);
-        CollectionUtil.sortByField(contacts, 'AssistantName', true);
-        System.assertEquals('Contact 3', contacts.get(0).FirstName);
         CollectionUtil.sortByField(contacts, 'Trials_in_Last_12_Months__c', true);
         System.assertEquals('Contact 1', contacts.get(2).FirstName);
         CollectionUtil.sortByField(contacts, 'Birthdate', true);
