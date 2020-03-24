@@ -11,7 +11,9 @@ private class Test_BasePPCommunity {
     
     @TestSetup
     public static void init(){
+        Test.startTest();
         TestData.loadTestData();
+        Test.stopTest();
     }
     
     @IsTest
@@ -68,9 +70,31 @@ private class Test_BasePPCommunity {
     }
 
     @IsTest
-    static void test_StudyDetailView() {
+    static void test_StudyDetailViewReceived() {
         Test.startTest();
         TestData testDataInstance = new TestData();
+        System.runAs(testDataInstance.participantUser){
+            StudyDetailViewController.getTrialDetail(testDataInstance.ctp.Id, CommunityService.USER_MODE_PARTICIPANT);
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void test_StudyDetailViewParticipant() {
+        Test.startTest();
+        TestData testDataInstance = new TestData();
+        testDataInstance.updatePEStatusEnrollmentSuccess();
+        System.runAs(testDataInstance.participantUser){
+            StudyDetailViewController.getTrialDetail(testDataInstance.ctp.Id, CommunityService.USER_MODE_PARTICIPANT);
+        }
+        Test.stopTest();
+    }
+
+    @IsTest
+    static void test_StudyDetailViewAlumni() {
+        Test.startTest();
+        TestData testDataInstance = new TestData();
+        delete testDataInstance.pe;
         System.runAs(testDataInstance.participantUser){
             StudyDetailViewController.getTrialDetail(testDataInstance.ctp.Id, CommunityService.USER_MODE_PARTICIPANT);
         }

@@ -4,7 +4,7 @@
 
 public without sharing class ParticipantEnrollmentFactory {
 
-    public class PEWrapper{
+/*    public class PEWrapper{
         public Participant_Enrollment__c pe;
         public Participant__c participant;
         
@@ -12,7 +12,7 @@ public without sharing class ParticipantEnrollmentFactory {
             this.participant = participant;
             this.pe = pe;
         }
-    }
+    }*/
 
     public static Map<String, Clinical_Trial_Profile__c> ctpMap = new Map<String, Clinical_Trial_Profile__c>();
     public static Map<String, Study_Site__c> ssMap = new Map<String, Study_Site__c>();
@@ -46,7 +46,7 @@ public without sharing class ParticipantEnrollmentFactory {
         update pe;
     }
     
-    public static List<Id> createParticipantEnrollmentRecords(List<String> csvLines, String postfix){
+/*    public static List<Id> createParticipantEnrollmentRecords(List<String> csvLines, String postfix){
         List<Participant_Study_Enrollment__c> pseList = [
                 SELECT Id, External_Key__c
                 FROM Participant_Study_Enrollment__c
@@ -83,9 +83,9 @@ public without sharing class ParticipantEnrollmentFactory {
         List<Id> peIds = new List<Id>();
         for(Participant_Enrollment__c pe : peList) peIds.add(pe.Id);
         return peIds;
-    }
+    }*/
 
-    private static PEWrapper createPEWrapper(Clinical_Trial_Profile__c ctp, Study_Site__c studySite, String screeningId){
+/*    private static PEWrapper createPEWrapper(Clinical_Trial_Profile__c ctp, Study_Site__c studySite, String screeningId){
         Participant__c participant = new Participant__c(
                 First_Name__c = screeningId,
                 Last_Name__c = screeningId + Datetime.now().getTime(),
@@ -104,7 +104,7 @@ public without sharing class ParticipantEnrollmentFactory {
                 Screening_ID__c = screeningId
         );
         return new PEWrapper(participant, pe);
-    }
+    }*/
 
     private static Clinical_Trial_Profile__c getClinicalTrialProfile(String protocolId){
         Clinical_Trial_Profile__c ctp = ctpMap.get(protocolId);
@@ -192,7 +192,7 @@ public without sharing class ParticipantEnrollmentFactory {
         return pi;
     }
 
-    private static Account getSite(){
+/*    private static Account getSite(){
         List<Account> accounts = [
                 SELECT
                         Id,
@@ -204,14 +204,14 @@ public without sharing class ParticipantEnrollmentFactory {
             return createSite();
         }
         return accounts[0];
-    }
+    }*/
 
-    private static Account createSite(){
+/*    private static Account createSite(){
         Account acc = new Account();
         acc.Name = 'Study';
         insert acc;
         return acc;
-    }
+    }*/
     
     private static String generateNCTNumber(){
         String newNum = System.now().getTime() + '';

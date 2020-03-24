@@ -11,14 +11,6 @@
     margin-top: -15px;
 }
 
-.THIS .error-message {
-    padding: 40px 0;
-    color: #999999;
-    font-size: 17px;
-    line-height: 26px;
-    text-align: center;
-}
-
 .THIS.sv-body .rr-white-panel {
     border: none;
 }
@@ -36,6 +28,7 @@
     align-items: center;
     justify-content: space-between;
 }
+
 .THIS td{
     border-bottom: 1px solid #eaeaea;
     min-height: 45px;
@@ -97,6 +90,7 @@
     align-items: center;
     color: #666666;
 }
+
 .THIS .select-list {
     margin-left: 1%;
     height: max-content;
