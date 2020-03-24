@@ -66,25 +66,18 @@ private class Test_TranslationExportImportRemote {
         String result;
 
         Test.startTest();
-        TranslationExportImportRemote.exportVisitPlan(visitPlanId, 'RU', TranslationExportImportRemote.EXPORT_TYPE_BILINGUAL);
-        String exportXML = '<?xml version="1.0" encoding="UTF-8"?>' +
-                '<xliff version="1.2">' + '<file original="Salesforce" source-language="en_US" target-language="RU" datatype="xml">' + '<body>' +
-                '<trans-unit id="a1E3O000000LvQyUAK-patient_portal_name__c" maxwidth="255" size-unit="char">' +
-                '<source>Visit 1</source>' + '<target>Посещение 1</target>' + '</trans-unit>' +
-                '<trans-unit id="a1E3O000000LvQyUAK-visit_schedule__c" maxwidth="255" size-unit="char">' +
-                '<source>Visit 1</source>' + '<target>Посещение 1</target>' + '</trans-unit>' +
-                '<trans-unit id="a1E3O000000LvQzUAK-patient_portal_name__c" maxwidth="255" size-unit="char">' +
-                '<source>Visit 2</source>' + '<target>Посещение 2</target>' + '</trans-unit>' +
-                '<trans-unit id="a1E3O000000LvQzUAK-visit_schedule__c" maxwidth="255" size-unit="char">' +
-                '<source>Visit 2</source>' + '<target>Посещение 2</target>' +
-                '</trans-unit>' + '<trans-unit id="a0I3O000000XWW7UAO-label__c" maxwidth="255" size-unit="char">' +
-                '<source>pregnant</source>' + '<target>Беременная</target>' +
-                '</trans-unit>' + '<trans-unit id="a0I3O000000XWW7UAO-description__c" maxwidth="20000" size-unit="char">' +
-                '<source></source>' + '</trans-unit>' + '</body>' + '</file>' + '</xliff>';
-        result = TranslationExportImportRemote.importTranslation(EncodingUtil.base64Encode(Blob.valueOf(exportXML)));
+        String exportXML = TranslationExportImportRemote.exportVisitPlan(visitPlanId, 'RU', TranslationExportImportRemote.EXPORT_TYPE_BILINGUAL);
+        result = exportXML.substring(0, 306) + '/n' + '<target>Посещение 1</target>' +
+                exportXML.substring(306, 465) + '/n' + '<target>Посещение 1</target>' +
+                exportXML.substring(465, 629) + '/n' + '<target>Посещение 2</target>' +
+                exportXML.substring(629, 788) + '/n' + '<target>Посещение 2</target>' +
+                exportXML.substring(788, 946) + '/n' + '<target>Беременная</target>' +
+                exportXML.substring(1104);
+        TranslationExportImportRemote.ImportResult ir = (TranslationExportImportRemote.ImportResult)JSON.deserialize(
+                TranslationExportImportRemote.importTranslation(EncodingUtil.base64Encode(Blob.valueOf(result))),  TranslationExportImportRemote.ImportResult.class
+        );
         Test.stopTest();
-
-        System.assertEquals('{"unimportedData":null,"unimportedCount":0,"importedCount":5,"deletedCount":0}', result);
+        System.assertEquals(5, ir.importedCount);
     }
 
     @IsTest
@@ -94,22 +87,33 @@ private class Test_TranslationExportImportRemote {
 
     @IsTest
     static void test_importTranslation_getError() {
+        Id visitPlanId = getVisitPlanId();
+        insert new List<Icon_Details__c>{
+                new Icon_Details__c(
+                        Name = 'pregnant',
+                        Label__c = 'pregnant',
+                        Visit_Plan__c = visitPlanId),
+                new Icon_Details__c(
+                        Name = 'Hand-X-Ray',
+                        Visit_Plan__c = visitPlanId)
+        };
+
+        String result;
+
         Test.startTest();
-        String exportXML = '<?xml version="1.0" encoding="UTF-8"?>' +
-                '<xliff version="1.2">' + '<file original="Salesforce" source-language="en_US" target-language="RU" datatype="xml">' + '<body>' +
-                '<trans-unit id="a1E3O000000LvQyUAK-patient_portal_nam__c" maxwidth="255" size-unit="char">' +
-                '<source>Visit 1</source>' + '<target>Посещение 1</target>' + '</trans-unit>' +
-                '<trans-unit id="a1E3O000000LvQyUAK-visit_schedule__c" maxwidth="255" size-unit="char">' +
-                '<source>Visit 1</source>' + '<target>Посещение 1</target>' + '</trans-unit>' +
-                '<trans-unit id="a1E3O000000LvQzUAK-patient_portal_name__c" maxwidth="255" size-unit="char">' +
-                '<source>Visit 2</source>' + '<target>Посещение 2</target>' + '</trans-unit>' +
-                '<trans-unit id="a1E3O000000LvQzUAK-visit_schedule__c" maxwidth="255" size-unit="char">' +
-                '<source>Visit 2</source>' + '<target></target>' +
-                '</trans-unit>' + '<trans-unit id="a0I3O000000XWW7UAO-label__c" maxwidth="255" size-unit="char">' +
-                '<source>pregnant</source>' + '<target>ТестТестТест</target>' +
-                '</trans-unit>' + '<trans-unit id="a0I3O000000XWW7UAO-description__c" maxwidth="20000" size-unit="char">' +
-                '<source></source>' + '</trans-unit>' + '</body>' + '</file>' + '</xliff>';
-        TranslationExportImportRemote.importTranslation(EncodingUtil.base64Encode(Blob.valueOf(exportXML)));
+        String exportXML = TranslationExportImportRemote.exportVisitPlan(visitPlanId, 'RU', TranslationExportImportRemote.EXPORT_TYPE_BILINGUAL);
+        result = exportXML.substring(0, 216) + 'patient_portal_n' + exportXML.substring(238, 306) + '/n' + '<target>Посещение 1</target>' +
+                exportXML.substring(306, 465) + '/n' + '<target>Посещение 1</target>' +
+                exportXML.substring(465, 629) + '/n' + '<target>Посещение 2</target>' +
+                exportXML.substring(629, 788) + '/n' + '<target>Посещение 2</target>' +
+                exportXML.substring(788, 946) + '/n' + '<target>ТестТестТест</target>' +
+                exportXML.substring(1104);
+        TranslationExportImportRemote.ImportResult ir = (TranslationExportImportRemote.ImportResult)JSON.deserialize(
+                TranslationExportImportRemote.importTranslation(EncodingUtil.base64Encode(Blob.valueOf(result))),  TranslationExportImportRemote.ImportResult.class
+        );
         Test.stopTest();
+
+        System.assertEquals(1, ir.unimportedCount);
+        System.assertEquals(4, ir.importedCount);
     }
 }
