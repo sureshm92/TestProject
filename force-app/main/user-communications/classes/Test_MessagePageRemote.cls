@@ -62,6 +62,7 @@ private class Test_MessagePageRemote {
 
         Test.startTest();
         System.runAs(testData.piUser) {
+            MessagePageRemote.createConversation(testData.pe, 'hi everyone!', null, false);
             MessagePageRemote.sendMultipleMessage(new List<String>{testData.pe.Id}, 'Hi Participant!', null);
         }
         Test.stopTest();
@@ -113,10 +114,22 @@ private class Test_MessagePageRemote {
         Test.stopTest();
     }
 
+    @IsTest
+    static void searchParticipantTest() {
+        TestData testData = new TestData();
+
+        Test.startTest();
+        System.runAs(testData.piUser) {  // new List<String> {testData.pe.Id}
+            MessagePageRemote.searchParticipant('Participant', new List<String> {''});
+        }
+        Test.stopTest();
+    }
+
     @TestSetup
     static void setup() {
         Test.startTest();
         TestData.loadTestData();
+
         List<Study_Site__c> studySites = [SELECT Id, Messages_Are_Available__c FROM Study_Site__c];
         for(Study_Site__c ss : studySites) ss.Messages_Are_Available__c = true;
         update studySites;
