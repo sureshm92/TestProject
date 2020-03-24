@@ -131,7 +131,7 @@ public without sharing class ParticipantService {
 
     @TestVisible
     private Boolean showVisits() {
-        if (participantState.pe != null && participantState.ctp.Visit_Schedule_Is_Available__c) {
+        if (participantState.pe != null) {
             List<Patient_Visit__c> patientVisit = [
                     SELECT Id
                     FROM Patient_Visit__c

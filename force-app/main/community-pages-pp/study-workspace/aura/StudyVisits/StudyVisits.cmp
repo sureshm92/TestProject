@@ -15,7 +15,6 @@
     <aura:attribute name="options" type="List"/>
     <aura:attribute name="iconNames" type="String" default=""/>
     <aura:attribute name="isHasVisits" type="Boolean" default="true"/>
-    <aura:attribute name="visitPlanAvailable" type="Boolean" default="true"/>
 
     <!--HANDLERS-->
     <aura:handler name="change" value="{!v.visitMode}" action="{!c.getVisits}"/>
@@ -31,8 +30,7 @@
                         iconColor="#666666"/>
         </div>
 
-        <aura:if isTrue="{!v.visitPlanAvailable}">
-            <ui:scrollerWrapper>
+        <ui:scrollerWrapper>
                 <aura:if isTrue="{!!empty(v.visitWrappers)}">
                     <c:RRTable>
                         <tr>
@@ -91,9 +89,5 @@
             <aura:if isTrue="{!v.initialized}">
                 <c:StudyVisitsLegend iconNames="{!v.iconNames}"/>
             </aura:if>
-            <aura:set attribute="else">
-                <div class="error-message">{!$Label.c.PG_VP_L_No_Items_display}</div>
-            </aura:set>
-        </aura:if>
     </div>
 </aura:component>
