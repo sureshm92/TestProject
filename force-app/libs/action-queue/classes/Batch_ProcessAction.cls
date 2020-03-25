@@ -21,16 +21,20 @@ public with sharing class Batch_ProcessAction extends Batch_ScheduledAbstract im
         return Batch_ProcessAction.class;
     }
 
-    public void execute(Database.BatchableContext bc, List<Object> actions) {
+    public void execute(Database.BatchableContext bc, List<Object> dbActions) {
         DMLService.useDMLBuffer(true);
-        for(Action__c action : (List<Action__c>) actions) ActionExecutor.execute(action);
+        List<ActionExecutor.ExecutionResult> executionResults = new List<ActionExecutor.ExecutionResult>();
+        for(Action__c dbAction : (List<Action__c>) dbActions) {
+            executionResults.add(ActionExecutor.execute(dbAction));
+        }
         DMLService.pushDMLBuffer();
+        for(ActionExecutor.ExecutionResult executionResult : executionResults) executionResult.complete();
     }
     
     public override virtual String getBatchDescription() {
         return 'Execute pending execution actions';
     }
-
+    
     public override Integer getRecommendedRelaunchInterval() {
         return 5;
     }

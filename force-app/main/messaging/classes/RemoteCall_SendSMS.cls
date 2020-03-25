@@ -23,6 +23,7 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
                 'Content-Type' => 'application/json'
         });
         messageWrapperList = new List<MessageWrapper>();
+        logAutoInsert = false;
         for(String phoneNumber : messageByPhone.keySet()){
             messageWrapperList.add(new MessageWrapper(phoneNumber,messageByPhone.get(phoneNumber)));
         }
@@ -35,7 +36,7 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
     protected override String buildRequestBody() {
         return JSON.serializePretty(messageWrapperList, true);
     }
-
+    
     protected override Object parseResponse(String responseBody) {
         return null;
     }

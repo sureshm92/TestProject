@@ -21,6 +21,7 @@ public without sharing class ParticipantService {
         @AuraEnabled public String welcomeMessage;
         @AuraEnabled public Boolean showTerms;
         @AuraEnabled public Boolean showVisits;
+        @AuraEnabled public Boolean showResults;
         @AuraEnabled public Boolean isPremium;
         @AuraEnabled public String communityName;
 
@@ -30,6 +31,7 @@ public without sharing class ParticipantService {
             isPremium = false;
             showTerms = false;
             showVisits = false;
+            showResults = false;
             communityName = '';
         }
     }
@@ -64,11 +66,10 @@ public without sharing class ParticipantService {
                 TranslateHelper.translate(participantState.pe, IRBParticipantService.getSuitableLanguageForIRBTranslation(pe.Id));
                 participantState.showTerms = showTerms();
                 participantState.isPremium = participantState.ctp.Patient_Portal_Enabled__c;
-                if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
-                    participantState.value = ParticipantStates.REFERRAL;
-                } else if (PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
+                if (PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
                     participantState.value = ParticipantStates.PARTICIPANT;
                     participantState.showVisits = showVisits();
+                    participantState.showResults = showResults();
                 } else {
                     participantState.value = ParticipantStates.REFERRAL;
                 }
@@ -128,7 +129,7 @@ public without sharing class ParticipantService {
 
     @TestVisible
     private Boolean showVisits() {
-        if (participantState.pe != null && participantState.ctp.Visit_Schedule_Is_Available__c) {
+        if (participantState.pe != null) {
             List<Patient_Visit__c> patientVisit = [
                     SELECT Id
                     FROM Patient_Visit__c
@@ -137,6 +138,15 @@ public without sharing class ParticipantService {
             return !patientVisit.isEmpty();
         }
         return false;
+    }
+
+    @TestVisible
+    private Boolean showResults() {
+        Clinical_Trial_Profile__c ctp = VisitResultSharingService.getCTP(participantState.ctp.Id);
+        String countryCode = participantState.participant.Mailing_Country_Code__c;
+        return ctp.Shareback_Settings_On_Country_Level__c
+                && (String.isBlank(ctp.Shareback_Settings_Countries__c)
+                        || ctp.Shareback_Settings_Countries__c.containsIgnoreCase(countryCode));
     }
 
     @TestVisible

@@ -29,7 +29,6 @@ public without sharing class SendEmailToParticipant {
             if (task.Reminder_Schedule__c == null) return notifications;
 
             whatId = task.Survey_Invitation__c;
-            patientNotificationType = null;
 
             Integer firstReminderDay = (Integer) task.Reminder_Schedule__r.First_Reminder_day__c;
             Datetime startDT = Datetime.newInstanceGmt(task.Start_Date__c, task.Reminder_Date__c.timeGmt());
@@ -39,6 +38,7 @@ public without sharing class SendEmailToParticipant {
                         DateTimeConverterUtil.addDaysInUserTimeZone(startDT, timeZoneByContact.get(task.WhoId), firstReminderDay);
             }
 
+            patientNotificationType = null;
             if (task.Reminder_Date__c == firstReminderDate) {
                 patientNotificationType = task.Reminder_Schedule__r.Use_Final_Template__c ?
                         NotificationCatalog.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE :
@@ -60,14 +60,14 @@ public without sharing class SendEmailToParticipant {
             whatId = task.WhatId;
         }
 
-        if (patientNotificationType != null) {
+        if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER) && patientNotificationType != null) {
             notifications.add(new Notification__c(
                     Recipient__c = paCont.Id,
                     WhatId__c = whatId,
                     Notification_Type__c = patientNotificationType
             ));
         }
-        if (delegateNotificationType != null) {
+        if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES) && delegateNotificationType != null) {
             if (delegates != null && !delegates.isEmpty()) {
                 for (Contact delContact : delegates) {
                     notifications.add(new Notification__c(

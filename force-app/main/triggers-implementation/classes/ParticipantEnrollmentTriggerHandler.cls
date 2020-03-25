@@ -29,17 +29,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
-    public class AddPaymentInformationHandler extends TriggerHandler {
-
-        public override void afterInsert(List<SObject> newList) {
-            getPaymentInformation(newList);
-        }
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            getPaymentInformationOnStatusChange(newList, (Map<Id, Participant_Enrollment__c>) oldMap);
-        }
-    }
-
     public class StudySiteHistoryHandler extends TriggerHandler {
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -276,45 +265,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
     }
 
     @TestVisible
-    private static void getPaymentInformation(List<Participant_Enrollment__c> newList) {
-        Map<Id, Participant_Enrollment__c> newMap = new Map<Id, Participant_Enrollment__c>();
-        newMap.putAll(newList);
-        Set<Id> ssIds = new Set<Id>();
-        for (Participant_Enrollment__c pe : newList) ssIds.add(pe.Study_Site__c);
-
-        List<PaymentVendorSettings__c> paymentVendorSettings = [
-                SELECT Id, Payment_Vendor__r.Payment_Vendor_Id__c, Study_Site__c
-                FROM PaymentVendorSettings__c
-                WHERE Study_Site__c IN:ssIds
-        ];
-        Map<Id, PaymentVendorSettings__c> pvsBySsIds = new Map<Id, PaymentVendorSettings__c>();
-        for (PaymentVendorSettings__c pvs : paymentVendorSettings) pvsBySsIds.put(pvs.Study_Site__c, pvs);
-
-        for (Participant_Enrollment__c pe : newList) {
-            if (pvsBySsIds.keySet().contains(pe.Study_Site__c)) {
-                Participant__c participant = (Participant__c)PETriggerBuffer.getSObject(pe.Participant__c);
-                Action_GetCardDetails actionGetCardDetails = new Action_GetCardDetails(
-                        ((Clinical_Trial_Profile__c)PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c)).Protocol_ID__c,
-                        pe.Screening_ID__c,
-                        participant);
-
-                if (!System.isBatch() && !System.isFuture()) ActionExecutor.executeAsync(actionGetCardDetails); else ActionExecutor.executeAsync(actionGetCardDetails, Datetime.now());
-            }
-        }
-    }
-
-    @TestVisible
-    private static void getPaymentInformationOnStatusChange(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
-        List<Participant_Enrollment__c> peToUpdate = new List<Participant_Enrollment__c>();
-        for (Participant_Enrollment__c participantEnrollment : newList) {
-            if (participantEnrollment.Participant_Status__c != oldMap.get(participantEnrollment.Id).Participant_Status__c) {
-                peToUpdate.add(participantEnrollment);
-            }
-        }
-        getPaymentInformation(peToUpdate);
-    }
-
-    @TestVisible
     private static void resetNotesAndSetChangeDate(List<Participant_Enrollment__c> newList, Map<Id, Participant_Enrollment__c> oldMap) {
         for (Participant_Enrollment__c pe : newList) {
             if (pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c ||
@@ -500,16 +450,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 peListForTaskCreation.add(pe);
                 Clinical_Trial_Profile__c ctp =
                         (Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(pe.Clinical_Trial_Profile__c);
-                if(pe.Participant_Contact__c != null) {
-                    participantContactIds.add(pe.Participant_Contact__c);
-                    if(pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS && ctp.Patient_Portal_Enabled__c) {
-                        notifications.add(new Notification__c(
-                                Recipient__c = pe.Participant_Contact__c,
-                                WhatId__c = pe.Id,
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_ENROLLMENT_SUCCESS_TYPE
-                        ));
-                    }
-                }
+                if(pe.Participant_Contact__c != null) participantContactIds.add(pe.Participant_Contact__c);
+
                 histories.addAll(ParticipantWorkflowService.createHistoryRecordsForPE(pe, ctp));
             }
         }

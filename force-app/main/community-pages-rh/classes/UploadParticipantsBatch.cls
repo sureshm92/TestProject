@@ -89,7 +89,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
     global void execute(Database.BatchableContext BC, List<List<String>> csvChunkLines) {
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
+        //TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
         TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
 
         if (!valid) {
@@ -290,12 +290,11 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         contactsById.put(participantContact.Id, participantContact);
                         participantsByContact.put(participantContact.Id, participant);
                         participantEnrollmentsByContact.put(participantContact.Id, participantEnrollment);
-
                         actionAssignContactPermissions.addPermission(participantContact.Id, permissionSetName);
                     } else {
-                        errorRecordCount++;
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: Incorrect data');
-                        listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
+                        //errorRecordCount++;
+                        //listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: Incorrect data');
+                       // listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
 
                         continue;
                     }
@@ -387,6 +386,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         participantEnrollment.Participant__c = participantsByContact.get(participantContact.Id).Id;
                     }
                 }
+            }
 
                 if (!participantEnrollmentsByContact.isEmpty()) {
                     system.debug('!participantEnrollmentsByContact.isEmpty()');
@@ -403,7 +403,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         }
                     }
                 }
-            }
+
 
             if(createUsers) {
                 if(!insertedContacts.isEmpty()){

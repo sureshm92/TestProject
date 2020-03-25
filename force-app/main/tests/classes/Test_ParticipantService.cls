@@ -94,6 +94,9 @@ public class Test_ParticipantService {
         Test.startTest();
         ParticipantService.getParticipantState();
         ParticipantService.getInstance().getState();
+        try {
+            ParticipantService.getParticipantFullName(getPE(null).Participant__r.Contact__c);
+        } catch (ParticipantService.ParticipantServiceException e) {}
         Test.stopTest();
     }
 

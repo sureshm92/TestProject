@@ -1468,6 +1468,13 @@
         <value>Complete By</value>
     </labels>
     <labels>
+        <fullName>Continue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Continue</shortDescription>
+        <value>Continue</value>
+    </labels>
+    <labels>
         <fullName>Cookies_Info_Text</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -2352,7 +2359,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body RP10</shortDescription>
-        <value>There has been an update to the status of your patient referral, ID: ##PEName, for the clinical research study: ##StudyTitle.
+        <value>There has been an update to the status of your patient referral, ID: ##PEProfileName, for the clinical research study: ##StudyTitle.
 
             To see the referral status of your patient, log in to Patient Portal, and then go to &quot;My Patients.&quot;</value>
     </labels>
@@ -2491,7 +2498,7 @@
         <shortDescription>Email Body Patient9 Delegate</shortDescription>
         <value>The study team has updated  ##PatientFirstName&#39;s referral status for clinical study ##StudyName.
 
-            To see additional information, log in to the ##ShortCommunityName and then go to "My Studies".</value>
+            To see additional information, log in to the ##ShortCommunityName and then go to &quot;My Studies&quot;.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Patient_Become_Adult</fullName>
@@ -2791,9 +2798,9 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Welcome to Study Delegate</shortDescription>
-        <value>Congratulations, your ##PatientFirstName has been enrolled in ##StudyName clinical research study.
+        <value>Congratulations, ##PatientFirstName has been enrolled in ##StudyName clinical research study.
 
-            To assist you in tracking ##PatientFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the ##CommunityName.
+            To assist you in tracking ##PatientFirstName&#39;s clinical research study status, as well as to allow you to learn more about this study and future clinical research opportunities, we encourage you to visit the ##ShortCommunityName.
 
             Please note that enrollment in ##ShortCommunityName is not a requirement for ##PatientFirstName to be enrolled into the research study: ##StudyName.</value>
     </labels>
@@ -2824,6 +2831,13 @@
         <protected>false</protected>
         <shortDescription>Email Delegate PI Levels Title</shortDescription>
         <value>These are your current permissions when supporting Principal Investigators at a clinical study site:</value>
+    </labels>
+    <labels>
+        <fullName>Email_Ext_User_Greeting</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email User Greeting</shortDescription>
+        <value>Dear Guest,</value>
     </labels>
     <labels>
         <fullName>Email_Footer_Address</fullName>
@@ -3314,17 +3328,6 @@
             To keep your account secure, please don&#39;t forward this email to anyone.</value>
     </labels>
     <labels>
-        <fullName>Email_Signature_New_Continue</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Email Signature New</shortDescription>
-        <value>We are excited to continue this journey with you.
-
-            Sincerely,
-
-            ##SignatureShortCommunityName</value>
-    </labels>
-    <labels>
         <fullName>Email_Signature_New</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3336,6 +3339,28 @@
             ##SignatureFullCommunityName</value>
     </labels>
     <labels>
+        <fullName>Email_Signature_New_Continue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Signature New</shortDescription>
+        <value>We are excited to continue this journey with you.
+
+            Sincerely,
+
+            ##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_New_Short</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature New Participant Delegate</shortDescription>
+        <value>We are excited to be on this journey with you.
+
+            Sincerely,
+
+            ##SignatureShortCommunityName</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature_PPST</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3345,11 +3370,11 @@
             ##SignatureShortCommunityName</value>
     </labels>
     <labels>
-        <fullName>Email_Signature_Patient_Short</fullName>
+        <fullName>Email_Signature_PT</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>Email Signature Patient</shortDescription>
-        <value>Thank you for your interest in participating in clinical research.
+        <shortDescription>Email Signature PT</shortDescription>
+        <value>Thank you for participating in the ##CommunityName.
 
             Sincerely,
 
@@ -3357,6 +3382,17 @@
     </labels>
     <labels>
         <fullName>Email_Signature_Patient</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Signature Patient</shortDescription>
+        <value>Thank you for your interest in participating in clinical research.
+
+            Sincerely,
+
+            ##SignatureFullCommunityName</value>
+    </labels>
+    <labels>
+        <fullName>Email_Signature_Patient_Short</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Signature Patient</shortDescription>
@@ -3383,17 +3419,6 @@
         <protected>false</protected>
         <shortDescription>Email Signature Plain Summary Available</shortDescription>
         <value>We are excited to continue this journey with you.
-
-            Sincerely,
-
-            ##SignatureShortCommunityName</value>
-    </labels>
-    <labels>
-        <fullName>Email_Signature_PT</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email Signature PT</shortDescription>
-        <value>Thank you for participating in the ##CommunityName.
 
             Sincerely,
 
@@ -3689,7 +3714,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Referral Status Changed</shortDescription>
-        <value>Your patient's referral status has changed</value>
+        <value>Your patient&#39;s referral status has changed</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Reset_Your_Password</fullName>
@@ -3850,7 +3875,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Title All</shortDescription>
-        <value>IQVIA™ Referral Hub and Patient Portal</value>
+        <value>##TitleNewTM</value>
     </labels>
     <labels>
         <fullName>Email_Title_PH</fullName>
@@ -3871,14 +3896,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email User Greeting</shortDescription>
-        <value>Dear ##RecipientName,</value>
-    </labels>
-    <labels>
-        <fullName>Email_Ext_User_Greeting</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Email User Greeting</shortDescription>
-        <value>Dear Guest,</value>
+        <value>Dear ##RecipientName</value>
     </labels>
     <labels>
         <fullName>Email_User_Greeting_FirstName</fullName>
@@ -13190,13 +13208,6 @@
         <protected>false</protected>
         <shortDescription>Task_Tab_Table_Col_Complete_By</shortDescription>
         <value>Complete By</value>
-    </labels>
-    <labels>
-        <fullName>Continue</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Continue</shortDescription>
-        <value>Continue</value>
     </labels>
     <labels>
         <fullName>Task_Tab_Table_Col_Completed</fullName>

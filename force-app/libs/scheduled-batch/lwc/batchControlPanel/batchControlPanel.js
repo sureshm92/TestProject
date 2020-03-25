@@ -250,6 +250,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
             if(available.className === context.batchDetail.Name) {
                 context.batchDetail.Interval_Mode__c = available.intervalMode;
                 context.batchDetail.Relaunch_Interval__c = available.relaunchInterval;
+                context.batchDetail.Scope_Size__c = available.scopeSize;
             }
         });
     }
@@ -309,6 +310,7 @@ export default class BatchControlPanel extends NavigationMixin(LightningElement)
         this.batchDetail.Panel_Label__c = this.batchDetail.Name.substring(6, this.batchDetail.Name.length);
         this.batchDetail.Interval_Mode__c = this.notAddedBatches[0].intervalMode;
         this.batchDetail.Relaunch_Interval__c = this.notAddedBatches[0].relaunchInterval;
+        this.batchDetail.Scope_Size__c = this.notAddedBatches[0].scopeSize;
 
         this.template.querySelector('c-web-modal').show();
     }
