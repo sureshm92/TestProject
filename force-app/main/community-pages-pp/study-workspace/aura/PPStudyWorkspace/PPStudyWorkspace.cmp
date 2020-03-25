@@ -112,6 +112,14 @@
                                                     <aura:if
                                                             isTrue="{!and(action.id == 'share',!empty(v.studyDetail.trial.NCT_Number__c))}">
                                                         <div class="share-icons">
+                                                            <aura:if isTrue="{!v.studyDetail.trial.Terms_And_Conditions_ID__c}">
+                                                                <div id="viewTermsAndConditions" class="share-ico"
+                                                                     onclick="{!c.doAction}">
+                                                                    <div class="btn-content">
+                                                                        <c:RRIcon iconName="paper-many"/>
+                                                                    </div>
+                                                                </div>
+                                                            </aura:if>
                                                             <aura:iteration items="{!v.shareButtons}" var="shareButton">
                                                                 <div class="share-ico" id="{!shareButton.id}"
                                                                      onclick="{!c.doAction}">
