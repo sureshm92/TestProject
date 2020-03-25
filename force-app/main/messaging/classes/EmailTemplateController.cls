@@ -48,6 +48,7 @@ global without sharing class EmailTemplateController {
     global Boolean multiplePIMessageValue { get; set; }
     global Boolean showDelegateSSTableValue { get; set; }
     global String communityTemplateValue { get; set; }
+    global String emailTemplateName { get; set; }
 
     global Boolean hasPIRPDelegationRecords {
         get {
@@ -197,7 +198,7 @@ global without sharing class EmailTemplateController {
         set;
     }
 
-    global String dataParametersValue {
+    global String dataParametersValue {//For erase
         get {
             try {
                 return JSON.serialize(getDataProvider().parameters);
@@ -207,6 +208,10 @@ global without sharing class EmailTemplateController {
             }
         }
         set;
+    }
+
+    public String getParticipantDelegateAfterText() {
+        return '';//EmailTemplateProviderPT.getDelegateAfter
     }
 
     private TemplatePropertiesService propertiesService;
@@ -228,8 +233,7 @@ global without sharing class EmailTemplateController {
     global String emailTemplateBackground {
         get {
             try {
-                emailTemplateBackground = getPropertiesService().getPropertyValue('EmailTemplateBackgr');
-                return emailTemplateBackground;
+                return getPropertiesService().getPropertyValue('EmailTemplateBackgr');
             } catch (Exception e) {
                 EmailService.sendException(e, null);
                 return e.getMessage();
@@ -241,8 +245,7 @@ global without sharing class EmailTemplateController {
     global String emailTemplateTextBackground {
         get {
             try {
-                emailTemplateTextBackground = getPropertiesService().getPropertyValue('EmailTemplateTextBackgr');
-                return emailTemplateTextBackground;
+                return getPropertiesService().getPropertyValue('EmailTemplateTextBackgr');
             } catch (Exception e) {
                 EmailService.sendException(e, null);
                 return e.getMessage();
@@ -254,8 +257,7 @@ global without sharing class EmailTemplateController {
     global String emailTemplateHeaderBackground {
         get {
             try {
-                emailTemplateHeaderBackground = getPropertiesService().getPropertyValue('EmailTemplateHeaderBackgr');
-                return emailTemplateHeaderBackground;
+                return getPropertiesService().getPropertyValue('EmailTemplateHeaderBackgr');
             } catch (Exception e) {
                 EmailService.sendException(e, null);
                 return e.getMessage();
@@ -267,8 +269,7 @@ global without sharing class EmailTemplateController {
     global String emailTemplateHeader {
         get {
             try {
-                emailTemplateHeader = getPropertiesService().getPropertyValue('EmailTemplateHeader');
-                return emailTemplateHeader;
+                return getPropertiesService().getPropertyValue('EmailTemplateHeader');
             } catch (Exception e) {
                 EmailService.sendException(e, null);
                 return e.getMessage();
@@ -280,8 +281,7 @@ global without sharing class EmailTemplateController {
     global String emailTemplateTitle {
         get {
             try {
-                emailTemplateTitle = getPropertiesService().getPropertyValue('EmailTemplateTitle');
-                return emailTemplateTitle;
+                return getPropertiesService().getPropertyValue('EmailTemplateTitle');
             } catch (Exception e) {
                 EmailService.sendException(e, null);
                 return e.getMessage();
@@ -293,8 +293,7 @@ global without sharing class EmailTemplateController {
     global String emailTemplateBrandLogo {
         get {
             try {
-                emailTemplateBrandLogo = getPropertiesService().getPropertyValue('EmailTemplateBrandLogo');
-                return emailTemplateBrandLogo;
+                return getPropertiesService().getPropertyValue('EmailTemplateBrandLogo');
             } catch (Exception e) {
                 EmailService.sendException(e, null);
                 return e.getMessage();
@@ -306,8 +305,7 @@ global without sharing class EmailTemplateController {
     global String emailTemplateBottomLogo {
         get {
             try {
-                emailTemplateBottomLogo = getPropertiesService().getPropertyValue('EmailTemplateBottomLogo');
-                return emailTemplateBottomLogo;
+                return getPropertiesService().getPropertyValue('EmailTemplateBottomLogo');
             } catch (Exception e) {
                 EmailService.sendException(e, null);
                 return e.getMessage();
@@ -319,8 +317,7 @@ global without sharing class EmailTemplateController {
     global String emailTemplateBrandLogoCSS {
         get {
             try {
-                emailTemplateBrandLogoCSS = getPropertiesService().getPropertyValue('EmailTemplateBrandLogoCSS');
-                return emailTemplateBrandLogoCSS;
+                return getPropertiesService().getPropertyValue('EmailTemplateBrandLogoCSS');
             } catch (Exception e) {
                 EmailService.sendException(e, null);
                 return e.getMessage();
@@ -342,7 +339,7 @@ global without sharing class EmailTemplateController {
         return dataProvider;
     }
 
-    global String getUserLanguageCode() {
+    global String getUserLanguageCode() {//+
         try {
             if (userLanguageCode == null) userLanguageCode = getDataProvider().getUserLanguage();
             return userLanguageCode;
@@ -352,7 +349,7 @@ global without sharing class EmailTemplateController {
         }
     }
 
-    global List<DelegateLevelWrapper> getDelegateLevelsPI() {
+    global List<DelegateLevelWrapper> getDelegateLevelsPI() {//EmailTemplateProviderPI.getPIDelegateLevels
         try {
             return getDataProvider().delegateLevelsPI;
         } catch (Exception e) {
@@ -361,7 +358,7 @@ global without sharing class EmailTemplateController {
         }
     }
 
-    global List<DelegateLevelWrapper> getDelegateLevelsHCP() {
+    global List<DelegateLevelWrapper> getDelegateLevelsHCP() {//EmailTemplateProviderHCP.getHCPDelegateLevels
         try {
             return getDataProvider().delegateLevelsHCP;
         } catch (Exception e) {
@@ -370,7 +367,7 @@ global without sharing class EmailTemplateController {
         }
     }
 
-    global String getResultUserMode() {
+    global String getResultUserMode() {//+
         try {
             return getDataProvider().userMode;
         } catch (Exception e) {
@@ -379,7 +376,7 @@ global without sharing class EmailTemplateController {
         }
     }
 
-    global Boolean getIsDelegate() {
+    global Boolean getIsDelegate() {//+
         try {
             return getDataProvider().isDelegate;
         } catch (Exception e) {
@@ -388,7 +385,7 @@ global without sharing class EmailTemplateController {
         }
     }
 
-    global String getUserName() {
+    global String getUserName() {//+
         try {
             return getDataProvider().getUserName();
         } catch (Exception e) {
@@ -397,7 +394,7 @@ global without sharing class EmailTemplateController {
         }
     }
 
-    global Map<String, String> getParameters() {
+    global Map<String, String> getParameters() {//Deprecated
         try {
             return getDataProvider().parameters;
         } catch (Exception e) {
