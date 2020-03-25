@@ -60,7 +60,7 @@ public without sharing class SendEmailToParticipant {
             whatId = task.WhatId;
         }
 
-        if (patientNotificationType != null) {
+        if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER) && patientNotificationType != null) {
             notifications.add(new Notification__c(
                     Recipient__c = paCont.Id,
                     WhatId__c = whatId,
