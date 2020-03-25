@@ -41,14 +41,17 @@
     <aura:if isTrue="{!v.isInitialized}">
         <div class="rr-top-bar multi-mode" id="stickyBar" aura:id="stickyBar">
             <div class="rr-width-limiter side-padding">
-                <c:RRLink page="{!'my-team' + if(empty(v.parentId),'','?id='+v.parentId)}">
+                <c:RRLink page="{!'my-team' + if(empty(v.parentId), '', '?id=' + v.parentId)}">
                     <c:RRIcon iconName="icon-arrow-left"/>
                     {!v.isStaff ? $Label.c.PG_NTM_BTN_Back_to_My_Team : $Label.c.PG_PST_L_Delegates_Back}
                 </c:RRLink>
             </div>
             <div class="rr-all-content sticky-bar" id="stickyPositionTarget">
                 <div class="title rr-width-limiter side-padding">
-                    {!v.isStaff ? (empty(v.parentId) ? $Label.c.PG_MT_BTN_Add_New_Team_Member:$Label.c.PG_MT_L_Add_New_Team_Member_for + ' ' + v.parentFullName) : $Label.c.PG_PST_L_Delegates_Add}</div>
+                    {!v.isStaff ? (empty(v.parentId)
+                            ? $Label.c.PG_MT_BTN_Add_New_Team_Member
+                            : $Label.c.PG_MT_L_Add_New_Team_Member_for + ' ' + v.parentFullName)
+                        : $Label.c.PG_PST_L_Delegates_Add}</div>
             </div>
             <div>
                 <div class="height-stub" style="height: 56px"></div>
@@ -97,7 +100,7 @@
                                         <div class="rr-form-element">
                                             <lightning:input aura:id="firstNameInput"
                                                              label="{!$Label.c.PG_AS_F_First_name}"
-                                                             disabled="{!v.delegate.delegateContact.Id!=undefined}"
+                                                             disabled="{!v.delegate.delegateContact.Id != undefined}"
                                                              value="{!v.delegate.delegateContact.FirstName}"/>
                                         </div>
                                     </div>
@@ -105,12 +108,12 @@
                                         <div class="rr-form-element">
                                             <lightning:input aura:id="lastNameInput"
                                                              label="{!$Label.c.PG_AS_F_Last_name}"
-                                                             disabled="{!v.delegate.delegateContact.Id!=undefined}"
+                                                             disabled="{!v.delegate.delegateContact.Id != undefined}"
                                                              value="{!v.delegate.delegateContact.LastName}"/>
                                         </div>
                                     </div>
                                     <div class="slds-col slds-size_1-of-1" >
-                                        <div class="{!'personal-info-exists '+if(v.delegate.delegateContact.Id!=undefined,'found','')}">
+                                        <div class="{!'personal-info-exists '+if(v.delegate.delegateContact.Id != undefined,'found','')}">
                                             {!if(v.isStaff, $Label.c.PG_NTM_L_Team_member, $Label.c.PG_PST_L_Delegates_Delegate) +
                                             ' ' + v.delegate.delegateContact.FirstName + ' ' + v.delegate.delegateContact.LastName +
                                             ' ' + $Label.c.PG_NTM_L_Already_Exists}
@@ -149,7 +152,7 @@
                             <div class="button-panel rr-medium-down-hide">
                                 <div class="slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center">
                                     <div class="slds-col slds-size_2-of-5 slds-medium-size_1-of-3">
-                                        <c:RRLink page="{!'my-team' + if(empty(v.parentId),'','?id='+v.parentId)}">
+                                        <c:RRLink page="{!'my-team' + if(empty(v.parentId), '', '?id='+v.parentId)}">
                                             <c:RRIcon iconName="icon-arrow-left"/>
                                             {!v.isStaff ? $Label.c.PG_NTM_BTN_Back_to_My_Team : $Label.c.PG_PST_L_Delegates_Back}
                                         </c:RRLink>
