@@ -36,7 +36,7 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
     protected override String buildRequestBody() {
         return JSON.serializePretty(messageWrapperList, true);
     }
-
+    
     protected override Object parseResponse(String responseBody) {
         return null;
     }

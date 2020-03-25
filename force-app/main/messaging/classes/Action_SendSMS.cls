@@ -18,6 +18,8 @@ public with sharing class Action_SendSMS implements Action{
                 SELECT Id,
                         Notification_Type__c,
                         Recipient__c,
+                        Recipient__r.Phone,
+                        Recipient__r.Language__c,
                         WhatId__c
                 FROM Notification__c
                 WHERE Id IN: notificationIds
@@ -26,29 +28,29 @@ public with sharing class Action_SendSMS implements Action{
         Map<String, String> messageByPhone = new Map<String, String>();
         List <Id> conIds = new List<Id>();
         for (Notification__c n : notifications) conIds.add(n.Recipient__c);
-        Map<Id, Contact> contactMap = new Map<Id, Contact>([
-                SELECT Id, Phone, Language__c
-                FROM Contact
-                WHERE Id IN :conIds
-        ]);
+        Map<Id, Participant__c> participantMap = new Map<Id, Participant__c>();
+        List<Participant__c> participants = [
+                SELECT Id, Contact__c, Phone__c FROM Participant__c
+                WHERE Contact__c IN :conIds
+        ];
+        for(Participant__c participant : participants) if(participant.Contact__c != null) participantMap.put(participant.Contact__c, participant);
         ParametrizedMessageService parametrizedMessageService = new ParametrizedMessageService();
         for(Notification__c n : notifications){
             Notification_Type__mdt messageType = NotificationService.getNotificationType(n.Notification_Type__c);
             Notification_Target__mdt smsTarget = NotificationService.getNotificationTarget(n.Notification_Type__c, NotificationService.NOTIFICATION_TARGET_TYPE_SMS);
-            Contact recipient = contactMap.get(n.Recipient__c);
             parametrizedMessageService.addMessage(
                     n.Id,
                     smsTarget.Message_Body__c,
                     n.WhatId__c,
                     messageType.Parameters_Provider__r.DeveloperName,
-                    recipient.Language__c
+                    n.Recipient__r.Language__c
             );
         }
         parametrizedMessageService.processMessages();
     
         for (Notification__c n : notifications) {
-            Contact recipient = contactMap.get(n.Recipient__c);
-            String phoneNumber = recipient.Phone;
+            String phoneNumber = n.Recipient__r.Phone;
+            if(phoneNumber == null && participantMap.get(n.Recipient__c) != null) phoneNumber = participantMap.get(n.Recipient__c).Phone__c;
             String message = parametrizedMessageService.getMessage(n.Id);
             if(phoneNumber != null) {
                 messageByPhone.put(phoneNumber, message);
