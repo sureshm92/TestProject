@@ -162,7 +162,8 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                             Is_Virtual_Study_Site__c,
                             HCP__c,
                             HCP__r.HCP_Contact__c,
-                            Referral_Source__c
+                            Referral_Source__c,
+                            Participant_Status__c
                     FROM Participant_Enrollment__c WHERE Id IN : peIds];
             Set<Id> participantIds = new Set<Id>();
             Map<Id, Participant_Enrollment__c> participantEnrollmentMap = new Map<Id, Participant_Enrollment__c>();
