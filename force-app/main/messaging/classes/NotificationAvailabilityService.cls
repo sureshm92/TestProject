@@ -255,11 +255,9 @@ public without sharing class NotificationAvailabilityService {
     }
 
     public CommunityTemplate getCommunityTemplate(Id contactId, String whatId) {
-        CommunityTemplate communityTemplate = CommunityTemplateService.getDefaultTemplate();
         String objType = whatId != null ? String.valueOf(((Id)whatId).getSobjectType()) : null;
 
-        List<String> permSet = new List<String>();
-
+        CommunityTemplate communityTemplate;
         if (objType == PARTICIPANT_ENROLLMENT_OBJ_NAME) {
             Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(whatId));
             communityTemplate = CommunityTemplateService.getTemplate(pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
@@ -273,16 +271,22 @@ public without sharing class NotificationAvailabilityService {
             } else if (task.WhatId != null && task.WhatId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
                 Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(Id.valueOf(task.WhatId));
                 communityTemplate = CommunityTemplateService.getTemplate(pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
-            } else {
-                permSet = permissionSetsByConIdMap.get(contactId);
-                if (!permSet.contains(CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME)) {
-                    communityTemplate = CommunityTemplateService.getTemplateByPermissionSetName(permSet[0]);
-                }
             }
-        } else if (objType == null || objType == CONTACT || objType == PARTICIPANT_OBJ_NAME) {
-            permSet = permissionSetsByConIdMap.get(contactId);
-            if (!permSet.contains(CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME)) {
+        } else if (objType == SURVEY_INVITATION_OBJ_NAME) {
+            SurveyInvitation surveyInv = (SurveyInvitation) objectsByIds.get(Id.valueOf(whatId));
+            if (surveyInv.Participant_Enrollment__c != null) {
+                communityTemplate = CommunityTemplateService.getTemplate(surveyInv.Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c);
+            }
+        }else if (objType == null || objType == CONTACT || objType == PARTICIPANT_OBJ_NAME) {
+            //TODO: for future functionality
+        }
+
+        if(communityTemplate == null) {
+            List<String> permSet = permissionSetsByConIdMap.get(contactId);
+            if (permSet != null && !permSet.contains(CommunityTemplateService.PERMISSION_COMMUNITY_DEFAULT_NAME)) {
                 communityTemplate = CommunityTemplateService.getTemplateByPermissionSetName(permSet[0]);
+            } else {
+                communityTemplate = CommunityTemplateService.getDefaultTemplate();
             }
         }
         return communityTemplate;
