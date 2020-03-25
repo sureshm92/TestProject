@@ -89,7 +89,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
     global void execute(Database.BatchableContext BC, List<List<String>> csvChunkLines) {
         TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
+        //TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
         TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
 
         if (!valid) {
@@ -292,9 +292,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         participantEnrollmentsByContact.put(participantContact.Id, participantEnrollment);
                         actionAssignContactPermissions.addPermission(participantContact.Id, permissionSetName);
                     } else {
-                        errorRecordCount++;
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: Incorrect data');
-                        listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
+                        //errorRecordCount++;
+                        //listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: Incorrect data');
+                       // listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
 
                         continue;
                     }

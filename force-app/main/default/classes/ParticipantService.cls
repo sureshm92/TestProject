@@ -66,9 +66,7 @@ public without sharing class ParticipantService {
                 TranslateHelper.translate(participantState.pe, IRBParticipantService.getSuitableLanguageForIRBTranslation(pe.Id));
                 participantState.showTerms = showTerms();
                 participantState.isPremium = participantState.ctp.Patient_Portal_Enabled__c;
-                if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
-                    participantState.value = ParticipantStates.REFERRAL;
-                } else if (PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
+                if (PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
                     participantState.value = ParticipantStates.PARTICIPANT;
                     participantState.showVisits = showVisits();
                     participantState.showResults = showResults();
@@ -131,7 +129,7 @@ public without sharing class ParticipantService {
 
     @TestVisible
     private Boolean showVisits() {
-        if (participantState.pe != null && participantState.ctp.Visit_Schedule_Is_Available__c) {
+        if (participantState.pe != null) {
             List<Patient_Visit__c> patientVisit = [
                     SELECT Id
                     FROM Patient_Visit__c

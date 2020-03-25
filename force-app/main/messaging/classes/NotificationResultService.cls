@@ -33,9 +33,7 @@ public without sharing class NotificationResultService {
     }
     
     public void setFailed(Id notificationId, String targetType, String errorMessage){
-        Send_Result__c sendResult = getSendResult(notificationId, targetType);
-        sendResult.Status__c = SEND_RESULT_STATUS_FAILED;
-        sendResult.Error__c = errorMessage;
+        setResultStatus(notificationId, targetType, SEND_RESULT_STATUS_FAILED, errorMessage);
     }
     
     public void setSent(Id notificationId, String targetType){
@@ -93,15 +91,13 @@ public without sharing class NotificationResultService {
                 WHERE Id IN: sendResultsMap.keySet()
         ];
         for(Notification__c n : notifications){
+            if(n.Send_Results__r.isEmpty()) continue;
+        
             Boolean hasFailed = false;
             Boolean hasInProgress = false;
             for(Send_Result__c sr : n.Send_Results__r){
-                if(sr.Status__c == SEND_RESULT_STATUS_IN_PROGRESS){
-                    hasInProgress = true;
-                }
-                if(sr.Status__c == SEND_RESULT_STATUS_FAILED){
-                    hasFailed = true;
-                }
+                if(sr.Status__c == SEND_RESULT_STATUS_IN_PROGRESS) hasInProgress = true;
+                if(sr.Status__c == SEND_RESULT_STATUS_FAILED) hasFailed = true;
             }
             if(hasFailed){
                 n.Status__c = NotificationService.NOTIFICATION_STATUS_FAILED;
