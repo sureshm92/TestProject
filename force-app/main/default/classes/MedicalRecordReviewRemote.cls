@@ -53,6 +53,45 @@ public without sharing class MedicalRecordReviewRemote {
     }
 
     @AuraEnabled
+    public static String createParticipantEnrollmentHcpe(Id trialId, String hcpeId, String participantId, String firstName, String lastName, String delegateId){
+        Savepoint sp = Database.setSavepoint();
+        try{
+            System.debug('createEnrollment delegateId:' + delegateId);
+            Clinical_Trial_Profile__c trial = StudyTrialService.getFullTrial(trialId);
+            HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getHcpEnroll(hcpeId);
+            System.debug('createEnrollment hcpEnroll:' + hcpEnrollment);
+            SearchPEResult peResult = new SearchPEResult();
+            //find already created participant enrollments:
+            peResult.pe = ParticipantEnrollmentService.findParticipantEnrollment(hcpEnrollment, participantId);
+            //If participant is null then create new
+            if (peResult.pe == null) {
+                peResult.pe = ParticipantEnrollmentService.createParticipantEnrollment(trial, hcpEnrollment, participantId);
+                peResult.pe.Participant_Name__c = firstName;
+                peResult.pe.Participant_Surname__c = lastName;
+                peResult.result = 'New';
+            //} else if (peResult.pe.HCP__c != hcpeId) {
+            //    peResult.result = 'Other HCP';
+            } else if (peResult.pe.Participant_Status__c == ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW) {
+                peResult.result = 'MRR Fail';
+            } else if (peResult.pe.Participant_Status__c == ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL) {
+                if(trial.Link_to_Medical_Record_Review__c == null){
+                    peResult.result = 'PES Fail';
+                }else{
+                    peResult.result = 'MRR Pass PES Fail';
+                }
+            } else if (peResult.pe.Participant_Status__c == ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL) {
+                peResult.result = 'PES Pending';
+            } else {
+                peResult.result = 'Completed';
+            }
+            return JSON.serialize(peResult);
+        }catch (Exception e){
+            Database.rollback(sp);
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
+    @AuraEnabled
     public static String createParticipantEnrollment(Id trialId, String participantId, String firstName, String lastName, String delegateId){
         Savepoint sp = Database.setSavepoint();
         try{
@@ -69,8 +108,8 @@ public without sharing class MedicalRecordReviewRemote {
                 peResult.pe.Participant_Name__c = firstName;
                 peResult.pe.Participant_Surname__c = lastName;
                 peResult.result = 'New';
-            //} else if (peResult.pe.HCP__c != hcpeId) {
-            //    peResult.result = 'Other HCP';
+                //} else if (peResult.pe.HCP__c != hcpeId) {
+                //    peResult.result = 'Other HCP';
             } else if (peResult.pe.Participant_Status__c == ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW) {
                 peResult.result = 'MRR Fail';
             } else if (peResult.pe.Participant_Status__c == ParticipantEnrollmentService.PART_STATUS_FAILED_REFERRAL) {

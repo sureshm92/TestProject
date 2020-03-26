@@ -57,6 +57,7 @@
                         <div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12 right-column">
                             <c:SearchParticipantEnrollment trialId="{!v.trialId}"
                                                            trial="{!v.trial}"
+                                                           hcpeId="{!v.hcpeId}"
                                                            searchData="{!v.searchData}"
                                                            searchResult="{!v.searchResult}"
                                                            mrrResult="{!v.mrrResult}"
