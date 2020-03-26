@@ -514,7 +514,7 @@ public without sharing class ParametersDataProvider {
         } else {
             Contact cnt = [
                     SELECT Id,
-                            Name, FirstName, LastName, Salutation
+                            Name, FirstName, LastName, Salutation,
                             Language__c,
                             UserCommunityIsDelegate__c,
                             userCommunityMode__c
@@ -522,7 +522,7 @@ public without sharing class ParametersDataProvider {
                     WHERE Id = :recipientId
             ];
             recipientContactId = recipientId;
-            recipientName = (cnt.Salutation == null ? '' : cnt.Salutation + ' ') + 
+            recipientName = (cnt.Salutation == null ? '' : cnt.Salutation + ' ') +
                     cnt.Name;
             recipientFirstName = cnt.FirstName;
             recipientLanguage = cnt.Language__c;
