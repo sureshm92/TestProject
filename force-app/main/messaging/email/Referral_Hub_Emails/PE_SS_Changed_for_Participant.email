@@ -1,5 +1,5 @@
 <messaging:emailTemplate subject="{!$Label.Email_Header_SS_on_PE_Was_Changed_To_Participant}"
-                         recipientType="User"
+                         recipientType="Contact"
                          relatedToType="Participant_Enrollment__c"
                          language="{!relatedTo.Participant_Contact__r.Language__c}">
 
