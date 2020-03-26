@@ -3,32 +3,13 @@
  */
 ({
     doInit: function (component, event, helper) {
-        if(component.get('v.pe')) {
+        if (component.get('v.pe')) {
             helper.preparePathItems(component);
+            communityService.executeAction(component, 'getContactId', null,
+                function (returnValue) {
+                    component.set('v.userContactId', returnValue);
+                });
             component.find('spinner').hide();
-        }
-    },
-
-    doGoToProfile: function (component) {
-        var pe = component.get('v.pe');
-        if(communityService.getUserMode() === 'HCP'){
-            communityService.navigateToPage('patient-profile?id=' + pe.Participant__c);
-        }else if(communityService.getUserMode() === 'PI'){
-            communityService.navigateToPage('referral-profile?id=' + pe.Id);
-        }else{
-            //
-        }
-    },
-
-    doGoToStudyWorkspace: function (component) {
-        var pe = component.get('v.pe');
-        communityService.navigateToPage('study-workspace?id=' + pe.Study_Site__r.Clinical_Trial_Profile__c);
-    },
-
-    doLoadHistoryOnOpen: function (component) {
-        var isOpened = !component.get('v.detailCollapsed');
-        if(isOpened){
-            component.find('statusDetail').loadHistory();
         }
     },
 
@@ -43,6 +24,32 @@
             rootComponent.find('mainSpinner').hide();
         }, function () {
             rootComponent.find('mainSpinner').hide();
+        });
+    },
+
+    showEditParticipantInformation: function (component, event, helper) {
+        var rootComponent = component.get('v.parent');
+        var pe = component.get('v.pe');
+        var actions = component.get('v.actions');
+        var isInvited = component.get('v.isInvited');
+        var anchor = event.currentTarget.value;
+        rootComponent.find('updatePatientInfoAction').execute(pe, actions, rootComponent, isInvited, function (enrollment) {
+            component.set('v.pe', enrollment);
+            //rootComponent.find('updatePatientInfoAction').set('v.pathItems', component.get('v.pathItems'));
+                rootComponent.refresh();
+
+        });
+    },
+    doPreScreening: function (component, event, helper) {
+        var rootComponent = component.get('v.parent');
+        var pe = component.get('v.pe');
+        var frameHeight = component.get('v.frameHeight');
+        var isInvited = component.get('v.isInvited');
+        component.set('v.showSpinner', true);
+        rootComponent.find('openSearch').execute(pe, rootComponent, frameHeight, isInvited, function (enrollment) {
+            component.set('v.pe', enrollment);
+            rootComponent.refresh();
+
         });
     }
 

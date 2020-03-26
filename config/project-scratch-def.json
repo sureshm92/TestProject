@@ -7,15 +7,34 @@
         "Communities",
         "SiteForceContributor",
         "Sites",
-        "SurveyCreatorUser",
         "Workflow",
         "DefaultWorkflowUser",
         "StateAndCountryPicklist"
     ],
     "settings": {
-        "orgPreferenceSettings": {
-            "networksEnabled": true,
-            "translation": true
+        "apexSettings": {
+            "enableDisableParallelApexTesting": true
+        },
+        "experienceBundleSettings": {
+            "enableExperienceBundleMetadata": true
+        },
+        "communitiesSettings": {
+            "enableNetworksEnabled": true
+        },
+        "languageSettings": {
+            "enableTranslationWorkbench": true
+        },
+        "nameSettings": {
+            "enableMiddleName": true,
+            "enableNameSuffix": true
+        },
+        "surveySettings": {
+            "enableSurvey": true
+        },
+        "securitySettings": {
+            "sessionSettings": {
+                "enableCacheAndAutocomplete": false
+            }
         }
     }
 }

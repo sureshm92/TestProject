@@ -1,7 +1,7 @@
 /**
  * Created by Kryvolap on 23.10.2018.
  */
-@IsTest(IsParallel=false)
+@IsTest(IsParallel=true)
 private class Test_LeadConversion {
     static Account piAccount;
     static Account studySiteAccount;
@@ -49,7 +49,8 @@ private class Test_LeadConversion {
                 Link_to_Pre_screening__c = 'some link',
                 Terms_And_Conditions_ID__c = studyTC.Id,
                 Study_Title__c = 'Some Title',
-                Study_Code_Name__c = 'Some Code Name'
+                Study_Code_Name__c = 'Some Code Name',
+                Synch_with_TMDH__c = true
 
         );
         insert study;
@@ -112,12 +113,20 @@ private class Test_LeadConversion {
     }
     @isTest
     static void mainConversionTest() {
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+               .when('createPortalUsers')
+               .then(null)
+               .when('createParticipantUsers')
+               .then(null)
+               .build()
+       );
         init();
         Test.startTest();
         Database.LeadConvert lc = new database.LeadConvert();
         lc.setLeadId(testLead.Id);
         lc.setDoNotCreateOpportunity(true);
-        lc.setConvertedStatus('Qualified');
+        lc.setConvertedStatus('Qualified and Send Invitation');
         Database.LeadConvertResult lcr = Database.convertLead(lc);
         System.assert(lcr.isSuccess());
         Test.stopTest();

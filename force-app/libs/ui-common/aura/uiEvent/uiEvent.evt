@@ -1,0 +1,8 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:event type="COMPONENT" description="uiEvent">
+    <aura:attribute name="message" type="String"/>
+    <aura:attribute name="identifier" type="String"/>
+</aura:event>

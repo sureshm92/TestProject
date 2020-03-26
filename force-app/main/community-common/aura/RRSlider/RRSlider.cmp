@@ -1,0 +1,36 @@
+<!--
+ - Created by Dmytro Pokutnii
+ -->
+<aura:component description="RRSlider">
+
+    <!-- ATTRIBUTES -->
+
+    <aura:attribute name="classes" type="String" default=""/>
+    <aura:attribute name="value" type="Double" default="0" required="true"/>
+    <aura:attribute name="minValue" type="Double" default="0" required="true"/>
+    <aura:attribute name="maxValue" type="Double" default="0" required="true"/>
+    <aura:attribute name="disabled" type="Boolean" default="true"/>
+
+    <aura:attribute name="valueInBox" type="Double" default="0" access="private"/>
+    <aura:attribute name="hidden" type="Boolean" default="false" access="private"/>
+    <aura:attribute name="showValueBox" type="Boolean" default="true" access="private"/>
+    <aura:attribute name="showKnob" type="Boolean" default="true" access="private"/>
+    <aura:attribute name="rendered" type="Boolean" default="false" access="private"/>
+
+    <!-- HANDLERS -->
+
+    <aura:handler name="render" value="{!this}" action="{!c.doRender}"/>
+
+    <!-- COMPONENT BODY -->
+
+    <div class="{!'rr-slider-panel ' + v.classes + (v.hidden ? ' hidden' : '')}">
+        <div aura:id="valueBox" style="left: 18.5%;" class="{!'rr-slider-value-box' + (v.showValueBox ? '' : ' hidden')}">
+            {!v.valueInBox}
+        </div>
+        <div class="rr-slider-bar">
+            <div aura:id="track" class="rr-slider-track"></div>
+            <div style="left: 20%;" aura:id="knob" class="{!'rr-slider-knob' + (v.showKnob ? '' : ' hidden')}"></div>
+        </div>
+    </div>
+
+</aura:component>

@@ -4,12 +4,11 @@
 ({
     doLoadHistory: function (component, event, helper) {
         var pathItems = component.get('v.pathItems');
-        var pseId = component.get('v.pseId');
+        var peId = component.get('v.peId');
         if (!pathItems) return;
-        communityService.executeAction(component, 'getPSEStatusHistory', {
-            pseId: pseId
+        communityService.executeAction(component, 'getParticipationStatusHistory', {
+            peId: peId
         }, function (returnValue) {
-            debugger;
             var pathItems = JSON.parse(returnValue);
             component.set('v.pathItems', pathItems);
         }, null, function () {

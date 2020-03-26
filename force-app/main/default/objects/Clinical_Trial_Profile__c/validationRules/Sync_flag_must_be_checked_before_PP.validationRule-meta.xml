@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sync_flag_must_be_checked_before_PP</fullName>
+    <active>true</active>
+    <errorConditionFormula>!Synch_with_TMDH__c &amp;&amp; Patient_Portal_Enabled__c</errorConditionFormula>
+    <errorDisplayField>Patient_Portal_Enabled__c</errorDisplayField>
+    <errorMessage>TMDH Sync flag must be checked before Patient Portal could be checked.</errorMessage>
+</ValidationRule>

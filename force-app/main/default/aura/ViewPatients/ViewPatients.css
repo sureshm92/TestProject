@@ -6,4 +6,52 @@
 }
 .THIS .vp-navigation{
     margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+.THIS .navigation-breadcrumbs{
+
+}
+.THIS .vp-export-btn{
+    padding: 5px;
+}
+
+.THIS .emancipation-notification {
+    background: #FF9300;
+    height: 100%;
+    color: #fff;
+    line-height: 1.5rem;
+    font-size: 1rem;
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.16);
+    padding: 12px 16px;
+}
+
+.THIS .emancipation-notification-msg {
+    font-weight: 600;
+}
+
+.THIS .emancipation-notification-link {
+    text-align: right;
+    padding: 4px 16px;
+    white-space: nowrap;
+}
+
+.THIS .emancipation-notification-link a {
+   padding-bottom: 3px;
+    border-bottom: 1px solid #fff;
+    color: #fff;
+    text-decoration: none !important;
+}
+
+.THIS .warning-icon {
+    margin-right: 10px;
+    margin-top: -2px;
+}
+
+
+@media all and (max-width: 767px) {
+    .THIS {
+        padding-bottom: 0;
+    }
+    
 }

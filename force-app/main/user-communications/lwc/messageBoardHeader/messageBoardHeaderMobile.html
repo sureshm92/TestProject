@@ -1,0 +1,93 @@
+<!--
+ - Created by Igor Malyuta on 05.02.2020.
+ -->
+
+<!-- messageBoardHeaderMobile -->
+<template>
+    <div class="mob-board-header">
+        <div class="header-back" data-gtm="BTN_back-to-conv-board" onclick={handleBackClick}>
+            <c-web-icon icon-name="chevron-left" icon-color="#297DFD" icon-height="24" icon-width="24"></c-web-icon>
+            <p class="back-label">{labels.backLabel}</p>
+        </div>
+        <template if:true={isMultipleMode}>
+            <div class="mob-multi-header">
+                <template if:false={isPIMode}>
+                    <div class="mob-multi-header-pa">
+                        <div class="mob-pi-new-mess">{labels.newMessLabel}</div>
+                        <lightning-combobox
+                                data-gtm="ms-pa-pe-select"
+                                style="flex-basis: 60%;"
+                                label=""
+                                variant="label-hidden"
+                                value={selectedPeId}
+                                placeholder={labels.selectStudyPlaceholderLabel}
+                                options={enrollmentsOptions}
+                                onchange={handleEnrollmentSelect}></lightning-combobox>
+                    </div>
+                </template>
+                <template if:true={isPIMode}>
+                    <!-- Search input by PE (Participants Name) -->
+                    <div class="mob-multi-header-pi">
+                        <div class="mob-pi-new-mess">{labels.newMessLabel}</div>
+                        <div class="mob-pi-multi-recipient" data-gtm="LKP_Participants">
+                            <c-web-lookup
+                                    onsearch={handleSearch}
+                                    onselectionchange={handleSelectionChange}
+                                    placeholder={labels.recipientsPlaceholder}
+                                    is-multi-entry="true">
+                            </c-web-lookup>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </template>
+        <template if:false={isMultipleMode}>
+            <div class="mob-single-header">
+                <div class="header-con-icon" style={bubbleColor}>
+                    <template if:false={isPIMode}>
+                        <c-web-icon icon-name="icon-study-team" icon-color="#ffffff" icon-height="20"
+                                    icon-width="20"></c-web-icon>
+                    </template>
+                    <template if:true={isPIMode}>
+                        <p>{initials}</p>
+                    </template>
+                </div>
+                <template if:false={isPIMode}>
+                    <div class="mob-header-team-name" data-gtm="ms-header-name-pa">
+                        <div class="header-team-label">{labels.teamLabel}</div>
+                        <template if:false={isPastStudy}>
+                            <div class="header-pi-name"
+                                 title={selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name}>
+                                {labels.piLabel}&nbsp;{selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name}
+                            </div>
+                        </template>
+                        <template if:true={isPastStudy}>
+                            <div class="header-past-study">
+                                {selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                            </div>
+                        </template>
+                    </div>
+                </template>
+                <template if:true={isPIMode}>
+                    <div class="mob-header-patient-name" data-gtm="ms-header-patient-name">
+                        {selectedEnrollment.Participant__r.Full_Name__c}
+                    </div>
+                    <template if:true={patientDelegates}>
+                        <div class="header-patient-delegates">
+                            <div class={delegatesFullClass}>{headerPatientDelegates}</div>
+                            <div class={delegatesLessClass}>
+                                <c-web-limit-text-by-lines max-lines="1" title={headerPatientDelegates}>
+                                    <span slot="body">{headerPatientDelegates}</span>
+                                </c-web-limit-text-by-lines>
+                            </div>
+                            <button class="apollo-btn text" style="margin-top: 9px;" onclick={handleShowMoreClick}>
+                                {showBTNLabel}
+                            </button>
+                        </div>
+                    </template>
+                </template>
+            </div>
+        </template>
+    </div>
+    <div class="header-border"></div>
+</template>

@@ -1,0 +1,58 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="VisitSummaryReportLink"  controller="VisitReportContainerRemote" extends="c:LightningService">
+    <ltng:require scripts="{!join(',', $Resource.jsPDF + '/jspdf.js', $Resource.jsPDF + '/jspdf.plugin.autotable.min.js',
+                    $Resource.pdfjs_dist + '/build/pdf.js', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="peId" type="String" required="true"/>
+    <aura:attribute name="reportData" type="Object"/>
+    <aura:attribute name="initialized" type="Boolean" default="false"/>
+
+    <!-- component body -->
+    <c:RRSpinner aura:id="spinner" size="medium" fixed="true"/>
+    <aura:if isTrue="{!v.initialized}">
+        <div class="resource-link-container">
+            <c:RRIcon iconName="icon-pdf" class="resource-icon"/>
+            <a class="resource-name" onclick="{!c.doGenerateReport}">{!$Label.c.Resource_Visit_Summary_Report}</a>
+        </div>
+    </aura:if>
+
+    <!-- table for report generation -->
+    <aura:if isTrue="{!!empty(v.reportData)}">
+        <div style="position: relative; margin: 20px; display: none" id="content">
+            <aura:iteration items="{!v.reportData.dataTables}" var="tableReport" indexVar="ind">
+                <table id="{!'tbl' + ind}" border="2" style="background-color: white">
+                    <thead>
+                    <tr>
+                        <aura:iteration items="{!tableReport.tHead}" var="tableHead">
+                            <th style="text-align: center;">
+                                <div style="text-transform: none; font-size: 8px; display: block"> {!tableHead.value}</div>
+                                <aura:if isTrue="{!tableHead.isShowRange}">
+                                    <div style="text-transform: none; font-size:4px; font-weight: normal"> {!'\n ' + $Label.c.Report_Expected_Range + ' ' + tableHead.minValue + ' - ' + tableHead.maxValue}</div>
+                                </aura:if>
+                                <aura:if isTrue="{!!empty(tableHead.measurement)}">
+                                    {!'\n(' + tableHead.measurement + ')'}
+                                </aura:if>
+                            </th>
+                        </aura:iteration>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <aura:iteration items="{!tableReport.visitResultsWrapper}" var="rows">
+                        <tr>
+                            <aura:iteration items="{!rows}" var="row">
+                                <td style="text-align: center">{!row.value}</td>
+                            </aura:iteration>
+                        </tr>
+                    </aura:iteration>
+                    </tbody>
+                </table>
+            </aura:iteration>
+        </div>
+    </aura:if>
+
+</aura:component>

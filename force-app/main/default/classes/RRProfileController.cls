@@ -7,10 +7,12 @@ public without sharing class RRProfileController {
     public static String getUser() {
 
         List<User> currentUser = [
-                SELECT Id, Contact.Name, SmallPhotoUrl
+                SELECT Id, Contact.FirstName, Contact.LastName, SmallPhotoUrl
                 FROM User
                 WHERE Id = : UserInfo.getUserId()
         ];
+        ContactService.applyRelevantNames(currentUser);
+        
         UserWrapper result = new UserWrapper();
         result.user = currentUser[0];
         List<Participant__c> participantForCurrentUser = [
@@ -24,7 +26,7 @@ public without sharing class RRProfileController {
             result.participantName = participantForCurrentUser[0].First_Name__c + ' ' + participantForCurrentUser[0].Last_Name__c;
         }
 
-        result.isDelegate = PatientDelegateService.getInstance().isDelegate();
+        result.isDelegate = ParticipantContext.isCurrentDelegate();
         return JSON.serialize(result);
     }
 

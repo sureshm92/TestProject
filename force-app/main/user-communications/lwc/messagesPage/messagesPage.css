@@ -1,0 +1,204 @@
+/**
+ * Created by Igor Malyuta on 21.12.2019.
+ */
+.ms-disc-place {
+    min-height: 40px;
+}
+
+.ms-disclaimer {
+    height: 40px;
+    background-color: #fff;
+    border: 1px solid #e9e9e9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,.04);
+    color: #000;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.ms-disclaimer-mob, .disc-btn {
+    display: none;
+}
+
+.ms-disc-mob-label {
+    padding: 8px 17px 8px 0;
+    margin-bottom: 10px;
+    height: 100%;
+    width: 350px;
+    transform: rotate(-360deg);
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+.disc-more, .disc-less{
+    height: 24px;
+    color: #0768FD;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+}
+
+.ms-page {
+    padding-top: 7px;
+}
+
+.ms-container {
+    height: 600px;
+    background-color: #ffffff;
+    border: 1px solid #E9E9E9;
+    border-radius: 4px;
+    display: flex;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
+}
+
+.visible {
+    display: flex;
+}
+
+.hide {
+    display: none;
+}
+
+.ms-left {
+    flex-direction: column;
+    align-self: stretch;
+    border-right: 1px solid #e6e5e5;
+    max-height: 600px;
+}
+
+.ms-right {
+    height: 100%;
+}
+
+.ms-mes-header {
+    min-height: 73px;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-bottom: 1px solid #f3f3f3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ms-title {
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 29px;
+    text-align: center;
+}
+
+.ms-btn-new {
+    width: 32px;
+    height: 32px;
+    padding-left: 2.5px;
+    margin-top: -2px;
+    border-radius: 50%;
+    background-color: #0557D5;
+    box-shadow: 0 4px 8px 0 rgba(41,125,253,0.16), 0 4px 4px 0 rgba(0,0,0,0.04), 0 8px 16px 0 rgba(41,125,253,0.32);
+    cursor: pointer;
+}
+
+.ms-new-mode {
+    min-height: 68px;
+    display: flex;
+    align-items: center;
+    padding-left: 25px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 22px;
+    background-color: rgba(41, 125, 253, 0.08);
+}
+
+.ms-conversations-board {
+    max-height: 527px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+.ms-conversations-board::-webkit-scrollbar {
+    width: 7px;
+}
+
+.ms-conversations-board::-webkit-scrollbar-track {
+    background: none;
+}
+
+.ms-conversations-board::-webkit-scrollbar-thumb {
+    background: rgba(155, 155, 155, 0.8);
+    border-radius: 10px;
+}
+
+.ms-conversations-board::-webkit-scrollbar-thumb:hover {
+    background: rgba(85, 85, 85, 0.3);
+}
+
+.ms-empty-conversations {
+    height: 100%;
+    padding-bottom: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ms-empty-conversations-label {
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 26px;
+    text-align: center;
+    width: 75%;
+    padding-top: 24px;
+}
+
+@media all and (max-width: 480px) {
+    .ms-disclaimer {
+        display: none;
+    }
+
+    .ms-disclaimer-mob {
+        min-height: 80px;
+        background-color: #fff;
+        border: 1px solid #e9e9e9;
+        padding: 0 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .04);
+    }
+
+    .disc-btn {
+        display: block;
+        padding: 10px 0;
+    }
+
+    .ms-page {
+        padding-bottom: 250px;
+    }
+
+    .ms-container {
+        height: 500px;
+    }
+
+    .ms-left {
+        border-right: none;
+        height: 500px;
+    }
+
+    .ms-title {
+        padding-left: 10px;
+    }
+}

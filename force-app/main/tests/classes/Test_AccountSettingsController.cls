@@ -5,7 +5,6 @@
 @IsTest(IsParallel=false)
 private class Test_AccountSettingsController {
 
-
     public class ParticipantServiceMock implements System.StubProvider {
 
         public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
@@ -17,47 +16,52 @@ private class Test_AccountSettingsController {
         }
     }
 
+    @TestSetup
+    static void init() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+    }
+
     @IsTest
     static void getInitData() {
-        ParticipantService.setMock(new ParticipantServiceMock());
-        Account acc1 = new Account (
-                Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
-        );
-        insert acc1;
-        Contact con = new Contact (
-                AccountId = acc1.id,
-                LastName = 'portalTestUser1'
-        );
-        insert con;
-        Participant__c participant = new Participant__c();
-        participant.Contact__c = con.Id;
-        insert participant;
-        //Create user
-        Profile profile = [SELECT Id FROM Profile WHERE Name =: CommunityService.COMMUNITY_USER_PROFILE_NAME];
-        User portalUser = new User(
-                profileId = profile.id,
-                username = 'newUser@yahoo.com',
-                email = 'pb@f.com',
-                emailencodingkey = 'UTF-8',
-                localesidkey = 'en_US',
-                languagelocalekey = 'en_US',
-                timezonesidkey = 'America/Los_Angeles',
-                alias='nuser',
-                lastname='lastname',
-                contactId = con.id
-        );
-        insert portalUser;
+        TestData testData = new TestData();
+        Contact con = [
+                SELECT Id, AccountId, MailingCountryCode, Participant_Opt_In_Status_SMS__c
+                FROM Contact WHERE Id =: testData.participant.Contact__c];
+        System.debug(JSON.serializePretty(con));
+        con.MailingCountryCode = 'US';
+        update con;
 
+        Account acc1 = [SELECT Id FROM Account WHERE Id =: con.AccountId];
+        acc1.Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME;
+        update acc1;
+        System.debug(JSON.serializePretty(acc1));
         //run test:
-        System.runAs(portalUser) {
-            AccountSettingsController.getInitData(CommunityService.USER_MODE_PARTICIPANT);
-            AccountSettingsController.updateParticipant(JSON.serialize(participant));
+        Test.startTest();
+        System.runAs(testData.participantUser) {
+            String rawInitData = AccountSettingsController.getInitData(CommunityService.USER_MODE_PARTICIPANT);
+            AccountSettingsController.updateParticipant(JSON.serialize(con), JSON.serialize(testData.participant));
+            AccountSettingsController.updateContact(JSON.serialize(con));
+            AccountSettingsController.changeEmail('aaa@bbb.com');
             AccountSettingsController.changePassword('123', '123', '321');
+            AccountSettingsController.changeOptInVisitResults(con.Id, true);
             AccountSettingsController.changeOptInEmail(true, true, true, true);
             AccountSettingsController.changeOptInCookies(false, false);
+            AccountSettingsController.fillParticipantContact(con);
             AccountSettingsController.createCase('description', 'type');
+            AccountSettingsController.getInstituteById(acc1.Id);
             AccountSettingsController.getCookieSettings();
+
+            AccountSettingsController.AccountData initData =
+                    (AccountSettingsController.AccountData) JSON.deserialize(rawInitData, AccountSettingsController.AccountData.class);
+            AccountSettingsController.PersonWrapper personWrapper = initData.contactSectionData.personWrapper;
+            AccountSettingsController.changeOptInSMS(personWrapper.isOptInSMS());
+            AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
+            personWrapper = new AccountSettingsController.PersonWrapper(initData.myContact, null);
+            AccountSettingsController.updatePerson(JSON.serialize(personWrapper));
         }
+        Test.stopTest();
     }
 
 }

@@ -1,0 +1,13 @@
+<!--
+ - Created by Igor Malyuta on 19.09.2019.
+ -->
+
+<!-- Ui Indeterminated Checkbox -->
+<template>
+    <div class="inline">
+        <template if:false={hideCheckBox}>
+            <span class={cssClass} onclick={handleClick}></span>
+        </template>
+        <p style="padding-left: 5px">{fieldLabel}</p>
+    </div>
+</template>

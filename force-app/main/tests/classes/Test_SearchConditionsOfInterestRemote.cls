@@ -4,15 +4,10 @@
 @IsTest(IsParallel=true)
 public with sharing class Test_SearchConditionsOfInterestRemote {
 
-    @TestSetup
-    public static void setup() {
-
-    }
-
     @IsTest
     public static void searchConditionOfInterest_Test() {
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(TherapeuticAreaService.class, StubFactory.newInstance(TherapeuticAreaService.class)
+        ClassFactory.putStubTypeByClassName(TherapeuticAreaService.class, StubBuilder.newInstance(TherapeuticAreaService.class)
                 .when('getTherapeuticAreas')
                 .then(new List<Therapeutic_Area__c>{
                         (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType())
@@ -21,8 +16,8 @@ public with sharing class Test_SearchConditionsOfInterestRemote {
                 .then(new List<TherapeuticAreaService.CAWrapper>{
                         new TherapeuticAreaService.CAWrapper()
                 })
-                .getInstance()
-        );
+                .build()
+       );
         Test.startTest();
         List<TherapeuticAreaService.CAWrapper> caWrappers = SearchConditionsOfInterestRemote.searchConditionOfInterest('test');
         Test.stopTest();
@@ -32,11 +27,11 @@ public with sharing class Test_SearchConditionsOfInterestRemote {
     @IsTest
     public static void searchConditionOfInterest_Exception_Test() {
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(TherapeuticAreaService.class, StubFactory.newInstance(TherapeuticAreaService.class)
+        ClassFactory.putStubTypeByClassName(TherapeuticAreaService.class, StubBuilder.newInstance(TherapeuticAreaService.class)
                 .when('getTherapeuticAreas')
                 .then(new AuraHandledException('Test Exception'))
-                .getInstance()
-        );
+                .build()
+       );
         Boolean isExceptionThrown = false;
         Test.startTest();
         try {

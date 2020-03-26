@@ -1,0 +1,42 @@
+/**
+ * Created by Nikita Abrazhevitch on 26-Aug-19.
+ */
+
+.THIS .site-sub-header {
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.THIS .inner-content-card {
+    box-sizing: border-box; 
+    border-radius: 4px; 
+    background-color: #f8f9fb; 
+    min-height: 100px; 
+    margin-top: 20px; 
+    padding: 15px;
+}
+
+@media all and (min-width: 768px) {
+    .THIS .site-distance {
+        text-align: right;
+    }
+}
+
+@media all and (max-width: 767px) {
+    .THIS .site-distance {
+        margin-top: .5rem;
+    }
+}
+
+.THIS .site-address {
+    color: #333333;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.THIS .slvi-site-btn {
+    width: 100%;
+}

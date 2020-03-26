@@ -1,10 +1,12 @@
 public with sharing class ClinicalTrialProfileService {
 
+    public static String STATUS_COMPLETED = 'Completed';
+
     public void deleteRelatedToStudyDocuments(List<Clinical_Trial_Profile__c> newList, Map<Id, Clinical_Trial_Profile__c> oldMap) {
         List<Clinical_Trial_Profile__c> completedTrials = new List<Clinical_Trial_Profile__c>();
         for (Clinical_Trial_Profile__c t : newList) {
             if (t.Status__c != oldMap.get(t.Id).Status__c) {
-                if (t.Status__c == 'Completed') {
+                if (t.Status__c == STATUS_COMPLETED) {
                     completedTrials.add(t);
                 }
             }
@@ -86,14 +88,15 @@ public with sharing class ClinicalTrialProfileService {
             DatabaseProxy databaseProxy = (DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class);
             String pSEQuery =
                     'SELECT Id, ' +
-                            'Status__c, ' +
+                            'Participant_Status__c, ' +
+                            'Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c, ' +
                             'Participant__c ' +
-                            'FROM Participant_Study_Enrollment__c ' +
+                            'FROM Participant_Enrollment__c ' +
                             'WHERE Participant__c IN (' + String.join(CollectionUtil.wrapInApostrophes(tAsByParticipantsIds.keySet()), ', ') + ')';
-            List<Participant_Study_Enrollment__c> enrollments = (List<Participant_Study_Enrollment__c>) databaseProxy.query(pSEQuery);
-            for (Participant_Study_Enrollment__c singlePSE : enrollments) {
-                if (PSEService.PSE_STATUS_GROUP_COMPLETE.contains(singlePSE.Status__c)) {
-                    tAsByParticipantsIds.remove(singlePSE.Participant__c);
+            List<Participant_Enrollment__c> enrollments = (List<Participant_Enrollment__c>) databaseProxy.query(pSEQuery);
+            for (Participant_Enrollment__c singlePE : enrollments) {
+                if (PEStatusState.getParticipationFlowSteps(singlePE).contains(singlePE.Participant_Status__c)) {
+                    tAsByParticipantsIds.remove(singlePE.Participant__c);
                 }
             }
         }

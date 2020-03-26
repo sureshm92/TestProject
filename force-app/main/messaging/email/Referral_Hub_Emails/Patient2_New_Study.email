@@ -8,11 +8,12 @@
                          sourceId="{!relatedTo.Id}"
                          parametersProvider="Email_Template_Parameters_From_PE"
                          header="{!$Label.Email_Header_Patient2}"
-                         title="{!$Label.Email_Title_PH}"
+                         title="{!$Label.Email_Title_All}"
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Patient2}"
                          signature="{!$Label.Email_Signature_Patient}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
+                              resourceId="{!relatedTo.Id}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
@@ -21,11 +22,12 @@
                              sourceId="{!relatedTo.Id}"
                              parametersProvider="Email_Template_Parameters_From_PE"
                              header="{!$Label.Email_Header_Patient2}"
-                             title="{!$Label.Email_Title_PH}"
+                             title="{!$Label.Email_Title_All}"
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Patient2}"
                              signature="{!$Label.Email_Signature_Patient}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
+                                  resourceId="{!relatedTo.Id}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 

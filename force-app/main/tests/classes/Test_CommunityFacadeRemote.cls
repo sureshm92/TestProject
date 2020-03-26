@@ -15,7 +15,8 @@ private class Test_CommunityFacadeRemote {
                 AccountId = acc1.id,
                 LastName = 'portalTestUser1',
                 RRCookiesAllowedCookie__c = false,
-                RRLanguageAllowedCookie__c = true
+                RRLanguageAllowedCookie__c = true,
+                userCommunytyType__c = CommunityService.USER_MODE_HCP
         );
         insert conCase;
 
@@ -40,10 +41,10 @@ private class Test_CommunityFacadeRemote {
         System.runAs(portalUser){
             Test.startTest();
             CommunityFacadeRemote.isFirstLogon();
-            CommunityFacadeRemote.accpetTerms();
+            CommunityFacadeRemote.acceptTerms();
             CommunityFacadeRemote.urlExists('test_url');
             CommunityFacadeRemote.getLocalizedURL('https://login.salesforce.com/');
-            CommunityFacadeRemote.changeMode('HCP');
+            CommunityFacadeRemote.changeMode('HCP', null, null);
             CommunityFacadeRemote.isTCAccepted();
             CommunityFacadeRemote.getCommunityData();
             try {

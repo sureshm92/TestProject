@@ -2,14 +2,15 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="ParticipantCardFields">
+<aura:component description="ParticipantCardFields" extends="c:CommunityContext" controller="ReferralProfileRemote">
 
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String"/>
     <aura:attribute name="pe" type="Object"/>
-
+    <aura:attribute name="isInvited" type="boolean" default="false"/>
+    <aura:attribute name="showParticipationSteps" type="boolean" default="true"/>
     <!-- component body: -->
-    <div class="vpi-clip-item-borders">
+    <div class="{!'vpi-clip-item-borders ' + if(v.isArabic, 'rtl', '')}">
         <div class="vpi-fields">
 
             <!-- PI fields: -->
@@ -33,10 +34,15 @@
                 </div>
                 <div class="vpi-field">
                     <div class="label">{!$Label.c.PE_Source}</div>
-                    <aura:if isTrue="{!!empty(v.pe.HCP__c)}">
-                    <div class="value">{!v.pe.HCP__r.HCP_Contact__r.Name}</div>
+                    <aura:if isTrue="{!v.pe.Referral_Source__c == 'HCP'}">
+                        <div class="value">{!v.pe.HCP__r.HCP_Contact__r.Name}</div>
                         <aura:set attribute="else">
-                            <div class="value">{!v.pe.Referral_Source__c}</div>
+                            <aura:if isTrue="{!v.pe.Referral_Source__c == 'PI'}">
+                                <div class="value">{!v.pe.PI_Contact__r.Name}</div>
+                                <aura:set attribute="else">
+                                    <div class="value">{!v.pe.Source_Type__c}</div>
+                                </aura:set>
+                            </aura:if>
                         </aura:set>
                     </aura:if>
                    <!-- <div class="value"><div class="rp-max-length">{!v.pe.HCP__r.HCP_Contact__r.Name}</div></div>-->

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Patient questions for chat</description>
+    <label>Message Template</label>
+    <pluralLabel>Message Templates</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

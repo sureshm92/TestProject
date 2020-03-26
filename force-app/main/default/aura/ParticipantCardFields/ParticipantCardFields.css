@@ -3,23 +3,30 @@
  */
 
 .THIS .vpi-fields{
-    padding: 8px 0 13px 0;
-    position: relative;
-    left: -12px; /* remove first border and padding */
+    padding: 0 0 20px 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%!important;
+}
+
+.THIS.rtl .vpi-fields{
+    flex-direction: row-reverse;
 }
 
 .THIS.vpi-clip-item-borders{
     overflow: hidden;
+    padding: 0 16px 15px 5px;
+    border-bottom: 1px solid #d9d9d9;
 }
 
 .THIS .vpi-field{
-    display: inline-block;
-    vertical-align: middle;
-    padding: 0 10px;
-    border-left: 2px solid #CCCCCC;
-    margin: 5px 0;
+    padding: 0 12px;
+    margin: 0;
 }
 
+.THIS.rtl .vpi-field{
+    direction: rtl;
+}
 
 .THIS .vpi-value-length-max{
     max-width: 200px;
@@ -27,22 +34,34 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     color: #297DFD;
-    font-size: 13px;
+    font-size: 1rem;
     line-height: 16px;
 }
 
 .THIS .vpi-field > .label{
-    color: #7F888D;
-    font-size: 10px;
-    font-weight: bold;
-    line-height: 12px;
-    text-transform: uppercase;
+    color: #595959;
+    font-size: 1rem;
+    line-height: 16px;
+    display: inline-flex;
+    height: 30px;
+    align-items: flex-end;
+    margin-bottom: 5px;
+    white-space: nowrap;
 }
 
 .THIS .vpi-field > .value{
     color: #000000;
-    font-size: 14px;
+    font-size: 1rem;
     line-height: 18px;
-    height: 18px;
-    font-weight: 600;
+    font-weight: 400;
+}
+
+@media all and (max-width: 890px){
+    .THIS .vpi-fields {
+        flex-wrap: wrap;
+    }
+     .THIS .vpi-fields .vpi-field {
+        flex: 0 0 50%;
+    }
+    
 }

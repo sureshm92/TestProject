@@ -1,0 +1,26 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="VisitResultSharingCountryLookup" controller="VisitResultSharingCountryLookupRemote" extends="c:RRSearchAbstract">
+
+    <!-- attributes -->
+    <aura:attribute name="isInclude" type="Boolean" default="true"/>
+    <aura:attribute name="includeStates" type="Boolean" default="false"/>
+    <aura:attribute name="isMultiEntry" type="Boolean" default="true"/>
+    <aura:attribute name="minTermLength" type="Integer" default="0"/>
+    <aura:attribute name="ctpId" type="String"/>
+    <aura:attribute name="selectedCountries" type="String" default=""/>
+
+    <aura:handler name="change" value="{!v.selectedCountries}" action="{!c.doValueChange}"/>
+
+    <!-- methods: -->
+    <aura:method name="searchByTerm" action="{!c.doSearchByTerm}" access="public">
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <aura:method name="searchByValue" action="{!c.doSearchByValue}" access="public">
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+</aura:component>

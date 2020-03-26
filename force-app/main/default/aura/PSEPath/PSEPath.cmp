@@ -8,25 +8,91 @@
     <aura:attribute name="steps" type="List"/>
     <aura:attribute name="pathItems" type="List" access="private"/>
     <aura:attribute name="isCollapsed" type="Boolean" default="true" access="private"/>
-    <aura:attribute name="pse" type="Object"/>
+    <aura:attribute name="pe" type="Object"/>
+    <aura:attribute name="userMode" type="String"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+    <aura:attribute name="peStatusesPathList" type="List"/>
+    <aura:attribute name="peStatusStateMap" type="Map"/>
+    <aura:attribute name="enrollmentPathItems" type="List"/>
+    <aura:attribute name="actions" type="List"/>
+    <aura:attribute name="isInvited" type="Boolean" default="false" access="public"/>
 
     <!-- handler: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <aura:handler name="change" value="{!pse.Status__c}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!pe.Participant_Status__c}" action="{!c.doInit}"/>
     <aura:handler name="change" value="{!v.isCollapsed}" action="{!c.doProcessCollapse}"/>
 
     <!-- component body: -->
     <div>
         <div class="path-panel">
-            <div class="path-section">
+            <div class="{!v.userMode != 'PI' ? 'path-section' : 'path-section-pi'}">
                 <c:RRPath2 pathItems="{!v.pathItems}"/>
             </div>
-            <div class="{!'collapse-section ' + if(v.isCollapsed, '', ' opened')}">
-            <c:RRCollapse label="{!$Label.c.PE_Details}" isCollapsed="{!v.isCollapsed}">
-                <c:PSEStatusHistory aura:id="statusHistory" pseId="{!v.pse.Id}"/>
-            </c:RRCollapse>
+            <aura:if isTrue="{!v.userMode != 'PI'}">
+                <div class="{!'collapse-section ' + if(v.isCollapsed, '', ' opened')}">
+                    <c:RRCollapse label="{!$Label.c.PE_Details}" isCollapsed="{!v.isCollapsed}">
+                        <c:PSEStatusHistory aura:id="statusHistory" peId="{!v.pe.Id}"/>
+                    </c:RRCollapse>
+                </div>
+            </aura:if>
         </div>
-        </div>
+        <aura:if isTrue="{!v.userMode == 'PI'}">
+            <div class="slds-grid vpi-status-btns slds-gutters_x-small slds-wrap" data-gtm="BTN_Participant_Details">
+                <div class="slds-col slds-size_1-of-1 slds-small-size_6-of-12">
+                    <button class="{!'apollo-btn secondary'}"
+                            title="{!$Label.c.BTN_View_Participant_Details}"
+                            onclick="{!c.showEditParticipantInformation}"
+                            value="statusDetailsAnchor">
+                                    {!$Label.c.BTN_View_Participant_Details}
+                                </button>
+                </div>
+            <!--<aura:if isTrue="{!empty(v.pe.MRR_Survey_Results_URL__c) &amp;&amp; !v.actions.screenerResponses.disabled &amp;&amp; v.pe.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c}">
+                <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12">
+                <lightning:button class="slds-button&#45;&#45;neutral"
+                title="{!$Label.c.BTN_Pre_Screen_Participant}"
+                onclick="{!c.showEditParticipantInformation}">
+                {!$Label.c.BTN_Pre_Screen_Participant}
+                </lightning:button>
+                </div>
+                </aura:if>-->
+            </div>
+<!--            <div class="slds-grid vpi-status-btns slds-gutters_x-small slds-wrap">-->
+<!--                <div class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_4-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_4-of-12'}">-->
+<!--                    <button class="{!'apollo-btn secondary'}"-->
+<!--                            title="{!$Label.c.BTN_Participant_Information}"-->
+<!--                            onclick="{!c.showEditParticipantInformation}"-->
+<!--                            value="personalInfoAnchor">-->
+<!--                        {!$Label.c.BTN_Participant_Information}-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <div class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_4-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_4-of-12'}">-->
+<!--                    <button class="{!'apollo-btn secondary'}"-->
+<!--                            title="{!$Label.c.BTN_HealthCare_Providers}"-->
+<!--                            onclick="{!c.showEditParticipantInformation}"-->
+<!--                            value="healthCareProvider">-->
+<!--                        {!$Label.c.BTN_HealthCare_Providers}-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <div class="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_4-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_4-of-12'}">-->
+<!--                    <button class="{!'apollo-btn secondary'}"-->
+<!--                            title="{!$Label.c.BTN_Status_Details}"-->
+<!--                            onclick="{!c.showEditParticipantInformation}"-->
+<!--                            value="statusDetailsAnchor">-->
+<!--                        {!$Label.c.BTN_Status_Details}-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <aura:if isTrue="{!v.pe.MRR_Survey_Results_URL__c &amp;&amp; !v.actions.screenerResponses.disabled}">-->
+<!--                    <div class="slds-col slds-size_1-of-1 slds-small-size_4-of-12">-->
+<!--                        <button class="{!'apollo-btn secondary'}"-->
+<!--                                title="{!$Label.c.BTN_Screener_Responses}"-->
+<!--                                onclick="{!c.showEditParticipantInformation}"-->
+<!--                                value="screenerResponsesAnchor">-->
+<!--                            {!$Label.c.BTN_Screener_Responses}-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </aura:if>-->
+<!--            </div>-->
+        </aura:if>
     </div>
 
 </aura:component>

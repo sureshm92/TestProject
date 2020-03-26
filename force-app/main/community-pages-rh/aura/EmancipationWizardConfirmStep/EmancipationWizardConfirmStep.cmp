@@ -1,0 +1,115 @@
+<!--
+ - Created by Aleksey Moseev.
+ -->
+
+<aura:component description="EmancipationWizardConfirmStep">
+
+    <!-- attributes: -->
+    <aura:attribute name="pe" type="Participant_Enrollment__c"/>
+    <aura:attribute name="participant" type="Participant__c"/>
+    <aura:attribute name="delegateItems" type="List"/>
+    <aura:attribute name="selectedOption" type="String" default="2"/>
+    <aura:attribute name="statesLVList" type="LabelValueItem[]"/>
+    <aura:attribute name="formData" type="AddPatientByPIRemote.FormData"/>
+    <aura:attribute name="readMode" type="Boolean" default="true"/>
+    <aura:attribute name="currentTab" type="String"/>
+
+    <aura:attribute name="participantMsgWithName" type="String"/>
+
+    <!-- component body: -->
+    <div class="participant-info-container">
+        <div class="ap-section">
+            <div style="background: #F6F7FB; margin-top: 15px;padding-top: 10px">
+                <div class="ap-section-title" style="margin-left: 10px;">{!$Label.c.BTN_Participant_Information}</div>
+                <button data-gtm="BTN_EditParticipant_Wizard" onclick="{!c.doEditParticipant}" name="Edit" class="slds-button edit-btn slds-button--icon-inverse">
+                    <!--<c:RRIcon iconName="icon-edit" class="edit-icon"/> -->
+                     <img class="edit-icon" src="{!$Resource.icon_edit}" width="16" height="16"/>
+                </button>
+
+                <div class="slds-grid slds-gutters slds-wrap" style="margin: 10px 0;">
+                    <div class="rr-form-element grey-text slds-col slds-size--1-of-1">
+                        {!v.participantMsgWithName}
+                    </div>
+                    <div class="rr-form-element slds-col slds-size--1-of-1 participantOption">
+                            {!v.selectedOption == '1' ? $Label.c.BTN_Invite : $Label.c.Do_Not_Invite}
+                    </div>
+
+                    <div class="rr-form-element slds-col slds-size--1-of-3 bold-title">
+                        {!$Label.c.PG_AP_H_Patient_Details}
+                    </div>
+                    <div class="rr-form-element slds-col slds-size--2-of-3 bold-title">
+                        {!$Label.c.PG_AP_H_Patient_Contact_Information}
+                    </div>
+
+                    <div class="rr-form-element slds-col slds-size--1-of-3">
+                        <span class="grey-text">{!$Label.c.PG_L_Name}: </span> {!v.participant.First_Name__c + ' ' + v.participant.Last_Name__c}
+                    </div>
+                    <div class="rr-form-element slds-col slds-size--1-of-3">
+                        <span class="grey-text">{!$Label.c.PE_Phone_number}: </span> {!v.participant.Phone__c}
+                    </div>
+                    <div class="rr-form-element slds-col slds-size--1-of-3">
+                        <span class="grey-text">{!$Label.c.PE_Country}: </span> {!v.participant.Mailing_Country__c}
+                    </div>
+
+                    <div class="rr-form-element slds-col slds-size--1-of-3">
+                        <span class="grey-text">{!$Label.c.RP_DOB_label}: </span> {!v.participant.Date_of_Birth__c}
+                    </div>
+                    <div class="rr-form-element slds-col slds-size--1-of-3">
+                        <span class="grey-text">{!$Label.c.PG_AP_F_Phone_Type}: </span> {!v.participant.Phone_Type__c}
+                    </div>
+                    <div class="rr-form-element slds-col slds-size--1-of-3">
+                        <span class="grey-text">{!$Label.c.PE_State}: </span> {!v.participant.Mailing_State__c}
+                    </div>
+
+                    <div class="rr-form-element slds-col slds-size--1-of-3">
+                        <span class="grey-text">{!$Label.c.PG_AS_F_Gender}: </span> {!v.participant.Gender__c}
+                    </div>
+                    <div class="rr-form-element slds-col slds-size--1-of-3">
+                        <span class="grey-text">{!$Label.c.PG_AS_F_Email_address}: </span> {!v.participant.Email__c}
+                    </div>
+                    <div class="rr-form-element slds-col slds-size--1-of-3">
+                        <span class="grey-text">{!$Label.c.PG_AS_F_Zip_Postal_Code}: </span> {!v.participant.Mailing_Zip_Postal_Code__c}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="delegate-info-container">
+        <!-- Delegate information: -->
+        <div class="ap-section">
+            <div style="background: #F6F7FB; margin-top: 15px;padding-top: 10px;min-height:40px">
+                <div class="ap-section-title" style="margin-left: 10px;">{!$Label.c.PG_Ref_L_Delegate_Information}</div>
+                <button data-gtm="BTN_EditDelegate_Wizard" onclick="{!c.doEditDelegate}" name="Edit" class="slds-button edit-btn slds-button--icon-inverse">
+                     <img class="edit-icon" src="{!$Resource.icon_edit}" width="16" height="16"/>
+                </button>
+
+                <aura:iteration items="{!v.delegateItems}" var="delegateItem" indexVar="ind">
+                    <div class="slds-grid slds-gutters slds-wrap rr-form-element" style="margin: 10px 10px;">
+                        <div class="rr-form-element grey-text slds-col slds-size--1-of-1 ">
+                            {!delegateItem.continueDelegateMsg}
+                        </div>
+                        <div class="rr-form-element slds-col slds-size--1-of-1 delegateMsg">
+                            {!delegateItem.selectedOption == '1' ? 'Continue' : 'Do not continue'}
+                        </div>
+
+                        <div class="rr-form-element slds-col slds-size--1-of-3">
+                            <span class="grey-text">{!$Label.c.PG_L_Name}: </span> {!delegateItem.First_Name__c + ' ' + delegateItem.Last_Name__c}
+                        </div>
+                        <div class="rr-form-element slds-col slds-size--1-of-3">
+                            <span class="grey-text">{!$Label.c.PE_Phone_number}: </span> {!delegateItem.Phone__c}
+                        </div>
+                        <div class="rr-form-element slds-col slds-size--1-of-3">
+                            <span class="grey-text">{!$Label.c.PG_AP_F_Phone_Type}: </span> {!delegateItem.Phone_Type__c}
+                        </div>
+
+                        <div class="rr-form-element slds-col slds-size--1-of-3">
+                            <span class="grey-text">{!$Label.c.PG_AS_F_Email_address}: </span> {!delegateItem.Email__c}
+                        </div>
+                    </div>
+                </aura:iteration>
+            </div>
+        </div>
+    </div>
+
+</aura:component>

@@ -5,24 +5,22 @@
 public class ParticipantItem {
     
     @AuraEnabled public Participant_Enrollment__c pe;
-    @AuraEnabled public Participant_Study_Enrollment__c pse;
     @AuraEnabled public Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
     @AuraEnabled public List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
-    @AuraEnabled public List<LabelValueItem> psePathSteps = PSEService.getInstance().getPSEPathSteps();
-    @AuraEnabled public Boolean showPSESteps;
-    
+    @AuraEnabled public List<LabelValueItem> participationFlowSteps;
+    @AuraEnabled public Boolean showParticipationSteps;
+    @AuraEnabled public List<ParticipantWorkflowService.PathStepWrapper> pathItems;
+
     public ParticipantItem(Participant_Enrollment__c pe){
-        Boolean isParticipant = CommunityService.getUserContact().userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT;
         pe.Referral_Source__c = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Referral_Source__c, pe.Referral_Source__c);
         this.pe = pe;
-        this.pse = pe.Participant_Study_Enrollment__r;
-        this.showPSESteps = pe.Study_Site__r.Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c == 'Yes' || !isParticipant ;
+        this.participationFlowSteps = PEStatusState.getParticipationFlowStepsLV(pe);
+        this.showParticipationSteps = PEStatusState.getParticipationFlowSteps(pe).contains(pe.Participant_Status__c);
     }
 
     public ParticipantItem(ParticipantService.ParticipantState participantState) {
-        Boolean isParticipant = CommunityService.getUserContact().userCommunityMode__c == CommunityService.USER_MODE_PARTICIPANT;
         this.pe = participantState.pe;
-        this.pse = participantState.pse;
-        this.showPSESteps = participantState.isPremium || !isParticipant;
+        this.participationFlowSteps = PEStatusState.getParticipationFlowStepsLV(participantState.pe);
+        this.showParticipationSteps = PEStatusState.getParticipationFlowSteps(participantState.pe).contains(participantState.pe.Participant_Status__c);
     }
 }

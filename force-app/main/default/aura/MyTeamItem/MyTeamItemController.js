@@ -2,11 +2,11 @@
 
     doSaveChanges: function (component, event, helper) {
         var delegate = component.get('v.delegate');
-        component.get('v.parentComponent').find('saveDelegateLevelChanges').execute(delegate, component,false);
+        var parentComponent = component.get('v.parentComponent');
+        component.get('v.parentComponent').find('saveDelegateLevelChanges').execute(delegate, parentComponent,false);
     },
 
     doRefresh: function (component, event, helper) {
         component.set('v.changedLevels',[]);
-        component.set('v.refreshSDLITrigger', !component.get('v.refreshSDLITrigger'));
     }
 })

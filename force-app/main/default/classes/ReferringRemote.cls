@@ -16,6 +16,7 @@ public without sharing class ReferringRemote {
         public Map<String, StudyActions.Action> actions;
         public List<LabelValueItem> countries;
         public List<LabelValueItem> genders;
+        public List<LabelValueItem> phoneTypes;
         public Map<String, List<LabelValueItem>> statesByCountryMap;
         public String delegateAccessLevel;
     }
@@ -30,7 +31,7 @@ public without sharing class ReferringRemote {
     }
 
     @AuraEnabled
-    public static String getInitData(Id trialId, Id peId, Id hcpeId, String userMode){
+    public static String getInitData(Id trialId, Id peId, Id hcpeId, String userMode, String delegateId){
         //try{
         InitData initData = new InitData();
         initData.trial = TrialService.getInstance().getTrialImpl(trialId);
@@ -39,23 +40,23 @@ public without sharing class ReferringRemote {
             initData.trial.Link_to_Pre_screening__c = CommunityFacadeRemote.getLocalizedURL(initData.trial.Link_to_Pre_screening__c);
         }
         if(hcpeId != null){
-            initData.hcpEnrollment = HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId,userMode);//getHCPEnrollmentForHCPByTrial(trialId);
+            initData.hcpEnrollment = HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId,userMode,delegateId);//getHCPEnrollmentForHCPByTrial(trialId);
         }
         //new StudyActionsHCP(initData.hcpEnrollment).checkAction(StudyActions.ACT_REFER_TO_THIS_STUDY);
 
         //initData.actions = new StudyActionsHCP(initData.trial, initData.hcpEnrollment!=null?initData.hcpEnrollment.Study_Site__r:null,  initData.hcpEnrollment).actions;
         if(peId != null) {
-            initData.participantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode);
+            initData.participantEnrollment = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId);
         }else if (initData.trial.Link_to_Medical_Record_Review__c == null){
             initData.participantEnrollment = ParticipantEnrollmentService.createParticipantEnrollment(initData.trial, initData.hcpEnrollment, null);
         }
         if(initData.trial.Link_to_Medical_Record_Review__c != null) {
-            initData.pendingPEnrollments = ParticipantEnrollmentService.getPendingParticipantEnrollments(trialId, null);
+            initData.pendingPEnrollments = ParticipantEnrollmentService.getPendingParticipantEnrollments(trialId, null, delegateId);
         }
         StudySiteService.SiteFilterData siteFilterData = StudySiteService.getInstance().getSiteFilterDataImpl(trialId, 'HCP');
 
         StudySiteService.SiteFilter siteFilter = new StudySiteService.SiteFilter(siteFilterData);
-        List<StudySiteService.StudySiteDistanceWrapper> studiesTemp = StudySiteService.getInstance().getStudySitesWithDistanceForHCPByTrialIdImpl(siteFilter, null, true);
+        List<StudySiteService.StudySiteDistanceWrapper> studiesTemp = StudySiteService.getInstance().getStudySitesWithDistanceForHCPByTrialIdImpl(siteFilter, null, true,delegateId);
         initData.markers = new List<ReferringRemote.AccountWrapper>();
         initData.studies = new List<StudySiteService.StudySiteDistanceWrapper>();
         initData.studiesPending = new List<StudySiteService.StudySiteDistanceWrapper>();
@@ -90,8 +91,9 @@ public without sharing class ReferringRemote {
 //            initData.studies.add(aw);
         initData.countries = CountryStateUtil.getCountries();
         initData.genders = ParticipantService.getGenderLVList();
+        initData.phoneTypes = ParticipantService.getPhoneTypeLVList();
         initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
-        initData.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel();
+        initData.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);
         return JSON.serialize(initData);
         /*}catch (Exception e){
             System.debug('ERROR: ' + e.getMessage() + '\n' + e.getStackTraceString());
@@ -100,65 +102,106 @@ public without sharing class ReferringRemote {
     }
 
     @AuraEnabled
-    public static void saveParticipant(Id trialId, Id hcpeId, String pEnrollmentJSON, String participantJSON){
-        Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
-        participant.Preferred_Language__c = UserInfo.getLanguage();
-        HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId, CommunityService.USER_MODE_HCP);
-        Participant_Enrollment__c participantEnrollment = (Participant_Enrollment__c)JSON.deserialize(pEnrollmentJSON, Participant_Enrollment__c.class);
-        participantEnrollment.Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_REFERRAL_SENT_TO_PI;
-        if(participantEnrollment.Pre_screening_Status__c == ParticipantEnrollmentService.PES_STATUS_PENDING){
-            participantEnrollment.Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_PASS;
+    public static String checkNeedsGuardian(String participantJSON) {
+        Boolean needsGuardian = false;
+        Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
+        if (!String.isEmpty(participant.Date_of_Birth__c)) {
+            List<Age_of_Majority__mdt> ageOfMajorities = [SELECT Country_Code__c,
+                                                                 State_Code__c,
+                                                                 Age__c
+                                                          FROM Age_of_Majority__mdt];
+            Map<String, Integer> ageByCountryCode = new Map<String, Integer>();
+            for (Age_of_Majority__mdt ageOfMajority : ageOfMajorities) {
+                if (ageOfMajority.Age__c != null) {
+                    ageByCountryCode.put(ageOfMajority.Country_Code__c, ageOfMajority.Age__c.intValue());
+                }
+            }
+
+            Date birthDate = Date.valueOf(participant.Date_of_Birth__c);
+            Integer participantAge =
+                    Date.newInstance(2000, birthDate.month(), birthDate.day()) <=
+                            Date.newInstance(2000, Date.today().month(), Date.today().day()) ?
+                            Date.today().year() - birthDate.year() : Date.today().year() - birthDate.year() - 1;
+
+            if (ageByCountryCode.get(participant.Mailing_Country_Code__c) != null) {
+                needsGuardian = participantAge < ageByCountryCode.get(participant.Mailing_Country_Code__c);
+            } else if (ageByCountryCode.get(participant.Mailing_Country_Code__c + '-' + participant.Mailing_State_Code__c) != null) {
+                needsGuardian = participantAge < ageByCountryCode.get(participant.Mailing_Country_Code__c + '-' + participant.Mailing_State_Code__c);
+            } else {
+                needsGuardian = participantAge < 18;
+            }
         }
 
-        /*Database.SaveResult saveResult = Database.insert(participant, false);
-        if (!saveResult.isSuccess()) {
-            System.debug('PARTICIPANT INSERT ERROR');
-            for (Database.Error error : saveResult.getErrors()) {
-                if (error instanceof Database.DuplicateError) {
-                    Database.DuplicateError duplicateError = (Database.DuplicateError) error;
-                    Datacloud.DuplicateResult duplicateResult = duplicateError.getDuplicateResult();
-                    List<SObject> duplicateRecords = new List<SObject>();
-                    Datacloud.MatchResult[] matchResults = duplicateResult.getMatchResults();
-                    Datacloud.MatchResult matchResult = matchResults[0];
-                    Datacloud.MatchRecord[] matchRecords = matchResult.getMatchRecords();
-                    for (Datacloud.MatchRecord matchRecord : matchRecords) {
-                        participant = (Participant__c) matchRecord.getRecord();
-                        System.debug('FOUND PART DUPLICATE: ' + participant);
-                        break;
-                    }
-                }else{
-                    System.debug(error.getMessage());
-                    if(!Test.isRunningTest()) throw new AuraHandledException(error.getMessage());
+        return '' + needsGuardian;
+    }
+
+    @AuraEnabled
+    public static void saveParticipant(Id hcpeId, String pEnrollmentJSON, String participantJSON, String participantDelegateJSON, String delegateId) {
+        try {
+            Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
+            participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
+            Participant__c participantDelegate;
+            if (!String.isBlank(participantDelegateJSON)) {
+                participantDelegate = (Participant__c) JSON.deserialize(participantDelegateJSON, Participant__c.class);
+                if (participantDelegate != null) {
+                    participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
                 }
             }
-        }*/
 
-        DuplicateContactController.isPERCreated = true;
-        participant = DuplicateContactController.communityReffering(participant, participantEnrollment);
-
-        if(participant.Id != null){
-            participantEnrollment.Participant__c = participant.Id;
-            participantEnrollment.HCP__c = hcpeId;
-            participantEnrollment.Study_Site__c = hcpEnrollment.Study_Site__c;
-            participantEnrollment.Referral_Completed_by__c = CommunityService.getInstance().getCurrentContactId();
-            participantEnrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;
-            if(participantEnrollment.Participant_Name__c == null) participantEnrollment.Participant_Name__c = participant.First_Name__c;
-            if(participantEnrollment.Participant_Surname__c == null) participantEnrollment.Participant_Surname__c = participant.Last_Name__c;
-            try{
-                System.debug(participantEnrollment);
-                upsert participantEnrollment;
-            }catch (Exception e){
-                String errorMsg = e.getMessage();
-                System.debug('STACK TRACE:' + e.getStackTraceString());
-                System.debug('MESSAGE:' + e.getMessage());
-                if(errorMsg.contains('DUPLICATE')) {
-                    errorMsg = Label.Error_Message_Participant_Duplicate;
-                }
-                System.debug('ERROR: ' + errorMsg);
-                throw new AuraHandledException(errorMsg);
+            Participant_Enrollment__c enrollment = (Participant_Enrollment__c)
+                    JSON.deserialize(pEnrollmentJSON, Participant_Enrollment__c.class);
+            enrollment.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
+            enrollment.Referral_Completed_by__c = CommunityService.getInstance().getCurrentContactId();
+            if (enrollment.Pre_screening_Status__c == ParticipantEnrollmentService.PES_STATUS_PENDING) {
+                enrollment.Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_PASS;
             }
-        }else{
-            throw new AuraHandledException('Can not create participant');
+
+            HCP_Enrollment__c hcpEnrollment =
+                    HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId, CommunityService.USER_MODE_HCP, delegateId);
+            enrollment.HCP__c = hcpEnrollment.Id;
+            enrollment.Study_Site__c = hcpEnrollment.Study_Site__c;
+            enrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;
+            enrollment.Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
+            enrollment.Show_Referring_Provider__c = true;
+            String language = UserInfo.getLanguage();
+
+            ParticipantService.getInstance().createParticipantAndUpdatePEImpl(participant, enrollment, language);
+
+            if (participantDelegate != null && !String.isEmpty(participantDelegate.Last_Name__c) &&
+                    !String.isEmpty(participantDelegate.Email__c)) {
+                Contact newContact = new Contact();
+                newContact.FirstName = participantDelegate.First_Name__c;
+                newContact.LastName = participantDelegate.Last_Name__c;
+                newContact.Email = participantDelegate.Email__c;
+                newContact.AccountId = [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE ].Id;
+                newContact.Language__c = UserInfo.getLanguage();
+                newContact.Second_Choice_Language__c = '';
+                newContact.Third_Choice_Language__c = '';
+                newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
+                newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
+                newContact.userCommunityIsDelegate__c = true;
+                newContact.MailingCountryCode = participant.Mailing_Country_Code__c;
+                newContact.MailingStateCode = participant.Mailing_State_Code__c;
+                newContact.MailingCountry = participant.Mailing_Country__c;
+                newContact.MailingState = participant.Mailing_State__c;
+                if ('Home' == participantDelegate.Phone_Type__c) {
+                    newContact.HomePhone = participantDelegate.Phone__c;
+                } if ('Mobile' == participantDelegate.Phone_Type__c) {
+                    newContact.MobilePhone = participantDelegate.Phone__c;
+                } else {
+                    newContact.Phone = participantDelegate.Phone__c;
+                }
+                insert newContact;
+
+                Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
+                ptDelegateRef.Participant__c = participant.Id;
+                ptDelegateRef.Contact__c = newContact.Id;
+                insert ptDelegateRef;
+
+                ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
+            }
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
         }
     }
 

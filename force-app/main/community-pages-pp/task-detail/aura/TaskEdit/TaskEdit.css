@@ -1,0 +1,93 @@
+/**
+ * Created by mkotenev on 3/5/2019.
+ */
+.THIS.te-task-panel{
+    min-height: 400px;
+    max-width: 1140px;
+    margin: 25px auto 30px;
+}
+
+.THIS.cRRTopBar.top-bar {
+    background: none;
+    box-shadow: none;
+    position: relative;
+}
+
+.THIS.cRRTopBar.top-bar .cRRIcon {
+    display: none;
+}
+
+.THIS.cRRTopBar.top-bar .cRRLink {
+    position: relative;
+    height: 32px;
+    padding: 0 8px 0 15px;
+    display: inline-flex;
+    border-radius: 4px;
+}
+
+.THIS.cRRTopBar.top-bar .cRRLink:hover {
+    background-color: #eef5ff;
+    transition: .25s;
+}
+
+.THIS.cRRTopBar.top-bar .cRRLink:before {
+    content: '';
+    position: absolute;
+    background-size: 14px 14px;
+    background-image: url(/resource/1569526732000/ChevronRightBlue);
+    height: 14px;
+    width: 14px;
+    top: 9px;
+    left: 0;
+    transform: scaleX(-1);
+}
+
+.THIS.cRRTopBar .header .title {
+    font-size: 20px;
+}
+
+.THIS .rr-white-panel {
+    overflow: visible;
+}
+
+.THIS.rr-body-content {
+    display: none;
+}
+
+.THIS .te-col {
+    margin-bottom: 10px;
+}
+
+.THIS .te-col-horizontal {
+    margin-bottom: 10px;
+    max-width: 360px;
+}
+
+.THIS .te-col-header {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.THIS .slds-form-element__label{
+    padding-bottom: 5px;
+    font-size: 14px;
+    color: #444;
+}
+
+.THIS .te-form > .slds-col{
+    margin-bottom: 8px;
+}
+
+.THIS .buttons-block {
+    margin-top: 25px;
+}
+
+.THIS .icon-alert{
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.THIS .icon-alert .text{
+    padding-left: 10px;
+}

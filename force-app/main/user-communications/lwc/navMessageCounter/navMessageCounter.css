@@ -1,0 +1,14 @@
+/**
+ * Created by Igor Malyuta on 20.01.2020.
+ */
+.message-counter {
+    background-color: #e20000;
+    width: 10px;
+    height: 9px;
+    border-radius: 50%;
+    /* color: #fff; */
+    /* text-align: center; */
+    /* font-size: 12px; */
+    position: absolute;
+    top: 9px;
+}

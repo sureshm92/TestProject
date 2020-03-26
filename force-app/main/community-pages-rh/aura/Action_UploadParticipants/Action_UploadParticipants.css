@@ -1,0 +1,31 @@
+.THIS .p-container .p-content {
+    padding: 0 16px 30px;
+}
+
+.THIS .slds-file-selector,
+.THIS .slds-file-selector__dropzone {
+    width: 100%;
+}
+
+.THIS .slds-grid .slds-m-around--small {
+    margin-bottom: 0;
+}
+
+.THIS .slds-grid .slds-m-around--small.uploadFiles {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.THIS .uploadFiles .input-fields-labels {
+    margin-top: 10px;
+    color: #297dfd;
+}
+
+.THIS .uploadFiles .input-fields-labels .upload-close,
+.THIS .upload-icon{
+	margin: 0 0 3px 8px;
+}
+
+.THIS .slds-scrollable {
+    max-height: 500px;
+}

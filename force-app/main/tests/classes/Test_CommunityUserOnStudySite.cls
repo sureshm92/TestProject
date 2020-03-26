@@ -25,7 +25,8 @@ private class Test_CommunityUserOnStudySite {
                 Protocol_ID__c = 'test protocol Id',
                 Study_Title__c = 'HelloTest Study',
                 Study_Code_Name__c = 'HelloTest Study Code Name',
-                NCT_Number__c = 'NCT00000000'
+                NCT_Number__c = 'NCT00000000',
+                Synch_with_TMDH__c = true
         );
         insert clinicalTrialProfile;
 

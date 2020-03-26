@@ -1,0 +1,37 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component description="DashboardPhysWaitingForApprovalList">
+
+    <!-- attributes: -->
+    <aura:attribute name="hcpeList" type="List"/>
+    <aura:attribute name="parent" type="Aura.Component"/>
+
+    <!-- component body -->
+    <aura:iteration items="{!v.hcpeList}" var="item">
+        <div class="db-list-item">
+            <div class="rr-small-down-hide">
+                <button class="apollo-btn secondary"
+                        disabled="{!item.action.disabled}"
+                        title="{!item.action.disableReason}"
+                        onclick="{!c.doAction}"
+                        data-hcpe-id="{!item.data.Id}">
+                    {!item.action.label}
+                </button>
+            </div>
+            <c:RRLink label="{!item.data.HCP_Contact__r.Salutation + ' ' + item.data.HCP_Contact__r.Name + ' '}" page=""/>{!$Label.c.PG_DBPI_at + ' '} {!item.data.HCP_Contact__r.Account.Name}<br/>
+            {!$Label.c.PG_DBPI_L_for}&nbsp;<c:RRLink label="{!item.data.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}" page="{!'study-workspace?id=' + item.data.Study_Site__r.Clinical_Trial_Profile__c}"/><br/>
+            <span>{!item.data.Study_Site__r.Name}</span>
+            <div class="rr-small-up-hide btn-block">
+                <button class="apollo-btn tertiary"
+                        disabled="{!item.action.disabled}"
+                        title="{!item.action.disableReason}"
+                        onclick="{!c.doAction}"
+                        data-hcpe-id="{!item.data.Id}">
+                    {!item.action.label}
+                </button>
+            </div>
+        </div>
+    </aura:iteration>
+</aura:component>

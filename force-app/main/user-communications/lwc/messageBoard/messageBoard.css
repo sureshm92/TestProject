@@ -1,0 +1,157 @@
+/**
+ * Created by Igor Malyuta on 24.12.2019.
+ */
+.ms-board {
+    height: 100%;
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-content: stretch;
+}
+
+.ms-board-body {
+    height: 425px;
+    padding: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+@supports (-ms-ime-align:auto) {
+    .ms-board-body {
+        flex-direction: column;
+    }
+}
+
+.ms-board-body::-webkit-scrollbar {
+    width: 7px;
+}
+
+.ms-board-body::-webkit-scrollbar-track {
+    background: none;
+}
+
+.ms-board-body::-webkit-scrollbar-thumb {
+    background: rgba(155, 155, 155, 0.8);
+    border-radius: 10px;
+}
+
+.ms-board-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(85, 85, 85, 0.3);
+}
+
+.ms-board-footer-part {
+    background-color: #f8f9fb;
+    padding: 10px 10px 20px;
+    min-height: 99px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.ms-select-templates {
+    flex-basis: 85%;
+}
+
+.ms-board-footer-pi {
+    background-color: #f8f9fb;
+    padding: 10px;
+    min-height: 135px;
+}
+
+.ms-send-pi-combined-input {
+    padding: 5px;
+    border: 1px solid #DBDBDB;
+    background: white;
+    border-radius: 5px;
+}
+
+.ms-pi-input {
+    flex-grow: 1;
+    width: 100%;
+    border: none;
+    background-color: white !important;
+}
+
+.ms-pi-input:focus {
+   outline: none;
+    box-shadow: none;
+}
+
+.ms-send-pi-buttons {
+    min-height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ms-file-pill {
+    margin-top: 3px;
+}
+
+.ms-file-upload {
+    opacity: 0;
+    max-width: 5px;
+    max-height: 5px;
+}
+
+.ms-att-file-label {
+    height: 32px;
+    width: 100px;
+    color: #0768FD;
+    font-family: "Proxima Nova";
+    font-size: 14px !important;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.ms-att-file-icon {
+    display: none;
+    transform: rotate(36deg);
+}
+
+.ms-empty-chat {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ms-empty-chat-label {
+    width: 35%;
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 26px;
+    text-align: center;
+    padding-top: 20px;
+}
+
+@media all and (max-width: 480px) {
+    .ms-board-footer-part {
+        min-height: 74px;
+        padding: 10px;
+    }
+
+    .ms-select-templates {
+        flex-basis: 75%;
+    }
+
+    .ms-send-button {
+        min-width: 50px;
+    }
+
+    .ms-att-file-label {
+        display: none;
+    }
+
+    .ms-att-file-icon {
+        display: block;
+    }
+}

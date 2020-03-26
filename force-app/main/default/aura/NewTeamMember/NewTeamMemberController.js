@@ -1,12 +1,12 @@
 ({
     doInit: function (component, event, helper) {
-        var spinner = component.find('mainSpinner');
-        spinner.show();
+        // var spinner = component.find('mainSpinner');
+        // spinner.show();
         component.set('v.showSpinner', true);
 
         if (!communityService.isInitialized()) return;
         var userMode = communityService.getUserMode();
-        if(userMode === 'Participant' && communityService.isDelegate) communityService.navigateToHome();
+        if(userMode === 'Participant' && communityService.getCurrentCommunityMode().isDelegate) communityService.navigateToHome();
 
         component.set('v.userMode', userMode);
 
@@ -21,16 +21,20 @@
         else{
             component.set('v.currentTab', 'all-same');
         }
-
-
+        var parentId = communityService.getUrlParameter('id');
+        if(parentId){
+            component.set('v.parentId',parentId);
+        }
         communityService.executeAction(component, 'getContactData', {
             userMode: component.get('v.userMode'),
-            contactEmail: ''
+            contactEmail: '',
+            parentId: parentId?parentId:communityService.getDelegateId()
         }, function (returnValue) {
             var contactData = JSON.parse(returnValue);
             component.set('v.delegate', contactData.delegates[0]);
             component.set('v.delegateOptions', contactData.delegateOptions);
             component.set('v.currentUserContactId', contactData.currentUserContactId);
+            component.set('v.parentFullName', contactData.parentFullName);
             var allTrialLevel = {
                 delegateLevel: '',
                 trialName: $A.get('$Label.c.PG_NTM_L_Permission_level_will_apply_to_all_studies')
@@ -52,7 +56,7 @@
 
     doSearchContact: function (component, event, helper) {
         var delegate = component.get('v.delegate');
-        if (!communityService.isValidEmail(delegate.delegateContact.Email)) {
+        if (!communityService.isValidEmail(delegate.delegateContact.Email.trim())) {
             component.set('v.isCorrectEmail', false);
             delegate.delegateContact.Id = null;
             component.set('v.delegate', delegate);
@@ -64,35 +68,44 @@
         spinner.show();
         component.set('v.showSpinner', true);
 
+        let oldFirstName = delegate.delegateContact.FirstName;
+        let oldLastName = delegate.delegateContact.LastName;
+
         communityService.executeAction(component, 'getContactData', {
             userMode: component.get('v.userMode'),
-            contactEmail: delegate.delegateContact.Email.toLowerCase()
+            contactEmail: delegate.delegateContact.Email.toLowerCase().trim(),
+            parentId: communityService.getUrlParameter('id')?communityService.getUrlParameter('id'):communityService.getDelegateId()
         }, function (returnValue) {
-            debugger;
             var contactData = JSON.parse(returnValue);
+            var userMode = component.get('v.userMode');
+            var parentId = component.get('v.parentId');
             component.set('v.delegate', contactData.delegates[0]);
-            if (component.get('v.userMode') !== 'HCP'){
+            if (userMode !== 'HCP'){
                 component.set('v.currentTab', 'by-study');
             }
             else{
                 component.set('v.currentTab', 'all-same');
             }
-            debugger;
-            component.set('v.alreadyExists',contactData.alreadyExists);
-            component.set('v.alreadyExistsTitle','Team member ' + contactData.delegates[0].delegateContact.Name
-                + ' already exists. Name populated from existing database values.');
             if (contactData.delegates[0].delegateContact.Id === contactData.currentUserContactId) {
                 communityService.showToast('error', 'error', $A.get('$Label.c.TST_You_cannot_add_yourself_as_a_delegate'));
+            } else if(userMode === 'HCP' && parentId !== undefined && contactData.delegates[0].delegateContact.Id === parentId){
+                communityService.showToast('error', 'error', $A.get('$Label.c.TST_You_cannot_add_referring_provider_as_a_delegate'));
+            } else if(userMode === 'PI' && parentId !== undefined && contactData.delegates[0].delegateContact.Id === parentId){
+                communityService.showToast('error', 'error', $A.get('$Label.c.TST_You_cannot_add_primary_investigator_as_a_delegate'));
             } else if (contactData.delegates[0].delegateContact.Id === undefined) {
                 // component.set('v.currentTab','all-same');
                 console.log('delegateContact.Id===undefined');
+                component.find('firstNameInput').set('v.value', oldFirstName);
+                component.find('lastNameInput').set('v.value', oldLastName);
             }
 
             var allTrialLevel = {
                 delegateLevel: '',
                 trialName: $A.get('$Label.c.PG_NTM_L_Permission_level_will_apply_to_all_studies'),
-                readOnly: contactData.alreadyExists
             };
+            if (userMode === 'HCP'){
+                allTrialLevel.delegateLevel = contactData.delegates[0].trialLevel.delegateLevel;
+            }
             component.set('v.allTrialLevel', allTrialLevel);
             var studyDelegateLavelItems = component.find('study-level');
             if (studyDelegateLavelItems) {
@@ -111,13 +124,22 @@
         var delegate = component.get('v.delegate');
         var allTrialLevel = component.get('v.allTrialLevel');
         var currentTab = component.get('v.currentTab');
-        if (currentTab === 'all-same') {
-            for (var i = 0; i < delegate.trialLevels.length; i++) {
-                delegate.trialLevels[i].delegateLevel = allTrialLevel.delegateLevel;
+
+        if (currentTab === 'all-same' && component.get('v.userMode') === 'HCP') {
+            delegate.trialLevel.delegateLevel = allTrialLevel.delegateLevel;
+        }
+        else if(currentTab === 'all-same' && component.get('v.userMode') === 'PI'){
+            for (var i = 0; i < delegate.delegateTrials.length; i++) {
+                for (var j = 0; j < delegate.delegateTrials[i].siteLevels.length; j++)
+                delegate.delegateTrials[i].siteLevels[j].delegateLevel = allTrialLevel.delegateLevel;
+
             }
         }
 
         component.find('mainSpinner').show();
+        delegate.delegateContact.FirstName = delegate.delegateContact.FirstName.trim();
+        delegate.delegateContact.LastName = delegate.delegateContact.LastName.trim();
+
         if (component.get('v.userMode') === 'Participant') {
             communityService.executeAction(component, 'savePatientDelegate', {
                 delegate: JSON.stringify(delegate.delegateContact)
@@ -140,10 +162,10 @@
         var delegate = component.get('v.delegate');
         component.set('v.isCorrectEmail', communityService.isValidEmail(delegate.delegateContact.Email));
     },
+
     doCheckContactData: function (component, event, helper) {
         var delegate = component.get('v.delegate');
-        component.set('v.isCorrectContactData', delegate.delegateContact.FirstName.trim()!==''
-            && delegate.delegateContact.LastName.trim()!=='');
+        component.set('v.isCorrectContactData', delegate.delegateContact.FirstName.trim() !== ''
+            && delegate.delegateContact.LastName.trim() !== '');
     }
-
-})
+});

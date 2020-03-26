@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>42.0</apiVersion>
+    <available>true</available>
+    <description>A clinical research study that may interest you</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Trial Alert Match Delegate</name>
+    <style>none</style>
+    <subject>A clinical research study that may interest you</subject>
+    <type>visualforce</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

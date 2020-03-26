@@ -9,17 +9,42 @@
     display: flex;
 }
 
-.THIS .mrc-invite-btn-container{
-    text-align: left;
-}
-@media all and (max-width: 767px) {
-    .THIS .mrc-invite-btn-container{
-        width:100%;
-    }
+.THIS .cFilterPanel .fp-search-input .rri-container {
+	width: 230px;
 }
 
-.THIS .mrc-invite-popup{
-    max-width: 300px;
+.THIS .mrc-invite-btn-container{
+    text-align: right;
+}
+@media all and (max-width: 767px) {
+    .THIS.mrc-container {
+        padding-bottom: 0;
+    }
+    
+    .THIS .mrc-invite-btn-container{
+        width:100%;
+        margin: 15px 0;
+    }
+    
+    .THIS .mrc-invite-btn-container .mrc-invite-btn {
+     	width: 91%;
+        margin-right: 15px;   
+    }
+    
+    .THIS .slds-col {
+        flex-wrap: wrap;
+    }
+    
+    .THIS .slds-col.slds-p-around_medium {
+        flex-wrap: wrap;
+        padding: 0;
+        width: 100%;
+    }
+    
+    .THIS .rr-form-element .slds-form-element__control {
+        margin-bottom: 15px;
+    }
+
 }
 
 .THIS .rr-form-element{
@@ -49,4 +74,19 @@
 
 .THIS .p-content{
     max-height: 72vh!important;
+}
+
+.THIS.mrz-main-container,
+.THIS.mrz-filter {
+    color: #666666;
+    display: inline-block;
+    width: 100%;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 21px;
+}
+
+.THIS.mrz-filter .fp-filter-block input {
+    border: none;
 }

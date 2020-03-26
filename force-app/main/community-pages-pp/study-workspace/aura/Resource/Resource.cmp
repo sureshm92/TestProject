@@ -1,0 +1,49 @@
+<aura:component controller="ResourceRemote" description="Resource">
+
+	<aura:attribute name="resourceType" type="String" default="Article"/>
+	<aura:attribute name="resourceMode" type="String" default="Default"/>
+	<aura:attribute name="resourceWrappers" type="ResourceService.ResourceWrapper[]"/>
+	<aura:attribute name="resourcesOnPage" type="ResourceService.ResourceWrapper[]"/>
+	<aura:attribute name="resourceTitle" type="String" default="" access="private"/>
+	<aura:attribute name="errorMessage" type="String" default=""/>
+    <aura:attribute name="isAvailable" type="Boolean" default="true"/>
+
+	<aura:handler name="init" value="this" action="{!c.doInit}"/>
+	<aura:handler name="change" value="{!v.resourceMode}" action="{!c.doInit}"/>
+
+	<div class="rr-white-panel resource-card">
+
+		<header class="resource-card-title">
+			{!v.resourceTitle}
+		</header>
+
+		<c:RRSpinner aura:id="spinner" showSpinner="true" fixed="true" size="medium"/>
+
+        <aura:if isTrue="{!v.isAvailable}">
+            <aura:if isTrue="{!v.errorMessage}">
+                <div class="resource-error-message">{!v.errorMessage}</div>
+
+                <aura:set attribute="else">
+                    <div>
+                        <lightning:layout horizontalAlign="center" verticalAlign="start" multipleRows="true">
+                            <aura:iteration items="{!v.resourcesOnPage}" var="resource" indexVar="indexVar">
+                                <lightning:layoutItem flexibility="auto" size="12">
+                                    <c:ResourceItem resourceWrapper="{!resource}"
+                                                    class="{!indexVar==3 ? 'last-resource-container' : ''}"/>
+                                </lightning:layoutItem>
+                            </aura:iteration>
+                        </lightning:layout>
+                    </div>
+                    <footer class="resource-footer" style="{!lessthan(v.resourceWrappers.length, 4) ? 'display: none;' : ''}">
+                        <c:rrPagination allObjects="{!v.resourceWrappers}" currentObjects="{!v.resourcesOnPage}"
+                                        entriesOnPage="4"/>
+                    </footer>
+                </aura:set>
+            </aura:if>
+            <aura:set attribute="else">
+                <div class="resource-error-message">{!$Label.c.PG_VP_L_No_Items_display}</div>
+            </aura:set>
+        </aura:if>
+    </div>
+
+</aura:component>

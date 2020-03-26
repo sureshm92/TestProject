@@ -1,7 +1,7 @@
 <!--Created by new on 23.03.2018-->
 <aura:component description="ReferringStudySiteItem">
     <!--=============================================================================================================-->
-    <aura:attribute name="workspaceWrapper"     type="StudyDetailViewController.ClinicWrapper" required="true"/>
+    <aura:attribute name="workspaceWrapper"     type="Object" required="true"/>
     <!--=============================================================================================================-->
     <aura:attribute name="userMode"             type="String" description="HCP / PI / Participant"/>
     <aura:attribute name="showEnrollments"      type="Boolean" default="true"/>

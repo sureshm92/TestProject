@@ -4,6 +4,12 @@
 
 @IsTest
 private class Test_VisitResultsService {
+    @TestSetup
+    static void init() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+    }
 
     @IsTest
     private static void getVisitResultsGroupNames_test() {
@@ -18,60 +24,9 @@ private class Test_VisitResultsService {
     }
 
     @IsTest
-    private static void getPatientVisitsForReportWithPse_test() {
-        VisitResultsService service = new VisitResultsService();
-        ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
-        Clinical_Trial_Profile__c ctp = new Clinical_Trial_Profile__c();
-        ctp.Visit_Plan__c = TestDataFactory.getFakeId(Visit_Plan__c.getSObjectType());
-        pState.ctp = ctp;
-        Participant_Study_Enrollment__c pse = new Participant_Study_Enrollment__c();
-        pState.pse = pse;
-        List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>{
-                new Patient_Visit__c(),
-                new Patient_Visit__c()
-        };
-
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
-                .when('getState')
-                .then(pState)
-                .getInstance()
-        );
-        ClassFactory.putStubTypeByClassName(DatabaseProxy.class, StubFactory.newInstance(DatabaseProxy.class)
-                .when('query')
-                .then(patientVisits)
-                .getInstance()
-        );
-
-        Test.startTest();
-        List<Patient_Visit__c> testPatientVisits = service.getPatientVisitsForReport();
-        Test.stopTest();
-
-        System.assertEquals(2, testPatientVisits.size());
-    }
-
-    @IsTest
-    private static void getPatientVisitsForReportWithOutPse_test() {
-        VisitResultsService service = new VisitResultsService();
-        ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
-                .when('getState')
-                .then(pState)
-                .getInstance()
-        );
-
-        Test.startTest();
-        List<Patient_Visit__c> visits = service.getPatientVisitsForReport();
-        Test.stopTest();
-        System.assert(visits == null);
-    }
-
-    @IsTest
     private static void getVisitResultWrappersForDashboard_test() {
         VisitResultsService service = new VisitResultsService();
 
-        TestData.loadTestData();
         TestData testData = new TestData();
         testData.ctp.Shareback_Availability_Timing__c = 1;
         update testData.ctp;
@@ -99,35 +54,35 @@ private class Test_VisitResultsService {
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         insert visits;
 
-        testData.createPSE();
+        testData.updatePEStatusEnrollmentSuccess();
 
         List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(0).Id,
                 Visit_Number__c = 1
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Missed',
                 Visit__c = visits.get(1).Id,
                 Visit_Number__c = 2
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(2).Id,
                 Visit_Number__c = 3
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(3).Id,
                 Visit_Number__c = 3.1
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(4).Id,
                 Visit_Number__c = 4
@@ -167,13 +122,12 @@ private class Test_VisitResultsService {
         };
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(VisitResultMService.class, StubFactory.newInstance(VisitResultMService.class)
+        ClassFactory.putStubTypeByClassName(VisitResultMService.class, StubBuilder.newInstance(VisitResultMService.class)
                 .when('getVisitResultTypeDashboardConfigs')
                 .then(configs)
-                .getInstance()
+                .build()
         );
 
-        TestData.loadTestData();
         TestData testData = new TestData();
         testData.ctp.Shareback_Availability_Timing__c = 1;
         update testData.ctp;
@@ -201,35 +155,35 @@ private class Test_VisitResultsService {
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         insert visits;
 
-        testData.createPSE();
+        testData.updatePEStatusEnrollmentSuccess();
 
         List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(0).Id,
                 Visit_Number__c = 1
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Missed',
                 Visit__c = visits.get(1).Id,
                 Visit_Number__c = 2
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(2).Id,
                 Visit_Number__c = 3
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(3).Id,
                 Visit_Number__c = 3.1
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(4).Id,
                 Visit_Number__c = 4
@@ -245,19 +199,18 @@ private class Test_VisitResultsService {
 
     @IsTest
     private static void getVisitResultsContainer_test() {
-        VisitResultsService service = new VisitResultsService();
+
         List<Visit_Result_TypeM__mdt> types = new List<Visit_Result_TypeM__mdt>{
                 new Visit_Result_TypeM__mdt()
         };
 
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(VisitResultMService.class, StubFactory.newInstance(VisitResultMService.class)
+        ClassFactory.putStubTypeByClassName(VisitResultMService.class, StubBuilder.newInstance(VisitResultMService.class)
                 .when('getVisitResultTypes')
                 .then(types)
-                .getInstance()
+                .build()
         );
 
-        TestData.loadTestData();
         TestData testData = new TestData();
         testData.ctp.Shareback_Availability_Timing__c = 1;
         update testData.ctp;
@@ -285,35 +238,35 @@ private class Test_VisitResultsService {
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         insert visits;
 
-        testData.createPSE();
+        testData.updatePEStatusEnrollmentSuccess();
 
         List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(0).Id,
                 Visit_Number__c = 1
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Missed',
                 Visit__c = visits.get(1).Id,
                 Visit_Number__c = 2
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(2).Id,
                 Visit_Number__c = 3
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(3).Id,
                 Visit_Number__c = 3.1
         ));
         patientVisits.add(new Patient_Visit__c(
-                Participant_Study_Enrollment__c = testData.pse.Id,
+                Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(4).Id,
                 Visit_Number__c = 4
@@ -339,47 +292,12 @@ private class Test_VisitResultsService {
         insert visitResults;
 
         System.runAs(testData.participantUser) {
+            VisitResultsService service = new VisitResultsService();
             VisitResultsService.VisitResultsContainer container = service.getVisitResultsContainer('Vitals');
-            System.assert(container.wrappers.size() > 4);
+            System.assertEquals(1, container.wrappers.size());
         }
 
         Test.stopTest();
     }
 
-    @IsTest
-    private static void checkOnAccess_test() {
-        VisitResultsService service = new VisitResultsService();
-        TestData.loadTestData();
-        TestData testData = new TestData();
-        testData.ctp.Shareback_Availability_Timing__c = 1;
-        update testData.ctp;
-
-        Test.startTest();
-        testData.createPSE();
-
-        ParticipantService.ParticipantState pState = new ParticipantService.ParticipantState();
-        pState.pse = [
-                SELECT Id,
-                        Participant_Contact__c,
-                        Screening_ID__c,
-                        CreatedDate,
-                        Study_Site__r.Name
-                FROM Participant_Study_Enrollment__c
-                WHERE Participant__c = :testData.participant.Id
-        ];
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(ParticipantService.class, StubFactory.newInstance(ParticipantService.class)
-                .when('getState')
-                .then(pState)
-                .getInstance()
-        );
-
-        System.runAs(testData.participantUser) {
-            Boolean access = service.checkOnAccess(pState);
-
-            System.assertEquals(true, access);
-        }
-
-        Test.stopTest();
-    }
 }

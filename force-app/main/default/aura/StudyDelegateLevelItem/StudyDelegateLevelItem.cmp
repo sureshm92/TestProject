@@ -8,23 +8,22 @@
     <aura:attribute name="options" type="List" required="true"/>
     <aura:attribute name="prevValue" type="String" required="false" access="private"/>
     <aura:attribute name="changedLevels" type="List"/>
-    <aura:attribute name="refreshTrigger" type="Boolean"/>
     <aura:attribute name="showStudyName" type="Boolean" default="true"/>
+    <aura:attribute name="ignoreUpdates" type="Boolean" default="false"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <aura:handler name="change" value="{!v.studyLevel.delegateLevel}" action="{!c.onLevelChange}"/>
-    <aura:handler name="change" value="{!v.refreshTrigger}" action="{!c.doInit}"/>
+<!--    <aura:handler name="change" value="{!v.studyLevel.delegateLevel}" action="{!c.onLevelChange}"/>-->
 
     <aura:method name="refresh" action="{!c.doInit}" access="public"/>
 
 
     <div class="{!'slds-grid slds-wrap slds-gutters slds-grid_vertical-align-center sdli-container '+if(v.showStudyName,'show-study','')}">
         <div class="{!if(v.showStudyName,'slds-col slds-size_2-of-5 slds-medium-size_1-of-5','slds-col slds-size_1-of-1 slds-medium-size_1-of-1')}">
-            <c:rrSelect value="{!v.studyLevel.delegateLevel}" options="{!v.options}" class="sdli-select" disabled="{!v.studyLevel.readOnly}"/>
+            <c:rrSelect value="{!v.studyLevel.delegateLevel}" options="{!v.options}" class="sdli-select" disabled="{!v.studyLevel.readOnly}" onchange="{!c.onLevelChange}"/>
         </div>
         <aura:if isTrue="{!v.showStudyName}">
             <div class="slds-col slds-size_3-of-5 slds-medium-size_4-of-5">
-                <span class="{!'sdli-label ' + if(equals(v.studyLevel.delegateLevel, v.prevValue),'','changed')}">{!v.studyLevel.trialName}</span>
+                <span class="{!'sdli-label ' + if(equals(v.studyLevel.delegateLevel, v.prevValue),'','changed')}">{!v.studyLevel.entityName}</span>
             </div>
         </aura:if>
     </div>

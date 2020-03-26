@@ -1,3 +1,7 @@
 1) Сброс бранча до нужного комита:
 git reset --hard commit_id
 git push -f origin Branch_Name
+
+2) Использование кредов Windows:
+git config --global credential.helper wincred
+

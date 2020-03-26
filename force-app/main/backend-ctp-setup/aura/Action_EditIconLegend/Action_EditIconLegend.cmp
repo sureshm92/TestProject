@@ -1,0 +1,52 @@
+<!--
+ - Created by Igor Malyuta on 24.09.2019.
+ -->
+
+<aura:component description="Action_EditIconLegend">
+
+    <aura:attribute name="planId" type="String"/>
+    <aura:attribute name="iconDetails" type="List"/>
+    <aura:attribute name="callback" type="Object"/>
+    <aura:attribute name="isDisabled" type="Boolean"/>
+
+    <aura:method name="execute" action="{!c.doExecute}">
+        <aura:attribute name="planId" type="String"/>
+        <aura:attribute name="icons" type="List"/>
+        <aura:attribute name="iconDetails" type="List"/>
+        <aura:attribute name="callback" type="Function"/>
+    </aura:method>
+
+    <c:uiModal aura:id="modal" size="medium" headerText="{!if(v.isDisabled,
+                                                           $Label.c.View_Visit_Legend,
+                                                           $Label.c.Edit_Visit_Legend)}">
+        <c:RRTable>
+            <tr>
+                <th class="slds-text-align--center">Icon</th>
+                <th class="priority slds-text-align--center">Icon Label</th>
+                <th class="completed-by slds-text-align--center">Description</th>
+            </tr>
+            <aura:iteration items="{!v.iconDetails}" var="icon">
+                <tr>
+                    <td class="icon-title slds-m-top--medium slds-text-align--center icon-col">
+                        <c:RRIcon resource="{!$Resource.Icons_legend}" iconName="{!icon.Name}"/>
+                    </td>
+                    <td style="width: 30%">
+                        <lightning:input label="" name="{!icon.label__c}" value="{!icon.Label__c}" disabled="{!v.isDisabled}"/>
+                    </td>
+                    <td>
+                        <lightning:input label="" name="{!icon.description__c}" value="{!icon.Description__c}" disabled="{!v.isDisabled}"/>
+                    </td>
+                </tr>
+            </aura:iteration>
+        </c:RRTable>
+        <aura:set attribute="footer">
+            <lightning:button variant="neutral" type="button" name="editLegend" label="{!$Label.c.BTN_Cancel}"
+                              onclick="{!c.cancelClick}"/>
+            <aura:if isTrue="{!!v.isDisabled}">
+                <lightning:button variant="brand" type="button" name="save" label="{!$Label.c.Visit_b_Save}"
+                                  onclick="{!c.saveClick}"/>
+            </aura:if>
+        </aura:set>
+    </c:uiModal>
+
+</aura:component>

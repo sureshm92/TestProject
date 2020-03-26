@@ -1,0 +1,12 @@
+<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+ <title>check-circle-1</title>
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <path fill="#00c221" id="svg_1" d="m12,0a12,12 0 1 0 12,12a12.014,12.014 0 0 0 -12,-12zm6.927,8.2l-6.845,9.289a1.011,1.011 0 0 1 -1.43,0.188l-4.888,-3.908a1,1 0 1 1 1.25,-1.562l4.076,3.261l6.227,-8.451a1,1 0 1 1 1.61,1.183z"/>
+ </g>
+</svg>

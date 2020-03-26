@@ -1,0 +1,18 @@
+<!--
+ - Created by Nargiz Mamedova on 12/13/2019.
+ -->
+
+<aura:component description="RelevantLinks" controller="RelevantLinksRemote"
+                implements="forceCommunity:availableForAllPageTypes">
+
+    <aura:attribute name="linksWrappers" type="Object[]"/>
+    <aura:attribute name="isAvailable" type="Boolean"/>
+
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <aura:if isTrue="{!v.isAvailable}">
+        <aura:iteration var="linksWrapper" items="{!v.linksWrappers}">
+            <c:LinksByTypePanel linksWrapper="{!linksWrapper}"/>
+        </aura:iteration>
+    </aura:if>
+</aura:component>

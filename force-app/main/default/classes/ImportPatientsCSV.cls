@@ -49,7 +49,9 @@ public without sharing class ImportPatientsCSV {
             readSuccess = true;
             size = patients.size();
         }
-        Batch_CreateParticipants.run(5);
+        if (!Test.isRunningTest()) {
+            Batch_CreateParticipants.run(5);
+        }
     }
 
     public class Patient {

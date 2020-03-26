@@ -3,13 +3,14 @@
  */
 ({
 
-    updateMRRStatus: function (component, status) {
+    updateMRRStatus: function (component, status, gizmoData) {
         component.set('v.showSpinner', true);
         var pe = component.get('v.searchResult').pe;
         var action = component.get('c.setMRRStatus');
         action.setParams({
             peJSON: JSON.stringify(pe),
-            status: status
+            status: status,
+            surveyGizmoData: gizmoData
         });
         action.setCallback(this, function (response) {
             var searchResult = component.get('v.searchResult');
@@ -18,6 +19,7 @@
                 searchResult.pe = JSON.parse(response.getReturnValue());
                 component.set('v.searchResult', searchResult);
                 component.set("v.mrrResult", status);
+                console.log('sR', JSON.parse(JSON.stringify(component.get('v.searchResult'))));
             } else {
                 communityService.logErrorFromResponse(response);
                 communityService.showErrorToastFromResponse(response);
@@ -33,10 +35,14 @@
                 //window.removeEventListener('message', component.serveyGizmoResultHandler);
                 if(component.isValid()){
                     if(e.data.messageType === 'SurveyGizmoResult'){
+                        var gizmoData = null;
+                        if(e.data.pdfContent){
+                            gizmoData = e.data.pdfContent;
+                        }
                         if(e.data.success){
-                            helper.updateMRRStatus(component, 'Pass');
+                            helper.updateMRRStatus(component, 'Pass', gizmoData);
                         }else{
-                            helper.updateMRRStatus(component, 'Fail');
+                            helper.updateMRRStatus(component, 'Fail', gizmoData);
                         }
                         //console.log('Gizmo mrr result: ' + window.atob(e.data.pdfContent));
                         //component.set('v.resultData', e.data.pdfContent);

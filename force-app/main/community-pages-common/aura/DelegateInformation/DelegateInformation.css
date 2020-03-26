@@ -1,0 +1,24 @@
+/**
+ * Created by Igor Malyuta on 25.03.2019.
+ */
+.THIS .line {
+    margin-top: 82px;
+    margin-bottom: 28px;
+    box-sizing: border-box;
+    height: 239px;
+    width: 2px;
+    border: 1px solid #979797;
+}
+.THIS h3{
+    width: 277px;
+    color: #000000;
+    font-size: 30px;
+    line-height: 36px;
+}
+.THIS .mti-button{
+    float: right;
+}
+.THIS .mti-info-text{
+    margin-top: 89px;
+    margin-right: 63px;
+}

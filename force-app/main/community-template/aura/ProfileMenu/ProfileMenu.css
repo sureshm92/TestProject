@@ -1,0 +1,29 @@
+/**
+ * Created by Leonid Bartenev
+ */
+
+.THIS.menu-block {
+    display: inline-block;
+    position: relative;
+    height: 50px;
+    color: white;
+}
+
+.THIS .header-menu-link {
+    padding: 0 10px;
+}
+
+.THIS.menu-block .menu-popup-panel.popupTargetContainer{
+    left: initial;
+    right: 0;
+    width: 180px;
+}
+
+.THIS.menu-block.rtl .menu-popup-panel.popupTargetContainer{
+    left: 0;
+}
+
+.THIS.menu-block.rtl li{
+    text-align: right!important;
+}
+

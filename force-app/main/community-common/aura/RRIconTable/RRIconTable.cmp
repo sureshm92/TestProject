@@ -1,0 +1,187 @@
+<!--
+ - Created by Leonid Bartenev
+ -->
+
+<aura:component controller="RRIconTableController" description="RRIconTable" implements="forceCommunity:availableForAllPageTypes">
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- attributes: -->
+    <aura:attribute name="iconNames" type="String[]"/>
+    <aura:attribute name="iconsURL" type="String" default="{!$Resource.rr_community_icons + '/icons.svg'}" access="private"/><aura:attribute name="summaryContainers" type="List" access="private"/>
+    <aura:attribute name="filterInfo" type="Object" access="private"/>
+    <aura:attribute name="currentTab" type="String" default="tab-1"/>
+    <aura:attribute name="chartData" type="List"/>
+    <aura:attribute name="chartData2" type="List"/>
+
+    <!-- handlers: -->
+    <aura:handler name="change" value="{!v.filterInfo.isActive}" action="{!c.toggleFilter}"/>
+
+    <!-- component body: -->
+    <div class="rr-body-content">
+        <div class="rr-width-limiter side-padding">
+            <div>
+                <h2>Chart donat:</h2>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size--1-of-1 slds-medium-size_1-of-2" style="margin-bottom: 20px">
+                        <c:RRChart type="donut" data="{!v.chartData}" segmentLabel="category" valueLabel="patients" totalLabel="referrals approved"/>
+                    </div>
+                    <div class="slds-col slds-size--1-of-1 slds-medium-size_1-of-2" style="margin-bottom: 20px">
+                        <c:RRChart type="donut" data="{!v.chartData2}" segmentLabel="category" valueLabel="providers" totalLabel="site requests"/>
+                    </div>
+                </div>
+
+                <h2>Buttons tabs:</h2>
+                <c:rrButtonTubSet >
+                    <c:rrButtonTubSetItem title="Tab - 1" tabId="tab-1" currentTab="{!v.currentTab}"/>
+                    <c:rrButtonTubSetItem title="Tab - 2" tabId="tab-2" currentTab="{!v.currentTab}"/>
+                    <c:rrButtonTubSetItem title="Tab - 3(disabled)" tabId="tab-3" isDisabled="true" currentTab="{!v.currentTab}"/>
+                </c:rrButtonTubSet>
+                Tab selected: {!v.currentTab}
+                
+                <h2>Filter and summaries pills:</h2>
+                <div class="rr-summary-panel slds-grid slds-wrap slds-grid_vertical-stretch slds-gutters_medium">
+
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12">
+                        <c:rrFilterPill number="{!v.filterInfo.value}" title="{!v.filterInfo.label}" isActive="{!v.filterInfo.isActive}"/>
+                    </div>
+
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12">
+                        <c:rrSummaryPill summaryContainerList="{!v.summaryContainers}"/>
+                    </div>
+
+                </div>
+
+                <h2>Apollo buttons:</h2>
+                <div style="background: linear-gradient(to right, #230559 0%,#036ca7 100%); padding: 20px">
+                    <div style="margin: 10px; display: inline-block">
+                        <button class="apollo-btn primary dark">
+                            <c:RRIcon iconName="share"/>
+                            apollo-btn primary dark
+                        </button>
+                    </div>
+                    <div style="margin: 10px; display: inline-block">
+                        <button class="apollo-btn secondary dark">
+                            <c:RRIcon iconName="share"/>
+                            apollo-btn secondary dark
+                        </button>
+                    </div>
+                    <div style="margin: 10px; display: inline-block">
+                        <button class="apollo-btn text dark">
+                            <c:RRIcon iconName="share"/>
+                            apollo-btn text dark
+                        </button>
+                    </div>
+                    <div style="margin: 10px; display: inline-block">
+                        <button class="apollo-btn tertiary">
+                            <c:RRIcon iconName="share"/>
+                            apollo-btn tertiary
+                        </button>
+                    </div>
+                    <br/>
+
+                </div>
+
+                <div style="padding: 20px">
+                    <div style="margin: 10px; display: inline-block">
+                        <button class="apollo-btn primary">
+                            <c:RRIcon iconName="share"/>
+                            apollo-btn primary
+                        </button>
+                    </div>
+                    <div style="margin: 10px; display: inline-block">
+                        <button class="apollo-btn secondary">
+                            <c:RRIcon iconName="share"/>
+                            apollo-btn secondary
+                        </button>
+                    </div>
+                    <div style="margin: 10px; display: inline-block">
+                        <button class="apollo-btn text">
+                            <c:RRIcon iconName="share"/>
+                            apollo-btn text
+                        </button>
+                    </div>
+                    <div style="margin: 10px; display: inline-block">
+                        <button class="apollo-btn tertiary">
+                            <c:RRIcon iconName="share"/>
+                            apollo-btn tertiary
+                        </button>
+                    </div>
+                    <br/>
+                    <div style="margin: 10px; display: inline-block">
+                        <button class="apollo-btn tertiary ">
+                            <c:RRIcon iconName="icon-import"/>
+                            apollo-btn tertiary</button>
+                    </div>
+                    <div style="margin: 10px; display: inline-block">
+                        <button class="apollo-btn tertiary orange">
+                            <c:RRIcon iconName="share"/>
+                            apollo-btn tertiary orange</button>
+                    </div>
+                    <div style="margin: 10px; display: inline-block">
+                        <button class="apollo-btn tertiary red">
+                            <c:RRIcon iconName="icon-stop"/>
+                            apollo-btn tertiary red</button>
+                    </div>
+                    <div style="margin: 10px; display: inline-block">
+                        <button class="apollo-btn tertiary green">
+                            <c:RRIcon iconName="icon-check-circle"/>
+                            apollo-btn tertiary green</button>
+                    </div>
+
+                </div>
+
+                <!--h2>Scroll to anchor (components RRAnchor + RRScrollToAnchorButton ):</h2>
+                <div style="margin: 10px; display: inline-block">
+                    <c:RRScrollToAnchorButton class="apollo-btn primary" parentComponent="{!this}" anchor="percentIconsAnchor">Scroll to PercentIcons</c:RRScrollToAnchorButton>
+                </div>
+
+                <h2>Accordion component</h2>
+                <c:Accordion title="Collapsible section">
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
+                </c:Accordion>
+
+                <h2>Collapse component</h2>
+                <c:RRCollapse label="Collapsible section">
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
+                </c:RRCollapse-->
+
+                <!-- Path example -->
+                <h2>Path example:</h2>
+                <c:RRPath steps="['step1', 'step 2', 'step3', 'step4', 'step5']" currentStep="step3"/>
+
+                <h2>Icons: </h2>
+                <aura:iteration items="{!v.iconNames}" var="iconName">
+                    <div class="icon-panel">
+                        <div class="icon-title"><c:RRIcon iconName="{!iconName}"/></div>
+                        <div class="icon-title">{!iconName}</div>
+                    </div>
+                </aura:iteration>
+
+                <c:RRAnchor aura:id="percentIconsAnchor"/>
+                <h2>Percents component example: </h2>
+                <div>
+                    <div class="percent-block"><c:RRPercentIco value="100"/>100%</div>
+                    <div class="percent-block"><c:RRPercentIco value="80"/>80%</div>
+                    <div class="percent-block"><c:RRPercentIco value="60"/>60%</div>
+                    <div class="percent-block"><c:RRPercentIco value="30"/>30%</div>
+                    <div class="percent-block"><c:RRPercentIco value="10"/>10%</div>
+                    <div class="percent-block"><c:RRPercentIco value="0"/>0%</div>
+                </div>
+            </div>
+
+
+            <!--c:RRLink label="clinic profile" page="clinic-profile?id=0013D00000QBWL6"/-->
+
+            <!-- example for bottom bars -->
+            <c:RRBottomBar >
+                <span style="font-size: 18px; line-height: 36px;">This is example of using bottom bar!</span>
+                <button class="apollo-btn primary" style="float: right" >Some button in bottom bar</button>
+            </c:RRBottomBar>
+            <!-- bottom margin -->
+            <div class="rr-bottom-bar-margin"></div>
+
+
+
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,294 @@
+/**
+ * Created by Igor Malyuta on 06.12.2019.
+ */
+.path-panel {
+    background-color: #ffffff;
+}
+
+.path-panel .path-section {
+    padding: 30px 5px 25px;
+}
+
+.arrow-border span {
+    text-align: center;
+    justify-items: center;
+    float: left;
+    width: 23px;
+    height: 23px;
+    border: 1px solid #979797;
+    border-radius: 100%;
+    background-color: #F8F9FB;
+    display: flex;
+    align-items: flex-start;
+    transition: all 0.4s;
+    -webkit-transition: all 0.4s;
+}
+
+.arrow-borders-right {
+    justify-content: space-around;
+}
+
+.arrow-border span i {
+    font-size: 20px;
+    align-self: center;
+    color: #979797;
+    transition: all 0.4s;
+    -webkit-transition: all 0.4s;
+    margin: 0 auto;
+}
+
+.arrow-border span i::before {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.vis-path {
+    max-width: 600px;
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
+    padding-top: 26px;
+    position: relative;
+}
+
+.vis-path::-webkit-scrollbar {
+    display: none;
+}
+
+.width-basis {
+    flex-basis: auto;
+}
+
+.state {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    min-width: 125px;
+}
+
+.state-label {
+    text-align: center;
+    font-size: 1rem;
+    color: #444;
+    overflow-wrap: break-word;
+}
+
+.line-div {
+    height: 22px;
+    border-top: 2px solid;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.line-div.neutral {
+    border-top-color: #b5b5b5;
+}
+
+.line-div.success {
+    border-top-color: #00c221;
+}
+
+.line-div.missed {
+    border-top-color: #00c221;
+}
+
+.line-div.planned {
+    border-top-color: #005ff1;
+}
+
+.missed .state-label {
+    color: #999;
+}
+
+.state-ico-wrapper {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    position: absolute;
+    top: -10px;
+    left: -9px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.state .state-ico-wrapper {
+    width: 24px;
+    height: 24px;
+    top: -15px;
+    left: -14px;
+}
+
+.state.planned .state-ico-wrapper-middle {
+    border-radius: 50%;
+    position: absolute;
+    line-height: 1;
+    justify-content: center;
+    top: -19px;
+    left: -18px;
+    width: 32px;
+    height: 32px;
+    opacity: .25;
+    background-color: #005ff1;
+}
+
+.state.planned .state-ico-wrapper-large {
+    border-radius: 50%;
+    position: absolute;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #005ff1;
+    top: -27px;
+    left: -26px;
+    width: 48px;
+    height: 48px;
+    opacity: 0.1;
+}
+
+.state.neutral .state-ico-wrapper {
+    background-color: #b5b5b5 !important;
+}
+
+.state.success .state-ico-wrapper {
+    background-color: #00c221 !important;
+}
+
+.state.missed .state-ico-wrapper {
+    background-color: #99e7a6 !important;
+}
+
+.state.planned .state-ico-wrapper {
+    background-color: #005ff1 !important;
+}
+
+.date-edit {
+    display: flex;
+    justify-content: center;
+}
+
+.arrow-left {
+    opacity: 0;
+    transition: opacity 200ms;
+    -webkit-transition: opacity 200ms;
+    min-width: 30px;
+    margin-left: 5px;
+    display: flex;
+    padding-top: 15px;
+}
+
+.arrow-right {
+    opacity: 0;
+    transition: opacity 200ms;
+    -webkit-transition: opacity 200ms;
+    min-width: 30px;
+    margin-right: 5px;
+    display: flex;
+    padding-top: 15px;
+}
+
+.add-date {
+    color: #297dfd;
+}
+
+@media screen and (max-width: 600px) {
+    .vis-path {
+        max-width: 310px;
+        overflow-x: scroll;
+        -ms-overflow-style: none;
+        scroll-behavior: smooth;
+        padding-top: 21px;
+    }
+
+    .state {
+        min-width: 250px;
+    }
+
+    .state .state-label {
+        display: block;
+        font-weight: 600;
+    }
+
+    .state .state-ico-wrapper {
+        width: 40px;
+        height: 42px;
+        top: -22px;
+        left: -19px;
+    }
+
+    .arrow-left {
+        padding-top: 5px;
+    }
+
+    .arrow-right {
+        padding-top: 5px;
+    }
+}
+
+@media only screen and (min-width: 765px) and (max-width: 800px) and (orientation : portrait) {
+    .path-section {
+        padding: 30px 5px 25px;
+        max-width: 750px;
+    }
+
+    .vis-path {
+        max-width: 600px;
+        overflow-x: scroll;
+        -ms-overflow-style: none;
+        scroll-behavior: smooth;
+        padding-top: 16px;
+    }
+
+    .state {
+        min-width: 145px;
+    }
+
+    .state-label {
+        display: block;
+    }
+
+    .width-basis {
+        flex-basis: 0;
+    }
+
+    .state .state-ico-wrapper {
+        width: 32px;
+        height: 33px;
+        top: -17px;
+        left: -14px;
+    }
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+    .path-section {
+        max-width: 700px;
+    }
+
+    .vis-path {
+        max-width: 535px;
+        overflow-x: scroll;
+        -ms-overflow-style: none;
+        scroll-behavior: smooth;
+        padding-top: 16px;
+    }
+
+    .state {
+        min-width: 145px;
+    }
+
+    .state-label {
+        display: block;
+    }
+
+    .width-basis {
+        flex-basis: 0;
+    }
+
+    .state .state-ico-wrapper {
+        width: 32px;
+        height: 33px;
+        top: -17px;
+        left: -14px;
+    }
+}

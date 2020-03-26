@@ -10,11 +10,11 @@
         communityService.executeAction(component, 'getParticipantDetail', {
             trialId: trialId ? trialId : null,
             userMode: component.get('v.userMode'),
-            applyPendingFilter: isFilterActive
+            applyPendingFilter: isFilterActive,
+            delegateId: communityService.getDelegateId()
         }, function (returnValue) {
             component.set("v.skipUpdate", true);
             var initData = JSON.parse(returnValue);
-            debugger;
             component.set("v.currentPageList", initData.currentPageList);
             component.set("v.peFilter", initData.peFilter);
             component.set("v.peFilterData", initData.peFilterData);
@@ -37,17 +37,16 @@
         var filter = component.get('v.peFilter');
         var searchText = filter.searchText;
         var showMore = component.get('v.showMore');
-        debugger;
         communityService.executeAction(component, 'getRecords', {
             filterJSON: JSON.stringify(filter),
             paginationJSON: (showMore?'':(JSON.stringify(component.get('v.paginationData')))),
-            applyPendingFilter: component.get('v.filterInfo') ? component.get('v.filterInfo').isActive : false
+            applyPendingFilter: component.get('v.filterInfo') ? component.get('v.filterInfo').isActive : false,
+            delegateId: communityService.getDelegateId()
         }, function (returnValue) {
 
             if(component.get('v.peFilter').searchText !== searchText) return;
             component.set("v.skipUpdate", true);
             var result = JSON.parse(returnValue);
-            debugger;
             component.set('v.currentPageList', result.currentPageList);
             component.set('v.paginationData.allRecordsCount', result.paginationData.allRecordsCount);
             if(!showMore){

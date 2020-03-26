@@ -11,6 +11,10 @@ public without sharing class ParticipantTriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             createContactsForParticipants(newList);
         }
+
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createContactsForParticipants(newList);
+        }
     }
 
     public class UpdatePEAndContactLastNameHandler extends TriggerHandler{
@@ -37,7 +41,22 @@ public without sharing class ParticipantTriggerHandler {
             prepareCityStateFields(newList, (Map<Id, Participant__c>)oldMap);
         }
     }
+    
+    public class CheckDuplicatesHandler extends TriggerHandler{
+        
+        public override void beforeInsert(List<SObject> newList) {
+            checkDuplicates(newList);
+        }
+    }
 
+    public class CheckBecomesAdultHandler extends TriggerHandler{
+
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            checkBecomesAdult(newList, (Map<Id, Participant__c>)oldMap);
+        }
+    }
+    
+    
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
@@ -46,14 +65,17 @@ public without sharing class ParticipantTriggerHandler {
         Map<String, Participant__c> participantsByEmail = new Map<String, Participant__c>();
         List<Contact> contactsToInsert = new List<Contact>();
         List<String> emails = new List<String>();
+        newList = ParticipantService.checkParticipantsAgeOfMajority(newList);
         for(Participant__c participant : newList){
-            if(participant.Contact__c == null && participant.Email__c != null){
+            if(participant.Contact__c == null){
                 emails.add(participant.Email__c);
                 Contact newContact = new Contact();
                 newContact.LastName = participant.Last_Name__c;
                 newContact.Email = participant.Email__c;
                 newContact.AccountId = participantAccountId;
                 newContact.Language__c = participant.Preferred_Language__c;
+                newContact.Second_Choice_Language__c = '';
+                newContact.Third_Choice_Language__c = '';
                 newContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
                 newContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
 
@@ -78,6 +100,7 @@ public without sharing class ParticipantTriggerHandler {
             if(participant.Contact__c != null){
                 contacts.add(new Contact(
                         Id = participant.Contact__c,
+                        FirstName = null,
                         LastName = participant.Name
                 ));
             }
@@ -198,12 +221,44 @@ public without sharing class ParticipantTriggerHandler {
 
     @TestVisible
     private static Id getParticipantAccountId(){
-        return DatabaseService.getInstance().queryImpl(
-                new List<String>{
-                    'Id'
-                },
-                Account.getSObjectType(),
-                DatabaseService.fieldEqual('Name', CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME)
-        ).get(0).Id;
+        return [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE].Id;
     }
+    
+    private static void checkDuplicates(List<Participant__c> newList){
+        ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(newList);
+        for(Participant__c participant : newList){
+            Participant__c duplicateParticipant = duplicateService.findDuplicate(participant);
+            if(duplicateParticipant != null){
+                participant.addError('Duplicate found: ' + duplicateParticipant.Id);
+            }
+        }
+    }
+
+    @TestVisible
+    private static void checkBecomesAdult(List<Participant__c> newList, Map<Id, Participant__c> oldMap) {
+        Map<Id, Participant__c> participantsByContactId = new Map<Id, Participant__c>();
+        for (Participant__c participant : newList) {
+            if (participant.Adult__c && participant.Adult__c != oldMap.get(participant.Id).Adult__c) {
+                if (participant.Contact__c != null) {
+                    participantsByContactId.put(participant.Contact__c, participant);
+                } else {
+                    participant.Emancipation_in_progress__c = true;
+                }
+            }
+        }
+
+        if (!participantsByContactId.isEmpty()) {
+            List<User> participantUsers = [SELECT Id, ContactId FROM User WHERE ContactId IN :participantsByContactId.keySet()];
+            Map<Id, User> userByContactId = new Map<Id, User>();
+            for (User usr : participantUsers) {
+                userByContactId.put(usr.ContactId, usr);
+            }
+            for (Id contactId : participantsByContactId.keySet()) {
+                if (!userByContactId.containsKey(contactId)) {
+                    participantsByContactId.get(contactId).Emancipation_in_progress__c = true;
+                }
+            }
+        }
+    }
+
 }

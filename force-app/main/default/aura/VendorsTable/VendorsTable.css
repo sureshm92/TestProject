@@ -1,0 +1,18 @@
+/**
+ * Created by dmytro.fedchyshyn on 10.09.2019.
+ */
+.THIS.vendor-table {
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.THIS .vendor-name {
+    width: 305px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.THIS .slds-checkbox .slds-checkbox__label .slds-form-element__label {
+    display: none;
+}

@@ -1,0 +1,78 @@
+<!--
+ - Created by Andrii Kryvolap.
+ -->
+
+<aura:component description="ParticipantStatusDetailsCard">
+    <aura:attribute name="stepWrapper" type="Object" required="true"/>
+    <aura:attribute name="reasonList" type="List" access="private"/>
+    <aura:attribute name="previousSelectedOutcome" type="String" access="private"/>
+    <aura:attribute name="updateInProgress" type="Boolean"  default="false"/>
+    <aura:attribute name="partInfoForm" type="Aura.Component" />
+    <aura:attribute name="parent" type="Aura.Component" />
+    <aura:attribute name="notesRequired" type="Boolean" default="false"/>
+    <aura:attribute name="todayDate" type="Date"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.stepWrapper.outcome}" action="{!c.updateReasonList}"/>
+    <aura:handler name="change" value="{!v.stepWrapper.reason}" action="{!c.updateNotesRequired}"/>
+    <aura:handler name="change" value="{!v.stepWrapper.notes}" action="{!c.checkNotesRequiredValidity}"/>
+
+    <aura:method name="updateFieldValidity" action="{!c.doUpdateFieldValidity}" access="public"/>
+
+    <div class="step-card-title">
+            {!v.stepWrapper.cardTitle}
+    </div>
+    <aura:if isTrue="{!true}">
+        <div class="step-form">
+            <aura:if isTrue="{!and(!empty(v.stepWrapper.outcomeList),v.stepWrapper.editable)}">
+                <div class="slds-wrap slds-grid slds-gutters">
+                    <div class="slds-col slds-size--1-of-2 outcome-form-element">
+                        <div class="label">{!$Label.c.PG_ACPE_L_Outcome}</div>
+                        <c:rrSelect options="{!v.stepWrapper.outcomeList}" value="{!v.stepWrapper.outcome}"
+                                    placeholder="{!v.stepWrapper.outcomePlaceholder}" setValueAsSelected="true" />
+                    </div>
+                    <div class="slds-col slds-size--1-of-2 outcome-form-element">
+                        <div class="label">{!$Label.c.PG_ACPE_L_Reason}</div>
+                        <c:rrSelect options="{!v.reasonList}" value="{!v.stepWrapper.reason}"
+                                    placeholder="{!if(empty(v.reasonList),'',$Label.c.PG_RP_L_Not_selected)}"
+                                    disabled="{!or(empty(v.stepWrapper.outcome),empty(v.reasonList))}"
+                                    setValueAsSelected="true"/>
+                    </div>
+                    <div class="slds-col slds-size--1-of-1 outcome-form-element">
+                        <lightning:input label="{!$Label.c.PG_ACPE_L_Notes+' ('+if(v.notesRequired,$Label.c.PG_ACPE_L_required,$Label.C.PG_ACPE_L_optional)+')'}" type="text" value="{!v.stepWrapper.notes}"/>
+                    </div>
+                </div>
+            </aura:if>
+            <aura:iteration items="{!v.stepWrapper.formFieldGroups}" var="fieldsGroup">
+                <aura:if isTrue="{!!empty(fieldsGroup.title)}">
+                    <div class="field-group-title">{!fieldsGroup.title}</div>
+                </aura:if>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <aura:iteration items="{!fieldsGroup.fields}" var="field">
+                        <c:ParticipantStatusDetailsCardField aura:id="statusDetailField" field="{!field}" parent="{!v.parent}" required="{!v.stepWrapper.currentOutcomeSuccess}" todayDate="{!v.todayDate}" updateInProgress="{!v.updateInProgress}"/>
+                    </aura:iteration>
+                </div>
+            </aura:iteration>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!v.stepWrapper.historyTitle != '' || !empty(v.stepWrapper.stepHistory)}">
+        <div class="step-history">
+            <div class="step-history-title">
+                {!v.stepWrapper.historyTitle}
+            </div>
+            <div class="step-history-records">
+                <aura:if isTrue="{!empty(v.stepWrapper.stepHistory)}">
+                    {!$Label.c.None}
+                    <aura:set attribute="else">
+                        <aura:iteration items="{!v.stepWrapper.stepHistory}" var="history">
+                            <div class="history-item">
+                                <span class="history-item-title">{!history.title}</span>
+                                <span class="history-item-detail">{!history.detail}</span>
+                            </div>
+                        </aura:iteration>
+                    </aura:set>
+                </aura:if>
+            </div>
+        </div>
+    </aura:if>
+
+</aura:component>

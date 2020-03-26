@@ -3,8 +3,7 @@
  -->
 
 <aura:component description="SearchParticipantEnrollment" controller="MedicalRecordReviewRemote">
-    <ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
-                  scripts="{!join(',', $Resource.rr_community_js)}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"/>
 
     <!-- attributes: -->
     <aura:attribute name="trialId" type="String"/>
@@ -15,6 +14,8 @@
     <aura:attribute name="showSpinner" type="Boolean"/>
     <aura:attribute name="frameHeight" type="String" default="500px"/>
     <aura:attribute name="isEmptiId" type="Boolean" default="true"/>
+    <aura:attribute name="hcpeId" type="String"/>
+
 
     <!-- component body -->
     <div>
@@ -39,22 +40,21 @@
             </div>
         </div>
  
-        <div class="slds-grid slds-wrap slds-gutters mrr-btn-section">
+        <div class="slds-grid slds-wrap mrr-btn-section">
+				<button class="apollo-btn secondary" onclick="{!c.doClearForm}">{!$Label.c.BTN_Clear_Form}</button>
             <aura:if isTrue="{!empty(v.searchResult)}">
-                <div class="slds-col slds-size_1-of-2">
-                    <button class="apollo-btn primary" onclick="{!c.doSearchEnrollment}" disabled="{!v.isEmptiId}" >{!$Label.c.BTN_Add_Patient}</button>
-                </div>
+                <button class="apollo-btn primary" onclick="{!c.doSearchEnrollment}" disabled="{!v.isEmptiId}" >{!$Label.c.BTN_Add_Patient}</button>
             </aura:if>
-            <div class="slds-col slds-size_1-of-2">
-                <button class="apollo-btn secondary" onclick="{!c.doClearForm}">{!$Label.c.BTN_Clear_Form}</button>
-            </div>
+
+               
+
         </div>
 
         <aura:if isTrue="{!!empty(v.searchResult)}">
 
             <aura:if isTrue="{!v.searchResult.result == 'Other HCP'}">
                 <div class="right-bottom-alert">
-                    <div class="rr-sub-title green-text">
+                    <div class="rr-sub-title">
                         {!$Label.c.PG_SPE_ST_Other}
                     </div>
                     <div class="info-text">
@@ -71,7 +71,7 @@
 
             <aura:if isTrue="{!v.searchResult.result == 'MRR Fail'}">
                 <div class="right-bottom-alert">
-                    <div class="rr-sub-title green-text">
+                    <div class="rr-sub-title">
                         {!$Label.c.PG_SPE_ST_MRR_Fail}
                     </div>
                     <div class="info-text">
@@ -82,7 +82,7 @@
 
             <aura:if isTrue="{!v.searchResult.result == 'PES Pending'}">
                 <div class="right-bottom-alert">
-                    <div class="rr-sub-title green-text">{!$Label.c.PG_SPE_ST_PES_Pending}
+                    <div class="rr-sub-title">{!$Label.c.PG_SPE_ST_PES_Pending}
                     </div>
                     <div class="info-text">
                         {!$Label.c.PG_SPE_T_Other}
@@ -94,21 +94,21 @@
 
             <aura:if isTrue="{!v.searchResult.result == 'PES Fail'}">
                 <div class="right-bottom-alert">
-                    <div class="rr-sub-title green-text">{!$Label.c.PG_SPE_ST_PES_Fail}</div>
+                    <div class="rr-sub-title">{!$Label.c.PG_SPE_ST_PES_Fail}</div>
                     <div class="info-text">{!$Label.c.PG_SPE_T_Other}</div>
                 </div>
             </aura:if>
 
             <aura:if isTrue="{!v.searchResult.result == 'MRR Pass PES Fail'}">
                 <div class="right-bottom-alert">
-                    <div class="rr-sub-title green-text">{!$Label.c.PG_SPE_ST_MRR_Success_PES_Fail}</div>
+                    <div class="rr-sub-title">{!$Label.c.PG_SPE_ST_MRR_Success_PES_Fail}</div>
                     <div class="info-text">{!$Label.c.PG_SPE_T_Other}</div>
                 </div>
             </aura:if>
 
             <aura:if isTrue="{!v.searchResult.result == 'Completed'}">
                 <div class="right-bottom-alert">
-                    <div class="rr-sub-title green-text">{!$Label.c.PG_SPE_ST_Referred}</div>
+                    <div class="rr-sub-title">{!$Label.c.PG_SPE_ST_Referred}</div>
                     <div class="info-text">{!$Label.c.PG_SPE_T_Other}</div>
                 </div>
             </aura:if>

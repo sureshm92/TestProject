@@ -1,0 +1,32 @@
+.THIS .edit-icon {
+    top: 2px;
+    left: 0px;
+    padding: 0px;
+    width: 18px;
+    position: absolute;
+}
+
+.THIS .edit-btn {
+    width: 2rem;
+    height: 2rem;
+    top: -2.1rem;
+    right: 0;
+    float: right;
+    background: none;
+    border: none;
+}
+
+.THIS .ap-section .rr-form-element .grey-text {
+    color: #444;
+}
+
+.THIS .bold-title {
+    font-weight: 600;
+    color: #000;
+}
+
+.THIS .participantOption,
+.THIS .delegateMsg{
+    margin-top: 0;
+    margin-bottom: 20px;
+}

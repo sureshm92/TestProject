@@ -1,0 +1,103 @@
+.THIS.resource-container {
+    display: flex;
+    margin: 0 11px 48px 18px;
+    min-width: 510px;
+}
+
+.THIS .resource-image-container {
+    display: block;
+    width: 154px;
+    height: 88px;
+    margin: 1px 20px 1px 0;
+    overflow: hidden;
+}
+
+.THIS .resource-image-container > img {
+    display: block;
+    position: relative;
+    height: 88px;
+}
+
+.THIS .resource-description-footer {
+    display: flex;
+}
+
+.THIS .resource-icon-like {
+    height: 17px;
+    width: 18px;
+    margin-right: 3px;
+    display: inline-block;
+}
+
+.THIS .resource-icon {
+    display: block;
+}
+
+.THIS .resource-icon-star {
+    height: 17px;
+    width: 18px;
+    margin-left: 4px;
+}
+
+.THIS .resource-description {
+    display: block;
+    width: 362px;
+    height: 100%;
+}
+
+.THIS .resource-description-title {
+    height: 20px;
+    color: #666666;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
+}
+
+.THIS .resource-description-text {
+    height: 30px;
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 12px;
+    line-height: 14px;
+    margin: 0 0 3px 0;
+}
+
+.THIS .resource-expiration-date {
+    height: 14px;
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 12px;
+    font-style: italic;
+    line-height: 14px;
+}
+
+.THIS .resource-pointer {
+    cursor: pointer;
+}
+@media (max-width: 1140px) {
+    .THIS.resource-container {
+        min-width: 420px;
+    }
+}
+@media (max-width: 1020px) {
+    .THIS.resource-container {
+        min-width: auto;
+        width: 100%;
+    }
+    .THIS .resource-description-title {
+        height: auto;
+        font-size: 11px;
+        font-weight: 500;
+        line-height: normal;
+    }
+    .THIS .resource-description-text {
+        height: auto;
+        font-size: 10px;
+        line-height: normal;
+        margin: 0 0 3px 0;
+    }
+    .THIS .resource-description {
+        margin-right: 7%;
+    }
+}

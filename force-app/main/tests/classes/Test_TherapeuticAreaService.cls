@@ -1,13 +1,8 @@
 /**
  * Created by Yehor Dobrovolskyi
  */
-@IsTest(IsParallel=true)
+@IsTest
 public with sharing class Test_TherapeuticAreaService {
-
-    @TestSetup
-    public static void setup() {
-
-    }
 
     @IsTest
     public static void createThirdPartyCOIsByNames_Test() {
@@ -58,20 +53,17 @@ public with sharing class Test_TherapeuticAreaService {
 
     @IsTest
     public static void getCOIWrappers_Test() {
-        ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
-                .when('getParticipantId')
-                .then(TestDataFactory.getFakeId(Participant__c.getSObjectType()))
-                .getInstance()
-        );
+        TestData.loadTestData();
+        TestData testData = new TestData();
         Test.startTest();
-        List<TherapeuticAreaService.CAWrapper> caWrappers = new TherapeuticAreaService().getCOIWrappers(new List<Therapeutic_Area__c>{
-                (Therapeutic_Area__c) TestDataFactory.getSObject(Therapeutic_Area__c.getSObjectType(), new Map<String, Object>{
-                        'Id' => TestDataFactory.getFakeId(Therapeutic_Area__c.getSObjectType())
-                })
-        });
+        List<TherapeuticAreaService.CAWrapper> caWrappers;
+        List<Therapeutic_Area__c> areaList = [SELECT Id FROM Therapeutic_Area__c WHERE Id = :testData.ctp.Therapeutic_Area__c];
+        System.runAs(testData.participantUser) {
+            caWrappers = new TherapeuticAreaService().getCOIWrappers(areaList);
+        }
         Test.stopTest();
         System.assert(!caWrappers.isEmpty());
+
     }
 
     @IsTest
@@ -97,10 +89,10 @@ public with sharing class Test_TherapeuticAreaService {
     @IsTest
     public static void getParticipant_Test() {
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubFactory.newInstance(CommunityService.class)
+        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
                 .when('getParticipantId')
                 .then(TestDataFactory.getFakeId(Participant__c.getSObjectType()))
-                .getInstance()
+                .build()
         );
         Test.startTest();
         Participant__c participant = new TherapeuticAreaService().getParticipant();

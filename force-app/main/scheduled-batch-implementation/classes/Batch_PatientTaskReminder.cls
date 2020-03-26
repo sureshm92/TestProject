@@ -1,0 +1,104 @@
+/**
+ * Created by Igor Malyuta on 15.05.2019.
+ */
+
+public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAbstract {
+
+    public Database.QueryLocator start(Database.BatchableContext param1) {
+        return Database.getQueryLocator([
+                SELECT Id,
+                        OwnerId,
+                        Community_Template_Name__c,
+                        Subject,
+                        Survey_Invitation__c,
+                        Start_Date__c,
+                        Task_Type__c,
+                        ReminderDateTime,
+                        Reminder_Date__c,
+                        Reminder_Schedule__c,
+                        Reminder_Schedule__r.First_Reminder_day__c,
+                        Reminder_Schedule__r.Second_Reminder_day__c,
+                        Reminder_Schedule__r.Use_Final_Template__c,
+                        Visible_For__c,
+                        WhatId,
+                        WhoId
+                FROM Task
+                WHERE ReminderDateTime <= :Datetime.now()
+                AND Is_Reminder_Sent__c = FALSE
+                AND Status IN:TaskService.TASK_STATUS_GROUP_AVAILABLE
+        ]);
+    }
+
+    public void execute(Database.BatchableContext param1, List<SObject> tasks) {
+        sendRemindersParticipantTeam(tasks);
+        checkReminder(tasks);
+        update tasks;
+    }
+
+    public override Type getType() {
+        return Batch_PatientTaskReminder.class;
+    }
+
+    public override String getBatchDescription() {
+        return 'Sends Email Reminders about existing Tasks';
+    }
+
+    public override String getRecommendedIntervalMode() {
+        return Batch_ScheduledAbstract.INTERVAL_DAYS;
+    }
+
+    public override Integer getRecommendedRelaunchInterval() {
+        return 1;
+    }
+
+    private void sendRemindersParticipantTeam(List<Task> tasks) {
+        List<Id> allContactsIds = new List<Id>();
+        for(Task t : tasks) allContactsIds.add(t.WhoId);
+
+        Map<Id, List<Id>> delConIdsByPACon = PatientDelegateService.getDelegateContactIdsByPAContactIs(allContactsIds);
+        for(Id paKey : delConIdsByPACon.keySet()) allContactsIds.addAll(delConIdsByPACon.get(paKey));
+
+        Map<Id, Contact> contactsMap = new Map<Id, Contact>([
+                SELECT Id, Participant_Opt_In_Status_Emails__c FROM Contact WHERE Id IN:allContactsIds
+        ]);
+        Map<Id, List<Contact>> delegatesByPAContact = new Map<Id, List<Contact>>();
+        for(Id paKey : delConIdsByPACon.keySet()) {
+            List<Contact> delegateContacts = new List<Contact>();
+            for(Id delId : delConIdsByPACon.get(paKey)) delegateContacts.add(contactsMap.get(delId));
+
+            delegatesByPAContact.put(paKey, delegateContacts);
+        }
+
+        List<Notification__c> notifications = new List<Notification__c>();
+        Map<Id, TimeZone> timeZoneByContact = DateTimeConverterUtil.getContactsTimezoneMap(new Set<Id>(allContactsIds));
+        for(Task task : tasks) {
+            Contact paContact = contactsMap.get(task.WhoId);
+            notifications.addAll(SendEmailToParticipant.createTaskReminderEmail(task, paContact, delegatesByPAContact.get(paContact.Id), timeZoneByContact));
+        }
+
+        if(!notifications.isEmpty()) insert notifications;
+    }
+
+    private void checkReminder(List<Task> tasks) {
+        Set<Id> contactIds = new Set<Id>();
+        for(Task t : tasks) contactIds.add(t.WhoId);
+        Map<Id, TimeZone> timeZonesByUser = DateTimeConverterUtil.getUsersTimezoneMap(contactIds);
+
+        for (Task t : tasks) {
+            t.Is_Reminder_Sent__c = true;
+            if (t.Reminder_Schedule__c == null) continue;
+
+            Integer secondReminder = (Integer) t.Reminder_Schedule__r.Second_Reminder_day__c;
+            if (secondReminder != null) {
+                Datetime startDT = Datetime.newInstanceGmt(t.Start_Date__c, t.Reminder_Date__c.timeGmt());
+                Datetime reminderDate = DateTimeConverterUtil.addDaysInUserTimeZone(startDT, timeZonesByUser.get(t.OwnerId), secondReminder);
+
+                if (t.Reminder_Date__c < reminderDate) {
+                    t.Reminder_Date__c = reminderDate;
+                    t.ReminderDateTime = DateTimeConverterUtil.convertUserDatetimeToGMT(reminderDate, timeZonesByUser.get(t.OwnerId));
+                    t.Is_Reminder_Sent__c = false;
+                }
+            }
+        }
+    }
+}

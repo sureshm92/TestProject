@@ -72,8 +72,10 @@ public without sharing class StudySiteService {
     public static void setMock(StubProvider stubProvider) {
         instance = (StudySiteService) Test.createStub(StudySiteService.class, stubProvider);
     }
-
     public List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialIdImpl(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE) {
+        return getStudySitesWithDistanceForHCPByTrialIdImpl(filter, paginationData, filterEmptyHCPE, null);
+    }
+    public List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialIdImpl(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE, String delegateId) {
         List<Study_Site__c> siteList = getStudySitesByFilter(filter);
         List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
         Set<Id> quueriedTrials = new Set<Id>();
@@ -85,7 +87,7 @@ public without sharing class StudySiteService {
         }
         System.debug('queried Trials' + quueriedTrials);
         Map<Id, HCP_Enrollment__c> hcpeMap = new Map<Id, HCP_Enrollment__c>();
-        List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getHCPEnrollmentsForHCPByTrials(new List<Id>(quueriedTrials));
+        List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getHCPEnrollmentsForHCPByTrials(new List<Id>(quueriedTrials), delegateId);
         for (HCP_Enrollment__c hcpe : enrollments) {
             hcpeMap.put(hcpe.Study_Site__c, hcpe);
         }
@@ -101,7 +103,7 @@ public without sharing class StudySiteService {
         }
         for (Study_Site__c site : siteList) {
             if (site.Clinical_Trial_Profile__r != null && (!filterEmptyHCPE || hcpeMap.containsKey(site.Id))) {
-                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType);
+                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType, delegateId);
                 result.add(siteWrapper);
             }
         }
@@ -179,6 +181,10 @@ public without sharing class StudySiteService {
         return getStudySitesCommon(CommunityService.USER_MODE_PI, null, false);
     }
 
+    public static List<Study_Site__c> getStudySitesForPI(Boolean excludeDelegates) {
+        return getStudySitesCommon(CommunityService.USER_MODE_PI, null, excludeDelegates);
+    }
+
     private static final List<String> SS_COMMON_FIELDS = new List<String>{
             'Id',
             'Approved_Lng__c',
@@ -193,6 +199,7 @@ public without sharing class StudySiteService {
             'Site__r.Name',
             'Site__r.BillingAddress',
             'Site__r.BillingCountry',
+            'Site__r.BillingCountryCode',
             'Site__r.BillingState',
             'Site__r.BillingStateCode',
             'Site__r.BillingPostalCode',
@@ -216,8 +223,12 @@ public without sharing class StudySiteService {
             'Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c',
             'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
             'Clinical_Trial_Profile__r.Orientation_Required__c',
-            'Clinical_Trial_Profile__r.Participating_in_Patient_Portal__c',
+            'Clinical_Trial_Profile__r.Patient_Portal_Enabled__c',
+            'Clinical_Trial_Profile__r.CommunityTemplate__c',
             'Principal_Investigator__r.Name',
+            'Principal_Investigator__r.FirstName',
+            'Principal_Investigator__r.LastName',
+            'Principal_Investigator__r.Suffix',
             'Principal_Investigator__r.Title',
             'Principal_Investigator__r.MailingStreet',
             'Principal_Investigator__r.MailingCity',
@@ -238,6 +249,7 @@ public without sharing class StudySiteService {
             'Principal_Investigator__r.Account.BillingLongitude',
             'Principal_Investigator__r.Account.BillingGeocodeAccuracy',
             'Principal_Investigator__r.Account.BillingAddress',
+            'Principal_Investigator__r.Full_Name__c',
             'Site_Staff__r.Site_Contact__c'
     };
 
@@ -252,22 +264,39 @@ public without sharing class StudySiteService {
         return ssList;
     }
 
+    public static List<Study_Site__c> getStudySitesCommon(String userMode, String filter, Boolean excludeDelegates, String delegateId) {
+        String userModeFilter = getUserModeFilter(userMode, excludeDelegates, delegateId);
+        if (filter != null) userModeFilter += ' ' + filter;
+        return getStudySitesCommon(userModeFilter);
+    }
+
     public static List<Study_Site__c> getStudySitesCommon(String userMode, String filter, Boolean excludeDelegates) {
         String userModeFilter = getUserModeFilter(userMode, excludeDelegates);
         if (filter != null) userModeFilter += ' ' + filter;
         return getStudySitesCommon(userModeFilter);
     }
 
-    public static String getUserModeFilter(String userMode, Boolean excludeDelegates) {
+    public static String getUserModeFilter(String userMode, Boolean excludeDelegates){
+        return getUserModeFilter(userMode, excludeDelegates, null);
+    }
+    public static String getUserModeFilter(String userMode, Boolean excludeDelegates, String delegateId) {
         String filter = ' Clinical_Trial_Profile__c != NULL ' +
                 ' AND Override_PI_Referral_Status__c != NULL ';
         if (userMode == CommunityService.USER_MODE_PI) {
-            if (excludeDelegates) {
-                filter += ' AND  Principal_Investigator__c = \'' + CommunityService.getUserContact().Id + '\' ';
-            } else {
+            if(delegateId == null || delegateId == '' || delegateId == CommunityService.getUserContact().Id){
+                if (excludeDelegates) {
+                    filter += ' AND  Principal_Investigator__c = \'' + CommunityService.getUserContact().Id + '\' ';
+                } else {
+                    filter += ' AND ( ' +
+                            '       Principal_Investigator__c = \'' + CommunityService.getUserContact().Id + '\' ' +
+                            '       OR Id IN (\'' + String.join(DelegateService.getDelegatedStudySiteIds(), '\',\'') + '\')' +
+                            '   ) ';
+                }
+            }
+            else{
                 filter += ' AND ( ' +
-                        '       Principal_Investigator__c = \'' + CommunityService.getUserContact().Id + '\' ' +
-                        '       OR Id IN (\'' + String.join(DelegateService.getDelegatedStudySiteIds(), '\',\'') + '\')' +
+                        '       Principal_Investigator__c = \'' + delegateId + '\' ' +
+                        '       AND Id IN (\'' + String.join(DelegateService.getDelegatedStudySiteIds(), '\',\'') + '\')' +
                         '   ) ';
             }
 
@@ -305,8 +334,13 @@ public without sharing class StudySiteService {
     }
 
     public static List<Study_Site__c> getStudySitesForHCP(List<Id> trialIds) {
+        return getStudySitesForHCP(trialIds, null);
+    }
+
+    public static List<Study_Site__c> getStudySitesForHCP(List<Id> trialIds, String delegateId) {
         List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsCommon(
                 CommunityService.USER_MODE_HCP,
+                delegateId,
                 ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(trialIds, '\',\'') + '\')',
                 false
         );
@@ -322,17 +356,18 @@ public without sharing class StudySiteService {
                 '  AND Override_PI_Referral_Status__c IN (\'' + String.join(STATUS_GROUP_ACCEPTED, '\',\'') + '\')';
         return Database.query(query);
     }
-    public static List<Study_Site__c> getStudySitesWithDelegateLevelFiltered(String filter, Set<String> delegateLevels) {
-
+    public static List<Study_Site__c> getStudySitesWithDelegateLevelFiltered(String filter, Set<String> delegateLevels, String parentId ) {
         List<Study_Site__c> ssList = new List<Study_Site__c>();
         Map<Id, String> delegateLevelMap = DelegateService.getPIStudySitesAccessLevelMap();
-
-        for (Study_Site__c site : getStudySitesCommon(CommunityService.USER_MODE_PI, filter, false)) {
+        for (Study_Site__c site : getStudySitesCommon(CommunityService.USER_MODE_PI, filter, false, parentId)) {
             if (!delegateLevelMap.containsKey(site.Id) || delegateLevels.contains(delegateLevelMap.get(site.Id))) {
                 ssList.add(site);
             }
         }
         return ssList;
+    }
+    public static List<Study_Site__c> getStudySitesWithDelegateLevelFiltered(String filter, Set<String> delegateLevels) {
+        return getStudySitesWithDelegateLevelFiltered(filter, delegateLevels, null);
     }
     //contains selected filter values
     public class SiteFilter {
@@ -402,12 +437,17 @@ public without sharing class StudySiteService {
         public Map<String, StudyActions.Action> actions;
         public String sortType;
         public Boolean hasActiveHCPE;
+        public Boolean hasPatients;
         public Datetime hcpCreatedDate;
 
         public StudySiteDistanceWrapper() {
         }
 
         public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType) {
+            this(site, hcpe, sortType, null);
+        }
+
+        public StudySiteDistanceWrapper(Study_Site__c site, HCP_Enrollment__c hcpe, String sortType, String delegateId) {
             this.site = site;
             this.siteType = site.Study_Site_Type__c;
             this.siteTypeLabel = TranslateHelper.getPickListLabel(Study_Site__c.Study_Site_Type__c,site.Study_Site_Type__c);
@@ -433,10 +473,10 @@ public without sharing class StudySiteService {
 
             this.hcpe = hcpe;
             if (hcpe != null) {
-                this.actions = new StudyActionsHCP(hcpe).actions;
+                this.actions = new StudyActionsHCP(hcpe, delegateId).actions;
                 this.hcpCreatedDate = hcpe.CreatedDate;
             } else {
-                this.actions = new StudyActionsHCP(this.site.Clinical_Trial_Profile__r, this.site, null).actions;
+                this.actions = new StudyActionsHCP(this.site.Clinical_Trial_Profile__r, this.site, null, delegateId).actions;
             }
             this.hasActiveHCPE = hcpe != null && hcpe.Status__c != HCPEnrollmentService.HCP_S_INVITATION_SENT;
         }
@@ -477,9 +517,11 @@ public without sharing class StudySiteService {
             }
         }
     }
-
-    public static List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialId(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE) {
-        List<Study_Site__c> siteList = getStudySitesByFilter(filter);
+    public static List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialId(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE){
+        return getStudySitesWithDistanceForHCPByTrialId(filter, paginationData, filterEmptyHCPE, null);
+    }
+    public static List<StudySiteDistanceWrapper> getStudySitesWithDistanceForHCPByTrialId(SiteFilter filter, PaginationData paginationData, Boolean filterEmptyHCPE, String delegateId) {
+        List<Study_Site__c> siteList = getStudySitesByFilter(filter, delegateId);
         List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
         Set<Id> quueriedTrials = new Set<Id>();
         Set<Id> siteIds = new Set<Id>();
@@ -489,13 +531,13 @@ public without sharing class StudySiteService {
         }
         System.debug('queried Trials' + quueriedTrials);
         Map<Id, HCP_Enrollment__c> hcpeMap = new Map<Id, HCP_Enrollment__c>();
-        List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getHCPEnrollmentsForHCPByTrials(new List<Id>(quueriedTrials));
+        List<HCP_Enrollment__c> enrollments = HCPEnrollmentService.getHCPEnrollmentsForHCPByTrials(new List<Id>(quueriedTrials), delegateId);
         for (HCP_Enrollment__c hcpe : enrollments) {
             hcpeMap.put(hcpe.Study_Site__c, hcpe);
         }
         for (Study_Site__c site : siteList) {
             if (site.Clinical_Trial_Profile__r != null && (!filterEmptyHCPE || hcpeMap.containsKey(site.Id))) {
-                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType);
+                StudySiteDistanceWrapper siteWrapper = new StudySiteDistanceWrapper(site, hcpeMap.get(site.Id), filter.sortType, delegateId);
                 result.add(siteWrapper);
             }
         }
@@ -522,7 +564,11 @@ public without sharing class StudySiteService {
         return result;
     }
 
-    public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter) {
+    public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter){
+        return getStudySitesByFilter(filter, null);
+    }
+
+    public static List<Study_Site__c> getStudySitesByFilter(SiteFilter filter, String delegateId) {
         Contact userContact = CommunityService.getUserContact();
         String userCountry;
         if(userContact.MailingCountry != null && userContact.MailingCountry!=''){
@@ -537,7 +583,7 @@ public without sharing class StudySiteService {
         } else if (filter.trialIds != null && !filter.trialIds.isEmpty()) {
             filterString = 'Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') + '\') ';
         } else {
-            List<Id> studyIds = TrialService.getAvailableTrialIds(CommunityService.USER_MODE_HCP);
+            List<Id> studyIds = TrialService.getAvailableTrialIds(CommunityService.USER_MODE_HCP, delegateId);
             System.debug('studyIds SSN' + studyIds);
             filterString = 'Clinical_Trial_Profile__c IN (\'' + String.join(studyIds, '\',\'') + '\') ';
         }
@@ -555,4 +601,36 @@ public without sharing class StudySiteService {
         System.debug('filterString SSDW ' + filterString);
         return getStudySitesCommon(filterString);
     }
+    
+    public static Map<Id, List<StudySiteVisitPlan__c>> getStudySiteVisitPlansMap(List<Id> ssIds) {
+        List<StudySiteVisitPlan__c> studySiteVisitPlans = [
+                SELECT Id, Visit_Plan__r.Name, Study_Site__c
+                FROM StudySiteVisitPlan__c
+                WHERE Study_Site__c IN:ssIds
+        ];
+        
+        Map<Id, List<StudySiteVisitPlan__c>> ssVisitPlansBySSId = new Map<Id, List<StudySiteVisitPlan__c>>();
+        for (StudySiteVisitPlan__c ssVP : studySiteVisitPlans) {
+            if (!ssVisitPlansBySSId.containsKey(ssVP.Study_Site__c)) {
+                ssVisitPlansBySSId.put(ssVP.Study_Site__c, new List<StudySiteVisitPlan__c>());
+            }
+            ssVisitPlansBySSId.get(ssVP.Study_Site__c).add(ssVP);
+        }
+        
+        return ssVisitPlansBySSId;
+    }
+    
+    public static List<LabelValueItem> getVisitPlansLVList(Id ssId){
+        Map<Id, List<StudySiteVisitPlan__c>> ssVisitPlanMap = getStudySiteVisitPlansMap(new List<Id>{ssId});
+        List<StudySiteVisitPlan__c> ssVisitPlans = ssVisitPlanMap.get(ssId);
+        List<LabelValueItem> resList = new List<LabelValueItem>();
+        resList.add(new LabelValueItem(Label.None, ''));
+        if(ssVisitPlans != null){
+            for(StudySiteVisitPlan__c ssVisitPlan : ssVisitPlans){
+                resList.add(new LabelValueItem(ssVisitPlan.Visit_Plan__r.Name, ssVisitPlan.Visit_Plan__c));
+            }
+        }
+        return resList;
+    }
+
 }

@@ -1,9 +1,0 @@
-<!--
- - Created by AlexKetch on 7/23/2019.
- -->
-
-<aura:interface description="Madalable">
-    <aura:attribute name="rendered" type="Boolean"/>
-    <aura:method name="closeModal"/>
-    <aura:method  name="save"/>
-</aura:interface>

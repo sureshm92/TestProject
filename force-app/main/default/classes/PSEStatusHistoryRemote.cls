@@ -2,33 +2,40 @@
  * Created by Leonid Bartenev
  */
 
-public class PSEStatusHistoryRemote {
+public without sharing class PSEStatusHistoryRemote {
     
     public class PathItem{
         @AuraEnabled public String state;
-        @AuraEnabled public PSE_Status_History__c pseSH;
+        @AuraEnabled public Participant_Enrollment_Status_History__c peSH;
         @AuraEnabled public String iconName;
         
-        public PathItem(PSE_Status_History__c pseSH){
-            this.pseSH = pseSH;
+        public PathItem(Participant_Enrollment_Status_History__c peSH){
+            this.peSH = peSH;
             this.state = 'success';
             this.iconName = 'icon-check';
         }
     }
 
     @AuraEnabled
-    public static String getPSEStatusHistory(Id pseId){
+    public static String getParticipationStatusHistory(Id peId){
         try{
-            List<PSE_Status_History__c> history = [
-                    SELECT Id, Status__c, Changed_Date__c
-                    FROM PSE_Status_History__c
-                    WHERE PSE__c =: pseId
-                    ORDER BY Changed_Date__c DESC
+            List<Participant_Enrollment__c> enrollments = [SELECT Id, Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c
+            FROM Participant_Enrollment__c WHERE Id = :peId];
+            if(enrollments.isEmpty()) return '';
+            List<String> participationFlowSteps = PEStatusState.getParticipationFlowSteps(enrollments[0]);
+
+            List<Participant_Enrollment_Status_History__c> histories = [
+                    SELECT Id, Status__c, Date__c
+                    FROM Participant_Enrollment_Status_History__c
+                    WHERE ParticipantEnrollment__c =: peId
+                    AND Status__c IN: participationFlowSteps
+                    ORDER BY Date__c DESC
             ];
+
             List<PathItem> items = new List<PathItem>();
-            for(PSE_Status_History__c pseSH : history) {
-                pseSH.Status__c = TranslateHelper.getPickListLabel(Participant_Study_Enrollment__c.Status__c, pseSH.Status__c);
-                items.add(new PathItem(pseSH));
+            for(Participant_Enrollment_Status_History__c peSH : histories) {
+                peSH.Status__c = TranslateHelper.getPickListLabel(Participant_Enrollment__c.Participant_Status__c, peSH.Status__c);
+                items.add(new PathItem(peSH));
             }
             return JSON.serialize(items);
         }catch (Exception e){

@@ -1,0 +1,117 @@
+<!--
+  - Created by Yehor Dobrovolskyi
+ -->
+<aura:component controller="VisitReportContainerRemote" description="VisitReportContainer" extends="c:LightningService"
+                implements="forceCommunity:availableForAllPageTypes">
+
+    <ltng:require
+            scripts="{!join(',', $Resource.jsPDF + '/jspdf.js', $Resource.jsPDF + '/jspdf.plugin.autotable.min.js', $Resource.pdfjs_dist + '/build/pdf.js')}"
+            afterScriptsLoaded="{!c.doInit}"/>
+
+    <aura:attribute name="multiMode" type="Boolean"/>
+    <aura:attribute name="reportDataList" type="Object[]"/>
+    <aura:attribute name="reportData" type="Object"/>
+    <aura:attribute name="isReportData" type="Boolean"/>
+    <aura:attribute name="documentName" type="String" default="{!$Label.c.Resource_Visit_Summary_Report}"/>
+    <aura:attribute name="peId" type="String"/>
+
+    <aura:attribute name="errorMessage" type="String" default=""/>
+
+    <!--        <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+
+    <div class="{!'sdv-top-bar ' + if(v.multiMode, 'multi-mode', '')}" id="stickyBar" aura:id="stickyBar">
+        <div class="navigation rr-width-limiter side-padding">
+            <c:RRNavigationPath>
+                <c:RRNPathItem label="{!$Label.c.Navigation_Home}" page=""/>
+                <c:RRNPathItem label="{!$Label.c.Navigation_Past_Studies}"/>
+            </c:RRNavigationPath>
+            <div class="rr-width-limiter">
+                <img class="contrast-logo" src="{!$Resource.PH_logo + '/iqvia.png'}"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="rr-white-panel">
+        <div class="resource-table">
+            <div class="resource-title">
+                {!$Label.c.Resource_Tab_Study_Documents}
+            </div>
+            <aura:if isTrue="{!!empty(v.reportDataList)}">
+                <c:RRTable>
+                    <tr>
+                        <th class="study-document-icon"></th>
+                        <th class="study-document-title">{!$Label.c.Resource_Title_Document_Name}</th>
+                        <th class="study-document-summary">{!$Label.c.Resource_Title_Study_Name}</th>
+                    </tr>
+                    <aura:iteration items="{!v.reportDataList}" var="report" indexVar="ind">
+                        <tr class="study-document-row-data">
+                            <td class="study-document-icon">
+                                <div class="resource-pointer" data-ind="{!ind}" onclick="{!c.onGenerateReport}">
+                                    <c:RRIcon
+                                            iconName="icon-pdf"
+                                            class="resources-icon-pdf"/>
+                                </div>
+                            </td>
+                            <td class="study-document-column-data study-document-title-data">
+                                <div onclick="{!c.onGenerateReport}" data-ind="{!ind}" class="resource-pointer">
+                                    {!report.studyCodeName}
+                                </div>
+                            </td>
+                            <td class="study-document-summary study-document-column-data">
+                                <a onclick="{!c.onGenerateReport}" data-ind="{!ind}">
+                                    {!v.documentName}
+                                </a>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </c:RRTable>
+                <aura:set attribute="else">
+                    <div class="resource-error-message"> {!$Label.c.Visit_Result_Report_No_Data}</div>
+
+                </aura:set>
+            </aura:if>
+            <!--            </footer>-->
+            <aura:if isTrue="{!v.errorMessage}">
+                <div class="resource-error-message">{!v.errorMessage}</div>
+            </aura:if>
+        </div>
+        <c:RRSpinner aura:id="spinner" showSpinner="true" fixed="true" size="medium"/>
+    </div>
+
+
+    <!--                                          REPORTS                                               -->
+
+    <div style="position: relative; margin: 20px; display: none" id="content">
+        <aura:iteration items="{!v.reportData.dataTables}" var="tableReport" indexVar="ind">
+            <table id="{!'tbl' + ind}" border="2" style="background-color: white">
+                <thead>
+                <tr>
+                    <aura:iteration items="{!tableReport.tHead}" var="tableHead">
+                        <th style="text-align: center;">
+                            <div style="text-transform: none; font-size: 8px; display: block"> {!tableHead.value} </div>
+                            <aura:if isTrue="{!tableHead.isShowRange}">
+                                <div style="text-transform: none; font-size:4px; font-weight: normal"> {!'\n ' + $Label.c.Report_Expected_Range + ' ' + tableHead.minValue + ' - ' + tableHead.maxValue}</div>
+                            </aura:if>
+                        </th>
+                    </aura:iteration>
+                </tr>
+                </thead>
+                <tbody>
+                <aura:iteration items="{!tableReport.visitResultsWrapper}" var="rows">
+                    <tr>
+                        <aura:iteration items="{!rows}" var="row">
+                            <td style="text-align: center">
+                                {!row.value + (empty(row.measurement) ? '' : ' (' + row.measurement + ')')}
+                            </td>
+                        </aura:iteration>
+                    </tr>
+                </aura:iteration>
+                </tbody>
+            </table>
+        </aura:iteration>
+    </div>
+
+    <aura:if isTrue="{!!empty(v.peId)}">
+        <c:ParticipantIRBChecker peId="{!v.peId}"/>
+    </aura:if>
+</aura:component>

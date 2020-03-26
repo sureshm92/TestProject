@@ -1,0 +1,79 @@
+.THIS{
+    padding-bottom: 40px;
+}
+
+.THIS .resource-footer {
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+
+.THIS .resource-error-message {
+    padding: 40px 0;
+    color: #999999;
+    font-size: 17px;
+    line-height: 26px;
+    text-align: center;
+}
+
+.THIS .resources-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.THIS .resources-header .slds-form-element__label{
+    display: none;
+}
+
+.THIS .resource-title {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 27px;
+}
+
+
+.THIS .resource-table {
+    padding: 0 35px;
+    min-height: 300px;
+}
+
+.THIS .study-document-title {
+    text-align: left;
+    max-width: 300px;
+}
+
+.THIS .study-document-summary {
+    text-align: left;
+}
+
+.THIS .study-document-version-date {
+    text-align: center;
+    width: 120px;
+}
+
+.THIS .study-document-column-data {
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.THIS .study-document-title-data {
+    color: #297dfd;
+    width: 30%;
+}
+
+.THIS .study-document-row-data {
+    border-bottom: 1px solid #F8F9FB;
+}
+
+
+
+.THIS .resource-item-container{
+    margin-bottom: 20px;
+}

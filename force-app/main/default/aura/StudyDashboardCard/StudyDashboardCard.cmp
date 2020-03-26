@@ -1,6 +1,5 @@
 <aura:component description="StudyDashboardCard" implements="forceCommunity:availableForAllPageTypes">
-	<ltng:require styles="{!join(',', $Resource.rr_community_css, $Resource.proximanova + '/proximanova.css')}"
-				  scripts="{!join(',', $Resource.rr_community_js)}"/>
+	<ltng:require scripts="{!join(',', $Resource.rr_community_js)}"/>
 
 	<!-- attributes: -->
 	<aura:attribute name="pe" type="Object" description="Participant enrollment item"/>

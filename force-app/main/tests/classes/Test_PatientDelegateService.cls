@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-@IsTest(IsParallel=true)
+@IsTest
 public class Test_PatientDelegateService {
 
     // Define test objects: --------------------------------------------------------------------------------------------
@@ -69,13 +69,53 @@ public class Test_PatientDelegateService {
         }
     }
 
+    class PatientDelegateServiceMock implements StubProvider {
+        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName, Type returnType,
+                List<Type> listOfParamTypes, List<String> listOfParamNames, List<Object> listOfArgs
+        ) {
+            switch on stubbedMethodName {
+                when 'getParticipant' {
+                    return firstParticipant;
+                }
+                when 'getDelegateContact' {
+                    return firstDelegateContact;
+                }
+                when 'getDelegatedContactIds' {
+                    return new List<Id>{firstDelegateContact.Id};
+                }
+                when 'resetDelegate' {
+                    Id contactId = firstDelegateContact.Id;
+                    Contact delegateContact = new Contact(
+                            Id = contactId,
+                            userCommunityMode__c = null
+                    );
+                    update delegateContact;
 
+                    List<Patient_Delegate__c> patientDelegate = [
+                            SELECT Id
+                            FROM Patient_Delegate__c
+                            WHERE Contact__c =: contactId
+                    ];
+                    delete patientDelegate;
+                }
+            }
+            return null;
+        }
+    }
     // Tests: ----------------------------------------------------------------------------------------------------------
+
+    @TestSetup
+    static void setup() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+    }
 
     @IsTest
     static void patientDelegateServiceTest() {
         refreshTestData();
         DatabaseService.setMock(new DatabaseServiceMock());
+        PatientDelegateService.setMock(new PatientDelegateServiceMock());
         CommunityService.setMock(new CommunityServiceMock());
 
         Test.startTest();
@@ -89,7 +129,8 @@ public class Test_PatientDelegateService {
         PatientDelegateService.getInstance().getDelegateContact(patientDelegate.Contact__c);
         PatientDelegateService.getDelegateContacts(firstParticipantContact.Id);
         PatientDelegateService.getDelegatedContactIds(firstParticipantContact.Id);
-
+        PatientDelegateService.getDelegatedContactIdsEmailOptIn(firstParticipantContact.Id);
+        PatientDelegateService.getParticipantIdsByDelegatedContactIdMap(new List<Id> {firstDelegateContact.Id, secondDelegateContact.Id});
         Test.stopTest();
     }
 
@@ -118,19 +159,42 @@ public class Test_PatientDelegateService {
 
     @IsTest
     static void resetDelegateTest() {
-        refreshTestData();
+        TestData testData = new TestData();
 
-        DatabaseService.setMock(new DatabaseServiceMock());
-        CommunityService.setMock(new CommunityServiceMock());
+        Contact delegateContact = new Contact(
+                FirstName = 'Joseph',
+                LastName = 'Davis',
+                Email = 'jdavis@somemail.com'
+        );
+        upsert delegateContact;
 
-        Test.startTest();
-        PatientDelegateService.getInstance().resetDelegate(firstDelegateContact.Id);
-        Test.stopTest();
+        //Patient_Delegates:
+        Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
+                Contact__c = delegateContact.Id,
+                Contact__r = delegateContact,
+                Participant__c = testData.participant.Id,
+                Participant__r = testData.participant
+        );
+        upsert patientDelegate;
+
+        System.runAs(testData.participantUser){
+            Test.startTest();
+            PatientDelegateService.getInstance().getParticipant();
+            PatientDelegateService.getInstance().isDelegate();
+            PatientDelegateService.getInstance().getParticipantUserId();
+            PatientDelegateService.getInstance().getPDelegates();
+            PatientDelegateService.getInstance().getDelegateContact(delegateContact.Id);
+            PatientDelegateService.getInstance().getDelegatedUsersIds();
+            PatientDelegateService.getPEIdsListByContactIdMap(new List<Id> {testData.participant.Contact__c}, '', true);
+            PatientDelegateService.getForExclStatusPEIdsForContact(testData.participant.Contact__c, PEStatusState.PE_STATUS_GROUP_ACTIVE);
+            PatientDelegateService.getInstance().resetDelegate(delegateContact.Id, false);
+            Test.stopTest();
+        }
 
         Contact contactFromDB = [
                 SELECT userCommunityMode__c, userCommunytyType__c
                 FROM Contact
-                WHERE Id = :firstDelegateContact.Id
+                WHERE Id = :delegateContact.Id
         ].get(0);
         System.assertEquals(null, contactFromDB.userCommunityMode__c);
         System.assertEquals(null, contactFromDB.userCommunytyType__c);
@@ -142,7 +206,7 @@ public class Test_PatientDelegateService {
     private static void refreshTestData() {
         //Accounts:
         accountPartic = new Account(
-                Name = 'Participant'
+                Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
         );
         upsert accountPartic;
 

@@ -1,0 +1,30 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS.rr-table th{
+    height: 43px;
+    background-color: #F8F9FB;
+    padding: 4px 10px;
+}
+
+.THIS.rr-table.rtl,
+.THIS.rr-table.rtl th,
+.THIS.rr-table.rtl td{
+    text-align: right;
+}
+
+.THIS.rr-table td{
+    color: #595959;
+    padding: 2px 10px;
+    height: 36px;
+}
+
+.THIS.rr-table tr:not:last-child td{
+    border-bottom: 1px solid #eaeaea;
+}
+
+.THIS.rr-table a{
+    color: #297DFD;
+    font-size: 1rem;
+    line-height: 21px;
+}

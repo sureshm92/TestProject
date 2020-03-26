@@ -11,13 +11,13 @@
                          title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Patient15}"
-                         signature="{!$Label.Email_Signature_New}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
+                         signature="{!$Label.Email_Signature_New_Short}">
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
+                              resourceId="{!relatedTo.Id}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
-
         <c:EmailTemplateText recipientId="{!relatedTo.Participant__r.Contact__c}"
                              sourceId="{!relatedTo.Id}"
                              parametersProvider="Email_Template_Parameters_From_PE"
@@ -25,8 +25,9 @@
                              title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Patient15}"
-                             signature="{!$Label.Email_Signature_New}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
+                             signature="{!$Label.Email_Signature_New_Short}">
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
+                                  resourceId="{!relatedTo.Id}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 

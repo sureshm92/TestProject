@@ -87,7 +87,8 @@ public without sharing class OnboardingSlideTourRemote {
                 TranslateHelper.prepareLabelFields(tourList[0].Onboarding_Tour__r, new Set<String>{
                         'Title__c'
                 });
-                tour.title = tourList[0].Onboarding_Tour__r.Title__c;
+                String communityName = TranslateHelper.getLabelValue(UserContext.getTemplateProperty('CommunityWelcome'));
+                tour.title = tourList[0].Onboarding_Tour__r.Title__c.replace('##CommunityWelcome', communityName);
             }
             tour.slides = outputSlides;
             tour.showOnStartup = showOnStartup(userMode);
@@ -139,8 +140,10 @@ public without sharing class OnboardingSlideTourRemote {
             hcpTourName = 'HCP_Delegate';
         }
 
+        String participantTourName = UserContext.getTemplateProperty('SlideTour');
+
         return new Map<String, String>{
-                CommunityService.USER_MODE_PARTICIPANT => 'Participant',
+                CommunityService.USER_MODE_PARTICIPANT => participantTourName,
                 CommunityService.USER_MODE_PI => piTourName,
                 CommunityService.USER_MODE_HCP => hcpTourName
         };

@@ -1,0 +1,39 @@
+/**
+ * Created by Leonid Bartenev
+ */
+.THIS .edit-vp-container{
+    min-height: 180px;
+    position: relative;
+}
+
+.THIS .toolbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px;
+}
+
+.THIS .toolbar .btns{
+    flex-shrink: 0;
+    margin-left: 20px;
+    min-width: 133px;
+}
+
+.THIS .toolbar .toolbar-btn + .toolbar-btn{
+    margin-left: 20px;
+}
+
+.THIS .inline-input{
+    display: flex!important;
+    width:80%;
+    white-space: nowrap;
+}
+
+.THIS .visits-table {
+    margin-top: 15px;
+}
+
+.THIS .slds-form-element__label {
+    min-width: 100px;
+    text-align: center;
+}

@@ -1,0 +1,129 @@
+.THIS.resource-container {
+    min-height: 225px;
+    width: 247px;
+    margin: auto;
+    position: relative;
+}
+
+.THIS .resource-title {
+    color: #595959;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: center;
+}
+
+.THIS .resource-image-container {
+    display: block;
+    max-height: 123px;
+    max-width: 215px;
+    margin: 0 auto 5px 0;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.THIS .resource-image-container > img {
+    display: block;
+    position: relative;
+    height: 123px;
+}
+
+.THIS .resource-description {
+    display: block;
+    min-height: 100%;
+}
+
+.THIS .resource-description-title {
+    color: #666666;
+    font-family: "Proxima Nova";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 30px;
+    margin-left: 7px;
+}
+
+.THIS .resource-description-text {
+    color: #999999;
+    font-size: .75rem;
+    margin: 0 0 2px 7px;
+}
+
+.THIS .resource-more-links {
+    color: #000000;
+    font-size: .875rem;
+    font-weight: 600;
+}
+
+.THIS .resource-more-single-link {
+    color: #297DFD;
+    margin: 0 auto 5px 7px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.THIS .resource-main {
+    height: 200px;
+}
+
+.THIS .resource-error-message {
+    padding: 30% 0;
+    height: 26px;
+    color: #999999;
+    font-size: 1rem;
+    line-height: 26px;
+    text-align: center;
+}
+
+.THIS .resource-content > .slds-wrap > .slds-col:nth-child(1) .resource-error-message:after {
+    content: '';
+    position: absolute;
+    background-size: 40px 40px;
+    background-image: url(/resource/1569528670000/iconVideoPlayer);
+    height: 40px;
+    width: 40px;
+    top: 20px;
+    right: 50%; 
+}
+
+.THIS .resource-content > .slds-wrap > .slds-col:nth-child(2) .resource-error-message:after {
+    
+}
+
+.THIS .resource-pointer {
+    cursor: pointer;
+}
+@media (max-width: 1024px) {
+    .THIS.resource-container {
+        float: left;
+        width: 100%;
+        margin-left: 4%;
+    }
+    .THIS .resource-image-container {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 215px;
+    }
+    .THIS .resource-main {
+        height: auto;
+        min-height: 200px;
+    }
+    .THIS .resource-error-message{
+        padding: 30% 10% 30% 0;
+    }
+}
+
+@media (max-width: 768px){
+    
+    .THIS .resource-error-message{
+        padding: 30% 10% 30% 0;
+    }
+   .THIS.resource-container {
+        margin-left: 0;
+    } 
+   .THIS .resource-error-message{
+        padding: 30% 0;
+    }
+}

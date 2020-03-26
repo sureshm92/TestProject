@@ -1,0 +1,32 @@
+<!--
+ - Created by Igor Malyuta on 04.01.2020.
+ -->
+
+<!-- Message Item -->
+<template>
+    <div class="ms-item">
+        <div class="ms-item-icon">{initials}</div>
+        <div class="ms-item-content">
+            <div class="ms-item-title">
+                <div class="ms-item-name">{item.message.Sender_Name__c}</div>
+                <div class="ms-item-time">
+                    <lightning-formatted-date-time value={item.message.CreatedDate}
+                                                   year="numeric" month="short" day="2-digit"
+                                                   hour="numeric" minute="numeric" second="numeric"
+                                                   time-zone={timeZone}></lightning-formatted-date-time>
+                </div>
+            </div>
+            <div class="ms-item-text">{item.message.Message_Content__c}</div>
+            <template if:true={item.attachmentWrapper}>
+                <div class="ms-attach">
+                    <c-web-icon icon-name={item.attachmentWrapper.fileIcon} icon-color="#297DFD" icon-size="small"></c-web-icon>
+                    <a class="ms-att-label" target="_blank" href={item.attachmentWrapper.downloadLink}
+                       title={item.attachmentWrapper.fileName}>
+                        {item.attachmentWrapper.fileName}
+                    </a>
+                    <c-web-icon icon-name="icon-download-bottom" icon-color="#297DFD" icon-size="small"></c-web-icon>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

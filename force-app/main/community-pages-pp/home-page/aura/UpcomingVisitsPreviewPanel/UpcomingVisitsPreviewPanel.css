@@ -1,0 +1,96 @@
+/**
+ * Created by Igor Malyuta on 08.04.2019.
+ */
+.THIS.sv-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    position: relative;
+}
+
+.THIS .sv-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px;
+}
+
+.THIS .sv-title{
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 27px;
+}
+
+.THIS .sv-btn {
+    box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16),
+    0 4px 4px 0 rgba(0, 0, 0, 0.04),
+    0 8px 16px 0 rgba(41, 125, 253, 0.32);
+}
+
+.THIS .sv-body{
+    min-height: 220px;
+    position: relative;
+}
+
+.THIS .svl-icon{
+    height: 32px;
+    width: 32px;
+}
+
+.THIS .sv-footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    flex-grow: 1;
+    height: 49px;
+    background-color: #f8f9fb;
+}
+
+.THIS .sv-footer .cRRLink.rr-link {
+ 	padding-right: 16px;
+    position: relative;
+    font-size: 1rem;
+}
+
+.THIS .sv-footer .cRRLink.rr-link:after {
+ 	content: '';
+    position: absolute;
+    background-size: 14px 14px;
+    background-image: url(/resource/1569526732000/ChevronRightBlue);
+    height: 14px;
+    width: 14px;
+    top: 10px;
+    right: 0px; 
+}
+
+.THIS .main-container .message {
+    padding: 20% 0 0;
+}
+
+.THIS .cEmptyListStub:after {
+    content: '';
+    position: absolute;
+    background-size: 40px 40px;
+    background-image: url(/resource/1569528630000/iconNotes);
+    height: 40px;
+    width: 40px;
+    top: 45px;
+    right: 46%;
+    opacity: .3;
+}
+
+.THIS .cRRTable.rr-table th,
+.THIS .cRRTable.rr-table td{
+    /*padding: 4px 13px;*/
+    font-size: 15px;
+}
+
+.THIS .visit-schedule {
+    max-width: 140px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

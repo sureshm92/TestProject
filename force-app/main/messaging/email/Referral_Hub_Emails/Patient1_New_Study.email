@@ -1,9 +1,9 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Initial_Patient}"
-                         recipientType="User"
+                         recipientType="Contact"
                          relatedToType="Participant_Enrollment__c"
                          language="{!relatedTo.Participant__r.Contact__r.Language__c}">
 
-    <messaging:htmlEmailBody >
+    <messaging:htmlEmailBody>
         <c:EmailTemplate recipientId="{!relatedTo.Participant__r.Contact__c}"
                          sourceId="{!relatedTo.Id}"
                          parametersProvider="Email_Template_Parameters_From_PE"
@@ -12,11 +12,12 @@
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Patient1}"
                          signature="{!$Label.Email_Signature_Patient}">
-            <c:EmailActionBtn buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
+            <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
+                              resourceId="{!relatedTo.Id}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody >
+    <messaging:plainTextEmailBody>
         <c:EmailTemplateText recipientId="{!relatedTo.Participant__r.Contact__c}"
                              sourceId="{!relatedTo.Id}"
                              parametersProvider="Email_Template_Parameters_From_PE"
@@ -25,7 +26,8 @@
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Patient1}"
                              signature="{!$Label.Email_Signature_Patient}">
-            <c:EmailActionBtnText buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
+            <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
+                                  resourceId="{!relatedTo.Id}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 

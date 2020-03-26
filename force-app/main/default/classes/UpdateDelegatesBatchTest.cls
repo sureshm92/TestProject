@@ -4,7 +4,7 @@ public class UpdateDelegatesBatchTest {
      public static void methodName() {
         List<Account> accounts = new List<Account>();
         Account participantsAccount = new Account(
-                Name = 'Participant'
+                Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
         );
         accounts.add(participantsAccount);
     
@@ -79,9 +79,9 @@ public class UpdateDelegatesBatchTest {
                 Study_Code_Name__c = 'Some Code Name',
                 Suppress_Participant_Emails__c = false,
                 Therapeutic_Area__c = area.Id,
-                Participating_in_Digital_Recruitment__c = 'YES',
-                Participating_in_Rocket_Referral__c = 'YES',
-                Participating_in_Patient_Portal__c = 'Yes'
+                Synch_with_TMDH__c = true,
+                Include_in_RP_trial_search__c = true,
+                Patient_Portal_Enabled__c = true
         );
         insert study; 
          

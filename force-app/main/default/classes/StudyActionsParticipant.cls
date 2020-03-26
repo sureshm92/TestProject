@@ -1,21 +1,6 @@
 public class StudyActionsParticipant extends StudyActions {
 
-    public StudyActionsParticipant(Participant_Enrollment__c participantEnrollment){
-        this(
-                participantEnrollment.Study_Site__r.Clinical_Trial_Profile__r,
-                participantEnrollment.Study_Site__r,
-                null,
-                participantEnrollment
-        );
-    }
-    public StudyActionsParticipant(Clinical_Trial_Profile__c study, Study_Site__c studySite, HCP_Enrollment__c hcpEnrollment, Participant_Enrollment__c pe) {
-        super(
-                study,
-                studySite,
-                hcpEnrollment,
-                CommunityService.USER_MODE_PARTICIPANT
-        );
-
+    public StudyActionsParticipant() {
         actions = new Map<String, Action>();
         
         actions.put(ACT_SHARE, new Action(
@@ -46,17 +31,20 @@ public class StudyActionsParticipant extends StudyActions {
                 false
         ));
 
-        ParticipantService.ParticipantStates participantStateValue = ParticipantService.getParticipantState().value;
+        ParticipantService.ParticipantState state = ParticipantService.getParticipantState();
+        ParticipantService.ParticipantStates stateValue = state.value;
 
-        if( (participantStateValue == ParticipantService.ParticipantStates.REFERRAL ||
-                participantStateValue == ParticipantService.ParticipantStates.PARTICIPANT)
-             && study.Terms_And_Conditions_ID__c != null) {
-            studyDetailActions.add(actions.get(ACT_VIEW_TC));
+        if(stateValue == ParticipantService.ParticipantStates.REFERRAL ||
+                stateValue == ParticipantService.ParticipantStates.PARTICIPANT) {
+            if(study == null) study = state.ctp;
+
+            if(study.Terms_And_Conditions_ID__c != null) studyDetailActions.add(actions.get(ACT_VIEW_TC));
         }
-    
+
         studyDetailActions.add(actions.get(ACT_HOME));
         
-        if (participantStateValue == ParticipantService.ParticipantStates.PARTICIPANT || participantStateValue == ParticipantService.ParticipantStates.REFERRAL) {
+        if (stateValue == ParticipantService.ParticipantStates.PARTICIPANT
+                || stateValue == ParticipantService.ParticipantStates.REFERRAL) {
             studyDetailActions.add(actions.get(ACT_SHARE));
         }
     }

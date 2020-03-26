@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class ParticipantService {
+public without sharing class ParticipantService {
     public class ParticipantServiceException extends Exception {
     }
 
@@ -13,21 +13,26 @@ public class ParticipantService {
     public class ParticipantState {
         @AuraEnabled public ParticipantStates value;
         @AuraEnabled public Participant_Enrollment__c pe;
-        @AuraEnabled public Participant_Study_Enrollment__c pse;
         @AuraEnabled public Boolean isDelegate;
         @AuraEnabled public Clinical_Trial_Profile__c ctp;
         @AuraEnabled public Participant__c participant;
+        @AuraEnabled public Id currentUserId;
+        @AuraEnabled public Id currentContactId;
         @AuraEnabled public String welcomeMessage;
         @AuraEnabled public Boolean showTerms;
         @AuraEnabled public Boolean showVisits;
+        @AuraEnabled public Boolean showResults;
         @AuraEnabled public Boolean isPremium;
+        @AuraEnabled public String communityName;
 
         public ParticipantState() {
-            value = ParticipantStates.PROSPECT;
+            value = ParticipantStates.ALUMNI;
             isDelegate = false;
             isPremium = false;
             showTerms = false;
             showVisits = false;
+            showResults = false;
+            communityName = '';
         }
     }
 
@@ -45,47 +50,75 @@ public class ParticipantService {
 
     public ParticipantService() {
         participantState = new ParticipantState();
-        List<Participant_Enrollment__c> peList = ParticipantEnrollmentService.getParticipantEnrollmentsForParticipant();
-        if (peList.size() > 0) {
-            participantState.pe = peList[0];
-            participantState.participant = participantState.pe.Participant__r;
-            participantState.isDelegate =
-                    participantState.pe.Participant__r.Contact__c != CommunityService.getInstance().getCurrentContactId();
-
-            if (participantState.pe.Study_Site__r.Clinical_Trial_Profile__c != null) {
-                participantState.ctp = participantState.pe.Study_Site__r.Clinical_Trial_Profile__r;
-                TranslateHelper.translate(participantState.ctp,
-                        IRBParticipantService.getIRBLanguageMode(participantState.pe.Id).languageToTranslate);
+        Contact userContact = CommunityService.getUserContact();
+        participantState.currentContactId = userContact.userCommunityDelegateId__c;
+        if (participantState.currentContactId == null) participantState.currentContactId = userContact.Id;
+        participantState.isDelegate = userContact.userCommunityDelegateId__c != null;
+        List<User> participantUser = [SELECT Id FROM User WHERE ContactId = :participantState.currentContactId LIMIT 1];
+        if (!participantUser.isEmpty()) participantState.currentUserId = participantUser.get(0).Id;
+        else participantState.currentUserId = CommunityService.getUserId();
+        if (userContact.Current_Participant_Enrollment__c != null) {
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(userContact.Current_Participant_Enrollment__c, CommunityService.USER_MODE_PARTICIPANT);
+            if (pe != null) {
+                participantState.participant = getParticipant(pe.Participant__c);
+                participantState.pe = pe;
+                participantState.ctp = participantState.pe.Clinical_Trial_Profile__r;
+                TranslateHelper.translate(participantState.pe, IRBParticipantService.getSuitableLanguageForIRBTranslation(pe.Id));
                 participantState.showTerms = showTerms();
-                participantState.isPremium = participantState.ctp.Participating_in_Patient_Portal__c == 'Yes';
-            }
-            if (PEStatusState.PE_STATUS_GROUP_FAILED.contains(participantState.pe.Participant_Status__c) &&
-                    participantState.isPremium) {
-                participantState.value = ParticipantStates.ALUMNI;
-            } else if (PEStatusState.PE_STATUS_GROUP_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
-                participantState.value = ParticipantStates.REFERRAL;
-            } else if (participantState.pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS) {
-                if (participantState.isPremium) {
-                    List<Participant_Study_Enrollment__c> pseList = PSEService.getPSEListForParticipant();
-                    if (pseList.size() > 0) {
-                        participantState.value = ParticipantStates.PARTICIPANT;
-                        participantState.pse = pseList[0];
-                        if (participantState.isPremium) participantState.showVisits = showVisits();
-                        participantState.isDelegate =
-                                participantState.pse.Participant__r.Contact__c != CommunityService.getInstance().getCurrentContactId();
-                        if (PSEService.PSE_STATUS_GROUP_COMPLETE.contains(participantState.pse.Status__c)) {
-                            participantState.value = ParticipantStates.ALUMNI;
-                            participantState.showVisits = showVisits();
-                        }
-                    } else {
-                        participantState.value = ParticipantStates.REFERRAL;
-                    }
+                participantState.isPremium = participantState.ctp.Patient_Portal_Enabled__c;
+                if (PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_PROGRESS.contains(participantState.pe.Participant_Status__c)) {
+                    participantState.value = ParticipantStates.PARTICIPANT;
+                    participantState.showVisits = showVisits();
+                    participantState.showResults = showResults();
                 } else {
                     participantState.value = ParticipantStates.REFERRAL;
                 }
             }
-            participantState.welcomeMessage = getWelcomeMessage();
+        } else {
+            participantState.participant = getParticipant(participantState.currentContactId);
+            //Get participant for delegate
+            if (participantState.participant == null) {
+                Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(CommunityService.getUserContact().Id);
+                if (participant != null) participantState.participant = getParticipant(participant.Id);
+            }
         }
+        participantState.welcomeMessage = getWelcomeMessage();
+        participantState.communityName = UserContext.getCurrentCommunityName();
+    }
+
+    public static Participant__c getParticipant(Id sourceId) {
+        List<Participant__c> participants = [
+                SELECT Id,
+                        First_Name__c,
+                        Last_Name__c,
+                        Middle_Name__c,
+                        Full_Name__c,
+                        Date_of_Birth__c,
+                        Birth_Year__c,
+                        Gender__c,
+                        Email__c,
+                        Phone__c,
+                        Phone_Type__c,
+                        Status__c,
+                        Balance__c,
+                        Pending_Payments__c,
+                        Mailing_State__c,
+                        Mailing_City__c,
+                        Mailing_State_Code__c,
+                        Mailing_Country__c,
+                        Mailing_Country_Code__c,
+                        Mailing_Zip_Postal_Code__c,
+                        Contact__c,
+                        Conditions__c,
+                        Contact__r.Current_Participant_Enrollment__c,
+                        Contact__r.Visit_Results_Opt_In__c,
+                        Contact__r.Participant_Opt_In_Status_Emails__c,
+                        Marketing_Flag__c
+                FROM Participant__c
+                WHERE Contact__c = :sourceId OR Id = :sourceId
+        ];
+        if (participants.size() > 0) return participants[0];
+        return null;
     }
 
     @TestVisible
@@ -96,59 +129,83 @@ public class ParticipantService {
 
     @TestVisible
     private Boolean showVisits() {
-        if (participantState.value == ParticipantStates.ALUMNI) return false;
-
-        if (participantState.ctp.Visit_Plan__c != null) {
-            List<Visit__c> visitsList = (List<Visit__c>) ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
-                    .query('SELECT Id FROM Visit__c WHERE Visit_Plan__c = \'' + participantState.ctp.Visit_Plan__c + '\'', true);
-            return !visitsList.isEmpty();
+        if (participantState.pe != null) {
+            List<Patient_Visit__c> patientVisit = [
+                    SELECT Id
+                    FROM Patient_Visit__c
+                    WHERE Participant_Enrollment__c = :participantState.pe.Id
+            ];
+            return !patientVisit.isEmpty();
         }
-
         return false;
     }
 
     @TestVisible
+    private Boolean showResults() {
+        Clinical_Trial_Profile__c ctp = VisitResultSharingService.getCTP(participantState.ctp.Id);
+        String countryCode = participantState.participant.Mailing_Country_Code__c;
+        return ctp.Shareback_Settings_On_Country_Level__c
+                && (String.isBlank(ctp.Shareback_Settings_Countries__c)
+                        || ctp.Shareback_Settings_Countries__c.containsIgnoreCase(countryCode));
+    }
+
+    @TestVisible
     private String getWelcomeMessage() {
-        String fullName;
-        if (participantState.isDelegate) {
-            fullName = (String) CommunityService.getUserContact().get('Name');
+        String userName;
+        List<Participant__c> participants = [
+                SELECT Full_Name__c
+                FROM Participant__c
+                WHERE Contact__c = :CommunityService.getInstance().getCurrentContactId()
+        ];
+        if (participants.size() == 0) {
+            userName = (String) CommunityService.getUserContact().get('Name');
         } else {
-            fullName = participantState.pe.Participant__r.Full_Name__c;
+            userName = participants[0].Full_Name__c;
         }
 
-        String message = participantState.value == ParticipantStates.ALUMNI
-                ? Label.PG_Home_Welcome_Message_Alumni : Label.PG_Home_Welcome_Message;
+        String message;
+        if (participantState.value == ParticipantStates.ALUMNI) {
+            message = Label.PG_Home_Welcome_Message_Alumni;
+        } else {
+            message = Label.PG_Home_Welcome_Message;
+            String communityName = TranslateHelper.getLabelValue(UserContext.getTemplateProperty('CommunityWelcome'));
+            message = message.replace('##CommunityWelcome', communityName);
+        }
 
-        return message.replace('##UserName', fullName);
+        return message.replace('##UserName', userName);
     }
 
     public ParticipantState getState() {
         return participantState;
     }
 
-    public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe) {
-        participant.Preferred_Language__c = UserInfo.getLanguage();
-        if(participant.Id == null){
-            DuplicateContactController.isPERCreated = true;
-            participant = DuplicateContactController.communityReffering(participant, pe);
+    public void createParticipantAndUpdatePEImpl(Participant__c participant, Participant_Enrollment__c pe, String userLanguage) {
+        participant.Preferred_Language__c = userLanguage;
+        ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(participant);
+        Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
+        if (participantFromDatabase != null) {
+            participant = participantFromDatabase;
+        } else {
+            //check contact duplicate:
+            if (duplicateService.findDuplicateContact(participant) != null) {
+                participant.Contact__c = duplicateService.findDuplicateContact(participant).Id;
+            }
+            insert participant;
         }
-
-        if (participant.Id != null) {
+        if (pe != null) {
             pe.Participant__c = participant.Id;
+            if (pe.Participant_Name__c == null) pe.Participant_Name__c = participant.First_Name__c;
+            if (pe.Participant_Surname__c == null) pe.Participant_Surname__c = participant.Last_Name__c;
             try {
                 DatabaseService.getInstance().upsertToDB(pe);
             } catch (Exception e) {
                 String errorMsg = e.getMessage();
-                System.debug('STACK TRACE:' + e.getStackTraceString());
-                System.debug('MESSAGE:' + e.getMessage());
                 if (errorMsg.contains('DUPLICATE')) {
                     errorMsg = Label.Error_Message_Participant_Duplicate;
                 }
                 System.debug('ERROR: ' + errorMsg);
                 throw new ParticipantServiceException(errorMsg);
             }
-        } else {
-            throw new ParticipantServiceException(Label.Error_Message_Can_Not_Create_Participant);
         }
     }
 
@@ -158,8 +215,8 @@ public class ParticipantService {
         return getInstance().getState();
     }
 
-    public static void createParticipantAndUpdatePE(Participant__c participant, Participant_Enrollment__c pe) {
-        getInstance().createParticipantAndUpdatePEImpl(participant, pe);
+    public static void createParticipantAndUpdatePE(Participant__c participant, Participant_Enrollment__c pe, String userLanguage) {
+        getInstance().createParticipantAndUpdatePEImpl(participant, pe, userLanguage);
     }
 
     public static List<LabelValueItem> getGenderLVList() {
@@ -167,5 +224,92 @@ public class ParticipantService {
         genders.add(new LabelValueItem(Label.Gender_Male, 'Male'));
         genders.add(new LabelValueItem(Label.Gender_Female, 'Female'));
         return genders;
+    }
+
+    public static List<LabelValueItem> getPhoneTypeLVList() {
+        List<LabelValueItem> phoneTypes = new List<LabelValueItem>();
+        phoneTypes.add(new LabelValueItem(Label.Phone_Type_Home, 'Home'));
+        phoneTypes.add(new LabelValueItem(Label.Phone_Type_Work, 'Work'));
+        phoneTypes.add(new LabelValueItem(Label.Phone_Type_Mobile, 'Mobile'));
+        return phoneTypes;
+    }
+
+    public static Map<Id, Integer> getNearestLogOutNotification(List<Id> participantContIds) {
+        List<Participant_Enrollment__c> enrollments = [
+                SELECT
+                        Id,
+                        Participant_Contact__c,
+                        Participant__r.Contact__c,
+                        Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c
+                FROM Participant_Enrollment__c
+                WHERE Participant_Contact__c IN:participantContIds
+                AND Participant_Status__c IN:PEStatusState.PE_STATUS_GROUP_IN_PROGRESS_ALL
+                AND Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c != NULL
+        ];
+
+        Map<Id, Integer> nearestNotificationByContactIds = new Map<Id, Integer>();
+        for (Participant_Enrollment__c pe : enrollments) {
+            Id contactId = pe.Participant_Contact__c != null ? pe.Participant_Contact__c : pe.Participant__r.Contact__c;
+            Integer daysNotification = (Integer) pe.Clinical_Trial_Profile__r.Logged_Out_Days_Notification__c;
+
+            if (!nearestNotificationByContactIds.containsKey(contactId)) {
+                nearestNotificationByContactIds.put(
+                        contactId,
+                        daysNotification
+                );
+            }
+
+            Integer currentNotification = nearestNotificationByContactIds.get(contactId);
+            if (currentNotification > daysNotification) {
+                nearestNotificationByContactIds.put(contactId, daysNotification);
+            }
+        }
+
+        return nearestNotificationByContactIds;
+    }
+
+    public static String getParticipantFullName(Id contactId) {
+        List<Participant__c> participant = [SELECT Full_Name__c FROM Participant__c WHERE Contact__c = :contactId];
+        if (participant.isEmpty()) throw new ParticipantServiceException('This contact hasn\'t participant!');
+
+        return participant.get(0).Full_Name__c;
+    }
+
+    public static List<Participant__c> checkParticipantsAgeOfMajority(List<Participant__c> participants) {
+        List<Age_of_Majority__mdt> ageOfMajorities = [
+                SELECT
+                        Country_Code__c,
+                        State_Code__c,
+                        Age__c
+                FROM Age_of_Majority__mdt
+                ORDER BY
+                        Country_Code__c NULLS LAST,
+                        State_Code__c NULLS LAST
+        ];
+
+        for (Participant__c prt : participants) {
+            if (prt.Adult__c || String.isBlank(prt.Date_of_Birth__c)) continue;
+            try {
+                Date birthDate = Date.newInstance(
+                        Integer.valueOf(prt.Date_of_Birth__c.substring(0, 4)),
+                        Integer.valueOf(prt.Date_of_Birth__c.substring(5, 7)),
+                        Integer.valueOf(prt.Date_of_Birth__c.substring(8, 10)));
+
+                Integer participantAge =
+                        Date.newInstance(2000, birthDate.month(), birthDate.day()) <
+                                Date.newInstance(2000, Date.today().month(), Date.today().day()) ?
+                                Date.today().year() - birthDate.year() : Date.today().year() - birthDate.year() - 1;
+
+                for (Age_of_Majority__mdt ageOfMajority : ageOfMajorities) {
+                    if (prt.Mailing_Country_Code__c == ageOfMajority.Country_Code__c || String.isBlank(ageOfMajority.Country_Code__c))
+                        if (prt.Mailing_State_Code__c == ageOfMajority.State_Code__c || String.isBlank(ageOfMajority.State_Code__c)) {
+                            prt.Adult__c = participantAge >= ageOfMajority.Age__c;
+                            break;
+                        }
+                }
+            } catch (Exception e) {
+            }
+        }
+        return participants;
     }
 }

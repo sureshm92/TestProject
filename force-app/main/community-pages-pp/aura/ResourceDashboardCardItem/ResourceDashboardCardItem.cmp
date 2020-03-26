@@ -1,0 +1,82 @@
+<aura:component controller="ResourceRemote" description="ResourceDashboardCardItem">
+
+    <!--ATTRIBUTES-->
+    <aura:attribute name="trialId" type="String" description="id of the study" required="true"/>
+    <aura:attribute name="resourceType" type="String" default="Article"/>
+
+    <aura:attribute name="resourceWrappers" type="ResourceService.ResourceWrapper[]" access="private"/>
+    <aura:attribute name="errorMessage" type="String" default="" access="private"/>
+    <aura:attribute name="initialized" type="Boolean" default="false" access="private"/>
+
+    <!--CONSTANTS-->
+    <aura:attribute name="videoResource" type="String" default="Video" access="private"/>
+    <aura:attribute name="articleResource" type="String" default="Article" access="private"/>
+
+    <!--HANDLERS-->
+    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+
+    <!--COMPONENT BODY-->
+    <div class="resource-container">
+
+        <c:RRSpinner aura:id="spinner" showSpinner="true" size="small"/>
+
+        <aura:if isTrue="{!v.initialized}">
+            <div class="resource-title">
+                {!v.resourceType == v.videoResource ? $Label.c.Resources_Featured_Video : $Label.c.Resources_Featured_Article}
+            </div>
+
+            <div class="resource-main">
+                <aura:if isTrue="{!v.errorMessage}">
+
+                    <div class="resource-error-message">
+                        {!v.errorMessage}
+                    </div>
+
+                    <aura:set attribute="else">
+                        <div class="resource-image-container resource-pointer"
+                             data-type="{!v.resourceWrappers[0].resource.RecordType.DeveloperName}"
+                             data-id="{!v.resourceWrappers[0].resource.Id}" onclick="{!c.navigateToPage}">
+                            <img alt="{!$Label.c.Resources_Image_Unavailable}"
+                                 src="{!v.resourceWrappers[0].resource.Image__c}"/>
+                        </div>
+                        <div class="resource-description">
+                            <div class="resource-description-title resource-pointer"
+                                 data-type="{!v.resourceWrappers[0].resource.RecordType.DeveloperName}"
+                                 data-id="{!v.resourceWrappers[0].resource.Id}" onclick="{!c.navigateToPage}">
+                                {!v.resourceWrappers[0].resource.Title__c}
+                            </div>
+                            <div class="resource-description-text resource-pointer"
+                                 data-type="{!v.resourceWrappers[0].resource.RecordType.DeveloperName}"
+                                 data-id="{!v.resourceWrappers[0].resource.Id}" onclick="{!c.navigateToPage}">
+                                {!v.resourceWrappers[0].resource.Description__c}
+                            </div>
+                        </div>
+                    </aura:set>
+
+                </aura:if>
+            </div>
+			<!--
+            <div class="resource-more-links">
+                {!v.resourceType == v.videoResource ? $Label.c.Resources_More_Videos : $Label.c.Resources_More_Articles}
+                <aura:if isTrue="{! !v.errorMessage}">
+                    <aura:if isTrue="{!v.resourceWrappers.length > 1}">
+                        <div class="resource-more-single-link resource-pointer"
+                             data-type="{!v.resourceWrappers[1].resource.RecordType.DeveloperName}"
+                             data-id="{!v.resourceWrappers[1].resource.Id}" onclick="{!c.navigateToPage}">
+                            {!v.resourceWrappers[1].resource.Title__c}
+                        </div>
+                    </aura:if>
+                    <aura:if isTrue="{!v.resourceWrappers.length > 2}">
+                        <div class="resource-more-single-link resource-pointer"
+                             data-type="{!v.resourceWrappers[2].resource.RecordType.DeveloperName}"
+                             data-id="{!v.resourceWrappers[2].resource.Id}" onclick="{!c.navigateToPage}">
+                            {!v.resourceWrappers[2].resource.Title__c}
+                        </div>
+                    </aura:if>
+                </aura:if>
+            </div> -->
+        </aura:if>
+
+    </div>
+
+</aura:component>

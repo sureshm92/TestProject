@@ -5,7 +5,6 @@
     doInit: function (component, event, helper) {
         communityService.executeAction(component, 'getInitData', null, function (returnValue) {
             var initData = JSON.parse(returnValue);
-            debugger;
             component.set('v.languages', initData.languages);
             component.set('v.optionalLanguages', initData.optionalLanguages);
             component.set('v.locales',   initData.locales);
@@ -39,6 +38,8 @@
             timezoneKey:   timezoneKey
         }, function () {
             location.reload()
+        }, function () {
+            component.find('spinner').hide();
         })
     }
 })

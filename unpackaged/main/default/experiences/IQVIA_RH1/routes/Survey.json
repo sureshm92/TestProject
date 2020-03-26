@@ -1,9 +1,0 @@
-{
-  "urlPrefix" : "survey",
-  "appPageId" : "d9c4a932-5387-4757-867b-fed2cab30e7c",
-  "routeType" : "custom-survey",
-  "pageAccess" : "UseParent",
-  "label" : "Survey",
-  "id" : "f818873d-298d-468e-b13b-a61a2aa9f51f",
-  "type" : "route"
-}

@@ -6,7 +6,7 @@
 
     <!--attributes: -->
     <aura:attribute name="pathItems" type="List"/>
-    <aura:attribute name="pseId" type="String"/>
+    <aura:attribute name="peId" type="String"/>
 
     <!-- methods: -->
     <aura:method name="loadHistory" action="{!c.doLoadHistory}"/>
@@ -24,8 +24,8 @@
                             </div>
                         </div>
                         <div class="{!'slds-col path-item-detail-panel ' + pathItem.state}" style="position: relative">
-                            <div class="title">{!pathItem.pseSH.Status__c}</div>
-                            <div class="date">{!$Label.c.PE_Status_History_On_Date + ' '} <ui:outputDate value="{!pathItem.pseSH.Changed_Date__c}"/></div>
+                            <div class="title">{!pathItem.peSH.Status__c}</div>
+                            <div class="date">{!$Label.c.PE_Status_History_On_Date + ' '} <ui:outputDate value="{!pathItem.peSH.Date__c}"/></div>
                         </div>
                     </div>
                 </aura:iteration>

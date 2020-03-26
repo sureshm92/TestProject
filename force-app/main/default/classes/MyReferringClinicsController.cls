@@ -2,254 +2,116 @@
  * Created by D.Yasinskyi on 30.03.2018
  */
 public without sharing class MyReferringClinicsController {
-
     @AuraEnabled
-    public static String getClinicDetail(String trialId, String userMode, String ssId, Boolean studyWasChanged) {
-        MyReferringClinicsController.ClinicDetail clinicDetail = new MyReferringClinicsController.ClinicDetail();
-        clinicDetail.ssId = null;
-        clinicDetail.trialId = null;
-        if (studyWasChanged) {
-            ssId = null;
-        }
+    public static String getInitData(String trialId, String ssId) {
+        InitData initData;
         try {
-            Set<Id> trialIds = new Set<Id>();
-            List<Study_Site__c> studySites;
-            List<Study_Site__c> studySitesNotDelegate;
-            studySites = StudySiteService.getStudySitesForPI();
-            studySitesNotDelegate = studySites;//StudySiteService.getStudySitesCommon(CommunityService.USER_MODE_PI, null, true);
-            Map<Id, List<Study_Site__c>> studyMap = new Map<Id, List<Study_Site__c>>();
-            Map<String, String> studySiteMap = new Map<String, String>();
-            List<LabelValueItem> studyPickList = new List<LabelValueItem>{
-                    new LabelValueItem(Label.PG_MRRL_L_All_studies, null)
-            };
-            for (Integer i = 0, j = studySites.size(); i < j; i++) {
-                if (studyMap.containsKey(studySites[i].Clinical_Trial_Profile__c)) {
-                    studyMap.get(studySites[i].Clinical_Trial_Profile__c).add(studySites[i]);
-                } else {
-                    studyMap.put(studySites[i].Clinical_Trial_Profile__c, new List<Study_Site__c>{
-                            studySites[i]
-                    });
-                    studyPickList.add(new LabelValueItem(studySites[i].Clinical_Trial_Profile__r.Study_Code_Name__c, studySites[i].Clinical_Trial_Profile__c));
-                }
-                studySiteMap.put(studySites[i].Id, studySites[i].Clinical_Trial_Profile__c);
-            }
-            if (trialId != null) {
-                studySites = studyMap.get(trialId);
-                //studySitesNotDelegate = null;
-            }
-            List<LabelValueItem> pickList = new List<LabelValueItem>{
-                    new LabelValueItem(Label.PG_Report_L_All_study_sites, null)
-            };
-            if (ssId == null) {
-                for (Study_Site__c studySite : studySites) {
-                    trialIds.add(studySite.Clinical_Trial_Profile__c);
-                    pickList.add(new LabelValueItem(studySite.Name, studySite.Id));
-                }
-                clinicDetail = getClinicDetail(HCPEnrollmentService.getEnrollmentsForPIByTrialIds(
-                        trialIds, new List<String>{
-                                HCPEnrollmentService.HCP_S_INVITATION_SENT
-                        }
-                ), userMode);
+            initData = new InitData(trialId, ssId);
+            getInitDataEnrollments(initData);
+            if(CommunityService.getUserContact().UserCommunityIsDelegate__c) {
+                initData.isButtonDisabled = Action_InviteRPRemote.getPIForInvetation().isEmpty();
             } else {
-                clinicDetail = getClinicDetail(HCPEnrollmentService.getEnrollmentsForPIByStudySiteId(ssId), userMode);
-                List<Study_Site__c> ssForStudy = studyMap.get(studySiteMap.get(ssId));
-                clinicDetail.ssId = ssId;
-                trialId = ssForStudy[0].Clinical_Trial_Profile__c;
-                for (Integer i = 0; i < ssForStudy.size(); i++) {
-                    pickList.add(new LabelValueItem(ssForStudy[i].Name, ssForStudy[i].Id));
-                }
-            }
-            if (trialId != null) {
-                clinicDetail.trialId = trialId;
-            }
-            clinicDetail.studySitePickList.addAll(pickList);
-            clinicDetail.studyPickList.addAll(studyPickList);
-            clinicDetail.studySitesForInvitation = new List<MyReferringClinicsController.SiteWrapper>();
-            if (studySitesNotDelegate != null && !studySitesNotDelegate.isEmpty()) {
-                Set<Id> studyIds = new Set<Id>();
-                for (Study_Site__c site : studySitesNotDelegate) {
-                    if (!studyIds.contains(site.Clinical_Trial_Profile__c) && StudySiteService.STATUS_GROUP_ACCEPTED.contains(site.Override_PI_Referral_Status__c)) {
-                        SiteWrapper sw = new SiteWrapper(site.Clinical_Trial_Profile__r.Study_Code_Name__c, site.Id, site.Clinical_Trial_Profile__r.Protocol_ID__c);
-                        clinicDetail.studySitesForInvitation.add(sw);
-                        studyIds.add(site.Clinical_Trial_Profile__c);
-                    }
-                }
+                initData.isButtonDisabled = false;
             }
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
-        return JSON.serialize(clinicDetail);
+        return JSON.serialize(initData);
     }
-
     @AuraEnabled
-    public static String getEnrollmentData(Id hcpEnrollmentId, String userMode) {
-        try{
-            HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getHCPEnrollmentById(hcpEnrollmentId, userMode);
-            return JSON.serialize(createEnrollmentWrapper(hcpEnrollment));
-        }catch(Exception e){
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-        }
-    }
-
-    @AuraEnabled
-    public static void inviteHCP(String firstName, String lastName, String clinicName, String phone, String studySiteId, String protocolId){
-        try{
-            List<Group> invitationQueues = [SELECT Id FROM Group WHERE Type = 'Queue' AND Name = :CommunityService.INVITATION_QUEUE];
-            AssignmentRule ar = new AssignmentRule();
-            ar = [
-                SELECT 	id 
-            	FROM 	AssignmentRule 
-                WHERE 	SobjectType = 'Lead' AND 
-                		Active = true AND 
-                		Name = 'SPNL Assignment Rule' 
-                LIMIT 1
-            ];
-            
-            //Creating the DMLOptions for "Assign using active assignment rules" checkbox
-            Database.DMLOptions dmlOpts = new Database.DMLOptions();
-            dmlOpts.assignmentRuleHeader.assignmentRuleId= ar.id;
-            
-            Lead l = new Lead();
-            l.FirstName = firstName;
-            l.LastName = lastName;
-            l.Phone = phone;
-            l.Company = clinicName;
-            l.Protocol_Number__c = protocolId;
-            l.Language__c = UserInfo.getLanguage();
-            if(studySiteId!= null && studySiteId != '')
-                l.Study_Site__c = studySiteId;
-            l.Status = 'New';
-            l.Invited_by_PI__c = CommunityService.getUserContact().Id;
-            if(invitationQueues.size() > 0){
-                l.OwnerId = invitationQueues[0].Id;
+    public static String searchReferringClinics(String filterValuesJSON, String sortDataJSON, String paginationDataJSON, Boolean trialChanged) {
+        InitData initData;
+        try {
+            ReferringClinicsFilter.FilterValues filterValues = (ReferringClinicsFilter.FilterValues) JSON.deserialize(filterValuesJSON, ReferringClinicsFilter.FilterValues.class);
+            ReferringClinicsFilter.SortData sortData = (ReferringClinicsFilter.SortData) JSON.deserialize(sortDataJSON, ReferringClinicsFilter.SortData.class);
+            PaginationData paginationData = (PaginationData) JSON.deserialize(paginationDataJSON, PaginationData.class);
+            if (trialChanged) {
+                filterValues.ssId = '';
             }
-            l.setOptions(dmlOpts);
-            insert l;
-        }catch(Exception e){
+            initData = new InitData(filterValues, sortData, paginationData);
+            getInitDataEnrollments(initData);
+
+        } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
+        return JSON.serialize(initData);
     }
 
-
-    private static MyReferringClinicsController.ClinicDetail getClinicDetail(List<HCP_Enrollment__c> enrollments, String userMode) {
-        MyReferringClinicsController.ClinicDetail clinicDetail = new MyReferringClinicsController.ClinicDetail();
+    private static void getInitDataEnrollments(InitData initData) {
+        List<HCP_Enrollment__c> enrollments = SearchService.search(initData.referringClinicsFilter, initData.paginationData);
+        initData.filteredReferringClinics = getEnrollmentWrappers(enrollments);
+    }
+    private static List<MyReferringClinicsController.ClinicWrapper> getEnrollmentWrappers(List<HCP_Enrollment__c> enrollments) {
+        List<MyReferringClinicsController.ClinicWrapper> result = new List<MyReferringClinicsController.ClinicWrapper>();
         Map<Id, List<HCP_Enrollment__c>> clinicEnrolmentMap = new Map<Id, List<HCP_Enrollment__c>>();
-        //HCP_Enrollments groups
-        Integer pending = 0, activated = 0, onHold = 0, deactivated = 0, declined = 0;
-        for (HCP_Enrollment__c enroll :enrollments) {
-            if (!clinicEnrolmentMap.containsKey(enroll.HCP_Contact__r.AccountId)) {
-                clinicEnrolmentMap.put(enroll.HCP_Contact__r.AccountId, new List<HCP_Enrollment__c>());
+        for (HCP_Enrollment__c enroll : enrollments) {
+            if (!clinicEnrolmentMap.containsKey(enroll.HCP_Contact__c)) {
+                clinicEnrolmentMap.put(enroll.HCP_Contact__c, new List<HCP_Enrollment__c>());
             }
-            clinicEnrolmentMap.get(enroll.HCP_Contact__r.AccountId).add(enroll);
-            String status = enroll.Status__c;
-            if (status == HCPEnrollmentService.HCP_S_ACTIVATED || status == HCPEnrollmentService.HCP_S_ACTIVATED_A){
-                activated++;
-            } else if(status == HCPEnrollmentService.HCP_S_DEACTIVATED_A) {
-                deactivated++;
-            } else if(status.contains('On Hold')) {
-                onHold++;
-            } else if(status.contains('Declined') || status == HCPEnrollmentService.HCP_S_NON_RESPONCIVE_A) {
-                declined++;
-            } else if (status.contains('Pending')) {
-                pending++;
-            }
+            clinicEnrolmentMap.get(enroll.HCP_Contact__c).add(enroll);
         }
-
-        for (Account acc : getAccounts(clinicEnrolmentMap.keySet())) {
-            clinicDetail.referringClinics.add(new ClinicWrapper(acc, clinicEnrolmentMap.get(acc.Id)));
+        for (Id hcpId : clinicEnrolmentMap.keySet()) {
+            result.add(new ClinicWrapper(clinicEnrolmentMap.get(hcpId)));
         }
-
-        //set filter info and summaries
-        clinicDetail.filterInfo = new FilterPillInfo(pending, Label.PG_MRC_L_Providers_pending_approval_pending_activation);
-        clinicDetail.summrayContainers.add(new SummaryContainer(Label.PG_MRC_L_Referring_clinics_overall, String.valueOf(clinicEnrolmentMap.keySet().size())));
-        SummaryContainer PIOverall = new SummaryContainer(Label.PG_MRC_L_Referring_providers_overall, String.valueOf(enrollments.size()));
-        PIOverall.items.add(new LabelValueItem(Label.PG_MRC_L_Providers_activated, String.valueOf(activated)));
-        PIOverall.items.add(new LabelValueItem(Label.PG_MRC_L_Providers_on_hold, String.valueOf(onHold)));
-        PIOverall.items.add(new LabelValueItem(Label.PG_MRC_L_Providers_deactivated, String.valueOf(deactivated)));
-        PIOverall.items.add(new LabelValueItem(Label.PG_MRC_L_Providers_declined, String.valueOf(declined)));
-        clinicDetail.summrayContainers.add(PIOverall);
-
-        return clinicDetail;
-    }
-
-    private static List<Account> getAccounts(Set<Id> accountIds) {
-        return [
-                SELECT Id, Name, BillingStreet, BillingState, BillingPostalCode, BillingCity, Phone
-                FROM Account
-                WHERE Id IN :accountIds
-        ];
-    }
-
-    private static MyReferringClinicsController.HCPEnrollmentWrapper createEnrollmentWrapper(HCP_Enrollment__c hcpEnrollment){
-        Map<String, StudyActions.Action> actionsMap = new StudyActionsPI(hcpEnrollment).actions;
-        MyReferringClinicsController.HCPEnrollmentWrapper wrapper = new MyReferringClinicsController.HCPEnrollmentWrapper();
-        wrapper.status = CommunityService.getConvertedStatus(hcpEnrollment.Status__c);
-        wrapper.statusLabel = TranslateHelper.getPickListLabel(HCP_Enrollment__c.Status__c,hcpEnrollment.Status__c);
-        wrapper.enrollment = hcpEnrollment;
-
-        Map<String, String> actionToStatusesMap = HCPEnrollmentService.HCP_CHANGE_STATUS_MAP.get(hcpEnrollment.Status__c);
-        if(actionToStatusesMap != null){
-            for(String actionId : actionToStatusesMap.keySet()) {
-                wrapper.buttonList.add(actionsMap.get(actionId));
-            }
-        }
-        return wrapper;
-    }
-
-    public class ClinicDetail {
-        public List<MyReferringClinicsController.ClinicWrapper> referringClinics;
-        public List<SummaryContainer> summrayContainers;
-        public FilterPillInfo filterInfo;
-        public List<LabelValueItem> studySitePickList = new List<LabelValueItem>();
-        public List<LabelValueItem> studyPickList = new List<LabelValueItem>();
-        public String trialId;
-        public String ssId;
-
-        public  List<SiteWrapper> studySitesForInvitation;
-
-        public ClinicDetail() {
-            referringClinics = new List<MyReferringClinicsController.ClinicWrapper>();
-            summrayContainers = new List<SummaryContainer>();
-        }
+        return result;
     }
 
     public class ClinicWrapper {
         public Account clinic;
+        public Contact hcpContact;
         public List<MyReferringClinicsController.HCPEnrollmentWrapper> enrollments = new List<MyReferringClinicsController.HCPEnrollmentWrapper>();
 
-        public ClinicWrapper(Account clinic, List<HCP_Enrollment__c> enrollments) {
-            this.clinic = clinic;
-            if(enrollments != null){
-                for(HCP_Enrollment__c enrollment : enrollments){
-                    this.enrollments.add(createEnrollmentWrapper(enrollment));
+        public ClinicWrapper(List<HCP_Enrollment__c> enrollments) {
+            if (enrollments != null && !enrollments.isEmpty()) {
+                this.hcpContact = enrollments[0].HCP_Contact__r;
+                for (HCP_Enrollment__c enrollment : enrollments) {
+                    this.enrollments.add(new HCPEnrollmentWrapper(enrollment));
                 }
             }
         }
     }
 
-    public class SiteWrapper{
-        public String StudyName;
-        public String Id;
-        public Boolean selected;
-        public String protocolId;
-        public SiteWrapper(String StudyName, String Id){
-            this.StudyName = StudyName;
-            this.Id = Id;
-            this.selected = false;
-        }
-        public SiteWrapper(String StudyName, String Id, String protocolId){
-            this.StudyName = StudyName;
-            this.Id = Id;
-            this.selected = false;
-            this.protocolId = protocolId;
-        }
-    }
-
-    public class  HCPEnrollmentWrapper {
+    public class HCPEnrollmentWrapper {
         HCP_Enrollment__c enrollment;
         String status;
         String statusLabel;
         List<StudyActions.Action> buttonList = new List<StudyActions.Action>();
+        //Boolean isHCPRegistred;
+        public HCPEnrollmentWrapper(HCP_Enrollment__c hcpEnrollment) {
+            Map<String, StudyActions.Action> actionsMap = new StudyActionsPI(hcpEnrollment).actions;
+            status = CommunityService.getConvertedStatus(hcpEnrollment.Status__c);
+            statusLabel = TranslateHelper.getPickListLabel(HCP_Enrollment__c.Status__c, hcpEnrollment.Status__c);
+            enrollment = hcpEnrollment;
+            //isHCPRegistred = !hcpEnrollment.HCP_Contact__r.Is_First_Logon__c;
+            Map<String, String> actionToStatusesMap = HCPEnrollmentService.HCP_CHANGE_STATUS_MAP.get(hcpEnrollment.Status__c);
+            if (actionToStatusesMap != null) {
+                for (String actionId : actionToStatusesMap.keySet()) {
+                    buttonList.add(actionsMap.get(actionId));
+                }
+            }
+        }
+    }
+    public class InitData {
+        public ReferringClinicsFilter referringClinicsFilter;
+        public PaginationData paginationData;
+        public List<MyReferringClinicsController.ClinicWrapper> filteredReferringClinics;
+        public String trialId;
+        public String ssId;
+        public Boolean isButtonDisabled;
+        public InitData(String trialId, String ssId) {
+            this.trialId = trialId;
+            this.ssId = ssId;
+            filteredReferringClinics = new List<MyReferringClinicsController.ClinicWrapper>();
+            referringClinicsFilter = new ReferringClinicsFilter(trialId,ssId);
+            paginationData = new PaginationData();
+        }
+        public InitData(ReferringClinicsFilter.FilterValues filterValues, ReferringClinicsFilter.SortData sortData, PaginationData paginationData) {
+            filteredReferringClinics = new List<MyReferringClinicsController.ClinicWrapper>();
+            this.trialId = filterValues.trialId;
+            this.ssId = filterValues.ssId;
+            this.referringClinicsFilter = new ReferringClinicsFilter(filterValues, sortData);
+            this.paginationData = paginationData;
+        }
     }
 
 }

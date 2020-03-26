@@ -12,11 +12,12 @@
             "Participant_Name__c": "Clint",
             "Participant_Surname__c": "Westwood",
             "Patient_ID__c": "12345678",
-            "Participant_Status__c": "Referral Sent to PI",
+            "Participant_Status__c": "Received",
             "Referral_Source__c": "HCP",
             "Study_Site__c": "@ss1",
             "HCP__c": "@hcpe1",
-            "Participant__c": "@participant1"
+            "Participant__c": "@participant1",
+            "Visit_Plan__c": "@vsp"
         }
     ]
 }

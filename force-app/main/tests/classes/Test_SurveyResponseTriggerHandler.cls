@@ -5,6 +5,8 @@
 @IsTest(SeeAllData=true)
 private class Test_SurveyResponseTriggerHandler {
 
+    static Id communityId = CommunityService.getCommunityId(null);
+
     @IsTest
     static void taskStatusChangerPauseTest() {
         List<Survey> survey = [SELECT Id FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
@@ -13,13 +15,14 @@ private class Test_SurveyResponseTriggerHandler {
         TestData.loadTestData();
         TestData testData = new TestData();
 
+        Test.startTest();
         Reminder_Schedule__c schedule = new Reminder_Schedule__c(
                 First_Reminder_day__c = 1
         );
         insert schedule;
 
         Trial_Survey__c tsAllSee = new Trial_Survey__c(
-                Active_On_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
+                Active_On_Status__c = PEStatusState.PE_STATUS_RECEIVED,
                 Clinical_Trial_Profile__c = testData.ctp.Id,
                 Expires_After_Days__c = 999,
                 Reminder_Schedule__c = schedule.Id,
@@ -28,14 +31,13 @@ private class Test_SurveyResponseTriggerHandler {
         );
         insert tsAllSee;
 
-        SurveyInvitation invitationAll = SurveyService.getInstance().generateInvitation(tsAllSee, testData.pe.Id);
+        SurveyInvitation invitationAll = SurveyService.getInstance().generateInvitation(tsAllSee, testData.pe.Id, communityId);
         insert invitationAll;
 
         TaskService.getInstance().createSurveyTasks(new Map<Id, String>{
                 invitationAll.Id => 'Patient or any Delegate'
         });
 
-        Test.startTest();
         Map<Id, List<Id>> invitationSubmitter = new Map<Id, List<Id>>{
                 invitationAll.Id => new List<Id>{
                         testData.pe.Participant_Contact__c
@@ -50,17 +52,18 @@ private class Test_SurveyResponseTriggerHandler {
     static void taskStatusChangerFinishTest() {
         List<Survey> survey = [SELECT Id FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
         if(survey.isEmpty()) return;
-
+        
         TestData.loadTestData();
         TestData testData = new TestData();
 
+        Test.startTest();
         Reminder_Schedule__c schedule = new Reminder_Schedule__c(
                 First_Reminder_day__c = 1
         );
         insert schedule;
 
         Trial_Survey__c tsOnlyDelegates = new Trial_Survey__c(
-                Active_On_Status__c = PEStatusState.PE_STATUS_REFERRAL_SENT_TO_PI,
+                Active_On_Status__c = PEStatusState.PE_STATUS_RECEIVED,
                 Clinical_Trial_Profile__c = testData.ctp.Id,
                 Expires_After_Days__c = 999,
                 Reminder_Schedule__c = schedule.Id,
@@ -69,7 +72,7 @@ private class Test_SurveyResponseTriggerHandler {
         );
         insert tsOnlyDelegates;
 
-        SurveyInvitation invitationDelegates = SurveyService.getInstance().generateInvitation(tsOnlyDelegates, testData.pe.Id);
+        SurveyInvitation invitationDelegates = SurveyService.getInstance().generateInvitation(tsOnlyDelegates, testData.pe.Id, communityId);
         insert invitationDelegates;
 
         TaskService.getInstance().createSurveyTasks(new Map<Id, String>{
@@ -83,7 +86,6 @@ private class Test_SurveyResponseTriggerHandler {
         );
         insert delegateContact;
 
-        Test.startTest();
         Map<Id, List<Id>> invitationSubmitter = new Map<Id, List<Id>>{
                 invitationDelegates.Id => new List<Id>{
                         delegateContact.Id

@@ -52,10 +52,12 @@ public abstract class StudyActions {
     }
 
     //action ID's
+    public static final String ACT_ACCEPT_TC = 'acceptTermsAndConditions';
     public static final String ACT_VIEW_TC = 'viewTermsAndConditions';
     public static final String ACT_NO_THANKS = 'noThanks';
     public static final String ACT_DELEGATE = 'delegate';
     public static final String ACT_ADD_PATIENT = 'addPatient';
+    public static final String ACT_UPLOAD_PATIENT = 'uploadPatient';
     public static final String ACT_DOWNLOAD_CONSENT = 'downloadConsent';
     public static final String ACT_HOME = 'backHome';
 
@@ -84,16 +86,21 @@ public abstract class StudyActions {
     public static final String ACT_HCP_DECLINE = 'hcpDecline';
     public static final String ACT_HCP_APPROVE = 'hcpApprove';
     public static final String ACT_HCP_ACTIVATE = 'hcpActivate';
+    public static final String ACT_HCP_ACTIVATE_FOR_ALL = 'hcpActivateForAll';
     public static final String ACT_HCP_ORIENTATION_ATTENDED_AND_ACTIVATE = 'hcpOrientationAttendedAndActivate';
     public static final String ACT_HCP_DEACTIVATE = 'hcpDeactivate';
     public static final String ACT_HCP_LINK_STUDY_SITES = 'linkToStudySites';
+    public static final String ACT_SCREENER_RESPONSES = 'screenerResponses';
+    public static final String ACT_CONNECT_PROVIDER = 'connectProvider';
 
     //action labels:
+    public static final String LABEL_ACCEPT_TC = Label.BTN_Accept_terms_and_conditions;
     public static final String LABEL_VIEW_TC = Label.BTN_View_terms_and_conditions;
     public static final String LABEL_VIEW_TC_Participant = Label.BTN_View_terms_and_conditions_participant;
     public static final String LABEL_NO_THANKS = Label.BTN_No_thanks;
     public static final String LABEL_DELEGATE = Label.BTN_Delegate;
-    public static final String LABEL_ADD_PATIENT = Label.BTN_Add_Patient;
+    public static final String LABEL_ADD_PATIENT = Label.PG_Add_Patients_Header;
+    public static final String LABEL_UPLOAD_PATIENT = Label.BTN_Upload_Patient;
     public static final String LABEL_DOWNLOAD_CONSENT = Label.BTN_View_Download_Consent;
     public static final String LABEL_HOME = Label.Link_Back_To_Home;
 
@@ -115,12 +122,13 @@ public abstract class StudyActions {
     public static final String LABEL_MANAGE_REFERRING_CLINICS = Label.SS_Btn_Manage_Referring_Providers;
     public static final String LABEL_MANAGE_REFERRALS_BY_SS = Label.SS_Btn_Manage_Referrals;
     public static final String LABEL_MANAGE_REFERRING_CLINICS_BY_SS = Label.SS_Btn_Manage_Referring_Providers;
-    public static final String LABEL_OPEN_TO_RECEIVE_REFERRALS = Label.BTN_I_m_open_to_receive_referrals;
+    public static final String LABEL_OPEN_TO_RECEIVE_REFERRALS = Label.BTN_I_Activate_my_site;
     public static final String LABEL_HCP_ON_HOLD = Label.BTN_On_hold;
     public static final String LABEL_HCP_DECLINE = Label.BTN_Decline;
     public static final String LABEL_HCP_DEACTIVATE = Label.BTN_Deactivate;
     public static final String LABEL_HCP_APPROVE = Label.BTN_Approve;
     public static final String LABEL_HCP_ACTIVATE = Label.BTN_Activate;
+    public static final String LABEL_HCP_ACTIVATE_FOR_ALL = Label.BTN_Activate_All;
     public static final String LABEL_HCP_ORIENTATION_ATTENDED_AND_ACTIVATE = Label.BTN_Orientation_attended_activate;
     public static final String LABEL_HCP_LINK_STUDY_SITES = Label.Studies_FindSitesForStudy;
 
@@ -163,14 +171,26 @@ public abstract class StudyActions {
 
     private static Map<Id, Boolean> tcAcceptanceMap;
 
+    public StudyActions(){}
+
     public StudyActions(Clinical_Trial_Profile__c study, Study_Site__c studySite, HCP_Enrollment__c hcpEnrollment, String userMode){
+        this(
+                study,
+                studySite,
+                hcpEnrollment,
+                userMode,
+                null
+        );
+    }
+
+    public StudyActions(Clinical_Trial_Profile__c study, Study_Site__c studySite, HCP_Enrollment__c hcpEnrollment, String userMode, String delegateId){
         this.userMode = userMode;
         this.study = study;
         this.studySite = studySite;
         this.hcpEnrollment = hcpEnrollment;
 
         isStudyTCAccepted = isTCAccepted(study.Id);
-        studyAccessLevel = DelegateService.getStudyAccessLevel(study.Id, userMode);
+        studyAccessLevel = DelegateService.getStudyAccessLevel(studySite != null ? studySite.Id : null, userMode, delegateId);
 
         isTCAcceptanceRequired = study.Terms_And_Conditions_ID__c != null && isStudyTCAccepted!= null && !isStudyTCAccepted;
 
@@ -227,6 +247,18 @@ public abstract class StudyActions {
 
 
         //common actions:
+        actions.put(ACT_ACCEPT_TC, new Action(
+                ACT_ACCEPT_TC,
+                LABEL_ACCEPT_TC,
+                'paper-many',
+                new List<DisableReason>{
+                        new DisableReason(
+                                study.Terms_And_Conditions_ID__c  == null,
+                                ''
+                        )
+                },
+                'primary'
+        ));
         actions.put(ACT_VIEW_TC, new Action(
                 ACT_VIEW_TC,
                 LABEL_VIEW_TC,

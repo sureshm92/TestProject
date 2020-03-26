@@ -1,0 +1,15 @@
+<!--
+ - Created by Igor Malyuta on 28.11.2019.
+ -->
+
+<!-- Web Empty List -->
+<template>
+    <template if:true={isShow}>
+        <div class="main-container">
+            <template if:true={showIcon}>
+                <c-web-icon icon-name={iconFace} class-css="rr-icon-big"></c-web-icon>
+            </template>
+            <div class="message">{message}</div>
+        </div>
+    </template>
+</template>

@@ -1,0 +1,57 @@
+.THIS.visit-result-panel {
+    min-height: 200px;
+    padding: 15px 10px 15px 15px;
+    position: relative;
+}
+
+.THIS .visit-result-panel-title {
+    height: 24px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+}
+
+.THIS .visit-result-panel-date {
+    height: 21px;
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    line-height: 21px;
+    margin: 5px 0 20px 0;
+}
+
+.THIS .visit-result-items-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+}
+
+.THIS .visit-result-item-container {
+    width: 30%;
+    min-width: 275px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+.THIS .visit-result-panel-disclaimer {
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 14px;
+    text-align: center;
+}
+
+@media (max-width: 616px) {
+    .THIS .visit-result-items-container {
+        width: 285px;
+    }
+}
+@media (min-width: 617px) and (max-width: 901px)  {
+    .THIS .visit-result-items-container {
+        width: 570px;
+    }
+}

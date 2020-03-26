@@ -34,6 +34,7 @@
 .THIS .address-spinner-indicator-container{
     margin-top: 4%;
     margin-left: 2%;
+    position: unset;
 }
 
 
@@ -62,13 +63,17 @@
     font-size: 24px;
     font-weight: 500;
     line-height: 30px;
+    margin: 0;
 }
 
 .THIS .slvi-status {
     white-space: nowrap;
-    padding: 0 5px;
-    margin-left: 10px;
+    margin: 0;
     flex-shrink: 0;
+}
+
+.THIS .slvi-section .slvi-name-section-hcp .study-name {
+    margin: -5px 0 0 -10px;
 }
 
 .THIS .slvi-objective-section .objective-text {
@@ -93,6 +98,10 @@
     font-size: 13px;
     font-weight: 500;
     line-height: 16px;
+}
+
+.THIS .objective-link a {
+ 	margin-top: 1px;   
 }
 
 .THIS .sponsor-name {
@@ -271,14 +280,6 @@
     padding: 12% 0% 0% 1%;
 }
 
-.THIS .check-button-container{
-    padding-top: 12%;
-}
-
-.THIS .indicator-containers{
-    margin-top:6%;
-}
-
 .THIS .manage-location-details{
     height: 24px;
     color: #297DFD;
@@ -289,10 +290,10 @@
     text-align: right;
     margin: 24px 0 0 auto;
     padding:6px 10px 0 0;
-    background-color: #F2F2F2;
-    border-top: 1px solid #F2F2F2;
-    border-left: 1px solid #F2F2F2;
-    border-right: 1px solid #F2F2F2;
+    background-color: #f8f9fb;
+    border-top: 1px solid #d9d9d9;
+    border-left: 1px solid #d9d9d9;
+    border-right: 1px solid #d9d9d9;
 }
 
 .THIS .manage-location-details span{
@@ -487,6 +488,10 @@
     padding: 16px 8px 0px 8px;
 }
 
+.THIS .edit-address-container .google-map- {
+ 	   
+}
+
 .THIS .manage-location-info{
     text-align: left;
     font-weight: 500;
@@ -509,6 +514,12 @@
     /*text-align: right; */
     font-size: 14px;
     color: #666666;
+	display: inline-flex;
+    align-items: center;
+}
+
+.THIS .slvi-status-item svg {
+    margin-right: 5px;
 }
 
 @media (max-width: 768px) {
@@ -572,11 +583,29 @@
     fill: #005587;
 }
 
-.THIS .edit-address-container{
-
+.THIS .address-check .popup-address-inputs{
+    width: 40%
 }
 
+.THIS .address-check .popup-address-inputs.indicator-containers{
+    width: 60%
+}
 
+.THIS .edit-address-container .cRrSelect .slds-select_container .slds-select {
+    padding-right: 0;
+}
+
+.THIS .check-button-container{
+    padding-top: 6%;
+}
+
+.THIS .indicator-containers{
+    margin-top: 3%;
+}
+
+.THIS .check-address-btn{
+    padding: 0 7px;
+}
 
 @media all and (min-width: 768px) {
     .THIS .slvi-padded-panel-left {
@@ -590,18 +619,12 @@
     }
 }
 
- .THIS .rri-icon-pi svg{
-     height: 18px;
-     width: 18px;
- }
-
 @media all and (max-width: 767px) {
     .THIS .slvi-header-item + .slvi-header-item {
         margin-top: 16px;
     }
 
     .THIS .apollo-btn.primary{
-        font-size:12px;
         width:100%;
         display:block;
         margin:2% 0 0 0;
@@ -682,9 +705,3 @@
 .THIS #addNewLocation .plus-location-icon{
     fill: #297DFD;
 }
-
-.THIS .check-address-btn{
-    padding:9px 7px;
-    max-height: 44px;
-}
-

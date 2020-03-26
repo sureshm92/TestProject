@@ -1,0 +1,70 @@
+/**
+ * Created by Leonid Bartenev
+ */
+
+.THIS .rr-white-panel {
+    border: none;
+}
+
+.THIS .rr-white-panel.padding {
+    padding-top: 0;
+}
+
+.THIS .db-header{
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.THIS .cFilterPanel .fp-filter-block {
+    padding-top: 0;
+}
+    
+.THIS .db-container{
+    max-width: 380px;
+    margin: auto;
+    margin-bottom: 30px;
+}
+
+.THIS .fp-search-input img {
+    margin-right: 10px;
+}
+
+.THIS .cDonut.slds-grid {
+    display: flex;
+    flex-direction: column-reverse;
+} 
+
+.THIS .cDonut.slds-grid .dt-legend-section {
+    width: 100%;
+    padding-left: 0;
+} 
+
+.THIS .cDonut.slds-grid .dt-chart-container {
+    width: 100%;
+    text-align: center;
+}
+
+.THIS .cDonut.slds-grid > .slds-col:not(.dt-legend-section) {
+    margin: 25px auto 0;    
+}
+
+.THIS .cDonut.slds-grid .dt-legend-section > div {
+    display: inline-flex;
+    width: 100%;
+    justify-content: flex-start;
+} 
+
+.THIS .cDonut.slds-grid .dt-legend-section > div > .slds-grid {
+    margin-right: 15px;
+}
+
+.THIS .cDonut.slds-grid .dt-legend-section .dt-legend-circle {
+    margin-bottom: 0;
+    margin-top: 2px;
+}
+
+.THIS .cDonut.slds-grid .dt-legend-section > div > .slds-grid .dt-legend-item {
+    font-size: .8125rem;
+}

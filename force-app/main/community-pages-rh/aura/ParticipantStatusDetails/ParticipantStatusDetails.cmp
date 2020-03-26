@@ -1,0 +1,52 @@
+<!--
+ - Created by Andrii Kryvolap.
+ -->
+
+<aura:component description="ParticipantStatusDetails">
+    <!--attributes-->
+    <aura:attribute name="participantWorkflowWrapper" type="Object" required="true"/>
+    <aura:attribute name="parent" type="Aura.Component" />
+    <aura:attribute name="updateInProgress" type="Boolean"  default="false"/>
+
+
+    <aura:method name="fieldChanged" action="{!c.doFieldChanged}" access="public">
+        <aura:attribute name="fieldName" type="String"/>
+        <aura:attribute name="value" type="String"/>
+        <aura:attribute name="valid" type="Boolean"/>
+        <aura:attribute name="fieldMap" type="Object"/>
+    </aura:method>
+
+
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size--1-of-3 slds-p-horizontal--medium">
+            <aura:iteration items="{!v.participantWorkflowWrapper.steps}" var="step" indexVar="stepInd">
+                <div>
+                    <button class="apollo-btn secondary step-btn" data-step-ind="{!stepInd}" onclick="{!c.doChangeStep}" disabled="{!step.state=='neutral' || v.updateInProgress}">
+                        <div class="{!'step-status-icon icon-' + step.state}">
+                            <aura:if isTrue="{!step.state=='success'}">
+                                <c:RRIcon iconName="icon-check"/>
+                            </aura:if>
+                            <aura:if isTrue="{!step.state=='failure'}">
+                                <c:RRIcon iconName="icon-close"/>
+                            </aura:if>
+                        </div>
+                        <div class="step-info">
+                            <div class="step-title">{!step.title}</div>
+                            <div class="step-status">{!step.status}</div>
+                        </div>
+                    </button>
+                </div>
+            </aura:iteration>
+        </div>
+        <div class="slds-col slds-size--2-of-3">
+            <aura:iteration items="{!v.participantWorkflowWrapper.steps}" var="step">
+                <div style="{!if(step.isCurrentStep ,'display: block','display: none')}">
+                    <c:ParticipantStatusDetailsCard aura:id="stepCard"
+                                                    stepWrapper="{!step}"
+                                                    partInfoForm="{!v.parent}" parent="{!this}"
+                                                    updateInProgress="{!v.updateInProgress}"/>
+                </div>
+            </aura:iteration>
+        </div>
+    </div>
+</aura:component>

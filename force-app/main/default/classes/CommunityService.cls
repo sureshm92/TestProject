@@ -2,25 +2,21 @@
  * Created by D.Yasinskyi on 21.02.2018
  */
 public without sharing class CommunityService {
-    
+
+    public static final String IQVIA_NETWORK_NAME = 'IQVIA Referral Hub';
+    public static final String GSK_NETWORK_NAME = 'GSK Community';
+
     public static final String COMMUNITY_USER_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
     public static final Id COMMUNITY_USER_PROFILE_ID = [SELECT Id FROM Profile WHERE Name = :COMMUNITY_USER_PROFILE_NAME].Id;
     public static final String SPNL_USER_PROFILE_NAME = 'IQVIA SPNL';
     public static final Id SPNL_USER_PROFILE_ID = [SELECT Id FROM Profile WHERE Name =: SPNL_USER_PROFILE_NAME].Id;
-    public static final String COMMUNITY_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
     public static final Id SPNL_ROLE = [SELECT Id FROM UserRole WHERE Name='SPNL'].Id;
 
     public static String COMMUNITY_PARTICIPANT_ACCOUNT_NAME = 'Participant';
     public static String COMMUNITY_DELEGATE_ACCOUNT_NAME = 'Delegate';
 
     //community email process
-    public static String COMMUNITY_ET_HCP = 'RP1_New_Study_Email'; //email template
-    public static String COMMUNITY_ET_PI = 'PI1_New_Study_Email'; //email template
-    public static String COMMUNITY_ET_PARTICIPANT = 'Patient1_New_Study'; //email template
-    public static String COMMUNITY_ET_DELEGATE = 'Delegate_New_Email'; //email template
     public static String COMMUNITY_ET_DELEGATE_WELCOME = 'Initial_Email'; //email template
-    public static String COMMUNITY_ET_SHARE_STUDY = 'Share_Study_Template'; //email template
-    public static String COMMUNITY_ET_SHARE_RESOURCE = 'Share_Resources'; //email template
 
     // org wide email address
     public static final String COMMUNITY_ORG_WIDE_ADDRESS_REFERRAL = 'IQVIA Referral Hub';
@@ -45,6 +41,7 @@ public without sharing class CommunityService {
 
     //hold contact instance:
     private static Contact userContact;
+    private static Id userId = UserInfo.getUserId();
     
     private static CommunityService instance;
     
@@ -58,49 +55,34 @@ public without sharing class CommunityService {
     }
     
     public Id getCurrentContactId(){
-        return CommunityService.getUserContact().Id;
+        return UserContext.getUserContactId();
     }
 
-    public String getUserAccessLevel(){
+    public String getUserAccessLevel(String delegateId){
         String accessLevel;
         try {
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
-            accessLevel = [ SELECT Delegate_Level__c
-                            FROM Referring_HCP_Staff__c
-                            WHERE Contact__c = :currentContactId LIMIT 1].Delegate_Level__c;
+            accessLevel = [ SELECT Delegate_Access_Level__c
+                            FROM RP_Delegate_Relationship__c
+                            WHERE Delegate__c = :currentContactId AND Referring_Provider__c = :delegateId LIMIT 1].Delegate_Access_Level__c;
         } catch (Exception ex){
             accessLevel=null;
         }
         return accessLevel;
     }
 
-    public Contact getUserContactImpl(){
-        if (userContact == null) {
-            User currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
-            if(currentUser.ContactId == null) throw new CommunityServiceException(CommunityService.ERROR_MISSING_CONTACT_ON_USER);
-            userContact = getContactById(currentUser.ContactId);
-        }
-        return userContact;
-    }
-    
     //Old static logic: ------------------------------------------------------------------------------------------------
     
     public static Contact getUserContact() {
-        return getInstance().getUserContactImpl();
+        return UserContext.getUserContact();
+    }
+    
+    public static Id getUserId(){
+        return UserContext.getUserId();
     }
 
-    //TODO for remove:
-    public static String getAccessRights(String userMode){
-        return null;
-    }
-
-    //for debug under internal user
-    public static void setDummyUserContact(Id contactId){
-        userContact = getContactById(contactId);
-    }
-
+    //Todo remove this:
     public String getParticipantId() {
-
         User currentUser = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
         if(currentUser.ContactId == null) {
             throw new CommunityServiceException(CommunityService.ERROR_MISSING_CONTACT_ON_USER);
@@ -123,10 +105,11 @@ public without sharing class CommunityService {
                 WHERE Id IN :userContactIds
         ];
     }
-
+    
     public static List<User> getCommunityUsersByContactIds(Set<Id> contactIds) {
         return [
-                SELECT Id, Name, FirstName, LastName, ContactId, Email
+                SELECT Id, Name, FirstName, LastName, ContactId, Email, IsActive,
+                (SELECT Id, PermissionSet.Name FROM PermissionSetAssignments)
                 FROM User
                 WHERE
                         //Profile.Name = :COMMUNITY_USER_PROFILE_NAME AND
@@ -154,7 +137,7 @@ public without sharing class CommunityService {
         ];
     }
 
-    public static void createPortalUsers(Set<Id> contactIds){
+    public void createPortalUsers(Set<Id> contactIds){
         List<Contact> contacts = getContacts(contactIds);
         List<User> newPortalUsers = new List<User>();
         for (Contact cont : contacts) newPortalUsers.add(createUser(cont, null, null, null));
@@ -162,7 +145,7 @@ public without sharing class CommunityService {
     }
 
     //Create participant users, fill time zone, locale and language from HCP contact
-    public static void createParticipantUsers(Map<Id, Id> contactIdsMap) {
+    public void createParticipantUsers(Map<Id, Id> contactIdsMap) {
         System.debug('ParticipantContactId -> HCPContactId MAP: ' + contactIdsMap);
         List<Contact> contacts = getContacts(contactIdsMap.keySet());
         List<User> hcpUsers = [
@@ -193,9 +176,13 @@ public without sharing class CommunityService {
                 newPortalUsers.add(createUser(cont, locale, language, timeZone));
             }
         }
-       System.debug('newPortalUsers' + newPortalUsers);
+        System.debug('newPortalUsers' + newPortalUsers);
         insert newPortalUsers;
         System.debug('Portal users successfully created = ' + newPortalUsers.size());
+    }
+
+    public void createParticipantUsersAsync(Map<Id, Id> contactIdsMap, Set<Id> participantContactIds) {
+        System.enqueueJob(new CreateParticipantUsersAsync(contactIdsMap, participantContactIds));
     }
 
     public static User createUser(Contact cont, String locale, String language, String timeZone){
@@ -230,35 +217,23 @@ public without sharing class CommunityService {
         return newUser;
     }
 
-    public static List<Contact> getContacts(Set<Id> contactIds) {
-        return [
-                SELECT Id, Email, FirstName, LastName, Name, Language__c, (SELECT Id, Preferred_Language__c FROM Participants__r)
-                FROM Contact
-                WHERE Id = :contactIds
+    @Future
+    public static void deactivateUsers(List<Id> contactIds) {
+        List<User> users = [
+                SELECT Id, IsActive
+                FROM User
+                WHERE ContactId IN :contactIds
         ];
+        for (User u : users) u.IsActive = false;
+        update users;
     }
 
-    private static Contact getContactById(Id contactId) {
+    public static List<Contact> getContacts(Set<Id> contactIds) {
         return [
-                SELECT Id,
-                        Name,
-                        primaryContact__c,
-                        userCommunityMode__c,
-                        userCommunytyType__c,
-                        UserCommunityIsDelegate__c,
-                        HCP_DelegateAccessLevel__c,
-                        PI_DelegateAccessLevel__c,
-                        userCommunity_ShowTour__c,
-                        Last_Session_Id__c,
-                        Language__c,
-                        Second_Choice_Language__c,
-                        Third_Choice_Language__c,
-                        MailingLatitude,
-                        MailingLongitude,
-                        MailingCountry,
-                        Account.BillingCountry
+                SELECT Id, Email, FirstName, LastName, Name, Language__c, Full_Name__c, Salutation, Suffix
                 FROM Contact
-                WHERE Id = :contactId
+                WHERE Id = :contactIds
+                //ORDER BY Name
         ];
     }
 
@@ -291,7 +266,7 @@ public without sharing class CommunityService {
         return ![SELECT Id
                     FROM User
                     WHERE ContactId =: contactId
-                        AND Profile.Name =: COMMUNITY_PROFILE_NAME
+                        AND Profile.Name =: COMMUNITY_USER_PROFILE_NAME
         ].isEmpty();
     }
 
@@ -333,6 +308,14 @@ public without sharing class CommunityService {
         return Database.query('SELECT Id FROM Network' + nameFilter).get(0).Id;
     }
 
+    public static Map<String, Id> getCommunityIdsMap() {
+        List<Network> networks = [SELECT Id, Name FROM Network];
+        Map<String, Id> communityMap = new Map<String, Id>();
+        for(Network net : networks) communityMap.put(net.Name, net.Id);
+
+        return communityMap;
+    }
+
     public static Boolean isNewSession(){
         Contact userContact = getUserContact();
         Boolean isNewSession = UserInfo.getSessionId() != userContact.Last_Session_Id__c;
@@ -342,4 +325,32 @@ public without sharing class CommunityService {
         }
         return isNewSession;
     }
+
+    public class CreateParticipantUsersAsync implements Queueable {
+        Set<Id> participantContactIds;
+        Map<Id, Id> contactIdsMap = new Map<Id, Id>();
+
+        public CreateParticipantUsersAsync(Map<Id, Id> contactIdsMap, Set<Id> participantContactIds) {
+            this.contactIdsMap = contactIdsMap;
+            this.participantContactIds = participantContactIds;
+        }
+
+        public void execute(QueueableContext context) {
+            ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(contactIdsMap);
+
+            if (participantContactIds != null && !participantContactIds.isEmpty()) {
+                Map<Id, List<Id>> delegatesByParticipant =
+                        PatientDelegateService.getDelegateContactIdsByPAContactIs(new List<Id>(participantContactIds));
+                Set<Id> allContactIds = new Set<Id>(participantContactIds);
+                for(Id partKey : delegatesByParticipant.keySet()) {
+                    for(Id delConId : delegatesByParticipant.get(partKey)) {
+                        allContactIds.add(delConId);
+                    }
+                }
+                PatientDelegateService.updatePermissionSets(allContactIds);
+            }
+        }
+
+    }
+
 }

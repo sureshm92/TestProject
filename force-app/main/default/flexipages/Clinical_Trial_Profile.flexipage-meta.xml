@@ -7,6 +7,10 @@
                 <value>false</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
+                <name>hideChatterActions</name>
+                <value>false</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
                 <name>numVisibleActions</name>
                 <value>3</value>
             </componentInstanceProperties>
@@ -19,7 +23,14 @@
         <componentInstances>
             <componentName>force:detailPanel</componentName>
         </componentInstances>
-        <name>Facet-b52f5feb-2e46-448c-b7e8-eda3de42b92e</name>
+        <name>Facet-71f78859-04bd-4226-8ba8-4ace3aa5ec77</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentName>StudyConfiguration</componentName>
+        </componentInstances>
+        <name>Facet-uvza5rqjjcc</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -31,15 +42,7 @@
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
-            <componentInstanceProperties>
-                <name>IconsPackageFIlePath</name>
-                <value>/icons.svg</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>IconsPackageName</name>
-                <value>custom_Icons</value>
-            </componentInstanceProperties>
-            <componentName>VisitPlanConfiguration</componentName>
+            <componentName>StudySiteVisitConfig</componentName>
         </componentInstances>
         <name>Facet-e7b91726-63ab-4a68-b98f-a1f8810be2c5</name>
         <type>Facet</type>
@@ -67,26 +70,106 @@
                 <value>true</value>
             </componentInstanceProperties>
             <componentName>force:relatedListSingleContainer</componentName>
+            <visibilityRule>
+                <criteria>
+                    <leftValue>{!Record.Tasks_Are_Available__c}</leftValue>
+                    <operator>EQUAL</operator>
+                    <rightValue>true</rightValue>
+                </criteria>
+            </visibilityRule>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>featureName</name>
+                <value>Trial_Surveys</value>
+            </componentInstanceProperties>
+            <componentName>EmptyPage</componentName>
         </componentInstances>
         <name>Facet-c3fbf587-d0ce-4805-a8ed-0e5ab2b44e13</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
+            <componentName>TravelVendorPanel</componentName>
+        </componentInstances>
+        <name>Facet-ed68fcf3-f525-4f5f-83c8-60897f3503cc</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentName>PaymentVendorPanel</componentName>
+        </componentInstances>
+        <name>Facet-7d2de0ae-6cd0-4cf9-88f6-8a463d4fb83b</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
             <componentName>ApproveLanguageIRB</componentName>
         </componentInstances>
-        <name>Facet-bea3fd72-3e96-48e5-978f-d2da18ec4c56</name>
+        <name>Facet-46216db2-7a89-4163-9dfd-a02ee2c6dd12</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentName>MessageConfigurationPanel</componentName>
+        </componentInstances>
+        <name>Facet-73cec6da-858c-4a63-aac7-db5320c39a9e</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>parentFieldApiName</name>
+                <value>Clinical_Trial_Profile__c.Id</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>relatedListApiName</name>
+                <value>Motivational_Messages1__r</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>relatedListComponentOverride</name>
+                <value>NONE</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>rowsToDisplay</name>
+                <value>10</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>showActionBar</name>
+                <value>true</value>
+            </componentInstanceProperties>
+            <componentName>force:relatedListSingleContainer</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>featureName</name>
+                <value>Motivational_Messages</value>
+            </componentInstanceProperties>
+            <componentName>EmptyPage</componentName>
+        </componentInstances>
+        <name>Facet-7b7172a8-7e78-491e-984a-de54a5f1bf30</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <componentInstances>
             <componentInstanceProperties>
                 <name>body</name>
-                <value>Facet-b52f5feb-2e46-448c-b7e8-eda3de42b92e</value>
+                <value>Facet-71f78859-04bd-4226-8ba8-4ace3aa5ec77</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>title</name>
                 <value>Standard.Tab.detail</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>Facet-uvza5rqjjcc</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Study Configuration</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
         </componentInstances>
@@ -126,11 +209,55 @@
         <componentInstances>
             <componentInstanceProperties>
                 <name>body</name>
-                <value>Facet-bea3fd72-3e96-48e5-978f-d2da18ec4c56</value>
+                <value>Facet-ed68fcf3-f525-4f5f-83c8-60897f3503cc</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Travel Vendor Configuration</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>Facet-7d2de0ae-6cd0-4cf9-88f6-8a463d4fb83b</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Payment Vendor Configuration</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>Facet-46216db2-7a89-4163-9dfd-a02ee2c6dd12</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>title</name>
                 <value>Approved Languages</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>Facet-73cec6da-858c-4a63-aac7-db5320c39a9e</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Messages</value>
+            </componentInstanceProperties>
+            <componentName>flexipage:tab</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentInstanceProperties>
+                <name>body</name>
+                <value>Facet-7b7172a8-7e78-491e-984a-de54a5f1bf30</value>
+            </componentInstanceProperties>
+            <componentInstanceProperties>
+                <name>title</name>
+                <value>Motivational Messages</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
         </componentInstances>
@@ -206,29 +333,6 @@
             <componentInstanceProperties>
                 <name>relatedListApiName</name>
                 <value>Participant_Enrollments__r</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>relatedListComponentOverride</name>
-                <value>NONE</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>rowsToDisplay</name>
-                <value>10</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>showActionBar</name>
-                <value>true</value>
-            </componentInstanceProperties>
-            <componentName>force:relatedListSingleContainer</componentName>
-        </componentInstances>
-        <componentInstances>
-            <componentInstanceProperties>
-                <name>parentFieldApiName</name>
-                <value>Clinical_Trial_Profile__c.Id</value>
-            </componentInstanceProperties>
-            <componentInstanceProperties>
-                <name>relatedListApiName</name>
-                <value>Study_IDs__r</value>
             </componentInstanceProperties>
             <componentInstanceProperties>
                 <name>relatedListComponentOverride</name>

@@ -1,0 +1,24 @@
+/**
+ * Created by Igor Malyuta on 16.09.2019.
+ */
+.THIS .slds-card__header {
+    padding: 0;
+    margin: 0;
+}
+
+.THIS .slds-card__body {
+    margin-top: 0;
+}
+
+.THIS.main-panel{
+    margin-bottom: 20px;
+}
+
+.THIS .accordion-content{
+    padding: 0 10px;
+}
+
+.THIS .platform-level-checkbox {
+    display: flex;
+    padding: 8px 0 76px;
+}
