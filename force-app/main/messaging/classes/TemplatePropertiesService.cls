@@ -92,9 +92,9 @@ public with sharing class TemplatePropertiesService {
                         Participant_Enrollment__c.getSObjectType(),
                         filter
                 );
-                if (enrollments != null) {
+                if (enrollments != null && !enrollments.isEmpty()) {
                     templateName = CommunityTemplateService.getTemplate(
-                            enrollments[0].Clinical_Trial_Profile__r.CommunityTemplate__c).templateName;
+                            enrollments.get(0).Clinical_Trial_Profile__r.CommunityTemplate__c).templateName;
                 }
             }
         } catch (Exception e) {
