@@ -240,25 +240,16 @@ public with sharing class TrialSearchHelper {
         List<Id> enrolledCTPByCurrentContact = new List<Id>();
         for (Case oneCase : cases) enrolledCTPByCurrentContact.add(oneCase.Study__c);
 
-        List<Clinical_Trial_Profile__c> notEnrolledCTPByCurrentContact = [
-                SELECT Therapeutic_Area__c,
-                        Therapeutic_Area__r.Name,
-                        Study_Code_Name__c,
-                        Official_Title__c,
-                        Enrollment_Start_Date__c,
-                        Override_Recruitment_Status__c,
-                        Recruitment_Status__c,
-                        NCT_Number__c,
-                        Link_to_ePR_Campaign__c
-                FROM Clinical_Trial_Profile__c
-                WHERE Id NOT IN :enrolledCTPByCurrentContact
-        ];
+        List<Clinical_Trial_Profile__c> suitableStudies = new List<Clinical_Trial_Profile__c>();
+        for(Clinical_Trial_Profile__c ctp : CTPs) {
+            if(!enrolledCTPByCurrentContact.contains(ctp.Id)) suitableStudies.add(ctp);
+        }
 
         List<String> existedTopics = new List<String>();
         for (Contact_Topic__c ct : contactTopics) existedTopics.add(ct.Topic__r.TopicId__c);
 
         List<TrialSearchContainerRemote.TrialTDO> trialTDOS = new List<TrialSearchContainerRemote.TrialTDO>();
-        for (Clinical_Trial_Profile__c ctp : notEnrolledCTPByCurrentContact) {
+        for (Clinical_Trial_Profile__c ctp : suitableStudies) {
             TrialSearchContainerRemote.TrialTDO tdo = new TrialSearchContainerRemote.TrialTDO();
             tdo.ctp = ctp;
             tdo.isEnrollingCTP = isCtpEnrolling(ctp);
@@ -291,6 +282,7 @@ public with sharing class TrialSearchHelper {
 
         queryCTP += whereClause;
         queryCTP += orderBy;
+        System.debug('>>getCtps query: ' + queryCTP);
         List<Clinical_Trial_Profile__c> ctps = (List<Clinical_Trial_Profile__c>) proxy.query(queryCTP, true);
         return ctps;
     }
