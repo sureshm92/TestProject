@@ -279,6 +279,14 @@ public without sharing class HCPEnrollmentService {
     public static List<HCP_Enrollment__c> getHCPEnrollmentsCommon(String userMode, String delegateId, String filter, Boolean excludeDelegates){
         return getHCPEnrollmentsCommonCustomFields(userMode, delegateId, HCPE_COMMON_FIELDS, filter, excludeDelegates);
     }
+    public static HCP_Enrollment__c getHcpEnroll(Id hcpeId){
+        String query = 'SELECT ' + String.join(HCPE_COMMON_FIELDS, ',') +
+                ' FROM HCP_Enrollment__c ' +
+                ' WHERE Id = \'' + hcpeId + '\'';
+        HCP_Enrollment__c hcpe = Database.query(query);
+        TranslateHelper.translate(hcpe);
+        return hcpe;
+    }
 
 //    public static List<HCP_Enrollment__c> getHCPEnrollmentsWithDelegateLevelFiltered(String filter, Set<String> delegateLevels){
 //        List<HCP_Enrollment__c> hcpeList = new List<HCP_Enrollment__c>();

@@ -259,10 +259,13 @@ public without sharing class HCPEnrollmentTriggerHandler {
             for (Id hcpeContactId : mapHCPEByHcpContact.keySet()) {
                 List<HCP_Enrollment__c> enrollmentsForHcp = mapHCPEByHcpContact.get(hcpeContactId);
                 if (enrollmentsForHcp.size() > 1) {
+                    Boolean wasInPendingOrientationStateBoolean =  oldMap.get(enrollmentsForHcp[0].Id).Status__c == HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O;
                     listNotificationsToSend.add(new Notification__c(
                             Recipient__c = hcpeContactId,
                             WhatId__c = enrollmentsForHcp[0].Id,
-                            Notification_Type__c = NotificationCatalog.MESSAGE_TO_HCP_APPROVED_TYPE
+                            Notification_Type__c = (wasInPendingOrientationStateBoolean?
+                                    NotificationCatalog.MESSAGE_TO_HCP_ORIENTATION_COMPLETED_TYPE
+                                    :NotificationCatalog.MESSAGE_TO_HCP_APPROVED_TYPE)
                     ));
                 } else {
                     hcpeWithUniqueHCP.add(enrollmentsForHcp[0]);
@@ -287,13 +290,15 @@ public without sharing class HCPEnrollmentTriggerHandler {
                 for (HCP_Enrollment__c hcpEnrollment : hcpeWithUniqueHCP){
                     Boolean wasApprovedByPIForAllStudies = rpPiRelationshipsMap.containsKey(hcpEnrollment.HCP_Contact__c)
                             && rpPiRelationshipsMap.get(hcpEnrollment.HCP_Contact__c).contains(hcpEnrollment.Study_Site_PI_Contact__c);
-
+                    Boolean wasInPendingOrientationStateBoolean =  oldMap.get(hcpEnrollment.Id).Status__c == HCPEnrollmentService.HCP_S_ACTIVATION_PENDING_O;
                     listNotificationsToSend.add(new Notification__c(
                             Recipient__c = hcpEnrollment.HCP_Contact__c,
                             WhatId__c = hcpEnrollment.Id,
-                            Notification_Type__c = (wasApprovedByPIForAllStudies?
-                                    NotificationCatalog.MESSAGE_TO_HCP_APPROVED_TYPE
-                                    :NotificationCatalog.MESSAGE_TO_HCP_APPROVED_SINGLE_TYPE)
+                            Notification_Type__c = (wasInPendingOrientationStateBoolean?
+                                    NotificationCatalog.MESSAGE_TO_HCP_ORIENTATION_COMPLETED_TYPE
+                                    :(wasApprovedByPIForAllStudies?
+                                        NotificationCatalog.MESSAGE_TO_HCP_APPROVED_TYPE
+                                        :NotificationCatalog.MESSAGE_TO_HCP_APPROVED_SINGLE_TYPE))
                     ));
                 }
             }

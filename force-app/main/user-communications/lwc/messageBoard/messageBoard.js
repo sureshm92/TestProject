@@ -241,7 +241,6 @@ export default class MessageBoard extends LightningElement {
     }
 
     handleSendClick() {
-        if(!this.selectedEnrollments || !this.selectedEnrollment) return;
         let messageText = this.messageText;
         let fileList;
         if (this.attachment) {
@@ -339,7 +338,7 @@ export default class MessageBoard extends LightningElement {
 
     checkSendBTNAvailability() {
         let sendBtn = this.template.querySelector('.ms-send-button');
-        if (this.messageText && (this.selectedEnrollment || this.selectedEnrollments) && !this.isHoldMode) {
+        if (this.messageText && this.isRecipientSelected() && !this.isHoldMode) {
             this.isSendEnable = true;
             sendBtn.removeAttribute('disabled');
         } else {
@@ -354,6 +353,10 @@ export default class MessageBoard extends LightningElement {
         this.isSendEnable = false;
         this.template.querySelector('.ms-send-button').setAttribute('disabled', '');
         this.attachment = null;
+    }
+
+    isRecipientSelected() {
+        return this.isMultipleMode ? (this.selectedEnrollments && this.selectedEnrollments.length > 0) : this.selectedEnrollment;
     }
 
     fireSendEvent(wrapper) {
