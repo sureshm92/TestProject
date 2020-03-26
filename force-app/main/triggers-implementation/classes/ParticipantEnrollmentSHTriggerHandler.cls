@@ -162,7 +162,8 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                             Is_Virtual_Study_Site__c,
                             HCP__c,
                             HCP__r.HCP_Contact__c,
-                            Referral_Source__c
+                            Referral_Source__c,
+                            Participant_Status__c
                     FROM Participant_Enrollment__c WHERE Id IN : peIds];
             Set<Id> participantIds = new Set<Id>();
             Map<Id, Participant_Enrollment__c> participantEnrollmentMap = new Map<Id, Participant_Enrollment__c>();
@@ -183,6 +184,10 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             }
 
             //process PE items:
+            List<String> peStatusesSuccess = new List<String>{
+                    PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS,
+                    PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS
+            };
             List<Alert__c> alertsForInsert = new List<Alert__c>();
             for (Participant_Enrollment__c newPE : participantEnrollments) {
                 Participant__c participant = newPE.Participant__c != null? participantMap.get(newPE.Participant__c):null;
@@ -208,19 +213,21 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                         ));
                     }else {
                         System.debug('NOTIFY USER');
-                        if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP) {
+                        if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP
+                                && !peStatusesSuccess.contains(newPE.Participant_Status__c)) {
                             notifications.add(new Notification__c(
                                     Recipient__c = participant.Contact__c,
                                     WhatId__c = newPE.Id,
                                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE
                             ));
-                        } else if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI) {
+                        } else if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI
+                                && !peStatusesSuccess.contains(newPE.Participant_Status__c)) {
                             notifications.add(new Notification__c(
                                     Recipient__c = participant.Contact__c,
                                     WhatId__c = newPE.Id,
                                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE
                             ));
-                        } else {
+                        } else if (!peStatusesSuccess.contains(newPE.Participant_Status__c)){
                             notifications.add(new Notification__c(
                                     Recipient__c = participant.Contact__c,
                                     WhatId__c = newPE.Id,

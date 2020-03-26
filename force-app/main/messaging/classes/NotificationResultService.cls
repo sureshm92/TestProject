@@ -33,9 +33,7 @@ public without sharing class NotificationResultService {
     }
     
     public void setFailed(Id notificationId, String targetType, String errorMessage){
-        Send_Result__c sendResult = getSendResult(notificationId, targetType);
-        sendResult.Status__c = SEND_RESULT_STATUS_FAILED;
-        sendResult.Error__c = errorMessage;
+        setResultStatus(notificationId, targetType, SEND_RESULT_STATUS_FAILED, errorMessage);
     }
     
     public void setSent(Id notificationId, String targetType){

@@ -101,13 +101,13 @@ public with sharing class TrialSearchHelper {
         );
         ((DatabaseProxy) (ClassFactory.newInstance(DatabaseProxy.class))).upsertRecord(caseContact, true);
 
-        if(!Test.isRunningTest()) {
+        if (!Test.isRunningTest()) {
             Notification__c newNotification = new Notification__c(
                     WhatId__c = caseContact.Id,
                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_TRIAL_SEARCH_REQUEST_TYPE
             );
             List<Participant__c> partWithContId = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participant.Id];
-            if(!partWithContId.isEmpty()) {
+            if (!partWithContId.isEmpty()) {
                 newNotification.Recipient__c = partWithContId.get(0).Contact__c;
             } else {
                 newNotification.Email__c = participant.Email__c;
@@ -151,10 +151,10 @@ public with sharing class TrialSearchHelper {
                 WHERE Contact__c = :conId
         ];
         List<Id> topicsAlreadyExist = new List<Id>();
-        for(Contact_Topic__c ct: subAlreadyExist) topicsAlreadyExist.add(ct.Topic__c);
+        for (Contact_Topic__c ct : subAlreadyExist) topicsAlreadyExist.add(ct.Topic__c);
         List<Contact_Topic__c> newContactTopics = new List<Contact_Topic__c>();
-        for(Topic__c t: topics){
-            if(!topicsAlreadyExist.contains(t.Id)){
+        for (Topic__c t : topics) {
+            if (!topicsAlreadyExist.contains(t.Id)) {
                 newContactTopics.add(new Contact_Topic__c(
                         Contact__c = conId,
                         Topic__c = t.Id));
@@ -207,51 +207,49 @@ public with sharing class TrialSearchHelper {
 
     private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(List<Clinical_Trial_Profile__c> CTPs) {
         List<Id> ctpIdsForTopics = new List<Id>();
-        List<Id> ctpIdsForCases = new List<Id>();
-        for (Clinical_Trial_Profile__c ctp : CTPs){
-            if (!isCtpEnrolling(ctp)) {
-                ctpIdsForTopics.add(ctp.Id);
-            } else {
-                ctpIdsForCases.add(ctp.Id);
-            }
+//        List<Id> ctpIdsForCases = new List<Id>();
+        for (Clinical_Trial_Profile__c ctp : CTPs) {
+            if (!isCtpEnrolling(ctp)) ctpIdsForTopics.add(ctp.Id);
         }
 
         List<Contact_Topic__c> contactTopics = [
-                SELECT Topic__r.TopicId__c, Contact__r.Email
+                SELECT Topic__r.TopicId__c
                 FROM Contact_Topic__c
                 WHERE Topic__r.TopicId__c IN :ctpIdsForTopics
                 AND Contact__c = :CommunityService.getInstance().getCurrentContactId()
         ];
-        List<Contact> currentContact = [
-                SELECT Id,Email
-                FROM Contact
-                WHERE Id = :CommunityService.getInstance().getCurrentContactId()
-                LIMIT 1
-        ];
 
-        List<Case> cases = [
-                SELECT Id, Study__c, Email_address__c
-                FROM Case
-                WHERE Study__c IN :ctpIdsForCases
-                AND Email_address__c = :currentContact.get(0).Email
-        ];
+//        List<Contact> currentContact = [
+//                SELECT Id,Email
+//                FROM Contact
+//                WHERE Id = :CommunityService.getInstance().getCurrentContactId()
+//                LIMIT 1
+//        ];
+//
+//        List<Case> cases = [
+//                SELECT Id, Study__c, Email_address__c
+//                FROM Case
+//                WHERE Study__c IN :ctpIdsForCases
+//                AND Email_address__c = :currentContact.get(0).Email
+//        ];
+//
+//        List<Id> enrolledCTPByCurrentContact = new List<Id>();
+//        for (Case oneCase : cases) enrolledCTPByCurrentContact.add(oneCase.Study__c);
 
-        List<String> existedRecords = new List<String>();
+//        List<Clinical_Trial_Profile__c> suitableStudies = new List<Clinical_Trial_Profile__c>();
+//        for(Clinical_Trial_Profile__c ctp : CTPs) {
+//            if(!enrolledCTPByCurrentContact.contains(ctp.Id)) suitableStudies.add(ctp);
+//        }
 
-        for (Case currentCase : cases) {
-            existedRecords.add(currentCase.Study__c);
-        }
-
-        for (Contact_Topic__c ct : contactTopics) {
-            existedRecords.add(ct.Topic__r.TopicId__c);
-        }
+        List<String> existedTopics = new List<String>();
+        for (Contact_Topic__c ct : contactTopics) existedTopics.add(ct.Topic__r.TopicId__c);
 
         List<TrialSearchContainerRemote.TrialTDO> trialTDOS = new List<TrialSearchContainerRemote.TrialTDO>();
         for (Clinical_Trial_Profile__c ctp : CTPs) {
             TrialSearchContainerRemote.TrialTDO tdo = new TrialSearchContainerRemote.TrialTDO();
             tdo.ctp = ctp;
             tdo.isEnrollingCTP = isCtpEnrolling(ctp);
-            tdo.relatedNotificationExists = existedRecords.contains(String.valueOf(ctp.Id));
+            tdo.relatedNotificationExists = existedTopics.contains(String.valueOf(ctp.Id));
             trialTDOS.add(tdo);
         }
         return trialTDOS;
@@ -280,6 +278,7 @@ public with sharing class TrialSearchHelper {
 
         queryCTP += whereClause;
         queryCTP += orderBy;
+        System.debug('>>getCtps query: ' + queryCTP);
         List<Clinical_Trial_Profile__c> ctps = (List<Clinical_Trial_Profile__c>) proxy.query(queryCTP, true);
         return ctps;
     }

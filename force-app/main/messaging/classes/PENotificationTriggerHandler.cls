@@ -72,7 +72,7 @@ public without sharing class PENotificationTriggerHandler {
                 participantConIds.add(pe.Participant__r.Contact__c);
             }
 
-            if (oldMap == null || pe.Participant_Status__c != (oldMap.get(pe.Id)).Participant_Status__c) {
+            if (oldMap == null || (oldMap != null && pe.Participant_Status__c != (oldMap.get(pe.Id)).Participant_Status__c)) {
                 String notificationTypePT;
                 //Forming additional notification for Enrollment Success
                 if (peStatusesSuccess.contains(pe.Participant_Status__c) && pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c) {
@@ -122,7 +122,7 @@ public without sharing class PENotificationTriggerHandler {
             }
         }
         notifications.addAll(delegateNotifications);
-
+        System.debug('delegateNotifications' + delegateNotifications);
         insert notifications;
     }
 
