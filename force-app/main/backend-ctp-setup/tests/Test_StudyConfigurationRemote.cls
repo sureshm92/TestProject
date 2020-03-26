@@ -20,6 +20,9 @@ private with sharing class Test_StudyConfigurationRemote {
 
         List<LookupSearchResult> studySites = StudySiteSearchLookup.searchSSByTerm(td.ctp.Id, td.ss.Name, '', 'US');
         studySites = StudySiteSearchLookup.searchSSByIds(td.ss.Id);
+
+        studySites = StudySiteLookupRemote.searchSSByTerm(td.ctp.Id, td.ss.Name, '', 'US', true);
+        studySites = StudySiteLookupRemote.searchSSByIds(td.ss.Id, 'US', true);
         Test.stopTest();
     }
 
