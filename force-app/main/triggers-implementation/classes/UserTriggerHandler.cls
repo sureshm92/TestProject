@@ -44,13 +44,13 @@ public without sharing class UserTriggerHandler {
             assignCommunityPermissionSetToUser(newList);
         }
     }
-    
-    public class AssignPendingTasksHandler extends TriggerHandler{
-        
+
+    public class AssignPendingTasksHandler extends TriggerHandler {
+
         public override void afterInsert(List<SObject> newList) {
             assignTasks(newList);
         }
-        
+
     }
 
     // Logic: ----------------------------------------------------------------------------------------------------------
@@ -141,30 +141,62 @@ public without sharing class UserTriggerHandler {
             );
         }
 
-        if(!actionAssignContactPermissions.isEmpty()) {
+        if (!actionAssignContactPermissions.isEmpty()) {
             ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
         }
     }
-    
+
     @TestVisible
-    private static void assignTasks(List<User> users){
+    private static void assignTasks(List<User> users) {
         //assign tasks from tmp user to new user
-        List<Id> conIds = new List<Id>();
+        Set<Id> conIds = new Set<Id>();
         Map<Id, User> usersByContactMap = new Map<Id, User>();
-        for(User user : users){
-            if(user.ContactId != null) {
+        for (User user : users) {
+            if (user.ContactId != null) {
                 conIds.add(user.ContactId);
                 usersByContactMap.put(user.ContactId, user);
             }
         }
+        Map<Id, TimeZone> userTimezoneMap = DateTimeConverterUtil.getUsersTimezoneMap(conIds);
+
         List<Task> tasks = [
-                SELECT Id, Owner_Contact__c
+                SELECT Id,
+                        Activity_Datetime__c,
+                        OwnerId,
+                        Owner_Contact__c,
+                        Task_Type__c,
+                        Start_Date__c,
+                        ReminderDateTime,
+                        Reminder_Date__c,
+                        Survey_Invitation__r.ExpireDateTime__c,
+                        Survey_Invitation__r.Reminder_Schedule__r.First_Reminder_day__c
                 FROM Task
-                WHERE Owner_Contact__c IN: conIds
+                WHERE Owner_Contact__c IN:conIds
         ];
-        for(Task task : tasks){
-            task.OwnerId = usersByContactMap.get(task.Owner_Contact__c).Id;
+        for (Task task : tasks) {
+            User taskUser = usersByContactMap.get(task.Owner_Contact__c);
+            task.OwnerId = taskUser.Id;
             task.Owner_Contact__c = null;
+
+            if(task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
+                TimeZone userTZ = userTimezoneMap.get(taskUser.Id);
+                Datetime userDatetime =
+                        DateTimeConverterUtil.getUserDT(Date.today(), Time.newInstance(0, 0, 0, 0), userTZ);
+
+                task.Start_Date__c = userDatetime.date();
+                SurveyInvitation invitation = task.Survey_Invitation__r;
+                if (invitation.ExpireDateTime__c != null) {
+                    Date expiryDate = invitation.ExpireDateTime__c.date();
+                    Integer daysBetween = Date.today().daysBetween(expiryDate);
+                    task.Activity_Datetime__c = userDatetime.addDays(daysBetween);
+                }
+
+                if (invitation.Reminder_Schedule__r.First_Reminder_day__c != null) {
+                    Integer firstReminderDay = (Integer) invitation.Reminder_Schedule__r.First_Reminder_day__c;
+                    task.Reminder_Date__c = userDatetime.addDays(firstReminderDay);
+                    task.ReminderDateTime = Datetime.newInstanceGmt(task.Reminder_Date__c.dateGmt(), task.Reminder_Date__c.timeGmt());
+                }
+            }
         }
         update tasks;
     }
