@@ -4,6 +4,6 @@
     <protected>false</protected>
     <values>
         <field>Message_Variant__c</field>
-        <value xsi:type="xsd:string">How many visits do I have left?</value>
+        <value xsi:type="xsd:string">Mess_Variant_Visits_left</value>
     </values>
 </CustomMetadata>
