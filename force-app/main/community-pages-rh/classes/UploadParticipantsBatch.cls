@@ -324,7 +324,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             SELECT Id,
                                     Participant_Contact__c
                             FROM Participant_Enrollment__c
-                            WHERE Participant_Contact__c IN :duplicateContacts.keySet() AND Study_Site__c = :studySiteDetails.Id
+                            WHERE Participant_Contact__c IN :duplicateContacts.keySet() AND
+                            (Study_Site__c = :studySiteDetails.Id OR
+                            Study_Site__r.Clinical_Trial_Profile__c = :studySiteDetails.Clinical_Trial_Profile__c)
                     ]) {
                         duplicateParticipantEnrollments.add(pEnrollment.Participant_Contact__c);
                     }

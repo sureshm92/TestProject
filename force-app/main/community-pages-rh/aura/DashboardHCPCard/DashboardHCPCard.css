@@ -18,3 +18,7 @@
 .THIS .accept-btn .menu-popup-panel{
     left: -130px;
 }
+
+.THIS .popupTargetContainer{
+    top: 35px !important;
+}
