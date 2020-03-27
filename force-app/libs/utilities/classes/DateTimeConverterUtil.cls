@@ -78,6 +78,12 @@ public without sharing class DateTimeConverterUtil {
         return getUserDT(gmtDate, gmtTime, tz);
     }
 
+    public static Datetime addDays(Datetime moment, Integer days) {
+        Time gmtTime = moment.timeGmt();
+        Date gmtDate = moment.date().addDays(days);
+        return Datetime.newInstanceGmt(gmtDate, gmtTime);
+    }
+
     public static Datetime addDaysInUserTimeZone(Datetime moment, Id contactId, Integer days) {
         return addDaysInUserTimeZone(moment, getUserTimeZone(contactId), days);
     }
