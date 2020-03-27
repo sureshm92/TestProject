@@ -52,4 +52,88 @@ private class Test_ParticipantVisitsRemote {
 
         System.assertEquals('[{"iconLegend":"'+icon.Description__c+'","iconLabel":"'+icon.Label__c+'","iconId":"'+icon.Name+'"}]', legend);
     }
+
+    @IsTest
+    static void isStudySiteHasVisitsWithException_test() {
+        Boolean isExceptionThrown = false;
+        Test.startTest();
+        try {
+            ParticipantVisitsRemote.isStudySiteHasVisits();
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
+        }
+        Test.stopTest();
+        System.assert(true, isExceptionThrown);
+    }
+
+    @IsTest
+    static void getVisitsPreviewWithException_test() {
+        Boolean isExceptionThrown = false;
+        Test.startTest();
+        try {
+            ParticipantVisitsRemote.getVisitsPreview();
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
+        }
+        Test.stopTest();
+        System.assert(true, isExceptionThrown);
+    }
+
+    @IsTest
+    static void getParticipantVisitsWithException_test() {
+        Boolean isExceptionThrown = false;
+        Test.startTest();
+        try {
+            ParticipantVisitsRemote.getParticipantVisits(null);
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
+        }
+        Test.stopTest();
+        System.assert(true, isExceptionThrown);
+    }
+
+    @IsTest
+    static void getCardPatientVisitsWithException_test() {
+        Boolean isExceptionThrown = false;
+        Test.startTest();
+        try {
+            ParticipantVisitsRemote.getCardPatientVisits();
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
+        }
+        Test.stopTest();
+        System.assert(true, isExceptionThrown);
+    }
+
+    @IsTest
+    static void updatePatientVisitWithException_test() {
+        Boolean isExceptionThrown = false;
+        Test.startTest();
+        try {
+            ParticipantVisitsRemote.updatePatientVisit(null);
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
+        }
+        Test.stopTest();
+        System.assert(true, isExceptionThrown);
+    }
+
+    @IsTest
+    static void getVisitsLegendWithException_test() {
+        Boolean isExceptionThrown = false;
+        Test.startTest();
+        try {
+            ParticipantVisitsRemote.getVisitsLegend(null);
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
+        }
+        Test.stopTest();
+        System.assert(true, isExceptionThrown);
+    }
 }
