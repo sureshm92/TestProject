@@ -4609,7 +4609,7 @@
         <name>Task_Subject_Complete_Survey</name>
     </customLabels>
     <customLabels>
-        <label>Дорогой ##ParticipantName, пожалуйста, завершите заполнение Вашего профиля</label>
+        <label>Пожалуйста, завершите заполнение Вашего профиля в Настройках</label>
         <name>Task_Subject_Complete_Your_Profile</name>
     </customLabels>
     <customLabels>
