@@ -5495,6 +5495,76 @@
         <value>Medical Record Review</value>
     </labels>
     <labels>
+        <fullName>Mess_Variant_Can_relocate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Can relocate</shortDescription>
+        <value>Can I change my study center location?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Maybe_Pregnant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Maybe Pregnant</shortDescription>
+        <value>I am or might be pregnant, who do I contact?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Mess_Variant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Mess Variant</shortDescription>
+        <value>I need to schedule, cancel or reschedule a visit</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Need_Fast</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Need Fast</shortDescription>
+        <value>Do I need to fast for my next visit?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Next_Tests_Assessment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Next Tests Assessment</shortDescription>
+        <value>What tests/assessments will take place at my next visit?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Next_Vis_DT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Next Vis DT</shortDescription>
+        <value>What is the date and time of my next visit?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Next_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Next Visit</shortDescription>
+        <value>Where is my next visit?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Side_Effects</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Side Effects</shortDescription>
+        <value>I’m experiencing some side effects, who do I contact?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Visit_Prepare</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Visit Prepare</shortDescription>
+        <value>What do I need to do to prepare for my upcoming visit?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Visits_left</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Visits left</shortDescription>
+        <value>How many visits do I have left?</value>
+    </labels>
+    <labels>
         <fullName>Message_For_Delegates</fullName>
         <language>en_US</language>
         <protected>true</protected>
