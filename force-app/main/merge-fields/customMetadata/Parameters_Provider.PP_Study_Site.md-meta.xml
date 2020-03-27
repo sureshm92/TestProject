@@ -5,7 +5,7 @@
     <protected>false</protected>
     <values>
         <field>Parameters__c</field>
-        <value xsi:type="xsd:string">RecipientName = Principal_Investigator__r.Full_Name__c
+        <value xsi:type="xsd:string">
             StudyTitle = Clinical_Trial_Profile__r.Study_Title__c
             StudySiteName = Name
             StudyName = Clinical_Trial_Profile__r.Study_Code_Name__c
