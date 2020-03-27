@@ -18,12 +18,28 @@ private class Test_TaskRemote {
                     ReminderDateTime = Datetime.now(),
                     Visible_For__c = TaskService.TASK_VISIBILITY_ALL
             );
+            Task openTask1 = new Task(
+                    Status = TaskService.TASK_STATUS_OPEN,
+                    Activity_Datetime__c = Datetime.now(),
+                    ReminderDateTime = Datetime.now(),
+                    Visible_For__c = TaskService.TASK_VISIBILITY_ALL,
+                    Originator__c = 'Participant'
+            );
+            Task openTask2 = new Task(
+                    Status = TaskService.TASK_STATUS_OPEN,
+                    Activity_Datetime__c = Datetime.now(),
+                    ReminderDateTime = Datetime.now(),
+                    Visible_For__c = TaskService.TASK_VISIBILITY_ALL,
+                    Originator__c = 'Delegate'
+            );
             Task completedTask = new Task(
                     Status = TaskService.TASK_STATUS_COMPLETED,
                     Completed_Date__c = Datetime.now(),
                     Visible_For__c = TaskService.TASK_VISIBILITY_ALL
             );
             tasks.add(openTask);
+            tasks.add(openTask1);
+            tasks.add(openTask2);
             tasks.add(completedTask);
             insert tasks;
         }
@@ -32,12 +48,14 @@ private class Test_TaskRemote {
     @IsTest
     static void getInitData() {
         TestData testData = new TestData();
+        List<Task> previewTasks;
 
         Test.startTest();
         System.runAs(testData.participantUser) {
-            TasksRemote.getPreviewTasks();
+            previewTasks = TasksRemote.getPreviewTasks();
             TasksRemote.getParticipantTasks();
         }
+        TasksRemote.taskClicked(previewTasks[0].Id, 'autocomplete=true');
         Test.stopTest();
     }
 
@@ -54,39 +72,44 @@ private class Test_TaskRemote {
     }
 
     @IsTest
-    static void testTaskClicked() {
-        TestData testData = new TestData();
-
+    static void getPreviewTasksWithException_test() {
+        Boolean isThrownException = false;
         Test.startTest();
-        System.runAs(testData.participantUser) {
-            List<Task> tasks = new List<Task>();
-            Task autocompleteTask = new Task(
-                    Subject = 'Autocomplete task',
-                    Status = TaskService.TASK_STATUS_OPEN,
-                    Activity_Datetime__c = Datetime.now(),
-                    ReminderDateTime = Datetime.now(),
-                    Visible_For__c = TaskService.TASK_VISIBILITY_ALL
-            );
-            tasks.add(autocompleteTask);
-            Task nonAutocompleteTask = new Task(
-                    Subject = 'Non-autocomplete task',
-                    Status = TaskService.TASK_STATUS_OPEN,
-                    Completed_Date__c = Datetime.now(),
-                    Visible_For__c = TaskService.TASK_VISIBILITY_ALL
-            );
-            tasks.add(nonAutocompleteTask);
-            insert tasks;
-
-            TasksRemote.taskClicked(autocompleteTask.Id, 'account-settings#coi?autocomplete=true&show-buttons=true');
-            TasksRemote.taskClicked(nonAutocompleteTask.Id, 'account-settings#coi?taskautocomplete=true&show-buttons=true');
-
-            Map<Id, Task> tasksByIds = new Map<Id, Task>(tasks);
-            tasks = [SELECT Subject, Status FROM Task WHERE Id IN :tasksByIds.keySet()];
-            for (Task task : tasks) {
-                if (task.Id == autocompleteTask.Id) System.assertEquals(TaskService.TASK_STATUS_COMPLETED, task.Status);
-                else if (task.Id == nonAutocompleteTask.Id) System.assertEquals(TaskService.TASK_STATUS_OPEN, task.Status);
-            }
+        try {
+            TasksRemote.getPreviewTasks();
+        } catch(Exception e) {
+            isThrownException = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
         }
         Test.stopTest();
+        System.assertEquals(true, isThrownException);
+    }
+
+    @IsTest
+    static void getParticipantTasksWithException_test() {
+        Boolean isThrownException = false;
+        Test.startTest();
+        try {
+            TasksRemote.getParticipantTasks();
+        } catch(Exception e) {
+            isThrownException = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
+        }
+        Test.stopTest();
+        System.assertEquals(true, isThrownException);
+    }
+
+    @IsTest
+    static void taskClickedWithException_test() {
+        Boolean isThrownException = false;
+        Test.startTest();
+        try {
+            TasksRemote.taskClicked(null, null);
+        } catch(Exception e) {
+            isThrownException = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
+        }
+        Test.stopTest();
+        System.assertEquals(true, isThrownException);
     }
 }
