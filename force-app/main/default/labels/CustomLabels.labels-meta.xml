@@ -7761,6 +7761,20 @@
         <value>Driving directions</value>
     </labels>
     <labels>
+        <fullName>PG_EMN_MSG_Participant_record_import_failed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG EMN MSG Participant record import failed</shortDescription>
+        <value>Participant record import failed. Please use template for Participant uploading.</value>
+    </labels>
+    <labels>
+        <fullName>PG_EMN_MSG_Participant_record_import_is_processing</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG EMN MSG Participant record import is processing</shortDescription>
+        <value>Participant record import is processing. You will be notified via email when the process has complete.</value>
+    </labels>
+    <labels>
         <fullName>PG_EMN_MSG_Update_Contact_Info</fullName>
         <language>en_US</language>
         <protected>false</protected>
