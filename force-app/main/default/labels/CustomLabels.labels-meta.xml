@@ -10520,14 +10520,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SW H Full Exclusion Criteria</shortDescription>
-        <value>FULL EXCLUSION CRITERIA</value>
+        <value>EXCLUSION CRITERIA</value>
     </labels>
     <labels>
         <fullName>PG_SW_H_Full_Inclusion_Criteria</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SW H Full Inclusion Criteria</shortDescription>
-        <value>FULL INCLUSION CRITERIA</value>
+        <value>INCLUSION CRITERIA</value>
     </labels>
     <labels>
         <fullName>PG_SW_H_Objective</fullName>

@@ -207,13 +207,9 @@ public with sharing class TrialSearchHelper {
 
     private List<TrialSearchContainerRemote.TrialTDO> getTrialTDOs(List<Clinical_Trial_Profile__c> CTPs) {
         List<Id> ctpIdsForTopics = new List<Id>();
-        List<Id> ctpIdsForCases = new List<Id>();
+//        List<Id> ctpIdsForCases = new List<Id>();
         for (Clinical_Trial_Profile__c ctp : CTPs) {
-            if (!isCtpEnrolling(ctp)) {
-                ctpIdsForTopics.add(ctp.Id);
-            } else {
-                ctpIdsForCases.add(ctp.Id);
-            }
+            if (!isCtpEnrolling(ctp)) ctpIdsForTopics.add(ctp.Id);
         }
 
         List<Contact_Topic__c> contactTopics = [
@@ -223,33 +219,33 @@ public with sharing class TrialSearchHelper {
                 AND Contact__c = :CommunityService.getInstance().getCurrentContactId()
         ];
 
-        List<Contact> currentContact = [
-                SELECT Id,Email
-                FROM Contact
-                WHERE Id = :CommunityService.getInstance().getCurrentContactId()
-                LIMIT 1
-        ];
+//        List<Contact> currentContact = [
+//                SELECT Id,Email
+//                FROM Contact
+//                WHERE Id = :CommunityService.getInstance().getCurrentContactId()
+//                LIMIT 1
+//        ];
+//
+//        List<Case> cases = [
+//                SELECT Id, Study__c, Email_address__c
+//                FROM Case
+//                WHERE Study__c IN :ctpIdsForCases
+//                AND Email_address__c = :currentContact.get(0).Email
+//        ];
+//
+//        List<Id> enrolledCTPByCurrentContact = new List<Id>();
+//        for (Case oneCase : cases) enrolledCTPByCurrentContact.add(oneCase.Study__c);
 
-        List<Case> cases = [
-                SELECT Id, Study__c, Email_address__c
-                FROM Case
-                WHERE Study__c IN :ctpIdsForCases
-                AND Email_address__c = :currentContact.get(0).Email
-        ];
-
-        List<Id> enrolledCTPByCurrentContact = new List<Id>();
-        for (Case oneCase : cases) enrolledCTPByCurrentContact.add(oneCase.Study__c);
-
-        List<Clinical_Trial_Profile__c> suitableStudies = new List<Clinical_Trial_Profile__c>();
-        for(Clinical_Trial_Profile__c ctp : CTPs) {
-            if(!enrolledCTPByCurrentContact.contains(ctp.Id)) suitableStudies.add(ctp);
-        }
+//        List<Clinical_Trial_Profile__c> suitableStudies = new List<Clinical_Trial_Profile__c>();
+//        for(Clinical_Trial_Profile__c ctp : CTPs) {
+//            if(!enrolledCTPByCurrentContact.contains(ctp.Id)) suitableStudies.add(ctp);
+//        }
 
         List<String> existedTopics = new List<String>();
         for (Contact_Topic__c ct : contactTopics) existedTopics.add(ct.Topic__r.TopicId__c);
 
         List<TrialSearchContainerRemote.TrialTDO> trialTDOS = new List<TrialSearchContainerRemote.TrialTDO>();
-        for (Clinical_Trial_Profile__c ctp : suitableStudies) {
+        for (Clinical_Trial_Profile__c ctp : CTPs) {
             TrialSearchContainerRemote.TrialTDO tdo = new TrialSearchContainerRemote.TrialTDO();
             tdo.ctp = ctp;
             tdo.isEnrollingCTP = isCtpEnrolling(ctp);
