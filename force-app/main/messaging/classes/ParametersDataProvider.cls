@@ -72,9 +72,23 @@ public without sharing class ParametersDataProvider {
         parameters.put('ForgotPasswordURL', clinicalResearchCommunityForgotPasswordURL);
 
         if (isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT) {
-            Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientContactId);
-            if (participant != null) {
-                parameters.put('ParticipantFirstName', participant.First_Name__c);
+            List<Id> conIds = new List<Id>{recipientContactId};
+            Map<Id, List<Id>> delegatedParticipantIdsMap = PatientDelegateService.getDelegatedParticipantIdsMap(conIds);
+            List<Participant_Enrollment__c> listPe = new List<Participant_Enrollment__c>();
+            List<Id> partIds = delegatedParticipantIdsMap.get(recipientContactId);
+            listPe = [
+                    SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                            Participant__r.Full_Name__c,
+                            Participant__r.First_Name__c,
+                            Participant__r.Contact__c
+                    FROM Participant_Enrollment__c
+                    WHERE Participant__c IN: partIds
+                    AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplateName
+            ];
+            Participant_Enrollment__c pe = listPe[0];
+
+            if (pe != null) {
+                parameters.put('ParticipantFirstName', pe.Participant__r.First_Name__c);
             }
         }
         System.debug('Parameters: ' + JSON.serializePretty(parameters));
