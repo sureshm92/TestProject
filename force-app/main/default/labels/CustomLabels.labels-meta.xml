@@ -12809,6 +12809,14 @@
         <value>Unavailable</value>
     </labels>
     <labels>
+        <fullName>Study_Workspace_Travel_Support_View_Booking</fullName>
+        <categories>Study Workspace</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Workspace Travel Support View Booking</shortDescription>
+        <value>View Booking</value>
+    </labels>
+    <labels>
         <fullName>Success</fullName>
         <categories>visit configuration</categories>
         <language>en_US</language>
