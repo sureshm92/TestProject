@@ -41,30 +41,6 @@ public without sharing class DateTimeConverterUtil {
         return timeZonesByIds.values().get(0);
     }
 
-    //@Deprecated
-    public static Datetime getUserDatetime(TimeZone timezone, Datetime moment) {
-        if (moment == null) moment = Datetime.now();
-
-        String nowFormat = moment.format('YYYY-MM-dd HH:mm:ss', timezone.toString());
-        return Datetime.valueOf(nowFormat);
-    }
-
-    //@Deprecated
-    public static Datetime getUserDatetime(TimeZone timezone, Date someDate) {
-        Datetime moment;
-
-        if(someDate == null) {
-            moment = Datetime.now();
-        } else {
-            moment = Datetime.newInstance(
-                    someDate.year(),
-                    someDate.month(),
-                    someDate.day()
-            );
-        }
-        return getUserDatetime(timezone, moment);
-    }
-
     public static Datetime convertUserDatetimeToGMT(Datetime moment, TimeZone tz) {
         Integer offset = tz.getOffset(Datetime.now()) / MS_IN_HOUR;
         Datetime momentInGMT = moment.addHours( -offset );
@@ -78,6 +54,12 @@ public without sharing class DateTimeConverterUtil {
         return getUserDT(gmtDate, gmtTime, tz);
     }
 
+    public static Datetime addDays(Datetime moment, Integer days) {
+        Time gmtTime = moment.timeGmt();
+        Date gmtDate = moment.date().addDays(days);
+        return Datetime.newInstanceGmt(gmtDate, gmtTime);
+    }
+
     public static Datetime addDaysInUserTimeZone(Datetime moment, Id contactId, Integer days) {
         return addDaysInUserTimeZone(moment, getUserTimeZone(contactId), days);
     }
@@ -88,6 +70,7 @@ public without sharing class DateTimeConverterUtil {
 
     public static Datetime getUserDT(Date d, Time t, TimeZone tz) {
         Datetime gmtTime = Datetime.newInstanceGmt(d, t);
-        return Datetime.newInstance(gmtTime.getTime() - tz.getOffset(Datetime.now()));
+        Integer offset = tz.getOffset(Datetime.now()) * -1;
+        return Datetime.newInstance(gmtTime.getTime() - offset);
     }
 }

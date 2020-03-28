@@ -4,6 +4,6 @@
     <protected>false</protected>
     <values>
         <field>Message_Variant__c</field>
-        <value xsi:type="xsd:string">What tests/assessments will take place at my next visit?</value>
+        <value xsi:type="xsd:string">Mess_Variant_Next_Tests_Assessment</value>
     </values>
 </CustomMetadata>

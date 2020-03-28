@@ -4,6 +4,6 @@
     <protected>false</protected>
     <values>
         <field>Message_Variant__c</field>
-        <value xsi:type="xsd:string">What is the date and time of my next visit?</value>
+        <value xsi:type="xsd:string">Mess_Variant_Next_Vis_DT</value>
     </values>
 </CustomMetadata>

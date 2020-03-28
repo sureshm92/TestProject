@@ -16,8 +16,7 @@ public without sharing class SendEmailToParticipant {
             TaskService.TASK_TYPE_MEDICATION => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_DEL_TYPE
     };
 
-    public static List<Notification__c> createTaskReminderEmail(Task task, Contact paCont,
-            List<Contact> delegates, Map<Id, TimeZone> timeZoneByContact) {
+    public static List<Notification__c> createTaskReminderEmail(Task task, Contact paCont, List<Contact> delegates) {
         List<Notification__c> notifications = new List<Notification__c>();
         if (task.Task_Type__c == null) return notifications;
 
@@ -27,33 +26,8 @@ public without sharing class SendEmailToParticipant {
 
         if (task.Task_Type__c.equals(TaskService.TASK_TYPE_SURVEY) && task.Survey_Invitation__c != null) {
             if (task.Reminder_Schedule__c == null) return notifications;
-
             whatId = task.Survey_Invitation__c;
-
-            Integer firstReminderDay = (Integer) task.Reminder_Schedule__r.First_Reminder_day__c;
-            Datetime startDT = Datetime.newInstanceGmt(task.Start_Date__c, task.Reminder_Date__c.timeGmt());
-            Datetime firstReminderDate = startDT;
-            if (firstReminderDay > 0) {
-                firstReminderDate =
-                        DateTimeConverterUtil.addDaysInUserTimeZone(startDT, timeZoneByContact.get(task.WhoId), firstReminderDay);
-            }
-
-            patientNotificationType = null;
-            if (task.Reminder_Date__c == firstReminderDate) {
-                patientNotificationType = task.Reminder_Schedule__r.Use_Final_Template__c ?
-                        NotificationCatalog.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE :
-                        NotificationCatalog.MESSAGE_TO_PT_SURVEY_REMINDER_TYPE;
-            } else {
-                Integer secondReminderDay = (Integer) task.Reminder_Schedule__r.Second_Reminder_day__c;
-                if (secondReminderDay != null) {
-                    Datetime secondReminderDate =
-                            DateTimeConverterUtil.addDaysInUserTimeZone(startDT, timeZoneByContact.get(task.WhoId), secondReminderDay);
-                    if (task.Reminder_Date__c == secondReminderDate) {
-                        patientNotificationType = NotificationCatalog.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE;
-                    }
-                }
-            }
-
+            patientNotificationType = getNotificationTypeForSurvey(task);
             delegateNotificationType = patientNotificationType;
         }
         if (task.Task_Type__c.equals(TaskService.TASK_TYPE_MEDICATION) || task.Task_Type__c.equals(TaskService.TASK_TYPE_VISIT)) {
@@ -80,5 +54,29 @@ public without sharing class SendEmailToParticipant {
         }
 
         return notifications;
+    }
+
+    public static String getNotificationTypeForSurvey(Task task) {
+        String patientNotificationType;
+        Integer firstReminderDay = (Integer) task.Reminder_Schedule__r.First_Reminder_day__c;
+        Datetime startDT = Datetime.newInstance(task.Start_Date__c, task.Reminder_Date__c.time());
+        Datetime firstReminderDate = startDT;
+        if (firstReminderDay > 0) firstReminderDate = startDT.addDays(firstReminderDay);
+
+        if (task.Reminder_Date__c == firstReminderDate) {
+            patientNotificationType = task.Reminder_Schedule__r.Use_Final_Template__c ?
+                    NotificationCatalog.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE :
+                    NotificationCatalog.MESSAGE_TO_PT_SURVEY_REMINDER_TYPE;
+        } else {
+            Integer secondReminderDay = (Integer) task.Reminder_Schedule__r.Second_Reminder_day__c;
+            if (secondReminderDay != null) {
+                Datetime secondReminderDate = startDT.addDays(secondReminderDay);
+                if (task.Reminder_Date__c == secondReminderDate) {
+                    patientNotificationType = NotificationCatalog.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE;
+                }
+            }
+        }
+
+        return patientNotificationType;
     }
 }

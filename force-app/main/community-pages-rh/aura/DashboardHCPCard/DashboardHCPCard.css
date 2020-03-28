@@ -19,6 +19,6 @@
     left: -130px;
 }
 
-.THIS .db-hcp-card .menu-popup-panel{
-    top: 0px;
+.THIS .popupTargetContainer{
+    top: 35px !important;
 }

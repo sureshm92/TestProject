@@ -84,7 +84,7 @@
                                                                  hour="2-digit" minute="2-digit"/>
                             </td>
                             <td class="sv-t-reminder">
-                                <lightning:formattedUrl value="{!travelWrapper.link}" label="View Booking"/>
+                                <lightning:formattedUrl value="{!travelWrapper.link}" label="{!$Label.c.Study_Workspace_Travel_Support_View_Booking}"/>
                             </td>
                         </tr>
                     </aura:iteration>
