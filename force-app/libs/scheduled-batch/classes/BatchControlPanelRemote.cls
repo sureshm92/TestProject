@@ -208,6 +208,17 @@ public without sharing class BatchControlPanelRemote {
         }
     }
 
+    @AuraEnabled
+    public static Boolean relaunchBatch(String wrapper) {
+        try {
+            JobWrapper jobWrapper = (JobWrapper) JSON.deserialize(wrapper, JobWrapper.class);
+            stopBatch(jobWrapper.detail.Name);
+            return runBatch(wrapper);
+        } catch (Exception e) {
+            return (Boolean) AuraHelper.throwException(e);
+        }
+    }
+
     private static JobDefSettings getDefSettings(String className) {
         JobDefSettings settings;
         try {
