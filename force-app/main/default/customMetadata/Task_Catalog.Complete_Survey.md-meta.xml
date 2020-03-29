@@ -15,6 +15,10 @@
         <value xsi:type="xsd:string">Patient_Complete_Baseline_Survey</value>
     </values>
     <values>
+        <field>Immediate_Notification_Type__c</field>
+        <value xsi:type="xsd:string">Message_to_PT_Complete_BL_Survey_Type</value>
+    </values>
+    <values>
         <field>Parameters__c</field>
         <value xsi:type="xsd:string">SurveyName = Survey__r.Name
 invId= Id</value>
