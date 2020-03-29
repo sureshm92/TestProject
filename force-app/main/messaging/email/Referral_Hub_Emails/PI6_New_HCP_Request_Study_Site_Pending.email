@@ -10,7 +10,8 @@
                          title="{!$Label.Email_Title}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_PI6}"
-                         signature="{!$Label.Email_Signature_RH}">
+                         signature="{!$Label.Email_Signature_RH}"
+                         emailName="{!$CurrentPage.Name}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_My_Referring_Clinics}"
                               buttonURL="/s/my-referring-clinics"/>
         </c:EmailTemplate>
@@ -23,7 +24,8 @@
                              title="{!$Label.Email_Title}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_PI6}"
-                             signature="{!$Label.Email_Signature_RH}">
+                             signature="{!$Label.Email_Signature_RH}"
+                             emailName="{!$CurrentPage.Name}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_My_Referring_Clinics}"
                               buttonURL="/s/my-referring-clinics"/>
         </c:EmailTemplateText>

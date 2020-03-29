@@ -12,7 +12,8 @@
                          title="{!$Label.Email_Title}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_SS_on_PE_Was_Changed_To_PI}"
-                         signature="{!$Label.Email_Signature_4}">
+                         signature="{!$Label.Email_Signature_4}"
+                         emailName="{!$CurrentPage.Name}">
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
@@ -25,7 +26,8 @@
                              title="{!$Label.Email_Title}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_SS_on_PE_Was_Changed_To_PI}"
-                             signature="{!$Label.Email_Signature_4}">
+                             signature="{!$Label.Email_Signature_4}"
+                             emailName="{!$CurrentPage.Name}">
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody> 
 </messaging:emailTemplate>

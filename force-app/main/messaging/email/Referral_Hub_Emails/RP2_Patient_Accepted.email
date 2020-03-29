@@ -11,7 +11,8 @@
                          title="{!$Label.Email_Title}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_RP2}"
-                         signature="{!$Label.Email_Signature_RH}">
+                         signature="{!$Label.Email_Signature_RH}"
+                         emailName="{!$CurrentPage.Name}">
             <c:EmailActionBtn buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
