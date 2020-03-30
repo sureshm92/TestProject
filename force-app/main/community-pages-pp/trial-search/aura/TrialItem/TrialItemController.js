@@ -48,27 +48,18 @@
             let ctp = component.get('v.trialTDO').ctp;
             component.find('mainSpinner').show();
             component.find('contactModal').hide();
-            helper.enqueue(component, 'c.createCaseToStudy', {
+            communityService.executeAction(component, 'createCaseToStudy', {
                 participant: participantInfo,
                 ctp: ctp,
                 isDelegate: communityService.isDelegate()
-            })
-                .then(function (data) {
-                    if (participantInfo.Id) {
-                        component.set('v.participant', participantInfo);
-                    }
-                    communityService.showSuccessToast(
-                        'success',
-                        String.format($A.get('$Label.c.TrialSearch_Toast_Contact_The_Study'), ctp.Study_Code_Name__c),
-                        500);
-                    component.find('mainSpinner').hide();
-                }, function (err) {
-                    component.find('mainSpinner').hide();
-                    console.error(err);
-                    communityService.showToast('error', 'error', err);
-                }).catch(function (err) {
+            }, function () {
+                if (participantInfo.Id) component.set('v.participant', participantInfo);
+                communityService.showSuccessToast(
+                    'success',
+                    String.format($A.get('$Label.c.TrialSearch_Toast_Contact_The_Study'), ctp.Study_Code_Name__c),
+                    500);
+            }, null, function () {
                 component.find('mainSpinner').hide();
-                console.error(err);
             });
         }
     },

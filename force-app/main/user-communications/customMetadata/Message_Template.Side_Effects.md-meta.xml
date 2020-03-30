@@ -4,6 +4,6 @@
     <protected>false</protected>
     <values>
         <field>Message_Variant__c</field>
-        <value xsi:type="xsd:string">I’m experiencing some side effects, who do I contact?</value>
+        <value xsi:type="xsd:string">Mess_Variant_Side_Effects</value>
     </values>
 </CustomMetadata>
