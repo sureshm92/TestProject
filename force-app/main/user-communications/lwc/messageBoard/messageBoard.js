@@ -90,6 +90,7 @@ export default class MessageBoard extends LightningElement {
         this.isPastStudy = false;
         this.patientDelegates = null;
         this.isHoldMode = false;
+        this.selectedEnrollment = null;
 
         this.enrollments = enrollments;
         this.isMultipleMode = enrollments.length > 1;
