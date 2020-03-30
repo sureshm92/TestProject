@@ -107,11 +107,10 @@ public without sharing class AccountSettingsController {
             PersonWrapper wrapper = (PersonWrapper) JSON.deserialize(wrapperJSON, PersonWrapper.class);
             update wrapper.convertToContact();
 
+            TaskService.getInstance().completeCYPTaskForParticipant();
+
             Participant__c participant = wrapper.convertToParticipant();
-            if (participant != null) {
-                TaskService.getInstance().completeCYPTaskForParticipant();
-                update participant;
-            }
+            if (participant != null) update participant;
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }

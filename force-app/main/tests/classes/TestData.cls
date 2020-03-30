@@ -363,7 +363,9 @@ public class TestData {
     
     @IsTest
     public static void runAllTriggers() {
-        loadTestData(false, null);
+//        Test.startTest();
+//        loadTestData(false, null);
+//        Test.stopTest();
     }
 
     public static void createTCAcceptance() {

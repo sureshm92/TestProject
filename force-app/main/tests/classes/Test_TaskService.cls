@@ -41,7 +41,7 @@ private class Test_TaskService {
             TaskService.getInstance().getOpenTasksFilter();
             TaskService.getInstance().completeCYPTaskForParticipant();
             // For coverage
-            TaskService.TaskConfig taskConfig = new TaskService.TaskConfig(task.OwnerId, task.Subject, task.Visible_For__c);
+            TaskService.TaskConfig taskConfig = new TaskService.TaskConfig(task.OwnerId, null, task.Subject, task.Visible_For__c);
         }
         Test.stopTest();
     }
