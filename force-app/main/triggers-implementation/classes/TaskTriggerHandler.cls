@@ -84,7 +84,17 @@ public without sharing class TaskTriggerHandler {
         List<Notification__c> notifications = new List<Notification__c>();
 
         Set<Id> ownerIds = new Set<Id>();
-        for (Task t : [SELECT OwnerId FROM Task WHERE Id IN:tasks AND Owner_Contact__c = NULL]) ownerIds.add(t.OwnerId);
+        List<Task> tasksWithOwner = [
+                SELECT
+                        OwnerId,
+                        Task_Code__c,
+                        Task_Type__c,
+                        Survey_Invitation__c,
+                        Visible_For__c,
+                        WhatId
+                FROM Task
+                WHERE Id IN:tasks AND Owner_Contact__c = NULL];
+        for (Task t : tasksWithOwner) ownerIds.add(t.OwnerId);
         Map<Id, User> usersByIds = new Map<Id, User>([
                 SELECT
                         Id,
@@ -115,7 +125,7 @@ public without sharing class TaskTriggerHandler {
             delegatesCntByPartCnt.get(pd.Participant__r.Contact__c).add(pd.Contact__c);
         }
 
-        for (Task task : tasks) {
+        for (Task task : tasksWithOwner) {
             if (task.Task_Code__c != null) {
                 Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
                 if (card != null && card.Immediate_Email_Template__c != null) {
