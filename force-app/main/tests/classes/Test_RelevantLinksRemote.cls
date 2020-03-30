@@ -60,7 +60,6 @@ public class Test_RelevantLinksRemote {
         }
         Test.stopTest();
         System.assertEquals(1, initData.linksWrappers.size());
-        System.assertEquals('Helpful Links', initData.linksWrappers[0].resources[0].Type__c);
     }
 
     @IsTest
@@ -100,6 +99,5 @@ public class Test_RelevantLinksRemote {
         }
         Test.stopTest();
         System.assertEquals(1, initData.linksWrappers.size());
-        System.assertEquals('Helpful Links', initData.linksWrappers[0].resources[0].Type__c);
     }
 }

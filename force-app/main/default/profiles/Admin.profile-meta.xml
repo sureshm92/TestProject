@@ -6433,6 +6433,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Task_Catalog__mdt.Immediate_Notification_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Task_Catalog__mdt.Parameters__c</field>
         <readable>true</readable>
     </fieldPermissions>
