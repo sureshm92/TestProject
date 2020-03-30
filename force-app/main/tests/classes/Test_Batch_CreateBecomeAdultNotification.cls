@@ -6,7 +6,6 @@ public with sharing class Test_Batch_CreateBecomeAdultNotification {
 
     @TestSetup
     static void setup() {
-        bypassTriggers();
 
         Test.startTest();
         TestData.loadTestData();
@@ -73,17 +72,5 @@ public with sharing class Test_Batch_CreateBecomeAdultNotification {
                 WHERE  Email = 'delegate@somemail.com'
         ];
         System.assertEquals(delegates.size(), alerts.size());
-    }
-
-    private static void bypassTriggers() {
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.DeleteStatusHistoryOnDeleteHandler.class);
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class);
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.SwitchContactUserModeHandler.class);
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreateStatusHistoryHandler.class);
-        TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
     }
 }
