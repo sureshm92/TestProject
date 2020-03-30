@@ -297,19 +297,19 @@ public without sharing class TaskService {
                 if(tsc.ownerId != null) {
                     TimeZone userTZ = userTimezoneMap.get(tsc.ownerId);
                     Datetime userDatetime =
-                            DateTimeConverterUtil.getUserDT(Date.today(), Time.newInstance(0,0,0,0), userTZ);
+                            DateTimeConverterUtil.getUserDT(Datetime.now().dateGmt(), Datetime.now().timeGmt(), userTZ);
 
-                    tsc.startDate = userDatetime.date();
+                    tsc.startDate = userDatetime.dateGmt();
                     if (inv.ExpireDateTime__c != null) {
                         Date expiryDate = inv.ExpireDateTime__c.date();
                         Integer daysBetween = Date.today().daysBetween(expiryDate);
-                        tsc.activityDate = userDatetime.addDays(daysBetween);
+                        tsc.activityDate = Datetime.now().addDays(daysBetween);
                     }
 
                     if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {
                         Integer firstReminderDay = (Integer) inv.Reminder_Schedule__r.First_Reminder_day__c;
                         tsc.reminderDatetime = userDatetime.addDays(firstReminderDay);
-                        tsc.reminderGMT = Datetime.newInstanceGmt(tsc.reminderDatetime.dateGmt(), tsc.reminderDatetime.timeGmt());
+                        tsc.reminderGMT = Datetime.now().addDays(firstReminderDay);
                     }
                 }
 

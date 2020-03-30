@@ -59,11 +59,9 @@ public without sharing class SendEmailToParticipant {
     public static String getNotificationTypeForSurvey(Task task) {
         String patientNotificationType;
         Integer firstReminderDay = (Integer) task.Reminder_Schedule__r.First_Reminder_day__c;
-        Datetime startDT = Datetime.newInstanceGmt(task.Start_Date__c, task.Reminder_Date__c.timeGmt());
+        Datetime startDT = Datetime.newInstance(task.Start_Date__c, task.Reminder_Date__c.time());
         Datetime firstReminderDate = startDT;
-        if (firstReminderDay > 0) {
-            firstReminderDate = DateTimeConverterUtil.addDays(startDT, firstReminderDay);
-        }
+        if (firstReminderDay > 0) firstReminderDate = startDT.addDays(firstReminderDay);
 
         if (task.Reminder_Date__c == firstReminderDate) {
             patientNotificationType = task.Reminder_Schedule__r.Use_Final_Template__c ?
@@ -72,7 +70,7 @@ public without sharing class SendEmailToParticipant {
         } else {
             Integer secondReminderDay = (Integer) task.Reminder_Schedule__r.Second_Reminder_day__c;
             if (secondReminderDay != null) {
-                Datetime secondReminderDate = DateTimeConverterUtil.addDays(startDT, secondReminderDay);
+                Datetime secondReminderDate = startDT.addDays(secondReminderDay);
                 if (task.Reminder_Date__c == secondReminderDate) {
                     patientNotificationType = NotificationCatalog.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE;
                 }
