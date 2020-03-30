@@ -57,6 +57,9 @@ public without sharing class AddPatientByPIRemote {
     public static void updatePatientInfo(String participantJSON, String peJSON){
         try{
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
+            if(participant.Contact__r.Email == null && participant.Email__c != null){
+                update new Contact(Id = participant.Contact__c, Email = participant.Email__c);
+            }
             Participant_Enrollment__c pe = (Participant_Enrollment__c)JSON.deserialize(peJSON, Participant_Enrollment__c.class);
             update pe;
             update participant;
