@@ -3,8 +3,8 @@
     <actionCalls>
         <name>BackNnRecord</name>
         <label>BackNnRecord</label>
-        <locationX>803</locationX>
-        <locationY>2123</locationY>
+        <locationX>799</locationX>
+        <locationY>2131</locationY>
         <actionName>c:NavigateToRecord</actionName>
         <actionType>component</actionType>
         <inputParameters>
@@ -216,21 +216,6 @@
             <targetReference>Add_COI</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Relevant_Link</name>
-            <conditionLogic>or</conditionLogic>
-            <conditions>
-                <leftValueReference>Choose_record_type_recource</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>RelevantLink</elementReference>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>BackNnRecord</targetReference>
-            </connector>
-            <label>Rel Link</label>
-        </rules>
         <rules>
             <name>StudyDoc</name>
             <conditionLogic>and</conditionLogic>
@@ -509,7 +494,7 @@
     <recordCreates>
         <name>Create_Res</name>
         <label>Create Res</label>
-        <locationX>545</locationX>
+        <locationX>546</locationX>
         <locationY>1211</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
@@ -562,8 +547,8 @@
     <recordCreates>
         <name>Create_Res_0</name>
         <label>Create Res</label>
-        <locationX>434</locationX>
-        <locationY>1213</locationY>
+        <locationX>436</locationX>
+        <locationY>1214</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Study_Res_0_0</targetReference>
@@ -1319,7 +1304,7 @@
         <name>Relevant_Link_recordType</name>
         <label>Relevant Link</label>
         <locationX>436</locationX>
-        <locationY>967</locationY>
+        <locationY>914</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1372,6 +1357,12 @@
             <name>FinihsButton</name>
             <extensionName>c:FooterWithFinishButton</extensionName>
             <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>label</name>
+                <value>
+                    <stringValue>Next</stringValue>
+                </value>
+            </inputParameters>
             <isRequired>true</isRequired>
         </fields>
         <showFooter>false</showFooter>
