@@ -3896,7 +3896,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email User Greeting</shortDescription>
-        <value>Dear ##RecipientName</value>
+        <value>Dear ##RecipientName,</value>
     </labels>
     <labels>
         <fullName>Email_User_Greeting_FirstName</fullName>
