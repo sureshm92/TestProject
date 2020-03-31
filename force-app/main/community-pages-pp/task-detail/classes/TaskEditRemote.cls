@@ -101,14 +101,10 @@ public without sharing class TaskEditRemote {
             }
 
             if (taskWrapper.activityDate != null) {
-                taskToUpsert.Activity_Datetime__c = Datetime.newInstanceGmt(
-                        taskWrapper.activityDate.year(),
-                        taskWrapper.activityDate.month(),
-                        taskWrapper.activityDate.day()
-                );
+                taskToUpsert.Activity_Datetime__c = Datetime.newInstanceGmt(taskWrapper.activityDate, Datetime.now().timeGmt());
             }
             if (taskWrapper.reminderDate != null) {
-                taskToUpsert.Reminder_Date__c = taskWrapper.reminderDate;
+                taskToUpsert.Reminder_Date__c = Datetime.newInstance(taskWrapper.reminderDate, Datetime.now().time());
                 taskToUpsert.ReminderDateTime =
                         Datetime.newInstanceGmt(taskToUpsert.Reminder_Date__c.dateGmt(), taskToUpsert.Reminder_Date__c.timeGmt());
             }
