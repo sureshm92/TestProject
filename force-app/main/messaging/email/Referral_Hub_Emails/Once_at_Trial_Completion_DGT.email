@@ -1,10 +1,9 @@
-<messaging:emailTemplate
-        subject="{!$Label.Email_Subject_Trial_Complete_for_Delegate}"
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Trial_Complete_for_Delegate}"
         recipientType="Contact"
         relatedToType="Participant_Enrollment__c"
         language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody>
+    <messaging:htmlEmailBody >
         <c:EmailTemplate recipientId="{!recipient.Id}"
                          parametersProvider="Email_Template_Parameters_From_PE"
                          sourceId="{!relatedTo.Id}"
@@ -18,7 +17,7 @@
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody>
+    <messaging:plainTextEmailBody >
         <c:EmailTemplateText recipientId="{!recipient.Id}"
                              parametersProvider="Email_Template_Parameters_From_PE"
                              sourceId="{!relatedTo.Id}"
