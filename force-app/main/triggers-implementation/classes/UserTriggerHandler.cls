@@ -185,8 +185,7 @@ public without sharing class UserTriggerHandler {
 
             if(task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
                 TimeZone userTZ = userTimezoneMap.get(taskUser.Id);
-                Datetime userDatetime =
-                        DateTimeConverterUtil.getUserDT(Date.today(), Time.newInstance(0, 0, 0, 0), userTZ);
+                Datetime userDatetime = DateTimeConverterUtil.getUserDT(Datetime.now().dateGmt(), Datetime.now().timeGmt(), userTZ);
 
                 task.Start_Date__c = userDatetime.date();
                 SurveyInvitation invitation = task.Survey_Invitation__r;

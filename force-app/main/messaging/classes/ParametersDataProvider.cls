@@ -85,8 +85,8 @@ public without sharing class ParametersDataProvider {
                     WHERE Participant__c IN: partIds
                     AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplateName
             ];
-            Participant_Enrollment__c pe = listPe[0];
-
+            Participant_Enrollment__c pe;
+            if(listPe.size() > 0) pe = listPe[0];
             if (pe != null) {
                 parameters.put('ParticipantFirstName', pe.Participant__r.First_Name__c);
             }
