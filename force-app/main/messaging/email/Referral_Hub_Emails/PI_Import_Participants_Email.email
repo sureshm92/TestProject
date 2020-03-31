@@ -11,7 +11,8 @@
                          title="{!$Label.Email_Title}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_Participant_Import_Completed}"
-                         signature="{!$Label.Email_Signature_RH}">
+                         signature="{!$Label.Email_Signature_RH}"
+                         emailName="{!$CurrentPage.Name}">
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
@@ -23,7 +24,8 @@
                              title="{!$Label.Email_Title}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_Participant_Import_Completed}"
-                             signature="{!$Label.Email_Signature_RH}">
+                             signature="{!$Label.Email_Signature_RH}"
+                             emailName="{!$CurrentPage.Name}">
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 

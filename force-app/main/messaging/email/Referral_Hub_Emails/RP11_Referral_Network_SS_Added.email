@@ -13,7 +13,8 @@
                          title="{!$Label.Email_Title}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_RP11 + ': ' + relatedTo.Name + '.'}"
-                         signature="{!$Label.Email_Signature_RH}">
+                         signature="{!$Label.Email_Signature_RH}"
+                         emailName="{!$CurrentPage.Name}">
             <c:EmailActionBtn buttonLabel="{!$Label.Action_View_New_Study_Site}"
                               buttonURL="{!'/s/sites-search?id=' + relatedTo.Clinical_Trial_Profile__c}"/>
         </c:EmailTemplate>
@@ -29,7 +30,8 @@
                              title="{!$Label.Email_Title}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_RP11 + ': ' + relatedTo.Name + '.'}"
-                             signature="{!$Label.Email_Signature_RH}">
+                             signature="{!$Label.Email_Signature_RH}"
+                             emailName="{!$CurrentPage.Name}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Action_View_New_Study_Site}"
                                   buttonURL="{!'/s/sites-search?id=' + relatedTo.Clinical_Trial_Profile__c}"/>
         </c:EmailTemplateText>
