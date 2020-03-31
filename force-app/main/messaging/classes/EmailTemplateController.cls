@@ -493,9 +493,8 @@ global without sharing class EmailTemplateController {
                             userGreetingLabel = LABEL_GREETING_VALUE_PI_HCP;
                             dataProvider = new ParametersDataProvider(sourceRecordId, emailRecipientName, emailRecipientId, emailRecipientLanguage, emailParametersProvider, userCommunityType, outputMode, false, communityTemplateValue);
                         } else if (!PIpeMap.isEmpty()) {
-                            if (PIpeMap.keySet().size() > 1) {
-                                multiplePIMessageValue = true;
-                            }
+                            if (PIpeMap.keySet().size() > 1) multiplePIMessageValue = true;
+
                             bodyLabel = LABEL_BODY_INITIAL_PI_HCP;
                             headerLabel = LABEL_HEADER_INITIAL_PI_HCP;
                             titleLabel = LABEL_TITLE_ALL;

@@ -1,5 +1,5 @@
 /**
- * Created by user on 24.03.2020.
+ * Created by Igor Malyuta on 24.03.2020.
  */
 
 public without sharing class TemplatePropertiesCatalog {
