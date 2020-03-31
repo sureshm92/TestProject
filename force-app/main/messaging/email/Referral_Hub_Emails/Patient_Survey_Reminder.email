@@ -11,8 +11,7 @@
                          title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Survey_Reminder}"
-                         signature="{!$Label.Email_Signature_Survey}"
-                         emailName="{!$CurrentPage.Name}">
+                         signature="{!$Label.Email_Signature_Survey}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Complete_Baseline_Survey}"
                               resourceId="{!relatedTo.Id}" surveyId="{!relatedTo.Id}"/>
         </c:EmailTemplate>
@@ -26,8 +25,7 @@
                              title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Survey_Reminder}"
-                             signature="{!$Label.Email_Signature_Survey}"
-                             emailName="{!$CurrentPage.Name}">
+                             signature="{!$Label.Email_Signature_Survey}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Complete_Baseline_Survey}"
                                   resourceId="{!relatedTo.Id}" surveyId="{!relatedTo.Id}"/>
         </c:EmailTemplateText>

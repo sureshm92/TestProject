@@ -12,8 +12,7 @@
                          title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_Share_Resource}"
-                         signature="{!$Label.Email_Signature_Resource}"
-                         emailName="{!$CurrentPage.Name}">
+                         signature="{!$Label.Email_Signature_Resource}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_View_Resource}"
                               buttonURL="{!relatedTo.article_external_link__c }"/>
         </c:EmailTemplate>
@@ -28,8 +27,7 @@
                              title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_Share_Resource}"
-                             signature="{!$Label.Email_Signature_Resource}"
-                             emailName="{!$CurrentPage.Name}">
+                             signature="{!$Label.Email_Signature_Resource}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_Resource}"
                                   buttonURL="{!relatedTo.article_external_link__c }"/>
         </c:EmailTemplateText>

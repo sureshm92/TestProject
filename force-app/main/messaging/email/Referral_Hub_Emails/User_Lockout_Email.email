@@ -9,8 +9,7 @@
                          title="{!$Label.Email_Title_All}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_User_Lockout}"
-                         signature="{!$Label.Email_Signature}"
-                         emailName="{!$CurrentPage.Name}"/>
+                         signature="{!$Label.Email_Signature}"/>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
@@ -19,8 +18,7 @@
                              title="{!$Label.Email_Title_All}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_User_Lockout}"
-                             signature="{!$Label.Email_Signature}"
-                             emailName="{!$CurrentPage.Name}"/>
+                             signature="{!$Label.Email_Signature}"/>
     </messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>

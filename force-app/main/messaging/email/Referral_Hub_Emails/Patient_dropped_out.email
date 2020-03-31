@@ -11,8 +11,7 @@
                          title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Patient16}"
-                         signature="{!$Label.Email_Signature_Drop}"
-                         emailName="{!$CurrentPage.Name}">
+                         signature="{!$Label.Email_Signature_Drop}">       
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
@@ -24,8 +23,7 @@
                              title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Patient16}"
-                             signature="{!$Label.Email_Signature_Drop}"
-                             emailName="{!$CurrentPage.Name}">
+                             signature="{!$Label.Email_Signature_Drop}">
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
 

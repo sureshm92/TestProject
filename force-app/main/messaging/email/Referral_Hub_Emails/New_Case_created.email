@@ -10,8 +10,7 @@
                          greeting=""
                          title="{!$Label.Email_Title}"
                          body="{!$Label.Email_Body_Case}"
-                         signature=""
-                         emailName="{!$CurrentPage.Name}">
+                         signature="">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Review_Cases}" caseId="{!relatedTo.Id}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
@@ -24,8 +23,7 @@
                              greeting=""
                              title="{!$Label.Email_Title}"
                              body="{!$Label.Email_Body_Case}"
-                             signature=""
-                             emailName="{!$CurrentPage.Name}">
+                             signature="">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Review_Cases}" caseId="{!relatedTo.Id}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
