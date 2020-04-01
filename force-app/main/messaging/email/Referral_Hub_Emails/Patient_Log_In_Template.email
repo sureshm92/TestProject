@@ -3,7 +3,7 @@
                          relatedToType="Clinical_Trial_Profile__c"
                          language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody>
+    <messaging:htmlEmailBody >
         <c:EmailTemplate recipientId="{!recipient.Id}"
                          parametersProvider="Email_Template_Parameters_From_CTP"
                          sourceId="{!relatedTo.Id}"
@@ -17,7 +17,7 @@
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody>
+    <messaging:plainTextEmailBody >
         <c:EmailTemplateText recipientId="{!recipient.Id}"
                              parametersProvider="Email_Template_Parameters_From_CTP"
                              sourceId="{!relatedTo.Id}"

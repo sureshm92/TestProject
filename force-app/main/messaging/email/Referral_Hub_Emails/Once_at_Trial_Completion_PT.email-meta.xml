@@ -3,10 +3,10 @@
     <apiVersion>47.0</apiVersion>
     <available>true</available>
     <description>Trial Complete for Participant</description>
-    <encodingKey>ISO-8859-1</encodingKey>
+    <encodingKey>UTF-8</encodingKey>
     <name>Once at Trial Completion PT</name>
     <style>none</style>
-    <subject>Trial Complete for Participant</subject>
+    <subject>Congratulations, you have completed your study</subject>
     <type>visualforce</type>
     <uiType>Aloha</uiType>
 </EmailTemplate>

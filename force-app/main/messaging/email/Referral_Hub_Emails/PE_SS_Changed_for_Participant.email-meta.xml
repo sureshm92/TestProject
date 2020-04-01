@@ -3,10 +3,10 @@
     <apiVersion>47.0</apiVersion>
     <available>true</available>
     <description>Study Site on Participant Enrollment was Changed Email For Participant</description>
-    <encodingKey>ISO-8859-1</encodingKey>
+    <encodingKey>UTF-8</encodingKey>
     <name>PE SS Changed for Participant</name>
     <style>none</style>
-    <subject>Test SS Changed on PE</subject>
+    <subject>You have been transferred to another Study Site</subject>
     <type>visualforce</type>
     <uiType>Aloha</uiType>
 </EmailTemplate>
