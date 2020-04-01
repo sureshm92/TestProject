@@ -57,21 +57,8 @@ public without sharing class TaskEditRemote {
                 Task task = TaskService.getInstance().getTask(taskId);
                 wrapper.task = task;
 
-                TimeZone timezone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
-                if (task.Activity_Datetime__c != null) {
-                    wrapper.activityDate = DateTimeConverterUtil.getUserDT(
-                            task.Activity_Datetime__c.date(),
-                            task.Activity_Datetime__c.time(),
-                            timezone
-                    ).date();
-                }
-                if (task.ReminderDateTime != null) {
-                    wrapper.reminderDate = DateTimeConverterUtil.getUserDT(
-                            task.ReminderDateTime.date(),
-                            task.ReminderDateTime.time(),
-                            timezone
-                    ).date();
-                }
+                if (task.Activity_Datetime__c != null) wrapper.activityDate = task.Activity_Datetime__c.date();
+                if (task.ReminderDateTime != null) wrapper.reminderDate = task.ReminderDateTime.date();
 
                 wrapper.createdByAdmin = createdByAdmin(task);
             }
@@ -101,7 +88,7 @@ public without sharing class TaskEditRemote {
             }
 
             if (taskWrapper.activityDate != null) {
-                taskToUpsert.Activity_Datetime__c = Datetime.newInstanceGmt(taskWrapper.activityDate, Datetime.now().timeGmt());
+                taskToUpsert.Activity_Datetime__c = Datetime.newInstance(taskWrapper.activityDate, Datetime.now().time());
             }
             if (taskWrapper.reminderDate != null) {
                 taskToUpsert.Reminder_Date__c = Datetime.newInstance(taskWrapper.reminderDate, Datetime.now().time());
