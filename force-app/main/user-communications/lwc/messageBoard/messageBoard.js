@@ -90,6 +90,7 @@ export default class MessageBoard extends LightningElement {
         this.isPastStudy = false;
         this.patientDelegates = null;
         this.isHoldMode = false;
+        this.selectedEnrollment = null;
 
         this.enrollments = enrollments;
         this.isMultipleMode = enrollments.length > 1;
@@ -237,11 +238,10 @@ export default class MessageBoard extends LightningElement {
         this.messageText = event.target.value;
         this.isAttachEnable = !this.attachment && this.messageText != null;
         this.checkSendBTNAvailability();
-        if (!this.isHoldMode && this.messageText && event.keyCode === 13) this.handleSendClick();
+        if (!this.isHoldMode && this.messageText && this.isRecipientSelected() && event.keyCode === 13) this.handleSendClick();
     }
 
     handleSendClick() {
-        if(!this.selectedEnrollments || !this.selectedEnrollment) return;
         let messageText = this.messageText;
         let fileList;
         if (this.attachment) {
@@ -339,7 +339,7 @@ export default class MessageBoard extends LightningElement {
 
     checkSendBTNAvailability() {
         let sendBtn = this.template.querySelector('.ms-send-button');
-        if (this.messageText && (this.selectedEnrollment || this.selectedEnrollments) && !this.isHoldMode) {
+        if (this.messageText && this.isRecipientSelected() && !this.isHoldMode) {
             this.isSendEnable = true;
             sendBtn.removeAttribute('disabled');
         } else {
@@ -354,6 +354,14 @@ export default class MessageBoard extends LightningElement {
         this.isSendEnable = false;
         this.template.querySelector('.ms-send-button').setAttribute('disabled', '');
         this.attachment = null;
+    }
+
+    isRecipientSelected() {
+        let isSelected = this.selectedEnrollment;
+        if (this.userMode === 'PI' && this.isMultipleMode) {
+            isSelected = this.selectedEnrollments && this.selectedEnrollments.length > 0;
+        }
+        return isSelected;
     }
 
     fireSendEvent(wrapper) {

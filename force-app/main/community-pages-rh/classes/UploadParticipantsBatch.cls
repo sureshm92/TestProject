@@ -258,13 +258,22 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     isDuplicate = isDuplicate || contactDuplicate != null;
 
                     if (!isDuplicate) {
-                        Database.SaveResult saveRes = Database.insert(participantContact);
-                        if (!saveRes.isSuccess()) {
+                        try {
+                            Database.SaveResult saveRes = Database.insert(participantContact);
+                            if (!saveRes.isSuccess()) {
+                                errorRecordCount++;
+                                Database.Error error = saveRes.getErrors().get(0);
+                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
+                                listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
+                                system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
+
+                                continue;
+                            }
+                        } catch (Exception exp) {
                             errorRecordCount++;
-                            Database.Error error = saveRes.getErrors().get(0);
-                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
+                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + exp.getMessage());
                             listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
-                            system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
+                            system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + exp.getMessage());
 
                             continue;
                         }
@@ -294,7 +303,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     } else {
                         //errorRecordCount++;
                         //listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: Incorrect data');
-                       // listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
+                        //listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
 
                         continue;
                     }
@@ -324,7 +333,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             SELECT Id,
                                     Participant_Contact__c
                             FROM Participant_Enrollment__c
-                            WHERE Participant_Contact__c IN :duplicateContacts.keySet() AND Study_Site__c = :studySiteDetails.Id
+                            WHERE Participant_Contact__c IN :duplicateContacts.keySet() AND
+                            (Study_Site__c = :studySiteDetails.Id OR
+                            Study_Site__r.Clinical_Trial_Profile__c = :studySiteDetails.Clinical_Trial_Profile__c)
                     ]) {
                         duplicateParticipantEnrollments.add(pEnrollment.Participant_Contact__c);
                     }

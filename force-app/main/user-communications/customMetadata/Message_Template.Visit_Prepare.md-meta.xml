@@ -4,6 +4,6 @@
     <protected>false</protected>
     <values>
         <field>Message_Variant__c</field>
-        <value xsi:type="xsd:string">What do I need to do to prepare for my upcoming visit?</value>
+        <value xsi:type="xsd:string">Mess_Variant_Visit_Prepare</value>
     </values>
 </CustomMetadata>

@@ -5,8 +5,11 @@
     doInit: function(component, event, helper){
         window.setTimeout(
             $A.getCallback(function() {
-                let containerWidth = component.find('tableContainer').getElement().clientWidth;
-                component.set('v.width', containerWidth);
+                let container = component.find('tableContainer');
+                if(container !== undefined){
+                    let containerWidth = component.find('tableContainer').getElement().clientWidth;
+                    component.set('v.width', containerWidth);
+                }
                 component.set('v.initialized', true);
             }), 100
         );

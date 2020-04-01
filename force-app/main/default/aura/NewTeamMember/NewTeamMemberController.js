@@ -68,6 +68,9 @@
         spinner.show();
         component.set('v.showSpinner', true);
 
+        let oldFirstName = delegate.delegateContact.FirstName;
+        let oldLastName = delegate.delegateContact.LastName;
+
         communityService.executeAction(component, 'getContactData', {
             userMode: component.get('v.userMode'),
             contactEmail: delegate.delegateContact.Email.toLowerCase().trim(),
@@ -92,6 +95,8 @@
             } else if (contactData.delegates[0].delegateContact.Id === undefined) {
                 // component.set('v.currentTab','all-same');
                 console.log('delegateContact.Id===undefined');
+                component.find('firstNameInput').set('v.value', oldFirstName);
+                component.find('lastNameInput').set('v.value', oldLastName);
             }
 
             var allTrialLevel = {

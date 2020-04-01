@@ -43,6 +43,10 @@ public without sharing class Batch_IntegrationVisitProcess extends Batch_Schedul
         return Batch_IntegrationVisitProcess.class;
     }
 
+    public override String getBatchDescription() {
+        return 'This job processes Integration Visits and Integration Visit Results and updates relevant Patient Visits and Visit Results';
+    }
+
     public override String getRecommendedIntervalMode() {
         return Batch_ScheduledAbstract.INTERVAL_HOURS;
     }

@@ -7,7 +7,9 @@ private class Test_TrialSearchHelper {
 
     @TestSetup
     static void setup() {
+        Test.startTest();
         TestDataFactory.createInitData();
+        Test.stopTest();
     }
 
     @IsTest

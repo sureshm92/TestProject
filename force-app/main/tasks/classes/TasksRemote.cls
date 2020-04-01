@@ -45,20 +45,8 @@ public class TasksRemote {
                 OpenTask taskWrapper = new OpenTask();
                 taskWrapper.openTask = task;
 
-                if (task.Activity_Datetime__c != null) {
-                    taskWrapper.activityDate = DateTimeConverterUtil.getUserDT(
-                            task.Activity_Datetime__c.date(),
-                            task.Activity_Datetime__c.time(),
-                            timezone
-                    ).date();
-                }
-                if (task.ReminderDateTime != null) {
-                    taskWrapper.reminder = DateTimeConverterUtil.getUserDT(
-                            task.ReminderDateTime.date(),
-                            task.ReminderDateTime.time(),
-                            timezone
-                    ).date();
-                }
+                if (task.Activity_Datetime__c != null) taskWrapper.activityDate = task.Activity_Datetime__c.date();
+                if (task.ReminderDateTime != null) taskWrapper.reminder = task.ReminderDateTime.date();
 
                 participantTasks.openTasksWrapper.add(taskWrapper);
             }
@@ -69,13 +57,7 @@ public class TasksRemote {
             for (Task compTask : completedTasks) {
                 CompletedTask completedTask = new CompletedTask();
                 completedTask.task = compTask;
-                if (compTask.Completed_Date__c != null) {
-                    completedTask.completedDate = DateTimeConverterUtil.getUserDT(
-                            compTask.Completed_Date__c.date(),
-                            compTask.Completed_Date__c.time(),
-                            timezone
-                    ).date();
-                }
+                if (compTask.Completed_Date__c != null) completedTask.completedDate = compTask.Completed_Date__c.date();
 
                 participantTasks.completedTasks.add(completedTask);
             }

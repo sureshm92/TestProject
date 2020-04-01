@@ -3,7 +3,7 @@
     <apiVersion>47.0</apiVersion>
     <available>true</available>
     <description>New Study Email Participant</description>
-    <encodingKey>ISO-8859-1</encodingKey>
+    <encodingKey>UTF-8</encodingKey>
     <name>Patient0 New Study</name>
     <style>none</style>
     <subject>You have been referred to a clinical research study.</subject>

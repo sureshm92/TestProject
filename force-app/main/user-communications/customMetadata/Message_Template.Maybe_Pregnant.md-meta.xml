@@ -4,6 +4,6 @@
     <protected>false</protected>
     <values>
         <field>Message_Variant__c</field>
-        <value xsi:type="xsd:string">I am or might be pregnant, who do I contact?</value>
+        <value xsi:type="xsd:string">Mess_Variant_Maybe_Pregnant</value>
     </values>
 </CustomMetadata>

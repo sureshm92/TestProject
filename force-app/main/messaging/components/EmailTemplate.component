@@ -15,13 +15,6 @@
                     description=""/>
     <apex:attribute name="sourceId" assignTo="{!sourceRecordId}" type="Id" description="target of data extraction"
                     access="global" required="false"/>
-    <apex:attribute name="addBreaks" assignTo="{!replaceLineBreaksOnHTMLBreaks}" type="Boolean" default="true"
-                    description="" access="global"/>
-    <apex:attribute name="showDelegateTable" assignTo="{!showDelegateTableValue}" type="Boolean" default="false"
-                    description="" access="global"/>
-    <apex:attribute name="showDelegateSSTable" assignTo="{!showDelegateSSTableValue}" type="Boolean" default="false"
-                    description="" access="global" required="false"/>
-
     <apex:attribute name="header" assignTo="{!headerValue}" type="String" description=""/>
     <apex:attribute name="title" assignTo="{!titleValue}" type="String" description=""/>
     <apex:attribute name="greeting" assignTo="{!userGreetingValue}" type="String" description=""/>
@@ -32,8 +25,15 @@
                     description="send message with all PI names to new RP"/>
     <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}" description="Community template name"/>
 
+    <apex:attribute name="addBreaks" assignTo="{!replaceLineBreaksOnHTMLBreaks}" type="Boolean" default="true"
+                    description="" access="global"/>
+    <apex:attribute name="showDelegateTable" assignTo="{!showDelegateTableValue}" type="Boolean" default="false"
+                    description="" access="global"/>
+    <apex:attribute name="showDelegateSSTable" assignTo="{!showDelegateSSTableValue}" type="Boolean" default="false"
+                    description="" access="global" required="false"/>
 
     <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="HTML"/>
+    <apex:attribute name="emailName" assignTo="{!emailTemplateName}" type="String" description="Email template name"/>
 
     <!-- component body: -->
     <div style="{!emailTemplateBackground}">

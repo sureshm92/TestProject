@@ -2217,7 +2217,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Medication Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming medication dosage for the clinical research study: ##StudyName.  If you have any questions regarding this medication, please contact the Study Team. Please login for additional details.</value>
+        <value>This is a quick email to remind you of ##PatientFirstName&#39;s upcoming medication dosage for the clinical research study: ##StudyName.  If you have any questions regarding this medication, please contact the Study Team. Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Once_at_Trial_Completion_DGT</fullName>
@@ -2746,7 +2746,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
-        <value>This is an email to remind you of ##ParticipantFirstName&#39;s task: ##TaskName.
+        <value>This is an email to remind you of ##PatientFirstName&#39;s task: ##TaskName.
 
             Please login to update the status of this task.</value>
     </labels>
@@ -2791,7 +2791,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the clinical research study: ##StudyName. If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
+        <value>This is a quick email to remind you of ##PatientFirstName&#39;s upcoming visit for the clinical research study: ##StudyName. If ##PatientFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Welcome_to_Study_Delegate</fullName>
@@ -3896,7 +3896,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email User Greeting</shortDescription>
-        <value>Dear ##RecipientName</value>
+        <value>Dear ##RecipientName,</value>
     </labels>
     <labels>
         <fullName>Email_User_Greeting_FirstName</fullName>
@@ -5493,6 +5493,76 @@
         <protected>false</protected>
         <shortDescription>Medical Record Review</shortDescription>
         <value>Medical Record Review</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Can_relocate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Can relocate</shortDescription>
+        <value>Can I change my study center location?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Maybe_Pregnant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Maybe Pregnant</shortDescription>
+        <value>I am or might be pregnant, who do I contact?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Mess_Variant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Mess Variant</shortDescription>
+        <value>I need to schedule, cancel or reschedule a visit</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Need_Fast</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Need Fast</shortDescription>
+        <value>Do I need to fast for my next visit?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Next_Tests_Assessment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Next Tests Assessment</shortDescription>
+        <value>What tests/assessments will take place at my next visit?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Next_Vis_DT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Next Vis DT</shortDescription>
+        <value>What is the date and time of my next visit?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Next_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Next Visit</shortDescription>
+        <value>Where is my next visit?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Side_Effects</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Side Effects</shortDescription>
+        <value>I’m experiencing some side effects, who do I contact?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Visit_Prepare</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Visit Prepare</shortDescription>
+        <value>What do I need to do to prepare for my upcoming visit?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Visits_left</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Visits left</shortDescription>
+        <value>How many visits do I have left?</value>
     </labels>
     <labels>
         <fullName>Message_For_Delegates</fullName>
@@ -7759,6 +7829,20 @@
         <protected>false</protected>
         <shortDescription>PG_DrivingDirection</shortDescription>
         <value>Driving directions</value>
+    </labels>
+    <labels>
+        <fullName>PG_EMN_MSG_Participant_record_import_failed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG EMN MSG Participant record import failed</shortDescription>
+        <value>Participant record import failed. Please use template for Participant uploading.</value>
+    </labels>
+    <labels>
+        <fullName>PG_EMN_MSG_Participant_record_import_is_processing</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG EMN MSG Participant record import is processing</shortDescription>
+        <value>Participant record import is processing. You will be notified via email when the process has complete.</value>
     </labels>
     <labels>
         <fullName>PG_EMN_MSG_Update_Contact_Info</fullName>
@@ -10520,14 +10604,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SW H Full Exclusion Criteria</shortDescription>
-        <value>FULL EXCLUSION CRITERIA</value>
+        <value>EXCLUSION CRITERIA</value>
     </labels>
     <labels>
         <fullName>PG_SW_H_Full_Inclusion_Criteria</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SW H Full Inclusion Criteria</shortDescription>
-        <value>FULL INCLUSION CRITERIA</value>
+        <value>INCLUSION CRITERIA</value>
     </labels>
     <labels>
         <fullName>PG_SW_H_Objective</fullName>
@@ -12723,6 +12807,14 @@
         <protected>false</protected>
         <shortDescription>Study Visit Unavailable</shortDescription>
         <value>Unavailable</value>
+    </labels>
+    <labels>
+        <fullName>Study_Workspace_Travel_Support_View_Booking</fullName>
+        <categories>Study Workspace</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Workspace Travel Support View Booking</shortDescription>
+        <value>View Booking</value>
     </labels>
     <labels>
         <fullName>Success</fullName>

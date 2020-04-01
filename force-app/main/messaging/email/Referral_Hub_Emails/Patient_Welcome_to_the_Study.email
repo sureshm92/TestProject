@@ -18,7 +18,6 @@
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
-
         <c:EmailTemplateText recipientId="{!relatedTo.Participant__r.Contact__c}"
                              sourceId="{!relatedTo.Id}"
                              parametersProvider="Email_Template_Parameters_From_PE"

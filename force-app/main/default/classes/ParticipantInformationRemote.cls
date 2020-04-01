@@ -73,6 +73,13 @@ public without sharing class ParticipantInformationRemote {
                         pe.Participant_Contact__c => pe.HCP_Contact__c
                 });
             }
+
+            Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+            String permissionSetName = CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
+            actionAssignContactPermissions.addPermission(pe.Participant_Contact__c, permissionSetName);
+            if (!actionAssignContactPermissions.isEmpty()) {
+                ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+            }
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }

@@ -19,6 +19,8 @@ public class TestData {
     public HCP_Enrollment__c hcpEnrollment;
     private static Contact hcpContact;
     private static Terms_And_Conditions__c studyTC;
+    private static List<String> necessaryTriggersForLoadTestData = new List<String>(); // these triggers are necessary for correct work of loadTestData()
+    private static List<String> necessaryTriggersForMostTests = new List<String>(); // these triggers are necessary for correct work of almost all tests
 
     public TestData() {
         participant = [
@@ -123,7 +125,6 @@ public class TestData {
         update pe;
     }
 
-
     /**
      * Fill Enrolled_Date__c on PE
      * @param status some of PEStatusState
@@ -135,6 +136,17 @@ public class TestData {
                 ParticipantEnrollment__c = pe.Id
         );
         insert history;
+    }
+
+
+    /**
+    loadTestData() is suitable for most cases (almost all triggers are off)
+
+    @param List<String> externalExecuteTriggerNames - The list of triggers' names you need to execute additionally.
+
+    */
+    public static void loadTestData() {
+        loadTestData(true, null);
     }
 
     public static void loadTestData(Boolean bypass, List<String> externalExecuteTriggerNames) {
@@ -351,32 +363,33 @@ public class TestData {
         update contactForUpdate;
     }
 
-    /**
-    loadTestData() is suitable for most cases (almost all triggers are off)
-
-    @param List<String> externalExecuteTriggerNames - The list of triggers' names you need to execute additionally.
-
-    */
-    public static void loadTestData() {
-        loadTestData(true, null);
-    }
-    
     @IsTest
-    public static void runAllTriggers() {
+    static void runAllTriggers() {
+        if (necessaryTriggersForLoadTestData.isEmpty()) prepareTriggersLists();
+
+        for (String name : necessaryTriggersForMostTests) TriggerHandlerExecutor.bypassHandler(Type.forName(name)); // bypass triggers that work in loadTestData()
+
         loadTestData(false, null);
     }
 
-    public static void createTCAcceptance() {
-        User hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
+    private static void prepareTriggersLists() {
+        necessaryTriggersForLoadTestData.add('ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler');
+        necessaryTriggersForLoadTestData.add('ParticipantTriggerHandler.CreateContactsForParticipantsHandler');
 
-        Terms_And_Conditions_Acceptance__c tc_acceptance = new Terms_And_Conditions_Acceptance__c(
-                User__c = hcpUser.Id,
-                Terms_And_Conditions__c = studyTC.Id
-        );
-        insert tc_acceptance;
+        necessaryTriggersForMostTests.add('HCPEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler');
+        necessaryTriggersForMostTests.add('HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotificationHandler');
+        necessaryTriggersForMostTests.add('ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler');
+        necessaryTriggersForMostTests.add('StudySiteTriggerHandler.CreatePIOrSendNotificationHandler');
+        necessaryTriggersForMostTests.add('StudySiteTriggerHandler.SwitchContactUserModeHandler');
+        necessaryTriggersForMostTests.add('ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler');
+        necessaryTriggersForMostTests.add('ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR');
+        necessaryTriggersForMostTests.add('ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandle');
+        necessaryTriggersForMostTests.add('ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler');
+        necessaryTriggersForMostTests.add('ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler');
+
     }
 
-    public static void bypassTriggers(List<String> externalExecuteTriggerNames) {
+    private static void bypassTriggers(List<String> externalExecuteTriggerNames) {
         List<ApexTrigger> triggers = [
                 SELECT Id,
                         Name,
@@ -393,20 +406,11 @@ public class TestData {
                 bypassTriggerNames.add(codeString.substringBetween(open, close));
             }
         }
+        if (necessaryTriggersForLoadTestData.isEmpty()) prepareTriggersLists();
 
         List<String> executeTriggerNames = new List<String>();
-        executeTriggerNames.add('ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler');
-        executeTriggerNames.add('ParticipantTriggerHandler.CreateContactsForParticipantsHandler');
-        executeTriggerNames.add('HCPEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler');
-        executeTriggerNames.add('HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotificationHandler');
-        executeTriggerNames.add('ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler');
-        executeTriggerNames.add('StudySiteTriggerHandler.CreatePIOrSendNotificationHandler');
-        executeTriggerNames.add('StudySiteTriggerHandler.SwitchContactUserModeHandler');
-        executeTriggerNames.add('ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler');
-        executeTriggerNames.add('ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR');
-        executeTriggerNames.add('ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandle');
-        executeTriggerNames.add('ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler');
-        executeTriggerNames.add('ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler');
+        executeTriggerNames.addAll(necessaryTriggersForLoadTestData);
+        executeTriggerNames.addAll(necessaryTriggersForMostTests);
 
         if (externalExecuteTriggerNames != null && !externalExecuteTriggerNames.isEmpty()) {
             executeTriggerNames.addAll(externalExecuteTriggerNames);
@@ -424,6 +428,16 @@ public class TestData {
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
+    }
+
+    public static void createTCAcceptance() {
+        User hcpUser = [SELECT Id FROM User WHERE ContactId = :hcpContact.Id];
+
+        Terms_And_Conditions_Acceptance__c tc_acceptance = new Terms_And_Conditions_Acceptance__c(
+                User__c = hcpUser.Id,
+                Terms_And_Conditions__c = studyTC.Id
+        );
+        insert tc_acceptance;
     }
 
     public static void createPIDelegateUser(){

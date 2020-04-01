@@ -1,5 +1,5 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_PI5}"
-                         recipientType="User"
+                         recipientType="Contact"
                          relatedToType="Participant_Enrollment__c"
                          language="{!relatedTo.Study_Site__r.Principal_Investigator__r.Language__c}">
 
