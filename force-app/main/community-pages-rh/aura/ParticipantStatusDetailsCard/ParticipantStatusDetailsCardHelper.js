@@ -20,7 +20,7 @@
         isCurrentStepValid = isCurrentStepValid && ((stepWrapper.outcomeList === undefined || stepWrapper.outcomeList.length== 0)
             ||(stepWrapper.outcome === undefined || stepWrapper.outcome ==='')
             ||!notesRequired
-            ||(stepWrapper.notes !== undefined && stepWrapper.notes !== '')
+            ||(stepWrapper.notes !== undefined && stepWrapper.notes.trim() !== '')
         );
         console.log('isCurrentStepValid ' + isCurrentStepValid );
         component.set('v.stepWrapper.isCurrentStepValid', isCurrentStepValid);
