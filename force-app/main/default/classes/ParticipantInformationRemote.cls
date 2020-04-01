@@ -58,18 +58,18 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
-    public static void createUserForPatientProtal(String peJSON, Boolean sendEmails) {
+    public static List<User> createUserForPatientProtal(String peJSON, Boolean sendEmails) {
         Participant_Enrollment__c pe = (Participant_Enrollment__c) JSON.deserialize(peJSON, Participant_Enrollment__c.class);
         if (sendEmails) {
             update new Contact(Id = pe.Participant_Contact__c, Consent_To_Inform_About_Study__c = true);
         }
         try {
             if (pe.HCP_Contact__c == null) {
-                ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
+                 return ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
                         pe.Participant_Contact__c => pe.PI_Contact__c
                 });
             } else {
-                ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
+                 return ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
                         pe.Participant_Contact__c => pe.HCP_Contact__c
                 });
             }
