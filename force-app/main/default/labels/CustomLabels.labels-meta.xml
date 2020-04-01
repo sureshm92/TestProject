@@ -2791,7 +2791,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##PatientFirstName&#39;s upcoming visit for the clinical research study: ##StudyName. If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
+        <value>This is a quick email to remind you of ##PatientFirstName&#39;s upcoming visit for the clinical research study: ##StudyName. If ##PatientFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Welcome_to_Study_Delegate</fullName>
