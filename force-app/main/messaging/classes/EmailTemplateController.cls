@@ -71,6 +71,7 @@ global without sharing class EmailTemplateController {
                 Map<String, String> parametersMap = getDataProvider().parameters;
                 parametersMap.put('CommunityName', commNameFull);
                 parametersMap.put('ShortCommunityName', commNameShort);
+                parametersMap = getParametersForBodyValue(parametersMap);
                 String resValue = TranslateHelper.replaceParams(bodyValue, PARAM_PREFIX, parametersMap);
                 return prepareLineBreaks(resValue);
             } catch (Exception e) {
@@ -529,4 +530,15 @@ global without sharing class EmailTemplateController {
         }
     }
 
+    public Map<String, String> getParametersForBodyValue(Map<String, String> parameters) {
+        if (sourceRecordId != null && sourceRecordId.getSobjectType() == Task.getSObjectType()) {
+            if (getDataProvider().isDelegate) {
+                Task task = [SELECT Id, WhoId FROM Task WHERE Id = :sourceRecordId];
+                Participant__c participant = [SELECT Id, First_Name__c FROM Participant__c WHERE Contact__c = :task.WhoId];
+                parameters.put('PatientFirstName', participant.First_Name__c);
+            }
+        }
+
+        return parameters;
+    }
 }
