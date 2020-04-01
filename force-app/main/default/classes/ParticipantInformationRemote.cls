@@ -64,12 +64,13 @@ public without sharing class ParticipantInformationRemote {
             update new Contact(Id = pe.Participant_Contact__c, Consent_To_Inform_About_Study__c = true);
         }
         try {
+            List<User> returnUsers = new List<User>();
             if (pe.HCP_Contact__c == null) {
-                 return ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
+                 returnUsers = ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
                         pe.Participant_Contact__c => pe.PI_Contact__c
                 });
             } else {
-                 return ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
+                 returnUsers = ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id>{
                         pe.Participant_Contact__c => pe.HCP_Contact__c
                 });
             }
@@ -80,6 +81,7 @@ public without sharing class ParticipantInformationRemote {
             if (!actionAssignContactPermissions.isEmpty()) {
                 ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
             }
+            return returnUsers;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
