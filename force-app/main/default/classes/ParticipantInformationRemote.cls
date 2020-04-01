@@ -75,7 +75,7 @@ public without sharing class ParticipantInformationRemote {
             }
 
             Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
-            String permissionSetName = CommunityTemplateService.getTemplate(pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
+            String permissionSetName = CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
             actionAssignContactPermissions.addPermission(pe.Participant_Contact__c, permissionSetName);
             if (!actionAssignContactPermissions.isEmpty()) {
                 ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
