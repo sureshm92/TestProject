@@ -411,29 +411,41 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     }
                 }
 
+                List<Contact> contactsToDelete = new List<Contact>();
                 for (Contact participantContact : contactsById.values()) {
                     Participant_Enrollment__c participantEnrollment = participantEnrollmentsByContact.get(participantContact.Id);
-                    if (participantsByContact.get(participantContact.Id) != null) {
+                    if (participantsByContact.get(participantContact.Id) != null && !String.isBlank(participantsByContact.get(participantContact.Id).Id)) {
                         participantEnrollment.Participant__c = participantsByContact.get(participantContact.Id).Id;
+                    } else {
+                        contactsToDelete.add(participantContact);
+                        participantEnrollmentsByContact.remove(participantContact.Id);
+                        participantsByContact.remove(participantContact.Id);
                     }
+                }
+
+                if (!contactsToDelete.isEmpty()) {
+                    for (Contact cnt : contactsToDelete) {
+                        contactsById.remove(cnt.Id);
+                    }
+                    delete contactsToDelete;
                 }
             }
 
-                if (!participantEnrollmentsByContact.isEmpty()) {
-                    system.debug('!participantEnrollmentsByContact.isEmpty()');
-                    List<Database.SaveResult> saveReses = Database.insert(participantEnrollmentsByContact.values());
-                    Integer totalErrorCount = getErrorCount(saveReses);
-                    if (totalErrorCount > errorRecordCount && totalErrorCount <= totalRecordCount) {
-                        errorRecordCount = totalErrorCount;
-                    }
-                    for (Database.SaveResult saveRes : saveReses) {
-                        if (!saveRes.isSuccess()) {
-                            Database.Error error = saveRes.getErrors().get(0);
-                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
-                            system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
-                        }
+            if (!participantEnrollmentsByContact.isEmpty()) {
+                system.debug('!participantEnrollmentsByContact.isEmpty()');
+                List<Database.SaveResult> saveReses = Database.insert(participantEnrollmentsByContact.values());
+                Integer totalErrorCount = getErrorCount(saveReses);
+                if (totalErrorCount > errorRecordCount && totalErrorCount <= totalRecordCount) {
+                    errorRecordCount = totalErrorCount;
+                }
+                for (Database.SaveResult saveRes : saveReses) {
+                    if (!saveRes.isSuccess()) {
+                        Database.Error error = saveRes.getErrors().get(0);
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
+                        system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
                     }
                 }
+            }
 
 
             if(createUsers) {
