@@ -416,7 +416,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     Participant_Enrollment__c participantEnrollment = participantEnrollmentsByContact.get(participantContact.Id);
                     if (participantsByContact.get(participantContact.Id) != null && !String.isBlank(participantsByContact.get(participantContact.Id).Id)) {
                         participantEnrollment.Participant__c = participantsByContact.get(participantContact.Id).Id;
+                        system.debug('participantEnrollment.Participant__c: ' + participantEnrollment.Participant__c);
                     } else {
+                        system.debug('participantsByContact.get(participantContact.Id): ' + participantsByContact.get(participantContact.Id));
                         contactsToDelete.add(participantContact);
                         participantEnrollmentsByContact.remove(participantContact.Id);
                         participantsByContact.remove(participantContact.Id);
@@ -427,8 +429,12 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     for (Contact cnt : contactsToDelete) {
                         contactsById.remove(cnt.Id);
                     }
+                    system.debug('contactsToDelete: ' + contactsToDelete);
                     delete contactsToDelete;
                 }
+
+                errorRecordCount = totalRecordCount - contactsById.size();
+                system.debug('errorRecordCount: ' + errorRecordCount);
             }
 
             if (!participantEnrollmentsByContact.isEmpty()) {
@@ -449,6 +455,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
 
             if(createUsers) {
+                system.debug('CREATE_USERS: ' + insertedContacts);
                 if(!insertedContacts.isEmpty()){
                     for(Contact c : contactsById.values()){
                         if(insertedContacts.contains(participantsByContact.get(c.Id).Id)){
