@@ -100,4 +100,18 @@ public class Test_RelevantLinksRemote {
         Test.stopTest();
         System.assertEquals(1, initData.linksWrappers.size());
     }
+
+    @IsTest
+    static void getInitDataWithException_test() {
+        Boolean isExceptionThrown = false;
+        Test.startTest();
+        try {
+            RelevantLinksRemote.getInitData();
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
+        }
+        Test.stopTest();
+        System.assertEquals(true, isExceptionThrown);
+    }
 }
