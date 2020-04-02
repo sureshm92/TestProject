@@ -10,7 +10,8 @@
                          title="{!$Label.Email_Title_PH}"
                          greeting="{!$Label.Email_Notification_Greeting}"
                          body="{!$Label.Email_Body_Participant_Answer}"
-                         signature="{!$Label.Email_Signature_New_Continue}">
+                         signature="{!$Label.Email_Signature_New_Continue}"
+                         emailName="{!$CurrentPage.Name}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
@@ -23,7 +24,8 @@
                              title="{!$Label.Email_Title_PH}"
                              greeting="{!$Label.Email_Notification_Greeting}"
                              body="{!$Label.Email_Body_Participant_Answer}"
-                             signature="{!$Label.Email_Signature_New_Continue}">
+                             signature="{!$Label.Email_Signature_New_Continue}"
+                             emailName="{!$CurrentPage.Name}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody>
