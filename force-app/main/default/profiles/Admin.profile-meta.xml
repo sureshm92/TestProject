@@ -521,6 +521,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>EmailTemplateDelController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EmailTemplateDelegateController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2888,6 +2892,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.Resource_Notifications__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Salutation_With_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

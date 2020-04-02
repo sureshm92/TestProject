@@ -2,22 +2,17 @@
  - Created by Kryvolap on 18.09.2018.
  -->
 
-<apex:component id="EmailTemplateDelegate" access="global">
+<apex:component id="EmailTemplateDelegate" controller="EmailTemplateDelController" access="global">
 
     <!-- attributes: -->
-    <apex:attribute name="userMode" type="String" description=""/>
-    <apex:attribute name="delegateLevelsPI" type="DelegateLevelWrapper[]" description=""/>
-    <apex:attribute name="delegateLevelsHCP" type="DelegateLevelWrapper[]" description=""/>
+    <apex:attribute name="recipientId" type="Id" assignTo="{!recipId}" description=""/>
+    <apex:attribute name="recipientLanguage" type="String" assignTo="{!contactLanguage}" description=""/>
 
     <!-- component body -->
-    <c:EmailTemplateDelegateTable rendered="{!delegateLevelsPI.size > 0}"
+    <c:EmailTemplateDelegateTable rendered="{!piDelegateLevels.size > 0}"
                                   title="{!$Label.Email_Delegate_PI_Levels_Title}"
-                                  delegateLevels="{!delegateLevelsPI}"
-                                  isPI="true"/>
-    <c:EmailTemplateDelegateTable rendered="{!delegateLevelsHCP.size > 0}"
+                                  delegateLevels="{!piDelegateLevels}"/>
+    <c:EmailTemplateDelegateTable rendered="{!HCPDelegateLevels.size > 0}"
                                   title="{!$Label.Email_Delegate_HCP_Levels_Title}"
-                                  delegateLevels="{!delegateLevelsHCP}"
-                                  isPI="false"
-                                  />
-
+                                  delegateLevels="{!HCPDelegateLevels}"/>
 </apex:component>

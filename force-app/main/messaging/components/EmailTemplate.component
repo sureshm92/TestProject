@@ -15,12 +15,12 @@
                     description=""/>
     <apex:attribute name="sourceId" assignTo="{!sourceRecordId}" type="Id" description="target of data extraction"
                     access="global" required="false"/>
-    <apex:attribute name="header" assignTo="{!headerValue}" type="String" description=""/>
-    <apex:attribute name="title" assignTo="{!titleValue}" type="String" description=""/>
-    <apex:attribute name="greeting" assignTo="{!userGreetingValue}" type="String" description=""/>
-    <apex:attribute name="body" assignTo="{!bodyValue}" type="String" description=""/>
-    <apex:attribute name="signature" assignTo="{!signatureValue}" type="String" description=""/>
-    <apex:attribute name="preSignature" assignTo="{!preSignatureValue}" type="String" description=""/>
+    <apex:attribute name="header" assignTo="{!headerLabel}" type="String" description=""/>
+    <apex:attribute name="title" assignTo="{!titleLabel}" type="String" description=""/>
+    <apex:attribute name="greeting" assignTo="{!greetingLabel}" type="String" description=""/>
+    <apex:attribute name="body" assignTo="{!bodyLabel}" type="String" description=""/>
+    <apex:attribute name="signature" assignTo="{!signatureLabel}" type="String" description=""/>
+    <apex:attribute name="preSignature" assignTo="{!preSignatureLabel}" type="String" description=""/>
     <apex:attribute name="multiplePIMessage" assignTo="{!multiplePIMessageValue}" type="Boolean" default="false"
                     description="send message with all PI names to new RP"/>
     <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}" description="Community template name"/>
@@ -36,44 +36,46 @@
     <apex:attribute name="emailName" assignTo="{!emailTemplateName}" type="String" description="Email template name"/>
 
     <!-- component body: -->
-    <div style="{!emailTemplateBackground}">
-        <div style="{!emailTemplateTextBackground}">
-            <div style="{!emailTemplateHeaderBackground}">
-                <div style="{!emailTemplateHeader}">{!headerValue}</div>
-                <div style="{!emailTemplateTitle}">{!titleValue}</div>
+    <div style="{!templateMap['emailTemplateBackground']}">
+        <div style="{!templateMap['emailTemplateTextBackground']}">
+            <div style="{!templateMap['emailTemplateHeaderBackground']}">
+                <div style="{!templateMap['emailTemplateHeader']}">{!templateMap['headerValue']}</div>
+                <div style="{!templateMap['emailTemplateTitle']}">{!templateMap['titleValue']}</div>
             </div>
             <div style="padding: 20px; color: #333333; font-size: 16px; line-height: 20px;">
-                <apex:outputText value="{!userGreetingValue}" escape="false"/>
-                <apex:outputText value="{!bodyValue}" escape="false"/>
+                <apex:outputText value="{!templateMap['greetingValue']}" escape="false"/>
+                <apex:outputText value="{!templateMap['bodyValue']}" escape="false"/>
 
-                <!-- for delegates: -->
-                <c:EmailTemplateDelegate
-                        rendered="{!((isDelegate && userType != 'Participant')||hasPIRPDelegationRecords)}"
-                        userMode="{!resultUserMode}" delegateLevelsPI="{!delegateLevelsPI}"
-                        delegateLevelsHCP="{!delegateLevelsHCP}"/>
+                 for delegates:
+                <c:EmailTemplateDelegate rendered="{!(isDelegate && userType != 'Participant')}"
+                                         recipientId="{!recipientContactId}" recipientLanguage="{!recipientLanguage}"/>
 
                 <c:EmailTemplateDelegateParticipant userId="{!emailRecipientId}"
-                                                    rendered="{!(isDelegate && userCommunityType == 'Participant')}"
-                                                    params="{!dataParametersValue}"
+                                                    rendered="{!(isDelegate && userType == 'Participant')}"
+                                                    afterText="{!participantDelegateAfterText}"
                                                     commTemplate="{!communityTemplateValue}"/>
 
                 <div style="margin-top: 20px; margin-bottom: 30px;">
                     <apex:componentBody/>
                 </div>
-                <apex:outputPanel style="display:block; margin: 25px 0" rendered="{!preSignatureValue != null}">
-                    <apex:outputText value="{!preSignatureValue}" escape="false"/>
+                <apex:outputPanel style="display:block; margin: 25px 0" rendered="{!templateMap['preSignatureValue'] != null}">
+                    <apex:outputText value="{!templateMap['preSignatureValue']}" escape="false"/>
                 </apex:outputPanel>
 
                 <table>
                     <tr>
-                        <td style="width: 90%;"> <apex:outputText value="{!signatureValue}" escape="false"/></td>
-                        <td style="width: 10%;"><img style="{!emailTemplateBrandLogoCSS}" src="{!emailTemplateBrandLogo}"/></td>
+                        <td style="width: 90%;"> <apex:outputText value="{!templateMap['signatureValue']}" escape="false"/></td>
+                        <td style="width: 10%;">
+<!--                            <apex:outputPanel rendered="{!templateMap['emailTemplateBrandLogo'] != null}">-->
+<!--                                <img style="{!templateMap['emailTemplateBrandLogoCSS']}" src="{!templateMap['emailTemplateBrandLogo']}"/>-->
+<!--                            </apex:outputPanel>-->
+                        </td>
                     </tr>
                 </table>
             </div>
         </div>
 
-        <div style="{!emailTemplateBottomLogo}">
+        <div style="{!templateMap['emailTemplateBottomLogo']}">
             <img src="{!$Label.CommunityEmailLogo}"/>
         </div>
 

@@ -17,46 +17,46 @@ public with sharing class Test_EmailTemplateController {
             ParametersDataProvider provider = getDataProvider(controller);
             provider.isDelegate = true;
             provider.userMode = CommunityService.USER_MODE_PARTICIPANT;
-            String s = controller.bodyValue;
+            String s = controller.bodyLabel;
 
             controller = new EmailTemplateController();
             provider = getDataProvider(controller);
             provider.isDelegate = true;
             provider.userMode = CommunityService.USER_MODE_PI;
-            s = controller.bodyValue;
+            s = controller.bodyLabel;
 
             controller = new EmailTemplateController();
             provider = getDataProvider(controller);
             provider.isDelegate = false;
             provider.userMode = CommunityService.USER_MODE_PARTICIPANT;
             provider.parameters.put('ReferralSource', 'OTHER');
-            s = controller.bodyValue;
+            s = controller.bodyLabel;
 
             controller = new EmailTemplateController();
             provider = getDataProvider(controller);
             provider.isDelegate = false;
             provider.userMode = CommunityService.USER_MODE_PARTICIPANT;
             provider.parameters.put('ReferralSource', 'PI');
-            s = controller.bodyValue;
+            s = controller.bodyLabel;
 
             controller = new EmailTemplateController();
             provider = getDataProvider(controller);
             provider.isDelegate = false;
             provider.userMode = CommunityService.USER_MODE_PARTICIPANT;
             provider.parameters.put('ReferralSource', 'HCP');
-            s = controller.bodyValue;
+            s = controller.bodyLabel;
 
             controller = new EmailTemplateController();
             provider = getDataProvider(controller);
             provider.isDelegate = false;
             provider.userMode = CommunityService.USER_MODE_PI;
-            s = controller.bodyValue;
+            s = controller.bodyLabel;
 
             controller = new EmailTemplateController();
             provider = getDataProvider(controller);
             provider.isDelegate = false;
             provider.userMode = CommunityService.USER_MODE_HCP;
-            s = controller.bodyValue;
+            s = controller.bodyLabel;
         }
     }
 
@@ -69,18 +69,17 @@ public with sharing class Test_EmailTemplateController {
             EmailTemplateController controller = new EmailTemplateController();
             controller.sourceRecordId = testDataInstance.hcpUser.Id;
             controller.multiplePIMessageValue = false;
-            controller.getDataProvider();
-            controller.setDefaultValues();
-            String emailTemplateBackground = controller.emailTemplateBackground;
-            Boolean hasPIRPDelegationRecords = controller.hasPIRPDelegationRecords;
-            String emailTemplateTextBackground = controller.emailTemplateTextBackground;
-            String emailTemplateHeaderBackground = controller.emailTemplateHeaderBackground;
-            String emailTemplateHeader = controller.emailTemplateHeader;
-            String emailTemplateTitle = controller.emailTemplateTitle;
-            String emailTemplateBrandLogo = controller.emailTemplateBrandLogo;
-            String emailTemplateBottomLogo = controller.emailTemplateBottomLogo;
-            String emailTemplateBrandLogoCSS = controller.emailTemplateBrandLogoCSS;
-            String dataParametersValue = controller.dataParametersValue;
+//            controller.getDataProvider();
+//            String emailTemplateBackground = controller.emailTemplateBackground;
+//            Boolean hasPIRPDelegationRecords = controller.hasPIRPDelegationRecords;
+//            String emailTemplateTextBackground = controller.emailTemplateTextBackground;
+//            String emailTemplateHeaderBackground = controller.emailTemplateHeaderBackground;
+//            String emailTemplateHeader = controller.emailTemplateHeader;
+//            String emailTemplateTitle = controller.emailTemplateTitle;
+//            String emailTemplateBrandLogo = controller.emailTemplateBrandLogo;
+//            String emailTemplateBottomLogo = controller.emailTemplateBottomLogo;
+//            String emailTemplateBrandLogoCSS = controller.emailTemplateBrandLogoCSS;
+//            String dataParametersValue = controller.dataParametersValue;
         }
 
         testDataInstance.hcpEnrollment = [
@@ -95,8 +94,7 @@ public with sharing class Test_EmailTemplateController {
             EmailTemplateController controller = new EmailTemplateController();
             controller.sourceRecordId = testDataInstance.hcpUser.Id;
             controller.multiplePIMessageValue = true;
-            controller.getDataProvider();
-            controller.setDefaultValues();
+//            controller.getDataProvider();
         }
         Account acc = [
                 SELECT Id
@@ -142,8 +140,7 @@ public with sharing class Test_EmailTemplateController {
             EmailTemplateController controller = new EmailTemplateController();
             controller.sourceRecordId = testDataInstance.hcpUser.Id;
             controller.multiplePIMessageValue = true;
-            controller.getDataProvider();
-            controller.setDefaultValues();
+//            controller.getDataProvider();
         }
     }
 
@@ -160,8 +157,7 @@ public with sharing class Test_EmailTemplateController {
             EmailTemplateController controller = new EmailTemplateController();
             controller.sourceRecordId = testDataInstance.hcpUser.Id;
             controller.multiplePIMessageValue = true;
-            controller.getDataProvider();
-            controller.setDefaultValues();
+//            controller.getDataProvider();
         }
     }
 
@@ -172,55 +168,51 @@ public with sharing class Test_EmailTemplateController {
         TestData testDataInstance = new TestData();
         EmailTemplateController controller = new EmailTemplateController();
         System.runAs(testDataInstance.participantUser) {
-            String s = controller.bodyValue;
+            String s = controller.bodyLabel;
             controller = new EmailTemplateController();
-            controller.bodyValue = 'body ## value';
+            controller.bodyLabel = 'body ## value';
             try {
-                s = controller.bodyValue;
+                s = controller.bodyLabel;
             } catch (Exception e) {
                 //
             }
 
-            s = controller.titleValue;
+            s = controller.titleLabel;
 
-            controller.headerValue = 'header ## value';
+            controller.headerLabel = 'header ## value';
             try {
-                s = controller.headerValue;
+                s = controller.headerLabel;
             } catch (Exception e) {
                 //
             }
 
-            controller.headerValue = 'header value';
-            s = controller.headerValue;
+            controller.headerLabel = 'header value';
+            s = controller.headerLabel;
 
-            s = controller.preSignatureValue;
-            controller.preSignatureValue = 'string\n new line';
+            s = controller.preSignatureLabel;
+            controller.preSignatureLabel = 'string\n new line';
             try {
-                s = controller.preSignatureValue;
+                s = controller.preSignatureLabel;
             } catch (Exception e) {
                 //
             }
-            s = controller.signatureValue;
+            s = controller.signatureLabel;
 
-            controller.userGreetingValue = 'greeting ## value';
+            controller.greetingLabel = 'greeting ## value';
             try {
-                s = controller.userGreetingValue;
+                s = controller.greetingLabel;
             } catch (Exception e) {
                 //
             }
 
-            controller.buttonLabelValue = 'button ## value';
-            s = controller.buttonLabelValue;
+            controller.buttonLabel = 'button ## value';
+            s = controller.buttonLabel;
 
-            controller.buttonUrlValue = 'button URL ## value';
-            s = controller.buttonUrlValue;
+            controller.buttonUrl = 'button URL ## value';
+            s = controller.buttonUrl;
 
-            controller.getDelegateLevelsPI();
-            controller.getDelegateLevelsHCP();
             controller.getResultUserMode();
             controller.getIsDelegate();
-            controller.getUserName();
-            controller.getParameters();
         }
     }
 
@@ -229,12 +221,13 @@ public with sharing class Test_EmailTemplateController {
         controller.replaceLineBreaksOnHTMLBreaks = true;
         controller.communityTemplateValue = CommunityTemplateService.TEMPLATE_DEFAULT;
 
-        ParametersDataProvider provider = controller.getDataProvider();
-        provider.userMode = 'userType';
-        provider.recipientName = 'recipientName';
-        provider.recipientId = UserInfo.getUserId();
-        provider.recipientLanguage = 'recipientLanguage';
-        provider.parametersProviderName = 'parametersProviderName';
+        ParametersDataProvider provider;
+//        = controller.getDataProvider();
+//        provider.userMode = 'userType';
+//        provider.recipientName = 'recipientName';
+//        provider.recipientId = UserInfo.getUserId();
+//        provider.recipientLanguage = 'recipientLanguage';
+//        provider.parametersProviderName = 'parametersProviderName';
         return provider;
     }
 

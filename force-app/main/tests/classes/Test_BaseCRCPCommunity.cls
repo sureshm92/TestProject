@@ -243,40 +243,40 @@ private class Test_BaseCRCPCommunity {
         Test.stopTest();
     }
     
-    @IsTest
-    static void emailTemplateController() {
-        TestData testData = new TestData();
-        Contact piDelegateContact = [SELECT Id FROM Contact WHERE Email = 'pi_delegate@emil.com'];
-        Test.startTest();
-        EmailTemplateController controller = new EmailTemplateController();
-        controller.sourceRecordId = piDelegateContact.Id;
-        controller.userCommunityType = CommunityService.USER_MODE_PI;
-        controller.outputMode = 'HTML';
-        controller.getParameters();
-        
-        controller = new EmailTemplateController();
-        controller.sourceRecordId = testData.hcpEnrollment.Id;
-        controller.userCommunityType = CommunityService.USER_MODE_HCP;
-        controller.outputMode = 'HTML';
-        controller.getParameters();
-        
-        controller = new EmailTemplateController();
-        controller.sourceRecordId = testData.pe.Id;
-        controller.userCommunityType = CommunityService.USER_MODE_PARTICIPANT;
-        controller.outputMode = 'HTML';
-        
-        controller.getParameters();
-        controller.getDelegateLevelsPI();
-        controller.getDelegateLevelsHCP();
-        controller.getResultUserMode();
-        controller.getParameters();
-        
-        EmailActionBtnController emailActionBtnController = new EmailActionBtnController();
-        String url = emailActionBtnController.getResultURL();
-        url = emailActionBtnController.getResultURL();
-        
-        Test.stopTest();
-    }
+//    @IsTest
+//    static void emailTemplateController() {
+//        TestData testData = new TestData();
+//        Contact piDelegateContact = [SELECT Id FROM Contact WHERE Email = 'pi_delegate@emil.com'];
+//        Test.startTest();
+//        EmailTemplateController controller = new EmailTemplateController();
+//        controller.sourceRecordId = piDelegateContact.Id;
+//        controller.userCommunityType = CommunityService.USER_MODE_PI;
+//        controller.outputMode = 'HTML';
+//        controller.getParameters();
+//
+//        controller = new EmailTemplateController();
+//        controller.sourceRecordId = testData.hcpEnrollment.Id;
+//        controller.userCommunityType = CommunityService.USER_MODE_HCP;
+//        controller.outputMode = 'HTML';
+//        controller.getParameters();
+//
+//        controller = new EmailTemplateController();
+//        controller.sourceRecordId = testData.pe.Id;
+//        controller.userCommunityType = CommunityService.USER_MODE_PARTICIPANT;
+//        controller.outputMode = 'HTML';
+//
+//        controller.getParameters();
+//        controller.getDelegateLevelsPI();
+//        controller.getDelegateLevelsHCP();
+//        controller.getResultUserMode();
+//        controller.getParameters();
+//
+//        EmailActionBtnController emailActionBtnController = new EmailActionBtnController();
+//        String url = emailActionBtnController.getResultURL();
+//        url = emailActionBtnController.getResultURL();
+//
+//        Test.stopTest();
+//    }
     
     @IsTest
     static void slideTour() {

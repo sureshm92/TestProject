@@ -27,44 +27,55 @@ public without sharing class EmailTemplateProvidersFactory {
         return instance;
     }
 
-    public EmailTemplateProviderAbstract getProvider(String currentEmailName, Id sourceId, Id recipientId, String recipientName,
+    public EmailTemplateProviderDefault getProvider(String currentEmailName, Map<String, String> templateLabels,
+            Id whatId, Id recipientId, String recipientName,
             String recipientLanguage, String outputMode, String communityTemplateName
     ) {
-        EmailTemplateProviderAbstract provider;
-        if(String.isEmpty(currentEmailName)) return provider;
+        EmailTemplateProviderDefault provider;
+        if (String.isEmpty(currentEmailName)) return provider;
 
         EmailTemplateWrapper templateWrapper = templateWrapperByEmail.get(currentEmailName);
-        if(templateWrapper == null) return provider;
-
+        if (templateWrapper == null) return provider;
 
         if (templateWrapper.relatedType == null) {
-            provider = new EmailTemplateProviderInitial(sourceId, outputMode, communityTemplateName).getProvider();
-        } else {
-            String userMode;
+            Contact recipientContact;
             if (recipientId.getSobjectType() == User.getSObjectType()) {
-                User user = [SELECT Id, Contact.userCommunityMode__c FROM User WHERE Id = :recipientId];
-                userMode = user.Contact.userCommunityMode__c;
+                User user = [
+                        SELECT ContactId,
+                                Contact.UserCommunityIsDelegate__c,
+                                Contact.userCommunityMode__c
+                        FROM User WHERE Id = :recipientId
+                ];
+                recipientContact = user.Contact;
             } else {
-                Contact contact = [SELECT Id, userCommunityMode__c FROM Contact WHERE Id = :recipientId];
-                userMode = contact.userCommunityMode__c;
+                recipientContact = [
+                        SELECT Id, UserCommunityIsDelegate__c, userCommunityMode__c
+                        FROM Contact WHERE Id = :recipientId
+                ];
             }
+            String userMode = recipientContact.userCommunityMode__c;
+            Boolean isDelegate = recipientContact.UserCommunityIsDelegate__c;
             switch on userMode {
                 when 'PI' {
-                    provider = new EmailTemplateProviderPI(
-                            sourceId, recipientId, recipientName, recipientLanguage, templateWrapper.paramProvider, outputMode
-                    );
+                    provider = isDelegate ?
+                            new EmailTemplateInitialPIDel(templateLabels, recipientContact.Id, outputMode).getProvider()
+                            : new EmailTemplateInitialPI(templateLabels, recipientContact.Id, outputMode).getProvider();
                 }
                 when 'HCP' {
-                    provider = new EmailTemplateProviderHCP(
-                            sourceId, recipientId, recipientName, recipientLanguage, templateWrapper.paramProvider, outputMode
-                    );
+                    provider = isDelegate ?
+                            new EmailTemplateInitialHCPDel(templateLabels, recipientContact.Id, outputMode).getProvider()
+                            : new EmailTemplateInitialHCP(templateLabels, recipientContact.Id, outputMode).getProvider();
                 }
                 when else {
-                    provider = new EmailTemplateProviderPT(sourceId, recipientId, recipientName, recipientLanguage,
-                            templateWrapper.paramProvider, outputMode, communityTemplateName
-                    );
+                    provider = isDelegate ?
+                            new EmailTemplateInitialPTDel(templateLabels, recipientContact.Id, outputMode, communityTemplateName).getProvider()
+                            : new EmailTemplateInitialPT(templateLabels, recipientContact.Id, outputMode, communityTemplateName).getProvider();
                 }
             }
+        } else {
+            provider = new EmailTemplateProviderDefault(templateLabels, whatId, recipientId, recipientName, recipientLanguage,
+                    templateWrapper.paramProvider, outputMode, communityTemplateName
+            );
         }
 
         return provider;

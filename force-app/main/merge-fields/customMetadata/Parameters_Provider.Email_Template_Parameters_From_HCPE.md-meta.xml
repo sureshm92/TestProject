@@ -7,11 +7,12 @@
         <field>Parameters__c</field>
         <value xsi:type="xsd:string">GuestLanguage = HCP_Contact__r.Language__c
             HCPLanguage = HCP_Contact__r.Language__c
+            HCPName = HCP_Contact__r.Salutation_With_Name__c
             StudyTitle = Study_Site__r.Clinical_Trial_Profile__r.Study_Title__c
             StudyName = Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c
             StudySiteName = Study_Site__r.Name
             SitePhoneNumber = Study_Site__r.Study_Site_Phone__c
-            PIName = Study_Site__r.Principal_Investigator__r.Name
+            PIName = Study_Site__r.Principal_Investigator__r.Salutation_With_Name__c
             PILanguage = Study_Site__r.Principal_Investigator__r.Language__c
         </value>
     </values>
