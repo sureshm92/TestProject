@@ -141,7 +141,7 @@ public without sharing class HCPEnrollmentService {
                 hcpe.Completed_Orientation__c = true;
                 hcpe.Orientation_Date__c = Date.valueOf(value);
                 hcpe.Status__c = newStatus;
-            } else if(hcpe.Study_Site__r.Clinical_Trial_Profile__r.Orientation_Required__c && newStatus == HCP_S_ACTIVATED && hcpe.Status__c != HCP_S_ACTIVATION_PENDING_O){
+            } else if(hcpe.Study_Site__r.Clinical_Trial_Profile__r.Orientation_Required__c && newStatus == HCP_S_ACTIVATED && !hcpe.Completed_Orientation__c){
                 hcpe.Status__c = HCP_S_ACTIVATION_PENDING_O;
             } else {
                 hcpe.Status__c = newStatus;
