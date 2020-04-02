@@ -33,7 +33,7 @@
     <!-- actions: -->
     <c:Action_SwitchShowOnLoginMode aura:id="switchShowOnLoginModeAction"/>
 
-    <div class="{!v.visible ? 'slds-scope tour-fixed-overlay ' : 'tour-fixed-overlay hidden'}">
+    <div class="{!v.visible == true ? 'slds-scope tour-fixed-overlay ' : 'tour-fixed-overlay hidden'}">
         <div class="tour-panel rr-width-limiter">
             <div class="tour-slides-container brand-gradient-background">
 
