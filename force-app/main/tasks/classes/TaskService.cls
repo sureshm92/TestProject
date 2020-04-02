@@ -297,9 +297,9 @@ public without sharing class TaskService {
                 if(tsc.ownerId != null) {
                     TimeZone userTZ = userTimezoneMap.get(tsc.ownerId);
                     Datetime userDatetime =
-                            DateTimeConverterUtil.getUserDT(Datetime.now().dateGmt(), Datetime.now().timeGmt(), userTZ);
+                            DateTimeConverterUtil.getUserDT(Datetime.now().date(), Datetime.now().time(), userTZ);
 
-                    tsc.startDate = userDatetime.dateGmt();
+                    tsc.startDate = userDatetime.date();
                     if (inv.ExpireDateTime__c != null) {
                         Date expiryDate = inv.ExpireDateTime__c.date();
                         Integer daysBetween = Date.today().daysBetween(expiryDate);
