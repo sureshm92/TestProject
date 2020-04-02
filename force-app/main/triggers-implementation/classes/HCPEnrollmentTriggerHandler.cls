@@ -243,7 +243,8 @@ public without sharing class HCPEnrollmentTriggerHandler {
             for (HCP_Enrollment__c hcpe : [
                     SELECT Id,
                             HCP_Contact__c,
-                            Study_Site_PI_Contact__c
+                            Study_Site_PI_Contact__c,
+                            Status__c
                     FROM HCP_Enrollment__c
                     WHERE HCP_Contact__r.HCP_Opt_In_Referral_Status_Emails__c = true AND ID IN :hcpeMapWithUpdatedStatuses.keySet()
             ]) {
