@@ -251,7 +251,8 @@ public without sharing class HCPEnrollmentService {
             'Study_Site__r.Is_Virtual_Study_Site__c',
             'Study_Site__r.Study_Site_Type__c',
             'Override_PI_Status__c',
-            'Orientation_Date__c'
+            'Orientation_Date__c',
+            'Completed_Orientation__c'
     };
 
     public static List<HCP_Enrollment__c> getHCPEnrollmentsCommonCustomFields(String userMode, List<String> customFields, String filter, Boolean excludeDelegates){
