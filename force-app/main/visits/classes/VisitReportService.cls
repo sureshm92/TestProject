@@ -98,8 +98,8 @@ public inherited sharing class VisitReportService {
         result.profilePicture = pe.Clinical_Trial_Profile__r.Profile_Picture__c;
         result.participantFullName = pe.Participant__r.Full_Name__c;
         result.participantLastName = pe.Participant__r.Last_Name__c;
-        if (pe.Enrolled_Date__c != null) {
-            Datetime dT = pe.Enrolled_Date__c;
+        if (pe.Enrolled_DateTime__c != null) {
+            Datetime dT = pe.Enrolled_DateTime__c;
             Date myDate = Date.newInstance(dT.year(), dT.month(), dT.day());
             result.enrollmentDate = myDate.format();
         }
