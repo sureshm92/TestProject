@@ -106,6 +106,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             Map<Id, Id> createUsersMap = new Map<Id, Id>();
             Set<Id> insertedContacts = new Set<Id>();
             Set<Id> dupclicateContactIds = new Set<Id>();
+            Set<Id> dupclicateParticipantstIds = new Set<Id>();
             Map<Id,Id> duplicateContactUsersMap = new Map<Id,Id>();
            /* Map<Id, Contact> duplicateContacts = new Map<Id,Contact>();*/
             Set<Id> insertUsersWithDefaultSettings = new Set<Id>();
@@ -255,6 +256,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     Participant__c participantDuplicate = duplicateService.findDuplicate(participant);
                     isDuplicate = participantDuplicate != null;
                     Contact contactDuplicate = duplicateService.findDuplicateContact(participant);
+                    System.debug('contact duplicate>>>>'+contactDuplicate);
                     isDuplicate = isDuplicate || contactDuplicate != null;
 
                     if (!isDuplicate) {
@@ -278,7 +280,11 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             continue;
                         }
                     } else {
-                        dupclicateContactIds.add(contactDuplicate.Id);
+                        if(contactDuplicate != null){
+                            dupclicateContactIds.add(contactDuplicate.Id);
+                        } else {
+                            dupclicateParticipantstIds.add(participantDuplicate.Id);
+                        }
                         //errorRecordCount++;
                         //system.debug('ERROR: ' + totalRecordCount + ', ' + 'Duplicate Participant record');
                         //listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Duplicate Participant record');
@@ -312,6 +318,17 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
                 }
             }
+            if (!dupclicateParticipantstIds.isEmpty()) {
+                for (Participant__c p : [
+                        SELECT Id,
+                                Contact__c
+                        FROM Participant__c
+                        WHERE Id IN :dupclicateParticipantstIds
+                ]) {
+                    dupclicateContactIds.add(p.Contact__c);
+                }
+            }
+            System.debug('dupclicateContactIds>>>>'+dupclicateContactIds);
             if (!dupclicateContactIds.isEmpty()) {
                 Set<Id> duplicateParticipantEnrollments = new Set<Id>();
                 Map<Id,Participant__c> contactParticipantMap = new Map<Id,Participant__c>();
@@ -339,6 +356,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     ]) {
                         duplicateParticipantEnrollments.add(pEnrollment.Participant_Contact__c);
                     }
+                System.debug('duplicateParticipantEnrollments>>>>>>'+duplicateParticipantEnrollments);
                     for (Participant__c part : [
                             SELECT Id,
                                     Contact__c
@@ -347,6 +365,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     ]) {
                         contactParticipantMap.put(part.Contact__c, part);
                     }
+                System.debug('contactParticipantMap>>>>>>>>'+contactParticipantMap);
+                System.debug('dupclicateContactIds>>>>>>>>'+dupclicateContactIds);
                     for (Id cId : dupclicateContactIds) {
                         if (!duplicateParticipantEnrollments.contains(cId)) {
                             participantEnrollmentsByContact.put(cId, new Participant_Enrollment__c(Participant_Status__c = selectedStatus,
@@ -498,7 +518,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
     private static void sendNotificationEmail(Set<String> listOfFailedRecords, Set<String> listOfFailedRecordsWithMsg, String piContactId, DateTime uploadTime, Study_Site__c studySiteDetails, Integer totalRecordCount, Integer errorRecordCount) {
         String formattedDate = uploadTime.format('MM/dd/yyyy hh:mm a', UserInfo.getTimeZone().toString());
-
+        System.debug('ErrorRecordsCount>>>>'+errorRecordCount);
         User piUser = [SELECT Id, Email, Contact.Email FROM User WHERE ContactId = :piContactId LIMIT 1];
         OrgWideEmailAddress owea = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName = 'IQVIA Referral Hub' LIMIT 1];
         Id importParticipantsTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName = :SendEmailTemplate.EMAIL_TEMPLATE_PATIENT_IMPORT LIMIT 1].Id;
