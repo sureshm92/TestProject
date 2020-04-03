@@ -22,6 +22,9 @@ global without sharing class StatusesUpdateBatchHelper {
             'screening failed' => new Map<String, String>{
                     'didn’t show for appointment' => 'Unable to Screen'
             },
+            'screening complete' => new Map<String, String>{
+                    '' => 'Screening Passed'
+            },
             'enrollment failed' => new Map<String, String>{
                     'failed inclusion/exclusion criteria' => 'Screening Failed'
             }

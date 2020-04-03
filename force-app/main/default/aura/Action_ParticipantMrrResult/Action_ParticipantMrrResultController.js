@@ -23,9 +23,9 @@
     },
     inviteToPortal: function (component) {
         var pe = component.get('v.pe');
-        var ped = pe.Participant_Contact__r.Id;
         communityService.executeAction(component, 'createUser', {
-            peId: ped
+            peId: pe.Id,
+            pcId: pe.Participant_Contact__r.Id
         }, function (returnValue) {
             communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
         });

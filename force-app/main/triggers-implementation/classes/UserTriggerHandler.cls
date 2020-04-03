@@ -185,7 +185,7 @@ public without sharing class UserTriggerHandler {
 
             if(task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
                 TimeZone userTZ = userTimezoneMap.get(taskUser.Id);
-                Datetime userDatetime = DateTimeConverterUtil.getUserDT(Datetime.now().dateGmt(), Datetime.now().timeGmt(), userTZ);
+                Datetime userDatetime = DateTimeConverterUtil.getUserDT(Datetime.now().date(), Datetime.now().time(), userTZ);
 
                 task.Start_Date__c = userDatetime.date();
                 SurveyInvitation invitation = task.Survey_Invitation__r;
@@ -198,7 +198,7 @@ public without sharing class UserTriggerHandler {
                 if (invitation.Reminder_Schedule__r.First_Reminder_day__c != null) {
                     Integer firstReminderDay = (Integer) invitation.Reminder_Schedule__r.First_Reminder_day__c;
                     task.Reminder_Date__c = userDatetime.addDays(firstReminderDay);
-                    task.ReminderDateTime = Datetime.newInstanceGmt(task.Reminder_Date__c.dateGmt(), task.Reminder_Date__c.timeGmt());
+                    task.ReminderDateTime = Datetime.now().addDays(firstReminderDay);
                 }
             }
         }
