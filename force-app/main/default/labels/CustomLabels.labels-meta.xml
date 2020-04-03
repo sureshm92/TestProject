@@ -2217,7 +2217,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Medication Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming medication dosage for the clinical research study: ##StudyName.  If you have any questions regarding this medication, please contact the Study Team. Please login for additional details.</value>
+        <value>This is a quick email to remind you of ##PatientFirstName&#39;s upcoming medication dosage for the clinical research study: ##StudyName.  If you have any questions regarding this medication, please contact the Study Team. Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Once_at_Trial_Completion_DGT</fullName>
@@ -2746,7 +2746,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
-        <value>This is an email to remind you of ##ParticipantFirstName&#39;s task: ##TaskName.
+        <value>This is an email to remind you of ##PatientFirstName&#39;s task: ##TaskName.
 
             Please login to update the status of this task.</value>
     </labels>
@@ -2791,7 +2791,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the clinical research study: ##StudyName. If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
+        <value>This is a quick email to remind you of ##PatientFirstName&#39;s upcoming visit for the clinical research study: ##StudyName. If ##PatientFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Welcome_to_Study_Delegate</fullName>
@@ -10974,7 +10974,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP IRB LangList</shortDescription>
-        <value>##StudyCodeName is only available in the following language(s): ##LangList. If you would like to change your language settings,</value>
+        <value>##StudyCodeName is only available in the following language(s): ##LangList. If you would like to change your language settings.</value>
     </labels>
     <labels>
         <fullName>PP_IRB_Popup_NotAva_Text</fullName>

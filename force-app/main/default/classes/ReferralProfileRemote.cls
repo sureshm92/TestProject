@@ -316,6 +316,7 @@ public without sharing class ReferralProfileRemote {
         processedWords[0] = processedWords[0].capitalize();
         return String.join(processedWords, ' ');
     }
+
     @AuraEnabled
     public static Participant_Enrollment__c setMRRStatus(String peJSON, String status, String surveyGizmoData) {
         Participant_Enrollment__c participantEnrollment = (Participant_Enrollment__c) JSON.deserialize(peJSON, Participant_Enrollment__c.class);
@@ -336,14 +337,26 @@ public without sharing class ReferralProfileRemote {
         update participantEnrollment;
         return participantEnrollment;
     }
+
     @AuraEnabled
-    public static void createUser(String peId) {
+    public static void createUser(String peId, String pcId) {
         try {
             ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(new Set<Id>{
-                    peId
+                    pcId
             });
+
+            List<Participant_Enrollment__c> pe = [SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Participant_Enrollment__c WHERE Id = :peId AND Participant_Contact__c = :pcId];
+            if (!pe.isEmpty()) {
+                Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+                String permissionSetName = CommunityTemplateService.getTemplate(pe[0].Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
+                actionAssignContactPermissions.addPermission(pe[0].Participant_Contact__c, permissionSetName);
+                if (!actionAssignContactPermissions.isEmpty()) {
+                    ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                }
+            }
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
+
 }

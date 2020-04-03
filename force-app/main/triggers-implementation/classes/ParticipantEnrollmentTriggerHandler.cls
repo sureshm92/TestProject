@@ -190,9 +190,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 pe.Referred_Date__c = Date.today();
             }
             pe.Initial_visit_scheduled_flag__c = pe.Initial_visit_scheduled_date__c != null;
-            if(pe.Initial_visit_occurred_date__c == null && pe.Initial_visit_occurred_flag__c){
-                pe.Initial_visit_occurred_date__c = pe.Initial_visit_scheduled_date__c;
-            }
+//            if(pe.Initial_visit_occurred_date__c == null && pe.Initial_visit_occurred_flag__c){
+//                pe.Initial_visit_occurred_date__c = pe.Initial_visit_scheduled_date__c;
+//            }
         }
 
         if (!participantContacts.isEmpty()) update participantContacts;
