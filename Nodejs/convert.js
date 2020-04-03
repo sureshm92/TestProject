@@ -1,6 +1,6 @@
 const profileFolders = ['../force-app/main/default/profiles'];
 const labelFolders = ['../force-app/main/default/labels'];
-const translationFolder = '../force-app/main/default/translations';
+//const translationFolder = '../force-app/main/default/translations';
 const objectsFolder = '../force-app/main/default/objects/Contact/recordTypes/MASTER.recordType-meta.xml';
 const communityFile1 = '../force-app/main/default/siteDotComSites/IQVIA_Referral_Hub_C.site';
 const communityFile2 = '../force-app/main/default/siteDotComSites/IQVIA_Referral_Hub_C.site-meta.xml';
@@ -46,7 +46,7 @@ fs.exists(communityFile2, function (exists) {
     }
 });
 
-fileReader.readFiles(translationFolder, (content, filename) => {
+/*fileReader.readFiles(translationFolder, (content, filename) => {
     let todesTodelete = [];
     content = content.replace('xmlns="http://soap.sforce.com/2006/04/metadata"', 'attrStub="stub"');
     var doc = new dom().parseFromString(content);
@@ -72,7 +72,7 @@ fileReader.readFiles(translationFolder, (content, filename) => {
         if (err) console.log(err);
         console.log(filename, "successfully updated");
     });
-});
+});*/
 
 profileFolders.forEach(profileFolder => {
     fileReader.readFiles(profileFolder, (content, filename) => {
