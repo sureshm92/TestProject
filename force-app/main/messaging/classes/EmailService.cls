@@ -67,6 +67,8 @@ public without sharing class EmailService {
             }
         }
         List<Messaging.SendEmailResult> resultList = Messaging.sendEmail(emailMessages, false);
+        if (!notificationShareEmail.isEmpty()) resultList.addAll(EmailService.sendEmailToExternalUser(notificationShareEmail, orgWideEmailByNotifyMap));
+        
         for (Integer i = 0; i < resultList.size(); i++) {
             if (!resultList[i].success) {
                 sendResultService.setFailed(notifications[i].Id, NotificationService.NOTIFICATION_TARGET_TYPE_EMAIL, JSON.serializePretty(resultList[i].errors));
@@ -75,7 +77,6 @@ public without sharing class EmailService {
             }
         }
         sendResultService.updateResults();
-        if (!notificationShareEmail.isEmpty()) EmailService.sendEmailToExternalUser(notificationShareEmail, orgWideEmailByNotifyMap);
     }
 
     public static void sendEmail(String emailTemplate, Id recipientId, Id whatId) {
@@ -95,7 +96,7 @@ public without sharing class EmailService {
         return createEmail(emailTemplateId, contactId, whatId, null, orgWideEmAddress);
     }
 
-    public static void sendEmailToExternalUser(List<Notification__c> notifications, Map<Id, String> orgWideEmailByNotifyMap) {
+    public static List<Messaging.SendEmailResult> sendEmailToExternalUser(List<Notification__c> notifications, Map<Id, String> orgWideEmailByNotifyMap) {
         Messaging.SingleEmailMessage msg = new Messaging.SingleEmailMessage();
         List<Messaging.SingleEmailMessage> msgListToBeSend = new List<Messaging.SingleEmailMessage>();
         for (Notification__c n : notifications) {
@@ -103,7 +104,8 @@ public without sharing class EmailService {
             msg = createMessage(n.WhatId__c, n.From__c, n.Email__c, emailTarget.Email_Template__c, orgWideEmailByNotifyMap.get(n.Id));
             msgListToBeSend.add(msg);
         }
-        Messaging.sendEmail(msgListToBeSend);
+        List<Messaging.SendEmailResult> resultList = Messaging.sendEmail(msgListToBeSend);
+        return resultList;
     }
 
     public static Messaging.SingleEmailMessage createMessage(Id whatId, Id fromId, String emailAddr, String templateName, String orgWideEmAddress) {
