@@ -3553,7 +3553,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Initial</shortDescription>
-        <value>Please enroll in the Gather &lt;i&gt;Share&lt;/i&gt; Know Participant Hub</value>
+        <value>Please enroll in the Gather Share Know Participant Hub</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Initial_Patient</fullName>
