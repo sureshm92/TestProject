@@ -37,7 +37,7 @@
             </div>
             <div class="ht-panel">
                 <div class="h-body-solution-text ht-label">
-                        {!v.selectedTopicSettings.displaySolution}
+                    <aura:unescapedHtml value="{!v.selectedTopicSettings.displaySolution}"/>
                 </div>
             </div>
             <aura:if isTrue="{!(!v.selectedTopicSettings.submitRequired &amp;&amp; !empty(v.selectedTopic) &amp;&amp; (v.userMode == 'PI' || v.userMode == 'HCP'))}">

@@ -106,7 +106,8 @@ public without sharing class ReferringRemote {
         Boolean needsGuardian = false;
         Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
         if (!String.isEmpty(participant.Date_of_Birth__c)) {
-            List<Age_of_Majority__mdt> ageOfMajorities = [SELECT Country_Code__c,
+            List<Age_of_Majority__mdt> ageOfMajorities = [SELECT DeveloperName,
+                                                                 Country_Code__c,
                                                                  State_Code__c,
                                                                  Age__c
                                                           FROM Age_of_Majority__mdt];

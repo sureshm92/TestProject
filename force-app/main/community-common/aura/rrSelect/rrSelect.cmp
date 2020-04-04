@@ -58,12 +58,12 @@
 
                 <aura:if isTrue="{!v.setValueAsSelected == true}">
                     <aura:iteration items="{!v.options}" var="item">
-                        <option selected="{!item.value==v.value}" value="{!item.value}">{!item.label}</option>
+                        <option selected="{!item.value==v.value}" value="{!item.value}"><aura:unescapedHtml value="{!item.label}"/></option>
                     </aura:iteration>
                 </aura:if>
                 <aura:if isTrue="{!v.setValueAsSelected == false}">
                     <aura:iteration items="{!v.options}" var="item">
-                        <option value="{!item.value}">{!item.label}</option>
+                        <option value="{!item.value}"><aura:unescapedHtml value="{!item.label}"/></option>
                     </aura:iteration>
                 </aura:if>
 
