@@ -1440,6 +1440,13 @@
         <value>Gather &lt;i&gt;Share&lt;/i&gt; Know Participant Hub</value>
     </labels>
     <labels>
+        <fullName>Community_GSK_Short</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community GSK Short</shortDescription>
+        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know</value>
+    </labels>
+    <labels>
         <fullName>Community_IQVIA_PP</fullName>
         <language>en_US</language>
         <protected>false</protected>
