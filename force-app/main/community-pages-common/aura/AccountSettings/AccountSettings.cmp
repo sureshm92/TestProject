@@ -162,7 +162,7 @@
                 <div class="as-email-preference">
                     <div class="as-title">{!$Label.c.AccountSettings_Cookie_Settings}</div>
                     <div class="as-sub-title"
-                         style="margin-bottom: 15px">{!v.initData.cookieDescription}
+                         style="margin-bottom: 15px"><aura:unescapedHtml value="{!v.initData.cookieDescription}"/>
                     </div>
                     <div class="collapse-section slds-m-top--large">
                         <c:RRCollapse label="{!$Label.c.AccountSettings_Strictly_Necessary_Cookies}" isCollapsed="true">
