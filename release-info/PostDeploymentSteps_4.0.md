@@ -50,7 +50,7 @@
 |Batch_PatientTaskExpire                  | PatientTaskExpire                  | Days          | 1        | 200   |
 |Batch_PatientTaskReminder                | PatientTaskReminder                | Days          | 1        | 200   |
 |Batch_ProcessAction                      | ProcessAction                      | Minutes       | 5        | 10    |
-|Batch_ProcessActionSetupObjects          | ProcessActionSetupObjects          | Minutes       | 2        | 200   |
+|Batch_ProcessActionSetupObjects          | ProcessActionSetupObjects          | Minutes       | 2        | 10    |
 |Batch_ProcessNotifications               | ProcessNotifications               | Minutes       | 2        | 200   |
 |Batch_PSECreateInvitation                | PSECreateInvitation                | Hours         | 2        | 200   |
 |Batch_UserCreatedDateNotification        | UserCreatedDateNotification        | Days          | 1        | 200   |
