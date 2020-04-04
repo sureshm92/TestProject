@@ -37,7 +37,7 @@
         <div class="tour-panel rr-width-limiter">
             <div class="tour-slides-container brand-gradient-background">
 
-                <div class="tour-title">{!v.title}</div>
+                <div class="tour-title"><aura:unescapedHtml value="{!v.title}"/></div>
 
                 <!-- Carousel Body -->
                 <div class="tour-slides-body">
