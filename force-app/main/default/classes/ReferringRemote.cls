@@ -109,8 +109,7 @@ public without sharing class ReferringRemote {
             List<Age_of_Majority__mdt> ageOfMajorities = [SELECT DeveloperName,
                                                                  Country_Code__c,
                                                                  State_Code__c,
-                                                                 Age__c,
-                                                                 DeveloperName
+                                                                 Age__c
                                                           FROM Age_of_Majority__mdt];
             Map<String, Integer> ageByCountryCode = new Map<String, Integer>();
             for (Age_of_Majority__mdt ageOfMajority : ageOfMajorities) {
