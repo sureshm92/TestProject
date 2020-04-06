@@ -480,6 +480,7 @@ public without sharing class ParticipantEnrollmentService {
             'Study_Site__r.Clinical_Trial_Profile__r.Visit_Plan__c',
             'Study_Site__r.Clinical_Trial_Profile__r.Visit_Data_Shareback__c',
             'Study_Site__r.Site__r.Name',
+            'Study_Site__r.Site__r.Phone',
             'Study_Site__r.Site__r.BillingStreet',
             'Study_Site__r.Site__r.BillingPostalCode',
             'Study_Site__r.Site__r.BillingCountryCode',

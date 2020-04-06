@@ -12808,6 +12808,13 @@
         <value>Variable</value>
     </labels>
     <labels>
+        <fullName>Study_Site_phone_number</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Site phone number</shortDescription>
+        <value>Study Site phone</value>
+    </labels>
+    <labels>
         <fullName>Study_Team</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13236,6 +13243,13 @@
         <protected>true</protected>
         <shortDescription>Task Details</shortDescription>
         <value>Task Details</value>
+    </labels>
+    <labels>
+        <fullName>Task_Details_Header_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Details Header Info</shortDescription>
+        <value>If you need to discuss your health, please contact your doctor directly.</value>
     </labels>
     <labels>
         <fullName>Task_Name</fullName>
