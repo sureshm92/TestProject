@@ -10,6 +10,8 @@
     <aura:attribute name="title" type="String"/>
     <aura:attribute name="userMode" type="String"/>
 
+    <aura:handler event="c:TCCookieClassesRemove" action="{!c.removeClasses}"/>
+
     <!-- component body: -->
     <div>
         <c:RRSpinner size="medium" aura:id="mainSpinner"/>
