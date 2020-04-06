@@ -17,7 +17,7 @@
 
     <aura:if isTrue="{!v.delegatePIPicklistvalues.length &gt; 1}">
         <div class="pi-picklist-container" data-gtm="DDL_Pi_Picker">
-            <c:rrSelect value="{!v.currentPi}" options="{!v.delegatePIPicklistvalues}" onchange="{!c.refreshData}"/>
+            <c:rrSelect value="{!v.currentPi}" options="{!v.delegatePIPicklistvalues}" onchange="{!c.refreshData}" useSentenceFont="false"/>
         </div>
     </aura:if>
     <div class="slds-grid slds-wrap db-section">

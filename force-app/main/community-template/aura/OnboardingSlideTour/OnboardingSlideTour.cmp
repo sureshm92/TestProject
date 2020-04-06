@@ -12,7 +12,6 @@
     <aura:attribute name="currentSlide" type="Object" default="0"/>
     <aura:attribute name="isLastPage" type="Boolean" default="0"/>
     <aura:attribute name="slides" type="List"/>
-    <aura:attribute name="visible" type="Boolean" default="false"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false"/>
     <aura:attribute name="showOnLogin" type="Boolean"/>
     <aura:attribute name="isNewSession" type="Boolean"/>
@@ -33,11 +32,11 @@
     <!-- actions: -->
     <c:Action_SwitchShowOnLoginMode aura:id="switchShowOnLoginModeAction"/>
 
-    <div class="{!v.visible == true ? 'slds-scope tour-fixed-overlay ' : 'tour-fixed-overlay hidden'}">
+    <div aura:id="tourContainer" class="slds-scope tour-fixed-overlay hidden">
         <div class="tour-panel rr-width-limiter">
             <div class="tour-slides-container brand-gradient-background">
 
-                <div class="tour-title">{!v.title}</div>
+                <div class="tour-title"><aura:unescapedHtml value="{!v.title}"/></div>
 
                 <!-- Carousel Body -->
                 <div class="tour-slides-body">

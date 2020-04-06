@@ -1,0 +1,6 @@
+<!--
+ - Created by Nikita Abrazhevitch on 06-Apr-20.
+ -->
+
+<aura:event type="APPLICATION" description="TCCookieClassesRemove">
+</aura:event>
