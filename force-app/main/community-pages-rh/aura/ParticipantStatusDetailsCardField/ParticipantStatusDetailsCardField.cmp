@@ -44,6 +44,8 @@
         <aura:if isTrue="{!v.field.type=='time'}">
             <lightning:input aura:id="fieldInput"
                              label="{!v.field.title}" type="time" value="{!v.field.value}"
+                             min="05:00:00.000Z"
+                             max="23:59:00.000Z"
                              disabled="{!v.field.readonly || !v.editable}"
                              required="{!and(!v.field.readonly,and(or(v.required,v.field.dependent), v.field.required))}"/>
         </aura:if>
