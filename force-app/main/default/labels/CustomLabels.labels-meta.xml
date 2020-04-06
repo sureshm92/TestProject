@@ -4248,7 +4248,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HT 01 B</shortDescription>
-        <value>Are you locked out?  If so, please wait for 15 minutes before trying to log back in again.  If you have already waited 15 minutes and cannot login, please use the &quot;Forgot Password&quot; to have your password reset.  If you are not receiving your password reset email, please log a ticket and make sure to provide your name, email, and phone number.</value>
+        <value>Are you locked out? If so, please wait for 15 minutes before trying to log back in again. If you have already waited 15 minutes and cannot login, please click on “Forgot Password” to have your password reset. If you have not received your password reset email within two hours, please email support@mail.clinicalresearch.com and make sure to provide your name, the email address you used for registration, and your phone number so that we can verify that you are a valid user and can call you if necessary to assist you.</value>
     </labels>
     <labels>
         <fullName>HT_01_H</fullName>
@@ -4444,7 +4444,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 08 H Participant</shortDescription>
-        <value>Why am I missing some of my vital and lab data?</value>
+        <value>Why can’t I see all of my vitals measurements and lab data in results?</value>
     </labels>
     <labels>
         <fullName>HT_08_H_RP</fullName>
@@ -4556,7 +4556,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 12 H Participant</shortDescription>
-        <value>What is clinical research and what is a clinical trial?</value>
+        <value>What is clinical research and what is a clinical study?</value>
     </labels>
     <labels>
         <fullName>HT_12_H_RP</fullName>
@@ -4618,7 +4618,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 14 H Participant</shortDescription>
-        <value>How long does a clinical trial last?</value>
+        <value>How long does a clinical study last?</value>
     </labels>
     <labels>
         <fullName>HT_14_H_RP</fullName>
@@ -4676,7 +4676,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 16 H Participant</shortDescription>
-        <value>Are there clinical trials for children?</value>
+        <value>Are there clinical studies for children?</value>
     </labels>
     <labels>
         <fullName>HT_16_H_RP</fullName>
@@ -4704,7 +4704,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 17 H Participant</shortDescription>
-        <value>Will I get paid to participate in a clinical trial?</value>
+        <value>Will I get paid to participate in a clinical study?</value>
     </labels>
     <labels>
         <fullName>HT_17_H_RP</fullName>
@@ -4727,7 +4727,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 18 H Participant</shortDescription>
-        <value>Will it cost me money to take part in a clinical trial?</value>
+        <value>Will it cost me money to take part in a clinical study?</value>
     </labels>
     <labels>
         <fullName>Haematocrit</fullName>

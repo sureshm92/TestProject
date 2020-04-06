@@ -119,6 +119,61 @@
                 <default>false</default>
                 <label>Stool sample</label>
             </value>
+            <value>
+                <fullName>biopsy</fullName>
+                <default>false</default>
+                <label>Biopsy</label>
+            </value>
+            <value>
+                <fullName>task-checklist-check</fullName>
+                <default>false</default>
+                <label>Check if the study is right for you</label>
+            </value>
+            <value>
+                <fullName>single-neutral-actions-text</fullName>
+                <default>false</default>
+                <label>Study discussion</label>
+            </value>
+            <value>
+                <fullName>height-and-weight</fullName>
+                <default>false</default>
+                <label>Height and weight</label>
+            </value>
+            <value>
+                <fullName>cancer-treatments</fullName>
+                <default>false</default>
+                <label>Cancer treatments</label>
+            </value>
+            <value>
+                <fullName>ct-scan-or-mri-scan</fullName>
+                <default>false</default>
+                <label>CT scan or MRI scan</label>
+            </value>
+            <value>
+                <fullName>informed-consent</fullName>
+                <default>false</default>
+                <label>Informed Consent Form</label>
+            </value>
+            <value>
+                <fullName>medical-folder</fullName>
+                <default>false</default>
+                <label>Medical history</label>
+            </value>
+            <value>
+                <fullName>medical-notes</fullName>
+                <default>false</default>
+                <label>Medical chart review</label>
+            </value>
+            <value>
+                <fullName>multiple-users-2</fullName>
+                <default>false</default>
+                <label>Demographics</label>
+            </value>
+            <value>
+                <fullName>medical-ribbon-cancer</fullName>
+                <default>false</default>
+                <label>Cancer type</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
     <visibleLines>4</visibleLines>
