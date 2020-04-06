@@ -39,7 +39,7 @@
     <div style="{!emailTemplateBackground}">
         <div style="{!emailTemplateTextBackground}">
             <div style="{!emailTemplateHeaderBackground}">
-                <div style="{!emailTemplateHeader}">{!headerValue}</div>
+                <div style="{!emailTemplateHeader}"><apex:outputText value="{!headerValue}" escape="false"/></div>
                 <div style="{!emailTemplateTitle}"><apex:outputText value="{!titleValue}" escape="false"/></div>
             </div>
             <div style="padding: 20px; color: #333333; font-size: 16px; line-height: 20px;">
