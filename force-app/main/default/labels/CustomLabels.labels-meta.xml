@@ -4730,6 +4730,13 @@
         <value>Will it cost me money to take part in a clinical study?</value>
     </labels>
     <labels>
+        <fullName>HT_19_B_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 19 B Participant</shortDescription>
+        <value>How do I update my contact information?</value>
+    </labels>
+    <labels>
         <fullName>Haematocrit</fullName>
         <language>en_US</language>
         <protected>false</protected>
