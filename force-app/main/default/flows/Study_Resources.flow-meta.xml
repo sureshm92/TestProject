@@ -114,7 +114,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>Choose_record_type_recource</leftValueReference>
+                <leftValueReference>Choose_record_type_resource</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Study Document</stringValue>
@@ -136,7 +136,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>Choose_record_type_recource</leftValueReference>
+                <leftValueReference>Choose_record_type_resource</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Article</stringValue>
@@ -166,7 +166,7 @@
             <name>New_Res_Relevant_Link</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Choose_record_type_recource</leftValueReference>
+                <leftValueReference>Choose_record_type_resource</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Relevant Link</stringValue>
@@ -195,7 +195,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>Choose_record_type_recource</leftValueReference>
+                <leftValueReference>Choose_record_type_resource</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Video</stringValue>
@@ -220,7 +220,7 @@
             <name>StudyDoc</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Choose_record_type_recource</leftValueReference>
+                <leftValueReference>Choose_record_type_resource</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <elementReference>Study_Document_recordtype</elementReference>
@@ -987,7 +987,7 @@
         </connector>
         <fields>
             <name>headerOfChoosingCOI</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_recource}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_resource}&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -1035,7 +1035,7 @@
         </connector>
         <fields>
             <name>Page_show_record_type_3</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_recource}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_resource}&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -1287,13 +1287,13 @@
             <targetReference>Study_Resource</targetReference>
         </connector>
         <fields>
-            <name>Choose_record_type_recource</name>
+            <name>Choose_record_type_resource</name>
             <choiceReferences>RelevantLink</choiceReferences>
             <choiceReferences>Article</choiceReferences>
             <choiceReferences>Study_Document_recordtype</choiceReferences>
             <choiceReferences>Video</choiceReferences>
             <dataType>String</dataType>
-            <fieldText>Choose record type recource</fieldText>
+            <fieldText>Choose record type resource</fieldText>
             <fieldType>RadioButtons</fieldType>
             <isRequired>true</isRequired>
         </fields>
@@ -1313,7 +1313,7 @@
         </connector>
         <fields>
             <name>Page_show_record_type_4</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_recource}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_resource}&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -1381,7 +1381,7 @@
         </connector>
         <fields>
             <name>Page_show_record_type_5</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_recource}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_resource}&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -1560,7 +1560,7 @@
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
-                    <leftValueReference>Choose_record_type_recource</leftValueReference>
+                    <leftValueReference>Choose_record_type_resource</leftValueReference>
                     <operator>EqualTo</operator>
                     <rightValue>
                         <elementReference>Study_Document_recordtype</elementReference>
@@ -1598,7 +1598,7 @@
         </connector>
         <fields>
             <name>Page_show_record_type_6</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_recource}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_resource}&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -1651,7 +1651,7 @@
         </connector>
         <fields>
             <name>Page_show_record_type_2</name>
-            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_recource}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 16px; color: rgb(62, 62, 60);&quot;&gt;{!Choose_record_type_resource}&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>

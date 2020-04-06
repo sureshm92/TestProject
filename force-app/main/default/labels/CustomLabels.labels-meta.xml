@@ -1437,7 +1437,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Community GSK</shortDescription>
-        <value>GatherSHAREKnow Participant Hub</value>
+        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know Participant Hub</value>
+    </labels>
+    <labels>
+        <fullName>Community_GSK_Short</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community GSK Short</shortDescription>
+        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know</value>
     </labels>
     <labels>
         <fullName>Community_IQVIA_PP</fullName>
@@ -3545,7 +3552,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Initial</shortDescription>
-        <value>Please enroll in the GatherSHAREKnow Participant Hub</value>
+        <value>Please enroll in the Gather Share Know Participant Hub</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Initial_Patient</fullName>
@@ -4206,7 +4213,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>GSK Text Logo</shortDescription>
-        <value>GatherSHAREKnow</value>
+        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know</value>
     </labels>
     <labels>
         <fullName>Gender_Female</fullName>
