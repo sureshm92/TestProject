@@ -13232,6 +13232,13 @@
         <value>Task Details</value>
     </labels>
     <labels>
+        <fullName>Task_Details_Header_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Details Header Info</shortDescription>
+        <value>If you need to discuss your health, please contact your doctor directly.</value>
+    </labels>
+    <labels>
         <fullName>Task_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
