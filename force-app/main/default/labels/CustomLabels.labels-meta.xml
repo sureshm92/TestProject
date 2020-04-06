@@ -12808,6 +12808,13 @@
         <value>Variable</value>
     </labels>
     <labels>
+        <fullName>Study_Site_phone_number</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Site phone number</shortDescription>
+        <value>Study Site phone</value>
+    </labels>
+    <labels>
         <fullName>Study_Team</fullName>
         <language>en_US</language>
         <protected>false</protected>
