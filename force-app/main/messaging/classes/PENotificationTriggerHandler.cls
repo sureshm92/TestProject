@@ -100,6 +100,17 @@ public without sharing class PENotificationTriggerHandler {
                             WhatId__c = pe.Id,
                             Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE
                     ));
+                    for (Site_Staff__c delegate : [
+                            SELECT Id, Site_Contact__c
+                            FROM Site_Staff__c
+                            WHERE Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
+                            AND Study_Site__c = :pe.Study_Site__c
+                    ]) {
+                        notifications.add(new Notification__c(
+                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE,
+                                Recipient__c = delegate.Site_Contact__c,
+                                WhatId__c = pe.Id));
+                    }
                 }
             }
         }
