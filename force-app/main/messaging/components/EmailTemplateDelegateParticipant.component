@@ -20,7 +20,7 @@
             </apex:repeat>
         </table>
         <br/>
-        {!afterText}
+        <apex:outputText value="{!afterText}" escape="false"/>
     </apex:outputPanel>
     <br/><br/>
 </apex:component>
