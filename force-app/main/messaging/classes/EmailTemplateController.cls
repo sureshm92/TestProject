@@ -52,7 +52,7 @@ global without sharing class EmailTemplateController {
     }
 
     global String getParticipantDelegateAfterText() {
-        return '';//TODO
+        return getProvider().getDelegateAfter();
     }
 
     global Id getRecipientContactId() {

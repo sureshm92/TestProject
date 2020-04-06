@@ -70,16 +70,14 @@ public with sharing class EmailTemplateInitialHCP extends EmailTemplateInitialAb
 
     private String getMultiplePINames(Id hcpContId) {
         List<HCP_Enrollment__c> hcpEnrollments = [
-                SELECT
-                        Study_Site__r.Principal_Investigator__r.Name,
-                        Study_Site__r.Principal_Investigator__r.Salutation
+                SELECT Study_Site__r.Principal_Investigator__r.Salutation_With_Name__c
                 FROM HCP_Enrollment__c
                 WHERE HCP_Contact__c = :hcpContId
         ];
 
         String piNames = '';
         for (HCP_Enrollment__c hcpE : hcpEnrollments) {
-//            piNames += getFullContactName(hcpE.Study_Site__r.Principal_Investigator__r) + ', ';
+            piNames += hcpE.Study_Site__r.Principal_Investigator__r.Salutation_With_Name__c + ', ';
         }
         return piNames.removeEnd(', ');
     }

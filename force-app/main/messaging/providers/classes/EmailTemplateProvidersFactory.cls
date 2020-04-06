@@ -28,8 +28,7 @@ public without sharing class EmailTemplateProvidersFactory {
     }
 
     public EmailTemplateProviderDefault getProvider(String currentEmailName, Map<String, String> templateLabels,
-            Id whatId, Id recipientId, String recipientName,
-            String recipientLanguage, String outputMode, String communityTemplateName
+            Id whatId, Id recipientId, String recipientName, String recipientLanguage, String outputMode, String communityTemplateName
     ) {
         EmailTemplateProviderDefault provider;
         if (String.isEmpty(currentEmailName)) return provider;

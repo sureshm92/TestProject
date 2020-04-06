@@ -207,10 +207,7 @@ public virtual without sharing class EmailTemplateProviderDefault {
         parameters.put('CommunityName', commName);
         String signatureLabelValue = TranslateHelper.getLabelValue(signatureLabel, recipientLanguage);
         signatureLabelValue = TranslateHelper.replaceParams(signatureLabelValue, PARAM_PREFIX, parameters);
-        parameters.put(
-                'signatureValue',
-                prepareLineBreaks(signatureLabelValue)
-        );
+        parameters.put('signatureValue', prepareLineBreaks(signatureLabelValue));
     }
 
     protected void setButtonLabelValue(String buttonLabel) {

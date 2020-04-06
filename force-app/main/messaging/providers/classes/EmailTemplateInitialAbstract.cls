@@ -55,7 +55,8 @@ public abstract without sharing class EmailTemplateInitialAbstract {
 
     public EmailTemplateProviderDefault getProvider() {
         templateLabels.putAll(getTemplateLabels());
-        return new EmailTemplateProviderDefault(templateLabels, whatId, recipientId, null, null, parametersProviderName, outputMode, null);
+        return new EmailTemplateProviderDefault(templateLabels, whatId, recipientId, null, null,
+                parametersProviderName, outputMode, null);
     }
 
     private Map<String, String> getTemplateLabels() {
