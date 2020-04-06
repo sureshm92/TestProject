@@ -1487,7 +1487,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Cookies Info Text First Logon</shortDescription>
-        <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By closing this cookie message, you are agreeing to our use of cookies.</value>
+        <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By using this site you are consenting to our use of cookies.</value>
     </labels>
     <labels>
         <fullName>Create</fullName>
@@ -2123,8 +2123,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial PI</shortDescription>
-        <value>Please take a moment to enroll and activate your Referral Hub account.
-            You will then be able to manage patient referrals to the study from any IQVIA source.</value>
+        <value>Please take a moment to enroll in the IQVIA Referral Hub. This will allow you to use Referral Hub&#39;s participant contact and status tracking capabilities. For studies with Patient Portal capabilities available, this will also allow your patients to track their status throughout their participation with the study, without calling your office for updates.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_PI_HCP</fullName>
