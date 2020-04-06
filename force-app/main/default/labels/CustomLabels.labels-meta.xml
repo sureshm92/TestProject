@@ -1494,7 +1494,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Cookies Info Text First Logon</shortDescription>
-        <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By closing this cookie message, you are agreeing to our use of cookies.</value>
+        <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By using this site you are consenting to our use of cookies.</value>
     </labels>
     <labels>
         <fullName>Create</fullName>
@@ -2130,8 +2130,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial PI</shortDescription>
-        <value>Please take a moment to enroll and activate your Referral Hub account.
-            You will then be able to manage patient referrals to the study from any IQVIA source.</value>
+        <value>Please take a moment to enroll in the IQVIA Referral Hub. This will allow you to use Referral Hub&#39;s participant contact and status tracking capabilities. For studies with Patient Portal capabilities available, this will also allow your patients to track their status throughout their participation with the study, without calling your office for updates.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_PI_HCP</fullName>
@@ -2263,7 +2262,7 @@
         <shortDescription>Email Body PI1</shortDescription>
         <value>A new clinical research study has been added to your account on the IQVIA Referral Hub:  ##StudyTitle
 
-            Please take a moment to log in to the IQVIA Referral Hub, go to &quot;My Studies&quot; and review and accept this study. You will then be able to  manage patient referrals to the study from any IQVIA source.</value>
+            Please take a moment to log into the IQVIA Referral Hub to review and accept the study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI2</fullName>
@@ -4249,7 +4248,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HT 01 B</shortDescription>
-        <value>Are you locked out?  If so, please wait for 15 minutes before trying to log back in again.  If you have already waited 15 minutes and cannot login, please use the &quot;Forgot Password&quot; to have your password reset.  If you are not receiving your password reset email, please log a ticket and make sure to provide your name, email, and phone number.</value>
+        <value>Are you locked out? If so, please wait for 15 minutes before trying to log back in again. If you have already waited 15 minutes and cannot login, please click on “Forgot Password” to have your password reset. If you have not received your password reset email within two hours, please email support@mail.clinicalresearch.com and make sure to provide your name, the email address you used for registration, and your phone number so that we can verify that you are a valid user and can call you if necessary to assist you.</value>
     </labels>
     <labels>
         <fullName>HT_01_H</fullName>
@@ -4284,7 +4283,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HT 03 B PI RP</shortDescription>
-        <value>Please go to My Team -&gt; Add New Team Member -&gt; Enter information -&gt; Assign &quot;Permissions by Level&quot;.  If you want a study coordinator to handle referrals on your behalf, we recommend delegate level 1.</value>
+        <value>Please go to My Team -> Add New Team Member -> Enter information -> Assign "Permissions by Level." If you want a study team member to handle referrals on your behalf, we recommend that you assign level 1 permissions to that team member.</value>
     </labels>
     <labels>
         <fullName>HT_03_B_Patient</fullName>
@@ -4347,7 +4346,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 06 B PI</shortDescription>
-        <value>From the &quot;My Studies&quot; page, select the &quot;Manage Referrals&quot; button and see a listing of referrals for that study.  You can use filters to narrow down the search results by study site locations, referral source, referral status.  You can also click the study title to see details about the study being conducted.  Click &quot;Find Sites For This Study&quot; to see a listing of sites -&gt; click &quot;Request to refer&quot; to notify a study site of your interest in referring.</value>
+        <value>From the main navigational menu select “My Participants” to see a listing of participants and potential participants you have added or who have been referred to you. You can filter the list by participants who are active or inactive for the study, study name, study site locations, referral source, and referral status. You may also access the My Participants page from a specific study card on the “My Studies” page by clicking the “Manage Participants” button.</value>
     </labels>
     <labels>
         <fullName>HT_06_B_Participant</fullName>
@@ -4389,7 +4388,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 07 B PI</shortDescription>
-        <value>The IQVIA™ Referral Hub is a personalized platform that allows a principal investigator to manage patients participation in a clinical research study.</value>
+        <value>The IQVIA™ Referral Hub is a platform that allows a principal investigator and study team members to manage patients’ participation in clinical research studies.</value>
     </labels>
     <labels>
         <fullName>HT_07_B_Participant</fullName>
@@ -4445,7 +4444,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 08 H Participant</shortDescription>
-        <value>Why am I missing some of my vital and lab data?</value>
+        <value>Why can’t I see all of my vitals measurements and lab data in results?</value>
     </labels>
     <labels>
         <fullName>HT_08_H_RP</fullName>
@@ -4557,7 +4556,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 12 H Participant</shortDescription>
-        <value>What is clinical research and what is a clinical trial?</value>
+        <value>What is clinical research and what is a clinical study?</value>
     </labels>
     <labels>
         <fullName>HT_12_H_RP</fullName>
@@ -4619,7 +4618,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 14 H Participant</shortDescription>
-        <value>How long does a clinical trial last?</value>
+        <value>How long does a clinical study last?</value>
     </labels>
     <labels>
         <fullName>HT_14_H_RP</fullName>
@@ -4677,7 +4676,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 16 H Participant</shortDescription>
-        <value>Are there clinical trials for children?</value>
+        <value>Are there clinical studies for children?</value>
     </labels>
     <labels>
         <fullName>HT_16_H_RP</fullName>
@@ -4705,7 +4704,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 17 H Participant</shortDescription>
-        <value>Will I get paid to participate in a clinical trial?</value>
+        <value>Will I get paid to participate in a clinical study?</value>
     </labels>
     <labels>
         <fullName>HT_17_H_RP</fullName>
@@ -4728,7 +4727,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 18 H Participant</shortDescription>
-        <value>Will it cost me money to take part in a clinical trial?</value>
+        <value>Will it cost me money to take part in a clinical study?</value>
+    </labels>
+    <labels>
+        <fullName>HT_19_B_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 19 B Participant</shortDescription>
+        <value>How do I update my contact information?</value>
     </labels>
     <labels>
         <fullName>Haematocrit</fullName>
