@@ -34,3 +34,11 @@
     border-radius: 2px;
     background-color: #eef5ff;
 }
+
+.THIS .bottom-line-with-cookie{
+    bottom: 85px !important;
+}
+
+.THIS .padding-for-cookie-police{
+    padding-bottom: 85px !important;
+}
