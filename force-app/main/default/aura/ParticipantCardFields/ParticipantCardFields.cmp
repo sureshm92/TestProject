@@ -136,7 +136,7 @@
 
                 <div class="vpi-field">
                     <div class="label">{!$Label.c.PE_Site_Name}</div>
-                    <div class="value">{!v.pe.Study_Site__r.Site__r.Name}</div>
+                    <div class="value">{!v.pe.Study_Site__r.Name}</div>
                 </div>
 
                 <div class="vpi-field">
