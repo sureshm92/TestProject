@@ -2,12 +2,13 @@
     doInit: function (component, event, helper) {
         let currentCommunityMode = communityService.getCurrentCommunityMode();
         if(currentCommunityMode) component.set('v.userMode', currentCommunityMode.userMode);
-        var rrCookies = communityService.getCookie('RRCookies');
-        if(!rrCookies){
+        var elem = document.getElementById('cookiePanel');
+        //var rrCookies = communityService.getCookie('RRCookies');
+        if(elem){
            var bottomLine =  document.getElementsByClassName('rr-bottom-bar-area');
            $A.util.addClass(bottomLine[0],'bottom-line-with-cookie');
-           var paddingForCookie = document.getElementsByClassName('slds-text-longform');
-           $A.util.addClass(paddingForCookie[0],'padding-for-cookie-police');
+           var paddingForCookie = document.getElementsByClassName('rr-body-content');
+           $A.util.addClass(paddingForCookie[0],'padding-for-cookie-policy');
         }
         var titleCode = component.get('v.titleCode');
         let ctpId = communityService.getUrlParameter('id');
@@ -81,8 +82,8 @@
     removeClasses: function(component, event, helper){
             var bottomLine =  document.getElementsByClassName('bottom-line-with-cookie');
             $A.util.removeClass(bottomLine[0],'bottom-line-with-cookie');
-            var paddingForCookie = document.getElementsByClassName('padding-for-cookie-police');
-            $A.util.removeClass(paddingForCookie[0],'padding-for-cookie-police');
+            var paddingForCookie = document.getElementsByClassName('padding-for-cookie-policy');
+            $A.util.removeClass(paddingForCookie[0],'padding-for-cookie-policy');
     },
 
 })
