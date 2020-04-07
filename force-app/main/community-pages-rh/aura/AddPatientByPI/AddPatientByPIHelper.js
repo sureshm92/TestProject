@@ -35,11 +35,12 @@
         var helper = this;
         var participant = component.get('v.participant');
         var userLanguage = component.get('v.userLanguage');
+        var ssId = communityService.getUrlParameter('ssId');
         communityService.executeAction(component, 'saveParticipant', {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
             userLanguage: userLanguage,
-            ssId: component.get('v.ss').Id
+            ssId: (ssId ? ssId : component.get('v.ss').Id)
         }, function (createdPE) {
             communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
             callback();

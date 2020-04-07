@@ -200,7 +200,7 @@ public without sharing class ReferringRemote {
                 insert ptDelegateRef;
 
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
-            } else {
+            } else if (!String.isBlank(hcpEnrollment.Study_Site__c)) {
                 Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participant.Id];
                 if (newParticipant != null && !String.isBlank(newParticipant.Contact__c)) {
                     Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
