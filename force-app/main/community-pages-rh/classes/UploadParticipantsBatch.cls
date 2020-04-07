@@ -375,6 +375,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                 system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
                             } else {
                                 insertedContacts.add(saveRes.getId());
+                                participantsByContact.put(participantContact.Id, participant);
                             }
                         } catch (Exception exp) {
                             listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant record insert: ' + exp.getMessage());
