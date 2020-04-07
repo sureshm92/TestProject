@@ -33,7 +33,6 @@
                     description="" access="global" required="false"/>
 
     <apex:attribute name="outputType" assignTo="{!outputMode}" type="String" description="" default="HTML"/>
-    <apex:attribute name="emailName" assignTo="{!emailTemplateName}" type="String" description="Email template name"/>
 
     <!-- component body: -->
     <div style="{!templateMap['emailTemplateBackground']}">

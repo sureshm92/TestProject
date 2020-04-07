@@ -23,11 +23,10 @@ global without sharing class EmailTemplateController {
     global Boolean multiplePIMessageValue { get; set; }
     global Boolean showDelegateSSTableValue { get; set; }
     global String communityTemplateValue { get; set; }
-    global String emailTemplateName { get; set; }
     global String outputMode { get; set; }
 
-    private EmailTemplateProviderDefault templateProvider;
-    public EmailTemplateProviderDefault getProvider() {
+    private EmailTemplateProvider templateProvider;
+    public EmailTemplateProvider getProvider() {
         if (templateProvider == null) {
             Map<String, String> templateLabels = new Map<String, String>{
                     'title' => titleLabel,
@@ -39,10 +38,10 @@ global without sharing class EmailTemplateController {
                     'button' => buttonLabel,
                     'buttonUrl' => buttonUrl
             };
-            templateProvider = EmailTemplateProvidersFactory.getFactory().getProvider(
-                    emailTemplateName, templateLabels, sourceRecordId, emailRecipientId, emailRecipientName,
+            templateProvider = new EmailTemplateProvider(EmailTemplateInitialFactory.getTemplateInitial(
+                    templateLabels, sourceRecordId, emailRecipientId, emailRecipientName,
                     emailRecipientLanguage, outputMode, communityTemplateValue
-            );
+            ));
         }
         return templateProvider;
     }

@@ -31,7 +31,7 @@
                     description="send message with all PI names to new RP"/>
     <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}"
                     description="Community template name"/>
-    <apex:attribute name="emailName" assignTo="{!emailTemplateName}" type="String" description="Email template name"/>
+
     <!-- component body: -->
     {!templateMap['headerValue']}
     {!templateMap['titleValue']}

@@ -1,14 +1,15 @@
 /**
  * Created by Igor Malyuta on 31.03.2020.
  */
-public with sharing class EmailTemplateInitialPTDel extends EmailTemplateInitialAbstract{
+public with sharing class EmailTemplateInitialPTDel extends EmailTemplateInitial {
 
     public EmailTemplateInitialPTDel(Map<String, String> templateLabels, Id recipientContactId, String outputMode,
             String communityTemplateName) {
         super(templateLabels, recipientContactId, outputMode, communityTemplateName);
-        headerLabel = LABEL_HEADER_INITIAL_PATIENT_DELEGATE;
-        bodyLabel = LABEL_BODY_INITIAL_PATIENT_DELEGATE;
-        signatureLabel = LABEL_SIGNATURE_NEW;
+        headerLabel = 'Email_Header_Initial_Patient_Delegate';
+        bodyLabel = 'Email_Body_Initial_Patient_Delegate';
+        signatureLabel = 'Email_Signature_New';
+        updateTemplateLabels();
 
         List<Patient_Delegate__c> patientDelegate = [
                 SELECT

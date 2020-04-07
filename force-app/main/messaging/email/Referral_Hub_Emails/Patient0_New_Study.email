@@ -11,8 +11,7 @@
                          title="{!$Label.Email_Title_All}"
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Patient0}"
-                         signature="{!$Label.Email_Signature_Patient}"
-                         emailName="{!$CurrentPage.Name}">
+                         signature="{!$Label.Email_Signature_Patient}">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
                               resourceId="{!relatedTo.Id}"/>
         </c:EmailTemplate>
@@ -26,8 +25,7 @@
                              title="{!$Label.Email_Title_All}"
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Patient0}"
-                             signature="{!$Label.Email_Signature_Patient}"
-                             emailName="{!$CurrentPage.Name}">
+                             signature="{!$Label.Email_Signature_Patient}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
                                   resourceId="{!relatedTo.Id}"/>
         </c:EmailTemplateText>

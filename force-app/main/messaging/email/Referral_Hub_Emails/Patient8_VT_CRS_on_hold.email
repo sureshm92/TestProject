@@ -11,8 +11,7 @@
                          title="{!$Label.Email_Title_VT}"
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Patient8}"
-                         signature="{!$Label.Email_Signature_VT}"
-                         emailName="{!$CurrentPage.Name}"/>
+                         signature="{!$Label.Email_Signature_VT}"/>
     </messaging:htmlEmailBody>
 
     <messaging:plainTextEmailBody >
@@ -23,8 +22,7 @@
                              title="{!$Label.Email_Title_VT}"
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Patient8}"
-                             signature="{!$Label.Email_Signature_VT}"
-                             emailName="{!$CurrentPage.Name}"/>
+                             signature="{!$Label.Email_Signature_VT}"/>
     </messaging:plainTextEmailBody>
 
 </messaging:emailTemplate>

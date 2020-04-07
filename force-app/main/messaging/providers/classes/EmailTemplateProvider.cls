@@ -2,7 +2,7 @@
  * Created by Igor Malyuta on 23.03.2020.
  */
 
-public virtual without sharing class EmailTemplateProviderDefault {
+public virtual without sharing class EmailTemplateProvider {
 
     public static final String PARAM_PREFIX = '##';
     public static final String DEFAULT_LANGUAGE = 'en_US';
@@ -19,32 +19,33 @@ public virtual without sharing class EmailTemplateProviderDefault {
 
     private Boolean isHTML;
 
-    public EmailTemplateProviderDefault(Map<String, String> templateLabels, Id whatId, Id recipientId, String recipientName,
-            String recipientLanguage, String parametersProviderName, String outputMode, String communityTemplateName
-    ) {
-        updateRecipientName(recipientId, recipientName, recipientLanguage);
+    public EmailTemplateProvider(EmailTemplateInitial templateInitial) {
+        updateRecipientName(templateInitial.recipientId, recipientName, recipientLanguage);
 
-        templatePropertiesService = String.isNotEmpty(communityTemplateName) ?
-                new TemplatePropertiesService(communityTemplateName) :
-                new TemplatePropertiesService(whatId, this.recipientContactId, userMode, isDelegate);
-        parameters.putAll(getTemplateParams());
+        templatePropertiesService = String.isNotEmpty(templateInitial.communityTemplateName) ?
+                new TemplatePropertiesService(templateInitial.communityTemplateName) :
+                new TemplatePropertiesService(templateInitial.whatId, this.recipientContactId, userMode, isDelegate);
+        fillTemplateParams();
+
         parameters.put('RecipientName', getUserName());
         parameters.put('RecipientFirstName', recipientFirstName);
         parameters.put('GuestName', TranslateHelper.getLabelValue(Label.Email_Guest_User_Name));
         if (isDelegate && userMode == 'Participant') initYourParticipantFirstName();
 
-        isHTML = outputMode == 'HTML';
+        isHTML = templateInitial.outputMode == 'HTML';
         initCRCommunityUrl(isHTML);
 //        initForgotPassURL(isHTML);
 
-        if (!String.isEmpty(parametersProviderName)) {
+        if (!String.isEmpty(templateInitial.parametersProviderName) && templateInitial.whatId != null) {
             parameters.putAll(CatalogParametersHelper.getParamsValueMap(
-                    whatId,
-                    CatalogParametersHelper.getParametersProviderMetadata(parametersProviderName),
+                    templateInitial.whatId,
+                    CatalogParametersHelper.getParametersProviderMetadata(templateInitial.parametersProviderName),
                     this.recipientLanguage
             ));
         }
-        initLabels(templateLabels);
+        if(!templateInitial.additionalParams.isEmpty()) parameters.putAll(templateInitial.additionalParams);
+        initLabels(templateInitial.templateLabels);
+
         System.debug('PARAMS: ' + JSON.serializePretty(parameters));
     }
 
@@ -92,49 +93,15 @@ public virtual without sharing class EmailTemplateProviderDefault {
     }
 
     //Template Specific Properties:-------------------------------------------------------------------------------------
-    private Map<String, String> getTemplateParams() {
-        Map<String, String> templateParams = new Map<String, String>();
-        templateParams.put('emailTemplateBackground', getEmailTemplateBackground());
-        templateParams.put('emailTemplateTextBackground', getEmailTemplateTextBackground());
-        templateParams.put('emailTemplateHeaderBackground', getEmailTemplateHeaderBackground());
-        templateParams.put('emailTemplateHeader', getEmailTemplateHeader());
-        templateParams.put('emailTemplateTitle', getEmailTemplateTitle());
-        templateParams.put('emailTemplateBrandLogo', getEmailTemplateBrandLogo());
-        templateParams.put('emailTemplateBrandLogoCSS', getEmailTemplateBrandLogoCSS());
-        templateParams.put('emailTemplateBottomLogo', getEmailTemplateBottomLogo());
-        return templateParams;
-    }
-
-    private String getEmailTemplateBackground() {
-        return templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_BACKGROUND);
-    }
-
-    private String getEmailTemplateHeaderBackground() {
-        return templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_HEADER_BACKGROUND);
-    }
-
-    private String getEmailTemplateTextBackground() {
-        return templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_TEXT_BACKGROUND);
-    }
-
-    private String getEmailTemplateHeader() {
-        return templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_HEADER);
-    }
-
-    private String getEmailTemplateTitle() {
-        return templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE);
-    }
-
-    private String getEmailTemplateBrandLogo() {
-        return templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_BRAND_LOGO);
-    }
-
-    private String getEmailTemplateBrandLogoCSS() {
-        return templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_BRAND_LOGO_CSS);
-    }
-
-    private String getEmailTemplateBottomLogo() {
-        return templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_BOTTOM_LOGO);
+    private void fillTemplateParams() {
+        parameters.put('emailTemplateBackground', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_BACKGROUND));
+        parameters.put('emailTemplateTextBackground', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_TEXT_BACKGROUND));
+        parameters.put('emailTemplateHeaderBackground', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_HEADER_BACKGROUND));
+        parameters.put('emailTemplateHeader', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_HEADER));
+        parameters.put('emailTemplateTitle', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE));
+        parameters.put('emailTemplateBrandLogo', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_BRAND_LOGO));
+        parameters.put('emailTemplateBrandLogoCSS', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_BRAND_LOGO_CSS));
+        parameters.put('emailTemplateBottomLogo', templatePropertiesService.getPropertyValue(TemplatePropertiesCatalog.TEMPLATE_PROP_BOTTOM_LOGO));
     }
 
     //Labels: ----------------------------------------------------------------------------------------------------------

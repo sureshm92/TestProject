@@ -1,25 +1,29 @@
 /**
  * Created by Igor Malyuta on 31.03.2020.
  */
-public with sharing class EmailTemplateInitialHCP extends EmailTemplateInitialAbstract{
+public with sharing class EmailTemplateInitialHCP extends EmailTemplateInitial {
 
     private List<HCP_Enrollment__c> enrollments;
 
     public EmailTemplateInitialHCP(Map<String, String> templateLabels, Id recipientId, String outputMode) {
         super(templateLabels, recipientId, outputMode, null);
-        headerLabel = LABEL_HEADER_INITIAL_HCP;
+        headerLabel = 'Email_Header_Initial_HCP';
         greetingLabel = LABEL_GREETING_VALUE_PI_HCP;
-        bodyLabel = LABEL_BODY_INITIAL_HCP;
+        bodyLabel = 'Email_Body_Initial_HCP';
 
         if (!getHealthCareProviders().isEmpty()) {
-            bodyLabel = LABEL_BODY_INITIAL_PI_PT_HCP;
-            headerLabel = LABEL_HEADER_INITIAL_PI_PT_HCP;
+            bodyLabel = 'Email_Body_Initial_PI_PT_HCP';
+            headerLabel = 'Email_Header_Initial_HCP';
         } else if (hasEnrollments()) {
-            bodyLabel = LABEL_BODY_INITIAL_PI_HCP;
-            headerLabel = LABEL_HEADER_INITIAL_PI_HCP;
-        }
+            bodyLabel = 'Email_Body_Initial_PI_HCP';
+            headerLabel = 'Email_Header_Initial_HCP';
 
-//        if (isSameInvestigator()) parameters.put('PIName', getMultiplePINames(recipientId));
+            whatId = getEnrollments().get(0).Id;
+            parametersProviderName = 'Email_Template_Parameters_From_HCPE';
+        }
+        updateTemplateLabels();
+
+        if (isSameInvestigator()) additionalParams.put('PIName', getMultiplePINames(recipientId));
     }
 
     private List<Healthcare_Provider__c> getHealthCareProviders() {
