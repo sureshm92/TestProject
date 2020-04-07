@@ -45,7 +45,7 @@
                 <apex:outputText value="{!templateMap['greetingValue']}" escape="false"/>
                 <apex:outputText value="{!templateMap['bodyValue']}" escape="false"/>
 
-                 for delegates:
+<!--                 for delegates:-->
                 <c:EmailTemplateDelegate rendered="{!(isDelegate && userType != 'Participant')}"
                                          recipientId="{!recipientContactId}" recipientLanguage="{!recipientLanguage}"/>
 
