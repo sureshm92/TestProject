@@ -365,7 +365,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                         PI_Contact__c = studySiteDetails.Principal_Investigator__c);
 
                         contactsById.put(participantContact.Id, participantContact);
-                        actionAssignContactPermissions.addPermission(participantContact.Id, permissionSetName);
+                        //actionAssignContactPermissions.addPermission(participantContact.Id, permissionSetName);
 
                         try {
                             Database.SaveResult saveRes = Database.insert(participant, false);
@@ -390,6 +390,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                 listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
                                 system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
                             }
+
+                            actionAssignContactPermissions.addPermission(participantContact.Id, permissionSetName);
                         } else {
                             contactsById.remove(participantContact.Id);
                             delete participantContact;
@@ -436,6 +438,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 }
                 if (!actionAssignContactPermissions.isEmpty()) {
                     ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                }
+
+                if (errorRecordCount != listOfFailedRecords.size()) {
+                    errorRecordCount = listOfFailedRecords.size();
                 }
             }
 
