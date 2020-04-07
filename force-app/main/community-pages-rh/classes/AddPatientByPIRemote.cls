@@ -49,7 +49,7 @@ public without sharing class AddPatientByPIRemote {
             ParticipantService.createParticipantAndUpdatePE(participant, pe, userLanguage);
 
             Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participant.Id];
-            if (newParticipant != null && !String.isBlank(newParticipant.Contact__c)) {
+            if (newParticipant != null && !String.isBlank(newParticipant.Contact__c) && !String.isBlank(ssId)) {
                 Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
                 Study_Site__c ss = StudySiteService.getStudySiteForPIById(ssId);
                 String permissionSetName = CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
