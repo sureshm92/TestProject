@@ -38,7 +38,7 @@ public without sharing class AddPatientByPIRemote {
     }
     //TODO:Review
     @AuraEnabled
-    public static void saveParticipant(String participantJSON, String peJSON, String userLanguage){
+    public static void saveParticipant(String participantJSON, String peJSON, String userLanguage, String ssId){
         try{
             Participant__c participant = (Participant__c)JSON.deserialize(participantJSON, Participant__c.class);
             trimParticipantFields(participant);
@@ -47,6 +47,17 @@ public without sharing class AddPatientByPIRemote {
             PEStatusState currentState = PEStatusState.STATUSES_MAP.get(pe.Participant_Status__c);
             pe.Referral_Source__c = 'PI';
             ParticipantService.createParticipantAndUpdatePE(participant, pe, userLanguage);
+
+            Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participant.Id];
+            if (newParticipant != null && !String.isBlank(newParticipant.Contact__c) && !String.isBlank(ssId)) {
+                Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+                Study_Site__c ss = StudySiteService.getStudySiteForPIById(ssId);
+                String permissionSetName = CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
+                actionAssignContactPermissions.addPermission(newParticipant.Contact__c, permissionSetName);
+                if (!actionAssignContactPermissions.isEmpty()) {
+                    ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                }
+            }
             //Moved history Creation to Trigger
         }catch (Exception e){
             AuraHelper.throwException(e);

@@ -577,7 +577,7 @@ public without sharing class DashboardRemote {
                 if (pesh.Status__c == PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED) {
                     successfullyContactedSet.add(pesh.ParticipantEnrollment__c);
                 }
-                if (peMap.get(pesh.ParticipantEnrollment__c).Initial_visit_scheduled_flag__c && peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual') {
+                if ((peMap.get(pesh.ParticipantEnrollment__c).Initial_visit_scheduled_flag__c || peMap.get(pesh.ParticipantEnrollment__c).Initial_visit_occurred_flag__c) && peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c != 'Virtual') {
                     initialVisitScheduledSet.add(pesh.ParticipantEnrollment__c);
                 } else if (pesh.Status__c == PEStatusState.PE_STATUS_ELIGIBILITY_PASSED && peMap.get(peHostoryList[0].ParticipantEnrollment__c).Study_Site__r.Study_Site_Type__c == 'Virtual') {
                     eligibilityPassedSet.add(pesh.ParticipantEnrollment__c);

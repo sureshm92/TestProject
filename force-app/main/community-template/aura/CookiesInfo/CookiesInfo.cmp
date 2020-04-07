@@ -15,7 +15,7 @@
 
     <!-- component body: -->
     <aura:if isTrue="{!v.visible}">
-        <div class="ci-bottom-aria">
+        <div class="ci-bottom-aria" id="cookiePanel">
             <div class="ci-panel">
                 <span>
                     <aura:unescapedHtml value="{!v.resultInfoText}"/>
