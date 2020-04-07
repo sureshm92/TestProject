@@ -204,7 +204,7 @@ public without sharing class ReferringRemote {
                 Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participant.Id];
                 if (newParticipant != null && !String.isBlank(newParticipant.Contact__c)) {
                     Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
-                    Study_Site__c ss = StudySiteService.getStudySiteForPIById(hcpEnrollment.Study_Site__c);
+                    Study_Site__c ss = StudySiteService.getStudySiteForHCPById(hcpEnrollment.Study_Site__c);
                     String permissionSetName = CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
                     actionAssignContactPermissions.addPermission(newParticipant.Contact__c, permissionSetName);
                     if (!actionAssignContactPermissions.isEmpty()) {
