@@ -38,7 +38,8 @@
         communityService.executeAction(component, 'saveParticipant', {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
-            userLanguage: userLanguage
+            userLanguage: userLanguage,
+            ssId: component.get('v.ss').Id
         }, function (createdPE) {
             communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
             callback();
