@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<apex:component id="EmailActionBtn" access="global" controller="EmailActionBtnController">
+<apex:component id="EmailActionBtn" access="global" controller="EmailActionButtonController">
 
     <!-- attributes: -->
     <apex:attribute name="buttonLabel" type="String" description="" access="global"/>

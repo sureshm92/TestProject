@@ -3,6 +3,7 @@
  */
 public with sharing class EmailTemplateInitialHCP extends EmailTemplateInitial {
 
+    private List<Healthcare_Provider__c> healthcareProviders;
     private List<HCP_Enrollment__c> enrollments;
 
     public EmailTemplateInitialHCP(Map<String, String> templateLabels, Id recipientId, String outputMode) {
@@ -13,10 +14,11 @@ public with sharing class EmailTemplateInitialHCP extends EmailTemplateInitial {
 
         if (!getHealthCareProviders().isEmpty()) {
             bodyLabel = 'Email_Body_Initial_PI_PT_HCP';
-            headerLabel = 'Email_Header_Initial_HCP';
+
+            whatId = getHealthCareProviders().get(0).Id;
+            parametersProviderName = 'PP_Healthcare_Provider';
         } else if (hasEnrollments()) {
             bodyLabel = 'Email_Body_Initial_PI_HCP';
-            headerLabel = 'Email_Header_Initial_HCP';
 
             whatId = getEnrollments().get(0).Id;
             parametersProviderName = 'Email_Template_Parameters_From_HCPE';
@@ -27,7 +29,8 @@ public with sharing class EmailTemplateInitialHCP extends EmailTemplateInitial {
     }
 
     private List<Healthcare_Provider__c> getHealthCareProviders() {
-            return [
+        if (healthcareProviders == null) {
+            healthcareProviders = [
                     SELECT Id, HCP_Enrollment__c
                     FROM Healthcare_Provider__c
                     WHERE HCP_Enrollment__c IN (
@@ -36,10 +39,12 @@ public with sharing class EmailTemplateInitialHCP extends EmailTemplateInitial {
                             WHERE HCP_Contact__c = :recipientId
                     )
             ];
+        }
+        return healthcareProviders;
     }
 
     private List<HCP_Enrollment__c> getEnrollments() {
-        if(enrollments == null) {
+        if (enrollments == null) {
             enrollments = [
                     SELECT Id, Study_Site__r.Principal_Investigator__c
                     FROM HCP_Enrollment__c

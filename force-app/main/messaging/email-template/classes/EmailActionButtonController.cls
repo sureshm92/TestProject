@@ -2,7 +2,7 @@
  * Created by RAMukhamadeev on 2019-04-26.
  */
 
-global without sharing class EmailActionBtnController {
+global without sharing class EmailActionButtonController {
 
     global String buttonURLString { get; set; }
     global String caseIdString { get; set; }

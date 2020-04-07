@@ -271,7 +271,7 @@ private class Test_BaseCRCPCommunity {
 //        controller.getResultUserMode();
 //        controller.getParameters();
 //
-//        EmailActionBtnController emailActionBtnController = new EmailActionBtnController();
+//        EmailActionButtonController emailActionBtnController = new EmailActionButtonController();
 //        String url = emailActionBtnController.getResultURL();
 //        url = emailActionBtnController.getResultURL();
 //
