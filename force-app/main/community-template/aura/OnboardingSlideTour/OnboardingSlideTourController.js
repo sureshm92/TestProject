@@ -7,7 +7,8 @@
         if(isInitialized){
             var showOnLogin = component.get('v.showOnLogin');
             var isNewSession = component.get('v.isNewSession');
-            if(showOnLogin && isNewSession) component.set('v.visible', true);
+            let mainDiv = component.find('tourContainer');
+            if(showOnLogin && isNewSession) $A.util.removeClass(mainDiv, 'hidden');
         }else{
             component.set('v.showAfterInit', true);
         }
@@ -34,7 +35,10 @@
             component.set('v.slides', tour.slides);
             component.set('v.isNewSession', tour.isNewSession);
             if(tour.slides.length > 0) component.set('v.currentSlide', tour.slides[0]);
-            if(component.get('v.showAfterInit')) component.set('v.visible', true);
+            if(component.get('v.showAfterInit')) {
+                let mainDiv = component.find('tourContainer');
+                $A.util.removeClass(mainDiv, 'hidden');
+            }
             component.find('spinner').hide();
             component.set('v.isInitialized', true);
             try{
@@ -82,14 +86,16 @@
 
     doShow: function (component, event, helper) {
         if(component.get('v.isInitialized')){
-            component.set('v.visible', true);
+            let mainDiv = component.find('tourContainer');
+            $A.util.removeClass(mainDiv, 'hidden');
         }else{
             component.set('v.showAfterInit');
         }
     },
 
     doHide: function (component) {
-        component.set('v.visible', false);
+        let mainDiv = component.find('tourContainer');
+        $A.util.addClass(mainDiv, 'hidden');
     },
 
     doSwitchShowOnLoginMode: function (component) {

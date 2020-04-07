@@ -5778,7 +5778,14 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>No Payment Information Available</shortDescription>
-        <value>Sorry, your card has not been activated in the system. Please contact  the payment provider directly</value>
+        <value>Check back periodically to view payment information</value>
+    </labels>
+    <labels>
+        <fullName>No_Relevant_Links_to_display</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Relevant Links to display</shortDescription>
+        <value>Check back periodically for helpful links</value>
     </labels>
     <labels>
         <fullName>No_permission_Visits_tab</fullName>
@@ -7322,7 +7329,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS H Email Preferences</shortDescription>
-        <value>Email Preferences</value>
+        <value>Contact Preferences</value>
     </labels>
     <labels>
         <fullName>PG_AS_H_Privacy_Rights</fullName>
@@ -7371,14 +7378,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS L Opt In Participant Status Emails</shortDescription>
-        <value>updates about your referral status</value>
+        <value>Receive email notifications</value>
     </labels>
     <labels>
         <fullName>PG_AS_L_Opt_In_Participant_Status_SMS</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS L Opt In Participant Status SMS</shortDescription>
-        <value>I want to receive SMS on my phone number</value>
+        <value>Receive SMS notifications</value>
     </labels>
     <labels>
         <fullName>PG_AS_L_Opt_In_Visit_Results</fullName>
@@ -7392,8 +7399,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS L Select conditions</shortDescription>
-        <value>Select up to 5 medical conditions that you would be interested in for participating
-            in a clinical trial. To see specific information relevant to your diagnosis, please select relevant conditions of interest.</value>
+        <value>Select up to 5 medical conditions related to your diagnosis, to help us prioritize the content we display to you.</value>
     </labels>
     <labels>
         <fullName>PG_AS_T1_Contact_Info</fullName>
@@ -7442,7 +7448,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS T Participant Email Preferences</shortDescription>
-        <value>Emails that notify you of required action, allow you to reset your password, or inform you of important system updates will always be sent.  Additionally, you can choose to receive any of the following types of emails:</value>
+        <value>Emails that notify you of required action, allow you to reset your password, or inform you of important system updates will always be sent.  Additionally, you can choose to receive optional communications by turning on the following:</value>
     </labels>
     <labels>
         <fullName>PG_AS_T_Please_Review_Contact_information</fullName>
@@ -12808,6 +12814,13 @@
         <value>Variable</value>
     </labels>
     <labels>
+        <fullName>Study_Site_phone_number</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Site phone number</shortDescription>
+        <value>Study Site phone</value>
+    </labels>
+    <labels>
         <fullName>Study_Team</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13238,6 +13251,13 @@
         <value>Task Details</value>
     </labels>
     <labels>
+        <fullName>Task_Details_Header_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Details Header Info</shortDescription>
+        <value>If you need to discuss your health, please contact your doctor directly.</value>
+    </labels>
+    <labels>
         <fullName>Task_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -13284,7 +13304,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Task Subject Select COI</shortDescription>
-        <value>If you want to see more study resources related to diagnosis, please select relevant conditions of interest in account settings</value>
+        <value>Select up to 5 medical conditions related to your diagnosis, to help us prioritize the content we display to you</value>
     </labels>
     <labels>
         <fullName>Task_Tab_Completed_Tasks</fullName>
