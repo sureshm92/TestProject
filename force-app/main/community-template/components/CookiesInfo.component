@@ -47,6 +47,8 @@
         function closeCookiesInfo() {
             communityService.setCookie(paramId, 'agreed');
             $('.ci-bottom-aria').addClass('ci-hidden');
+            $('.terms-and-conditions').removeClass('cookie-policy-padding');
+            $('.rr-bottom-bar-area').removeClass('cookie-bottom');
         }
 
     </script>
