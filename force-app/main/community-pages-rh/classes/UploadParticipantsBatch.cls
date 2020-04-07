@@ -437,6 +437,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 if (!actionAssignContactPermissions.isEmpty()) {
                     ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                 }
+
+                if (errorRecordCount != listOfFailedRecords.size()) {
+                    errorRecordCount = listOfFailedRecords.size();
+                }
             }
 
             system.debug('HEAP SIZE IS: ' + limits.getHeapSize() + ' enforced is: ' + limits.getLimitHeapSize() + 'on totalRecordCount: ' + totalRecordCount);
