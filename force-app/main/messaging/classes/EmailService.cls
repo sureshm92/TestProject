@@ -136,8 +136,8 @@ public without sharing class EmailService {
         });
         emailMessage.setSubject('Email Error');
         emailMessage.setPlainTextBody('>>Error stack: ' + e.getMessage() + '\n' + e.getStackTraceString());
-        Messaging.sendEmail((List<Messaging.Email>) new List<Messaging.SingleEmailMessage>{
+        /*Messaging.sendEmail((List<Messaging.Email>) new List<Messaging.SingleEmailMessage>{
                 emailMessage
-        });
+        });*/
     }
 }
