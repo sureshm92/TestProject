@@ -38,7 +38,6 @@ public class TasksRemote {
         ParticipantTasks participantTasks = new ParticipantTasks();
         try {
             participantTasks.openTasksWrapper = new List<OpenTask>();
-            TimeZone timezone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
 
             List<Task> openTasks = TaskService.getInstance().getOpenTasks();
             for (Task task : openTasks) {
