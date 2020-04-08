@@ -14009,8 +14009,14 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_2</shortDescription>
-        <value>. You can opt-out at any time. Once data becomes available it will begin to display. If you
-            have questions or concerns about this data, please contact the study doctor at your study center.</value>
+        <value>. You can opt-out at any time.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_If_Is_Not_Opt_In_3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab If Is Not Opt In 3</shortDescription>
+        <value>Once data becomes available it will begin to display. If you have questions or concerns about this data, please contact the study doctor at your study center.</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_If_Is_Not_Opt_In_Delegate</fullName>
