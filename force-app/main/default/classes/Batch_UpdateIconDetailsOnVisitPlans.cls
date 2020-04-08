@@ -4,11 +4,11 @@
 
 public with sharing class Batch_UpdateIconDetailsOnVisitPlans implements Database.Batchable<SObject>, Database.AllowsCallouts {
 
-    public Iterable<SObject> start(Database.BatchableContext param1) {
+    public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator([SELECT Id, Name, (SELECT Name FROM Icons_Details__r) FROM Visit_Plan__c]);
     }
 
-    public void execute(Database.BatchableContext param1, List<Visit_Plan__c> param2) {
+    public void execute(Database.BatchableContext param1, List<Visit_Plan__c> visitPlans) {
         PageReference pr = new PageReference('/resource/Icons_legend/icons.svg');
         String xml = pr.getContent().toString();
         Dom.Document document = new Dom.Document();
@@ -22,7 +22,7 @@ public with sharing class Batch_UpdateIconDetailsOnVisitPlans implements Databas
         }
 
         List<Icon_Details__c> newIcons = new List<Icon_Details__c>();
-        for(Visit_Plan__c visitPlan : param2) {
+        for(Visit_Plan__c visitPlan : visitPlans) {
             if(visitPlan.Icons_Details__r.size() < iconIds.size()) {
                 List<String> iconDetailsListForVP = new List<String>();
                 for(Icon_Details__c iconDetail : visitPlan.Icons_Details__r){
