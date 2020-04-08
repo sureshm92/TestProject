@@ -99,9 +99,11 @@ public without sharing class TaskService {
                     ')';
         }else if(isDecoupled){
             // Decoupled delegate in patient view
-            commonFilter = '(' +
-                    'OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\'' + delegatesVisibility +
-                    ')';
+            if(ParticipantContext.getCurrentUserId() != null) {
+                commonFilter = '(' +
+                        'OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\'' + delegatesVisibility +
+                        ')';
+            }
         }else{
             // Not decoupled delegate
             commonFilter = '(' +
@@ -112,7 +114,12 @@ public without sharing class TaskService {
         }
         if(filter != null) commonFilter += ' AND ' + filter;
         if(sortOrder != null) commonFilter += ' ' + sortOrder;
-        List<Task> tasks = (List<Task>) DatabaseService.query(DEFAULT_FIELDS, Task.getSObjectType(), commonFilter);
+        List<Task> tasks;
+        if(isDecoupled && ParticipantContext.getCurrentUserId() == null) {
+            tasks = new List<Task>();
+        } else {
+            tasks = (List<Task>) DatabaseService.query(DEFAULT_FIELDS, Task.getSObjectType(), commonFilter);
+        }
         TaskTriggerHandler.processDefaultFieldValues(tasks);
         return filterTasks(tasks);
     }

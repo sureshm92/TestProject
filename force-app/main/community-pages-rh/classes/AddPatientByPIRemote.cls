@@ -48,7 +48,7 @@ public without sharing class AddPatientByPIRemote {
             pe.Referral_Source__c = 'PI';
             ParticipantService.createParticipantAndUpdatePE(participant, pe, userLanguage);
 
-            Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participant.Id];
+            Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participant.Id OR Id = :pe.Participant__c];
             if (newParticipant != null && !String.isBlank(newParticipant.Contact__c) && !String.isBlank(ssId)) {
                 Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
                 Study_Site__c ss = StudySiteService.getStudySiteForPIById(ssId);
