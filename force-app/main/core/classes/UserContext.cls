@@ -88,7 +88,7 @@ public without sharing class UserContext {
         return getCurrentUserMode().template.properties.get(propertyName);
     }
     
-    public static CommunityTemplate getCurruntCommunityTemplate(){
+    public static CommunityTemplate getCurrentCommunityTemplate(){
         return CommunityTemplateService.getTemplateByCommunityName(getCurrentCommunityName());
     }
     
