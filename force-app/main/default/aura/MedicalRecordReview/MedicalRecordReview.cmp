@@ -63,8 +63,7 @@
                                                            hcpeId="{!v.hcpeId}"
                                                            searchData="{!v.searchData}"
                                                            searchResult="{!v.searchResult}"
-                                                           mrrResult="{!v.mrrResult}"
-                                                           showSpinner="{!v.showSpinner}"/>
+                                                           mrrResult="{!v.mrrResult}"/>
                         </div>
                     </div>
                 </aura:if>
