@@ -4,37 +4,40 @@
 ({
     doInit: function (component) {
         if(!communityService.isInitialized()) return;
-        if(communityService.getUserMode() !== 'HCP') communityService.navigateToPage('');
-        var spinner = component.find('mainSpinner');
-        spinner.show();
-        var recId = communityService.getUrlParameter("id");
-        var hcpeId = communityService.getUrlParameter("hcpeid");
-        var delegateId = communityService.getDelegateId();
 
-        if(recId){
-            component.set('v.trialId', recId);
-            component.set('v.hcpeId', hcpeId);
-            communityService.executeAction(component, 'getInitData', {
-                trialId: recId,
-                hcpeId: hcpeId,
-                delegateId : delegateId
-            }, function (returnValue) {
-                var initData = JSON.parse(returnValue);
-                var searchData = {
-                    participantId : ''
-                };
-                component.set('v.searchData', searchData);
-                component.set("v.hcpEnrollment", initData.hcpEnrollment);
-                component.set("v.hcpContact", initData.hcpContact);
-                component.set("v.accessUserLevel", initData.delegateAccessLevel);
-                component.set("v.trial", initData.trial);
-                component.set("v.actions", initData.actions);
-                spinner.hide();
-            }, null, function () {
-                spinner.hide();
-            })
+        if(!communityService.isDummy()) {
+            if (communityService.getUserMode() !== 'HCP') communityService.navigateToPage('');
+            let spinner = component.find('mainSpinner');
+            spinner.show();
+            let recId = communityService.getUrlParameter('id');
+            let hcpeId = communityService.getUrlParameter('hcpeid');
+            let delegateId = communityService.getDelegateId();
+
+            if (recId) {
+                component.set('v.trialId', recId);
+                component.set('v.hcpeId', hcpeId);
+                communityService.executeAction(component, 'getInitData', {
+                    trialId: recId,
+                    hcpeId: hcpeId,
+                    delegateId: delegateId
+                }, function (returnValue) {
+                    let initData = JSON.parse(returnValue);
+                    let searchData = {
+                        participantId: ''
+                    };
+                    component.set('v.searchData', searchData);
+                    component.set('v.hcpEnrollment', initData.hcpEnrollment);
+                    component.set('v.hcpContact', initData.hcpContact);
+                    component.set('v.accessUserLevel', initData.delegateAccessLevel);
+                    component.set('v.trial', initData.trial);
+                    component.set('v.actions', initData.actions);
+                }, null, function () {
+                    spinner.hide();
+                })
+            }
+        } else {
+            component.find('builderStub').setPageName(component.getName());
         }
-
     },
 
     doGoHome: function () {
@@ -60,6 +63,4 @@
     doMRRResultChanged: function () {
         window.scrollTo(0, 0);
     }
-
-
-})
+});

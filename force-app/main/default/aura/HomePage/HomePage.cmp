@@ -25,4 +25,5 @@
         </aura:if>
     </aura:if>
 
+    <c:builderStub aura:id="builderStub"/>
 </aura:component>

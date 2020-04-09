@@ -4,7 +4,7 @@
 ({
 
     updateMRRStatus: function (component, status, gizmoData) {
-        component.set('v.showSpinner', true);
+        component.find('mainSpinner').show();
         var pe = component.get('v.searchResult').pe;
         var action = component.get('c.setMRRStatus');
         action.setParams({
@@ -24,7 +24,7 @@
                 communityService.logErrorFromResponse(response);
                 communityService.showErrorToastFromResponse(response);
             }
-            component.set('v.showSpinner', false);
+            component.find('mainSpinner').hide();
         });
         $A.enqueueAction(action);
     },

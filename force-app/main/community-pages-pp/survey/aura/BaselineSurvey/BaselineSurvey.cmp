@@ -5,6 +5,8 @@
 <aura:component description="BaselineSurvey" controller="BaselineSurveyRemote"
                 implements="forceCommunity:availableForAllPageTypes">
 
+    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}"/>
+
     <!-- attributes: -->
     <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="codeName" type="String"/>
@@ -12,23 +14,26 @@
     <aura:attribute name="surveyName" type="String"/>
 
     <!-- handlers: -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
 
     <!-- component body: -->
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true"/>
-    <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}"
-                backPage="{!'study-workspace?tab=tab-tasks'}"
-                smallTitle="{!v.codeName}"
-                bigTitle="{!v.surveyName}">
-    </c:RRTopBar>
 
-    <div class="bls-body rr-all-content">
-        <iframe id="blsIFrame" class="bls-iframe" src="{!v.link}" onload="{!c.doFrameLoaded}"></iframe>
-    </div>
+    <aura:if isTrue="{!v.initialized}">
+        <c:RRTopBar backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}"
+                    backPage="{!'study-workspace?tab=tab-tasks'}"
+                    smallTitle="{!v.codeName}"
+                    bigTitle="{!v.surveyName}">
+        </c:RRTopBar>
 
-    <div class="rr-width-limiter side-padding">
-        <c:CommunityFooter/>
-    </div>
+        <div class="bls-body rr-all-content">
+            <iframe id="blsIFrame" class="bls-iframe" src="{!v.link}" onload="{!c.doFrameLoaded}"></iframe>
+        </div>
 
+        <div class="rr-width-limiter side-padding">
+            <c:CommunityFooter/>
+        </div>
+    </aura:if>
+
+    <c:builderStub aura:id="builderStub"/>
 </aura:component>

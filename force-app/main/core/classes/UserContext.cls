@@ -13,6 +13,7 @@ public without sharing class UserContext {
     private static CommunityMode userMode;
     private static List<CommunityMode> allUserModes;
     private static Boolean isDummy = false;
+    private static CommunityMode dummyMode;
     private static String currentCommunityName;
     
     public static Contact getUserContact(){
@@ -57,11 +58,18 @@ public without sharing class UserContext {
     }
     
     public static CommunityMode getCurrentUserMode(){
+        if(isDummyContact()) return getDummyCommunityMode();
+
         if(userMode == null){
             allUserModes = CommunityModeService.getUserCommunityModes(getUserContact().Id);
             userMode = CommunityModeService.getCurrentCommunityMode(getUserContact(), allUserModes);
         }
         return userMode;
+    }
+
+    public static CommunityMode getDummyCommunityMode() {
+        if(dummyMode == null) dummyMode = new CommunityMode(CommunityService.USER_MODE_PI, Label.CTL_L_PI_MODE, null);
+        return dummyMode;
     }
     
     public static List<CommunityMode> getAllUserModes(){
@@ -124,7 +132,6 @@ public without sharing class UserContext {
     private static void setUser(Id userId){
         user = [SELECT Id, ContactId FROM User WHERE Id =: userId];
         if(user == null || user.ContactId == null) {
-            setContact((Id) SettingStoreService.getOrgDefault(DUMMY_COMMUNITY_CONTACT_ID_DEV_NAME));
             isDummy = true;
         } else {
             setContact(user.ContactId);
