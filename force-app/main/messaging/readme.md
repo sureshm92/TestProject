@@ -69,5 +69,19 @@ Notification__c notification = new Notification__c();
 - **Email__c**: if this notification for external user, use it with Recipient__c = null and From__c = contact.Id (sender id)
 - **isDelegate**: a boolean flag if this notification should use Email Template for delegate in metadata
 
+#####Subscribe logic
+
+There are two objects that you need to create:
+
+1) Topic__c where
+
+- **TopicId__c**: Id field from Clinical_Trial_Profile__c or Therapeutic_Area__c from Therapeutic_Area_Patient__c 
+(there are several methods for it in NotificationService)
+
+2) Contact_Topic__c (that would connect Recipient and theme of subscribe)
+
+- **Contact__c**: Id field on Contact
+- **Topic__c**: Id field on Topic
+
 ####Attention: 
 - To send Email and SMS run Batch_ProcessNotification.
