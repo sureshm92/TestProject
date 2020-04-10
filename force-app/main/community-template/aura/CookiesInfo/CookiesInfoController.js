@@ -16,12 +16,20 @@
             infoText = infoText.replace('##interactiveAdvertisingBureauURL', '<a class="ci-link" href="' + urlIAB +'">' + linkIAB + '</a>');
             component.set('v.resultInfoText', infoText);
             component.set('v.visible', true);
+            document.body.addEventListener('click', $A.getCallback(function () {
+                communityService.setCookie('RRCookies', 'agreed');
+                component.set('v.visible', false);
+            }));
+            setTimeout($A.getCallback(function() {
+                communityService.setCookie('RRCookies', 'agreed');
+                component.set('v.visible', false);
+            }), 10000);
         }
     },
 
-    doCloseCookiesInfo: function (component) {
+    doCloseCookiesInfo: function (component, event, helper) {
         communityService.setCookie('RRCookies', 'agreed');
         component.set('v.visible', false);
-    }
+    },
 
 })
