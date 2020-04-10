@@ -25,7 +25,18 @@ global without sharing class EmailTemplateController {
     global String communityTemplateValue { get; set; }
     global String outputMode { get; set; }
 
-    global String emailTemplateName { get; set; }//Only to pass a validation
+    //Only to pass a validation
+    global String emailTemplateName { get; set; }
+    global Boolean hasPIRPDelegationRecords { get; set; }
+    global String dataParametersValue { get; set; }
+    global String emailTemplateBackground { get; set; }
+    global String emailTemplateTextBackground { get; set; }
+    global String emailTemplateHeaderBackground { get; set; }
+    global String emailTemplateHeader { get; set; }
+    global String emailTemplateTitle { get; set; }
+    global String emailTemplateBrandLogo { get; set; }
+    global String emailTemplateBottomLogo { get; set; }
+    global String emailTemplateBrandLogoCSS { get; set; }
 
     private EmailTemplateProvider templateProvider;
     public EmailTemplateProvider getProvider() {
