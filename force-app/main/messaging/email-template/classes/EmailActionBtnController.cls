@@ -51,7 +51,9 @@ global without sharing class EmailActionBtnController {
                     else {
                         participantId = task.WhatId;
                     }
-                } else contactId = [SELECT Id, ContactId FROM User WHERE Id = :task.OwnerId].ContactId;
+                } else {
+                    contactId = [SELECT Id, ContactId FROM User WHERE Id = :task.OwnerId].ContactId;
+                }
             }
             if (resourceIdString.getSobjectType() == SurveyInvitation.getSObjectType()) {
                 SurveyInvitation survey = [

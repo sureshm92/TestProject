@@ -4,24 +4,28 @@
 ({
     doInit: function (component, event, hepler) {
         if (!communityService.isInitialized()) return;
-        var spinner = component.find('mainSpinner');
-        spinner.show();
-        component.set('v.userMode', communityService.getUserMode());
-        var trialId = communityService.getUrlParameter('id');
-        component.set('v.trialId', trialId);
-        var siteId = communityService.getUrlParameter('siteId');
-        component.set('v.siteId', siteId);
-            component.set('v.isInitialized', true);
-        //     component.set('v.skipUpdate', false);
-            spinner.hide();
-        // });
-    },
-    doExport: function (component) {
-        var exportURL = communityService.getCommunityURLPathPrefix().replace('/s','/apex') + '/exportexcelpage';
 
-        var params = [];
+        if(!communityService.isDummy()) {
+            let spinner = component.find('mainSpinner');
+            spinner.show();
+            component.set('v.userMode', communityService.getUserMode());
+            let trialId = communityService.getUrlParameter('id');
+            component.set('v.trialId', trialId);
+            let siteId = communityService.getUrlParameter('siteId');
+            component.set('v.siteId', siteId);
+            component.set('v.isInitialized', true);
+            spinner.hide();
+        } else {
+            component.find('builderStub').setPageName(component.getName());
+        }
+    },
+
+    doExport: function (component) {
+        let exportURL = communityService.getCommunityURLPathPrefix().replace('/s', '/apex') + '/exportexcelpage';
+
+        let params = [];
         params.push('userMode=' + component.get('v.userMode'));
-        if(params.length > 0) exportURL += '?' + params.join('&');
+        if (params.length > 0) exportURL += '?' + params.join('&');
         console.log('Export URL: ' + exportURL);
         window.open(exportURL, '_blank');
     },
@@ -38,9 +42,8 @@
         }
     },
 
-    filterEmancipations: function(component, event, helper){
-    	var rootCmp = component.get('v.parent');
+    filterEmancipations: function (component, event, helper) {
+        let rootCmp = component.get('v.parent');
         rootCmp.filterEmancipationsOnly();
-    },
-
-})
+    }
+});
