@@ -17,7 +17,7 @@
                     access="global" required="false"/>
     <apex:attribute name="header" assignTo="{!headerValue}" type="String" description=""/>
     <apex:attribute name="title" assignTo="{!titleValue}" type="String" description=""/>
-    <apex:attribute name="greeting" assignTo="{!greetingValue}" type="String" description=""/>
+    <apex:attribute name="greeting" assignTo="{!userGreetingValue}" type="String" description=""/>
     <apex:attribute name="body" assignTo="{!bodyValue}" type="String" description=""/>
     <apex:attribute name="signature" assignTo="{!signatureValue}" type="String" description=""/>
     <apex:attribute name="preSignature" assignTo="{!preSignatureValue}" type="String" description=""/>

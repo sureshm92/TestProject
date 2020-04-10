@@ -5,7 +5,7 @@ global without sharing class EmailTemplateController {
 
     global String titleValue { get; set; }
     global String headerValue { get; set; }
-    global String greetingValue { get; set; }
+    global String userGreetingValue { get; set; }
     global String bodyValue { get; set; }
     global String preSignatureValue { get; set; }
     global String signatureValue { get; set; }
@@ -33,7 +33,7 @@ global without sharing class EmailTemplateController {
             Map<String, String> templateLabels = new Map<String, String>{
                     'title' => titleValue,
                     'header' => headerValue,
-                    'greeting' => greetingValue,
+                    'greeting' => userGreetingValue,
                     'body' => bodyValue,
                     'preSignature' => preSignatureValue,
                     'signature' => signatureValue,

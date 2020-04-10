@@ -198,9 +198,9 @@ public with sharing class Test_EmailTemplateController {
             }
             s = controller.signatureValue;
 
-            controller.greetingValue = 'greeting ## value';
+            controller.userGreetingValue = 'greeting ## value';
             try {
-                s = controller.greetingValue;
+                s = controller.userGreetingValue;
             } catch (Exception e) {
                 //
             }
