@@ -21,12 +21,12 @@
     <apex:attribute name="showDelegateSSTable" assignTo="{!showDelegateSSTableValue}" type="Boolean" default="false"
                     description="" access="global" required="false"/>
 
-    <apex:attribute name="header" assignTo="{!headerLabel}" type="String" description=""/>
-    <apex:attribute name="title" assignTo="{!titleLabel}" type="String" description=""/>
-    <apex:attribute name="greeting" assignTo="{!greetingLabel}" type="String" description=""/>
-    <apex:attribute name="body" assignTo="{!bodyLabel}" type="String" description=""/>
-    <apex:attribute name="signature" assignTo="{!signatureLabel}" type="String" description=""/>
-    <apex:attribute name="preSignature" assignTo="{!preSignatureLabel}" type="String" description=""/>
+    <apex:attribute name="header" assignTo="{!headerValue}" type="String" description=""/>
+    <apex:attribute name="title" assignTo="{!titleValue}" type="String" description=""/>
+    <apex:attribute name="greeting" assignTo="{!greetingValue}" type="String" description=""/>
+    <apex:attribute name="body" assignTo="{!bodyValue}" type="String" description=""/>
+    <apex:attribute name="signature" assignTo="{!signatureValue}" type="String" description=""/>
+    <apex:attribute name="preSignature" assignTo="{!preSignatureValue}" type="String" description=""/>
     <apex:attribute name="multiplePIMessage" assignTo="{!multiplePIMessageValue}" type="Boolean" default="false"
                     description="send message with all PI names to new RP"/>
     <apex:attribute name="communityTemplate" type="String" assignTo="{!communityTemplateValue}"

@@ -17,46 +17,46 @@ public with sharing class Test_EmailTemplateController {
             ParametersDataProvider provider = getDataProvider(controller);
             provider.isDelegate = true;
             provider.userMode = CommunityService.USER_MODE_PARTICIPANT;
-            String s = controller.bodyLabel;
+            String s = controller.bodyValue;
 
             controller = new EmailTemplateController();
             provider = getDataProvider(controller);
             provider.isDelegate = true;
             provider.userMode = CommunityService.USER_MODE_PI;
-            s = controller.bodyLabel;
+            s = controller.bodyValue;
 
             controller = new EmailTemplateController();
             provider = getDataProvider(controller);
             provider.isDelegate = false;
             provider.userMode = CommunityService.USER_MODE_PARTICIPANT;
             provider.parameters.put('ReferralSource', 'OTHER');
-            s = controller.bodyLabel;
+            s = controller.bodyValue;
 
             controller = new EmailTemplateController();
             provider = getDataProvider(controller);
             provider.isDelegate = false;
             provider.userMode = CommunityService.USER_MODE_PARTICIPANT;
             provider.parameters.put('ReferralSource', 'PI');
-            s = controller.bodyLabel;
+            s = controller.bodyValue;
 
             controller = new EmailTemplateController();
             provider = getDataProvider(controller);
             provider.isDelegate = false;
             provider.userMode = CommunityService.USER_MODE_PARTICIPANT;
             provider.parameters.put('ReferralSource', 'HCP');
-            s = controller.bodyLabel;
+            s = controller.bodyValue;
 
             controller = new EmailTemplateController();
             provider = getDataProvider(controller);
             provider.isDelegate = false;
             provider.userMode = CommunityService.USER_MODE_PI;
-            s = controller.bodyLabel;
+            s = controller.bodyValue;
 
             controller = new EmailTemplateController();
             provider = getDataProvider(controller);
             provider.isDelegate = false;
             provider.userMode = CommunityService.USER_MODE_HCP;
-            s = controller.bodyLabel;
+            s = controller.bodyValue;
         }
     }
 
@@ -168,48 +168,48 @@ public with sharing class Test_EmailTemplateController {
         TestData testDataInstance = new TestData();
         EmailTemplateController controller = new EmailTemplateController();
         System.runAs(testDataInstance.participantUser) {
-            String s = controller.bodyLabel;
+            String s = controller.bodyValue;
             controller = new EmailTemplateController();
-            controller.bodyLabel = 'body ## value';
+            controller.bodyValue = 'body ## value';
             try {
-                s = controller.bodyLabel;
+                s = controller.bodyValue;
             } catch (Exception e) {
                 //
             }
 
-            s = controller.titleLabel;
+            s = controller.titleValue;
 
-            controller.headerLabel = 'header ## value';
+            controller.headerValue = 'header ## value';
             try {
-                s = controller.headerLabel;
+                s = controller.headerValue;
             } catch (Exception e) {
                 //
             }
 
-            controller.headerLabel = 'header value';
-            s = controller.headerLabel;
+            controller.headerValue = 'header value';
+            s = controller.headerValue;
 
-            s = controller.preSignatureLabel;
-            controller.preSignatureLabel = 'string\n new line';
+            s = controller.preSignatureValue;
+            controller.preSignatureValue = 'string\n new line';
             try {
-                s = controller.preSignatureLabel;
+                s = controller.preSignatureValue;
             } catch (Exception e) {
                 //
             }
-            s = controller.signatureLabel;
+            s = controller.signatureValue;
 
-            controller.greetingLabel = 'greeting ## value';
+            controller.greetingValue = 'greeting ## value';
             try {
-                s = controller.greetingLabel;
+                s = controller.greetingValue;
             } catch (Exception e) {
                 //
             }
 
-            controller.buttonLabel = 'button ## value';
-            s = controller.buttonLabel;
+            controller.buttonLabelValue = 'button ## value';
+            s = controller.buttonLabelValue;
 
-            controller.buttonUrl = 'button URL ## value';
-            s = controller.buttonUrl;
+            controller.buttonUrlValue = 'button URL ## value';
+            s = controller.buttonUrlValue;
 
             controller.getResultUserMode();
             controller.getIsDelegate();

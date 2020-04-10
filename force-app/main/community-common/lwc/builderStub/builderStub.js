@@ -16,11 +16,11 @@ export default class BuilderStub extends LightningElement {
         this.buildMode = true;
     }
 
+    //For LWC components
     @api
     isDummy(callback) {
         isDummyMode()
             .then(data => {
-                this.buildMode = data;
                 callback(data);
             })
             .catch(error => {

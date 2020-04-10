@@ -3,14 +3,14 @@
  */
 global without sharing class EmailTemplateController {
 
-    global String titleLabel { get; set; }
-    global String headerLabel { get; set; }
-    global String greetingLabel { get; set; }
-    global String bodyLabel { get; set; }
-    global String preSignatureLabel { get; set; }
-    global String signatureLabel { get; set; }
-    global String buttonLabel { get; set; }
-    global String buttonUrl { get; set; }
+    global String titleValue { get; set; }
+    global String headerValue { get; set; }
+    global String greetingValue { get; set; }
+    global String bodyValue { get; set; }
+    global String preSignatureValue { get; set; }
+    global String signatureValue { get; set; }
+    global String buttonLabelValue { get; set; }
+    global String buttonUrlValue { get; set; }
 
     global Id sourceRecordId { get; set; }
     global String userCommunityType { get; set; }
@@ -29,14 +29,14 @@ global without sharing class EmailTemplateController {
     public EmailTemplateProvider getProvider() {
         if (templateProvider == null) {
             Map<String, String> templateLabels = new Map<String, String>{
-                    'title' => titleLabel,
-                    'header' => headerLabel,
-                    'greeting' => greetingLabel,
-                    'body' => bodyLabel,
-                    'preSignature' => preSignatureLabel,
-                    'signature' => signatureLabel,
-                    'button' => buttonLabel,
-                    'buttonUrl' => buttonUrl
+                    'title' => titleValue,
+                    'header' => headerValue,
+                    'greeting' => greetingValue,
+                    'body' => bodyValue,
+                    'preSignature' => preSignatureValue,
+                    'signature' => signatureValue,
+                    'button' => buttonLabelValue,
+                    'buttonUrl' => buttonUrlValue
             };
             templateProvider = new EmailTemplateProvider(EmailTemplateInitialFactory.getTemplateInitial(
                     templateLabels, sourceRecordId, emailRecipientId, emailRecipientName,
