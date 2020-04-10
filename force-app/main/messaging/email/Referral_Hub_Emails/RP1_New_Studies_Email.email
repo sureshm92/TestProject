@@ -10,8 +10,7 @@
                          title="{!$Label.Email_Title}"
                          greeting="{!$Label.Email_User_Greeting}"
                          body="{!$Label.Email_Body_RP111}"
-                         signature="{!$Label.Email_Signature_RH}"
-                         emailName="{!$CurrentPage.Name}">
+                         signature="{!$Label.Email_Signature_RH}">
             <c:EmailActionBtn buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
         </c:EmailTemplate>
     </messaging:htmlEmailBody>
@@ -23,8 +22,7 @@
                              title="{!$Label.Email_Title}"
                              greeting="{!$Label.Email_User_Greeting}"
                              body="{!$Label.Email_Body_RP111}"
-                             signature="{!$Label.Email_Signature_RH}"
-                             emailName="{!$CurrentPage.Name}">
+                             signature="{!$Label.Email_Signature_RH}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Eamil_Action_View_My_Studies}"/>
         </c:EmailTemplateText>
     </messaging:plainTextEmailBody> 

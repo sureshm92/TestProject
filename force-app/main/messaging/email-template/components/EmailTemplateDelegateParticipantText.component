@@ -5,7 +5,8 @@
 <apex:component id="EmailTemplateDelegateParticipantText" controller="EmailTemplateDelegatePartController">
     <!-- attributes: -->
     <apex:attribute name="userId" type="Id" assignTo="{!delegateUserId}" description=""/>
-    <apex:attribute name="params" type="String" assignTo="{!dataParams}" description=""/>
+    <apex:attribute name="commTemplate" type="String" assignTo="{!commTemplateStr}" description=""/>
+    <apex:attribute name="afterText" type="String" description=""/>
     <!-- component body -->
     --------------------------------------------------------------------------
     <apex:repeat value="{!delegateStudyNames}" var="studyName">

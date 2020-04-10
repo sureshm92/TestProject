@@ -5,7 +5,6 @@
 global without sharing class EmailTemplateDelegatePartController {
 
     global String delegateUserId { get; set; }
-    global String dataParams { get; set; }
     global String commTemplateStr { get; set; }
 
     public List<String> getDelegateStudyNames() {
@@ -29,11 +28,6 @@ global without sharing class EmailTemplateDelegatePartController {
         for (Participant_Enrollment__c pe : delegatePE) delegateStudyNames.add(pe.Clinical_Trial_Profile__r.Study_Code_Name__c);
 
         return delegateStudyNames;
-    }
-
-    global String getAfterText() {
-        Map<String, String> paramsMap = (Map<String, String>) JSON.deserialize(dataParams, Map<String, String>.class);
-        return TranslateHelper.replaceParams(Label.Email_Body_Initial_Patient_Delegate_AfterText, EmailTemplateController.PARAM_PREFIX, paramsMap);
     }
 }
 

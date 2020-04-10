@@ -6,7 +6,11 @@
         if(!communityService.isInitialized()) return;
 
         component.set('v.userMode', communityService.getUserMode());
-        component.set('v.initialized', true);
+        if(!communityService.isDummy()) {
+            component.set('v.initialized', true);
+        } else {
+            component.find('builderStub').setPageName(component.getName());
+        }
         component.find('spinner').hide();
     }
-})
+});
