@@ -7,7 +7,7 @@ public with sharing class Test_EmailActionBtnController {
     
     @IsTest
     public static void runTest() {
-        EmailActionButtonController emailActionBtnController = new EmailActionButtonController();
+        EmailActionBtnController emailActionBtnController = new EmailActionBtnController();
         emailActionBtnController.getResultURL();
     }
 

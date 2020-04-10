@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<apex:component id="EmailActionBtnText" access="global" controller="EmailActionButtonController">
+<apex:component id="EmailActionBtnText" access="global" controller="EmailActionBtnController">
     <apex:attribute name="buttonLabel" type="String" description="" access="global"/>
     <apex:attribute name="buttonURL" type="String" description="" access="global" assignTo="{!buttonURLString}"/>
     <apex:attribute name="caseId" type="String" description="" access="global" assignTo="{!caseIdString}"/>
