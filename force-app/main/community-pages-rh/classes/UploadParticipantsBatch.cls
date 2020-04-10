@@ -107,7 +107,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             Map<Id, Id> createUsersMap = new Map<Id, Id>();
             Set<Id> insertedContacts = new Set<Id>();
             Set<Id> dupclicateContactIds = new Set<Id>();
-            Set<Id> dupclicateParticipantstIds = new Set<Id>();
             Map<Id,Id> duplicateContactUsersMap = new Map<Id,Id>();
             Set<Id> insertUsersWithDefaultSettings = new Set<Id>();
 
@@ -115,6 +114,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 if (csvRecordData == null || csvRecordData.isEmpty()) {
                     continue;
                 }
+
+                Set<Id> dupclicateParticipantstIds = new Set<Id>();
 
                 Boolean hasErrors = false;
 
@@ -332,15 +333,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             System.debug('contactParticipantMap>>>>>>>>'+contactParticipantMap);
                             System.debug('dupclicateContactIds>>>>>>>>'+dupclicateContactIds);
                             for (Id cId : dupclicateContactIds) {
-                                if (!duplicateParticipantEnrollments.contains(cId)) {
-                                    participantEnrollmentsByContact.put(cId, new Participant_Enrollment__c(Participant_Status__c = selectedStatus,
-                                            Study_Site__c = studySiteDetails.Id,
-                                            Referred_Date__c = System.today(),
-                                            Participant_Contact__c = cId != null ? cId : null,
-                                            Referral_Completed_by__c = uploaderContactId,
-                                            Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI,
-                                            PI_Contact__c = studySiteDetails.Principal_Investigator__c,
-                                            Participant__c = contactParticipantMap.get(cId) != null ? contactParticipantMap.get(cId).Id : null));
+                                if (!duplicateParticipantEnrollments.contains(cId) && contactParticipantMap.get(cId) != null) {
+                                    participantContact.Id = cId;
+                                    participant.Id = contactParticipantMap.get(cId).Id;
                                 } else {
                                     errorRecordCount++;
                                     system.debug('ERROR: ' + totalRecordCount + ', ' + 'Duplicate Participant record');
@@ -365,16 +360,18 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                         PI_Contact__c = studySiteDetails.Principal_Investigator__c);
 
                         contactsById.put(participantContact.Id, participantContact);
-                        //actionAssignContactPermissions.addPermission(participantContact.Id, permissionSetName);
 
                         try {
-                            Database.SaveResult saveRes = Database.insert(participant, false);
-                            if (!saveRes.isSuccess()) {
-                                Database.Error error = saveRes.getErrors().get(0);
-                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
-                                system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
-                            } else {
-                                insertedContacts.add(saveRes.getId());
+                            if (participant.Id == null) {
+                                Database.SaveResult saveRes = Database.insert(participant, false);
+                                if (!saveRes.isSuccess()) {
+                                    Database.Error error = saveRes.getErrors().get(0);
+                                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
+                                    system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
+                                } else {
+                                    insertedContacts.add(saveRes.getId());
+                                    participantsByContact.put(participantContact.Id, participant);
+                                }
                             }
                         } catch (Exception exp) {
                             listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant record insert: ' + exp.getMessage());
@@ -385,6 +382,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             participantEnrollment.Participant__c = participant.Id;
 
                             Database.SaveResult saveRes = Database.insert(participantEnrollment, false);
+                            participantEnrollmentsByContact.put(participantEnrollment.Participant_Contact__c, participantEnrollment);
                             if (!saveRes.isSuccess()) {
                                 Database.Error error = saveRes.getErrors().get(0);
                                 listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
@@ -440,8 +438,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                 }
 
-                if (errorRecordCount != listOfFailedRecords.size()) {
-                    errorRecordCount = listOfFailedRecords.size();
+                if (listOfFailedRecords.size() > 1 && errorRecordCount != (listOfFailedRecords.size() - 1)) {
+                    errorRecordCount = listOfFailedRecords.size() - 1;
                 }
             }
 
