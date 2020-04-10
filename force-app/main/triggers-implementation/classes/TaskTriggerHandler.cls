@@ -84,7 +84,17 @@ public without sharing class TaskTriggerHandler {
         List<Notification__c> notifications = new List<Notification__c>();
 
         Set<Id> ownerIds = new Set<Id>();
-        for (Task t : [SELECT OwnerId FROM Task WHERE Id IN:tasks]) ownerIds.add(t.OwnerId);
+        List<Task> tasksWithOwner = [
+                SELECT
+                        OwnerId,
+                        Task_Code__c,
+                        Task_Type__c,
+                        Survey_Invitation__c,
+                        Visible_For__c,
+                        WhatId
+                FROM Task
+                WHERE Id IN:tasks AND Owner_Contact__c = NULL];
+        for (Task t : tasksWithOwner) ownerIds.add(t.OwnerId);
         Map<Id, User> usersByIds = new Map<Id, User>([
                 SELECT
                         Id,
@@ -115,7 +125,7 @@ public without sharing class TaskTriggerHandler {
             delegatesCntByPartCnt.get(pd.Participant__r.Contact__c).add(pd.Contact__c);
         }
 
-        for (Task task : tasks) {
+        for (Task task : tasksWithOwner) {
             if (task.Task_Code__c != null) {
                 Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
                 if (card != null && card.Immediate_Email_Template__c != null) {
@@ -123,29 +133,30 @@ public without sharing class TaskTriggerHandler {
                     if (whatId == null && task.Task_Type__c == TaskService.TASK_TYPE_SURVEY) {
                         whatId = task.Survey_Invitation__c;
                     }
-                    if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)
-                            && card.Immediate_Email_Template__c != null) {
-                        notifications.add(new Notification__c(
-                                Recipient__c = usersByIds.get(task.OwnerId).ContactId,
-                                WhatId__c = task.Survey_Invitation__c,
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_COMPLETE_BL_SURVEY_TYPE
-                        ));
-                    }
-                    if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)
-                            && card.Immediate_Email_Template__c != null) {
-                        if (!delegatesCntByPartCnt.containsKey(usersByIds.get(task.OwnerId).ContactId)) continue;
-                        for (Id delContactId : delegatesCntByPartCnt.get(usersByIds.get(task.OwnerId).ContactId)) {
+                    if(card.Immediate_Notification_Type__c != null) {
+                        if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)) {
                             notifications.add(new Notification__c(
-                                    Recipient__c = delContactId,
-                                    WhatId__c = task.Survey_Invitation__c,
-                                    Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_COMPLETE_BL_SURVEY_TYPE
+                                    Recipient__c = usersByIds.get(task.OwnerId).ContactId,
+                                    WhatId__c = whatId,
+                                    Notification_Type__c = card.Immediate_Notification_Type__c
                             ));
+                        }
+                        if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
+                            if (!delegatesCntByPartCnt.containsKey(usersByIds.get(task.OwnerId).ContactId)) continue;
+
+                            for (Id delContactId : delegatesCntByPartCnt.get(usersByIds.get(task.OwnerId).ContactId)) {
+                                notifications.add(new Notification__c(
+                                        Recipient__c = delContactId,
+                                        WhatId__c = whatId,
+                                        Notification_Type__c = card.Immediate_Notification_Type__c
+                                ));
+                            }
                         }
                     }
                 }
             }
         }
-        if (notifications.size() > 0) insert notifications;
+        if(!notifications.isEmpty()) insert notifications;
     }
 
     public static void processDefaultFieldValues(List<Task> tasks) {
@@ -226,7 +237,8 @@ public without sharing class TaskTriggerHandler {
                         Source_Object_Type__c,
                         Action_Link__c,
                         Parameters__c,
-                        Immediate_Email_Template__c
+                        Immediate_Email_Template__c,
+                        Immediate_Notification_Type__c
                 FROM Task_Catalog__mdt
                 WHERE DeveloperName IN:catalogCodes
         ];

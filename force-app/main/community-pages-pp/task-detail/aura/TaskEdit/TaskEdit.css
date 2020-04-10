@@ -68,6 +68,11 @@
     font-size: 18px;
 }
 
+.THIS .te-col-header-info {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
 .THIS .slds-form-element__label{
     padding-bottom: 5px;
     font-size: 14px;

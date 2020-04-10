@@ -4,6 +4,8 @@
 
 ({
     doInit: function(component, event, helper){
+        let funnelContainer = component.find('funnelContainer').getElement();
+        funnelContainer.innerHTML = '';
         var funnelData = component.get('v.funnelData');
         if($A.util.isEmpty(funnelData)) {
             component.set('v.invitedParticipants', 0);

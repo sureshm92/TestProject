@@ -1,6 +1,5 @@
 const profileFolders = ['../force-app/main/default/profiles'];
 const labelFolders = ['../force-app/main/default/labels'];
-const translationFolder = '../force-app/main/default/translations';
 const objectsFolder = '../force-app/main/default/objects/Contact/recordTypes/MASTER.recordType-meta.xml';
 const communityFile1 = '../force-app/main/default/siteDotComSites/IQVIA_Referral_Hub_C.site';
 const communityFile2 = '../force-app/main/default/siteDotComSites/IQVIA_Referral_Hub_C.site-meta.xml';
@@ -44,34 +43,6 @@ fs.exists(communityFile2, function (exists) {
     } else {
         console.log(communityFile2, 'File not found, so not deleting.');
     }
-});
-
-fileReader.readFiles(translationFolder, (content, filename) => {
-    let todesTodelete = [];
-    content = content.replace('xmlns="http://soap.sforce.com/2006/04/metadata"', 'attrStub="stub"');
-    var doc = new dom().parseFromString(content);
-    let node1 = xpath.select("//Translations//customApplications", doc);
-    let node2 = xpath.select("//Translations//customTabs", doc);
-    let node3 = xpath.select("//Translations//quickActions", doc);
-    let node4 = xpath.select("//Translations//flowDefinitions", doc);
-    todesTodelete.push(node1);
-    todesTodelete.push(node2);
-    todesTodelete.push(node3);
-    todesTodelete.push(node4);
-    todesTodelete.forEach(item => {
-        if (item && item.length > 0) {
-            item.forEach(i => {
-                i.normalize();
-                doc.documentElement.removeChild(i);
-            });
-        }
-    });
-    let xml = doc.toString();
-    xml = xml.replace('attrStub="stub"', 'xmlns="http://soap.sforce.com/2006/04/metadata"');
-    fs.writeFile(translationFolder + '/' + filename, xml, function (err, data) {
-        if (err) console.log(err);
-        console.log(filename, "successfully updated");
-    });
 });
 
 profileFolders.forEach(profileFolder => {

@@ -13,13 +13,13 @@
             createUsers: createUsers
         }, function (returnValue) {
             component.find('upModalSpinner').hide();
-            communityService.showSuccessToast('',  "Participant record import is processing. You will be notified via email when the process has complete");
+            communityService.showSuccessToast('',  $A.get("$Label.c.PG_EMN_MSG_Participant_record_import_is_processing"));
             helper.clearFields(component, undefined, helper);
 
             component.find('uploadParticipantsDialog').hide();
         }, function (returnValue) {
             component.find('upModalSpinner').hide();
-            communityService.showErrorToast('',  "Participant record import failed. Please use template for Participant uploading.");
+            communityService.showErrorToast('',  $A.get("$Label.c.PG_EMN_MSG_Participant_record_import_failed"));
         });
     },
 

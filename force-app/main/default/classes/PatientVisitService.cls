@@ -80,7 +80,11 @@ public inherited sharing class PatientVisitService {
         Set<Id> uniqueId = new Set<Id>();
         for (Patient_Visit__c singleVisit : visits) {
             if (singleVisit.Completed_Date__c != null) {
-                singleVisit.Completed_Date__c = DateTimeConverterUtil.getUserDatetime(timeZone, singleVisit.Completed_Date__c).date();
+                singleVisit.Completed_Date__c = DateTimeConverterUtil.getUserDT(
+                        singleVisit.Completed_Date__c,
+                        Time.newInstance(0, 0, 0, 0),
+                        timeZone
+                ).date();
             }
 
             if (uniqueId.add(singleVisit.Id)) {
@@ -145,8 +149,16 @@ public inherited sharing class PatientVisitService {
             }
 
             this.task = task;
-            this.reminderDate = DateTimeConverterUtil.getUserDatetime(TimeZone.getTimeZone(CURRENT_USER.TimeZoneSidKey), this.task.ReminderDateTime).date();
-            completedOrPlannedDate = visit.Completed_Date__c != null ? String.valueOf(visit.Completed_Date__c) : (visit.Planned_Date__c != null ? String.valueOf(visit.Planned_Date__c) : Label.Study_Visit_Unavailable);
+            if (task != null && task.ReminderDateTime != null) {
+                this.reminderDate = DateTimeConverterUtil.getUserDT(
+                        this.task.ReminderDateTime.date(),
+                        this.task.ReminderDateTime.time(),
+                        TimeZone.getTimeZone(CURRENT_USER.TimeZoneSidKey)
+                ).date();
+            }
+            completedOrPlannedDate = visit.Completed_Date__c != null ?
+                    String.valueOf(visit.Completed_Date__c)
+                    : (visit.Planned_Date__c != null ? String.valueOf(visit.Planned_Date__c) : Label.Study_Visit_Unavailable);
         }
     }
 }

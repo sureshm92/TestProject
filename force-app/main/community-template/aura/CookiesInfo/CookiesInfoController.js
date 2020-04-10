@@ -16,11 +16,13 @@
             infoText = infoText.replace('##interactiveAdvertisingBureauURL', '<a class="ci-link" href="' + urlIAB +'">' + linkIAB + '</a>');
             component.set('v.resultInfoText', infoText);
             component.set('v.visible', true);
-        }
+       }
     },
 
     doCloseCookiesInfo: function (component) {
         communityService.setCookie('RRCookies', 'agreed');
+        var appEvent = $A.get("e.c:TCCookieClassesRemove");
+        appEvent.fire();
         component.set('v.visible', false);
     }
 

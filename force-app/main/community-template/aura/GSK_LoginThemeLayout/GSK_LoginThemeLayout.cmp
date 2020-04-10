@@ -19,7 +19,7 @@
             <div class="body-cell">
                 <div class="body-content">
                     <div class="login-form-panel">
-                        <div class="brand-header">GatherSHAREKnow</div>
+                        <div class="brand-header"><aura:unescapedHtml value="{!$Label.c.Community_GSK_Short}"/></div>
                         <div class="brand-sub-header">{!v.translatedSubTitle}</div>
                         <aura:if isTrue="{!!empty(v.translatedSubTitle2)}">
                             <br/>

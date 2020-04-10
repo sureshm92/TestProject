@@ -44,6 +44,10 @@ public without sharing class Batch_UserCreatedDateNotification extends Batch_Sch
         return Batch_UserCreatedDateNotification.class;
     }
 
+    public override String getBatchDescription() {
+        return 'This job sends annual Emails to participants to remind them to update their profiles';
+    }
+
     public override String getRecommendedIntervalMode() {
         return Batch_ScheduledAbstract.INTERVAL_DAYS;
     }

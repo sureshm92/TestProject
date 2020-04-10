@@ -4,6 +4,6 @@
     <protected>false</protected>
     <values>
         <field>Message_Variant__c</field>
-        <value xsi:type="xsd:string">Can I change my study center location?</value>
+        <value xsi:type="xsd:string">Mess_Variant_Can_relocate</value>
     </values>
 </CustomMetadata>

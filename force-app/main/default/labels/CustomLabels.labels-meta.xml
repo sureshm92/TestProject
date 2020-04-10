@@ -1437,7 +1437,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Community GSK</shortDescription>
-        <value>GatherSHAREKnow Participant Hub</value>
+        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know Participant Hub</value>
+    </labels>
+    <labels>
+        <fullName>Community_GSK_Short</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Community GSK Short</shortDescription>
+        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know</value>
     </labels>
     <labels>
         <fullName>Community_IQVIA_PP</fullName>
@@ -1487,7 +1494,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Cookies Info Text First Logon</shortDescription>
-        <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By closing this cookie message, you are agreeing to our use of cookies.</value>
+        <value>This site uses cookies for the essential functioning of the site, to improve user experience, and for analytical purposes. By using this site you are consenting to our use of cookies.</value>
     </labels>
     <labels>
         <fullName>Create</fullName>
@@ -2123,8 +2130,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body Initial PI</shortDescription>
-        <value>Please take a moment to enroll and activate your Referral Hub account.
-            You will then be able to manage patient referrals to the study from any IQVIA source.</value>
+        <value>Please take a moment to enroll in the IQVIA Referral Hub. This will allow you to use Referral Hub&#39;s participant contact and status tracking capabilities. For studies with Patient Portal capabilities available, this will also allow your patients to track their status throughout their participation with the study, without calling your office for updates.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_PI_HCP</fullName>
@@ -2217,7 +2223,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Medication Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming medication dosage for the clinical research study: ##StudyName.  If you have any questions regarding this medication, please contact the Study Team. Please login for additional details.</value>
+        <value>This is a quick email to remind you of ##PatientFirstName&#39;s upcoming medication dosage for the clinical research study: ##StudyName.  If you have any questions regarding this medication, please contact the Study Team. Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Once_at_Trial_Completion_DGT</fullName>
@@ -2256,7 +2262,7 @@
         <shortDescription>Email Body PI1</shortDescription>
         <value>A new clinical research study has been added to your account on the IQVIA Referral Hub:  ##StudyTitle
 
-            Please take a moment to log in to the IQVIA Referral Hub, go to &quot;My Studies&quot; and review and accept this study. You will then be able to  manage patient referrals to the study from any IQVIA source.</value>
+            Please take a moment to log into the IQVIA Referral Hub to review and accept the study.</value>
     </labels>
     <labels>
         <fullName>Email_Body_PI2</fullName>
@@ -2746,7 +2752,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
-        <value>This is an email to remind you of ##ParticipantFirstName&#39;s task: ##TaskName.
+        <value>This is an email to remind you of ##PatientFirstName&#39;s task: ##TaskName.
 
             Please login to update the status of this task.</value>
     </labels>
@@ -2791,7 +2797,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the clinical research study: ##StudyName. If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
+        <value>This is a quick email to remind you of ##PatientFirstName&#39;s upcoming visit for the clinical research study: ##StudyName. If ##PatientFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Welcome_to_Study_Delegate</fullName>
@@ -3546,7 +3552,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Subject Initial</shortDescription>
-        <value>Please enroll in the GatherSHAREKnow Participant Hub</value>
+        <value>Please enroll in the Gather Share Know Participant Hub</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Initial_Patient</fullName>
@@ -3896,7 +3902,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email User Greeting</shortDescription>
-        <value>Dear ##RecipientName</value>
+        <value>Dear ##RecipientName,</value>
     </labels>
     <labels>
         <fullName>Email_User_Greeting_FirstName</fullName>
@@ -4207,7 +4213,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>GSK Text Logo</shortDescription>
-        <value>GatherSHAREKnow</value>
+        <value>Gather &lt;i&gt;Share&lt;/i&gt; Know</value>
     </labels>
     <labels>
         <fullName>Gender_Female</fullName>
@@ -4242,7 +4248,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HT 01 B</shortDescription>
-        <value>Are you locked out?  If so, please wait for 15 minutes before trying to log back in again.  If you have already waited 15 minutes and cannot login, please use the &quot;Forgot Password&quot; to have your password reset.  If you are not receiving your password reset email, please log a ticket and make sure to provide your name, email, and phone number.</value>
+        <value>Are you locked out? If so, please wait for 15 minutes before trying to log back in again. If you have already waited 15 minutes and cannot login, please click on “Forgot Password” to have your password reset. If you have not received your password reset email within two hours, please email support@mail.clinicalresearch.com and make sure to provide your name, the email address you used for registration, and your phone number so that we can verify that you are a valid user and can call you if necessary to assist you.</value>
     </labels>
     <labels>
         <fullName>HT_01_H</fullName>
@@ -4277,7 +4283,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HT 03 B PI RP</shortDescription>
-        <value>Please go to My Team -&gt; Add New Team Member -&gt; Enter information -&gt; Assign &quot;Permissions by Level&quot;.  If you want a study coordinator to handle referrals on your behalf, we recommend delegate level 1.</value>
+        <value>Please go to My Team -> Add New Team Member -> Enter information -> Assign "Permissions by Level." If you want a study team member to handle referrals on your behalf, we recommend that you assign level 1 permissions to that team member.</value>
     </labels>
     <labels>
         <fullName>HT_03_B_Patient</fullName>
@@ -4340,7 +4346,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 06 B PI</shortDescription>
-        <value>From the &quot;My Studies&quot; page, select the &quot;Manage Referrals&quot; button and see a listing of referrals for that study.  You can use filters to narrow down the search results by study site locations, referral source, referral status.  You can also click the study title to see details about the study being conducted.  Click &quot;Find Sites For This Study&quot; to see a listing of sites -&gt; click &quot;Request to refer&quot; to notify a study site of your interest in referring.</value>
+        <value>From the main navigational menu select “My Participants” to see a listing of participants and potential participants you have added or who have been referred to you. You can filter the list by participants who are active or inactive for the study, study name, study site locations, referral source, and referral status. You may also access the My Participants page from a specific study card on the “My Studies” page by clicking the “Manage Participants” button.</value>
     </labels>
     <labels>
         <fullName>HT_06_B_Participant</fullName>
@@ -4382,7 +4388,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 07 B PI</shortDescription>
-        <value>The IQVIA™ Referral Hub is a personalized platform that allows a principal investigator to manage patients participation in a clinical research study.</value>
+        <value>The IQVIA™ Referral Hub is a platform that allows a principal investigator and study team members to manage patients’ participation in clinical research studies.</value>
     </labels>
     <labels>
         <fullName>HT_07_B_Participant</fullName>
@@ -4438,7 +4444,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 08 H Participant</shortDescription>
-        <value>Why am I missing some of my vital and lab data?</value>
+        <value>Why can’t I see all of my vitals measurements and lab data in results?</value>
     </labels>
     <labels>
         <fullName>HT_08_H_RP</fullName>
@@ -4550,7 +4556,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 12 H Participant</shortDescription>
-        <value>What is clinical research and what is a clinical trial?</value>
+        <value>What is clinical research and what is a clinical study?</value>
     </labels>
     <labels>
         <fullName>HT_12_H_RP</fullName>
@@ -4612,7 +4618,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 14 H Participant</shortDescription>
-        <value>How long does a clinical trial last?</value>
+        <value>How long does a clinical study last?</value>
     </labels>
     <labels>
         <fullName>HT_14_H_RP</fullName>
@@ -4670,7 +4676,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 16 H Participant</shortDescription>
-        <value>Are there clinical trials for children?</value>
+        <value>Are there clinical studies for children?</value>
     </labels>
     <labels>
         <fullName>HT_16_H_RP</fullName>
@@ -4698,7 +4704,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 17 H Participant</shortDescription>
-        <value>Will I get paid to participate in a clinical trial?</value>
+        <value>Will I get paid to participate in a clinical study?</value>
     </labels>
     <labels>
         <fullName>HT_17_H_RP</fullName>
@@ -4721,7 +4727,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>HT 18 H Participant</shortDescription>
-        <value>Will it cost me money to take part in a clinical trial?</value>
+        <value>Will it cost me money to take part in a clinical study?</value>
+    </labels>
+    <labels>
+        <fullName>HT_19_B_Participant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>HT 19 B Participant</shortDescription>
+        <value>How do I update my contact information?</value>
     </labels>
     <labels>
         <fullName>Haematocrit</fullName>
@@ -5495,6 +5508,76 @@
         <value>Medical Record Review</value>
     </labels>
     <labels>
+        <fullName>Mess_Variant_Can_relocate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Can relocate</shortDescription>
+        <value>Can I change my study center location?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Maybe_Pregnant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Maybe Pregnant</shortDescription>
+        <value>I am or might be pregnant, who do I contact?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Mess_Variant</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Mess Variant</shortDescription>
+        <value>I need to schedule, cancel or reschedule a visit</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Need_Fast</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Need Fast</shortDescription>
+        <value>Do I need to fast for my next visit?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Next_Tests_Assessment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Next Tests Assessment</shortDescription>
+        <value>What tests/assessments will take place at my next visit?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Next_Vis_DT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Next Vis DT</shortDescription>
+        <value>What is the date and time of my next visit?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Next_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Next Visit</shortDescription>
+        <value>Where is my next visit?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Side_Effects</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Side Effects</shortDescription>
+        <value>I’m experiencing some side effects, who do I contact?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Visit_Prepare</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Visit Prepare</shortDescription>
+        <value>What do I need to do to prepare for my upcoming visit?</value>
+    </labels>
+    <labels>
+        <fullName>Mess_Variant_Visits_left</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Mess Variant Visits left</shortDescription>
+        <value>How many visits do I have left?</value>
+    </labels>
+    <labels>
         <fullName>Message_For_Delegates</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -5695,7 +5778,14 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>No Payment Information Available</shortDescription>
-        <value>Sorry, your card has not been activated in the system. Please contact  the payment provider directly</value>
+        <value>Check back periodically to view payment information</value>
+    </labels>
+    <labels>
+        <fullName>No_Relevant_Links_to_display</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No Relevant Links to display</shortDescription>
+        <value>Check back periodically for helpful links</value>
     </labels>
     <labels>
         <fullName>No_permission_Visits_tab</fullName>
@@ -7239,7 +7329,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS H Email Preferences</shortDescription>
-        <value>Email Preferences</value>
+        <value>Contact Preferences</value>
     </labels>
     <labels>
         <fullName>PG_AS_H_Privacy_Rights</fullName>
@@ -7288,14 +7378,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS L Opt In Participant Status Emails</shortDescription>
-        <value>updates about your referral status</value>
+        <value>Receive email notifications</value>
     </labels>
     <labels>
         <fullName>PG_AS_L_Opt_In_Participant_Status_SMS</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS L Opt In Participant Status SMS</shortDescription>
-        <value>I want to receive SMS on my phone number</value>
+        <value>Receive SMS notifications</value>
     </labels>
     <labels>
         <fullName>PG_AS_L_Opt_In_Visit_Results</fullName>
@@ -7309,8 +7399,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS L Select conditions</shortDescription>
-        <value>Select up to 5 medical conditions that you would be interested in for participating
-            in a clinical trial. To see specific information relevant to your diagnosis, please select relevant conditions of interest.</value>
+        <value>Select up to 5 medical conditions related to your diagnosis, to help us prioritize the content we display to you.</value>
     </labels>
     <labels>
         <fullName>PG_AS_T1_Contact_Info</fullName>
@@ -7359,7 +7448,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG AS T Participant Email Preferences</shortDescription>
-        <value>Emails that notify you of required action, allow you to reset your password, or inform you of important system updates will always be sent.  Additionally, you can choose to receive any of the following types of emails:</value>
+        <value>Emails that notify you of required action, allow you to reset your password, or inform you of important system updates will always be sent.  Additionally, you can choose to receive optional communications by turning on the following:</value>
     </labels>
     <labels>
         <fullName>PG_AS_T_Please_Review_Contact_information</fullName>
@@ -7759,6 +7848,20 @@
         <protected>false</protected>
         <shortDescription>PG_DrivingDirection</shortDescription>
         <value>Driving directions</value>
+    </labels>
+    <labels>
+        <fullName>PG_EMN_MSG_Participant_record_import_failed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG EMN MSG Participant record import failed</shortDescription>
+        <value>Participant record import failed. Please use template for Participant uploading.</value>
+    </labels>
+    <labels>
+        <fullName>PG_EMN_MSG_Participant_record_import_is_processing</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG EMN MSG Participant record import is processing</shortDescription>
+        <value>Participant record import is processing. You will be notified via email when the process has complete.</value>
     </labels>
     <labels>
         <fullName>PG_EMN_MSG_Update_Contact_Info</fullName>
@@ -10520,14 +10623,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SW H Full Exclusion Criteria</shortDescription>
-        <value>FULL EXCLUSION CRITERIA</value>
+        <value>EXCLUSION CRITERIA</value>
     </labels>
     <labels>
         <fullName>PG_SW_H_Full_Inclusion_Criteria</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG SW H Full Inclusion Criteria</shortDescription>
-        <value>FULL INCLUSION CRITERIA</value>
+        <value>INCLUSION CRITERIA</value>
     </labels>
     <labels>
         <fullName>PG_SW_H_Objective</fullName>
@@ -10890,7 +10993,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP IRB LangList</shortDescription>
-        <value>##StudyCodeName is only available in the following language(s): ##LangList. If you would like to change your language settings,</value>
+        <value>##StudyCodeName is only available in the following language(s): ##LangList. If you would like to change your language settings.</value>
     </labels>
     <labels>
         <fullName>PP_IRB_Popup_NotAva_Text</fullName>
@@ -12711,6 +12814,13 @@
         <value>Variable</value>
     </labels>
     <labels>
+        <fullName>Study_Site_phone_number</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Site phone number</shortDescription>
+        <value>Study Site phone</value>
+    </labels>
+    <labels>
         <fullName>Study_Team</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -12723,6 +12833,14 @@
         <protected>false</protected>
         <shortDescription>Study Visit Unavailable</shortDescription>
         <value>Unavailable</value>
+    </labels>
+    <labels>
+        <fullName>Study_Workspace_Travel_Support_View_Booking</fullName>
+        <categories>Study Workspace</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Workspace Travel Support View Booking</shortDescription>
+        <value>View Booking</value>
     </labels>
     <labels>
         <fullName>Success</fullName>
@@ -13133,6 +13251,13 @@
         <value>Task Details</value>
     </labels>
     <labels>
+        <fullName>Task_Details_Header_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Task Details Header Info</shortDescription>
+        <value>If you need to discuss your health, please contact your doctor directly.</value>
+    </labels>
+    <labels>
         <fullName>Task_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -13179,7 +13304,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Task Subject Select COI</shortDescription>
-        <value>If you want to see more study resources related to diagnosis, please select relevant conditions of interest in account settings</value>
+        <value>Select up to 5 medical conditions related to your diagnosis, to help us prioritize the content we display to you</value>
     </labels>
     <labels>
         <fullName>Task_Tab_Completed_Tasks</fullName>
@@ -13884,8 +14009,14 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit_Results_Tab_If_Is_Not_Opt_In_2</shortDescription>
-        <value>. You can opt-out at any time. Once data becomes available it will begin to display. If you
-            have questions or concerns about this data, please contact the study doctor at your study center.</value>
+        <value>. You can opt-out at any time.</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_If_Is_Not_Opt_In_3</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab If Is Not Opt In 3</shortDescription>
+        <value>Once data becomes available it will begin to display. If you have questions or concerns about this data, please contact the study doctor at your study center.</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_If_Is_Not_Opt_In_Delegate</fullName>

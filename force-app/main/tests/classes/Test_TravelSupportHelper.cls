@@ -5,10 +5,15 @@
 @IsTest
 public with sharing class Test_TravelSupportHelper {
 
+    @TestSetup
+    static void setup() {
+        Test.startTest();
+        TestDataFactory.createDataForTravelSupportTesting();
+        Test.stopTest();
+    }
+
     @IsTest
     static void getVendors_test() {
-        TestDataFactory.createDataForTravelSupportTesting();
-
         Study_Site__c studySite = [SELECT Id FROM Study_Site__c];
 
         Test.startTest();
@@ -21,8 +26,6 @@ public with sharing class Test_TravelSupportHelper {
     @IsTest
     static void deleteTravelSettings_test() {
         TravelSupportHelper helper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
-
-        TestDataFactory.createDataForTravelSupportTesting();
 
         Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
         List<TravelVendor__c> travelVendors = [SELECT Id FROM TravelVendor__c];
@@ -41,8 +44,6 @@ public with sharing class Test_TravelSupportHelper {
     static void getVendorItemsWithOutAnyCountryCodeOrStudySite_test() {
         TravelSupportHelper helper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
 
-        TestDataFactory.createDataForTravelSupportTesting();
-
         Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
 
         Test.startTest();
@@ -55,8 +56,6 @@ public with sharing class Test_TravelSupportHelper {
     @IsTest
     static void getVendorItemsWithStudySite_test() {
         TravelSupportHelper helper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
-
-        TestDataFactory.createDataForTravelSupportTesting();
 
         Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
         List<TravelVendor__c> travelVendors = [SELECT Id FROM TravelVendor__c];
@@ -78,8 +77,6 @@ public with sharing class Test_TravelSupportHelper {
     static void getVendorItemsWithCountryCode_test() {
         TravelSupportHelper helper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
 
-        TestDataFactory.createDataForTravelSupportTesting();
-
         Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
         List<TravelVendor__c> travelVendors = [SELECT Id FROM TravelVendor__c];
         List<Id> vendors = new List<Id>();
@@ -95,8 +92,6 @@ public with sharing class Test_TravelSupportHelper {
     static void getInitData_test() {
         TravelSupportHelper helper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
 
-        TestDataFactory.createDataForTravelSupportTesting();
-
         Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
 
 
@@ -110,8 +105,6 @@ public with sharing class Test_TravelSupportHelper {
     @IsTest
     static void fillVendorSettingsWithStub_test() {
         TravelSupportHelper helper = (TravelSupportHelper) ClassFactory.newInstance(TravelSupportHelper.class);
-
-        TestDataFactory.createDataForTravelSupportTesting();
 
         Clinical_Trial_Profile__c clinicalTrialProfile = [SELECT Id FROM Clinical_Trial_Profile__c];
         List<TravelVendor__c> travelVendors = [SELECT Id FROM TravelVendor__c];

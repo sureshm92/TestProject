@@ -126,7 +126,9 @@ public without sharing class TherapeuticAreaService {
                         'FROM Therapeutic_Area__c ' +
                         whereClause +
                         limitsClause;
-        return (List<Therapeutic_Area__c>) databaseProxy.query(tAQuery);
+        List<Therapeutic_Area__c> taList = (List<Therapeutic_Area__c>) databaseProxy.query(tAQuery);
+        TranslateHelper.translate(taList);
+        return taList;
     }
 
     public Participant__c getParticipant() {

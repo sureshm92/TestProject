@@ -20,15 +20,16 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     private User uploadUser;
 
     private String emailError = '';
-    Boolean valid = true;
+    private Boolean valid = true;
     private DateTime uploadTime;
 
     private Set<String> listOfFailedRecords = new Set<String>();
     private Set<String> listOfFailedRecordsWithMsg = new Set<String>();
 
-    public Set<String> genderLVSet = new Set<String> { 'Female', 'Male' };
-    public Set<String> phoneTypeLVSet = new Set<String>();
-    public Set<String> laguageLVSet = new Set<String>();
+    private Set<String> genderLVSet = new Set<String> { 'Female', 'Male' };
+    private Set<String> phoneTypeLVSet = new Set<String>();
+    private Set<String> laguageLVSet = new Set<String>();
+
 
     public UploadParticipantsBatch(List<List<String>> csvFileLines, String header, String studySiteId, String selectedStatus, Boolean headerFailed, Map<String, Integer> headerIndexes, Boolean createUsers) {
         uploadTime = DateTime.now();
@@ -105,15 +106,16 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             Map<Id, Participant_Enrollment__c> participantEnrollmentsByContact = new Map<Id, Participant_Enrollment__c>();
             Map<Id, Id> createUsersMap = new Map<Id, Id>();
             Set<Id> insertedContacts = new Set<Id>();
-            Set<String> dupclicateContactEmails = new Set<String>();
+            Set<Id> dupclicateContactIds = new Set<Id>();
             Map<Id,Id> duplicateContactUsersMap = new Map<Id,Id>();
-            Map<Id, Contact> duplicateContacts = new Map<Id,Contact>();
             Set<Id> insertUsersWithDefaultSettings = new Set<Id>();
 
             for (List<String> csvRecordData : csvChunkLines) {
                 if (csvRecordData == null || csvRecordData.isEmpty()) {
                     continue;
                 }
+
+                Set<Id> dupclicateParticipantstIds = new Set<Id>();
 
                 Boolean hasErrors = false;
 
@@ -255,25 +257,95 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     Participant__c participantDuplicate = duplicateService.findDuplicate(participant);
                     isDuplicate = participantDuplicate != null;
                     Contact contactDuplicate = duplicateService.findDuplicateContact(participant);
+                    System.debug('contact duplicate>>>>'+contactDuplicate);
                     isDuplicate = isDuplicate || contactDuplicate != null;
 
                     if (!isDuplicate) {
-                        Database.SaveResult saveRes = Database.insert(participantContact);
-                        if (!saveRes.isSuccess()) {
+                        try {
+                            Database.SaveResult saveRes = Database.insert(participantContact, false);
+                            if (!saveRes.isSuccess()) {
+                                errorRecordCount++;
+                                Database.Error error = saveRes.getErrors().get(0);
+                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
+                                listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
+                                system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
+
+                                continue;
+                            }
+                        } catch (Exception exp) {
                             errorRecordCount++;
-                            Database.Error error = saveRes.getErrors().get(0);
-                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
+                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + exp.getMessage());
                             listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
-                            system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
+                            system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + exp.getMessage());
 
                             continue;
                         }
                     } else {
-                        dupclicateContactEmails.add(participantContact.Email);
-                        //errorRecordCount++;
-                        //system.debug('ERROR: ' + totalRecordCount + ', ' + 'Duplicate Participant record');
-                        //listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Duplicate Participant record');
-                        //listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
+                        if (contactDuplicate != null) {
+                            dupclicateContactIds.add(contactDuplicate.Id);
+                        } else {
+                            dupclicateParticipantstIds.add(participantDuplicate.Id);
+                        }
+
+                        if (!dupclicateParticipantstIds.isEmpty()) {
+                            for (Participant__c p : [
+                                    SELECT Id,
+                                            Contact__c
+                                    FROM Participant__c
+                                    WHERE Id IN :dupclicateParticipantstIds
+                            ]) {
+                                dupclicateContactIds.add(p.Contact__c);
+                            }
+                        }
+
+                        System.debug('dupclicateContactIds>>>>'+dupclicateContactIds);
+                        if (!dupclicateContactIds.isEmpty()) {
+                            Set<Id> duplicateParticipantEnrollments = new Set<Id>();
+                            Map<Id,Participant__c> contactParticipantMap = new Map<Id,Participant__c>();
+
+                            for (User u : [
+                                    SELECT Id,
+                                            ContactId
+                                    FROM User
+                                    WHERE ContactId IN :dupclicateContactIds
+                            ]) {
+                                duplicateContactUsersMap.put(u.ContactId, u.Id);
+                            }
+                            for (Participant_Enrollment__c pEnrollment : [
+                                    SELECT Id,
+                                            Participant_Contact__c
+                                    FROM Participant_Enrollment__c
+                                    WHERE Participant_Contact__c IN :dupclicateContactIds AND
+                                    (Study_Site__c = :studySiteDetails.Id OR
+                                    Study_Site__r.Clinical_Trial_Profile__c = :studySiteDetails.Clinical_Trial_Profile__c)
+                            ]) {
+                                duplicateParticipantEnrollments.add(pEnrollment.Participant_Contact__c);
+                            }
+                            System.debug('duplicateParticipantEnrollments>>>>>>'+duplicateParticipantEnrollments);
+                            for (Participant__c part : [
+                                    SELECT Id,
+                                            Contact__c
+                                    FROM Participant__c
+                                    WHERE Contact__c IN :dupclicateContactIds
+                            ]) {
+                                contactParticipantMap.put(part.Contact__c, part);
+                            }
+                            System.debug('contactParticipantMap>>>>>>>>'+contactParticipantMap);
+                            System.debug('dupclicateContactIds>>>>>>>>'+dupclicateContactIds);
+                            for (Id cId : dupclicateContactIds) {
+                                if (!duplicateParticipantEnrollments.contains(cId) && contactParticipantMap.get(cId) != null) {
+                                    participantContact.Id = cId;
+                                    participant.Id = contactParticipantMap.get(cId).Id;
+                                } else {
+                                    errorRecordCount++;
+                                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'Duplicate Participant record');
+                                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Duplicate Participant record');
+                                    listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
+
+                                    continue;
+                                }
+                            }
+                        }
                     }
 
                     if (participantContact.Id != null) {
@@ -288,14 +360,42 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                         PI_Contact__c = studySiteDetails.Principal_Investigator__c);
 
                         contactsById.put(participantContact.Id, participantContact);
-                        participantsByContact.put(participantContact.Id, participant);
-                        participantEnrollmentsByContact.put(participantContact.Id, participantEnrollment);
-                        actionAssignContactPermissions.addPermission(participantContact.Id, permissionSetName);
-                    } else {
-                        //errorRecordCount++;
-                        //listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: Incorrect data');
-                       // listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
 
+                        try {
+                            if (participant.Id == null) {
+                                Database.SaveResult saveRes = Database.insert(participant, false);
+                                if (!saveRes.isSuccess()) {
+                                    Database.Error error = saveRes.getErrors().get(0);
+                                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
+                                    system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
+                                } else {
+                                    insertedContacts.add(saveRes.getId());
+                                    participantsByContact.put(participantContact.Id, participant);
+                                }
+                            }
+                        } catch (Exception exp) {
+                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant record insert: ' + exp.getMessage());
+                            system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant record insert: ' + exp.getMessage());
+                        }
+
+                        if (participant.Id != null) {
+                            participantEnrollment.Participant__c = participant.Id;
+
+                            Database.SaveResult saveRes = Database.insert(participantEnrollment, false);
+                            participantEnrollmentsByContact.put(participantEnrollment.Participant_Contact__c, participantEnrollment);
+                            if (!saveRes.isSuccess()) {
+                                Database.Error error = saveRes.getErrors().get(0);
+                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
+                                system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
+                            }
+
+                            actionAssignContactPermissions.addPermission(participantContact.Id, permissionSetName);
+                        } else {
+                            contactsById.remove(participantContact.Id);
+                            delete participantContact;
+                            listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
+                        }
+                    } else {
                         continue;
                     }
                 } else {
@@ -303,113 +403,13 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
                 }
             }
-            if (!dupclicateContactEmails.isEmpty()) {
-                Set<Id> duplicateParticipantEnrollments = new Set<Id>();
-                Map<Id,Participant__c> contactParticipantMap = new Map<Id,Participant__c>();
-                duplicateContacts = new Map<Id, Contact>([
-                        SELECT Id
-                        FROM Contact
-                        WHERE Email IN :dupclicateContactEmails
-                ]);
-                if (!duplicateContacts.isEmpty()) {
-                    for (User u : [
-                            SELECT Id,
-                                    ContactId
-                            FROM User
-                            WHERE ContactId IN :duplicateContacts.keySet()
-                    ]) {
-                        duplicateContactUsersMap.put(u.ContactId, u.Id);
-                    }
-                    for (Participant_Enrollment__c pEnrollment : [
-                            SELECT Id,
-                                    Participant_Contact__c
-                            FROM Participant_Enrollment__c
-                            WHERE Participant_Contact__c IN :duplicateContacts.keySet() AND Study_Site__c = :studySiteDetails.Id
-                    ]) {
-                        duplicateParticipantEnrollments.add(pEnrollment.Participant_Contact__c);
-                    }
-                    for (Participant__c part : [
-                            SELECT Id,
-                                    Contact__c
-                            FROM Participant__c
-                            WHERE Contact__c IN :duplicateContacts.keySet()
-                    ]) {
-                        contactParticipantMap.put(part.Contact__c, part);
-                    }
-                    for (Contact c : duplicateContacts.values()) {
-                        if (!duplicateParticipantEnrollments.contains(c.Id)) {
-                            participantEnrollmentsByContact.put(c.Id, new Participant_Enrollment__c(Participant_Status__c = selectedStatus,
-                                    Study_Site__c = studySiteDetails.Id,
-                                    Referred_Date__c = System.today(),
-                                    Participant_Contact__c = c.Id != null ? c.Id : null,
-                                    Referral_Completed_by__c = uploaderContactId,
-                                    Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI,
-                                    PI_Contact__c = studySiteDetails.Principal_Investigator__c,
-                                    Participant__c = contactParticipantMap.get(c.Id) != null ? contactParticipantMap.get(c.Id).Id : null));
-                        } else {
-                            errorRecordCount++;
-                            system.debug('ERROR: ' + totalRecordCount + ', ' + 'Duplicate Participant record');
-                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Duplicate Participant record');
-                            listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
-                        }
-                    }
-                }
-            }
-            if (!contactsById.isEmpty()) {
-                system.debug('!contactsById.isEmpty()');
-                if (!participantsByContact.isEmpty()) {
-                    system.debug('!participantsByContact.isEmpty()');
-                    try {
-                        List<Database.SaveResult> saveReses = Database.insert(participantsByContact.values());
-                        Integer totalErrorCount = getErrorCount(saveReses);
-                        if (totalErrorCount > errorRecordCount && totalErrorCount <= totalRecordCount) {
-                            errorRecordCount = totalErrorCount;
-                        }
-                        for (Database.SaveResult saveRes : saveReses) {
-                            if (!saveRes.isSuccess()) {
-                                Database.Error error = saveRes.getErrors().get(0);
-                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
-                                system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
-                            } else {
-                                insertedContacts.add(saveRes.getId());
-                            }
-                        }
-                    } catch (Exception exp) {
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant record insert: ' + exp.getMessage());
-                        system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant record insert: ' + exp.getMessage());
-                    }
-                }
 
-                for (Contact participantContact : contactsById.values()) {
-                    Participant_Enrollment__c participantEnrollment = participantEnrollmentsByContact.get(participantContact.Id);
-                    if (participantsByContact.get(participantContact.Id) != null) {
-                        participantEnrollment.Participant__c = participantsByContact.get(participantContact.Id).Id;
-                    }
-                }
-            }
-
-                if (!participantEnrollmentsByContact.isEmpty()) {
-                    system.debug('!participantEnrollmentsByContact.isEmpty()');
-                    List<Database.SaveResult> saveReses = Database.insert(participantEnrollmentsByContact.values());
-                    Integer totalErrorCount = getErrorCount(saveReses);
-                    if (totalErrorCount > errorRecordCount && totalErrorCount <= totalRecordCount) {
-                        errorRecordCount = totalErrorCount;
-                    }
-                    for (Database.SaveResult saveRes : saveReses) {
-                        if (!saveRes.isSuccess()) {
-                            Database.Error error = saveRes.getErrors().get(0);
-                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
-                            system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
-                        }
-                    }
-                }
-
-
-            if(createUsers) {
-                if(!insertedContacts.isEmpty()){
-                    for(Contact c : contactsById.values()){
-                        if(insertedContacts.contains(participantsByContact.get(c.Id).Id)){
-                            if(participantEnrollmentsByContact.get(c.Id) != null) {
+            if (createUsers) {
+                system.debug('CREATE_USERS: ' + insertedContacts);
+                if (!insertedContacts.isEmpty()) {
+                    for (Contact c : contactsById.values()) {
+                        if (insertedContacts.contains(participantsByContact.get(c.Id).Id)) {
+                            if (participantEnrollmentsByContact.get(c.Id) != null) {
                                 createUsersMap.put(participantEnrollmentsByContact.get(c.Id).Participant_Contact__c, participantEnrollmentsByContact.get(c.Id).PI_Contact__c);
                             } else {
                                 insertUsersWithDefaultSettings.add(c.Id);
@@ -417,13 +417,13 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         }
                     }
                 }
-                if(!duplicateContacts.isEmpty()){
-                    for(Contact cont : duplicateContacts.values()){
-                        if(!duplicateContactUsersMap.keySet().contains(cont.Id)){
-                            if(participantEnrollmentsByContact.get(cont.Id) != null) {
-                                createUsersMap.put(participantEnrollmentsByContact.get(cont.Id).Participant_Contact__c, participantEnrollmentsByContact.get(cont.Id).PI_Contact__c);
+                if (!dupclicateContactIds.isEmpty()) {
+                    for (Id contId : dupclicateContactIds) {
+                        if (!duplicateContactUsersMap.keySet().contains(contId)) {
+                            if (participantEnrollmentsByContact.get(contId) != null) {
+                                createUsersMap.put(participantEnrollmentsByContact.get(contId).Participant_Contact__c, participantEnrollmentsByContact.get(contId).PI_Contact__c);
                             } else {
-                                insertUsersWithDefaultSettings.add(cont.Id);
+                                insertUsersWithDefaultSettings.add(contId);
                             }
                         }
                     }
@@ -437,30 +437,11 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 if (!actionAssignContactPermissions.isEmpty()) {
                     ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                 }
-            }
 
-//            List<Participant_Study_Enrollment__c> partStdEnrolls = new List<Participant_Study_Enrollment__c>();
-//            for (Contact participantContact : contactsById.values()) {
-//                Participant_Enrollment__c participantEnrollment = participantEnrollmentsByContact.get(participantContact.Id);
-//                partStdEnrolls.add(new Participant_Study_Enrollment__c(Clinical_Trial_Profile__c = studySiteDetails.Clinical_Trial_Profile__c,
-//                        Participant__c = participantEnrollment.Participant__c,
-//                        Participant_Contact__c = participantContact.Id,
-//                        Participant_Enrollment__c = participantEnrollment.Id,
-//                        PI_Contact__c = studySiteDetails.Principal_Investigator__c,
-//                        Study_Site__c = studySiteDetails.Id));
-//            }
-//
-//            if (!partStdEnrolls.isEmpty()) {
-//                system.debug('!partStdEnrolls.isEmpty()');
-//                List<Database.SaveResult> saveReses = Database.insert(partStdEnrolls);
-//                for (Database.SaveResult saveRes : saveReses) {
-//                    if (!saveRes.isSuccess()) {
-//                        Database.Error error = saveRes.getErrors().get(0);
-//                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Study Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
-//                        system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
-//                    }
-//                }
-//            }
+                if (listOfFailedRecords.size() > 1 && errorRecordCount != (listOfFailedRecords.size() - 1)) {
+                    errorRecordCount = listOfFailedRecords.size() - 1;
+                }
+            }
 
             system.debug('HEAP SIZE IS: ' + limits.getHeapSize() + ' enforced is: ' + limits.getLimitHeapSize() + 'on totalRecordCount: ' + totalRecordCount);
         } catch (Exception exp) {
@@ -487,9 +468,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
     private static void sendNotificationEmail(Set<String> listOfFailedRecords, Set<String> listOfFailedRecordsWithMsg, String piContactId, DateTime uploadTime, Study_Site__c studySiteDetails, Integer totalRecordCount, Integer errorRecordCount) {
         String formattedDate = uploadTime.format('MM/dd/yyyy hh:mm a', UserInfo.getTimeZone().toString());
-
+        System.debug('ErrorRecordsCount>>>>'+errorRecordCount);
         User piUser = [SELECT Id, Email, Contact.Email FROM User WHERE ContactId = :piContactId LIMIT 1];
-        OrgWideEmailAddress owea = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName = 'IQVIA Referral Hub' LIMIT 1];
+        OrgWideEmailAddress owea = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName LIKE '%IQVIA Referral Hub' LIMIT 1];
         Id importParticipantsTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName = :SendEmailTemplate.EMAIL_TEMPLATE_PATIENT_IMPORT LIMIT 1].Id;
 
         Messaging.SingleEmailMessage adminEmailToSend = new Messaging.SingleEmailMessage();
@@ -542,18 +523,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         if (!Test.isRunningTest()) {
             Messaging.sendEmail(new Messaging.SingleEmailMessage[] { emailToSend });
         }
-    }
-
-    private static Integer getErrorCount(List<Database.SaveResult> saveReses) {
-        Integer errorCount = 0;
-
-        for (Database.SaveResult saveRes : saveReses) {
-            if (!saveRes.isSuccess()) {
-                errorCount++;
-            }
-        }
-
-        return errorCount;
     }
 
 }

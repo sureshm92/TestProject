@@ -48,21 +48,10 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
             for (User user : users) {
                 for(Id whatId : whatIdByContactIds.get(user.ContactId)) {
                     Datetime activityDT;
-                    if(taskConfig.endTime != null) {
-                        activityDT = DateTimeConverterUtil.getUserDT(
-                                taskConfig.endTime,
-                                Time.newInstance(0, 0, 0, 0),
-                                TimeZone.getTimeZone(user.TimeZoneSidKey)
-                        );
-                    }
+                    if(taskConfig.endTime != null) activityDT = Datetime.newInstance(taskConfig.endTime, Datetime.now().time());
+
                     Datetime reminderDT;
-                    if(taskConfig.reminderDate != null) {
-                        reminderDT = DateTimeConverterUtil.getUserDT(
-                                taskConfig.reminderDate,
-                                Time.newInstance(0,0,0,0),
-                                TimeZone.getTimeZone(user.TimeZoneSidKey)
-                        );
-                    }
+                    if(taskConfig.reminderDate != null) reminderDT = Datetime.newInstanceGmt(taskConfig.reminderDate, Datetime.now().timeGmt());
 
                     tasks.add(new Task(
                             OwnerId = user.Id,

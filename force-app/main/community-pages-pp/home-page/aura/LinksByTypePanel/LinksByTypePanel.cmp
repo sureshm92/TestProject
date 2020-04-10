@@ -16,10 +16,10 @@
         <div aura:id="svb" class="sv-body" style="{!v.height}">
             <aura:iteration var="link" items="{!v.linksWrapper.resources}" end="{!v.size}">
                 <div class="link-container">
-                    <c:RRLink href="{!link.URL__c}" label="{!link.Title__c}" target="_blank" class="link" dataGTM="LNK_Resource"/>
+                    <c:RRLink href="{!link.resource.URL__c}" label="{!link.resource.Title__c}" target="_blank" class="link" dataGTM="LNK_Resource"/>
                 </div>
             </aura:iteration>
-            <c:EmptyListStub targetList="{!v.linksWrapper.resources}" iconName="none" message="{!$Label.c.PG_VP_L_No_Items_display}"/>
+            <c:EmptyListStub targetList="{!v.linksWrapper.resources}" iconName="none" message="{!$Label.c.No_Relevant_Links_to_display}"/>
         </div>
     </div>
 </aura:component>

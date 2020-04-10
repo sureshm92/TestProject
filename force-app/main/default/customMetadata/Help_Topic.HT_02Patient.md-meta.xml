@@ -28,7 +28,7 @@
     </values>
     <values>
         <field>Display_Name_Label__c</field>
-        <value xsi:type="xsd:string">HT_02_H</value>
+        <value xsi:type="xsd:string">HT_19_B_Participant</value>
     </values>
     <values>
         <field>Display_Solution_Label__c</field>
