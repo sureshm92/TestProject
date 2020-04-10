@@ -25,6 +25,8 @@ global without sharing class EmailTemplateController {
     global String communityTemplateValue { get; set; }
     global String outputMode { get; set; }
 
+    global String emailTemplateName { get; set; }//Only to pass a validation
+
     private EmailTemplateProvider templateProvider;
     public EmailTemplateProvider getProvider() {
         if (templateProvider == null) {
