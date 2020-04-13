@@ -67,7 +67,7 @@
             <value>
                 <fullName>icon-receive-study-medication-injection</fullName>
                 <default>false</default>
-                <label>Receive study medication injection</label>
+                <label>Receive study medication</label>
             </value>
             <value>
                 <fullName>icon-receive-study-medication-capsules</fullName>
@@ -82,7 +82,7 @@
             <value>
                 <fullName>icon-hands-and-feet-x-rays</fullName>
                 <default>false</default>
-                <label>Hands and feet X-rays</label>
+                <label>Hand and feet X-rays</label>
             </value>
             <value>
                 <fullName>icon-chest-x-rays</fullName>
@@ -92,7 +92,7 @@
             <value>
                 <fullName>icon-no-study-visit</fullName>
                 <default>false</default>
-                <label>No study visit if you take part in contRAst-X</label>
+                <label>No study visit</label>
             </value>
             <value>
                 <fullName>team-meeting-chat</fullName>
