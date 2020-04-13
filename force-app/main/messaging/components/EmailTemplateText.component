@@ -47,7 +47,7 @@
                                             rendered="{!(isDelegate && resultUserMode == 'Participant')}"
                                             params="{!dataParametersValue}"
                                             commTemplate="{!communityTemplateValue}"
-                                            whaId="{!sourceRecordId}"/>
+                                            sourceId="{!sourceRecordId}"/>
 
     <apex:componentBody/>
 

@@ -7,7 +7,7 @@
     <apex:attribute name="userId" type="Id" assignTo="{!delegateUserId}" description=""/>
     <apex:attribute name="params" type="String" assignTo="{!dataParams}" description=""/>
     <apex:attribute name="commTemplate" type="String" assignTo="{!commTemplateStr}" description=""/>
-    <apex:attribute name="whaId" type="Id" assignTo="{!whatIdValue}" description="Enrollment Id for getting commTemplate"/>
+    <apex:attribute name="sourceId" type="Id" assignTo="{!sourceIdValue}" description=""/>
 
     <apex:outputPanel>
         <br/><br/>

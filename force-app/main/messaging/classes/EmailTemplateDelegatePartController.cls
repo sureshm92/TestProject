@@ -7,7 +7,7 @@ global without sharing class EmailTemplateDelegatePartController {
     global String delegateUserId { get; set; }
     global String dataParams { get; set; }
     global String commTemplateStr { get; set; }
-    global Id whatIdValue { get; set; }
+    global Id sourceIdValue { get; set; }
 
     public List<String> getDelegateStudyNames() {
         Id delConId = delegateUserId;
@@ -22,12 +22,12 @@ global without sharing class EmailTemplateDelegatePartController {
         List<Id> partConIds = new List<Id>();
         for (Participant__c p: participants) partConIds.add(p.Contact__c);
 
-        if(String.isEmpty(commTemplateStr) && String.isNotEmpty(whatIdValue)) {
-            if(whatIdValue.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
+        if(String.isEmpty(commTemplateStr) && String.isNotEmpty(sourceIdValue)) {
+            if(isSourceIdEnrollment()) {
                 List<Participant_Enrollment__c> enrollment = [
                         SELECT Clinical_Trial_Profile__r.CommunityTemplate__c
                         FROM Participant_Enrollment__c
-                        WHERE Id = :whatIdValue
+                        WHERE Id = :sourceIdValue
                 ];
                 if(!enrollment.isEmpty()) {
                     commTemplateStr = CommunityTemplateService.getTemplate(
@@ -51,9 +51,14 @@ global without sharing class EmailTemplateDelegatePartController {
         return delegateStudyNames;
     }
 
+    private Boolean isSourceIdEnrollment() {
+        return sourceIdValue.getSobjectType() == Participant_Enrollment__c.getSObjectType();
+    }
+
     global String getAfterText() {
-        if(whatIdValue != null) return '';
+        if(isSourceIdEnrollment()) return '';
         Map<String, String> paramsMap = (Map<String, String>) JSON.deserialize(dataParams, Map<String, String>.class);
         return TranslateHelper.replaceParams(Label.Email_Body_Initial_Patient_Delegate_AfterText, EmailTemplateController.PARAM_PREFIX, paramsMap);
     }
+
 }
