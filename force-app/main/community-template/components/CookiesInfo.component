@@ -42,6 +42,8 @@
             infoText = infoText.replace('##interactiveAdvertisingBureauURL', '<a class="ci-link" href="' + urlIAB +'">' + linkIAB + '</a>');
             contentSpan.html(infoText);
             $('.ci-hidden').removeClass('ci-hidden');
+            document.body.addEventListener('click', closeCookiesInfo, false);
+                setTimeout(closeCookiesInfo, 10000);
         }
 
         function closeCookiesInfo() {
@@ -49,6 +51,7 @@
             $('.ci-bottom-aria').addClass('ci-hidden');
             $('.terms-and-conditions').removeClass('cookie-policy-padding');
             $('.rr-bottom-bar-area').removeClass('cookie-bottom');
+            document.body.removeEventListener('click', closeCookiesInfo, false);
         }
 
     </script>
