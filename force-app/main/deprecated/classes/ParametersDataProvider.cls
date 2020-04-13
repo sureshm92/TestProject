@@ -72,9 +72,25 @@ public without sharing class ParametersDataProvider {
         parameters.put('ForgotPasswordURL', clinicalResearchCommunityForgotPasswordURL);
 
         if (isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT) {
-            Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(recipientContactId);
-            if (participant != null) {
-                parameters.put('ParticipantFirstName', participant.First_Name__c);
+            List<Id> conIds = new List<Id>{recipientContactId};
+            List<String> templates = new List<String>{communityTemplateName};
+            if(communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT) templates.add(null);
+            Map<Id, List<Id>> delegatedParticipantIdsMap = PatientDelegateService.getDelegatedParticipantIdsMap(conIds);
+            List<Participant_Enrollment__c> listPe = new List<Participant_Enrollment__c>();
+            List<Id> partIds = delegatedParticipantIdsMap.get(recipientContactId);
+            listPe = [
+                    SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                            Participant__r.Full_Name__c,
+                            Participant__r.First_Name__c,
+                            Participant__r.Contact__c
+                    FROM Participant_Enrollment__c
+                    WHERE Participant__c IN: partIds
+                    AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c IN: templates
+            ];
+            Participant_Enrollment__c pe;
+            if(listPe.size() > 0) pe = listPe[0];
+            if (pe != null) {
+                parameters.put('ParticipantFirstName', pe.Participant__r.First_Name__c);
             }
         }
         System.debug('Parameters: ' + JSON.serializePretty(parameters));
@@ -369,6 +385,8 @@ public without sharing class ParametersDataProvider {
                 List<Id> conIds = new List<Id>{cnt.Id};
                 Map<Id, List<Id>> delegatedParticipantIdsMap = PatientDelegateService.getDelegatedParticipantIdsMap(conIds);
                 List<Participant_Enrollment__c> listPe = new List<Participant_Enrollment__c>();
+                List<String> templates = new List<String>{communityTemplateName};
+                if(communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT) templates.add(null);
                 List<Id> partIds = delegatedParticipantIdsMap.get(cnt.Id);
                 listPe = [
                         SELECT Id, Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
@@ -377,9 +395,10 @@ public without sharing class ParametersDataProvider {
                                 Participant__r.Contact__c
                         FROM Participant_Enrollment__c
                         WHERE Participant__c IN: partIds
-                        AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplateName
+                        AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c IN: templates
                 ];
-                Participant_Enrollment__c pe = listPe[0];
+                Participant_Enrollment__c pe;
+                if(listPe.size() > 0) pe = listPe[0];
                 if (pe != null) {
                     parameters.put('ParticipantName', pe.Participant__r.Full_Name__c);
                     parameters.put('ParticipantFirstName', pe.Participant__r.First_Name__c);
@@ -514,7 +533,7 @@ public without sharing class ParametersDataProvider {
         } else {
             Contact cnt = [
                     SELECT Id,
-                            Name, FirstName, LastName,
+                            Name, FirstName, LastName, Salutation,
                             Language__c,
                             UserCommunityIsDelegate__c,
                             userCommunityMode__c
@@ -522,7 +541,8 @@ public without sharing class ParametersDataProvider {
                     WHERE Id = :recipientId
             ];
             recipientContactId = recipientId;
-            recipientName = cnt.Name;
+            recipientName = (cnt.Salutation == null ? '' : cnt.Salutation + ' ') +
+                    cnt.Name;
             recipientFirstName = cnt.FirstName;
             recipientLanguage = cnt.Language__c;
             isDelegate = cnt.UserCommunityIsDelegate__c;

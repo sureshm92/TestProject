@@ -30,6 +30,8 @@
 
     doCloseCookiesInfo: function (component, event, helper) {
         communityService.setCookie('RRCookies', 'agreed');
+        var appEvent = $A.get("e.c:TCCookieClassesRemove");
+        appEvent.fire();
         component.set('v.visible', false);
     },
 

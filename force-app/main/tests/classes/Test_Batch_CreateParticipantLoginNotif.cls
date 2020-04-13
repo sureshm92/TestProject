@@ -7,7 +7,7 @@ public with sharing class Test_Batch_CreateParticipantLoginNotif {
 
     @TestSetup
     static void setup() {
-        bypassTriggers();
+
         Test.startTest();
         TestData.loadTestData();
         Test.stopTest();
@@ -42,17 +42,5 @@ public with sharing class Test_Batch_CreateParticipantLoginNotif {
 
         List<Notification__c> notifications = [SELECT Id FROM Notification__c];
         System.assertEquals(1, notifications.size());
-    }
-
-    private static void bypassTriggers() {
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.DeleteStatusHistoryOnDeleteHandler.class);
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class);
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.SwitchContactUserModeHandler.class);
-        TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreateStatusHistoryHandler.class);
-        TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
     }
 }

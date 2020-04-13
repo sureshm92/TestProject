@@ -99,9 +99,11 @@ public without sharing class TaskService {
                     ')';
         }else if(isDecoupled){
             // Decoupled delegate in patient view
-            commonFilter = '(' +
-                    'OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\'' + delegatesVisibility +
-                    ')';
+            if(ParticipantContext.getCurrentUserId() != null) {
+                commonFilter = '(' +
+                        'OwnerId = \'' + ParticipantContext.getCurrentUserId() + '\'' + delegatesVisibility +
+                        ')';
+            }
         }else{
             // Not decoupled delegate
             commonFilter = '(' +
@@ -112,7 +114,12 @@ public without sharing class TaskService {
         }
         if(filter != null) commonFilter += ' AND ' + filter;
         if(sortOrder != null) commonFilter += ' ' + sortOrder;
-        List<Task> tasks = (List<Task>) DatabaseService.query(DEFAULT_FIELDS, Task.getSObjectType(), commonFilter);
+        List<Task> tasks;
+        if(isDecoupled && ParticipantContext.getCurrentUserId() == null) {
+            tasks = new List<Task>();
+        } else {
+            tasks = (List<Task>) DatabaseService.query(DEFAULT_FIELDS, Task.getSObjectType(), commonFilter);
+        }
         TaskTriggerHandler.processDefaultFieldValues(tasks);
         return filterTasks(tasks);
     }
@@ -254,7 +261,6 @@ public without sharing class TaskService {
         for (SurveyInvitation inv : surveyInvitation) {
             Id partContactId = inv.Participant_Enrollment__r.Participant_Contact__c;
             Id partUserId = participantContactUser.get(partContactId);
-            if (partUserId == null) continue;
 
             userContact.put(partUserId, partContactId);
             Set<Id> patientDelContactIds = delegatesByParticipant.containsKey(partContactId)
@@ -264,7 +270,7 @@ public without sharing class TaskService {
             String visible = invitationsVisible.get(inv.Id);
             switch on visible {
                 when 'Patient only', 'Patient or any Delegate', 'Any Delegate' {
-                    tmpConfigs.add(new TaskConfig(partUserId));
+                    tmpConfigs.add(new TaskConfig(partUserId, partContactId));
                 }
                 when 'Each Delegate' {
                     for (Id pdId : patientDelContactIds) {
@@ -275,7 +281,7 @@ public without sharing class TaskService {
                     }
                 }
                 when 'Patient and each Delegate' {
-                    tmpConfigs.add(new TaskConfig(partUserId));
+                    tmpConfigs.add(new TaskConfig(partUserId, partContactId));
                     for (Id pdId : patientDelContactIds) {
                         if (delContactUser.get(pdId) == null) continue;
 
@@ -295,26 +301,29 @@ public without sharing class TaskService {
                 tsc.priority = TASK_PRIORITY_CRITICAL;
                 tsc.reminderSchedule = inv.Reminder_Schedule__c;
 
-                TimeZone userTZ = userTimezoneMap.get(tsc.ownerId);
-                Datetime userDatetime =
-                        DateTimeConverterUtil.getUserDT(Date.today(), Time.newInstance(0,0,0,0), userTZ);
+                if(tsc.ownerId != null) {
+                    TimeZone userTZ = userTimezoneMap.get(tsc.ownerId);
+                    Datetime userDatetime =
+                            DateTimeConverterUtil.getUserDT(Datetime.now().date(), Datetime.now().time(), userTZ);
 
-                tsc.startDate = userDatetime.date();
-                if (inv.ExpireDateTime__c != null) {
-                    Date expiryDate = inv.ExpireDateTime__c.date();
-                    Integer daysBetween = Date.today().daysBetween(expiryDate);
-                    tsc.activityDate = userDatetime.addDays(daysBetween);
+                    tsc.startDate = userDatetime.date();
+                    if (inv.ExpireDateTime__c != null) {
+                        Date expiryDate = inv.ExpireDateTime__c.date();
+                        Integer daysBetween = Date.today().daysBetween(expiryDate);
+                        tsc.activityDate = Datetime.now().addDays(daysBetween);
+                    }
+
+                    if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {
+                        Integer firstReminderDay = (Integer) inv.Reminder_Schedule__r.First_Reminder_day__c;
+                        tsc.reminderDatetime = userDatetime.addDays(firstReminderDay);
+                        tsc.reminderGMT = Datetime.now().addDays(firstReminderDay);
+                    }
                 }
 
-                if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {
-                    Integer firstReminderDay = (Integer) inv.Reminder_Schedule__r.First_Reminder_day__c;
-                    tsc.reminderDatetime = userDatetime.addDays(firstReminderDay);
-                    tsc.reminderGMT = Datetime.newInstanceGmt(tsc.reminderDatetime.dateGmt(), tsc.reminderDatetime.timeGmt());
-                }
                 tsc.subject = subject;
                 tsc.type = TASK_TYPE_SURVEY;
                 tsc.visibility = SurveyService.SURVEY_VISIBLE.get(visible);
-                tsc.whoId = userContact.get(tsc.ownerId);
+                tsc.whoId = userContact.containsKey(tsc.ownerId) ? userContact.get(tsc.ownerId) : partContactId;
             }
             taskConfigs.addAll(tmpConfigs);
         }
@@ -328,12 +337,16 @@ public without sharing class TaskService {
 
     public Task createTask(TaskConfig taskConfig) {
         Task task = new Task(
-                OwnerId = taskConfig.ownerId,
                 Priority = taskConfig.priority,
                 Status = taskConfig.status,
                 Subject = taskConfig.subject,
                 Visible_For__c = taskConfig.visibility
         );
+        if(taskConfig.ownerId != null) {
+            task.OwnerId = taskConfig.ownerId;
+        } else {
+            task.Owner_Contact__c = taskConfig.ownerContactId;
+        }
 
         if (taskConfig.activityDate != null) task.Activity_Datetime__c = taskConfig.activityDate;
         if (taskConfig.code != null) task.Task_Code__c = taskConfig.code;
@@ -377,13 +390,15 @@ public without sharing class TaskService {
     
     public Map<Id, Id> getContactUserIdsMap(Set<Id> contactIds) {
         List<User> users = [
-                SELECT Id, ContactId
+                SELECT Id, ContactId, IsActive
                 FROM User
                 WHERE ContactId IN:contactIds
-                AND IsActive = TRUE
         ];
         Map<Id, Id> contactUserMap = new Map<Id, Id>();
-        for (User u : users) contactUserMap.put(u.ContactId, u.Id);
+        for (User u : users) {
+            System.debug('>>> Is Active: ' + u.IsActive);
+            contactUserMap.put(u.ContactId, u.Id);
+        }
 
         return contactUserMap;
     }
@@ -395,6 +410,7 @@ public without sharing class TaskService {
         @AuraEnabled public Id invitation;
         @AuraEnabled public String originator;
         @AuraEnabled public Id ownerId;
+        @AuraEnabled public Id ownerContactId;
         @AuraEnabled public String priority;
         @AuraEnabled public Date reminderDate;
         @AuraEnabled public Datetime reminderDatetime;
@@ -413,7 +429,15 @@ public without sharing class TaskService {
         }
 
         public TaskConfig(Id ownerId) {
-            this.ownerId = ownerId;
+            this(ownerId, null);
+        }
+
+        public TaskConfig(Id ownerId, Id ownerContactId) {
+            if(ownerId != null) {
+                this.ownerId = ownerId;
+            } else {
+                this.ownerContactId = ownerContactId;
+            }
 
             priority = TASK_PRIORITY_NORMAL;
             status = TASK_STATUS_OPEN;
@@ -421,8 +445,8 @@ public without sharing class TaskService {
             visibility = TASK_VISIBILITY_OWNER;
         }
 
-        public TaskConfig(Id ownerId, String subject, String visibility) {
-            this(ownerId);
+        public TaskConfig(Id ownerId, Id ownerContactId, String subject, String visibility) {
+            this(ownerId, ownerContactId);
 
             this.subject = subject;
             this.visibility = visibility;

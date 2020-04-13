@@ -39,8 +39,12 @@
     <div style="{!templateMap['emailTemplateBackground']}">
         <div style="{!templateMap['emailTemplateTextBackground']}">
             <div style="{!templateMap['emailTemplateHeaderBackground']}">
-                <div style="{!templateMap['emailTemplateHeader']}">{!templateMap['headerValue']}</div>
-                <div style="{!templateMap['emailTemplateTitle']}">{!templateMap['titleValue']}</div>
+                <div style="{!templateMap['emailTemplateHeader']}">
+                    <apex:outputText value="{!templateMap['headerValue']}" escape="false"/>
+                </div>
+                <div style="{!templateMap['emailTemplateTitle']}">
+                    <apex:outputText value="{!templateMap['titleValue']}" escape="false"/>
+                </div>
             </div>
             <div style="padding: 20px; color: #333333; font-size: 16px; line-height: 20px;">
                 <apex:outputText value="{!templateMap['greetingValue']}" escape="false"/>

@@ -38,27 +38,14 @@ public class TasksRemote {
         ParticipantTasks participantTasks = new ParticipantTasks();
         try {
             participantTasks.openTasksWrapper = new List<OpenTask>();
-            TimeZone timezone = DateTimeConverterUtil.getUserTimeZone(CommunityService.getInstance().getCurrentContactId());
 
             List<Task> openTasks = TaskService.getInstance().getOpenTasks();
             for (Task task : openTasks) {
                 OpenTask taskWrapper = new OpenTask();
                 taskWrapper.openTask = task;
 
-                if (task.Activity_Datetime__c != null) {
-                    taskWrapper.activityDate = DateTimeConverterUtil.getUserDT(
-                            task.Activity_Datetime__c.date(),
-                            task.Activity_Datetime__c.time(),
-                            timezone
-                    ).date();
-                }
-                if (task.ReminderDateTime != null) {
-                    taskWrapper.reminder = DateTimeConverterUtil.getUserDT(
-                            task.ReminderDateTime.date(),
-                            task.ReminderDateTime.time(),
-                            timezone
-                    ).date();
-                }
+                if (task.Activity_Datetime__c != null) taskWrapper.activityDate = task.Activity_Datetime__c.date();
+                if (task.ReminderDateTime != null) taskWrapper.reminder = task.ReminderDateTime.date();
 
                 participantTasks.openTasksWrapper.add(taskWrapper);
             }
@@ -69,13 +56,7 @@ public class TasksRemote {
             for (Task compTask : completedTasks) {
                 CompletedTask completedTask = new CompletedTask();
                 completedTask.task = compTask;
-                if (compTask.Completed_Date__c != null) {
-                    completedTask.completedDate = DateTimeConverterUtil.getUserDT(
-                            compTask.Completed_Date__c.date(),
-                            compTask.Completed_Date__c.time(),
-                            timezone
-                    ).date();
-                }
+                if (compTask.Completed_Date__c != null) completedTask.completedDate = compTask.Completed_Date__c.date();
 
                 participantTasks.completedTasks.add(completedTask);
             }
@@ -87,7 +68,10 @@ public class TasksRemote {
             } else {
                 participantTasks.emptyText = Label.PG_Task_Tab_No_Tasks;
             }
-            if (ParticipantContext.getCurrentUser() != null) participantTasks.showCreateTaskButton = true;
+            if (ParticipantContext.getCurrentUser() != null &&
+                    (participantState.value == ParticipantService.ParticipantStates.ALUMNI || participantState.ctp.Tasks_Are_Available__c)) {
+                participantTasks.showCreateTaskButton = true;
+            }
         } catch (Exception e) {
             return (ParticipantTasks) AuraHelper.throwException(e);
         }

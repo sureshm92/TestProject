@@ -4,6 +4,6 @@
     <protected>false</protected>
     <values>
         <field>Message_Variant__c</field>
-        <value xsi:type="xsd:string">Do I need to fast for my next visit?</value>
+        <value xsi:type="xsd:string">Mess_Variant_Need_Fast</value>
     </values>
 </CustomMetadata>

@@ -15,7 +15,7 @@
             function (response) {
                 component.set('v.travelWrapper', response);
                 console.log('response ' + response);
-                let opts = [{value: 'All', label: 'All'}];
+                let opts = [{value: 'All', label: $A.get("$Label.c.Home_Page_VisitTab_Filter_Show_All")}];
                 // for (let i = 0; i < response.length; i++)
                 //     opts.push({
                 //         value: response[i].title,

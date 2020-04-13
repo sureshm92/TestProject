@@ -24,6 +24,6 @@
                              signature="{!$Label.Email_Signature}">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_View_Trial_Details}"/>
         </c:EmailTemplateText>
-    </messaging:plainTextEmailBody>
+    </messaging:plainTextEmailBody> 
 
 </messaging:emailTemplate>

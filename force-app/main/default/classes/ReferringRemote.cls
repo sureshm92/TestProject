@@ -106,14 +106,15 @@ public without sharing class ReferringRemote {
         Boolean needsGuardian = false;
         Participant__c participant = (Participant__c) JSON.deserialize(participantJSON, Participant__c.class);
         if (!String.isEmpty(participant.Date_of_Birth__c)) {
-            List<Age_of_Majority__mdt> ageOfMajorities = [SELECT Country_Code__c,
+            List<Age_of_Majority__mdt> ageOfMajorities = [SELECT DeveloperName,
+                                                                 Country_Code__c,
                                                                  State_Code__c,
                                                                  Age__c
                                                           FROM Age_of_Majority__mdt];
             Map<String, Integer> ageByCountryCode = new Map<String, Integer>();
             for (Age_of_Majority__mdt ageOfMajority : ageOfMajorities) {
                 if (ageOfMajority.Age__c != null) {
-                    ageByCountryCode.put(ageOfMajority.Country_Code__c, ageOfMajority.Age__c.intValue());
+                    ageByCountryCode.put(ageOfMajority.DeveloperName, ageOfMajority.Age__c.intValue());
                 }
             }
 
@@ -123,10 +124,10 @@ public without sharing class ReferringRemote {
                             Date.newInstance(2000, Date.today().month(), Date.today().day()) ?
                             Date.today().year() - birthDate.year() : Date.today().year() - birthDate.year() - 1;
 
-            if (ageByCountryCode.get(participant.Mailing_Country_Code__c) != null) {
+            if (ageByCountryCode.get(participant.Mailing_Country_Code__c + '_' + participant.Mailing_State_Code__c) != null) {
+                needsGuardian = participantAge < ageByCountryCode.get(participant.Mailing_Country_Code__c + '_' + participant.Mailing_State_Code__c);
+            } else if (ageByCountryCode.get(participant.Mailing_Country_Code__c) != null) {
                 needsGuardian = participantAge < ageByCountryCode.get(participant.Mailing_Country_Code__c);
-            } else if (ageByCountryCode.get(participant.Mailing_Country_Code__c + '-' + participant.Mailing_State_Code__c) != null) {
-                needsGuardian = participantAge < ageByCountryCode.get(participant.Mailing_Country_Code__c + '-' + participant.Mailing_State_Code__c);
             } else {
                 needsGuardian = participantAge < 18;
             }
@@ -199,6 +200,17 @@ public without sharing class ReferringRemote {
                 insert ptDelegateRef;
 
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(new Map<Id, Id> { newContact.Id => null});
+            } else if (!String.isBlank(hcpEnrollment.Study_Site__c)) {
+                Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participant.Id];
+                if (newParticipant != null && !String.isBlank(newParticipant.Contact__c)) {
+                    Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
+                    Study_Site__c ss = StudySiteService.getStudySiteForHCPById(hcpEnrollment.Study_Site__c);
+                    String permissionSetName = CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
+                    actionAssignContactPermissions.addPermission(newParticipant.Contact__c, permissionSetName);
+                    if (!actionAssignContactPermissions.isEmpty()) {
+                        ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                    }
+                }
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);

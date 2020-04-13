@@ -130,13 +130,13 @@
                 </div>
 
                 <div class="vpi-field">
-                    <div class="label">{!$Label.c.Investigator_phone}</div>
-                    <div class="value">{!v.pe.PI_Contact__r.Phone}</div>
+                    <div class="label">{!$Label.c.Study_Site_phone_number}</div>
+                    <div class="value">{!v.pe.Study_Site__r.Site__r.Phone}</div>
                 </div>
 
                 <div class="vpi-field">
                     <div class="label">{!$Label.c.PE_Site_Name}</div>
-                    <div class="value">{!v.pe.Study_Site__r.Site__r.Name}</div>
+                    <div class="value">{!v.pe.Study_Site__r.Name}</div>
                 </div>
 
                 <div class="vpi-field">

@@ -21,6 +21,8 @@
             }, function (contact) {
                 component.set('v.currentMode', selectedMode);
                 communityService.setCurrentCommunityMode(selectedMode);
+                //do nothing if need redirect:
+                if(selectedMode.template.needRedirect) return;
                 if(communityService.getUserMode() === 'Participant'){
                     communityService.navigateToPage(communityService.getFullPageName());
                 }else{

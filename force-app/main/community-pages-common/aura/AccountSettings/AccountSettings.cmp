@@ -131,7 +131,6 @@
                             </div>
                             <!-- Toggle for SMS -->
                             <aura:if isTrue="{!and(v.initData.isSMSAvailableFromSS, equals(v.personWrapper.mailingCC, 'US'))}">
-                                <div class="as-title ">{!$Label.c.PG_AS_H_SMS_Preferences}</div>
                                 <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                                     <lightning:input type="toggle" label="" messageToggleActive="{!$Label.c.BTN_On}"
                                                      variant="label-hidden"
@@ -162,7 +161,7 @@
                 <div class="as-email-preference">
                     <div class="as-title">{!$Label.c.AccountSettings_Cookie_Settings}</div>
                     <div class="as-sub-title"
-                         style="margin-bottom: 15px">{!v.initData.cookieDescription}
+                         style="margin-bottom: 15px"><aura:unescapedHtml value="{!v.initData.cookieDescription}"/>
                     </div>
                     <div class="collapse-section slds-m-top--large">
                         <c:RRCollapse label="{!$Label.c.AccountSettings_Strictly_Necessary_Cookies}" isCollapsed="true">

@@ -96,9 +96,12 @@ public without sharing class MessagePageRemote {
                 //Message Variants
                 List<Message_Template__mdt> messageTemplates = [SELECT Message_Variant__c FROM Message_Template__mdt];
                 if (!messageTemplates.isEmpty()) {
-                    TranslateHelper.translate(messageTemplates, UserInfo.getLanguage());
                     pageData.messageTemplates = new List<String>();
-                    for (Message_Template__mdt mesTmp : messageTemplates) pageData.messageTemplates.add(mesTmp.Message_Variant__c);
+                    for (Message_Template__mdt mesTmp : messageTemplates) {
+                        pageData.messageTemplates.add(
+                                TranslateHelper.getLabelValue(mesTmp.Message_Variant__c, UserInfo.getLanguage())
+                        );
+                    }
                 }
             } else if (pageData.userMode == CommunityService.USER_MODE_PI) {
                 //Collect Conversations

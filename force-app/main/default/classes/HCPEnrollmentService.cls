@@ -141,7 +141,7 @@ public without sharing class HCPEnrollmentService {
                 hcpe.Completed_Orientation__c = true;
                 hcpe.Orientation_Date__c = Date.valueOf(value);
                 hcpe.Status__c = newStatus;
-            } else if(hcpe.Study_Site__r.Clinical_Trial_Profile__r.Orientation_Required__c && newStatus == HCP_S_ACTIVATED && hcpe.Status__c != HCP_S_ACTIVATION_PENDING_O){
+            } else if(hcpe.Study_Site__r.Clinical_Trial_Profile__r.Orientation_Required__c && newStatus == HCP_S_ACTIVATED && !hcpe.Completed_Orientation__c){
                 hcpe.Status__c = HCP_S_ACTIVATION_PENDING_O;
             } else {
                 hcpe.Status__c = newStatus;
@@ -251,7 +251,8 @@ public without sharing class HCPEnrollmentService {
             'Study_Site__r.Is_Virtual_Study_Site__c',
             'Study_Site__r.Study_Site_Type__c',
             'Override_PI_Status__c',
-            'Orientation_Date__c'
+            'Orientation_Date__c',
+            'Completed_Orientation__c'
     };
 
     public static List<HCP_Enrollment__c> getHCPEnrollmentsCommonCustomFields(String userMode, List<String> customFields, String filter, Boolean excludeDelegates){

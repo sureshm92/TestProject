@@ -48,6 +48,10 @@
                 <div class="te-col-header">
                     {!$Label.c.Task_Details}
                 </div>
+                <!-- Task Header Info -->
+                <div class="te-col-header-info">
+                    {!$Label.c.Task_Details_Header_Info}
+                </div>
                 <!--Task Name-->
                 <div class="slds-grid te-form slds-gutters slds-wrap">
                     <div class="slds-col slds-size_1-of-1">

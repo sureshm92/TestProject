@@ -1,5 +1,5 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_PI1}"
-                         recipientType="User"
+                         recipientType="Contact"
                          relatedToType="Study_Site__c"
                          language="{!relatedTo.Principal_Investigator__r.Language__c}">
 
@@ -22,7 +22,6 @@
         <c:EmailTemplateText userType="PI"
                              recipientId="{!recipient.Id}"
                              sourceId="{!relatedTo.Id}"
-                             parametersProvider="PP_Study_Site"
                              header="{!$Label.Email_Header_Review_and_accept_a_new_study}"
                              title="{!$Label.Email_Title}"
                              greeting="{!$Label.Email_User_Greeting}"
