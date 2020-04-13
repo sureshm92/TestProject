@@ -159,7 +159,7 @@ public without sharing class NotificationAvailabilityService {
     }
 
     public Boolean isAvailable(String whatId, String recipientType, String notificationTarget, Id contactId) {
-        if(whatId != null && objectsByIds.get(whatId) == null) return false;
+        if(whatId != null && objectsByIds.get(Id.valueOf(whatId)) == null) return false;
         Boolean checkForNotification = false;
         String objType = null;
         Id objId;
@@ -256,7 +256,7 @@ public without sharing class NotificationAvailabilityService {
     }
 
     public CommunityTemplate getCommunityTemplate(Id contactId, String whatId) {
-        if(whatId != null && objectsByIds.get(whatId) == null) return CommunityTemplateService.getDefaultTemplate();
+        if(whatId != null && objectsByIds.get(Id.valueOf(whatId)) == null) return CommunityTemplateService.getDefaultTemplate();
         String objType = whatId != null ? String.valueOf(((Id)whatId).getSobjectType()) : null;
 
         CommunityTemplate communityTemplate;
