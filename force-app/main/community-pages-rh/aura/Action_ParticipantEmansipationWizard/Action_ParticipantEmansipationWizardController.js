@@ -204,7 +204,9 @@
               Mailing_Country__c: component.get('v.participant.Mailing_Country__c'),
               statesDelegateLVList: states,
               Adult__c: true,
-              Phone_Type__c: 'Home'
+              Phone_Type__c: 'Home',
+              isConnected: false,
+              fromStart: false
             });
         component.set('v.delegateItems', delegateItems);
     }

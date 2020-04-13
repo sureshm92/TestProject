@@ -208,7 +208,7 @@
                             <aura:iteration items="{!v.delegateItems}" var="delegateItem" indexVar="ind">
                                 <div style="background: #F6F7FB; border: 0.1px solid; border-color: lightgrey; margin-top: 15px;">
                                     <div class="slds-grid slds-gutters slds-wrap rr-form-element" style="margin: 10px 10px;">
-                                        <aura:if isTrue="{!delegateItem.Contact__c}">
+                                        <aura:if isTrue="{!delegateItem.isConnected &amp;&amp; delegateItem.fromStart}">
                                             <div class="rr-form-element slds-col slds-size--1-of-1">
                                                 {!delegateItem.continueDelegateMsg}
                                             </div>
@@ -223,31 +223,42 @@
                                             {!$Label.c.PG_Ref_L_Delegate_ensure_info_uptodate}
                                         </div>
 
-                                        <div class="rr-form-element slds-col slds-size--1-of-3">
-                                            <div class="label">
-                                                <span style="white-space: nowrap; width: 85%; overflow: hidden; text-overflow: ellipsis;">
-                                                    {!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
-                                                </span><abbr title="required" class="slds-required">*</abbr>
+                                        <aura:if isTrue="{!delegateItem.isConnected &amp;&amp; delegateItem.fromStart}">
+                                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                                <div class="label">
+                                                    <span style="white-space: nowrap; width: 85%; overflow: hidden; text-overflow: ellipsis;">
+                                                        {!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
+                                                    </span><abbr title="required" class="slds-required">*</abbr>
+                                                </div>
+                                                <lightning:input aura:id="{!'phoneDInput' + ind}" type="text" value="{!delegateItem.Phone__c}"
+                                                                 required="{!v.currentTab == '2'}"  onblur="{!c.doCheckDelegateFields}"/>
                                             </div>
-                                            <lightning:input aura:id="{!'phoneDInput' + ind}" type="text" value="{!delegateItem.Phone__c}"
-                                                             required="{!v.currentTab == '2'}"  onblur="{!c.doCheckDelegateFields}"/>
-                                        </div>
-                                        <div class="rr-form-element slds-col slds-size--1-of-3">
-                                            <div class="label">
-                                                {!$Label.c.PG_AS_F_Phone_Type}<abbr title="required" class="slds-required">*</abbr>
+                                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                                <div class="label">
+                                                    {!$Label.c.PG_AS_F_Phone_Type}<abbr title="required" class="slds-required">*</abbr>
+                                                </div>
+                                                <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!delegateItem.Phone_Type__c}" useSentenceFont="false"/>
                                             </div>
-                                            <c:rrSelect options="{!v.formData.phoneTypeLVList}" value="{!delegateItem.Phone_Type__c}" useSentenceFont="false"/>
-                                        </div>
-                                        <div class="rr-form-element slds-col slds-size--1-of-3">
-                                            <div class="label">
-                                                {!$Label.c.PG_AS_F_Email_address}<abbr title="required" class="slds-required">*</abbr>
+                                            <div class="rr-form-element slds-col slds-size--1-of-3">
+                                                <div class="label">
+                                                    {!$Label.c.PG_AS_F_Email_address}<abbr title="required" class="slds-required">*</abbr>
+                                                </div>
+                                                <lightning:input aura:id="{!'emailDInput' + ind}" type="email" value="{!delegateItem.Email__c}"
+                                                                 required="{!v.currentTab == '2'}" onblur="{!c.doCheckDelegateFields}"/>
                                             </div>
-                                            <lightning:input aura:id="{!'emailDInput' + ind}" type="email" value="{!delegateItem.Email__c}"
-                                                             required="{!v.currentTab == '2'}" onblur="{!c.doCheckDelegateFields}"/>
-                                        </div>
+                                        </aura:if>
+
+                                        <aura:if isTrue="{!!delegateItem.isConnected || !delegateItem.fromStart}">
+                                            <c:EmancipationWizardDelegate delegateItem="{!delegateItem}" index="{!ind}" parent="{!this}"/>
+                                        </aura:if>
                                     </div>
                                 </div>
                             </aura:iteration>
+                        </div>
+                        <div>
+                            <button class="apollo-btn secondary" style="margin-top: 10px; box-shadow: none; border: none; font-weight: 600; background-color: rgb(255, 255, 255);" onclick="{!c.doAddDelegate}">{!$Label.c.Add_Delegate}
+                                <div style="margin-left: -125px;"><c:RRIcon color="#297dfd" iconName="icon-plus"/></div>
+                            </button>
                         </div>
                     </div>
                 </aura:if>
