@@ -97,7 +97,7 @@ public without sharing class PatientDelegateTriggerHandler {
                 WHERE ContactId IN :isActiveContactsMap.keySet()
         ];
         for (User usr: users) usr.IsActive = isActiveContactsMap.get(usr.ContactId);
-        if (!users.isEmpty()/* && !Test.isRunningTest()*/) {
+        if (!users.isEmpty()) {
             update users;
         }
     }
