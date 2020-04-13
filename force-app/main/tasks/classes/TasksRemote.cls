@@ -68,7 +68,10 @@ public class TasksRemote {
             } else {
                 participantTasks.emptyText = Label.PG_Task_Tab_No_Tasks;
             }
-            if (ParticipantContext.getCurrentUser() != null) participantTasks.showCreateTaskButton = true;
+            if (ParticipantContext.getCurrentUser() != null &&
+                    (participantState.value == ParticipantService.ParticipantStates.ALUMNI || participantState.ctp.Tasks_Are_Available__c)) {
+                participantTasks.showCreateTaskButton = true;
+            }
         } catch (Exception e) {
             return (ParticipantTasks) AuraHelper.throwException(e);
         }

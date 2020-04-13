@@ -189,6 +189,13 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                     PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS
             };
             List<Alert__c> alertsForInsert = new List<Alert__c>();
+            List<Id> recipientIds = new List<Id>();
+            List<Id> whatIds = new List<Id>();
+            for (Participant_Enrollment__c newPE : participantEnrollments) {
+                whatIds.add(newPE.Id);
+                recipientIds.add(newPE.Participant__c);
+            }
+            NotificationAvailabilityService availabilityService = new NotificationAvailabilityService(recipientIds, whatIds);
             for (Participant_Enrollment__c newPE : participantEnrollments) {
                 Participant__c participant = newPE.Participant__c != null? participantMap.get(newPE.Participant__c):null;
                 User participantUser;
@@ -214,20 +221,23 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                     }else {
                         System.debug('NOTIFY USER');
                         if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP
-                                && !peStatusesSuccess.contains(newPE.Participant_Status__c)) {
+                                && !peStatusesSuccess.contains(newPE.Participant_Status__c)
+                                && !availabilityService.isDeferNotification(participant.Contact__c, newPE.Id)) {
                             notifications.add(new Notification__c(
                                     Recipient__c = participant.Contact__c,
                                     WhatId__c = newPE.Id,
                                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE
                             ));
                         } else if (newPE.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI
-                                && !peStatusesSuccess.contains(newPE.Participant_Status__c)) {
+                                && !peStatusesSuccess.contains(newPE.Participant_Status__c)
+                                && !availabilityService.isDeferNotification(participant.Contact__c, newPE.Id)) {
                             notifications.add(new Notification__c(
                                     Recipient__c = participant.Contact__c,
                                     WhatId__c = newPE.Id,
                                     Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE
                             ));
-                        } else if (!peStatusesSuccess.contains(newPE.Participant_Status__c)){
+                        } else if (!peStatusesSuccess.contains(newPE.Participant_Status__c)
+                                && !availabilityService.isDeferNotification(participant.Contact__c, newPE.Id)){
                             notifications.add(new Notification__c(
                                     Recipient__c = participant.Contact__c,
                                     WhatId__c = newPE.Id,
