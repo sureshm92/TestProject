@@ -129,10 +129,9 @@ public without sharing class DatabaseService {
         return ' ' + field + ' LIKE \'%' + value + '%\' ' ;
     }
     public static String searchFields(List<String> searchFields, String searchText){
-        String searchTextWithoutQuotes = String.escapeSingleQuotes(searchText);
         List<String> searchFilters = new List<String>();
         for(String field : searchFields){
-            searchFilters.add(fieldLike(field, searchTextWithoutQuotes));
+            searchFilters.add(fieldLike(field, searchText));
         }
         return ' ( ' + String.join(searchFilters,' OR ') + ' ) ' ;
     }
