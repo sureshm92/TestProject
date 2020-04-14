@@ -49,6 +49,17 @@
                 {!v.delegateItem.isConnected ? $Label.c.HealthCare_Provider_Stop_Sharing : $Label.c.HealthCare_Provider_Connect}
             </button>
         </div>
+
+        <aura:if isTrue="{!v.delegateItem.Contact__c}">
+            <div class="slds-grid slds-wrap slds-size--7-of-12 slds-large-size--1-of-1 slds-grid_vertical-align-end healthcare-form-container provider-found-section">
+                <div class="slds-col slds-size--4-of-12">
+                    {!$Label.c.Delegate_Found}
+                </div>
+                <div class="slds-col slds-size--8-of-12">
+                    <c:RRLink label="{!$Label.c.Different_Delegate}" page="{!'help'}"/>
+                </div>
+            </div>
+        </aura:if>
     </div>
 
 </aura:component>

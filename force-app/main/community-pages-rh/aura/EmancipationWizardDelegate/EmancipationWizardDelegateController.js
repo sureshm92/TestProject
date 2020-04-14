@@ -6,7 +6,9 @@
     checkFields: function (component, event) {
         var delegateItem = component.get('v.delegateItem');
 
-        var isValid = (delegateItem.Email__c && communityService.isValidEmail(delegateItem.Email__c)) && delegateItem.First_Name__c && delegateItem.Last_Name__c;
+        var isValid = (delegateItem.Email__c && communityService.isValidEmail(delegateItem.Email__c)) &&
+            delegateItem.First_Name__c && delegateItem.First_Name__c.trim() &&
+            delegateItem.Last_Name__c && delegateItem.Last_Name__c.trim();
         component.set('v.isValid', isValid);
     },
 
