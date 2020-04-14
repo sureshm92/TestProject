@@ -7,5 +7,6 @@ trigger PatientDelegateTrigger on Patient_Delegate__c (before insert, before upd
     TriggerHandlerExecutor.execute(PatientDelegateTriggerHandler.SetDefaultPatientDelegateStatusHandler.class);
     TriggerHandlerExecutor.execute(PatientDelegateTriggerHandler.UpdateUserStatusHandler.class);
     TriggerHandlerExecutor.execute(PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class);
+    TriggerHandlerExecutor.execute(PatientDelegateTriggerHandler.CreateNewAssignmentNotification.class);
 
 }

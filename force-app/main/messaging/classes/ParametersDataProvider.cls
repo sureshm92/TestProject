@@ -72,6 +72,8 @@ public without sharing class ParametersDataProvider {
         parameters.put('ForgotPasswordURL', clinicalResearchCommunityForgotPasswordURL);
 
         if (isDelegate && userMode == CommunityService.USER_MODE_PARTICIPANT) {
+            parameters.put('UserName', getCommunityUserName(recipientContactId));
+
             List<Id> conIds = new List<Id>{recipientContactId};
             List<String> templates = new List<String>{communityTemplateName};
             if(communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT) templates.add(null);
