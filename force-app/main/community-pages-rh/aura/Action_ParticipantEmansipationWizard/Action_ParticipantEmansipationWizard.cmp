@@ -23,6 +23,8 @@
     <aura:attribute name="receiveOptionalEmail" type="Boolean" default="false"/>
     <aura:attribute name="selectedOption" type="String" default="2"/>
     <aura:attribute name="finalAgree" type="Boolean" default="false"/>
+    <aura:attribute name="delegateItemsDisabled" type="Boolean" default="false"/>
+
 
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private"/>
     <aura:attribute name="participantMsgWithName" type="String" access="private"/>
@@ -250,7 +252,11 @@
                             </aura:iteration>
                         </div>
                         <div>
-                            <button class="apollo-btn secondary" style="margin-top: 10px; box-shadow: none; border: none; font-weight: 600; background-color: rgb(255, 255, 255);" onclick="{!c.doAddDelegate}">{!$Label.c.Add_Delegate}
+                            <button class="apollo-btn secondary"
+                                    style="margin-top: 10px; box-shadow: none; border: none; font-weight: 600; background-color: rgb(255, 255, 255);"
+                                    disabled="{!v.delegateItemsDisabled}"
+                                    title="{!!v.delegateItemsDisabled ? $Label.c.RSN_Your_permissions_do_not_permit_this_action : ''}"
+                                    onclick="{!c.doAddDelegate}">{!$Label.c.Add_Delegate}
                                 <div style="margin-left: -125px;"><c:RRIcon color="#297dfd" iconName="icon-plus"/></div>
                             </button>
                         </div>
@@ -262,7 +268,7 @@
                         <!-- Healthcare Provider information: -->
                         <div class="ap-section">
                             <div class="ap-section-title">{!$Label.c.BTN_HealthCare_Provider_Information}</div>
-                            <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{!v.pe.HCP__r.HCP_Contact__r}" fromActionParticipant="false" fromEmancipParticipant="true" actionDisabled="false"/>
+                            <c:ReferHealthcareProvider pe="{!v.pe}" refProvider="{!v.pe.HCP__r.HCP_Contact__r}" fromActionParticipant="false" fromEmancipParticipant="true"/>
                         </div>
                     </div>
                 </aura:if>
