@@ -171,6 +171,7 @@ public without sharing class ParticipantInformationRemote {
             }
             contactsToInsert.add(contactToInsert);
 
+            Boolean userNotExists = false;
             if (!contactsToInsert.isEmpty()) {
                 upsert contactsToInsert;
 
@@ -181,9 +182,8 @@ public without sharing class ParticipantInformationRemote {
                                 Status__c
                         FROM Patient_Delegate__c
                         WHERE Participant__c = :participant.Id AND
-                        Contact__c = :contactToInsert.Id AND
-                        Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
-                ];
+                        Contact__c = :contactToInsert.Id];
+                userNotExists = patientDelegatesEver.isEmpty();
 
                 if (patientDelegatesEver.isEmpty() && !isConnected) {
                     for (Contact newDelegate : contactsToInsert) {
@@ -211,7 +211,7 @@ public without sharing class ParticipantInformationRemote {
             if (!patientDelegatesToInsert.isEmpty()) {
                 upsert patientDelegatesToInsert;
             }
-            if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
+            if (!toCreateUser.isEmpty() && userNotExists) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
