@@ -4,7 +4,7 @@
 .THIS.icons-container {
     display: flex;
     overflow: hidden;
-    height: 32px;
+    height: 28px;
     justify-content: space-between;
 }
 
