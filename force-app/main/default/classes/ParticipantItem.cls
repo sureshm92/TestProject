@@ -21,7 +21,8 @@ public class ParticipantItem {
 
     public ParticipantItem(ParticipantService.ParticipantState participantState) {
         this.pe = participantState.pe;
-        this.showVisits = participantState.showVisits;
+        this.showVisits = pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c && participantState.showVisits
+                && pe.Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c;
         this.participationFlowSteps = PEStatusState.getParticipationFlowStepsLV(participantState.pe);
         this.showParticipationSteps = PEStatusState.getParticipationFlowSteps(participantState.pe).contains(participantState.pe.Participant_Status__c);
     }
