@@ -70,13 +70,7 @@
                         <div class="ap-section">
                             <div class="ap-section-title">{!$Label.c.BTN_Participant_Information}</div>
                             <div class="slds-grid slds-gutters slds-wrap">
-                                <div class="rr-form-element slds-no-label slds-size--1-of-1" style="margin-left: 12px; margin-top: 5px;">
-                                    <div class="rr-cb-container">
-                                        <lightning:input type="checkbox" label="" checked="{!v.needsGuardian}"/>
-                                    </div>
-                                    <div class="label rr-cb-label">{!$Label.c.PG_Ref_L_Participant_require_guardian}</div>
-                                </div>
-                                <div class="rr-form-element slds-col slds-size--1-of-1">
+                                <div class="rr-form-element slds-col slds-size--1-of-1" style="margin-top: 5px;">
                                     {!v.participantMsgWithName}
                                 </div>
                                 <div class="slds-col slds-size--1-of-1 radioInvite">
