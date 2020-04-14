@@ -13,13 +13,14 @@
     <aura:attribute name="peStatusStateMap" type="Map"/>
     <aura:attribute name="actions" type="List"/>
     <aura:attribute name="isInvited" type="Boolean" default="false" access="public"/>
+    <aura:attribute name="showVisits" type="Boolean" default="false" access="public"/>
 
     <!-- component body:-->
     <div class="rr-white-panel padding">
         <c:ParticipantCardHeader userMode="{!v.userMode}" pe="{!v.pe}" isReferral="false" isInvited="{!v.isInvited}"/>
         <c:ParticipantCardIsEmansipated pe="{!v.pe}" parent="{!v.parent}" userMode="{!v.userMode}"/>
         <c:ParticipantCardFields userMode="{!v.userMode}" pe="{!v.pe}" showParticipationSteps="true" isInvited="{!v.isInvited}"/>
-        <aura:if isTrue="{!and(equals(v.userMode, 'Participant'), and(v.pe.Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c, v.pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c))}">
+        <aura:if isTrue="{!and(and(equals(v.userMode, 'Participant'), v.showVisits), and(v.pe.Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c, v.pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c))}">
             <c:visitsPath/>
             <aura:set attribute="else">
                 <c:PSEPath steps="{!v.steps}" pe="{!v.pe}" userMode="{!v.userMode}" parent="{!v.parent}"

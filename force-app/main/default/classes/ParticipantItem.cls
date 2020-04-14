@@ -9,6 +9,7 @@ public class ParticipantItem {
     @AuraEnabled public List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
     @AuraEnabled public List<LabelValueItem> participationFlowSteps;
     @AuraEnabled public Boolean showParticipationSteps;
+    @AuraEnabled public Boolean showVisits;
     @AuraEnabled public List<ParticipantWorkflowService.PathStepWrapper> pathItems;
 
     public ParticipantItem(Participant_Enrollment__c pe){
@@ -20,6 +21,7 @@ public class ParticipantItem {
 
     public ParticipantItem(ParticipantService.ParticipantState participantState) {
         this.pe = participantState.pe;
+        this.showVisits = participantState.showVisits;
         this.participationFlowSteps = PEStatusState.getParticipationFlowStepsLV(participantState.pe);
         this.showParticipationSteps = PEStatusState.getParticipationFlowSteps(participantState.pe).contains(participantState.pe.Participant_Status__c);
     }
