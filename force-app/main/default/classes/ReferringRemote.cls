@@ -174,7 +174,7 @@ public without sharing class ReferringRemote {
                 newContact.FirstName = participantDelegate.First_Name__c;
                 newContact.LastName = participantDelegate.Last_Name__c;
                 newContact.Email = participantDelegate.Email__c;
-                newContact.AccountId = [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_DELEGATE_ACCOUNT_NAME LIMIT 1 FOR UPDATE ].Id;
+                newContact.AccountId = [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE ].Id;
                 newContact.Language__c = UserInfo.getLanguage();
                 newContact.Second_Choice_Language__c = '';
                 newContact.Third_Choice_Language__c = '';
