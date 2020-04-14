@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Dashboard_Name__c</field>
-        <value xsi:type="xsd:string">Respiratory Rate</value>
+        <value xsi:type="xsd:string">Respiratory_Rate</value>
     </values>
     <values>
         <field>Dashboard_Type__c</field>
