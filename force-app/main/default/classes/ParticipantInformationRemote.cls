@@ -148,7 +148,7 @@ public without sharing class ParticipantInformationRemote {
                     delegateParticipant
             });
             Contact contactToInsert = new Contact(
-                    AccountId = [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_DELEGATE_ACCOUNT_NAME LIMIT 1 FOR UPDATE ].Id,
+                    AccountId = [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE ].Id,
                     MailingState = delegateParticipant.Mailing_State__c,
                     MailingCountry = delegateParticipant.Mailing_Country__c,
                     MailingStateCode = delegateParticipant.Mailing_State_Code__c,
