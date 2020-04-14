@@ -156,7 +156,13 @@ public without sharing class ParticipantInformationRemote {
                     MailingPostalCode = delegateParticipant.Mailing_Zip_Postal_Code__c,
                     FirstName = delegateParticipant.First_Name__c,
                     LastName = delegateParticipant.Last_Name__c,
-                    Email = delegateParticipant.Email__c
+                    Email = delegateParticipant.Email__c,
+                    Language__c = UserInfo.getLanguage(),
+                    Second_Choice_Language__c = '',
+                    Third_Choice_Language__c = '',
+                    userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT,
+                    userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT,
+                    userCommunityIsDelegate__c = true
             );
             if (duplicateService.findDuplicateContact(delegateParticipant) != null) {
                 contactToInsert.Id = duplicateService.findDuplicateContact(delegateParticipant).Id;
@@ -202,11 +208,10 @@ public without sharing class ParticipantInformationRemote {
                 }
             }
 
-            if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
-
             if (!patientDelegatesToInsert.isEmpty()) {
                 upsert patientDelegatesToInsert;
             }
+            if (!toCreateUser.isEmpty()) ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(toCreateUser);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
