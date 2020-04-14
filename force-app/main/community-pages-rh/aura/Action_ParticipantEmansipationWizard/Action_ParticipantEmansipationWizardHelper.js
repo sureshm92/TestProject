@@ -173,6 +173,14 @@
         component.set('v.isDelegatesValid', isDelegatesValid);
     },
 
+    initPILevel: function(component) {
+        communityService.executeAction(component, 'checkPILevelI', {
+            studySiteId: component.get('v.pe.Study_Site__c')
+        },  function (returnValue) {
+            component.set('v.delegateItemsDisabled', returnValue.isDisabled);
+        });
+    },
+
     initDelegates: function(component, event, helper) {
         communityService.executeAction(component, 'getParticipantDelegates', {
             participantId: component.get('v.pe.Participant__c')

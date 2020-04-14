@@ -37,6 +37,14 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
+    public static PIDelegateLevelInfo checkPILevelI(String studySiteId) {
+        PIDelegateLevelInfo levelInfo = new PIDelegateLevelInfo();
+        levelInfo.isDisabled = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getPIStudySitesAccessLevelMap().get(studySiteId));
+
+        return levelInfo;
+    }
+
+    @AuraEnabled
     public static void updatePatientInfo(String participantJSON, String peJSON) {
         AddPatientByPIRemote.updatePatientInfo(participantJSON, peJSON);
     }
@@ -452,6 +460,10 @@ public without sharing class ParticipantInformationRemote {
 
     public class DelegateConnectedInfo {
         @AuraEnabled public Boolean isConnected { get; set; }
+    }
+
+    public class PIDelegateLevelInfo {
+        @AuraEnabled public Boolean isDisabled { get; set; }
     }
 
 }
