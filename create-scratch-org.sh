@@ -19,38 +19,24 @@ if [ $? = 0 ] ; then
     sfdx force:apex:execute -f scripts/apex/SFDX_Setup_UpdateSSAndHCPEStatuses.apex
 
     sfdx force:user:permset:assign --permsetname PP_Approved_Languages_Edit
-    sfdx force:user:permset:assign --permsetname PP_Approved_Languages_View
     sfdx force:user:permset:assign --permsetname PP_Batch_Control_Panel
     sfdx force:user:permset:assign --permsetname PP_CTP_Edit
-    sfdx force:user:permset:assign --permsetname PP_CTP_View
     sfdx force:user:permset:assign --permsetname PP_Manual_Creation_Panel
     sfdx force:user:permset:assign --permsetname PP_Message_Configuration_Edit
-    sfdx force:user:permset:assign --permsetname PP_Message_Configuration_View
     sfdx force:user:permset:assign --permsetname PP_Motivational_Messages_Edit
-    sfdx force:user:permset:assign --permsetname PP_Motivational_Messages_View
     sfdx force:user:permset:assign --permsetname PP_Participant_BL
     sfdx force:user:permset:assign --permsetname PP_Participant_Non_PIII_View
     sfdx force:user:permset:assign --permsetname PP_Participant_PII_Edit
     sfdx force:user:permset:assign --permsetname PP_Participant_PII_On_Cases_View
-    sfdx force:user:permset:assign --permsetname PP_Participant_PII_View
     sfdx force:user:permset:assign --permsetname PP_Payment_Vendors_Edit
-    sfdx force:user:permset:assign --permsetname PP_Payment_Vendors_View
     sfdx force:user:permset:assign --permsetname PP_StudySite_Edit
-    sfdx force:user:permset:assign --permsetname PP_StudySite_View
     sfdx force:user:permset:assign --permsetname PP_Study_Resources_Edit
-    sfdx force:user:permset:assign --permsetname PP_Study_Resources_View
     sfdx force:user:permset:assign --permsetname PP_Toggle_Feature_Delta_Edit
-    sfdx force:user:permset:assign --permsetname PP_Toggle_Feature_Delta_View
     sfdx force:user:permset:assign --permsetname PP_Travel_Vendors_Edit
-    sfdx force:user:permset:assign --permsetname PP_Travel_Vendors_View
     sfdx force:user:permset:assign --permsetname PP_Trial_Surveys_Edit
-    sfdx force:user:permset:assign --permsetname PP_Trial_Surveys_View
     sfdx force:user:permset:assign --permsetname PP_Visits_Configuration_Edit
-    sfdx force:user:permset:assign --permsetname PP_Visits_Configuration_View
     sfdx force:user:permset:assign --permsetname PP_Visits_Results_Sharing_Edit
-    sfdx force:user:permset:assign --permsetname PP_Visits_Results_Sharing_View
     sfdx force:user:permset:assign --permsetname Patient_Portal_Edit_Study_Settings
-    sfdx force:user:permset:assign --permsetname Patient_Portal_Read_Study_Settings
     sfdx force:user:permset:assign --permsetname SurveyCreator
 
     echo "Push completed successfully!"
