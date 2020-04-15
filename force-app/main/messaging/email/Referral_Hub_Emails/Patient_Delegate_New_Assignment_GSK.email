@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="{!$Label.Email_Subject_Login_RHPP}"
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Login_GSK}"
                          recipientType="Contact"
                          relatedToType="Participant__c"
                          language="{!recipient.Language__c}">
@@ -12,7 +12,7 @@
                          greeting="{!$Label.Email_User_Greeting_FirstName}"
                          body="{!$Label.Email_Body_Initial_Patient_Delegate}"
                          signature="{!$Label.Email_Signature_New}"
-                         communityTemplate="Default">
+                         communityTemplate="GSK">
             <c:EmailActionBtn buttonLabel="{!$Label.Email_Action_Login_now}"
                               resourceId="{!relatedTo.Id}"/>
         </c:EmailTemplate>
@@ -27,7 +27,7 @@
                              greeting="{!$Label.Email_User_Greeting_FirstName}"
                              body="{!$Label.Email_Body_Initial_Patient_Delegate}"
                              signature="{!$Label.Email_Signature_New}"
-                             communityTemplate="Default">
+                             communityTemplate="GSK">
             <c:EmailActionBtnText buttonLabel="{!$Label.Email_Action_Login_now}"
                                   resourceId="{!relatedTo.Id}"/>
         </c:EmailTemplateText>
