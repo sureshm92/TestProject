@@ -17,14 +17,6 @@ public without sharing class PatientDelegateTriggerHandler {
         }
 
     }
-
-    public class UpdateUserStatusHandler extends TriggerHandler{
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            updateUserStatus(newList, (Map<Id, Patient_Delegate__c>)oldMap);
-        }
-
-    }
     
     public class UpdatePermissionSetAssignments extends TriggerHandler{
     
@@ -44,12 +36,15 @@ public without sharing class PatientDelegateTriggerHandler {
 
     public class CreateNewAssignmentNotification extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
-            createDelegateAssignmentNotification(newList);
+            createDelegateAssignmentNotification(newList, null);
+        }
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            createDelegateAssignmentNotification(newList, (Map<Id, Patient_Delegate__c>) oldMap);
         }
     }
 
     // Logic: ----------------------------------------------------------------------------------------------------------
-
     @TestVisible
     private static void setDefaultPatientStatus(List<Patient_Delegate__c> newList) {
         for (Patient_Delegate__c participantDelegate : newList) {
@@ -57,92 +52,45 @@ public without sharing class PatientDelegateTriggerHandler {
         }
     }
 
-    @TestVisible
-    private static void updateUserStatus(List<Patient_Delegate__c> newList, Map<Id, Patient_Delegate__c> oldMap) {
-        Set<Id> contactIds = new Set<Id>();
-        for (Patient_Delegate__c pd : newList) {
-            if (pd.Status__c != oldMap.get(pd.Id).Status__c) {
-                contactIds.add(pd.Contact__c);
-            }
-        }
-    
-        Map<Id, Boolean> isActiveContactsMap = new Map<Id, Boolean>();
-        List<Contact> delegates = [SELECT Id, (SELECT Id, Status__c FROM Contacts__r) FROM Contact WHERE Id IN: contactIds];
-        for(Contact contact : delegates){
-            Boolean isActive = false;
-            for(Patient_Delegate__c pd : contact.Contacts__r){
-                if(pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS){
-                    isActive = true;
-                    break;
-                }
-            }
-            isActiveContactsMap.put(contact.Id, isActive);
-        }
-    
-        updateUsersStatusFuture(isActiveContactsMap);
-    }
-    
     private static void updatePermissionSets(List<Patient_Delegate__c> changedPDList){
         Set<Id> contactIds = new Set<Id>();
         for(Patient_Delegate__c pd : changedPDList) contactIds.add(pd.Contact__c);
         PatientDelegateService.updatePermissionSets(contactIds);
     }
 
-    @Future
-    private static void updateUsersStatusFuture(Map<Id, Boolean> isActiveContactsMap) {
-        if(isActiveContactsMap.isEmpty()) return ;
-        List<User> users = [
-                SELECT Id, IsActive, ContactId
-                FROM User
-                WHERE ContactId IN :isActiveContactsMap.keySet()
-        ];
-        for (User usr: users) usr.IsActive = isActiveContactsMap.get(usr.ContactId);
-        if (!users.isEmpty()) {
-            update users;
-        }
-    }
-
     @TestVisible
-    private static void createDelegateAssignmentNotification(List<Patient_Delegate__c> patientDelegates) {
-        List<Id> participantIds = new List<Id>();
-        Map<Id, List<Id>> participantsByDelContId = new Map<Id, List<Id>>();
-        for (Patient_Delegate__c delegate : patientDelegates) {
-            participantIds.add(delegate.Participant__c);
-            if(!participantsByDelContId.containsKey(delegate.Contact__c)) {
-                participantsByDelContId.put(delegate.Contact__c, new List<Id>());
+    private static void createDelegateAssignmentNotification(List<Patient_Delegate__c> patientDelegates, Map<Id, Patient_Delegate__c> oldMap) {
+        List<Id> pdIds = new List<Id>();
+        for(Patient_Delegate__c pd : patientDelegates) {
+            if(oldMap == null || (pd.Status__c == PATIENT_DELEGATE_ACTIVE_STATUS && oldMap.get(pd.Id).Status__c != pd.Status__c)) {
+                pdIds.add(pd.Id);
             }
-            participantsByDelContId.get(delegate.Contact__c).add(delegate.Participant__c);
         }
 
-        List<Participant_Enrollment__c> enrollments = [
-                SELECT Id,
+        List<Patient_Delegate__c> newPatientDelegates = [
+                SELECT Contact__c,
                         Participant__c,
-                        Clinical_Trial_Profile__r.CommunityTemplate__c
-                FROM Participant_Enrollment__c
-                WHERE Participant__c IN:participantIds
+                        Participant__r.Contact__c
+                FROM Patient_Delegate__c
+                WHERE Id IN:pdIds
         ];
-        Map<Id, List<Participant_Enrollment__c>> enrollmentsByParticipant = new Map<Id, List<Participant_Enrollment__c>>();
-        for(Participant_Enrollment__c enrollment : enrollments) {
-            if(!enrollmentsByParticipant.containsKey(enrollment.Participant__c)) {
-                enrollmentsByParticipant.put(enrollment.Participant__c, new List<Participant_Enrollment__c>());
-            }
 
-            enrollmentsByParticipant.get(enrollment.Participant__c).add(enrollment);
+        Set<Id> participantContacts = new Set<Id>();
+        Map<Id, List<Participant__c>> participantsByDelContId = new Map<Id, List<Participant__c>>();
+        for (Patient_Delegate__c delegate : newPatientDelegates) {
+            if(!participantsByDelContId.containsKey(delegate.Contact__c)) {
+                participantsByDelContId.put(delegate.Contact__c, new List<Participant__c>());
+            }
+            participantsByDelContId.get(delegate.Contact__c).add(delegate.Participant__r);
+            participantContacts.add(delegate.Participant__r.Contact__c);
         }
 
-        List<User> delegateUsers = [
-                SELECT Id
-                FROM User
-                WHERE ContactId IN:participantsByDelContId.keySet()
-                AND IsActive = TRUE
-        ];
         List<PermissionSetAssignment> permissionSetAssignments = [
                 SELECT
-                        AssigneeId,
                         Assignee.ContactId,
                         PermissionSet.Name
                 FROM PermissionSetAssignment
-                WHERE AssigneeId IN:delegateUsers
+                WHERE (Assignee.ContactId IN:participantsByDelContId.keySet() OR Assignee.ContactId IN:participantContacts)
                 AND PermissionSet.Name IN:CommunityTemplateService.getAllPermissionSets()
         ];
         Map<Id, Set<String>> permissionsByContact = new Map<Id, Set<String>>();
@@ -158,20 +106,13 @@ public without sharing class PatientDelegateTriggerHandler {
             if(!permissionsByContact.containsKey(delCont)) continue;
 
             Set<String> delPermissions = permissionsByContact.get(delCont);
-            for(Id participantId : participantsByDelContId.get(delCont)) {
-                Map<String, Id> peIdByParticipantPermission = new Map<String, Id>();
-                for (Participant_Enrollment__c pe : enrollmentsByParticipant.get(participantId)) {
-                    String pePerm = CommunityTemplateService.getTemplate(pe.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
-                    if (peIdByParticipantPermission.containsKey(pePerm)) continue;
-
-                    peIdByParticipantPermission.put(pePerm, pe.Id);
-                }
-                for(String partPerm : peIdByParticipantPermission.keySet()) {
+            for(Participant__c participant : participantsByDelContId.get(delCont)) {
+                for(String partPerm : permissionsByContact.get(participant.Contact__c)) {
                     if(delPermissions.contains(partPerm)) {
                         notifications.add(new Notification__c(
-                                Notification_Type__c = NotificationCatalog.MESSAGE_TO_PT_DEL_NEW_ASSIGNMENT_TYPE,
+                                Notification_Type__c = CommunityTemplateService.getTemplateByPermissionSetName(partPerm).properties.get('DelNewAssignNotifType'),
                                 Recipient__c = delCont,
-                                WhatId__c = peIdByParticipantPermission.get(partPerm)
+                                WhatId__c = participant.Id
                         ));
                     }
                 }

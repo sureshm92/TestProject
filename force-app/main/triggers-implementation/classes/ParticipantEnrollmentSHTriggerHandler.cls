@@ -193,7 +193,8 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             List<Id> whatIds = new List<Id>();
             for (Participant_Enrollment__c newPE : participantEnrollments) {
                 whatIds.add(newPE.Id);
-                recipientIds.add(newPE.Participant__c);
+                Participant__c participant = newPE.Participant__c != null? participantMap.get(newPE.Participant__c):null;
+                recipientIds.add(participant.Contact__c);
             }
             NotificationAvailabilityService availabilityService = new NotificationAvailabilityService(recipientIds, whatIds);
             for (Participant_Enrollment__c newPE : participantEnrollments) {
