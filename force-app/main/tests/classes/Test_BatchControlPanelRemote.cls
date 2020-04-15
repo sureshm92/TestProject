@@ -4,7 +4,6 @@
 
 @IsTest
 public class Test_BatchControlPanelRemote {
-
     @IsTest
     static void allMethodsTest() {
         BatchControlPanelRemote.PanelWrapper panelWrapper;
