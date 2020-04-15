@@ -18,7 +18,8 @@ global without sharing class EmailTemplateDelegatePartController {
             if(Id.valueOf(delegateUserId).getSobjectType() == User.getSObjectType()) {
                 delConId = [SELECT ContactId FROM User WHERE Id = :delegateUserId].ContactId;
             }
-            participantIds.addAll(PatientDelegateService.getDelegatedParticipantIds(delConId));
+            List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds(delConId);
+            if (delegatedParticipantIds != null) participantIds.addAll(delegatedParticipantIds);
         }
 
         List<String> delegateStudyNames = new List<String>();
