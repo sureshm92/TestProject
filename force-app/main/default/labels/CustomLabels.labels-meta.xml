@@ -9969,7 +9969,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L Participant require agree</shortDescription>
-        <value>I agree that I have confirmed information with emancipated participant.</value>
+        <value>I have confirmed this information with the emancipated participant.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Participant_require_guardian</fullName>
