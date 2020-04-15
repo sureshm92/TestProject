@@ -85,28 +85,31 @@
                 </button>
 
                 <aura:iteration items="{!v.delegateItems}" var="delegateItem" indexVar="ind">
-                    <div class="slds-grid slds-gutters slds-wrap rr-form-element" style="margin: 10px 10px;">
-                        <div class="rr-form-element grey-text slds-col slds-size--1-of-1 ">
-                            {!delegateItem.continueDelegateMsg}
-                        </div>
-                        <div class="rr-form-element slds-col slds-size--1-of-1 delegateMsg">
-                            {!delegateItem.selectedOption == '1' ? 'Continue' : 'Do not continue'}
-                        </div>
+                    <aura:if isTrue="{!delegateItem.isConnected || delegateItem.fromStart}">
+                        <div class="slds-grid slds-gutters slds-wrap rr-form-element" style="margin: 10px 10px;">
+                            <div class="rr-form-element grey-text slds-col slds-size--1-of-1 ">
+                                {!delegateItem.continueDelegateMsg}
+                            </div>
+                            <div class="rr-form-element slds-col slds-size--1-of-1 delegateMsg">
+                                {!delegateItem.selectedOption == '1' || !delegateItem.fromStart ? 'Continue' : 'Do not continue'}
+                            </div>
 
-                        <div class="rr-form-element slds-col slds-size--1-of-3">
-                            <span class="grey-text">{!$Label.c.PG_L_Name}: </span> {!delegateItem.First_Name__c + ' ' + delegateItem.Last_Name__c}
+                            <div class="rr-form-element slds-col slds-size--1-of-3" style="{!!delegateItem.fromStart ? 'margin-top: 10px;' : ''}">
+                                <span class="grey-text">{!$Label.c.PG_L_Name}: </span> {!delegateItem.First_Name__c + ' ' + delegateItem.Last_Name__c}
+                            </div>
+                            <aura:if isTrue="{!delegateItem.fromStart}">
+                                <div class="rr-form-element slds-col slds-size--1-of-3">
+                                    <span class="grey-text">{!$Label.c.PE_Phone_number}: </span> {!delegateItem.Phone__c}
+                                </div>
+                                <div class="rr-form-element slds-col slds-size--1-of-3">
+                                    <span class="grey-text">{!$Label.c.PG_AP_F_Phone_Type}: </span> {!delegateItem.Phone_Type__c}
+                                </div>
+                            </aura:if>
+                            <div class="{!delegateItem.fromStart ? 'rr-form-element slds-col slds-size--1-of-3' : 'rr-form-element slds-col slds-size--2-of-3'}">
+                                <span class="grey-text">{!$Label.c.PG_AS_F_Email_address}: </span> {!delegateItem.Email__c}
+                            </div>
                         </div>
-                        <div class="rr-form-element slds-col slds-size--1-of-3">
-                            <span class="grey-text">{!$Label.c.PE_Phone_number}: </span> {!delegateItem.Phone__c}
-                        </div>
-                        <div class="rr-form-element slds-col slds-size--1-of-3">
-                            <span class="grey-text">{!$Label.c.PG_AP_F_Phone_Type}: </span> {!delegateItem.Phone_Type__c}
-                        </div>
-
-                        <div class="rr-form-element slds-col slds-size--1-of-3">
-                            <span class="grey-text">{!$Label.c.PG_AS_F_Email_address}: </span> {!delegateItem.Email__c}
-                        </div>
-                    </div>
+                    </aura:if>
                 </aura:iteration>
             </div>
         </div>

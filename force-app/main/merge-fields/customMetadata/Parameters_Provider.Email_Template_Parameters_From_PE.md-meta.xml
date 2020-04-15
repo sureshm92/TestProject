@@ -21,6 +21,7 @@
             ReferralSource = Referral_Source__c
             IsVirtual = Is_Virtual_Study_Site__c
             PatientFirstName = Participant__r.First_Name__c
+            ParticipantFirstName = Participant__r.First_Name__c
             ParticipantContactFirstName = Participant_Contact__r.FirstName
             PEProfileName = Name
             PEName = Name
