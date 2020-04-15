@@ -38,8 +38,7 @@
                                         userLanguage="{!v.userLanguage}"
                                         pe="{!v.pe}"
                                         formData="{!v.formData}"
-                                        isValid="{!v.isValid}"
-                                        visitPlanRequired="{!v.ctp.Patient_Portal_Enabled__c}"/>
+                                        isValid="{!v.isValid}"/>
             </div>
             <div class="ap-bottom-info">
                 {!$Label.c.PG_AP_T_Additional_Info}&nbsp;{!$Label.c.PG_AP_T_Sub_Info}
