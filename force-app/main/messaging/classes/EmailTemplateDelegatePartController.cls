@@ -11,22 +11,8 @@ global without sharing class EmailTemplateDelegatePartController {
 
     public List<String> getDelegateStudyNames() {
         List<Id> participantIds = new List<Id>();
-        if(String.isEmpty(commTemplateStr) && String.isNotEmpty(sourceIdValue)) {
-            if(isSourceIdEnrollment()) {
-                List<Participant_Enrollment__c> enrollment = [
-                        SELECT Clinical_Trial_Profile__r.CommunityTemplate__c,
-                                Participant__c
-                        FROM Participant_Enrollment__c
-                        WHERE Id = :sourceIdValue
-                ];
-                if(!enrollment.isEmpty()) {
-                    participantIds = new List<Id>();
-                    participantIds.add(enrollment.get(0).Participant__c);
-                    commTemplateStr = CommunityTemplateService.getTemplate(
-                            enrollment.get(0).Clinical_Trial_Profile__r.CommunityTemplate__c
-                    ).templateName;
-                }
-            }
+        if(sourceIdValue != null && sourceIdValue.getSobjectType() == Participant__c.getSObjectType()) {
+            participantIds.add(sourceIdValue);
         } else {
             Id delConId = delegateUserId;
             if(Id.valueOf(delegateUserId).getSobjectType() == User.getSObjectType()) {
@@ -49,14 +35,9 @@ global without sharing class EmailTemplateDelegatePartController {
         return delegateStudyNames;
     }
 
-    private Boolean isSourceIdEnrollment() {
-        return sourceIdValue.getSobjectType() == Participant_Enrollment__c.getSObjectType();
-    }
-
     global String getAfterText() {
-        if(isSourceIdEnrollment()) return '';
+        if(Id.valueOf(delegateUserId).getSobjectType() != User.getSObjectType()) return '';
         Map<String, String> paramsMap = (Map<String, String>) JSON.deserialize(dataParams, Map<String, String>.class);
         return TranslateHelper.replaceParams(Label.Email_Body_Initial_Patient_Delegate_AfterText, EmailTemplateController.PARAM_PREFIX, paramsMap);
     }
-
 }
