@@ -2274,7 +2274,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body PI1</shortDescription>
-        <value>A new clinical research study has been added to your account on the IQVIA Referral Hub:  ##StudyTitle
+        <value>A new clinical research study has been added to your account on the IQVIA Referral Hub:  ##StudyName
 
             Please take a moment to log into the IQVIA Referral Hub to review and accept the study.</value>
     </labels>
@@ -2655,7 +2655,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Email Body RP8</shortDescription>
-        <value>Thank you for requesting to become a referring provider for ##StudyName. Your referring capabilities are currently on hold. No referral activity for this study can be performed until you are taken off hold.
+        <value>Thank you for requesting to become a referring provider for ##StudyTitle. Your referring capabilities are currently on hold. No referral activity for this study can be performed until you are taken off hold.
 
             You may be contacted regarding further options.</value>
     </labels>
