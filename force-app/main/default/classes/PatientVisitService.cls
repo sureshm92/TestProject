@@ -124,18 +124,12 @@ public inherited sharing class PatientVisitService {
 
     public class VisitWrapper {
 
-        @AuraEnabled
-        public String completedOrPlannedDate;
-        @AuraEnabled
-        public String icons;
-        @AuraEnabled
-        public List<Icon_Details__c> iconDetails;
-        @AuraEnabled
-        public Task task;
-        @AuraEnabled
-        public Date reminderDate;
-        @AuraEnabled
-        public Patient_Visit__c visit;
+        @AuraEnabled public String completedOrPlannedDate;
+        @AuraEnabled public String icons;
+        @AuraEnabled public List<Icon_Details__c> iconDetails;
+        @AuraEnabled public Task task;
+        @AuraEnabled public Date reminderDate;
+        @AuraEnabled public Patient_Visit__c visit;
 
         public VisitWrapper(Patient_Visit__c visit, Task task) {
             this.visit = visit;
@@ -144,7 +138,13 @@ public inherited sharing class PatientVisitService {
 
                 List<String> iconNames = visit.Visit__r.Icons__c.split(';');
                 if (!iconNames.isEmpty()) {
-                    this.iconDetails = [SELECT Id, Name, Label__c FROM Icon_Details__c WHERE Visit_Plan__c = :visit.Visit__r.Visit_Plan__c AND Name IN:iconNames];
+                    List<Icon_Details__c> iconDetails = [
+                            SELECT Id, Name, Label__c
+                            FROM Icon_Details__c
+                            WHERE Visit_Plan__c = :visit.Visit__r.Visit_Plan__c AND Name IN: iconNames
+                    ];
+                    TranslateHelper.translate(iconDetails);
+                    this.iconDetails = iconDetails;
                 }
             }
 

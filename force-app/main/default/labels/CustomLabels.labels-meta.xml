@@ -1868,6 +1868,13 @@
         <value>Delegates</value>
     </labels>
     <labels>
+        <fullName>Delegate_Found</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delegate Found</shortDescription>
+        <value>Participant Delegate Found!</value>
+    </labels>
+    <labels>
         <fullName>Diastolic</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1887,6 +1894,13 @@
         <protected>false</protected>
         <shortDescription>Diastolic Blood Pr Description</shortDescription>
         <value>Diastolic blood pressure is a measure of how hard your blood is pushed against the walls of the arteries when your heart is resting in between beats.</value>
+    </labels>
+    <labels>
+        <fullName>Different_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Different HealthCare Provider</shortDescription>
+        <value>Did you expect a different Participant Delegate? Let us know.</value>
     </labels>
     <labels>
         <fullName>Different_HealthCare_Provider</fullName>
@@ -9969,7 +9983,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Ref L Participant require agree</shortDescription>
-        <value>I agree that I have confirmed information with emancipated participant.</value>
+        <value>I have confirmed this information with the emancipated participant.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Participant_require_guardian</fullName>

@@ -3,17 +3,17 @@
  */
 
 public class TranslateHelper {
-
+    
     public static final String DEFAULT_LANGUAGE = 'en_US';
-
+    
     public static void translate(SObject so){
         translate(new List<SObject>{so}, UserInfo.getLanguage());
     }
-
+    
     public static void translate(SObject so, String language){
         translate(new List<SObject>{so}, language);
     }
-
+    
     public static void translate(List<SObject> inputRecords){
         translate(inputRecords, UserInfo.getLanguage());
     }
@@ -21,12 +21,12 @@ public class TranslateHelper {
         if(inputRecords == null || inputRecords.size() == 0 ) return;
         List<SObject> recordsList = new List<SObject>();
         for(SObject sobj : inputRecords) recordsList.addAll(SObjectHelper.getAllSObjects(sobj));
-
+        
         List<Id> recordIds = new List<Id>();
         for(SObject so : recordsList) {
             if(so.Id != null) recordIds.add(so.Id);
         }
-
+        
         if(language == null) language = UserInfo.getLanguage();
         List<Translation__c> translations = [
                 SELECT Id,
@@ -64,7 +64,7 @@ public class TranslateHelper {
         }
     }
     
-
+    
     /*@Future(Callout=true)
     public static void translateNotificationsFuture(Set<Id> notificationIds){
         List<VTD1_NotificationC__c> notifications = [
@@ -108,14 +108,14 @@ public class TranslateHelper {
         substituteParameters(tasksList, fieldsMap);
     }
     */
-
+    
     public static Map<String, Map<String, String>> labelValuesMap = new Map<String, Map<String, String>>();
-
+    
     public static String getLabelValue(String labelName){
         System.debug('#language: ' + UserInfo.getLanguage());
         return getLabelValue(labelName, UserInfo.getLanguage());
     }
-
+    
     public static String getLabelValue(String labelName, String language) {
         Map<String, String> labelValuesForLanguage = labelValuesMap.get(language);
         System.debug('IN getLabelValue: ' + labelValuesForLanguage);
@@ -142,17 +142,18 @@ public class TranslateHelper {
         System.debug('LABEL: ' + labelName);
         System.debug('LANGUAGE: ' + language);
         System.debug('RESULT: ' + translatedLabel);
+        if(translatedLabel != null && translatedLabel.contains('To access this page, you have to log in to Salesforce')) return labelName;
         return translatedLabel;
     }
-
+    
     public static void prepareLabelFields(SObject record, Set<String> fieldNames){
         prepareLabelFields(new List<SObject>{record}, fieldNames, false);
     }
-
+    
     public static void prepareLabelFields(List<SObject> records, Set<String> fieldNames){
         prepareLabelFields(records, fieldNames, false);
     }
-
+    
     public static void prepareLabelFields(List<SObject> records, Set<String> fieldNames, Boolean useOwnerLanguage){
         Map<Id, String> userLanguageMap = new Map<Id, String>();
         if(useOwnerLanguage){
@@ -161,7 +162,7 @@ public class TranslateHelper {
             List<User> users = [SELECT Id, LanguageLocaleKey FROM User WHERE Id IN: useIds];
             for(User user : users) userLanguageMap.put(user.Id, user.LanguageLocaleKey);
         }
-
+        
         for(SObject sobj : records){
             for(String fieldName : fieldNames){
                 String labelName = (String)sobj.get(fieldName);
@@ -171,7 +172,7 @@ public class TranslateHelper {
             }
         }
     }
-
+    
     /*public static void substituteParameters(List<SObject> records, Map<String, String> sentenceFieldParamsFieldMap){
         //retrieve param values:
         List<VT_D2_TranslateParameters.Parameter> params = new List<VT_D2_TranslateParameters.Parameter>();
@@ -183,9 +184,9 @@ public class TranslateHelper {
         }
         VT_D2_TranslateParameters.retrieveParamsAndUpdateTargetObjects(params);
     }*/
-
+    
     public static Map<SObjectField, Map<String, String>> valueToLabelMap = new Map<SObjectField, Map<String, String>>();
-
+    
     public static String getPickListLabel(SObjectField field, String value){
         Map<String, String> translationMap = valueToLabelMap.get(field);
         if(translationMap == null){
@@ -199,7 +200,7 @@ public class TranslateHelper {
         if(label != null) return label;
         return value;
     }
-
+    
     public static String convertBrowserLanguage(List<String> browserLanguages){
         List<String> languages = new List<String>();
         Map<String, List<String>> langGroupsMap = new Map<String, List<String>>();
@@ -215,7 +216,7 @@ public class TranslateHelper {
             languages.add(ple.value);
         }
         System.debug(JSON.serializePretty(langGroupsMap));
-
+        
         //iterate over browser langs:
         for(String browserLanguage : browserLanguages){
             if(browserLanguage.contains('-')){
@@ -235,7 +236,7 @@ public class TranslateHelper {
         }
         return null;
     }
-
+    
     public static String replaceParams(String source, String paramPrefix, Map<String, String> params){
         if(source == null) return null;
         String result = source;

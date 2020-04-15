@@ -34,6 +34,7 @@
                                 Consent_To_Inform_About_Study__c: false };
                 component.set('v.contact', contact);
 
+                helper.initPILevel(component);
                 helper.initDelegates(component, event, helper);
 
                 helper.checkFields(component, event, helper);

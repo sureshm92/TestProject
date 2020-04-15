@@ -100,6 +100,9 @@ public without sharing class ReferralProfileRemote {
             if (!delegates.isEmpty()) initData.participantDelegate = delegates[0];
 
             initData.visitPlanLVList = StudySiteService.getVisitPlansLVList(pe.Study_Site__c);
+            if (initData.visitPlanLVList.size() == 1) {
+                initData.enrollment.Visit_Plan__c = initData.visitPlanLVList[0].value;
+            }
             initData.steps = ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe);
             initData.isEnrolled = !PEStatusState.STATUSES_MAP.containsKey(pe.Participant_Status__c) || pe.Participant_Status__c.startsWith('Enrollment');
             return JSON.serialize(initData);

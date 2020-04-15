@@ -6,7 +6,6 @@
     <aura:attribute name="delegateItem" type="Object"/>
     <aura:attribute name="index" type="Integer"/>
     <aura:attribute name="parent" type="Aura.Component"/>
-    <aura:attribute name="actionDisabled" type="Boolean" default="false"/>
     <aura:attribute name="isValid" type="Boolean" default="false"/>
     <aura:attribute name="isDuplicate" type="Boolean" default="false"/>
 
@@ -22,7 +21,7 @@
                              value="{!v.delegateItem.Email__c}"
                              onblur="{!c.checkContact}"
                              onchange="{!c.checkFields}"
-                             disabled="{!v.delegateItem.Contact__c}"/>
+                             disabled="{!v.delegateItem.Contact__c || v.delegateItem.isConnected}"/>
         </div>
         <div class="rr-form-element slds-col slds-size--3-of-12">
             <div class="label">
@@ -31,7 +30,7 @@
             <lightning:input class="healthcare-input" type="text" required="true" aura:id="delFirstName"
                              value="{!v.delegateItem.First_Name__c}"
                              onchange="{!c.checkFields}"
-                             disabled="{!v.delegateItem.Contact__c}"/>
+                             disabled="{!v.delegateItem.Contact__c || v.delegateItem.isConnected}"/>
         </div>
         <div class="rr-form-element slds-col slds-size--3-of-12">
             <div class="label">
@@ -40,7 +39,7 @@
             <lightning:input class="healthcare-input" type="text" required="true" aura:id="delLastName"
                              value="{!v.delegateItem.Last_Name__c}"
                              onchange="{!c.checkFields}"
-                             disabled="{!v.delegateItem.Contact__c}"/>
+                             disabled="{!v.delegateItem.Contact__c || v.delegateItem.isConnected}"/>
         </div>
         <div class="rr-form-element slds-col slds-size--3-of-12">
             <button class="apollo-btn secondary slds-button" onclick="{!c.doConnect}"
@@ -49,6 +48,17 @@
                 {!v.delegateItem.isConnected ? $Label.c.HealthCare_Provider_Stop_Sharing : $Label.c.HealthCare_Provider_Connect}
             </button>
         </div>
+
+        <aura:if isTrue="{!v.delegateItem.Contact__c}">
+            <div class="slds-grid slds-wrap slds-size--7-of-12 slds-large-size--1-of-1 slds-grid_vertical-align-end healthcare-form-container provider-found-section">
+                <div class="slds-col slds-size--4-of-12">
+                    {!$Label.c.Delegate_Found}
+                </div>
+                <div class="slds-col slds-size--8-of-12">
+                    <c:RRLink label="{!$Label.c.Different_Delegate}" page="{!'help'}"/>
+                </div>
+            </div>
+        </aura:if>
     </div>
 
 </aura:component>
