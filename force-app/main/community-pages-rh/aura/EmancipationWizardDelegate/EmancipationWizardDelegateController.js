@@ -65,6 +65,7 @@
             isConnected: isConnected
         }, function (returnValue) {
             component.set('v.delegateItem.isConnected', returnValue.isConnected);
+            component.set('v.delegateItem.continueDelegateMsg', $A.get('$Label.c.PG_Ref_L_Delegate_continue_be_delegate').replace('##delegateName', component.get('v.delegateItem.First_Name__c') + ' ' + component.get('v.delegateItem.Last_Name__c')));
             component.find('spinner').hide();
         }, function (returnValue) {
             console.log(' ERROR!: ' + returnValue);
