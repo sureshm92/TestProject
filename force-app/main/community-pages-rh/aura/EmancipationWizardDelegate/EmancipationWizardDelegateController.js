@@ -6,7 +6,9 @@
     checkFields: function (component, event) {
         var delegateItem = component.get('v.delegateItem');
 
-        var isValid = (delegateItem.Email__c && communityService.isValidEmail(delegateItem.Email__c)) && delegateItem.First_Name__c && delegateItem.Last_Name__c;
+        var isValid = (delegateItem.Email__c && communityService.isValidEmail(delegateItem.Email__c)) &&
+            delegateItem.First_Name__c && delegateItem.First_Name__c.trim() &&
+            delegateItem.Last_Name__c && delegateItem.Last_Name__c.trim();
         component.set('v.isValid', isValid);
     },
 
@@ -63,6 +65,7 @@
             isConnected: isConnected
         }, function (returnValue) {
             component.set('v.delegateItem.isConnected', returnValue.isConnected);
+            component.set('v.delegateItem.continueDelegateMsg', $A.get('$Label.c.PG_Ref_L_Delegate_continue_be_delegate').replace('##delegateName', component.get('v.delegateItem.First_Name__c') + ' ' + component.get('v.delegateItem.Last_Name__c')));
             component.find('spinner').hide();
         }, function (returnValue) {
             console.log(' ERROR!: ' + returnValue);
