@@ -135,9 +135,9 @@
             (participant.Last_Name__c && participant.Last_Name__c.trim()) &&
             participant.Date_of_Birth__c &&
             participant.Gender__c &&
-            participant.Phone__c &&
+            participant.Phone__c && participant.Phone__c.trim() &&
             participant.Phone_Type__c &&
-            participant.Email__c &&
+            participant.Email__c && participant.Email__c.trim() &&
             (participant.Mailing_Zip_Postal_Code__c && participant.Mailing_Zip_Postal_Code__c.trim()) &&
             (!component.find('emailInput') || (component.find('emailInput') &&
                 component.find('emailInput').get('v.validity').valid)) &&
@@ -160,9 +160,9 @@
                 delegateItems[ind].Last_Name__c && delegateItems[ind].Last_Name__c.trim())) {
 
                 isDelegatesValid = (isDelegatesValid &&
-                        delegateItems[ind].Email__c &&
+                        delegateItems[ind].Email__c && delegateItems[ind].Email__c.trim() &&
                         delegateItems[ind].Phone_Type__c &&
-                        delegateItems[ind].Phone__c &&
+                        delegateItems[ind].Phone__c && delegateItems[ind].Phone__c.trim() &&
                         (!component.find('emailDInput' + ind) || (component.find('emailDInput' + ind) &&
                             component.find('emailDInput' + ind).get('v.validity').valid)) &&
                         (!component.find('phoneDInput' + ind) || (component.find('phoneDInput' + ind) &&

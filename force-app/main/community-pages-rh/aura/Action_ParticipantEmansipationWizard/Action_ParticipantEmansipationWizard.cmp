@@ -209,10 +209,10 @@
                                                 {!delegateItem.continueDelegateMsg}
                                             </div>
                                             <div class="slds-col slds-size--1-of-1">
-                                                <lightning:input id="{!ind}" style="float: left;" class="show-radiobutton-label" type="radio" label="{!$Label.c.Continue}" name="options" value="1" checked="{!delegateItem.selectedOption == '1'}" onchange="{!c.doHandleDelegateRadioClick}"/>
+                                                <lightning:input id="{!ind}" style="float: left;" class="show-radiobutton-label" type="radio" label="{!$Label.c.Continue}" name="{!'options' + ind}" value="1" checked="{!delegateItem.selectedOption == '1'}" onchange="{!c.doHandleDelegateRadioClick}"/>
                                             </div>
                                             <div class="slds-col slds-size--1-of-1">
-                                                <lightning:input id="{!ind}" style="float: left;" class="show-radiobutton-label" type="radio" label="{!$Label.c.Do_Not_Continue}" name="options" value="2" checked="{!delegateItem.selectedOption == '2'}" onchange="{!c.doHandleDelegateRadioClick}"/>
+                                                <lightning:input id="{!ind}" style="float: left;" class="show-radiobutton-label" type="radio" label="{!$Label.c.Do_Not_Continue}" name="{!'options' + ind}" value="2" checked="{!delegateItem.selectedOption == '2'}" onchange="{!c.doHandleDelegateRadioClick}"/>
                                             </div>
                                         </aura:if>
                                         <div class="rr-form-element slds-col slds-size--1-of-1" style="margin-top: 15px;">
