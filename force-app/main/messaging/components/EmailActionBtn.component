@@ -10,6 +10,7 @@
     <apex:attribute name="caseId" type="String" description="" access="global" assignTo="{!caseIdString}"/>
     <apex:attribute name="resourceId" type="Id" description="" access="global" assignTo="{!resourceIdString}"/>
     <apex:attribute name="surveyId" type="Id" description="" access="global" assignTo="{!surveyIdString}"/>
+    <apex:attribute name="communityTemplate" type="String" description="" access="global" assignTo="{!communityTemplateValue}"/>
 
     <!-- component body: -->
     <apex:outputLink value="{!resultURL}"
