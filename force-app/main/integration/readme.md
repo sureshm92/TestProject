@@ -47,7 +47,7 @@ Insert, update or delete visit results.
 
 
 
-#Outbound Integrations:
+# Outbound Integrations:
 
 ## Outbound send PE to StudyHub
 
