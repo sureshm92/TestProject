@@ -23,7 +23,7 @@
             });
             document.body.addEventListener('click', component. cookiesOff, false);
             setTimeout($A.getCallback(function() {
-                this.cookiesOff;
+                component .cookiesOff();
             }), 10000);
         }
 
