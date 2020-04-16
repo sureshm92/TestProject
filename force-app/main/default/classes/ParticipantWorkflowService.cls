@@ -303,10 +303,7 @@ public without sharing class ParticipantWorkflowService {
                     switch on fieldSetting.Type__c {
                         when 'visitplan'{
                             List<LabelValueItem> visitPlansLVList = StudySiteService.getVisitPlansLVList(pe.Study_Site__c);
-                            if (visitPlansLVList.isEmpty()) {
-                                currentFieldWrapper.type = 'blank';
-                            }
-                            else{
+                            if (!visitPlansLVList.isEmpty()) {
                             currentFieldWrapper.type = 'picklist';
                             currentFieldWrapper.value = pe.Visit_Plan__c;
                                 currentFieldWrapper.smartPicklist = true;
