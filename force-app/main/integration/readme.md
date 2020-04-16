@@ -12,7 +12,7 @@
 
 ## Inbound integration for Participant. Staging tables:
 
-### Inbound Integration_Patient__c (update status PE and set verified on SDH checkbox)
+### Inbound **_Integration_Patient__c_** (update status PE and set verified on SDH checkbox)
 
 This staging tables used for update PE Status (insert status history records) and update IsSubjectIDverifiedInSDH__c field on participant enrollment object. 
 - There are custom metadata object SDH_Status__mdt for mapping between SDH statuses and internal PE statuses
@@ -20,7 +20,7 @@ This staging tables used for update PE Status (insert status history records) an
 
 
 
-### Inbound Integration_Patient_Referral__c (create PE and update or insert Participant)
+### Inbound **_Integration_Patient_Referral__c_** (create PE and update or insert Participant)
 
 This staging table used for create or update Participant and insert new Participant Enrollment in the system. 
 - If participant already exists in the system then will be used this participant instead creation of new one.
@@ -28,7 +28,7 @@ This staging table used for create or update Participant and insert new Particip
 
 
 
-### Inbound Integration Visit (update visit data or create adhoc visits)
+### Inbound **_Integration_Visit__c_** (update visit data or create adhoc visits)
 
 This staging table update PE Visits, change visit status or create new adhoc visit 
 - Field Integration_Visit__c.USUBJID__c used as PE Id (Integration_Visit__c.USUBJID__c = Participant_Enrollment__c.External_Key__c)
@@ -36,7 +36,7 @@ This staging table update PE Visits, change visit status or create new adhoc vis
 - Used batch Batch_IntegrationVisitProcess for update new records.
 
 
-### Inbound Integration Visit Result (update visit results)
+### Inbound **_Integration_Visit_Result__c_** (update visit results)
 
 
 Insert, update or delete visit results. 
