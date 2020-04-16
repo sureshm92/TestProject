@@ -10,7 +10,7 @@
 
 
 
-## Inbound integration for Participant. Staging tables:
+# Inbound integrations. Staging tables:
 
 ### Inbound **_Integration_Patient__c_** (update status PE and set verified on SDH checkbox)
 
